@@ -4,9 +4,12 @@ AI-Driven development helper bot to generate documentation, tests and code for a
 
 ## Features
 
-Follows the AI-Driven Development (AIDD) methodology.
+Follows the AI-Driven Development (AIDD) methodology. [Blog en Español para saber más](https://aicode.academy/blog/es/)
 
 Provides instructions and templates to generate code, tests and documentation.
+
+> [!IMPORTANT]
+> Mira este video en Español para saber más acerca de la definción de plantillas [Lenguajes y plantillas con IA](https://youtu.be/rdhcBGyrKTk)
 
 Is independent from any development tool or AI model.
 
