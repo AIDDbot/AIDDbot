@@ -39,17 +39,17 @@ Generates the **Features Blueprint** for each core feature in the project with d
 
 #### Domain model
 
-Generates the **Domain Model** with entities, attributes, relationships, and additional information.
+Generates the **Domain Model Blueprint** with entities, attributes, relationships, and additional information.
 
 - [Domain model instructions](/.ai/architect/a-3.domain-model.instructions.md)
 - [Domain model template](/.ai/architect/a-3.domain-model.template.md)
 
 #### Systems
 
-Generates the **Systems Design** with system overview, system architecture, system components, and additional information.
+Generates the **Systems Blueprint** with system overview, system architecture, system components, and additional information.
 
-- [Systems design instructions](/.ai/architect/a-4.systems-design.instructions.md)
-- [Systems design template](/.ai/architect/a-4.systems-design.template.md)
+- [Systems design instructions](/.ai/architect/a-4.systems.instructions.md)
+- [Systems design template](/.ai/architect/a-4.systems.template.md)
 
 > [!NOTE]
 > The **Builder** and **Craftsman** roles are coming soon.
