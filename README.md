@@ -2,6 +2,8 @@
 
 AI-Driven development helper bot to generate documentation, tests, and code for a project.
 
+[GitHub Repository](https://github.com/AIcodeAcademy/AIDDbot)
+
 ## Features
 
 Follows the AI-Driven Development (AIDD) methodology. [Blog en Español para saber más](https://aicode.academy/blog/es/)
@@ -15,7 +17,7 @@ It is independent of any development tool or AI model.
 
 It is based on the following stages (aka Agent roles):
 
-- **Architect**
+- *Architect*
 - **Builder**
 - **Craftsman**
 
