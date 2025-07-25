@@ -1,18 +1,2 @@
 {
-  "material-icon-theme.folders.associations": {
-    ".ai": "robot",
-    ".cursor": "rules",
-    "architect": "godot",
-    "builder": "godot",
-    "craftsman": "godot",
-    "journals": "update"
-  },
-  "material-icon-theme.files.associations": {
-    "*.blueprint.md": "document",
-    "*.instructions.md": "twine",
-    "*.journal.md": "verified",
-    "*.plan.md": "architecture",
-    "*.prompt.md": "pascal",
-    "*.template.md": "textlint"
-  }
 }
