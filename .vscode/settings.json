@@ -1,18 +1,44 @@
 {
+  "chat.agent.maxRequests": 100,
+  "chat.tools.autoApprove": true,
+  "github.copilot.advanced": {
+    "inlineSuggest": true,
+    "inlineSuggest.enable": true,
+    "inlineSuggest.showSuggestionsAlways": true
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false,
+    "editor": true,
+    "inlineSuggest": true,
+    "inlineSuggest.enable": true,
+    "inlineSuggest.showSuggestionsAlways": true
+  },
   "material-icon-theme.folders.associations": {
     ".ai": "robot",
     "architect": "godot",
     "builder": "godot",
     "craftsman": "godot",
     "journals": "update",
+    "instructions": "robot",
+    "chatmodes": "robot",
     "prompts": "robot",
   },
   "material-icon-theme.files.associations": {
-    "*.blueprint.md": "apiblueprint",
-    "*.instructions.md": "twine",
-    "*.journal.md": "verified",
-    "*.plan.md": "architecture",
-    "*.prompt.md": "pascal",
-    "*.template.md": "textlint"
+    "*.chatmode.md": "robot",
+    "*.instructions.md": "robot",
+    "*.prompt.md": "robot",
+    "DOMAIN.md": "architecture",
+    "PRD.md": "architecture",
+    "SYSTEMS.md": "architecture",
+    "BACKLOG.md": "conduct",
+    "JOURNAL.md": "changelog",
+    "STRUCTURE.md": "tree",
+    "*.test.md": "verified",
+    "*.spec.md": "conduct",
+    "*.tasks.md": "conduct",
+    "*.template.md": "template"
   }
 }
