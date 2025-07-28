@@ -1,5 +1,5 @@
 ---
-description: 'I can generate a PRD, DOMAIN models, and SYSTEMS architecture documentation.'
+description: 'I generate a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
 tools: ['editFiles', 'fetch', 'search', 'runCommands']
 model: 'Claude Sonnet 4'
 ---
