@@ -17,44 +17,9 @@ It is independent of any development tool or AI model.
 
 It is based on the following stages (aka Agent roles):
 
-- *Architect*
+- **Architect**
 - **Builder**
 - **Craftsman**
-
-### Architect stage
-
-Acting as a Software Architect, generates documentation (called **Blueprints**) based on the following templates and instructions.
-
-#### Briefing
-
-Generates the **Briefing Blueprint** with Product overview, Functional definition, Technical specifications, Context diagram, and Author and company metadata.
-
-- [Briefing instructions](/.ai/architect/a-1.briefing.instructions.md)
-- [Briefing template](/.ai/architect/a-1.briefing.template.md)
-
-#### Features
-
-Generates the **Features Blueprint** for each core feature in the project, including a description, goal, acceptance criteria, UI/UX, and additional information.
-
-- [Features instructions](/.ai/architect/a-2.features.instructions.md)
-- [Features template](/.ai/architect/a-2.features.template.md)
-
-#### Domain model
-
-Generates the **Domain Model Blueprint** with entities, attributes, relationships, and additional information.
-
-- [Domain model instructions](/.ai/architect/a-3.domain-model.instructions.md)
-- [Domain model template](/.ai/architect/a-3.domain-model.template.md)
-
-#### Systems
-
-Generates the **Systems Blueprint** with system overview, architecture, components, and additional information.
-
-- [Systems design instructions](/.ai/architect/a-4.systems.instructions.md)
-- [Systems design template](/.ai/architect/a-4.systems.template.md)
-
-> [!NOTE]
-> The **Builder** and **Craftsman** roles are coming soon.
 
 [AIDDbot Repository at AIcodeAcademy organization](https://github.com/AIcodeAcademy/AIDDbot)
 
