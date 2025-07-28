@@ -16,6 +16,7 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 ## Workflow
 
+<!-- To Do: first create a list of features, then group them by epics, and last order and asign epics and features by priority and dependencies -->
 - [ ] Read and follow the [#BACKLOG](/.github/instructions/BACKLOG.instructions.md) instructions
 - It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
 - [ ] Fill in the placeholders with relevant information about the project. 

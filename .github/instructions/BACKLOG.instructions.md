@@ -5,18 +5,30 @@ description: 'Template for BACKLOG document for a project.'
 # Backlog for { PROJECT_NAME }
 
 <!-- 
-**Legend:** 
+Legend:
 - Priority: ‼️ Critical ❗ High  ❕ Normal 
-- Status: 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED -->
+- Status: 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED 
+-->
 
 <!-- 
   Write between 1 and 9 (ideally 3 to 5) epics that represent the main areas of work.
   Use the format E1, E2, etc. to name each epic.
 -->
 
-## Epic: { E1 }
-**Priority**: { Epic Priority }, **Status**: { Epic Status }
-{ Epic 1 Short Description }
+<!-- 
+After complete, write a table for the epics with their priority and status 
+Write the table before the list, just at the beginning of the document.
+Add internal links to the epics, 
+Example:
+| Epic                                      | Priority   | Status |
+| ----------------------------------------- | ---------- | ------ |
+| [E1](#e1-user-management--authentication) | ‼️ Critical | 🔵 TODO |
+-->
+
+## { E1 } { Epic 1 Short Name }
+- **Priority**: { ‼️ Critical ❗ High  ❕ Normal  }, **Status**: { 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED  }
+
+- { Epic 1 Short Description }
 
 <!-- 
   Write between 1 and 9 (ideally 3 to 5) features that belong to the epic.
@@ -24,11 +36,12 @@ description: 'Template for BACKLOG document for a project.'
 --> 
 
 ### { F1.1 } { Feature 1 Short Name }
-**Priority**: { Feature Priority }, **Status**: { Feature Status }
-**Project Requirements:** { R1, R2, from the PRD document }
-**Dependencies:** { list of dependencies, e.g., F1.2 or none if no dependencies }
-**Links:** { Links to specs docs and/or issues in a project management tool }
-{ Feature 1 Short Description }
+- **Priority**: { ‼️ Critical ❗ High  ❕ Normal }, **Status**: { 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED  }
+- **Project Requirements:** { R1 Short Description from PRD.md }
+- **Dependencies:** { list of dependencies, e.g., F1.2 or none if no dependencies with internal links }
+- **Links:** { Links to specs docs and/or issues in a project management tool }
+
+- { Feature 1 Short Description }
 ---
 
 ## Additional Information
