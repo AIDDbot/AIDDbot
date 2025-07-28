@@ -1,25 +1,43 @@
 ---
-description: "How to create the BACKLOG document for a project."
+description: 'Template for BACKLOG document for a project.'
 ---
 
-# BACKLOG Instructions
+# Backlog for { PROJECT_NAME }
 
-Create a BACKLOG document that outlines the epics and features for the project and its status.
+<!-- 
+**Legend:** 
+- Priority: ‼️ Critical ❗ High  ❕ Normal 
+- Status: 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED -->
 
-## Context
+<!-- 
+  Write between 1 and 9 (ideally 3 to 5) epics that represent the main areas of work.
+  Use the format E1, E2, etc. to name each epic.
+-->
 
-- Use the current `PRD.md` , `DOMAIN.md` and `SYSTEMS.md` as primary sources for requirements and business logic.
-- Use the current `/README.md` and `/docs` folder to add context to your responses.
-- Ask the user for any missing information to complete the backlog.
+## Epic: { E1 }
+**Priority**: { Epic Priority }, **Status**: { Epic Status }
+{ Epic 1 Short Description }
 
+<!-- 
+  Write between 1 and 9 (ideally 3 to 5) features that belong to the epic.
+  Use the format F1.1, F1.2, etc. to name each feature.
+--> 
 
-## Template
+### { F1.1 } { Feature 1 Short Name }
+**Priority**: { Feature Priority }, **Status**: { Feature Status }
+**Project Requirements:** { R1, R2, from the PRD document }
+**Dependencies:** { list of dependencies, e.g., F1.2 or none if no dependencies }
+**Links:** { Links to specs docs and/or issues in a project management tool }
+{ Feature 1 Short Description }
+---
 
-The template is a Markdown format. 
-Includes placeholders for you to fill.
-Includes comments to guide you on what to include in each section.
-Do not include the comments in the final document.
+## Additional Information
 
-- [ ] Use the provided template in [BACKLOG.template.md](./BACKLOG.template.md) to create the backlog.
-- [ ] Fill in the placeholders with relevant information about the project.
+<!-- Add any additional information that is relevant to the domain -->
 
+- [Git repository]({ GIT_REPO_URL })
+- [PRD Document](./PRD.md)
+- [DOMAIN Models](./DOMAIN.md)
+- [SYSTEMS Architecture](./SYSTEMS.md)
+
+> End of BACKLOG for { Project Name }, last updated { DATE }.
