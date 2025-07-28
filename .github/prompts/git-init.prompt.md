@@ -1,19 +1,24 @@
 ---
-description: 'Create a new git repository.'
+description: 'Initialize a new git repository.'
 tools: ['changes', 'editFiles', 'runCommands']
 ---
-# Create a new git repository
+# Git Init 
 
-Creates a new git repository, initializes it, and pushes it to GitHub.
+Initialize a new git repository
+
+## Goal
+
+Creates a new git repository and initializes it with common files like `.gitignore`, `README.md`, and `LICENSE`.
 
 ## Context
 
 - Check if the repository is already initialized.
-- Check if the repository is already pushed to GitHub.
 - Use the current `/README.md` and `/docs` folder to add context to your responses
 - Use the current git user profile to set the author and committer information.
 
 ## Workflow
+
+Follow these steps to initialize the repository:
 
 ### Step 0: Check Repository Status
 
@@ -45,7 +50,8 @@ git add .
 git commit -m "Initial commit with README, .gitignore, and LICENSE"
 ```
 
+## Validation
 
-## Summary
+- [ ] Use the #runCommands tool to ensure git status is clean.
 
-- [ ] Use the /journal prompt to summarize the actions taken in this prompt.
+> End of the git init prompt.

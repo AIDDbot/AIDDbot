@@ -1,5 +1,5 @@
 ---
-description: 'Add a journal entry with the current job done.'
+description: 'AIDDbot journal entry with the daily job done.'
 tools: ['editFiles', 'runCommands']
 ---
 

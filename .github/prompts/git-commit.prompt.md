@@ -5,7 +5,11 @@ tools: ['changes', 'runCommands']
 
 # Git Commit
 
-Commits pending changes to the repository with a conventional commit message.
+Commit changes to the repository.
+
+## Goal
+
+Create commits with clear messages that describe the changes made to the codebase.
 
 ## Context
 
@@ -15,19 +19,26 @@ Commits pending changes to the repository with a conventional commit message.
 
 - [ ] Group changes into logical commits.
 - [ ] Use conventional commit messages to describe the changes made.
-- [ ] Types: feat, fix, docs, style, refactor, perf, test, chore.
+- [ ] Types: feat, fix, docs, test, chore, refactor.
+- [ ] Use the issue number in the commit message when applicable.
+- [ ] Add a short list of changes made in the commit message body when necessary.
 
-### Example commit message:
+### Example Commit Message
 
 ```bash
-# Simple commit message
-git commit -m "fix: correct minor typos in documentation"
-# Feat and Issue related commit message
-git commit -m "feat(feat_id): add new user registration feature #1234"
-# Closing an issue
-git commit -m "feat(feat_id): add new user registration feature close #5678"
+feat: add user authentication module Closes #123
+- Implemented user login and registration features
+- Added JWT token-based authentication
+- Updated user model to include password hashing
 ```
 
-## Summary
+## Validation
 
-- [ ] Use the #runCommands tool to ensure git status is clean after committing changes.
+- [ ] Use the #runCommands tool to ensure git status is clean.
+
+```bash
+git status
+git log --oneline
+```
+
+> End of the git commit prompt.

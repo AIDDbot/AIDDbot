@@ -10,48 +10,16 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 - Use the current `PRD.md` , `DOMAIN.md` and `SYSTEMS.md` as primary sources for requirements and business logic.
 - Use the current `/README.md` and `/docs` folder to add context to your responses.
+- Ask the user for any missing information to complete the backlog.
 
 
 ## Template
 
-```markdown
-# Backlog for { PROJECT_NAME }
+The template is a Markdown format. 
+Includes placeholders for you to fill.
+Includes comments to guide you on what to include in each section.
+Do not include the comments in the final document.
 
-## Epics
+- [ ] Use the provided template in [BACKLOG.template.md](./BACKLOG.template.md) to create the backlog.
+- [ ] Fill in the placeholders with relevant information about the project.
 
-| Epic                                          | Feat # | Dependencies | Priority | Effort | Status |
-| ----------------------------------------------| ------ | ------------ | -------- | ------ | ------ |
-| E1 { Epic 1 Short Name }                      | 2      |              |    0️⃣    |   ❗  |    🟢  |
-| E2 { Epic 2 Short Name }                      | 3      | { E1 }       |    1️⃣    |   ❕  |    🔵  |
-
-**Legend:** 
-
-- Priority: 0️⃣ Critical 1️⃣ High  2️⃣ Medium 3️⃣ Low
-- Effort: ❕ Small ❗ Medium ‼️ Large
-- Status: 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED
-
----
-
-## Features
-
-### { F1.1 } { Feature 1 Short Name }
-**Epic:** { E1 }
-**Status**: { Feature Status }
-**Dependencies:** none
-**Links:** { Links to relevant documents or issues }
-- [ ] { Brief list (1-3) of the feature requirements in EARS format. }
-
-### { F1.2 } { Feature 2 Short Name }
-**Epic:** { E1 }
-**Status**: { Feature Status }
-**Dependencies:** { F1.1 }
-**Links:** { Links to relevant documents or issues }
-- [ ] { Brief list (1-3) of the feature requirements in EARS format. }
-
----
-
-> End of BACKLOG for { Project Name }, last updated { DATE }.
-
-```
-
-> End of BACKLOG instructions.
