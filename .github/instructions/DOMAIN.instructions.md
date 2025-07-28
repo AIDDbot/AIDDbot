@@ -6,24 +6,9 @@ description: 'Template for a Domain Model Document'
 
 ## Overview
 
-<!-- Questions to consider:
- - What is the core business domain?
- - What are the main business processes?
- - What are the key business concepts? -->
-
 **{ Project name }** operates in the { domain description } domain, managing { core business concepts }.
 
 ## Main Entities
-
-<!-- Questions to consider:
-- What are the main business objects in the system?
-- What information does each entity need to store?
-- What unique identifier does each entity have? -->
-
-<!-- 
-  Write between 3 and 6 main entities that represent the core business concepts.
-  Use the format E1, E2, etc. to name each entity.
--->
 
 ### { E1 } { Entity 1 Name }
 
@@ -45,11 +30,6 @@ description: 'Template for a Domain Model Document'
 
 ## Entity Relationships
 
-<!-- Questions to consider:
-- How are the entities connected to each other?
-- What are the cardinalities (one-to-one, one-to-many, many-to-many)?
-- What are the foreign key relationships? -->
-
 ### { R1 } { Entity1 Name } ↔ { Entity2 Name }
 
 **Relationship Type:** { One-to-Many | Many-to-Many | One-to-One }
@@ -63,11 +43,6 @@ description: 'Template for a Domain Model Document'
 **Business Rule:** { Why this relationship exists }
 
 ## Business Rules and Validations
-
-<!-- Questions to consider:
-- What constraints must be enforced?
-- What business operations are allowed/forbidden?
-- What data validation rules apply? -->
 
 ### Data Validation Rules
 

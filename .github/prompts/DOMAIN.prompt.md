@@ -1,7 +1,6 @@
 ---
-mode: 'agent'
 description: 'Create the DOMAIN document for a project.'
-tools: ['editFiles', 'search', 'fetch']
+tools: ['editFiles', 'fetch', 'search', 'runCommands']
 ---
 
 # Domain model document 
@@ -14,9 +13,23 @@ Create a Domain Model Document that defines the project's main entities, their r
 
 ## Workflow
 
+Questions to consider:
+ - What is the core business domain?
+ - What are the main business processes?
+ - What are the key business concepts?
+ - What are the main business objects in the system?
+ - What information does each entity need to store?
+ - What unique identifier does each entity have?
+ - How are the entities connected to each other?
+ - What are the cardinalities (one-to-one, one-to-many, many-to-many)?
+ - What are the foreign key relationships?
+
+CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
+
 - [ ] Read and follow the [#DOMAIN](/.github/instructions/DOMAIN.instructions.md) instructions
 - It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for
-- Ask for any missing information to complete the PRD.
+
+- [ ] Fill in the placeholders with relevant information about the project. 
 
 
 ## Validation

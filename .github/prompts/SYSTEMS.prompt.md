@@ -1,7 +1,6 @@
 ---
-mode: 'agent'
 description: 'Create the SYSTEMS document for a project.'
-tools: ['editFiles', 'search', 'fetch']
+tools: ['editFiles', 'fetch', 'search', 'runCommands']
 ---
 
 # Systems Architecture Document
@@ -11,17 +10,30 @@ Create a Systems Architecture Document that defines the project's technical arch
 ## Context
 
 - Use the current [PRD.md](/docs/PRD.md) and [DOMAIN.md](/docs/DOMAIN.md) documents as primary sources.
- - Offer the user the option to add files to the [docs](/docs) folder for additional context.
-  - Offer #Notion tools for gathering existing technical documentation.
-  - Offer the #fetch tool for retrieving existing architecture documents or technical specifications from a URL.
-  - Ask for any missing technical information to complete the systems design.
-- DO NOT WRITE TECHNOLOGY CHOICES OR ARCHITECTURE DECISIONS BY YOURSELF.
 
 ## Workflow
 
+- Questions to consider:
+  - What are the main system layers/tiers?
+  - What technologies will be used for each component?
+  - How do components communicate with each other?
+  - What database technology will be used?
+  - How will data be structured and accessed?
+  - What are the data persistence patterns?
+  - How do system components communicate?
+  - What APIs or interfaces are exposed?
+  - What are the data exchange formats?
+  - How is authentication and authorization handled?
+  - What are the security protocols?
+  - How is sensitive data protected?
+
+CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
+
 - [ ] Read and follow the [#SYSTEMS](/.github/instructions/SYSTEMS.instructions.md) instructions
 - It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
+
 - [ ] Fill in the placeholders with relevant information about the project. 
+
  
 ## Validation
 
