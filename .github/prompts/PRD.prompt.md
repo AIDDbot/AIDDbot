@@ -1,7 +1,5 @@
 ---
-mode: 'agent'
 description: 'Create a Project Requirements Document (PRD)'
-tools: ['editFiles', 'fetch', 'search', 'runCommands']
 ---
 
 # Project Requirements Document (PRD)

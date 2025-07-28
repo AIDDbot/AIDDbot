@@ -1,6 +1,5 @@
 ---
 description: 'Create the DOMAIN document for a project.'
-tools: ['editFiles', 'fetch', 'search', 'runCommands']
 ---
 
 # Domain model document 

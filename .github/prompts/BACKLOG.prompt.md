@@ -1,6 +1,5 @@
 ---
 description: "Create the BACKLOG document for a project."
-tools: ['editFiles', 'fetch', 'search', 'runCommands']
 ---
 
 # BACKLOG Instructions

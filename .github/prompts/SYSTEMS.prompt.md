@@ -1,6 +1,5 @@
 ---
-description: 'Create the SYSTEMS document for a project.'
-tools: ['editFiles', 'fetch', 'search', 'runCommands']
+description: 'Create the SYSTEMS document for a project.
 ---
 
 # Systems Architecture Document
