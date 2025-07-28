@@ -38,7 +38,7 @@ feat: add user authentication module Closes #123
 
 ```bash
 git status
-git log --oneline
+git log --oneline --decorate=short --graph --max-count=5
 ```
 
 > End of the git commit prompt.
