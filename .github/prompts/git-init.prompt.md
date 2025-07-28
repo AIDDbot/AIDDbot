@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: 'Initialize a new git repository.'
 tools: ['changes', 'editFiles', 'runCommands']
 ---
