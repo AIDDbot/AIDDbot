@@ -51,7 +51,7 @@ Use current `/README.md` and `/docs` folder to determine project status and offe
 
 ## Actions
 
-- **Create PRD**: Run the [/prd](/.github/prompts/prd.prompt.md) prompt.
-- **Create Domain Models**: Run the [/domain](/.github/prompts/domain.prompt.md) prompt to commit changes to the repository.
-- **Create System Architecture**: Run the [/architecture](/.github/prompts/architecture.prompt.md) prompt to commit changes to the repository.
-- **Create Backlog**: Run the [/backlog](/.github/prompts/backlog.prompt.md) prompt to commit changes to the repository.
+- **Create PRD**: Run the [/PRD](/.github/prompts/PRD.prompt.md) prompt.
+- **Create Domain Models**: Run the [/DOMAIN](/.github/prompts/DOMAIN.prompt.md) prompt.
+- **Create System Architecture**: Run the [/SYSTEMS](/.github/prompts/SYSTEMS.prompt.md) prompt.
+- **Create Backlog**: Run the [/BACKLOG](/.github/prompts/BACKLOG.prompt.md) prompt.

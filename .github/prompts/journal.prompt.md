@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: 'AIDDbot journal entry with the daily job done.'
 tools: ['editFiles', 'runCommands']
 ---

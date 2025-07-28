@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: 'Commit changes to the repository.'
 tools: ['changes', 'runCommands']
 ---
