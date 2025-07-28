@@ -1,7 +1,7 @@
 ---
 description: 'I generate a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
 tools: ['editFiles', 'fetch', 'search', 'runCommands']
-model: 'Claude Sonnet 4'
+model: 'GPT-4.1'
 ---
 # Architect Chat Mode
 
