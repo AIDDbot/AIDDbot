@@ -6,6 +6,26 @@ Legend:
 - Status: 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED 
 -->
 
+<!-- 
+After complete, write a table for the epics with their priority and status 
+Write the table before the list, just at the beginning of the document.
+Add internal links to the epics, 
+Example:
+| Epic                                      | Priority   | Status |
+| ----------------------------------------- | ---------- | ------ |
+| [E1](#e1-user-management--authentication) | ‼️ Critical | 🔵 TODO |
+-->
+
+| Epic | Priority | Status |
+|------|----------|--------|
+| [E1 User Management & Authentication](#e1-user-management--authentication) | ‼️ Critical | 🔵 TODO |
+| [E2 Portfolio Management](#e2-portfolio-management) | ‼️ Critical | 🔵 TODO |
+| [E3 Asset Management](#e3-asset-management) | ❗ High | 🔵 TODO |
+| [E4 Transaction Processing](#e4-transaction-processing) | ‼️ Critical | 🔵 TODO |
+| [E5 Holdings Management](#e5-holdings-management) | ❗ High | 🔵 TODO |
+| [E6 API Infrastructure](#e6-api-infrastructure) | ‼️ Critical | 🔵 TODO |
+
+
 ## E1 User Management & Authentication
 - **Priority**: ‼️ Critical, **Status**: 🔵 TODO
 
