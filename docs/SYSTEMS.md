@@ -13,7 +13,7 @@
 **Technology Stack:**
 - **Language**: Node.js
 - **Framework**: Express.js
-- **Key Libraries**: bcrypt (password hashing), jsonwebtoken (JWT authentication), joi (validation)
+- **Key Libraries**: Built-in crypto module (password hashing), express built-in middleware
 
 **Responsibilities:**
 - Handle user authentication and authorization
@@ -28,8 +28,8 @@
 
 **Technology Stack:**
 - **Language**: SQL
-- **Framework**: PostgreSQL
-- **Key Libraries**: pg (PostgreSQL driver), knex.js (query builder)
+- **Framework**: SQLite
+- **Key Libraries**: Built-in sqlite3 module
 
 **Responsibilities:**
 - Store user accounts and authentication data
@@ -58,19 +58,19 @@
 
 ### Database Design
 
-**Database Type:** Relational Database
-**Technology:** PostgreSQL
+**Database Type:** Lightweight Relational Database
+**Technology:** SQLite
 
 **Data Access Patterns:**
-- **CRUD Operations**: Standard Create, Read, Update, Delete operations for all entities
-- **Transaction Patterns**: Atomic operations for buy/sell transactions with portfolio balance updates
-- **Aggregation Queries**: Calculate current holdings from transaction history
+- **CRUD Operations**: Standard Create, Read, Update, Delete operations using direct SQL queries
+- **Transaction Patterns**: SQLite transactions for buy/sell operations with portfolio balance updates
+- **Aggregation Queries**: Calculate current holdings from transaction history using SQL queries
 
 **Key Design Decisions:**
-- Use UUIDs as primary keys for better scalability and security
-- Implement database-level constraints to enforce business rules
+- Use integer IDs as primary keys for simplicity
+- Implement application-level constraints to enforce business rules
 - Store calculated fields (current_cash, total_amount) for performance
-- Use decimal types for all monetary values to avoid floating-point errors
+- Use TEXT type for all monetary values with decimal formatting
 
 ## Integration Patterns
 
@@ -91,54 +91,54 @@
 
 ### I2 Database Connections
 
-**Type:** Database Connection Pool
-**Purpose:** Manage efficient database connections and query execution
-**Protocol:** TCP/PostgreSQL Protocol
-**Data Format:** SQL Queries and Results
+**Type:** Direct SQLite Connection
+**Purpose:** Direct file-based database access for data persistence
+**Protocol:** File System Access
+**Data Format:** SQL Queries and SQLite Database File
 
 ## Deployment Architecture
 
 ### Infrastructure Requirements
 
-**Deployment Model:** Docker Containerization
-**Platform:** Docker with Docker Compose for local development
+**Deployment Model:** Local Development Environment
+**Platform:** Node.js runtime on local machine
 
 **Environment Setup:**
-- **Development**: Docker Compose with PostgreSQL and Node.js containers
-- **Staging**: Single server deployment with containerized services
-- **Production**: Cloud deployment (AWS/Azure) with managed database service
+- **Development**: Local Node.js server with SQLite database file
+- **Staging**: Single server deployment with file-based database
+- **Production**: Simple server deployment with SQLite database backup
 
 **Scalability Approach:**
-- Horizontal scaling through load balancers for API servers
-- Database read replicas for query performance
-- Connection pooling for efficient database utilization
+- Single-instance deployment suitable for individual use
+- Database backups for data protection
+- Simple file-based persistence for minimal complexity
 
 ## Security Architecture
 
 ### Authentication & Authorization
 
-**Authentication Method:** JWT (JSON Web Tokens) with email/password
-**Session Management:** Stateless JWT tokens with expiration
-**Authorization Pattern:** Role-based access control (user owns portfolios)
+**Authentication Method:** Session-based authentication with email/password
+**Session Management:** In-memory session storage with express-session
+**Authorization Pattern:** Simple user ownership validation
 
 **Security Flow:**
 1. User provides email/password credentials
-2. Server validates against hashed password in database
-3. Server generates JWT token with user ID and expiration
-4. Client includes JWT token in Authorization header for all requests
-5. Server validates JWT token and extracts user ID for authorization
+2. Server validates against hashed password in SQLite database
+3. Server creates session and stores user ID in session storage
+4. Client receives session cookie for subsequent requests
+5. Server validates session and extracts user ID for authorization
 
 ### Data Security
 
-**Encryption:** Passwords hashed using bcrypt with salt rounds
-**Data Protection:** HTTPS for all API communications, input validation and sanitization
+**Encryption:** Passwords hashed using Node.js built-in crypto module
+**Data Protection:** HTTPS for production, basic input validation and sanitization
 
 **Security Measures:**
-- Password complexity requirements
-- SQL injection prevention through parameterized queries
-- Input validation using Joi schemas
-- Rate limiting for API endpoints
-- CORS configuration for web client security
+- Password hashing with salt using crypto.pbkdf2Sync
+- SQL injection prevention through parameterized SQLite queries
+- Basic input validation using manual checks
+- Session security with httpOnly cookies
+- CORS configuration for basic web security
 
 ## System Architecture Diagram
 
@@ -150,14 +150,14 @@ C4Container
     
     System_Boundary(system, "AssetsBoard System") {
         Container(api, "REST API Server", "Node.js, Express.js", "Provides REST API for portfolio management, handles authentication and business logic")
-        Container(database, "PostgreSQL Database", "PostgreSQL", "Stores users, portfolios, assets, transactions, and holdings data")
+        Container(database, "SQLite Database", "SQLite", "Stores users, portfolios, assets, transactions, and holdings data in local file")
     }
     
     System_Ext(client, "API Client", "HTTP Client, Mobile App, Web App", "Consumes REST API to provide user interface")
     
     Rel(investor, client, "Uses", "UI Interactions")
     Rel(client, api, "Makes API calls to", "HTTPS/REST")
-    Rel(api, database, "Reads from and writes to", "PostgreSQL Protocol")
+    Rel(api, database, "Reads from and writes to", "File System/SQLite")
     
     UpdateRelStyle(investor, client, $textColor="blue", $lineColor="blue")
     UpdateRelStyle(client, api, $textColor="green", $lineColor="green")
@@ -173,36 +173,36 @@ C4Container
 - Transaction recording with business rule validation
 - Holdings calculation and portfolio status reporting
 
-**PostgreSQL Database:**
+**SQLite Database:**
 - User account storage with secure password hashing
 - Portfolio data persistence with cash balance tracking
-- Asset catalog maintenance
+- Asset catalog maintenance in local database file
 - Complete transaction history storage
-- Current holdings calculation and caching
+- Current holdings calculation and storage
 
 ## Technical Constraints and Decisions
 
 ### Architectural Decisions
 
-1. **Three-Tier Architecture**
-   - **Decision**: Implement classic three-tier pattern (Client, API Server, Database)
-   - **Rationale**: Simple, well-understood pattern suitable for the scope and complexity
-   - **Trade-offs**: Less flexibility than microservices, but reduced operational complexity
+1. **Minimal Dependency Architecture**
+   - **Decision**: Use only Node.js built-in modules and Express.js
+   - **Rationale**: Reduce complexity, eliminate external dependencies, easier maintenance
+   - **Trade-offs**: Manual implementation of some features, but complete control over codebase
 
-2. **Stateless JWT Authentication**
-   - **Decision**: Use JWT tokens instead of server-side sessions
-   - **Rationale**: Scalability and simplicity, no session storage required
-   - **Trade-offs**: Tokens cannot be easily revoked, but suitable for simple auth requirements
+2. **Session-Based Authentication**
+   - **Decision**: Use traditional sessions instead of JWT tokens
+   - **Rationale**: Simpler implementation without additional libraries, better for single-server deployment
+   - **Trade-offs**: Less scalable than JWT, but suitable for simple deployment model
 
-3. **PostgreSQL Relational Database**
-   - **Decision**: Use PostgreSQL instead of NoSQL database
-   - **Rationale**: Strong consistency requirements, complex relationships, ACID compliance
-   - **Trade-offs**: Less flexible schema changes, but better data integrity guarantees
+3. **SQLite File Database**
+   - **Decision**: Use SQLite instead of PostgreSQL or other databases
+   - **Rationale**: Zero configuration, no external database server required, perfect for development and simple deployments
+   - **Trade-offs**: Limited concurrency compared to PostgreSQL, but adequate for individual use
 
-4. **Calculated Holdings Storage**
-   - **Decision**: Store calculated holdings separately from transactions
-   - **Rationale**: Performance optimization for portfolio queries
-   - **Trade-offs**: Data duplication, but significantly faster portfolio views
+4. **Direct SQL Implementation**
+   - **Decision**: Write raw SQL queries instead of using an ORM
+   - **Rationale**: No additional dependencies, better performance, complete control over queries
+   - **Trade-offs**: More manual work, but clearer understanding of data operations
 
 ### Technical Constraints
 
@@ -210,7 +210,9 @@ C4Container
 - Manual price entry eliminates need for external market data APIs
 - Single currency (USD) simplifies monetary calculations
 - Basic authentication sufficient, no OAuth or social login needed
-- Data consistency prioritized over eventual consistency patterns
+- No external dependencies beyond Node.js and Express.js
+- File-based database eliminates need for database server setup
+- Single-server deployment model for simplicity
 
 ## Additional Information
 
