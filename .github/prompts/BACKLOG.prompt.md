@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: "Create the BACKLOG document for a project."
 ---
 

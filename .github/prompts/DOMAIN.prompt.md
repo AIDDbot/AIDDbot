@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: 'Create the DOMAIN document for a project.'
 tools: ['editFiles', 'search', 'fetch']
 ---

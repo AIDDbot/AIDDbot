@@ -1,9 +1,10 @@
 ---
+mode: 'agent'
 description: 'Create a Project Requirements Document (PRD)'
 tools: ['editFiles', 'search', 'fetch']
---- 
+---
 
-# PRD
+# Project Requirements Document (PRD)
 
 Create a Project Requirements Document (PRD) to define the scope and objectives of the project. This document will serve as the foundation for all subsequent design and development work.
 
@@ -28,7 +29,6 @@ Create a Project Requirements Document (PRD) to define the scope and objectives 
 - It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
 - [ ] Fill in the placeholders with relevant information about the project.
   
-
 ## Validation
 
 - [ ] [PRD.md](/docs/PRD.md) exists 

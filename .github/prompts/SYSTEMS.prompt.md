@@ -1,4 +1,5 @@
 ---
+mode: 'agent'
 description: 'Create the SYSTEMS document for a project.'
 tools: ['editFiles', 'search', 'fetch']
 ---
