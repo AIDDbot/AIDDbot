@@ -1,6 +1,6 @@
 ---
 description: 'I can generate a PRD, DOMAIN models, and SYSTEMS architecture documentation.'
-tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'runInTerminal','search']
+tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'runCommands', 'search', 'terminalLastCommand', 'playwright', 'github', 'Notion']
 model: 'Claude Sonnet 4'
 ---
 # Architect Chat Mode
