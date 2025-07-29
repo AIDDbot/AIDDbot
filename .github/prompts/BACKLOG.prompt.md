@@ -2,7 +2,7 @@
 description: "Create the BACKLOG document for a project."
 ---
 
-# BACKLOG Instructions
+# Backlog Document
 
 Create a BACKLOG document that outlines the epics and features for the project and its status.
 
@@ -20,9 +20,10 @@ Create a BACKLOG document that outlines the epics and features for the project a
 - Prioritize epics and features based on business value and technical feasibility.
 
 - [ ] Read and follow the [#BACKLOG](/.github/instructions/BACKLOG.instructions.md) instructions
-- It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
 
 - [ ] Fill in the placeholders with relevant information about the project. 
+
+- [ ] Write the backlog in Markdown format at `/docs/BACKLOG.md`.
 
 ## Validation
 

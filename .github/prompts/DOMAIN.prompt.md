@@ -26,10 +26,10 @@ Questions to consider:
 CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 
 - [ ] Read and follow the [#DOMAIN](/.github/instructions/DOMAIN.instructions.md) instructions
-- It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for
 
 - [ ] Fill in the placeholders with relevant information about the project. 
 
+- [ ] Write the domain model in Markdown format at `/docs/DOMAIN.md`.
 
 ## Validation
 

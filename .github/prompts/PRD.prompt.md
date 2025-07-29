@@ -24,10 +24,11 @@ Create a Project Requirements Document (PRD) to define the scope and objectives 
 - DO NOT WRITE GOALS, REQUIREMENTS, OR CONSTRAINTS BY YOURSELF. 
 
 - [ ] Read and follow the [#PRD](/.github/instructions/PRD.instructions.md) instructions
-- It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
 
 - [ ] Fill in the placeholders with relevant information about the project.
-  
+
+- [ ] Write the PRD in Markdown format at `/docs/PRD.md`.  
+
 ## Validation
 
 - [ ] [PRD.md](/docs/PRD.md) exists 

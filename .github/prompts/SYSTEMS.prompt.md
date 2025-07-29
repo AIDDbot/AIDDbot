@@ -29,10 +29,10 @@ Create a Systems Architecture Document that defines the project's technical arch
 CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 
 - [ ] Read and follow the [#SYSTEMS](/.github/instructions/SYSTEMS.instructions.md) instructions
-- It contains a template in Markdown. Includes placeholders for you to fill and comments with instructions for you. Do not include the comments in the final document.
 
 - [ ] Fill in the placeholders with relevant information about the project. 
 
+- [ ] Write the systems architecture in Markdown format at `/docs/SYSTEMS.md`.
  
 ## Validation
 
