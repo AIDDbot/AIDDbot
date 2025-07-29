@@ -19,7 +19,7 @@ Write detailed specifications for the feature: ${input:featureId}
 - [ ] Read and follow the [#feature.spec](/.github/instructions/feature.spec.instructions.md) instructions.
 - [ ] Fill in the placeholders with relevant information about the project. 
 - [ ] Write the feature specification in Markdown format at `/docs/{featureId}.spec.md`.
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status 🟡 IN PROGRESS.
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status 🟡 DESIGNED.
 
 ## Validation
 

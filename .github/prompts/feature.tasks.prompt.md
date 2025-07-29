@@ -12,7 +12,11 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 - Read the feature design from the [{featureId}.design.md](/docs/{featureId}.design.md) document.
 
-- Read and follow the appropriate instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
+- Read and follow the technical instructions related architecture  and coding standards from [/.github/instructions](/.github/instructions) folder.
+  - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+  - [Structure Instructions](/.github/instructions/structure.instructions.md)
+  - [{framework} Instructions](/.github/instructions/{framework}.instructions.md) for any specific framework involved
+- Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
 
 ## Workflow
 
@@ -24,7 +28,7 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 - [ ] Read and follow the [#feature.tasks](/.github/instructions/feature.tasks.instructions.md) instructions.
 - [ ] Fill in the placeholders with relevant information about the project.
 - [ ] Write the feature implementation tasks in Markdown format at `/docs/{featureId}.tasks.md`.
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature implementation tasks link and status 🟡 IN PROGRESS.
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature implementation tasks link and status 🟡 DESIGNED.
 
 ## Validation
 

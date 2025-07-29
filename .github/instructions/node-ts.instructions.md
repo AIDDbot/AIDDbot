@@ -9,6 +9,16 @@ Modern Node.js supports TypeScript natively, allowing you to run TypeScript file
 
 Avoid using external libraries and look for native Node.js features to ensure simplicity and maintainability.
 
+**CRITICAL: Avoid external dependencies when native Node.js features exist.**
+
+## 🚫 AVOID These Dependencies
+
+**Never install these when using modern Node.js:**
+- `ts-node` - Not needed with native TypeScript support
+- `nodemon` - Use `node --watch` instead
+- `jest` - Use native `node --test` instead
+- `tsx` - Not needed with native support
+- Any TypeScript compilation loaders
 
 ## Import Instructions
 
@@ -38,9 +48,13 @@ Execute TypeScript files directly with Node.js without needing `ts-node` or any 
 
 > Example:
 ```bash
-# Execute with npm
+# Development Execute with npm
+npm run dev
+# Development Execute with node
+node --watch src/main.ts
+# Production Execute with npm
 npm start
-# Execute with node
+# Production Execute with node
 node src/main.ts
 ```
 
@@ -64,5 +78,41 @@ describe("The Sum function", () => {
   });
 });
 ```
+
+> Example of running tests:
+```bash
+# Run tests with Node.js
+node --test src/test.ts
+# Run tests with npm
+npm test
+```
+
+## TypeScript Configuration
+
+Use minimal tsconfig.json for type checking only (no compilation):
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true
+  }
+}
+```
+
+## Dependency Management
+
+Allowed dependencies :
+
+- `express` - For web server functionality
+- `pg` - For PostgreSQL database access
+
+Allowed development dependencies:
+- `eslint` - For code linting
+- `prettier` - For code formatting
 
 > End of Node.js with TypeScript Best Practices.

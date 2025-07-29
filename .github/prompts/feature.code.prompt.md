@@ -14,17 +14,23 @@ Write code for the feature: ${input:featureId}
 
 - Read the feature implementation tasks from the [{featureId}.tasks.md](/docs/{featureId}.tasks.md) document.
 
-
-- Read and follow the appropriate instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
+- Read and follow the technical instructions related architecture  and coding standards from [/.github/instructions](/.github/instructions) folder.
+  - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+  - [Structure Instructions](/.github/instructions/structure.instructions.md)
+  - [Clean Code Instructions](/.github/instructions/clean-code.instructions.md)
+  - [{framework} Instructions](/.github/instructions/{framework}.instructions.md) for any specific framework involved
+  - [{language} Instructions](/.github/instructions/{language}.instructions.md) for any specific language involved
 
 - Run the [/fetch-instructions](/.github/prompts/fetch-instructions.prompt.md) prompt to check for any specific coding instructions not provided in the current context.
+
+- Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
 
 ## Workflow
 
 - [ ] Read the tasks in the [{featureId}.tasks.md](/docs/{featureId}.tasks.md) document.
 - [ ] Execute the tasks in the order they are listed.
 - [ ] Mark each task as complete by updating the status in the [{featureId}.tasks.md](/docs/{featureId}.tasks.md) document.
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the status 🟢 DONE.
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the status 🟢 CODED.
 
 ## Validation
 

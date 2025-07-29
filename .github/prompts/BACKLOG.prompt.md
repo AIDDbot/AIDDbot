@@ -9,7 +9,7 @@ Create a BACKLOG document that outlines the epics and features for the project a
 ## Context
 
 - Read [PRD.md](/docs/PRD.md), [DOMAIN.md](/docs/DOMAIN.md) and [SYSTEMS.md](/docs/SYSTEMS.md) as primary sources for requirements and business logic.
-- Use the current `/README.md` and `/docs` folder to add context to your responses.
+- Use the current [README.md](/README.md) and [/docs](/docs) folder to add context to your responses.
 
 ## Workflow
 

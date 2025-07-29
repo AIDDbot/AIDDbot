@@ -20,7 +20,7 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 
 ## Context
 
-Use current `/README.md` and `/docs` folder to determine project status and offer appropriate next steps:
+Use current [/README.md](./README.md) and [docs](./docs) folder to determine project status and offer appropriate next steps:
 
 - Choose the most critical pending feature from the [BACKLOG](./docs/BACKLOG.md).
 
