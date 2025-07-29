@@ -14,9 +14,10 @@ Write code for the feature: ${input:featureId}
 
 - Read the feature implementation tasks from the [{featureId}.tasks.md](/docs/{featureId}.tasks.md) document.
 
-- Run the [/fetch-instructions](/.github/prompts/fetch-instructions.prompt.md) prompt to check for any specific coding instructions.
 
-- Read instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
+- Read and follow the appropriate instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
+
+- Run the [/fetch-instructions](/.github/prompts/fetch-instructions.prompt.md) prompt to check for any specific coding instructions not provided in the current context.
 
 ## Workflow
 

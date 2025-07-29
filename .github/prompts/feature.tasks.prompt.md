@@ -12,7 +12,7 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 - Read the feature design from the [{featureId}.design.md](/docs/{featureId}.design.md) document.
 
-- Read instructions
+- Read and follow the appropriate instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
 
 ## Workflow
 

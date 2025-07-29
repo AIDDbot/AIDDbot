@@ -12,9 +12,11 @@ Write detailed designs for the feature: ${input:featureId}
 
 - Read the feature specifications from the [{featureId}.spec.md](/docs/{featureId}.spec.md) document.
 
+- Read and follow the appropriate instructions related to language, framework, and coding standards from [/.github/instructions](/.github/instructions) folder.
+
 ## Workflow
 
-- [ ] Read or create a [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
+- [ ] Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
 - [ ] Read and follow the [#feature.design](/.github/instructions/feature.design.instructions.md) instructions.
 - [ ] Fill in the placeholders with relevant information about the project. 
 - [ ] Write the feature design in Markdown format at `/docs/{featureId}.design.md`.

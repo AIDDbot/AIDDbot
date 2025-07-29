@@ -4,7 +4,11 @@ description: Best practices for Node with TypeScript code
 # Node.js with TypeScript Best Practices
 
 ## Overview
+
 Modern Node.js supports TypeScript natively, allowing you to run TypeScript files directly without needing a separate compilation step. 
+
+Avoid using external libraries and look for native Node.js features to ensure simplicity and maintainability.
+
 
 ## Import Instructions
 
