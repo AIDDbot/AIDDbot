@@ -32,26 +32,27 @@ Can work with any major AI powered code editor, such as:
 git clone https://github.com/yourusername/AIDDbot.git
 ```
 
-### GitHub Copilot
+### GitHub Copilot installation instructions
 
-- **Manual Installation for a brand new project**: 
+#### Manual Installation for a brand new project: 
 
 - [ ] Clone the repository AIDDbot repository to a new folder for your project
 - `git clone https://github.com/yourusername/AIDDbot.git your-project-name`
 - [ ] Keep only the `.github` folder and feel free to remove the rest.
 
-- **Manual Installation to your existing project**: 
+#### Manual Installation to your existing project: 
 
 - [ ] Clone the repository AIDDbot repository to tem folder inside your repo
 - `git clone https://github.com/yourusername/AIDDbot.git AIDDbot-temp`
 - [ ] Copy only the `.github` folder from `AIDDbot-temp` folder to your root folder
 - [ ] Remove the `AIDDbot-temp` folder
 
-- **Semi Automatic Installation to any project**
+#### Semi Automatic Installation to any project:
+
 - [ ] Copy the prompt file [aiddbot-install-for-github_copilot](.github/prompts/aiddbot-install-for-github_copilot.prompt.md) to the same location at your folder
 - [ ] Open Copilot chat and run the `/aiddbot-install-for-github_copilot` command.
 
-## Usage
+## Usage with GitHub Copilot
 
 ### Chat modes
 
