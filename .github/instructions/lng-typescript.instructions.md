@@ -4,7 +4,7 @@ description: 'TypeScript best practices'
 
 # TypeScript Best Practices
 
-Follow [Clean Code Best Practices](/.github/instructions/clean-code.instructions.md) for general coding practices.
+Follow [Clean Code Best Practices](/.github/instructions/clean_code.instructions.md) for general coding practices.
 
 ## Name conventions
 

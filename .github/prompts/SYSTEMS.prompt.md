@@ -1,5 +1,5 @@
 ---
-description: 'Create the SYSTEMS document for a project.
+description: 'Create the SYSTEMS document for a project.'
 ---
 
 # Systems Architecture Document
