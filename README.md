@@ -2,32 +2,14 @@
 
 `AIDDbot` is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and more.
 
-## AIDD philosophy
-
-AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
-
-The `AIDDbot` agent follows AIDD principles and comes with three main roles:
-
-- **Architect**: Helps in defining product requirements and managing the development process.
-- **Builder**: Focuses on code generation and implementation of features.
-- **Craftsman**: Ensures the quality of the code through automated testing and documentation.
-
-It consists of a set of prompts, instructions, rules, and tools that enable the agent to perform its tasks effectively.
-
-Heavily inspired by : 
-
-- [Kiro Spec-Driven Development](https://kiro.dev/docs/specs/)
-- [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
-- [AI-Driven Development ABC roles (En Español)](https://aicode.academy/blog/es/el-abc-de-la-programacion-con-ia/)
+It consists of a **set of prompts, instructions, rules, and tools** that enable the agent to perform its tasks effectively.
 
 Can work with any major AI powered code editor, such as:
 
 - **GitHub Copilot** 🟢 Ready
-- _Cursor_ 🟡 Coming soon
-- _ClaudeCode_ 🟡 Coming soon
-- _GeminiCLI_ 🟡 Coming soon
+- _Cursor_, _ClaudeCode_, _GeminiCLI_ 🟡 Coming soon
 
-## GitHub Copilot installation instructions
+## 📦 Installation instructions for GitHub Copilot
 
 `AIDDbot` comes as a set of folders tailored for your AI code editor. You can install it by cloning the repository and placing the folder in your editor's extensions or plugins directory.
 
@@ -49,7 +31,7 @@ Can work with any major AI powered code editor, such as:
 - [ ] Copy the prompt file [aiddbot-install-for-github_copilot](.github/prompts/aiddbot-install-for-github_copilot.prompt.md) to the same location at your folder
 - [ ] Open Copilot chat and run the `/aiddbot-install-for-github_copilot` command.
 
-## GitHub Copilot usage instructions
+## 📚 Usage instructions for GitHub Copilot
 
 ### Chat modes
 
@@ -100,6 +82,25 @@ Example of how to add an instruction manually:
 ```txt
 Write a function that returns the sum of two numbers following #file:lng-typescript.instructions.md 
 ```
+
+---
+
+## 💭 AIDD philosophy
+
+AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
+
+The `AIDDbot` agent follows AIDD principles and comes with three main roles:
+
+- **Architect**: Helps in defining product requirements and managing the development process.
+- **Builder**: Focuses on code generation and implementation of features.
+- **Craftsman**: Ensures the quality of the code through automated testing and documentation.
+
+Heavily inspired by : 
+
+- [Kiro Spec-Driven Development](https://kiro.dev/docs/specs/)
+- [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
+- [AI-Driven Development ABC roles (En Español)](https://aicode.academy/blog/es/el-abc-de-la-programacion-con-ia/)
+
 
 ---
 
