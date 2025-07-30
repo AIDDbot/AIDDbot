@@ -105,6 +105,7 @@ Write a function that returns the sum of two numbers following #file:lng-typescr
 
 - **Author**: [Alberto Basalo](https://albertobasalo.dev)
 - **Company**: [AI code Academy](https://aicode.academy)
+- **Blog**: [AIDDbot](https://aiddbot.com)
 - **Socials**:
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
