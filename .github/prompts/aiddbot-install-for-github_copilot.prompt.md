@@ -5,22 +5,23 @@ tools: ['changes', 'editFiles', 'fetch', 'runCommands']
 ---
 # Install AIDDbot for GitHub Copilot
 
-Copy the .github directory from AIcodeAcademy/AIDDbot to the current repository.
+Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) to the current repository.
 
 ## Goal
 
-Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) repository to the current repository, ensuring all files and configurations are preserved.
+Have the same `.github` directory structure as the source repository, which includes prompts, workflows, and configurations for GitHub Copilot.
+
+DO NOT CLONE THE REPOSITORY.
 
 ## Context
-- The `.github` directory contains GitHub Actions workflows, issue templates, and other configurations for GitHub Copilot.
-- The source repository is `https://github.com/AIcodeAcademy/AIDDbot`.
+- The source `.github` directory is at https://github.com/AIcodeAcademy/AIDDbot/tree/main/.github
+- The target `.github` directory is or will be at [/.github](/.github)
 
 ## Workflow
 
-- [ ] Use the #fetch tool to clone the `AIcodeAcademy/AIDDbot` repository.
-- [ ] Copy the `.github` directory from the cloned repository to the current repository.
-- [ ] Maintain the original directory structure.
-- [ ] Copy hidden or configuration files.
+- [ ] Use the #fetch tool to list the `.github` directory content from the https://github.com/AIcodeAcademy/AIDDbot/tree/main/.github.
+- [ ] Use the #fetch and #editFiles tools to copy each file and directory from the source to the target repository.
+- [ ] Ensure that the directory structure is maintained.
 - [ ] Do not modify the Git configuration of the destination repository or add remotes.
 
 ## Validation
