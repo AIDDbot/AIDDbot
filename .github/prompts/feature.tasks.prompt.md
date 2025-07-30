@@ -1,5 +1,5 @@
 ---
-description: Feature Implementation Tasks
+description: 'Write Feature Implementation Tasks'
 ---
 
 # Feature Implementation Tasks
@@ -8,23 +8,25 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 ## Context
 
-- Read the feature specifications from the [{featureId}.spec.md](/docs/{featureId}.spec.md) document.
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
+- [SYSTEMS.md](/docs/SYSTEMS.md) 
+- [{featureId}.spec.md](/docs/{featureId}.spec.md)
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Structure Instructions](/.github/instructions/structure.instructions.md)
+- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
+- [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 
-- Read the feature design from the [{featureId}.design.md](/docs/{featureId}.design.md) document.
-
-- Read and follow the technical instructions related architecture  and coding standards from [/.github/instructions](/.github/instructions) folder.
-  - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
-  - [Structure Instructions](/.github/instructions/structure.instructions.md)
-  - [{framework} Instructions](/.github/instructions/{framework}.instructions.md) for any specific framework involved
-- Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
+- If there is no specific framework instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
 ## Workflow
 
-- Use checkbox format: \`- [ ] Task number. Task description\`
-- Include implementation details as bullet points
-- Reference requirements using: \`_Requirements: X.Y, Z.A_\`
-- Reference existing code to leverage using: \`_Leverage: path/to/file.ts, path/to/component.tsx_\`
-- Focus only on coding tasks (no deployment, user testing, etc.)
+- [ ] Use checkbox format: \`- [ ] Task number. Task description\`
+- [ ] Include implementation details as bullet points
+- [ ] Reference requirements using: \`_Requirements: X.Y, Z.A_\`
+- [ ] Reference existing code to leverage using: \`_Leverage: path/to/file_\`
+- [ ] Focus only on coding tasks (no deployment, no testing, no documentation, etc.)
+
 - [ ] Read and follow the [#feature.tasks](/.github/instructions/feature.tasks.instructions.md) instructions.
 - [ ] Fill in the placeholders with relevant information about the project.
 - [ ] Write the feature implementation tasks in Markdown format at `/docs/{featureId}.tasks.md`.

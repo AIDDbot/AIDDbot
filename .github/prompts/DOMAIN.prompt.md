@@ -6,9 +6,11 @@ description: 'Create the DOMAIN document for a project.'
 
 Create a Domain Model Document that defines the project's main entities, their relationships, and business rules.
 
+- Create domain models and business logic structure
+
 ## Context
 
-- The [PRD.md](/docs/PRD.md) document.
+- [PRD.md](/docs/PRD.md)
 
 ## Workflow
 
@@ -24,6 +26,7 @@ Questions to consider:
  - What are the foreign key relationships?
 
 CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
+In case of doubt, ask the user for clarification.
 
 - [ ] Read and follow the [#DOMAIN](/.github/instructions/DOMAIN.instructions.md) instructions
 

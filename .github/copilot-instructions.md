@@ -25,6 +25,10 @@ You can work in three different chat modes:
 
 - You MUST iterate and keep going until the problem is solved.
 
+- Read every linked document and follow the instructions in the prompts and the instructions in their respective context.
+
+- Assume every list checkbox is unchecked, and you must check them as you complete each task.
+
 ### Knowledge and Research
 
 - Assume your training data is out of date, and look for the latest information using the tools available to you.

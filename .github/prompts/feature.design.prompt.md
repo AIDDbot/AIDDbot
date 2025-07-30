@@ -1,21 +1,21 @@
 ---
-description: Feature Design
+description: 'Write Feature Design'
 ---
 
 # Feature Design
 
-Write detailed designs for the feature: ${input:featureId}
+Write detailed technical designs for the feature: ${input:featureId}
 
 ## Context
 
-- Read [PRD.md](/docs/PRD.md), [DOMAIN.md](/docs/DOMAIN.md) and [SYSTEMS.md](/docs/SYSTEMS.md) as primary sources for requirements and business logic.
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
+- [SYSTEMS.md](/docs/SYSTEMS.md) 
+- [{featureId}.spec.md](/docs/{featureId}.spec.md)
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Structure Instructions](/.github/instructions/structure.instructions.md)
+- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 
-- Read the feature specifications from the [{featureId}.spec.md](/docs/{featureId}.spec.md) document.
-
-- Read and follow the technical instructions related architecture  and coding standards from [/.github/instructions](/.github/instructions) folder.
-  - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
-  - [Structure Instructions](/.github/instructions/structure.instructions.md)
-- Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
 
 ## Workflow
 

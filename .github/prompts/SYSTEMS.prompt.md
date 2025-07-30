@@ -6,9 +6,13 @@ description: 'Create the SYSTEMS document for a project.
 
 Create a Systems Architecture Document that defines the project's technical architecture, technology stack, and deployment design.
 
+- Design system components and their interactions
+- Define integration patterns with external systems
+
 ## Context
 
-- Use the current [PRD.md](/docs/PRD.md) and [DOMAIN.md](/docs/DOMAIN.md) documents as primary sources.
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
 
 ## Workflow
 
@@ -27,6 +31,7 @@ Create a Systems Architecture Document that defines the project's technical arch
   - How is sensitive data protected?
 
 CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
+In case of doubt, ask the user for clarification.
 
 - [ ] Read and follow the [#SYSTEMS](/.github/instructions/SYSTEMS.instructions.md) instructions
 

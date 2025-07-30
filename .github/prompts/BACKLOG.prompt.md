@@ -1,23 +1,28 @@
 ---
-description: "Create the BACKLOG document for a project."
+description: 'Create the BACKLOG document for a project.'
 ---
 
 # Backlog Document
 
 Create a BACKLOG document that outlines the epics and features for the project and its status.
 
+- Prioritize features based on business value and technical feasibility
+- Group related features into epics for better organization
+- Keeps track of feature dependencies and status
+
 ## Context
 
-- Read [PRD.md](/docs/PRD.md), [DOMAIN.md](/docs/DOMAIN.md) and [SYSTEMS.md](/docs/SYSTEMS.md) as primary sources for requirements and business logic.
-- Use the current [README.md](/README.md) and [/docs](/docs) folder to add context to your responses.
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
+- [SYSTEMS.md](/docs/SYSTEMS.md) 
 
 ## Workflow
 
-- Write a list of features based on the PRD, DOMAIN, and SYSTEMS documents.
-- Do not detail the features specs, just list them.
-- Include features for project or data boilerplate, initial setup, and any other necessary components.
-- Group related features into epics for better organization.
-- Prioritize epics and features based on business value and technical feasibility.
+- [ ] Write a list of features based on the PRD, DOMAIN, and SYSTEMS documents.
+- [ ] Do not detail the features specs, just list them.
+- [ ] Include features for project or data boilerplate, initial setup, and any other necessary components.
+- [ ] Group related features into epics for better organization.
+- [ ] Prioritize epics and features based on business value and technical feasibility.
 
 - [ ] Read and follow the [#BACKLOG](/.github/instructions/BACKLOG.instructions.md) instructions
 

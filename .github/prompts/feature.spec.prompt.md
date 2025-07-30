@@ -1,5 +1,5 @@
 ---
-description: Feature Specification
+description: 'Write Feature Specification'
 ---
 
 # Feature Specification
@@ -8,9 +8,9 @@ Write detailed specifications for the feature: ${input:featureId}
 
 ## Context
 
-- Read [PRD.md](/docs/PRD.md), [DOMAIN.md](/docs/DOMAIN.md) and [SYSTEMS.md](/docs/SYSTEMS.md) as primary sources for requirements and business logic.
-
-- Read the current status from the [BACKLOG.md](/docs/BACKLOG.md)
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
+- [SYSTEMS.md](/docs/SYSTEMS.md) 
 
 ## Workflow
 
