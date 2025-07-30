@@ -7,11 +7,11 @@ tools: ['changes', 'editFiles', 'fetch', 'runCommands']
 
 Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) to the current repository.
 
+DO NOT CLONE THE REPOSITORY.
 ## Goal
 
 Have the same `.github` directory structure as the source repository, which includes prompts, workflows, and configurations for GitHub Copilot.
 
-DO NOT CLONE THE REPOSITORY.
 
 ## Context
 - The source `.github` directory is at https://github.com/AIcodeAcademy/AIDDbot/tree/main/.github
