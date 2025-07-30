@@ -1,13 +1,11 @@
 ---
-description: Best practices for Node with TypeScript code
+description: 'Node Framework Best Practices'
 ---
-# Node.js with TypeScript Best Practices
+# Node Framework Best Practices
 
 ## Overview
 
-Modern Node.js supports TypeScript natively, allowing you to run TypeScript files directly without needing a separate compilation step. 
-
-Avoid using external libraries and look for native Node.js features to ensure simplicity and maintainability.
+Write code using TypeScript language following [lang TypeScript](/.github/instructions/lng-typescript.instructions.md) best practices.
 
 **CRITICAL: Avoid external dependencies when native Node.js features exist.**
 
@@ -16,29 +14,39 @@ Avoid using external libraries and look for native Node.js features to ensure si
 **Never install these when using modern Node.js:**
 - `ts-node` - Not needed with native TypeScript support
 - `nodemon` - Use `node --watch` instead
-- `jest` - Use native `node --test` instead
+- `jest` or any other testing library  (Use native `node --test` instead)
 - `tsx` - Not needed with native support
+- Any ORM or database abstraction layer 
+- Axios or any HTTP client library (use native `node:http` or `node:https`)
 - Any TypeScript compilation loaders
+
+## ✔️ Allowed dependencies
+
+Production dependencies :
+
+- `express` - For web server functionality
+- `pg` - For PostgreSQL database access
+
+Development dependencies:
+- `eslint` - For code linting
+- `prettier` - For code formatting
 
 ## Import Instructions
 
-To do so, follow these import instructions:
-
 - Use the `.ts` suffix for TypeScript files.
-- Use `type` for type imports to ensure proper type checking and avoid runtime errors.
+- Use `type` for type imports.
 
-
-> Example of importing a TypeScript function and type:
+> ✔️ Example of importing a TypeScript function and type:
 ```ts
 import { bootstrap } from "./api/api.bootstrap.ts";
 import type { ApiConfig } from "./api/api.bootstrap.ts";
 ```
 
-> Bad Example of avoiding classic Node imports:
+> 🚫 Bad Example of avoiding classic Node imports:
 ```ts
 // Bad import: Missing suffix
 import { bootstrap } from "./api/api.bootstrap";
-// Bad import: Missing type
+// Bad import: Missing type keyword
 import { ApiConfig } from "./api/api.bootstrap.ts";
 ```
 
@@ -103,16 +111,5 @@ Use minimal tsconfig.json for type checking only (no compilation):
   }
 }
 ```
-
-## Dependency Management
-
-Allowed dependencies :
-
-- `express` - For web server functionality
-- `pg` - For PostgreSQL database access
-
-Allowed development dependencies:
-- `eslint` - For code linting
-- `prettier` - For code formatting
 
 > End of Node.js with TypeScript Best Practices.

@@ -1,5 +1,5 @@
 ---
-description: Feature Code Generation
+description: 'Write code for a feature implementation'
 ---
 
 # Feature Code Generation
@@ -8,22 +8,16 @@ Write code for the feature: ${input:featureId}
 
 ## Context
 
-- Read the feature specifications from the [{featureId}.spec.md](/docs/{featureId}.spec.md) document.
+- [PRD.md](/docs/PRD.md) 
+- [DOMAIN.md](/docs/DOMAIN.md) 
+- [SYSTEMS.md](/docs/SYSTEMS.md) 
+- [{featureId}.spec.md](/docs/{featureId}.spec.md)
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
+- [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
+- [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
 
-- Read the feature design from the [{featureId}.design.md](/docs/{featureId}.design.md) document.
-
-- Read the feature implementation tasks from the [{featureId}.tasks.md](/docs/{featureId}.tasks.md) document.
-
-- Read and follow the technical instructions related architecture  and coding standards from [/.github/instructions](/.github/instructions) folder.
-  - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
-  - [Structure Instructions](/.github/instructions/structure.instructions.md)
-  - [Clean Code Instructions](/.github/instructions/clean-code.instructions.md)
-  - [{framework} Instructions](/.github/instructions/{framework}.instructions.md) for any specific framework involved
-  - [{language} Instructions](/.github/instructions/{language}.instructions.md) for any specific language involved
-
-- Run the [/fetch-instructions](/.github/prompts/fetch-instructions.prompt.md) prompt to check for any specific coding instructions not provided in the current context.
-
-- Read the current (if exists) [STRUCTURE.md](/docs/STRUCTURE.md) document that describes the project structure and conventions.
+- If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
 ## Workflow
 
@@ -34,6 +28,6 @@ Write code for the feature: ${input:featureId}
 
 ## Validation
 
-- [ ] [{featureId}.tasks.md](/docs/{featureId}.tasks.md) exists
+- [ ] **Smoke Test**: The code builds and runs successfully.
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature implementation tasks link and status
 - [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)

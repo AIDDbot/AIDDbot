@@ -6,10 +6,6 @@ description: 'TypeScript best practices'
 
 Follow [Clean Code Best Practices](/.github/instructions/clean-code.instructions.md) for general coding practices.
 
-Follow [Node.js with TypeScript Best Practices](/.github/instructions/node-ts.instructions.md) for Node.js specific practices.
-
-Follow [Project Structure Best Practices](/.github/instructions/structure.instructions.md) for organizing your TypeScript project.
-
 ## Name conventions
 
 - Variables, methods and functions are in camelCase.
@@ -98,10 +94,10 @@ type User = {
 ## Classes
 
 - Use classes for coupling data and behavior.
-- In no DI framework, use constructor for dependency injection.
+- Declare and use an `interface` for class behavior.
+- In no DI framework, use constructor for dependencies prefer interfaces over concrete classes.
 - Be explicit for `public`, `private` or `protected` members.
-- Use `readonly` as default for properties.
-- Declare and use an `interface` for the public API.
+- Use `readonly` for properties.
 
 ## Error handling
 

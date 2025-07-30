@@ -4,24 +4,108 @@ description: 'Architecture best practices for any language'
 # Architecture Best Practices
 
 Use a layered architecture to separate concerns and improve maintainability.
+
+> Layers are not physical folders, they are logical layers that define the separation of concerns in your codebase.
+
 ```mermaid
 flowchart TD
   A[Presentation Layer] --> B[Business Layer]
   B --> C[Persistence Layer]
   C --> D[Database]
 ```
-
 Keep dependencies to a minimum and ensure a single direction of dependencies.
 
 Use the DI of your framework to manage dependencies or pass dependencies explicitly to functions and classes.
 
 Layers are abstract concepts, do not create folders for each layer; instead use a flat structure with files named after their purpose.
 
-### Folder Structure
-- Place all source code in a dedicated `src` directory.
-- Use a flat structure for files, grouping them by feature or module rather than by layer.
-- Organize feature folders in three main directories: `core`, `routes | commands`, and `shared`.
-- Use descriptive names for files and directories to indicate their purpose.
+## Structure
+
+Physical structure of the project should follow feature-based organization, but take into account the system architecture.
+
+- If the project is a simple application or library, use a single repository and start coding in the root directory.
+
+> Example:
+
+```txt
+my-project/
+├── docs/
+├── src/
+│   ├── core/
+│   ├── module1/
+│   └── shared/
+└── README.md
+```
+
+- For larger projects (frontend, backend, and database instructions), consider using a monorepo structure with multiple packages (AKA containers AKA projects).
+
+> Example:
+
+```txt  
+my-monorepo/
+├── docs/
+├── package1/
+│   ├── src/
+│   └── README.md
+├── package2/
+│   ├── src/
+│   └── README.md
+└── README.md
+```
+
+### General Guidelines
+- Organize code into modules or packages based on functionality.
+- Use a consistent naming convention for files and directories.
+
+### Directory Layout
+- Place all source code in a dedicated `src` directory inside each package.
+- Follow screaming structure : GROUP BY FEATURE not by type.
+- Organize features into three main directories: `core`, `routes | commands`, and `shared`.
+
+> Example for API project:
+
+```txt
+src/
+├── core/                # Core application logic
+│   ├── middlewares/     # Middleware functions
+│   └── config/          # Configuration files
+├── routes/              # API Route handlers
+│   ├── users/           # User-related routes
+│   └── products/        # Product-related routes
+└── shared/              # Shared utilities and components
+    ├── utils/           # Utility functions
+    └── logger/          # Logging utilities
+```
+
+
+> Example for Web SPA project:
+
+```txt
+src/
+├── core/                # Core application logic
+│   ├── interceptors/    # Api call interceptors
+│   └── layout/          # Main layout components
+├── routes/              # Page Route handlers
+│   ├── users/           # User-related routes
+│   └── products/        # Product-related routes
+└── shared/              # Shared utilities and components
+    ├── ui/              # UI components
+    └── logger/          # Logging utilities
+```
+
+> Example for a CLI project:
+
+```txt
+src/
+├── core/                # Core application logic
+│   └── config/          # Configuration files
+├── commands/            # Command handlers
+│   ├── users/           # User-related commands
+│   └── products/        # Product-related commands
+└── shared/              # Shared utilities and components
+    ├── utils/           # Utility functions
+    └── logger/          # Logging utilities
+```
 
 ## Back End
 

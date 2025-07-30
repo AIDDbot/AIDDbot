@@ -1,13 +1,14 @@
 ---
-description: 'Guidelines for generating SQL statements and stored procedures'
-applyTo: '**/*.sql'
+description: 'SQL statements best practices.'
 ---
 
 # Database Development
 
 Generate script files with SQL statements for database schema definition, data manipulation, and queries.
 
-Those files could be run directly against the database, used in migration tools or called from repositories.
+Store them in a `database` folder in the project root with `*.sql` extension.
+
+Those files could be run directly against the database, used in migration tools, called from repositories services, or serve as documentation and templates for developers.
 
 ## Database schema generation
 - all table names should be in plural form

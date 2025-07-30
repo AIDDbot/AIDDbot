@@ -1,5 +1,5 @@
 ---
-description: Clean code best practices for any language
+description: 'Clean code best practices for any language'
 ---
 # Clean Code Practices 
 

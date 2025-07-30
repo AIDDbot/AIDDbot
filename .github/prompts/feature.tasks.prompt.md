@@ -13,8 +13,8 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 - [SYSTEMS.md](/docs/SYSTEMS.md) 
 - [{featureId}.spec.md](/docs/{featureId}.spec.md)
 - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
-- [Structure Instructions](/.github/instructions/structure.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
+- [Database Instructions](/.github/instructions/database.instructions.md)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 
 - If there is no specific framework instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
