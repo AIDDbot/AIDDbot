@@ -107,6 +107,11 @@ Example of how to add an instruction manually:
 Write a function that sums two numbers following #file:lng-typescript.instructions.md 
 ```
 
+### 🛠️ To do:
+
+- Some kind of memory for the project workflow and characteristics.
+- A journal for the agents to keep track of their work and decisions.
+
 ---
 
 ## 💭 AIDD philosophy
