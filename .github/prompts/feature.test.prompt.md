@@ -15,6 +15,7 @@ Write test plan for the feature: ${input:featureId}
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
+- [frm-playwright Instructions](/.github/instructions/frm-playwright.instructions.md) for Playwright tests
 
 - If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
