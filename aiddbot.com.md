@@ -2,13 +2,13 @@
 
 In essence, **AIDDbot** consists of a set of prompts, instructions, rules, and tools that enable the agent to perform its tasks effectively.
 
-> Go and grab it from GitHub [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) and start coding with _Ab_
+> Go and grab it from GitHub [AIDDbot](https://github.com/AIDDbot/AIDDbot) and start coding with _Ab_
 
 ## AIDD philosophy
 
 AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
 
-The [AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) agent follows AIDD principles and comes with three main roles:
+The [AIDDbot](https://github.com/AIDDbot/AIDDbot) agent follows AIDD principles and comes with three main roles:
 
 ### Architect 
 
@@ -57,4 +57,4 @@ Work smarter not harder with Ab!
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
 - **Profesor en Español**: [AI code Academy](https://aicode.academy)
-- **The Repository**: [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot)
+- **The Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
