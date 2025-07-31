@@ -137,10 +137,10 @@ Work smarter not harder with Ab!
 ---
 
 - **Author**: [Alberto Basalo](https://albertobasalo.dev)
-- **Company**: [AI code Academy](https://aicode.academy)
 - **Blog**: [AIDDbot](https://aiddbot.com)
 - **Socials**:
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
-- **This Repository**: [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot)
+- **Profesor en Español**: [AI code Academy](https://aicode.academy)
+- **This Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
