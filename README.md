@@ -1,6 +1,6 @@
 # AIDDbot
 
-`AIDDbot` is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and more.
+**AIDDbot**, aka `Ab` pronounced "/eɪbi:/" is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and more.
 
 It consists of a **set of prompts, instructions, rules, and tools** that enable the agent to perform its tasks effectively.
 
@@ -9,7 +9,7 @@ Can work with any major AI powered code editor, such as:
 - **GitHub Copilot** 🟢 Ready
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ 🟡 Coming soon
 
-## 📦 Installation instructions for GitHub Copilot
+## 🔌Installation instructions for GitHub Copilot
 
 `AIDDbot` comes as a set of folders tailored for your AI code editor. You can install it by cloning the repository and placing the folder in your editor's extensions or plugins directory.
 
@@ -31,9 +31,9 @@ Can work with any major AI powered code editor, such as:
 - [ ] Copy the prompt file [aiddbot-install-for-github_copilot](.github/prompts/aiddbot-install-for-github_copilot.prompt.md) to the same location at your folder
 - [ ] Open Copilot chat and run the `/aiddbot-install-for-github_copilot` command.
 
-## 📚 Usage instructions for GitHub Copilot
+## ℹ️ Usage instructions for GitHub Copilot
 
-### Chat modes
+### 🤖 Chat modes
 
 There are three main chat modes available for `AIDDbot`, one for each `AIDDbot` role:
 
@@ -43,31 +43,53 @@ There are three main chat modes available for `AIDDbot`, one for each `AIDDbot` 
 
 Each mode offers a set of tools and prompts tailored to its specific role, allowing the agent to perform its tasks effectively.
 
-### Prompts
+### 📋 Prompts
 
 Using the _slash_ command, you can access various prompts designed for each mode. Here are some examples:
 
 #### Architect Prompts
 
-- **PRD generation** `/PRD`: It generates a Product Requirements Document based on the provided specifications.
-- **Domain Modeling** `/DOMAIN`: It creates a domain model based on the provided requirements.
-- **Systems Architecture** `/SYSTEMS`: It generates a systems architecture diagram based on the provided specifications.
-- **Backlog Management** `/BACKLOG`: It helps in managing the product backlog and prioritizing features.
+- 📋 **PRD generation** `/PRD`: It generates a Product Requirements Document based on the provided specifications.
+  - 📦 **docs/PRD.md**: Goals, requirements, and constraints of the project.
 
+- 📋 **Domain Modeling** `/DOMAIN`: It creates a domain model based on the provided requirements.
+  - 📦 **docs/DOMAIN.md**: Entities, relationships, and business rules of the project.
+
+- 📋 **Systems Architecture** `/SYSTEMS`: It generates a systems architecture diagram based on the provided specifications.
+  - 📦 **docs/SYSTEMS.md**: System architecture, components and implementation details
+  
 #### Builder Prompts 
 
-- **Feature Specification** `/feature.spec`: It generates specifications for a feature based on the provided requirements.
-- **Feature Design** `/feature.design`: It creates a design document for the feature.
-- **Implementation Plan** `/feature.tasks`: It outlines the tasks required to implement the feature.
-- **Feature Code** `/feature.code`: It writes the code for the feature by executing the implementation plan.
+- 📋 **Backlog Management** `/BACKLOG`: It helps in managing the product backlog and prioritizing features.
+  - 📦 **docs/BACKLOG.md**: The list of features grouped by epics with their priorities and statuses.
+  
+- 📋 **Feature Specification** `/feature.spec`: It generates specifications for a feature based on the provided requirements.
+  - 📦 **docs/feats/f_id.spec.md**: Behavioral specifications for a feature.
+  
+- 📋 **Feature Design** `/feature.design`: It creates a design document for the feature.
+  - 📦 **docs/feats/f_id.design.md**: Technical design for a feature.
+
+- 📋 **Implementation Plan** `/feature.tasks`: It outlines the tasks required to implement the feature.
+  - 📦 **docs/feats/f_id.tasks.md**: Task plan for implementing a feature.
+
+- 📋 **Feature Code** `/feature.code`: It writes the code for the feature by executing the implementation plan.
+  - 📦 **src/**: The implementation code for a feature.
+
   
 #### Craftsman Prompts
 
-- **Automated Testing** `/feature.test`: It generates automated tests for the provided code.
-- **Code Review** `/feature.review`: It performs a code review based on the feature changes.
-- **Documentation Generation** `/feature.docs`: It creates documentation for the provided code.
+- 📋 **Automated Testing** `/feature.test`: It generates automated tests for the provided code.
+  - 📦 **docs/feats/f_id.tests.md**: Unit and integration tests specifications for a feature.
+  - 📦 **src/**: Implementation tests for a feature.
+  
+- 📋 **Code Review** `/feature.review`: It performs a code review based on the feature changes.
+  - 📦 **src/**: Clean Code
+  
+- 📋 **Documentation Generation** `/feature.docs`: It creates documentation for the provided code.
+  - 📦 **src/**: Documented Code
+  - 📦 **docs/STRUCTURE.md**: Overview of the folder structure and main components organization.
 
-### Instructions
+### 📚 Instructions
 
 Prompts use instructions to guide the agent in performing specific tasks. Sometimes are templates for documentation, others are coding guidelines. Here are some examples:
 
