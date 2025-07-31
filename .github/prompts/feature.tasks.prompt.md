@@ -8,10 +8,8 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 ## Context
 
-- [PRD.md](/docs/PRD.md) 
-- [DOMAIN.md](/docs/DOMAIN.md) 
-- [SYSTEMS.md](/docs/SYSTEMS.md) 
-- [{featureId}.spec.md](/docs/{featureId}.spec.md)
+- [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
+- [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [Database Instructions](/.github/instructions/database.instructions.md)
@@ -29,7 +27,7 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 - [ ] Read and follow the [#feature.tasks](/.github/instructions/feature.tasks.instructions.md) instructions.
 - [ ] Fill in the placeholders with relevant information about the project.
-- [ ] Write the feature implementation tasks in Markdown format at `/docs/{featureId}.tasks.md`.
+- [ ] Write the feature implementation tasks in Markdown format at `/docs/feats/{featureId}.tasks.md`.
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature implementation tasks link and status 🟡 DESIGNED.
 
 ## Validation

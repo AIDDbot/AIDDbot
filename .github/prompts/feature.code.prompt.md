@@ -8,10 +8,8 @@ Write code for the feature: ${input:featureId}
 
 ## Context
 
-- [PRD.md](/docs/PRD.md) 
-- [DOMAIN.md](/docs/DOMAIN.md) 
-- [SYSTEMS.md](/docs/SYSTEMS.md) 
-- [{featureId}.spec.md](/docs/{featureId}.spec.md)
+- [{featureId}.design.md](/docs/feats/{featureId}.design.md)
+- [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
 - [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved

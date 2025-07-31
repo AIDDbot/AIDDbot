@@ -20,14 +20,15 @@ Create commits with clear messages that describe the changes made to the codebas
 
 - [ ] Group changes into logical commits.
 - [ ] Use conventional commit messages to describe the changes made.
-- [ ] Types: feat, fix, docs, test, chore, refactor.
-- [ ] Use the issue number in the commit message when applicable.
+- [ ] Available Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`.
+- [ ] Use the feature ID with the type when applicable.
+- [ ] Use the issue number at the end of the commit message when applicable.
 - [ ] Add a short list of changes made in the commit message body when necessary.
 
 ### Example Commit Message
 
 ```bash
-feat: add user authentication module Closes #123
+feat(f1.2): add user authentication module #123
 - Implemented user login and registration features
 - Added JWT token-based authentication
 - Updated user model to include password hashing
