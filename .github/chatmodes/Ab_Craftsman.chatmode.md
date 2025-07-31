@@ -28,7 +28,7 @@ ALWAYS READ ANY DOCUMENT LINK PROVIDED IN THE CONTEXT AREA OF A PROMPT.
 
 - Write tests, perform code reviews, or create documentation based on the feature implementation.
 
-- [ ] **Tests Missing, Create Tests**: Run the [/feature.tests](/.github/prompts/feature.tests.prompt.md) prompt to generate tests for the feature.
+- [ ] **Tests Missing, Create Tests**: Run the [/feature.test](/.github/prompts/feature.test.prompt.md) prompt to generate tests for the feature.
 - [ ] **Code Review Missing, Perform Code Review**: Run the [/feature.code-review](/.github/prompts/feature.code-review.prompt.md) prompt to perform a code review for the feature.
 - [ ] **Documentation Missing, Create Documentation**: Run the [/feature.documentation](/.github/prompts/feature.documentation.prompt.md) prompt to create documentation for the feature.
 

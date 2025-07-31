@@ -81,7 +81,7 @@ Using the _slash_ command, you can access various prompts designed for each mode
 #### Craftsman Prompts
 
 - 📋 **Automated Testing** `/feature.test`: Plan and generate automated tests for the provided code.
-  - 📦 **docs/feats/f_id.tests.md**: Unit and integration tests specifications for a feature.
+  - 📦 **docs/feats/f_id.test.md**: Unit and integration tests specifications for a feature.
   - 📦 **src/**: Implementation tests for a feature.
 
 - 📋 **Code Review** `/feature.review`: Perform a code review based on the feature changes.
