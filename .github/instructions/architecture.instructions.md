@@ -1,5 +1,6 @@
 ---
 description: 'Architecture best practices for any language'
+applyTo: "**/src/**"
 ---
 # Architecture Best Practices
 

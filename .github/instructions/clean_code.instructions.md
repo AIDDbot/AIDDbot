@@ -1,5 +1,6 @@
 ---
 description: 'Clean code best practices for any language'
+applyTo: "**/*.ts,**/*.js,**/*.java,**/*.cs"
 ---
 # Clean Code Practices 
 

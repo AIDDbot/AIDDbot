@@ -28,8 +28,8 @@ Can work with any major AI powered code editor, such as:
 
 #### Semi Automatic Installation to any project:
 
-- [ ] Copy the prompt file [aiddbot-install-for-github_copilot](.github/prompts/aiddbot-install-for-github_copilot.prompt.md) to the same location at your folder
-- [ ] Open Copilot chat and run the `/aiddbot-install-for-github_copilot` command.
+- [ ] Copy the prompt file [Ab_install-for-copilot.prompt](.github/prompts/Ab_install-for-copilot.prompt.md) to the same location at your folder
+- [ ] Open Copilot chat and run the `/Ab_install-for-copilot.prompt` command.
 
 ## ℹ️ Usage instructions for GitHub Copilot
 

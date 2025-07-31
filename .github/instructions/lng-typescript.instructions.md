@@ -1,5 +1,6 @@
 ---
 description: 'TypeScript best practices'
+applyTo: "**/*.ts"
 ---
 
 # TypeScript Best Practices
