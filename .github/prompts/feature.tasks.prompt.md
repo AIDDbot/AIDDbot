@@ -34,4 +34,4 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 - [ ] [{featureId}.tasks.md](/docs/{featureId}.tasks.md) exists
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature implementation tasks link and status
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with doc type message

@@ -32,4 +32,4 @@ Write test plan for the feature: ${input:featureId}
 
 - [ ] **Run the Test**: Run the tests to ensure they pass.
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature test link and status
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with test type message

@@ -28,4 +28,4 @@ Write code for the feature: ${input:featureId}
 
 - [ ] **Smoke Test**: The code builds and runs successfully.
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature implementation tasks link and status
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with feat type message

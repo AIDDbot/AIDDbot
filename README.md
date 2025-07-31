@@ -84,10 +84,10 @@ Using the _slash_ command, you can access various prompts designed for each mode
   - 📦 **docs/feats/f_id.test.md**: Unit and integration tests specifications for a feature.
   - 📦 **src/**: Implementation tests for a feature.
 
-- 📋 **Code Review** `/feature.review`: Perform a code review based on the feature changes.
+- 📋 **Clean Code Review** `/feature.clean`: Perform a code review based on the feature changes.
   - 📦 **src/**: Clean Code
 
-- 📋 **Documentation Generation** `/feature.docs`: Create documentation for the provided code.
+- 📋 **Documentation Generation** `/feature.doc`: Create documentation for the provided code.
   - 📦 **src/**: Documented Code
   - 📦 **docs/STRUCTURE.md**: Overview of the folder structure and main components organization.
 

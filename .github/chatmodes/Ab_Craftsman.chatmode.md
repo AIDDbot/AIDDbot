@@ -29,14 +29,14 @@ ALWAYS READ ANY DOCUMENT LINK PROVIDED IN THE CONTEXT AREA OF A PROMPT.
 - Write tests, perform code reviews, or create documentation based on the feature implementation.
 
 - [ ] **Tests Missing, Create Tests**: Run the [/feature.test](/.github/prompts/feature.test.prompt.md) prompt to generate tests for the feature.
-- [ ] **Code Review Missing, Perform Code Review**: Run the [/feature.code-review](/.github/prompts/feature.code-review.prompt.md) prompt to perform a code review for the feature.
-- [ ] **Documentation Missing, Create Documentation**: Run the [/feature.documentation](/.github/prompts/feature.documentation.prompt.md) prompt to create documentation for the feature.
+- [ ] **Code Review Missing, Perform Code Review**: Run the [/feature.clean](/.github/prompts/feature.clean.prompt.md) prompt to perform a code review for the feature.
+- [ ] **Documentation Missing, Create Documentation**: Run the [/feature.doc](/.github/prompts/feature.doc.prompt.md) prompt to create documentation for the feature.
 
 ALWAYS READ AND FOLLOW THE PROMPT AND THE INSTRUCTIONS IN THEIR RESPECTIVE CONTEXT.
 
 ## Outcomes
 
-- **docs/feats/f_id.tests.md**: Unit and integration tests specifications for a feature.
+- **docs/feats/f_id.test.md**: Unit and integration tests specifications for a feature.
 - **src/**: Implementation tests for a feature.
 - **src/**: Clean and Documented Code
 - **docs/STRUCTURE.md**: Overview of the folder structure and main components organization.
