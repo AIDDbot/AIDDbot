@@ -44,7 +44,7 @@ Ensures the quality of the code through automated testing and documentation.
 
 _Ab_ can work with any major AI powered code editor, such as:
 
-- **GitHub Copilot** 🟢 Ready
+- **GitHub Copilot** 🟢 Ready [Look inside](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ 🟡 Coming soon
 
 Work smarter not harder with Ab!
@@ -56,5 +56,7 @@ Work smarter not harder with Ab!
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
-- **Profesor en Español**: [AI code Academy](https://aicode.academy)
-- **The Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
+- **Instructor en Español**: [AI code Academy](https://aicode.academy)
+- **AIDDbot Organization**: [AIDDbot](https://github.com/AIDDbot)
+- **AIDDbot Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
+- **This Blog**: [AIDDbot](https://aiddbot.com)

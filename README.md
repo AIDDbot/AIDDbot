@@ -8,48 +8,33 @@ It consists of a **set of prompts, instructions, rules, and tools** that enable 
 
 Can work with any major AI powered code editor, such as:
 
-- **GitHub Copilot** 🟢 Ready
+- **GitHub Copilot** 🟢 Ready [Look inside](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ 🟡 Coming soon
 
-## 🔌Installation instructions for GitHub Copilot
+## 🔌Installation for GitHub Copilot
 
-`AIDDbot` comes as a set of folders tailored for your AI code editor. You can install it by cloning the repository and placing the folder in your editor's extensions or plugins directory.
+`AIDDbot` comes as a set of folders tailored for your AI code editor. You can install it by cloning this repository and placing the folder in your editor's extensions or plugins directory. Or just use the provided installation prompt.
 
-#### Manual Installation for a brand new project: 
-
-- [ ] Clone the repository AIDDbot repository to a new folder for your project
-`git clone -b main --single-branch https://github.com/yourusername/AIDDbot.git your-project-name`
-- [ ] Keep only the `.github` folder and feel free to remove the rest.
-
-#### Manual Installation to your existing project: 
-
-- [ ] Clone the repository AIDDbot repository to a temporary folder inside your repo
-`git clone -b main --single-branch https://github.com/yourusername/AIDDbot.git AIDDbot-temp`
-- [ ] Copy only the `.github` folder from `AIDDbot-temp` folder to your root folder
-- [ ] Remove the temporary `AIDDbot-temp` folder
-
-#### Semi Automatic Installation to any project:
-
-- [ ] Copy the prompt file [Ab_install-for-copilot.prompt](.github/prompts/Ab_install-for-copilot.prompt.md) to the same location at your folder
-- [ ] Open Copilot chat and run the `/Ab_install-for-copilot.prompt` command.
+- [ ] Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
+- [ ] Paste it into your Copilot Chat in Agent Mode.
 
 > Read more about [GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview)
 
-## ℹ️ Usage instructions for GitHub Copilot
+## ℹ️ Usage for GitHub Copilot
 
 ### 🤖 Chat modes
 
 There are three main chat modes available for _Ab_, one for each `AIDD` role:
 
-- **Architect Mode**: For defining product requirements and managing the development process.
-- **Builder Mode**: For code generation and implementation of features.
-- **Craftsman Mode**: For ensuring the quality of the code through automated testing and documentation.
+- **Architect Mode**: For defining product requirements and technical solutions.
+- **Builder Mode**: For features management and code generation.
+- **Craftsman Mode**: For ensuring the quality through testing and documentation.
 
-Each mode offers a set of tools and prompts tailored to its specific role, allowing the agent to perform its tasks effectively.
+Each mode offers a set of _tools_ and _prompts_ tailored to its specific role, allowing the agent to perform its tasks effectively.
 
 ### 📋 Prompts
 
-Using the _slash_ command, you can access various prompts designed for each mode. Here are some examples:
+Using the `/` command, you can access various prompts designed for each mode. Here are the available prompts and their outcomes for each role:
 
 #### Architect Prompts
 
@@ -95,13 +80,13 @@ Using the _slash_ command, you can access various prompts designed for each mode
 
 ### 📚 Instructions
 
-Prompts use instructions to guide the agent in performing specific tasks. Sometimes are templates for documentation, others are coding guidelines. Here are some **examples**:
+_Prompts_ use _instructions_ to guide the agent in performing specific tasks. Sometimes they are templates for documentation, others are coding guidelines. Here are some **examples**:
 
 - 📒 **PRD instructions**: A template for generating a Product Requirements Document.
 - 📒 **Architecture instructions**: A set of guidelines for applying architecture patterns.
 - 📒 **TypeScript language instructions**: Best practices and coding standards for TypeScript.
 
-They are automatically added as context in the **AIDDbot** prompts, but you can add them manually if needed.
+Instructions are automatically added as context in the **AIDDbot** prompts, but you can add them manually if needed, just refer to them using the `#` prefix.
 
 Example of how to add an instruction manually:
 
@@ -113,8 +98,7 @@ Write a function that sums two numbers following #file:lng-typescript.instructio
 
 - Some kind of memory for the project workflow and characteristics.
 - A journal for the agents to keep track of their work and decisions.
-
----
+- Automated archetype inclusion based on the project requirements.
 
 ## 💭 AIDD philosophy
 
@@ -132,15 +116,16 @@ Heavily inspired by :
 - [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
 - [AI-Driven Development ABC roles (En Español)](https://aicode.academy/blog/es/el-abc-de-la-programacion-con-ia/)
 
-Work smarter not harder with Ab!
+> Work smarter not harder with _Ab_!
 
 ---
 
 - **Author**: [Alberto Basalo](https://albertobasalo.dev)
-- **Blog**: [AIDDbot](https://aiddbot.com)
 - **Socials**:
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
-- **Profesor en Español**: [AI code Academy](https://aicode.academy)
+- **Instructor en Español**: [AI code Academy](https://aicode.academy)
+- **AIDDbot Blog**: [AIDDbot](https://aiddbot.com)
+- **AIDDbot en GitHub**: [AIDDbot](https://github.com/AIDDbot)
 - **This Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
