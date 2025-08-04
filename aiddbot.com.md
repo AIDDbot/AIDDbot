@@ -12,6 +12,8 @@ The [AIDDbot](https://github.com/AIDDbot/AIDDbot) agent follows AIDD principles 
 
 ### Architect 
 
+> **[Architect Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Architect.chatmode.md)**
+
 Helps in defining product requirements and managing the development process.
 
 - **PRD generation**  It generates a Product Requirements Document based on the provided specifications.
@@ -19,6 +21,10 @@ Helps in defining product requirements and managing the development process.
 - **Systems Architecture** It generates a systems architecture diagram based on the provided specifications.
 
 ### Builder: 
+
+> **[Builder Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Builder.chatmode.md)**
+
+Helps in managing the development process for the entire product and each feature.
 
 For the entire product 
 - **Backlog Management**  It helps in managing the product backlog and prioritizing features.
@@ -30,6 +36,9 @@ Focuses on code generation and implementation of one feature at a time.
 - **Feature Code** It writes the code for the feature by executing the implementation plan.
 
 ### Craftsman
+
+> **[Craftsman Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Craftsman.chatmode.md)**
+
 Ensures the quality of the code through automated testing and documentation.
 
 - **Automated Testing** It generates automated tests for the provided code.
@@ -40,7 +49,7 @@ Ensures the quality of the code through automated testing and documentation.
 
 - [Kiro Spec-Driven Development](https://kiro.dev/docs/specs/)
 - [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
-- [AI-Driven Development ABC roles (En Español)](https://aicode.academy/blog/es/el-abc-de-la-programacion-con-ia/)
+- [AI-Driven Development Manifesto (En Español)](https://aicode.academy/blog/es/aidd-manifesto/)
 
 _Ab_ can work with any major AI powered code editor, such as:
 
@@ -56,7 +65,7 @@ Work smarter not harder with Ab!
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
-- **Instructor en Español**: [AI code Academy](https://aicode.academy)
+- **Cursos en Español**: [AI code Academy](https://aicode.academy)
 - **AIDDbot Organization**: [AIDDbot](https://github.com/AIDDbot)
 - **AIDDbot Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
 - **This Blog**: [AIDDbot](https://aiddbot.com)

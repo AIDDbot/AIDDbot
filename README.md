@@ -18,7 +18,7 @@ Can work with any major AI powered code editor, such as:
 - [ ] Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
 - [ ] Paste it into your Copilot Chat in Agent Mode.
 
-> Read more about [GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview)
+> Read more about [GitHub Copilot Customization](https://code.visualstudio.com/docs/copilot/copilot-customization)
 
 ## ℹ️ Usage for GitHub Copilot
 
@@ -26,11 +26,11 @@ Can work with any major AI powered code editor, such as:
 
 There are three main chat modes available for _Ab_, one for each `AIDD` role:
 
-- **Architect Mode**: For defining product requirements and technical solutions.
-- **Builder Mode**: For features management and code generation.
-- **Craftsman Mode**: For ensuring the quality through testing and documentation.
+- **[Architect Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Architect.chatmode.md)**: For defining product requirements and technical solutions.
+- **[Builder Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Builder.chatmode.md)**: For features management and code generation.
+- **[Craftsman Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Craftsman.chatmode.md)**: For ensuring the quality through testing and documentation.
 
-Each mode offers a set of _tools_ and _prompts_ tailored to its specific role, allowing the agent to perform its tasks effectively.
+Each mode offers a set of _prompts_ and chooses the _tools_ tailored to its specific role, allowing the agent to perform its tasks effectively.
 
 ### 📋 Prompts
 
@@ -38,53 +38,53 @@ Using the `/` command, you can access various prompts designed for each mode. He
 
 #### Architect Prompts
 
-- 📋 **PRD generation** `/PRD`: to write a Product Requirements Document.
+- 📋 **[PRD generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/PRD.prompt.md)** `/PRD`: to write a Product Requirements Document.
   - 📦 **docs/PRD.md**: Goals, requirements, and constraints of the project.
 
-- 📋 **Domain Modeling** `/DOMAIN`: to create a domain model.
+- 📋 **[Domain Modeling](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/DOMAIN.prompt.md)** `/DOMAIN`: to create a domain model.
   - 📦 **docs/DOMAIN.md**: Entities, relationships, and business rules of the project.
 
-- 📋 **Systems Architecture** `/SYSTEMS`: to generate the systems technical documentation.
+- 📋 **[Systems Architecture](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/SYSTEMS.prompt.md)** `/SYSTEMS`: to generate the systems technical documentation.
   - 📦 **docs/SYSTEMS.md**: System architecture, components and implementation details
   
 #### Builder Prompts 
 
-- 📋 **Backlog Management** `/BACKLOG`: Manage the product backlog and prioritize features.
+- 📋 **[Backlog Management](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/BACKLOG.prompt.md)** `/BACKLOG`: Manage the product backlog and prioritize features.
   - 📦 **docs/BACKLOG.md**: The list of features grouped by epics with their priorities and statuses.
 
-- 📋 **Feature Specification** `/feature.spec`: Generate specifications for a feature based on the provided requirements.
+- 📋 **[Feature Specification](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.spec.prompt.md)** `/feature.spec`: Generate specifications for a feature based on the provided requirements.
   - 📦 **docs/feats/f_id.spec.md**: Behavioral specifications for a feature.
 
 - 📋 **Feature Design** `/feature.design`: Create a design document for the feature.
   - 📦 **docs/feats/f_id.design.md**: Technical design for a feature.
 
-- 📋 **Implementation Plan** `/feature.tasks`: Outline the tasks required to implement the feature.
+- 📋 **[Implementation Plan](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.tasks.prompt.md)** `/feature.tasks`: Outline the tasks required to implement the feature.
   - 📦 **docs/feats/f_id.tasks.md**: Task plan for implementing a feature.
 
-- 📋 **Feature Code** `/feature.code`: Write the code by executing the implementation plan.
+- 📋 **[Feature Code](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.code.prompt.md)** `/feature.code`: Write the code by executing the implementation plan.
   - 📦 **src/**: The implementation code for a feature.
 
   
 #### Craftsman Prompts
 
-- 📋 **Automated Testing** `/feature.test`: Plan and generate automated tests for the provided code.
+- 📋 **[Automated Testing](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.test.prompt.md)** `/feature.test`: Plan and generate automated tests for the provided code.
   - 📦 **docs/feats/f_id.test.md**: Unit and integration tests specifications for a feature.
   - 📦 **src/**: Implementation tests for a feature.
 
-- 📋 **Clean Code Review** `/feature.clean`: Perform a code review based on the feature changes.
+- 📋 **[Clean Code Review](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.clean.prompt.md)** `/feature.clean`: Perform a code review based on the feature changes.
   - 📦 **src/**: Clean Code
 
-- 📋 **Documentation Generation** `/feature.doc`: Create documentation for the provided code.
+- 📋 **[Documentation Generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.doc.prompt.md)** `/feature.doc`: Create documentation for the provided code.
   - 📦 **src/**: Documented Code
   - 📦 **docs/STRUCTURE.md**: Overview of the folder structure and main components organization.
 
 ### 📚 Instructions
 
-_Prompts_ use _instructions_ to guide the agent in performing specific tasks. Sometimes they are templates for documentation, others are coding guidelines. Here are some **examples**:
+_📋Prompts_ use _📒instructions_ to guide the agent in performing specific tasks. Sometimes they are templates for documentation, others are coding guidelines. Here are some **examples**:
 
-- 📒 **PRD instructions**: A template for generating a Product Requirements Document.
-- 📒 **Architecture instructions**: A set of guidelines for applying architecture patterns.
-- 📒 **TypeScript language instructions**: Best practices and coding standards for TypeScript.
+- 📒 **[PRD instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/PRD.instructions.md)**: A template for generating a Product Requirements Document.
+- 📒 **[Architecture instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/architecture.instructions.md)**: A set of guidelines for applying architecture patterns.
+- 📒 **[TypeScript language instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/lng-typescript.instructions.md)**: Best practices and coding standards for TypeScript.
 
 Instructions are automatically added as context in the **AIDDbot** prompts, but you can add them manually if needed, just refer to them using the `#` prefix.
 
@@ -99,22 +99,23 @@ Write a function that sums two numbers following #file:lng-typescript.instructio
 - Some kind of memory for the project workflow and characteristics.
 - A journal for the agents to keep track of their work and decisions.
 - Automated archetype inclusion based on the project requirements.
+- AIDDbot auto improvement...
 
 ## 💭 AIDD philosophy
 
 AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
 
-The `AIDDbot` agent follows AIDD principles and comes with three main roles:
+The `AIDDbot` agent follows AIDD principles and comes with three main principles:
 
-- **Architect**: Helps in defining product requirements and managing the development process.
-- **Builder**: Focuses on code generation and implementation of features.
-- **Craftsman**: Ensures the quality of the code through automated testing and documentation.
+- **Human In the Loop**: Your job more strategist, collaborative and responsible.
+- **Rules over Tools**: Tools are just a means to an end, the rules and processes are what matter.
+- **AI Quality**: Development is not only more productive but also of higher quality and easy to maintain.
 
 Heavily inspired by : 
 
 - [Kiro Spec-Driven Development](https://kiro.dev/docs/specs/)
 - [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
-- [AI-Driven Development ABC roles (En Español)](https://aicode.academy/blog/es/el-abc-de-la-programacion-con-ia/)
+- [AI-Driven Development Manifesto (En Español)](https://aicode.academy/blog/es/aidd-manifesto/)
 
 > Work smarter not harder with _Ab_!
 
@@ -125,7 +126,7 @@ Heavily inspired by :
   - [X](https://x.com/albertobasalo)
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
-- **Instructor en Español**: [AI code Academy](https://aicode.academy)
-- **AIDDbot Blog**: [AIDDbot](https://aiddbot.com)
-- **AIDDbot en GitHub**: [AIDDbot](https://github.com/AIDDbot)
+- **Cursos en Español**: [AI code Academy](https://aicode.academy)
+- **AIDDbot.com Blog**: [AIDDbot](https://aiddbot.com)
+- **AIDDbot org at GitHub**: [AIDDbot](https://github.com/AIDDbot)
 - **This Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
