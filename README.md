@@ -105,17 +105,11 @@ Write a function that sums two numbers following #file:lng-typescript.instructio
 
 AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
 
-The `AIDDbot` agent follows AIDD principles and comes with three main principles:
+The `AIDDbot` agent follows the three [AIDD Manifesto](https://aiddbot.com/aidd-manifesto) principles:
 
-- **Human In the Loop**: Your job more strategist, collaborative and responsible.
-- **Rules over Tools**: Tools are just a means to an end, the rules and processes are what matter.
-- **AI Quality**: Development is not only more productive but also of higher quality and easy to maintain.
-
-Heavily inspired by : 
-
-- [Kiro Spec-Driven Development](https://kiro.dev/docs/specs/)
-- [Burke Holland BeastMode Copilot](https://burkeholland.github.io/posts/beast-mode-3-1/)
-- [AI-Driven Development Manifesto (En Español)](https://aicode.academy/blog/es/aidd-manifesto/)
+- **🧑‍💻 Human In the Loop**: Your job more strategist, collaborative and responsible.
+- **🔧 Rules over Tools**: Tools are just a means to an end, the rules and processes are what matter.
+- **✅ AI Quality**: Development is not only more productive but also of higher quality and easy to maintain.
 
 > Work smarter not harder with _Ab_!
 
@@ -127,6 +121,6 @@ Heavily inspired by :
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
 - **Cursos en Español**: [AI code Academy](https://aicode.academy)
-- **AIDDbot.com Blog**: [AIDDbot](https://aiddbot.com)
-- **AIDDbot org at GitHub**: [AIDDbot](https://github.com/AIDDbot)
-- **This Repository**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
+- **AIDDbot.com Blog**: [AIDDbot.com](https://aiddbot.com)
+- **AIDDbot org at GitHub**: [GitHub/AIDDbot](https://github.com/AIDDbot)
+- **This Repository**: [GitHub/AIDDbot/AIDDbot](https://github.com/AIDDbot/AIDDbot)
