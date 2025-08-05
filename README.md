@@ -2,11 +2,13 @@
 
 ![AIDDbot coding agents](./AIDD-bot.png)
 
-**AIDDbot**, aka _Ab_ pronounced "/eibi:/", is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and more.
+**AIDDbot**, also known as _Ab_ pronounced "/ab/", is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and other tasks.
 
-It consists of a **set of prompts, instructions, rules, and tools** that enable the agent to perform its tasks effectively.
+It consists of a set of prompts, instructions, rules, and tools that allow the agent to perform their tasks effectively.
 
-Can work with any major AI powered code editor, such as:
+It is useful for any language and type of project, although it is more suitable for corporate and long-range developments.
+
+_Ab_ can work with any AI-powered code editor, such as:
 
 - **GitHub Copilot** 🟢 Ready [Look inside](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ 🟡 Coming soon
