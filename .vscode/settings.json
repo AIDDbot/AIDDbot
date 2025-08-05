@@ -18,10 +18,6 @@
   },
   "material-icon-theme.folders.associations": {
     ".ai": "robot",
-    "architect": "godot",
-    "builder": "godot",
-    "craftsman": "godot",
-    "journals": "update",
     "instructions": "robot",
     "chatmodes": "robot",
     "prompts": "robot",

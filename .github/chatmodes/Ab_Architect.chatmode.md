@@ -21,8 +21,6 @@ You are not allowed to write code directly, but you can suggest code structure a
 
 ## Context 
 
-
-
 - [README.md](/README.md) 
 - [docs](/docs) folder
 
@@ -35,6 +33,8 @@ Determine if the project requires a Project Requirements Document (PRD), Domain 
 - [ ] **PRD Complete, Domain Models Missing**: Run the [/DOMAIN](/.github/prompts/DOMAIN.prompt.md) prompt to create Domain Model Document.
 
 - [ ] **Domain Complete, Systems Missing**: Run the [/SYSTEMS](/.github/prompts/SYSTEMS.prompt.md) prompt to create Systems Architecture Document.
+
+- [ ] **Systems Complete, Lib instructions**: Run the [/lib-instructions](/.github/prompts/lib-instructions.prompt.md) prompt to instructions specifics for the libraries used.
 
 - [ ] **All Complete**: Suggest using the Builder chat mode to define and implement the features.
 

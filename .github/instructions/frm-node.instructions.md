@@ -24,8 +24,8 @@ Write code using TypeScript language following [lang TypeScript](/.github/instru
 
 Production dependencies :
 
-- `express` - For web server functionality
-- `pg` - For PostgreSQL database access
+- `zod` - For schema validation
+- `chalk` - For terminal string styling
 
 Development dependencies:
 - `eslint` - For code linting
