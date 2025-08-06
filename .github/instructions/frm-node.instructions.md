@@ -1,5 +1,6 @@
 ---
 description: 'Node Framework Best Practices'
+applyTo: '**/*.ts'
 ---
 # Node Framework Best Practices
 

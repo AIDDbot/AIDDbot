@@ -1,5 +1,6 @@
 ---
 description: 'Node 2025 Framework Best Practices'
+applyTo: '**/*.ts'
 ---
 # Modern Node.js Patterns (2025)
 
