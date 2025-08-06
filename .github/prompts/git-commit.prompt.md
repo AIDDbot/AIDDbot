@@ -27,6 +27,8 @@ Create commits with clear messages that describe the changes made to the codebas
 
 ### Example Commit Message
 
+IMPORTANT: USE THE GITHUB ISSUE NUMBER IN THE COMMIT MESSAGE WHEN APPLICABLE.
+
 ```bash
 feat(f1.2): add user authentication module #123
 - Implemented user login and registration features
@@ -40,7 +42,6 @@ feat(f1.2): add user authentication module #123
 
 ```bash
 git status
-git log --oneline --decorate=short --graph --max-count=5
 ```
 
 > End of the git commit prompt.

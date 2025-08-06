@@ -1,5 +1,5 @@
 ---
-description: 'Template for a Domain Model Document'
+description: "Template for a Domain Model Document"
 ---
 
 # Domain Model for { PROJECT_NAME }
@@ -15,6 +15,7 @@ description: 'Template for a Domain Model Document'
 **Description:** { Brief description of what this entity represents }
 
 **Attributes:**
+
 - { attribute1 }: { type } - { description }
 - { attribute2 }: { type } - { description }
 - { attribute3 }: { type } - { description }
@@ -24,6 +25,7 @@ description: 'Template for a Domain Model Document'
 **Description:** { Brief description of what this entity represents }
 
 **Attributes:**
+
 - { attribute1 }: { type } - { description }
 - { attribute2 }: { type } - { description }
 - { attribute3 }: { type } - { description }
@@ -83,7 +85,7 @@ erDiagram
         { type } { attribute2 }
         { type } { attribute3 }
     }
-    
+
     { ENTITY1 } ||--o{ { ENTITY2 } : { relationship_name }
     { ENTITY2 } ||--o{ { ENTITY3 } : { relationship_name }
 ```

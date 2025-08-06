@@ -1,7 +1,8 @@
 ---
-description: 'Node Framework Best Practices'
-applyTo: '**/*.ts'
+description: "Node Framework Best Practices"
+applyTo: "**/*.ts"
 ---
+
 # Node Framework Best Practices
 
 ## Overview
@@ -13,9 +14,10 @@ Write code using TypeScript language following [lang TypeScript](/.github/instru
 ## 🚫 AVOID These Dependencies
 
 **Never install these when using modern Node.js:**
+
 - _ts-node_ - Not needed with native TypeScript support
 - _nodemon_ - Use `node --watch` instead
-- _jest_ or any other testing library  (Use native `node --test` instead)
+- _jest_ or any other testing library (Use native `node --test` instead)
 - _tsx_ - Not needed with native support
 - Any ORM or database abstraction layer
 - _axios_ or any HTTP client library (use native `node:http` or `node:https`)
@@ -25,12 +27,14 @@ Write code using TypeScript language following [lang TypeScript](/.github/instru
 
 Production dependencies :
 
-- `zod` - For schema validation
 - `chalk` - For terminal string styling
+- `zod` - For schema validation
 
 Development dependencies:
+
 - `eslint` - For code linting
 - `prettier` - For code formatting
+- `npm-check-updates` - For managing dependencies
 
 ## Import Instructions
 
@@ -38,12 +42,14 @@ Development dependencies:
 - Use `type` for type imports.
 
 > ✔️ Example of importing a TypeScript function and type:
+
 ```ts
 import { bootstrap } from "./api/api.bootstrap.ts";
 import type { ApiConfig } from "./api/api.bootstrap.ts";
 ```
 
 > 🚫 Bad Example of avoiding classic Node imports:
+
 ```ts
 // Bad import: Missing suffix
 import { bootstrap } from "./api/api.bootstrap";
@@ -53,9 +59,10 @@ import { ApiConfig } from "./api/api.bootstrap.ts";
 
 ## Running TypeScript Files
 
-Execute TypeScript files directly with Node.js without needing `ts-node` or any additional compilation step. 
+Execute TypeScript files directly with Node.js without needing `ts-node` or any additional compilation step.
 
 > Example:
+
 ```bash
 # Development Execute with npm
 npm run dev
@@ -69,16 +76,18 @@ node src/main.ts
 
 ## Testing Node.js with TypeScript
 
-- No need for additional libraries to run tests with TypeScript. 
+- No need for additional libraries to run tests with TypeScript.
 - Use `node:test` module for testing TypeScript files directly.
 
 > Example of importing Node Test stuff:
+
 ```ts
-import assert from "node:assert/strict"
+import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 ```
 
 > Example of defining a test:
+
 ```ts
 const sum = (a: number, b: number): number => a + b;
 describe("The Sum function", () => {
@@ -89,6 +98,7 @@ describe("The Sum function", () => {
 ```
 
 > Example of running tests:
+
 ```bash
 # Run tests with Node.js
 node --test src/test.ts

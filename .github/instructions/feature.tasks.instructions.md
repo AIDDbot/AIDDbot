@@ -1,6 +1,7 @@
 ---
-description: 'Template for feature implementation tasks.'
+description: "Template for feature implementation tasks."
 ---
+
 # Implementation Tasks
 
 ## Overview
@@ -109,4 +110,4 @@ description: 'Template for feature implementation tasks.'
   - _Leverage: src/utils/cleanup.ts, docs/templates/_
   - _Requirements: All_
 
- > End of Feature Implementation Tasks for { Feature Id }, last updated { DATE }.
+> End of Feature Implementation Tasks for { Feature Id }, last updated { DATE }.

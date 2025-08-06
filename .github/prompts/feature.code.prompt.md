@@ -1,5 +1,5 @@
 ---
-description: 'Write code for a feature implementation'
+description: "Write code for a feature implementation"
 ---
 
 # Feature Code Generation
@@ -10,7 +10,7 @@ Write code for the feature: ${input:featureId}
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved

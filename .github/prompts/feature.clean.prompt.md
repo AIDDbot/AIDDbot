@@ -1,5 +1,5 @@
 ---
-description: 'Write clean plan for a feature implementation'
+description: "Write clean plan for a feature implementation"
 ---
 
 # Feature Clean Plan
@@ -9,7 +9,7 @@ Write clean plan for the feature: ${input:featureId}
 ## Context
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved

@@ -1,45 +1,53 @@
 ---
-description: 'Clean code best practices for any language'
-applyTo: '**/*.{cs,ts,java}'
+description: "Clean code best practices for any language"
+applyTo: "**/*.{cs,ts,java}"
 ---
-# Clean Code Practices 
+
+# Clean Code Practices
 
 Best practices for writing clean, maintainable, and efficient code across any programming language.
 
-> [!NOTE] 
+> [!NOTE]
 > The term function is used for any callable code block, including methods and procedures.
 
 ## Intentional naming
+
 - Use fully descriptive names for variables and functions.
-- Start with a verb in every function and flag variables (like `is`, `has`, `can`...).  
+- Start with a verb in every function and flag variables (like `is`, `has`, `can`...).
 - Avoid magic numbers and strings by declaring named constants.
 
 ## Avoid complexity
+
 - Divide complex instructions into steps.
 - Use early return guards for invalid (fail fast principle) or trivial cases.
 - Extract inner blocks of conditional or repetitive code.
-  
+
 ## Short functions or methods
+
 - Keep them small and focused.
 - Keep parameters to a minimum by using objects or tuples.
 - Separate pure functions from functions with side effects.
 
 ## Structure the data
+
 - Prefer structures over primitives.
 - Prefer composition over inheritance.
 - Place validations near the definitions.
 
 ## More cohesion, less coupling
+
 - Place together things that change together.
 - Show behavior, hide implementation details.
 - Wrap external dependencies with adapters.
 
 ## Dependencies
+
 - Keep dependencies to a minimum.
 - One and only one direction of dependencies.
 - One and only one level of dependencies (don't talk to strangers).
 
 ## Principles
+
 - YAGNI: You ain't gonna need it (do the minimum).
 - KISS: Keep it simple, stupid (do the simplest thing that could work).
 - DRY: Don't repeat yourself (do the same thing once, use it everywhere).
@@ -49,9 +57,10 @@ Best practices for writing clean, maintainable, and efficient code across any pr
 This rule enforces the principles of Object Calisthenics to ensure clean, maintainable, and robust code in the backend, **primarily for business domain code**.
 
 ### Scope and Application
+
 - **Primary focus**: Business domain classes (aggregates, entities, value objects, domain services)
 - **Secondary focus**: Application layer services and use case handlers
-- **Exemptions**: 
+- **Exemptions**:
   - DTOs (Data Transfer Objects)
   - API models/contracts
   - Configuration classes
@@ -95,8 +104,8 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
        }
    }
    ```
-2. **Don't Use the ELSE Keyword**:
 
+2. **Don't Use the ELSE Keyword**:
    - Avoid using the `else` keyword to reduce complexity and improve readability.
    - Use early returns to handle conditions instead.
    - Use Fail Fast principle
@@ -119,6 +128,7 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
    ```
 
    Sample Fail fast principle:
+
    ```csharp
    public void ProcessOrder(Order order) {
        if (order == null) throw new ArgumentNullException(nameof(order));
@@ -153,11 +163,11 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
            this.value = value;
        }
    }
-   ```   
+   ```
 
 4. **First Class Collections**:
    - Use collections to encapsulate data and behavior, rather than exposing raw data structures.
-First Class Collections: a class that contains an array as an attribute should not contain any other attributes
+     First Class Collections: a class that contains an array as an attribute should not contain any other attributes
 
 ```csharp
    // Bad Example - Exposing raw collection
@@ -186,7 +196,7 @@ First Class Collections: a class that contains an array as an attribute should n
             .Count();
       }
    }
-   ```
+```
 
 5. **One Dot per Line**:
    - Limit the number of method calls in a single line to improve readability and maintainability.
@@ -226,7 +236,7 @@ First Class Collections: a class that contains an array as an attribute should n
 7. **Keep entities small (Class, method, namespace or package)**:
    - Limit the size of classes and methods to improve code readability and maintainability.
    - Each class should have a single responsibility and be as small as possible.
-   
+
    Constraints:
    - Maximum 10 methods per class
    - Maximum 100 lines (excluding blank lines and comments) per class
@@ -252,7 +262,6 @@ First Class Collections: a class that contains an array as an attribute should n
        public void UpdateUser(int id, string name) { /*...*/ }
    }
    ```
-
 
 8. **No Classes with More Than Two Instance Variables**:
    - Encourage classes to have a single responsibility by limiting the number of instance variables.
@@ -300,14 +309,14 @@ First Class Collections: a class that contains an array as an attribute should n
    public class User {  // Domain class
        public string Name { get; set; } // Avoid this in domain classes
    }
-   
+
    // Good Example - Domain class with encapsulation
    public class User {  // Domain class
        private string name;
        private User(string name) { this.name = name; }
        public static User Create(string name) => new User(name);
    }
-   
+
    // Acceptable Example - DTO with public setters
    public class UserDto {  // DTO - exemption applies
        public string Name { get; set; } // Acceptable for DTOs
@@ -315,6 +324,7 @@ First Class Collections: a class that contains an array as an attribute should n
    ```
 
 ### Implementation Guidelines
+
 - **Domain Classes**:
   - Use private constructors and static factory methods for creating instances.
   - Avoid exposing setters for properties.

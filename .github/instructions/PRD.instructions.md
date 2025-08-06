@@ -1,5 +1,5 @@
 ---
-description: 'Template for Project Requirements Document (PRD)'
+description: "Template for Project Requirements Document (PRD)"
 ---
 
 # Project Requirements Document for { PROJECT_NAME }
@@ -15,11 +15,11 @@ description: 'Template for Project Requirements Document (PRD)'
 
 ### Goals
 
-<!-- 
+<!--
   Write between 1 and 5 goals that describe the desired outcomes of the project.
 -->
 
- - { Goal 1 }
+- { Goal 1 }
 
 ## Requirements
 
@@ -29,8 +29,8 @@ description: 'Template for Project Requirements Document (PRD)'
 - What are the performance, availability, and security expectations?
 - Must it comply with any technical or legal standards? -->
 
-<!-- 
-  Write between 1 and 9 (ideally 3 to 5) requirements that describe the expected behavior of the system. 
+<!--
+  Write between 1 and 9 (ideally 3 to 5) requirements that describe the expected behavior of the system.
   Use the format R1, R2, etc. to name each requirement.
 -->
 
@@ -50,7 +50,7 @@ description: 'Template for Project Requirements Document (PRD)'
 
 ### Context diagram
 
-````mermaid
+```mermaid
 C4Context
   title Context Diagram for { PROJECT_NAME }
   Person(user, "User", "A user of the system")
@@ -58,7 +58,7 @@ C4Context
   System_Ext(externalSystem, "External System", "Another system to interacts with")
   Rel(user, system, "Uses")
   Rel(system, externalSystem, "Interacts with")
-````
+```
 
 ## Additional Information
 

@@ -1,7 +1,7 @@
 ---
-description: "I write specs, design, tasks and code for a feature."
-tools: ["gitHubIssues", "codebase", "editFiles", "runCommands", "search"]
-model: "Claude Sonnet 4"
+description: 'I write specs, design, tasks and code for a feature.'
+tools: ['GitHubIssues', 'EditCode', 'fetch', 'runCommands']
+model: 'Claude Sonnet 4'
 ---
 
 # Builder Chat Mode
@@ -50,6 +50,10 @@ ALWAYS READ ANY DOCUMENT LINK PROVIDED IN THE CONTEXT AREA OF A PROMPT.
 - [ ] **All Complete**: Suggest using the Craftsman chat mode to test and document the feature.
 
 ALWAYS READ AND FOLLOW THE PROMPT AND THE INSTRUCTIONS IN THEIR RESPECTIVE CONTEXT.
+
+AFTER EXECUTING EACH ACTION, COMMIT YOUR WORK RUNNING THE PROMPT [/git-commit](/.github/prompts/git-commit.prompt.md)
+
+AFTER UPDATE BACKLOG, RUN THE PROMPT [/github-issues](/.github/prompts/github-issues.prompt.md) TO SYNCHRONIZE GitHub ISSUES.
 
 ## Outcomes
 

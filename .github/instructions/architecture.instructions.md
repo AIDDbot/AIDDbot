@@ -1,7 +1,8 @@
 ---
-description: 'Architecture best practices for any language'
+description: "Architecture best practices for any language"
 applyTo: "**/src/**"
 ---
+
 # Architecture Best Practices
 
 Use a layered architecture to separate concerns and improve maintainability.
@@ -14,6 +15,7 @@ flowchart TD
   B --> C[Persistence Layer]
   C --> D[Database]
 ```
+
 Keep dependencies to a minimum and ensure a single direction of dependencies.
 
 Use the DI of your framework to manage dependencies or pass dependencies explicitly to functions and classes.
@@ -42,7 +44,7 @@ my-project/
 
 > Example:
 
-```txt  
+```txt
 my-monorepo/
 ├── docs/
 ├── package1/
@@ -55,10 +57,12 @@ my-monorepo/
 ```
 
 ### General Guidelines
+
 - Organize code into modules or packages based on functionality.
 - Use a consistent naming convention for files and directories.
 
 ### Directory Layout
+
 - Place all source code in a dedicated `src` directory inside each package.
 - Follow screaming structure : GROUP BY FEATURE not by type.
 - Organize features into three main directories: `core`, `routes | commands`, and `shared`.
@@ -77,7 +81,6 @@ src/
     ├── utils/           # Utility functions
     └── logger/          # Logging utilities
 ```
-
 
 > Example for Web SPA project:
 

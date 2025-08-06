@@ -1,5 +1,5 @@
 ---
-description: 'Template for feature specifications.'
+description: "Template for feature specifications."
 ---
 
 # { Feature Id } {Feature Name} Specification
@@ -12,7 +12,8 @@ description: 'Template for feature specifications.'
 - Product Requirements: { R1 Short Description from PRD.md }
 
 ## User Story 1
-- **As a** { user role }  
+
+- **As a** { user role }
 - **I want to** { user goal }
 - **So that** { benefit }
 

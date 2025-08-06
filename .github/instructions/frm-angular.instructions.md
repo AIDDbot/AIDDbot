@@ -155,7 +155,7 @@ export class UserStoreService {
 
   // Computed signals
   public readonly activeUsers = computed(() =>
-    this.users().filter((user) => user.active)
+    this.users().filter((user) => user.active),
   );
 
   public loadUsers(): void {
@@ -186,7 +186,7 @@ Use `effect()` for side effects that should run when signals change.
 export class GlobalStore {
   private readonly cache: CacheService = inject(CacheService);
   private readonly state: Signal<GlobalState> = signal<GlobalState>(
-    this.getInitialState()
+    this.getInitialState(),
   );
 
   // Effect runs when state changes

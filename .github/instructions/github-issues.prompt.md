@@ -17,7 +17,6 @@ This prompt is used to create or update GitHub issues for each feature listed in
 
 - [ ] Use the #list_issues tool to retrieve existing issues from the GitHub repository.
 - [ ] For each feature in the `BACKLOG.md`:
-
   - [ ] Check if an issue already exists for the feature.
   - [ ] If an issue exists, update it with the latest information from the `BACKLOG.md`.
   - [ ] If no issue exists, create a new issue with the feature details and a link to the `BACKLOG.md`.
@@ -39,13 +38,11 @@ This prompt is used to create or update GitHub issues for each feature listed in
 ### Issue labeling
 
 - [ ] Label issues based on their type:
-
   - `type:enhancement`
   - `type:bug`
   - `type:task`
 
 - [ ] Label issues based on their epic:
-
   - `epic:E1 Epic 1 Short Name`
   - `epic:E2 Epic 2 Short Name`
 

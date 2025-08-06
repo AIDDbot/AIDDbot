@@ -1,8 +1,9 @@
 ---
-mode: 'agent'
-description: 'Install AIDDbot for GitHub Copilot.'
-tools: ['changes', 'editFiles', 'fetch', 'runCommands']
+mode: "agent"
+description: "Install AIDDbot for GitHub Copilot."
+tools: ["changes", "editFiles", "fetch", "runCommands"]
 ---
+
 # Install AIDDbot for GitHub Copilot
 
 Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) to the current repository.
@@ -12,6 +13,7 @@ Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com
 Have the same `.github` directory structure as the source repository, which includes prompts, workflows, and configurations for GitHub Copilot.
 
 ## Context
+
 - The source `.github` directory is at https://github.com/AIcodeAcademy/AIDDbot/tree/main/.github
 - The target `.github` directory is or will be at [/.github](/.github)
 
@@ -41,7 +43,7 @@ Now, use a file system command to copy the `.github` directory and its entire co
 cp -r AIDDbot-temp/.github .
 ```
 
-*Note: The `.` at the end of the command signifies your current directory (the root of your local repository).*
+_Note: The `.` at the end of the command signifies your current directory (the root of your local repository)._
 
 - [ ] **4. Clean up the temporary clone**
 
@@ -59,7 +61,6 @@ The files have been copied to your local file system, but they are not yet part 
 git add .github
 git commit -m "Add .github directory from AIDDbot repository"
 ```
-
 
 You have now successfully copied the `.github` directory from the source repository and added it to your own local repository's history without maintaining any direct Git link to the original source.
 

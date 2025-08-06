@@ -1,5 +1,5 @@
 ---
-description: 'Create the BACKLOG document for a project.'
+description: "Create the BACKLOG document for a project."
 ---
 
 # Backlog Document
@@ -12,9 +12,9 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 ## Context
 
-- [PRD.md](/docs/PRD.md) 
-- [DOMAIN.md](/docs/DOMAIN.md) 
-- [SYSTEMS.md](/docs/SYSTEMS.md) 
+- [PRD.md](/docs/PRD.md)
+- [DOMAIN.md](/docs/DOMAIN.md)
+- [SYSTEMS.md](/docs/SYSTEMS.md)
 
 ## Workflow
 
@@ -26,14 +26,14 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 - [ ] Read and follow the [#BACKLOG](/.github/instructions/BACKLOG.instructions.md) instructions
 
-- [ ] Fill in the placeholders with relevant information about the project. 
+- [ ] Fill in the placeholders with relevant information about the project.
 
 - [ ] Write the backlog in Markdown format at `/docs/BACKLOG.md`.
 
 ## Validation
 
-- [ ] [BACKLOG.md](/docs/BACKLOG.md) exists 
+- [ ] [BACKLOG.md](/docs/BACKLOG.md) exists
 - [ ] Update [README.md](/README.md) with link to this BACKLOG
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) 
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 > End of the BACKLOG prompt.

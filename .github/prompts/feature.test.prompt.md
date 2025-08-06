@@ -1,5 +1,5 @@
 ---
-description: 'Write test plan for a feature implementation'
+description: "Write test plan for a feature implementation"
 ---
 
 # Feature Test Plan
@@ -11,7 +11,7 @@ Write test plan for the feature: ${input:featureId}
 - [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
@@ -20,6 +20,8 @@ Write test plan for the feature: ${input:featureId}
 - If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
 ## Workflow
+
+- [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step and mark the feature as tested in the Backlog.
 
 - [ ] Write a test plan [{featureId}.test.md](/docs/feats/{featureId}.test.md) document that includes:
   - Integration tests

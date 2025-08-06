@@ -1,9 +1,10 @@
 ---
-mode: 'agent'
-description: 'Initialize a new git repository.'
-tools: ['changes', 'editFiles', 'runCommands']
+mode: "agent"
+description: "Initialize a new git repository."
+tools: ["changes", "editFiles", "runCommands"]
 ---
-# Git Init 
+
+# Git Init
 
 Initialize a new git repository
 
@@ -41,7 +42,7 @@ git branch -M main
 - [ ] Use the #editFiles tool to ensure common files are present in the repository, if not, create them:
 
 - `.gitignore` common patterns for environment files, logs, dist and temporary files and folders.
-- `README.md` brief description of the project. 
+- `README.md` brief description of the project.
 - `LICENSE` file with the project's license information, MIT by default.
 
 - [ ] Use the #runCommands tool to make the initial commit:

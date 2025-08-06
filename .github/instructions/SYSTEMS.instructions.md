@@ -1,5 +1,5 @@
 ---
-description: 'Template for SYSTEMS document for a project.'
+description: "Template for SYSTEMS document for a project."
 ---
 
 # Systems Architecture for { PROJECT_NAME }
@@ -15,14 +15,15 @@ description: 'Template for SYSTEMS document for a project.'
 **Purpose:** { Brief description of component responsibility }
 
 **Technology Stack:**
+
 - **Language**: { type_script | java | c-sharp }
 - **Framework**: { angular | express | spring | .net }
 - **Key Libraries**: { library1 }, { library2 }
 
 **Responsibilities:**
+
 - { responsibility1 }
 - { responsibility2 }
-
 
 ## Data Layer
 
@@ -32,10 +33,12 @@ description: 'Template for SYSTEMS document for a project.'
 **Technology:** { postgresql | mongodb | etc. }
 
 **Data Access Patterns:**
+
 - { pattern1 }: { description }
 - { pattern2 }: { description }
 
 **Key Design Decisions:**
+
 - { decision1 }
 - { decision2 }
 
@@ -61,19 +64,19 @@ description: 'Template for SYSTEMS document for a project.'
 ```mermaid
 C4Container
     title Container Diagram for { PROJECT_NAME } (C4 Level 2)
-    
+
     Person(user, "{ User Role }", "{ User Description }")
-    
+
     System_Boundary(system, "{ PROJECT_NAME } System") {
         Container(frontend, "{ Frontend Component Name }", "{ Frontend Technology }", "{ Frontend Description }")
         Container(backend, "{ Backend Component Name }", "{ Backend Technology }", "{ Backend Description }")
         Container(database, "{ Database Component Name }", "{ Database Technology }", "{ Database Description }")
     }
-    
+
     Rel(user, frontend, "Uses", "{ Protocol }")
     Rel(frontend, backend, "Makes API calls to", "{ Protocol }")
     Rel(backend, database, "Reads from and writes to", "{ Protocol }")
-    
+
     UpdateRelStyle(user, frontend, $textColor="blue", $lineColor="blue")
     UpdateRelStyle(frontend, backend, $textColor="green", $lineColor="green")
     UpdateRelStyle(backend, database, $textColor="red", $lineColor="red")

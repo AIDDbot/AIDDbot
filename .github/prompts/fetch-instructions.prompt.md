@@ -1,7 +1,8 @@
 ---
-description: 'Copy custom instructions from the catalog.'
-tools: ['editFiles', 'fetch', 'search', 'runCommands']
+description: "Copy custom instructions from the catalog."
+tools: ["editFiles", "fetch", "search", "runCommands"]
 ---
+
 # Fetch Custom Instructions
 
 - [ ] Use #fetch tool to visit and read the [copilot custom instructions catalog](https://github.com/github/awesome-copilot?tab=readme-ov-file#-custom-instructions)

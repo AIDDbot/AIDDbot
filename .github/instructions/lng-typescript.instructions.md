@@ -1,5 +1,5 @@
 ---
-description: 'TypeScript best practices'
+description: "TypeScript best practices"
 applyTo: "**/*.ts"
 ---
 
@@ -20,16 +20,19 @@ Follow [Clean Code Best Practices](/.github/instructions/clean_code.instructions
 - Annotate always with explicit types. Do it for variables, function parameters and return values.
 
 > Example:
-```ts 
+
+```ts
 const add = (a: number, b: number): string => {
-  const sum:number =  a + b;
+  const sum: number = a + b;
   const result: string = `The sum is ${sum}`;
   return result;
 };
 ```
 
 ### Type declarations
+
 - Avoid primitive obsession and define type aliases in its own `*.type.ts` file.
+
 ```ts
 type Money = {
   amount: number;
@@ -42,14 +45,16 @@ type User = {
   balance: Money;
 };
 ```
+
 - Leverage generics for reusable components
 - Use `type` over `interface` for custom data types.
 - Use `interface` for defining the object behavior.
 - Prefer union types over `enum`.
 - Use `===` and `!==` for equality checks.
 - Define logic functions for runtime validation and formatting.
-  
+
 ### Dealing with unknown or optional values
+
 - Use `unknown` for values that are not known at the time of writing the code.
 - Use `never` for values that are not expected to exist.
 - Use `void` for functions that do not return a value.
@@ -59,14 +64,17 @@ type User = {
 - Do not use `any` (except as a last resort).
 
 ## Modules
+
 - In this context a module is a typescript file that exports a single component.
 
 ### Export
+
 - Export objects with methods rather than standalone functions for better testability.
 - Use named exports over default exports for clarity and better IDE support.
 - Export only one component per file.
 
 ### Import
+
 - Use ES modules (`import`) syntax, not CommonJS (`require`).
 - Destructure imports when possible (eg. `import { foo } from 'bar.ts'`)
 - Import types specifically from the module file (eg. `import type { Foo } from './foo.ts'`)
@@ -75,17 +83,20 @@ type User = {
 ## Functions and methods
 
 ### Declarations over expressions
+
 - Prefer `function` declarations over _arrow => functions_.
 - Only use _arrow => functions_ for callbacks, one-liners, and when preserving parent scope `this`
 
 ### Array methods
+
 - Prefer array functions (`map`, `filter`, `reduce`, `find`, etc.) over traditional `for` loops
 - Use array destructuring and spreading for cleaner array manipulations.
 - Consider array function composition for complex transformations.
 - Use `for...of` loops when you need to break or continue iterations.
 - Resort to traditional `for` loops only for complex control flow or performance-critical sections.
-  
+
 ### Async
+
 - Use `async`/`await` for async code.
 - Mark functions that return promises as `async`.
 - Use `await` for async operations.

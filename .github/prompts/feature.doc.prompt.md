@@ -1,5 +1,5 @@
 ---
-description: 'Write documentation for a feature implementation'
+description: "Write documentation for a feature implementation"
 ---
 
 # Feature Documentation
@@ -9,7 +9,7 @@ Write documentation for the feature: ${input:featureId}
 ## Context
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 
 ## Workflow

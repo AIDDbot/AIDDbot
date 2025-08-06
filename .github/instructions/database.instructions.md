@@ -1,5 +1,5 @@
 ---
-description: 'SQL statements best practices.'
+description: "SQL statements best practices."
 ---
 
 # Database Development
@@ -11,6 +11,7 @@ Store them in a `database` folder in the project root with `*.sql` extension.
 Those files could be run directly against the database, used in migration tools, called from repositories services, or serve as documentation and templates for developers.
 
 ## Database schema generation
+
 - all table names should be in plural form
 - all column names should be in singular form
 - all tables should have a primary key column named `id`
@@ -18,6 +19,7 @@ Those files could be run directly against the database, used in migration tools,
 - all tables should have a column named `updated_at` to store the last update timestamp
 
 ## Database schema design
+
 - all tables should have a primary key constraint
 - all foreign key constraints should have a name
 - all foreign key constraints should be defined inline
@@ -26,6 +28,7 @@ Those files could be run directly against the database, used in migration tools,
 - all foreign key constraints should reference the primary key of the parent table
 
 ## SQL Coding Style
+
 - use uppercase for SQL keywords (SELECT, FROM, WHERE)
 - use consistent indentation for nested queries and conditions
 - include comments to explain complex logic
@@ -33,7 +36,8 @@ Those files could be run directly against the database, used in migration tools,
 - organize clauses consistently (SELECT, FROM, JOIN, WHERE, GROUP BY, HAVING, ORDER BY)
 
 ## SQL Query Structure
-- use explicit column names in SELECT statements instead of SELECT *
+
+- use explicit column names in SELECT statements instead of SELECT \*
 - qualify column names with table name or alias when using multiple tables
 - limit the use of subqueries when joins can be used instead
 - include LIMIT/TOP clauses to restrict result sets
@@ -42,6 +46,7 @@ Those files could be run directly against the database, used in migration tools,
 - avoid using stored procedures
 
 ## SQL Security Best Practices
+
 - parameterize all queries to prevent SQL injection
 - use prepared statements when executing dynamic SQL
 - avoid embedding credentials in SQL scripts
@@ -49,6 +54,7 @@ Those files could be run directly against the database, used in migration tools,
 - avoid using dynamic SQL within stored procedures
 
 ## Transaction Management
+
 - explicitly begin and commit transactions
 - use appropriate isolation levels based on requirements
 - avoid long-running transactions that lock tables

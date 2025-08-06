@@ -1,5 +1,5 @@
 ---
-description: 'Write Feature Implementation Tasks'
+description: "Write Feature Implementation Tasks"
 ---
 
 # Feature Implementation Tasks
@@ -10,7 +10,7 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 
 - [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md) 
+- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [Database Instructions](/.github/instructions/database.instructions.md)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved

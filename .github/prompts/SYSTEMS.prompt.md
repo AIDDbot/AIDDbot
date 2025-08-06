@@ -1,5 +1,5 @@
 ---
-description: 'Create the SYSTEMS document for a project.'
+description: "Create the SYSTEMS document for a project."
 ---
 
 # Systems Architecture Document
@@ -11,8 +11,8 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 ## Context
 
-- [PRD.md](/docs/PRD.md) 
-- [DOMAIN.md](/docs/DOMAIN.md) 
+- [PRD.md](/docs/PRD.md)
+- [DOMAIN.md](/docs/DOMAIN.md)
 
 ## Workflow
 
@@ -35,14 +35,14 @@ In case of doubt, ask the user for clarification.
 
 - [ ] Read and follow the [#SYSTEMS](/.github/instructions/SYSTEMS.instructions.md) instructions
 
-- [ ] Fill in the placeholders with relevant information about the project. 
+- [ ] Fill in the placeholders with relevant information about the project.
 
 - [ ] Write the systems architecture in Markdown format at `/docs/SYSTEMS.md`.
- 
+
 ## Validation
 
-- [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists 
+- [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists
 - [ ] Update [README.md](/README.md) with link to this SYSTEMS
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) 
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 > End of the SYSTEMS prompt.

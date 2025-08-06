@@ -1,7 +1,7 @@
 ---
-mode: 'agent'
-description: 'AIDDbot journal entry with the daily job done.'
-tools: ['editFiles', 'runCommands']
+mode: "agent"
+description: "AIDDbot journal entry with the daily job done."
+tools: ["editFiles", "runCommands"]
 ---
 
 # Journal prompt
@@ -24,9 +24,11 @@ This prompt is used to add a journal entry to the `./docs/JOURNAL.md` file with 
 
 ```markdown
 <!-- Only one entry for each day. Is a summary of the agent daily activities -->
+
 ## { date }
 
 ### { Summary of Actions and Decisions }
+
 - **Chat Modes**: [{ chatMode }]
 - **Executed Prompts**: [{ executedPrompts }]
 - **Instructions Followed**: [{ instructionsFollowed }]
