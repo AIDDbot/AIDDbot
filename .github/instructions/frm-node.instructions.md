@@ -12,12 +12,12 @@ Write code using TypeScript language following [lang TypeScript](/.github/instru
 ## 🚫 AVOID These Dependencies
 
 **Never install these when using modern Node.js:**
-- `ts-node` - Not needed with native TypeScript support
-- `nodemon` - Use `node --watch` instead
-- `jest` or any other testing library  (Use native `node --test` instead)
-- `tsx` - Not needed with native support
-- Any ORM or database abstraction layer 
-- Axios or any HTTP client library (use native `node:http` or `node:https`)
+- _ts-node_ - Not needed with native TypeScript support
+- _nodemon_ - Use `node --watch` instead
+- _jest_ or any other testing library  (Use native `node --test` instead)
+- _tsx_ - Not needed with native support
+- Any ORM or database abstraction layer
+- _axios_ or any HTTP client library (use native `node:http` or `node:https`)
 - Any TypeScript compilation loaders
 
 ## ✔️ Allowed dependencies
@@ -111,5 +111,10 @@ Use minimal tsconfig.json for type checking only (no compilation):
   }
 }
 ```
+
+## Best Practices update to 2025
+
+Read and follow these best practices to write modern Node.js applications in TypeScript:
+[Modern Node.js Patterns (2025)](./frm-node_2025.instructions.md)
 
 > End of Node.js with TypeScript Best Practices.
