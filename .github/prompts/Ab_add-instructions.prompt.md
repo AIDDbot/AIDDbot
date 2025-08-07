@@ -44,7 +44,7 @@ Type can be:
 - `lng` for languages
 - `pck` for packages or tools
 
-Try to use simple examples and keep the instructions file concise, ideally under 100 lines.
+Try to use simple examples and keep the instructions file concise, ideally under 250 lines.
 
 **Required sections for each instruction file:**
 
