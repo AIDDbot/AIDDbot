@@ -1,7 +1,5 @@
 ---
 description: "Create or update a GitHub issue for each feature in the BACKLOG document."
-tools: ["gitHubIssues"]
-mode: "agent"
 ---
 
 # GitHub Issues

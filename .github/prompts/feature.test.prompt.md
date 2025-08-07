@@ -23,16 +23,23 @@ Write test plan for the feature: ${input:featureId}
 
 - [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step and mark the feature as tested in the Backlog.
 
-- [ ] Write a test plan [{featureId}.test.md](/docs/feats/{featureId}.test.md) document that includes:
+- [ ] Write a test plan [{featureId}.test.md](/docs/feats/{featureId}.test.md) document that may include:
+  - Unit tests
   - Integration tests
   - End-to-end tests (using Playwright for web and api applications)
+
 - [ ] Execute the tasks in the order they are listed.
+
 - [ ] Mark each task as complete by updating the status in the [{featureId}.test.md](/docs/feats/{featureId}.test.md) document.
-- [ ] Run the tests to ensure they pass.
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the status 🟢 CODED.
+
+- [ ] **Run the Test**: Run the tests to ensure they pass.
+
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status ✔️ CODED by running [/backlog-update](/.github/prompts/backlog-update.prompt.md) .
+
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) and type test message.
 
 ## Validation
 
-- [ ] **Run the Test**: Run the tests to ensure they pass.
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature test link and status
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with test type message
+
+> End of Feature Test Plan prompt.

@@ -39,6 +39,8 @@ In case of doubt, ask the user for clarification.
 
 - [ ] Write the systems architecture in Markdown format at `/docs/SYSTEMS.md`.
 
+- Run the [/Ab_add-instructions](../prompts/Ab-add-instructions.prompt.md) to get instructions for the languages, frameworks, and libraries mentioned in the SYSTEMS document.
+
 - [ ] Update [README.md](/README.md) with link to this SYSTEMS document.
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)

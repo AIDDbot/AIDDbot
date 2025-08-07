@@ -12,9 +12,9 @@ Create a BACKLOG document that outlines the epics and features for the project a
 - The backlog should contain a markdown table with the following columns:
   - Epic
   - Priority: ‼️ Critical ❗ High ❕ Normal
-  - Feature Status: A set of features, represented with color by status 🔵 🟢 🟡 🟠 🔴
+  - Feature Status: A set of features, represented with color by status ✔️ ✅ 📝 ⏳ ❌
 
-> Feature Status Legend: 🔵 RELEASED 🟢 CODED 🟡 DESIGNED 🟠 PENDING 🔴 BLOCKED
+> Feature Status Legend: ✔️ RELEASED | ✅ CODED | 📝 DESIGNED | ⏳ PENDING | ❌ BLOCKED
 
 ## Context
 
@@ -42,7 +42,7 @@ Create a BACKLOG document that outlines the epics and features for the project a
   
 - [ ] Update [README.md](/README.md) with link to this BACKLOG
 
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 ## Validation
 

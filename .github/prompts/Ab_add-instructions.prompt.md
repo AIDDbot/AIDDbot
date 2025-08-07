@@ -20,30 +20,38 @@ Generate comprehensive instruction files for each library dependency specified i
   - Production and development dependencies
   - Built-in framework packages
   - Language-specific libraries
-- [ ] Check [/.github/instructions](/.github/instructions) directory for existing library instruction files
-- [ ] Create a list of missing library instruction files needed
+  - Any other relevant packages or tool
+- [ ] Double-check the [/.github/instructions](/.github/instructions) directory for existing library instruction files
+- [ ] Create a list of missing instruction files needed
 
 ### 2. Research and Generation
 
 For each missing library instruction file:
 
-- [ ] Run the [fetch-instructions](./fetch-instructions.prompt.md) to copy instructions from the GitHub awesome catalog if present.
+- [ ] Use #fetch tool to visit and read the [copilot custom instructions catalog](https://github.com/github/awesome-copilot?tab=readme-ov-file#-custom-instructions)
 - [ ] Use #fetch tool to research the official documentation and best practices
-- [ ] Gather comprehensive information about the lib, framework, or package.
+- [ ] Use #fetch tool to ask in Google for instructions, rules or other LLM best practices
+- [ ] Summarize findings and create a draft for the instruction file.
 
 ### 4. File Creation
 
-Create instruction files following this naming convention: `lib-{library_name}.instructions.md`
+Create instruction files following this naming convention: `{type}-{name}.instructions.md`
+
+Type can be:
+- `lib` for libraries
+- `frm` for frameworks
+- `lng` for languages
+- `pck` for packages or tools
 
 **Required sections for each instruction file:**
 
 ```markdown
 ---
-description: "{Library Name} best practices and usage guidelines"
-applyTo: "**/*.{lang extension}"
+description: "{Name} best practices and usage guidelines"
+applyTo: "**/*.{lang extension if applicable}"
 ---
 
-# {Library Name} Instructions
+# {Name} Instructions
 
 ## Overview
 
@@ -52,8 +60,6 @@ applyTo: "**/*.{lang extension}"
 ## Core Concepts
 
 ## Best Practices
-
-## Common Patterns
 
 ```
 

@@ -6,10 +6,11 @@ description: "Template for feature specifications."
 
 { Briefly describe the feature and its purpose. }
 
-- Epic: { Epic Id }
-- Priority: { ‼️ Critical ❗ High ❕ Normal }
-- Status: { 🟢 DONE 🟡 IN PROGRESS 🔵 TODO 🔴 BLOCKED }
-- Product Requirements: { R1 Short Description from PRD.md }
+- **Epic**: { Epic Id }
+- **Priority**: { ‼️ Critical ❗ High ❕ Normal }
+- **Product Requirements**: 
+  
+- { R1 Short Description from PRD.md }
 
 ## User Story 1
 

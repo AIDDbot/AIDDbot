@@ -31,13 +31,11 @@ Write clean plan for the feature: ${input:featureId}
 
 - [ ] Look for any code that can be simplified or made more readable and refactor it
 
-- [ ] Run the tests to ensure they still pass.
-
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the status 🟢 CODED.
-
 - [ ] **Run the Test**: Run the tests to ensure they pass.
 
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status ✔️ CODED by running [/backlog-update](/.github/prompts/backlog-update.prompt.md) .
+
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
 
 ## Validation
 

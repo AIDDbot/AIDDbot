@@ -95,17 +95,17 @@ B --> C[Component C]
 
 ### Unit Testing
 
-- {Unit testing approach}
-- {Key components to test}
+- {Unit testing approach if applicable}
+- {Key components to test if any}
 
 ### Integration Testing
 
-- {Integration testing approach}
-- {Key flows to test}
+- {Integration testing approach if applicable}
+- {Key flows to test if any}
 
 ### End-to-End Testing
 
-- {E2E testing approach}
-- {User scenarios to test}
+- {User scenarios to test if applicable}
+- {E2E testing approach if any}
 
 > End of Feature Design for { Feature Id }, last updated { DATE }.

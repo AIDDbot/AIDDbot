@@ -41,6 +41,8 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 
 - [ ] **Design Missing, Create Design**: Run the [/feature.design](../prompts/feature.design.prompt.md) prompt to create a design document for the feature.
 
+- [ ] Stop here and allow the user to review the specifications and design before proceeding with implementation.
+
 ### Code Implementation Actions
 
 - [ ] Ask the user before running the code generation prompt to allow him to review the specifications and design.
