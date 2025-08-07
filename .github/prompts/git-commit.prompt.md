@@ -1,7 +1,6 @@
 ---
 mode: 'agent'
 description: 'Commit changes to the repository.'
-tools: ['changes', 'runCommands']
 ---
 
 # Git Commit
@@ -17,6 +16,7 @@ Keep commits linked to features, tasks, or issues when applicable.
 ## Context
 
 - Use the #changes tool to track changes in the repository.
+- Read the [Backlog](/docs/BACKLOG.md) to understand the context of the changes if applicable.
 
 ## Workflow
 
