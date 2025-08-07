@@ -24,50 +24,42 @@ This prompt is used to create or update GitHub issues for each feature listed in
 - [ ] Use the following template for each issue:
 
 ```markdown
-### Feature: { Feature Short Name }
+# Feature: { F1.1, F1.2, etc. } - { Feature Short Name }
 
-- **Epic**: { Epic Short Name }
-- **Priority**: { ‼️ Critical ❗ High ❕ Normal }
-- **Status**: { 🔵 RELEASED 🟢 CODED 🟡 DESIGNED 🟠 PENDING 🔴 BLOCKED }
-- **Dependencies**: { List of dependencies or none }
-- **Feature Documentation**: [Link to Feature Spec]({ link to feature spec })
+- **Epic**: { Epic code } { Epic Short Name } { Epic Priority ‼️ Critical ❗ High ❕ Normal }
 
-{ Feature Short Description }
+## Definition
+{ Content from Feature Section from Backlog }
+
+## Specification
+{ Content from Feature specs file, if exists }
+
+## Design
+{ Content from Feature design file, if exists }
+
 ```
 
 ### Issue labeling
 
 - [ ] Label issues based on their type:
-  - `type:enhancement`
+  - `type:enhancement` (default for features)
   - `type:bug`
   - `type:task`
 
 - [ ] Label issues based on their epic:
-  - `epic:E1 Epic 1 Short Name`
-  - `epic:E2 Epic 2 Short Name`
+  - `epic: {E1 Epic 1 Short Name}`
+  - `epic: {E2 Epic 2 Short Name}`
 
-- [ ] Label issues based on their status:
-  - `status🔵 RELEASED`
-  - `status🟢 CODED`
-  - `status🟡 DESIGNED`
-  - `status🟠 PENDING`
-  - `status🔴 BLOCKED`
+- [ ] Label issues based on their status (remove and add ensuring only one status label is present):
+  - `status: 🔵 RELEASED`
+  - `status: 🟢 CODED`
+  - `status: 🟡 DESIGNED`
+  - `status: 🟠 PENDING`
+  - `status: 🔴 BLOCKED`
 
 ### Issue linking
 
 - [ ] Link issues to the corresponding feature in the `BACKLOG.md` using the issue ID for commit reference.
-
-### Example Issue
-
-```markdown
-### F1.1 Package Configuration [#1](https://github.com/AIDDbot/ArchetypeNodeCLI/issues/1) 🔴 BLOCKED
-
-- **Dependencies:** none
-- **Feature documentation Links:**
-  - [GitHub Issue #1](https://github.com/AIDDbot/ArchetypeNodeCLI/issues/1)
-
-Setup package.json with modern Node.js configuration, TypeScript support, and essential scripts using only allowed dependencies (Chalk, Commander, Zod).
-```
 
 ## Validation
 

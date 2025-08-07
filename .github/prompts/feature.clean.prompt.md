@@ -20,16 +20,25 @@ Write clean plan for the feature: ${input:featureId}
 ## Workflow
 
 - [ ] Use the #runCommands tool run any linter or formatter to clean the code.
+
 - [ ] Use the #getTerminalOutput tool to check the output of the linter or formatter and fix any issues.
+
 - [ ] Read the code related to the feature in the [{featureId}.design.md](/docs/feats/{featureId}.design.md) document.
+
 - [ ] Look for any code smells or anti-patterns in the code and fix them.
+
 - [ ] Look for duplicated or easy to abstract code and refactor it.
+
 - [ ] Look for any code that can be simplified or made more readable and refactor it
+
 - [ ] Run the tests to ensure they still pass.
+
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the status 🟢 CODED.
+
+- [ ] **Run the Test**: Run the tests to ensure they pass.
+
+- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
 
 ## Validation
 
-- [ ] **Run the Test**: Run the tests to ensure they pass.
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature test link and status
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
