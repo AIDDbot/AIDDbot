@@ -29,12 +29,13 @@
     "DOMAIN.md": "architecture",
     "PRD.md": "architecture",
     "SYSTEMS.md": "architecture",
-    "BACKLOG.md": "conduct",
-    "JOURNAL.md": "changelog",
     "STRUCTURE.md": "tree",
+    "JOURNAL.md": "robot",
+    "BACKLOG.md": "conduct",
     "*.test.md": "verified",
     "*.spec.md": "conduct",
+    "*.design.md": "conduct",
     "*.tasks.md": "conduct",
     "*.template.md": "template"
-  }
+  },
 }
