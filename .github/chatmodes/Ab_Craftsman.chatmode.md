@@ -30,7 +30,7 @@ Write high-quality tests, perform code reviews, and create documentation to ensu
 
 - [ ] **Documentation Missing, Create Documentation**: Run the [/feature.doc](../prompts/feature.doc.prompt.md) prompt to create documentation for the feature.
 
-- [ ] **All Complete**: Suggest using the Builder chat mode implement the next pending feature.
+- [ ] **All Complete**: Suggest merging and continue using the Builder chat mode to implement the next pending feature.
 
 ## Outcomes
 
