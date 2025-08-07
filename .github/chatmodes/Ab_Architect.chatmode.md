@@ -1,6 +1,6 @@
 ---
 description: 'I write a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
-tools: ['editFiles', 'fetch', 'runCommands', 'search' ]
+tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 model: 'Claude Sonnet 4'
 ---
 
