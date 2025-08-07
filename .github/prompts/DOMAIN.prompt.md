@@ -35,10 +35,12 @@ In case of doubt, ask the user for clarification.
 
 - [ ] Write the domain model in Markdown format at `/docs/DOMAIN.md`.
 
+- [ ] Update [README.md](/README.md) with link to this DOMAIN document.
+
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+
 ## Validation
 
 - [ ] [DOMAIN.md](/docs/DOMAIN.md) exists
-- [ ] Update [README.md](/README.md) with link to this DOMAIN document
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 > End of DOMAIN prompt.

@@ -15,7 +15,7 @@ This document will serve as the foundation for all subsequent design and develop
 ## Context
 
 - [README.md](/README.md)
-- [docs](/docs) folder
+- [docs](/docs) Any other document at the docs folder
 - The current git user profile to set the author and committer information.
 - Offer the user the option to add files to the [docs](/docs) folder for additional context.
   - Offer the #fetch tool for retrieving existing documentation or resources from a URL.
@@ -32,10 +32,12 @@ This document will serve as the foundation for all subsequent design and develop
 
 - [ ] Write the PRD in Markdown format at `/docs/PRD.md`.
 
+- [ ] Update [README.md](/README.md) with link to this PRD
+
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+
 ## Validation
 
 - [ ] [PRD.md](/docs/PRD.md) exists
-- [ ] Update [README.md](/README.md) with link to this PRD
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 > End of the PRD prompt.

@@ -39,10 +39,12 @@ In case of doubt, ask the user for clarification.
 
 - [ ] Write the systems architecture in Markdown format at `/docs/SYSTEMS.md`.
 
+- [ ] Update [README.md](/README.md) with link to this SYSTEMS document.
+
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+
 ## Validation
 
 - [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists
-- [ ] Update [README.md](/README.md) with link to this SYSTEMS
-- [ ] Run [/git-commit](/.github/prompts/git-commit.prompt.md)
 
 > End of the SYSTEMS prompt.
