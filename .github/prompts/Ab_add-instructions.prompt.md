@@ -9,6 +9,7 @@ Generate comprehensive instruction files for each library dependency specified i
 ## Context
 
 - [SYSTEMS.md](/docs/SYSTEMS.md) - Contains the technology stack and approved dependencies
+- [Clean Code Instructions](/.github/instructions/clean_code.instructions.md) - Example of an existing instruction file
 - [/.github/instructions](/.github/instructions) - Existing instruction files directory
 - [fetch-instructions](./fetch-instructions.prompt.md) - Fetches custom instructions from the GitHub awesome catalog
 
@@ -43,6 +44,8 @@ Type can be:
 - `lng` for languages
 - `pck` for packages or tools
 
+Try to use simple examples and keep the instructions file concise, ideally under 100 lines.
+
 **Required sections for each instruction file:**
 
 ```markdown
@@ -60,6 +63,7 @@ applyTo: "**/*.{lang extension if applicable}"
 ## Core Concepts
 
 ## Best Practices
+
 
 ```
 
