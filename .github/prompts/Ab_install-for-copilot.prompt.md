@@ -6,7 +6,7 @@ tools: ["changes", "editFiles", "fetch", "runCommands"]
 
 # Install AIDDbot for GitHub Copilot
 
-Copy the `.github` directory from the [AIcodeAcademy/AIDDbot](https://github.com/AIcodeAcademy/AIDDbot) to the current repository.
+Copy the `.github` directory from the [AIDDbot/AIDDbot](https://github.com/AIDDbot/AIDDbot) to the current repository.
 
 ## Goal
 
@@ -14,7 +14,7 @@ Have the same `.github` directory structure as the source repository, which incl
 
 ## Context
 
-- The source `.github` directory is at https://github.com/AIcodeAcademy/AIDDbot/tree/main/.github
+- The source `.github` directory is at https://github.com/AIDDbot/AIDDbot/tree/main/.github
 - The target `.github` directory is or will be at [/.github](/.github)
 
 ## Workflow
@@ -29,10 +29,10 @@ cd /path/to/your/local/repo
 
 - [ ] **2. Clone the source repository to a temporary location**
 
-This command will create a local copy of the `AIcodeAcademy/AIDDbot` repository in a new directory named `AIDDbot-temp`. This temporary clone is what we will use to grab the `.github` folder.
+This command will create a local copy of the `AIDDbot/AIDDbot` repository in a new directory named `AIDDbot-temp`. This temporary clone is what we will use to grab the `.github` folder.
 
 ```bash
-git clone -b main --single-branch https://github.com/AIcodeAcademy/AIDDbot.git AIDDbot-temp
+git clone -b main --single-branch https://github.com/AIDDbot/AIDDbot.git AIDDbot-temp
 ```
 
 - [ ] **3. Copy the `.github` directory**
