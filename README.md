@@ -26,11 +26,11 @@ _Ab_ can work with any AI-powered code editor, such as:
 
 ### 🤖 Chat mode
 
-There is now a single chat mode: **AIDDD**.
+There is now a single chat mode: **AIDD**.
 
-- **[AIDDD Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: The unified mode for architecture, building, and craftsmanship workflows.
+- **[AIDD Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: The unified mode for architecture, building, and craftsmanship workflows.
 
-Old modes are now role prompts you can invoke inside AIDDD to set focus:
+Roles are prompts you can invoke inside AIDD to set focus:
 
 - **[Architect role prompt](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect`
 - **[Builder role prompt](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder`

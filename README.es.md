@@ -3,7 +3,7 @@
 
 ![AIDDbot coding agents](./AIDD-bot.png)
 
-**AIDDbot**, también conocido como _Ab_ pronunciado "/ab/", es un agente potenciado por IA para asistir a ingenieros de software en sus tareas diarias. Puede ayudar con la documentación de producto, la generación de código, las pruebas de calidad y demás tareas.
+**AIDDbot**, es un agente potenciado por IA para asistir a ingenieros de software en sus tareas diarias. Puede ayudar con la documentación de producto, la generación de código, las pruebas de calidad y demás tareas.
 
 Consiste en un **conjunto de prompts, instrucciones, reglas y herramientas** que permiten al agente realizar sus tareas de manera efectiva.
 
@@ -32,11 +32,11 @@ Puede trabajar con cualquier editor de código potenciado por IA, como:
 
 ### 🤖 Modo de chat
 
-Ahora hay un único modo de chat: **AIDDD**.
+Ahora hay un único modo de chat: **AIDD**.
 
-- **[Modo AIDDD](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: Modo unificado para arquitectura, construcción e ingeniería de calidad.
+- **[Modo AIDD](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: Modo unificado para arquitectura, construcción e ingeniería de calidad.
 
-Los modos antiguos pasan a ser prompts de rol que puedes invocar dentro de AIDDD para enfocar el trabajo:
+Los roles son prompts de rol que puedes invocar dentro de AIDD para enfocar el trabajo:
 
 - **[Prompt de rol Arquitecto](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect`
 - **[Prompt de rol Constructor](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder`
