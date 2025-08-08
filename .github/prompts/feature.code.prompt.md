@@ -17,13 +17,11 @@ Write code for the feature: ${input:featureId}
 - [lib-{library} Instructions](/.github/instructions/lib-{library}.instructions.md) for any specific library involved
 - [pck-{package} Instructions](/.github/instructions/pck-{package}.instructions.md) for any specific package involved
 
-- If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
   
 ## Workflow
 
 - [ ] Create a new git branch named `feat/{featureId}` and switch to it.
 
-- [ ] Read the [{featureId}.design.md](/docs/feats/{featureId}.design.md) document.
 
 - [ ] Read the tasks in the [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md) document.
 

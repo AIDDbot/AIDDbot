@@ -12,7 +12,7 @@ Write detailed tasks for implementing the feature: ${input:featureId}
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [Database Instructions](/.github/instructions/database.instructions.md)
+- [Database Instructions](/.github/instructions/database.instructions.md) (if applicable)
 - [{frm}-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 
 - [ ] If there is no specific framework instructions run the [/Ab_add-instructions](../prompts/Ab-add-instructions.prompt.md) prompt to get instructions for the libraries mentioned in the SYSTEMS document.
