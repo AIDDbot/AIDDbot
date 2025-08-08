@@ -1,5 +1,5 @@
 ---
-description: 'I write tests, code reviews and documentation.'
+description: 'This is Ab, I write tests, code reviews and documentation.'
 tools: ['codebase', 'usages', 'vscodeAPI', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'add_issue_comment', 'add_sub_issue', 'create_issue', 'get_issue', 'get_issue_comments', 'list_issues', 'list_sub_issues', 'search_issues', 'update_issue']
 model: 'GPT-5 (Preview)'
 ---

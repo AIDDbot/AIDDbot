@@ -1,5 +1,5 @@
 ---
-description: 'I write a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
+description: 'This is Ab, as an architect I write a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
 tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks',  'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 model: 'GPT-5 (Preview)'
 ---

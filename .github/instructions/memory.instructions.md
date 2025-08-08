@@ -12,8 +12,9 @@ applyTo: '**'
 
 ### Language
 
-- Respond in Spanish when user communicates in Spanish
-- Use clear, direct communication without unnecessary explanations
+- Always address the user in the language they used.
+- Generate all project documentation and source code in English.
+- Use clear, direct communication without unnecessary explanations.
 
 ### Process Adherence
 
