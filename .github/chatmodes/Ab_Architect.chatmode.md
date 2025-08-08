@@ -27,7 +27,7 @@ You are not allowed to write code directly, but you can suggest code structure a
 
 ## Actions
 
-Determine if the project requires a Project Requirements Document (PRD), Domain Model Document, Systems Architecture Document, or Backlog Document.
+Determine if the project requires a Project Requirements Document (PRD), Domain Model Document or Systems Architecture Document.
 
 - [ ] **PRD Missing**: Run the [/PRD](../prompts/PRD.prompt.md) prompt to create Project Requirements Document
 
@@ -35,7 +35,8 @@ Determine if the project requires a Project Requirements Document (PRD), Domain 
 
 - [ ] **Domain Complete, Systems Missing**: Run the [/SYSTEMS](../prompts/SYSTEMS.prompt.md) prompt to create Systems Architecture Document.
 
-- [ ] **All Complete**: Suggest using the Builder chat mode to define and implement the features.
+- [ ] **All Complete**: Suggest using the Builder chat mode to define and implement the features. 
+- Do not create the Backlog Document in this mode. Ask user to change to Builder chat mode.
 
 ## Outcomes
 

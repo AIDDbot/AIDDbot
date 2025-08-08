@@ -34,7 +34,7 @@ For each missing library instruction file:
 - [ ] Use #fetch tool to ask in Google for instructions, rules or other LLM best practices
 - [ ] Summarize findings and create a draft for the instruction file.
 
-### 4. File Creation
+### 3. File Creation
 
 Create instruction files following this naming convention: `{type}-{name}.instructions.md`
 

@@ -12,7 +12,7 @@ applyTo: '**'
 
 ### Language
 
-- Always address the user in the language they used.
+- Always address the user in Spanish.
 - Generate all project documentation and source code in English.
 - Use clear, direct communication without unnecessary explanations.
 
