@@ -2,7 +2,7 @@
 
 ![AIDDbot coding agents](./AIDD-bot.png)
 
-**AIDDbot**, also known as _Ab_ pronounced "/ab/", is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and other tasks.
+**AIDDbot**, is an AI-powered agent to assist software engineers in their daily tasks. It can help with product documentation, code generation, quality testing, and other tasks.
 
 It consists of a set of prompts, instructions, rules, and tools that allow the agent to perform their tasks effectively.
 
