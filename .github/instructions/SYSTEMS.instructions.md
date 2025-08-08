@@ -59,6 +59,37 @@ description: "Template for SYSTEMS document for a project."
 **Session Management:** { session_approach }
 **Authorization Pattern:** { authorization_pattern }
 
+## Tech Stack
+
+This index lists the tech stack instruction, their scope, and precedence.
+
+### Bill of Materials
+
+- **Frontend**
+  - Language: { frontend_language }
+  - Framework: { frontend_framework }
+  - Libraries: { frontend_libraries }
+  - Packages: { frontend_package_manager }
+
+- **Backend**
+  - Language: { backend_language }
+  - Framework: { backend_framework }
+  - Libraries: { backend_libraries }
+  - Packages: { backend_package_manager }
+
+- **Database**
+  - Type: { database_type }
+  - Technology: { database_technology }
+
+### Instructions 
+
+- Find specific instructions for any tech at `.github/instructions/`
+- Pattern naming conventions: {<tech>}-{<type>}.instructions.md (e.g., lib-zod.instructions.md)
+- Precedence: 
+  - Specific over general (pack > lib > frm > lng > general)
+  - Year/versioned over generic when both exist (e.g., frm-node_2025 over frm-node)
+
+
 ## System Architecture Diagram
 
 ```mermaid
