@@ -28,17 +28,21 @@ Puede trabajar con cualquier editor de código potenciado por IA, como:
 
 ## ℹ️ Uso para GitHub Copilot
 
-> El chat de GitHub Copilot funciona de serie en tres modos, `Ask`, `Edit` y `Agent`. Con AIDDbot se agregan otros tres. Lee más sobre [Modos de Chat.](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
+> El chat de GitHub Copilot funciona de serie en tres modos, `Ask`, `Edit` y `Agent`. Con AIDDbot ahora se agrega un modo unificado. Lee más sobre [Modos de Chat.](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
 
-### 🤖 Modos de chat
+### 🤖 Modo de chat
 
-Hay tres modos principales de chat disponibles para _Ab_, uno para cada rol de `AIDD`:
+Ahora hay un único modo de chat: **AIDDD**.
 
-- **[Modo Arquitecto/Ab_Architect](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Architect.chatmode.md)**: Para definir requisitos de producto y soluciones técnicas.
-- **[Modo Constructor/Ab_Builder](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Builder.chatmode.md)**: Para gestión de funcionalidades y generación de código.
-- **[Modo Artesano/Ab_Craftsman](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Craftsman.chatmode.md)**: Para asegurar la calidad mediante pruebas y documentación.
+- **[Modo AIDDD](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: Modo unificado para arquitectura, construcción e ingeniería de calidad.
 
-Cada modo ofrece un conjunto de _prompts_ y elige las _herramientas_ adaptadas a su rol específico, permitiendo al agente realizar sus tareas de manera efectiva.
+Los modos antiguos pasan a ser prompts de rol que puedes invocar dentro de AIDDD para enfocar el trabajo:
+
+- **[Prompt de rol Arquitecto](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect`
+- **[Prompt de rol Constructor](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder`
+- **[Prompt de rol Artesano](/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman`
+
+Usa primero un prompt de rol y luego ejecuta los prompts de tarea específicos listados abajo.
 
 ### 📋 Prompts
 

@@ -24,15 +24,19 @@ _Ab_ can work with any AI-powered code editor, such as:
 
 ## ℹ️ Usage for GitHub Copilot
 
-### 🤖 Chat modes
+### 🤖 Chat mode
 
-There are three main chat modes available for _Ab_, one for each `AIDD` role:
+There is now a single chat mode: **AIDDD**.
 
-- **[Architect Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Architect.chatmode.md)**: For defining product requirements and technical solutions.
-- **[Builder Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Builder.chatmode.md)**: For features management and code generation.
-- **[Craftsman Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Craftsman.chatmode.md)**: For ensuring the quality through testing and documentation.
+- **[AIDDD Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**: The unified mode for architecture, building, and craftsmanship workflows.
 
-Each mode offers a set of _prompts_ and chooses the _tools_ tailored to its specific role, allowing the agent to perform its tasks effectively.
+Old modes are now role prompts you can invoke inside AIDDD to set focus:
+
+- **[Architect role prompt](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect`
+- **[Builder role prompt](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder`
+- **[Craftsman role prompt](/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman`
+
+Use a role prompt first, then run the specific task prompts listed below.
 
 ### 📋 Prompts
 

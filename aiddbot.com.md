@@ -8,42 +8,20 @@ In essence, **AIDDbot** consists of a set of prompts, instructions, rules, and t
 
 AIDD stands for AI Driven Development, a philosophy that combines the power of AI with software development best practices. It aims to enhance productivity, code quality, and collaboration among developers in the full software development lifecycle.
 
-The [AIDDbot](https://github.com/AIDDbot/AIDDbot) agent follows AIDD principles and comes with three main roles:
+The [AIDDbot](https://github.com/AIDDbot/AIDDbot) agent follows AIDD principles and now runs under a single unified mode: **AIDDD**.
 
-### Architect 
+### AIDDD (Unified Mode)
 
-> **[Architect Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Architect.chatmode.md)**
+> **[AIDDD Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/AIDDbot.chatmode.md)**
 
-Helps in defining product requirements and managing the development process.
+A single mode to cover architecture, building, and craftsmanship. Choose your focus by invoking a role prompt and then run the task prompts:
 
-- **PRD generation**  It generates a Product Requirements Document based on the provided specifications.
-- **Domain Modeling**  It creates a domain model based on the provided requirements.
-- **Systems Architecture** It generates a systems architecture diagram based on the provided specifications.
-
-### Builder: 
-
-> **[Builder Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Builder.chatmode.md)**
-
-Helps in managing the development process for the entire product and each feature.
-
-For the entire product 
-- **Backlog Management**  It helps in managing the product backlog and prioritizing features.
-
-Focuses on code generation and implementation of one feature at a time.
-- **Feature Specification**  It generates specifications for a feature based on the provided requirements.
-- **Feature Design** It creates a design document for the feature.
-- **Implementation Plan** It outlines the tasks required to implement the feature.
-- **Feature Code** It writes the code for the feature by executing the implementation plan.
-
-### Craftsman
-
-> **[Craftsman Chat Mode](https://github.com/AIDDbot/AIDDbot/blob/main/.github/chatmodes/Ab_Craftsman.chatmode.md)**
-
-Ensures the quality of the code through automated testing and documentation.
-
-- **Automated Testing** It generates automated tests for the provided code.
-- **Code Review** It performs a code review based on the feature changes.
-- **Documentation Generation** It creates documentation for the provided code.
+- Architect role prompt: sets strategic and design focus.
+  - PRD generation, Domain Modeling, Systems Architecture
+- Builder role prompt: sets coding and delivery focus.
+  - Backlog Management, Feature Spec/Design/Tasks/Code
+- Craftsman role prompt: sets quality and documentation focus.
+  - Automated Testing, Code Review, Documentation
 
 > Heavily inspired by : 
 
