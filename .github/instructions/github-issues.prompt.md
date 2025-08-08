@@ -1,7 +1,5 @@
 ---
 description: "Create or update a GitHub issue for each feature in the BACKLOG document."
-tools: ["gitHubIssues"]
-mode: "agent"
 ---
 
 # GitHub Issues
@@ -10,7 +8,7 @@ This prompt is used to create or update GitHub issues for each feature listed in
 
 ## Context
 
-- [BACKLOG.md](/docs/BACKLOG.md) - The document containing the list of features and their statuses.
+- [BACKLOG.md](../../docs/BACKLOG.md) - The document containing the list of features and their statuses.
 - Use the #list_issues tool to retrieve existing issues.
 
 ## Workflow
@@ -28,7 +26,7 @@ This prompt is used to create or update GitHub issues for each feature listed in
 
 - **Epic**: { Epic Short Name }
 - **Priority**: { ‼️ Critical ❗ High ❕ Normal }
-- **Status**: { 🔵 RELEASED 🟢 CODED 🟡 DESIGNED 🟠 PENDING 🔴 BLOCKED }
+- **Status**: { ✔️ RELEASED | ✅ CODED | 📝 DESIGNED | ⏳ PENDING | ❌ BLOCKED }
 - **Dependencies**: { List of dependencies or none }
 - **Feature Documentation**: [Link to Feature Spec]({ link to feature spec })
 
@@ -47,11 +45,11 @@ This prompt is used to create or update GitHub issues for each feature listed in
   - `epic:E2 Epic 2 Short Name`
 
 - [ ] Label issues based on their status:
-  - `status🔵 RELEASED`
-  - `status🟢 CODED`
-  - `status🟡 DESIGNED`
-  - `status🟠 PENDING`
-  - `status🔴 BLOCKED`
+  - `status✔️ RELEASED`
+  - `status✅ CODED`
+  - `status📝 DESIGNED`
+  - `status⏳ PENDING`
+  - `status❌ BLOCKED`
 
 ### Issue linking
 

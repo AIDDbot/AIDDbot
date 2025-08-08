@@ -27,7 +27,7 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 
 ### Product wide Actions
 
-- [ ] **Lib instructions**: Run the [/lib-instructions](lib-instructions.prompt.md) prompt to instructions specifics for the libraries mentioned in the SYSTEMS document.
+- [ ] **Lib instructions**: Run the [/Ab_add-instructions](Ab_add-instructions.prompt.md) prompt to instructions specifics for the libraries mentioned in the SYSTEMS document.
 
 - [ ] **Backlog Missing**: Run the [/BACKLOG](BACKLOG.prompt.md) prompt to create Backlog.
 
@@ -46,11 +46,11 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 - [ ] Ask the user before running the code generation prompt to allow him to review the specifications and design.
 - [ ] In Builder mode, Testing and Documentation are out of scope and not your responsibility. Do not plan nor implement tests or documentation for the code you write.
 
-- [ ] **Tasks Missing, Create Tasks**: Run the [/feature.tasks](../prompts/feature.tasks.prompt.md) prompt to create implementation tasks for the feature.
+- [ ] **Tasks Missing, Create Tasks**: Run the [/feature.tasks](feature.tasks.prompt.md) prompt to create implementation tasks for the feature.
 
-- [ ] **Implement Code**: Run the [/feature.code](../prompts/feature.code.prompt.md) prompt to write the code for the feature.
+- [ ] **Implement Code**: Run the [/feature.code](feature.code.prompt.md) prompt to write the code for the feature.
 
-- [ ] **All Complete**: Suggest using the [Craftsman](../prompts/Ab_Craftsman.prompt.md) chat mode to test and document the feature.
+- [ ] **All Complete**: Suggest using the [Craftsman](Ab_Craftsman.prompt.md) chat mode to test and document the feature.
 
 ## Outcomes
 

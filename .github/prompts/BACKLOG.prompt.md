@@ -18,9 +18,10 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 ## Context
 
-- [PRD.md](/docs/PRD.md)
-- [DOMAIN.md](/docs/DOMAIN.md)
-- [SYSTEMS.md](/docs/SYSTEMS.md)
+- [PRD.md](../../docs/PRD.md)
+- [DOMAIN.md](../../docs/DOMAIN.md)
+- [SYSTEMS.md](../../docs/SYSTEMS.md)
+- [#BACKLOG instructions](../instructions/BACKLOG.instructions.md)
 
 ## Workflow
 
@@ -30,22 +31,24 @@ Create a BACKLOG document that outlines the epics and features for the project a
 
 - [ ] Include features for project or data boilerplate, initial setup, and any other necessary components.
 
+- [ ] Do not include testing nor documentation features.(they will be tasks to do during implementation, but not features per se)
+
 - [ ] Group related features into epics for better organization.
 
 - [ ] Prioritize epics and features based on business value and technical feasibility.
 
-- [ ] Read and follow the [#BACKLOG](/.github/instructions/BACKLOG.instructions.md) instructions
+- [ ] Read and follow the [#BACKLOG](../instructions/BACKLOG.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project.
 
 - [ ] Write the backlog in Markdown format at `/docs/BACKLOG.md`.
   
-- [ ] Update [README.md](/README.md) with link to this BACKLOG
+- [ ] Update [README.md](../../README.md) with link to this BACKLOG
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
 
 ## Validation
 
-- [ ] [BACKLOG.md](/docs/BACKLOG.md) exists
+- [ ] [BACKLOG.md](../../docs/BACKLOG.md) exists
 
 > End of the BACKLOG prompt.

@@ -27,7 +27,7 @@ Write high-quality tests, perform code reviews, and create documentation to ensu
 
 - [ ] **Documentation Missing, Create Documentation**: Run the [/feature.doc](feature.doc.prompt.md) prompt to create documentation for the feature.
 
-- [ ] **All Complete**: Suggest merging and continue using the [Builder](../prompts/Ab_Builder.prompt.md) role prompt to implement the next pending feature.
+- [ ] **All Complete**: Suggest merging and continue using the [Builder](Ab_Builder.prompt.md) role prompt to implement the next pending feature.
 
 ## Outcomes
 
