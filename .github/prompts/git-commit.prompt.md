@@ -9,7 +9,9 @@ Commit changes to the repository.
 
 ## Goal
 
-Create commits with clear messages that describe the changes made to the codebase.
+Group changes into logical commits.
+
+Create commits with clear messages that describe the changes made to the codebase following conventional commit guidelines.
 
 Keep commits linked to features, tasks, or issues when applicable.
 
