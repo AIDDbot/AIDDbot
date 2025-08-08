@@ -1,7 +1,7 @@
 ---
 description: 'I write a PRD, DOMAIN, SYSTEMS and BACKLOG documentation.'
-tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
-model: 'Claude Sonnet 4'
+tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks',  'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
+model: 'GPT-5 (Preview)'
 ---
 
 # Architect Chat Mode

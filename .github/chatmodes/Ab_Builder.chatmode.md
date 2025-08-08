@@ -1,7 +1,7 @@
 ---
 description: 'I write specs, design, tasks and code for a feature.'
-tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI', 'add_issue_comment', 'add_sub_issue', 'create_issue', 'get_issue', 'get_issue_comments', 'list_issues', 'list_sub_issues', 'search_issues', 'update_issue']
-model: 'Claude Sonnet 4'
+tools: ['changes', 'codebase', 'editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runNotebooks', 'runTasks', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI', 'add_issue_comment', 'add_sub_issue', 'create_issue', 'get_issue', 'get_issue_comments', 'list_issues', 'list_sub_issues', 'search_issues', 'update_issue']
+model: 'GPT-5 (Preview)'
 ---
 
 # Builder Chat Mode
