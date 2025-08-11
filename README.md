@@ -107,7 +107,7 @@ Beyond the built-in instruction set you can create custom ones for your stack—
 
 - 📋 **[Instruction Generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/Ab_add-instructions.prompt.md)** `/Ab_add-instructions`: Generates custom instruction files for the project technology stack.
 
-This prompt is auto-invoked by the Architect role after stack dependency identification, or you can call it manually with a scope hint:
+This prompt is auto-invoked by the Architect role prompt after stack dependency identification, but you can also call it manually with a scope hint:
 
 ```txt
 /Ab_add-instructions java language
@@ -127,8 +127,8 @@ AIDD (AI Driven Development) blends AI capabilities with established software en
 The `AIDDbot` agent adheres to the three [AIDD Manifesto](https://aiddbot.com/aidd-manifesto) principles:
 
 - **🧑‍💻 Human in the Loop**: Your work becomes more strategic, collaborative, and accountable.
-- **🔧 Rules over Tools**: Tools are means; rules & processes provide durable value.
-- **✅ AI Quality**: Higher productivity with maintainable, high-quality software.
+- **🔧 Rules over Tools**: Tools are just means; but rules & processes provide durable value.
+- **✅ AI Quality**: Not only higher productivity, but also maintainable, high-quality software.
 
 > Work smarter, not harder, with _Ab_!
 
