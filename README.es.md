@@ -39,7 +39,7 @@ Tras la instalación tendrás un nuevo modo de chat: **AIDDbot**.
 
 En Copilot, el modo de chat fija un contexto y otorga acceso a prompts y herramientas acordes a dicho contexto.
 
-### 🧑‍� Roles
+### 🧑‍💻 Roles
 
 Hay tres prompts alineados con los roles de AI-Driven Development: Architect / Builder / Craftsman. Llamarlos hace que AIDDbot actúe según el rol elegido.
 
@@ -49,7 +49,7 @@ Hay tres prompts alineados con los roles de AI-Driven Development: Architect / B
 
 Estos prompts de rol orquestan otros prompts especializados cuando es necesario. Explora la [carpeta de prompts](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) para ver todas las opciones.
 
-### � Instrucciones
+### 📚 Instrucciones
 
 GitHub Copilot permite definir ficheros de instrucciones como contexto reutilizable. Funcionan como plantillas, guías o referencias de buenas prácticas — genéricas o muy específicas (librerías, herramientas, patrones).
 
