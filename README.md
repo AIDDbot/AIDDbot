@@ -2,7 +2,8 @@
 
 ![AIDDbot coding agents](./AIDD-bot.png)
 
-**AIDDbot** is an AI-powered assistant for software engineers' daily work. It helps with product documentation, code generation, quality testing, and more.
+**AIDDbot** is an AI-powered assistant for software engineers. It helps with product documentation, code generation, quality testing, and more.
+> Lee este documento [en Español aquí](https://github.com/AIDDbot/AIDDbot/blob/main/README.es.md)
 
 It consists of a **set of prompts, instructions, rules, and tools** that let the agent carry out tasks effectively.
 
@@ -15,7 +16,7 @@ It can work with several AI-enabled code editors:
 
 ## 🔌 Installation
 
-`AIDDbot` is a set of instruction and configuration files adapted to your AI code editor. Install it by cloning this repository and copying the suitable folder into the root of your project. Or simply use the installation prompt (for VS Code + GitHub Copilot).
+`AIDDbot` is just a set of Markdown files with instructions and configuration adapted to your AI code editor. Install it by cloning this repository and copying the suitable folder into the root of your project. Or simply use the installation prompt (for VS Code + GitHub Copilot).
 
 ### For GitHub Copilot
 
@@ -26,9 +27,9 @@ It can work with several AI-enabled code editors:
 
 ## ℹ️ Usage (GitHub Copilot)
 
-> Copilot Chat ships with three native modes: `Ask`, `Edit`, and `Agent`. With AIDDbot you now add a new mode tailored to AI Driven Development. Learn more: [Chat Modes](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
+> Copilot Chat ships with three native modes: `Ask`, `Edit`, and `Agent`. With `AIDDbot` you now add a new mode tailored to AI Driven Development. Learn more: [Chat Modes](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
 
-### 🤖 Chat Mode
+### 🤖 Chat Mode: AIDDbot
 
 After installation, you'll get a new chat mode: **AIDDbot**.
 
@@ -36,52 +37,23 @@ After installation, you'll get a new chat mode: **AIDDbot**.
 
 In Copilot, a chat mode sets a specific context and grants the agent access to prompts and tools aligned with that context.
 
-### 🧭 Roles
+### 📋 Prompts
 
-This mode has role prompts aligned with the three AI-Driven Development roles: Architect / Builder / Craftsman.
+Prompts are predefined queries or commands that guide the AI's responses. They help in eliciting specific information or actions from the AI.
+
+AIDDbot has a complete set of prompts that help you in every aspect of software development. But not all of them are equally useful in every context.
+
+Lets see the **AIDDbot Prompt roles**.
+
+#### 🧑‍💻 Roles
+
+There are three prompts aligned with the three AI-Driven Development roles: Architect / Builder / Craftsman. Calling this prompts makes AIDDbot behave and respond according to the selected role.
 
 - **[Architect role prompt](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect` – General project documentation & discovery.
 - **[Builder role prompt](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder` – Feature design & implementation.
 - **[Craftsman role prompt](/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman` – Validation, cleanup & documentation.
 
-These role prompts can orchestrate other specialized prompts as needed. Below is a grouped list by role for clarity and manual invocation:
-
-### 📋 Prompts
-
-Use `/` to invoke predefined prompts. Outputs are deterministic file artifacts.
-
-#### Architect Prompts (Ab_Architect)
-
-- 📋 **[PRD Generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/PRD.prompt.md)** `/PRD`
-  - 📦 **docs/PRD.md**: Project goals, requirements, constraints.
-- 📋 **[Domain Modeling](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/DOMAIN.prompt.md)** `/DOMAIN`
-  - 📦 **docs/DOMAIN.md**: Entities, relationships, business rules.
-- 📋 **[Systems Architecture](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/SYSTEMS.prompt.md)** `/SYSTEMS`
-  - 📦 **docs/SYSTEMS.md**: System architecture, components, implementation details.
-
-#### Builder Prompts (Ab_Builder)
-
-- 📋 **[Backlog Management](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/BACKLOG.prompt.md)** `/BACKLOG`
-  - 📦 **docs/BACKLOG.md**: Epics & features with priorities and status.
-- 📋 **[Feature Specification](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.spec.prompt.md)** `/feature.spec`
-  - 📦 **docs/feats/f_id.spec.md**: Behavioral specs for a feature.
-- 📋 **[Feature Design](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.design.prompt.md)** `/feature.design`
-  - 📦 **docs/feats/f_id.design.md**: Technical design for a feature.
-- 📋 **[Implementation Plan](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.tasks.prompt.md)** `/feature.tasks`
-  - 📦 **docs/feats/f_id.tasks.md**: Task plan.
-- 📋 **[Feature Code](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.code.prompt.md)** `/feature.code`
-  - 📦 **src/**: Implementation code.
-
-#### Craftsman Prompts (Ab_Craftsman)
-
-- 📋 **[Automated Testing](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.test.prompt.md)** `/feature.test`
-  - 📦 **docs/feats/f_id.test.md**: Unit & integration test specs.
-  - 📦 **src/**: Test implementation.
-- 📋 **[Clean Code Review](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.clean.prompt.md)** `/feature.clean`
-  - 📦 **src/**: Refined code.
-- 📋 **[Documentation Generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/feature.doc.prompt.md)** `/feature.doc`
-  - 📦 **src/**: Documented code.
-  - 📦 **docs/STRUCTURE.md**: Folder & component overview.
+These role prompts will orchestrate other specialized prompts as needed. Feel free to inspect the [prompts folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) to explore all available options.
 
 ### 📚 Instructions
 
@@ -89,17 +61,7 @@ GitHub Copilot lets you define instruction files as reusable context. They funct
 
 **AIDDbot** automatically injects the right instruction files per prompt. You can also reference them manually with the `#file:` prefix.
 
-Examples:
-
-- 📒 **[PRD Instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/PRD.instructions.md)** `#file:PRD.instructions.md`
-- 📒 **[Architecture Instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/architecture.instructions.md)** `#file:architecture.instructions.md`
-- 📒 **[TypeScript Language Instructions](https://github.com/AIDDbot/AIDDbot/blob/main/.github/instructions/lng-typescript.instructions.md)** `#file:lng-typescript.instructions.md`
-
-Manual usage example:
-
-```txt
-Write a function that sums two numbers following #file:lng-typescript.instructions.md
-```
+Go to [instructions folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/instructions) to explore all available instruction files.
 
 #### Adding Instructions
 
@@ -107,11 +69,7 @@ Beyond the built-in instruction set you can create custom ones for your stack—
 
 - 📋 **[Instruction Generation](https://github.com/AIDDbot/AIDDbot/blob/main/.github/prompts/Ab_add-instructions.prompt.md)** `/Ab_add-instructions`: Generates custom instruction files for the project technology stack.
 
-This prompt is auto-invoked by the Architect role prompt after stack dependency identification, but you can also call it manually with a scope hint:
-
-```txt
-/Ab_add-instructions java language
-```
+This prompt is auto-invoked by the Architect role prompt after stack dependency identification, but you can also call it manually with a scope hint.
 
 ### 🛠️ In progress
 
