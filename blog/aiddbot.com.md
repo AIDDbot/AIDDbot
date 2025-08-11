@@ -49,9 +49,9 @@ Lets see the **AIDDbot Prompt roles**.
 
 There are three prompts aligned with the three AI-Driven Development roles: Architect / Builder / Craftsman. Calling this prompts makes AIDDbot behave and respond according to the selected role.
 
-- **[Architect role prompt](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect` – General project documentation & discovery.
-- **[Builder role prompt](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder` – Feature design & implementation.
-- **[Craftsman role prompt](/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman` – Validation, cleanup & documentation.
+- **[Architect role prompt](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect` – General project documentation & discovery.
+- **[Builder role prompt](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder` – Feature design & implementation.
+- **[Craftsman role prompt](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman` – Validation, cleanup & documentation.
 
 These role prompts will orchestrate other specialized prompts as needed. Feel free to inspect the [prompts folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) to explore all available options.
 

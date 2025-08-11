@@ -43,9 +43,9 @@ En Copilot, el modo de chat fija un contexto y otorga acceso a prompts y herrami
 
 Hay tres prompts alineados con los roles de AI-Driven Development: Architect / Builder / Craftsman. Llamarlos hace que AIDDbot actúe según el rol elegido.
 
-- **[Prompt de rol Arquitecto](/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect` – Documentación general y descubrimiento.
-- **[Prompt de rol Constructor](/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder` – Diseño e implementación de funcionalidades.
-- **[Prompt de rol Artesano](/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman` – Validación, limpieza y documentación.
+- **[Prompt de rol Arquitecto](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Architect.prompt.md)** `/Ab_Architect` – Documentación general y descubrimiento.
+- **[Prompt de rol Constructor](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Builder.prompt.md)** `/Ab_Builder` – Diseño e implementación de funcionalidades.
+- **[Prompt de rol Artesano](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/Ab_Craftsman.prompt.md)** `/Ab_Craftsman` – Validación, limpieza y documentación.
 
 Estos prompts de rol orquestan otros prompts especializados cuando es necesario. Explora la [carpeta de prompts](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) para ver todas las opciones.
 
@@ -86,7 +86,7 @@ El agente `AIDDbot` se adhiere a los tres principios del [Manifiesto AIDD](https
 - **🔧 Reglas sobre Herramientas**: Las herramientas son medios; las reglas y procesos aportan valor duradero.
 - **✅ Calidad IA**: No solo más productividad, también software mantenible y de alta calidad.
 
-> ¡Trabaja más inteligente, no más duro, con _Ab_!
+> Work smarter, not harder, with _Ab_!
 
 ---
 
