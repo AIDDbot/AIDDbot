@@ -1,10 +1,10 @@
 ---
-description: 'Generate library-specific instruction files for project dependencies.'
+description: 'Generate specific instruction files for project dependencies.'
 ---
 
-# Library Instructions Generator
+# Instructions Generator
 
-Generate comprehensive instruction files for each library dependency specified in the project architecture, providing best practices and usage guidelines for AI agents and developers.
+Generate comprehensive instruction files for each dependency specified in the project architecture, providing best practices and usage guidelines for AI agents and developers.
 
 ## Context
 
