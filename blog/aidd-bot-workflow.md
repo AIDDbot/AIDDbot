@@ -20,6 +20,8 @@
 
 - Context Engineering: Develop techniques to create, manage, and utilize context effectively throughout the development process.
 
+https://ampcode.com/AGENT.md
+
 ## Project Definition
 
 ### PRD
