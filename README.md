@@ -2,7 +2,7 @@
 
 An AI programming assistant that enhances the IDE for developing enterprise projects.
 
-![AIDDbot coding agents](./AIDD-bot.png)
+![AIDDbot coding agents](./docs/AIDD-bot.png)
 
 > Lee este documento [en Español aquí](https://github.com/AIDDbot/AIDDbot/blob/main/README.es.md)
 
