@@ -1,6 +1,8 @@
 
 # 🤖 AIDDbot
 
+Un asistente IA de programación que aumenta el IDE para desarrollar proyectos corporativos.
+
 ![AIDDbot coding agents](./AIDD-bot.png)
 
 > Read this document [in English here](https://github.com/AIDDbot/AIDDbot/blob/main/README.md)
