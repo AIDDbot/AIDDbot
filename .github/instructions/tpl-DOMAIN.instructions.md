@@ -1,5 +1,6 @@
 ---
 description: "Template for a Domain Model Document"
+applyTo: "/docs/DOMAIN.md"
 ---
 
 # Domain Model for { PROJECT_NAME }
@@ -46,53 +47,26 @@ description: "Template for a Domain Model Document"
 
 ## Business Rules and Validations
 
-### Data Validation Rules
+### Data Validation 
 
-1. **{ Validation Category 1 }**
-   - { Rule 1.1 }
-   - { Rule 1.2 }
+- { Data Validation Rule 1 description }
 
-2. **{ Validation Category 2 }**
-   - { Rule 2.1 }
-   - { Rule 2.2 }
+- { Data Validation Rule 2 description }
 
 ### Business Operation Rules
 
-1. **{ Operation Category 1 }**
-   - { Rule 1.1 }
-   - { Rule 1.2 }
+- { Business Operation Rule 1 description }
 
-2. **{ Operation Category 2 }**
-   - { Rule 2.1 }
-   - { Rule 2.2 }
+- { Business Operation Rule 2 description }
 
 ## Entity-Relationship Diagram
 
 ```mermaid
 erDiagram
-    { ENTITY1 } {
-        { type } { attribute1 }
-        { type } { attribute2 }
-        { type } { attribute3 }
-    }
-    { ENTITY2 } {
-        { type } { attribute1 }
-        { type } { attribute2 }
-        { type } { attribute3 }
-    }
-    { ENTITY3 } {
-        { type } { attribute1 }
-        { type } { attribute2 }
-        { type } { attribute3 }
-    }
-
-    { ENTITY1 } ||--o{ { ENTITY2 } : { relationship_name }
-    { ENTITY2 } ||--o{ { ENTITY3 } : { relationship_name }
+    { Entity relationship diagram }
 ```
 
 ## Additional Information
-
-<!-- Add any additional information that is relevant to the domain -->
 
 - [Git repository]({ GIT_REPO_URL })
 - [PRD Document](./PRD.md)

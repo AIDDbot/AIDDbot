@@ -20,16 +20,23 @@ This document will serve as the foundation for all subsequent design and develop
 - Offer the user the option to add context:
   - Files to the [docs](/docs) or any other folder
   - Use the #fetch tool for retrieving existing documentation or resources from a URL.
-  - Ask for any missing information to complete the PRD.
 
 ## Workflow
 
-- DO NOT WRITE GOALS, REQUIREMENTS, OR CONSTRAINTS BY YOURSELF.
-  Instead, use the provided context or ask the user for clarification.
+- [ ] Questions to consider:
+  - What business problem does it solve?
+  - Who is it for?
+  - What is the expected benefit? 
+  - What actions should the user be able to perform?
+  - What validations or business rules must be met?
+  - What are the performance, availability, and security expectations?  
+  - Must it comply with any technical or legal standards?
+  - Which external or legacy systems must be integrated?
+  - Are there any imposed Language, framework, and database decisions as constraints?
 
-- [ ] Read and follow the [#PRD](../instructions/tpl-PRD.instructions.md) instructions
+- [ ] Read and follow the [tpl-PRD](../instructions/tpl-PRD.instructions.md) instructions
 
-- [ ] Fill in the placeholders with relevant information about the project.
+- [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the PRD.
 
 - [ ] Write the PRD in Markdown format at `/docs/PRD.md`.
 

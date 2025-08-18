@@ -13,7 +13,7 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/architecture.instructions.md)
 
 ## Workflow
 
@@ -31,20 +31,15 @@ Create a Systems Architecture Document that defines the project's technical arch
   - What are the security protocols?
   - How is sensitive data protected?
 
-CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
-In case of doubt, ask the user for clarification.
+- [ ] Read and follow the [tpl-SYSTEMS](../instructions/tpl-SYSTEMS.instructions.md) instructions
 
-- [ ] Read and follow the [#SYSTEMS](/.github/instructions/SYSTEMS.instructions.md) instructions
+- [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the SYSTEMS.
 
-- [ ] Fill in the placeholders with relevant information about the project.
+- [ ] Write the SYSTEMS in Markdown format at `/docs/SYSTEMS.md`.
 
-- [ ] Write the systems architecture in Markdown format at `/docs/SYSTEMS.md`.
+- [ ] Update the [README.md](/README.md) file with a link to this SYSTEMS
 
- - [ ] Run the [/Ab_add-instructions](../prompts/Ab_add-instructions.prompt.md) to get instructions for the languages, frameworks, and libraries mentioned in the SYSTEMS document.
-
-- [ ] Update [README.md](/README.md) with link to this SYSTEMS document.
-
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
 
 ## Validation
 
