@@ -7,7 +7,7 @@ applyTo: "**/*.ts"
 
 ## Overview
 
-Write code using TypeScript language following [lang TypeScript](/.github/instructions/lng-typescript.instructions.md) best practices.
+Write code using TypeScript language following [lang TypeScript](lng-typescript.instructions.md) best practices.
 
 **CRITICAL: Avoid external dependencies when native Node.js features exist.**
 
@@ -15,20 +15,15 @@ Write code using TypeScript language following [lang TypeScript](/.github/instru
 
 **Never install these when using modern Node.js:**
 
-- _ts-node_ - Not needed with native TypeScript support
-- _nodemon_ - Use `node --watch` instead
-- _jest_ or any other testing library (Use native `node --test` instead)
-- _tsx_ - Not needed with native support
+- ~~ts-node~~ - Not needed with native TypeScript support
+- ~~nodemon~~ - Use `node --watch` instead
+- ~~jest~~ or any other testing library (Use native `node --test` instead)
+- ~~tsx~~ - Not needed with native support
 - Any ORM or database abstraction layer
-- _axios_ or any HTTP client library (use native `node:http` or `node:https`)
+- ~~axios~~ or any HTTP client library (use native `node:http` or `node:https`)
 - Any TypeScript compilation loaders
 
 ## ✔️ Allowed dependencies
-
-Production dependencies :
-
-- `chalk` - For terminal string styling
-- `zod` - For schema validation
 
 Development dependencies:
 
@@ -72,38 +67,8 @@ node --watch src/main.ts
 npm start
 # Production Execute with node
 node src/main.ts
-```
-
-## Testing Node.js with TypeScript
-
-- No need for additional libraries to run tests with TypeScript.
-- Use `node:test` module for testing TypeScript files directly.
-
-> Example of importing Node Test stuff:
-
-```ts
-import assert from "node:assert/strict";
-import { describe, test } from "node:test";
-```
-
-> Example of defining a test:
-
-```ts
-const sum = (a: number, b: number): number => a + b;
-describe("The Sum function", () => {
-  test("should sum 1 and 1", () => {
-    assert.strictEqual(sum(1, 1), 2);
-  });
-});
-```
-
-> Example of running tests:
-
-```bash
-# Run tests with Node.js
-node --test src/test.ts
-# Run tests with npm
-npm test
+# Using environment file
+"dev": "node --watch --env-file=.env src/main.ts"
 ```
 
 ## TypeScript Configuration
@@ -123,9 +88,11 @@ Use minimal tsconfig.json for type checking only (no compilation):
 }
 ```
 
-## Best Practices update to 2025
+## Built-in Web APIs
 
-Read and follow these best practices to write modern Node.js applications in TypeScript:
-[Modern Node.js Patterns (2025)](./frm-node_2025.instructions.md)
+```js
+const response = await fetch("https://api.example.com/data");
+const data = await response.json();
+```
 
 > End of Node.js with TypeScript Best Practices.

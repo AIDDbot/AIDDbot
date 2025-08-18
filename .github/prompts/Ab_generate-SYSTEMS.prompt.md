@@ -13,7 +13,7 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [Architecture Instructions](../instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/Ab_architecture.instructions.md)
 
 ## Workflow
 
