@@ -1,6 +1,6 @@
 # 🤖 AIDDbot
 
-An AI programming assistant that enhances the IDE for developing enterprise projects.
+An AI programming assistant that enhances the IDE for developing enterprise projects that works with any LLM.
 
 ![AIDDbot coding agents](./docs/AIDD-bot.png)
 
@@ -32,25 +32,19 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 > ℹ️ More info about [The AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
 
+## 🚀 Where to start?
+
+**Works with any LLM** and several IDE with AI-enabled agents:
+
+- **VsCode and GitHub Copilot** ✔️ Ready [Install and use now](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md)
+- _Cursor_, 🚧 In progress
+- _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
+
 ---
-
-## 🔍 Introduction to AIDDbot
-
-It can work with any LLM and several AI-enabled code editors:
-
-- **VsCode and GitHub Copilot** ✔️ Ready [Install and use now](./docs/vscode_aiddbot.md)
-- _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
-
-### 🚧 In progress
-
-- Self-improvement routines for AIDDbot.
-- Project workflow & characteristics memory.
-- Work log / journal for traceability of decisions.
-- Automatic archetype inclusion based on requirements.
 
 ## 💭 AIDD Philosophy
 
-AIDD (AI-Driven Development) blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle.
+**AIDD** (AI-Driven Development) blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle.
 
 The `AIDDbot` agent adheres to the three [AIDD Manifesto](https://aiddbot.com/aidd-manifesto) principles:
 
