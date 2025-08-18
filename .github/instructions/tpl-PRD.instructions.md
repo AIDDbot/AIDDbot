@@ -41,12 +41,16 @@ description: "Template for Project Requirements Document (PRD)"
 ## Technical Constraints
 
 <!-- Questions to consider:
- - Which systems must be integrated?
- - Are there any imposed technical decisions? -->
+ - Which external or legacy systems must be integrated?
+ - Are there any imposed Language, framework, and database decisions as constraints?
+ -->
 
 - { Constraint 1 description }
 
-<!-- Draw the system-context diagram here following the C4 model -->
+<!-- Draw the system-context diagram 
+- Follow the C4 model. 
+- Use the next as an example:
+ -->
 
 ### Context diagram
 

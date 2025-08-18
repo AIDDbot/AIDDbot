@@ -28,9 +28,9 @@ You are not allowed to write code directly, but you can suggest code structure a
 
 Determine if the project requires a Project Requirements Document (PRD), Domain Model Document or Systems Architecture Document.
 
-- [ ] **PRD Missing**: Run the [/PRD](PRD.prompt.md) prompt to create Project Requirements Document
+- [ ] **PRD Missing**: Run the [/Ab_generate-PRD](Ab_generate-PRD.prompt.md) prompt to create Project Requirements Document
 
-- [ ] **PRD Complete, Domain Models Missing**: Run the [/DOMAIN](DOMAIN.prompt.md) prompt to create Domain Model Document.
+- [ ] **PRD Complete, Domain Models Missing**: Run the [/Ab_generate-DOMAIN](Ab_generate-DOMAIN.prompt.md) prompt to create Domain Model Document.
 
 - [ ] **Domain Complete, Systems Missing**: Run the [/SYSTEMS](SYSTEMS.prompt.md) prompt to create Systems Architecture Document.
 

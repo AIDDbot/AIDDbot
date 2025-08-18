@@ -17,8 +17,9 @@ This document will serve as the foundation for all subsequent design and develop
 - [README.md](/README.md)
 - [docs](/docs) Any other document at the docs folder
 - The current git user profile to set the author and committer information.
-- Offer the user the option to add files to the [docs](/docs) folder for additional context.
-  - Offer the #fetch tool for retrieving existing documentation or resources from a URL.
+- Offer the user the option to add context:
+  - Files to the [docs](/docs) or any other folder
+  - Use the #fetch tool for retrieving existing documentation or resources from a URL.
   - Ask for any missing information to complete the PRD.
 
 ## Workflow
@@ -26,18 +27,18 @@ This document will serve as the foundation for all subsequent design and develop
 - DO NOT WRITE GOALS, REQUIREMENTS, OR CONSTRAINTS BY YOURSELF.
   Instead, use the provided context or ask the user for clarification.
 
-- [ ] Read and follow the [#PRD](/.github/instructions/PRD.instructions.md) instructions
+- [ ] Read and follow the [#PRD](../instructions/tpl-PRD.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project.
 
 - [ ] Write the PRD in Markdown format at `/docs/PRD.md`.
 
-- [ ] Update [README.md](/README.md) with link to this PRD
+- [ ] Update the [README.md](/README.md) file with a link to this PRD
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
 
 ## Validation
 
 - [ ] [PRD.md](/docs/PRD.md) exists
 
-> End of the PRD prompt.
+> End of the Generate PRD prompt.

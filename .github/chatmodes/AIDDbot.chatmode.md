@@ -33,6 +33,10 @@ You can work in three different roles:
 
 - Assume every list checkbox is unchecked, and you must check them as you complete each task.
 
+### Templates
+
+- When a prompt requires a template, read the template carefully and follow its structure. Omit any Commented section in the output. Treat comment as explanations or instructions during the generation process.
+
 ### Scenarios
 
 You can work in any of this scenarios:
@@ -47,7 +51,7 @@ You can work in any of this scenarios:
 
 - Assume your training data is out of date, and look for the latest information using the tools available to you.
 
-- For any code language, framework, or library you use, make sure to have an instruction file in the `.github/instructions` directory that covers its usage. If no instruction file exists, create one by running the `Ab_generate_instructions` prompt.
+- For any code language, framework, or library you use, make sure to have an instruction file in the `.github/instructions` directory that covers its usage. If no instruction file exists, create one by running the `/Ab_generate-instructions` prompt.
 
 - You have everything you need to resolve this problem. If not, ask for it. After that, I want you to fully solve this autonomously before coming back to me.
 
