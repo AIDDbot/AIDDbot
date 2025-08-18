@@ -1,5 +1,4 @@
 ---
-mode: 'agent'
 description: 'Commit changes to the repository.'
 ---
 
@@ -18,15 +17,16 @@ Keep commits linked to features, tasks, or issues when applicable.
 ## Context
 
 - Use the #changes tool to track changes in the repository.
-- Read the [Backlog](/docs/BACKLOG.md) to understand the context of the changes if applicable.
+- Read the [Backlog](/docs/BACKLOG.md) if it exists for linking the changes to specific features or issues.
 
 ## Workflow
 
 - [ ] Group changes into logical commits.
 - [ ] Use conventional commit messages to describe the changes made.
 - [ ] Available Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`.
-- [ ] Use the feature code with the type when applicable.
-- [ ] Use the github issue number at the beginning of the commit message when applicable.
+- [ ] Use the feature code with the type when applicable. Ex: `feat(f1.2):`
+- [ ] Use the github issue number at the beginning of the commit message when applicable. Ex: `#123`
+- [ ] Use the prefix closes when applicable. Ex: `closes #123`
 - [ ] Add a short list of changes made in the commit message body when necessary.
 
 ### Example Commit Message
@@ -42,10 +42,6 @@ feat(f1.2): #123 add user authentication module
 
 ## Validation
 
-- [ ] Use the #runCommands tool to ensure git status is clean.
-
-```bash
-git status
-```
+- [ ] Use the #runCommands tool to ensure git status is clean by running `git status`
 
 > End of the git commit prompt.

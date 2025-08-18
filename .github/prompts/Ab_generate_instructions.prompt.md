@@ -1,5 +1,6 @@
 ---
 description: 'Generate specific instruction files for project dependencies.'
+tools: ["editFiles", "fetch", "search", "runCommands"]
 ---
 
 # Instructions Generator
@@ -9,9 +10,9 @@ Generate comprehensive instruction files for each dependency specified in the pr
 ## Context
 
 - [SYSTEMS.md](/docs/SYSTEMS.md) - Contains the technology stack and approved dependencies
-- [Clean Code Instructions](/.github/instructions/clean_code.instructions.md) - Example of an existing instruction file
-- [/.github/instructions](/.github/instructions) - Existing instruction files directory
-- [fetch-instructions](./fetch-instructions.prompt.md) - Fetches custom instructions from the GitHub awesome catalog
+- [Clean Code Instructions](../instructions/clean_code.instructions.md) - Example of an existing instruction file
+- [/.github/instructions](../instructions) - Existing instruction files directory
+
 
 ## Workflow
 
@@ -22,7 +23,7 @@ Generate comprehensive instruction files for each dependency specified in the pr
   - Built-in framework packages
   - Language-specific libraries
   - Any other relevant packages or tool
-- [ ] Double-check the [/.github/instructions](/.github/instructions) directory for existing library instruction files
+- [ ] Double-check the [/.github/instructions](../instructions) directory for existing library instruction files
 - [ ] Create a list of missing instruction files needed
 
 ### 2. Research and Generation
@@ -39,9 +40,9 @@ For each missing library instruction file:
 Create instruction files following this naming convention: `{type}-{name}.instructions.md`
 
 Type can be:
-- `lib` for libraries
-- `frm` for frameworks
 - `lng` for languages
+- `frm` for frameworks
+- `lib` for libraries
 - `pck` for packages or tools
 
 Try to use simple examples and keep the instructions file concise, ideally under 250 lines.
@@ -56,14 +57,13 @@ applyTo: "**/*.{lang extension if applicable}"
 
 # {Name} Instructions
 
-## Overview
-
 ## Installation & Setup
 
 ## Core Concepts
 
 ## Best Practices
 
+{- List of best practices written in one line each -}
 
 ```
 

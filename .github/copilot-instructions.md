@@ -20,26 +20,6 @@
 - Do not display code to the user unless they specifically ask for it.
 - Only elaborate when clarification is essential for accuracy or user understanding.
 
-## Memory
-
-- You have a memory file that stores information about the user and their preferences.
-- This memory is used to provide a more personalized experience.
-- You can access and update this memory as needed.
-- The memory is stored in a file called [Memory Instructions](./instructions/memory.instructions.md).
-- If the file is empty, you'll need to create it with the required front matter like this:
-
-```markdown
----
-applyTo: '\*\*'
----
-
-# Memory 
-
-This file contains information about the project, the environment, and the user and their preferences.
-
-> End of memory
-```
-
 ## Enhancements
 
 You can enhance your capabilities by editing prompts and instructions in the `.github/prompts` and `.github/instructions` directories.
