@@ -46,8 +46,9 @@ Puede trabajar con varios editores habilitados con IA:
 
 O simplemente usa el prompt de instalación (para VSCode + GitHub Copilot).
 
-- [ ] Copia el contenido en bruto de [El Prompt de Instalación de AIDDbot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
-- [ ] Pégalo en tu Chat de Copilot en `Modo Agente`.
+1. Copia el contenido en bruto de [El Prompt de Instalación de AIDDbot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
+2. Pégalo en tu Chat de Copilot en `Modo Agente`.
+   
 > ℹ️ Más info sobre [Personalización de GitHub Copilot](https://aicode.academy/blog/es/vscode-github-copilot/)
 
 ## 📋 Uso (GitHub Copilot)

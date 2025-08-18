@@ -48,8 +48,8 @@ Or simply use the installation prompt (for VSCode + GitHub Copilot).
 
 > ℹ️ More info about [GitHub Copilot on VsCode](https://aiddbot.com/vscode-and-github-copilot/)
 
-- [ ] Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
-- [ ] Paste it into your Copilot Chat in `Agent Mode`.
+1. Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
+2. Paste it into your Copilot Chat in `Agent Mode`.
 
 > Read more about [GitHub Copilot Customization](https://code.visualstudio.com/docs/copilot/copilot-customization)
 
