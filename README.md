@@ -4,7 +4,7 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 ![AIDDbot coding agents](./docs/AIDD-bot.png)
 
-> Lee este documento [en Español aquí](https://github.com/AIDDbot/AIDDbot/blob/main/README.es.md)
+> Lee este documento [en Español aquí](https://aicode.academy/community/opensource/aiddbot/)
 
 ## ❓ What is AIDDbot?
 
@@ -34,7 +34,7 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **Works with any LLM** and several IDE with AI-enabled agents:
 
-- **VsCode and GitHub Copilot** ✔️ Ready [Install and use now](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md)
+- **[VsCode and GitHub Copilot](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md)** ✔️ Ready 
 - _Cursor_, 🚧 In progress
 - _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
 
