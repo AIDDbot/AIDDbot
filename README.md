@@ -28,6 +28,8 @@
 - hallucinations from training deficiencies, and
 - the need to maintain consistency over time.
 
+> ℹ️ More info about [AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
+
 ---
 
 ## 🔍 Introduction to AIDDbot
@@ -37,7 +39,6 @@ It can work with several AI-enabled code editors:
 - **GitHub Copilot** ✔️ Ready [Look inside](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
 
-> ℹ️ More info about [AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
 
 ## 🔌 Installation
 
@@ -45,20 +46,18 @@ It can work with several AI-enabled code editors:
 
 Or simply use the installation prompt (for VSCode + GitHub Copilot).
 
-### More info about [GitHub Copilot on VsCode](https://aiddbot.com/vscode-and-github-copilot/)
-
-### For GitHub Copilot
-
-> Read more about [GitHub Copilot Customization](https://code.visualstudio.com/docs/copilot/copilot-customization)
+> ℹ️ More info about [GitHub Copilot on VsCode](https://aiddbot.com/vscode-and-github-copilot/)
 
 - [ ] Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
 - [ ] Paste it into your Copilot Chat in `Agent Mode`.
+
+> Read more about [GitHub Copilot Customization](https://code.visualstudio.com/docs/copilot/copilot-customization)
 
 ## 📋 Usage (GitHub Copilot)
 
 > Copilot Chat ships with three native modes: `Ask`, `Edit`, and `Agent`. With `AIDDbot` you now add a new mode tailored to AI Driven Development. Learn more: [Chat Modes](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
 
-### 🤖 Chat Mode: AIDDbot
+### 🦸 Chat Mode: AIDDbot
 
 After installation, you'll get a new chat mode: **AIDDbot**.
 

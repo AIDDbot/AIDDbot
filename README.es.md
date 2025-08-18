@@ -29,6 +29,8 @@
 - alucinaciones por deficiencias en el entrenamiento y 
 - la necesidad de mantener la coherencia a lo largo del tiempo.
 
+> ℹ️ Más info sobre [El flujo de trabajo de AIDDbot](https://aicode.academy/blog/es/aiddbot-workflow/)
+
 ---
 
 ## 🔍 Introducción a AIDDbot
@@ -38,26 +40,21 @@ Puede trabajar con varios editores habilitados con IA:
 - **GitHub Copilot** ✔️ Listo [Ver implementación](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳  Próximamente
 
-> ℹ️ Más info sobre [El flujo de trabajo de AIDDbot](https://aicode.academy/blog/es/aiddbot-workflow/)
-
 ## 🔌 Instalación
 
 `AIDDbot` es solo un conjunto de ficheros Markdown con instrucciones y configuraciones adaptadas a tu editor de código con IA. Instálalo clonando este repositorio y copiando la carpeta adecuada en la raíz de tu proyecto. 
 
 O simplemente usa el prompt de instalación (para VSCode + GitHub Copilot).
 
-> ℹ️ Más info sobre [Personalización de GitHub Copilot](https://aicode.academy/blog/es/vscode-github-copilot/)
-
-### Para GitHub Copilot
-
 - [ ] Copia el contenido en bruto de [El Prompt de Instalación de AIDDbot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
 - [ ] Pégalo en tu Chat de Copilot en `Modo Agente`.
+> ℹ️ Más info sobre [Personalización de GitHub Copilot](https://aicode.academy/blog/es/vscode-github-copilot/)
 
 ## 📋 Uso (GitHub Copilot)
 
 > El chat de GitHub Copilot viene con tres modos nativos: `Ask`, `Edit` y `Agent`. Con `AIDDbot` agregas un nuevo modo orientado a AI Driven Development. Más info: [Modos de Chat](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
 
-### 🤖 Modo de Chat: AIDDbot
+### 🦸 Modo de Chat: AIDDbot
 
 Tras la instalación tendrás un nuevo modo de chat: **AIDDbot**.
 
