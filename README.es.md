@@ -37,7 +37,7 @@ Un asistente IA de programación que aumenta el IDE para desarrollar proyectos c
 
 ## 🔍 Introducción a AIDDbot
 
-Puede trabajar con varios editores habilitados con IA:
+Puede trabajar con cualquier LLM y con varios editores habilitados con IA:
 
 - **GitHub Copilot** ✔️ Listo [Ver implementación](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳  Próximamente
@@ -46,7 +46,7 @@ Puede trabajar con varios editores habilitados con IA:
 
 `AIDDbot` es solo un conjunto de ficheros Markdown con instrucciones y configuraciones adaptadas a tu editor de código con IA. Instálalo clonando este repositorio y copiando la carpeta adecuada en la raíz de tu proyecto. 
 
-O simplemente usa el prompt de instalación (para VSCode + GitHub Copilot).
+O simplemente usa el prompt de instalación (para **VSCode + GitHub Copilot**).
 
 1. Copia el contenido en bruto de [El Prompt de Instalación de AIDDbot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
 2. Pégalo en tu Chat de Copilot en `Modo Agente`.

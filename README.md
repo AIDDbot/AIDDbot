@@ -30,13 +30,13 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 - hallucinations from training deficiencies, and
 - the need to maintain consistency over time.
 
-> ℹ️ More info about [AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
+> ℹ️ More info about [The AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
 
 ---
 
 ## 🔍 Introduction to AIDDbot
 
-It can work with several AI-enabled code editors:
+It can work with any LLM and several AI-enabled code editors:
 
 - **GitHub Copilot** ✔️ Ready [Look inside](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
@@ -46,14 +46,12 @@ It can work with several AI-enabled code editors:
 
 `AIDDbot` is just a set of Markdown files with instructions and configuration adapted to your AI code editor. Install it by cloning this repository and copying the suitable folder into the root of your project. 
 
-Or simply use the installation prompt (for VSCode + GitHub Copilot).
-
-> ℹ️ More info about [GitHub Copilot on VsCode](https://aiddbot.com/vscode-and-github-copilot/)
+Or simply use the installation prompt (for **VSCode + GitHub Copilot**).
 
 1. Copy the raw content from [The AIDDbot Installation Prompt](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/Ab_install-for-copilot.prompt.md)
 2. Paste it into your Copilot Chat in `Agent Mode`.
 
-> Read more about [GitHub Copilot Customization](https://code.visualstudio.com/docs/copilot/copilot-customization)
+> ℹ️ More info about [GitHub Copilot on VsCode](https://aiddbot.com/vscode-and-github-copilot/)
 
 ## 📋 Usage (GitHub Copilot)
 
