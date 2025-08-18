@@ -39,7 +39,8 @@ Un asistente IA de programación que aumenta el IDE para desarrollar proyectos c
 
 Puede trabajar con cualquier LLM y con varios editores habilitados con IA:
 
-- **GitHub Copilot** ✔️ Listo [Ver implementación](https://github.com/AIDDbot/AIDDbot/tree/main/.github)
+-  **VsCode and GitHub Copilot** ✔️ Listo [Instalación y uso](./docs/vscode_aiddbot.md)
+
 - _Cursor_, _ClaudeCode_, _GeminiCLI_ ⏳  Próximamente
 
 ## 🔌 Instalación
