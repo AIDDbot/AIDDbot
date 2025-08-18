@@ -30,8 +30,6 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 - hallucinations from training deficiencies, and
 - the need to maintain consistency over time.
 
-> ℹ️ More info about [The AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
-
 ## 🚀 Where to start?
 
 **Works with any LLM** and several IDE with AI-enabled agents:
@@ -45,6 +43,8 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 ## 💭 AIDD Philosophy
 
 **AIDD** (AI-Driven Development) blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle.
+
+> ℹ️ More info about [The AIDDbot Workflow](https://aiddbot.com/aiddbot-in-your-workflow)
 
 The `AIDDbot` agent adheres to the three [AIDD Manifesto](https://aiddbot.com/aidd-manifesto) principles:
 

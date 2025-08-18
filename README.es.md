@@ -31,8 +31,6 @@ Un asistente IA de programación que aumenta el IDE para desarrollar proyectos c
 - alucinaciones por deficiencias en el entrenamiento y 
 - la necesidad de mantener la coherencia a lo largo del tiempo.
 
-> ℹ️ Más info sobre [El flujo de trabajo de AIDDbot](https://aicode.academy/blog/es/aiddbot-workflow/)
-
 ## 🚀 ¿Por dónde empezar?
 
 **Funciona con cualquier LLM** y con varios editores habilitados con IA:
@@ -46,6 +44,8 @@ Un asistente IA de programación que aumenta el IDE para desarrollar proyectos c
 ## 💭 Filosofía AIDD
 
 **AIDD** (AI-Driven Development) combina capacidades de IA con prácticas consolidadas de ingeniería de software para aumentar productividad, calidad de código y colaboración a lo largo de todo el ciclo de vida.
+
+> ℹ️ Más info sobre [El flujo de trabajo de AIDDbot](https://aicode.academy/blog/es/aiddbot-workflow/)
 
 El agente `AIDDbot` se adhiere a los tres principios del [Manifiesto AIDD](https://aiddbot.com/aidd-manifesto):
 
