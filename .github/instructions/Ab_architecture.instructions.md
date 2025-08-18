@@ -1,12 +1,17 @@
 ---
-description: "Architecture best practices for any language"
+description: "Software Architecture best practices"
 ---
 
-# Architecture Best Practices
+# Software Architecture Best Practices
 
-Use a layered architecture to separate concerns and improve maintainability.
+## Concepts
 
-> Layers are not physical folders, they are logical layers that define the separation of concerns in your codebase.
+- **Tier**: A tier is a physical separation of software systems, involving different applications, servers or processes. Each tier can contain one or more layers.
+- **Layer**: A layer is a logical separation of concerns within a software system involving classes, modules and types. Each layer exposes a callable surface, called API, and can consume other layer APIs.
+- **Component**: A component is a single file that exposes a class or a module.
+- **Dependency**: A dependency is a relationship between two software components, where one component requires the other to function properly. Both components can reside in the same or in different layers.
+- **Layered architecture**: Is a software design pattern that organizes code into distinct layers, and specifies the way these layers interact with each other via APIs and dependencies.
+- **Dependency flow**: Only one direction of dependency is allowed between layers, drawing them from top to bottom.
 
 ```mermaid
 flowchart TD
@@ -19,54 +24,77 @@ Keep dependencies to a minimum and ensure a single direction of dependencies.
 
 Use the DI of your framework to manage dependencies or pass dependencies explicitly to functions and classes.
 
-Layers are abstract concepts, do not create folders for each layer; instead use a flat structure with files named after their purpose.
-
 ## Structure
 
-Physical structure of the project should follow feature-based organization, but take into account the system architecture.
+### Tier Systems
 
-- If the project is a simple application or library, use a single repository and start coding in the root directory.
+Tiers are physical separations of software systems, create them in separate directories or repositories. Call them a **system**.
 
-> Example:
-
-```txt
-my-project/
-├── docs/
-├── src/
-│   ├── core/
-│   ├── module1/
-│   └── shared/
-└── README.md
-```
-
-- For larger projects (frontend, backend, and database instructions), consider using a monorepo structure with multiple packages (AKA containers AKA projects).
-
-> Example:
+> Example for a monorepo:
 
 ```txt
-my-monorepo/
+my-monorepo-project/
 ├── docs/
-├── package1/
+├── system1/
 │   ├── src/
 │   └── README.md
-├── package2/
+├── system2/
 │   ├── src/
 │   └── README.md
 └── README.md
 ```
 
-### General Guidelines
+> Example for multi-repo:
 
-- Organize code into modules or packages based on functionality.
-- Use a consistent naming convention for files and directories.
+```txt
+# Repo 1
+system1/
+  ├── src/
+  └── README.md
+# Repo 2
+system2/
+  ├── src/
+  └── README.md
+```
 
-### Directory Layout
+### Layers
 
-- Place all source code in a dedicated `src` directory inside each package.
+Layers are abstract concepts: 
+- do not create folders for each layer
 - Follow screaming structure : GROUP BY FEATURE not by type.
-- Organize features into three main directories: `core`, `routes | commands`, and `shared`.
+- Organize when growing in three levels: `core`, `routes | commands`, and `shared`
 
-> Example for API project:
+> Example inside one system:  
+
+```txt
+# Simple Structure
+src/
+├── feature1/
+├── feature2/
+└── feature3/
+
+# Complex Structure
+src/
+├── core/             # Setup and general features
+│   ├── feature1/
+│   └── feature2/
+├── routes/           # Routed, usually business logic feature
+│   ├── feature3/
+│   └── feature4/
+└── shared/           # Common features used by core and routes
+    ├── feature5/
+    └── feature6/
+```
+
+## Concrete examples
+
+Inside each feature folder there are one or more components that belongs to a specific layer.
+
+Here you can find examples of features grouped in levels for different types of applications and their specific layers with their responsibilities.
+
+### API server:
+
+> Example of features grouped in levels for an API server
 
 ```txt
 src/
@@ -78,10 +106,56 @@ src/
 │   └── products/        # Product-related routes
 └── shared/              # Shared utilities and components
     ├── utils/           # Utility functions
-    └── logger/          # Logging utilities
+    └── logger/          # Logging system
 ```
 
-> Example for Web SPA project:
+#### Presentation Layer
+
+- **Responsibilities**:
+  - Handles HTTP requests and responses.
+  - Contains route handlers, and controllers.
+  - Define DTOs (Data Transfer Objects) for request and response data.
+  - Perform input validation and sanitization; including authentication and authorization.
+  - Handle error responses and logging.
+  - Return structured JSON responses and status codes.
+
+- **Components**:
+  - Route handlers
+  - Controllers
+  - Middleware
+  - DTOs
+
+#### Business Layer
+
+- **Responsibilities**:
+  - Contains the core business logic and application rules.
+  - Use entities, services, and use cases to encapsulate business operations.
+  - Orchestrate operations between repositories
+  - Return structured data objects
+
+- **Components**:
+  - Entities
+  - Services
+  - Use Cases
+
+#### Persistence Layer
+
+- **Responsibilities**:
+  - Responsible for data storage and retrieval, typically interacting with a database.
+  - Use repositories and data transfer objects (DTOs) to abstract database operations.
+  - Handle data access and external integrations.
+  - Return primitive data or simple objects.
+  - Is the only layer that knows about data sources.
+  - Handle data transformation if needed. 
+
+- **Components**:
+  - Repositories
+  - Data Transfer Objects (DTOs)
+
+
+### Web SPA:
+
+> Example of features grouped in levels for a Web SPA
 
 ```txt
 src/
@@ -96,7 +170,53 @@ src/
     └── logger/          # Logging utilities
 ```
 
-> Example for a CLI project:
+#### Presentation Layer
+
+- **Responsibilities**:
+  - Handles user interactions and displays data.
+  - Contains components, templates, and styles specific to the UI.
+  - Manages routing and navigation within the application.
+
+- **Components**:
+  - Containers
+  - Presenters
+  - UI Components
+  - Templates
+
+- **Best Practices**:
+  - Use the Container/Presenter pattern to separate UI logic from business logic.
+  - All components will be standalone by default.
+  - Use Signals to communicate between components and with templates.
+  - Define and use shared components, directives, and pipes.
+
+#### Business Layer
+
+- **Responsibilities**:
+  - Contains state management and application logic.
+  - Orchestrate operations between repositories
+  - Return signals  
+
+- **Components**:
+  - Services
+
+- **Best Practices**:
+  - Use services to encapsulate business logic and state management.
+  - Use Signals for reactive state management.
+
+#### Persistence Layer
+
+- **Responsibilities**:
+  - Responsible for data storage and retrieval, typically interacting with a remote API.
+  - Define repositories and data transfer objects (DTOs) to abstract API operations.
+  - Return primitive data or simple objects.
+  - Is the only layer that knows about async operations.
+  - Handle data transformation if needed.
+
+- **Components**:
+  - Repositories
+  - Data Transfer Objects (DTOs)
+
+### CLI application:
 
 ```txt
 src/
@@ -110,72 +230,4 @@ src/
     └── logger/          # Logging utilities
 ```
 
-## Back End
-
-### Presentation Layer
-
-- Handles HTTP requests and responses.
-
-- Contains route handlers, and controllers.
-
-- Define DTOs (Data Transfer Objects) for request and response data.
-
-- Perform input validation and sanitization; including authentication and authorization.
-
-- Handle error responses and logging.
-
-- Return structured JSON responses and status codes.
-
-### Business Layer
-
-- Contains the core business logic and application rules.
-
-- Use entities, services, and use cases to encapsulate business operations.
-
-- Orchestrate operations between repositories
-
-- Return structured data objects
-
-### Persistence Layer
-
-- Responsible for data storage and retrieval, typically interacting with a database.
-
-- Use repositories and data transfer objects (DTOs) to abstract database operations.
-
-- Handle data access and external integrations.
-
-- Return primitive data or simple objects.
-
-- Is the only layer that knows about data sources..
-
-- Handle data transformation if needed.
-
-## Front End
-
-For Angular projects.
-
-### Presentation Layer
-
-Use the Container/Presenter pattern to separate UI logic from business logic.
-
-All components will be standalone by default.
-
-Use Signals to communicate between components and with templates.
-
-Define and use shared components, directives, and pipes.
-
-### Business Layer
-
-Use services to encapsulate business logic and state management.
-
-Use Signals for reactive state management.
-
-### Persistence Layer
-
-Use repositories to abstract data access and API calls.
-
-Encapsulate HttpClient calls and URLs within those repository services.
-
-Define and use Angular Interceptors for common HTTP operations like authentication, error handling, and logging.
-
-> End of Architecture best practices
+> End of Software Architecture best practices
