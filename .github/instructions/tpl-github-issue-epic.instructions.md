@@ -28,6 +28,6 @@ description: "Template for an Issue in GitHub for an Epic"
   - `priority: ❗ High`
   - `priority: ❕ Normal`
 
-Notes
+<!-- Notes
 - Use only one priority label per epic.
-- Do not add a `feature` label to epics or features; rely on Issue Type.
+- Do not add a `feature` label to epics or features; rely on Issue Type. -->

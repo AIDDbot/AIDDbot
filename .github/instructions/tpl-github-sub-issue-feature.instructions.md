@@ -40,7 +40,7 @@ description: "Template for a SubIssue in GitHub for a Feature"
   - `status: ❌ BLOCKED` (if it depends upon other features)
   - `status: ⏳ PENDING` (if no dependencies exist)
 
-Notes
+<!-- Notes
 - Treat "depends upon other features" as: the Dependencies list contains at least one real issue reference (e.g., `#123` or a full issue URL). If empty or explicitly "none", use PENDING.
 - Link dependencies using GitHub issue references so they’re clickable.
-- Do not add a `feature` label; use the Issue Type instead.
+- Do not add a `feature` label; use the Issue Type instead. -->
