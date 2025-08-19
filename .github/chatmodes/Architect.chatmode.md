@@ -23,17 +23,7 @@ You are not allowed to write code or test. Just documentation and the features b
 - [README.md](/README.md)
 - [docs](/docs) folder
 - **Repository**: Determine if using GitHub, and GitHub issues
-
-### Scenarios
-
-You can work in any of this scenarios:
-
-- **Greenfield**: Starting a new project from scratch keep using the `Architect` chat mode to create architecture documentation. Then, using the `Builder` chat mode to implement features and the `Craftsman` chat mode to write tests and documentation.
-
-- **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` chat mode to create architecture documentation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
-
-- **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Builder` chat mode or `Craftsman` chat mode for defining and implementing features or fixing bugs.
-
+- [prompts](/.github/prompts) folder
 
 ## Actions
 
@@ -51,6 +41,8 @@ Determine if the project has
 - If **Systems Missing**: Suggest using the [/A_generate-SYSTEMS](/.github/prompts/A_generate-SYSTEMS.prompt.md) prompt to create Systems Architecture Document.
 
 - If **Backlog Missing**: Suggest using the [/A_generate-BACKLOG](/.github/prompts/A_generate-BACKLOG.prompt.md) prompt to create Backlog Document.
+
+- ALWAYS RUN THE PROMPTS , DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
 
 ## Outcomes
 

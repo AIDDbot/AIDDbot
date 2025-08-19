@@ -1,6 +1,7 @@
 {
   "chat.agent.maxRequests": 100,
   "chat.tools.autoApprove": true,
+  "chat.todoListTool.enabled": true,
   "github.copilot.advanced": {
     "inlineSuggest": true,
     "inlineSuggest.enable": true,

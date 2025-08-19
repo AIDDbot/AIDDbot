@@ -13,7 +13,7 @@ description: "Template for a SubIssue in GitHub for a Feature"
 
 - **Dependencies:** 
   <!-- May be empty -->
-  - { F1.2 Feature 2 Short Name }
+  - { F1.2 Feature 2 Short Name with a link to the issue }
 - **Project Requirements:** 
   - { R1 Requirement 1 short title from PRD.md }
 
@@ -28,15 +28,19 @@ description: "Template for a SubIssue in GitHub for a Feature"
 { Technical solution }
 ````
 
-## Issue labeling
+## Sub-Issue type
 
-- [ ] Label issues based on their type:
-  - `feature` (default)
-  - `bug`
+- [ ] Set the GitHub Issue Type (do not add a type label):
+  - Feature (default)
+  - Bug
+
+## Sub-Issue labeling
 
 - [ ] Label issues based on their status (remove and add ensuring only one status label is present):
-  - `status: ❌ BLOCKED`
-  - `status: ⏳ PENDING`
-  - `status: ✨ DESIGNED`
-  - `status: ✅ CODED`
-  - `status: ✔️ RELEASED`
+  - `status: ❌ BLOCKED` (if it depends upon other features)
+  - `status: ⏳ PENDING` (if no dependencies exist)
+
+Notes
+- Treat "depends upon other features" as: the Dependencies list contains at least one real issue reference (e.g., `#123` or a full issue URL). If empty or explicitly "none", use PENDING.
+- Link dependencies using GitHub issue references so they’re clickable.
+- Do not add a `feature` label; use the Issue Type instead.

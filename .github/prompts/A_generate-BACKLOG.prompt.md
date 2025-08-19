@@ -44,14 +44,18 @@ Create a BACKLOG that outlines the epics and features for the project.
 
  > Read and follow this section if this is a GitHub repository and you have the `#create_issue` tool. Skip otherwise.
 
-- [ ] Read and follow the [#github-issue-epic](../instructions/tpl-github-issue-epic.instructions.md) template instructions for each epic.
+- [ ] Read and follow the [#github-issue-epic](../instructions/tpl-github-issue-epic.instructions.md) template instructions for each epic. Set Issue Type = Task. Do not add type-like labels.
 - [ ] Create a GitHub issue for each the epic 
 
 - After finish with all epics.
 
-- [ ] Read and follow the [#github-sub-issue-feature](../instructions/tpl-github-sub-issue-feature.instructions.md) template instructions for each issue.
+- [ ] Read and follow the [#github-sub-issue-feature](../instructions/tpl-github-sub-issue-feature.instructions.md) template instructions for each issue. Set Issue Type = Feature. Do not add a `feature` label.
 
 -  [ ] Use the #add_sub_issue to add a sub-issue for each feature at its epic issue:
+	 - Link feature dependencies by referencing issue numbers (e.g., `#7`) so they’re clickable.
+	 - Apply exactly one status label per feature:
+		 - `status: ❌ BLOCKED` if the Dependencies list contains any real issue reference
+		 - `status: ⏳ PENDING` otherwise
 
 - After finish with all features.
 

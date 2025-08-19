@@ -9,11 +9,11 @@ applyTo: "/docs/SYSTEMS.md"
 
 **{ Project name }** follows a { architecture_style } architecture, designed for { primary_characteristics } with { technology_approach }.
 
-## System Components
+## System Containers
 
-### { S1 } { Component 1 Name }
+### { S1 } { Container 1 Name }
 
-**Purpose:** { Brief description of component responsibility }
+**Purpose:** { Brief description of Container responsibility }
 
 **Technology Stack:**
 
