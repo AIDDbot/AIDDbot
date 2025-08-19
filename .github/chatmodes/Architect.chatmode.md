@@ -57,8 +57,6 @@ Determine if the project has
 - [PRD.md](/docs/PRD.md): Goals, requirements, and constraints of the project.
 - [DOMAIN.md](/docs/DOMAIN.md): Entities, relationships, and business rules of the project.
 - [SYSTEMS.md](/docs/SYSTEMS.md): System architecture, components and implementation details.
-- [ ] [BACKLOG.md](/docs/BACKLOG.md) or #list_issues : Features grouped by epics with their priorities and statuses.
-
-- [ ] Ensure links between documents and README are valid and up-to-date.
+- [BACKLOG.md](/docs/BACKLOG.md) or #list_issues : Features grouped by epics with their priorities and statuses.
 
 > End of the Architect role.

@@ -1,5 +1,5 @@
 ---
-description: "Template for an Issue in GitHub"
+description: "Template for a SubIssue in GitHub for a Feature"
 ---
 
 ## Issue Title
@@ -20,11 +20,11 @@ description: "Template for an Issue in GitHub"
 { Feature 1 Short Description }
 
 ## Specification
-<!-- Not to be filled right now -->
+<!-- Not to be filled at creation time -->
 { Problem specification }
 
 ## Design
-<!-- Not to be filled right now -->
+<!-- Not to be filled at creation time -->
 { Technical solution }
 ````
 
@@ -33,7 +33,6 @@ description: "Template for an Issue in GitHub"
 - [ ] Label issues based on their type:
   - `feature` (default)
   - `bug`
-  - `task`
 
 - [ ] Label issues based on their status (remove and add ensuring only one status label is present):
   - `status: ❌ BLOCKED`

@@ -4,8 +4,9 @@ description: "Create the BACKLOG for a project."
 
 # Backlog
 
-Create a BACKLOG that outlines the epics and features for the project and its status.
+Create a BACKLOG that outlines the epics and features for the project.
 
+- Divide the project requirements into smaller, manageable features.
 - Prioritize features based on business value and technical feasibility
 - Group related features into epics for better organization
 - Assign each Epic a Priority: ‼️ Critical ❗ High ❕ Normal
@@ -18,11 +19,11 @@ Create a BACKLOG that outlines the epics and features for the project and its st
 - [DOMAIN.md](/docs/DOMAIN.md)
 - [SYSTEMS.md](/docs/SYSTEMS.md)
 
-### GitHub Issues
+### Backlog in GitHub Issues or File System
 
 - Determine if this is a GitHub repository.
 - Determine if you have the `#create_issue` tool to access the GitHub API via MCP.
-- If so, DO NOT create any document in the file system. Use the GitHub tool to create issues.
+- If so, use the GitHub tool to create issues for epics with sub-issues for features.
 
 ## Workflow
 
@@ -41,27 +42,16 @@ Create a BACKLOG that outlines the epics and features for the project and its st
 
 ### GitHub Issues Backlog
 
- > Use this section if this is a GitHub repository and you have the `#create_issue` tool.
+ > Read and follow this section if this is a GitHub repository and you have the `#create_issue` tool. Skip otherwise.
 
--  For each epic do:
+- [ ] Read and follow the [#github-issue-epic](../instructions/tpl-github-issue-epic.instructions.md) template instructions for each epic.
+- [ ] Create a GitHub issue for each the epic 
 
-  - [ ] Create a GitHub issues for the epic with:
-    - Title : `{ E1 } { Epic 1 Short Name } `
-    - Labels: 
-      - `priority: ‼️ Critical`
-      - `priority: ❗ High`
-      - `priority: ❕ Normal`
-    - Description: { Epic 1 Short Description }
+- After finish with all epics.
 
-- After finish with all features.
+- [ ] Read and follow the [#github-sub-issue-feature](../instructions/tpl-github-sub-issue-feature.instructions.md) template instructions for each issue.
 
-- [ ] Read and follow the [#github-issue](../instructions/tpl-github-issue.instructions.md) template instructions for each issue.
-
--  [ ] Add a sub-issue for each feature of the epic issue:
-
-  - [ ] Fill in the placeholders with relevant information about the feature. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete.
-
-  - [ ] Create GitHub sub issues for the epic with the feature in the BACKLOG with Title, Description, and any relevant labels.
+-  [ ] Use the #add_sub_issue to add a sub-issue for each feature at its epic issue:
 
 - After finish with all features.
 
@@ -72,7 +62,7 @@ Create a BACKLOG that outlines the epics and features for the project and its st
 
 ### Files System Backlog
 
- > Use this section if no other backlog is applicable.
+ > Read and follow this section if no other backlog is applicable. Skip otherwise.
 
 - [ ] Read and follow the [#BACKLOG](../instructions/tpl-BACKLOG.instructions.md) instructions
 
