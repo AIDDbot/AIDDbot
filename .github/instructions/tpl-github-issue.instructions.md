@@ -8,21 +8,25 @@ description: "Template for an Issue in GitHub"
 
 ## Issue Description
 
-```markdown
+````markdown
 # { F1.1 } { Feature 1 Short Name }
 
-- **Dependencies:** { none or a list of dependencies, e.g., F1.2 with issue links }
+- **Dependencies:** 
+  <!-- May be empty -->
+  - { F1.2 Feature 2 Short Name }
 - **Project Requirements:** 
   - { R1 Requirement 1 short title from PRD.md }
 
 { Feature 1 Short Description }
 
 ## Specification
-{ Content from Feature specs file, if exists }
+<!-- Not to be filled right now -->
+{ Problem specification }
 
 ## Design
-{ Content from Feature design file, if exists }
-```
+<!-- Not to be filled right now -->
+{ Technical solution }
+````
 
 ## Issue labeling
 
@@ -30,10 +34,6 @@ description: "Template for an Issue in GitHub"
   - `feature` (default)
   - `bug`
   - `task`
-
-- [ ] Label issues based on their epic:
-  - `epic: {E1 Epic 1 Short Name}`
-  - `epic: {E2 Epic 2 Short Name}`
 
 - [ ] Label issues based on their status (remove and add ensuring only one status label is present):
   - `status: ❌ BLOCKED`
