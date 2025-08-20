@@ -14,8 +14,8 @@ Write clean plan for the feature: ${input:featureId}
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
 - [Clean Code Instructions](/.github/instructions/gid-clean-code.instructions.md) for best practices in writing clean code
+- Follow the [Object Calisthenics standard](/.github/instructions/std-object-calisthenics.instructions.md)
 
-- If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
 ## Workflow
 
