@@ -34,19 +34,19 @@ In Copilot, a chat mode sets a specific context and grants the agent access to t
 Prompts are predefined queries or commands that guide the AI's responses. They help elicit concrete actions or structured outputs.
 
 - Architect (A_*):
-	- [A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
-	- [A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md)
-	- [A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md)
-	- [A_docs-SYSTEMS](/.github/prompts/A_docs-SYSTEMS.prompt.md)
+	- 📦 [A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md)
+	- 👔 [A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md)
+	- ⚙️ [A_docs-SYSTEMS](/.github/prompts/A_docs-SYSTEMS.prompt.md)
+	- ⏳ [A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
 - Builder (B_*):
-	- [B_feature-design](/.github/prompts/B_feature-design.prompt.md)
-	- [B_feature-plan](/.github/prompts/B_feature-plan.prompt.md)
-	- [B_feature-spec](/.github/prompts/B_feature-spec.prompt.md)
-	- [B_feature-code](/.github/prompts/B_feature-code.prompt.md)
+	- ⛪ [B_feature-spec](/.github/prompts/B_feature-spec.prompt.md)
+	- ✏️ [B_feature-design](/.github/prompts/B_feature-design.prompt.md)
+	- 📝 [B_feature-plan](/.github/prompts/B_feature-plan.prompt.md)
+	- ✨ [B_feature-code](/.github/prompts/B_feature-code.prompt.md)
 - Craftsman (C_*):
-	- [C_feature-test](/.github/prompts/C_feature-test.prompt.md)
-	- [C_feature-doc](/.github/prompts/C_feature-doc.prompt.md)
-	- [C_feature-clean](/.github/prompts/C_feature-clean.prompt.md)
+	- ✅ [C_feature-test](/.github/prompts/C_feature-test.prompt.md)
+	- ⛲ [C_feature-clean](/.github/prompts/C_feature-clean.prompt.md)
+	- ✔️ [C_feature-doc](/.github/prompts/C_feature-doc.prompt.md)
 - Utilities:
 	- [git-commit](/.github/prompts/git-commit.prompt.md)
 	- [git-init](/.github/prompts/git-init.prompt.md)
@@ -54,6 +54,8 @@ Prompts are predefined queries or commands that guide the AI's responses. They h
 	- [doc-generate-instructions](/.github/prompts/doc-generate-instructions.prompt.md)
 
 You can reference any prompt or instruction file manually in chat using the `#file:` prefix.
+
+Explore the [prompts folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) to see all available prompt files.
 
 ### 📚 Instructions
 
