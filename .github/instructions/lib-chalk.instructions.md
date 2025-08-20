@@ -1,6 +1,5 @@
 ---
 description: "Chalk best practices and usage guidelines"
-applyTo: "**/*.ts"
 ---
 
 # Chalk Instructions

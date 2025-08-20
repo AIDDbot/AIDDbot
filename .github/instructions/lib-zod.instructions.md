@@ -1,6 +1,5 @@
 ---
 description: "Zod best practices and usage guidelines"
-applyTo: "**/*.ts"
 ---
 
 # Zod Instructions
