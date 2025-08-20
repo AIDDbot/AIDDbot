@@ -1,5 +1,5 @@
 ---
-description: "Write documentation for a feature implementation"
+description: 'Write documentation for a feature implementation'
 ---
 
 # Feature Documentation

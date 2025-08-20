@@ -5,14 +5,14 @@ applyTo: '/docs/BACKLOG.md'
 
 # Backlog for { PROJECT_NAME }
 
-> Epic Priority Legend: ‼️ Critical ❗ High ❕ Normal
+> Epic Priority Legend: ‼️ Critical | ❗ High  |❕ Normal
 
-> Feature Status Legend: ❌ BLOCKED | ⏳ PENDING | ✨ DESIGNED | ✅ CODED | ✔️ RELEASED 
+> Feature Status Legend: ⛔ BLOCKED | ⏳ PENDING | ⛪ SPECIFIED | ✏️ DESIGNED | 📝 PLANNED | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED 
 
 ## { E1 } { Epic 1 Short Name } { Epic Priority }
 
 - { Epic 1 Short Description }
-
+  
 ### { F1.1 } { Feature 1 Short Name } { Feature Status }
 
 - **Dependencies:** 

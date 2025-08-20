@@ -1,5 +1,5 @@
 ---
-description: "Write clean plan for a feature implementation"
+description: 'Write clean plan for a feature implementation'
 ---
 
 # Feature Clean Plan

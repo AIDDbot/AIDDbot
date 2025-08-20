@@ -1,5 +1,5 @@
 ---
-description: "Write test plan for a feature implementation"
+description: 'Write test plan for a feature implementation'
 ---
 
 # Feature Test Plan
@@ -23,19 +23,19 @@ Write test plan for the feature: ${input:featureId}
 
 - [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step and mark the feature as tested in the Backlog.
 
-- [ ] Write a test plan [{featureId}.test.md](/docs/backlog/{featureId}.test.md) document that may include:
+- [ ] Write a test plan that may include:
   - Unit tests
   - Integration tests
   - End-to-end tests (using Playwright for web and api applications)
 
-- [ ] Execute the tasks in the order they are listed.
-
-- [ ] Mark each task as complete by updating the status in the [{featureId}.test.md](/docs/backlog/{featureId}.test.md) document.
+- [ ] implement the test plan in order.
 
 - [ ] **Run the Test**: Run the tests to ensure they pass.
+  - [ ] Fix and try again one more time.
+  - [ ] If the test still fails, write a report at `/docs/backlog/{featureId}.test.md`.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
-  - [ ] change or keep the status to ✅ TESTED
+  - [ ] If tests pass, change or keep the status to ✅ TESTED, if not, change the status to ❌ FAILED.
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) and type test message.
 

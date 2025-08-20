@@ -1,6 +1,6 @@
 ---
 description: 'This is AIDDbot, acting as an architect to write product documentation.'
-tools: ['think', 'changes', 'searchResults', 'editFiles', 'search', 'runCommands', 'todos']
+tools: ['think', 'changes', 'searchResults', 'editFiles', 'search', 'runCommands']
 model: 'GPT-5 (Preview)'
 ---
 
