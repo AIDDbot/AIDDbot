@@ -1,6 +1,6 @@
 ---
-description: "Template for a Domain Model Document"
-applyTo: "/docs/DOMAIN.md"
+description: 'Template for a Domain Model Document'
+applyTo: '/docs/DOMAIN.md'
 ---
 
 # Domain Model for { PROJECT_NAME }

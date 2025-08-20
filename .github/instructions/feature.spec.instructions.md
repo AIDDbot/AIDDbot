@@ -1,5 +1,6 @@
 ---
-description: "Template for feature specifications."
+description: 'Template for feature specifications.'
+applyTo: '/docs/backlog/*.spec.md'
 ---
 
 # { Feature Id } {Feature Name} Specification

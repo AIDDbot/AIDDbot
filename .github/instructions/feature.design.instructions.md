@@ -1,111 +1,76 @@
 ---
-description: "Template for feature design."
+description: 'Template for feature design.'
+applyTo: '/docs/backlog/*.design.md'
 ---
 
-# Design Document
+# { Feature Id } {Feature Name} Design 
 
 ## Overview
 
 {High-level description of the feature and its place in the overall system}
 
-## Steering Document Alignment
+## Data Models
 
-### Technical Standards (SYSTEMS.md)
+### Model 1
 
-{How the design follows documented technical patterns and standards}
+- **Purpose:** {Describe the purpose of this model, Input / Output / Persistence}
+- **Tier / Layer:** {Specify the tier or layer where this model belongs}
 
-### Project Structure (STRUCTURE.md)
+```code-language
+{Define the structure of Model1 in the coding language of the container}
+```
 
-{How the implementation will follow project organization conventions}
-
-## Code Reuse Analysis
-
-{What existing code will be leveraged, extended, or integrated with this feature}
-
-### Existing Components to Leverage
-
-- **{Component/Utility Name}**: {How it will be used}
-- **{Service/Helper Name}**: {How it will be extended}
-
-### Integration Points
-
-- **{Existing System/API}**: {How the new feature will integrate}
-- **{Database/Storage}**: {How data will connect to existing schemas}
-
-## Architecture
-
-{Describe the overall architecture and design patterns used}
-
-\`\`\`mermaid
-graph TD
-A[Component A] --> B[Component B]
-B --> C[Component C]
-\`\`\`
-
-## Components and Interfaces
+## Components
 
 ### Component 1
 
 - **Purpose:** {What this component does}
 - **Interfaces:** {Public methods/APIs}
-- **Dependencies:** {What it depends on}
-- **Reuses:** {Existing components/utilities it builds upon}
+- **Dependencies:** {What components/utilities it depends on}
+- **Reuses:** {Existing components it builds upon}
+  
+```code-language
+{Define the public API for Component 1}
+```
 
-### Component 2
+## User interface
 
-- **Purpose:** {What this component does}
-- **Interfaces:** {Public methods/APIs}
-- **Dependencies:** {What it depends on}
-- **Reuses:** {Existing components/utilities it builds upon}
+{Describe the user or application interfaces for this feature, including any screens, dialogs, pages or other elements that the user will interact with.}
 
-## Data Models
+### {Route | Page | Command} 1
 
-### Model 1
+- **Purpose:** {What this UI component does}
+- **URL:** {The URL for the API or page, or the command name}
 
-\`\`\`
-{Define the structure of Model1 in your language}
+## Aspects
 
-- id: {unique identifier type}
-- name: {string/text type}
-- {Additional properties as needed}
-  \`\`\`
+### Monitoring
 
-### Model 2
+{Describe how this feature will be monitored, including metrics, logging, and alerting}
 
-\`\`\`
-{Define the structure of Model2 in your language}
+### Security
 
-- id: {unique identifier type}
-- {Additional properties as needed}
-  \`\`\`
+{Outline the security considerations for this feature, including data protection, authentication, and authorization}
 
-## Error Handling
+### Error Handling
 
-### Error Scenarios
+{Define the overall strategy for error handling in this feature, including logging, user notifications, and fallback mechanisms.}
 
-1. **Scenario 1:** {Description}
-   - **Handling:** {How to handle}
-   - **User Impact:** {What user sees}
+## Architecture
 
-2. **Scenario 2:** {Description}
-   - **Handling:** {How to handle}
-   - **User Impact:** {What user sees}
+{Describe the overall architecture and design patterns used}
 
-## Testing Strategy
+### Component Diagram
 
-### Unit Testing
+```mermaid
+C4Component
+    { This is a placeholder for the component diagram. Use C4 model to represent the components involved in this feature. }
+```
 
-- {Unit testing approach if applicable}
-- {Key components to test if any}
+### File Structure
 
-### Integration Testing
-
-- {Integration testing approach if applicable}
-- {Key flows to test if any}
-
-### End-to-End Testing
-
-- {User scenarios to test if applicable}
-- {E2E testing approach if any}
+```plaintext
+{Describe the file structure for this feature, including any important directories, files, and their purposes.}
+```
 
 > End of Feature Design for { Feature Id }, last updated { DATE }.

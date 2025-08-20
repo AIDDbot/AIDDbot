@@ -1,31 +1,32 @@
 ---
-description: 'Template for BACKLOG document for a project.'
+description: 'Template for the BACKLOG document for a project.'
 applyTo: '/docs/BACKLOG.md'
 ---
 
 # Backlog for { PROJECT_NAME }
 
-## Overview
-
 > Epic Priority Legend: ‼️ Critical ❗ High ❕ Normal
-> Feature Status Legend: ❌ BLOCKED | ⏳ PENDING | ✨ DESIGNED | ✅ CODED | ✔️ RELEASED 
 
-- [{ E1 } { Epic 1 Short Name } { Epic 1 Priority }]({#local-link-to-epic-e1}) : { List of status icons for the epic 1 features }
-- [{ E2 } { Epic 2 Short Name } { Epic 2 Priority }]({#local-link-to-epic-e2}) : { List of status icons for the epic 2 features }
+> Feature Status Legend: ❌ BLOCKED | ⏳ PENDING | ✨ DESIGNED | ✅ CODED | ✔️ RELEASED 
 
 ## { E1 } { Epic 1 Short Name } { Epic Priority }
 
 - { Epic 1 Short Description }
 
-### { F1.1 } { Feature 1 Short Name } {[ghI:#1](Remote link to github issue if exists)} { ✔️ RELEASED | ✅ CODED | 📝 DESIGNED | ⏳ PENDING | ❌ BLOCKED }
+### { F1.1 } { Feature 1 Short Name } { Feature Status }
 
-- **Dependencies:** { none or a list of dependencies, e.g., F1.2 with internal links }
+- **Dependencies:** 
+  <!-- May be empty -->
+  - { F1.2 Feature 2 Short Name with a local link to the feature }
 - **Project Requirements:** 
   - { R1 Requirement 1 short title from PRD.md }
 
 { Feature 1 Short Description }
 
----
+- **Links:**
+  - [Feature Specification](./feats/{featureId}.spec.md)
+  - [Design Document](./feats/{featureId}.design.md)
+  - [Implementation Plan](./feats/{featureId}.plan.md)
 
 ## Additional Information
 

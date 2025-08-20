@@ -1,5 +1,5 @@
 ---
-description: "Create the DOMAIN document for a project."
+description: 'Create the DOMAIN document for a project.'
 ---
 
 # Domain model document

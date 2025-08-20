@@ -1,5 +1,5 @@
 ---
-description: "Write code for a feature implementation"
+description: 'Implement a feature following a plan.'
 ---
 
 # Feature Code Generation
@@ -8,8 +8,8 @@ Write code for the feature: ${input:featureId}
 
 ## Context
 
-- [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
+- [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
+- [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md)
 - [Architecture Instructions](/.github/instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 - [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
@@ -22,18 +22,19 @@ Write code for the feature: ${input:featureId}
 
 - [ ] Create a new git branch named `feat/{featureId}` and switch to it.
 
-
-- [ ] Read the tasks in the [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md) document.
+- [ ] Read and follow the [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) plan document.
 
 - [ ] Execute the tasks in the order they are listed.
 
-- [ ] Mark each task as complete by updating the status in the [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md) document.
+- [ ] Mark each task as complete by updating the status in the [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) document.
 
 - [ ] **Smoke Test**: The code builds and runs successfully. Do not test or lint the code at this stage.
 
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status ✔️ CODED by running [/backlog-update](/.github/prompts/backlog-update.prompt.md).
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
+  - [ ] change or keep the status to ✅ CODED
+  - [ ] review dependent Blocked features, change to ⏳ PENDING if necessary
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a feat type message.
 
 ## Validation
 

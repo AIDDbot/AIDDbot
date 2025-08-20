@@ -1,5 +1,5 @@
 ---
-description: "Create the SYSTEMS document for a project."
+description: 'Create the SYSTEMS document for a project.'
 ---
 
 # Systems Architecture Document
@@ -13,22 +13,17 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [Architecture Instructions](../instructions/Ab_architecture.instructions.md)
+- [Software Architecture Guide](../instructions/gid_architecture.instructions.md)
 
 ## Workflow
 
 - Questions to consider:
-  - What are the main system layers/tiers?
-  - What technologies will be used for each component?
-  - How do components communicate with each other?
+  - What are the main system tiers/containers?
+  - What technologies will be used for each container?
+  - How do containers communicate with each other?
   - What database technology will be used?
   - How will data be structured and accessed?
-  - What are the data persistence patterns?
-  - How do system components communicate?
-  - What APIs or interfaces are exposed?
-  - What are the data exchange formats?
   - How is authentication and authorization handled?
-  - What are the security protocols?
   - How is sensitive data protected?
 
 - [ ] Read and follow the [tpl-SYSTEMS](../instructions/tpl-SYSTEMS.instructions.md) instructions

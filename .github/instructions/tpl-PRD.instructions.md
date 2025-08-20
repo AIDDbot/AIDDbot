@@ -1,6 +1,6 @@
 ---
-description: "Template for Project Requirements Document (PRD)"
-applyTo: "/docs/PRD.md"
+description: 'Template for Project Requirements Document (PRD)'
+applyTo: '/docs/PRD.md'
 ---
 
 # Project Requirements Document for { PROJECT_NAME }
