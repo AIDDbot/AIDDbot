@@ -39,17 +39,8 @@ Development dependencies:
 > ✔️ Example of importing a TypeScript function and type:
 
 ```ts
-import { bootstrap } from "./api/api.bootstrap.ts";
-import type { ApiConfig } from "./api/api.bootstrap.ts";
-```
-
-> 🚫 Bad Example of avoiding classic Node imports:
-
-```ts
-// Bad import: Missing suffix
-import { bootstrap } from "./api/api.bootstrap";
-// Bad import: Missing type keyword
-import { ApiConfig } from "./api/api.bootstrap.ts";
+import { sum } from "./math.utils.ts";
+import type { User } from "./user.dto.ts";
 ```
 
 ## Running TypeScript Files
@@ -78,12 +69,15 @@ Use minimal tsconfig.json for type checking only (no compilation):
 ```json
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "noEmit": true,
-    "strict": true
+    "rewriteRelativeImportExtensions": true,
+    "strict": true,
+    "target": "esnext",
+    "verbatimModuleSyntax": true
   }
 }
 ```

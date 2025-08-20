@@ -24,7 +24,7 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
 
 - [ ] Focus only on coding tasks (no deployment, no testing, no documentation, etc.)
 
-- [ ] Read and follow the [#feature.plan](/.github/instructions/feature.plan.instructions.md) instructions.
+- [ ] Read and follow the [#tpl-feature-plan](/.github/instructions/tpl-feature-plan.instructions.md) instructions.
 - CHOOSE THE SIMPLEST APPROACH FOR EACH TASK.
 - DO NOT INCLUDE TESTING NOR DOCUMENTATION TASKS AT THIS STAGE.
   

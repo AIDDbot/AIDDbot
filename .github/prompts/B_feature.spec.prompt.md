@@ -21,7 +21,7 @@ Write detailed specifications for the feature: ${input:featureId}
 
 - CHOOSE THE SIMPLEST APPROACH FOR EACH USER STORY.
 
-- [ ] Read and follow the [#feature.spec](/.github/instructions/feature.spec.instructions.md) instructions.
+- [ ] Read and follow the [#tpl-feature-spec](/.github/instructions/tpl-feature-spec.instructions.md) instructions.
 
 - [ ] Fill in the placeholders with relevant information.
 

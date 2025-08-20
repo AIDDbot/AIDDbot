@@ -78,7 +78,6 @@ type User = {
 - Use ES modules (`import`) syntax, not CommonJS (`require`).
 - Destructure imports when possible (eg. `import { foo } from 'bar.ts'`)
 - Import types specifically from the module file (eg. `import type { Foo } from './foo.ts'`)
-- When importing use the full file name including the extension `.ts`.
 
 ## Functions and methods
 
@@ -107,7 +106,7 @@ type User = {
 
 - Use classes for coupling data and behavior.
 - Declare and use an `interface` for class behavior.
-- In no DI framework, use constructor for dependencies prefer interfaces over concrete classes.
+- If no DI framework available, use constructor for dependencies and prefer interfaces over concrete classes.
 - Be explicit for `public`, `private` or `protected` members.
 - Use `readonly` for properties.
 

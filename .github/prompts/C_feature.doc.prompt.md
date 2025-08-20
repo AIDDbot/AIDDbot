@@ -18,9 +18,12 @@ Write documentation for the feature: ${input:featureId}
 
 - [ ] Update or create the [docs/STRUCTURE.md](/docs/STRUCTURE.md) file to include the new feature.
 
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status ✔️ RELEASED by running [/backlog-update](/.github/prompts/backlog-update.prompt.md).
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
+  - [ ] change or keep the status to ✔️ RELEASED
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with docs type message and closing the feature.
+
+- [ ] Merge the branch named `feat/{featureId}` to `main` and switch to it.
 
 ## Validation
 

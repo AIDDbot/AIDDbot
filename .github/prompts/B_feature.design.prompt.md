@@ -30,7 +30,7 @@ This will help plan the implementation.
 
 - CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 
-- [ ] Read and follow the [#feature.design](/.github/instructions/feature.design.instructions.md) instructions.
+- [ ] Read and follow the [#tpl-feature-design](/.github/instructions/tpl-feature-design.instructions.md) instructions.
 
 - [ ] Fill in the placeholders with relevant information about the project.
 
