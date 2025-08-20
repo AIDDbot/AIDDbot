@@ -38,7 +38,7 @@ This will help plan the implementation.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] a link to the feature design
-  - [ ] change or keep the status to 📝 DESIGNED
+  - [ ] change or keep the status to ✏️ DESIGNED
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a docs type message.
 

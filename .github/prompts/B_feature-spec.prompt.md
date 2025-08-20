@@ -29,6 +29,7 @@ Write detailed specifications for the feature: ${input:featureId}
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] a link to the feature specification
+  - [ ] change or keep the status to 📝 PLANNED
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a docs type message.
 

@@ -33,7 +33,8 @@ Write clean plan for the feature: ${input:featureId}
 
 - [ ] **Run the Test**: Run the tests to ensure they pass.
 
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with the feature specification link and status ✔️ CODED by running [/backlog-update](/.github/prompts/backlog-update.prompt.md) .
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
+  - [ ] change or keep the status to ⛲ CLEANED
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
 

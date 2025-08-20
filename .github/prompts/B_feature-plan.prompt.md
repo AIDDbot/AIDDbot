@@ -34,7 +34,7 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] a link to the feature plan
-  - [ ] change or keep the status to 📝 DESIGNED
+  - [ ] change or keep the status to 📝 PLANNED
 
 - [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
 
