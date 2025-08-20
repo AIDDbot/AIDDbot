@@ -10,7 +10,7 @@ Generate comprehensive instruction files for each dependency specified in the pr
 ## Context
 
 - [SYSTEMS.md](/docs/SYSTEMS.md) - Contains the technology stack and approved dependencies
-- [Clean Code Instructions](../instructions/clean_code.instructions.md) - Example of an existing instruction file
+- [Clean Code Instructions](../instructions/gid-clean-code.instructions.md) - Example of an existing instruction file
 - [/.github/instructions](../instructions) - Existing instruction files directory
 
 
@@ -43,7 +43,8 @@ Type can be:
 - `lng` for languages
 - `frm` for frameworks
 - `lib` for libraries
-- `pck` for packages or tools
+- `pck` for packages
+- `tol` for tools
 
 Try to use simple examples and keep the instructions file concise, ideally under 250 lines.
 

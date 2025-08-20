@@ -16,29 +16,15 @@ Keep commits linked to features, tasks, or issues when applicable.
 
 ## Context
 
-- Use the #changes tool to track changes in the repository.
-- Read the [Backlog](/docs/BACKLOG.md) if it exists for linking the changes to specific features or issues.
+- [Conventional Commits standard](.github/instructions/std-conventional-commits.instructions.md)
 
 ## Workflow
 
+- [ ] Use the #changes tool to track changes in the repository.
 - [ ] Group changes into logical commits.
-- [ ] Use conventional commit messages to describe the changes made.
-- [ ] Available Types: `feat`, `fix`, `docs`, `test`, `chore`, `refactor`.
-- [ ] Use the feature code with the type when applicable. Ex: `feat(f1.2):`
-- [ ] Use the github issue number at the beginning of the commit message when applicable. Ex: `#123`
-- [ ] Use the prefix closes when applicable. Ex: `closes #123`
-- [ ] Add a short list of changes made in the commit message body when necessary.
+- [ ] Read the [Backlog](/docs/BACKLOG.md), if it exists, for linking the changes to specific features or issues.
+- [ ] Commit following the Conventional Commits standard
 
-### Example Commit Message
-
-IMPORTANT: USE THE GITHUB ISSUE NUMBER IN THE COMMIT MESSAGE WHEN APPLICABLE.
-
-```bash
-feat(f1.2): #123 add user authentication module 
-- Implemented user login and registration features
-- Added JWT token-based authentication
-- Updated user model to include password hashing
-```
 
 ## Validation
 
