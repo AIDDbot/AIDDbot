@@ -12,10 +12,10 @@ Instructions for using AIDDbot with VSCode and GitHub Copilot.
 
 Or simply use the installation prompt.
 
-1. Copy the raw content from [AIDDbot install for Copilot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/git-install-for-copilot.prompt.md)
+1. Copy the raw content from [AIDDbot install for Copilot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/U_aiddbot-install-for-copilot.prompt.md)
 2. Paste it into your Copilot Chat in `Agent` mode.
 
-## 📋 Usage
+## 🧑‍💻 Usage
 
 Copilot Chat ships with three native modes: `Ask`, `Edit`, and `Agent`.
 
@@ -31,33 +31,15 @@ After installation, you'll get three dedicated chat modes tailored to AI-Driven 
 
 In Copilot, a chat mode sets a specific context and grants the agent access to the prompts and tools aligned with that context.
 
-### 🧑‍💻 Prompts by role/chat-mode
+### 📋 Prompts
 
 Prompts are predefined queries or commands that guide the AI's responses. They help elicit concrete actions or structured outputs.
 
-- Architect (A_*):
-	- 📦 [A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md) : Product Requirements Document
-	- 👔 [A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md) : Domain Model, Entity-Relationship Diagrams
-	- ⚙️ [A_docs-SYSTEMS](/.github/prompts/A_docs-SYSTEMS.prompt.md) : System Design, tech stack and architecture
-	- ⏳ [A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md) : Backlog with epics and features
-- Builder (B_*):
-	- ⛪ [B_feature-spec](/.github/prompts/B_feature-spec.prompt.md) : Problem Specification, user stories
-	- ✏️ [B_feature-design](/.github/prompts/B_feature-design.prompt.md) : Solution Design
-	- 📝 [B_feature-plan](/.github/prompts/B_feature-plan.prompt.md) : Plan with tasks to generate code
-	- ✨ [B_feature-code](/.github/prompts/B_feature-code.prompt.md) : Implementation of the feature following the plan
-- Craftsman (C_*):
-	- ✅ [C_feature-test](/.github/prompts/C_feature-test.prompt.md) : Feature Testing
-	- ⛲ [C_feature-clean](/.github/prompts/C_feature-clean.prompt.md) : Code Cleanup
-	- ✔️ [C_feature-doc](/.github/prompts/C_feature-doc.prompt.md) : Documentation and release
-- Utilities:
-	- [git-init](/.github/prompts/git-init.prompt.md) : Git Init
-	- [git-commit](/.github/prompts/git-commit.prompt.md) : Git Commit
-	- [git-install-for-copilot](/.github/prompts/git-install-for-copilot.prompt.md) : Install AIDDbot for Copilot, using git
-	- [doc-generate-instructions](/.github/prompts/doc-generate-instructions.prompt.md) : Generate Instructions as best-practice documentation
-
 You can reference any prompt or instruction file manually in chat using the `#file:` prefix.
 
-Explore the [prompts folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) to see all available prompt files.
+> 🔍 Explore the [prompts folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts) to see all available prompt files. 
+
+> ℹ️ Read more at the [prompts documentation](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/_prompts.md) for a detailed overview.
 
 ### 📚 Instructions
 

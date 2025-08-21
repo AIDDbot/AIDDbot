@@ -25,7 +25,6 @@ Keep commits linked to features, tasks, or issues when applicable.
 - [ ] Read the [Backlog](/docs/BACKLOG.md), if it exists, for linking the changes to specific features or issues.
 - [ ] Commit following the Conventional Commits standard
 
-
 ## Validation
 
 - [ ] Use the #runCommands tool to ensure git status is clean by running `git status`

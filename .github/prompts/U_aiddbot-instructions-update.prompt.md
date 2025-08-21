@@ -1,11 +1,11 @@
 ---
-description: 'Generate specific instruction files for project dependencies.'
+description: 'Generate instruction files for project technology stack.'
 tools: ["editFiles", "fetch", "search", "runCommands"]
 ---
 
-# Instructions Generator
+# Updates instructions for AIDDbot
 
-Generate comprehensive instruction files for each dependency specified in the project architecture, providing best practices and usage guidelines for AI agents and developers.
+Generate comprehensive instruction files for each tech stack item specified in the project architecture, providing best practices and usage guidelines for AI agents and developers.
 
 ## Context
 
@@ -13,38 +13,36 @@ Generate comprehensive instruction files for each dependency specified in the pr
 - [Clean Code Instructions](../instructions/gid-clean-code.instructions.md) - Example of an existing instruction file
 - [/.github/instructions](../instructions) - Existing instruction files directory
 
-
 ## Workflow
 
 ### 1. Analysis Phase
 
-- [ ] Read and analyze [SYSTEMS.md](/docs/SYSTEMS.md) to identify all approved dependencies, including:
-  - Production and development dependencies
-  - Built-in framework packages
-  - Language-specific libraries
-  - Any other relevant packages or tool
-- [ ] Double-check the [/.github/instructions](../instructions) directory for existing library instruction files
-- [ ] Create a list of missing instruction files needed
+- [ ] Read and analyze [SYSTEMS.md](/docs/SYSTEMS.md) to identify all approved technologies (technology items), including:
+  - Programming Languages
+  - Application Frameworks
+  - Production Libraries
+  - Development Tools
+- [ ] Double-check the [/.github/instructions](../instructions) directory for existing instruction files
+- [ ] Create a list of missing instruction files needed for each technology item
 
 ### 2. Research and Generation
 
-For each missing library instruction file:
+For each missing instruction file:
 
 - [ ] Use #fetch tool to visit and read the [copilot custom instructions catalog](https://github.com/github/awesome-copilot?tab=readme-ov-file#-custom-instructions)
-- [ ] Use #fetch tool to research the official documentation and best practices
+- [ ] Use #fetch tool to research the official documentation and best practices for the technology item
 - [ ] Use #fetch tool to ask in Google for instructions, rules or other LLM best practices
-- [ ] Summarize findings and create a draft for the instruction file.
+- [ ] Summarize (less than 250 lines) findings and create a draft for the instruction file.
 
 ### 3. File Creation
 
-Create instruction files following this naming convention: `{type}-{name}.instructions.md`
+Create instruction files at [/.github/instructions](../instructions) folder following this naming convention: `{type}-{name}.instructions.md`
 
 Type can be:
 - `lng` for languages
 - `frm` for frameworks
 - `lib` for libraries
-- `pck` for packages
-- `tol` for tools
+- `dtl` for tools
 
 Try to use simple examples and keep the instructions file concise, ideally under 250 lines.
 
@@ -58,7 +56,7 @@ applyTo: "**/*.{lang extension if applicable}"
 
 # {Name} Instructions
 
-## Installation & Setup
+## Setup
 
 ## Core Concepts
 
@@ -66,9 +64,11 @@ applyTo: "**/*.{lang extension if applicable}"
 
 {- List of best practices written in one line each -}
 
-```
+## Examples
 
-## Output Verification
+{ a simple example of usage }
+
+```
 
 - [ ] All approved dependencies have corresponding instruction files
 - [ ] Files are properly formatted with front matter

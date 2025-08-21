@@ -6,7 +6,7 @@ tools: ["changes", "editFiles", "fetch", "runCommands"]
 
 # Install AIDDbot for GitHub Copilot
 
-Copy the `.github` directory from the [AIDDbot/AIDDbot](https://github.com/AIDDbot/AIDDbot) to the current repository.
+Copy the `.github` directory from the [AIDDbot/AIDDbot repository](https://github.com/AIDDbot/AIDDbot) to the current repository.
 
 ## Goal
 
@@ -59,7 +59,7 @@ The files have been copied to your local file system, but they are not yet part 
 
 ```bash
 git add .github
-git commit -m "Add .github directory from AIDDbot repository"
+git commit -m "chore: Add .github directory from AIDDbot repository"
 ```
 
 You have now successfully copied the `.github` directory from the source repository and added it to your own local repository's history without maintaining any direct Git link to the original source.

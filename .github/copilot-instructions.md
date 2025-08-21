@@ -67,7 +67,7 @@ You can enhance your capabilities by editing prompts and instructions in the `.g
 
 ## Git
 
-If the user tells you to stage and commit, you may do so by running the following prompt [/git-commit](./prompts/git-commit.prompt.md)
+If the user tells you to stage and commit, you may do so by running the following prompt [/U_git-commit](./prompts/U_git-commit.prompt.md)
 
 You are NEVER allowed to push changes automatically.
 
