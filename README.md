@@ -34,7 +34,8 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **Works with any LLM** and several IDE with AI-enabled agents:
 
-- **[VsCode and GitHub Copilot](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md)** ✔️ Ready 
+### [VsCode and GitHub Copilot](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) ✔️ Ready 
+
 - _Cursor_, 🚧 In progress
 - _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
 
@@ -51,6 +52,12 @@ The `AIDDbot` agent adheres to the three [AIDD Manifesto](https://aiddbot.com/ai
 - **🧑‍💻 Human in the Loop**: Your work becomes more strategic, collaborative, and accountable.
 - **🔧 Rules over Tools**: Tools are just means; but rules & processes provide durable value.
 - **✅ AI Quality**: Not only higher productivity, but also maintainable, high-quality software.
+
+Those principles are implemented by three roles:
+
+- **🧑‍💼 Architect**: Focuses on high-level design and system architecture.
+- **👷 Builder**: Concentrates on implementation and coding tasks.
+- **🧑‍🔧 Craftsman**: Ensures quality through testing and refinement.
 
 > Work smarter, not harder, with _Ab_!
 
