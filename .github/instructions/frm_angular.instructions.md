@@ -6,9 +6,9 @@ description: "Angular Framework Best Practices"
 
 ## Overview
 
-Write code using TypeScript language following [lang TypeScript](/.github/instructions/lng-typescript.instructions.md) best practices.
+Write code using TypeScript language following [lang TypeScript](lng_typescript.instructions.md) best practices.
 
-Follow [Architecture Best Practices](/.github/instructions/architecture.instructions.md) for layered architecture and structure guidelines.
+Follow [Architecture Best Practices](bst_architecture.instructions.md) for layered architecture and structure guidelines.
 
 **CRITICAL: Use modern Angular features and patterns, avoid legacy patterns.**
 

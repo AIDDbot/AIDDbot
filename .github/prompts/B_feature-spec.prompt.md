@@ -21,7 +21,7 @@ Write detailed specifications for the feature: ${input:featureId}
 
 - CHOOSE THE SIMPLEST APPROACH FOR EACH USER STORY.
 
-- [ ] Read and follow the [#tpl-feature-spec](/.github/instructions/tpl-feature-spec.instructions.md) instructions.
+- [ ] Read and follow the [#tpl_feature-spec](../instructions/tpl_feature-spec.instructions.md) instructions.
 
 - [ ] Fill in the placeholders with relevant information.
 
@@ -31,7 +31,7 @@ Write detailed specifications for the feature: ${input:featureId}
   - [ ] a link to the feature specification
   - [ ] change or keep the status to 📝 PLANNED
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a docs type message.
+- [ ] Commit changes by running [/U_git-commit](../prompts/U_git-commit.prompt.md) with a docs type message.
 
 ## Validation
 

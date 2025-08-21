@@ -5,7 +5,7 @@ applyTo: "**/*.cs"
 
 # C# Instructions
 
-Follow Clean Code practices in `gid-clean-code.instructions.md`. Prefer modern C#/.NET features and keep code small, cohesive, and testable.
+Follow Clean Code practices in [Clean Code Best Practices](bst_clean-code.instructions.md) . Prefer modern C#/.NET features and keep code small, cohesive, and testable.
 
 ## Installation & Setup
 

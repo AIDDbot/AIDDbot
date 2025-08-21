@@ -12,7 +12,7 @@ This will help plan the implementation.
 - [DOMAIN.md](/docs/DOMAIN.md)
 - [SYSTEMS.md](/docs/SYSTEMS.md)
 - [{featureId}.spec.md](/docs/backlog/{featureId}.spec.md)
-- [Architecture Instructions](/.github/instructions/gid-architecture.instructions.md)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 
 ## Workflow
@@ -30,7 +30,7 @@ This will help plan the implementation.
 
 - CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 
-- [ ] Read and follow the [#tpl-feature-design](/.github/instructions/tpl-feature-design.instructions.md) instructions.
+- [ ] Read and follow the [#tpl_feature-design](../instructions/tpl_feature-design.instructions.md) instructions.
 
 - [ ] Fill in the placeholders with relevant information about the project.
 
@@ -40,7 +40,7 @@ This will help plan the implementation.
   - [ ] a link to the feature design
   - [ ] change or keep the status to ✏️ DESIGNED
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a docs type message.
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with a docs type message.
 
 ## Validation
 

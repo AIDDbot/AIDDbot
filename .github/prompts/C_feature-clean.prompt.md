@@ -9,12 +9,12 @@ Write clean plan for the feature: ${input:featureId}
 ## Context
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
-- [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
-- [Clean Code Instructions](/.github/instructions/gid-clean-code.instructions.md) for best practices in writing clean code
-- Follow the [Object Calisthenics standard](/.github/instructions/std-object-calisthenics.instructions.md)
+- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
+- [Clean Code Instructions](../instructions/bst_clean-code.instructions.md) for best practices in writing clean code
+- Follow the [Object Calisthenics standard](../instructions/std_object-calisthenics.instructions.md)
 
 
 ## Workflow
@@ -36,7 +36,7 @@ Write clean plan for the feature: ${input:featureId}
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] change or keep the status to ⛲ CLEANED
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with refactor type message
+- [ ] Commit changes by running [/U_git-commit](/.github/prompts/U_git-commit.prompt.md) with refactor type message
 
 ## Validation
 

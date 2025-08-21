@@ -16,7 +16,7 @@ Keep commits linked to features, tasks, or issues when applicable.
 
 ## Context
 
-- [Conventional Commits standard](.github/instructions/std-conventional-commits.instructions.md)
+- [Conventional Commits standards](../instructions/std_conventional-commits.instructions.md)
 
 ## Workflow
 

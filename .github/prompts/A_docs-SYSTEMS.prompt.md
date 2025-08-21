@@ -13,7 +13,7 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [Software Architecture Guide](../instructions/gid_architecture.instructions.md)
+- [Software Architecture Guide](../instructions/bst_architecture.instructions.md)
 
 ## Workflow
 
@@ -26,7 +26,7 @@ Create a Systems Architecture Document that defines the project's technical arch
   - How is authentication and authorization handled?
   - How is sensitive data protected?
 
-- [ ] Read and follow the [tpl-SYSTEMS](../instructions/tpl-SYSTEMS.instructions.md) instructions
+- [ ] Read and follow the [tpl_docs-SYSTEMS](../instructions/tpl_docs-SYSTEMS.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the SYSTEMS.
 
@@ -34,7 +34,7 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [ ] Update the [README.md](/README.md) file with a link to this SYSTEMS
 
-- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 ## Validation
 

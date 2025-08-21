@@ -7,7 +7,7 @@ applyTo: "**/*.ts"
 
 ## Overview
 
-Write code using TypeScript language following [lang TypeScript](lng-typescript.instructions.md) best practices.
+Write code using TypeScript language following [lang TypeScript](lng_typescript.instructions.md) best practices.
 
 **CRITICAL: Avoid external dependencies when native Node.js features exist.**
 

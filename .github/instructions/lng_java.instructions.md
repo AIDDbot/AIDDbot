@@ -5,7 +5,7 @@ applyTo: "**/*.java"
 
 # Java Instructions
 
-Follow [Clean Code Best Practices](gid-clean-code.instructions.md) for general guidance.
+Follow [Clean Code Best Practices](bst_clean-code.instructions.md) for general guidance.
 
 ## Installation & Setup
 

@@ -5,7 +5,7 @@ applyTo: "**/*.ts"
 
 # TypeScript Best Practices
 
-Follow [Clean Code Best Practices](/.github/instructions/clean_code.instructions.md) for general coding practices.
+Follow [Clean Code Best Practices](bst_clean-code.instructions.md) for general coding practices.
 
 ## Name conventions
 

@@ -10,12 +10,12 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
 
 - [{featureId}.spec.md](/docs/backlog/{featureId}.spec.md)
 - [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/gid-architecture.instructions.md)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [Database Instructions](/.github/instructions/gid-database.instructions.md) (if applicable)
+- [Database Instructions](../instructions/bst_database.instructions.md) (if applicable)
 
-- [{frm}-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
-- [ ] If there is no specific framework instructions run the [/doc-generate-instructions](../prompts/doc-generate-instructions.prompt.md) prompt to get instructions for it.
+- [{frm}-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [ ] If there is no specific framework instructions run the [/U_aiddbot-instructions-update](U_aiddbot-instructions-update.prompt.md) prompt to get instructions for it.
 
 
 ## Workflow
@@ -24,7 +24,7 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
 
 - [ ] Focus only on coding tasks (no deployment, no testing, no documentation, etc.)
 
-- [ ] Read and follow the [#tpl-feature-plan](/.github/instructions/tpl-feature-plan.instructions.md) instructions.
+- [ ] Read and follow the [#tpl_feature-plan](../instructions/tpl_feature-plan.instructions.md) instructions.
 - CHOOSE THE SIMPLEST APPROACH FOR EACH TASK.
 - DO NOT INCLUDE TESTING NOR DOCUMENTATION TASKS AT THIS STAGE.
   
@@ -36,7 +36,7 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
   - [ ] a link to the feature plan
   - [ ] change or keep the status to 📝 PLANNED
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md)
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 ## Validation
 

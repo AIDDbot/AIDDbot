@@ -10,12 +10,12 @@ Write code for the feature: ${input:featureId}
 
 - [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
 - [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
-- [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
-- [lib-{library} Instructions](/.github/instructions/lib-{library}.instructions.md) for any specific library involved
-- [pck-{package} Instructions](/.github/instructions/pck-{package}.instructions.md) for any specific package involved
+- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
+- [lib-{library} Instructions](../instructions/lib_{library}.instructions.md) for any specific library involved
+- [pck-{package} Instructions](../instructions/too_{package}.instructions.md) for any specific package involved
 
   
 ## Workflow
@@ -34,7 +34,7 @@ Write code for the feature: ${input:featureId}
   - [ ] change or keep the status to ✨ CODED
   - [ ] review dependent Blocked features, change to ⏳ PENDING if necessary
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with a feat type message.
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with a feat type message.
 
 ## Validation
 

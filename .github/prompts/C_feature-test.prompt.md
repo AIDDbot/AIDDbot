@@ -11,11 +11,11 @@ Write test plan for the feature: ${input:featureId}
 - [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [frm-{framework} Instructions](/.github/instructions/frm-{framework}.instructions.md) for any specific framework involved
-- [lng-{language} Instructions](/.github/instructions/lng-{language}.instructions.md) for any specific language involved
-- [frm-playwright Instructions](/.github/instructions/frm-playwright.instructions.md) for Playwright tests
+- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
+- [frm-playwright Instructions](../instructions/frm_playwright.instructions.md) for Playwright tests
 
 - If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
 
@@ -37,7 +37,7 @@ Write test plan for the feature: ${input:featureId}
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] If tests pass, change or keep the status to ✅ TESTED, if not, change the status to ❌ FAILED.
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) and type test message.
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) and type test message.
 
 ## Validation
 

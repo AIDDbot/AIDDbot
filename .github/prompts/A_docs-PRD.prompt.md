@@ -34,7 +34,7 @@ This document will serve as the foundation for all subsequent design and develop
   - Which external or legacy systems must be integrated?
   - Are there any imposed Language, framework, and database decisions as constraints?
 
-- [ ] Read and follow the [tpl-PRD](../instructions/tpl-PRD.instructions.md) instructions
+- [ ] Read and follow the [tpl_docs-PRD](../instructions/tpl_docs-PRD.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the PRD.
 
@@ -44,7 +44,7 @@ This document will serve as the foundation for all subsequent design and develop
 
 - [ ] Update the [README.md](/README.md) file with a link to this PRD. 
 
-- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 ## Validation
 

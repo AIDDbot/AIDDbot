@@ -43,7 +43,7 @@ Create a BACKLOG that outlines the epics and features for the project.
 
  > Read and follow this section if no other backlog is applicable. Skip otherwise.
 
-- [ ] Read and follow the [#BACKLOG](../instructions/tpl-BACKLOG.instructions.md) instructions
+- [ ] Read and follow the [tpl_docs-BACKLOG](../instructions/tpl_docs-BACKLOG.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the BACKLOG.
 
@@ -51,7 +51,7 @@ Create a BACKLOG that outlines the epics and features for the project.
 
 - [ ] Update [README.md](README.md) with link to this BACKLOG
 
-- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 
 ## Validation

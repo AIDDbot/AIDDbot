@@ -9,7 +9,7 @@ Write documentation for the feature: ${input:featureId}
 ## Context
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [Architecture Instructions](/.github/instructions/architecture.instructions.md)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
 
 ## Workflow
@@ -21,7 +21,7 @@ Write documentation for the feature: ${input:featureId}
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] change or keep the status to ✔️ RELEASED
 
-- [ ] Commit changes by running [/git-commit](/.github/prompts/git-commit.prompt.md) with docs type message and closing the feature.
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with docs type message and closing the feature.
 
 - [ ] Merge the branch named `feat/{featureId}` to `main` and switch to it.
 

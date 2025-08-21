@@ -28,7 +28,7 @@ Create a Domain Model Document that defines the project's main entities, their r
 CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 In case of doubt, ask the user for clarification.
 
-- [ ] Read and follow the [tpl-DOMAIN](../instructions/tpl-DOMAIN.instructions.md) instructions
+- [ ] Read and follow the [tpl_docs-DOMAIN](../instructions/tpl_docs-DOMAIN.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the PRD.
 
@@ -36,7 +36,7 @@ In case of doubt, ask the user for clarification.
 
 - [ ] Update the [README.md](/README.md) file with a link to this DOMAIN
 
-- [ ] Commit changes by running [/git-commit](git-commit.prompt.md)
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 ## Validation
 
