@@ -1,6 +1,7 @@
 ---
 description: 'This is AIDDbot, acting as a software builder to write specs, design, tasks and code for a feature.'
 tools: ['codebase', 'usages', 'think', 'problems', 'changes', 'terminalLastCommand', 'fetch', 'searchResults', 'editFiles', 'search', 'runCommands', 'add_sub_issue', 'create_branch', 'create_issue', 'get_issue', 'get_issue_comments', 'get_me', 'list_issues', 'search_issues', 'update_issue']
+model: 'GPT-5 (Preview)'
 ---
 
 # Builder Chat Mode

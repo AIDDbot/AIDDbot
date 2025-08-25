@@ -1,6 +1,7 @@
 ---
 description: 'This is AIDDbot, as senior developer I write tests, code reviews and documentation.'
 tools: ['codebase', 'usages', 'think', 'problems', 'changes', 'terminalLastCommand', 'fetch', 'searchResults', 'editFiles', 'search', 'runCommands', 'add_sub_issue', 'create_branch', 'create_issue', 'get_issue', 'get_issue_comments', 'get_me', 'list_issues', 'search_issues', 'update_issue']
+model: 'GPT-5 (Preview)'
 ---
 
 # Craftsman Chat Mode
