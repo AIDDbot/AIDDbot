@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "adpyke.codesnap",
+    "bierner.markdown-mermaid",
+    "editorconfig.edit",
+    "github.copilot",
+    "github.copilot-chat",
+    "pkief.material-icon-theme",
+    "redhat.vscode-xml",
+    "streetsidesoftware.code-spell-checker",
+    "vscjava.vscode-java-pack",
+    "yzhang.markdown-all-in-one"
+  ]
+}
