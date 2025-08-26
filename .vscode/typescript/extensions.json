@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "adpyke.codesnap",
+    "bierner.markdown-mermaid",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.edit",
+    "esbenp.prettier-vscode",
+    "github.copilot",
+    "github.copilot-chat",
+    "pkief.material-icon-theme",
+    "streetsidesoftware.code-spell-checker",
+    "yzhang.markdown-all-in-one"
+  ]
+}

@@ -2,9 +2,11 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "chat.agent.maxRequests": 100,
   "chat.mcp.autostart": "newAndOutdated",
-  "chat.tools.autoApprove": true,
   "cSpell.customDictionaries": {
     "word-up": {
       "addWords": true,
@@ -50,7 +52,8 @@
   "files.associations": {},
   "files.exclude": {
     "**/.DS_Store": true,
-    "**/.git": true
+    "**/.git": true,
+    "node_modules/": true,
   },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -106,6 +109,7 @@
   },
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.suggest.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "window.autoDetectColorScheme": true,
   "window.newWindowProfile": "Default",
   "window.zoomLevel": 1,

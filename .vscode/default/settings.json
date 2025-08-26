@@ -1,0 +1,123 @@
+{
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "chat.agent.maxRequests": 100,
+  "chat.mcp.autostart": "newAndOutdated",
+  "chat.tools.autoApprove": true,
+  "cSpell.customDictionaries": {
+    "word-up": {
+      "addWords": true,
+      "description": "Personal dictionary",
+      "name": "personal",
+      "path": "~/OneDrive/personal-dictionary.txt",
+      "scope": "user"
+    }
+  },
+  "cSpell.diagnosticLevel": "Hint",
+  "cSpell.language": "en,es",
+  "editor.autoClosingBrackets": "always",
+  "editor.autoIndent": "full",
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.cursorBlinking": "expand",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.detectIndentation": false,
+  "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": false,
+  "editor.fontSize": 16,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "editor.glyphMargin": false,
+  "editor.guides.bracketPairs": false,
+  "editor.hover.above": true,
+  "editor.hover.sticky": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.linkedEditing": true,
+  "editor.minimap.enabled": false,
+  "editor.parameterHints.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 100,
+  "explorer.compactFolders": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.associations": {},
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.git": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "dist/": true
+  },
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "github.copilot.advanced": {
+    "inlineSuggest": true,
+    "inlineSuggest.enable": true,
+    "inlineSuggest.showSuggestionsAlways": true
+  },
+  "github.copilot.chat.agent.thinkingTool": true,
+  "github.copilot.chat.codesearch.enabled": true,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Group changes into logical commits.Create commits with clear messages that describe the changes made to the codebase following conventional commit guidelines. Keep commits linked to features, tasks, or issues when applicable."
+    }
+  ],
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "inlineSuggest": true,
+    "inlineSuggest.enable": true,
+    "inlineSuggest.showSuggestionsAlways": true
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "material-icon-theme.files.associations": {
+    "*.chatmode.md": "robot",
+    "*.instructions.md": "robot",
+    "*.prompt.md": "robot",
+    "*.spec.md": "conduct",
+    "*.tasks.md": "conduct",
+    "*.template.md": "template",
+    "*.test.md": "verified",
+    "BACKLOG.md": "conduct",
+    "DOMAIN.md": "architecture",
+    "JOURNAL.md": "robot",
+    "PRD.md": "architecture",
+    "STRUCTURE.md": "tree"
+  },
+  "material-icon-theme.folders.associations": {
+    ".ai": "robot",
+    "chatmodes": "robot",
+    "instructions": "robot",
+    "prompts": "robot"
+  },
+  "search.exclude": {
+    "**/env": true
+  },
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.suggest.enabled": true,
+  "window.autoDetectColorScheme": true,
+  "window.newWindowProfile": "Default",
+  "window.zoomLevel": 1,
+  "window.zoomPerWindow": true,
+  "workbench.editor.doubleClickTabToToggleEditorGroupSizes": "off",
+  "workbench.editor.revealIfOpen": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.preferredDarkColorTheme": "Default Dark Modern",
+  "workbench.preferredLightColorTheme": "Default Light Modern",
+  "workbench.settings.applyToAllProfiles": [
+    "editor",
+    "window.autoDetectColorScheme",
+    "window.zoomPerWindow",
+    "workbench.*"
+  ]
+}
