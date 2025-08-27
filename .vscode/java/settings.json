@@ -2,6 +2,13 @@
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
   },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "boot-java.rewrite.reconcile": true,
   "chat.agent.maxRequests": 100,
   "chat.mcp.autostart": "newAndOutdated",
   "cSpell.customDictionaries": {
@@ -122,9 +129,5 @@
     "workbench.*",
     "editor.fontSize",
     "editor.fontFamily"
-  ],
-  "redhat.telemetry.enabled": true,
-  "[xml]": {
-    "editor.defaultFormatter": "redhat.vscode-xml"
-  }
+  ]
 }
