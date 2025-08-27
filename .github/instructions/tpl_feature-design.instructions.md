@@ -64,7 +64,7 @@ applyTo: '/docs/backlog/*.design.md'
 
 ```mermaid
 C4Component
-    { This is a placeholder for the component diagram. Use C4 model to represent the components involved in this feature. }
+    { The Component level 3 diagram following the C4 model features and layers involved in this feature. }
 ```
 
 ### File Structure

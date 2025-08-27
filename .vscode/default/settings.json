@@ -75,6 +75,9 @@
   "github.copilot.chat.languageContext.typescript.enabled": true,
   "github.copilot.enable": {
     "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false,
     "inlineSuggest": true,
     "inlineSuggest.enable": true,
     "inlineSuggest.showSuggestionsAlways": true
@@ -85,14 +88,15 @@
     "*.instructions.md": "robot",
     "*.prompt.md": "robot",
     "*.spec.md": "conduct",
-    "*.tasks.md": "conduct",
+    "*.plan.md": "conduct",
     "*.template.md": "template",
     "*.test.md": "verified",
     "BACKLOG.md": "conduct",
     "DOMAIN.md": "architecture",
     "JOURNAL.md": "robot",
     "PRD.md": "architecture",
-    "STRUCTURE.md": "tree"
+    "STRUCTURE.md": "tree",
+    "SYSTEMS.md": "architecture"
   },
   "material-icon-theme.folders.associations": {
     ".ai": "robot",
@@ -101,7 +105,8 @@
     "prompts": "robot"
   },
   "search.exclude": {
-    "**/env": true
+    "**/env": true,
+    "node_modules/": true
   },
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.suggest.enabled": true,
@@ -118,6 +123,9 @@
     "editor",
     "window.autoDetectColorScheme",
     "window.zoomPerWindow",
-    "workbench.*"
+    "window.zoomLevel",
+    "workbench.*",
+    "editor.fontSize",
+    "editor.fontFamily"
   ]
 }

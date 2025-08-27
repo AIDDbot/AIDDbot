@@ -40,6 +40,6 @@ Write a detailed plan for implementing the feature: ${input:featureId} based on 
 
 ## Validation
 
-- [ ] [{featureId}.tasks.md](/docs/{featureId}.tasks.md) exists
+- [ ] [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) exists
 
 > End of Feature Implementation Tasks prompt.

@@ -37,3 +37,25 @@ We use diagrams from the C4 model to discuss and visualize our architecture at d
 
 > Be aware that some names from C4 may refer to different concepts in our context.
 >> When drawing we will favor numbering to avoid confusion. So, prefer `C1` to `Context`.
+
+## Terminology
+
+- **Feature**: A distinct functionality or capability of the system that delivers value to users.
+
+- **Epic**: A large body of work that is typically aligned with a specific business goal and composed of features.
+
+- **User Story**: A short, simple description of a desired functionality from the perspective of the user or customer.
+
+- **Task**: A specific piece of work or activity that needs to be completed as part of a feature.
+
+```txt
+domain/
+├── epic1/
+│   ├── feature1/
+│   │   ├── user-story1/
+│   │   ├── user-story2/
+│   │   └── user-story3/
+│   ├── feature2/
+│   └── feature3/
+├── epic2/
+└── epic3/
