@@ -1,12 +1,12 @@
 # AIDDbot on VSCode and GitHub Copilot
 
-Instructions for using `AIDDbot` with VSCode and GitHub Copilot.
+Instructions for using `AIDDbot` with **VSCode** IDE and **GitHub Copilot** agent.
 
 ## 🔌 Installation
 
-`AIDDbot` is just a set of Markdown files with instructions and configuration adapted to your AI code editor. Install it by cloning this repository and copying the suitable folder into the root of your project.
+`AIDDbot` is just **a set of Markdown files** with instructions and configuration adapted to your AI code editor. Install it by cloning this repository and copying the `.github` folder into the root of your project.
 
-Or simply use the installation prompt.
+Or simply, use the installation prompt.
 
 1. Copy the raw content from [AIDDbot install for Copilot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/U_aiddbot-install-for-copilot.prompt.md)
 2. Paste it into your Copilot Chat and run it in `Agent` mode.
@@ -15,11 +15,13 @@ Or simply use the installation prompt.
 
 ## 🧑‍💻 Usage
 
-GitHub Copilot is fully customizable to fit your workflow. AIDDbot is a an opinionated customization that enhances Copilot's capabilities by providing specialized chat modes, prompts and instructions.
+GitHub Copilot is fully customizable to fit your workflow. AIDDbot is a an opinionated customization that enhances Copilot's capabilities by providing specialized _chat modes_, _prompts_ and _instructions_.
 
-To use them just open the chat; choose the desired chat mode from the dropdown menu and type a command prompt.
+To use them just open the Copilot chat; choose the desired chat mode from the dropdown menu and type a command prompt.
 
 ### 🦸 Chat modes
+
+- Specialized AI personas and conversation modes for different roles and contexts
 
 In Copilot, a chat mode sets a specific context and grants the agent access to the prompts and tools aligned with that context. 
 Copilot Chat ships with three native modes: `Ask`, `Edit`, and `Agent` that can be extended. AIDDbot adds another three based on the software development lifecycle roles: `Architect`, `Builder`, and `Craftsman`.
@@ -34,9 +36,11 @@ After installation, you'll get those new dedicated chat modes tailored to AI-Dri
 
 ### 📋 Prompts
 
+- Focused, task-specific prompts for generating code, documentation, and solving specific problems
+
 Prompts are predefined queries or commands that guide the AI's responses. They help elicit concrete actions or structured outputs. AIDDbot has a library of prompts tailored to various development tasks.
 
-You can reference any prompt manually in chat using the slash prefix `/`. For your convenience, AIDDbot has its prompts organized by chat mode and role following this naming convention:
+You can reference any prompt manually in chat using the 🎸 slash prefix `/`. For your convenience, AIDDbot has its prompts organized by chat mode or role following this naming convention:
 
 - **🧑‍💼 Architect prompts**: `/A_*`
 - **👷 Builder prompts**: `/B_*`
@@ -46,6 +50,8 @@ You can reference any prompt manually in chat using the slash prefix `/`. For yo
 > ℹ️ Read more at the [📋 Prompts documentation](https://github.com/AIDDbot/AIDDbot/tree/main/.github/prompts/_prompts.md) for a detailed overview.
 
 ### 📚 Instructions
+
+- Comprehensive coding standards and best practices that apply to specific file patterns or entire projects
 
 GitHub Copilot lets you define instruction files as reusable context. They function as templates, guidelines, or best-practice references—either generic or highly specialized (libraries, tools, design patterns).
 

@@ -10,7 +10,7 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **It is an AI-powered assistant for software engineers**  that helps with:
 
-- product documentation, 
+- product design, 
 - code generation, 
 - testing and documentation.
 
@@ -19,8 +19,8 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 **Enhances your IDE and development agent** with a set of:
 
 - prompts,
-- instructions or rules,
-- tools and configurations.
+- instructions,
+- tool configurations.
 
 ## 🎯 Why do you need AIDDbot?
 
@@ -34,12 +34,10 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **Works with any LLM** and several IDE with AI-enabled agents:
 
-### [VsCode and GitHub Copilot](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) ✔️ Ready 
+### [VsCode and GitHub Copilot : ✔️ Ready ](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) 
 
-- _Cursor_, 🚧 In progress
-- _ClaudeCode_, _GeminiCLI_ ⏳ Coming soon
-
----
+- _Cursor_:  🚧 In progress
+- _ClaudeCode_, _GeminiCLI_ : ⏳ Coming soon
 
 ## 💭 AIDD Philosophy
 
