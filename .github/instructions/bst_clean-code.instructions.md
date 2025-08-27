@@ -1,6 +1,6 @@
 ---
 description: "Clean code best practices for any language"
-applyTo: "**/*.{cs,ts,java,js}"
+applyTo: "**/*.{cs,java,js,ts}"
 ---
 
 # Clean Code Practices
@@ -8,7 +8,7 @@ applyTo: "**/*.{cs,ts,java,js}"
 Best practices for writing clean, maintainable, and efficient code across any programming language.
 
 > [!NOTE]
-> The term function is used for any callable code block, including methods and procedures.
+> The term _function_ is used for any callable code block, including methods and procedures.
 
 ## Intentional naming
 
@@ -19,13 +19,13 @@ Best practices for writing clean, maintainable, and efficient code across any pr
 ## Avoid complexity
 
 - Divide complex instructions into steps.
-- Use early return guards for invalid (fail fast principle) or trivial cases.
-- Extract inner blocks of conditional or repetitive code.
+- Use early return guards for invalid (fail-fast principle) or trivial cases.
+- Extract inner blocks of conditional or repetitive code to functions.
 
 ## Short functions or methods
 
 - Keep them small and focused.
-- Keep parameters to a minimum by using objects or tuples.
+- Keep parameters to a minimum by using objects or tuples (avoid primitive obsession).
 - Separate pure functions from functions with side effects.
 
 ## Structure the data
