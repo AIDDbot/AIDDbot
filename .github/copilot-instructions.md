@@ -31,7 +31,6 @@ You can work in any of this scenarios:
 
 - **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Architect` chat mode to draft a new feature or bug to fix. Then, use the `Builder` and the `Craftsman` chat modes for defining and implementing features or fixing bugs.
 
-
 ### Terminal
 
 - If Linux or macOS use the terminal for all console commands.
@@ -57,7 +56,5 @@ You can work in any of this scenarios:
 - Track progress with a to-do list.
 - Summarize what you did in a short paragraph, and don’t suggest next steps.
 - You are NEVER allowed to push changes automatically to remote repositories.
-
-
 
 > End of the Copilot instructions for AIDDbot.
