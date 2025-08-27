@@ -6,21 +6,22 @@ description: 'Create the SYSTEMS document for a project.'
 
 Create a Systems Architecture Document that defines the project's technical architecture, technology stack, and deployment design.
 
-- Design system components and their interactions
+- Design system applications and their interactions
 - Define integration patterns with external systems
 
 ## Context
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [Software Architecture Guide](../instructions/bst_architecture.instructions.md)
+- [AIDDbot Glossary](../instructions/std_aidd-glossary.instructions.md)
+- [Architecture Best Practices](../instructions/bst_architecture.instructions.md)
 
 ## Workflow
 
 - Questions to consider:
-  - What are the main system tiers/containers?
-  - What technologies will be used for each container?
-  - How do containers communicate with each other?
+  - What are the main system tiers/applications?
+  - What technologies will be used for each application?
+  - How do applications communicate with each other?
   - What database technology will be used?
   - How will data be structured and accessed?
   - How is authentication and authorization handled?

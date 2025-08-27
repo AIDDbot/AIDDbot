@@ -5,20 +5,22 @@ applyTo: '/docs/SYSTEMS.md'
 
 # Systems Architecture for { PROJECT_NAME }
 
+Follows the glossary of terms and concepts from [AIDDbot Glossary](./std_aidd-glossary.instructions.md)
+
 ## Overview
 
 **{ Project name }** follows a { architecture_style } architecture, designed for { primary_characteristics } with { technology_approach }.
 
-## System Containers
+## Presentation Tier
 
-### { S1 } { Container 1 Name }
+### { A1 } { Application 1 Name }
 
-**Purpose:** { Brief description of Container responsibility }
+**Purpose:** { Brief description of Application responsibility }
 
 **Technology Stack:**
 
 - **Language**: { type_script | java | c-sharp }
-- **Framework**: { angular | express | spring | .net }
+- **Framework**: { angular | spring-shell | .net }
 - **Key Libraries**: { library1 }, { library2 }
 - **Other Packages**: { package1 }, { package2 }
 
@@ -27,22 +29,35 @@ applyTo: '/docs/SYSTEMS.md'
 - { responsibility1 }
 - { responsibility2 }
 
-## Data Layer
+## Application Tier
+
+### { A2 } { Application 2 Name }
+
+**Purpose:** { Brief description of Application responsibility }
+
+**Technology Stack:**
+
+- **Language**: { type_script | java | c-sharp }
+- **Framework**: { express | spring-boot | asp.net }
+- **Key Libraries**: { library1 }, { library2 }
+- **Other Packages**: { package1 }, { package2 }
+
+**Responsibilities:**
+
+- { responsibility1 }
+- { responsibility2 }
+
+## Data Tier
 
 ### { D1 } { Database 1 Name }
 
 **Database Type:** { relational | NoSQL | etc. }
 **Technology:** { postgresql | mongodb | etc. }
 
-**Data Access Patterns:**
+**Responsibilities:**
 
-- { pattern1 }: { description }
-- { pattern2 }: { description }
-
-**Key Design Decisions:**
-
-- { decision1 }
-- { decision2 }
+- { responsibility1 }
+- { responsibility2 }
 
 ## Integration Patterns
 
@@ -65,7 +80,7 @@ applyTo: '/docs/SYSTEMS.md'
 
 ```mermaid
 C4Container
-    { The container context diagram following the C4 model }
+    { The Container level 2 diagram following the C4 model}
 ```
 
 ## Additional Information

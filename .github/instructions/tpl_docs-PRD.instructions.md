@@ -27,7 +27,7 @@ applyTo: '/docs/PRD.md'
 
 ```mermaid
 C4Context
-  { The system context diagram following the C4 model }
+  { The Context level 1 diagram following the C4 model }
 ```
 
 ## Additional Information

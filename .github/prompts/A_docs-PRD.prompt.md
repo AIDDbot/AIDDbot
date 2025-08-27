@@ -14,6 +14,7 @@ This document will serve as the foundation for all subsequent design and develop
 
 ## Context
 
+- [AIDDbot Glossary](../instructions/std_aidd-glossary.instructions.md)
 - [README.md](/README.md)
 - [docs](/docs) Any other document at the docs folder
 - The current git user profile to set the author and committer information.
