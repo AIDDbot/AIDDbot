@@ -1,10 +1,10 @@
 ---
-description: 'Write clean plan for a feature implementation'
+description: 'Clean a feature implementation'
 ---
 
-# Feature Clean Plan
+# Feature Clean 
 
-Write clean plan for the feature: ${input:featureId}
+Refactor latest changes for the feature: ${input:featureId} in order to make the code more maintainable and easier to understand.
 
 ## Context
 
