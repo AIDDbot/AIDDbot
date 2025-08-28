@@ -1,5 +1,5 @@
 ---
-description: "Template for an Issue in GitHub for an Epic"
+description: 'Template for an Issue in GitHub for an Epic'
 ---
 
 ## Issue Title

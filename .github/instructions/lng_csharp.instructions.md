@@ -1,6 +1,6 @@
 ---
-description: "C# best practices and usage guidelines"
-applyTo: "**/*.cs"
+description: 'C# best practices and usage guidelines'
+applyTo: '**/*.cs'
 ---
 
 # C# Instructions

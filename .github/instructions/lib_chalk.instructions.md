@@ -1,5 +1,5 @@
 ---
-description: "Chalk best practices and usage guidelines"
+description: 'Chalk best practices and usage guidelines'
 ---
 
 # Chalk Instructions

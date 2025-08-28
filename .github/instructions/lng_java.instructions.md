@@ -1,6 +1,6 @@
 ---
-description: "Java best practices and usage guidelines"
-applyTo: "**/*.java"
+description: 'Java best practices and usage guidelines'
+applyTo: '**/*.java'
 ---
 
 # Java Instructions

@@ -1,6 +1,6 @@
 ---
-description: "Clean code best practices for any language"
-applyTo: "**/*.{cs,java,js,ts}"
+description: 'Clean code best practices for any language'
+applyTo: '**/*.{cs,java,js,ts}'
 ---
 
 # Clean Code Practices

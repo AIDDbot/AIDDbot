@@ -1,5 +1,5 @@
 ---
-description: "Angular Framework Best Practices"
+description: 'Angular Framework Best Practices'
 ---
 
 # Angular Framework Best Practices

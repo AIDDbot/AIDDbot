@@ -1,5 +1,5 @@
 ---
-description: "Zod best practices and usage guidelines"
+description: 'Zod best practices and usage guidelines'
 ---
 
 # Zod Instructions

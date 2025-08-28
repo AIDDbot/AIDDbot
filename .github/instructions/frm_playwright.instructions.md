@@ -1,5 +1,5 @@
 ---
-description: "Playwright test generation instructions"
+description: 'Playwright test generation instructions'
 ---
 
 ## Test Writing Guidelines

@@ -1,6 +1,6 @@
 ---
-description: "Node.js 2025 Testing Best Practices"
-applyTo: "**/*.{test.ts,spec.ts}"
+description: 'Node.js 2025 Testing Best Practices'
+applyTo: '**/*.{test.ts,spec.ts}'
 ---
 
 # Modern Node.js Testing Patterns (2025)

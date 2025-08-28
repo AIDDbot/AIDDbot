@@ -1,5 +1,5 @@
 ---
-description: "SQL statements best practices."
+description: 'SQL statements best practices.'
 ---
 
 # Database Development

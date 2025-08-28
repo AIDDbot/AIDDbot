@@ -1,7 +1,7 @@
 ---
-mode: "agent"
-description: "Install AIDDbot for GitHub Copilot."
-tools: ["changes", "editFiles", "fetch", "runCommands"]
+mode: 'agent'
+description: 'Install AIDDbot for GitHub Copilot.'
+tools: ['changes', 'editFiles', 'fetch', 'runCommands']
 ---
 
 # Install AIDDbot for GitHub Copilot

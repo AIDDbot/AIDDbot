@@ -1,5 +1,5 @@
 ---
-description: "Template for a SubIssue in GitHub for a Feature"
+description: 'Template for a SubIssue in GitHub for a Feature'
 ---
 
 ## Issue Title
