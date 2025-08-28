@@ -67,5 +67,4 @@ You have now successfully copied the `.github` directory from the source reposit
 ## Validation
 
 - [ ] Use the #editFiles tool to verify temporary files are not left behind.
-- [ ] Use the #editFiles tool to ensure the `.github` directory is copied correctly
-- [ ] Use the #changes tool to track changes in the repository.
+- [ ] Use the #editFiles tool to ensure the `.github` directory exists and is correctly structured.
