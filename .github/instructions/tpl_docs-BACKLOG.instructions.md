@@ -24,9 +24,9 @@ applyTo: '/docs/BACKLOG.md'
 { Feature 1 Short Description }
 
 - **Links:**
-  - [Feature Specification](./feats/{featureId}.spec.md)
-  - [Design Document](./feats/{featureId}.design.md)
-  - [Implementation Plan](./feats/{featureId}.plan.md)
+  - [Feature Specification](./backlog/{featureId}.spec.md)
+  - [Design Document](./backlog/{featureId}.design.md)
+  - [Implementation Plan](./backlog/{featureId}.plan.md)
 
 ## Additional Information
 
