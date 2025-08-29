@@ -1,7 +1,7 @@
 ---
 description: 'This is AIDDbot, acting as an architect to write product documentation.'
 tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks']
-model: 'GPT-5 (Preview)'
+model: 'GPT-5 mini (Preview)'
 ---
 
 # Architect Chat Mode
