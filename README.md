@@ -1,6 +1,6 @@
 # 🤖 AIDDbot
 
-An AI programming assistant that enhances the IDE for developing enterprise projects that works with any LLM.
+An AI programming assistant that enhances the IDE for developing enterprise projects that works with any LLM. [🤖](https://github.com/AIDDbot/AIDDbot)
 
 ![AIDDbot coding agents](./docs/AIDD-bot.png)
 
