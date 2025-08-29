@@ -4,58 +4,111 @@ description: 'A common vocabulary for Software Development with AI'
 
 # Glossary
 
-It establishes a consistent vocabulary and structure to ensure clarity and predictability across projects.
+This glossary establishes a consistent vocabulary and structure to ensure clarity and predictability across AI-assisted software development projects.
 
-## Physical architecture elements
 
-- **System**: The entire solution, including all its applications and their interactions.
+## Problem Domain Terms
 
-- **Application**: A specific instance of a software program that can be executed independently.
+### Epic: 
+- A large body of work aligned with a business goal, typically spanning multiple features and delivered over several iterations.
 
-- **Tier**: A physical level to organize the applications across multiple machines or services.
+### Feature: 
+- A distinct capability that provides value to users, composed of multiple user stories.
 
-- **Repository**: A folder location for source code, used for version control and collaboration.
+### User Story: 
+- A concise description of desired functionality from the user's perspective, typically following the format "As a [user], I want [goal] so that [benefit]."
 
-## Logical architecture elements
+## Physical Solution Terms
 
-- **Feature**: A business or cross-cutting functionality.
+### System: 
+- The complete software solution with defined boundaries, encompassing all applications, data stores, and external integrations that work together to deliver business value.
 
-- **Layer**: A logical separation of technical concerns within a tier.
+### Tier: 
+- A physical deployment level that organizes applications across different machines, environments, or infrastructure services (e.g., presentation tier, application tier, data tier).
 
-- **Module**: The intersection piece of feature in a specific layer.
+### Application: 
+- An independently deployable and executable software program that serves a specific purpose within a tier of the system (e.g., web API, mobile app, batch processor).
 
-- **Component**: A unit of code that implements a technical responsibility or behavior pattern.
+### Repository: 
+- A version-controlled storage location containing source code, documentation, and configuration files for one or more related applications or components.
 
-## C4 Model diagrams
+## Logical Implementation Terms
 
-We use diagrams from the C4 model to discuss and visualize our architecture at different levels of detail. 
+### Layer: 
+- A logical separation of technical concerns within an application, organizing code by responsibility (e.g., presentation, business logic, data access).
 
-1. **Context (C1) 🌍**: The highest-level view, showing the `system` as a whole. Each element is a user or an external system interacting with the `system`.
-2. **Container (C2) 📦**: Shows the physical `tiers` of the system. Each element is an independently deployable unit, such as an API server, a single-page application (SPA), a database, or a command-line interface (CLI).
-3. **Component (C3) 🧩**: Shows the logical `features` and `layers` within a container. Each element is a functional block of software, such the logging-persistence, payments-presentation.
-4. **Code (C4) 💻**: The lowest-level view, representing the actual implementation of our component (classes, functions, etc.).
+### Module: 
+- A code organization unit that implements a specific feature's functionality within a particular layer (e.g., authentication module in the security layer). It's the intersection of a Feature and a Layer
 
-> Be aware that some names from C4 may refer to different concepts in our context.
->> When drawing we will favor numbering to avoid confusion. So, prefer `C1` to `Context`.
+### Unit: 
+- A discrete unit of code within a module that implements a single responsibility or behavior pattern (e.g., password validator function, JWT token service class). -Equivalent to what many frameworks or the C4 model would call a “Component.”-
 
-## Terminology
+## Project Management Terms
 
-- **Feature**: A distinct functionality or capability of the system that delivers value to users.
+### Spec:
+- A detailed description of a feature, from the user's perspective, including its requirements, user stories, and acceptance criteria.
 
-- **Epic**: A large body of work that is typically aligned with a specific business goal and composed of features.
+### Design:
+ -A blueprint or plan for implementing a feature for a developer, outlining its architecture, components, and interactions.
 
-- **User Story**: A short, simple description of a desired functionality from the perspective of the user or customer.
+### Task: 
+- A specific, actionable work item required to implement a user story.
 
-- **Task**: A specific piece of work or activity that needs to be completed as part of a feature.
+## Summary
+
+### Hierarchical Relationships
+
+The following structure illustrates how these elements relate in a typical project organization:
+
+> **System → Tier → Application**: Represents the breakdown of the software solution into physical elements.
+
+> **Epic → Feature → User Story**: Represents the breakdown of business goals into valuable work.
+
+> **Application → Feature → Layer → Module → Unit**: Represents the breakdown of an application into logical elements.
+
+> **Spec → Design → Task**: Represents the sequence for implementing a feature.
+
+### Diagram Mapping
+
+- Application decomposition can be visualized as a table where each cell represents a specific module intersecting a domain feature with a technical layer, and composed of units of code.
+
+| Layer↓ \ Feature→ | Users                   | Orders           | Logs                 |
+| ----------------: | ----------------------- | ---------------- | -------------------- |
+|      Presentation | UserForm, UserDTO       | OrdersList       |                      |
+|     BusinessLogic | UserService, UserEntity | OrdersService    | LogUtil, LogEntryDTO |
+|        DataAccess | UsersRepository         | OrdersRepository | LogFile              |
+
+> Each cell contains one or more units that implement the feature's functionality for that layer.
+
+- C4 Model levels related to this glossary
+
+| C4 Level | Scope                      | Architectural Item |
+| -------- | -------------------------- | ------------------ |
+| C1       | Complete solution boundary | System             |
+| C2       | Deployable unit            | Applications       |
+| C3       | Business functionality     | Features           |
+| C3 → C4  | Technical organization     | Modules  → Units   |
 
 ```txt
-domain/
-├── epic1/
-│   ├── feature1/
-│   │   ├── user-story1/
-│   │   ├── user-story2/
-│   │   └── user-story3/
-│   ├── feature2/
-│   └── feature3/
-├── epic2/
-└── epic3/
+Epic
+ └─ Feature
+     └─ User Story
+         └─ Task
+
+System
+ └─ Tier
+     └─ Application
+         └─ Layer
+             └─ Module
+                 └─ Unit
+```
+
+### Examples
+
+- **System**: E-commerce platform
+- **Applications**: Customer web app, admin dashboard, order processing API, payment service
+- **Tiers**: Web tier (CDN, load balancer), app tier (API servers), data tier (databases)
+- **Features**: Product catalog, shopping cart, checkout, user accounts
+- **Layers**: Presentation, business logic, data access
+- **Module**: Shopping cart business logic module
+- **Unit**: Cart item validator unit
