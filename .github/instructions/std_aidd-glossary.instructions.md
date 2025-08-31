@@ -51,7 +51,7 @@ This glossary establishes a consistent vocabulary and structure to ensure clarit
 - A detailed description of a `feature`, from the user's perspective, including its requirements, user stories, and acceptance criteria.
 
 ### Design:
- -A blueprint or plan for implementing a `feature` for a developer, outlining its architecture, components, and interactions.
+- A blueprint or plan for implementing a `feature` for a developer, outlining its architecture, components, and interactions.
 
 ### Plan:
 - A specific, actionable list of tasks or work items required to implement a `feature`.
@@ -109,3 +109,5 @@ System
 - **Layers**: Presentation, business logic, data access
 - **Module**: Shopping cart business logic module
 - **Unit**: Cart item validator unit
+
+> End of Glossary for AIDDbot
