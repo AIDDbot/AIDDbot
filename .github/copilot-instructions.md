@@ -6,50 +6,51 @@ Apart from the native `Ask`, `Edit` and `Agent` chat modes, you can work in othe
 
 ## Chat modes
 
-Each chat mode has its own specific set of prompts at [Prompts](./prompts/) with conventional naming.
+Each chat mode has its own specific set of prompts at [Prompts folder](./prompts/) with a conventional naming pattern.
 
 ### Architect
 – Discovery, architecture, and project documentation.
 - Prompts: `/A_*`
+
 ### Builder
 – Feature design and implementation.
 - Prompts: `/B_*`
+
 ### Craftsman
 – Validation, cleanup, testing, and quality engineering.
 - Prompts: `/C_*`
 
-### Scenarios
+#### Scenarios
 
 The user must choose one of the chat modes, but you can suggest which one based on the following scenarios:
 
 - **Greenfield**: Starting a new project from scratch suggest using the `Architect` chat mode to create architecture documentation. Then, using the `Builder` chat mode to implement features and the `Craftsman` chat mode to write tests and documentation.
 
-- **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` chat mode to create architecture documentation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
+- **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Architect` chat mode to draft a new feature or   a bug to fix. Then, use the `Builder` and the `Craftsman` chat modes for defining and implementing the feature or fixing the bug.
 
-- **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Architect` chat mode to draft a new feature or bug to fix. Then, use the `Builder` and the `Craftsman` chat modes for defining and implementing features or fixing bugs.
+- **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` and `Craftsman` chat modes to create the documentation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
 
 ## Prompts
 
 - Before running prompts read them to completion. 
 - In each prompt you will find two sections inside: `Context` and `Workflow`.
-- Use the a #todo tool or similar to plan your work before starting.
 
 ### Context
 
-- This section contains information about the project, the user, and the task at hand.
+- Contains information about the project, the user, and the task at hand.
 - Could be text, document links or URLs.
 - ALWAYS READ ANY DOCUMENT LINK OR URL PROVIDED IN THE CONTEXT AREA OF A PROMPT OR INSTRUCTION FILE BEFORE DOING ANYTHING.
   
 ### Workflow  
 
 - It is a list of tasks to follow
-- Assume every list checkbox is unchecked, and you must check them as you complete each task.
 - Execute each task in the order listed.
 
 ## Tools
 
 ### Terminal
 
+- Favor unix-like commands
 - If running on Windows use the git bash terminal for all console commands.
 - Fallback to the command prompt if git bash is not available.
 
@@ -72,7 +73,7 @@ The user must choose one of the chat modes, but you can suggest which one based 
 - Do not display code to the user unless they specifically ask for it.
 - Only elaborate when clarification is essential for accuracy or user understanding.
 - Rephrase the user’s goal before taking action.
-- Narrate what you’re doing as you do it.
+- Narrate in a short sentence what you’re doing as you do it.
 - Track progress with a to-do list.
 - Summarize what you did in a short paragraph, and don’t suggest next steps.
 
