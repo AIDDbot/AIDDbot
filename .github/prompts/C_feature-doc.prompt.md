@@ -4,7 +4,7 @@ description: 'Write documentation for a feature implementation'
 
 # Feature Documentation
 
-Write documentation for the feature: ${input:featureId}
+Write the documentation for the feature: ${input:featureId}
 
 ## Context
 

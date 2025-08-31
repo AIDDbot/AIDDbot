@@ -6,53 +6,55 @@ description: 'A common vocabulary for Software Development with AI'
 
 This glossary establishes a consistent vocabulary and structure to ensure clarity and predictability across AI-assisted software development projects.
 
-
 ## Problem Domain Terms
 
 ### Epic: 
-- A large body of work aligned with a business goal, typically spanning multiple features and delivered over several iterations.
+- A large body of work aligned with a business goal, typically spanning multiple `features` and delivered over several iterations.
 
 ### Feature: 
-- A distinct capability that provides value to users, composed of multiple user stories.
+- A distinct capability that provides value to users, composed of a few `user stories`.
 
 ### User Story: 
 - A concise description of desired functionality from the user's perspective, typically following the format "As a [user], I want [goal] so that [benefit]."
 
+### Acceptance Criteria:
+- A set of conditions that must be met for a user story to be considered complete and acceptable. In E.A.R.S. (Easy Approach to Requirements Syntax) format "[SHAll], [WHEN], [IF], [THEN], [WHILE], [WHERE]"
+
 ## Physical Solution Terms
 
 ### System: 
-- The complete software solution with defined boundaries, encompassing all applications, data stores, and external integrations that work together to deliver business value.
+- The complete software solution with defined boundaries, encompassing all `applications`, data stores, and external integrations that work together to deliver business value.
 
 ### Tier: 
-- A physical deployment level that organizes applications across different machines, environments, or infrastructure services (e.g., presentation tier, application tier, data tier).
+- A physical deployment level that organizes `applications` across different machines, environments, or infrastructure services (e.g., presentation tier, application tier, data tier).
 
 ### Application: 
-- An independently deployable and executable software program that serves a specific purpose within a tier of the system (e.g., web API, mobile app, batch processor).
+- An independently deployable and executable software program that serves a specific purpose within a `tier` of the `system` (e.g., web app, mobile app, batch processor, API service).
 
 ### Repository: 
-- A version-controlled storage location containing source code, documentation, and configuration files for one or more related applications or components.
+- A version-controlled storage location containing source code, documentation, and configuration files for one or more related `applications`.
 
 ## Logical Implementation Terms
 
 ### Layer: 
-- A logical separation of technical concerns within an application, organizing code by responsibility (e.g., presentation, business logic, data access).
+- A logical separation of technical concerns within an `application`, organizing code by responsibility (e.g., presentation, business logic, data access).
 
 ### Module: 
-- A code organization unit that implements a specific feature's functionality within a particular layer (e.g., authentication module in the security layer). It's the intersection of a Feature and a Layer
+- A code organization unit that implements a specific `feature` within a particular `layer` (e.g., authentication module in the business layer for the security feature). It's the intersection of a `Feature` and a `Layer`.
 
 ### Unit: 
-- A discrete unit of code within a module that implements a single responsibility or behavior pattern (e.g., password validator function, JWT token service class). -Equivalent to what many frameworks or the C4 model would call a “Component.”-
+- A discrete piece of code within a `module` that implements a single responsibility or behavior pattern (e.g., password validator function, JWT token service class). It's the smallest testable part of an application.
 
 ## Project Management Terms
 
 ### Spec:
-- A detailed description of a feature, from the user's perspective, including its requirements, user stories, and acceptance criteria.
+- A detailed description of a `feature`, from the user's perspective, including its requirements, user stories, and acceptance criteria.
 
 ### Design:
- -A blueprint or plan for implementing a feature for a developer, outlining its architecture, components, and interactions.
+ -A blueprint or plan for implementing a `feature` for a developer, outlining its architecture, components, and interactions.
 
-### Task: 
-- A specific, actionable work item required to implement a user story.
+### Plan:
+- A specific, actionable list of tasks or work items required to implement a `feature`.
 
 ## Summary
 
@@ -60,13 +62,13 @@ This glossary establishes a consistent vocabulary and structure to ensure clarit
 
 The following structure illustrates how these elements relate in a typical project organization:
 
-> **System → Tier → Application**: Represents the breakdown of the software solution into physical elements.
-
 > **Epic → Feature → User Story**: Represents the breakdown of business goals into valuable work.
+
+> **System → Tier → Application**: Represents the breakdown of the software solution into physical elements.
 
 > **Application → Feature → Layer → Module → Unit**: Represents the breakdown of an application into logical elements.
 
-> **Spec → Design → Task**: Represents the sequence for implementing a feature.
+> **Spec → Design → Plan**: Represents the sequence for implementing a feature.
 
 ### Diagram Mapping
 
@@ -90,11 +92,6 @@ The following structure illustrates how these elements relate in a typical proje
 | C3 → C4  | Technical organization     | Modules  → Units   |
 
 ```txt
-Epic
- └─ Feature
-     └─ User Story
-         └─ Task
-
 System
  └─ Tier
      └─ Application

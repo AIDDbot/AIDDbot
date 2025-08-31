@@ -12,8 +12,8 @@ These are the foundational principles that govern our architectural decisions.
 
 ## 1. Separation of Concerns (SoC)
 
--  Each _module_ of the system should have a distinct functional and technical responsibility. 
--  This is achieved by organizing code into _features and layers_.
+-  Each `module` of the `system` should have a distinct functional and technical responsibility. 
+-  This is achieved by organizing code into `features` and `layers`.
 
 
 | Layer↓ \ Feature→   | Users                   | Orders           | Logs                 |
@@ -25,7 +25,7 @@ These are the foundational principles that govern our architectural decisions.
 ## 2. Screaming Architecture
 
 - The folder structure should immediately reveal its purpose and business domain. 
-- We achieve this by _grouping by features_, not by layers.
+- We achieve this by grouping by `features`, not by `layers`.
 
 > Example for a TypeScript project
 
@@ -68,10 +68,12 @@ src/
     └── feature6/
 ```
 
+> "Scope Rules Structure": Code used by 2+ features goes to `shared`. Code used by 1 feature stays in `domain` or `core`.
+
 ## 3. Unidirectional Dependency Flow
 
 - Dependencies must flow in a single direction between layers, typically from higher-level layers (e.g., presentation) to lower-level layers (e.g., data access).
-- This is achieved with _discipline_ and/or enforced by tools.
+- Given layers are not forced to be in folders, this rule is achieved with _discipline_ and/or enforced by tools.
 
 ```mermaid
 flowchart TD
@@ -81,12 +83,9 @@ flowchart TD
 
 ### _✨ Optional: Dependency Inversion Principle (DIP) for clean Architectures_
 
-- The Dependency Inversion Principle states that:
+- High-level (business) modules should not depend on low-level (presentation and persistence) modules. 
 
-High-level (business) modules should not depend on low-level (infrastructure) modules. Both should depend on abstractions.
-Abstractions should not depend on details. Details should depend on abstractions.
-
-This means the business layer defines interfaces for what it needs, and the persistence layer implements those interfaces.
+- All modules should depend on abstractions (interfaces or abstract classes).
 
 ```mermaid
 flowchart TD
@@ -97,37 +96,27 @@ flowchart TD
 
 - Frameworks should provide the necessary infrastructure to support this principle.
 
+- If not, follow these steps:
+
+1. Business layer defines interfaces for what it needs. 
+2. Persistence layer implements those interfaces.
+3. Presentation layer builds concrete classes that use these interfaces.
+
 ## 4. Repository Strategy
 
 Choose your repository strategy based on team size, coupling requirements, and tooling needs:
 
 ### Single Repository per Application (Default)
 - **When to use**: Independent applications with different release cycles
-- **Benefits**: Clear ownership, independent deployments, simpler CI/CD
 - **Structure**: Each application has its own repository with links to shared documentation
 
 ### Monorepo (When Appropriate)
 - **When to use**: Highly coupled applications, shared libraries, consistent tech stack
-- **Benefits**: Simplified dependency management, atomic changes across services
-- **Requirements**: Robust tooling for build optimization and selective testing
-- **Trade-offs**: Increased complexity in CI/CD and repository management
+- **Structure**: All applications and libraries are stored in a single repository.
 
 ## 5. Error Handling and Resilience Patterns
 
 - Systems must be designed to handle failures gracefully and recover automatically when possible.
 - Error handling should be consistent across layers and features.
 - Implement defensive programming practices to prevent cascading failures.
-
-### Core Resilience Strategies
-
-- **Fail Fast**: Detect errors early and fail immediately rather than propagating invalid state.
-- **Circuit Breaker**: Prevent repeated calls to failing external services.
-- **Retry with Backoff**: Automatically retry failed operations with increasing delays.
-- **Timeout Patterns**: Set explicit timeouts for all external calls and long-running operations.
-
-### Error Propagation Strategy
-
-- **Technical Errors**: Log detailed information, return generic user-friendly messages.
-- **Business Errors**: Propagate meaningful error codes and messages to the presentation layer.
-- **Critical Errors**: Implement alerting mechanisms for system-threatening issues.
 
