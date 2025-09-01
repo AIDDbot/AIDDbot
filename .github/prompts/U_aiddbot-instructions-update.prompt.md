@@ -22,6 +22,7 @@ Generate comprehensive instruction files for each tech stack item specified in t
   - Application Frameworks
   - Production Libraries
   - Development Tools
+  - Services
 - [ ] Double-check the [/.github/instructions](../instructions) directory for existing instruction files
 - [ ] Create a list of missing instruction files needed for each technology item
 

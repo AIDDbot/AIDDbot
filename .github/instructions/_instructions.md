@@ -41,6 +41,10 @@ They are grouped into several categories for easier navigation, following a cons
 - Include installation, configuration, and usage patterns.
 - Example: `too_prettier`, `too_maven`, `too_webpack`, etc.
 
+## 📒 Services Instructions (`#srv_*`)
+- Provide guidelines and best practices for specific services.
+- Include security, models, and usage patterns.
+- Example: `srv_googleapis`, `srv_openai`, `srv_coingecko`, etc.
 
 
 > 🔍 Explore the [instructions folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/instructions) to see all available instruction files.
