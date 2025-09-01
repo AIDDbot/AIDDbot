@@ -43,7 +43,8 @@ Type can be:
 - `lng` for languages
 - `frm` for frameworks
 - `lib` for libraries
-- `dtl` for tools
+- `tol` for tools
+- `srv` for services
 
 Try to use simple examples and keep the instructions file concise, ideally under 250 lines.
 
