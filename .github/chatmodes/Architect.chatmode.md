@@ -40,6 +40,10 @@ Offer the user the following prompts to create missing documentation:
 
 - [/A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md): To generate a Backlog Document for the features list.
 
+- On legacy Brownfield scenarios we need to consider existing systems and their interactions.
+
+- [/A_docs-STRUCTURE](/.github/prompts/A_docs-STRUCTURE.prompt.md): To generate a Structure Document for the overall system architecture.
+
 - ALWAYS RUN THE PROMPTS, DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
 
 > End of the Architect role.
