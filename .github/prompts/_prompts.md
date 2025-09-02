@@ -19,8 +19,10 @@ Some are meant to work with a specific chat mode.
 - System Design, tech stack and architecture
 ### ⏳ [//A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
 - Backlog with epics and features
+### 🗂️ [//A_docs-STRUCTURE](/.github/prompts/A_docs-STRUCTURE.prompt.md)
+- Project Structure Document
 
-## 👷 Builder chat-mode Prompts (`/B_*)`
+## 👷 Builder chat-mode Prompts (`/B_*`)
 
 ### ⛪ [/B_feature-spec](/.github/prompts/B_feature-spec.prompt.md)
 - Problem Specification, user stories
@@ -38,7 +40,7 @@ Some are meant to work with a specific chat mode.
 ### ⛲ [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md)
 - Code Cleanup
 ### ✔️ [/C_feature-doc](/.github/prompts/C_feature-doc.prompt.md)
-- Documentation and release
+- Code Documentation, project structure and release
 
 ## 🧑‍💻 User Utilities Prompts (`/U_*`)
 

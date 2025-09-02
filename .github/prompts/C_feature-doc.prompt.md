@@ -16,9 +16,7 @@ Write the documentation for the feature: ${input:featureId}
 
 - [ ] Add documentation comments to any public or exported functions, classes, or modules in the feature codebase.
 
-- [ ] Read and follow the [tpl_docs-STRUCTURE](../instructions/tpl_docs-STRUCTURE.instructions.md) instructions
-
-- [ ] Update or create the [docs/STRUCTURE.md](/docs/STRUCTURE.md) file to include the new feature.
+- [ ] Update or create the [docs/STRUCTURE.md](/docs/STRUCTURE.md) file to include the new feature following the [tpl_docs-STRUCTURE](../instructions/tpl_docs-STRUCTURE.instructions.md) instructions.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] change or keep the status to ✔️ RELEASED

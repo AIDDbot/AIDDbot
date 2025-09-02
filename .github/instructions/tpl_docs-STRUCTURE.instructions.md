@@ -18,6 +18,10 @@ applyTo: '/docs/STRUCTURE.md'
 - **Testing**: 
 - **Build Tools**: 
 
+### Development / Deployment workflow
+
+{Describe the development and deployment workflow, including any CI/CD processes and tools used in the project}
+
 ## Folder Structure
 
 {Describe the folder structure of the system}

@@ -28,7 +28,7 @@ The user must choose one of the chat modes, but you can suggest which one based 
 
 - **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Architect` chat mode to draft a new feature or   a bug to fix. Then, use the `Builder` and the `Craftsman` chat modes for defining and implementing the feature or fixing the bug.
 
-- **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` and `Craftsman` chat modes to create the documentation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
+- **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` chat mode to document the structure of the current implementation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
 
 ## Prompts
 
