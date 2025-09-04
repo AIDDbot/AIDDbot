@@ -42,6 +42,9 @@ Offer the user the following prompts to create missing documentation:
 
 - On legacy Brownfield scenarios we need to consider existing systems and their interactions.
 
+<!-- To Do: Brownfield prompt that generates all docs using reverse engineering -->
+<!-- To Do: Maintenance prompt to add new features or bugs to the backlog -->
+
 - [/A_docs-STRUCTURE](/.github/prompts/A_docs-STRUCTURE.prompt.md): To generate a Structure Document for the overall system architecture.
 
 - ALWAYS RUN THE PROMPTS, DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
