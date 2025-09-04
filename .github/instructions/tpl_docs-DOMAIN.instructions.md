@@ -3,61 +3,42 @@ description: 'Template for a Domain Model Document'
 applyTo: '/docs/DOMAIN.md'
 ---
 
-# Domain Model for { PROJECT_NAME }
+# Domain Model for { PRODUCT_NAME }
 
 ## Overview
 
-**{ Project name }** operates in the { domain description } domain, managing { core business concepts }.
+**{ Product name }** operates in the { domain description } domain, managing { core business concepts }.
+
+### Business glossary
+<!-- List 1 to 9 main terms used in the domain -->
+- **Term 1:** Definition of term 1
+
+### Business Operation Rules
+<!-- List 1 to 9 key business rules that govern operations in the domain. -->
+- { Business Operation Rule 1 description }
 
 ## Main Entities
-
+<!-- List of entities in the domain -->
 ### { E1 } { Entity 1 Name }
 
 **Description:** { Brief description of what this entity represents }
 
 **Attributes:**
+<!-- List of attributes with data types and descriptions. -->
+- { `attribute1` }: [{ type }] - { description }
 
-- { attribute1 }: { type } - { description }
-- { attribute2 }: { type } - { description }
-- { attribute3 }: { type } - { description }
+**Data Validation**
+List of validation rules for the entity's attributes.
+- { Data Validation Rule 1 description and `attribute1` it applies to }
 
-### { E2 } { Entity 2 Name }
-
-**Description:** { Brief description of what this entity represents }
-
-**Attributes:**
-
-- { attribute1 }: { type } - { description }
-- { attribute2 }: { type } - { description }
-- { attribute3 }: { type } - { description }
 
 ## Entity Relationships
-
+<!-- List of relationships between entities. -->
 ### { R1 } { Entity1 Name } ↔ { Entity2 Name }
 
-**Relationship Type:** { One-to-Many | Many-to-Many | One-to-One }
 **Description:** { How these entities are related }
+**Relationship Cardinality:** { One-to-Many | Many-to-Many | One-to-One }
 **Business Rule:** { Why this relationship exists }
-
-### { R2 } { Entity2 Name } ↔ { Entity3 Name }
-
-**Relationship Type:** { One-to-Many | Many-to-Many | One-to-One }
-**Description:** { How these entities are related }
-**Business Rule:** { Why this relationship exists }
-
-## Business Rules and Validations
-
-### Data Validation 
-
-- { Data Validation Rule 1 description }
-
-- { Data Validation Rule 2 description }
-
-### Business Operation Rules
-
-- { Business Operation Rule 1 description }
-
-- { Business Operation Rule 2 description }
 
 ## Entity-Relationship Diagram
 

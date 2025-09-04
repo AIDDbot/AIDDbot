@@ -1,5 +1,5 @@
 ---
-description: 'Template for documenting the structure of the project'
+description: 'Template for documenting the current structure of the project'
 applyTo: '/docs/STRUCTURE.md'
 ---
 

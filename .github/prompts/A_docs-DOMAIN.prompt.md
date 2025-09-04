@@ -18,19 +18,16 @@ Create a Domain Model Document that defines the project's main entities, their r
   - What is the core business domain?
   - What are the main business processes?
   - What are the key business concepts?
-  - What are the main business objects in the system?
+  - What are the main business entities in the system?
   - What information does each entity need to store?
   - What unique identifier does each entity have?
   - How are the entities connected to each other?
   - What are the cardinalities (one-to-one, one-to-many, many-to-many)?
   - What are the foreign key relationships?
 
-CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
-In case of doubt, ask the user for clarification.
-
 - [ ] Read and follow the [tpl_docs-DOMAIN](../instructions/tpl_docs-DOMAIN.instructions.md) instructions
 
-- [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the PRD.
+- [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the DOMAIN model.
 
 - [ ] Write the DOMAIN in Markdown format at `/docs/DOMAIN.md`.
 

@@ -40,8 +40,9 @@ The user must choose one of the chat modes, but you can suggest which one based 
 - Contains information about the project, the user, and the task at hand.
 - Could be text, document links or URLs.
 - ALWAYS READ ANY DOCUMENT LINK OR URL PROVIDED IN THE CONTEXT AREA OF A PROMPT OR INSTRUCTION FILE BEFORE DOING ANYTHING.
-  
-### Workflow  
+- When following instruction templates, treat comments as guides, not as verbatim text to include in the final output. <!-- This is a guideline to understand what to write, not what to copy. -->
+
+### Workflow
 
 - It is a list of tasks to follow
 - Execute each task in the order listed.

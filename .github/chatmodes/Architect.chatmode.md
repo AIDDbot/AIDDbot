@@ -32,7 +32,7 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 
 Offer the user the following prompts to create missing documentation:
 
-- [/A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md): To generate a Product Requirements Document (PRD) for the new feature.
+- [/A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md): To generate a Product Requirements Document (PRD) for the whole product.
 
 - [/A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md): To generate a Domain Model Document for the domain problem.
 

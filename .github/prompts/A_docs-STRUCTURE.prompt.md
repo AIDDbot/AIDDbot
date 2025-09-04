@@ -4,8 +4,9 @@ description: 'Create the STRUCTURE document for a project.'
 
 # Project Structure Document
 
-Create a Project Structure Document that defines the project's folder structure, file organization, and naming conventions.
+Create a Project Structure Document that defines the current technical stack, folder structure, file organization, tools and conventions.
 
+Mandatory for brownfield projects. Useful for new humans or AI developers joining the project.
 
 ## Context
 

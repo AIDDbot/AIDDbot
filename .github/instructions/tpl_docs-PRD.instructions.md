@@ -1,26 +1,26 @@
 ---
-description: 'Template for Project Requirements Document (PRD)'
+description: 'Template for Product Requirements Document (PRD)'
 applyTo: '/docs/PRD.md'
 ---
 
-# Project Requirements Document for { PROJECT_NAME }
+# Product Requirements Document for { PRODUCT_NAME }
 
 ## Overview
 
-**{ Project name }** aims to { short project description }.
+**{ Product name }** aims to { short Product description }.
 
 ### Goals 
-
-- { Goal 1 }
+<!-- List 1 to 5 main goals of the product -->
+- { Goal 1 short description }
 
 ## Requirements
-
+<!-- List 1 to 9 product requirements -->
 ### { R1 } { Requirement 1 short title }
 
-{ Brief description of the requirement 1 }
+{ Brief paragraph description of the requirement 1 }
 
 ## Technical Constraints
-
+<!-- List 1 to 9 architectural, design or tooling constraints -->
 - { Constraint 1 description }
 
 ### System C4 Context diagram
@@ -37,4 +37,4 @@ C4Context
 - [SYSTEMS Architecture](./SYSTEMS.md)
 - [BACKLOG of features](./BACKLOG.md)
 
-> End of PRD for { PROJECT_NAME }, last updated on { DATE }.
+> End of PRD for { PRODUCT_NAME }, last updated on { DATE }.

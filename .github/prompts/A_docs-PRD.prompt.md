@@ -1,13 +1,13 @@
 ---
-description: 'Create a Project Requirements Document (PRD)'
+description: 'Create a Product Requirements Document (PRD)'
 ---
 
-# Project Requirements Document (PRD)
+# Product Requirements Document (PRD) for { PRODUCT_NAME }
 
-Create a Project Requirements Document (PRD) to define the scope and objectives of the project.
+Create a Product Requirements Document (PRD) to define the scope and objectives of the product.
 This document will serve as the foundation for all subsequent design and development work.
 
-- Define project scope, objectives, and success criteria
+- Define product scope, objectives, and success criteria
 - Identify stakeholders and their requirements
 - Establish technical constraints and compliance requirements
 - Create context diagrams showing system boundaries

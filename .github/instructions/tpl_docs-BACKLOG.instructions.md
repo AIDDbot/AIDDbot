@@ -9,24 +9,21 @@ applyTo: '/docs/BACKLOG.md'
 
 > Feature Status Legend: ⛔ BLOCKED | ⏳ PENDING | ⛪ SPECIFIED | ✏️ DESIGNED | 📝 PLANNED | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED 
 
+<!-- List 1 to 5 significant functionalities -->
 ## { E1 } { Epic 1 Short Name } { Epic Priority }
 
 - { Epic 1 Short Description }
-  
+
+<!-- List 1 to 5 deployable features of the epic -->  
 ### { F1.1 } { Feature 1 Short Name } { Feature Status }
 
 - **Dependencies:** 
   <!-- May be empty -->
-  - { F1.2 Feature 2 Short Name with a local link to the feature }
+  - { F1.2 Feature Short Name with a local link to the feature }
 - **Project Requirements:** 
   - { R1 Requirement 1 short title from PRD.md }
 
 { Feature 1 Short Description }
-
-- **Links:**
-  - [Feature Specification](./backlog/{featureId}.spec.md)
-  - [Design Document](./backlog/{featureId}.design.md)
-  - [Implementation Plan](./backlog/{featureId}.plan.md)
 
 ## Additional Information
 

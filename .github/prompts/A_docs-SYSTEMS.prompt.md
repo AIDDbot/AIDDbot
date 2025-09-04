@@ -21,11 +21,11 @@ Create a Systems Architecture Document that defines the project's technical arch
 - Questions to consider:
   - What are the main system tiers/applications?
   - What technologies will be used for each application?
+  - How will the user interface be designed?
   - How do applications communicate with each other?
   - What database technology will be used?
   - How will data be structured and accessed?
   - How is authentication and authorization handled?
-  - How is sensitive data protected?
 
 - [ ] Read and follow the [tpl_docs-SYSTEMS](../instructions/tpl_docs-SYSTEMS.instructions.md) instructions
 
@@ -41,4 +41,4 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists
 
-> End of the SYSTEMS prompt.
+> End of the Generate SYSTEMS prompt.

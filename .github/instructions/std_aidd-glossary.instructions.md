@@ -84,12 +84,12 @@ The following structure illustrates how these elements relate in a typical proje
 
 - C4 Model levels related to this glossary
 
-| C4 Level | Scope                      | Architectural Item |
-| -------- | -------------------------- | ------------------ |
-| C1       | Complete solution boundary | System             |
-| C2       | Deployable unit            | Applications       |
-| C3       | Business functionality     | Features           |
-| C3 → C4  | Technical organization     | Modules  → Units   |
+| C4 Level | Scope                      | Architectural Item | Documentation File       |
+| -------- | -------------------------- | ------------------ | ------------------------ |
+| C1       | Complete solution boundary | System             | docs/PRD.md              |
+| C2       | Deployable unit            | Applications       | docs/SYSTEMS.md          |
+| C3       | Business functionality     | Features           | docs/STRUCTURE.md        |
+| C3 → C4  | Technical organization     | Modules  → Units   | docs/backlog/*.design.md |
 
 ```txt
 System

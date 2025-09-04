@@ -27,7 +27,7 @@ Create a BACKLOG that outlines the epics and features for the project.
 
 - [ ] Include features for project or data boilerplate, initial setup, and any other necessary components.
 
-- [ ] Do not include testing nor documentation features. (they will be tasks to do during implementation, but not features per se)
+- [ ] Do not include testing nor documentation features. (They will be tasks to do during implementation, but not features per se)
 
 - [ ] Group related features into epics for better organization.
 
