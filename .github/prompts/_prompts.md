@@ -19,8 +19,10 @@ Some are meant to work with a specific chat mode.
 - System Design, tech stack and architecture
 ### ⏳ [//A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
 - Backlog with epics and features
-### 🗂️ [//A_docs-STRUCTURE](/.github/prompts/A_docs-STRUCTURE.prompt.md)
-- Project Structure Document
+### 🗂️ [//A_docs-brownfield](/.github/prompts/A_docs-brownfield.prompt.md)
+- Project Structure and backlog documents
+### 🏗️ [/A_docs-maintenance](/.github/prompts/A_docs-maintenance.prompt.md)
+- Maintenance and evolution plan
 
 ## 👷 Builder chat-mode Prompts (`/B_*`)
 

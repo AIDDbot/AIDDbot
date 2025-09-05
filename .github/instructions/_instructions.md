@@ -6,6 +6,10 @@ Help maintain consistency and quality in codebases.
 
 They are grouped into several categories for easier navigation, following a consistent naming convention.
 
+## 📒 AIDD Instructions (`#aidd_*`)
+- AIDDbot-specific instructions.
+- Example: `aidd_glossary`
+
 ## 📒 Best Practices Instructions (`#bst_*`)
 - Provide guidelines and best practices for software development.
 - Include code quality, testing, and documentation practices.

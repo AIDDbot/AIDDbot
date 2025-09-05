@@ -13,7 +13,7 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 - [PRD.md](/docs/PRD.md)
 - [DOMAIN.md](/docs/DOMAIN.md)
-- [AIDDbot Glossary](../instructions/std_aidd-glossary.instructions.md)
+- [AIDDbot Glossary](../instructions/aidd_glossary.instructions.md)
 - [Architecture Best Practices](../instructions/bst_architecture.instructions.md)
 
 ## Workflow

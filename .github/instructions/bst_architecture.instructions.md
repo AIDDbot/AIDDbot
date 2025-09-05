@@ -6,7 +6,7 @@ description: 'A synthesized guide for Software Architecture best practices.'
 
 This guide provides clear and actionable instructions for developing robust, scalable, and maintainable applications. 
 
-Follows the glossary of terms and concepts from [AIDDbot Glossary](./std_aidd-glossary.instructions.md)
+Follows the glossary of terms and concepts from [AIDDbot Glossary](./aidd_glossary.instructions.md)
 
 These are the foundational principles that govern our architectural decisions.
 
