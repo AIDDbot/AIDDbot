@@ -5,6 +5,7 @@ description: 'Write Feature Design'
 # Feature Design
 
 Write detailed technical designs for the feature: ${input:featureId}
+Focus on the architecture, components, data models, and interactions and **how** they fit into the overall system.
 This will help plan the implementation.
 
 ## Context
@@ -17,7 +18,10 @@ This will help plan the implementation.
 
 ## Workflow
 
-- [ ] Think deeply to do this step. Its the most important part of the implementation.
+- If No [STRUCTURE.md](/docs/STRUCTURE.md) file exists:
+  - [ ] Run the [/A_docs-brownfield](A_docs-brownfield.prompt.md) prompt to get the latest structure instructions.
+
+- [ ] Use the #think tool to think deeply to do this step. Its the most important part of the building process.
 
 - [ ] Questions to consider
   - Which containers are involved in this feature?

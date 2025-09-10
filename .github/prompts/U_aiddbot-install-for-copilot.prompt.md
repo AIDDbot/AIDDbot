@@ -15,7 +15,7 @@ Have the same `.github` directory structure as the source repository, which incl
 ## Context
 
 - The source `.github` directory is at https://github.com/AIDDbot/AIDDbot/tree/main/.github
-- The target `.github` directory is or will be at [/.github](/.github)
+- The target `.github` directory is or will be at [/.github](/.github) folder of the current repository.
 
 ## Workflow
 
@@ -24,6 +24,7 @@ Have the same `.github` directory structure as the source repository, which incl
 First, ensure you are in the root directory of your local repository where you want the `.github` folder to be placed.
 
 ```bash
+# Example:
 cd /path/to/your/local/repo
 ```
 
@@ -66,5 +67,5 @@ You have now successfully copied the `.github` directory from the source reposit
 
 ## Validation
 
-- [ ] Use the #editFiles tool to verify temporary files are not left behind.
-- [ ] Use the #editFiles tool to ensure the `.github` directory exists and is correctly structured.
+- [ ] Use the #codebase tool to verify temporary [AIDDbot-temp](/AIDDbot-temp) folder is not left behind.
+- [ ] Use the #codebase tool to ensure the [.github](/.github) directory exists and is correctly structured.

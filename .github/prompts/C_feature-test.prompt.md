@@ -11,8 +11,8 @@ Write test plan for the feature: ${input:featureId}
 - [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
-- [Architecture Instructions](../instructions/architecture.instructions.md)
-- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
+- [STRUCTURE.md](/docs/STRUCTURE.md) 
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
 - [frm-playwright Instructions](../instructions/frm_playwright.instructions.md) for Playwright tests

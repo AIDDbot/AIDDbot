@@ -57,6 +57,12 @@ Those principles are implemented by three roles:
 - **👷 Builder**: Concentrates on implementation and coding tasks.
 - **🧑‍🔧 Craftsman**: Ensures quality through testing and refinement.
 
+And lastly, it follows the technical best practices of:
+
+- **📒 Spec-Driven Development**: Focuses on defining clear specifications before implementation.
+- **📝 Prompt Engineering**: Involves crafting effective prompts to guide AI behavior.
+- **📚 Context Engineering**: Ensures relevant context is provided to the AI for better responses.
+
 > Work smarter, not harder, with _Ab_!
 
 ---

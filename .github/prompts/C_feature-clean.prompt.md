@@ -10,7 +10,7 @@ Refactor latest changes for the feature: ${input:featureId} in order to make the
 
 - [{featureId}.design.md](/docs/feats/{featureId}.design.md)
 - [Architecture Instructions](../instructions/bst_architecture.instructions.md)
-- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
+- [STRUCTURE.md](/docs/STRUCTURE.md) 
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
 - [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
 - [Clean Code Instructions](../instructions/bst_clean-code.instructions.md) for best practices in writing clean code

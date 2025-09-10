@@ -4,18 +4,17 @@ description: 'Implement a feature following a plan.'
 
 # Feature Code Generation
 
-Write code for the feature: ${input:featureId}
+Write code for the feature: ${input:featureId} following the implementation plan.
 
 ## Context
 
 - [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
-- [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md)
-- [Architecture Instructions](../instructions/architecture.instructions.md)
-- [STRUCTURE.md](/docs/STRUCTURE.md) (if exists)
-- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md)
+- [STRUCTURE.md](/docs/STRUCTURE.md)
 - [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
+- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
 - [lib-{library} Instructions](../instructions/lib_{library}.instructions.md) for any specific library involved
-- [pck-{package} Instructions](../instructions/too_{package}.instructions.md) for any specific package involved
+- [tol-{tool} Instructions](../instructions/tol_{tool}.instructions.md) for any specific tool involved
 
   
 ## Workflow
@@ -28,7 +27,7 @@ Write code for the feature: ${input:featureId}
 
 - [ ] Mark each task as complete by updating the status in the [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) document.
 
-- [ ] **Smoke Test**: The code builds and runs successfully. Do not test or lint the code at this stage.
+- [ ] **Smoke Test**: The code builds and runs successfully. Do not run tests or lint the code at this stage.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] change or keep the status to ✨ CODED

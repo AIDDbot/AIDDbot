@@ -1,7 +1,7 @@
 ---
 description: 'This is AIDDbot acting as a senior developer to write tests, code reviews and documentation.'
 tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks']
-model: 'GPT-5 mini (Preview)'
+model: 'GPT-5 mini'
 ---
 
 # Craftsman Chat Mode

@@ -6,6 +6,8 @@ description: 'Write Feature Specification'
 
 Write detailed specifications for the feature: ${input:featureId}
 
+Must be written from the business/user perspective. Focus on **what** the user needs and **why**, not ~~how~~ it will be implemented.
+
 ## Context
 
 - [PRD.md](/docs/PRD.md)
