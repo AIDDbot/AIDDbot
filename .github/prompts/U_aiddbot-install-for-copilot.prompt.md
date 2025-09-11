@@ -1,16 +1,16 @@
 ---
 mode: 'agent'
-description: 'Install AIDDbot for GitHub Copilot.'
+description: 'Install latest AIDDbot for GitHub Copilot.'
 tools: ['changes', 'editFiles', 'fetch', 'runCommands']
 ---
 
-# Install AIDDbot for GitHub Copilot
+# Install latest AIDDbot for GitHub Copilot
 
 Copy the `.github` directory from the [AIDDbot/AIDDbot repository](https://github.com/AIDDbot/AIDDbot) to the current repository.
 
 ## Goal
 
-Have the same `.github` directory structure as the source repository, which includes prompts, workflows, and configurations for GitHub Copilot.
+Have the latest `.github` directory structure as the AIDDbot source repository, which includes prompts, workflows, and configurations for GitHub Copilot.
 
 ## Context
 
@@ -38,7 +38,9 @@ git clone -b main --single-branch https://github.com/AIDDbot/AIDDbot.git AIDDbot
 
 - [ ] **3. Copy the `.github` directory**
 
-Now, use a file system command to copy the `.github` directory and its entire contents from the temporary clone into your current repository. The `-r` flag ensures that the copy is recursive, including all subdirectories and files.
+Now, use a file system command to copy the `.github` directory and its entire contents from the temporary clone into your current repository. The `-r` flag ensures that the copy is recursive, including all subdirectories and files. 
+
+> Any existing files will be replaced. Check and fix using git status if needed.
 
 ```bash
 cp -r AIDDbot-temp/.github .
@@ -60,10 +62,10 @@ The files have been copied to your local file system, but they are not yet part 
 
 ```bash
 git add .github
-git commit -m "chore: Add .github directory from AIDDbot repository"
+git commit -m "chore: Add/Update .github directory from AIDDbot repository"
 ```
 
-You have now successfully copied the `.github` directory from the source repository and added it to your own local repository's history without maintaining any direct Git link to the original source.
+You have now successfully copied the `.github` directory from the AIDDbot source repository and added it to your own local repository's history.
 
 ## Validation
 
