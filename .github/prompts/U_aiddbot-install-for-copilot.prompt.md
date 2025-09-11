@@ -40,7 +40,7 @@ git clone -b main --single-branch https://github.com/AIDDbot/AIDDbot.git AIDDbot
 
 Now, use a file system command to copy the `.github` directory and its entire contents from the temporary clone into your current repository. The `-r` flag ensures that the copy is recursive, including all subdirectories and files. 
 
-> Any existing files will be replaced. Check and fix using git status if needed.
+Tell the user that any existing files will be replaced but can be restored from git history if needed.
 
 ```bash
 cp -r AIDDbot-temp/.github .
