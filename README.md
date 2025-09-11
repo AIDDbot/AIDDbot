@@ -10,9 +10,9 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **It is an AI-powered assistant for software engineers**  that helps with:
 
-- product design, 
-- code generation, 
-- testing and documentation.
+- product design and architecture, 
+- code generation following spec-driven development, 
+- testing and documentation for maintenance.
 
 ## ⚙️ How does it work?
 
@@ -73,7 +73,6 @@ And lastly, it follows the technical best practices of:
   - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
   - [GitHub](https://github.com/albertobasalo)
 - **AIDDbot.com Blog**: [AIDDbot.com](https://aiddbot.com)
-- **AIDDbot org at GitHub**: [GitHub/AIDDbot](https://github.com/AIDDbot)
 - **This Repository**: [GitHub/AIDDbot/AIDDbot](https://github.com/AIDDbot/AIDDbot)
 - **Academia en Español**: [AI code Academy](https://aicode.academy)
 - **Curso de formación**: [Aprende a usar GitHub Copilot profesionalmente](https://aicode.academy/cursos/vs-code-copilot/)
