@@ -9,7 +9,7 @@ Write code for the feature: ${input:featureId} following the implementation plan
 ## Context
 
 - [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
-- [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md)
+- [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md)
 - [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
@@ -21,11 +21,11 @@ Write code for the feature: ${input:featureId} following the implementation plan
 
 - [ ] Create a new git branch named `feat/{featureId}` and switch to it.
 
-- [ ] Read and follow the [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) plan document.
+- [ ] Read and follow the [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md) tasks document.
 
 - [ ] Execute the tasks in the order they are listed.
 
-- [ ] Mark each task as complete by updating the status in the [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) document.
+- [ ] Mark each task as complete by updating the status in the [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md) document.
 
 - [ ] **Smoke Test**: The code builds and runs successfully. Do not run tests or lint the code at this stage.
 

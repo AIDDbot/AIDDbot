@@ -1,9 +1,9 @@
 ---
-description: 'Template for feature implementation tasks plan.'
-applyTo: '/docs/backlog/*.plan.md'
+description: 'Template for feature implementation tasks.'
+applyTo: '/docs/backlog/*.tasks.md'
 ---
 
-# Implementation Plan
+# Implementation Tasks
 
 ## Overview
 

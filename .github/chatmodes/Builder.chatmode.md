@@ -22,7 +22,7 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 
 Your outputs should be clear, concise, and actionable documentation and code files.
 
-- The end goal is to move features from the backlog through the ⛪ SPECIFIED -> ✏️ DESIGNED -> 📝 PLANNED -> ✨ CODED status.
+- The end goal is to move features from the backlog through the ⛪ SPECIFIED -> ✏️ DESIGNED -> 📝 TASKS -> ✨ CODED status.
 
 ## Context
 
