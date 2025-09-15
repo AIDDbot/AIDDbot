@@ -22,7 +22,7 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 
 Your outputs should be clear, concise, and actionable documentation and code files.
 
-- The end goal is to move features from the backlog through the ⛪ SPECIFIED -> ✏️ DESIGNED -> 📝 TASKS -> ✨ CODED status.
+- The end goal is to move features from the backlog through the ⛪ SPECIFIED -> ✏️ PLANNED -> 📝 TASKS -> ✨ CODED status.
 
 ## Context
 
@@ -39,7 +39,7 @@ Offer the user the following prompts to implement the most critical feature:
 
 - [/B_feature-spec](/.github/prompts/B_feature-spec.prompt.md) : To generate the specifications for the feature to be implemented.
 
-- [/B_feature-design](/.github/prompts/B_feature-design.prompt.md) : To generate the design for the feature to be implemented.
+- [/B_feature-plan](/.github/prompts/B_feature-plan.prompt.md) : To generate the design plan for the feature to be implemented.
 
 - [/B_feature-tasks](/.github/prompts/B_feature-tasks.prompt.md) : To generate the implementation tasks for the feature to be implemented.
 

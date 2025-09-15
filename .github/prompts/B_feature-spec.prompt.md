@@ -30,8 +30,7 @@ Must be written from the business/user perspective. Focus on **what** the user n
 - [ ] Write the feature specification in Markdown format at `/docs/backlog/{featureId}.spec.md`.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
-  - [ ] a link to the feature specification
-  - [ ] change or keep the status to 📝 PLANNED
+  - [ ] change or keep the status to ⛪ SPECIFIED
 
 - [ ] Commit changes by running [/U_git-commit](../prompts/U_git-commit.prompt.md) with a docs type message.
 

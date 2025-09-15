@@ -1,8 +1,8 @@
 ---
-description: 'Write Feature Design'
+description: 'Write Feature Design Plan'
 ---
 
-# Feature Design
+# Feature Design Plan
 
 Write detailed technical designs for the feature: ${input:featureId}
 Focus on the architecture, components, data models, and interactions and **how** they fit into the overall system.
@@ -34,21 +34,20 @@ This will help plan the implementation.
 
 - CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION.
 
-- [ ] Read and follow the [#tpl_feature-design](../instructions/tpl_feature-design.instructions.md) instructions.
+- [ ] Read and follow the [#tpl_feature-plan](../instructions/tpl_feature-plan.instructions.md) instructions.
 
 - [ ] Fill in the placeholders with relevant information about the project.
 
-- [ ] Write the feature design in Markdown format at `/docs/backlog/{featureId}.design.md`.
+- [ ] Write the feature design in Markdown format at `/docs/backlog/{featureId}.plan.md`.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
-  - [ ] a link to the feature design
-  - [ ] change or keep the status to ✏️ DESIGNED
+  - [ ] change or keep the status to ✏️ PLANNED
 
 - [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with a docs type message.
 
 ## Validation
 
-- [ ] [{featureId}.design.md](/docs/backlog/{featureId}.design.md) exists
+- [ ] [{featureId}.plan.md](/docs/backlog/{featureId}.plan.md) exists
 - [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature design link and status
 
 > End of the Feature Design prompt.

@@ -1,9 +1,9 @@
 ---
-description: 'Template for feature design.'
-applyTo: '/docs/backlog/*.design.md'
+description: 'Template for feature design plan.'
+applyTo: '/docs/backlog/*.plan.md'
 ---
 
-# { Feature Id } {Feature Name} Design 
+# { Feature Id } {Feature Name} Design Plan
 
 ## Overview
 

@@ -11,7 +11,7 @@ Create a BACKLOG that outlines the epics and features for the project.
 - Group related features into epics for better organization
 - Assign each Epic a Priority: ‼️ Critical ❗ High ❕ Normal
 - Keep track of feature dependencies (other features) 
-- Keep track of feature status: ⛔ BLOCKED | ⏳ PENDING | ⛪ SPECIFIED | ✏️ DESIGNED | 📝 TASKS | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED 
+- Keep track of feature status: ⛔ BLOCKED | ⏳ PENDING | ⛪ SPECIFIED | ✏️ PLANNED | 📝 TASKS | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED 
 
 ## Context
 

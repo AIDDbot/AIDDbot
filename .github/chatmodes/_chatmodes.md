@@ -13,7 +13,7 @@ AIDDbot comes with three additional chat modes, each for one role in the softwar
 ## [👷 Builder chat-mode](/.github/chatmodes/Builder.chatmode.md)
 - Feature design and implementation.
 - Focuses on implementation and coding
-- Suitable for discussing problem specifications, solution design, and code generation
+- Suitable for discussing problem specifications, solution design plan, tasks list, and code generation
 - His prompt library starts with `/B_`
 
 ## [🧑‍🔧 Craftsman chat-mode](/.github/chatmodes/Craftsman.chatmode.md)
