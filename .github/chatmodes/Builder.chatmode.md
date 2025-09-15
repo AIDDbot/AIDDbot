@@ -41,7 +41,7 @@ Offer the user the following prompts to implement the most critical feature:
 
 - [/B_feature-design](/.github/prompts/B_feature-design.prompt.md) : To generate the design for the feature to be implemented.
 
-- [/B_feature-plan](/.github/prompts/B_feature-plan.prompt.md) : To generate the implementation plan for the feature to be implemented.
+- [/B_feature-tasks](/.github/prompts/B_feature-tasks.prompt.md) : To generate the implementation tasks for the feature to be implemented.
 
 - [/B_feature-code](/.github/prompts/B_feature-code.prompt.md) : To generate the code for the feature to be implemented.
 

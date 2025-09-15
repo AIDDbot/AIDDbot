@@ -1,10 +1,10 @@
 ---
-description: 'Implement a feature following a plan.'
+description: 'Implement a feature following a list of tasks.'
 ---
 
 # Feature Code Generation
 
-Write code for the feature: ${input:featureId} following the implementation plan.
+Write code for the feature: ${input:featureId} following the implementation tasks list.
 
 ## Context
 
