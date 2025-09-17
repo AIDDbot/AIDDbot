@@ -1,16 +1,14 @@
 ---
-description: 'Write test plan for a feature implementation'
+description: 'Write a test suite for a feature implementation'
 ---
 
-# Feature Test Plan
+# Feature Test Suite
 
-Write test plan for the feature: ${input:featureId}
+Write a test suite for the feature: ${input:featureId}
 
 ## Context
 
-- [{featureId}.spec.md](/docs/feats/{featureId}.spec.md)
-- [{featureId}.design.md](/docs/feats/{featureId}.design.md)
-- [{featureId}.tasks.md](/docs/feats/{featureId}.tasks.md)
+- [{featureId}.spec.md](/docs/specs/{featureId}.spec.md)
 - [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) 
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
@@ -23,16 +21,16 @@ Write test plan for the feature: ${input:featureId}
 
 - [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step and mark the feature as tested in the Backlog.
 
-- [ ] Write a test plan that may include:
+- [ ] Write a test suite that may include:
   - Unit tests
   - Integration tests
   - End-to-end tests (using Playwright for web and api applications)
 
-- [ ] implement the test plan in order.
+- [ ] implement the test suite in order.
 
 - [ ] **Run the Test**: Run the tests to ensure they pass.
   - [ ] Fix and try again one more time.
-  - [ ] If the test still fails, write a report at `/docs/backlog/{featureId}.test.md`.
+  - [ ] If the test still fails, write a report at `/docs/specs/{featureId}.fail.test.md`.
 
 - [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
   - [ ] If tests pass, change or keep the status to ✅ TESTED, if not, change the status to ❌ FAILED.

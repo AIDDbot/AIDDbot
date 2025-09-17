@@ -8,7 +8,7 @@ Refactor latest changes for the feature: ${input:featureId} in order to make the
 
 ## Context
 
-- [{featureId}.design.md](/docs/feats/{featureId}.design.md)
+- [{featureId}.spec.md](/docs/specs/{featureId}.spec.md)
 - [Architecture Instructions](../instructions/bst_architecture.instructions.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md) 
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
@@ -23,7 +23,7 @@ Refactor latest changes for the feature: ${input:featureId} in order to make the
 
 - [ ] Use the #getTerminalOutput tool to check the output of the linter or formatter and fix any issues.
 
-- [ ] Read the code related to the feature in the [{featureId}.design.md](/docs/feats/{featureId}.design.md) document.
+- [ ] Read the code related to the feature in the [{featureId}.spec.md](/docs/specs/{featureId}.spec.md) document.
 
 - [ ] Look for any code smells or anti-patterns in the code and fix them.
 
@@ -33,11 +33,17 @@ Refactor latest changes for the feature: ${input:featureId} in order to make the
 
 - [ ] **Run the Test**: Run the tests to ensure they pass.
 
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
-  - [ ] change or keep the status to ⛲ CLEANED
+- [ ] Add documentation comments to any public or exported functions, classes, or modules in the feature codebase.
 
-- [ ] Commit changes by running [/U_git-commit](/.github/prompts/U_git-commit.prompt.md) with refactor type message
+- [ ] Update or create the [docs/STRUCTURE.md](/docs/STRUCTURE.md) file to include the new feature following the [tpl_docs-STRUCTURE](../instructions/tpl_docs-STRUCTURE.instructions.md) instructions.
+
+- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
+  - [ ] change or keep the status to ✔️ CLEANED
+
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with docs type message and closing the feature.
+
+- [ ] Merge the branch named `feat/{featureId}` to `main` and switch to it.
 
 ## Validation
 
-- [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature test link and status
+- [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature status

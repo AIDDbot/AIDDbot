@@ -19,7 +19,7 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 2. clean code,
 3. documentation
 
-- The end goal is to move features from the backlog through the ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED status.
+- The end goal is to move features from the backlog through the ✅ TESTED | ✔️ CLEANED status.
 
 ## Context
 
@@ -33,9 +33,7 @@ Offer the user the following prompts to implement the most critical feature:
 
 - [/C_feature-test](/.github/prompts/C_feature-test.prompt.md): to write unit tests for the feature.
 
-- [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md): to clean up the code.
-
-- [/C_feature-doc](/.github/prompts/C_feature-doc.prompt.md): to create documentation for the feature.
+- [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md): to clean up the code and create documentation for the feature.
 
 - ALWAYS RUN THE PROMPTS, DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
 

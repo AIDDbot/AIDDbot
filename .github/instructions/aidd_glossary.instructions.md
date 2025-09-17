@@ -45,16 +45,6 @@ This glossary establishes a consistent vocabulary and structure to ensure clarit
 ### Unit: 
 - A discrete piece of code within a `module` that implements a single responsibility or behavior pattern (e.g., password validator function, JWT token service class). It's the smallest testable part of an application.
 
-## Project Management Terms
-
-### Spec:
-- A detailed description of a `feature`, from the user's perspective, including its requirements, user stories, and acceptance criteria.
-
-### Design:
-- A blueprint or plan for implementing a `feature` for a developer, outlining its architecture, components, and interactions.
-
-### Plan:
-- A specific, actionable list of tasks or work items required to implement a `feature`.
 
 ## Summary
 
@@ -68,7 +58,6 @@ The following structure illustrates how these elements relate in a typical proje
 
 > **Application → Feature → Layer → Module → Unit**: Represents the breakdown of an application into logical elements.
 
-> **Spec → Design → Plan**: Represents the sequence for implementing a feature.
 
 ### Diagram Mapping
 

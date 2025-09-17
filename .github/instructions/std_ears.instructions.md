@@ -1,6 +1,6 @@
 ---
 description: 'The EARS (Easy Approach to Requirements Syntax) standard.'
-applyTo: '/docs/backlog/*.spec.md'
+applyTo: '/docs/specs/*.spec.md'
 ---
 
 # EARS standard

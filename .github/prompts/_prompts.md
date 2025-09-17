@@ -34,11 +34,9 @@ Some are meant to work with a specific chat mode.
 ## 🧑‍🔧 Craftsman chat-mode Prompts (`/C_*`)
 
 ### ✅ [/C_feature-test](/.github/prompts/C_feature-test.prompt.md)
-- Feature Testing
-### ⛲ [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md)
-- Code Cleanup
-### ✔️ [/C_feature-doc](/.github/prompts/C_feature-doc.prompt.md)
-- Code Documentation, project structure and release
+- Feature Testing Suite and report
+### ✔️ [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md)
+- Code Cleanup, Documentation, project structure and release
 
 ## 🧑‍💻 User Utilities Prompts (`/U_*`)
 
