@@ -7,7 +7,7 @@ applyTo: '/docs/specs/*.spec.md'
 
 - **Epic**: { Epic Id } { Epic Name } { Epic Priority }
 
-## 1. Problem Specification
+## 1. 👔 Problem Specification
 
 { Briefly describe the feature and its purpose.}
 
@@ -21,7 +21,7 @@ applyTo: '/docs/specs/*.spec.md'
 - **I want to** { user goal }
 - **So that** { benefit }
 
-## 2. Solution Overview
+## 2. 🧑‍💻 Solution Overview
 
 {High-level description of the feature and its place in the overall system}
 
@@ -84,7 +84,7 @@ C4Component
 {Describe the file structure for this feature, including any important directories, files, and their purposes.}
 ```
 
-## 3. Acceptance Criteria
+## 3. 🧑‍⚖️ Acceptance Criteria
 
 - [ ] { List in EARS format (SHAll, WHEN, IF, THEN, WHILE, WHERE) }
 
