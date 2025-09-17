@@ -1,16 +1,24 @@
 ---
-description: 'Implement a feature following a list of tasks.'
+description: 'Implement a feature following its specification.'
 ---
 
 # Feature Code Generation
 
-Write code for the feature: ${input:featureId} following the implementation tasks list.
+Write code for the feature: ${input:featureId} following the specified tasks.
 
 ## Context
 
-- [{featureId}.design.md](/docs/backlog/{featureId}.design.md)
-- [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md)
+- If No [STRUCTURE.md](/docs/STRUCTURE.md) file exists:
+  - [ ] Run the [/A_docs-brownfield](A_docs-brownfield.prompt.md) prompt to get the latest structure instructions.
+
+- If there is no specific tech instructions:
+   - [ ] run the [/U_aiddbot-instructions-update](U_aiddbot-instructions-update.prompt.md) prompt to get instructions for it.
+
+- [{featureId}.spec.md](/docs/specs/{featureId}.spec.md)
 - [STRUCTURE.md](/docs/STRUCTURE.md)
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
+- [Database Instructions](../instructions/bst_database.instructions.md) (if applicable)
+- [Clean Code Instructions](../instructions/bst_clean-code.instructions.md)
 - [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
 - [lib-{library} Instructions](../instructions/lib_{library}.instructions.md) for any specific library involved
@@ -19,13 +27,17 @@ Write code for the feature: ${input:featureId} following the implementation task
   
 ## Workflow
 
+
 - [ ] Create a new git branch named `feat/{featureId}` and switch to it.
 
-- [ ] Read and follow the [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md) tasks document.
+- [ ] Read and follow the [{featureId}.spec.md](/docs/specs/{featureId}.spec.md) document.
+
+- [ ] #think and plan in a list of tasks for the implementation before writing any code. Focus only on coding tasks (no deployment, no testing, no documentation, etc.)
 
 - [ ] Execute the tasks in the order they are listed.
 
-- [ ] Mark each task as complete by updating the status in the [{featureId}.tasks.md](/docs/backlog/{featureId}.tasks.md) document.
+- CHOOSE THE SIMPLEST APPROACH FOR EACH TASK.
+- DO NOT INCLUDE TESTING NOR DOCUMENTATION TASKS AT THIS STAGE.
 
 - [ ] **Smoke Test**: The code builds and runs successfully. Do not run tests or lint the code at this stage.
 

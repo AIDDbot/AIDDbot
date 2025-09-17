@@ -26,14 +26,10 @@ Some are meant to work with a specific chat mode.
 
 ## 👷 Builder chat-mode Prompts (`/B_*`)
 
-### ⛪ [/B_feature-spec](/.github/prompts/B_feature-spec.prompt.md)
-- Problem Specification, user stories
-### ✏️ [/B_feature-plan](/.github/prompts/B_feature-plan.prompt.md)
-- Solution Design Plan
-### 📝 [/B_feature-tasks](/.github/prompts/B_feature-tasks.prompt.md)
-- List with tasks to generate code
+### 📝 [/B_feature-spec](/.github/prompts/B_feature-spec.prompt.md)
+- Problem Specification, user stories, Solution Design Plan
 ### ✨ [/B_feature-code](/.github/prompts/B_feature-code.prompt.md)
-- Implementation of the feature following the tasks
+- Implementation of the feature specifications
 
 ## 🧑‍🔧 Craftsman chat-mode Prompts (`/C_*`)
 

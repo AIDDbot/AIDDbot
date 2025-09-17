@@ -7,7 +7,7 @@ applyTo: '/docs/BACKLOG.md'
 
 > Epic Priority Legend: ‼️ Critical | ❗ High  |❕ Normal
 
-> Feature Status Legend: ⛔ BLOCKED | ⏳ PENDING | ⛪ SPECIFIED | ✏️ PLANNED | 📝 TASKS | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED
+> Feature Status Legend: ⛔ BLOCKED | ⏳ PENDING | 📝 SPECIFIED | ✨ CODED | ✅ TESTED | ⛲ CLEANED | ✔️ RELEASED
 
 <!-- List 1 to 5 significant functionalities -->
 ## { E1 } { Epic 1 Short Name } { Epic Priority }
