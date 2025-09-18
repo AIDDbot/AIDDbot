@@ -18,6 +18,7 @@ description: 'Playwright test generation instructions'
 - **Hooks**: Use `beforeEach` for setup actions common to all tests in a `describe` block (e.g., navigating to a page).
 - **Titles**: Follow a clear naming convention, such as `Feature - Specific action or scenario`.
 
+
 ### File Organization
 
 - **Location**: Store all test files in the `tests/` directory.
