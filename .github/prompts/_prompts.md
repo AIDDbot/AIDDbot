@@ -13,7 +13,7 @@ Some are meant to work with a specific chat mode.
 
 ### 📦 [/A_docs-PRD](/.github/prompts/A_docs-PRD.prompt.md)
 - Product Requirements Document
-### 👔 [A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md)
+### 👔 [/A_docs-DOMAIN](/.github/prompts/A_docs-DOMAIN.prompt.md)
 - Domain Model, Entity-Relationship Diagrams
 ### ⚙️ [/A_docs-SYSTEMS](/.github/prompts/A_docs-SYSTEMS.prompt.md)
 - System Design, tech stack and architecture
