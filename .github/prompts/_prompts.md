@@ -17,9 +17,9 @@ Some are meant to work with a specific chat mode.
 - Domain Model, Entity-Relationship Diagrams
 ### ⚙️ [/A_docs-SYSTEMS](/.github/prompts/A_docs-SYSTEMS.prompt.md)
 - System Design, tech stack and architecture
-### ⏳ [//A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
+### ⏳ [/A_docs-BACKLOG](/.github/prompts/A_docs-BACKLOG.prompt.md)
 - Backlog with epics and features
-### 🗂️ [//A_docs-brownfield](/.github/prompts/A_docs-brownfield.prompt.md)
+### 🗂️ [/A_docs-brownfield](/.github/prompts/A_docs-brownfield.prompt.md)
 - Project Structure and backlog documents
 ### 🏗️ [/A_docs-maintenance](/.github/prompts/A_docs-maintenance.prompt.md)
 - Maintenance and evolution plan
