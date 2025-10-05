@@ -78,7 +78,7 @@ The following structure illustrates how these elements relate in a typical proje
 | C1       | Complete solution boundary | System             | docs/PRD.md              |
 | C2       | Deployable unit            | Applications       | docs/SYSTEMS.md          |
 | C3       | Business functionality     | Features           | docs/STRUCTURE.md        |
-| C3 → C4  | Technical organization     | Modules  → Units   | docs/backlog/*.design.md |
+| C3 → C4  | Technical organization     | Modules  → Units   | docs/specs/*.spec.md |
 
 ```txt
 System
