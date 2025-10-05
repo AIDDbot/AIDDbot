@@ -4,12 +4,11 @@ Instructions for using `AIDDbot` with **VSCode** IDE and **GitHub Copilot** agen
 
 ## 🔌 Installation
 
-`AIDDbot` is just **a set of Markdown files** with instructions and configuration adapted to your AI code editor. Install it by cloning this repository and copying the `.github` folder into the root of your project.
+`AIDDbot` is just **a set of Markdown files** with instructions and configuration adapted to your AI code editor. 
 
-Or simply, use the installation prompt.
-
-1. Copy the raw content from [AIDDbot install for Copilot](https://raw.githubusercontent.com/AIDDbot/AIDDbot/refs/heads/main/.github/prompts/U_aiddbot-install-for-copilot.prompt.md)
-2. Paste it into your Copilot Chat and run it in `Agent` mode.
+- 1️⃣ Clone this repository in a _temp_ folder
+- 2️⃣ Copy the `.github` folder into the root of your project.
+- 3️⃣ Open the chat and select the _mode_ you want
 
 > ℹ️ More info about [GitHub Copilot on VS Code](https://aiddbot.com/vscode-and-github-copilot/)
 
