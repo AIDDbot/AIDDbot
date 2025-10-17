@@ -69,8 +69,7 @@ applyTo: '/docs/SYSTEMS.md'
 { The Entity Relationship Diagram in mermaid syntax }
 
 ```mermaid
-erDiagram
-    { entity1 } ||--o{ { entity2 } : relationship
+
 ```
 
 ## External Systems Integration
@@ -86,7 +85,7 @@ erDiagram
 { The Container level 2 diagram following the C4 model in mermaid syntax }
 
 ```mermaid
-C4Container    
+
 ```
 
 > End of SYSTEMS for { PROJECT_NAME }, last updated on { DATE }.
