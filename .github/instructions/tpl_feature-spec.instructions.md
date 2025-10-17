@@ -25,7 +25,7 @@ applyTo: '/docs/specs/*.spec.md'
 
 ### Software Components
 
-{ Describe the software components involved in this feature, including services, modules, libraries, and their interactions.}
+{ At each tier/application layer, describe the software components involved in this feature, including services, modules, libraries, and their interactions.}
 
 ### User Interface
 
