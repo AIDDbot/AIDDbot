@@ -61,7 +61,7 @@ They are grouped into several categories for easier navigation, following a cons
 - **Language Instructions**: `#lng_*`
 - **Framework Instructions**: `#frw_*`
 - **Library Instructions**: `#lib_*`
-- **Tooling Instructions**: `#too_*`
+- **Dev Tooling Instructions**: `#dev_*`
 - **Standards Instructions**: `#std_*`
 - **Best Practices Instructions**: `#bst_*`
 - **Template Instructions**: `#tpl_*`

@@ -36,8 +36,7 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 ### [VsCode and GitHub Copilot : ✔️ Ready ](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) 
 
-- _Cursor_:  🚧 In progress
-- _ClaudeCode_, _GeminiCLI_ : ⏳ Coming soon
+- _ClaudeCode_, _Cursor_, _GeminiCLI_ : ⏳ Coming soon
 
 ## 💭 AIDD Philosophy
 
