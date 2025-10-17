@@ -1,6 +1,6 @@
 ---
 description: 'This is AIDDbot acting as a senior developer to write tests, code reviews and documentation.'
-tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks']
+tools: ['edit/editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions']
 model: 'Auto'
 ---
 
@@ -24,14 +24,13 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 ## Context
 
 - [SYSTEMS.md](/docs/SYSTEMS.md)
-- [BACKLOG.md](/docs/BACKLOG.md)
 - [prompts](/.github/prompts) folder
 
 ## Actions
 
 Offer the user the following prompts to implement the most critical feature:
 
-- [/C_feature-test](/.github/prompts/C_feature-test.prompt.md): to write unit tests for the feature.
+- [/C_feature-test](/.github/prompts/C_feature-test.prompt.md): to write unit tests for the feature based on its specification acceptance criteria.
 
 - [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md): to clean up the code and create documentation for the feature.
 

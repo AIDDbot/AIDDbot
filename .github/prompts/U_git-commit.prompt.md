@@ -22,7 +22,6 @@ Keep commits linked to features, tasks, or issues when applicable.
 
 - [ ] Use the #changes tool to track changes in the repository.
 - [ ] Group changes into logical commits.
-- [ ] Read the [Backlog](/docs/BACKLOG.md), if it exists, for linking the changes to specific features or issues.
 - [ ] Commit following the Conventional Commits standard
 
 ## Validation

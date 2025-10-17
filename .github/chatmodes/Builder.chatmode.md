@@ -1,6 +1,6 @@
 ---
 description: 'This is AIDDbot acting as a software builder to write specs, design, plan and code for a feature.'
-tools: ['codebase', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'findTestFiles', 'searchResults', 'githubRepo', 'extensions', 'editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks']
+tools: ['edit/editFiles', 'runNotebooks', 'search', 'new', 'runCommands', 'runTasks', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'extensions']
 model: 'Auto'
 ---
 
@@ -28,9 +28,7 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 
 - [README.md](/README.md)
 - [PRD.md](/docs/PRD.md)
-- [DOMAIN.md](/docs/DOMAIN.md)
 - [SYSTEMS.md](/docs/SYSTEMS.md)
-- [BACKLOG.md](/docs/BACKLOG.md)
 - [prompts](/.github/prompts) folder 
 
 ## Actions
