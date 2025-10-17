@@ -8,37 +8,36 @@ Write a test suite for the feature: ${input:featureId}
 
 ## Context
 
-- [{featureId}.spec.md](/docs/specs/{featureId}.spec.md)
-- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
-- [STRUCTURE.md](/docs/STRUCTURE.md) 
-- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
-- [lng-{language} Instructions](../instructions/lng_{language}.instructions.md) for any specific language involved
-- [frm-playwright Instructions](../instructions/frm_playwright.instructions.md) for Playwright tests
+Specification document:
+- [{specId}.spec.md](/docs/specs/{specId}.spec.md)
 
-- If there is no specific language instructions use the #fetch tool to search for recent instructions and best practices at https://github.com/github/awesome-copilot
+Best practice instructions:
+- [Architecture Instructions](../instructions/bst_architecture.instructions.md)
+- [Testing Instructions](../instructions/bst_testing.instructions.md) for best practices in writing tests
+
+Technical instructions:
+- [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved
+- [frm-{testing} Instructions](../instructions/frm_{testing}.instructions.md) for Testing framework involved
 
 ## Workflow
 
-- [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step and mark the feature as tested in the Backlog.
+- [ ] Determine if the feature really needs a test. Only business features do. If the feature is not business related, skip this step.
 
-- [ ] Write a test suite that may include:
-  - Unit tests
-  - Integration tests
-  - End-to-end tests (using Playwright for web and api applications)
+- [ ] Use the acceptance criteria in the [{specId}.spec.md](/docs/specs/{specId}.spec.md) document to identify the key functionalities that need to be tested.
+
+- [ ] Write a list of the tasks for a test suite that may include:
+  - Unit tests (For complex logic, utility functions, data transformations, etc.)
+  - Integration tests (For interactions between modules, services, databases, etc.)
+  - End-to-end tests (For web and /or api applications)
 
 - [ ] implement the test suite in order.
 
-- [ ] **Run the Test**: Run the tests to ensure they pass.
-  - [ ] Fix and try again one more time.
-  - [ ] If the test still fails, write a report at `/docs/specs/{featureId}.fail.test.md`.
-
-- [ ] Update the [BACKLOG.md](/docs/BACKLOG.md) with:
-  - [ ] If tests pass, change or keep the status to ✅ TESTED, if not, change the status to ❌ FAILED.
-
-- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) and type test message.
-
 ## Validation
 
-- [ ] [BACKLOG.md](/docs/BACKLOG.md) is updated with the feature test link and status
+- [ ] **Run the Test**: Run the tests to ensure they pass.
+  - [ ] If it fails, fix and try again ONE more time.
+  - [ ] If the test still fails, write a report at `/docs/specs/{specId}.test.fail.md`.
+
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) and type test message.
 
 > End of Feature Test Plan prompt.

@@ -40,15 +40,10 @@ They are grouped into several categories for easier navigation, following a cons
 - Include usage patterns, components, and common practices.
 - Example: `lib_zod`, `lib_log4j`, etc.
 
-## 📒 Tooling Instructions (`#tol_*`)
+## 📒 Dev-Tooling Instructions (`#dev_*`)
 - Provide guidelines and best practices for specific tools.
 - Include installation, configuration, and usage patterns.
-- Example: `tol_prettier`, `tol_maven`, `tol_webpack`, etc.
-
-## 📒 Services Instructions (`#srv_*`)
-- Provide guidelines and best practices for specific services.
-- Include security, models, and usage patterns.
-- Example: `srv_googleapis`, `srv_openai`, `srv_coingecko`, etc.
+- Example: `dev_prettier`, `dev_maven`, `dev_webpack`, etc.
 
 
 > 🔍 Explore the [instructions folder](https://github.com/AIDDbot/AIDDbot/tree/main/.github/instructions) to see all available instruction files.

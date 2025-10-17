@@ -38,10 +38,11 @@ Define **when** the feature is complete based on testable conditions.
 
 - [ ] Write the feature specification in Markdown format at `/docs/specs/{specId}.spec.md`.
 
-- [ ] Commit changes by running [/U_git-commit](../prompts/U_git-commit.prompt.md) with a docs type message.
 
 ## Validation
 
 - [ ] [{specId}.spec.md](/docs/specs/{specId}.spec.md) exists
+
+- [ ] Commit changes by running [/U_git-commit](../prompts/U_git-commit.prompt.md) with a docs type message.
 
 > End of Feature Specification prompt.

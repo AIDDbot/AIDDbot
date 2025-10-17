@@ -30,10 +30,12 @@ Technical instructions:
 
 - [ ] Execute the tasks in the order they are listed. CHOOSE THE SIMPLEST APPROACH FOR EACH TASK. DO NOT INCLUDE TESTING NOR COMMENTS AT THIS STAGE.
 
-- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with a feat type message.
-
 ## Validation
 
 - [ ] **Smoke Test**: The code builds and runs successfully. Do not run tests or lint the code at this stage.
+  - [ ] If it fails, fix and try again ONE more time.
+  - [ ] If the build/run still fails, write a report at `/docs/specs/{specId}.code.fail.md`.
+
+- [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md) with a feat type message.
 
 > End of Feature Code Generation prompt.
