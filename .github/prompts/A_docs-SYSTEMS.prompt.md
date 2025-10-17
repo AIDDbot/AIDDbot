@@ -11,10 +11,13 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 ## Context
 
-- [PRD.md](/docs/PRD.md)
-- [DOMAIN.md](/docs/DOMAIN.md)
 - [AIDDbot Glossary](../instructions/aidd_glossary.instructions.md)
-- [Architecture Best Practices](../instructions/bst_architecture.instructions.md)
+- [PRD.md](/docs/PRD.md)
+- For greenfield scenarios:
+  - [Architecture Best Practices](../instructions/bst_architecture.instructions.md)
+- For brownfield scenarios:
+  - The current source code folder structure
+  - The current git repository history.
 
 ## Workflow
 
@@ -39,6 +42,6 @@ Create a Systems Architecture Document that defines the project's technical arch
 
 ## Validation
 
-- [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists
+- [ ] [SYSTEMS.md](/docs/SYSTEMS.md) exists and its linked from the README.md
 
 > End of the Generate SYSTEMS prompt.

@@ -9,32 +9,33 @@ applyTo: '/docs/PRD.md'
 
 **{ Product name }** aims to { short Product description }.
 
-### Goals 
-<!-- List 1 to 5 main goals of the product -->
+### Goals
+<!-- List up to 3 main goals of the product -->
+
 - { Goal 1 short description }
 
-## Requirements
-<!-- List 1 to 9 product requirements -->
-### { R1 } { Requirement 1 short title }
+---
 
-{ Brief paragraph description of the requirement 1 }
+## Functional Requirements
+<!-- List up to 9 product requirements -->
+### { FR1 } { Functional Requirement 1 short title }
 
-## Technical Constraints
-<!-- List 1 to 9 architectural, design or tooling constraints -->
-- { Constraint 1 description }
+{ Brief paragraph description of the functional requirement 1 }
 
-### System C4 Context diagram
+---
+
+## Technical Requirements
+<!-- List up to 5 architectural, design or tooling constraints -->
+
+### { TR1 } { Technical Requirement 1 short title }
+
+{ Brief paragraph description of the technical requirement 1 }
+
+## System C4 Context diagram
 
 ```mermaid
 C4Context
   { The Context level 1 diagram following the C4 model }
 ```
-
-## Additional Information
-
-- [Git repository]({ GIT_REPO_URL })
-- [DOMAIN Models](./DOMAIN.md)
-- [SYSTEMS Architecture](./SYSTEMS.md)
-- [BACKLOG of features](./BACKLOG.md)
 
 > End of PRD for { PRODUCT_NAME }, last updated on { DATE }.

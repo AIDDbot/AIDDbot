@@ -15,12 +15,11 @@ This document will serve as the foundation for all subsequent design and develop
 ## Context
 
 - [AIDDbot Glossary](../instructions/aidd_glossary.instructions.md)
-- [README.md](/README.md)
+- [README.md](/README.md) Current project overview if any
 - [docs](/docs) Any other document at the docs folder
-- The current git user profile to set the author and committer information.
-- Offer the user the option to add context:
-  - Files to the [docs](/docs) or any other folder
-  - Use the #fetch tool for retrieving existing documentation or resources from a URL.
+- In brownfield scenarios:
+  - The current source code folder structure
+  - The current git repository history.
 
 ## Workflow
 
@@ -33,22 +32,20 @@ This document will serve as the foundation for all subsequent design and develop
   - What are the performance, availability, and security expectations?  
   - Must it comply with any technical or legal standards?
   - Which external or legacy systems must be integrated?
-  - Are there any imposed Language, framework, and database decisions as constraints?
+  - Are there any language, framework, and database decisions as constraints?
 
 - [ ] Read and follow the [tpl_docs-PRD](../instructions/tpl_docs-PRD.instructions.md) instructions
 
 - [ ] Fill in the placeholders with relevant information about the project. CHOOSE THE SIMPLEST APPROACH FOR EACH QUESTION. Ask for any missing information to complete the PRD.
 
-- [ ] Write the PRD in Markdown format at `/docs/PRD.md`.
+- [ ] Create or update the PRD in Markdown format at `/docs/PRD.md`.
 
-- [ ] Create or update the [README.md](/README.md) file with a summary of the product and info about the author.
-
-- [ ] Update the [README.md](/README.md) file with a link to this PRD. 
+- [ ] Update the [README.md](/README.md) file with a link to the PRD. 
 
 - [ ] Commit changes by running [/U_git-commit](U_git-commit.prompt.md)
 
 ## Validation
 
-- [ ] [PRD.md](/docs/PRD.md) exists
+- [ ] [PRD.md](/docs/PRD.md) exists and its linked from the README.md
 
 > End of the Generate PRD prompt.
