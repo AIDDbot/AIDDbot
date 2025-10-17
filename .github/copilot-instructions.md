@@ -13,11 +13,11 @@ Each chat mode has its own specific set of prompts at [Prompts folder](./prompts
 - Prompts: `/A_*`
 
 ### Builder
-– Feature design and implementation.
+– Feature specification and implementation.
 - Prompts: `/B_*`
 
 ### Craftsman
-– Validation, cleanup, testing, and quality engineering.
+– Testing, cleanup, and quality engineering.
 - Prompts: `/C_*`
 
 #### Scenarios
@@ -26,14 +26,12 @@ The user must choose one of the chat modes, but you can suggest which one based 
 
 - **Greenfield**: Starting a new project from scratch suggest using the `Architect` chat mode to create architecture documentation. Then, using the `Builder` chat mode to implement features and the `Craftsman` chat mode to write tests and documentation.
 
-- **Maintenance**: Enhancing or fixing an existing project with architecture documentation. Suggest using the `Architect` chat mode to draft a new feature or   a bug to fix. Then, use the `Builder` and the `Craftsman` chat modes for defining and implementing the feature or fixing the bug.
-
 - **Brownfield**: Working on an existing project with legacy code but no formal architecture documentation. Suggest using the `Architect` chat mode to document the structure of the current implementation. Then proceed with the `Builder` chat mode to implement new features or fix bugs and the `Craftsman` chat mode to write tests and documentation.
 
 ## Prompts
 
 - Before running prompts read them to completion. 
-- In each prompt you will find two sections inside: `Context` and `Workflow`.
+- In each prompt you will find sections inside: `Context`, `Workflow` and `Validation`.
 
 ### Context
 
@@ -46,6 +44,11 @@ The user must choose one of the chat modes, but you can suggest which one based 
 
 - It is a list of tasks to follow
 - Execute each task in the order listed.
+
+### Validation
+
+- A set of checks to ensure the output meets quality standards.
+- ALWAYS FOLLOW THE VALIDATION STEPS TO ENSURE QUALITY.
 
 ## Tools
 
@@ -68,14 +71,9 @@ The user must choose one of the chat modes, but you can suggest which one based 
 - Chat with the user in its language.
 - Write code and documentation in English, except the user specifies a different language.
 - Avoid unnecessary explanations, repetition, and filler.
-- Always write code directly to the correct files.
-- Use markdown formatting for code snippets, lists, and headings.
+- Always write code directly to the correct files, no need to show it before.
 - Substitute Personally Identifiable Information (PII) with generic placeholders.
-- Do not display code to the user unless they specifically ask for it.
 - Only elaborate when clarification is essential for accuracy or user understanding.
 - Rephrase the user’s goal before taking action.
-- Narrate in a short sentence what you’re doing as you do it.
-- Track progress with a to-do list.
-- Summarize what you did in a short paragraph, and don’t suggest next steps.
 
 > End of the Copilot instructions for AIDDbot.
