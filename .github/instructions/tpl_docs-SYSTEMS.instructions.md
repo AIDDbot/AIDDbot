@@ -11,97 +11,82 @@ applyTo: '/docs/SYSTEMS.md'
 
 ## Presentation Tier
 
-### { A1 } { Application 1 Name }
+### { P1 } { Application 1 Name }
 
-**Purpose:** { Brief description of Application responsibility }
+{ Brief description of this front end Application responsibility }
 
-**Technology Stack:**
+#### Frontend Technology Stack:
 
+- **Repository:** { repository_url }
+- **Root Folder**: { root_folder_path }
 - **Architecture Style**: { SPA | MPA | CLI }
 - **Language**: { type_script | java | c-sharp }
 - **Framework**: { angular | spring-shell | .net }
 - **Key Libraries**: { library1 }, { library2 }
+- **UI Framework**: { PicoCSS | Bootstrap | Tailwind | etc. }
 - **Other Packages**: { package1 }, { package2 }
-
-**Responsibilities:**
-
-- { responsibility1 }
-- { responsibility2 }
+- **Security**: { JWT | OAuth2 | None | etc. }
 
 **User Interface Design:**
+
 - { UI design approach and principles }
 - { Fonts and color schemes }
-- { Core screens and views }
 - { Navigation structure and user flow }
 
 ## Application Tier
 
 ### { A2 } { Application 2 Name }
 
-**Purpose:** { Brief description of Application responsibility }
+{ Brief description of this back end Application responsibility }
 
-**Technology Stack:**
+#### Backend Technology Stack:
 
+- **Repository:** { repository_url }
+- **Root Folder**: { root_folder_path }
 - **Architecture Style**: { monolith | microservices | serverless | etc. }
 - **Integration Type:** { REST API | GraphQL | Message Queue | etc. }
 - **Language**: { type_script | java | c-sharp }
 - **Framework**: { express | spring-boot | asp.net }
 - **Key Libraries**: { library1 }, { library2 }
 - **Other Packages**: { package1 }, { package2 }
-
-**Responsibilities:**
-
-- { responsibility1 }
-- { responsibility2 }
+- **Security**: { JWT | OAuth2 | None | etc. }
 
 ## Data Tier
 
 ### { D1 } { Database 1 Name }
 
-**Database Type:** { relational | NoSQL | etc. }
-**Technology:** { postgresql | mongodb | etc. }
+#### Database Technology Stack:
 
-**Responsibilities:**
+- **Database Type:** { relational | NoSQL | filesystem | memory | etc. }
+- **Technology:** { postgresql | mongodb | etc. }
+- **Access:** { server databse url or file path }
 
-- { responsibility1 }
-- { responsibility2 }
+#### Entities and relationships:
+
+- { **entity1** - { brief description } }
+- { **entity2** - { brief description } }
+
+{ The Entity Relationship Diagram in mermaid syntax }
+
+```mermaid
+erDiagram
+    { entity1 } ||--o{ { entity2 } : relationship
+```
 
 ## External Systems Integration
 
 ### { S1 } { External System 1 Name }
+
+- **Data Exchanged:** { brief description of data exchanged with this system }
 - **Integration Type:** { REST API | GraphQL | Message Queue | etc. }
 - **Technology:** { technology used for integration, e.g., OAuth, API Gateway }
 
-- **Responsibilities:**
-  - { responsibility1 }
-  - { responsibility2 }
-
-## Security Architecture
-
-### Authentication & Authorization
-
-**Authentication Method:** { auth_method }
-**Session Management:** { session_approach }
-**Authorization Pattern:** { authorization_pattern }
-
 ## Systems Architecture Diagram
 
+{ The Container level 2 diagram following the C4 model in mermaid syntax }
+
 ```mermaid
-C4Container
-    { The Container level 2 diagram following the C4 model}
+C4Container    
 ```
-
-## Architectural Decisions Record (ADR)
-<!-- Add any additional decisions made during the whole project lifecycle -->
-- **Decision 1:** { Decision description and rationale }
-
-## Additional Information
-
-<!-- Add any additional technical information -->
-
-- [Git repository]({ GIT_REPO_URL })
-- [PRD Document](./PRD.md)
-- [DOMAIN Models](./DOMAIN.md)
-- [BACKLOG of features](./BACKLOG.md)
 
 > End of SYSTEMS for { PROJECT_NAME }, last updated on { DATE }.
