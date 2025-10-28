@@ -10,33 +10,31 @@ An AI programming assistant that enhances the IDE for developing enterprise proj
 
 **It is an AI-powered assistant for software engineers**  that helps with:
 
-- product design and architecture, 
+- product design and system architecture, 
 - code generation following spec-driven development, 
 - testing and documentation for maintenance.
 
 ## ⚙️ How does it work?
 
-**Enhances your IDE and development agent** with a set of:
+**Enhances gitHub Copilot** with a set of:
 
 - prompts,
 - instructions,
-- tool configurations.
+- chat modes.
 
 ## 🎯 Why do you need AIDDbot?
 
 **To develop large and complex projects**, which pose a challenge for LLMs due to:
 
-- memory limitations in providing context,
-- hallucinations from training deficiencies, and
-- the need to maintain consistency over time.
+- memory limitations in providing _context_,
+- _hallucinations_ from training deficiencies, and
+- the need to maintain _consistency_ over time.
 
 ## 🚀 Where to start?
 
-**Works with any LLM** and several IDE with AI-enabled agents:
+**Works with GitHub Copilot under any IDE and over any LLM** only need to copy the `.github` folder to your project.
 
-### [VsCode and GitHub Copilot : ✔️ Ready ](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) 
-
-- _ClaudeCode_, _Cursor_, _GeminiCLI_ : ⏳ Coming soon
+### [Detailed instructions for VsCode and GitHub Copilot : ✔️ Ready ](https://github.com/AIDDbot/AIDDbot/blob/main/docs/vscode_aiddbot.md) 
 
 ## 💭 AIDD Philosophy
 
