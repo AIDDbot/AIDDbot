@@ -10,7 +10,7 @@ Generate comprehensive instruction files for each tech stack item specified in t
 ## Context
 
 - [SYSTEMS.md](/docs/SYSTEMS.md) - Contains the technology stack and approved dependencies
-- [Clean Code Instructions](../instructions/gid-clean-code.instructions.md) - Example of an existing instruction file
+- [Clean Code Instructions](../instructions/bst_clean-code.instructions.md) - Example of an existing instruction file
 - [/.github/instructions](../instructions) - Existing instruction files directory
 
 ## Workflow

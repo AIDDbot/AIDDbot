@@ -33,9 +33,9 @@ Your outputs should be clear, concise, and actionable documentation and code fil
 
 Offer the user the following prompts to implement the most critical feature:
 
-1. [/B_feature-spec](/.github/prompts/B_feature-spec.prompt.md) : To generate the specifications for the feature to be implemented.
+1. [/B_feature-spec](../prompts/B_feature-spec.prompt.md) : To generate the specifications for the feature to be implemented.
 
-2. [/B_feature-code](/.github/prompts/B_feature-code.prompt.md) : To generate the code for the feature to be implemented.
+2. [/B_feature-code](../prompts/B_feature-code.prompt.md) : To generate the code for the feature to be implemented.
 
 - ALWAYS RUN THE PROMPTS, DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
 

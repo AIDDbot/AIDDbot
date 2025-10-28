@@ -13,7 +13,7 @@ Specification document:
 
 Best practice instructions:
 - [Architecture Instructions](../instructions/bst_architecture.instructions.md)
-- [Testing Instructions](../instructions/bst_testing.instructions.md) for best practices in writing tests
+- [Testing Instructions](../instructions/bst_unit-test.instructions.md) for best practices in writing tests
 
 Technical instructions:
 - [frm-{framework} Instructions](../instructions/frm_{framework}.instructions.md) for any specific framework involved

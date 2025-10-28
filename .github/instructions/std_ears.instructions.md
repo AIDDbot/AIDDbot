@@ -10,34 +10,66 @@ EARS (Easy Approach to Requirements Syntax) is a structured format for writing c
 ## Basic EARS Templates
 
 **Ubiquitous (always true):**
-```
+```md
 The <system> SHALL <response>
 ```
 
 **Event-driven:**
-```
+```md
 WHEN <trigger>, the <system> SHALL <response>
-```
+``` 
+
 
 **Unwanted behavior:**
-```
+```md
 IF <condition>, THEN the <system> SHALL <response>
 ```
 
 **State-driven:**
-```
+```md
 WHILE <state>, the <system> SHALL <response>
 ```
 
 **Optional features:**
-```
+```md
 WHERE <feature is included>, the <system> SHALL <response>
 ```
 
 **Complex (combining conditions):**
-```
+```md
 WHILE <state> AND WHEN <trigger>, the <system> SHALL <response>
 ```
+
+## Key Guidelines
+```md
+WHERE <feature is included>, the <system> SHALL <response>
+```
+
+**Complex (combining conditions):**
+```md
+WHILE <state> AND WHEN <trigger>, the <system> SHALL <response>
+```md
+
+## Key Guidelines
+```md
+WHERE <feature is included>, the <system> SHALL <response>
+```
+
+**Complex (combining conditions):**
+```md
+WHILE <state> AND WHEN <trigger>, the <system> SHALL <response>
+```
+
+## Key Guidelines
+```md
+WHERE <feature is included>, the <system> SHALL <response>
+```
+
+**Complex (combining conditions):**
+```md
+WHILE <state> AND WHEN <trigger>, the <system> SHALL <response>
+```
+
 
 ## Key Guidelines
 

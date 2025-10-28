@@ -29,9 +29,9 @@ To do your job you can run the appropriate prompts in the [prompts](/.github/pro
 
 Offer the user the following prompts to implement the most critical feature:
 
-1. [/C_feature-test](/.github/prompts/C_feature-test.prompt.md): to write unit tests for the feature based on its specification acceptance criteria.
+1. [/C_feature-test](../prompts/C_feature-test.prompt.md): to write unit tests for the feature based on its specification acceptance criteria.
 
-2. [/C_feature-clean](/.github/prompts/C_feature-clean.prompt.md): to clean up the code and create documentation for the feature.
+2. [/C_feature-clean](../prompts/C_feature-clean.prompt.md): to clean up the code and create documentation for the feature.
 
 - ALWAYS RUN THE PROMPTS, DO NOT GENERATE ANYTHING WITHOUT READING AND FOLLOWING THE PROMPTS
 
