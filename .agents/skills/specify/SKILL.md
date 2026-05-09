@@ -15,10 +15,12 @@ Create a new specification for a feature or technical requirement. Define the pr
 ## Context
 
 - The requirement or user story describing the desired feature or bug fix.
-- The [Specification template](./spec.template.md) for writing specifications.
-- The [EARS convention](./EARS.convention.md) for defining acceptance criteria.
-- Model design following this convention:
+- Use the following conventions to write the specification:
+    1. The [Specification template](./spec.template.md) for writing specifications.
+    2. The [EARS convention](./EARS.convention.md) for defining acceptance criteria.
+    3. The model design convention below for defining entities and relationships.
 
+<model-design-convention>
 ```md
 - **EntityName**: {short description of the entity}
     - unique_attribute_name: attribute_type#
@@ -28,6 +30,7 @@ Create a new specification for a feature or technical requirement. Define the pr
     - ranged_attribute_name: attribute_type [min, max]
     - relationship_name: RelatedEntityName [cardinality]
 ```
+</model-design-convention>
 
 ## Steps
 
@@ -39,7 +42,7 @@ Create a new specification for a feature or technical requirement. Define the pr
 - [ ] Write a set of user stories to illustrate the problem from the user's perspective.
 ### Step 3: Propose a solution
 - [ ] Think thoroughly about the solution, considering simplicity, maintainability, and alignment with project goals and constraints.
-- [ ] Pay special attention to the model design.
+- [ ] Ensure the model design adheres to the provided convention and addresses all required entities, attributes, and relationships.
 - [ ] For each applicable tier (backend, frontend, data), outline the proposed solution approach and design.
 - [ ] Focus on the overall approach and design; exclude technical implementation details.
 ### Step 4: Define verification criteria

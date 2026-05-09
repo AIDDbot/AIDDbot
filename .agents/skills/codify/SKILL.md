@@ -16,23 +16,26 @@ Implement the feature or bug fix according to the specification and implementati
 
 ## Context
 
+One of the following inputs:
+- An implementation plan with the steps and tasks required.
+- A specification file with a feature definition.
 - A request made by the user with a concrete requirement.
-- A specification file with a feature request or bug to fix.
-- A set of implementation plans that break down the steps and tasks required for implementation.
+- If the input is incomplete or unclear, ask the user for additional details before proceeding.
 
 ## Steps
 
 ### Step 1: Think before coding
-- [ ] Reason about the problem and ask to clarify ambiguities.
+- [ ] Reason about the problem and ask the user for clarification if needed.
 
 ### Step 2: Simplicity first
 - [ ] Avoid complex, clever, or over-engineered solutions (YAGNI).
+
 
 ### Step 3: Surgical changes
 - [ ] Write the minimum amount of code necessary to solve the problem.
 
 ### Step 4: Goal-driven execution
-- [ ] Keep working until verification is complete.
+- [ ] Keep working until all specified verification steps are successfully completed.
   
 ## Output
 
