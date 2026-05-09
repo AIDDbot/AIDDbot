@@ -6,27 +6,45 @@ Works with GitHub Copilot, Cursor, Claude Code, Codex, and any LLM-based coding 
 
 > Spec-driven development for real-world engineering teams.
 
+[![GitHub](https://img.shields.io/badge/template-open%20source-00c896?style=flat-square)](https://github.com/AIDDbot/AIDDbot)
+[![License](https://img.shields.io/github/license/AIDDbot/AIDDbot?style=flat-square)](./LICENSE)
+
 ## Why AIDDbot?
 
 Modern coding agents are impressive for generating isolated features.
 
 They struggle with:
 
-- keeping architectural consistency,
-- understanding large codebases,
-- maintaining long-term context,
-- following engineering standards,
-- and evolving projects safely over time.
+| Problem | What it looks like |
+|---|---|
+| No persistent memory | Every session starts from scratch — decisions, patterns, and constraints vanish between prompts |
+| Architecture drift | The agent invents its own conventions over time; week one is consistent, week eight is not |
+| No guardrails | Plausible-looking code that violates your contracts, standards, or data model |
 
-AIDDbot adds structure around AI-assisted development through:
-- spec-driven workflows,
-- reusable prompts and rules,
-- persistent project memory,
-- role-based development stages,
-- and engineering guardrails.
+AIDDbot solves this by adding structure *around* the agent, not by replacing it.
 
-The result: AI-generated code that scales beyond demos.
-  
+---
+
+## How it works
+
+**1. Clone the repo into your project**
+Templates, prompts, and config files are ready to use — no CLI, no package install.
+
+```bash
+git clone https://github.com/AIDDbot/AIDDbot
+```
+
+**2. Write a spec, not just a prompt**
+Define what to build in structured specification files. The agent reads them as ground truth every session — context that never expires.
+
+**3. Pick a role and start building**
+Activate Architect, Builder, or Craftsman mode. Reusable prompts guide the agent through each stage of development.
+
+**4. Maintain context as the project evolves**
+Persistent memory patterns keep the agent aligned with your architecture sprint after sprint.
+
+---
+
 ## What You Get
 
 AIDDbot provides:
@@ -41,9 +59,9 @@ AIDDbot provides:
 - IDE integrations and configurations.
 
 Designed for:
-- enterprise applications,
-- long-running AI-assisted projects,
-- teams using GitHub Copilot, Cursor or Claude Code.
+- Enterprise applications with long development cycles
+- Teams using GitHub Copilot, Cursor, or Claude Code
+- Projects where AI consistency matters as much as AI speed
 
 
 ## 🚀 Where to start?
@@ -62,11 +80,6 @@ Designed for:
 
 ---
 
-- **Author**: [Alberto Basalo](https://albertobasalo.dev)
-- **Socials**:
-  - [X](https://x.com/albertobasalo)
-  - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
-  - [GitHub](https://github.com/albertobasalo)
-- **AIDDbot**: [AIDDbot](https://github.com/AIDDbot/)
-- **This Repository**: [GitHub/AIDDbot/AIDDbot](https://github.com/AIDDbot/AIDDbot)
-- **Academia en Español**: [AI code Academy](https://aicode.academy)
+**Author** [Alberto Basalo](https://albertobasalo.dev) · [X](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/) · [Blog](https://aiddbot.com)
+
+**Training in Spanish** [AI Code Academy](https://aicode.academy)
