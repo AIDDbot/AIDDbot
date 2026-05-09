@@ -1,9 +1,9 @@
-# 🤖 AIDDbot
+# AIDDbot
 
 > AI agents are powerful. AIDDbot makes them reliable.
 
-Spec-driven workflows, persistent memory, and engineering guardrails  
-for **GitHub Copilot · Cursor · Claude Code · Codex · any LLM-based agent**.
+Spec-driven Development workflows, for 
+**GitHub Copilot · Cursor · Claude Code · Codex · any LLM-based agent**.
 
 [![GitHub](https://img.shields.io/badge/template-open%20source-00c896?style=flat-square)](https://github.com/AIDDbot/AIDDbot)
 [![License](https://img.shields.io/github/license/AIDDbot/AIDDbot?style=flat-square)](./LICENSE)
@@ -38,7 +38,7 @@ cp -r AIDDbot/.github your-project/
 
 **2. Initialize your project**
 
-Open Copilot Chat (or your agent's prompt interface) and run the `initialize` skill.  
+Open your agent chat and run the `initialize` skill.  
 It sets up your project paths, product overview, and technical stack.
 
 ```
@@ -48,6 +48,18 @@ It sets up your project paths, product overview, and technical stack.
 **3. Go feature by feature**
 
 For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `simplify`.
+
+```
+/specify my feature requirement
+-- then... 
+/planify the specification into implementation steps
+-- then...
+/codify the implementation plan into code
+-- then...
+/verify the code with E2E tests
+-- then...
+/simplify the code while preserving functionality and architecture
+```
 
 > See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
 
