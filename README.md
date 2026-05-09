@@ -55,15 +55,17 @@ Persistent memory patterns keep the agent aligned with your architecture sprint 
 ## What You Get
 
 > [!NOTE]
-> Markdown files can be used in any agent harness.
+> Skills can be directly invoked or triggered by your coding agent to perform specific tasks.
 
 AIDDbot provides:
 
-- prompts and command libraries,
-- architecture and specification guides,
-- structured feature planning,
-- testing and refactoring workflows,
-- skills for project initialization, code generation, and more
+| Skill | Description |
+|---|---|
+| `initialize` | Set up your project environment and main instructions file. |
+| `specify` | Write clear specifications for features and bug fixes. |
+| `planify` | Break down specifications into actionable implementation plans. |
+| `codify` | Generate code for features and bug fixes following your plans. |
+|---|---|
 
 Designed for:
 - Enterprise applications with long development cycles
