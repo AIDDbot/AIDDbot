@@ -62,10 +62,13 @@ AIDDbot provides:
 | Skill | Description |
 |---|---|
 | `initialize` | Set up your project environment and main instructions file. |
+|---|---|
 | `specify` | Write clear specifications for features and bug fixes. |
 | `planify` | Break down specifications into actionable implementation plans. |
 | `codify` | Generate code for features and bug fixes following your plans. |
 |---|---|
+| `verify` | Write and run E2E tests to ensure code meets specifications. |
+| `simplify` | Improve existing code while preserving functionality and architecture. |
 
 Designed for:
 - Enterprise applications with long development cycles
