@@ -1,6 +1,6 @@
 ---
-name : specify
-description : Writes the specification for a functional or technical requirement, defining the problem, solution, and verification criteria. To be used when a product requirement needs to be clearly defined and communicated.
+name: specify
+description: Writes the specification for a functional or technical requirement, defining the problem, solution, and verification criteria. Use this skill when a product requirement needs to be clearly defined and communicated.
 ---
 # Specify skill
 
@@ -10,7 +10,7 @@ Act as a senior analyst with expertise in defining clear and actionable specific
 
 ## Task
 
-Create a new specification for a feature or technical requirement, defining the problem, solution, and verification criteria. This serves as the source of truth for implementation and testing.
+Create a new specification for a feature or technical requirement. Define the problem, solution, and verification criteria to serve as the source of truth for implementation and testing.
 
 ## Context
 
@@ -29,7 +29,7 @@ Create a new specification for a feature or technical requirement, defining the 
     - relationship_name: RelatedEntityName [cardinality]
 ```
 
-## Steps to follow:
+## Steps
 
 ### Step 1: Understand the requirement
 - [ ] Ask the user to provide a clear and concise requirement or user story for the feature or bug fix.
@@ -40,18 +40,18 @@ Create a new specification for a feature or technical requirement, defining the 
 ### Step 3: Propose a solution
 - [ ] Think thoroughly about the solution, considering simplicity, maintainability, and alignment with project goals and constraints.
 - [ ] Pay special attention to the model design.
-- [ ] Go tier by tier (backend, frontend, data) to outline the proposed solution for each aspect of the system if it is applicable.
-- [ ] Do not include technical implementation details, but focus on the overall approach and design of the solution.
+- [ ] For each applicable tier (backend, frontend, data), outline the proposed solution approach and design.
+- [ ] Focus on the overall approach and design; exclude technical implementation details.
 ### Step 4: Define verification criteria
-- [ ] Define clear and actionable verification criteria for the specification, following the EARS convention for acceptance criteria.
-- [ ] Ensure that the verification criteria are specific, measurable, and directly related to the problem and solution defined in the specification.
+- [ ] Define clear and actionable verification criteria following the EARS convention for acceptance criteria.
+- [ ] Ensure criteria are specific, measurable, and directly related to the problem and solution.
 ### Step 5: Write the specification file
-- [ ] Create a new specification file in the `{Product_Folder}/specs/` directory, following the Specification template
-- [ ] Name the specification file following the convention `spec-slug.spec.md`, where `spec-slug` is a descriptive identifier for the feature or bug.
+- [ ] Create a new specification file in the `{Product_Folder}/specs/` directory, following the Specification template.
+- [ ] Name it using the convention `spec-slug.spec.md`, where `spec-slug` is a descriptive identifier for the feature or bug.
 
 ## Output checklist
 
-- [ ] A specification file is in the `{Product_Folder}/specs/` directory, following the Specification template
-- [ ] The specification clearly defines the problem, solution, and verification criteria for the feature or bug fix.
-- [ ] The specification is concise, actionable, and serves as a clear guide for implementation and testing.
-- [ ] The specification file is named following the convention `spec-slug.spec.md`, where `spec-slug` is a descriptive identifier for the feature or bug.
+- [ ] A specification file is created in `{Product_Folder}/specs/` following the Specification template.
+- [ ] The specification clearly defines the problem, solution, and verification criteria.
+- [ ] The specification is concise, actionable, and serves as a guide for implementation and testing.
+- [ ] The file is named using the convention `spec-slug.spec.md`, where `spec-slug` is a descriptive identifier.
