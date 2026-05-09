@@ -1,36 +1,49 @@
-# 🤖 AIDDbot
+# AIDDbot
 
-A curated set of `skills` and `prompts` for developing enterprise grade projects.
+AI-assisted workflow for building large software projects without losing architecture, specs, or code quality.
 
-> Your helpful assistant to implement **Spec-Driven Development** workflows.
+Works with GitHub Copilot, Cursor, Claude Code, Codex, and any LLM-based coding agent.
 
-![AIDDbot coding agents](./docs/AIDD-bot.png)
+> Spec-driven development for real-world engineering teams.
 
-> Lee este documento [en Español aquí](https://aicode.academy/community/opensource/aiddbot/)
+## Why AIDDbot?
 
-## 🎯 Why do you need AIDDbot?
+Modern coding agents are impressive for generating isolated features.
 
-**To develop large and complex projects**, which pose a challenge for LLMs due to:
+They struggle with:
 
-- ☣️ memory limitations in providing _context_,
-- ☣️ _hallucinations_ from training deficiencies, and
-- ☣️ the need to maintain _consistency_ over time.
+- keeping architectural consistency,
+- understanding large codebases,
+- maintaining long-term context,
+- following engineering standards,
+- and evolving projects safely over time.
+
+AIDDbot adds structure around AI-assisted development through:
+- spec-driven workflows,
+- reusable prompts and rules,
+- persistent project memory,
+- role-based development stages,
+- and engineering guardrails.
+
+The result: AI-generated code that scales beyond demos.
   
-## ❓ What is AIDDbot?
+## What You Get
 
-**It is an AI-powered assistant for software engineers**  that helps with:
+AIDDbot provides:
 
-- ✅ product design and system architecture, 
-- ✅ code generation following spec-driven development, 
-- ✅ testing and documentation for maintenance.
+- project templates for AI-driven workflows,
+- prompts and command libraries,
+- architecture and specification guides,
+- structured feature planning,
+- testing and refactoring workflows,
+- reusable development roles,
+- context engineering patterns,
+- IDE integrations and configurations.
 
-## ⚙️ How does it work?
-
-**Enhances your agent** with a set of:
-
-- ⚒️ prompts,
-- ⚒️ skills, and
-- ⚒️ workflows.
+Designed for:
+- enterprise applications,
+- long-running AI-assisted projects,
+- teams using GitHub Copilot, Cursor or Claude Code.
 
 
 ## 🚀 Where to start?
