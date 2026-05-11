@@ -29,7 +29,7 @@ Create the CSS and front code needed to implement a design system that emphasize
 - [ ] Write the necessary CSS and frontend code to implement the design system, ensuring that it adheres to the design pillars and aesthetic vision outlined in the specification.
 
 ## Output
-- working, functional code (HTML/CSS/JS, React, Vue) that matches implementation complexity to aesthetic vision
+- Working, functional code 
 
 ## Verification
 - [ ] The generated code accurately implements the design system as specified in the provided design specification.
