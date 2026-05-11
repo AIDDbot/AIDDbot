@@ -1,7 +1,3 @@
----
-name: verify-accessibility
-description: Verify that the implemented code meets accessibility standards and guidelines. Use this skill to ensure that your code is accessible to all users, including those with disabilities, by adhering to best practices and guidelines such as WCAG.
----
 # Accessibility 
 
 ## Role
@@ -12,8 +8,8 @@ Evaluate the implemented code against Web Content Accessibility Guidelines (WCAG
 
 ## Context
 - Implemented code that needs to be evaluated for accessibility.
-- Accessibility standards and guidelines [WCAG reference](WCAG.reference.md).
-- Accessibility report template [accessibility.report.template.md](accessibility.report.template.md) for documenting findings and recommendations.
+- [Accessibility WCAG reference](accesibility.WCAG.reference.md).
+- [Accessibility report template](accesibility.report.template.md).
 
 <example-accessibility-issues>
 ```md

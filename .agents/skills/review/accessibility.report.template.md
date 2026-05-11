@@ -20,4 +20,4 @@
 |File|Issue|Description|Recommendation|
 |-|-|-|-|
 
-> Report generated on {Date} by the `verify-accessibility` skill.
+> Report generated on {Date}.

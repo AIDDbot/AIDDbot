@@ -17,17 +17,18 @@ Refactor existing code to enhance readability and maintainability while ensuring
 - Existing codebase that requires simplification or refactoring.
 - Coding standards and best practices relevant to the technology stack being used.
 - [Clean Code Best Practices](clean-code.md) guide for reference.
+
 ## Steps
 
+  - Review current branch and identify recently edited files that may benefit from simplification.
+  - For the changed files go one by one and follow the steps below to analyze, plan, implement, and test the refactoring changes.
+
 ### Step 1: Analyze the existing code
-- [ ] Review the existing code to identify areas that can be simplified or refactored.
+- [ ] Review changes to identify areas that can be simplified or refactored based on the [Clean Code Best Practices](clean-code.md).
 - [ ] BEFORE SIMPLIFYING, ANSWER:
   - What is this code's responsibility?
   - What calls it? What does it call?
   - What are the edge cases and error paths?
-  - Are there tests that define the expected behavior?
-  - Why might it have been written this way? (Performance? Platform constraint? Historical reason?)
-  - Check git blame: what was the original context for this code?
 
 ### Step 2: Plan the refactoring
 - [ ] Determine the specific improvements to be made (e.g., renaming variables, extracting functions, reducing complexity).
