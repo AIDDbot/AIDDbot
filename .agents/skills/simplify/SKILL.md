@@ -21,6 +21,13 @@ Refactor existing code to enhance readability and maintainability while ensuring
 
 ### Step 1: Analyze the existing code
 - [ ] Review the existing code to identify areas that can be simplified or refactored.
+- [ ] BEFORE SIMPLIFYING, ANSWER:
+  - What is this code's responsibility?
+  - What calls it? What does it call?
+  - What are the edge cases and error paths?
+  - Are there tests that define the expected behavior?
+  - Why might it have been written this way? (Performance? Platform constraint? Historical reason?)
+  - Check git blame: what was the original context for this code?
 
 ### Step 2: Plan the refactoring
 - [ ] Determine the specific improvements to be made (e.g., renaming variables, extracting functions, reducing complexity).
