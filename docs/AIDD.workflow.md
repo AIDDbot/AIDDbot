@@ -10,7 +10,7 @@ flowchart TD
   subgraph P["PRODUCT"]
       SPC["slug.spec.md"]:::nd
       PLN["slug.tier.plan.md"]:::nd
-      RPT["reports/"]:::nd
+      RPT["slug.report.md"]:::nd
   end
 
   subgraph T["TECHNOLOGY"]
@@ -28,7 +28,7 @@ flowchart TD
   HUM -->|/specify| SPC
   RPT -->|/planify| PLN
   AGT -.-> SKL
-  AGT -.-> SPC
+  AGT -.-> SPC  
   SKL -.-> COD  
   SKL -.-> PLN
   SPC -->|/planify| PLN
@@ -72,4 +72,4 @@ flowchart TD
 
 - `E2E Tests` - End-to-end tests that verify the implemented code meets the defined specifications and acceptance criteria.
 
-- `reports/` - A folder containing various reports generated during the review process, such as accessibility and compliance reports.
+- `slug.report.md` - A report generated during the review process, such as accessibility and compliance reports.
