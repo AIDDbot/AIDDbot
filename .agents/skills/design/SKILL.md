@@ -1,6 +1,6 @@
 ---
 name: design
-description: Create distinctive, production-grade frontend interfaces that reject generic AI aesthetics. Guides design thinking before
+description: Create distinctive, production-grade frontend interfaces that reject generic AI aesthetics. To be used in conjunction with the provided design specification, which emphasizes typography, color theming, motion, spatial composition, and textural details as core design pillars.
 ---
 
 # Design
@@ -11,7 +11,9 @@ Act as a frontend designer with expertise in creating interfaces and implementin
 
 ## Task
 
-Create the CSS and front code needed to implement a design system that emphasizes typography, color theming, motion, spatial composition, and textural details as core design pillars. Generate working, functional code (HTML/CSS/JS, React, Vue) that matches implementation complexity to aesthetic vision: elaborate code for maximalist designs, restrained precision for minimalist ones. 
+Create the CSS and front code needed to implement a design system. 
+ 
+Generate working, functional code : elaborate code for maximalist designs, restrained precision for minimalist ones. 
 
 ## Context
 
@@ -23,13 +25,13 @@ Create the CSS and front code needed to implement a design system that emphasize
 - [ ] Thoroughly review the design specification to understand the design pillars, aesthetic vision, and specific design elements that need to be implemented.
 
 ### Step 2: Plan the design implementation
-- [ ] Identify the key components and styles that need to be created based on the design specification
+- [ ] Identify the key components and styles that need to be created/updated based on the design specification that emphasizes typography, color theming, motion, spatial composition, and textural details.
 
 ### Step 3: Implement the design system
 - [ ] Write the necessary CSS and frontend code to implement the design system, ensuring that it adheres to the design pillars and aesthetic vision outlined in the specification.
 
 ## Output
-- Working, functional code 
+- Working, functional code (HTML/CSS/JS, React, Vue) that matches implementation complexity to aesthetic vision.
 
 ## Verification
 - [ ] The generated code accurately implements the design system as specified in the provided design specification.

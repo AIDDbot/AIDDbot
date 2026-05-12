@@ -26,6 +26,7 @@ flowchart TD
   HUM -->|/initialize| AGT
   HUM -->|/write-a-skill| SKL
   HUM -->|/specify| SPC
+  HUM -->|/planify| PLN
   RPT -->|/planify| PLN
   AGT -.-> SKL
   AGT -.-> SPC  
