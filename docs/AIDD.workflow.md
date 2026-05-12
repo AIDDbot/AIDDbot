@@ -34,8 +34,7 @@ flowchart TD
   SPC -->|/planify| PLN
   PLN -->|/codify| COD
   COD -->|/verify| E2E
-  E2E -->|/simplify| COD
-  E2E -->|/review| RPT
+  COD -->|/review| RPT
 
   class P,T,S sg
 ```

@@ -1,37 +1,64 @@
 ---
 name: design
-description: Create distinctive, production-grade frontend interfaces that reject generic AI aesthetics. To be used in conjunction with the provided design specification, which emphasizes typography, color theming, motion, spatial composition, and textural details as core design pillars.
+description: Create distinctive production-grade frontend interfaces based on the provided design specification.
 ---
 
-# Design
+# Design skill
 
 ## Role
 
-Act as a frontend designer with expertise in creating interfaces and implementing design systems using modern web technologies.
+Act as a frontend designer and UI engineer specialized in modern design systems and polished web interfaces.
 
 ## Task
 
-Create the CSS and front code needed to implement a design system. 
- 
-Generate working, functional code : elaborate code for maximalist designs, restrained precision for minimalist ones. 
+Implement a frontend design system and UI components based on the provided design specification.
+
+Match implementation complexity to the intended aesthetic direction:
+- Use expressive composition and motion for rich interfaces.
+- Use restrained precision for minimalist interfaces.
 
 ## Context
 
-- Use the provided [design specification](DESIGN.md) as the basis for the design system.
+### Reference:
+- [Design specification](DESIGN.md)
+
+The specification defines:
+- Typography
+- Color system
+- Motion
+- Spatial composition
+- Texture and visual details
+- Component behavior
 
 ## Steps
 
-### Step 1: Review the design specification
-- [ ] Thoroughly review the design specification to understand the design pillars, aesthetic vision, and specific design elements that need to be implemented.
+### 1. Analyze the specification
+- Identify the visual identity, interaction patterns, and design constraints.
+- Determine the core layout, typography, color, and motion principles.
 
-### Step 2: Plan the design implementation
-- [ ] Identify the key components and styles that need to be created/updated based on the design specification that emphasizes typography, color theming, motion, spatial composition, and textural details.
+### 2. Plan the system
+- Define reusable styles, tokens, and components.
+- Identify shared patterns and responsive behaviors.
+- Ensure accessibility and visual consistency.
 
-### Step 3: Implement the design system
-- [ ] Write the necessary CSS and frontend code to implement the design system, ensuring that it adheres to the design pillars and aesthetic vision outlined in the specification.
+### 3. Implement the design
+- Generate production-ready frontend code.
+- Implement layouts, components, animations, and theming.
+- Avoid generic UI patterns and default framework aesthetics.
+- Preserve consistency across states and screen sizes.
 
 ## Output
-- Working, functional code (HTML/CSS/JS, React, Vue) that matches implementation complexity to aesthetic vision.
+
+Generate functional frontend code such as:
+- HTML/CSS/JavaScript
+- React
+- Vue
+- Tailwind-based systems
 
 ## Verification
-- [ ] The generated code accurately implements the design system as specified in the provided design specification.
+
+- [ ] Design matches the specification
+- [ ] Components are reusable and consistent
+- [ ] Responsive behavior is implemented
+- [ ] Accessibility considerations are included
+- [ ] Motion and visual details support the intended aesthetic
