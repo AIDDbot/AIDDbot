@@ -1,50 +1,43 @@
 ---
 name: codify
-description: Generate code for a given implementation plan, following the defined steps and tasks for each tier. Use this skill with an implementation plan to create clear and actionable code for its implementation.
+description: Generates code to implement a feature, bug fix, or improvement from an implementation plan, spec, or direct requirement. Use this skill when the user wants to write code for a planned or specified change. Trigger on phrases like "codify this", "implement this", "write the code for", or whenever an implementation plan or spec is ready to be coded.
 ---
-# Codify skill 
 
-Write code to implement a feature
+# Codify skill
 
 ## Role
-
-Act as a software engineer with expertise in implementing features and bug fixes.
+Act as a software engineer.
 
 ## Task
-
-Implement the feature or bug fix according to the specification and implementation plan. Include unit tests for critical modules.
+Given an implementation plan, spec, or requirement, write the code necessary to implement it, including unit tests for critical modules.
 
 ## Context
 
-One of the following inputs:
-- An implementation plan with the steps and tasks required.
-- A specification file with a feature definition.
-- A request made by the user with a concrete requirement.
-- If the input is incomplete or unclear, ask the user for additional details before proceeding.
+### Input
+- One of the following:
+  - An implementation plan `{slug}.{source}.{tier}.plan.md`
+  - A specification file `{slug}.spec.md`
+  - A direct requirement from the user
+
+### References
+- The implementation plan or spec file provided as input.
 
 ## Steps
 
-### Step 1: Think before coding
-- [ ] Reason about the problem and ask the user for clarification if needed.
+### Step 1: Clarify the input
+- [ ] If the input is incomplete or ambiguous, ask the minimum questions needed before proceeding.
 
-### Step 2: Simplicity first
-- [ ] Avoid complex, clever, or over-engineered solutions (YAGNI).
+### Step 2: Implement
+- [ ] Follow the implementation plan steps in order, or derive them from the spec or requirement.
+- [ ] Write the minimum code necessary to fulfill the requirements.
 
+### Step 3: Write unit tests
+- [ ] Write unit tests for critical modules.
 
-### Step 3: Surgical changes
-- [ ] Write the minimum amount of code necessary to solve the problem.
-
-### Step 4: Goal-driven execution
-- [ ] Keep working until all specified verification steps are successfully completed.
-  
 ## Output
+- [ ] Fully functional code committed to the appropriate files.
 
-- [ ] Fully functional code that fulfills the criteria.
-- [ ] Green unit test for critical modules.
-
-## Verification
-
+## Verify
 - [ ] Code compiles without errors.
-- [ ] Unit test passes.
+- [ ] Unit tests pass.
 - [ ] Smoke test passes (app or servers start).
-- [ ] Acceptance criteria are met.

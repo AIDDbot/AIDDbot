@@ -88,6 +88,6 @@ Minimum code that solves the problem. Nothing speculative.
 3. Surgical Changes
 Touch only what you must. Clean up only your own mess.
 4. Goal-Driven Execution
-Define success criteria. Loop until verified.
+Keep working until all success criteria are met. Loop until verified.
 
 > last updated: {Date of last update, e.g., June 2027}
