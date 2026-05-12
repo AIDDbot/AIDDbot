@@ -16,6 +16,7 @@ flowchart TD
   subgraph T["TECHNOLOGY"]
       AGT["AGENTS.md"]:::nd
       SKL["skills/"]:::nd
+      RUL["rules/"]:::nd
   end  
 
   subgraph S["SOLUTION"]
@@ -24,13 +25,11 @@ flowchart TD
   end
 
   HUM -->|/initialize| AGT
-  HUM -->|/write-a-skill| SKL
   HUM -->|/specify| SPC
   HUM -->|/planify| PLN
   RPT -->|/planify| PLN
-  AGT -.-> SKL
   AGT -.-> SPC  
-  SKL -.-> COD  
+  SKL & RUL -.-> COD  
   SKL -.-> PLN
   SPC -->|/planify| PLN
   PLN -->|/codify| COD
@@ -45,8 +44,6 @@ flowchart TD
 
 - `/initialize` - Create initial technology documentation (/AGENTS.md and skills/) for a project.
 
-- `/write-a-skill` - Create a new skill from a human need (Can be a rule set, a workflow, or a utility command).
-
 - `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
 
 - `/planify` - Create a set of implementation plans for an specification or bug-fix (back, front and data)
@@ -54,8 +51,6 @@ flowchart TD
 - `/codify` - Run the implementation cycle for one specification: generate plans, produce code, and validate with tests.
 
 - `/verify` - Run end-to-end tests to ensure code meets specifications.
-
-- `/simplify` - Refactor and improve existing code while preserving functionality and architecture.
 
 - `/review` - Review code for guidelines compliance and best practices.
 
