@@ -1,62 +1,55 @@
 ---
 name: initialize
-description: Initialize the project environment for agents. Define project paths and product and technical overview. Use this skill to generate or update the main agents instructions file.
+description: Initializes the SDD project environment and generates the main AGENTS.md instructions file. Use this skill when setting up a new project or onboarding an existing one into the SDD workflow. Trigger on phrases like "initialize the project", "set up agents", "create AGENTS.md", or at the start of any new SDD project setup.
 ---
 
-# Initialize the project environment
+# Initialize skill
 
 ## Role
-
-Act as a senior software engineer with expertise in setting up development environments for coding agents.
+Act as a senior software engineer.
 
 ## Task
-
-Define project paths and context for the agent workflow.
-Generate or update the main agents instructions file `/AGENTS.md` at the project root.
+Generate or update the main agent instructions file `AGENTS.md` at the project root, capturing SDD paths, product overview, and technical stack.
 
 ## Context
 
-- The [Agents Instructions template](./AGENTS.template.md) for the main instructions file.
+### References
+- [Agents Instructions template](./AGENTS.template.md)
+
+### SDD path defaults
+- `{Agents_Folder}`: `.agents/`
+- `{Product_Folder}`: `.product/`
 
 ## Steps
 
-### Step 1: Define environment
-- [ ] Ask the user to confirm or set each path individually, one at a time, in the following order:
-  - {Agents_Folder}: The folder for agent-related files. Example: './.agents'.
-  - {Product_Folder}: The folder for product-related files. Example: './.product'.
-  - {Source_Folders}: The array of source code folders. Example: ['/src'] or ['/back', '/front'].
-  - {Business_Domain_Language}: The language and documentation language. Example: 'English' or 'Spanish'.
+### Step 1: Explore the project
+- [ ] Check if `AGENTS.md` or `CLAUDE.md` already exists at the project root.
+- [ ] Read `README.md`, `CHANGELOG.md`, and any other relevant files at the root.
+- [ ] Explore the folder tree to detect source structure, tiers, languages, and frameworks.
+- [ ] Determine whether this is a **greenfield** (no existing code) or **brownfield** (existing codebase) project.
 
-### Step 2: Explore current project state
-- [ ] Check if an instructions file like `AGENTS.md` or `CLAUDE.md` already exists at the project root.
-- [ ] Read files that may contain relevant information, such as `README.md` and `CHANGELOG.md`.
-- [ ] Check whether this is a legacy project with existing code or a new project without code.
-- [ ] If this is a brand new project, skip to Step 3.
-- [ ] Explore the folder tree and file names for clues about project structure and context.
+### Step 2: Confirm SDD paths
+- [ ] Propose the default SDD paths and ask the user to confirm or override:
+  - `{Agents_Folder}`: `.agents/`
+  - `{Product_Folder}`: `.product/`
+  - `{Business_Domain_Language}`: detected or ask the user.
 
-### Step 3: Define product overview
-- [ ] Ask the user, or propose for confirmation:
+### Step 3: Define source paths and stack
+- [ ] **Brownfield**: propose `{Source_Folders}`, tiers, languages, frameworks, and tooling based on exploration. Ask the user to confirm or correct.
+- [ ] **Greenfield**: ask the user to define `{Source_Folders}` and propose a stack for confirmation.
+- [ ] For each tier, capture: language and version, frameworks and libraries, testing/storage/security/monitoring solutions, and workflow commands (init, build, run, test, lint, deploy).
+
+### Step 4: Define product overview
+- [ ] Propose or ask for:
   - [ ] A brief description of the product.
-  - [ ] A short list (5 items max) of key product features.
-
-### Step 4: Define system architecture and technology stack
-- [ ] Detect or propose physical tiers (for example: frontend, backend, database).
-- [ ] For each tier, define:
-  - [ ] Main programming language and version.
-  - [ ] Frameworks and libraries used in the project.
-  - [ ] Testing, storage, security, and monitoring solutions and strategies.
-  - [ ] Development workflow commands for init, build, run, test, lint, and deploy.
-  - [ ] Folder structure and naming conventions for source code.
-- [ ] Ask the user to confirm or modify the proposed architecture and stack details.
+  - [ ] Up to 5 key product features.
 
 ## Output
-- [ ] Create or update `AGENTS.md` following the Agents Instructions template.
-- [ ] Ensure all placeholders are replaced with actual values.
-- [ ] Keep the final `AGENTS.md` under 100 concise sentences.
+- [ ] Create or update `AGENTS.md` at the project root following the Agents Instructions template.
+- [ ] Replace all placeholders with actual values.
+- [ ] Keep `AGENTS.md` under 100 concise lines.
 
 ## Verification
-
-- [ ] `AGENTS.md` is created or updated.
-- [ ] Placeholders are set.
-- [ ] Product overview is clearly defined.
-- [ ] Technical details are defined for each tier.
+- [ ] All SDD paths are set.
+- [ ] Product overview is defined.
+- [ ] Technical stack is defined for each tier.
