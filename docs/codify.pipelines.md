@@ -1,4 +1,4 @@
-# Codify workflows
+# Codify pipelines
 
 ## Minor bug fixes or improvements
 
@@ -25,6 +25,7 @@ flowchart TD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
+> `{slug}.requirement.plan.md`
 
 ## Review reports 
 
@@ -42,6 +43,8 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
+> `{slug}.review.{tier}.plan.md`
+
 ## New features or complex improvements
 
 ```mermaid
@@ -58,15 +61,5 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-# Plan naming conventions
-- `spec-{slug}.spec.md` → from specification
-- `spec-{slug}.{tier}.plan.md` → plan from specification for a specific tier
-- `fix-{slug}.{tier}.plan.md` → plan from bug/simple improvement
-- `review-{slug}.{tier}.plan.md` → plan from review report
+> `{slug}.spec.{tier}.plan.md`
 
-ArtefactoPatrónSpec{slug}.spec.mdReport{slug}.report.mdPlan (tiered){slug}.{source}.{tier}.plan.mdPlan (fullstack){slug}.{source}.plan.md
-Ejemplos concretos:
-
-user-auth.spec.md → user-auth.spec.back.plan.md + user-auth.spec.front.plan.md
-login-crash.report.md → login-crash.report.back.plan.md
-add-dark-mode.requirement.plan.md (fullstack, sin tier)
