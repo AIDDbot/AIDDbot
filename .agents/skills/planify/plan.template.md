@@ -1,8 +1,8 @@
 ---
-plan-type: {spec-implementation, bug-fix}
-tier: {backend, frontend, database, fullstack}
+plan-type: {spec, report, requirement}
+tier: {back, front, db, fullstack}
 ---
-# {plan-type} - {spec-slug|bug-fix-slug} - {tier}
+# {plan-type} - {slug} - {tier}
 
 ## Specification
 
