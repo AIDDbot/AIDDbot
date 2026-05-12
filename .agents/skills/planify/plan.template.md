@@ -8,6 +8,8 @@ tier: {back, front, db, fullstack}
 
 {description of the specification, improvement, or bug report that the implementation plan is based on}
 
+**Context**: [link to the source spec, report, or requirement for traceability]()
+
 ### Data model
 {description of the data model changes, if applicable}
 

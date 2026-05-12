@@ -24,10 +24,10 @@ Given a spec, bug report, or review report, produce one or more implementation p
 
 ### Conventions
 - `{slug}` is inherited from the input file name or derived from the requirement description.
-- `{source}` reflects the input type: `spec`, `report`, or `requirement`.
-- `{tier}` is determined by the content: `back`, `front`, or `db`.
+- `{source?}` reflects the input type: `spec` or `report`, or omit for simple requirements.
+- `{tier?}` is determined by the content: `back`, `front`, or `db`.
 - Fullstack changes (touching all tiers equally) omit `{tier}`.
-- Pattern: `{slug}.{source}.{tier}.plan.md` or `{slug}.{source}.plan.md` if fullstack.
+- Pattern: `{slug}.{source?}.{tier?}.plan.md` 
 
 ## Steps
 

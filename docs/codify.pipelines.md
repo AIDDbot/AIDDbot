@@ -17,7 +17,7 @@ flowchart TD
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
-  PLN["slug.tier.plan.md"]:::nd
+  PLN["{slug}.plan.md"]:::nd
   COD[Source Code]:::nd
 
   HUM -->|/planify| PLN
@@ -25,15 +25,14 @@ flowchart TD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
-> `{slug}.requirement.plan.md`
 
 ## Review reports 
 
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
-  RPT["slug.report.md"]:::nd
-  PLN["slug.tier.plan.md"]:::nd
+  RPT["{slug}.report.md"]:::nd
+  PLN["{slug}.report.{tier?}.plan.md"]:::nd
   COD[Source Code]:::nd
 
   HUM -->|/review| RPT
@@ -43,15 +42,13 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-> `{slug}.review.{tier}.plan.md`
-
 ## New features or complex improvements
 
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
-  SPC["slug.spec.md"]:::nd
-  PLN["slug.tier.plan.md"]:::nd
+  SPC["{slug}.spec.md"]:::nd
+  PLN["{slug}.spec.{tier?}.plan.md"]:::nd
   COD[Source Code]:::nd
 
   HUM -->|/specify| SPC
@@ -61,5 +58,4 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-> `{slug}.spec.{tier}.plan.md`
 

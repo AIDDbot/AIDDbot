@@ -8,9 +8,9 @@ flowchart TD
   HUM[HUMAN]
 
   subgraph P["PRODUCT"]
-      SPC["slug.spec.md"]:::nd
-      PLN["slug.tier.plan.md"]:::nd
-      RPT["slug.report.md"]:::nd
+      SPC["{slug}.spec.md"]:::nd
+      PLN["{slug}.{source?}.{tier?}.plan.md"]:::nd
+      RPT["{slug}.report.md"]:::nd
   end
 
   subgraph T["TECHNOLOGY"]
@@ -45,7 +45,7 @@ flowchart TD
 
 - `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
 
-- `/planify` - Create a set of implementation plans for an specification or bug-fix (back, front and data)
+- `/planify` - Create a set of implementation plans for a specification or bug-fix (back, front, and data).
 
 - `/codify` - Run the implementation cycle for one specification: generate plans, produce code, and validate with tests.
 
