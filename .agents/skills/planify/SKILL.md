@@ -22,20 +22,23 @@ And one of the following inputs:
 - An improvement request that describes a desired enhancement, its impact, and expected behavior.
 - A bug report that describes an issue, its impact, and steps to reproduce it.
 
-
 ## Steps
 
 ### Step 1: Understand the specification, improvement, or bug report
 - [ ] Review the provided specification, improvement, or bug report to understand the problem, solution, and verification criteria (for specifications), the desired enhancement and expected behavior (for improvements), or the issue and reproduction steps (for bug reports).
 - [ ] If the input file is incomplete or invalid, document the issues in the output and provide a partial implementation plan based on the available information.
 - [ ] If ambiguities or missing information are identified, document them clearly in the output and proceed with the best assumptions based on the provided context.
+
 ### Step 2: Break down the solution into tiers
 - [ ] Identify whether the implementation involves multiple tiers (backend, frontend, database, fullstack) or is specific to a single tier.
 - [ ] If multiple tiers are involved, ensure plans are aligned and coherent across tiers.
+
 ### Step 3: Create implementation plans for each tier
-- [ ] For each tier, create a detailed implementation plan outlining ordered steps and tasks required to implement the solution, enhancement, or fix the bug.
+- [ ] Include the specification problem description and data model involved if applicable.
+- [ ] Create a detailed implementation plan outlining ordered steps and tasks required to implement the solution, enhancement, or fix the bug.
 - [ ] Ensure each step is clear, actionable, and directly related to the problem and solution (or issue and reproduction steps).
-- [ ] Include paths to files or folders that need to be modified or created.
+- [ ] Include paths to files or folders that need to be modified or created at each step.
+
 ### Step 4: Write the implementation plan files
 - [ ] Create new implementation plan files in the `{Product_Folder}/plans/` directory following the Implementation Plan template.
 - [ ] Name files using the convention `{spec-slug}.{tier-slug}.plan.md`, where `spec-slug` is a descriptive identifier and `tier-slug` indicates the tier (backend, frontend, database, fullstack).

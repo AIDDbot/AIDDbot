@@ -2,7 +2,16 @@
 plan-type: {spec-implementation, bug-fix}
 tier: {backend, frontend, database, fullstack}
 ---
-## {plan-type} - {spec-slug|bug-fix-slug} - {tier}
+# {plan-type} - {spec-slug|bug-fix-slug} - {tier}
+
+## Specification
+
+{description of the specification, improvement, or bug report that the implementation plan is based on}
+
+### Data model
+{description of the data model changes, if applicable}
+
+## Implementation Steps
 
 ### Step 1: {Step Title}
 {short description of the step}
