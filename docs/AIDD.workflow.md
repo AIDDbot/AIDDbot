@@ -27,6 +27,7 @@ flowchart TD
 
   HUM -->|/initialize| AGT
   HUM -->|/reversify| ARCH
+  HUM -->|/rulify| RUL
   HUM -->|/specify| SPC
   HUM -->|/planify| PLN
   RPT -->|/planify| PLN
@@ -49,6 +50,8 @@ flowchart TD
 - `/initialize` - Create initial technology documentation (AGENTS.md and skills/) for a project.
 
 - `/reversify` - Reverse-engineer an existing codebase to extract architecture documentation and inferred ADRs into `arch/`. 
+
+- `/rulify` - Extract coding rules from an existing codebase into `rules/`.
 
 - `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
 
