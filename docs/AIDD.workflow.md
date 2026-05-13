@@ -17,11 +17,11 @@ flowchart TD
   subgraph T["TECHNOLOGY"]
       AGT["AGENTS.md"]:::nd
       SKL["skills/"]:::nd
-      RUL["rules/"]:::nd
   end  
 
   subgraph S["SOLUTION"]
       COD[Source Code]:::nd
+      RUL["rules/"]:::nd
       E2E["E2E Tests"]:::nd
   end
 
@@ -34,7 +34,6 @@ flowchart TD
   AGT -.-> SPC  
   AGT -.-> ARCH
   SKL & RUL -.-> COD  
-  SKL -.-> PLN
   SPC -->|/planify| PLN
   ARCH -.-> PLN
   ARCH -.-> COD
@@ -49,9 +48,9 @@ flowchart TD
 
 - `/initialize` - Create initial technology documentation (AGENTS.md and skills/) for a project.
 
-- `/reversify` - Reverse-engineer an existing codebase to extract architecture documentation and inferred ADRs into `arch/`. 
+- `/reversify` - Reverse-engineer an existing codebase to extract architecture documentation and inferred ADRs. 
 
-- `/rulify` - Extract coding rules from an existing codebase into `rules/`.
+- `/rulify` - Extract coding rules from an existing codebase.
 
 - `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
 
@@ -67,15 +66,16 @@ flowchart TD
 
 ### Technology
 
-- `AGENTS.md` - The entry point for any agent joining the project; defines how agents should operate, including rules, workflows, and artifact conventions.
+- `AGENTS.md` - The entry point for any agent joining the project, with product and technology information.
 
-- `rules/` - Define rules that agents must follow when writing code.
 
 - `skills/` - Teach your agent how to do things. Make them easy to know when to use.
 
 ### Product
 
 - `arch/` - Architecture documentation with system and tier-level diagrams and inferred ADRs. 
+
+- `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 
 - `{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
 
