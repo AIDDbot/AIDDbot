@@ -24,83 +24,65 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 {Product_Folder}/
 └── arch/
     ├── system.arch.md   # Always generated
-    ├── front.arch.md    # If frontend tier detected
+    ├── ADR.md           # Always generated
+    ├── ER.md            # Always generated (domain model inferred from code)
     ├── back.arch.md     # If backend tier detected
-    ├── db.arch.md       # If data tier detected
-    └── ADR.md           # Always generated
+    ├── front.arch.md    # If frontend tier detected
+    └── db.arch.md       # If database tier detected (infra, not domain model)
 ```
 
 ### Agent consumption targets
 | File | Consumed by |
 |------|-------------|
 | `system.arch.md` | `planify` — before any cross-tier planning |
-| `{tier}.arch.md` | `planify` + `codify` — when working on that tier |
 | `ADR.md` | `planify` — to avoid contradicting past decisions |
+| `ER.md` | `planify` + `codify` — domain model reference for any tier |
+| `{tier}.arch.md` | `planify` + `codify` — when working on that tier |
 
-## Steps
+---
 
-### Step 1: Read AGENTS.md
-- [ ] Extract `{Product_Folder}`, `{Source_Folders}`, and tier definitions.
-- [ ] Identify which tiers are present (front, back, db, or others).
+## Usage
 
-### Step 2: Explore the codebase
-- [ ] Read entry points, configuration files, and dependency manifests per tier.
-- [ ] Map top-level module/folder structure per tier — do not read every file.
-- [ ] Detect the **code organization pattern** per tier:
-  - **Layer-based**: folders named by technical role (`controllers/`, `services/`, `repositories/`, `models/`...)
-  - **Feature-based**: folders named by domain concept (`users/`, `orders/`, `invoices/`...)
-  - **Hybrid**: feature folders containing internal layers
-- [ ] Locate **shared artifact zones**: folders intended for cross-cutting reuse (`shared/`, `common/`, `utils/`, `lib/`, `core/`, or equivalent). Record their paths — do not catalogue their contents.
-- [ ] Identify external integrations: databases, third-party APIs, auth providers, message queues, etc.
-- [ ] Detect cross-cutting patterns: auth strategy, error handling, logging, API contracts.
-- [ ] Identify decisions that are expensive to reverse: ORM choice, DB engine, API style (REST/GraphQL), monorepo vs polyrepo, SSR vs SPA, etc.
+| Invocation | What runs | Mode file |
+|------------|-----------|-----------|
+| `/reversify` | **Auto** — detects what's missing, runs next logical step | — |
+| `/reversify system` | Generates `system.arch.md` | `system.mode.md` |
+| `/reversify adr` | Generates `ADR.md` | `adr.mode.md` |
+| `/reversify er` | Generates `ER.md` | `er.mode.md` |
+| `/reversify {tier}` | Generates `{tier}.arch.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
 
-### Step 3: Generate system.arch.md
-- [ ] Write a C4 System Context diagram (Mermaid) showing the system and its external actors/systems.
-- [ ] Write a C4 Container diagram (Mermaid) showing the main deployable units and their interactions.
-- [ ] Add a prose section per container: responsibility, technology, and key constraints.
-- [ ] Keep it tier-agnostic — no implementation detail.
-
-### Step 4: Generate tier arch files
-For each detected tier, generate `{tier}.arch.md` without business logic or product details, focusing on architectural structure and constraints:
-- [ ] **Overview**: role of this tier in the system.
-- [ ] **C4 Component diagram** (Mermaid): main internal components and their relationships.
-  - Limit diagrams to architecturally significant components.
-  - Ignore utility/helper/internal-only modules.
-  - Prefer readability over completeness.
-- [ ] **Code organization**: state the detected pattern (layer-based / feature-based / hybrid) and list the top-level structure with one-line responsibility per module. New code must follow this pattern.
-- [ ] **Shared artifacts**: list the paths of shared/common/utils zones. New code must reuse from these locations before creating new abstractions.
-- [ ] **Key contracts**: public interfaces, API routes, event schemas, or DB access patterns exposed to other tiers.
-- [ ] **Constraints**: what this tier must never do (e.g., "no business logic in controllers", "no direct DB access from front").
-
-For `db.arch.md` specifically, also include:
-- [ ] **E-R diagram** (Mermaid) inferred from schema files, migrations, or ORM models.
-- [ ] **Migration strategy**: how schema changes are managed.
-
-### Step 5: Generate ADR.md
-- [ ] List one ADR per significant decision found. Use this structure per entry:
-
-```markdown
-## ADR-{n}: {Short title}
-- **Status**: Inferred
-- **Decision**: {What was decided}
-- **Rationale**: {Why, inferred from code or config evidence}
-- **Consequences**: {What this constrains going forward}
+### Recommended order
+```
+system → adr → er → back → front → db
 ```
 
-- [ ] Focus on decisions that constrain planning: framework choices, architectural patterns, API styles, auth mechanisms, data access strategies, and **code organization pattern** (layer-based vs feature-based).
-- [ ] Do not document trivial or easily reversible choices.
+### Dependencies between modes
+- **system** has no dependencies — always safe to run first.
+- **adr**, **er**, and **tier** modes read `system.arch.md` for context if it exists, but can run standalone.
 
-### Step 6: Confirm with user
-- [ ] Present a summary of detected tiers and planned output files.
-- [ ] Flag any ambiguities or low-confidence inferences for user confirmation before writing files.
+---
 
-## Output
-- [ ] `{Product_Folder}/arch/system.arch.md`
-- [ ] `{Product_Folder}/arch/{tier}.arch.md` for each detected tier
-- [ ] `{Product_Folder}/arch/ADR.md`
+## Execution
 
-## Verification
+### With argument → run the requested mode
+1. Read `AGENTS.md` → extract `{Product_Folder}` and tiers.
+2. Read the corresponding mode file from this skill's folder (e.g. `system.mode.md`).
+3. Follow the steps defined in the mode file.
+
+### Without argument → auto mode
+1. Read `AGENTS.md` → extract `{Product_Folder}` and detect tiers.
+2. Check which files exist under `{Product_Folder}/arch/`.
+3. Pick the **first missing** file from this ordered list:
+   - `system.arch.md` → read and run `system.mode.md`
+   - `ADR.md` → read and run `adr.mode.md`
+   - `ER.md` → read and run `er.mode.md`
+   - `{tier}.arch.md` for each detected tier (order: back, front, db, others) → read and run `tier.mode.md`
+4. If all files exist → report "Architecture is complete" and suggest `/review`.
+5. After completing the mode, summarize what was generated and what remains.
+
+---
+
+## Verification (applies to all modes)
 - [ ] All Mermaid diagrams render without errors.
 - [ ] No placeholder text remains in any file.
 - [ ] Every ADR entry has decision + rationale + consequences.
