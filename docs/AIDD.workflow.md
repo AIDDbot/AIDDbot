@@ -11,6 +11,7 @@ flowchart TD
       SPC["{slug}.spec.md"]:::nd
       PLN["{slug}.{source?}.{tier?}.plan.md"]:::nd
       RPT["{slug}.report.md"]:::nd
+      ARCH["arch/"]:::nd
   end
 
   subgraph T["TECHNOLOGY"]
@@ -25,13 +26,17 @@ flowchart TD
   end
 
   HUM -->|/initialize| AGT
+  HUM -->|/reversify| ARCH
   HUM -->|/specify| SPC
   HUM -->|/planify| PLN
   RPT -->|/planify| PLN
   AGT -.-> SPC  
+  AGT -.-> ARCH
   SKL & RUL -.-> COD  
   SKL -.-> PLN
   SPC -->|/planify| PLN
+  ARCH -.-> PLN
+  ARCH -.-> COD
   PLN -->|/codify| COD
   COD -->|/verify| E2E
   COD -->|/review| RPT
@@ -41,7 +46,9 @@ flowchart TD
 
 ## Commands
 
-- `/initialize` - Create initial technology documentation (/AGENTS.md and skills/) for a project.
+- `/initialize` - Create initial technology documentation (AGENTS.md and skills/) for a project.
+
+- `/reversify` - Reverse-engineer an existing codebase to extract architecture documentation and inferred ADRs into `arch/`. 
 
 - `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
 
@@ -57,7 +64,7 @@ flowchart TD
 
 ### Technology
 
-- `/AGENTS.md` - The entry point for any agent joining the project; defines how agents should operate, including rules, workflows, and artifact conventions.
+- `AGENTS.md` - The entry point for any agent joining the project; defines how agents should operate, including rules, workflows, and artifact conventions.
 
 - `rules/` - Define rules that agents must follow when writing code.
 
@@ -65,16 +72,16 @@ flowchart TD
 
 ### Product
 
+- `arch/` - Architecture documentation with system and tier-level diagrams and inferred ADRs. 
+
 - `{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
 
-- `{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix. 
+- `{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix.
 
 - `{slug}.report.md` - A report generated during the review process, such as accessibility and compliance reports.
-  
+
 ### Solution
 
 - `Source Code` - The implementation of the system, including unit tests.
 
 - `E2E Tests` - End-to-end tests that verify the implemented code meets the defined specifications and acceptance criteria.
-
-

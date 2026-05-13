@@ -21,6 +21,10 @@ Given a spec, bug report, or review report, produce one or more implementation p
 
 ### References
 - [Plan template](./plan.template.md)
+- If `{Product_Folder}/arch/` exists:
+  - Read `system.arch.md` before identifying tiers.
+  - Read `{tier}.arch.md` for each affected tier.
+  - Read `ADR.md` before drafting steps.
 
 ### Conventions
 - `{slug}` is inherited from the input file name or derived from the requirement description.
@@ -42,6 +46,7 @@ Given a spec, bug report, or review report, produce one or more implementation p
 ### Step 3: Draft the implementation steps
 - [ ] For each tier, define ordered steps with clear titles, short descriptions, and file/folder paths affected.
 - [ ] Each step must be directly traceable to the input problem or solution.
+- [ ] Respect architectural constraints and past decisions from `arch/` docs and `ADR.md`.
 
 ## Output
 - [ ] Write one plan file per tier to `{Product_Folder}/plans/` using the plan template and the correct naming convention.

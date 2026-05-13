@@ -46,6 +46,11 @@ Analyse an existing codebase and produce architecture documentation under `{Prod
 ### Step 2: Explore the codebase
 - [ ] Read entry points, configuration files, and dependency manifests per tier.
 - [ ] Map top-level module/folder structure per tier — do not read every file.
+- [ ] Detect the **code organisation pattern** per tier:
+  - **Layer-based**: folders named by technical role (`controllers/`, `services/`, `repositories/`, `models/`...)
+  - **Feature-based**: folders named by domain concept (`users/`, `orders/`, `invoices/`...)
+  - **Hybrid**: feature folders containing internal layers
+- [ ] Locate **shared artifact zones**: folders intended for cross-cutting reuse (`shared/`, `common/`, `utils/`, `lib/`, `core/`, or equivalent). Record their paths — do not catalogue their contents.
 - [ ] Identify external integrations: databases, third-party APIs, auth providers, message queues, etc.
 - [ ] Detect cross-cutting patterns: auth strategy, error handling, logging, API contracts.
 - [ ] Identify decisions that are expensive to reverse: ORM choice, DB engine, API style (REST/GraphQL), monorepo vs polyrepo, SSR vs SPA, etc.
@@ -60,7 +65,8 @@ Analyse an existing codebase and produce architecture documentation under `{Prod
 For each detected tier, generate `{tier}.arch.md` with:
 - [ ] **Overview**: role of this tier in the system.
 - [ ] **C4 Component diagram** (Mermaid): main internal components and their relationships.
-- [ ] **Module map**: folder structure with one-line responsibility per module.
+- [ ] **Code organisation**: state the detected pattern (layer-based / feature-based / hybrid) and list the top-level structure with one-line responsibility per module. New code must follow this pattern.
+- [ ] **Shared artifacts**: list the paths of shared/common/utils zones. New code must reuse from these locations before creating new abstractions.
 - [ ] **Key contracts**: public interfaces, API routes, event schemas, or DB access patterns exposed to other tiers.
 - [ ] **Constraints**: what this tier must never do (e.g., "no business logic in controllers", "no direct DB access from front").
 
@@ -79,7 +85,7 @@ For `db.arch.md` specifically, also include:
 - **Consequences**: {What this constrains going forward}
 ```
 
-- [ ] Focus on decisions that constrain planning: framework choices, architectural patterns, API styles, auth mechanisms, data access strategies.
+- [ ] Focus on decisions that constrain planning: framework choices, architectural patterns, API styles, auth mechanisms, data access strategies, and **code organisation pattern** (layer-based vs feature-based).
 - [ ] Do not document trivial or easily reversible choices.
 
 ### Step 6: Confirm with user

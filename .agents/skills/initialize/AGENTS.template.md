@@ -27,10 +27,12 @@
 │   ├── agents/           # Specific agent role definitions
 |   ├── prompts/          # Reusable prompts directory
 |   └── skills/           # Custom agent skills
-├── {Product_Folder}/     # Files related to the product (specs, plans, etc)
-|   └── specs/            # Specifications and plans
+├── {Product_Folder}/     # Product related files (specs, plans, arch)
+|   ├── specs/            # Specifications 
+|   ├── plans/            # Implementation plans
+|   └── arch/             # Architecture documentation
 ├── CHANGELOG.md          # Project history and updates
-├── README.md             # Human-friendly project summary
+├── README.md             # Human-friendly project summary  
 ├── {Source_folders}/     # Source code folders
 ├── tests/                # Test E2E files
 └── other_files/          # Other relevant files and folders
