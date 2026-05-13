@@ -62,7 +62,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - [ ] Keep it tier-agnostic — no implementation detail.
 
 ### Step 4: Generate tier arch files
-For each detected tier, generate `{tier}.arch.md` with:
+For each detected tier, generate `{tier}.arch.md` without business logic or product details, focusing on architectural structure and constraints:
 - [ ] **Overview**: role of this tier in the system.
 - [ ] **C4 Component diagram** (Mermaid): main internal components and their relationships.
   - Limit diagrams to architecturally significant components.
