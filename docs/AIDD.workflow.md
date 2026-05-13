@@ -47,11 +47,11 @@ flowchart TD
 
 - `/planify` - Create a set of implementation plans for a specification or bug-fix (back, front, and data).
 
-- `/codify` - Run the implementation cycle for one specification: generate plans, produce code, and validate with tests.
+- `/codify` - Writes the code and unit tests following a plan, implementing a specification, or a minor requirement.
 
 - `/verify` - Run end-to-end tests to ensure code meets specifications.
 
-- `/review` - Review code for guidelines compliance and best practices.
+- `/review` - Review code for guideline compliance and best practices.
 
 ## Artifacts
 
@@ -59,15 +59,17 @@ flowchart TD
 
 - `/AGENTS.md` - The entry point for any agent joining the project; defines how agents should operate, including rules, workflows, and artifact conventions.
 
+- `rules/` - Define rules that agents must follow when writing code.
+
 - `skills/` - Teach your agent how to do things. Make them easy to know when to use.
 
 ### Product
 
-- `spec-slug.spec` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
+- `{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
 
-- `spec-slug.tier.plan` - A set of implementation plans derived from a single specification, or bug-fix, defining ordered steps and tasks for each involved tier.
+- `{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix. 
 
-- `slug.report.md` - A report generated during the review process, such as accessibility and compliance reports.
+- `{slug}.report.md` - A report generated during the review process, such as accessibility and compliance reports.
   
 ### Solution
 
