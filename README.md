@@ -5,7 +5,7 @@
 
 **Production-ready agent skills** that plug into any AI coding environment — no CLI, no package install, just markdown files that work everywhere.
 
-Works with: Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode · VSCode
+Try it with Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode · VSCode
 
 ## The problem with coding agents at scale
 
@@ -53,7 +53,7 @@ cp -r AIDDbot/.agents your-project/.agents
 
 ### 2. Initialize your environment
 ```markdown
-`/initialize`
+`/initialize` this project
 > — set up your project environment and main instructions file
 ```
 
@@ -61,10 +61,10 @@ cp -r AIDDbot/.agents your-project/.agents
 > For **legacy projects**, also run:
 
 ```markdown
-`/reversify`   
-> — get architecture insights from your legacy code
-`/rulify`      
-> — extract real coding rules from your existing codebase
+`/reversify` this codebase
+> — get architecture insights
+`/rulify` from this source code      
+> — extract real coding rules 
 ```
 
 > See [Initialize Pipelines](/docs/intialize.pipelines.md) for a visual overview.
