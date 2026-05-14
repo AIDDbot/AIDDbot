@@ -1,8 +1,11 @@
 # AIDDbot
 
-> AI models are powerful. AIDDbot makes them reliable developers.
+> AI coding agents can generate code.
+> 
+> `AIDDbot` **builds software you can trust.**
 
-**Agent workflows** for any programming IDE/harness: 
+**Production-ready agent skills** for any AI coding environment:
+
 Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode · VSCode...
 
 ## Why AIDDbot?
@@ -12,15 +15,15 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 | Problem | What it looks like |
 |---|---|
 | **Detail or invent** | The agent either misses important details or invents them. |
-| **Rules or chaos** | Well-written code that violates your contracts or does not solve the real problem. |
-| **Verify or repeat** | Details vanish between sessions, human validation requires patience. |
+| **Rules or chaos** | Code that violates your standards or does not solve the real problem. |
+| **Verify or hope** | Errors go unnoticed and compound over time. |
 
-**AIDDbot** solves this by adding structure *around* the agent.
+`AIDDbot` optimizes for reliable software delivery.
 
 ## What you get
 
 > [!IMPORTANT]
-> AIDDbot is a set of skills that can be directly invoked by you, or triggered by your agent.
+> `AIDDbot` is **a set of skills** that can be directly invoked by you, or triggered by your agent.
 
 | Skill | What it does |
 |---|---|
@@ -30,14 +33,9 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 | `codify` | Generates code following your plans and rules |
 | `verify` | Writes and runs E2E tests to ensure code meets specifications |
 | `review` | Reviews code for quality, and generates feedback reports|
-|---|---|
+| For Brownfield |---|
 | `reversify` | Reverse engineers legacy code to get architecture insights |
 | `rulify` | Extracts rules from actual code to generate new code |
-|---|---|
-| `design` | Applies a design system to user interfaces (to be renamed) |
-| `analyze` | To be done: Analyzes legacy code functionality |
-| `refactorize` | To be done: Refactors legacy code |
-
 
 > [!NOTE]
 > See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
@@ -55,10 +53,10 @@ cp -r AIDDbot/.agents your-project/.agents
 
 ### 2. Initialize your project
 
-Open your agent chat and run the `initialize` skill.  
+Agents need a clear environment and instructions to work effectively. 
 
-```md
-/initialize
+```markdown
+`/initialize`
 > -- to set up your project environment and main instructions file
 ```
 
@@ -66,10 +64,10 @@ Open your agent chat and run the `initialize` skill.
 
 For a brownfield project, you should also run specific skills to extract insights from your legacy code.
 
-```md
-/reversify
+```markdown
+`/reversify`
 > -- to get architecture insights from your legacy code
-/rulify
+`/rulify`
 > -- to extract rules from your actual code and generate new code based on them
 ```
 
@@ -80,16 +78,16 @@ For a brownfield project, you should also run specific skills to extract insight
 
 For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `review`.
 
-```md
-/specify a feature requirement
+```markdown
+`/specify` a feature requirement
 > -- to get a formal specification with acceptance criteria
-/planify the specification into implementation steps
+`/planify` the specification into implementation steps
 > -- to break down the specification into a clear implementation plan
-/codify the implementation plan into code
+`/codify` the implementation plan into code
 > -- to generate code following your plans and rules
-/verify the code with E2E tests
+`/verify` the code with E2E tests
 > -- to ensure code meets specifications
-/review the code 
+`/review` the code 
 > -- to get a feedback report on your code
 ```
 
@@ -98,7 +96,7 @@ For each feature, run the skills in order: `specify` → `planify` → `codify` 
 
 ## AIDD philosophy
 
-**AI-Driven Development** blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle.
+**AI-Driven Development** blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle. `AIDDbot` is built on these core principles:
 
 - **Human in the loop** You are the decision-maker and responsible for the code.
 
