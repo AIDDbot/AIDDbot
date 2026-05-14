@@ -29,8 +29,8 @@ Start by initializing your project environment, then run the skills in order for
 |---|---|
 | `/initialize` | Sets up your project environment and main instructions file |
 | For Brownfield |---|
-| `/reversify` | Reverse-engineers legacy code for architecture insights |
-| `/rulify` | Extracts real rules from your codebase to guide new generation |
+| `/discover` | Reverse-engineers legacy code for architecture insights |
+| `/extract` | Extracts real rules from your codebase to guide new generation |
 
 And then for every new feature:
 
@@ -39,6 +39,7 @@ And then for every new feature:
 | `/specify` | Writes clear specifications with formal acceptance criteria |
 | `/planify` | Breaks specs into concrete, ordered implementation steps |
 | `/codify` | Generates code that follows your plans and your rules |
+| Quality Assurance |---|
 | `/verify` | Writes and runs E2E tests so specs are actually met |
 | `/review` | Reviews code for quality and generates a feedback report |
 
@@ -64,9 +65,9 @@ cp -r AIDDbot/.agents your-project/.agents
 > For **legacy projects**, also run:
 
 ```markdown
-`/reversify` this codebase
+`/discover` this codebase
 > — get architecture insights
-`/rulify` from this source code      
+`/extract` from this source code      
 > — extract real coding rules 
 ```
 
@@ -79,7 +80,7 @@ cp -r AIDDbot/.agents your-project/.agents
 For every new feature, run the skills in order:
 
 ```
-/specify → /planify → /codify → /verify → /review
+/specify → /planify → /codify 
 ```
 
 ```markdown
@@ -92,14 +93,23 @@ For every new feature, run the skills in order:
 `/codify`   the plan
 > → code that follows your rules
 
+```
+
+> See [Codify Pipelines](/docs/codify.pipelines.md) for a visual overview.
+
+### Quality assurance pipeline
+
+After coding, run:
+
+```markdown
 `/verify`   the code
 > → E2E tests that confirm specs are met
 
 `/review`   the result
 > → actionable quality feedback report
-```
+``` 
 
-> See [Codify Pipelines](/docs/codify.pipelines.md) for a visual overview.
+This may lead to a new iteration of the feature pipeline if issues are found.
 
 ---
 

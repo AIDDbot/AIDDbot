@@ -1,9 +1,9 @@
 ---
-name: rulify
-description: Extracts coding conventions and patterns from an existing codebase into agent-consumable rule files. Use this skill after reversify to capture how code should be written, not just what exists. Trigger on phrases like "rulify this", "extract conventions", "generate coding rules", or "I need coding patterns before codifying".
+name: extract
+description: Extracts coding conventions and patterns from an existing codebase into agent-consumable rule files. Use this skill after discover to capture how code should be written, not just what exists. Trigger on phrases like "extract this project", "extract conventions", "generate coding rules", or "I need coding patterns before codifying".
 ---
 
-# Rulify skill
+# Extract skill
 
 ## Role
 Act as a senior software engineer performing a code convention audit.
@@ -15,7 +15,7 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 
 ### Prerequisites
 - `AGENTS.md` exists at the project root.
-- `{Product_Folder}/arch/` exists (run `/reversify` first if not). Architecture docs provide the structural context; this skill extracts the coding patterns.
+- `{Product_Folder}/arch/` exists (run `/discover` first if not). Architecture docs provide the structural context; this skill extracts the coding patterns.
 
 ### References
 - `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
@@ -45,11 +45,11 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 
 | Invocation | What runs | Mode file |
 |------------|-----------|-----------|
-| `/rulify` | **Auto** — detects what's missing, runs next logical step | — |
-| `/rulify all` | **Batch** — runs all missing modes in sequence without pausing | — |
-| `/rulify naming` | Generates `naming.rules.md` | `naming.mode.md` |
-| `/rulify testing` | Generates `testing.rules.md` | `testing.mode.md` |
-| `/rulify {tier}` | Generates `{tier}.rules.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
+| `/extract` | **Auto** — detects what's missing, runs next logical step | — |
+| `/extract all` | **Batch** — runs all missing modes in sequence without pausing | — |
+| `/extract naming` | Generates `naming.rules.md` | `naming.mode.md` |
+| `/extract testing` | Generates `testing.rules.md` | `testing.mode.md` |
+| `/extract {tier}` | Generates `{tier}.rules.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
 
 ### Recommended order
 ```
