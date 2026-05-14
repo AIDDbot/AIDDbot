@@ -1,9 +1,9 @@
 # AIDDbot
 
-> AI agents are powerful. AIDDbot makes them reliable.
+> AI models are powerful. AIDDbot makes them reliable developers.
 
-**Spec-driven Development** workflows for any programming agents: 
-- Claude Code · Codex · Copilot · Cursor · Gemini · OpenCode...
+**Agent workflows** for any programming IDE/harness: 
+Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode · VSCode...
 
 ## Why AIDDbot?
 
@@ -20,7 +20,7 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 ## What you get
 
 > [!IMPORTANT]
-> A set of Skills that can be directly invoked by you or triggered by your agent.
+> AIDDbot is a set of skills that can be directly invoked by you, or triggered by your agent.
 
 | Skill | What it does |
 |---|---|
@@ -56,13 +56,10 @@ cp -r AIDDbot/.agents your-project/.agents
 ### 2. Initialize your project
 
 Open your agent chat and run the `initialize` skill.  
-It sets up your project paths, product overview, and technical stack.
 
 ```md
-> Some agents allows you to call skills as slash commands
 /initialize
-> others require telling the agent to run the skill
-Run the "initialize" skill to set up your project environment and main instructions file.
+> -- to set up your project environment and main instructions file
 ```
 
 #### 2.1 Extract insights from your legacy code (brownfield)
@@ -84,16 +81,16 @@ For a brownfield project, you should also run specific skills to extract insight
 For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `review`.
 
 ```md
-/specify my feature requirement
-> -- then... 
+/specify a feature requirement
+> -- to get a formal specification with acceptance criteria
 /planify the specification into implementation steps
-> -- then...
+> -- to break down the specification into a clear implementation plan
 /codify the implementation plan into code
-> -- then...
+> -- to generate code following your plans and rules
 /verify the code with E2E tests
-> -- then...
-/review the code for quality, style, and adherence to specifications
--->
+> -- to ensure code meets specifications
+/review the code 
+> -- to get a feedback report on your code
 ```
 
 > [!NOTE]
@@ -110,10 +107,10 @@ For each feature, run the skills in order: `specify` → `planify` → `codify` 
 - **Spec-driven development** Detailed problem definitions with acceptance criteria.
 
 > Code smarter!  
-> *— Alberto Basalo*
+> *— [Alberto Basalo](https://albertobasalo.dev)*
 
 ---
 
-**Author** [Alberto Basalo](https://albertobasalo.dev) · [X/Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/) 
+**About the Author** [X/Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/) 
 
 **Formación en Español** [AI Code Academy](https://aicode.academy)
