@@ -23,21 +23,24 @@ Modern agents are impressive for isolated features. Under real project condition
 
 A set of skills you invoke directly — or let your agent trigger:
 
+Start by initializing your project environment, then run the skills in order for every new feature or bug fix:
+
 | Skill | What it does |
 |---|---|
 | `/initialize` | Sets up your project environment and main instructions file |
+| For Brownfield |---|
+| `/reversify` | Reverse-engineers legacy code for architecture insights |
+| `/rulify` | Extracts real rules from your codebase to guide new generation |
+
+And then for every new feature:
+
+| Skill | What it does |
+|---|---|
 | `/specify` | Writes clear specifications with formal acceptance criteria |
 | `/planify` | Breaks specs into concrete, ordered implementation steps |
 | `/codify` | Generates code that follows your plans and your rules |
 | `/verify` | Writes and runs E2E tests so specs are actually met |
 | `/review` | Reviews code for quality and generates a feedback report |
-
-Not just greenfield projects, get your hands dirty with **brownfield codebases** too:
-
-| Skill | What it does |
-|---|---|
-| `/reversify` | Reverse-engineers legacy code for architecture insights |
-| `/rulify` | Extracts real rules from your codebase to guide new generation |
 
 > See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
 
