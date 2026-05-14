@@ -2,13 +2,8 @@
 
 > AI agents are powerful. AIDDbot makes them reliable.
 
-Spec-driven Development workflows, for 
-**GitHub Copilot · Cursor · Claude Code · Codex · any LLM-based agent**.
-
-[![GitHub](https://img.shields.io/badge/template-open%20source-00c896?style=flat-square)](https://github.com/AIDDbot/AIDDbot)
-[![License](https://img.shields.io/github/license/AIDDbot/AIDDbot?style=flat-square)](./LICENSE)
-
----
+**Spec-driven Development** workflows for any programming agents: 
+- Claude Code · Codex · Copilot · Cursor · Gemini · OpenCode...
 
 ## Why AIDDbot?
 
@@ -17,17 +12,14 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 | Problem | What it looks like |
 |---|---|
 | **Detail or invent** | The agent either misses important details or invents them. |
-| **Persist or repeat** | Every session starts from scratch — details vanish between prompts. |
-| **Architecture or chaos** | Plausible-looking code that violates your contracts, standards, or data model |
-| **Domain or problem** | The code compiles, but is it solving the right problem? |
+| **Rules or chaos** | Well-written code that violates your contracts or does not solve the real problem. |
+| **Verify or repeat** | Details vanish between sessions, human validation requires patience. |
 
 **AIDDbot** solves this by adding structure *around* the agent.
 
----
-
 ## What you get
 
-> [!NOTE]
+> [!IMPORTANT]
 > A set of Skills that can be directly invoked by you or triggered by your agent.
 
 | Skill | What it does |
@@ -37,19 +29,22 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 | `planify` | Breaks down specifications into actionable implementation plans |
 | `codify` | Generates code for features and bug fixes following your plans |
 | `verify` | Writes and runs E2E tests to ensure code meets specifications |
-| `simplify` | Cleans generated code preserving functionality |
+| `review` | Reviews code for quality, style, and adherence to specifications |
 |---|---|
+| `reversify` | Reverse engineers legacy code to get architecture insights |
+| `rulify` | Extracts rules from actual code to generate new code |
+|---|---|
+| `design` | Applies a design system to user interfaces (to be renamed) |
 | `analyze` | To be done: Analyzes legacy code |
 | `refactorize` | To be done: Refactors legacy code |
 
 
+> [!NOTE]
 > See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
-
----
 
 ## How it works
 
-**1. Clone the repo into your project**
+### 1. Clone the repo into your project
 
 Skills are just markdown files ready to be used- no CLI, no package install.
 
@@ -58,7 +53,7 @@ git clone https://github.com/AIDDbot/AIDDbot
 cp -r AIDDbot/.agents your-project/.agents
 ```
 
-**2. Initialize your project**
+### 2. Initialize your project
 
 Open your agent chat and run the `initialize` skill.  
 It sets up your project paths, product overview, and technical stack.
@@ -70,9 +65,23 @@ It sets up your project paths, product overview, and technical stack.
 Run the "initialize" skill to set up your project environment and main instructions file.
 ```
 
-**3. Go feature by feature**
+#### 2.1 Extract insights from your legacy code (brownfield)
 
-For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `simplify`.
+For a brownfield project, you should also run specific skills to extract insights from your legacy code.
+
+```md
+/reversify
+> -- to get architecture insights from your legacy code
+/rulify
+> -- to extract rules from your actual code and generate new code based on them
+```
+
+> [!NOTE]
+> For a visual overview see the [Initialize Pipelines](/docs/intialize.pipelines.md).
+
+### 3. Go feature by feature
+
+For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `review`.
 
 ```md
 /specify my feature requirement
@@ -83,21 +92,22 @@ For each feature, run the skills in order: `specify` → `planify` → `codify` 
 > -- then...
 /verify the code with E2E tests
 > -- then...
-/simplify the code while preserving functionality and architecture
+/review the code for quality, style, and adherence to specifications
 -->
 ```
 
----
+> [!NOTE]
+> For a visual overview see the [Codify Pipelines](/docs/codify.pipelines.md).
 
 ## AIDD philosophy
 
 **AI-Driven Development** blends AI capabilities with established software engineering practices to boost productivity, code quality, and collaboration across the full lifecycle.
 
-**Human in the loop** — You are the decision-maker and responsible for the code.
+- **Human in the loop** You are the decision-maker and responsible for the code.
 
-**Rules over tools** — Make your agents behave according to your guidelines.
+- **Rules over tools** Make your agents behave according to your guidelines.
 
-**Spec-driven development** — Detailed problem definitions with acceptance criteria.
+- **Spec-driven development** Detailed problem definitions with acceptance criteria.
 
 > Code smarter!  
 > *— Alberto Basalo*

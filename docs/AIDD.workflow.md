@@ -68,7 +68,6 @@ flowchart TD
 
 - `AGENTS.md` - The entry point for any agent joining the project, with product and technology information.
 
-
 - `skills/` - Teach your agent how to do things. Make them easy to know when to use.
 
 ### Product
