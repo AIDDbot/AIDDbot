@@ -25,17 +25,17 @@ Modern coding agents are impressive for generating isolated features. At scale, 
 | Skill | What it does |
 |---|---|
 | `initialize` | Sets up your project environment and main instructions file |
-| `specify` | Writes clear specifications for features and bug fixes |
-| `planify` | Breaks down specifications into actionable implementation plans |
-| `codify` | Generates code for features and bug fixes following your plans |
+| `specify` | Writes clear specifications for features including acceptance criteria |
+| `planify` | Breaks down specifications or requirements into implementation plans |
+| `codify` | Generates code following your plans and rules |
 | `verify` | Writes and runs E2E tests to ensure code meets specifications |
-| `review` | Reviews code for quality, style, and adherence to specifications |
+| `review` | Reviews code for quality, and generates feedback reports|
 |---|---|
 | `reversify` | Reverse engineers legacy code to get architecture insights |
 | `rulify` | Extracts rules from actual code to generate new code |
 |---|---|
 | `design` | Applies a design system to user interfaces (to be renamed) |
-| `analyze` | To be done: Analyzes legacy code |
+| `analyze` | To be done: Analyzes legacy code functionality |
 | `refactorize` | To be done: Refactors legacy code |
 
 
@@ -79,7 +79,7 @@ For a brownfield project, you should also run specific skills to extract insight
 > [!NOTE]
 > For a visual overview see the [Initialize Pipelines](/docs/intialize.pipelines.md).
 
-### 3. Go feature by feature
+### 3. Codify feature by feature
 
 For each feature, run the skills in order: `specify` → `planify` → `codify` → `verify` → `review`.
 
@@ -114,6 +114,6 @@ For each feature, run the skills in order: `specify` → `planify` → `codify` 
 
 ---
 
-**Author** [Alberto Basalo](https://albertobasalo.dev) · [X](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/) · [Blog](https://aiddbot.com)
+**Author** [Alberto Basalo](https://albertobasalo.dev) · [X/Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/) 
 
-**Training in Spanish** [AI Code Academy](https://aicode.academy)
+**Formación en Español** [AI Code Academy](https://aicode.academy)
