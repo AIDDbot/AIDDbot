@@ -19,6 +19,50 @@ Modern agents are impressive for isolated features. Under real project condition
 
 `AIDDbot` is the answer to all three.
 
+## What you get
+
+A set of skills you invoke directly — or let your agent trigger:
+
+> See the full [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the skills catalog.
+
+### Architecture documentation
+
+Start by initializing your project environment:
+
+| Skill | What it does |
+|---|---|
+| `/initialize` | Sets up your project environment and main instructions file |
+| For Brownfield |---|
+| `/explore` | Reverse-engineers legacy code for architecture insights |
+| `/extract` | Extracts real rules from your codebase to guide new generation |
+
+> See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
+
+### Building Features
+
+And then for every new feature:
+
+| Skill | What it does |
+|---|---|
+| `/specify` | Writes clear specifications with formal acceptance criteria |
+| `/planify` | Breaks specs into concrete, ordered implementation steps |
+| `/codify` | Generates code that follows your plans and your rules |
+| `/verify` | Writes and runs E2E tests so specs are actually met |
+
+> See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
+
+### Crafting your own future
+
+Roadmap to the future. Some are a work in progress, not yet available:
+
+| Skill | What will it do |
+|---|---|
+| `/review` | Reviews code for quality and generates a feedback report |
+| `/refactor` | (WIP) Improves existing code without changing its behavior |
+| `/release` | (WIP) Prepares and publishes a new release, including changelog generation |
+
+> See [Craftsman Pipelines](/docs/craftsman.pipelines.md) for a visual overview.
+
 ## Get started in 2 steps
 
 Skills are plain markdown files — no package to install, no binary to run.
@@ -45,16 +89,14 @@ cp -r AIDDbot/.agents your-project/.agents
 > — extract real coding rules 
 ```
 
-> See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
-
 ---
 
-## Feature pipeline
+## Then build features you can trust
 
 To build every new feature, run the skills in order:
 
 ```
-/specify → /planify → /codify 
+/specify → /planify → /codify -> /verify
 ```
 
 ```markdown
@@ -66,62 +108,21 @@ To build every new feature, run the skills in order:
 
 `/codify`   the plan
 > → code that follows your rules
-```
 
-> See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
-
-### Quality assurance pipeline
-
-After coding, run:
-
-```markdown
 `/verify`   the code
 > → E2E tests that confirm specs are met
+```
 
-`/review`   the result
+### Finally craft quality software with confidence
+
+After building, run:
+
+```markdown
+`/review`   the source code
 > → actionable quality feedback report
 ``` 
 
 This may lead to a new iteration of the feature pipeline if issues are found.
-
-## What you get
-
-A set of skills you invoke directly — or let your agent trigger:
-
-### Architecture documentation
-
-Start by initializing your project environment:
-
-| Skill | What it does |
-|---|---|
-| `/initialize` | Sets up your project environment and main instructions file |
-| For Brownfield |---|
-| `/explore` | Reverse-engineers legacy code for architecture insights |
-| `/extract` | Extracts real rules from your codebase to guide new generation |
-
-### Building Features
-
-And then for every new feature:
-
-| Skill | What it does |
-|---|---|
-| `/specify` | Writes clear specifications with formal acceptance criteria |
-| `/planify` | Breaks specs into concrete, ordered implementation steps |
-| `/codify` | Generates code that follows your plans and your rules |
-| Quality Assurance |---|
-| `/verify` | Writes and runs E2E tests so specs are actually met |
-| `/review` | Reviews code for quality and generates a feedback report |
-
-> See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
-
-### Crafting your own future
-
-Roadmap to the future:
-
-| Skill | What will it do |
-|---|---|
-| `/refactor` | Improves existing code without changing its behavior |
-| `/release` | Prepares and publishes a new release, including changelog generation |
 
 ---
 
