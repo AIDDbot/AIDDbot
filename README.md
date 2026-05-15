@@ -76,17 +76,21 @@ cp -r AIDDbot/.agents your-project/.agents
 ### 2. Initialize your environment
 ```markdown
 `/initialize` this project
-> — set up your project environment and main instructions file
+> set up your project environment and main instructions file
 ```
 
 > [!NOTE]
 > For **legacy projects**, also run:
 
 ```markdown
+/initialize → /explore → /extract 
+```
+
+```markdown
 `/explore` this codebase
-> — get architecture insights
+> get architecture insights
 `/extract` from this source code      
-> — extract real coding rules 
+> extract real coding rules 
 ```
 
 ---
@@ -95,22 +99,19 @@ cp -r AIDDbot/.agents your-project/.agents
 
 To build every new feature, run the skills in order:
 
-```
+```markdown
 /specify → /planify → /codify -> /verify
 ```
 
 ```markdown
 `/specify`  a feature requirement
-> → formal spec with acceptance criteria
-
+> formal spec with acceptance criteria
 `/planify`  the specification
-> → clear, ordered implementation plan
-
+> clear, ordered implementation plan
 `/codify`   the plan
-> → code that follows your rules
-
+> code that follows your rules
 `/verify`   the code
-> → E2E tests that confirm specs are met
+> E2E tests that confirm specs are met
 ```
 
 ### Finally craft quality software with confidence
@@ -119,10 +120,12 @@ After building, run:
 
 ```markdown
 `/review`   the source code
-> → actionable quality feedback report
+> actionable quality feedback report
+`/refactor` the codebase
+> improve code without changing behavior
+`/release`  a new version
+> prepare and publish a new release, including changelog generation
 ``` 
-
-This may lead to a new iteration of the feature pipeline if issues are found.
 
 ---
 
@@ -130,11 +133,11 @@ This may lead to a new iteration of the feature pipeline if issues are found.
 
 **AI-Driven Development** blends AI capabilities with proven software engineering practices. `AIDDbot` is built on three principles:
 
-**Human in the loop** — You are the decision-maker. You own every line of code.
+- **Human in the loop** — You are the decision-maker. You own every line of code.
 
-**Rules over tools** — Agents should follow your guidelines, not their own defaults.
+- **Rules over tools** — Agents should follow your guidelines, not their own defaults.
 
-**Spec-driven development** — Define the problem precisely before any code is written.
+- **Spec-driven development** — Define the problem precisely before any code is written.
 
 ---
 
