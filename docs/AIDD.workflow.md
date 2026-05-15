@@ -8,47 +8,47 @@ flowchart TD
   HUM[HUMAN]
 
   subgraph P["PRODUCT"]
-      SPC["{slug}.spec.md"]:::nd
-      PLN["{slug}.{source?}.{tier?}.plan.md"]:::nd
-      RPT["{slug}.report.md"]:::nd
-      ARCH["arch/"]:::nd
+      SPC["specs/"]:::nd
+      PLN["plans/"]:::nd
+      RPT["reports/"]:::nd
+      ARC["arch/"]:::nd
+      RUL["rules/"]:::nd
   end
 
-  subgraph T["TECHNOLOGY"]
+  subgraph A["AGENTS"]
       AGT["AGENTS.md"]:::nd
       SKL["skills/"]:::nd
   end  
 
   subgraph S["SOLUTION"]
       COD[Source Code]:::nd
-      RUL["rules/"]:::nd
       E2E["E2E Tests"]:::nd
   end
 
   HUM -->|/initialize| AGT
-  HUM -->|/discover| ARCH
+  HUM -->|/explore| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/planify| PLN
   RPT -->|/planify| PLN
   AGT -.-> SPC  
-  AGT -.-> ARCH
-  SKL & RUL -.-> COD  
+  AGT -.-> ARC
+  RUL -.-> COD  
   SPC -->|/planify| PLN
-  ARCH -.-> PLN
-  ARCH -.-> COD
+  ARC -.-> PLN
+
   PLN -->|/codify| COD
   COD -->|/verify| E2E
   COD -->|/review| RPT
+  E2E -.-> RPT 
 
-  class P,T,S sg
+  class P,A,S sg
 ```
 
 ## Commands
 
 - `/initialize` - Create initial technology documentation (AGENTS.md and skills/) for a project.
 
-- `/discover` - Reverse-engineer an existing codebase to discover its architecture and infer the ADRs. 
+- `/explore` - Reverse-engineer an existing codebase to discover its architecture and infer the ADRs. 
 
 - `/extract` - Extract coding rules from an existing codebase.
 
@@ -56,7 +56,7 @@ flowchart TD
 
 - `/planify` - Create a set of implementation plans for a specification or bug-fix (back, front, and data).
 
-- `/codify` - Writes the code and unit tests following a plan, implementing a specification, or a minor requirement.
+- `/codify` - Writes the code and unit tests following a plan, or a minor requirement.
 
 - `/verify` - Run end-to-end tests to ensure code meets specifications.
 
@@ -76,11 +76,11 @@ flowchart TD
 
 - `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 
-- `{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
+- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
 
-- `{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix.
+- `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix.
 
-- `{slug}.report.md` - A report generated during the review process, such as accessibility and compliance reports.
+- `reports/{slug}.report.md` - A report generated during the review process, such as accessibility and compliance reports.
 
 ### Solution
 

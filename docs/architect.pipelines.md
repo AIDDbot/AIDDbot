@@ -1,4 +1,4 @@
-# Initialize pipelines
+# Architect pipelines
 
 ## Greenfield projects from scratch
 
@@ -18,12 +18,12 @@ flowchart TD
   flowchart TD  
     HUM[HUMAN]
     AGT["AGENTS.md"]:::nd
-    ARCH["arch/"]:::nd
+    ARC["arch/"]:::nd
     RUL["rules/"]:::nd
 
     HUM -->|/initialize| AGT
-    HUM -->|/reversify| ARCH
-    HUM -->|/rulify| RUL
+    HUM -->|/explore| ARC
+    HUM -->|/extract| RUL
 
     classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```

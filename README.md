@@ -19,32 +19,6 @@ Modern agents are impressive for isolated features. Under real project condition
 
 `AIDDbot` is the answer to all three.
 
-## What you get
-
-A set of skills you invoke directly — or let your agent trigger:
-
-Start by initializing your project environment, then run the skills in order for every new feature or bug fix:
-
-| Skill | What it does |
-|---|---|
-| `/initialize` | Sets up your project environment and main instructions file |
-| For Brownfield |---|
-| `/discover` | Reverse-engineers legacy code for architecture insights |
-| `/extract` | Extracts real rules from your codebase to guide new generation |
-
-And then for every new feature:
-
-| Skill | What it does |
-|---|---|
-| `/specify` | Writes clear specifications with formal acceptance criteria |
-| `/planify` | Breaks specs into concrete, ordered implementation steps |
-| `/codify` | Generates code that follows your plans and your rules |
-| Quality Assurance |---|
-| `/verify` | Writes and runs E2E tests so specs are actually met |
-| `/review` | Reviews code for quality and generates a feedback report |
-
-> See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
-
 ## Get started in 2 steps
 
 Skills are plain markdown files — no package to install, no binary to run.
@@ -65,19 +39,19 @@ cp -r AIDDbot/.agents your-project/.agents
 > For **legacy projects**, also run:
 
 ```markdown
-`/discover` this codebase
+`/explore` this codebase
 > — get architecture insights
 `/extract` from this source code      
 > — extract real coding rules 
 ```
 
-> See [Initialize Pipelines](/docs/intialize.pipelines.md) for a visual overview.
+> See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
 
 ---
 
 ## Feature pipeline
 
-For every new feature, run the skills in order:
+To build every new feature, run the skills in order:
 
 ```
 /specify → /planify → /codify 
@@ -92,10 +66,9 @@ For every new feature, run the skills in order:
 
 `/codify`   the plan
 > → code that follows your rules
-
 ```
 
-> See [Codify Pipelines](/docs/codify.pipelines.md) for a visual overview.
+> See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
 
 ### Quality assurance pipeline
 
@@ -111,6 +84,45 @@ After coding, run:
 
 This may lead to a new iteration of the feature pipeline if issues are found.
 
+## What you get
+
+A set of skills you invoke directly — or let your agent trigger:
+
+### Architecture documentation
+
+Start by initializing your project environment:
+
+| Skill | What it does |
+|---|---|
+| `/initialize` | Sets up your project environment and main instructions file |
+| For Brownfield |---|
+| `/explore` | Reverse-engineers legacy code for architecture insights |
+| `/extract` | Extracts real rules from your codebase to guide new generation |
+
+### Building Features
+
+And then for every new feature:
+
+| Skill | What it does |
+|---|---|
+| `/specify` | Writes clear specifications with formal acceptance criteria |
+| `/planify` | Breaks specs into concrete, ordered implementation steps |
+| `/codify` | Generates code that follows your plans and your rules |
+| Quality Assurance |---|
+| `/verify` | Writes and runs E2E tests so specs are actually met |
+| `/review` | Reviews code for quality and generates a feedback report |
+
+> See the [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the full development cycle.
+
+### Crafting your own future
+
+Roadmap to the future:
+
+| Skill | What will it do |
+|---|---|
+| `/refactor` | Improves existing code without changing its behavior |
+| `/release` | Prepares and publishes a new release, including changelog generation |
+
 ---
 
 ## The AIDD philosophy
@@ -125,7 +137,7 @@ This may lead to a new iteration of the feature pipeline if issues are found.
 
 ---
 
-## Who this is for
+### Who this is for
 
 - Teams frustrated by agents that generate plausible-but-wrong code
 - Engineers who want AI acceleration without sacrificing code quality
@@ -138,5 +150,5 @@ This may lead to a new iteration of the feature pipeline if issues are found.
 
 ---
 
-**Author** · [X / Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/)  
-**Courses in Spanish** · [AI Code Academy](https://aicode.academy)
+**Author** · [X-Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/)  
+**Courses in Spanish** · [A.I. Code Academy](https://aicode.academy)

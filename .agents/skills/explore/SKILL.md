@@ -1,9 +1,9 @@
 ---
-name: discover
-description: Reverse-engineers an existing (brownfield) project to extract its architecture and key decisions into agent-consumable documentation. Use this skill when onboarding a legacy project into the AIDD workflow, before running planify or codify on an unfamiliar codebase. Trigger on phrases like "discover this project", "document the architecture", "extract ADRs", or "I need arch docs before planning".
+name: explore
+description: Reverse-engineers an existing (brownfield) project to extract its architecture and key decisions into agent-consumable documentation. Use this skill when onboarding a legacy project into the AIDD workflow, before running planify or codify on an unfamiliar codebase. Trigger on phrases like "explore this project", "document the architecture", "extract ADRs", or "I need arch docs before planning".
 ---
 
-# Discover skill
+# Explore skill
 
 ## Role
 Act as a senior software architect.
@@ -45,11 +45,11 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 
 | Invocation | What runs | Mode file |
 |------------|-----------|-----------|
-| `/discover` | **Auto** — detects what's missing, runs next logical step | — |
-| `/discover system` | Generates `system.arch.md` | `system.mode.md` |
-| `/discover adr` | Generates `ADR.md` | `adr.mode.md` |
-| `/discover er` | Generates `ER.md` | `er.mode.md` |
-| `/discover {tier}` | Generates `{tier}.arch.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
+| `/explore` | **Auto** — detects what's missing, runs next logical step | — |
+| `/explore system` | Generates `system.arch.md` | `system.mode.md` |
+| `/explore adr` | Generates `ADR.md` | `adr.mode.md` |
+| `/explore er` | Generates `ER.md` | `er.mode.md` |
+| `/explore {tier}` | Generates `{tier}.arch.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
 
 ### Recommended order
 ```
