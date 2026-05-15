@@ -71,6 +71,7 @@ Skills are plain markdown files — no package to install, no binary to run.
 ```bash
 git clone https://github.com/AIDDbot/AIDDbot
 cp -r AIDDbot/.agents your-project/.agents
+rm -rf AIDDbot
 ```
 
 ### 2. Initialize your environment
@@ -102,6 +103,8 @@ To build every new feature, run the skills in order:
 ```markdown
 /specify → /planify → /codify -> /verify
 ```
+
+And check the output of each step . Remember, Human in the loop! 
 
 ```markdown
 `/specify`  a feature requirement
