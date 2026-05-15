@@ -68,10 +68,22 @@ Roadmap to the future. Some are a work in progress, not yet available:
 Skills are plain markdown files — no package to install, no binary to run.
 
 ### 1. Clone into your project
+From inside your destination repository root, clone this repo.
+
+`git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp`
+
+Then move the `.agents` folder to your project root and delete the temporary clone:
+
 ```bash
-git clone https://github.com/AIDDbot/AIDDbot
-cp -r AIDDbot/.agents your-project/.agents
-rm -rf AIDDbot
+# Bash (macOS/Linux/Git Bash)
+cp -r AIDDbot-tmp/.agents ./.agents
+rm -rf AIDDbot-tmp
+```
+
+```powershell
+# PowerShell (Windows)
+Copy-Item -Path AIDDbot-tmp/.agents -Destination ./.agents -Recurse -Force
+Remove-Item -Path AIDDbot-tmp -Recurse -Force
 ```
 
 ### 2. Initialize your environment
