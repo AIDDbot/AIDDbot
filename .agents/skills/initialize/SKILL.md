@@ -19,6 +19,7 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 ### SDD path defaults
 - `{Agents_Folder}`: `.agents/`
 - `{Product_Folder}`: `.product/`
+- `{Business_Domain_Language}`: `English` (or detected language)
 
 ## Steps
 
@@ -48,7 +49,7 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] Create or update `AGENTS.md` at the project root following the Agents Instructions template.
 - [ ] Replace all placeholders with actual values.
 - [ ] Keep `AGENTS.md` under 100 concise lines.
-- [ ] If this is a brownfield project, suggest running the `reversify` skill before planning or coding.
+- [ ] If this is a brownfield project, suggest running the `/explore` and `/extract` skills before building anything.
 
 ## Verification
 - [ ] All SDD paths are set.
