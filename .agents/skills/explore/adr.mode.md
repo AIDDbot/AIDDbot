@@ -19,4 +19,4 @@
 ## 3. Confirm
 - [ ] Present summary of what was generated.
 - [ ] Flag ambiguities or low-confidence inferences.
-- [ ] Suggest next step: `/reversify {first-detected-tier}`.
+- [ ] Suggest next step: `/explore {first-detected-tier}`.

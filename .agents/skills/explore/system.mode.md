@@ -17,4 +17,4 @@
 ## 3. Confirm
 - [ ] Present summary of what was generated.
 - [ ] Flag ambiguities or low-confidence inferences.
-- [ ] Suggest next step: `/reversify adr`.
+- [ ] Suggest next step: `/explore adr`.

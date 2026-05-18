@@ -28,4 +28,4 @@
 ## 4. Confirm
 - [ ] Present summary of naming conventions found.
 - [ ] Flag ambiguities or single-sample patterns.
-- [ ] Suggest next step: `/rulify {first-detected-tier}`.
+- [ ] Suggest next step: `/extract {first-detected-tier}`.
