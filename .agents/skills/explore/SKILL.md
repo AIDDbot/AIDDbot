@@ -18,72 +18,56 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 
 ### References
 - `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
+- Mode files in this skill's folder — one per output type.
+
+### Modes
+Each mode generates one output file and is driven by its corresponding mode file:
+
+| Argument | Output file | Mode file |
+|---|---|---|
+| `system` | `system.arch.md` | `system.mode.md` |
+| `adr` | `ADR.md` | `adr.mode.md` |
+| `er` | `ER.md` | `er.mode.md` |
+| `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
+
+Recommended generation order: `system → adr → er → back → front → db`
 
 ### Output folder
-```
+
+```md
 {Product_Folder}/
 └── arch/
-    ├── system.arch.md   # Always generated
-    ├── ADR.md           # Always generated
-    ├── ER.md            # Always generated (domain model inferred from code)
-    ├── back.arch.md     # If backend tier detected
-    ├── front.arch.md    # If frontend tier detected
-    └── db.arch.md       # If database tier detected (infra, not domain model)
+├── system.arch.md   # Always generated
+├── ADR.md           # Always generated
+├── ER.md            # Always generated
+├── back.arch.md     # If backend tier detected
+├── front.arch.md    # If frontend tier detected
+└── db.arch.md       # If database tier detected
 ```
 
-### Agent consumption targets
-| File | Consumed by |
-|------|-------------|
-| `system.arch.md` | `planify` — before any cross-tier planning |
-| `ADR.md` | `planify` — to avoid contradicting past decisions |
-| `ER.md` | `planify` + `codify` — domain model reference for any tier |
-| `{tier}.arch.md` | `planify` + `codify` — when working on that tier |
+## Steps
 
----
+### Step 1: Read the environment
+- [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 
-## Usage
+### Step 2: Determine what to run
+- [ ] If an argument was given → identify the corresponding mode file and skip to Step 3.
+- [ ] If no argument → check which files exist under `{Product_Folder}/arch/` and pick the first missing from the recommended order.
+- [ ] If all files exist → report "Architecture is complete" and suggest `/extract`. Stop.
 
-| Invocation | What runs | Mode file |
-|------------|-----------|-----------|
-| `/explore` | **Auto** — detects what's missing, runs next logical step | — |
-| `/explore system` | Generates `system.arch.md` | `system.mode.md` |
-| `/explore adr` | Generates `ADR.md` | `adr.mode.md` |
-| `/explore er` | Generates `ER.md` | `er.mode.md` |
-| `/explore {tier}` | Generates `{tier}.arch.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
+### Step 3: Execute the mode
+- [ ] Read the mode file identified in Step 2.
+- [ ] Follow all steps defined in it.
 
-### Recommended order
-```
-system → adr → er → back → front → db
-```
+### Step 4: Summarize
+- [ ] Report what was generated.
+- [ ] List remaining architecture files not yet produced.
 
-### Dependencies between modes
-- **system** has no dependencies — always safe to run first.
-- **adr**, **er**, and **tier** modes read `system.arch.md` for context if it exists, but can run standalone.
+## Output
+- [ ] One architecture file written to `{Product_Folder}/arch/` per invocation.
 
----
-
-## Execution
-
-### With argument → run the requested mode
-1. Read `AGENTS.md` → extract `{Product_Folder}` and tiers.
-2. Read the corresponding mode file from this skill's folder (e.g. `system.mode.md`).
-3. Follow the steps defined in the mode file.
-
-### Without argument → auto mode
-1. Read `AGENTS.md` → extract `{Product_Folder}` and detect tiers.
-2. Check which files exist under `{Product_Folder}/arch/`.
-3. Pick the **first missing** file from this ordered list:
-   - `system.arch.md` → read and run `system.mode.md`
-   - `ADR.md` → read and run `adr.mode.md`
-   - `ER.md` → read and run `er.mode.md`
-   - `{tier}.arch.md` for each detected tier (order: back, front, db, others) → read and run `tier.mode.md`
-4. If all files exist → report "Architecture is complete" and suggest `/review`.
-5. After completing the mode, summarize what was generated and what remains.
-
----
-
-## Verification (applies to all modes)
+## Verification
 - [ ] All Mermaid diagrams render without errors.
-- [ ] No placeholder text remains in any file.
-- [ ] Every ADR entry has decision + rationale + consequences.
+- [ ] No placeholder text remains in any generated file.
+- [ ] Every ADR entry has decision, rationale, and consequences.
 - [ ] A new agent reading only `arch/` can answer: what does this system do, how is it structured, and what must not be changed?

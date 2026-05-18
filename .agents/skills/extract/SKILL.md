@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Extracts coding conventions and patterns from an existing codebase into agent-consumable rule files. Use this skill after discover to capture how code should be written, not just what exists. Trigger on phrases like "extract this project", "extract conventions", "generate coding rules", or "I need coding patterns before codifying".
+description: Extracts coding conventions and patterns from an existing codebase into agent-consumable rule files. Use this skill after explore to capture how code should be written, not just what exists. Trigger on phrases like "extract conventions", "generate coding rules", or "I need coding patterns before codifying".
 ---
 
 # Extract skill
@@ -15,83 +15,61 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 
 ### Prerequisites
 - `AGENTS.md` exists at the project root.
-- `{Product_Folder}/arch/` exists (run `/discover` first if not). Architecture docs provide the structural context; this skill extracts the coding patterns.
+- `{Product_Folder}/arch/` exists (run `/explore` first if not).
 
 ### References
 - `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 - `{Product_Folder}/arch/{tier}.arch.md` — code organization, shared artifacts, constraints.
+- Mode files in this skill's folder — one per output type.
+
+### Modes
+Each mode generates one output file and is driven by its corresponding mode file:
+
+| Argument | Output file | Mode file |
+|---|---|---|
+| `naming` | `naming.rules.md` | `naming.mode.md` |
+| `{tier}` | `{tier}.rules.md` | `tier.mode.md` |
+| `testing` | `testing.rules.md` | `testing.mode.md` |
+
+Recommended generation order: `naming → back → front → db → testing`
 
 ### Output folder
-```
+
+```md
 {Product_Folder}/
 └── rules/
-    ├── naming.rules.md     # Always generated — cross-tier naming conventions
-    ├── testing.rules.md    # Always generated — test patterns per tier
-    ├── back.rules.md       # If backend tier detected
-    ├── front.rules.md      # If frontend tier detected
-    └── db.rules.md         # If database tier detected
+├── naming.rules.md     # Always generated
+├── testing.rules.md    # Always generated
+├── back.rules.md       # If backend tier detected
+├── front.rules.md      # If frontend tier detected
+└── db.rules.md         # If database tier detected
 ```
 
-### Agent consumption targets
-| File | Consumed by |
-|------|-------------|
-| `naming.rules.md` | `codify` — before creating any new file |
-| `testing.rules.md` | `codify` — when writing unit tests |
-| `{tier}.rules.md` | `codify` — when writing code for that tier |
+## Steps
 
----
+### Step 1: Read the environment
+- [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 
-## Usage
+### Step 2: Determine what to run
+- [ ] If `all` was given → collect all missing files in recommended order and run each mode in sequence without pausing. Skip to Step 3 for each.
+- [ ] If a specific argument was given → identify the corresponding mode file and skip to Step 3.
+- [ ] If no argument → check which files exist under `{Product_Folder}/rules/` and pick the first missing from the recommended order.
+- [ ] If all files exist → report "Conventions are complete" and suggest `/codify`. Stop.
 
-| Invocation | What runs | Mode file |
-|------------|-----------|-----------|
-| `/extract` | **Auto** — detects what's missing, runs next logical step | — |
-| `/extract all` | **Batch** — runs all missing modes in sequence without pausing | — |
-| `/extract naming` | Generates `naming.rules.md` | `naming.mode.md` |
-| `/extract testing` | Generates `testing.rules.md` | `testing.mode.md` |
-| `/extract {tier}` | Generates `{tier}.rules.md` (e.g. `back`, `front`, `db`) | `tier.mode.md` |
+### Step 3: Execute the mode
+- [ ] Read the mode file identified in Step 2.
+- [ ] Follow all steps defined in it.
 
-### Recommended order
-```
-naming → back → front → db → testing
-```
+### Step 4: Summarize
+- [ ] Report what was generated.
+- [ ] List remaining rule files not yet produced.
+- [ ] If running in `all` mode, present a single summary at the end covering all generated files.
 
-### Dependencies between modes
-- **naming** has no dependencies — always safe to run first.
-- **tier** modes benefit from `naming.rules.md` existing (to avoid duplication) but can run standalone.
-- **testing** should run last — it references patterns from tier rules.
+## Output
+- [ ] One rule file written to `{Product_Folder}/rules/` per mode executed.
 
----
-
-## Execution
-
-### With argument → run the requested mode
-1. Read `AGENTS.md` → extract `{Product_Folder}` and tiers.
-2. Read the corresponding mode file from this skill's folder (e.g. `naming.mode.md`).
-3. Follow the steps defined in the mode file.
-
-### Without argument → auto mode
-1. Read `AGENTS.md` → extract `{Product_Folder}` and detect tiers.
-2. Check which files exist under `{Product_Folder}/rules/`.
-3. Pick the **first missing** file from this ordered list:
-   - `naming.rules.md` → read and run `naming.mode.md`
-   - `{tier}.rules.md` for each detected tier (order: back, front, db, others) → read and run `tier.mode.md`
-   - `testing.rules.md` → read and run `testing.mode.md`
-4. If all files exist → report "Conventions are complete" and suggest `/codify`.
-5. After completing the mode, summarize what was generated and what remains.
-
-### With `all` argument → batch mode
-1. Read `AGENTS.md` → extract `{Product_Folder}` and detect tiers.
-2. Check which files exist under `{Product_Folder}/rules/`.
-3. For each missing file in the ordered list (naming → tiers → testing):
-   - Read and execute the corresponding mode file.
-   - Do NOT pause or ask for confirmation between modes.
-4. After all modes complete, present a single summary: files generated, deviations found, and suggest `/codify`.
-
----
-
-## Verification (applies to all modes)
-- [ ] No placeholder text remains in any file.
+## Verification
+- [ ] No placeholder text remains in any generated file.
 - [ ] Every pattern includes at least one concrete do/don't example extracted from the actual codebase.
 - [ ] Deviations from the dominant pattern are explicitly flagged.
-- [ ] A new agent reading only `rules/` can write code that is indistinguishable from existing code in style and structure.
+- [ ] A new agent reading only `rules/` can write code indistinguishable from existing code in style and structure.
