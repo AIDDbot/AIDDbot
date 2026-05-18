@@ -23,6 +23,7 @@ flowchart TD
   subgraph S["SOLUTION"]
       COD["Source Code + Unit Tests"]:::nd
       E2E["E2E Tests"]:::nd
+      CHL["CHANGELOG.md"]:::nd
   end
 
   HUM -->|/initialize| AGT
@@ -40,6 +41,7 @@ flowchart TD
   COD -->|/review| RPT
   RPT -->|/repair| COD
   E2E -.-> RPT 
+  COD -->|/release| CHL
 
   class P,A,S sg
 ```
@@ -63,6 +65,8 @@ flowchart TD
 - `/review` - Review code for guideline compliance and best practices.
 
 - `/repair` - Apply fixes to code based on a review or verify report, resolving identified issues.
+
+- `/release` - Update the changelog and mark specifications as released.
 
 ## Artifacts
 
@@ -89,3 +93,5 @@ flowchart TD
 - `Source Code + Unit Tests` - The implementation of the system. Unit tests are produced as part of `/codify`, not as a separate step.
 
 - `E2E Tests` - End-to-end tests that verify the implemented code meets the defined specifications and acceptance criteria.
+
+- `CHANGELOG.md` - A log of all notable changes made to the codebase, generated during the release process.
