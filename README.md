@@ -13,9 +13,9 @@ Modern agents are impressive for isolated features or small apps. Under real pro
 
 | Failure | What it looks like | AIDD |
 |---|---|---|
-| **Detail or invent** | Critical context is missing — or fabricated convincingly. | _Spec-driven development_|
+| **Detail or invent** | Critical context is missing — or fabricated convincingly. | _Spec Driven Development_|
 | **Rules or chaos** | Code that violates your standards or is unmaintainable. | _Rules over Tools_|
-| **Verify or hope** | Errors compound silently until they're expensive to fix. | _Human-in-the-loop_ |
+| **Verify or hope** | Errors compound silently until they're expensive to fix. | _Human in the Loop_ |
 
 `AIDDbot` implements all three AI-DD principles to aid you solve them all.
 
@@ -59,6 +59,7 @@ Roadmap to the future. Some are a work in progress, not yet available:
 |---|---|
 | `/review` | Reviews code for quality and generates a feedback report |
 | `/repair` | Fixes issues identified in the code |
+| `/repository` | (WIP) Manages repository tasks with git commits and branches |
 | `/refactor` | (WIP) Improves existing code without changing its behavior |
 | `/release` | (WIP) Prepares and publishes a new release, including changelog generation |
 
@@ -139,6 +140,8 @@ After building, run:
 > actionable quality feedback report
 `/repair`   reported issues
 > fixed code issues 
+`/repository` repository tasks
+> git commits and branches
 `/refactor` the codebase
 > better structure and maintainability
 `/release`  a new version

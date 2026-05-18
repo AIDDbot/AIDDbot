@@ -13,6 +13,8 @@
 | [`/verify`](./skills/verify/) | Writes and runs E2E tests so specs are actually met |
 | **Craftsman** | - |
 | [`/review`](./skills/review/) | Reviews code for quality and generates a feedback report |
+| [`/repair`](./skills/repair/) | Fixes issues identified in the code |
+| [`/repository`](./skills/repository/) | (WIP) Manages repository tasks with git commits and branches |
 | [`/refactor`](./skills/refactor/) | (WIP) Improves existing code without changing its behavior |
 | [`/release`](./skills/release/) | (WIP) Prepares and publishes a new release, including changelog generation |
 
