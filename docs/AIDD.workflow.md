@@ -21,7 +21,7 @@ flowchart TD
   end  
 
   subgraph S["SOLUTION"]
-      COD[Source Code]:::nd
+      COD["Source Code + Unit Tests"]:::nd
       E2E["E2E Tests"]:::nd
   end
 
@@ -29,7 +29,6 @@ flowchart TD
   HUM -->|/explore| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  RPT -->|/planify| PLN
   AGT -.-> SPC  
   AGT -.-> ARC
   RUL -.-> COD  
@@ -39,6 +38,7 @@ flowchart TD
   PLN -->|/codify| COD
   COD -->|/verify| E2E
   COD -->|/review| RPT
+  RPT -->|/repair| COD
   E2E -.-> RPT 
 
   class P,A,S sg
@@ -62,6 +62,8 @@ flowchart TD
 
 - `/review` - Review code for guideline compliance and best practices.
 
+- `/repair` - Apply fixes to code based on a review or verify report, resolving identified issues.
+
 ## Artifacts
 
 ### Technology
@@ -78,12 +80,12 @@ flowchart TD
 
 - `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
 
-- `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification, or a report of a bug-fix.
+- `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification.
 
-- `reports/{slug}.report.md` - A report generated during the review process, such as accessibility and compliance reports.
+- `reports/{slug}.report.md` - A report generated during the review or verify process, listing findings and recommendations.
 
 ### Solution
 
-- `Source Code` - The implementation of the system, including unit tests.
+- `Source Code + Unit Tests` - The implementation of the system. Unit tests are produced as part of `/codify`, not as a separate step.
 
 - `E2E Tests` - End-to-end tests that verify the implemented code meets the defined specifications and acceptance criteria.
