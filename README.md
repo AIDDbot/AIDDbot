@@ -9,15 +9,15 @@ Try it with Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode
 
 ## The problem with coding agents at scale
 
-Modern agents are impressive for isolated features. Under real project conditions, three failure modes emerge:
+Modern agents are impressive for isolated features or small apps. Under real project conditions, three failure modes emerg, but AI-Driven Development (AIDD) can solve them all:
 
-| Failure | What it looks like |
-|---|---|
-| **Detail or invent** | The agent misses critical context — or fabricates it convincingly. |
-| **Rules or chaos** | Output that violates your standards or solves the wrong problem entirely. |
-| **Verify or hope** | Errors compound silently until they're expensive to fix. |
+| Failure | What it looks like | AIDD |
+|---|---|---|
+| **Detail or invent** | Critical context is missing — or fabricated convincingly. | _Spec-driven development_|
+| **Rules or chaos** | Code that violates your standards or is unmaintainable. | _Rules over Tools_|
+| **Verify or hope** | Errors compound silently until they're expensive to fix. | _Human-in-the-loop_ |
 
-`AIDDbot` is the answer to all three.
+`AIDDbot` implements all three AI-DD principles to aid you solve them all.
 
 ## What you get
 
@@ -38,9 +38,9 @@ Start by initializing your project environment:
 
 > See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
 
-### Building Features
+### Building features
 
-And then for every new feature:
+And then, for every new feature use the following skills in order:
 
 | Skill | What it does |
 |---|---|
@@ -58,6 +58,7 @@ Roadmap to the future. Some are a work in progress, not yet available:
 | Skill | What will it do |
 |---|---|
 | `/review` | Reviews code for quality and generates a feedback report |
+| `/repair` | (WIP) Fixes issues identified in the code |
 | `/refactor` | (WIP) Improves existing code without changing its behavior |
 | `/release` | (WIP) Prepares and publishes a new release, including changelog generation |
 
@@ -89,7 +90,7 @@ Remove-Item -Path AIDDbot-tmp -Recurse -Force
 ### 2. Initialize your environment
 ```markdown
 `/initialize` this project
-> set up your project environment and main instructions file
+> project main instructions
 ```
 
 > [!NOTE]
@@ -101,22 +102,22 @@ Remove-Item -Path AIDDbot-tmp -Recurse -Force
 
 ```markdown
 `/explore` this codebase
-> get architecture insights
+> architecture insights
 `/extract` from this source code      
-> extract real coding rules 
+> actual coding conventions
 ```
 
 ---
 
-## Then build features you can trust
+## Then, build features you can trust
 
-To build every new feature, run the skills in order:
+To build every new feature, run those skills in order:
 
 ```markdown
 /specify → /planify → /codify -> /verify
 ```
 
-And check the output of each step . Remember, Human in the loop! 
+You can check the output of each step. Remember, Human in the loop! 
 
 ```markdown
 `/specify`  a feature requirement
@@ -136,10 +137,12 @@ After building, run:
 ```markdown
 `/review`   the source code
 > actionable quality feedback report
+`/repair`   reported issues
+> fixed code issues 
 `/refactor` the codebase
-> improve code without changing behavior
+> better structure and maintainability
 `/release`  a new version
-> prepare and publish a new release, including changelog generation
+> documentation and version control updates
 ``` 
 
 ---
