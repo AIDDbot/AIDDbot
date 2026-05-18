@@ -58,7 +58,7 @@ Roadmap to the future. Some are a work in progress, not yet available:
 | Skill | What will it do |
 |---|---|
 | `/review` | Reviews code for quality and generates a feedback report |
-| `/repair` | (WIP) Fixes issues identified in the code |
+| `/repair` | Fixes issues identified in the code |
 | `/refactor` | (WIP) Improves existing code without changing its behavior |
 | `/release` | (WIP) Prepares and publishes a new release, including changelog generation |
 
