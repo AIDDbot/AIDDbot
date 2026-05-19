@@ -1,6 +1,6 @@
 ---
 name: repair
-description: Fixes code issues identified in any review report. Use this skill when a review report exists and the findings need to be resolved. Trigger on phrases like "repair this", "fix the report findings", "resolve the report issues", or whenever a review report is ready to be acted on.
+description: Fixes code issues identified in a review or verify report. Use this skill when a report exists and findings need to be resolved — including defects from /review and E2E failures documented by /verify. Trigger on phrases like "repair this", "fix the report findings", "resolve the verify failures", or whenever a report is ready to be acted on.
 ---
 
 # Repair skill
@@ -9,12 +9,13 @@ description: Fixes code issues identified in any review report. Use this skill w
 Act as a senior software engineer performing a code fix session.
 
 ## Task
-Given a review report, apply the recommended fixes directly to the source files, finding by finding, until all issues are resolved.
+Given a report from `/review` or `/verify`, apply the recommended fixes directly to the source files, finding by finding, until all issues are resolved.
 
 ## Context
 
 ### Input
-- A review report file `{slug}.{type}.report.md` with findings tables (File / Issue / Description / Recommendation).
+- A report file `{Product_Folder}/reports/{slug}.{type}.report.md` with findings tables (File / Issue / Description / Recommendation).
+- `{type}` is the report source: `quality`, `compliance`, `accessibility`, or `verify`.
 
 ## Steps
 

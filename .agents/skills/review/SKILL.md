@@ -45,7 +45,7 @@ Load the corresponding guide based on the requested review type:
 - [ ] Derive `{slug}` from the scope (branch name, plan slug, or file/folder name).
 
 ## Output
-- [ ] Write the report to `{product}/reports/{slug}.{type}.report.md`.
+- [ ] Write the report to `{Product_Folder}/reports/{slug}.{type}.report.md`.
 
 ## Verification
 - [ ] All files in scope have been reviewed.

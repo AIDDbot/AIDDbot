@@ -8,6 +8,6 @@
 ### Review and fix code
 ```md
 > Use the review skill to review the code of the current project, and generate a report of any issues found.
-> Use the planify skill to create a plan to fix the issues found in the report.
-> Use the codify skill to implement the plan to fix the issues found in the report.
+> Use the repair skill to fix the issues found in the report.
+> Re-run review or verify as needed to confirm the fixes.
 ```

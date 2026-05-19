@@ -7,7 +7,7 @@ flowchart TD
 
   HUM[HUMAN]
 
-  subgraph P["PRODUCT"]
+  subgraph P["{Product_Folder}"]
       SPC["specs/"]:::nd
       PLN["plans/"]:::nd
       RPT["reports/"]:::nd
@@ -38,9 +38,9 @@ flowchart TD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
+  E2E -->|failures| RPT
   COD -->|/review| RPT
   RPT -->|/repair| COD
-  E2E -.-> RPT 
   COD -->|/release| CHL
 
   class P,A,S sg
@@ -60,15 +60,17 @@ flowchart TD
 
 - `/codify` - Writes the code and unit tests following a plan, or a minor requirement.
 
-- `/verify` - Run end-to-end tests to ensure code meets specifications.
+- `/verify` - Run end-to-end tests to ensure code meets specifications. On failure, writes a report for `/repair`.
 
 - `/review` - Review code for guideline compliance and best practices.
 
-- `/repair` - Apply fixes to code based on a review or verify report, resolving identified issues.
+- `/repair` - Apply fixes from a review or verify report (preferred path for all reported defects).
 
-- `/release` - Update the changelog and mark specifications as released.
+- `/release` - Update the changelog and mark specifications as released. *(skill stub — content WIP)*
 
 ## Artifacts
+
+Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGENTS.md`).
 
 ### Technology
 
@@ -86,7 +88,7 @@ flowchart TD
 
 - `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification.
 
-- `reports/{slug}.report.md` - A report generated during the review or verify process, listing findings and recommendations.
+- `reports/{slug}.{type}.report.md` - Findings from `/review` or `/verify` (`{type}`: `quality`, `compliance`, `accessibility`, `verify`). Consumed by `/repair`.
 
 ### Solution
 

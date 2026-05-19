@@ -10,11 +10,12 @@
 | [`/specify`](./skills/specify/) | Writes clear specifications with formal acceptance criteria |
 | [`/planify`](./skills/planify/) | Breaks specs into concrete, ordered implementation steps |
 | [`/codify`](./skills/codify/) | Generates code that follows your plans and your rules |
-| [`/verify`](./skills/verify/) | Writes and runs E2E tests so specs are actually met |
+| [`/verify`](./skills/verify/) | Writes and runs E2E tests; on failure, produces a report for `/repair` |
+| **Design** | - |
+| [`/design`](./skills/design/) | *(experimental)* Production-grade frontend UI from a design specification |
 | **Craftsman** | - |
-| [`/review`](./skills/review/) | Reviews code for quality and generates a feedback report |
-| [`/repair`](./skills/repair/) | Fixes issues identified in the code |
-| [`/repository`](./skills/repository/) | (WIP) Manages repository tasks with git commits and branches |
-| [`/refactor`](./skills/refactor/) | (WIP) Improves existing code without changing its behavior |
-| [`/release`](./skills/release/) | (WIP) Prepares and publishes a new release, including changelog generation |
-
+| [`/review`](./skills/review/) | Reviews code for quality, accessibility, or compliance |
+| [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
+| [`/release`](./skills/release/) | *(WIP)* Prepares and publishes a release, including changelog generation |
+| [`/repository`](./skills/repository/) | *(WIP)* Manages repository tasks with git commits and branches |
+| [`/refactor`](./skills/refactor/) | *(WIP)* Improves existing code without changing its behavior |

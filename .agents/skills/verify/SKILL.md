@@ -37,13 +37,16 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ### Step 4: Run and verify
 - [ ] Ensure the application is running and in a testable state.
 - [ ] Execute all E2E tests and verify they pass.
-- [ ] If any tests fail, identify the root cause and document the issues.
-- [ ] If failures persist, report and stop — do not force-pass.
+- [ ] If any tests fail, identify the root cause and document each failure as a finding (location, description, severity, recommendation).
+- [ ] If failures persist, write the report (Step 5) and suggest `/repair` — do not force-pass.
 - [ ] Shut down any services started for testing.
 
+### Step 5: Report failures for repair
+- [ ] When tests fail, write findings to `{Product_Folder}/reports/{slug}.verify.report.md` using the same table format as review reports (File / Issue / Description / Recommendation).
+- [ ] Suggest running `/repair` on that report before re-running `/verify`.
+
 ## Output
-- [ ] A passing E2E test suite covering all acceptance criteria.
+- [ ] A passing E2E test suite covering all acceptance criteria, or a verify report ready for `/repair`.
 
 ## Verification
-- [ ] All tests pass.
-- [ ] Any failures are documented and reported for resolution.
+- [ ] All tests pass, or failures are captured in `{Product_Folder}/reports/{slug}.verify.report.md` for `/repair`.

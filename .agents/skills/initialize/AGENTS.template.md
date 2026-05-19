@@ -27,10 +27,12 @@
 │   ├── agents/           # Specific agent role definitions
 |   ├── prompts/          # Reusable prompts directory
 |   └── skills/           # Custom agent skills
-├── {Product_Folder}/     # Product related files (specs, plans, arch)
+├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
 |   ├── specs/            # Specifications 
 |   ├── plans/            # Implementation plans
-|   └── arch/             # Architecture documentation
+|   ├── arch/             # Architecture documentation
+|   ├── rules/            # Coding conventions extracted from the codebase
+|   └── reports/          # Review and verify findings for /repair
 ├── CHANGELOG.md          # Project history and updates
 ├── README.md             # Human-friendly project summary  
 ├── {Source_folders}/     # Source code folders

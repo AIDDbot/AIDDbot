@@ -16,7 +16,6 @@
 ### Review design system
 
 ```md
-> Use the design skill to review the design system of the current project, and generate a report of any issues found at {Product_Folder/reports/design.report.md}.
-> Use the planify skill to create a plan to fix the issues found in the report.
-> Use the codify skill to implement the plan to fix the issues found in the report.
+> Use the review skill to review the design system of the current project, and generate a report at {Product_Folder}/reports/design.quality.report.md.
+> Use the repair skill to fix the issues found in the report.
 ```

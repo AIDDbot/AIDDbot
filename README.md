@@ -9,7 +9,7 @@ Try it with Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode
 
 ## The problem with coding agents at scale
 
-Modern agents are impressive for isolated features or small apps. Under real project conditions, three failure modes emerg, but AI-Driven Development (AIDD) can solve them all:
+Modern agents are impressive for isolated features or small apps. Under real project conditions, three failure modes emerge, but AI-Driven Development (AIDD) can solve them all:
 
 | Failure | What it looks like | AIDD |
 |---|---|---|
@@ -51,17 +51,21 @@ And then, for every new feature use the following skills in order:
 
 > See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
 
-### Crafting your own future
+### Quality, design, and release
 
-Roadmap to the future. Some are a work in progress, not yet available:
-
-| Skill | What will it do |
+| Skill | What it does |
 |---|---|
-| `/review` | Reviews code for quality and generates a feedback report |
-| `/repair` | Fixes issues identified in the code |
-| `/repository` | (WIP) Manages repository tasks with git commits and branches |
-| `/refactor` | (WIP) Improves existing code without changing its behavior |
-| `/release` | (WIP) Prepares and publishes a new release, including changelog generation |
+| `/review` | Reviews code for quality, accessibility, or compliance and generates a feedback report |
+| `/repair` | Fixes issues from review or verify reports (preferred path for all reported defects) |
+| `/design` | *(experimental)* Implements production-grade frontend UI from a design specification |
+| `/release` | *(WIP)* Prepares and publishes a new release, including changelog generation |
+
+Roadmap — not yet available:
+
+| Skill | What it will do |
+|---|---|
+| `/repository` | Manages repository tasks with git commits and branches |
+| `/refactor` | Improves existing code without changing its behavior |
 
 > See [Craftsman Pipelines](/docs/craftsman.pipelines.md) for a visual overview.
 
@@ -131,6 +135,8 @@ You can check the output of each step. Remember, Human in the loop!
 > E2E tests that confirm specs are met
 ```
 
+If verification fails, `/verify` writes a report under `{Product_Folder}/reports/`. Use `/repair` on that report, then re-run `/verify`.
+
 ### Finally craft quality software with confidence
 
 After building, run:
@@ -138,15 +144,13 @@ After building, run:
 ```markdown
 `/review`   the source code
 > actionable quality feedback report
-`/repair`   reported issues
-> fixed code issues 
-`/repository` repository tasks
-> git commits and branches
-`/refactor` the codebase
-> better structure and maintainability
+`/repair`   reported issues (from review or verify)
+> fixed code issues
 `/release`  a new version
-> documentation and version control updates
+> changelog and spec status updates (WIP)
 ``` 
+
+Repository and refactor skills are on the roadmap.
 
 ---
 

@@ -1,5 +1,7 @@
 # Architect pipelines
 
+Paths below are under `{Product_Folder}` (default `.product/`).
+
 ## Greenfield projects from scratch
 
 ```mermaid
