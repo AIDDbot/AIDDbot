@@ -34,6 +34,7 @@ Optional:
 
 ### References
 
+- [Artifact conventions](../repository/artifact-conventions.md)
 - [Spec status lifecycle](../specify/spec-status.md) — frontmatter fields and allowed transitions.
 - [Version convention](./version.convention.md) — semver rules and where to bump.
 - [Changelog convention](./changelog.convention.md) — `CHANGELOG.md` format and entries.

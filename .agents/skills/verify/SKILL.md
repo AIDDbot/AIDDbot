@@ -17,6 +17,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - A specification file `{slug}.spec.md` with acceptance criteria.
 
 ### References
+- [Artifact conventions](../repository/artifact-conventions.md)
 - [Spec status lifecycle](../specify/spec-status.md)
 - `AGENTS.md` — E2E framework, test commands, and project layout
 - `{Product_Folder}/rules/testing.rules.md` when present — test folder and conventions
@@ -44,7 +45,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Execute all E2E tests and verify they pass.
 - [ ] On full pass, set the spec frontmatter `status: verified`.
 - [ ] On failure, leave spec status at `in-progress` (do not set `verified`).
-- [ ] If any tests fail, identify the root cause and document each failure as a finding (location, severity, description, recommendation).
+- [ ] If any tests fail, document each failure with: file/location, issue, severity, **acceptance criterion** (quote or ID from spec), description, recommendation.
 - [ ] If failures persist, write the report (Step 5) and suggest `/repair` — do not force-pass.
 - [ ] Shut down any services started for testing.
 

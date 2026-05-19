@@ -18,4 +18,10 @@ This skill is on the roadmap and not yet implemented. **Do not invoke** unless t
 
 ## Until implemented
 
-Use `/review` → `/repair` for quality issues, or `/planify` → `/codify` for structured improvements tied to a spec.
+| Goal | Use instead |
+|------|-------------|
+| Fix defects or standard violations | `/review` → `/repair` |
+| Implement a spec or improvement | `/specify` → `/planify` → `/codify` |
+| UI from a design file | `/render` |
+
+Do not commit under `/refactor` until this skill defines outputs and [skill-integrations](../repository/skill-integrations.md) entries.

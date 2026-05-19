@@ -1,5 +1,7 @@
 # AIDD Skills catalog
 
+Agent index: [skills/README.md](./skills/README.md) · Conventions: [artifact-conventions.md](./skills/repository/artifact-conventions.md)
+
 ### Architect
 
 | Skill | What it does |
@@ -17,12 +19,6 @@
 | [`/codify`](./skills/codify/) | Generates code that follows your plans and your rules |
 | [`/verify`](./skills/verify/) | Writes and runs E2E tests; on failure, produces a report for `/repair` |
 
-### Design
-
-| Skill | What it does |
-|---|---|
-| [`/render`](./skills/render/) | *(experimental)* Production-grade frontend UI from a design specification |
-
 ### Craftsman
 
 | Skill | What it does |
@@ -31,4 +27,5 @@
 | [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
 | [`/release`](./skills/release/) | Bumps version, updates CHANGELOG and docs, marks specs `released` |
 | [`/repository`](./skills/repository/) | Branches and conventional commits; called by every skill that produces artifacts |
+| [`/render`](./skills/render/) | *(experimental)* Production-grade frontend UI from a design specification |
 | [`/refactor`](./skills/refactor/) | *(WIP)* Improves existing code without changing its behavior — not ready for routine use |

@@ -18,6 +18,8 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 - `{Product_Folder}/arch/` exists (run `/explore` first if not).
 
 ### References
+- [Incremental artifact pattern](../repository/incremental-artifact.md)
+- [Artifact conventions](../repository/artifact-conventions.md)
 - `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 - `{Product_Folder}/arch/{tier}.arch.md` — code organization, shared artifacts, constraints.
 - Mode files in this skill's folder — one per output type.
@@ -47,23 +49,13 @@ Recommended generation order: `naming → back → front → db → testing`
 
 ## Steps
 
-### Step 1: Read the environment
+Follow [incremental artifact pattern](../repository/incremental-artifact.md):
+
 - [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
-
-### Step 2: Determine what to run
-- [ ] If `all` was given → collect all missing files in recommended order and run each mode in sequence without pausing. Skip to Step 3 for each.
-- [ ] If a specific argument was given → identify the corresponding mode file and skip to Step 3.
-- [ ] If no argument → check which files exist under `{Product_Folder}/rules/` and pick the first missing from the recommended order.
-- [ ] If all files exist → report "Conventions are complete" and suggest `/specify` to start the next feature. Stop.
-
-### Step 3: Execute the mode
-- [ ] Read the mode file identified in Step 2.
-- [ ] Follow all steps defined in it.
-
-### Step 4: Summarize
-- [ ] Report what was generated.
-- [ ] List remaining rule files not yet produced.
-- [ ] If running in `all` mode, present a single summary at the end covering all generated files.
+- [ ] Pick mode: `all` (run every missing mode in order), a named argument, or first missing file (`naming → tiers → testing`).
+- [ ] If all rule files exist → report complete and suggest `/specify`. Stop.
+- [ ] Execute the selected `{mode}.mode.md` and write one file under `rules/` (repeat for each mode when `all`).
+- [ ] Summarize what was generated; for `all`, one combined summary at the end.
 
 ## Output
 - [ ] One rule file written to `{Product_Folder}/rules/` per mode executed.

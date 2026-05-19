@@ -21,35 +21,42 @@ One of the following scopes:
 - No explicit scope — review files changed recently in the current branch.
 
 ### Review types
-Load the corresponding guide based on the requested review type:
-- `quality` → [Clean Code Best Practices](./quality.guidelines.md)
-- `compliance` → [Compliance Guidelines](./compliance.guidelines.md)
-- `accessibility` → [Accessibility Guidelines](./accessibility.guidelines.md)
+
+| `{type}` | Guide | Report template |
+|----------|-------|-----------------|
+| `quality` | [Clean Code](./quality.guidelines.md) | [quality.report.template.md](./quality.report.template.md) |
+| `compliance` | [Compliance](./compliance.guidelines.md) | [compliance.report.template.md](./compliance.report.template.md) |
+| `accessibility` | [Accessibility](./accessibility.guidelines.md) | [accessibility.report.template.md](./accessibility.report.template.md) |
+
+### Slug derivation
+
+See [artifact conventions](../repository/artifact-conventions.md). Typical cases:
+
+| Scope | `{slug}` |
+|-------|----------|
+| Branch `feat/checkout` | `checkout` |
+| Plan `checkout.spec.back.plan.md` | `checkout` |
+| Folder `src/checkout/` | `checkout` (confirm with user if unclear) |
+
+### Severity
+
+Use `critical` | `high` | `medium` | `low` | `info` per [artifact conventions](../repository/artifact-conventions.md).
 
 ## Steps
 
-### Step 1: Clarify the input
-- [ ] Identify the review type and load the corresponding guide.
-- [ ] Identify the scope and determine which files to review.
-- [ ] If either is unclear, ask the minimum questions needed before proceeding.
-
-### Step 2: Analyze the code
-- [ ] Evaluate each file in scope against the loaded guidelines.
-- [ ] For each file, answer before documenting:
-  - [ ] What is this code's responsibility?
-  - [ ] What calls it? What does it call?
-  - [ ] What are the edge cases and error paths?
-
-### Step 3: Document findings
-- [ ] For each issue found, document: location, description, severity, and recommendation.
-- [ ] Derive `{slug}` from the scope (branch name, plan slug, or file/folder name).
+- [ ] Identify review type; load the guide and report template from the table above.
+- [ ] Identify scope and files to review; ask minimal questions if unclear.
+- [ ] For each file: responsibility, callers/callees, edge cases — then evaluate against the guide.
+- [ ] Document each finding: File, Issue, Severity, Description, Recommendation.
+- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` using the template structure.
 
 ## Output
-- [ ] Write the report to `{Product_Folder}/reports/{slug}.{type}.report.md`.
+- [ ] Report committed path: `reports/{slug}.{type}.report.md`.
 
 ## Verification
-- [ ] All files in scope have been reviewed.
-- [ ] Every finding includes a location, description, severity, and recommendation.
+- [ ] All files in scope reviewed.
+- [ ] Every finding has all five columns populated.
+- [ ] Recommendations are actionable (file, line, or pattern — not vague advice).
 
 ## Git (required)
 - [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

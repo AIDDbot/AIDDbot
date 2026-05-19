@@ -23,7 +23,7 @@ Modern agents are impressive for isolated features or small apps. Under real pro
 
 A set of skills you invoke directly — or let your agent trigger:
 
-> See the full [AIDD Workflow](/docs/AIDD.workflow.md) for a visual overview of the skills catalog.
+> See the full [AIDD Workflow](/docs/AIDD.workflow.md), [skills index](/.agents/skills/README.md), and [artifact conventions](/.agents/skills/repository/artifact-conventions.md).
 
 ### Architecture documentation
 
@@ -32,9 +32,8 @@ Start by initializing your project environment:
 | Skill | What it does |
 |---|---|
 | `/initialize` | Sets up your project environment and main instructions file |
-| For Brownfield |---|
-| `/explore` | Reverse-engineers legacy code for architecture insights |
-| `/extract` | Extracts real rules from your codebase to guide new generation |
+| `/explore` | *(brownfield)* Reverse-engineers legacy code for architecture insights |
+| `/extract` | *(brownfield)* Extracts real rules from your codebase to guide new generation |
 
 > See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
 
@@ -61,13 +60,13 @@ And then, for every new feature use the following skills in order:
 | `/release` | Bumps version, updates CHANGELOG and docs, marks specs `released` |
 | `/repository` | Branches and conventional commits; invoked by other skills (not run alone in the pipeline) |
 
-Roadmap — not yet available:
+Roadmap:
 
-| Skill | What it will do |
+| Skill | Status |
 |---|---|
-| `/refactor` | Improves existing code without changing its behavior |
+| `/refactor` | WIP stub only — behavior-preserving refactors; use `/review` → `/repair` for defects |
 
-> See [Craftsman Pipelines](/docs/craftsman.pipelines.md) for a visual overview.
+> See [Craftsman Pipelines](/docs/craftsman.pipelines.md) and [Design Pipelines](/docs/design.pipelines.md) for visual overviews.
 
 ## Get started in 2 steps
 

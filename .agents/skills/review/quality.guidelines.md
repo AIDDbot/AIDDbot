@@ -1,4 +1,6 @@
-# Clean code best practices 
+# Quality guidelines
+
+Reference for `/review` when `{type}` is `quality`. Orchestration and report path: [review SKILL](./SKILL.md).
 
 ## Variables and naming
 - Name variables and functions descriptively to enhance readability.

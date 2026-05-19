@@ -1,13 +1,29 @@
-# AIDDbot 
+# AIDDbot
 
-This is not a traditional application. 
-It contains no source code to build or test. 
-The deliverable is a set of skill definitions (`SKILL.md`) that teaches agents how to develop software.
+This is not a traditional application. There is no application source code to build or test. The deliverable is **agent skills** (`SKILL.md` and supporting markdown) that teach agents how to develop software with the AIDD workflow.
 
 ## Skills
 
-Skills live in [`.agents/skills/`](./.agents/skills/). See the [AIDD skills catalog](./.agents/AIDD.skills-catalog.md) for the full list.
+- Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
+- Catalog (human): [`.agents/AIDD.skills-catalog.md`](./.agents/AIDD.skills-catalog.md)
+- Shared naming and paths: [artifact-conventions.md](./.agents/skills/repository/artifact-conventions.md)
+- Git per skill: [skill-integrations.md](./.agents/skills/repository/skill-integrations.md)
 
 ## Docs
 
-Human-oriented workflow docs are in [`docs/`](./docs/). Start with [AIDD Workflow](./docs/AIDD.workflow.md).
+Human-oriented workflow docs are in [`docs/`](./docs/):
+
+| Doc | Purpose |
+|-----|---------|
+| [AIDD.workflow.md](./docs/AIDD.workflow.md) | End-to-end overview |
+| [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
+| [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |
+| [design.pipelines.md](./docs/design.pipelines.md) | Render (experimental) |
+| [craftsman.pipelines.md](./docs/craftsman.pipelines.md) | Review, repair, release |
+
+## Editing skills
+
+- Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification, Git.
+- Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill.
+- Cross-link [artifact-conventions](./.agents/skills/repository/artifact-conventions.md) instead of duplicating path rules.
+- After changing a skill, align README, catalog, workflow, and pipeline docs if behavior or paths changed.

@@ -17,6 +17,7 @@ Given a requirement or feature description, produce a complete specification fil
 - A requirement, user story, or feature description from the user.
 
 ### References
+- [Artifact conventions](../repository/artifact-conventions.md)
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
 - [Spec template](./spec.template.md)

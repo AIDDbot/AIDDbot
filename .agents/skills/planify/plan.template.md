@@ -1,23 +1,28 @@
 ---
+plan-slug: {slug}
 plan-type: {spec, report, requirement}
+plan-source: {spec, report, requirement}
 tier: {back, front, db, fullstack}
 ---
-# {plan-type} - {slug} - {tier}
+# {plan-type} — {slug} — {tier}
 
 ## Specification
 
-{description of the specification, improvement, or bug report that the implementation plan is based on}
+{Description of the specification, improvement, or bug report this plan implements.}
 
-**Context**: [link to the source spec, report, or requirement for traceability]()
+**Context:** [Link to source spec, report, or requirement]()
 
 ### Data model
-{description of the data model changes, if applicable}
+
+{Data model changes, if applicable.}
 
 ## Implementation Steps
 
 ### Step 1: {Step Title}
-{short description of the step}
+
+{Short description.}
+
 - Paths:
-    - {path/to/file1}
-    - {path/to/folder2/}
-- [ ] {Task 1 description in one line}
+  - {path/to/file1}
+  - {path/to/folder2/}
+- [ ] {Task in one line}

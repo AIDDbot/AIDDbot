@@ -14,7 +14,8 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 ## Context
 
 ### Input
-- A report file `{Product_Folder}/reports/{slug}.{type}.report.md` with findings tables (File / Issue / Severity / Description / Recommendation).
+- A report file `{Product_Folder}/reports/{slug}.{type}.report.md` using the matching report template (verify reports include **Acceptance criterion**).
+- [Artifact conventions](../repository/artifact-conventions.md)
 - `{type}` is the report source: `quality`, `compliance`, `accessibility`, or `verify`.
 - [Spec status lifecycle](../specify/spec-status.md) — do not change spec status; re-run `/verify` to advance lifecycle.
 
@@ -43,8 +44,9 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 - [ ] After fixing all findings in a file, re-read it to confirm no regressions were introduced.
 
 ### Step 4: Update the report
-- [ ] Mark each finding as resolved or skipped.
-- [ ] For skipped findings, document the reason.
+- [ ] Add a **Status** column (or inline marker) per row: `resolved` | `skipped`.
+- [ ] For skipped findings, document the reason in **Description** or a **Notes** column.
+- [ ] Preserve original finding text; do not delete rows (audit trail).
 
 ### Step 5: Next verification
 - [ ] For `verify` reports: suggest re-running `/verify` on `{slug}.spec.md`.

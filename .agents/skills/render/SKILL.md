@@ -19,6 +19,9 @@ Match implementation complexity to the intended aesthetic direction:
 
 ## Context
 
+### References
+- [Artifact conventions](../repository/artifact-conventions.md)
+
 ### Design specification
 
 Resolve the design spec in this order:

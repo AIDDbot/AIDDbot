@@ -81,7 +81,9 @@ flowchart TD
 3. **Fixes** (`/repair`) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone defects not tied to an open feature branch.
 4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status; prefer merging `feat/{slug}` to the default branch first.
 
-See [repository skill](../.agents/skills/repository/SKILL.md) for branch rules, conventional commit format, and per-skill commit tables.
+See [repository skill](../.agents/skills/repository/SKILL.md), [artifact conventions](../.agents/skills/repository/artifact-conventions.md), and [skills index](../.agents/skills/README.md).
+
+Pipeline detail: [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [design](./design.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 
 ## Artifacts
 

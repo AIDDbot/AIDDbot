@@ -1,35 +1,40 @@
 ---
-spec-slug: short-slug-for-specification
+spec-slug: {slug}
 status: draft
 released-version:
 released-at:
 ---
-# Specification for {Spec short description}
+# Specification — {short description}
+
+> Status lifecycle: [spec-status.md](./spec-status.md)
 
 ## Problem definition
 
-{Short paragraph clearly outlining the problem that we aim to solve.}
+{Problem statement.}
 
 ### User Stories
 
-- As a {user role}, I want to **{desired feature or bug fix}** so that {reason or benefit}.
+- As a {role}, I want to **{goal}** so that {benefit}.
 
 ## Solution overview
 
 ### Data Model
 
+{Changes, if any.}
+
 ### Backend API
 
-- {Description of the backend API endpoints required to implement the solution.}
+{Endpoints or services.}
 
 ### Frontend Application
 
-- {Description of the frontend components or pages required to implement the solution.}
+{Components or pages.}
 
 ### Database Schema
 
-- {Description of the database schema changes required to implement the solution.}
+{Schema changes, if any.}
 
 ## Acceptance and Release
 
-- [ ] EARS format requirement.
+- [ ] {EARS-format acceptance criterion}
+- [ ] {Additional criterion}

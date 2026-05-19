@@ -15,3 +15,4 @@ Each skill **must** finish by applying the repository commit workflow for its ou
 | `/repair` | stay on `feat/{slug}` or use `fix/{slug}` | `fix`, `docs` | Code fixes + updated report |
 | `/release` | default or release branch per project | `chore` | Version files, `CHANGELOG.md`, spec frontmatter, targeted doc updates |
 | `/render` | `feat/{slug}` if part of feature | `feat` | UI assets from design spec |
+| `/refactor` | — | — | *WIP — do not commit; skill not implemented* |

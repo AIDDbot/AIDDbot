@@ -20,6 +20,7 @@ Given a spec, bug report, or review report, produce one or more implementation p
   - a simple textual requirement for a minor improvement
 
 ### References
+- [Artifact conventions](../repository/artifact-conventions.md)
 - [Plan template](./plan.template.md)
 - [Spec status lifecycle](../specify/spec-status.md)
 - If `{Product_Folder}/arch/` exists:

@@ -20,6 +20,7 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
   - A direct requirement from the user
 
 ### References
+- [Artifact conventions](../repository/artifact-conventions.md)
 - The implementation plan or spec file provided as input.
 - [Spec status lifecycle](../specify/spec-status.md)
 - The architecture documentation in `{Product_Folder}/arch/` if it exists, especially `{tier}.arch.md`.

@@ -1,6 +1,8 @@
-# Compliance Guidelines for Code Review
+# Compliance guidelines
 
-## Security Checklist
+Reference for `/review` when `{type}` is `compliance`. Orchestration and report path: [review SKILL](./SKILL.md).
+
+## Security checklist
 
 - [ ] User input validated and sanitized
 - [ ] SQL queries use parameterization

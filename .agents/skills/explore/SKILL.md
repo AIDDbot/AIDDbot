@@ -17,6 +17,8 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
+- [Incremental artifact pattern](../repository/incremental-artifact.md)
+- [Artifact conventions](../repository/artifact-conventions.md)
 - `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 - Mode files in this skill's folder — one per output type.
 
@@ -47,21 +49,13 @@ Recommended generation order: `system → adr → er → back → front → db`
 
 ## Steps
 
-### Step 1: Read the environment
+Follow [incremental artifact pattern](../repository/incremental-artifact.md):
+
 - [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
-
-### Step 2: Determine what to run
-- [ ] If an argument was given → identify the corresponding mode file and skip to Step 3.
-- [ ] If no argument → check which files exist under `{Product_Folder}/arch/` and pick the first missing from the recommended order.
-- [ ] If all files exist → report "Architecture is complete" and suggest `/extract`. Stop.
-
-### Step 3: Execute the mode
-- [ ] Read the mode file identified in Step 2.
-- [ ] Follow all steps defined in it.
-
-### Step 4: Summarize
-- [ ] Report what was generated.
-- [ ] List remaining architecture files not yet produced.
+- [ ] Pick mode: argument, or first missing file in recommended order (`system → adr → er → tiers`).
+- [ ] If all arch files exist → report complete and suggest `/extract`. Stop.
+- [ ] Execute the selected `{mode}.mode.md` and write one file under `arch/`.
+- [ ] Summarize what was generated and what remains.
 
 ## Output
 - [ ] One architecture file written to `{Product_Folder}/arch/` per invocation.

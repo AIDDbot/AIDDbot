@@ -43,7 +43,7 @@ Leave `released-version` and `released-at` empty until `/release`.
 | `/verify` **fail** | Keep `in-progress`; do not set `verified` |
 | `/repair` after verify or review | Do not change spec status until `/verify` passes (or user overrides) |
 | `/planify` from a **report** (not a spec) | No spec status update |
-| Scope dropped | Set `cancelled` on the spec; preserve body for audit |
+| Scope dropped | Set `cancelled` from `draft`, `planned`, `in-progress`, or `verified`; preserve body for audit |
 
 ## Transitions
 
@@ -54,6 +54,7 @@ stateDiagram-v2
   planned --> in-progress: codify
   in-progress --> verified: verify (pass)
   in-progress --> in-progress: repair + verify
+  in-progress --> cancelled: scope dropped
   verified --> released: release
   draft --> cancelled
   planned --> cancelled

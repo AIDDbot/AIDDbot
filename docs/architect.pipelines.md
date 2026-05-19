@@ -8,26 +8,31 @@ Paths below are under `{Product_Folder}` (default `.product/`).
 flowchart TD  
   HUM[HUMAN]
   AGT["AGENTS.md"]:::nd
+  SKL[".agents/skills/"]:::nd
 
   HUM -->|/initialize| AGT
+  AGT --- SKL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
+`/initialize` confirms `.agents/skills/` exists and commits `AGENTS.md` via [`/repository`](/.agents/skills/repository/) (`chore`).
+
 ## Brownfield projects with legacy code
 
 ```mermaid
-  flowchart TD  
-    HUM[HUMAN]
-    AGT["AGENTS.md"]:::nd
-    ARC["arch/"]:::nd
-    RUL["rules/"]:::nd
+flowchart TD  
+  HUM[HUMAN]
+  AGT["AGENTS.md"]:::nd
+  ARC["arch/"]:::nd
+  RUL["rules/"]:::nd
 
-    HUM -->|/initialize| AGT
-    HUM -->|/explore| ARC
-    HUM -->|/extract| RUL
+  HUM -->|/initialize| AGT
+  HUM -->|/explore| ARC
+  HUM -->|/extract| RUL
+  ARC --> RUL
 
-    classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
+  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/initialize`, `/explore`, and `/extract` commit outputs via [`/repository`](/.agents/skills/repository/) (`chore` or `docs` on the default branch).
+`/explore` and `/extract` use the [incremental artifact pattern](/.agents/skills/repository/incremental-artifact.md) — one file per run, `docs` commits. When complete, start features with `/specify`.
