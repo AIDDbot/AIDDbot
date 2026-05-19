@@ -27,5 +27,10 @@ Agent index: [skills/README.md](./skills/README.md) · Conventions: [artifact-co
 | [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
 | [`/release`](./skills/release/) | Bumps version, updates CHANGELOG and docs, marks specs `released` |
 | [`/repository`](./skills/repository/) | Branches and conventional commits; called by every skill that produces artifacts |
-| [`/render`](./skills/render/) | *(experimental)* Production-grade frontend UI from a design specification |
 | [`/refactor`](./skills/refactor/) | *(WIP)* Improves existing code without changing its behavior — not ready for routine use |
+
+### Designer
+
+| Skill | What it does |
+|---|---|
+| [`/render`](./skills/render/) | *(experimental)* Production-grade frontend UI from a design specification |

@@ -1,4 +1,4 @@
-# Design pipelines
+# Designer pipelines
 
 Paths below are under `{Product_Folder}` (default `.product/`) unless noted.
 

@@ -40,15 +40,14 @@ Skills grouped by phase:
 | **Architect** | `/initialize`, `/explore`, `/extract` |
 | **Builder** | `/specify`, `/planify`, `/codify`, `/verify` |
 | **Craftsman** | `/review`, `/repair`, `/release`, `/repository` |
-| **Design** | `/render` *(experimental)* |
+| **Designer** | `/render` *(experimental)* |
 
-| | |
-|---|---|
-| [Skills catalog](.agents/AIDD.skills-catalog.md) | Every skill, one table |
-| [Workflow](docs/AIDD.workflow.md) | End-to-end diagram and artifacts |
-| [Getting started](docs/getting-started.md) | Install, initialize, first feature |
 
-Pipeline visuals: [Architect](docs/architect.pipelines.md) · [Builder](docs/builder.pipelines.md) · [Craftsman](docs/craftsman.pipelines.md) · [Design](docs/design.pipelines.md)
+Pipeline visuals: 
+- [Architect](docs/architect.pipelines.md) 
+- [Builder](docs/builder.pipelines.md) 
+- [Craftsman](docs/craftsman.pipelines.md) 
+- [Designer](docs/designer.pipelines.md)
 
 ## Quick start
 
@@ -67,9 +66,8 @@ Install commands (Bash and PowerShell), brownfield flow, and the `/specify → /
 |-----|---------|
 | [Getting started](docs/getting-started.md) | Install and first workflows |
 | [Workflow](docs/AIDD.workflow.md) | Overview, git, artifacts |
-| [Architect](docs/architect.pipelines.md) · [Builder](docs/builder.pipelines.md) · [Craftsman](docs/craftsman.pipelines.md) · [Design](docs/design.pipelines.md) | Pipeline detail |
-
-Agent index: [`.agents/skills/README.md`](.agents/skills/README.md)
+| [Skills index](.agents/skills/README.md) | When to use each skill | 
+| [Skills catalog](.agents/AIDD.skills-catalog.md) | Full skill list |
 
 ---
 
