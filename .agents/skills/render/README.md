@@ -1,21 +1,30 @@
 # Render skill documentation
 
 > [!NOTE]
-> In your agents do not natively support skills, call them by prefixing with @ or #. Ex `@render` or `#render`. 
+> In agents that do not natively support skills, call them by prefixing with `@` or `#` (e.g. `@render`).
 
-## Sample prompt to invoke the skill
-
-### Implement design system
+## Sample prompt — standalone UI
 
 ```md
-> Use the render skill and the specify skill to write clear specifications for the design system implementation requirements.
-> Use the planify skill to create a plan to implement the specifications for the design system.
-> Use the codify skill to implement the plan to implement the design system.
+> Use the render skill with DESIGN.md at {Product_Folder}/design/checkout/DESIGN.md
+> Implement the design system and main checkout UI components.
 ```
 
-### Review design system
+## Optional — spec-driven path
+
+When the design work is part of a larger feature, you may run the builder pipeline first:
 
 ```md
-> Use the review skill to review the design system of the current project, and generate a report at {Product_Folder}/reports/design.quality.report.md.
-> Use the repair skill to fix the issues found in the report.
+> /specify the design system requirements
+> /planify the specification
+> /codify the plan
+> /render using the resulting DESIGN.md or design folder
+```
+
+## Review design output
+
+```md
+> Use the review skill (quality) on the design implementation.
+> Report at {Product_Folder}/reports/{slug}.quality.report.md
+> Use repair on findings, then re-review if needed.
 ```

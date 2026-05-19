@@ -44,6 +44,7 @@ Optional:
 
 - Specs to release have `status: verified` (or user explicitly overrides).
 - `/verify` has passed for each slug; no open blocking `{slug}.verify.report.md` unless waived by the user.
+- No unresolved blocking review reports for slugs in scope (`{slug}.quality.report.md`, etc.) unless waived by the user.
 - Implementation is merged or ready on the default branch (or user confirms releasing from `feat/{slug}`).
 
 ## Steps
@@ -110,4 +111,4 @@ For each released `{slug}.spec.md`:
 
 ## Git (required)
 
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit on default (or project release branch): version files, `CHANGELOG.md`, spec frontmatter, and doc updates together or in related `chore` groups before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

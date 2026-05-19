@@ -13,11 +13,12 @@ flowchart TD
       RPT["reports/"]:::nd
       ARC["arch/"]:::nd
       RUL["rules/"]:::nd
+      DES["design/"]:::nd
   end
 
   subgraph A["AGENTS"]
       AGT["AGENTS.md"]:::nd
-      SKL["skills/"]:::nd
+      SKL[".agents/skills/"]:::nd
   end  
 
   subgraph S["SOLUTION"]
@@ -35,6 +36,7 @@ flowchart TD
   RUL -.-> COD  
   SPC -->|/planify| PLN
   ARC -.-> PLN
+  DES -.->|/render optional| COD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -48,7 +50,7 @@ flowchart TD
 
 ## Commands
 
-- `/initialize` - Create initial technology documentation (AGENTS.md and skills/) for a project.
+- `/initialize` - Create initial technology documentation (`AGENTS.md`) and confirm `.agents/skills/` is present.
 
 - `/explore` - Reverse-engineer an existing codebase to discover its architecture and infer the ADRs. 
 
@@ -62,11 +64,13 @@ flowchart TD
 
 - `/verify` - Run end-to-end tests to ensure code meets specifications. On failure, writes a report for `/repair`.
 
+- `/render` - *(experimental)* Implement production-grade frontend UI from a design specification (`DESIGN.md` or `{Product_Folder}/design/{slug}/`).
+
 - `/review` - Review code for guideline compliance and best practices.
 
 - `/repair` - Apply fixes from a review or verify report (preferred path for all reported defects).
 
-- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released`.
+- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released`. Merge feature branches to the default branch before release unless the user confirms otherwise.
 
 - `/repository` - Git branches and conventional commits. Not a separate pipeline step; every skill that produces artifacts reads and follows it before finishing. `/codify` creates `feat/{slug}` before coding; `/repair` uses `fix/{slug}` only outside an active feature cycle.
 
@@ -75,19 +79,19 @@ flowchart TD
 1. **Product artifacts** (`/specify`, `/planify`, `/explore`, `/extract`, `/review`, failed `/verify`) — committed with `docs` (or `chore` for `AGENTS.md`) on the default branch or on `feat/{slug}` once the feature branch exists.
 2. **Implementation** (`/codify`) — create `feat/{slug}` first (save any uncommitted work so nothing is lost), then commit code in related groups with `feat` / `test`.
 3. **Fixes** (`/repair`) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone defects not tied to an open feature branch.
-4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status.
+4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status; prefer merging `feat/{slug}` to the default branch first.
 
 See [repository skill](../.agents/skills/repository/SKILL.md) for branch rules, conventional commit format, and per-skill commit tables.
 
 ## Artifacts
 
-Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGENTS.md`).
+Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGENTS.md`) unless noted.
 
 ### Technology
 
 - `AGENTS.md` - The entry point for any agent joining the project, with product and technology information.
 
-- `skills/` - Teach your agent how to do things. Make them easy to know when to use.
+- `.agents/skills/` - Agent skills (from AIDDbot or custom). Not under `{Product_Folder}`; lives at project root per `AGENTS.md`.
 
 ### Product
 
@@ -95,9 +99,11 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 - `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 
+- `design/{slug}/` - Optional design specifications for `/render` (e.g. `DESIGN.md`).
+
 - `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see [spec status](../.agents/skills/specify/spec-status.md).
 
-- `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification.
+- `plans/{slug}.{source?}.{tier?}.plan.md` - Implementation plans (fullstack: `{slug}.{source}.plan.md`).
 
 - `reports/{slug}.{type}.report.md` - Findings from `/review` or `/verify` (`{type}`: `quality`, `compliance`, `accessibility`, `verify`). Consumed by `/repair`.
 

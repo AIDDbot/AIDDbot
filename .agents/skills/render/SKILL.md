@@ -19,41 +19,30 @@ Match implementation complexity to the intended aesthetic direction:
 
 ## Context
 
-### Reference:
-- [Design specification](DESIGN.md)
+### Design specification
 
-The specification defines:
-- Typography
-- Color system
-- Motion
-- Spatial composition
-- Texture and visual details
-- Component behavior
+Resolve the design spec in this order:
+
+1. User-provided path (e.g. `{Product_Folder}/design/{slug}/DESIGN.md`)
+2. `DESIGN.md` next to this skill ([sample](./DESIGN.md) — replace with project content)
+
+The specification defines typography, color, motion, spatial composition, texture, and component behavior.
+
+### Conventions
+
+- Derive `{slug}` from the design folder name or feature name when tying work to a feature branch.
+- Optional: link to `{Product_Folder}/specs/{slug}.spec.md` when render is part of a spec-driven feature.
 
 ## Steps
 
-### 1. Analyze the specification
-- Identify the visual identity, interaction patterns, and design constraints.
-- Determine the core layout, typography, color, and motion principles.
-
-### 2. Plan the system
-- Define reusable styles, tokens, and components.
-- Identify shared patterns and responsive behaviors.
-- Ensure accessibility and visual consistency.
-
-### 3. Render the UI
-- Generate production-ready frontend code.
-- Implement layouts, components, animations, and theming.
-- Avoid generic UI patterns and default framework aesthetics.
-- Preserve consistency across states and screen sizes.
+- [ ] Analyze the specification: visual identity, interaction patterns, layout, typography, color, and motion.
+- [ ] Plan reusable tokens, styles, and components; note responsive and accessibility requirements.
+- [ ] Generate production-ready frontend code (HTML/CSS/JS, React, Vue, or Tailwind as appropriate).
+- [ ] Avoid generic UI patterns and default framework aesthetics; keep states and breakpoints consistent.
 
 ## Output
 
-Generate functional frontend code such as:
-- HTML/CSS/JavaScript
-- React
-- Vue
-- Tailwind-based systems
+- [ ] Functional frontend code implementing the design system and key UI surfaces.
 
 ## Verification
 
@@ -64,4 +53,4 @@ Generate functional frontend code such as:
 - [ ] Motion and visual details support the intended aesthetic
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — use `feat/{slug}` when part of a feature; commit UI code (`feat`) before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md) — use `feat/{slug}` when part of a feature.

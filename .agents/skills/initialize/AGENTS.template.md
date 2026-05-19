@@ -6,14 +6,14 @@
 - {Business_Domain_Language}: `English` | `Spanish` | {Other_Language}
 - Chat responses should be in the user's language.
 - Code and documentation should be in {Business_Domain_Language}.
-- Be concise and clear in communication.Sacrifice grammar for concision.
+- Be concise and clear in communication. Sacrifice grammar for concision.
 - When in doubt, ask questions one by one with closed answers.
 
 ### Environment
 
 - **{Agents_Folder}**: {Folder for agent-related files such as skills, prompts, and specs.}
 - **{Product_Folder}**: {Folder for product-related files such as specs, plans, and documentation.}
-- **{Source_folders}**: {Array of source code folders relevant to the project.}
+- **{Source_Folders}**: {Array of source code folders relevant to the project.}
 - **OS dev**: `Windows` | `Linux` | `MacOS`
 - **Terminal**: ` cmd` | `PowerShell` | `bash` | `zsh`
 - **Git remote**: {Remote URL for the git repository, e.g., `https://github.com/user/repo.git`}
@@ -25,17 +25,18 @@
 ├── AGENTS.md             # This file with the main guidelines for agents
 ├── {Agents_Folder}/      # Files related to agents (skills, commands, etc)
 │   ├── agents/           # Specific agent role definitions
-|   ├── prompts/          # Reusable prompts directory
-|   └── skills/           # Custom agent skills
+│   ├── prompts/          # Reusable prompts directory
+│   └── skills/           # Agent skills (read /repository before committing)
 ├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
-|   ├── specs/            # Specifications (YAML: status, released-version, released-at)
-|   ├── plans/            # Implementation plans
-|   ├── arch/             # Architecture documentation
-|   ├── rules/            # Coding conventions extracted from the codebase
-|   └── reports/          # Review and verify findings for /repair
+│   ├── specs/            # Specifications (YAML: status, released-version, released-at)
+│   ├── plans/            # Implementation plans
+│   ├── arch/             # Architecture documentation
+│   ├── rules/            # Coding conventions extracted from the codebase
+│   ├── design/           # Optional design specs for /render
+│   └── reports/          # Review and verify findings for /repair
 ├── CHANGELOG.md          # Project history and updates
 ├── README.md             # Human-friendly project summary  
-├── {Source_folders}/     # Source code folders
+├── {Source_Folders}/     # Source code folders
 ├── tests/                # Test E2E files
 └── other_files/          # Other relevant files and folders
 ````
@@ -54,7 +55,7 @@
   
 ## Technology
 
-### {Source_folders} Stack
+### {Source_Folders} Stack
 
 - **Tier**: {e.g., Frontend, Backend, Database}
 - **Language**: {language and version}
@@ -82,7 +83,7 @@
 
 - **Agent Skills**:
   - {Skill_Name}: {Brief description of the skill and its purpose.}
-  - `/repository`: Git branches and conventional commits — every skill that produces artifacts follows it before finishing.
+  - `/repository`: Git branches and conventional commits — every skill that produces artifacts must **read** this skill and follow it before finishing (it is not auto-invoked).
 
 ## Principles
 

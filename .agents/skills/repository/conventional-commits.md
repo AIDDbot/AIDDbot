@@ -16,7 +16,7 @@ Format for all AIDD repository commits:
 | `fix` | Bug fixes (including `/repair`) |
 | `docs` | Specs, plans, arch, rules, reports under `{Product_Folder}/` |
 | `test` | Unit or E2E tests |
-| `chore` | `AGENTS.md`, changelog, tooling, WIP saves, explore/extract batches |
+| `chore` | `AGENTS.md`, changelog, tooling, WIP saves |
 
 ## Rules
 

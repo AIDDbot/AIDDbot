@@ -54,13 +54,7 @@ When work follows `specify → planify → codify → verify → (repair) → re
 
 ### Safety (always)
 
-- Never update git config.
-- Never run destructive commands (`push --force`, `reset --hard`, etc.) unless the user explicitly requests them.
-- Never skip hooks (`--no-verify`) unless the user explicitly requests it.
-- Never force-push to `main` / `master`; warn if asked.
-- Never commit secrets (`.env`, credentials, keys).
-- Only commit when completing skill work or when the user asks — do not commit unrelated local changes.
-- This skill does not open PRs unless the user asks.
+Follow project git policy: no config changes, no destructive commands or hook skips unless the user asks, no force-push to default branch, no secrets in commits, no unrelated changes in skill commits. This skill does not open PRs unless the user asks.
 
 ## Steps
 

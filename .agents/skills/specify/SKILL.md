@@ -6,7 +6,7 @@ description: Writes a specification file for a new feature or complex improvemen
 # Specify skill
 
 ## Role
-Act as a senior analyst. 
+Act as a senior analyst.
 
 ## Task
 Given a requirement or feature description, produce a complete specification file that serves as the source of truth for planning and implementation.
@@ -16,33 +16,28 @@ Given a requirement or feature description, produce a complete specification fil
 ### Input
 - A requirement, user story, or feature description from the user.
 
-### References 
-- [EARS Conventions](./EARS.convention.md) 
+### References
+- [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
 - [Spec template](./spec.template.md)
 - [Spec status lifecycle](./spec-status.md)
 
-### Conventions:
-- `{slug}.spec.md` where `{slug}` is a concise identifier derived from the requirement or feature description.
+### Conventions
+- Output: `{Product_Folder}/specs/{slug}.spec.md` where `{slug}` is a concise identifier derived from the requirement.
 
 ## Steps
 
-### Step 1: Clarify the requirement
 - [ ] If the requirement is ambiguous or incomplete, ask the minimum questions needed before proceeding.
-### Step 2: Define the specification
 - [ ] Articulate the problem and write user stories from the affected roles' perspective.
-### Step 3: Design the solution
 - [ ] Propose the solution across applicable tiers (data model, backend, frontend). Focus on design, not implementation detail.
-### Step 4: Write acceptance criteria
-- [ ] Define verifiable criteria using the EARS convention.
+- [ ] Define verifiable acceptance criteria using the EARS convention.
+- [ ] Write the spec using the spec template; set frontmatter `status: draft` and leave `released-version` / `released-at` empty.
 
 ## Output
-- [ ] Write the spec to `{Product_Folder}/specs/{slug}.spec.md` using the spec template.
-- [ ] Set frontmatter `status: draft` and leave `released-version` / `released-at` empty.
+- [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable for planning and implementation.
 
 ## Verification
-- [ ] The generated spec file should be complete, clear, and actionable for planning and implementation.
+- [ ] Problem, solution, and acceptance criteria are present and traceable.
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit the spec (`docs`) before finishing.
-
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

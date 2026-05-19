@@ -16,7 +16,7 @@ Given a spec, bug report, or review report, produce one or more implementation p
 ### Input
 - One of the following:
   - a specification file `{slug}.spec.md`
-  - a bug or review report `{slug}.report.md`
+  - a bug or review report `{slug}.{type}.report.md` (`{type}`: `quality`, `compliance`, `accessibility`, or `verify`)
   - a simple textual requirement for a minor improvement
 
 ### References
@@ -31,8 +31,12 @@ Given a spec, bug report, or review report, produce one or more implementation p
 - `{slug}` is inherited from the input file name or derived from the requirement description.
 - `{source?}` reflects the input type: `spec` or `report`, or omit for simple requirements.
 - `{tier?}` is determined by the content: `back`, `front`, or `db`.
-- Fullstack changes (touching all tiers equally) omit `{tier}`.
-- Pattern: `{slug}.{source?}.{tier?}.plan.md` 
+- Fullstack changes (touching all tiers equally): use `{slug}.{source}.plan.md` (omit `{tier}`; set `tier: fullstack` in plan frontmatter).
+- Pattern: `{slug}.{source?}.{tier?}.plan.md` — examples: `checkout.spec.back.plan.md`, `checkout.report.front.plan.md`, `checkout.spec.plan.md` (fullstack).
+
+### Planning from a review report
+
+When input is `{slug}.{type}.report.md`, set `{source}` to `report` and derive steps from findings (group by tier when possible). Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`. Do not update spec status (no spec input).
 
 ## Steps
 
@@ -57,4 +61,4 @@ Given a spec, bug report, or review report, produce one or more implementation p
 - [ ] Each plan file is complete, ordered, and actionable for a developer to implement without additional context.
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit plan file(s) (`docs`) before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

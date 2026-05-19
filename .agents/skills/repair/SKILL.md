@@ -14,14 +14,23 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 ## Context
 
 ### Input
-- A report file `{Product_Folder}/reports/{slug}.{type}.report.md` with findings tables (File / Issue / Description / Recommendation).
+- A report file `{Product_Folder}/reports/{slug}.{type}.report.md` with findings tables (File / Issue / Severity / Description / Recommendation).
 - `{type}` is the report source: `quality`, `compliance`, `accessibility`, or `verify`.
+- [Spec status lifecycle](../specify/spec-status.md) — do not change spec status; re-run `/verify` to advance lifecycle.
+
+### Fix rules by report type
+
+| `{type}` | Behavior change |
+|----------|-----------------|
+| `quality`, `compliance`, `accessibility` | Prefer fixes that preserve observable behavior; skip refactors that change UX unless the finding is a defect |
+| `verify` | May change behavior when required to meet acceptance criteria in the linked spec; trace each fix to a failing criterion |
 
 ## Steps
 
 ### Step 1: Load the report
 - [ ] Read the report and extract all findings across all sections.
 - [ ] If the report has no findings, report "Nothing to repair" and stop.
+- [ ] For `verify` reports, read `{slug}.spec.md` acceptance criteria before applying fixes.
 
 ### Step 2: Prioritize findings
 - [ ] Group findings by file to minimize context switching.
@@ -29,13 +38,17 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 
 ### Step 3: Apply fixes
 - [ ] For each finding, locate the reported issue in the target file.
-- [ ] Apply the fix as recommended in the report.
-- [ ] If a fix would alter observable behavior or requires a judgment call, skip it — document the reason, do not guess.
+- [ ] Apply the fix as recommended in the report, following the fix rules for `{type}` above.
+- [ ] If a fix requires a judgment call beyond the report, skip it — document the reason, do not guess.
 - [ ] After fixing all findings in a file, re-read it to confirm no regressions were introduced.
 
 ### Step 4: Update the report
 - [ ] Mark each finding as resolved or skipped.
 - [ ] For skipped findings, document the reason.
+
+### Step 5: Next verification
+- [ ] For `verify` reports: suggest re-running `/verify` on `{slug}.spec.md`.
+- [ ] For review reports: suggest targeted tests or `/review` on the same scope if the user wants confirmation.
 
 ## Output
 - [ ] Fixed source files with all resolvable findings applied.
@@ -43,8 +56,9 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 
 ## Verification
 - [ ] Every finding is either fixed or explicitly skipped with a reason.
-- [ ] No fix alters the observable behavior of the code.
+- [ ] Review-type repairs did not change observable behavior except to fix reported defects.
+- [ ] Verify-type repairs align with spec acceptance criteria when behavior changed.
 - [ ] The updated report reflects the final state accurately.
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone fixes; commit code (`fix`) and report updates (`docs`) in related groups before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone fixes.

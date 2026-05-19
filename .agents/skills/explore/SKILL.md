@@ -73,4 +73,4 @@ Recommended generation order: `system → adr → er → back → front → db`
 - [ ] A new agent reading only `arch/` can answer: what does this system do, how is it structured, and what must not be changed?
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit architecture file(s) produced (`docs`) before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

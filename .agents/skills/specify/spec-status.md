@@ -31,7 +31,19 @@ Leave `released-version` and `released-at` empty until `/release`.
 | `in-progress` | Code implementation underway | `/codify` |
 | `verified` | E2E tests pass for acceptance criteria | `/verify` |
 | `released` | Shipped in a versioned release | `/release` |
-| `cancelled` | Will not be implemented | Human or agent when scope is dropped |
+| `cancelled` | Will not be implemented | User or any skill when scope is dropped (set explicitly; do not infer) |
+
+## Edge cases
+
+| Situation | Status rule |
+|-----------|-------------|
+| `/codify` from spec **without** a plan (user bypasses `/planify`) | Set `in-progress` when coding starts; user may set `planned` first if a lightweight plan exists elsewhere |
+| `/codify` from plan or spec with existing plan | `in-progress` (from `planned` or `draft` if plan was skipped) |
+| `/verify` **pass** | `verified` |
+| `/verify` **fail** | Keep `in-progress`; do not set `verified` |
+| `/repair` after verify or review | Do not change spec status until `/verify` passes (or user overrides) |
+| `/planify` from a **report** (not a spec) | No spec status update |
+| Scope dropped | Set `cancelled` on the spec; preserve body for audit |
 
 ## Transitions
 
@@ -50,6 +62,7 @@ stateDiagram-v2
 
 - Do not set `released` without a successful `/verify` unless the user explicitly overrides.
 - Do not regress `released` specs to earlier statuses without user confirmation.
+- On `/verify` failure, leave status at `in-progress` until tests pass after `/repair`.
 
 ## Updating frontmatter
 

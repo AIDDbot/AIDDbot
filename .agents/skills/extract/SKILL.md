@@ -54,7 +54,7 @@ Recommended generation order: `naming → back → front → db → testing`
 - [ ] If `all` was given → collect all missing files in recommended order and run each mode in sequence without pausing. Skip to Step 3 for each.
 - [ ] If a specific argument was given → identify the corresponding mode file and skip to Step 3.
 - [ ] If no argument → check which files exist under `{Product_Folder}/rules/` and pick the first missing from the recommended order.
-- [ ] If all files exist → report "Conventions are complete" and suggest `/codify`. Stop.
+- [ ] If all files exist → report "Conventions are complete" and suggest `/specify` to start the next feature. Stop.
 
 ### Step 3: Execute the mode
 - [ ] Read the mode file identified in Step 2.
@@ -75,4 +75,4 @@ Recommended generation order: `naming → back → front → db → testing`
 - [ ] A new agent reading only `rules/` can write code indistinguishable from existing code in style and structure.
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit rule file(s) produced (`docs`) before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

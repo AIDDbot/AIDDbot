@@ -16,7 +16,7 @@ Given a code scope and a review type, evaluate the code against the relevant gui
 ### Input
 One of the following scopes:
 - A feature branch — review all files changed in the branch.
-- An implementation plan `{slug}.{source}.{tier}.plan.md` — review files listed in the plan.
+- An implementation plan `{slug}.{source?}.{tier?}.plan.md` — review files listed in the plan.
 - A file or folder path — review the specified target directly.
 - No explicit scope — review files changed recently in the current branch.
 
@@ -52,4 +52,4 @@ Load the corresponding guide based on the requested review type:
 - [ ] Every finding includes a location, description, severity, and recommendation.
 
 ## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit the report (`docs`) before finishing.
+- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).

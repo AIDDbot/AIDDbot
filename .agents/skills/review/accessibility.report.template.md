@@ -2,22 +2,22 @@
 
 ## Perceivable
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 ## Operable
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 ## Understandable
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 ## Robust
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 > Report generated on {Date}.

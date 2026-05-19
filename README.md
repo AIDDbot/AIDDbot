@@ -17,7 +17,7 @@ Modern agents are impressive for isolated features or small apps. Under real pro
 | **Rules or chaos** | Code that violates your standards or is unmaintainable. | _Rules over Tools_|
 | **Verify or hope** | Errors compound silently until they're expensive to fix. | _Human in the Loop_ |
 
-`AIDDbot` implements all three AI-DD principles to aid you solve them all.
+`AIDDbot` implements all three AI-DD principles to help you solve them all.
 
 ## What you get
 
@@ -47,7 +47,7 @@ And then, for every new feature use the following skills in order:
 | `/specify` | Writes clear specifications with formal acceptance criteria |
 | `/planify` | Breaks specs into concrete, ordered implementation steps |
 | `/codify` | Generates code that follows your plans and your rules |
-| `/verify` | Writes and runs E2E tests so specs are actually met |
+| `/verify` | Writes and runs E2E tests; on failure, produces a report for `/repair` |
 
 > See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
 
@@ -119,7 +119,7 @@ Remove-Item -Path AIDDbot-tmp -Recurse -Force
 To build every new feature, run those skills in order:
 
 ```markdown
-/specify → /planify → /codify -> /verify
+/specify → /planify → /codify → /verify
 ```
 
 You can check the output of each step. Remember, Human in the loop! 
@@ -147,10 +147,10 @@ After building, run:
 `/repair`   reported issues (from review or verify)
 > fixed code issues
 `/release`  a new version
-> semver bump, CHANGELOG, README, spec `status: released`
-``` 
+> semver bump, CHANGELOG, README, spec `status: released` (merge `feat/{slug}` to the default branch first unless you explicitly release from the feature branch)
+```
 
-Git branching and commits are handled automatically via [`/repository`](/.agents/skills/repository/) when you run other skills (`feat/{slug}` on `/codify`, conventional commits on completion). The `/refactor` skill is still on the roadmap.
+Git branching and commits are handled automatically via [`/repository`](/.agents/skills/repository/) when you run other skills (`feat/{slug}` on `/codify`, conventional commits on completion). The `/refactor` skill is on the roadmap ([stub only](/.agents/skills/refactor/)).
 
 ---
 

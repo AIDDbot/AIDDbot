@@ -2,13 +2,13 @@
 
 ## Security
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 ## Performance
 
-|File|Issue|Description|Recommendation|
-|-|-|-|-|
+|File|Issue|Severity|Description|Recommendation|
+|-|-|-|-|-|
 
 
 > Report generated on {Date}.
