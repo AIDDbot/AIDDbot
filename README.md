@@ -57,7 +57,7 @@ And then, for every new feature use the following skills in order:
 |---|---|
 | `/review` | Reviews code for quality, accessibility, or compliance and generates a feedback report |
 | `/repair` | Fixes issues from review or verify reports (preferred path for all reported defects) |
-| `/design` | *(experimental)* Implements production-grade frontend UI from a design specification |
+| `/render` | *(experimental)* Implements production-grade frontend UI from a design specification |
 | `/release` | Bumps version, updates CHANGELOG and docs, marks specs `released` |
 | `/repository` | Branches and conventional commits; invoked by other skills (not run alone in the pipeline) |
 

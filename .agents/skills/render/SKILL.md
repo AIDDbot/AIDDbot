@@ -1,9 +1,9 @@
 ---
-name: design
+name: render
 description: Create distinctive production-grade frontend interfaces based on the provided design specification.
 ---
 
-# Design skill
+# Render skill
 
 ## Role
 
@@ -41,7 +41,7 @@ The specification defines:
 - Identify shared patterns and responsive behaviors.
 - Ensure accessibility and visual consistency.
 
-### 3. Implement the design
+### 3. Render the UI
 - Generate production-ready frontend code.
 - Implement layouts, components, animations, and theming.
 - Avoid generic UI patterns and default framework aesthetics.

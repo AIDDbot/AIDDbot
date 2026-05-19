@@ -12,7 +12,7 @@
 | [`/codify`](./skills/codify/) | Generates code that follows your plans and your rules |
 | [`/verify`](./skills/verify/) | Writes and runs E2E tests; on failure, produces a report for `/repair` |
 | **Design** | - |
-| [`/design`](./skills/design/) | *(experimental)* Production-grade frontend UI from a design specification |
+| [`/render`](./skills/render/) | *(experimental)* Production-grade frontend UI from a design specification |
 | **Craftsman** | - |
 | [`/review`](./skills/review/) | Reviews code for quality, accessibility, or compliance |
 | [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
