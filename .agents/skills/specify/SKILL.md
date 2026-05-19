@@ -20,6 +20,7 @@ Given a requirement or feature description, produce a complete specification fil
 - [EARS Conventions](./EARS.convention.md) 
 - [Model design convention](./model-design.convention.md)
 - [Spec template](./spec.template.md)
+- [Spec status lifecycle](./spec-status.md)
 
 ### Conventions:
 - `{slug}.spec.md` where `{slug}` is a concise identifier derived from the requirement or feature description.
@@ -37,6 +38,7 @@ Given a requirement or feature description, produce a complete specification fil
 
 ## Output
 - [ ] Write the spec to `{Product_Folder}/specs/{slug}.spec.md` using the spec template.
+- [ ] Set frontmatter `status: draft` and leave `released-version` / `released-at` empty.
 
 ## Verification
 - [ ] The generated spec file should be complete, clear, and actionable for planning and implementation.

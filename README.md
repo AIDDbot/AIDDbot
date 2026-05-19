@@ -58,7 +58,7 @@ And then, for every new feature use the following skills in order:
 | `/review` | Reviews code for quality, accessibility, or compliance and generates a feedback report |
 | `/repair` | Fixes issues from review or verify reports (preferred path for all reported defects) |
 | `/design` | *(experimental)* Implements production-grade frontend UI from a design specification |
-| `/release` | *(WIP)* Prepares and publishes a new release, including changelog generation |
+| `/release` | Bumps version, updates CHANGELOG and docs, marks specs `released` |
 | `/repository` | Branches and conventional commits; invoked by other skills (not run alone in the pipeline) |
 
 Roadmap — not yet available:
@@ -147,7 +147,7 @@ After building, run:
 `/repair`   reported issues (from review or verify)
 > fixed code issues
 `/release`  a new version
-> changelog and spec status updates (WIP)
+> semver bump, CHANGELOG, README, spec `status: released`
 ``` 
 
 Git branching and commits are handled automatically via [`/repository`](/.agents/skills/repository/) when you run other skills (`feat/{slug}` on `/codify`, conventional commits on completion). The `/refactor` skill is still on the roadmap.

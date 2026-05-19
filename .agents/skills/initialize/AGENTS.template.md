@@ -28,7 +28,7 @@
 |   ├── prompts/          # Reusable prompts directory
 |   └── skills/           # Custom agent skills
 ├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
-|   ├── specs/            # Specifications 
+|   ├── specs/            # Specifications (YAML: status, released-version, released-at)
 |   ├── plans/            # Implementation plans
 |   ├── arch/             # Architecture documentation
 |   ├── rules/            # Coding conventions extracted from the codebase

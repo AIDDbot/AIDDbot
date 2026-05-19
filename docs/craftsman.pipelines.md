@@ -20,14 +20,18 @@ flowchart TD
 
 `/review` and `/repair` commit reports and fixes via [`/repository`](/.agents/skills/repository/). Use `fix/{slug}` only when not on an active `feat/{slug}` feature branch.
 
-## Release 
+## Release
+
+Requires specs at `status: verified`. Sets `released`, bumps semver, updates `CHANGELOG.md` and `README.md`.
+
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
   SPC["specs/{slug}.spec.md"]:::nd
   CHL["CHANGELOG.md"]:::nd
+  VER["version files"]:::nd
 
-  HUM -->|/release| CHL & SPC
+  HUM -->|/release| CHL & SPC & VER
   
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ``` 

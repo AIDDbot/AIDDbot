@@ -21,6 +21,7 @@ Given a spec, bug report, or review report, produce one or more implementation p
 
 ### References
 - [Plan template](./plan.template.md)
+- [Spec status lifecycle](../specify/spec-status.md)
 - If `{Product_Folder}/arch/` exists:
   - Read `system.arch.md` before identifying tiers.
   - Read `{tier}.arch.md` for each affected tier.
@@ -50,6 +51,7 @@ Given a spec, bug report, or review report, produce one or more implementation p
 
 ## Output
 - [ ] Write one plan file per tier to `{Product_Folder}/plans/` using the plan template and the correct naming convention.
+- [ ] When the input is a spec, set its frontmatter `status: planned`.
 
 ## Verification
 - [ ] Each plan file is complete, ordered, and actionable for a developer to implement without additional context.

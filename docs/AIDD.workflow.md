@@ -66,7 +66,7 @@ flowchart TD
 
 - `/repair` - Apply fixes from a review or verify report (preferred path for all reported defects).
 
-- `/release` - Update the changelog and mark specifications as released. *(skill stub — content WIP)*
+- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released`.
 
 - `/repository` - Git branches and conventional commits. Not a separate pipeline step; every skill that produces artifacts reads and follows it before finishing. `/codify` creates `feat/{slug}` before coding; `/repair` uses `fix/{slug}` only outside an active feature cycle.
 
@@ -95,7 +95,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 - `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 
-- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement.
+- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see [spec status](../.agents/skills/specify/spec-status.md).
 
 - `plans/{slug}.{source?}.{tier?}.plan.md` - A set of implementation plans derived from a single specification.
 

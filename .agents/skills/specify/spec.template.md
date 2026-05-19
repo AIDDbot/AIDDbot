@@ -1,5 +1,8 @@
 ---
 spec-slug: short-slug-for-specification
+status: draft
+released-version:
+released-at:
 ---
 # Specification for {Spec short description}
 
@@ -29,4 +32,4 @@ spec-slug: short-slug-for-specification
 
 ## Acceptance and Release
 
-- [ ] EARS format requirement.º
+- [ ] EARS format requirement.

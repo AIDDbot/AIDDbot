@@ -17,6 +17,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - A specification file `{slug}.spec.md` with acceptance criteria.
 
 ### References
+- [Spec status lifecycle](../specify/spec-status.md)
 - Load the guide for the E2E framework in use:
   - Playwright → [Playwright guidelines](./playwright.md)
   - *(add further framework guides here as needed)*
@@ -37,6 +38,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ### Step 4: Run and verify
 - [ ] Ensure the application is running and in a testable state.
 - [ ] Execute all E2E tests and verify they pass.
+- [ ] On full pass, set the spec frontmatter `status: verified`.
 - [ ] If any tests fail, identify the root cause and document each failure as a finding (location, description, severity, recommendation).
 - [ ] If failures persist, write the report (Step 5) and suggest `/repair` — do not force-pass.
 - [ ] Shut down any services started for testing.
