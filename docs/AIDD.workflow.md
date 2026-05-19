@@ -68,6 +68,17 @@ flowchart TD
 
 - `/release` - Update the changelog and mark specifications as released. *(skill stub — content WIP)*
 
+- `/repository` - Git branches and conventional commits. Not a separate pipeline step; every skill that produces artifacts reads and follows it before finishing. `/codify` creates `feat/{slug}` before coding; `/repair` uses `fix/{slug}` only outside an active feature cycle.
+
+## Git workflow
+
+1. **Product artifacts** (`/specify`, `/planify`, `/explore`, `/extract`, `/review`, failed `/verify`) — committed with `docs` (or `chore` for `AGENTS.md`) on the default branch or on `feat/{slug}` once the feature branch exists.
+2. **Implementation** (`/codify`) — create `feat/{slug}` first (save any uncommitted work so nothing is lost), then commit code in related groups with `feat` / `test`.
+3. **Fixes** (`/repair`) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone defects not tied to an open feature branch.
+4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status.
+
+See [repository skill](../.agents/skills/repository/SKILL.md) for branch rules, conventional commit format, and per-skill commit tables.
+
 ## Artifacts
 
 Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGENTS.md`).

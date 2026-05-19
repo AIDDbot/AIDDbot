@@ -73,3 +73,6 @@ Recommended generation order: `naming → back → front → db → testing`
 - [ ] Every pattern includes at least one concrete do/don't example extracted from the actual codebase.
 - [ ] Deviations from the dominant pattern are explicitly flagged.
 - [ ] A new agent reading only `rules/` can write code indistinguishable from existing code in style and structure.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit rule file(s) produced (`docs`) before finishing.

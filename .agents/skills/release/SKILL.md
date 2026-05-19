@@ -6,3 +6,6 @@ description: Prepares and publishes a new release, including changelog generatio
 # Release skill
 
 Uses `{Product_Folder}` from `AGENTS.md` for product artifacts.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit changelog and spec status updates (`chore`) before finishing.

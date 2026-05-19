@@ -62,3 +62,6 @@ Generate functional frontend code such as:
 - [ ] Responsive behavior is implemented
 - [ ] Accessibility considerations are included
 - [ ] Motion and visual details support the intended aesthetic
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — use `feat/{slug}` when part of a feature; commit UI code (`feat`) before finishing.

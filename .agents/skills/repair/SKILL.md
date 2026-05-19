@@ -45,3 +45,6 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 - [ ] Every finding is either fixed or explicitly skipped with a reason.
 - [ ] No fix alters the observable behavior of the code.
 - [ ] The updated report reflects the final state accurately.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone fixes; commit code (`fix`) and report updates (`docs`) in related groups before finishing.

@@ -55,3 +55,6 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] All SDD paths are set.
 - [ ] Product overview is defined.
 - [ ] Technical stack is defined for each tier.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit `AGENTS.md` (`chore`) before finishing.

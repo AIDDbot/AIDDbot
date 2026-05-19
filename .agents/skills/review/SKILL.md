@@ -50,3 +50,6 @@ Load the corresponding guide based on the requested review type:
 ## Verification
 - [ ] All files in scope have been reviewed.
 - [ ] Every finding includes a location, description, severity, and recommendation.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit the report (`docs`) before finishing.

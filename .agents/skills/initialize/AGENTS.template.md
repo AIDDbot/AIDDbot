@@ -81,7 +81,8 @@
 ````
 
 - **Agent Skills**:
-  - {Skill_Name}: {Brief description of the skill and its purpose.} 
+  - {Skill_Name}: {Brief description of the skill and its purpose.}
+  - `/repository`: Git branches and conventional commits — every skill that produces artifacts follows it before finishing.
 
 ## Principles
 

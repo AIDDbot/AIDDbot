@@ -18,6 +18,8 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
+Each step commits its artifacts via [`/repository`](/.agents/skills/repository/). `/codify` creates `feat/{slug}` before writing code.
+
 ## Verify features or complex improvements
 
 On E2E failure, `/verify` writes `reports/{slug}.verify.report.md`. Use `/repair` to fix findings, then re-run `/verify`.
@@ -36,3 +38,5 @@ flowchart TD
   
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
+
+`/verify` and `/repair` stay on the same `feat/{slug}` branch as `/codify` and commit with `test`, `fix`, or `docs` as appropriate.

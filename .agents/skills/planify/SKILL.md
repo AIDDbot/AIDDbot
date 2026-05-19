@@ -53,3 +53,6 @@ Given a spec, bug report, or review report, produce one or more implementation p
 
 ## Verification
 - [ ] Each plan file is complete, ordered, and actionable for a developer to implement without additional context.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit plan file(s) (`docs`) before finishing.

@@ -18,6 +18,8 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
+`/review` and `/repair` commit reports and fixes via [`/repository`](/.agents/skills/repository/). Use `fix/{slug}` only when not on an active `feat/{slug}` feature branch.
+
 ## Release 
 ```mermaid
 flowchart TD  

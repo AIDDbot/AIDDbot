@@ -29,3 +29,5 @@ flowchart TD
 
     classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
+
+`/initialize`, `/explore`, and `/extract` commit outputs via [`/repository`](/.agents/skills/repository/) (`chore` or `docs` on the default branch).

@@ -59,12 +59,12 @@ And then, for every new feature use the following skills in order:
 | `/repair` | Fixes issues from review or verify reports (preferred path for all reported defects) |
 | `/design` | *(experimental)* Implements production-grade frontend UI from a design specification |
 | `/release` | *(WIP)* Prepares and publishes a new release, including changelog generation |
+| `/repository` | Branches and conventional commits; invoked by other skills (not run alone in the pipeline) |
 
 Roadmap — not yet available:
 
 | Skill | What it will do |
 |---|---|
-| `/repository` | Manages repository tasks with git commits and branches |
 | `/refactor` | Improves existing code without changing its behavior |
 
 > See [Craftsman Pipelines](/docs/craftsman.pipelines.md) for a visual overview.
@@ -130,7 +130,7 @@ You can check the output of each step. Remember, Human in the loop!
 `/planify`  the specification
 > clear, ordered implementation plan
 `/codify`   the plan
-> code that follows your rules
+> code on `feat/{slug}` (branch created before coding)
 `/verify`   the code
 > E2E tests that confirm specs are met
 ```
@@ -150,7 +150,7 @@ After building, run:
 > changelog and spec status updates (WIP)
 ``` 
 
-Repository and refactor skills are on the roadmap.
+Git branching and commits are handled automatically via [`/repository`](/.agents/skills/repository/) when you run other skills (`feat/{slug}` on `/codify`, conventional commits on completion). The `/refactor` skill is still on the roadmap.
 
 ---
 

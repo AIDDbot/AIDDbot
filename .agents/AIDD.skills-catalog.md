@@ -17,5 +17,5 @@
 | [`/review`](./skills/review/) | Reviews code for quality, accessibility, or compliance |
 | [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
 | [`/release`](./skills/release/) | *(WIP)* Prepares and publishes a release, including changelog generation |
-| [`/repository`](./skills/repository/) | *(WIP)* Manages repository tasks with git commits and branches |
+| [`/repository`](./skills/repository/) | Branches and conventional commits; called by every skill that produces artifacts |
 | [`/refactor`](./skills/refactor/) | *(WIP)* Improves existing code without changing its behavior |

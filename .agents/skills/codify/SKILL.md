@@ -26,6 +26,9 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 
 ## Steps
 
+### Step 0: Branch (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — **Start a feature branch** before writing implementation code (`feat/{slug}` from plan or spec).
+
 ### Step 1: Clarify the input
 - [ ] If the input is incomplete or ambiguous, ask the minimum questions needed before proceeding.
 - If `{Product_Folder}/arch/{tier}.arch.md` exists, read it before implementing.
@@ -49,3 +52,6 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 - [ ] Code compiles without errors.
 - [ ] Unit tests pass.
 - [ ] Smoke test passes (app or servers start).
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit implementation and unit tests in related groups (`feat`, `test`) before finishing.

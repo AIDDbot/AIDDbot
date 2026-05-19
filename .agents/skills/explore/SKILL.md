@@ -71,3 +71,6 @@ Recommended generation order: `system → adr → er → back → front → db`
 - [ ] No placeholder text remains in any generated file.
 - [ ] Every ADR entry has decision, rationale, and consequences.
 - [ ] A new agent reading only `arch/` can answer: what does this system do, how is it structured, and what must not be changed?
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit architecture file(s) produced (`docs`) before finishing.

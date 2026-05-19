@@ -41,3 +41,6 @@ Given a requirement or feature description, produce a complete specification fil
 ## Verification
 - [ ] The generated spec file should be complete, clear, and actionable for planning and implementation.
 
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — commit the spec (`docs`) before finishing.
+

@@ -50,3 +50,6 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ## Verification
 - [ ] All tests pass, or failures are captured in `{Product_Folder}/reports/{slug}.verify.report.md` for `/repair`.
+
+## Git (required)
+- [ ] Read and follow [repository skill](../repository/SKILL.md) — stay on the feature branch for this slug; commit E2E tests (`test`) and any verify report (`docs`) before finishing.
