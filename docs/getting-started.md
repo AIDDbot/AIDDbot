@@ -118,7 +118,7 @@ Experimental. See [Design pipelines](./design.pipelines.md).
 
 ## Next
 
-- [Why AIDD](./why-aidd.md) — principles and who this is for
+- [Why AIDD](../README.md#why-aidd) — principles and who this is for
 - [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts, git rules
 - [Skills catalog](../.agents/AIDD.skills-catalog.md) — full skill list
 - [Skills index](../.agents/skills/README.md) — when to use each skill

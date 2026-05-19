@@ -5,21 +5,50 @@
 
 Production-ready **agent skills** for real projects — plain markdown under `.agents/`, no CLI, no package install. Use them in **Cursor**, **Copilot**, **Claude Code**, **Codex**, **VSCode**, **OpenCode**, **Antigravity**, and similar environments.
 
-## Why
+## Why AIDD
 
-Agents break down when context is wrong, standards drift, and failures compound quietly. AIDD addresses that with spec-driven development, project rules over tool defaults, and verification you can review before ship.
+Modern coding agents are strong on isolated tasks. On real projects, three failure modes show up repeatedly:
 
-[Why AIDD →](docs/why-aidd.md)
+| Failure | What it looks like | AIDD response |
+|---------|-------------------|---------------|
+| **Detail or invent** | Missing context — or plausible fabrication | Spec-driven development |
+| **Rules or chaos** | Code that ignores your standards | Rules over tools |
+| **Verify or hope** | Silent drift until fixes are expensive | Human in the loop |
+
+AIDDbot implements these as slash-command skills you invoke — or let your agent trigger when the work fits.
+
+### Principles
+
+**AI-Driven Development** combines agent speed with practices that keep output trustworthy:
+
+- **Human in the loop** — You decide; you own every line.
+- **Rules over tools** — Agents follow your guidelines, not generic defaults.
+- **Spec-driven development** — Define the problem and acceptance criteria before code.
+
+### Who this is for
+
+- Teams tired of plausible-but-wrong agent output
+- Engineers who want acceleration without giving up quality
+- Projects where consistency, standards, and verifiability matter
 
 ## What you get
 
-Slash-command skills that cover the full loop: setup, brownfield architecture, specs, plans, implementation, E2E verification, review, and release.
+Skills grouped by phase:
+
+| Phase | Skills |
+|-------|--------|
+| **Architect** | `/initialize`, `/explore`, `/extract` |
+| **Builder** | `/specify`, `/planify`, `/codify`, `/verify` |
+| **Craftsman** | `/review`, `/repair`, `/release`, `/repository` |
+| **Design** | `/render` *(experimental)* |
 
 | | |
 |---|---|
 | [Skills catalog](.agents/AIDD.skills-catalog.md) | Every skill, one table |
 | [Workflow](docs/AIDD.workflow.md) | End-to-end diagram and artifacts |
 | [Getting started](docs/getting-started.md) | Install, initialize, first feature |
+
+Pipeline visuals: [Architect](docs/architect.pipelines.md) · [Builder](docs/builder.pipelines.md) · [Craftsman](docs/craftsman.pipelines.md) · [Design](docs/design.pipelines.md)
 
 ## Quick start
 
@@ -37,7 +66,6 @@ Install commands (Bash and PowerShell), brownfield flow, and the `/specify → /
 | Doc | Purpose |
 |-----|---------|
 | [Getting started](docs/getting-started.md) | Install and first workflows |
-| [Why AIDD](docs/why-aidd.md) | Problem, principles, audience |
 | [Workflow](docs/AIDD.workflow.md) | Overview, git, artifacts |
 | [Architect](docs/architect.pipelines.md) · [Builder](docs/builder.pipelines.md) · [Craftsman](docs/craftsman.pipelines.md) · [Design](docs/design.pipelines.md) | Pipeline detail |
 

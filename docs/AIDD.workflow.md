@@ -83,7 +83,7 @@ flowchart TD
 
 See [repository skill](../.agents/skills/repository/SKILL.md), [artifact conventions](../.agents/skills/repository/artifact-conventions.md), and [skills index](../.agents/skills/README.md).
 
-New here? [Getting started](./getting-started.md) · [Why AIDD](./why-aidd.md)
+New here? [Getting started](./getting-started.md) · [Why AIDD](../README.md#why-aidd)
 
 Pipeline detail: [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [design](./design.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 

@@ -16,7 +16,7 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 | Doc | Purpose |
 |-----|---------|
 | [getting-started.md](./docs/getting-started.md) | Install, initialize, feature and release loops |
-| [why-aidd.md](./docs/why-aidd.md) | Problem, principles, audience |
+| [README.md](./README.md#why-aidd) | Problem, principles, audience (also [why-aidd.md](./docs/why-aidd.md) → README) |
 | [AIDD.workflow.md](./docs/AIDD.workflow.md) | End-to-end overview |
 | [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
 | [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |
