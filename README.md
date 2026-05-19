@@ -1,183 +1,48 @@
 # AIDDbot
 
 > AI coding agents can generate code.  
-> `AIDDbot` **builds software you can trust.**
+> **AIDDbot builds software you can trust.**
 
-**Production-ready agent skills** that plug into any AI coding environment — no CLI, no package install, just markdown files that work everywhere.
+Production-ready **agent skills** for real projects — plain markdown under `.agents/`, no CLI, no package install. Use them in **Cursor**, **Copilot**, **Claude Code**, **Codex**, **VSCode**, **OpenCode**, **Antigravity**, and similar environments.
 
-Try it with Antigravity · Claude Code · Codex · Copilot · Cursor · OpenCode · VSCode
+## Why
 
-## The problem with coding agents at scale
+Agents break down when context is wrong, standards drift, and failures compound quietly. AIDD addresses that with spec-driven development, project rules over tool defaults, and verification you can review before ship.
 
-Modern agents are impressive for isolated features or small apps. Under real project conditions, three failure modes emerge, but AI-Driven Development (AIDD) can solve them all:
-
-| Failure | What it looks like | AIDD |
-|---|---|---|
-| **Detail or invent** | Critical context is missing — or fabricated convincingly. | _Spec Driven Development_|
-| **Rules or chaos** | Code that violates your standards or is unmaintainable. | _Rules over Tools_|
-| **Verify or hope** | Errors compound silently until they're expensive to fix. | _Human in the Loop_ |
-
-`AIDDbot` implements all three AI-DD principles to help you solve them all.
+[Why AIDD →](docs/why-aidd.md)
 
 ## What you get
 
-A set of skills you invoke directly — or let your agent trigger:
+Slash-command skills that cover the full loop: setup, brownfield architecture, specs, plans, implementation, E2E verification, review, and release.
 
-> See the full [AIDD Workflow](/docs/AIDD.workflow.md), [skills index](/.agents/skills/README.md), and [artifact conventions](/.agents/skills/repository/artifact-conventions.md).
-
-### Architecture documentation
-
-Start by initializing your project environment:
-
-| Skill | What it does |
+| | |
 |---|---|
-| `/initialize` | Sets up your project environment and main instructions file |
-| `/explore` | *(brownfield)* Reverse-engineers legacy code for architecture insights |
-| `/extract` | *(brownfield)* Extracts real rules from your codebase to guide new generation |
+| [Skills catalog](.agents/AIDD.skills-catalog.md) | Every skill, one table |
+| [Workflow](docs/AIDD.workflow.md) | End-to-end diagram and artifacts |
+| [Getting started](docs/getting-started.md) | Install, initialize, first feature |
 
-> See [Architect Pipelines](/docs/architect.pipelines.md) for a visual overview.
-
-### Building features
-
-And then, for every new feature use the following skills in order:
-
-| Skill | What it does |
-|---|---|
-| `/specify` | Writes clear specifications with formal acceptance criteria |
-| `/planify` | Breaks specs into concrete, ordered implementation steps |
-| `/codify` | Generates code that follows your plans and your rules |
-| `/verify` | Writes and runs E2E tests; on failure, produces a report for `/repair` |
-
-> See [Builder Pipelines](/docs/builder.pipelines.md) for a visual overview.
-
-### Quality, design, and release
-
-| Skill | What it does |
-|---|---|
-| `/review` | Reviews code for quality, accessibility, or compliance and generates a feedback report |
-| `/repair` | Fixes issues from review or verify reports (preferred path for all reported defects) |
-| `/render` | *(experimental)* Implements production-grade frontend UI from a design specification |
-| `/release` | Bumps version, updates CHANGELOG and docs, marks specs `released` |
-| `/repository` | Branches and conventional commits; invoked by other skills (not run alone in the pipeline) |
-
-Roadmap:
-
-| Skill | Status |
-|---|---|
-| `/refactor` | WIP stub only — behavior-preserving refactors; use `/review` → `/repair` for defects |
-
-> See [Craftsman Pipelines](/docs/craftsman.pipelines.md) and [Design Pipelines](/docs/design.pipelines.md) for visual overviews.
-
-## Get started in 2 steps
-
-Skills are plain markdown files — no package to install, no binary to run.
-
-### 1. Clone into your project
-From inside your destination repository root, clone this repo.
-
-`git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp`
-
-Then move the `.agents` folder to your project root and delete the temporary clone:
+## Quick start
 
 ```bash
-# Bash (macOS/Linux/Git Bash)
-cp -r AIDDbot-tmp/.agents ./.agents
-rm -rf AIDDbot-tmp
+git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
+# copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-```powershell
-# PowerShell (Windows)
-Copy-Item -Path AIDDbot-tmp/.agents -Destination ./.agents -Recurse -Force
-Remove-Item -Path AIDDbot-tmp -Recurse -Force
-```
+In your agent: **`/initialize` this project**
 
-### 2. Initialize your environment
-```markdown
-`/initialize` this project
-> project main instructions
-```
+Install commands (Bash and PowerShell), brownfield flow, and the `/specify → /planify → /codify → /verify` loop: **[Getting started](docs/getting-started.md)**
 
-> [!NOTE]
-> For **legacy projects**, also run:
+## Documentation
 
-```markdown
-/initialize → /explore → /extract 
-```
+| Doc | Purpose |
+|-----|---------|
+| [Getting started](docs/getting-started.md) | Install and first workflows |
+| [Why AIDD](docs/why-aidd.md) | Problem, principles, audience |
+| [Workflow](docs/AIDD.workflow.md) | Overview, git, artifacts |
+| [Architect](docs/architect.pipelines.md) · [Builder](docs/builder.pipelines.md) · [Craftsman](docs/craftsman.pipelines.md) · [Design](docs/design.pipelines.md) | Pipeline detail |
 
-```markdown
-`/explore` this codebase
-> architecture insights
-`/extract` from this source code      
-> actual coding conventions
-```
+Agent index: [`.agents/skills/README.md`](.agents/skills/README.md)
 
 ---
 
-## Then, build features you can trust
-
-To build every new feature, run those skills in order:
-
-```markdown
-/specify → /planify → /codify → /verify
-```
-
-You can check the output of each step. Remember, Human in the loop! 
-
-```markdown
-`/specify`  a feature requirement
-> formal spec with acceptance criteria
-`/planify`  the specification
-> clear, ordered implementation plan
-`/codify`   the plan
-> code on `feat/{slug}` (branch created before coding)
-`/verify`   the code
-> E2E tests that confirm specs are met
-```
-
-If verification fails, `/verify` writes a report under `{Product_Folder}/reports/`. Use `/repair` on that report, then re-run `/verify`.
-
-### Finally craft quality software with confidence
-
-After building, run:
-
-```markdown
-`/review`   the source code
-> actionable quality feedback report
-`/repair`   reported issues (from review or verify)
-> fixed code issues
-`/release`  a new version
-> semver bump, CHANGELOG, README, spec `status: released` (merge `feat/{slug}` to the default branch first unless you explicitly release from the feature branch)
-```
-
-Git branching and commits are handled automatically via [`/repository`](/.agents/skills/repository/) when you run other skills (`feat/{slug}` on `/codify`, conventional commits on completion). The `/refactor` skill is on the roadmap ([stub only](/.agents/skills/refactor/)).
-
----
-
-## The AIDD philosophy
-
-**AI-Driven Development** blends AI capabilities with proven software engineering practices. `AIDDbot` is built on three principles:
-
-- **Human in the loop** — You are the decision-maker. You own every line of code.
-
-- **Rules over tools** — Agents should follow your guidelines, not their own defaults.
-
-- **Spec-driven development** — Define the problem precisely before any code is written.
-
----
-
-### Who this is for
-
-- Teams frustrated by agents that generate plausible-but-wrong code
-- Engineers who want AI acceleration without sacrificing code quality
-- Projects where standards, consistency, and verifiability actually matter
-
----
-
-> Code smarter!  
-> *— [Alberto Basalo](https://albertobasalo.dev)*
-
----
-
-**Author** · [X-Twitter](https://x.com/albertobasalo) · [LinkedIn](https://www.linkedin.com/in/albertobasalo/)  
-**Courses in Spanish** · [A.I. Code Academy](https://aicode.academy)
-**Repository** · [GitHub / AIDDbot](https://github.com/AIDDbot/AIDDbot)
+**Author** · [Alberto Basalo](https://albertobasalo.dev) · [GitHub](https://github.com/AIDDbot/AIDDbot) · [A.I. Code Academy](https://aicode.academy) (ES)
