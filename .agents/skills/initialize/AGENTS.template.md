@@ -1,132 +1,114 @@
 # Agents Instructions
 
-### Behavior Guidelines
-
-- When using templates, replace {placeholders} with actual values.
-- {Business_Domain_Language}: `English` | `Spanish` | {Other_Language}
-- Chat responses should be in the user's language.
-- Code and documentation should be in {Business_Domain_Language}.
-- Be concise and clear in communication. Sacrifice grammar for concision.
-- When in doubt, ask questions one by one with closed answers.
+### Behavior
+- Replace `{placeholders}` when using templates.
+- `{slug}`: a short (≤20 chars), unique identifier for an artifact.
+- Chat: user language. Code/docs: `{Business_Domain_Language}` (`English` | `Spanish` | …).
+- Concise; closed questions one at a time when unclear.
 
 ### Environment
+- **{Agents_Folder}** — {Folder for agent-related files such as skills, prompts, and specs.}
+- **{Product_Folder}** — {Folder for product-related files such as specs, plans, and documentation.}
+- **{Source_Folders}** — {Comma-separated source roots, e.g. `back/`, `front/` — see **Technology**.}
+- **OS** `Windows` | `Linux` | `MacOS` 
+- **Shell** `cmd` | `PowerShell` | `bash` | `zsh`
+- **Git** {Remote URL for the git repository, e.g., `https://github.com/user/repo.git`}
+- **Git Branch** default `main` | `master`
 
-- **{Agents_Folder}**: {Folder for agent-related files such as skills, prompts, and specs.}
-- **{Product_Folder}**: {Folder for product-related files such as specs, plans, and documentation.}
-- **{Source_Folders}**: {Comma-separated source roots, e.g. `back/`, `front/` — see **Technology** below.}
-- **OS dev**: `Windows` | `Linux` | `MacOS`
-- **Terminal**: `cmd` | `PowerShell` | `bash` | `zsh`
-- **Git remote**: {Remote URL for the git repository, e.g., `https://github.com/user/repo.git`}
-- **Default branch**: `main` | `master`
+**Layout:**
+```txt
+{Project_Root}
+├── `AGENTS.md`
+├── `{Agents_Folder}/
+│   ├── `skills/`
+│   ├── `prompts/`
+│   └── `agents/`
+├── `{Product_Folder}/
+│   ├── `specs/`
+│   ├── `plans/`
+│   ├── `arch/`
+│   ├── `rules/`
+│   ├── `design/`
+│   └── `reports/`
+├── `{Source_Folders}`
+├── `e2e/`
+├── `README.md`
+├── `CHANGELOG.md`
+```
 
-### Folder structure
-````text
-.                         # Project root
-├── AGENTS.md             # Workflow index (this file)
-├── {Agents_Folder}/      # Skills, prompts, commands
-│   ├── agents/
-│   ├── prompts/
-│   └── skills/
-├── {Product_Folder}/     # Specs, plans, arch, rules, reports, design
-│   ├── specs/
-│   ├── plans/
-│   ├── arch/             # system + tier architecture (/explore)
-│   ├── rules/            # Coding conventions (/extract)
-│   ├── design/
-│   └── reports/
-├── CHANGELOG.md
-├── README.md
-├── {Source_Folders}/     # Tier source roots (see Technology)
-├── tests/                # E2E tests
-└── other_files/
-````
-
-### Naming Conventions
-
-— Use conventional commit messaging
-— Code branches prefixes must be: `feat/` | `fix/` | `chore/`
-— Generate short slugs for artifacts and names (less-than-20-chars when possible)
-— Derive `{slug}` from artifact filename, then `feat/{slug}` branch, then requirement title (confirm if ambiguous)
-
-**Slug derivation**
-
-| Source | `{slug}` |
-|--------|----------|
-| Spec/plan/report filename | segment before first `.` (e.g. `checkout.spec.md` → `checkout`) |
-| Branch `feat/checkout` or `fix/checkout` | `checkout` |
-| Folder `src/checkout/` | `checkout` (confirm if unclear) |
-
-### Git (producing skills)
-
-Any skill that writes artifacts must finish by applying the repository workflow. Do not improvise branch or commit steps.
-
-1. **Caller** — The active skill is whichever the user invoked (e.g. `/codify`, `/specify`). `/repository` uses that skill's row in `{Agents_Folder}/skills/repository/skill-integrations.md`.
-2. **Workflow** — Read and follow `{Agents_Folder}/skills/repository/SKILL.md`. `/repository` is not auto-invoked; run it as the last step of the producing skill.
-3. **`/codify` only** — Run repository **Step 2: Start a feature branch** before writing implementation code. Feature-cycle branch rules stay in the repository skill only.
-
-Per-skill branches, commit types, and paths: `{Agents_Folder}/skills/repository/skill-integrations.md`.
+###  Git
+- Conventional commits; branches `feat/{slug}` | `fix/{slug}` | `chore/{slug}`.
+- Create a new branch before coding. The branch name is `feat/{slug}`.
+- Commit at the end of any skill execution.
 
 ### AIDD product artifacts
+Under `{Product_Folder}/`:
 
-Paths are under `{Product_Folder}`:
-
-| Artifact | Pattern |
-|----------|---------|
+| Artifact | Path |
+|---|---|
 | Spec | `specs/{slug}.spec.md` |
-| Plan (tiered) | `plans/{slug}.{source}.{tier}.plan.md` |
-| Plan (fullstack) | `plans/{slug}.{source}.plan.md` |
-| Report | `reports/{slug}.{type}.report.md` |
-| Arch | `arch/{name}.md` or `arch/{tier}.arch.md` |
-| Rules | `rules/{name}.rules.md` |
-| Design | `design/{slug}/DESIGN.md` |
+| Plan | `plans/{slug}.{source?}.{tier?}.plan.md` |
+| Report | `reports/{slug?}.{type}.report.md` |
 
-`{source}`: `spec` | `report` | omit for simple requirements. `{type}` (reports): `quality` | `compliance` | `accessibility` | `verify`. Consumed by `/repair`.
+- `{source?}`: `spec` | `report` | omit.
+- `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
+- `{type}`: `quality` | `compliance` | `accessibility` | `verify`
 
-### Implementation context (brownfield)
+### Implementation context 
 
-When `{Product_Folder}/arch/` or `rules/` exist (from `/explore` and `/extract`), **`/planify`**, **`/codify`**, and **`/verify`** read them before changing plans, code, or tests. Skip missing files. Do not duplicate arch content into rules files.
+Architecture and rules files are used by the following skills:
 
-| # | File | Skills |
-|---|------|--------|
-| 1 | `arch/system.arch.md` | `/planify` |
-| 2 | `arch/{tier}.arch.md` | `/planify`, `/codify` |
-| 3 | `arch/ADR.md` | `/planify` |
-| 4 | `rules/{tier}.rules.md` | `/codify` |
-| 5 | `rules/naming.rules.md` | `/codify` |
-| 6 | `rules/testing.rules.md` | `/codify`, `/verify` |
-
-**Apply:** Plans and code respect ADRs and arch constraints; match naming, roles, and errors from tier rules; tests follow `testing.rules.md` when present.
+| File | Skills affected |
+|------|----------------|
+| `arch/system.arch.md` | `/planify` |
+| `arch/{tier}.arch.md` | `/planify` |
+| `arch/ADR.md` | `/planify` |
+| `rules/{tier}.rules.md` | `/codify` |
+| `rules/naming.rules.md` | `/codify` |
+| `rules/testing.rules.md` | `/codify`, `/verify` |
 
 ### Spec status
+```yaml
+---
+spec-slug: {slug}
+status: draft | planned | in-progress | verified | released | cancelled
+released-version:
+released-at:
+---
+```
+#### Spec status state machine
 
-YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `released-at` (last two empty until release).
-
-**Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped). Per-skill transitions, edge cases, and diagram: `{Agents_Folder}/skills/specify/spec-status.md`.
-
-## Project
-
-**{Product_Name}** — {One-line summary. Full product context, containers, and features: `{Product_Folder}/arch/system.arch.md` (create with `/explore system` if missing).}
+| Status | Action | New Status |
+|--------|--------|------------|
+| - | `/specify` | `draft` |
+| `draft` | `/planify` | `planned` |
+| `planned` | `/codify` | `in-progress` |
+| `in-progress` | `/verify` | `verified` |
+| `verified` | `/release` | `released` |
+| `released` | No action. | `released` |
+| `cancelled` | No action. | `cancelled` |
 
 ## Technology
 
-Quick reference for `/codify` and `/verify` — one row per tier (`back`, `front`, …). Add **E2E** and **DB** rows when those tiers exist. Use `—` when a script does not apply (e.g. DB run). No storage, security, lint, deploy, or source-tree detail here; `/explore` writes `arch/{tier}.arch.md`.
+{short description of the technology stack, e.g. "The technology stack is a combination of React, Node.js, and PostgreSQL."}
 
 | Tier | Folder | Language | Framework | Build | Run | Test |
 |------|--------|----------|-----------|-------|-----|------|
 | {Tier_Name_1} | `{folder_1}/` | {language_1} | {framework_1} | `{build_1}` | `{run_1}` | `{test_1}` |
 | {Tier_Name_2} | `{folder_2}/` | {language_2} | {framework_2} | `{build_2}` | `{run_2}` | `{test_2}` |
 
-Arch files (optional until `/explore`): `arch/{tier_slug}.arch.md` per row. On brownfield, run `/explore` before `/planify` if `arch/` is incomplete.
+## Product
+
+{short description of the product, e.g. "The product is a web application that allows users to manage their tasks."}
+
+- {key feature 1}
+- {key feature 2}
+- {key feature 3}
 
 ## Principles
-
-1. Think Before Coding
-Don't assume. Don't hide confusion. Surface tradeoffs.
-2. Simplicity First
-Minimum code that solves the problem. Nothing speculative.
-3. Surgical Changes
-Touch only what you must. Clean up only your own mess.
-4. Goal-Driven Execution
-Keep working until all success criteria are met. Loop until verified.
+1. **Think** — surface tradeoffs; don't assume or hide confusion.
+2. **Simplicity** — minimum code; nothing speculative.
+3. **Surgical** — touch only what's needed; clean only your mess.
+4. **Goal-driven** — loop until success criteria are verified.
 
 > last updated: {Date of last update, e.g., June 2027}

@@ -30,7 +30,7 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 | `{tier}` | `{tier}.rules.md` | `tier.mode.md` |
 | `testing` | `testing.rules.md` | `testing.mode.md` |
 
-**Mode order:** `naming` → tier rules (`back`, `front`, `db` as detected) → `testing`. Output under `{Product_Folder}/rules/`.
+**Mode order:** `naming` → tier rules (`back`, `front`, `db` as detected) → `testing`. 
 
 ## Steps
 
@@ -38,7 +38,7 @@ One rule file per mode unless the user requests `all` (then run every missing mo
 
 - [ ] Read `AGENTS.md` and relevant `arch/{tier}.arch.md` files.
 - [ ] Pick the next mode — user argument, `all`, or first missing file in **mode order** above.
-- [ ] Run the matching `{mode}.mode.md`; write **one** file under `{Product_Folder}/rules/` (or all missing modes when `all`).
+- [ ] Run the matching `{mode}.mode.md`.
 - [ ] Do not regenerate an existing file unless the user asks to refresh it.
 - [ ] Summarize what was created and what remains (one summary when `all`).
 - [ ] Commit via `/repository`.

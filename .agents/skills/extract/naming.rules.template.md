@@ -2,7 +2,7 @@
 
 ## Domain Language
 
-- **Business terms**: {Language} (e.g. `cohete`, `lanzamiento`, `reserva`)
+- **Business terms**: {Language} (e.g. `user`, `invoice`, `order`)
 - **Technical terms / suffixes**: {Language} (e.g. `Controller`, `Service`, `.component.ts`)
 - **Code comments**: {Language}
 - **Commit messages**: {Language or convention}

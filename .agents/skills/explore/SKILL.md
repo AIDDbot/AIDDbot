@@ -29,7 +29,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 | `er` | `ER.md` | `er.mode.md` |
 | `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
 
-**Mode order:** `system` → `adr` → `er` → tier arch (`back`, `front`, `db` as detected). Output under `{Product_Folder}/arch/`.
+**Mode order:** `system` → `adr` → `er` → tier arch (`back`, `front`, `db` as detected). 
 
 ## Steps
 

@@ -25,18 +25,23 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 ### Step 1: Clarify the input
 - [ ] If incomplete or ambiguous, ask the minimum questions needed.
 
-### Step 2: Implement
+### Step 2: Feature branch
+- [ ] Check if already on `feat/{slug}`. If not, create it using repository skill.
+
+### Step 3: Implement
 - [ ] Follow plan steps in order, or derive from spec/requirement.
 - [ ] Minimum code to fulfill requirements.
 
-### Step 3: Write unit tests
-- [ ] Critical modules for the change.
+### Step 4: Write unit tests
+- [ ] Only write unit tests for critical modules.
 
 ## Output
 - [ ] Working code in the appropriate files.
 
 ### Spec status
-- [ ] When `{slug}.spec.md` exists: set `status: in-progress` when coding starts (`planned`, or `draft` if `/planify` was skipped with user approval).
+- [ ] When `{slug}.spec.md` exists: set `status: in-progress`.
 
 ## Verification
-- [ ] Code compiles; unit tests pass; smoke test (app or servers start).
+- [ ] Code compiles.
+- [ ] Unit tests pass.
+- [ ] Smoke test (app or servers start).

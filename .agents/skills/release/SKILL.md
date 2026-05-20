@@ -27,7 +27,6 @@ Given one or more verified specifications, bump the project version, record chan
 ### References
 
 - `AGENTS.md` — paths
-- [spec-status.md](../specify/spec-status.md) — `released` and release frontmatter (only `/release` sets them)
 - [Version convention](./version.convention.md)
 - [Changelog convention](./changelog.convention.md) · [CHANGELOG template](./CHANGELOG.template.md)
 
@@ -52,18 +51,15 @@ Given one or more verified specifications, bump the project version, record chan
 - [ ] New `## [{new_version}] - {YYYY-MM-DD}` per [changelog convention](./changelog.convention.md).
 
 ### Step 5: Update specifications
-- [ ] Per released spec (YAML only) per [spec-status.md](../specify/spec-status.md): `status: released`, `released-version`, `released-at`.
+- [ ] Per released spec (YAML only) : `status: released`, `released-version`, `released-at`.
 
 ### Step 6: Update documentation
-- [ ] `README.md` and other version-aware docs when applicable; do not edit `AGENTS.md` unless asked.
+- [ ] `README.md` and other version-aware docs when applicable; 
+- [ ] `AGENTS.md` when something big changed in the technology stack.
+- [ ] `arch/{tier}.arch.md` when something changed in the architecture.
+- [ ] `rules/{tier}.rules.md` when something changed in the rules.
+- [ ] `rules/naming.rules.md` when something changed in the naming conventions.
+- [ ] `rules/testing.rules.md` when something changed in the testing conventions.
 
 ### Step 7: Tag and branch (optional)
 - [ ] Tag or merge only with user confirmation.
-
-## Output
-
-- [ ] Version bumped; `CHANGELOG.md` updated; released specs marked; docs updated when applicable.
-
-## Verification
-
-- [ ] Semver increased; each released spec has matching `released-version`; `CHANGELOG` has dated section.

@@ -15,7 +15,6 @@ Given a report from `/review` or `/verify`, fix every listed finding — apply e
 
 ### Input
 - `{Product_Folder}/reports/{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`)
-- `AGENTS.md` — report paths; do not change spec `status` (see **Spec status** in `AGENTS.md`)
 
 ### Fix rules by report type
 

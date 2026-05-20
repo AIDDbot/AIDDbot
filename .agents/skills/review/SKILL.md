@@ -24,22 +24,29 @@ Given a code scope and a review type, evaluate the code against the relevant gui
 | `compliance` | [Compliance](./compliance.guidelines.md) | [compliance.report.template.md](./compliance.report.template.md) |
 | `accessibility` | [Accessibility](./accessibility.guidelines.md) | [accessibility.report.template.md](./accessibility.report.template.md) |
 
-Derive `{slug}` per `AGENTS.md` → **Slug derivation**.
+Derive `{slug}` per `AGENTS.md`.
 
 ### Findings
-
-List only issues that should be fixed. Every report row is input for `/repair` — do not add informational or optional items. If something is not worth fixing, omit it from the report.
+List only issues that should be fixed. Every report row is input for `/repair` — omit informational or optional items.
 
 ## Steps
 
-- [ ] Load guide and report template for the review type.
-- [ ] Identify scope and files; ask minimal questions if unclear.
-- [ ] Per file: responsibility, callers/callees, edge cases; evaluate against the guide.
-- [ ] Each finding: File, Issue, Description, Recommendation.
-- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` using the template.
+### Step 1: Confirm scope and type
+- [ ] Set `{type}` (`quality` | `compliance` | `accessibility`) and derive `{slug}` per `AGENTS.md`; confirm with the user if unclear.
+- [ ] Identify files in scope; ask minimal questions if ambiguous.
+
+### Step 2: Load guide and template
+- [ ] Open the guide and report template for `{type}` (see **Review types**).
+
+### Step 3: Evaluate the code
+- [ ] Per file: responsibility, callers/callees, edge cases; check against the guide.
+- [ ] Record each finding: File, Issue, Description, Recommendation (actionable for `/repair` only).
+
+### Step 4: Write the report
+- [ ] Create `{Product_Folder}/reports/{slug}.{type}.report.md` from the template.
 
 ## Output
-- [ ] Report at `reports/{slug}.{type}.report.md`.
+- [ ] Report at `{Product_Folder}/reports/{slug}.{type}.report.md`.
 
 ## Verification
 - [ ] All scope files reviewed; every row is actionable for `/repair`; recommendations name file, line, or pattern.
