@@ -17,7 +17,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
-- `AGENTS.md` — `{Product_Folder}`, **Tiers** index, **Project** summary; git workflow
+- `AGENTS.md` — `{Product_Folder}`, **Technology** table, **Project** summary; git workflow
 - Mode files in this folder — one per output type
 
 ### Modes
@@ -35,7 +35,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 
 One architecture file per invocation; finish with `/repository` per `AGENTS.md` (caller `/explore`).
 
-- [ ] Read `AGENTS.md` for `{Product_Folder}`, `{Source_Folders}`, and tiers.
+- [ ] Read `AGENTS.md` for `{Product_Folder}`, `{Source_Folders}`, and **Technology** rows.
 - [ ] Pick the next mode — user argument, or first missing file in **mode order** above.
 - [ ] Run the matching `{mode}.mode.md`; write **one** file under `{Product_Folder}/arch/`.
 - [ ] Do not regenerate an existing file unless the user asks to refresh it.

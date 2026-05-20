@@ -90,7 +90,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 ### Workflow index
 
-- `AGENTS.md` - Entry point: paths, slugs, git rules, tier index, brownfield read order. Product and stack detail live in `arch/`, not duplicated here.
+- `AGENTS.md` - Entry point: paths, slugs, git rules, slim Technology table (folder, language, framework, build/run/test per tier), brownfield read order. Product and structural detail live in `arch/`.
 
 - `.agents/skills/` - Agent skills (from AIDDbot or custom). Not under `{Product_Folder}`; lives at project root per `AGENTS.md`.
 

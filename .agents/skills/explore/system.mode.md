@@ -4,7 +4,7 @@
 **Template**: `system.arch.template.md` (in this skill's folder)
 
 ## 1. Gather context
-- [ ] Read `AGENTS.md` → `{Product_Folder}`, **Project** (name, one-line summary), and **Tiers** table.
+- [ ] Read `AGENTS.md` → `{Product_Folder}`, **Project** (name, one-line summary), and **Technology** table (tier folders).
 - [ ] Read `README.md` and root docs for product description and key features (up to 5).
 - [ ] Read entry points, configuration files, and dependency manifests per tier — map containers only; no implementation detail.
 - [ ] Map top-level folder structure per tier — do NOT read individual source files.

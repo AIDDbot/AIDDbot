@@ -6,7 +6,7 @@ This is not a traditional application. There is no application source code to bu
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
 
-Consumer projects get paths, slugs, tier index, spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)). Product and stack detail live in `{Product_Folder}/arch/` from `/explore`.
+Consumer projects get paths, slugs, a slim **Technology** table (folder, language, framework, build/run/test per tier), spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)). Product and structural detail live in `{Product_Folder}/arch/` from `/explore`.
 
 ## Git
 

@@ -34,7 +34,7 @@ In your agent chat:
 /initialize this project
 ```
 
-This sets up `AGENTS.md` (paths, tier index) and confirms skills are present. Stack and product detail go to `arch/` via `/explore` on brownfield projects.
+This sets up `AGENTS.md` (paths, slim Technology table per tier) and confirms skills are present. Product and structural detail go to `arch/` via `/explore` on brownfield projects.
 
 ### Brownfield (existing codebase)
 

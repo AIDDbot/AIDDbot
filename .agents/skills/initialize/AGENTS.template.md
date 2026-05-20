@@ -13,7 +13,7 @@
 
 - **{Agents_Folder}**: {Folder for agent-related files such as skills, prompts, and specs.}
 - **{Product_Folder}**: {Folder for product-related files such as specs, plans, and documentation.}
-- **{Source_Folders}**: {Comma-separated source roots, e.g. `back/`, `front/` — see **Tiers** below.}
+- **{Source_Folders}**: {Comma-separated source roots, e.g. `back/`, `front/` — see **Technology** below.}
 - **OS dev**: `Windows` | `Linux` | `MacOS`
 - **Terminal**: `cmd` | `PowerShell` | `bash` | `zsh`
 - **Git remote**: {Remote URL for the git repository, e.g., `https://github.com/user/repo.git`}
@@ -36,7 +36,7 @@
 │   └── reports/
 ├── CHANGELOG.md
 ├── README.md
-├── {Source_Folders}/     # Tier source roots (see Tiers)
+├── {Source_Folders}/     # Tier source roots (see Technology)
 ├── tests/                # E2E tests
 └── other_files/
 ````
@@ -107,14 +107,16 @@ YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `relea
 
 **{Product_Name}** — {One-line summary. Full product context, containers, and features: `{Product_Folder}/arch/system.arch.md` (create with `/explore system` if missing).}
 
-## Tiers
+## Technology
 
-| Tier | Source | Architecture |
-|------|--------|--------------|
-| {Tier_Name_1} | `{source_folder_1}/` | `arch/{tier_slug_1}.arch.md` |
-| {Tier_Name_2} | `{source_folder_2}/` | `arch/{tier_slug_2}.arch.md` |
+Quick reference for `/codify` and `/verify` — one row per tier (`back`, `front`, …). Add **E2E** and **DB** rows when those tiers exist. Use `—` when a script does not apply (e.g. DB run). No storage, security, lint, deploy, or source-tree detail here; `/explore` writes `arch/{tier}.arch.md`.
 
-Stack, dev commands, and tier layout live in each `arch/{tier}.arch.md` (from `/explore {tier}`). On brownfield, run `/explore` before `/planify` if `arch/` is incomplete.
+| Tier | Folder | Language | Framework | Build | Run | Test |
+|------|--------|----------|-----------|-------|-----|------|
+| {Tier_Name_1} | `{folder_1}/` | {language_1} | {framework_1} | `{build_1}` | `{run_1}` | `{test_1}` |
+| {Tier_Name_2} | `{folder_2}/` | {language_2} | {framework_2} | `{build_2}` | `{run_2}` | `{test_2}` |
+
+Arch files (optional until `/explore`): `arch/{tier_slug}.arch.md` per row. On brownfield, run `/explore` before `/planify` if `arch/` is incomplete.
 
 ## Principles
 
