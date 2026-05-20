@@ -9,7 +9,7 @@ description: Reverse-engineers an existing (brownfield) project to extract its a
 Act as a senior software architect.
 
 ## Task
-Analyze an existing codebase and produce architecture documentation under `{Product_Folder}/arch/` — product and system shape in `system.arch.md`, stack and dev workflow per tier in `{tier}.arch.md` — for `/planify`, `/codify`, and `/verify`.
+Analyze an existing codebase and produce architecture documentation under `{Product_Folder}/arch/` — product and system shape in `system.arch.md`, stack and dev workflow per tier in `{tier}.arch.md` — for `/planify` and `/codify`.
 
 ## Context
 
@@ -17,7 +17,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
-- `AGENTS.md` — `{Product_Folder}`, **Technology** table, **Project** summary; git workflow
+- `AGENTS.md` — `{Product_Folder}`, **Technology** table, **Product** summary; git workflow
 - Mode files in this folder — one per output type
 
 ### Modes

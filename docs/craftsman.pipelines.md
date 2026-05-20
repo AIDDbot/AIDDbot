@@ -6,16 +6,20 @@ Paths below are under `{Product_Folder}` (default `.product/`).
 
 Use `/repair` for every row in `/review` or `/verify` reports (no severity tiers — if it is in the report, fix it). Review repairs preserve behavior unless fixing a defect; verify repairs may change behavior to meet acceptance criteria.
 
+After `/repair`: re-run `/verify` when the report type is `verify`; re-run `/review` on the same scope when the report came from `/review` (or run `/verify` if acceptance criteria may have changed).
+
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
   RPT["reports/{slug}.{type}.report.md"]:::nd
   COD[Source Code]:::nd
+  RRV["/review again"]:::nd
   VFY["/verify"]:::nd
 
   HUM -->|/review or failed /verify| RPT
   RPT -->|/repair| COD
-  COD --> VFY
+  COD -->|verify report| VFY
+  COD -->|review report| RRV
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```

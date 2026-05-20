@@ -39,7 +39,7 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 - [ ] Working code in the appropriate files.
 
 ### Spec status
-- [ ] When `{slug}.spec.md` exists: set `status: in-progress`.
+- [ ] When `{slug}.spec.md` exists: set `status: in-progress` (including when the user skipped `/planify` from `draft` or `planned` per `AGENTS.md` **Spec status**).
 
 ## Verification
 - [ ] Code compiles.

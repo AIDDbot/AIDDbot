@@ -50,39 +50,12 @@ flowchart TD
 
 ## Commands
 
-- `/initialize` - Create initial technology documentation (`AGENTS.md`) and confirm `.agents/skills/` is present.
-
-- `/explore` - Reverse-engineer an existing codebase to discover its architecture and infer the ADRs. 
-
-- `/extract` - Extract coding rules from an existing codebase.
-
-- `/specify` - Create a new specification from a requirement (defines problem, solution, and verification).
-
-- `/planify` - Create a set of implementation plans for a specification or bug-fix (back, front, and data).
-
-- `/codify` - Writes the code and unit tests following a plan, or a minor requirement.
-
-- `/verify` - Run end-to-end tests to ensure code meets specifications. On failure, writes a report for `/repair`.
-
-- `/design` - *(experimental)* Implement production-grade frontend UI from a design specification (`DESIGN.md` or `{Product_Folder}/design/{slug}/`).
-
-- `/review` - Review code for guideline compliance and best practices.
-
-- `/repair` - Apply fixes from a review or verify report (preferred path for all reported defects).
-
-- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released` (prerequisites: [`/release` skill](../.agents/skills/release/SKILL.md)).
-
-- `/repository` - Git branches and conventional commits. Not a separate pipeline step; producing skills finish per `AGENTS.md` git rules.
-
-## Git workflow
-
-Branch rules and per-skill commits: [repository skill](../.agents/skills/repository/SKILL.md) and [skill integrations](../.agents/skills/repository/skill-integrations.md).
-
-Paths and spec status: project `AGENTS.md` after `/initialize`.
+- **When to use each skill:** [Skills catalog](../.agents/AIDD.skills-catalog.md) · [Skills index](../.agents/skills/README.md)
+- **Install, loops, and prompts:** [Getting started](./getting-started.md)
+- **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [designer](./designer.pipelines.md) · [craftsman](./craftsman.pipelines.md)
+- **Git:** [repository skill](../.agents/skills/repository/SKILL.md) · [skill integrations](../.agents/skills/repository/skill-integrations.md) — producing skills finish per project `AGENTS.md`; `/repository` is the last step, not a separate pipeline phase.
 
 New here? [Getting started](./getting-started.md) · [Why AIDD](../README.md#why-aidd)
-
-Pipeline detail: [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [design](./design.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 
 ## Artifacts
 
@@ -90,7 +63,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 ### Workflow index
 
-- `AGENTS.md` - Entry point: paths, slugs, git rules, slim Technology table (folder, language, framework, build/run/test per tier), brownfield read order. Product and structural detail live in `arch/`.
+- `AGENTS.md` - Entry point: paths, slugs, git rules, slim Technology table (folder, language, framework, build/run/test per tier), **Implementation context (brownfield)** read order. Product and structural detail live in `arch/`.
 
 - `.agents/skills/` - Agent skills (from AIDDbot or custom). Not under `{Product_Folder}`; lives at project root per `AGENTS.md`.
 
@@ -105,7 +78,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 - `design/{slug}/` - Optional design specifications for `/design` (e.g. `DESIGN.md`).
 
-- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see project `AGENTS.md` and [specify/spec-status.md](../.agents/skills/specify/spec-status.md) for full lifecycle.
+- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see project `AGENTS.md` **Spec status** ([template](../.agents/skills/initialize/AGENTS.template.md#spec-status-state-machine)).
 
 - `plans/{slug}.{source?}.{tier?}.plan.md` - Implementation plans (fullstack: `{slug}.{source}.plan.md`).
 

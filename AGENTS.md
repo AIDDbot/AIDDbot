@@ -20,7 +20,7 @@ Per-skill branches, commit types, and paths: [skill-integrations.md](./.agents/s
 
 ## Implementation context (brownfield)
 
-When a consumer project has `{Product_Folder}/arch/` or `rules/` (from `/explore` and `/extract`), implementation skills read them before changing plans, code, or tests. Paths: [AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md) → **AIDD product artifacts**.
+When a consumer project has `{Product_Folder}/arch/` or `rules/` (from `/explore` and `/extract`), implementation skills read them before changing plans, code, or tests. Consumer template: [AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md) → **Implementation context (brownfield)**.
 
 **`/planify`**, **`/codify`**, and **`/verify`** apply the read order below for rows marked for each skill. Skip missing files. Do not duplicate arch content into rules files.
 
@@ -43,6 +43,8 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 |-----|---------|
 | [getting-started.md](./docs/getting-started.md) | Install, initialize, feature and release loops |
 | [README.md](./README.md#why-aidd) | Problem, principles, audience (also [why-aidd.md](./docs/why-aidd.md) → README) |
+| [AIDD.skills-catalog.md](./.agents/AIDD.skills-catalog.md) | Prerequisites and when to invoke each skill |
+| [.agents/skills/README.md](./.agents/skills/README.md) | Typical loops, conventions, pipeline links |
 | [AIDD.workflow.md](./docs/AIDD.workflow.md) | End-to-end overview |
 | [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
 | [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |

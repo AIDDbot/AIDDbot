@@ -19,7 +19,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-- `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see [spec-status.md](../.agents/skills/specify/spec-status.md)).
+- `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see [codify skill](../.agents/skills/codify/SKILL.md) and project `AGENTS.md` **Spec status**).
 - Fullstack plans: `plans/{slug}.spec.plan.md` (no tier segment).
 - Git per step: `AGENTS.md` and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
 

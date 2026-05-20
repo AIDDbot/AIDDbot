@@ -2,7 +2,7 @@
 
 Paths below are under `{Product_Folder}` (default `.product/`) unless noted.
 
-## Standalone UI (experimental)
+## Standalone UI
 
 ```mermaid
 flowchart TD

@@ -47,7 +47,7 @@ Given a requirement or feature description, produce a complete specification fil
 ### Step 5: Write the spec
 
 - [ ] Create `{Product_Folder}/specs/{slug}.spec.md` from [spec template](./spec.template.md).
-- [ ] Frontmatter: `spec-slug` matches `{slug}`, `status: draft`; leave `released-version` and `released-at` empty per [spec-status.md](./spec-status.md).
+- [ ] Frontmatter: `spec-slug` matches `{slug}`, `status: draft`; leave `released-version` and `released-at` empty per `AGENTS.md` **Spec status** ([template](../initialize/AGENTS.template.md#spec-status-state-machine)).
 
 ## Output
 - [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable for `/planify`.

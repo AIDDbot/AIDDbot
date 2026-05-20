@@ -25,7 +25,7 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-`AIDDbot` implements comes as **a set of skills** grouped by phase. See [Skills index](.agents/skills/README.md) for when to use each skill.
+**AIDDbot** comes as **a set of skills** grouped by phase. See [Skills catalog](.agents/AIDD.skills-catalog.md) and [Skills index](.agents/skills/README.md) for when to use each skill.
 
 | Phase | Skills |
 |-------|--------|
@@ -33,6 +33,10 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` |
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/release`, `/repository` |
 | [Designer](docs/designer.pipelines.md) | `/design`  |
+
+| Skill | Status |
+|-------|--------|
+| `/refactor` | WIP — use `/review` → `/repair` for defects today |
 
 ## Quick start
 
@@ -45,9 +49,10 @@ In your agent: **`/initialize` this project**
 
 To level up read the documentation:
 
-- **[Getting started](docs/getting-started.md)** to scripted install and initialization
-- **[Workflow](docs/AIDD.workflow.md)** to understand the AIDD workflow and artifacts
-- **[Skills index](.agents/skills/README.md)** to know when to use each skill
+- **[Getting started](docs/getting-started.md)** — install, initialize, feature and release loops
+- **[Skills catalog](.agents/AIDD.skills-catalog.md)** — prerequisites and when to invoke each skill
+- **[Workflow](docs/AIDD.workflow.md)** — diagram, artifacts, git rules
+- **[Skills index](.agents/skills/README.md)** — typical loops and conventions
 
 ---
 

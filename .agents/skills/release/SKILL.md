@@ -63,3 +63,18 @@ Given one or more verified specifications, bump the project version, record chan
 
 ### Step 7: Tag and branch (optional)
 - [ ] Tag or merge only with user confirmation.
+
+## Output
+
+- [ ] `{new_version}` recorded in all canonical version files.
+- [ ] `CHANGELOG.md` has `## [{new_version}] - {YYYY-MM-DD}` per [changelog convention](./changelog.convention.md).
+- [ ] Each released spec: `status: released`, `released-version`, `released-at` in YAML.
+- [ ] Targeted updates to `README.md`, `AGENTS.md`, `arch/`, or `rules/` when applicable (Step 6).
+- [ ] Changes committed via `/repository` per [skill-integrations](../repository/skill-integrations.md).
+
+## Verification
+
+- [ ] Every slug in scope was `verified` before release (or user override documented).
+- [ ] No unresolved rows in `reports/{slug}.*.report.md` for slugs in scope.
+- [ ] Version, changelog, and spec frontmatter are consistent.
+- [ ] Optional tag or merge completed only with user confirmation.

@@ -95,6 +95,7 @@ After implementation:
 | `/review` | Quality, accessibility, or compliance report |
 | `/repair` | Fixes from review or verify reports |
 | `/release` | Semver bump, `CHANGELOG.md`, spec `status: released` |
+| `/repository` | Branches and conventional commits (last step of producing skills) |
 
 Before `/release`, see [`/release` skill](../.agents/skills/release/SKILL.md) (merge and blocking checks).
 
@@ -108,13 +109,11 @@ See [Craftsman pipelines](./craftsman.pipelines.md).
 /design from design specification
 ```
 
-Experimental. See [Design pipelines](./design.pipelines.md).
+See [Designer pipelines](./designer.pipelines.md).
 
 ## Roadmap
 
-| Skill | Status |
-|-------|--------|
-| `/refactor` | WIP — use `/review` → `/repair` for defects today |
+`/refactor` is WIP — see [README § What you get](../README.md#what-you-get).
 
 ## Next
 

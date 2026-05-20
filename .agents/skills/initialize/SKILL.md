@@ -59,7 +59,7 @@ One short stack sentence under **Technology**, then one row per tier. Columns on
 
 - [ ] Write `AGENTS.md` at the project root by copying the template structure and replacing every `{placeholder}`.
 - [ ] **Layout** tree: set `{Project_Root}` to the repo root label (e.g. project folder name or `.`); use real folder names for `{Agents_Folder}`, `{Product_Folder}`, `{Source_Folders}`, and `e2e/` only when that folder exists.
-- [ ] Copy **Implementation context**, **Spec status** YAML block, **Principles**, and static tables verbatim except resolved paths.
+- [ ] Copy **Implementation context (brownfield)**, **Spec status** YAML block, **Principles**, and static tables verbatim except resolved paths.
 - [ ] If brownfield, suggest `/explore` (start with `system`, then tiers) and `/extract` before feature work.
 
 ## Verification

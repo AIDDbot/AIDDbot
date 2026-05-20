@@ -11,7 +11,7 @@ When to invoke each skill (prerequisites). For loops see [skills/README.md](./sk
 | Implementation plan | `/planify` | spec, report, or requirement |
 | Code + unit tests | `/codify` | plan, spec, or requirement |
 | E2E verification | `/verify` | `{slug}.spec.md` at `in-progress` (or `verified` to re-run) |
-| UI from design | `/design` | `DESIGN.md` or `design/{slug}/` |
+| UI from design | `/design` | `design/{slug}/DESIGN.md` or user-provided `DESIGN.md` path |
 | Code review | `/review` | code in scope |
 | Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
 | Ship | `/release` | spec `status: verified` |

@@ -48,24 +48,26 @@ Under `{Product_Folder}/`:
 |---|---|
 | Spec | `specs/{slug}.spec.md` |
 | Plan | `plans/{slug}.{source?}.{tier?}.plan.md` |
-| Report | `reports/{slug?}.{type}.report.md` |
+| Report | `reports/{slug}.{type}.report.md` |
 
 - `{source?}`: `spec` | `report` | omit.
 - `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
 - `{type}`: `quality` | `compliance` | `accessibility` | `verify`
 
-### Implementation context 
+### Implementation context (brownfield)
 
-Architecture and rules files are used by the following skills:
+When `{Product_Folder}/arch/` or `rules/` exist (from `/explore` and `/extract`), `/planify`, `/codify`, and `/verify` read the files below in order. Skip missing files. Do not duplicate arch content into rules files.
 
-| File | Skills affected |
-|------|----------------|
-| `arch/system.arch.md` | `/planify` |
-| `arch/{tier}.arch.md` | `/planify` |
-| `arch/ADR.md` | `/planify` |
-| `rules/{tier}.rules.md` | `/codify` |
-| `rules/naming.rules.md` | `/codify` |
-| `rules/testing.rules.md` | `/codify`, `/verify` |
+| # | File | Skills |
+|---|------|--------|
+| 1 | `arch/system.arch.md` | `/planify` |
+| 2 | `arch/{tier}.arch.md` | `/planify`, `/codify` |
+| 3 | `arch/ADR.md` | `/planify` |
+| 4 | `rules/{tier}.rules.md` | `/codify` |
+| 5 | `rules/naming.rules.md` | `/codify` |
+| 6 | `rules/testing.rules.md` | `/codify`, `/verify` |
+
+**Apply:** Plans and code respect ADRs and arch constraints; match naming, roles, and errors from tier rules; tests follow `testing.rules.md` when present.
 
 ### Spec status
 ```yaml
@@ -83,6 +85,7 @@ released-at:
 | - | `/specify` | `draft` |
 | `draft` | `/planify` | `planned` |
 | `planned` | `/codify` | `in-progress` |
+| `draft` or `planned` | `/codify` (user skips `/planify`) | `in-progress` |
 | `in-progress` | `/verify` | `verified` |
 | `verified` | `/release` | `released` |
 | `released` | No action. | `released` |

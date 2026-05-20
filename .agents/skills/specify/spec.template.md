@@ -6,7 +6,7 @@ released-at:
 ---
 # Specification — {short description}
 
-> Status: see `AGENTS.md` (chain). Full lifecycle: [spec-status.md](./spec-status.md)
+> Status: see `AGENTS.md` **Spec status** ([template](../initialize/AGENTS.template.md#spec-status-state-machine)).
 
 ## Problem definition
 
