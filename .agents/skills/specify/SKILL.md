@@ -17,14 +17,14 @@ Given a requirement or feature description, produce a complete specification fil
 - A requirement, user story, or feature description from the user.
 
 ### References
-- [Artifact conventions](../repository/artifact-conventions.md)
+- `AGENTS.md` — product paths, slug rules, spec status chain
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
 - [Spec template](./spec.template.md)
-- [Spec status lifecycle](./spec-status.md)
+- [Spec status lifecycle](./spec-status.md) — full frontmatter and edge cases for this skill
 
 ### Conventions
-- Output: `{Product_Folder}/specs/{slug}.spec.md` where `{slug}` is a concise identifier derived from the requirement.
+- Output: `{Product_Folder}/specs/{slug}.spec.md` where `{slug}` is short, lowercase, hyphenated when needed (under 20 characters when possible).
 
 ## Steps
 

@@ -6,7 +6,7 @@ released-at:
 ---
 # Specification — {short description}
 
-> Status lifecycle: [spec-status.md](./spec-status.md)
+> Status: see `AGENTS.md` (chain). Full lifecycle: [spec-status.md](./spec-status.md)
 
 ## Problem definition
 

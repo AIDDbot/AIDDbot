@@ -15,9 +15,13 @@ Given a report from `/review` or `/verify`, apply the recommended fixes directly
 
 ### Input
 - A report file `{Product_Folder}/reports/{slug}.{type}.report.md` using the matching report template (verify reports include **Acceptance criterion**).
-- [Artifact conventions](../repository/artifact-conventions.md)
+- `AGENTS.md` — report path patterns and spec status chain
 - `{type}` is the report source: `quality`, `compliance`, `accessibility`, or `verify`.
-- [Spec status lifecycle](../specify/spec-status.md) — do not change spec status; re-run `/verify` to advance lifecycle.
+
+### Spec status (this skill)
+
+- Do **not** change `{slug}.spec.md` frontmatter `status`.
+- After a `verify` report, suggest re-running `/verify` to set `verified` when tests pass.
 
 ### Fix rules by report type
 

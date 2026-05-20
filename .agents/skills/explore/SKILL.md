@@ -17,9 +17,8 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
-- [Incremental artifact pattern](../repository/incremental-artifact.md)
-- [Artifact conventions](../repository/artifact-conventions.md)
-- `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
+- [Incremental artifact pattern](./incremental-artifact.md)
+- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, product paths, detected tiers
 - Mode files in this skill's folder — one per output type.
 
 ### Modes
@@ -49,7 +48,7 @@ Recommended generation order: `system → adr → er → back → front → db`
 
 ## Steps
 
-Follow [incremental artifact pattern](../repository/incremental-artifact.md):
+Follow [incremental artifact pattern](./incremental-artifact.md):
 
 - [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 - [ ] Pick mode: argument, or first missing file in recommended order (`system → adr → er → tiers`).

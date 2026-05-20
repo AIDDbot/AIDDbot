@@ -20,7 +20,7 @@ Match implementation complexity to the intended aesthetic direction:
 ## Context
 
 ### References
-- [Artifact conventions](../repository/artifact-conventions.md)
+- `AGENTS.md` — product paths and slug rules
 
 ### Design specification
 

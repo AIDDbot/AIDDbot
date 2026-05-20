@@ -30,7 +30,7 @@ One of the following scopes:
 
 ### Slug derivation
 
-See [artifact conventions](../repository/artifact-conventions.md). Typical cases:
+Read `AGENTS.md` for slug rules. Typical cases:
 
 | Scope | `{slug}` |
 |-------|----------|
@@ -40,7 +40,15 @@ See [artifact conventions](../repository/artifact-conventions.md). Typical cases
 
 ### Severity
 
-Use `critical` | `high` | `medium` | `low` | `info` per [artifact conventions](../repository/artifact-conventions.md).
+Use one value per finding:
+
+| Severity | When to use |
+|----------|-------------|
+| `critical` | Blocks release or breaks production path |
+| `high` | Defect or major standard violation |
+| `medium` | Should fix before merge |
+| `low` | Minor improvement |
+| `info` | Suggestion, no blocking impact |
 
 ## Steps
 
@@ -48,7 +56,7 @@ Use `critical` | `high` | `medium` | `low` | `info` per [artifact conventions](.
 - [ ] Identify scope and files to review; ask minimal questions if unclear.
 - [ ] For each file: responsibility, callers/callees, edge cases — then evaluate against the guide.
 - [ ] Document each finding: File, Issue, Severity, Description, Recommendation.
-- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` using the template structure.
+- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` (`{type}`: `quality` | `compliance` | `accessibility`) using the template structure.
 
 ## Output
 - [ ] Report committed path: `reports/{slug}.{type}.report.md`.

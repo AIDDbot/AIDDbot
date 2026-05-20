@@ -20,9 +20,8 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
   - A direct requirement from the user
 
 ### References
-- [Artifact conventions](../repository/artifact-conventions.md)
+- `AGENTS.md` — product paths, slug rules, spec status chain
 - The implementation plan or spec file provided as input.
-- [Spec status lifecycle](../specify/spec-status.md)
 - The architecture documentation in `{Product_Folder}/arch/` if it exists, especially `{tier}.arch.md`.
 - The coding conventions in `{Product_Folder}/rules/` if they exist, especially `{tier}.rules.md`, `naming.rules.md`, and `testing.rules.md`.
 
@@ -30,7 +29,7 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 
 ### Step 0: Branch (required)
 - [ ] Read and follow [repository skill](../repository/SKILL.md) — **Start a feature branch** before writing implementation code (`feat/{slug}` from plan or spec).
-- [ ] When a `{slug}.spec.md` exists, set frontmatter `status: in-progress` (see [spec status lifecycle](../specify/spec-status.md); bypassing `/planify` is allowed when the user requests it).
+- [ ] When `{Product_Folder}/specs/{slug}.spec.md` exists, set frontmatter `status: in-progress` (from `planned`, or from `draft` if `/planify` was skipped with user approval).
 
 ### Step 1: Clarify the input
 - [ ] If the input is incomplete or ambiguous, ask the minimum questions needed before proceeding.

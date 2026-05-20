@@ -21,12 +21,12 @@ Invoke skills by name (e.g. `/specify`, `@specify`). Each folder contains `SKILL
 
 Full catalog: [AIDD.skills-catalog.md](../AIDD.skills-catalog.md).
 
-## Shared conventions
+## Conventions (human index)
 
-- [Artifact naming & paths](./repository/artifact-conventions.md)
-- [Incremental docs pattern](./repository/incremental-artifact.md) (explore, extract)
-- [Spec status lifecycle](./specify/spec-status.md)
-- [Git per skill](./repository/skill-integrations.md)
+- **Consumer projects:** paths, slugs, and spec status chain live in root `AGENTS.md` (from `/initialize` template).
+- **Per skill:** each `SKILL.md` carries rules for that command; explore/extract include [incremental-artifact.md](./explore/incremental-artifact.md) (duplicated under extract).
+- **Spec lifecycle detail:** [specify/spec-status.md](./specify/spec-status.md) (used by `/specify` only).
+- **Git:** [repository/SKILL.md](./repository/SKILL.md) and [skill-integrations.md](./repository/skill-integrations.md).
 
 ## Typical loops
 
@@ -42,8 +42,6 @@ Full catalog: [AIDD.skills-catalog.md](../AIDD.skills-catalog.md).
 Merge `feat/{slug}` to the default branch before `/release` unless the user confirms otherwise.
 
 ## AIDD Skills catalog
-
-Conventions: [artifact-conventions.md](./repository/artifact-conventions.md)
 
 ### Architect
 

@@ -34,8 +34,7 @@ Optional:
 
 ### References
 
-- [Artifact conventions](../repository/artifact-conventions.md)
-- [Spec status lifecycle](../specify/spec-status.md) — frontmatter fields and allowed transitions.
+- `AGENTS.md` — product paths, spec status chain
 - [Version convention](./version.convention.md) — semver rules and where to bump.
 - [Changelog convention](./changelog.convention.md) — `CHANGELOG.md` format and entries.
 - [CHANGELOG template](./CHANGELOG.template.md) — bootstrap when missing.
@@ -78,12 +77,13 @@ Optional:
 
 ### Step 5: Update specifications
 
-For each released `{slug}.spec.md`:
+For each released `{Product_Folder}/specs/{slug}.spec.md` (preserve body; YAML only):
 
-- [ ] Set `status: released`.
+- [ ] Set `status: released` (only `/release` may set `released`).
 - [ ] Set `released-version: {new_version}`.
 - [ ] Set `released-at: {YYYY-MM-DD}` (today, ISO format).
-- [ ] Follow [spec status lifecycle](../specify/spec-status.md); do not alter spec body unless the user asked.
+- [ ] Do not regress `released` specs to earlier statuses without user confirmation.
+- [ ] Do not set `released` without successful `/verify` unless the user explicitly overrides.
 
 ### Step 6: Update documentation
 

@@ -1,6 +1,6 @@
 # AIDD Skills catalog
 
-Agent index: [skills/README.md](./skills/README.md) · Conventions: [artifact-conventions.md](./skills/repository/artifact-conventions.md)
+Agent index: [skills/README.md](./skills/README.md) · Consumer conventions: root `AGENTS.md` (via `/initialize`)
 
 ### Architect
 

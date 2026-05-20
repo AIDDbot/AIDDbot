@@ -18,9 +18,8 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 - `{Product_Folder}/arch/` exists (run `/explore` first if not).
 
 ### References
-- [Incremental artifact pattern](../repository/incremental-artifact.md)
-- [Artifact conventions](../repository/artifact-conventions.md)
-- `AGENTS.md` — provides `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
+- [Incremental artifact pattern](./incremental-artifact.md)
+- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, product paths, detected tiers
 - `{Product_Folder}/arch/{tier}.arch.md` — code organization, shared artifacts, constraints.
 - Mode files in this skill's folder — one per output type.
 
@@ -49,7 +48,7 @@ Recommended generation order: `naming → back → front → db → testing`
 
 ## Steps
 
-Follow [incremental artifact pattern](../repository/incremental-artifact.md):
+Follow [incremental artifact pattern](./incremental-artifact.md):
 
 - [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
 - [ ] Pick mode: `all` (run every missing mode in order), a named argument, or first missing file (`naming → tiers → testing`).

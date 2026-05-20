@@ -5,8 +5,9 @@ This is not a traditional application. There is no application source code to bu
 ## Skills
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
-- Shared naming and paths: [artifact-conventions.md](./.agents/skills/repository/artifact-conventions.md)
-- Git per skill: [skill-integrations.md](./.agents/skills/repository/skill-integrations.md)
+- Git (all committing skills): [repository/SKILL.md](./.agents/skills/repository/SKILL.md)
+
+Consumer projects get paths, slugs, and spec status in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)).
 
 ## Docs
 
@@ -20,11 +21,11 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 | [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
 | [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |
 | [craftsman.pipelines.md](./docs/craftsman.pipelines.md) | Review, repair, release |
-| [designer.pipelines.md](./docs/designer.pipelines.md) | Design  |
+| [designer.pipelines.md](./docs/designer.pipelines.md) | Design |
 
 ## Editing skills
 
 - Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification, Git.
-- Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill.
-- Cross-link [artifact-conventions](./.agents/skills/repository/artifact-conventions.md) instead of duplicating path rules.
+- Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill (same folder only).
+- Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put skill-specific rules in that skill's `SKILL.md`.
 - After changing a skill, align README, catalog, workflow, and pipeline docs if behavior or paths changed.

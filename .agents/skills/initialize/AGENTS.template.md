@@ -45,7 +45,39 @@
 
 — Use conventional commit messaging
 — Code branches prefixes must be: `feat/` | `fix/` | `chore/`
-— Generate short slugs for artifacts and names (less-than-20-chars).
+— Generate short slugs for artifacts and names (less-than-20-chars when possible)
+— Derive `{slug}` from artifact filename, then `feat/{slug}` branch, then requirement title (confirm if ambiguous)
+
+### AIDD product artifacts
+
+Paths are under `{Product_Folder}`:
+
+| Artifact | Pattern |
+|----------|---------|
+| Spec | `specs/{slug}.spec.md` |
+| Plan (tiered) | `plans/{slug}.{source}.{tier}.plan.md` |
+| Plan (fullstack) | `plans/{slug}.{source}.plan.md` |
+| Report | `reports/{slug}.{type}.report.md` |
+| Arch | `arch/{name}.md` or `arch/{tier}.arch.md` |
+| Rules | `rules/{name}.rules.md` |
+| Design | `design/{slug}/DESIGN.md` |
+
+`{source}`: `spec` | `report` | omit for simple requirements. `{type}` (reports): `quality` | `compliance` | `accessibility` | `verify`.
+
+### Spec status
+
+YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `released-at` (last two empty until release).
+
+**Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped).
+
+- `/specify` sets `draft`
+- `/planify` from a spec sets `planned` (not when input is a report only)
+- `/codify` sets `in-progress` when coding starts
+- `/verify` pass sets `verified`; fail keeps `in-progress`
+- `/release` only skill that sets `released` plus `released-version` / `released-at`
+- `/repair` does not change spec status
+
+Before committing artifacts, read `{Agents_Folder}/skills/repository/SKILL.md`. `/codify` creates `feat/{slug}` before implementation code.
 
 ## Product
 

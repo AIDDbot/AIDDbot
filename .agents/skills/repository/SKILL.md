@@ -23,7 +23,7 @@ Apply the correct branch strategy and commit all work from the calling skill in 
 
 ### References
 
-- [Artifact conventions](./artifact-conventions.md) — slugs, paths, severity, spec status pointers.
+- `AGENTS.md` at project root — slugs, product artifact paths, spec status chain.
 - [Conventional commits](./conventional-commits.md) — message format, types, examples, Windows syntax.
 - [Skill integrations](./skill-integrations.md) — branch and commit expectations per calling skill.
 

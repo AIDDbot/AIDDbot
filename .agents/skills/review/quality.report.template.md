@@ -1,6 +1,6 @@
 # Quality Report — {slug}
 
-**Severity:** `critical` | `high` | `medium` | `low` | `info` — see [artifact conventions](../repository/artifact-conventions.md).
+**Severity:** `critical` | `high` | `medium` | `low` | `info` — see Severity table in [review SKILL](./SKILL.md).
 
 ## Structural complexity
 

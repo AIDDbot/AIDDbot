@@ -17,9 +17,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - A specification file `{slug}.spec.md` with acceptance criteria.
 
 ### References
-- [Artifact conventions](../repository/artifact-conventions.md)
-- [Spec status lifecycle](../specify/spec-status.md)
-- `AGENTS.md` — E2E framework, test commands, and project layout
+- `AGENTS.md` — product paths, spec status chain, E2E framework, test commands, project layout
 - `{Product_Folder}/rules/testing.rules.md` when present — test folder and conventions
 - Load the guide for the E2E framework in use:
   - Playwright → [Playwright guidelines](./playwright.md)
@@ -43,8 +41,8 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ### Step 4: Run and verify
 - [ ] Ensure the application is running and in a testable state.
 - [ ] Execute all E2E tests and verify they pass.
-- [ ] On full pass, set the spec frontmatter `status: verified`.
-- [ ] On failure, leave spec status at `in-progress` (do not set `verified`).
+- [ ] On full pass, set `{Product_Folder}/specs/{slug}.spec.md` frontmatter `status: verified`.
+- [ ] On failure, leave `status: in-progress` (do not set `verified`).
 - [ ] If any tests fail, document each failure with: file/location, issue, severity, **acceptance criterion** (quote or ID from spec), description, recommendation.
 - [ ] If failures persist, write the report (Step 5) and suggest `/repair` — do not force-pass.
 - [ ] Shut down any services started for testing.

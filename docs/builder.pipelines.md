@@ -19,7 +19,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-- `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see [spec-status](../.agents/skills/specify/spec-status.md)).
+- `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see spec status in project `AGENTS.md` and `/codify` skill).
 - Fullstack plans: `plans/{slug}.spec.plan.md` (no tier segment).
 - Each step commits via [`/repository`](/.agents/skills/repository/). `/codify` creates `feat/{slug}` before writing code.
 

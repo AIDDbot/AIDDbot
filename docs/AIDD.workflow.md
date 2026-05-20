@@ -81,7 +81,7 @@ flowchart TD
 3. **Fixes** (`/repair`) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone defects not tied to an open feature branch.
 4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status; prefer merging `feat/{slug}` to the default branch first.
 
-See [repository skill](../.agents/skills/repository/SKILL.md), [artifact conventions](../.agents/skills/repository/artifact-conventions.md), and [skills index](../.agents/skills/README.md).
+See [repository skill](../.agents/skills/repository/SKILL.md) and [skills index](../.agents/skills/README.md). Paths and spec status: project `AGENTS.md` after `/initialize`.
 
 New here? [Getting started](./getting-started.md) · [Why AIDD](../README.md#why-aidd)
 
@@ -105,7 +105,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 - `design/{slug}/` - Optional design specifications for `/render` (e.g. `DESIGN.md`).
 
-- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see [spec status](../.agents/skills/specify/spec-status.md).
+- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see project `AGENTS.md` and [specify/spec-status.md](../.agents/skills/specify/spec-status.md) for full lifecycle.
 
 - `plans/{slug}.{source?}.{tier?}.plan.md` - Implementation plans (fullstack: `{slug}.{source}.plan.md`).
 

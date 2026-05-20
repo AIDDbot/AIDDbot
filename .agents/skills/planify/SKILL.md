@@ -20,9 +20,8 @@ Given a spec, bug report, or review report, produce one or more implementation p
   - a simple textual requirement for a minor improvement
 
 ### References
-- [Artifact conventions](../repository/artifact-conventions.md)
+- `AGENTS.md` — product paths and slug rules
 - [Plan template](./plan.template.md)
-- [Spec status lifecycle](../specify/spec-status.md)
 - If `{Product_Folder}/arch/` exists:
   - Read `system.arch.md` before identifying tiers.
   - Read `{tier}.arch.md` for each affected tier.
@@ -35,9 +34,14 @@ Given a spec, bug report, or review report, produce one or more implementation p
 - Fullstack changes (touching all tiers equally): use `{slug}.{source}.plan.md` (omit `{tier}`; set `tier: fullstack` in plan frontmatter).
 - Pattern: `{slug}.{source?}.{tier?}.plan.md` — examples: `checkout.spec.back.plan.md`, `checkout.report.front.plan.md`, `checkout.spec.plan.md` (fullstack).
 
+### Spec status (this skill)
+
+- When input is `{slug}.spec.md`, set frontmatter `status: planned` after plans are written.
+- When input is a report only (`{slug}.{type}.report.md`), do **not** update spec status.
+
 ### Planning from a review report
 
-When input is `{slug}.{type}.report.md`, set `{source}` to `report` and derive steps from findings (group by tier when possible). Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`. Do not update spec status (no spec input).
+When input is `{slug}.{type}.report.md`, set `{source}` to `report` and derive steps from findings (group by tier when possible). Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`.
 
 ## Steps
 
@@ -56,7 +60,7 @@ When input is `{slug}.{type}.report.md`, set `{source}` to `report` and derive s
 
 ## Output
 - [ ] Write one plan file per tier to `{Product_Folder}/plans/` using the plan template and the correct naming convention.
-- [ ] When the input is a spec, set its frontmatter `status: planned`.
+- [ ] When the input is a spec, set its frontmatter `status: planned` (see **Spec status** above).
 
 ## Verification
 - [ ] Each plan file is complete, ordered, and actionable for a developer to implement without additional context.
