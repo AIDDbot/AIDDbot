@@ -5,7 +5,6 @@ This is not a traditional application. There is no application source code to bu
 ## Skills
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
-- Catalog (human): [`.agents/AIDD.skills-catalog.md`](./.agents/AIDD.skills-catalog.md)
 - Shared naming and paths: [artifact-conventions.md](./.agents/skills/repository/artifact-conventions.md)
 - Git per skill: [skill-integrations.md](./.agents/skills/repository/skill-integrations.md)
 
@@ -21,7 +20,7 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 | [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
 | [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |
 | [craftsman.pipelines.md](./docs/craftsman.pipelines.md) | Review, repair, release |
-| [design.pipelines.md](./docs/design.pipelines.md) | Design (experimental) |
+| [designer.pipelines.md](./docs/designer.pipelines.md) | Design  |
 
 ## Editing skills
 

@@ -33,4 +33,4 @@ Agent index: [skills/README.md](./skills/README.md) · Conventions: [artifact-co
 
 | Skill | What it does |
 |---|---|
-| [`/design`](./skills/design/) | *(experimental)* Production-grade frontend UI from a design specification |
+| [`/design`](./skills/design/) | Production-grade frontend UI from a design specification |
