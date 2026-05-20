@@ -15,7 +15,7 @@ Invoke skills by name (e.g. `/specify`, `@specify`). Each folder contains `SKILL
 /review → /repair → (re-review or /verify as appropriate)
 ```
 
-Merge `feat/{slug}` to the default branch before `/release` unless the user confirms otherwise.
+Before `/release`: [`release/SKILL.md`](./release/SKILL.md) (merge preference and blocking reports).
 
 ## Conventions
 

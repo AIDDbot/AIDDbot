@@ -73,7 +73,7 @@ Example prompts:
 |------|----------------|
 | `/specify` | Spec with acceptance criteria (`{Product_Folder}/specs/`) |
 | `/planify` | Ordered implementation plan (`plans/`) |
-| `/codify` | Code + unit tests on `feat/{slug}` |
+| `/codify` | Code + unit tests (feature branch per [skill-integrations](../.agents/skills/repository/skill-integrations.md)) |
 | `/verify` | E2E tests; failures → report for `/repair` |
 
 If verification fails, `/verify` writes `{Product_Folder}/reports/{slug}.verify.report.md`. Run `/repair` on that report, then `/verify` again.
@@ -96,9 +96,9 @@ After implementation:
 | `/repair` | Fixes from review or verify reports |
 | `/release` | Semver bump, `CHANGELOG.md`, spec `status: released` |
 
-Merge `feat/{slug}` to the default branch before `/release` unless you explicitly release from the feature branch.
+Before `/release`, see [`/release` skill](../.agents/skills/release/SKILL.md) (merge and blocking checks).
 
-Git: each skill follows [shared/git.md](../.agents/skills/shared/git.md); details in [repository](../.agents/skills/repository/SKILL.md) and [skill-integrations](../.agents/skills/repository/skill-integrations.md).
+Git: [shared/git.md](../.agents/skills/shared/git.md) · [repository](../.agents/skills/repository/SKILL.md) · [skill-integrations](../.agents/skills/repository/skill-integrations.md).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 

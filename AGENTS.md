@@ -5,7 +5,7 @@ This is not a traditional application. There is no application source code to bu
 ## Skills
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
-- Git (all committing skills): [repository/SKILL.md](./.agents/skills/repository/SKILL.md)
+- Git (all committing skills): [shared/git.md](./.agents/skills/shared/git.md) → [repository/SKILL.md](./.agents/skills/repository/SKILL.md)
 
 Consumer projects get paths, slugs, and spec status in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)).
 

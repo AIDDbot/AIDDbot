@@ -26,7 +26,7 @@
 ├── {Agents_Folder}/      # Files related to agents (skills, commands, etc)
 │   ├── agents/           # Specific agent role definitions
 │   ├── prompts/          # Reusable prompts directory
-│   └── skills/           # Agent skills (read /repository before committing)
+│   └── skills/           # Agent skills (read shared/git.md before committing)
 ├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
 │   ├── specs/            # Specifications (YAML: status, released-version, released-at)
 │   ├── plans/            # Implementation plans
@@ -120,7 +120,7 @@ Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agen
 
 - **Agent Skills**:
   - {Skill_Name}: {Brief description of the skill and its purpose.}
-  - `/repository`: Git branches and conventional commits — every skill that produces artifacts must **read** this skill and follow it before finishing (it is not auto-invoked).
+  - Git: follow `{Agents_Folder}/skills/shared/git.md` before finishing any producing skill (`/repository` holds branch and commit rules; not auto-invoked).
 
 ## Principles
 

@@ -70,7 +70,7 @@ flowchart TD
 
 - `/repair` - Apply fixes from a review or verify report (preferred path for all reported defects).
 
-- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released`. Merge feature branches to the default branch before release unless the user confirms otherwise.
+- `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released` (prerequisites: [`/release` skill](../.agents/skills/release/SKILL.md)).
 
 - `/repository` - Git branches and conventional commits. Not a separate pipeline step; producing skills finish via [shared/git.md](../.agents/skills/shared/git.md).
 

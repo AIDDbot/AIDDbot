@@ -24,7 +24,7 @@ Git: [shared/git.md](../.agents/skills/shared/git.md) and [skill-integrations.md
 
 ## Release
 
-Requires specs at `status: verified`. Sets `released`, bumps semver, updates `CHANGELOG.md` and targeted docs. **Merge `feat/{slug}` to the default branch** before release unless the user confirms releasing from the feature branch.
+Requires specs at `status: verified`. Procedure and prerequisites: [`/release` skill](../.agents/skills/release/SKILL.md).
 
 ```mermaid
 flowchart TD  
