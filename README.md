@@ -40,7 +40,7 @@ Skills grouped by phase:
 | **Architect** | `/initialize`, `/explore`, `/extract` |
 | **Builder** | `/specify`, `/planify`, `/codify`, `/verify` |
 | **Craftsman** | `/review`, `/repair`, `/release`, `/repository` |
-| **Designer** | `/render` *(experimental)* |
+| **Designer** | `/design` *(experimental)* |
 
 
 Pipeline visuals: 
