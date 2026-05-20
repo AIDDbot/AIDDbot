@@ -80,16 +80,9 @@ When `{Product_Folder}/arch/` or `rules/` exist, `/planify` and `/codify` read t
 
 YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `released-at` (last two empty until release).
 
-**Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped).
+**Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped). Per-skill transitions, edge cases, and diagram: `{Agents_Folder}/skills/specify/spec-status.md`.
 
-- `/specify` sets `draft`
-- `/planify` from a spec sets `planned` (not when input is a report only)
-- `/codify` sets `in-progress` when coding starts
-- `/verify` pass sets `verified`; fail keeps `in-progress`
-- `/release` only skill that sets `released` plus `released-version` / `released-at`
-- `/repair` does not change spec status
-
-Edge cases and diagram: `{Agents_Folder}/skills/specify/spec-status.md`. Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agents_Folder}/skills/shared/git.md`).
+Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agents_Folder}/skills/shared/git.md`).
 
 ## Product
 

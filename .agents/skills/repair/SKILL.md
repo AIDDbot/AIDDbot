@@ -51,4 +51,4 @@ Given a report from `/review` or `/verify`, fix every listed finding — apply e
 - [ ] Every row is `resolved`, or `skipped` with a documented reason; verify fixes align with acceptance criteria when behavior changed.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/repair` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/repair`.

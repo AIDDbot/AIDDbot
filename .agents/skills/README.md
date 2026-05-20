@@ -22,7 +22,7 @@ Merge `feat/{slug}` to the default branch before `/release` unless the user conf
 - **Consumer projects:** paths, slugs, spec status, and brownfield reads live in root `AGENTS.md` ([template](./initialize/AGENTS.template.md)).
 - **Shared helpers:** [shared/incremental-artifact.md](./shared/incremental-artifact.md), [implementation-context.md](./shared/implementation-context.md), [git.md](./shared/git.md).
 - **Spec lifecycle detail:** [specify/spec-status.md](./specify/spec-status.md).
-- **Git:** [repository/SKILL.md](./repository/SKILL.md) and [skill-integrations.md](./repository/skill-integrations.md) — every producing skill ends with a Git checklist pointing here.
+- **Git:** [shared/git.md](./shared/git.md) — every producing skill ends with a Git checklist; [repository/SKILL.md](./repository/SKILL.md) and [skill-integrations.md](./repository/skill-integrations.md) hold branch and commit rules.
 
 ## Docs
 

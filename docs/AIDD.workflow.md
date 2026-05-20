@@ -72,11 +72,11 @@ flowchart TD
 
 - `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released`. Merge feature branches to the default branch before release unless the user confirms otherwise.
 
-- `/repository` - Git branches and conventional commits. Not a separate pipeline step; every skill that produces artifacts reads and follows it before finishing. `/codify` creates `feat/{slug}` before coding; `/repair` uses `fix/{slug}` only outside an active feature cycle.
+- `/repository` - Git branches and conventional commits. Not a separate pipeline step; producing skills finish via [shared/git.md](../.agents/skills/shared/git.md).
 
 ## Git workflow
 
-Branch rules, commit types, and per-skill expectations: [repository skill](../.agents/skills/repository/SKILL.md) and [skill integrations](../.agents/skills/repository/skill-integrations.md). Summary: product artifacts use `docs` (or `chore` for `AGENTS.md`); `/codify` creates `feat/{slug}` first; `/repair` stays on the feature branch during a cycle; `/release` uses `chore` after merge to the default branch when possible.
+Branch rules and per-skill commits: [repository skill](../.agents/skills/repository/SKILL.md) and [skill integrations](../.agents/skills/repository/skill-integrations.md).
 
 Paths and spec status: project `AGENTS.md` after `/initialize`.
 

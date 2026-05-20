@@ -43,6 +43,7 @@ Leave `released-version` and `released-at` empty until `/release`.
 | `/codify` from plan or spec with existing plan | `in-progress` (from `planned` or `draft` if plan was skipped) |
 | `/verify` **pass** | `verified` |
 | `/verify` **fail** | Keep `in-progress`; do not set `verified` |
+| `/verify` **re-run** when spec is already `verified` | Re-run E2E; on pass keep `verified`; on fail set `in-progress` and produce a verify report |
 | `/repair` after verify or review | Do not change spec status until `/verify` passes (or user overrides) |
 | `/planify` from a **report** (not a spec) | No spec status update |
 | Scope dropped | Set `cancelled` from `draft`, `planned`, `in-progress`, or `verified`; preserve body for audit |
@@ -53,6 +54,7 @@ Leave `released-version` and `released-at` empty until `/release`.
 stateDiagram-v2
   [*] --> draft: specify
   draft --> planned: planify
+  draft --> in-progress: codify (skip planify)
   planned --> in-progress: codify
   in-progress --> verified: verify (pass)
   in-progress --> in-progress: repair + verify

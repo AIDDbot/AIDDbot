@@ -29,7 +29,7 @@ Given a requirement or feature description, produce a complete specification fil
 - [ ] Articulate the problem and write user stories from the affected roles' perspective.
 - [ ] Propose the solution across applicable tiers (data model, backend, frontend). Focus on design, not implementation detail.
 - [ ] Define verifiable acceptance criteria using the EARS convention.
-- [ ] Write the spec using the spec template; set frontmatter `status: draft` and leave `released-version` / `released-at` empty.
+- [ ] Write the spec using the spec template; set `spec-slug` to match filename `{slug}`, `status: draft`, and leave `released-version` / `released-at` empty.
 
 ## Output
 - [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable for planning and implementation.
@@ -38,4 +38,4 @@ Given a requirement or feature description, produce a complete specification fil
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/specify` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/specify`.

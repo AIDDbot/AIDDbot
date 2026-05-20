@@ -98,7 +98,7 @@ After implementation:
 
 Merge `feat/{slug}` to the default branch before `/release` unless you explicitly release from the feature branch.
 
-Git branching and [conventional commits](../.agents/skills/repository/conventional-commits.md) are handled via [`/repository`](../.agents/skills/repository/) when other skills finish (`feat/{slug}` on `/codify`, and so on).
+Git: each skill follows [shared/git.md](../.agents/skills/shared/git.md); details in [repository](../.agents/skills/repository/SKILL.md) and [skill-integrations](../.agents/skills/repository/skill-integrations.md).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 

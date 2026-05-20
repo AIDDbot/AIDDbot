@@ -30,17 +30,11 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 | `er` | `ER.md` | `er.mode.md` |
 | `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
 
-Order: `system → adr → er → back → front → db` (tiers as detected). Output tree: `arch/system.arch.md`, `ADR.md`, `ER.md`, optional `{tier}.arch.md`.
+Mode order and completion rules: [incremental-artifact.md](../shared/incremental-artifact.md) (`/explore` row). Output under `{Product_Folder}/arch/` (e.g. `system.arch.md`, `ADR.md`, `ER.md`, optional `{tier}.arch.md`).
 
 ## Steps
 
-Follow [incremental artifact pattern](../shared/incremental-artifact.md):
-
-- [ ] Read `AGENTS.md` → `{Product_Folder}`, `{Source_Folders}`, tiers.
-- [ ] Pick mode: argument, or first missing file in recommended order.
-- [ ] If all arch files exist → report complete; suggest `/extract`. Stop.
-- [ ] Execute `{mode}.mode.md`; write one file under `arch/`.
-- [ ] Summarize what was generated and what remains.
+- [ ] Follow [incremental-artifact.md](../shared/incremental-artifact.md) for `/explore` (modes table above).
 
 ## Output
 - [ ] One architecture file under `{Product_Folder}/arch/` per invocation.
@@ -51,4 +45,4 @@ Follow [incremental artifact pattern](../shared/incremental-artifact.md):
 - [ ] A reader of `arch/` alone can answer: what the system does, how it is structured, what must not change.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/explore` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/explore`.

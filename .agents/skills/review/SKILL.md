@@ -45,4 +45,4 @@ List only issues that should be fixed. Every report row is input for `/repair` â
 - [ ] All scope files reviewed; every row is actionable for `/repair`; recommendations name file, line, or pattern.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) â€” `/review` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/review`.

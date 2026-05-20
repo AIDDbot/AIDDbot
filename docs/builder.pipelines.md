@@ -21,7 +21,7 @@ flowchart TD
 
 - `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see spec status in project `AGENTS.md` and `/codify` skill).
 - Fullstack plans: `plans/{slug}.spec.plan.md` (no tier segment).
-- Each step commits via [`/repository`](/.agents/skills/repository/). `/codify` creates `feat/{slug}` before writing code.
+- Git per step: [shared/git.md](../.agents/skills/shared/git.md) and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
 
 ## Verify features or complex improvements
 
@@ -46,4 +46,4 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/verify` and `/repair` stay on the same `feat/{slug}` branch as `/codify`.
+During a feature cycle, `/verify` and `/repair` use the same branch as `/codify` (see [repository skill](../.agents/skills/repository/SKILL.md)).

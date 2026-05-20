@@ -85,7 +85,7 @@ Execute **before** writing implementation code:
 - [ ] Read [skill integrations](./skill-integrations.md) for the calling skill.
 - [ ] If on an active `feat/{slug}` for this work → stay on it.
 - [ ] If standalone fix per feature-cycle rules → `git checkout -b fix/{slug}` after Step 1.
-- [ ] Otherwise → default branch or `chore/{slug}` as the table specifies.
+- [ ] Otherwise → default branch or `chore/onboarding` for `/explore` and `/extract`, or `chore/{slug}` as the table specifies.
 
 ### Step 4: Commit in related groups
 

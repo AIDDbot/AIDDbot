@@ -31,10 +31,7 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] Confirm `{Agents_Folder}/skills/` exists (copy from [AIDDbot](https://github.com/AIDDbot/AIDDbot) if missing). For deep architecture work on brownfield repos, use `/explore` after initialize — not in this step.
 
 ### Step 2: Confirm AIDD paths
-- [ ] Propose the default AIDD paths and ask the user to confirm or override:
-  - `{Agents_Folder}`: `.agents/`
-  - `{Product_Folder}`: `.product/`
-  - `{Business_Domain_Language}`: detected or ask the user.
+- [ ] Propose defaults from **AIDD path defaults** above; ask the user to confirm or override each value before writing `AGENTS.md`.
 
 ### Step 3: Define source paths and stack
 - [ ] **Brownfield**: propose `{Source_Folders}`, tiers, languages, frameworks, and tooling based on the survey. Ask the user to confirm or correct.
@@ -59,4 +56,4 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] Technical stack is defined for each tier.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/initialize` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/initialize`.

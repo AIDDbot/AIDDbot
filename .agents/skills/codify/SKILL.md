@@ -44,4 +44,4 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 - [ ] Code compiles; unit tests pass; smoke test (app or servers start).
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/codify` row: create `feat/{slug}` **before** implementation code ([skill-integrations.md](../repository/skill-integrations.md)).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/codify`.

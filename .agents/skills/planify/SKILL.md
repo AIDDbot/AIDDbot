@@ -47,4 +47,4 @@ When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `c
 - [ ] Each plan is complete, ordered, and actionable without extra context.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/planify` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/planify`.

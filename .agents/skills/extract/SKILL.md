@@ -31,17 +31,11 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 | `{tier}` | `{tier}.rules.md` | `tier.mode.md` |
 | `testing` | `testing.rules.md` | `testing.mode.md` |
 
-Order: `naming → back → front → db → testing`. Output tree: `rules/naming.rules.md`, `testing.rules.md`, optional `{tier}.rules.md`.
+Mode order and completion rules: [incremental-artifact.md](../shared/incremental-artifact.md) (`/extract` row). Output under `{Product_Folder}/rules/` (e.g. `naming.rules.md`, `testing.rules.md`, optional `{tier}.rules.md`).
 
 ## Steps
 
-Follow [incremental artifact pattern](../shared/incremental-artifact.md):
-
-- [ ] Read `AGENTS.md` → `{Product_Folder}`, `{Source_Folders}`, tiers.
-- [ ] Pick mode: `all`, a named argument, or first missing file in order.
-- [ ] If all rule files exist → report complete; suggest `/specify`. Stop.
-- [ ] Execute `{mode}.mode.md`; write one file under `rules/` (repeat per mode when `all`).
-- [ ] Summarize; one combined summary when `all`.
+- [ ] Follow [incremental-artifact.md](../shared/incremental-artifact.md) for `/extract` (modes table above).
 
 ## Output
 - [ ] One rule file under `{Product_Folder}/rules/` per mode executed.
@@ -52,4 +46,4 @@ Follow [incremental artifact pattern](../shared/incremental-artifact.md):
 - [ ] A reader of `rules/` alone can write code matching existing style and structure.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/extract` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/extract`.

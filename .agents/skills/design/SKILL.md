@@ -26,15 +26,15 @@ Match implementation complexity to the intended aesthetic direction:
 
 Resolve the design spec in this order:
 
-1. User-provided path (e.g. `{Product_Folder}/design/{slug}/DESIGN.md`)
-2. `DESIGN.md` next to this skill ([sample](./DESIGN.md) — replace with project content)
+1. User-provided path (e.g. `{Product_Folder}/design/{slug}/DESIGN.md`) — **consumer project** location per `AGENTS.md`
+2. [DESIGN.md](./DESIGN.md) next to this skill — **AIDDbot sample only**; do not use as the project design spec unless the user points here explicitly
 
 The specification defines typography, color, motion, spatial composition, texture, and component behavior.
 
 ### Conventions
 
-- Derive `{slug}` from the design folder name or feature name when tying work to a feature branch.
-- Optional: link to `{Product_Folder}/specs/{slug}.spec.md` when design is part of a spec-driven feature.
+- Derive `{slug}` from the design folder name or feature name.
+- When design is part of a spec-driven feature: link `{Product_Folder}/specs/{slug}.spec.md`; use existing `feat/{slug}` or create it per [repository/SKILL.md](../repository/SKILL.md) before UI commits (same as `/codify`).
 
 ## Steps
 
@@ -56,4 +56,4 @@ The specification defines typography, color, motion, spatial composition, textur
 - [ ] Motion and visual details support the intended aesthetic
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/design` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/design`.

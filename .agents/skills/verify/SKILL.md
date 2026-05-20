@@ -49,4 +49,4 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] All tests pass, or failures captured in the verify report.
 
 ## Git
-- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/verify` row in [skill-integrations.md](../repository/skill-integrations.md).
+- [ ] Follow [shared/git.md](../shared/git.md) for `/verify`.

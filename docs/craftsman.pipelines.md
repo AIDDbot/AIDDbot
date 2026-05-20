@@ -20,7 +20,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/review` and `/repair` commit via [`/repository`](/.agents/skills/repository/). Use `fix/{slug}` only when not on an active `feat/{slug}` branch.
+Git: [shared/git.md](../.agents/skills/shared/git.md) and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
 
 ## Release
 
@@ -41,4 +41,4 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Blocking checks: open `*.verify.report.md` or unresolved review reports for slugs in scope (unless waived).
+Blocking checks: unresolved findings in reports for slugs in scope (see `/release` skill).
