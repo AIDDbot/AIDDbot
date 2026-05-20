@@ -82,9 +82,20 @@ Paths are under `{Product_Folder}`:
 
 `{source}`: `spec` | `report` | omit for simple requirements. `{type}` (reports): `quality` | `compliance` | `accessibility` | `verify`. Consumed by `/repair`.
 
-### Brownfield context
+### Implementation context (brownfield)
 
-When `{Product_Folder}/arch/` or `rules/` exist, `/planify` and `/codify` read them before changing code (order: arch → ADR → tier rules → naming → testing). Full detail: `{Agents_Folder}/skills/shared/implementation-context.md`.
+When `{Product_Folder}/arch/` or `rules/` exist (from `/explore` and `/extract`), **`/planify`**, **`/codify`**, and **`/verify`** read them before changing plans, code, or tests. Skip missing files. Do not duplicate arch content into rules files.
+
+| # | File | Skills |
+|---|------|--------|
+| 1 | `arch/system.arch.md` | `/planify` |
+| 2 | `arch/{tier}.arch.md` | `/planify`, `/codify` |
+| 3 | `arch/ADR.md` | `/planify` |
+| 4 | `rules/{tier}.rules.md` | `/codify` |
+| 5 | `rules/naming.rules.md` | `/codify` |
+| 6 | `rules/testing.rules.md` | `/codify`, `/verify` |
+
+**Apply:** Plans and code respect ADRs and arch constraints; match naming, roles, and errors from tier rules; tests follow `testing.rules.md` when present.
 
 ### Spec status
 

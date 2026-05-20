@@ -18,21 +18,19 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 
 ### References
 - Input plan or spec
-- `AGENTS.md` — paths and slug rules
-- [Implementation context](../shared/implementation-context.md) when `arch/` or `rules/` exist
+- `AGENTS.md` — paths, slug rules, brownfield read order
 
 ## Steps
 
 ### Step 1: Clarify the input
 - [ ] If incomplete or ambiguous, ask the minimum questions needed.
-- [ ] Follow [implementation context](../shared/implementation-context.md) before coding.
 
 ### Step 2: Implement
 - [ ] Follow plan steps in order, or derive from spec/requirement.
-- [ ] Minimum code to fulfill requirements; respect arch and rules.
+- [ ] Minimum code to fulfill requirements.
 
 ### Step 3: Write unit tests
-- [ ] Critical modules; follow `testing.rules.md` when present.
+- [ ] Critical modules for the change.
 
 ## Output
 - [ ] Working code in the appropriate files.

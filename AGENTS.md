@@ -6,7 +6,7 @@ This is not a traditional application. There is no application source code to bu
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
 
-Consumer projects get paths, slugs, spec status, and git rules in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)).
+Consumer projects get paths, slugs, spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)).
 
 ## Git
 
@@ -17,6 +17,23 @@ Producing skills (`/initialize`, `/explore`, `/extract`, `/specify`, `/planify`,
 3. **`/codify` only** — Run repository **Step 2: Start a feature branch** before writing implementation code. Mid-cycle branch rules (`feat/{slug}`, no `fix/{slug}` during a feature) live only in the repository skill.
 
 Per-skill branches, commit types, and paths: [skill-integrations.md](./.agents/skills/repository/skill-integrations.md). Message format: [conventional-commits.md](./.agents/skills/repository/conventional-commits.md).
+
+## Implementation context (brownfield)
+
+When a consumer project has `{Product_Folder}/arch/` or `rules/` (from `/explore` and `/extract`), implementation skills read them before changing plans, code, or tests. Paths: [AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md) → **AIDD product artifacts**.
+
+**`/planify`**, **`/codify`**, and **`/verify`** apply the read order below for rows marked for each skill. Skip missing files. Do not duplicate arch content into rules files.
+
+| # | File | Skills |
+|---|------|--------|
+| 1 | `arch/system.arch.md` | `/planify` |
+| 2 | `arch/{tier}.arch.md` | `/planify`, `/codify` |
+| 3 | `arch/ADR.md` | `/planify` |
+| 4 | `rules/{tier}.rules.md` | `/codify` |
+| 5 | `rules/naming.rules.md` | `/codify` |
+| 6 | `rules/testing.rules.md` | `/codify`, `/verify` |
+
+**Apply:** Plans and code respect ADRs and arch constraints; match naming, roles, and errors from tier rules; tests follow `testing.rules.md` when present.
 
 ## Docs
 
@@ -37,5 +54,5 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 - Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification.
 - Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill (same folder only).
 - Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put skill-specific rules in that skill's `SKILL.md`.
-- Shared cross-skill helpers live in `.agents/skills/shared/` (incremental artifacts, brownfield reads).
+- Shared cross-skill helpers live in `.agents/skills/shared/` (incremental artifacts only).
 - After changing a skill, align README, catalog, workflow, and pipeline docs if behavior or paths changed.

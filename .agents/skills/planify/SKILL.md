@@ -17,9 +17,8 @@ Given a spec, bug report, or review report, produce one or more implementation p
 - `{slug}.spec.md`, `{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`), or a simple textual requirement
 
 ### References
-- `AGENTS.md` — artifact paths, slug rules, report types
+- `AGENTS.md` — artifact paths, slug rules, report types, brownfield read order
 - [Plan template](./plan.template.md)
-- [Implementation context](../shared/implementation-context.md) when `arch/` exists
 
 ### Planning from a review report
 
@@ -33,7 +32,6 @@ When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `c
 
 ### Step 2: Identify tiers
 - [ ] Tiers: `back`, `front`, `db`, or fullstack (omit tier segment; `tier: fullstack` in plan frontmatter).
-- [ ] Follow [implementation context](../shared/implementation-context.md) when brownfield docs exist.
 
 ### Step 3: Draft the implementation steps
 - [ ] Per tier: ordered steps with titles, descriptions, and paths; traceable to input.

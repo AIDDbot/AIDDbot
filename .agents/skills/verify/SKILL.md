@@ -17,15 +17,14 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - `{Product_Folder}/specs/{slug}.spec.md` with acceptance criteria (`status: in-progress`, or `verified` only when re-running)
 
 ### References
-- `AGENTS.md` — E2E framework, test commands, layout
-- `{Product_Folder}/rules/testing.rules.md` when present
+- `AGENTS.md` — E2E framework, test commands, layout, brownfield read order
 - Framework guide (e.g. [Playwright](./playwright.md))
 - [Verify report template](../review/verify.report.template.md)
 
 ## Steps
 
 ### Step 1: Clarify the input
-- [ ] Read `AGENTS.md` and `testing.rules.md` (if present) for framework and test directory.
+- [ ] Read `AGENTS.md` for framework, test directory, and brownfield rules when present.
 - [ ] If spec or framework is unclear, ask the minimum questions needed.
 
 ### Step 2: Review acceptance criteria
