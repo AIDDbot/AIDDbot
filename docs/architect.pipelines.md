@@ -16,7 +16,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/initialize` confirms `.agents/skills/` exists and commits `AGENTS.md` via [`/repository`](/.agents/skills/repository/) (`chore`).
+`/initialize` confirms `.agents/skills/` exists and commits `AGENTS.md` via [shared/git.md](../.agents/skills/shared/git.md).
 
 ## Brownfield projects with legacy code
 
