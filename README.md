@@ -43,15 +43,11 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
 
 In your agent: **`/initialize` this project**
 
-Install commands (Bash and PowerShell), brownfield flow, and the `/specify → /planify → /codify → /verify` loop: **[Getting started](docs/getting-started.md)**
+To level up read the documentation:
 
-## Documentation
-
-| Doc | Purpose |
-|-----|---------|
-| [Getting started](docs/getting-started.md) | Install and first workflows |
-| [Workflow](docs/AIDD.workflow.md) | Overview, git, artifacts |
-| [Skills index](.agents/skills/README.md) | When to use each skill | 
+- **[Getting started](docs/getting-started.md)** to scripted install and initialization
+- **[Workflow](docs/AIDD.workflow.md)** to understand the AIDD workflow and artifacts
+- **[Skills index](.agents/skills/README.md)** to know when to use each skill
 
 ---
 
