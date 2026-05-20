@@ -35,4 +35,4 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/explore` and `/extract` use the [incremental artifact pattern](../.agents/skills/shared/incremental-artifact.md) — one file per run. Git: `AGENTS.md` → `/repository`. When complete, start features with `/specify`.
+`/explore` and `/extract` run incrementally — one file per invocation ([explore](../.agents/skills/explore/SKILL.md), [extract](../.agents/skills/extract/SKILL.md)). Git: `AGENTS.md` → `/repository`. When complete, start features with `/specify`.

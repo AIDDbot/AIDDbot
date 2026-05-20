@@ -4,6 +4,28 @@
 
 {One paragraph: role of this tier in the system, key technology, main capabilities.}
 
+## Technology stack
+
+| Area | Choice |
+|------|--------|
+| Language | {language and version} |
+| Framework | {framework and version} |
+| Testing | {unit/integration test stack} |
+| Storage | {databases, caches, files — or N/A} |
+| Security | {auth, secrets, transport — summary} |
+| Logging | {logging/monitoring approach} |
+
+## Development workflow
+
+| Step | Command |
+|------|---------|
+| Init | `{init command or N/A}` |
+| Build | `{build command}` |
+| Run | `{run/dev command}` |
+| Test | `{test command}` |
+| Lint | `{lint command or N/A}` |
+| Deploy | `{deploy command or N/A}` |
+
 ## C4 Diagram — Components
 
 ```mermaid

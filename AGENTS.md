@@ -6,7 +6,7 @@ This is not a traditional application. There is no application source code to bu
 
 - Index and when-to-use: [`.agents/skills/README.md`](./.agents/skills/README.md)
 
-Consumer projects get paths, slugs, spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)).
+Consumer projects get paths, slugs, tier index, spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)). Product and stack detail live in `{Product_Folder}/arch/` from `/explore`.
 
 ## Git
 
@@ -54,5 +54,4 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 - Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification.
 - Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill (same folder only).
 - Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put skill-specific rules in that skill's `SKILL.md`.
-- Shared cross-skill helpers live in `.agents/skills/shared/` (incremental artifacts only).
 - After changing a skill, align README, catalog, workflow, and pipeline docs if behavior or paths changed.

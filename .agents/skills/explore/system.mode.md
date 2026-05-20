@@ -4,8 +4,9 @@
 **Template**: `system.arch.template.md` (in this skill's folder)
 
 ## 1. Gather context
-- [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, tier definitions.
-- [ ] Read entry points, configuration files, and dependency manifests per tier.
+- [ ] Read `AGENTS.md` → `{Product_Folder}`, **Project** (name, one-line summary), and **Tiers** table.
+- [ ] Read `README.md` and root docs for product description and key features (up to 5).
+- [ ] Read entry points, configuration files, and dependency manifests per tier — map containers only; no implementation detail.
 - [ ] Map top-level folder structure per tier — do NOT read individual source files.
 - [ ] Identify external integrations: databases, third-party APIs, auth providers, message queues.
 

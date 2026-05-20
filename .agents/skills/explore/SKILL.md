@@ -9,7 +9,7 @@ description: Reverse-engineers an existing (brownfield) project to extract its a
 Act as a senior software architect.
 
 ## Task
-Analyze an existing codebase and produce architecture documentation under `{Product_Folder}/arch/`, structured for agent consumption during planning and coding phases.
+Analyze an existing codebase and produce architecture documentation under `{Product_Folder}/arch/` — product and system shape in `system.arch.md`, stack and dev workflow per tier in `{tier}.arch.md` — for `/planify`, `/codify`, and `/verify`.
 
 ## Context
 
@@ -17,8 +17,7 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
-- [Incremental artifact pattern](../shared/incremental-artifact.md) — `/explore` row
-- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, tiers
+- `AGENTS.md` — `{Product_Folder}`, **Tiers** index, **Project** summary; git workflow
 - Mode files in this folder — one per output type
 
 ### Modes
@@ -30,11 +29,19 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 | `er` | `ER.md` | `er.mode.md` |
 | `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
 
-Mode order and completion rules: [incremental-artifact.md](../shared/incremental-artifact.md) (`/explore` row). Output under `{Product_Folder}/arch/` (e.g. `system.arch.md`, `ADR.md`, `ER.md`, optional `{tier}.arch.md`).
+**Mode order:** `system` → `adr` → `er` → tier arch (`back`, `front`, `db` as detected). Output under `{Product_Folder}/arch/`.
 
 ## Steps
 
-- [ ] Follow [incremental-artifact.md](../shared/incremental-artifact.md) for `/explore` (modes table above).
+One architecture file per invocation; finish with `/repository` per `AGENTS.md` (caller `/explore`).
+
+- [ ] Read `AGENTS.md` for `{Product_Folder}`, `{Source_Folders}`, and tiers.
+- [ ] Pick the next mode — user argument, or first missing file in **mode order** above.
+- [ ] Run the matching `{mode}.mode.md`; write **one** file under `{Product_Folder}/arch/`.
+- [ ] Do not regenerate an existing file unless the user asks to refresh it.
+- [ ] Summarize what was created and what remains.
+- [ ] Commit via `/repository`.
+- [ ] When the arch set is complete, suggest `/extract`.
 
 ## Output
 - [ ] One architecture file under `{Product_Folder}/arch/` per invocation.

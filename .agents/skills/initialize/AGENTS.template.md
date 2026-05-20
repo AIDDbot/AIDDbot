@@ -13,32 +13,32 @@
 
 - **{Agents_Folder}**: {Folder for agent-related files such as skills, prompts, and specs.}
 - **{Product_Folder}**: {Folder for product-related files such as specs, plans, and documentation.}
-- **{Source_Folders}**: {Array of source code folders relevant to the project.}
+- **{Source_Folders}**: {Comma-separated source roots, e.g. `back/`, `front/` — see **Tiers** below.}
 - **OS dev**: `Windows` | `Linux` | `MacOS`
-- **Terminal**: ` cmd` | `PowerShell` | `bash` | `zsh`
+- **Terminal**: `cmd` | `PowerShell` | `bash` | `zsh`
 - **Git remote**: {Remote URL for the git repository, e.g., `https://github.com/user/repo.git`}
-- **Default branch**: `main` | `master` 
+- **Default branch**: `main` | `master`
 
 ### Folder structure
 ````text
-.                         # Project root  
-├── AGENTS.md             # This file with the main guidelines for agents
-├── {Agents_Folder}/      # Files related to agents (skills, commands, etc)
-│   ├── agents/           # Specific agent role definitions
-│   ├── prompts/          # Reusable prompts directory
-│   └── skills/           # Agent skills
-├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
-│   ├── specs/            # Specifications (YAML: status, released-version, released-at)
-│   ├── plans/            # Implementation plans
-│   ├── arch/             # Architecture documentation
-│   ├── rules/            # Coding conventions extracted from the codebase
-│   ├── design/           # Optional design specs for /design
-│   └── reports/          # Review and verify findings for /repair
-├── CHANGELOG.md          # Project history and updates
-├── README.md             # Human-friendly project summary  
-├── {Source_Folders}/     # Source code folders
-├── tests/                # Test E2E files
-└── other_files/          # Other relevant files and folders
+.                         # Project root
+├── AGENTS.md             # Workflow index (this file)
+├── {Agents_Folder}/      # Skills, prompts, commands
+│   ├── agents/
+│   ├── prompts/
+│   └── skills/
+├── {Product_Folder}/     # Specs, plans, arch, rules, reports, design
+│   ├── specs/
+│   ├── plans/
+│   ├── arch/             # system + tier architecture (/explore)
+│   ├── rules/            # Coding conventions (/extract)
+│   ├── design/
+│   └── reports/
+├── CHANGELOG.md
+├── README.md
+├── {Source_Folders}/     # Tier source roots (see Tiers)
+├── tests/                # E2E tests
+└── other_files/
 ````
 
 ### Naming Conventions
@@ -103,42 +103,18 @@ YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `relea
 
 **Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped). Per-skill transitions, edge cases, and diagram: `{Agents_Folder}/skills/specify/spec-status.md`.
 
-## Product
+## Project
 
-{Product_Name} is a {brief description of the product}.
+**{Product_Name}** — {One-line summary. Full product context, containers, and features: `{Product_Folder}/arch/system.arch.md` (create with `/explore system` if missing).}
 
-- {Key features of the product.}
-  
-## Technology
+## Tiers
 
-### {Source_Folders} Stack
+| Tier | Source | Architecture |
+|------|--------|--------------|
+| {Tier_Name_1} | `{source_folder_1}/` | `arch/{tier_slug_1}.arch.md` |
+| {Tier_Name_2} | `{source_folder_2}/` | `arch/{tier_slug_2}.arch.md` |
 
-- **Tier**: {e.g., Frontend, Backend, Database}
-- **Language**: {language and version}
-- **Framework**: {framework and version}
-- **Testing**: {testing framework}
-- **Storage**: {storage solution}
-- **Security**: {security strategy}
-- **Logging**: {logging strategy}
-
-- **Development workflow**:
-  - Init: `{commands to initialize the project}`
-  - Build: `{build tool and commands}`
-  - Run: `{commands to run the project}`
-  - Test: `{commands to test the project}`
-  - Lint: `{commands to lint the project}`
-  - Deploy: `{commands to deploy the project}`
-
-- **Folder structure**:
-````text
-.                                 # Tier source root (e.g., src, back, front)
-├── {main_tech_file}.{json|xml}   # Main tech file (e.g., package.json, pom.xml)
-├── {app_folder_1}                # Source code folder 1 (e.g., app, lib, src)
-└── other_files                   # Other relevant files
-````
-
-- **Agent Skills**:
-  - {Skill_Name}: {Brief description of the skill and its purpose.}
+Stack, dev commands, and tier layout live in each `arch/{tier}.arch.md` (from `/explore {tier}`). On brownfield, run `/explore` before `/planify` if `arch/` is incomplete.
 
 ## Principles
 

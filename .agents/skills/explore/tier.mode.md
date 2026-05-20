@@ -4,8 +4,9 @@
 **Template**: `tier.arch.template.md` (in this skill's folder)
 
 ## 1. Gather context
-- [ ] Read `AGENTS.md` → extract tier folder, tech stack for this tier.
+- [ ] Read `AGENTS.md` → **Tiers** row for this tier (source folder, `arch/{tier}.arch.md` target).
 - [ ] Read `system.arch.md` if it exists (for system-level context).
+- [ ] Read dependency manifests and config for this tier (e.g. `package.json`, `pom.xml`, `pyproject.toml`) → language, framework, test/lint scripts, storage, security, logging.
 - [ ] Read ALL source files in the tier's folder.
 - [ ] Detect code organization pattern:
   - **Layer-based**: folders by technical role (`controllers/`, `services/`, `repositories/`)

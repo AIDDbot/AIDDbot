@@ -88,15 +88,18 @@ Pipeline detail: [architect](./architect.pipelines.md) · [builder](./builder.pi
 
 Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGENTS.md`) unless noted.
 
-### Technology
+### Workflow index
 
-- `AGENTS.md` - The entry point for any agent joining the project, with product and technology information.
+- `AGENTS.md` - Entry point: paths, slugs, git rules, tier index, brownfield read order. Product and stack detail live in `arch/`, not duplicated here.
 
 - `.agents/skills/` - Agent skills (from AIDDbot or custom). Not under `{Product_Folder}`; lives at project root per `AGENTS.md`.
 
 ### Product
 
-- `arch/` - Architecture documentation with system and tier-level diagrams and inferred ADRs. 
+- `arch/system.arch.md` - Product overview, features, C4 context/containers, inter-tier communication (`/explore system`).
+- `arch/{tier}.arch.md` - Per-tier stack, dev commands, code organization, contracts (`/explore {tier}`).
+- `arch/ADR.md`, `arch/ER.md` - Decisions and domain model when applicable.
+- `arch/` - Full architecture set for planning and coding. 
 
 - `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 

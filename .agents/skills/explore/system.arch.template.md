@@ -4,6 +4,12 @@
 
 {One paragraph: what the system does, key capabilities, and target users.}
 
+## Key features
+
+- {Feature 1}
+- {Feature 2}
+- {Feature 3}
+
 ## C4 Diagram — System Context
 
 ```mermaid
