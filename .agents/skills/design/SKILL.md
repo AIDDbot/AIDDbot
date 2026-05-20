@@ -1,9 +1,9 @@
 ---
-name: render
+name: design
 description: Create distinctive production-grade frontend interfaces based on the provided design specification.
 ---
 
-# Render skill
+# Design skill
 
 ## Role
 

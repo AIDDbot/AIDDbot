@@ -36,7 +36,7 @@ flowchart TD
   RUL -.-> COD  
   SPC -->|/planify| PLN
   ARC -.-> PLN
-  DES -.->|/render optional| COD
+  DES -.->|/design optional| COD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -64,7 +64,7 @@ flowchart TD
 
 - `/verify` - Run end-to-end tests to ensure code meets specifications. On failure, writes a report for `/repair`.
 
-- `/render` - *(experimental)* Implement production-grade frontend UI from a design specification (`DESIGN.md` or `{Product_Folder}/design/{slug}/`).
+- `/design` - *(experimental)* Implement production-grade frontend UI from a design specification (`DESIGN.md` or `{Product_Folder}/design/{slug}/`).
 
 - `/review` - Review code for guideline compliance and best practices.
 

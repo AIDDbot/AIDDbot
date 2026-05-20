@@ -20,8 +20,8 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 | [AIDD.workflow.md](./docs/AIDD.workflow.md) | End-to-end overview |
 | [architect.pipelines.md](./docs/architect.pipelines.md) | Initialize, explore, extract |
 | [builder.pipelines.md](./docs/builder.pipelines.md) | Specify, planify, codify, verify |
-| [design.pipelines.md](./docs/design.pipelines.md) | Render (experimental) |
 | [craftsman.pipelines.md](./docs/craftsman.pipelines.md) | Review, repair, release |
+| [design.pipelines.md](./docs/design.pipelines.md) | Design (experimental) |
 
 ## Editing skills
 

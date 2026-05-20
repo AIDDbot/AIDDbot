@@ -1,12 +1,12 @@
-# Render skill documentation
+# Design skill documentation
 
 > [!NOTE]
-> In agents that do not natively support skills, call them by prefixing with `@` or `#` (e.g. `@render`).
+> In agents that do not natively support skills, call them by prefixing with `@` or `#` (e.g. `@design`).
 
 ## Sample prompt — standalone UI
 
 ```md
-> Use the render skill with DESIGN.md at {Product_Folder}/design/checkout/DESIGN.md
+> Use the design skill with DESIGN.md at {Product_Folder}/design/checkout/DESIGN.md
 > Implement the design system and main checkout UI components.
 ```
 
@@ -18,7 +18,7 @@ When the design work is part of a larger feature, you may run the builder pipeli
 > /specify the design system requirements
 > /planify the specification
 > /codify the plan
-> /render using the resulting DESIGN.md or design folder
+> /design using the resulting DESIGN.md or design folder
 ```
 
 ## Review design output

@@ -13,7 +13,7 @@ Invoke skills by name (e.g. `/specify`, `@specify`). Each folder contains `SKILL
 | Implementation plan | `/planify` | spec, report, or requirement |
 | Code + unit tests | `/codify` | plan, spec, or requirement |
 | E2E verification | `/verify` | `{slug}.spec.md` at `verified` or `in-progress` |
-| UI from design | `/render` | `DESIGN.md` or `design/{slug}/` |
+| UI from design | `/design` | `DESIGN.md` or `design/{slug}/` |
 | Code review | `/review` | code in scope |
 | Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
 | Ship | `/release` | spec `status: verified` |
