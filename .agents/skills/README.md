@@ -20,9 +20,9 @@ Before `/release`: [`release/SKILL.md`](./release/SKILL.md) (merge preference an
 ## Conventions
 
 - **Consumer projects:** paths, slugs, spec status, and brownfield reads live in root `AGENTS.md` ([template](./initialize/AGENTS.template.md)).
-- **Shared helpers:** [shared/incremental-artifact.md](./shared/incremental-artifact.md), [implementation-context.md](./shared/implementation-context.md), [git.md](./shared/git.md).
+- **Shared helpers:** [shared/incremental-artifact.md](./shared/incremental-artifact.md), [implementation-context.md](./shared/implementation-context.md).
 - **Spec lifecycle detail:** [specify/spec-status.md](./specify/spec-status.md).
-- **Git:** [shared/git.md](./shared/git.md) — every producing skill ends with a Git checklist; [repository/SKILL.md](./repository/SKILL.md) and [skill-integrations.md](./repository/skill-integrations.md) hold branch and commit rules.
+- **Git:** project `AGENTS.md` — producing skills finish via `/repository`; [repository/SKILL.md](./repository/SKILL.md) and [skill-integrations.md](./repository/skill-integrations.md) hold branch and commit rules.
 
 ## Docs
 

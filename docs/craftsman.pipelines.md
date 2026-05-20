@@ -20,7 +20,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Git: [shared/git.md](../.agents/skills/shared/git.md) and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
+Git: `AGENTS.md` and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
 
 ## Release
 

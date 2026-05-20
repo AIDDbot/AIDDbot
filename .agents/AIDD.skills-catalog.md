@@ -1,6 +1,6 @@
 # AIDD skills catalog
 
-When to invoke each skill (prerequisites). For loops see [skills/README.md](./skills/README.md); for git see [shared/git.md](./skills/shared/git.md) and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
+When to invoke each skill (prerequisites). For loops see [skills/README.md](./skills/README.md); for git see project `AGENTS.md` and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
 
 | Phase | Skill | Prerequisite |
 |-------|-------|----------------|
@@ -15,7 +15,7 @@ When to invoke each skill (prerequisites). For loops see [skills/README.md](./sk
 | Code review | `/review` | code in scope |
 | Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
 | Ship | `/release` | spec `status: verified` |
-| Git (always) | `/repository` | via [shared/git.md](./skills/shared/git.md) before each commit |
+| Git (always) | `/repository` | last step of producing skills per `AGENTS.md`; caller row in [skill-integrations](./skills/repository/skill-integrations.md) |
 
 ## Architect
 

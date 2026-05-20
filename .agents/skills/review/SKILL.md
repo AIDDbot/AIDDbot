@@ -43,6 +43,3 @@ List only issues that should be fixed. Every report row is input for `/repair` â
 
 ## Verification
 - [ ] All scope files reviewed; every row is actionable for `/repair`; recommendations name file, line, or pattern.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/review`.

@@ -36,6 +36,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ### Step 4: Run and verify
 - [ ] Application testable; run all E2E tests.
+- [ ] Mark the acceptance criteria as verified in the spec file.
 - [ ] Pass → set spec `status: verified`. Fail → keep `in-progress`; do not set `verified`.
 - [ ] On failure: document per [verify.report.template.md](../review/verify.report.template.md); suggest `/repair`; shut down test services.
 
@@ -47,6 +48,3 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ## Verification
 - [ ] All tests pass, or failures captured in the verify report.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/verify`.

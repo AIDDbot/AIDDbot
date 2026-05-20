@@ -42,6 +42,3 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 
 ## Verification
 - [ ] Code compiles; unit tests pass; smoke test (app or servers start).
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/codify`.

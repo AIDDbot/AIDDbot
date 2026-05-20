@@ -26,7 +26,7 @@
 ├── {Agents_Folder}/      # Files related to agents (skills, commands, etc)
 │   ├── agents/           # Specific agent role definitions
 │   ├── prompts/          # Reusable prompts directory
-│   └── skills/           # Agent skills (read shared/git.md before committing)
+│   └── skills/           # Agent skills
 ├── {Product_Folder}/     # Product related files (specs, plans, arch, rules, reports)
 │   ├── specs/            # Specifications (YAML: status, released-version, released-at)
 │   ├── plans/            # Implementation plans
@@ -56,6 +56,16 @@
 | Branch `feat/checkout` or `fix/checkout` | `checkout` |
 | Folder `src/checkout/` | `checkout` (confirm if unclear) |
 
+### Git (producing skills)
+
+Any skill that writes artifacts must finish by applying the repository workflow. Do not improvise branch or commit steps.
+
+1. **Caller** — The active skill is whichever the user invoked (e.g. `/codify`, `/specify`). `/repository` uses that skill's row in `{Agents_Folder}/skills/repository/skill-integrations.md`.
+2. **Workflow** — Read and follow `{Agents_Folder}/skills/repository/SKILL.md`. `/repository` is not auto-invoked; run it as the last step of the producing skill.
+3. **`/codify` only** — Run repository **Step 2: Start a feature branch** before writing implementation code. Feature-cycle branch rules stay in the repository skill only.
+
+Per-skill branches, commit types, and paths: `{Agents_Folder}/skills/repository/skill-integrations.md`.
+
 ### AIDD product artifacts
 
 Paths are under `{Product_Folder}`:
@@ -81,8 +91,6 @@ When `{Product_Folder}/arch/` or `rules/` exist, `/planify` and `/codify` read t
 YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `released-at` (last two empty until release).
 
 **Chain:** `draft` → `planned` → `in-progress` → `verified` → `released` (also `cancelled` when scope is dropped). Per-skill transitions, edge cases, and diagram: `{Agents_Folder}/skills/specify/spec-status.md`.
-
-Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agents_Folder}/skills/shared/git.md`).
 
 ## Product
 
@@ -120,7 +128,6 @@ Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agen
 
 - **Agent Skills**:
   - {Skill_Name}: {Brief description of the skill and its purpose.}
-  - Git: follow `{Agents_Folder}/skills/shared/git.md` before finishing any producing skill (`/repository` holds branch and commit rules; not auto-invoked).
 
 ## Principles
 

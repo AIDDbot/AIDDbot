@@ -44,6 +44,3 @@ Mode order and completion rules: [incremental-artifact.md](../shared/incremental
 - [ ] No placeholders; each pattern has a concrete do/don't from the codebase.
 - [ ] Deviations from the dominant pattern are flagged.
 - [ ] A reader of `rules/` alone can write code matching existing style and structure.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/extract`.

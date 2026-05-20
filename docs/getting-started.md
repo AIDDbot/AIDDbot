@@ -98,7 +98,7 @@ After implementation:
 
 Before `/release`, see [`/release` skill](../.agents/skills/release/SKILL.md) (merge and blocking checks).
 
-Git: [shared/git.md](../.agents/skills/shared/git.md) · [repository](../.agents/skills/repository/SKILL.md) · [skill-integrations](../.agents/skills/repository/skill-integrations.md).
+Git: `AGENTS.md` · [repository](../.agents/skills/repository/SKILL.md) · [skill-integrations](../.agents/skills/repository/skill-integrations.md).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 

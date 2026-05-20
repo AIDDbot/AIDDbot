@@ -45,6 +45,3 @@ When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `c
 
 ## Verification
 - [ ] Each plan is complete, ordered, and actionable without extra context.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/planify`.

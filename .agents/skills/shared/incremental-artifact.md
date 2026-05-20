@@ -8,7 +8,7 @@ Used by `/explore` and `/extract`: one output file per invocation, then commit w
 2. **Pick next mode** — named argument, or first missing file in the skill’s recommended order (see below).
 3. **Execute mode file** — follow `{mode}.mode.md` in the skill folder; write **one** output file.
 4. **Summarize** — what was created; what remains (one combined summary when `/extract` runs `all`).
-5. **Commit** — [shared/git.md](./git.md) for the calling skill (`/explore` or `/extract`).
+5. **Commit** — `AGENTS.md` git workflow via `/repository` (caller `/explore` or `/extract` per [skill-integrations](../repository/skill-integrations.md)).
 
 ## Rules
 

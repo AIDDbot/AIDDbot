@@ -67,6 +67,3 @@ Given one or more verified specifications, bump the project version, record chan
 ## Verification
 
 - [ ] Semver increased; each released spec has matching `released-version`; `CHANGELOG` has dated section.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/release`.

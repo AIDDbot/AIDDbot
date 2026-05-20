@@ -34,7 +34,7 @@ The specification defines typography, color, motion, spatial composition, textur
 ### Conventions
 
 - Derive `{slug}` from the design folder name or feature name.
-- When design is part of a spec-driven feature: link `{Product_Folder}/specs/{slug}.spec.md`; use existing `feat/{slug}` or create it per [repository/SKILL.md](../repository/SKILL.md) before UI commits (same as `/codify`).
+- When design is part of a spec-driven feature: link `{Product_Folder}/specs/{slug}.spec.md`; use existing `feat/{slug}` or create it per `AGENTS.md` git workflow before UI commits (same as `/codify`).
 
 ## Steps
 
@@ -54,6 +54,3 @@ The specification defines typography, color, motion, spatial composition, textur
 - [ ] Responsive behavior is implemented
 - [ ] Accessibility considerations are included
 - [ ] Motion and visual details support the intended aesthetic
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/design`.

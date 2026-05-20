@@ -49,6 +49,3 @@ Given a report from `/review` or `/verify`, fix every listed finding — apply e
 
 ## Verification
 - [ ] Every row is `resolved`, or `skipped` with a documented reason; verify fixes align with acceptance criteria when behavior changed.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/repair`.

@@ -54,6 +54,3 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] `{Agents_Folder}/skills/` is present.
 - [ ] Product overview is defined.
 - [ ] Technical stack is defined for each tier.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/initialize`.

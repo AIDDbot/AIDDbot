@@ -36,6 +36,3 @@ Given a requirement or feature description, produce a complete specification fil
 
 ## Verification
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/specify`.

@@ -72,7 +72,7 @@ flowchart TD
 
 - `/release` - Bump version, update `CHANGELOG.md` and docs, set spec `status: released` (prerequisites: [`/release` skill](../.agents/skills/release/SKILL.md)).
 
-- `/repository` - Git branches and conventional commits. Not a separate pipeline step; producing skills finish via [shared/git.md](../.agents/skills/shared/git.md).
+- `/repository` - Git branches and conventional commits. Not a separate pipeline step; producing skills finish per `AGENTS.md` git rules.
 
 ## Git workflow
 

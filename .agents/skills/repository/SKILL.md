@@ -21,12 +21,15 @@ Apply the correct branch strategy and commit all work from the calling skill in 
 
 ## Context
 
+### Caller
+
+The calling skill is the workflow skill the user invoked (e.g. `/specify`, `/codify`). Use session context; ask only if ambiguous. Look up that skill in [skill integrations](./skill-integrations.md) for branch, commit type(s), and what to commit.
+
 ### References
 
-- `AGENTS.md` at project root — slugs, product artifact paths, spec status chain.
+- `AGENTS.md` at project root — git contract for producing skills; slugs, product artifact paths, spec status chain.
 - [Conventional commits](./conventional-commits.md) — message format, types, examples, Windows syntax.
 - [Skill integrations](./skill-integrations.md) — branch and commit expectations per calling skill.
-- [Git footer pattern](../shared/git.md) — what producing skills link at the end.
 
 ### Prerequisites
 
@@ -82,7 +85,7 @@ Execute **before** writing implementation code:
 
 ### Step 3: Choose branch (from other skills)
 
-- [ ] Read [skill integrations](./skill-integrations.md) for the calling skill.
+- [ ] Read [skill integrations](./skill-integrations.md) for the caller identified above.
 - [ ] If on an active `feat/{slug}` for this work → stay on it.
 - [ ] If standalone fix per feature-cycle rules → `git checkout -b fix/{slug}` after Step 1.
 - [ ] Otherwise → default branch or `chore/onboarding` for `/explore` and `/extract`, or `chore/{slug}` as the table specifies.

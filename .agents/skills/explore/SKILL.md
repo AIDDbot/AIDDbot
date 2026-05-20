@@ -43,6 +43,3 @@ Mode order and completion rules: [incremental-artifact.md](../shared/incremental
 - [ ] Mermaid diagrams render; no placeholders remain.
 - [ ] Every ADR entry has decision, rationale, and consequences.
 - [ ] A reader of `arch/` alone can answer: what the system does, how it is structured, what must not change.
-
-## Git
-- [ ] Follow [shared/git.md](../shared/git.md) for `/explore`.
