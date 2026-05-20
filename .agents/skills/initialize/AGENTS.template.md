@@ -32,7 +32,7 @@
 │   ├── plans/            # Implementation plans
 │   ├── arch/             # Architecture documentation
 │   ├── rules/            # Coding conventions extracted from the codebase
-│   ├── design/           # Optional design specs for /render
+│   ├── design/           # Optional design specs for /design
 │   └── reports/          # Review and verify findings for /repair
 ├── CHANGELOG.md          # Project history and updates
 ├── README.md             # Human-friendly project summary  
@@ -48,6 +48,14 @@
 — Generate short slugs for artifacts and names (less-than-20-chars when possible)
 — Derive `{slug}` from artifact filename, then `feat/{slug}` branch, then requirement title (confirm if ambiguous)
 
+**Slug derivation**
+
+| Source | `{slug}` |
+|--------|----------|
+| Spec/plan/report filename | segment before first `.` (e.g. `checkout.spec.md` → `checkout`) |
+| Branch `feat/checkout` or `fix/checkout` | `checkout` |
+| Folder `src/checkout/` | `checkout` (confirm if unclear) |
+
 ### AIDD product artifacts
 
 Paths are under `{Product_Folder}`:
@@ -62,7 +70,11 @@ Paths are under `{Product_Folder}`:
 | Rules | `rules/{name}.rules.md` |
 | Design | `design/{slug}/DESIGN.md` |
 
-`{source}`: `spec` | `report` | omit for simple requirements. `{type}` (reports): `quality` | `compliance` | `accessibility` | `verify`.
+`{source}`: `spec` | `report` | omit for simple requirements. `{type}` (reports): `quality` | `compliance` | `accessibility` | `verify`. Consumed by `/repair`.
+
+### Brownfield context
+
+When `{Product_Folder}/arch/` or `rules/` exist, `/planify` and `/codify` read them before changing code (order: arch → ADR → tier rules → naming → testing). Full detail: `{Agents_Folder}/skills/shared/implementation-context.md`.
 
 ### Spec status
 
@@ -77,7 +89,7 @@ YAML frontmatter on each spec: `spec-slug`, `status`, `released-version`, `relea
 - `/release` only skill that sets `released` plus `released-version` / `released-at`
 - `/repair` does not change spec status
 
-Before committing artifacts, read `{Agents_Folder}/skills/repository/SKILL.md`. `/codify` creates `feat/{slug}` before implementation code.
+Edge cases and diagram: `{Agents_Folder}/skills/specify/spec-status.md`. Before committing, read `{Agents_Folder}/skills/repository/SKILL.md` (see `{Agents_Folder}/skills/shared/git.md`).
 
 ## Product
 

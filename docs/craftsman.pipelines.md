@@ -4,7 +4,7 @@ Paths below are under `{Product_Folder}` (default `.product/`).
 
 ## Review and repair
 
-Use `/repair` for findings from `/review` or `/verify` reports. Review repairs preserve behavior unless fixing a defect; verify repairs may change behavior to meet acceptance criteria.
+Use `/repair` for every row in `/review` or `/verify` reports (no severity tiers — if it is in the report, fix it). Review repairs preserve behavior unless fixing a defect; verify repairs may change behavior to meet acceptance criteria.
 
 ```mermaid
 flowchart TD  

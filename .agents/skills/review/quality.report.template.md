@@ -1,23 +1,23 @@
 # Quality Report — {slug}
 
-**Severity:** `critical` | `high` | `medium` | `low` | `info` — see Severity table in [review SKILL](./SKILL.md).
+> Every row is a finding to fix via `/repair`. Do not list nice-to-haves — if it is not worth fixing, omit it.
 
 ## Structural complexity
 
-| File | Issue | Severity | Description | Recommendation |
-|------|-------|----------|-------------|----------------|
-| | | | | |
+| File | Issue | Description | Recommendation |
+|------|-------|-------------|----------------|
+| | | | |
 
 ## Naming and readability
 
-| File | Issue | Severity | Description | Recommendation |
-|------|-------|----------|-------------|----------------|
-| | | | | |
+| File | Issue | Description | Recommendation |
+|------|-------|-------------|----------------|
+| | | | |
 
 ## Redundancy
 
-| File | Issue | Severity | Description | Recommendation |
-|------|-------|----------|-------------|----------------|
-| | | | | |
+| File | Issue | Description | Recommendation |
+|------|-------|-------------|----------------|
+| | | | |
 
 > Report generated on {Date}.

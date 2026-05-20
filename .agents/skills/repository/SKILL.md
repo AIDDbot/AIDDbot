@@ -26,6 +26,7 @@ Apply the correct branch strategy and commit all work from the calling skill in 
 - `AGENTS.md` at project root — slugs, product artifact paths, spec status chain.
 - [Conventional commits](./conventional-commits.md) — message format, types, examples, Windows syntax.
 - [Skill integrations](./skill-integrations.md) — branch and commit expectations per calling skill.
+- [Git footer pattern](../shared/git.md) — what producing skills link at the end.
 
 ### Prerequisites
 

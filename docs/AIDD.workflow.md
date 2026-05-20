@@ -76,12 +76,9 @@ flowchart TD
 
 ## Git workflow
 
-1. **Product artifacts** (`/specify`, `/planify`, `/explore`, `/extract`, `/review`, failed `/verify`) — committed with `docs` (or `chore` for `AGENTS.md`) on the default branch or on `feat/{slug}` once the feature branch exists.
-2. **Implementation** (`/codify`) — create `feat/{slug}` first (save any uncommitted work so nothing is lost), then commit code in related groups with `feat` / `test`.
-3. **Fixes** (`/repair`) — stay on `feat/{slug}` during a feature cycle; use `fix/{slug}` only for standalone defects not tied to an open feature branch.
-4. **Release** (`/release`) — `chore` commits for `CHANGELOG.md` and spec status; prefer merging `feat/{slug}` to the default branch first.
+Branch rules, commit types, and per-skill expectations: [repository skill](../.agents/skills/repository/SKILL.md) and [skill integrations](../.agents/skills/repository/skill-integrations.md). Summary: product artifacts use `docs` (or `chore` for `AGENTS.md`); `/codify` creates `feat/{slug}` first; `/repair` stays on the feature branch during a cycle; `/release` uses `chore` after merge to the default branch when possible.
 
-See [repository skill](../.agents/skills/repository/SKILL.md) and [skills index](../.agents/skills/README.md). Paths and spec status: project `AGENTS.md` after `/initialize`.
+Paths and spec status: project `AGENTS.md` after `/initialize`.
 
 New here? [Getting started](./getting-started.md) · [Why AIDD](../README.md#why-aidd)
 
@@ -103,7 +100,7 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 
 - `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
 
-- `design/{slug}/` - Optional design specifications for `/render` (e.g. `DESIGN.md`).
+- `design/{slug}/` - Optional design specifications for `/design` (e.g. `DESIGN.md`).
 
 - `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see project `AGENTS.md` and [specify/spec-status.md](../.agents/skills/specify/spec-status.md) for full lifecycle.
 

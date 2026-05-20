@@ -14,56 +14,37 @@ Given a spec, bug report, or review report, produce one or more implementation p
 ## Context
 
 ### Input
-- One of the following:
-  - a specification file `{slug}.spec.md`
-  - a bug or review report `{slug}.{type}.report.md` (`{type}`: `quality`, `compliance`, `accessibility`, or `verify`)
-  - a simple textual requirement for a minor improvement
+- `{slug}.spec.md`, `{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`), or a simple textual requirement
 
 ### References
-- `AGENTS.md` — product paths and slug rules
+- `AGENTS.md` — artifact paths, slug rules, report types
 - [Plan template](./plan.template.md)
-- If `{Product_Folder}/arch/` exists:
-  - Read `system.arch.md` before identifying tiers.
-  - Read `{tier}.arch.md` for each affected tier.
-  - Read `ADR.md` before drafting steps.
-
-### Conventions
-- `{slug}` is inherited from the input file name or derived from the requirement description.
-- `{source?}` reflects the input type: `spec` or `report`, or omit for simple requirements.
-- `{tier?}` is determined by the content: `back`, `front`, or `db`.
-- Fullstack changes (touching all tiers equally): use `{slug}.{source}.plan.md` (omit `{tier}`; set `tier: fullstack` in plan frontmatter).
-- Pattern: `{slug}.{source?}.{tier?}.plan.md` — examples: `checkout.spec.back.plan.md`, `checkout.report.front.plan.md`, `checkout.spec.plan.md` (fullstack).
-
-### Spec status (this skill)
-
-- When input is `{slug}.spec.md`, set frontmatter `status: planned` after plans are written.
-- When input is a report only (`{slug}.{type}.report.md`), do **not** update spec status.
+- [Implementation context](../shared/implementation-context.md) when `arch/` exists
 
 ### Planning from a review report
 
-When input is `{slug}.{type}.report.md`, set `{source}` to `report` and derive steps from findings (group by tier when possible). Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`.
+When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`.
 
 ## Steps
 
 ### Step 1: Understand the input
-- [ ] Identify the input type and derive `{slug}` and `{source}`.
-- [ ] If the input is incomplete or ambiguous, document the assumptions clearly and proceed with best-effort.
+- [ ] Identify input type; derive `{slug}` and `{source}` per `AGENTS.md`.
+- [ ] If incomplete or ambiguous, document assumptions and proceed with best-effort.
 
 ### Step 2: Identify tiers
-- [ ] Determine which tiers are involved: `back`, `front`, `db`, or fullstack (no tier).
-- [ ] If multiple tiers are involved, ensure plans are coherent and aligned across them.
+- [ ] Tiers: `back`, `front`, `db`, or fullstack (omit tier segment; `tier: fullstack` in plan frontmatter).
+- [ ] Follow [implementation context](../shared/implementation-context.md) when brownfield docs exist.
 
 ### Step 3: Draft the implementation steps
-- [ ] For each tier, define ordered steps with clear titles, short descriptions, and file/folder paths affected.
-- [ ] Each step must be directly traceable to the input problem or solution.
-- [ ] Respect architectural constraints and past decisions from `arch/` docs and `ADR.md`.
+- [ ] Per tier: ordered steps with titles, descriptions, and paths; traceable to input.
+- [ ] Respect ADRs and arch constraints.
 
 ## Output
-- [ ] Write one plan file per tier to `{Product_Folder}/plans/` using the plan template and the correct naming convention.
-- [ ] When the input is a spec, set its frontmatter `status: planned` (see **Spec status** above).
+- [ ] Plan file(s) under `{Product_Folder}/plans/` per `AGENTS.md` naming and [plan template](./plan.template.md).
+- [ ] When input is a spec: set frontmatter `status: planned`. Report-only input: do not change spec status.
 
 ## Verification
-- [ ] Each plan file is complete, ordered, and actionable for a developer to implement without additional context.
+- [ ] Each plan is complete, ordered, and actionable without extra context.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/planify` row in [skill-integrations.md](../repository/skill-integrations.md).

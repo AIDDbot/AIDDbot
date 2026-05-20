@@ -28,4 +28,5 @@ Human-oriented workflow docs are in [`docs/`](./docs/):
 - Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification, Git.
 - Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill (same folder only).
 - Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put skill-specific rules in that skill's `SKILL.md`.
+- Shared cross-skill helpers live in `.agents/skills/shared/` (incremental artifacts, brownfield reads, git footer).
 - After changing a skill, align README, catalog, workflow, and pipeline docs if behavior or paths changed.

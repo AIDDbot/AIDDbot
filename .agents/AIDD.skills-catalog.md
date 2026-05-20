@@ -1,36 +1,51 @@
-# AIDD Skills catalog
+# AIDD skills catalog
 
-Agent index: [skills/README.md](./skills/README.md) · Consumer conventions: root `AGENTS.md` (via `/initialize`)
+When to invoke each skill (prerequisites). For loops and git detail see [skills/README.md](./skills/README.md) and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
 
-### Architect
+| Phase | Skill | Prerequisite |
+|-------|-------|----------------|
+| Setup | `/initialize` | — |
+| Brownfield arch | `/explore` | `AGENTS.md` |
+| Brownfield rules | `/extract` | `arch/` |
+| Feature spec | `/specify` | — |
+| Implementation plan | `/planify` | spec, report, or requirement |
+| Code + unit tests | `/codify` | plan, spec, or requirement |
+| E2E verification | `/verify` | `{slug}.spec.md` at `in-progress` (or `verified` to re-run) |
+| UI from design | `/design` | `DESIGN.md` or `design/{slug}/` |
+| Code review | `/review` | code in scope |
+| Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
+| Ship | `/release` | spec `status: verified` |
+| Git (always) | `/repository` | read explicitly before commit |
 
-| Skill | What it does |
-|---|---|
-| [`/initialize`](./skills/initialize/) | Sets up your project environment and main instructions file |
-| [`/explore`](./skills/explore/) | Reverse-engineers legacy code for architecture insights |
-| [`/extract`](./skills/extract/) | Extracts real rules from your codebase to guide new generation |
-
-### Builder
-
-| Skill | What it does |
-|---|---|
-| [`/specify`](./skills/specify/) | Writes clear specifications with formal acceptance criteria |
-| [`/planify`](./skills/planify/) | Breaks specs into concrete, ordered implementation steps |
-| [`/codify`](./skills/codify/) | Generates code that follows your plans and your rules |
-| [`/verify`](./skills/verify/) | Writes and runs E2E tests; on failure, produces a report for `/repair` |
-
-### Craftsman
+## Architect
 
 | Skill | What it does |
-|---|---|
-| [`/review`](./skills/review/) | Reviews code for quality, accessibility, or compliance |
-| [`/repair`](./skills/repair/) | Fixes issues from review or verify reports |
-| [`/release`](./skills/release/) | Bumps version, updates CHANGELOG and docs, marks specs `released` |
-| [`/repository`](./skills/repository/) | Branches and conventional commits; called by every skill that produces artifacts |
-| [`/refactor`](./skills/refactor/) | *(WIP)* Improves existing code without changing its behavior — not ready for routine use |
+|-------|----------------|
+| [`/initialize`](./skills/initialize/) | Project environment and `AGENTS.md` |
+| [`/explore`](./skills/explore/) | Architecture docs and ADRs from legacy code |
+| [`/extract`](./skills/extract/) | Coding rules from the codebase |
 
-### Designer
+## Builder
 
 | Skill | What it does |
-|---|---|
-| [`/design`](./skills/design/) | Production-grade frontend UI from a design specification |
+|-------|----------------|
+| [`/specify`](./skills/specify/) | Specs with acceptance criteria |
+| [`/planify`](./skills/planify/) | Implementation plans from spec or report |
+| [`/codify`](./skills/codify/) | Code and unit tests from plans |
+| [`/verify`](./skills/verify/) | E2E tests; verify report on failure → `/repair` |
+
+## Craftsman
+
+| Skill | What it does |
+|-------|----------------|
+| [`/review`](./skills/review/) | Quality, accessibility, or compliance reports |
+| [`/repair`](./skills/repair/) | Fixes from review or verify reports |
+| [`/release`](./skills/release/) | Version, changelog, spec `released` |
+| [`/repository`](./skills/repository/) | Branches and conventional commits |
+| [`/refactor`](./skills/refactor/) | *(WIP)* — use `/review` → `/repair` for defects |
+
+## Designer
+
+| Skill | What it does |
+|-------|----------------|
+| [`/design`](./skills/design/) | Frontend UI from a design specification |

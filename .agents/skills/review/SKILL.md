@@ -14,11 +14,7 @@ Given a code scope and a review type, evaluate the code against the relevant gui
 ## Context
 
 ### Input
-One of the following scopes:
-- A feature branch — review all files changed in the branch.
-- An implementation plan `{slug}.{source?}.{tier?}.plan.md` — review files listed in the plan.
-- A file or folder path — review the specified target directly.
-- No explicit scope — review files changed recently in the current branch.
+- Feature branch (all changed files), plan file (files listed in plan), path, or recent changes on current branch
 
 ### Review types
 
@@ -28,43 +24,25 @@ One of the following scopes:
 | `compliance` | [Compliance](./compliance.guidelines.md) | [compliance.report.template.md](./compliance.report.template.md) |
 | `accessibility` | [Accessibility](./accessibility.guidelines.md) | [accessibility.report.template.md](./accessibility.report.template.md) |
 
-### Slug derivation
+Derive `{slug}` per `AGENTS.md` → **Slug derivation**.
 
-Read `AGENTS.md` for slug rules. Typical cases:
+### Findings
 
-| Scope | `{slug}` |
-|-------|----------|
-| Branch `feat/checkout` | `checkout` |
-| Plan `checkout.spec.back.plan.md` | `checkout` |
-| Folder `src/checkout/` | `checkout` (confirm with user if unclear) |
-
-### Severity
-
-Use one value per finding:
-
-| Severity | When to use |
-|----------|-------------|
-| `critical` | Blocks release or breaks production path |
-| `high` | Defect or major standard violation |
-| `medium` | Should fix before merge |
-| `low` | Minor improvement |
-| `info` | Suggestion, no blocking impact |
+List only issues that should be fixed. Every report row is input for `/repair` — do not add informational or optional items. If something is not worth fixing, omit it from the report.
 
 ## Steps
 
-- [ ] Identify review type; load the guide and report template from the table above.
-- [ ] Identify scope and files to review; ask minimal questions if unclear.
-- [ ] For each file: responsibility, callers/callees, edge cases — then evaluate against the guide.
-- [ ] Document each finding: File, Issue, Severity, Description, Recommendation.
-- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` (`{type}`: `quality` | `compliance` | `accessibility`) using the template structure.
+- [ ] Load guide and report template for the review type.
+- [ ] Identify scope and files; ask minimal questions if unclear.
+- [ ] Per file: responsibility, callers/callees, edge cases; evaluate against the guide.
+- [ ] Each finding: File, Issue, Description, Recommendation.
+- [ ] Write `{Product_Folder}/reports/{slug}.{type}.report.md` using the template.
 
 ## Output
-- [ ] Report committed path: `reports/{slug}.{type}.report.md`.
+- [ ] Report at `reports/{slug}.{type}.report.md`.
 
 ## Verification
-- [ ] All files in scope reviewed.
-- [ ] Every finding has all five columns populated.
-- [ ] Recommendations are actionable (file, line, or pattern — not vague advice).
+- [ ] All scope files reviewed; every row is actionable for `/repair`; recommendations name file, line, or pattern.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/review` row in [skill-integrations.md](../repository/skill-integrations.md).

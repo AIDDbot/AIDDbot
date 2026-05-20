@@ -34,7 +34,7 @@ The specification defines typography, color, motion, spatial composition, textur
 ### Conventions
 
 - Derive `{slug}` from the design folder name or feature name when tying work to a feature branch.
-- Optional: link to `{Product_Folder}/specs/{slug}.spec.md` when render is part of a spec-driven feature.
+- Optional: link to `{Product_Folder}/specs/{slug}.spec.md` when design is part of a spec-driven feature.
 
 ## Steps
 
@@ -55,5 +55,5 @@ The specification defines typography, color, motion, spatial composition, textur
 - [ ] Accessibility considerations are included
 - [ ] Motion and visual details support the intended aesthetic
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md) — use `feat/{slug}` when part of a feature.
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/design` row in [skill-integrations.md](../repository/skill-integrations.md).

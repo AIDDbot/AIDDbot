@@ -1,6 +1,6 @@
 # Spec status lifecycle
 
-Used by `/specify` (this skill). The status chain and per-skill rules are also summarized in project `AGENTS.md`; other skills inline only the transitions they perform.
+Canonical spec lifecycle reference. The status chain and per-skill rules are summarized in project `AGENTS.md` (from [AGENTS.template.md](../initialize/AGENTS.template.md)); other skills only state the transition they perform.
 
 Every `{Product_Folder}/specs/{slug}.spec.md` file carries `status` in YAML frontmatter. Skills update it as work progresses; only `/release` sets `released`.
 

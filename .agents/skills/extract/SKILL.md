@@ -18,13 +18,12 @@ Analyze source code in each tier and produce coding convention files under `{Pro
 - `{Product_Folder}/arch/` exists (run `/explore` first if not).
 
 ### References
-- [Incremental artifact pattern](./incremental-artifact.md)
-- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, product paths, detected tiers
-- `{Product_Folder}/arch/{tier}.arch.md` — code organization, shared artifacts, constraints.
-- Mode files in this skill's folder — one per output type.
+- [Incremental artifact pattern](../shared/incremental-artifact.md) — `/extract` row
+- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, tiers
+- `{Product_Folder}/arch/{tier}.arch.md` when present
+- Mode files in this folder
 
 ### Modes
-Each mode generates one output file and is driven by its corresponding mode file:
 
 | Argument | Output file | Mode file |
 |---|---|---|
@@ -32,38 +31,25 @@ Each mode generates one output file and is driven by its corresponding mode file
 | `{tier}` | `{tier}.rules.md` | `tier.mode.md` |
 | `testing` | `testing.rules.md` | `testing.mode.md` |
 
-Recommended generation order: `naming → back → front → db → testing`
-
-### Output folder
-
-```md
-{Product_Folder}/
-└── rules/
-├── naming.rules.md     # Always generated
-├── testing.rules.md    # Always generated
-├── back.rules.md       # If backend tier detected
-├── front.rules.md      # If frontend tier detected
-└── db.rules.md         # If database tier detected
-```
+Order: `naming → back → front → db → testing`. Output tree: `rules/naming.rules.md`, `testing.rules.md`, optional `{tier}.rules.md`.
 
 ## Steps
 
-Follow [incremental artifact pattern](./incremental-artifact.md):
+Follow [incremental artifact pattern](../shared/incremental-artifact.md):
 
-- [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
-- [ ] Pick mode: `all` (run every missing mode in order), a named argument, or first missing file (`naming → tiers → testing`).
-- [ ] If all rule files exist → report complete and suggest `/specify`. Stop.
-- [ ] Execute the selected `{mode}.mode.md` and write one file under `rules/` (repeat for each mode when `all`).
-- [ ] Summarize what was generated; for `all`, one combined summary at the end.
+- [ ] Read `AGENTS.md` → `{Product_Folder}`, `{Source_Folders}`, tiers.
+- [ ] Pick mode: `all`, a named argument, or first missing file in order.
+- [ ] If all rule files exist → report complete; suggest `/specify`. Stop.
+- [ ] Execute `{mode}.mode.md`; write one file under `rules/` (repeat per mode when `all`).
+- [ ] Summarize; one combined summary when `all`.
 
 ## Output
-- [ ] One rule file written to `{Product_Folder}/rules/` per mode executed.
+- [ ] One rule file under `{Product_Folder}/rules/` per mode executed.
 
 ## Verification
-- [ ] No placeholder text remains in any generated file.
-- [ ] Every pattern includes at least one concrete do/don't example extracted from the actual codebase.
-- [ ] Deviations from the dominant pattern are explicitly flagged.
-- [ ] A new agent reading only `rules/` can write code indistinguishable from existing code in style and structure.
+- [ ] No placeholders; each pattern has a concrete do/don't from the codebase.
+- [ ] Deviations from the dominant pattern are flagged.
+- [ ] A reader of `rules/` alone can write code matching existing style and structure.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/extract` row in [skill-integrations.md](../repository/skill-integrations.md).

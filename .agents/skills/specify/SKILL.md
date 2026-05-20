@@ -17,14 +17,11 @@ Given a requirement or feature description, produce a complete specification fil
 - A requirement, user story, or feature description from the user.
 
 ### References
-- `AGENTS.md` — product paths, slug rules, spec status chain
+- `AGENTS.md` — product paths and slug rules
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
 - [Spec template](./spec.template.md)
-- [Spec status lifecycle](./spec-status.md) — full frontmatter and edge cases for this skill
-
-### Conventions
-- Output: `{Product_Folder}/specs/{slug}.spec.md` where `{slug}` is short, lowercase, hyphenated when needed (under 20 characters when possible).
+- [Spec status lifecycle](./spec-status.md) — frontmatter and edge cases
 
 ## Steps
 
@@ -40,5 +37,5 @@ Given a requirement or feature description, produce a complete specification fil
 ## Verification
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/specify` row in [skill-integrations.md](../repository/skill-integrations.md).

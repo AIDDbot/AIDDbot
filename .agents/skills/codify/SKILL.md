@@ -14,46 +14,34 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 ## Context
 
 ### Input
-- One of the following:
-  - An implementation plan `{slug}.{source?}.{tier?}.plan.md` (e.g. `{slug}.spec.back.plan.md`, `{slug}.spec.plan.md` for fullstack)
-  - A specification file `{slug}.spec.md` (plan optional if user explicitly bypasses `/planify`)
-  - A direct requirement from the user
+- Implementation plan, `{slug}.spec.md` (plan optional if user bypasses `/planify`), or a direct requirement
 
 ### References
-- `AGENTS.md` — product paths, slug rules, spec status chain
-- The implementation plan or spec file provided as input.
-- The architecture documentation in `{Product_Folder}/arch/` if it exists, especially `{tier}.arch.md`.
-- The coding conventions in `{Product_Folder}/rules/` if they exist, especially `{tier}.rules.md`, `naming.rules.md`, and `testing.rules.md`.
+- Input plan or spec
+- `AGENTS.md` — paths and slug rules
+- [Implementation context](../shared/implementation-context.md) when `arch/` or `rules/` exist
 
 ## Steps
 
-### Step 0: Branch (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) — **Start a feature branch** before writing implementation code (`feat/{slug}` from plan or spec).
-- [ ] When `{Product_Folder}/specs/{slug}.spec.md` exists, set frontmatter `status: in-progress` (from `planned`, or from `draft` if `/planify` was skipped with user approval).
-
 ### Step 1: Clarify the input
-- [ ] If the input is incomplete or ambiguous, ask the minimum questions needed before proceeding.
-- [ ] If `{Product_Folder}/arch/{tier}.arch.md` exists, read it before implementing.
-- [ ] If `{Product_Folder}/rules/{tier}.rules.md` exists, read it before implementing.
-- [ ] If `{Product_Folder}/rules/naming.rules.md` exists, read it before creating new files.
+- [ ] If incomplete or ambiguous, ask the minimum questions needed.
+- [ ] Follow [implementation context](../shared/implementation-context.md) before coding.
 
 ### Step 2: Implement
-- [ ] Follow the implementation plan steps in order, or derive them from the spec or requirement.
-- [ ] Write the minimum code necessary to fulfill the requirements.
-- [ ] Respect code organization pattern, shared artifact locations from `{tier}.arch.md`.
-- [ ] Follow artifact role patterns, naming conventions, and error handling from `{tier}.rules.md`.
+- [ ] Follow plan steps in order, or derive from spec/requirement.
+- [ ] Minimum code to fulfill requirements; respect arch and rules.
 
 ### Step 3: Write unit tests
-- [ ] If `{Product_Folder}/rules/testing.rules.md` exists, read it before writing tests.
-- [ ] Write unit tests for critical modules following the testing conventions.
+- [ ] Critical modules; follow `testing.rules.md` when present.
 
 ## Output
-- [ ] Fully functional code committed to the appropriate files.
+- [ ] Working code in the appropriate files.
+
+### Spec status
+- [ ] When `{slug}.spec.md` exists: set `status: in-progress` when coding starts (`planned`, or `draft` if `/planify` was skipped with user approval).
 
 ## Verification
-- [ ] Code compiles without errors.
-- [ ] Unit tests pass.
-- [ ] Smoke test passes (app or servers start).
+- [ ] Code compiles; unit tests pass; smoke test (app or servers start).
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/codify` row: create `feat/{slug}` **before** implementation code ([skill-integrations.md](../repository/skill-integrations.md)).

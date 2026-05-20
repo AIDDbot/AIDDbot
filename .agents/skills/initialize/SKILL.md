@@ -49,7 +49,7 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 ## Output
 - [ ] Create or update `AGENTS.md` at the project root following the Agents Instructions template.
 - [ ] Replace all placeholders with actual values.
-- [ ] Keep `AGENTS.md` under 100 concise lines.
+- [ ] Keep `AGENTS.md` concise; use template sections without duplicating skill-specific detail.
 - [ ] If this is a brownfield project, suggest running `/explore` and `/extract` before building features.
 
 ## Verification
@@ -58,5 +58,5 @@ Generate or update the main agent instructions file `AGENTS.md` at the project r
 - [ ] Product overview is defined.
 - [ ] Technical stack is defined for each tier.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md) — commit `AGENTS.md` (`chore`) before finishing.
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/initialize` row in [skill-integrations.md](../repository/skill-integrations.md).

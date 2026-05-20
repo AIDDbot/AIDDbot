@@ -2,12 +2,12 @@
 
 Linked spec: `{Product_Folder}/specs/{slug}.spec.md`
 
-**Severity:** `critical` | `high` | `medium` | `low` | `info`
+> Every row is a failure to fix via `/repair`, then re-run `/verify`.
 
 ## Failures
 
-| File | Issue | Severity | Acceptance criterion | Description | Recommendation |
-|------|-------|----------|----------------------|-------------|----------------|
-| | | | | | |
+| File | Issue | Acceptance criterion | Description | Recommendation |
+|------|-------|----------------------|-------------|----------------|
+| | | | | |
 
 > Report generated on {Date}. Re-run `/verify` after `/repair`.

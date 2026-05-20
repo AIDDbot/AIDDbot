@@ -1,30 +1,9 @@
-# Design skill documentation
+# Design skill
 
-> [!NOTE]
-> In agents that do not natively support skills, call them by prefixing with `@` or `#` (e.g. `@design`).
-
-## Sample prompt — standalone UI
+Invoke with `@design` or `/design`. Pipeline: [designer.pipelines.md](../../../docs/designer.pipelines.md).
 
 ```md
-> Use the design skill with DESIGN.md at {Product_Folder}/design/checkout/DESIGN.md
-> Implement the design system and main checkout UI components.
+> /design with {Product_Folder}/design/checkout/DESIGN.md
 ```
 
-## Optional — spec-driven path
-
-When the design work is part of a larger feature, you may run the builder pipeline first:
-
-```md
-> /specify the design system requirements
-> /planify the specification
-> /codify the plan
-> /design using the resulting DESIGN.md or design folder
-```
-
-## Review design output
-
-```md
-> Use the review skill (quality) on the design implementation.
-> Report at {Product_Folder}/reports/{slug}.quality.report.md
-> Use repair on findings, then re-review if needed.
-```
+Spec-driven path: `/specify` → `/planify` → `/codify` → `/design` (optional) → `/review` → `/repair` as needed.

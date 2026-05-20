@@ -1,17 +1,17 @@
 # Compliance Report — {slug}
 
-**Severity:** `critical` | `high` | `medium` | `low` | `info`
+> Every row is a finding to fix via `/repair`. Do not list nice-to-haves — if it is not worth fixing, omit it.
 
 ## Security
 
-| File | Issue | Severity | Description | Recommendation |
-|------|-------|----------|-------------|----------------|
-| | | | | |
+| File | Issue | Description | Recommendation |
+|------|-------|-------------|----------------|
+| | | | |
 
 ## Performance
 
-| File | Issue | Severity | Description | Recommendation |
-|------|-------|----------|-------------|----------------|
-| | | | | |
+| File | Issue | Description | Recommendation |
+|------|-------|-------------|----------------|
+| | | | |
 
 > Report generated on {Date}.

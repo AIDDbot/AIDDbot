@@ -105,7 +105,7 @@ See [Craftsman pipelines](./craftsman.pipelines.md).
 ## Optional: UI from design
 
 ```markdown
-/render from design specification
+/design from design specification
 ```
 
 Experimental. See [Design pipelines](./design.pipelines.md).

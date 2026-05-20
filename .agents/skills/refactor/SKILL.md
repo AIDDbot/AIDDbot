@@ -22,6 +22,6 @@ This skill is on the roadmap and not yet implemented. **Do not invoke** unless t
 |------|-------------|
 | Fix defects or standard violations | `/review` → `/repair` |
 | Implement a spec or improvement | `/specify` → `/planify` → `/codify` |
-| UI from a design file | `/render` |
+| UI from a design file | `/design` |
 
 Do not commit under `/refactor` until this skill defines outputs and [skill-integrations](../repository/skill-integrations.md) entries.

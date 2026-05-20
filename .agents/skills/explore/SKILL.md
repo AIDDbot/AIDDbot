@@ -17,12 +17,11 @@ Analyze an existing codebase and produce architecture documentation under `{Prod
 - `AGENTS.md` exists at the project root (run `/initialize` first if not).
 
 ### References
-- [Incremental artifact pattern](./incremental-artifact.md)
-- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, product paths, detected tiers
-- Mode files in this skill's folder — one per output type.
+- [Incremental artifact pattern](../shared/incremental-artifact.md) — `/explore` row
+- `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, tiers
+- Mode files in this folder — one per output type
 
 ### Modes
-Each mode generates one output file and is driven by its corresponding mode file:
 
 | Argument | Output file | Mode file |
 |---|---|---|
@@ -31,39 +30,25 @@ Each mode generates one output file and is driven by its corresponding mode file
 | `er` | `ER.md` | `er.mode.md` |
 | `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
 
-Recommended generation order: `system → adr → er → back → front → db`
-
-### Output folder
-
-```md
-{Product_Folder}/
-└── arch/
-├── system.arch.md   # Always generated
-├── ADR.md           # Always generated
-├── ER.md            # Always generated
-├── back.arch.md     # If backend tier detected
-├── front.arch.md    # If frontend tier detected
-└── db.arch.md       # If database tier detected
-```
+Order: `system → adr → er → back → front → db` (tiers as detected). Output tree: `arch/system.arch.md`, `ADR.md`, `ER.md`, optional `{tier}.arch.md`.
 
 ## Steps
 
-Follow [incremental artifact pattern](./incremental-artifact.md):
+Follow [incremental artifact pattern](../shared/incremental-artifact.md):
 
-- [ ] Read `AGENTS.md` → extract `{Product_Folder}`, `{Source_Folders}`, and detected tiers.
-- [ ] Pick mode: argument, or first missing file in recommended order (`system → adr → er → tiers`).
-- [ ] If all arch files exist → report complete and suggest `/extract`. Stop.
-- [ ] Execute the selected `{mode}.mode.md` and write one file under `arch/`.
+- [ ] Read `AGENTS.md` → `{Product_Folder}`, `{Source_Folders}`, tiers.
+- [ ] Pick mode: argument, or first missing file in recommended order.
+- [ ] If all arch files exist → report complete; suggest `/extract`. Stop.
+- [ ] Execute `{mode}.mode.md`; write one file under `arch/`.
 - [ ] Summarize what was generated and what remains.
 
 ## Output
-- [ ] One architecture file written to `{Product_Folder}/arch/` per invocation.
+- [ ] One architecture file under `{Product_Folder}/arch/` per invocation.
 
 ## Verification
-- [ ] All Mermaid diagrams render without errors.
-- [ ] No placeholder text remains in any generated file.
+- [ ] Mermaid diagrams render; no placeholders remain.
 - [ ] Every ADR entry has decision, rationale, and consequences.
-- [ ] A new agent reading only `arch/` can answer: what does this system do, how is it structured, and what must not be changed?
+- [ ] A reader of `arch/` alone can answer: what the system does, how it is structured, what must not change.
 
-## Git (required)
-- [ ] Read and follow [repository skill](../repository/SKILL.md) per [skill integrations](../repository/skill-integrations.md).
+## Git
+- [ ] [repository/SKILL.md](../repository/SKILL.md) — `/explore` row in [skill-integrations.md](../repository/skill-integrations.md).

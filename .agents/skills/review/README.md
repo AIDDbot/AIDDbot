@@ -1,13 +1,10 @@
-# Review skill documentation
+# Review skill
 
-> [!NOTE]
-> In your agents do not natively support skills, call them by prefixing with @ or #. Ex `@review` or `#review`. 
+Invoke with `@review` or `/review`. Pipeline: [craftsman.pipelines.md](../../../docs/craftsman.pipelines.md).
 
-## Sample prompt to invoke the skill  
-
-### Review and fix code
 ```md
-> Use the review skill to review the code of the current project, and generate a report of any issues found.
-> Use the repair skill to fix the issues found in the report.
-> Re-run review or verify as needed to confirm the fixes.
+> /review (quality) on the current feature branch
+> /repair on {Product_Folder}/reports/{slug}.quality.report.md
 ```
+
+Every report row should be fixed via `/repair`. See [SKILL.md](./SKILL.md).
