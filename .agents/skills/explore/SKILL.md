@@ -6,47 +6,65 @@ description: Reverse-engineers an existing (brownfield) project to extract its a
 # Explore skill
 
 ## Role
+
 Act as a senior software architect.
 
 ## Task
-Analyze an existing codebase and produce architecture documentation under `{Product_Folder}/arch/` — product and system shape in `system.arch.md`, stack and dev workflow per tier in `{tier}.arch.md` — for `/planify` and `/codify`.
+
+- Analyze a brownfield codebase.
+- Write architecture docs under `{Product_Folder}/arch/` 
+- One output file per invocation — follow the matching `*.mode.md` in this folder.
 
 ## Context
 
 ### Prerequisites
-- `AGENTS.md` exists at the project root (run `/initialize` first if not).
+
+- Root `AGENTS.md` exists — run `/initialize` first if missing.
 
 ### References
-- `AGENTS.md` — `{Product_Folder}`, **Technology** table, **Product** summary; git workflow
+
+- `AGENTS.md` — `{Product_Folder}`, **Technology**, **Product**, git rules
 - Mode files in this folder — one per output type
 
-### Modes
+### Modes (ordered by priority)
 
-| Argument | Output file | Mode file |
+| Argument | Output | Mode instructions |
 |---|---|---|
-| `system` | `system.arch.md` | `system.mode.md` |
-| `adr` | `ADR.md` | `adr.mode.md` |
-| `er` | `ER.md` | `er.mode.md` |
-| `{tier}` | `{tier}.arch.md` | `tier.mode.md` |
-
-**Mode order:** `system` → `adr` → `er` → tier arch (`back`, `front`, `db` as detected). 
+| `system` | `system.arch.md` | [system.mode.md](./system.mode.md) |
+| `adr` | `ADR.md` | [adr.mode.md](./adr.mode.md) |
+| `er` | `ER.md` | [er.mode.md](./er.mode.md) |
+| `{tier}` | `{tier}.arch.md` | [tier.mode.md](./tier.mode.md) |
 
 ## Steps
 
-One architecture file per invocation; finish with `/repository` per `AGENTS.md` (caller `/explore`).
+### Step 1: Read context
 
-- [ ] Read `AGENTS.md` for `{Product_Folder}`, `{Source_Folders}`, and **Technology** rows.
-- [ ] Pick the next mode — user argument, or first missing file in **mode order** above.
-- [ ] Run the matching `{mode}.mode.md`; write **one** file under `{Product_Folder}/arch/`.
-- [ ] Do not regenerate an existing file unless the user asks to refresh it.
-- [ ] Summarize what was created and what remains.
-- [ ] Commit via `/repository`.
+- [ ] Read `AGENTS.md` — `{Product_Folder}`, `{Source_Folders}`, **Technology** rows, **Product**.
+- [ ] Note existing files under `{Product_Folder}/arch/`.
+
+### Step 2: Pick mode
+
+- [ ] Use the user argument, or the first missing file in **mode order**.
+- [ ] Skip files that already exist unless the user asks to refresh.
+
+### Step 3: Generate
+
+- [ ] Open the matching `{mode}.mode.md` and its template.
+- [ ] Fill the template from the codebase — no leftover `{placeholders}`.
+- [ ] Write exactly one file under `{Product_Folder}/arch/`.
+
+### Step 4: Finish
+
+- [ ] Summarize what was written and what remains.
+- [ ] Commit via `/repository` skill.
 - [ ] When the arch set is complete, suggest `/extract`.
 
 ## Output
-- [ ] One architecture file under `{Product_Folder}/arch/` per invocation.
+
+- [ ] One file under `{Product_Folder}/arch/` per invocation (see **Modes**).
 
 ## Verification
+
 - [ ] Mermaid diagrams render; no placeholders remain.
-- [ ] Every ADR entry has decision, rationale, and consequences.
-- [ ] A reader of `arch/` alone can answer: what the system does, how it is structured, what must not change.
+- [ ] Each ADR entry has decision, rationale, and consequences.
+- [ ] `arch/` alone answers: what the system does, how it is structured, what must not change.
