@@ -1,8 +1,8 @@
 ---
-plan-slug: {slug}
-plan-type: {spec, report, requirement}
-plan-source: {spec, report, requirement}
+slug: {slug}
+source: {spec, report, requirement}
 tier: {back, front, db, fullstack}
+status: pending | in-progress | done
 ---
 # {plan-type} — {slug} — {tier}
 

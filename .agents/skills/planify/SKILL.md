@@ -14,15 +14,23 @@ Given a spec, bug report, or review report, produce one or more implementation p
 ## Context
 
 ### Input
-- `{slug}.spec.md`, `{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`), or a simple textual requirement
+- `{slug}.spec.md`, 
+- `{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`)
+- a simple textual requirement
 
 ### References
-- `AGENTS.md` — artifact paths, slug rules, report types, brownfield read order
+- `AGENTS.md` 
+- Architecture docs under `{Product_Folder}/arch/` 
+- The spec file if it exists: `{Product_Folder}/specs/{slug}.spec.md`
+- The report file if it exists: `{Product_Folder}/reports/{slug}.{type}.report.md`
 - [Plan template](./plan.template.md)
 
-### Planning from a review report
+### Plan naming convention
 
-When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `checkout.quality.report.md` → `checkout.report.back.plan.md`.
+`{Product_Folder}/plans/{slug}.{source?}.{tier?}.plan.md` 
+- `{slug}`: the slug of the spec, report or derived from the input.
+- `{source?}`: `spec` | `report` | omit.
+- `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
 
 ## Steps
 
@@ -31,15 +39,21 @@ When input is `{slug}.{type}.report.md`, set `{source}` to `report`. Example: `c
 - [ ] If incomplete or ambiguous, document assumptions and proceed with best-effort.
 
 ### Step 2: Identify tiers
-- [ ] Tiers: `back`, `front`, `db`, or fullstack (omit tier segment; `tier: fullstack` in plan frontmatter).
+- [ ] Tiers: `back`, `front`, `db`, or fullstack.
 
 ### Step 3: Draft the implementation steps
 - [ ] Per tier: ordered steps with titles, descriptions, and paths; traceable to input.
 - [ ] Respect ADRs and arch constraints.
+- [ ] Frontmatter: 
+  - `slug` matches `{slug}`
+  - `source` is `spec` | `report` | `requirement` | omit
+  - `tier` is `back` | `front` | `db` | `fullstack` | omit
+  - `status` is `pending`
 
 ## Output
-- [ ] Plan file(s) under `{Product_Folder}/plans/` per `AGENTS.md` naming and [plan template](./plan.template.md).
-- [ ] When input is a spec: set frontmatter `status: planned`. Report-only input: do not change spec status.
+- [ ] Plan file(s) under `{Product_Folder}/plans/{slug}.{source?}.{tier?}.plan.md`
+- [ ] Suggest `/codify` to write the code for the implementation steps.
 
 ## Verification
 - [ ] Each plan is complete, ordered, and actionable without extra context.
+- [ ] Frontmatter and filename slug align; status is `pending`.

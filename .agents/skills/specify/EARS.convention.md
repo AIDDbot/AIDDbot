@@ -1,6 +1,5 @@
 # EARS Format for Acceptance Criteria
-EARS (Easy Approach to Requirements Syntax) is a structured format for writing clear and testable acceptance criteria. 
-It helps ensure that requirements are unambiguous and verifiable.
+EARS (Easy Approach to Requirements Syntax) is a structured format for writing clear and testable acceptance criteria. It helps ensure that requirements are unambiguous and verifiable.
 
 ## Strict Rules
 - Keywords MUST be UPPERCASE: WHEN, THE, SHALL, IF, THEN, WHILE, WHERE

@@ -14,10 +14,11 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ## Context
 
 ### Input
-- `{Product_Folder}/specs/{slug}.spec.md` with acceptance criteria (`status: in-progress`, or `verified` only when re-running)
+
+- Spec: `{Product_Folder}/specs/{slug}.spec.md`
 
 ### References
-- `AGENTS.md` — E2E framework, test commands, layout, brownfield read order
+- Rules with E2E codification instructions in docs under `{Rules_Folder}`.
 - Framework guide (e.g. [Playwright](./playwright.md))
 
 ## Steps
@@ -30,19 +31,25 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] List all criteria to verify from the spec.
 
 ### Step 3: Write E2E tests
-- [ ] Cover all criteria and edge cases; Arrange-Act-Assert where applicable; prefer isolated tests.
+- [ ] Cover all criteria and edge cases; 
+- [ ] Arrange-Act-Assert where applicable; 
+- [ ] Prefer isolated tests.
 
 ### Step 4: Run and verify
 - [ ] Application testable; run all E2E tests.
-- [ ] Mark the acceptance criteria as verified in the spec file.
-- [ ] Pass → set spec `status: verified`. Fail → keep `in-progress`; do not set `verified`.
-- [ ] On failure: generate a report at `{Product_Folder}/reports/verify.report.md`; suggest `/repair`; shut down test services.
+- [ ] Fix any error caused by bad test implementation.
+- [ ] Never change the application code to make tests pass.
 
-### Step 5: Report failures
-- [ ] Write `{Product_Folder}/reports/verify.report.md` when tests fail.
+### Step 5: Report 
+- [ ] Write `{Product_Folder}/reports/verify.report.md` 
+- [ ] Mark each criterion in the spec as `[x]` when tests pass.
 
 ## Output
-- [ ] Passing E2E suite, or verify report ready for `/repair`.
+- [ ] E2e tests suite executed.
+- [ ] Verify report at `{Product_Folder}/reports/{slug}.verify.report.md`.
+- [ ] If there are no errors suggest `/review` to improve the code.
+- [ ] If there are errors suggest `/repair` to fix the report.
 
 ## Verification
-- [ ] All tests pass, or failures captured in the verify report.
+- [ ] All tests are executed.
+- [ ] Verify report is written.

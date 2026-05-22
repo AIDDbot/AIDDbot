@@ -9,7 +9,7 @@ description: Writes a specification file for a new feature or complex improvemen
 Act as a senior analyst.
 
 ## Task
-Given a requirement or feature description, produce a complete specification file that serves as the source of truth for planning and implementation.
+Given a requirement or feature description, produce a complete specification file that serves as the source of truth for code.
 
 ## Context
 
@@ -17,7 +17,8 @@ Given a requirement or feature description, produce a complete specification fil
 - A requirement, user story, or feature description from the user.
 
 ### References
-- `AGENTS.md` — product paths and slug rules
+- `AGENTS.md` 
+- Architecture docs under `{Product_Folder}/arch/` 
 - [Spec template](./spec.template.md)
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
@@ -36,9 +37,9 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### Step 3: Design the solution
 
-- [ ] Propose the solution across applicable tiers (data model, backend, frontend, database) per [spec template](./spec.template.md).
+- [ ] Propose the solution across applicable tiers.
 - [ ] Apply [Model design convention](./model-design.convention.md) where the data model applies.
-- [ ] Focus on design, not implementation detail.
+- [ ] Focus on high-level design, not implementation detail.
 
 ### Step 4: Define acceptance criteria
 
@@ -47,11 +48,15 @@ Given a requirement or feature description, produce a complete specification fil
 ### Step 5: Write the spec
 
 - [ ] Create `{Product_Folder}/specs/{slug}.spec.md` from [spec template](./spec.template.md).
-- [ ] Frontmatter: `spec-slug` matches `{slug}`, `status: draft`; leave `released-version` and `released-at` empty per `AGENTS.md` **Spec status** ([template](../initialize/AGENTS.template.md#spec-status-state-machine)).
+- [ ] Frontmatter: 
+  - `spec-slug` matches `{slug}`
+  - `status` is `pending`
+  - `released-version` is empty
 
 ## Output
-- [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable for `/planify`.
+- [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable.
+- [ ] Suggest `/planify` to break down the spec into implementation steps.
 
 ## Verification
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
-- [ ] Frontmatter and filename slug align; status is `draft`.
+- [ ] Frontmatter and filename slug align; status is `pending`.

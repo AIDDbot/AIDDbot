@@ -14,14 +14,14 @@ Given a report from `/review` or `/verify`, fix every listed finding — apply e
 ## Context
 
 ### Input
-- `{Product_Folder}/reports/{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`)
+- Report: `{Product_Folder}/reports/{slug}.{type}.report.md`
 
 ### Fix rules by report type
 
-| `{type}` | Behavior change |
+| `{type}` | Description |
 |----------|-----------------|
-| `quality`, `compliance`, `accessibility` | Preserve observable behavior unless fixing a defect |
-| `verify` | May change behavior to meet acceptance criteria; trace each fix to a failing criterion |
+| `quality`, `compliance`, `accessibility` | Fix the code to meet the guidelines. |
+| `verify` | Fix the code to meet the acceptance criteria. |
 
 ## Steps
 
@@ -41,10 +41,10 @@ Given a report from `/review` or `/verify`, fix every listed finding — apply e
 
 ### Step 5: Next verification
 - [ ] `verify` report → suggest `/verify` on `{slug}.spec.md`.
-- [ ] Review report → suggest tests or `/review` on same scope if needed.
+- [ ] Other reports → suggest `/review` on the same scope.
 
 ## Output
 - [ ] Fixed source files; updated report with status per finding.
 
 ## Verification
-- [ ] Every row is `resolved`, or `skipped` with a documented reason; verify fixes align with acceptance criteria when behavior changed.
+- [ ] Every problem in the report is `resolved`, or `skipped` with a documented reason.
