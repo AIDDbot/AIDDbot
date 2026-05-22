@@ -14,18 +14,22 @@ flowchart TD
   HUM -->|/specify| SPC
   SPC -->|/planify| PLN
   PLN -->|/codify| COD
-  SPC -.->|optional bypass| COD
+  SPC -.->|optional: /codify without plan| COD
+  RPT["reports/{slug}.{type}.report.md"]:::nd
+  RPT -.->|/planify| PLN
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-- `/planify` is recommended for non-trivial work; `/codify` may start from a spec when the user explicitly skips planning (see [codify skill](../.agents/skills/codify/SKILL.md) and project `AGENTS.md` **Spec status**).
+- `/planify` is recommended for non-trivial work; `/codify` may start from a spec or requirement when planning is skipped ([codify skill](../.agents/skills/codify/SKILL.md)).
 - Fullstack plans: `plans/{slug}.spec.plan.md` (no tier segment).
-- Git per step: `AGENTS.md` and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
+- **Plan status:** `pending` (from `/planify`) → `in-progress` (start of `/codify`) → `done` (end of `/codify`).
+- **Spec status during build:** `pending` (from `/specify`) → `in-progress` (start of `/codify`; stays until `/release`).
+- Git per step: project `AGENTS.md` and [`/repository`](../.agents/skills/repository/SKILL.md) (`feat/{slug}` before `/codify` implementation).
 
 ## Verify features or complex improvements
 
-On E2E failure, `/verify` writes `reports/{slug}.verify.report.md` with acceptance-criterion traceability. Use `/repair`, then re-run `/verify`. Spec stays `in-progress` until tests pass.
+On E2E failure, `/verify` writes `reports/{slug}.verify.report.md`. Use `/repair`, then re-run `/verify`. On pass, `/verify` marks acceptance criteria `[x]` in the spec and suggests `/review`. Spec stays `in-progress` until `/release` sets `done`.
 
 ```mermaid
 flowchart TD    
@@ -38,7 +42,7 @@ flowchart TD
   SPC --> COD
   HUM -->|/codify| COD
   COD -->|/verify| E2E
-  E2E -->|pass| SPC
+  E2E -->|pass: mark criteria, suggest /review| SPC
   E2E -->|fail| RPT
   RPT -->|/repair| COD
   COD -->|/verify again| E2E

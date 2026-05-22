@@ -53,9 +53,18 @@ flowchart TD
 - **When to use each skill:** [Skills catalog](../.agents/AIDD.skills-catalog.md) · [Skills index](../.agents/skills/README.md)
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
 - **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [designer](./designer.pipelines.md) · [craftsman](./craftsman.pipelines.md)
-- **Git:** [repository skill](../.agents/skills/repository/SKILL.md) · [skill integrations](../.agents/skills/repository/skill-integrations.md) — producing skills finish per project `AGENTS.md`; `/repository` is the last step, not a separate pipeline phase.
+- **Git:** [repository skill](../.agents/skills/repository/SKILL.md) — producing skills commit via `/repository` per project `AGENTS.md` (branch rules in that skill; `/codify` creates `feat/{slug}` before implementation).
 
 New here? [Getting started](./getting-started.md) · [Why AIDD](../README.md#why-aidd)
+
+## Spec and plan status
+
+| Artifact | Lifecycle |
+|----------|-----------|
+| Spec | `pending` (`/specify`) → `in-progress` (`/codify`) → `done` (`/release`; sets `released-version`) |
+| Plan | `pending` (`/planify`) → `in-progress` (`/codify` start) → `done` (`/codify` end) |
+
+Reports have no status chain; `/repair` marks rows `resolved` or `skipped`.
 
 ## Artifacts
 
@@ -74,15 +83,15 @@ Paths below are relative to `{Product_Folder}` (default `.product/`, set in `AGE
 - `arch/ADR.md`, `arch/ER.md` - Decisions and domain model when applicable.
 - `arch/` - Full architecture set for planning and coding. 
 
-- `rules/` - Define rules that agents must follow when writing code. Can be linked to agents' custom folder.
+- `{Rules_Folder}/` - Coding rules from `/extract` (path from `AGENTS.md`, often `{Agents_Folder}/rules/`).
 
 - `design/{slug}/` - Optional design specifications for `/design` (e.g. `DESIGN.md`).
 
-- `specs/{slug}.spec.md` - A detailed specification (problem, solution, verification) of a feature or technical requirement. YAML frontmatter includes `status` (`draft` → `planned` → `in-progress` → `verified` → `released`); see project `AGENTS.md` **Spec status** ([template](../.agents/skills/initialize/AGENTS.template.md#spec-status-state-machine)).
+- `specs/{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria). Frontmatter `status`: `pending` → `in-progress` → `done`; `released-version` set on `/release` ([template](../.agents/skills/initialize/AGENTS.template.md)).
 
-- `plans/{slug}.{source?}.{tier?}.plan.md` - Implementation plans (fullstack: `{slug}.{source}.plan.md`).
+- `plans/{slug}.{source?}.{tier?}.plan.md` - Implementation plans from `/planify` (fullstack: `{slug}.{source}.plan.md`). Frontmatter `status`: `pending` → `in-progress` → `done` ([plan template](../.agents/skills/planify/plan.template.md)).
 
-- `reports/{slug}.{type}.report.md` - Findings from `/review` or `/verify` (`{type}`: `quality`, `compliance`, `accessibility`, `verify`). Consumed by `/repair`.
+- `reports/{slug}.{type}.report.md` - Findings from `/review` or `/verify` (`{type}`: `quality`, `compliance`, `accessibility`, `verify`). Every row is input for `/repair`.
 
 ### Solution
 

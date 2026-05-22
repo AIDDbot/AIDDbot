@@ -1,6 +1,6 @@
 # AIDD skills catalog
 
-When to invoke each skill (prerequisites). For loops see [skills/README.md](./skills/README.md); for git see project `AGENTS.md` and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
+When to invoke each skill (prerequisites). For loops and status chains see [skills/README.md](./skills/README.md); for git see [`/repository`](./skills/repository/SKILL.md) and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
 
 | Phase | Skill | Prerequisite |
 |-------|-------|----------------|
@@ -14,12 +14,12 @@ When to invoke each skill (prerequisites). For loops see [skills/README.md](./sk
 | UI from design | `/design` | `design/{slug}/DESIGN.md` |
 | Code review | `/review` | code in scope |
 | Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
-| Ship | `/release` | spec  |
-| Git (always) | `/repository` | repository workflow |
+| Ship | `/release` | spec `in-progress`, plans `done` |
+| Git (always) | `/repository` | invoked by producing skills |
 
-## Spec status
+## Spec and plan status
 
-`pending` ->  `in-progress` -> `done`
+`pending` → `in-progress` → `done` — plans follow the same chain during `/codify`; specs get `released-version` on `/release`.
 
 ## Architect
 
@@ -44,7 +44,7 @@ When to invoke each skill (prerequisites). For loops see [skills/README.md](./sk
 |-------|----------------|
 | [`/review`](./skills/review/) | Quality, accessibility, or compliance reports |
 | [`/repair`](./skills/repair/) | Fixes from review or verify reports |
-| [`/release`](./skills/release/) | Version, changelog, spec `released` |
+| [`/release`](./skills/release/) | Version, changelog, spec `done` + `released-version` |
 | [`/repository`](./skills/repository/) | Branches and conventional commits |
 | [`/refactor`](./skills/refactor/) | *(WIP)* — use `/review` → `/repair` for defects |
 

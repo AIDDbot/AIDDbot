@@ -25,18 +25,22 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-**AIDDbot** comes as **a set of skills** grouped by phase. See [Skills catalog](.agents/AIDD.skills-catalog.md) and [Skills index](.agents/skills/README.md) for when to use each skill.
+**AIDDbot** ships as slash-command **skills** under `.agents/skills/`. [Skills catalog](.agents/AIDD.skills-catalog.md) (prerequisites) · [Skills index](.agents/skills/README.md) (loops and status).
 
 | Phase | Skills |
 |-------|--------|
 | [Architect](docs/architect.pipelines.md) | `/initialize`, `/explore`, `/extract` |
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` |
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/release`, `/repository` |
-| [Designer](docs/designer.pipelines.md) | `/design`  |
+| [Designer](docs/designer.pipelines.md) | `/design` |
 
 | Skill | Status |
 |-------|--------|
 | `/refactor` | WIP — use `/review` → `/repair` for defects today |
+
+**Typical feature loop:** `/specify` → `/planify` → `/codify` → `/verify` → `/review` → `/repair` (as needed) → `/release`. Producing skills commit via [`/repository`](.agents/skills/repository/SKILL.md) (`feat/{slug}` before `/codify`).
+
+**Spec status:** `pending` → `in-progress` → `done` (`released-version` on `/release`). Plans follow the same three states during build.
 
 ## Quick start
 
@@ -47,12 +51,13 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
 
 In your agent: **`/initialize` this project**
 
-To level up read the documentation:
+Documentation:
 
 - **[Getting started](docs/getting-started.md)** — install, initialize, feature and release loops
 - **[Skills catalog](.agents/AIDD.skills-catalog.md)** — prerequisites and when to invoke each skill
-- **[Workflow](docs/AIDD.workflow.md)** — diagram, artifacts, git rules
-- **[Skills index](.agents/skills/README.md)** — typical loops and conventions
+- **[Skills index](.agents/skills/README.md)** — typical loops, spec/plan status, pipeline links
+- **[Workflow](docs/AIDD.workflow.md)** — diagram, artifacts, git via `/repository`
+- **Pipelines** — [architect](docs/architect.pipelines.md) · [builder](docs/builder.pipelines.md) · [craftsman](docs/craftsman.pipelines.md) · [designer](docs/designer.pipelines.md)
 
 ---
 

@@ -24,11 +24,11 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Git: `AGENTS.md` and [skill-integrations.md](../.agents/skills/repository/skill-integrations.md).
+Git: project `AGENTS.md` and [`/repository`](../.agents/skills/repository/SKILL.md).
 
 ## Release
 
-Requires specs at `status: verified`. Procedure and prerequisites: [`/release` skill](../.agents/skills/release/SKILL.md).
+Requires specs at `status: in-progress` (or user override) and associated plans `done`. `/release` bumps version, updates `CHANGELOG.md` and docs, sets spec `status: done` and `released-version`, then commits, tags, and merges via `/repository`. See [`/release` skill](../.agents/skills/release/SKILL.md).
 
 ```mermaid
 flowchart TD  
@@ -44,5 +44,3 @@ flowchart TD
   
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
-
-Blocking checks: unresolved findings in reports for slugs in scope (see `/release` skill).

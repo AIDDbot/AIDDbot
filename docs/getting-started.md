@@ -73,10 +73,12 @@ Example prompts:
 |------|----------------|
 | `/specify` | Spec with acceptance criteria (`{Product_Folder}/specs/`) |
 | `/planify` | Ordered implementation plan (`plans/`) |
-| `/codify` | Code + unit tests (feature branch per [skill-integrations](../.agents/skills/repository/skill-integrations.md)) |
-| `/verify` | E2E tests; failures → report for `/repair` |
+| `/codify` | Code + unit tests on `feat/{slug}` ([`/repository`](../.agents/skills/repository/SKILL.md) creates the branch before coding) |
+| `/verify` | E2E tests against acceptance criteria; failures → report for `/repair` |
 
-If verification fails, `/verify` writes `{Product_Folder}/reports/{slug}.verify.report.md`. Run `/repair` on that report, then `/verify` again.
+Spec `status` stays `in-progress` during `/codify` and `/verify`. `/verify` marks each criterion `[x]` when tests pass.
+
+If verification fails, `/verify` writes `{Product_Folder}/reports/{slug}.verify.report.md`. Run `/repair` on that report, then `/verify` again. When tests pass, `/verify` suggests `/review`.
 
 See [Builder pipelines](./builder.pipelines.md).
 
@@ -94,12 +96,12 @@ After implementation:
 |-------|----------------|
 | `/review` | Quality, accessibility, or compliance report |
 | `/repair` | Fixes from review or verify reports |
-| `/release` | Semver bump, `CHANGELOG.md`, spec `status: released` |
-| `/repository` | Branches and conventional commits (last step of producing skills) |
+| `/release` | Semver bump, `CHANGELOG.md`, spec `status: done` and `released-version` |
+| `/repository` | Branches and conventional commits (invoked by producing skills) |
 
-Before `/release`, see [`/release` skill](../.agents/skills/release/SKILL.md) (merge and blocking checks).
+Before `/release`: spec at `in-progress`, associated plans `done` — see [`/release` skill](../.agents/skills/release/SKILL.md).
 
-Git: `AGENTS.md` · [repository](../.agents/skills/repository/SKILL.md) · [skill-integrations](../.agents/skills/repository/skill-integrations.md).
+Git: project `AGENTS.md` · [`/repository`](../.agents/skills/repository/SKILL.md).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
@@ -119,5 +121,5 @@ See [Designer pipelines](./designer.pipelines.md).
 
 - [Why AIDD](../README.md#why-aidd) — principles and who this is for
 - [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts, git rules
-- [Skills catalog](../.agents/AIDD.skills-catalog.md) — full skill list
-- [Skills index](../.agents/skills/README.md) — when to use each skill
+- [Skills catalog](../.agents/AIDD.skills-catalog.md) — prerequisites and when to use each skill
+- [Skills index](../.agents/skills/README.md) — typical loops and status chains
