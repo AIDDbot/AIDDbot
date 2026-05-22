@@ -19,7 +19,6 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ### References
 - `AGENTS.md` — E2E framework, test commands, layout, brownfield read order
 - Framework guide (e.g. [Playwright](./playwright.md))
-- [Verify report template](../review/verify.report.template.md)
 
 ## Steps
 
@@ -37,10 +36,10 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Application testable; run all E2E tests.
 - [ ] Mark the acceptance criteria as verified in the spec file.
 - [ ] Pass → set spec `status: verified`. Fail → keep `in-progress`; do not set `verified`.
-- [ ] On failure: document per [verify.report.template.md](../review/verify.report.template.md); suggest `/repair`; shut down test services.
+- [ ] On failure: generate a report at `{Product_Folder}/reports/verify.report.md`; suggest `/repair`; shut down test services.
 
 ### Step 5: Report failures
-- [ ] Write `{Product_Folder}/reports/{slug}.verify.report.md` when tests fail.
+- [ ] Write `{Product_Folder}/reports/verify.report.md` when tests fail.
 
 ## Output
 - [ ] Passing E2E suite, or verify report ready for `/repair`.

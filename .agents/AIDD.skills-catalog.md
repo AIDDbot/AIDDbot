@@ -10,12 +10,16 @@ When to invoke each skill (prerequisites). For loops see [skills/README.md](./sk
 | Feature spec | `/specify` | — |
 | Implementation plan | `/planify` | spec, report, or requirement |
 | Code + unit tests | `/codify` | plan, spec, or requirement |
-| E2E verification | `/verify` | `{slug}.spec.md` at `in-progress` (or `verified` to re-run) |
-| UI from design | `/design` | `design/{slug}/DESIGN.md` or user-provided `DESIGN.md` path |
+| E2E verification | `/verify` | `{slug}.spec.md`  |
+| UI from design | `/design` | `design/{slug}/DESIGN.md` |
 | Code review | `/review` | code in scope |
 | Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
-| Ship | `/release` | spec `status: verified` |
-| Git (always) | `/repository` | last step of producing skills per `AGENTS.md`; caller row in [skill-integrations](./skills/repository/skill-integrations.md) |
+| Ship | `/release` | spec  |
+| Git (always) | `/repository` | repository workflow |
+
+## Spec status
+
+`pending` ->  `in-progress` -> `done`
 
 ## Architect
 

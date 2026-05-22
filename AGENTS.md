@@ -8,32 +8,10 @@ This is not a traditional application. There is no application source code to bu
 
 Consumer projects get paths, slugs, a slim **Technology** table (folder, language, framework, build/run/test per tier), spec status, git rules, and brownfield read order in root `AGENTS.md` via `/initialize` ([AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md)). Product and structural detail live in `{Product_Folder}/arch/` from `/explore`.
 
-## Git
 
-Producing skills (`/initialize`, `/explore`, `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/review`, `/repair`, `/release`, `/design`) must finish by applying the repository workflow. Do not improvise branch or commit steps.
+## Spec status
 
-1. **Caller** — The active skill is whichever the user invoked (e.g. `/codify`). When running `/repository`, use that skill's row in [skill-integrations.md](./.agents/skills/repository/skill-integrations.md).
-2. **Workflow** — Read and follow [repository/SKILL.md](./.agents/skills/repository/SKILL.md). `/repository` is not auto-invoked; execute it as the last step of the producing skill.
-3. **`/codify` only** — Run repository **Step 2: Start a feature branch** before writing implementation code. Mid-cycle branch rules (`feat/{slug}`, no `fix/{slug}` during a feature) live only in the repository skill.
-
-Per-skill branches, commit types, and paths: [skill-integrations.md](./.agents/skills/repository/skill-integrations.md). Message format: [conventional-commits.md](./.agents/skills/repository/conventional-commits.md).
-
-## Implementation context (brownfield)
-
-When a consumer project has `{Product_Folder}/arch/` or `rules/` (from `/explore` and `/extract`), implementation skills read them before changing plans, code, or tests. Consumer template: [AGENTS.template.md](./.agents/skills/initialize/AGENTS.template.md) → **Implementation context (brownfield)**.
-
-**`/planify`**, **`/codify`**, and **`/verify`** apply the read order below for rows marked for each skill. Skip missing files. Do not duplicate arch content into rules files.
-
-| # | File | Skills |
-|---|------|--------|
-| 1 | `arch/system.arch.md` | `/planify` |
-| 2 | `arch/{tier}.arch.md` | `/planify`, `/codify` |
-| 3 | `arch/ADR.md` | `/planify` |
-| 4 | `rules/{tier}.rules.md` | `/codify` |
-| 5 | `rules/naming.rules.md` | `/codify` |
-| 6 | `rules/testing.rules.md` | `/codify`, `/verify` |
-
-**Apply:** Plans and code respect ADRs and arch constraints; match naming, roles, and errors from tier rules; tests follow `testing.rules.md` when present.
+`pending` ->  `in-progress` -> `done`
 
 ## Docs
 
