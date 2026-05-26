@@ -3,7 +3,9 @@
 > AI coding agents can generate code.  
 > **AIDDbot builds software you can trust.**
 
-Production-ready **agent skills** for real projects — plain markdown under `.agents/`, no CLI, no package install. Use them in **Cursor**, **Copilot**, **Claude Code**, **Codex**, **VSCode**, **OpenCode**, **Antigravity**, and similar environments.
+Production-ready **agent skills** for real projects — plain markdown under `.agents/`, no CLI, no package install. 
+
+Use them in **Cursor**, **Copilot**, **Claude Code**, **Codex**, **VSCode**, **OpenCode**, **Antigravity**, and similar environments.
 
 ## Why do you need AIDD
 
@@ -25,7 +27,9 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-**AIDDbot** ships as slash-command **skills** under `.agents/skills/`. [Skills catalog](.agents/AIDD.skills-catalog.md) (prerequisites) · [Skills index](.agents/skills/README.md) (loops and status).
+**AIDDbot** ships as slash-command **skills** under `.agents/skills/`. 
+
+See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and when to invoke each skill.
 
 | Phase | Skills |
 |-------|--------|
@@ -34,14 +38,6 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/release`, `/repository` |
 | [Designer](docs/designer.pipelines.md) | `/design` |
 
-| Skill | Status |
-|-------|--------|
-| `/refactor` | WIP — use `/review` → `/repair` for defects today |
-
-**Typical feature loop:** `/specify` → `/planify` → `/codify` → `/verify` → `/review` → `/repair` (as needed) → `/release`. Producing skills commit via [`/repository`](.agents/skills/repository/SKILL.md) (`feat/{slug}` before `/codify`).
-
-**Spec status:** `pending` → `in-progress` → `done` (`released-version` on `/release`). Plans follow the same three states during build.
-
 ## Quick start
 
 ```bash
@@ -49,15 +45,13 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-In your agent: **`/initialize` this project**
+In your agents chat run the `/initialize` command or ask AIDDbot to initialize the project.
 
 Documentation:
 
 - **[Getting started](docs/getting-started.md)** — install, initialize, feature and release loops
 - **[Skills catalog](.agents/AIDD.skills-catalog.md)** — prerequisites and when to invoke each skill
-- **[Skills index](.agents/skills/README.md)** — typical loops, spec/plan status, pipeline links
-- **[Workflow](docs/AIDD.workflow.md)** — diagram, artifacts, git via `/repository`
-- **Pipelines** — [architect](docs/architect.pipelines.md) · [builder](docs/builder.pipelines.md) · [craftsman](docs/craftsman.pipelines.md) · [designer](docs/designer.pipelines.md)
+- **[Workflow diagrams](docs/AIDD.workflow.md)** — diagrams, artifacts
 
 ---
 

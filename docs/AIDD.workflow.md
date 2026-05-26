@@ -50,7 +50,7 @@ flowchart TD
 
 ## Commands
 
-- **When to use each skill:** [Skills catalog](../.agents/AIDD.skills-catalog.md) · [Skills index](../.agents/skills/README.md)
+- **When to use each skill:** [Skills catalog](../.agents/AIDD.skills-catalog.md) 
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
 - **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [designer](./designer.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 - **Git:** [repository skill](../.agents/skills/repository/SKILL.md) — producing skills commit via `/repository` per project `AGENTS.md` (branch rules in that skill; `/codify` creates `feat/{slug}` before implementation).

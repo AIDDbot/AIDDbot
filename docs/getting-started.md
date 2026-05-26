@@ -122,4 +122,4 @@ See [Designer pipelines](./designer.pipelines.md).
 - [Why AIDD](../README.md#why-aidd) — principles and who this is for
 - [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts, git rules
 - [Skills catalog](../.agents/AIDD.skills-catalog.md) — prerequisites and when to use each skill
-- [Skills index](../.agents/skills/README.md) — typical loops and status chains
+

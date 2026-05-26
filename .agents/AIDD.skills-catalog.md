@@ -1,26 +1,5 @@
 # AIDD skills catalog
 
-When to invoke each skill (prerequisites). For loops and status chains see [skills/README.md](./skills/README.md); for git see [`/repository`](./skills/repository/SKILL.md) and [docs/AIDD.workflow.md](../docs/AIDD.workflow.md).
-
-| Phase | Skill | Prerequisite |
-|-------|-------|----------------|
-| Setup | `/initialize` | — |
-| Brownfield arch | `/explore` | `AGENTS.md` |
-| Brownfield rules | `/extract` | `arch/` |
-| Feature spec | `/specify` | — |
-| Implementation plan | `/planify` | spec, report, or requirement |
-| Code + unit tests | `/codify` | plan, spec, or requirement |
-| E2E verification | `/verify` | `{slug}.spec.md`  |
-| UI from design | `/design` | `design/{slug}/DESIGN.md` |
-| Code review | `/review` | code in scope |
-| Fix findings | `/repair` | `reports/{slug}.{type}.report.md` |
-| Ship | `/release` | spec `in-progress`, plans `done` |
-| Git (always) | `/repository` | invoked by producing skills |
-
-## Spec and plan status
-
-`pending` → `in-progress` → `done` — plans follow the same chain during `/codify`; specs get `released-version` on `/release`.
-
 ## Architect
 
 | Skill | What it does |
@@ -53,3 +32,17 @@ When to invoke each skill (prerequisites). For loops and status chains see [skil
 | Skill | What it does |
 |-------|----------------|
 | [`/design`](./skills/design/) | Frontend UI from a design specification |
+
+---
+
+## Typical loops
+
+**Greenfield:** `/initialize` →  → `/explore system`  
+
+**Brownfield (once):** `/initialize` → `/explore all` → `/extract all` 
+
+**Feature:** `/specify` → `/planify` → `/codify` → `/verify` → `/review` → `/repair` (as needed) → `/release`
+
+### Spec and plan status
+
+`pending` → `in-progress` → `done` — plans follow the same chain during `/codify`; specs get `released-version` on `/release`.
