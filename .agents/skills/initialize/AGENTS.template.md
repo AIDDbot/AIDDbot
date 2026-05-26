@@ -30,13 +30,13 @@
 ```
 
 ### AIDD product artifacts
-Under `{Product_Folder}/`:
+Under `{Product_Folder}/`. {status}: `pending` | `in-progress` | `done`
 
-| Artifact | Path | Status
-|---|---|---|
-| Spec | `specs/{slug}.spec.md` | `pending` | `in-progress` | `done` |
-| Plan | `plans/{slug}.{source?}.{tier?}.plan.md` | `pending` | `in-progress` | `done` |
-| Report | `reports/{slug}.{type}.report.md` | - |
+| Artifact | Path 
+|---|---|
+| Spec | `specs/{slug}.spec.md` | 
+| Plan | `plans/{slug}.{source?}.{tier?}.plan.md` |
+| Report | `reports/{slug}.{type}.report.md` | 
 
 - `{source?}`: `spec` | `report` | omit.
 - `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
