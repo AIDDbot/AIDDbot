@@ -11,8 +11,7 @@ Act as a senior software engineer.
 
 ## Task
 
-- Create or update root `AGENTS.md` from [AGENTS.template.md](./AGENTS.template.md)
-- Do not add sections or columns beyond the template.
+- Create or update root `AGENTS.md` with instructions for the whole SDLC workflow.
 
 ## Context
 
@@ -26,12 +25,6 @@ Act as a senior software engineer.
 - `{Product_Folder}`: `.product/`
 - `{Rules_Folder}`: `{Agents_Folder}/rules/` (or user override)
 - `{Business_Domain_Language}`: `English` (or detected language)
-
-### Technology (AGENTS only)
-
-- One short stack sentence under **Technology**, then one row per tier. 
-- Columns only: **Tier**, **Folder**, **Language**, **Framework**, **Build**, **Run**, **Test**. 
-- Omit non-applicable tiers; use `—` when a command does not apply (e.g. DB run).
 
 ## Steps
 
@@ -51,24 +44,25 @@ Act as a senior software engineer.
 
 - [ ] **Brownfield**: from manifests and README, draft the stack sentence and one table row per tier
 - [ ] **Greenfield**: ask planned tiers and stack; commands may be `TBD` until tooling exists.
-- [ ] Add **E2E-testing** / **DB** rows when applicable (see **Technology** above).
+- [ ] Add **E2E-testing** / **DB** rows when applicable .
 - [ ] Do not add storage, security, lint, deploy, or per-tier prose beyond the template.
 
 ### Step 4: Product
 
-- [ ] From README or user input, fill **Product** brief description, key features, scope, and out of scope.
-- [ ] Do not add sections or columns beyond the template.
+- [ ] From README or user input, fill **Product** brief description. 
+- [ ] List top 5 key features, scope, and out of scope items.
 
 ## Output
 
 - [ ] Write `AGENTS.md` at the project root follow template structure and replace every `{placeholder}`.
 - [ ] Suggest `/explore` (start with `system`, then tiers).
+- [ ] Do not add sections or columns beyond the template.
 
 ## Verification
 
-- [ ] All template placeholders replaced (including **Behavior** slug/language rules).
+- [ ] All template placeholders replaced.
 - [ ] `{Agents_Folder}/skills/` is present.
-- [ ] **Environment** lists paths (including **Rules**), OS, shell, git remote, and default branch.
+- [ ] **Environment** lists paths, OS, shell, git remote, and default branch.
 - [ ] **Technology** has stack sentence + one row per real tier (**Tier** column + E2E/DB when applicable).
 - [ ] **Product** has description, key features (≤5), **Scope**, and **Out of scope** filled.
 - [ ] No sections absent from or added beyond [AGENTS.template.md](./AGENTS.template.md).
