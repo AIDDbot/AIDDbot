@@ -48,6 +48,7 @@ Run once after initialize:
 | Skill | Output |
 |-------|--------|
 | `/explore` | Architecture insights under `{Product_Folder}/arch/` |
+| `/excavate` | Tier/component docs and domain model under `{Product_Folder}/arch/` |
 | `/extract` | Coding rules under `{Product_Folder}/rules/` |
 
 See [Architect pipelines](./architect.pipelines.md).

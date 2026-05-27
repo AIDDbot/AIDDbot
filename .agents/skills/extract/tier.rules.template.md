@@ -1,12 +1,38 @@
+---
+description: {Tier_Name} coding conventions for {Product_Name}
+globs: "{source_glob}"
+---
 # {Tier_Name} Conventions — {Product_Name}
 
 ## Summary
 
 {One paragraph: tier technology, dominant code style, and key principle (e.g. "immutable models with factory methods" or "standalone components with signals").}
 
+---
+
+## Naming
+
+### Folders
+- **Pattern**: {feature-based / layer-based / hybrid}
+- **Casing**: {kebab-case / camelCase / snake_case}
+- **Examples**: `{example1}`, `{example2}`
+
+### Files
+- **{role}**: `{pattern}` — `{example1}`, `{example2}`
+
+### Language Elements
+- **Classes / Records / Components**: {PascalCase} — `{example}`
+- **Interfaces / Types**: {PascalCase} — `{example}`
+- **Methods / Functions**: {camelCase} — `{example}`
+- **Variables / Fields**: {camelCase} — `{example}`
+- **Constants**: {UPPER_SNAKE / camelCase} — `{example}`
+- **Enums / Enum members**: {PascalCase / UPPER_SNAKE} — `{example}`
+
+---
+
 ## Artifact Roles
 
-{Repeat one section per artifact role detected. Order: model -> DTO -> enum -> exception -> repository -> service -> controller (backend) or model -> service -> component -> form (frontend). Adapt to the tier.}
+{Repeat one section per artifact role. Order: model → DTO → enum → exception → repository → service → controller (backend) or model → service → component → form (frontend). Adapt to the tier.}
 
 ### {Role_Name}
 
@@ -14,27 +40,57 @@
 
 **Canonical example** (from `{file_name}`):
 ```{language}
-{Real code snippet — the cleanest example of this role from the codebase. Keep it short: 10-25 lines. Trim imports and boilerplate.}
+{Real code snippet — cleanest example of this role. 10-25 lines. Trim imports and boilerplate.}
 ```
 
 **Anti-pattern**:
 - {Concrete thing NOT to do — with reason.}
 
-{End of repeated section.}
+---
 
 ## Wiring and Dependencies
 
-{If already documented in `{tier}.arch.md`, write: "See `{tier}.arch.md` — Restricciones / Dependencias." Otherwise:}
-- {How dependencies are injected: constructor, inject(), @Autowired, etc.}
-- {How modules/features reference each other.}
+{If already documented in `{tier}.arch.md`, write: "See `{tier}.arch.md` — {section}." Otherwise document: injection style, how features/modules reference each other.}
 
 ## Error Handling
 
-{If already documented in `{tier}.arch.md`, write: "See `{tier}.arch.md` — Restricciones." Otherwise:}
-- {Dominant error handling pattern: domain exceptions, error adapters, try/catch, HTTP error mapping, etc.}
+{If already documented in `{tier}.arch.md`, write: "See `{tier}.arch.md` — {section}." Otherwise document: dominant error handling pattern.}
+
+---
+
+## Testing
+
+### Infrastructure
+- **Framework**: {test framework + version}
+- **Runner**: {command}
+- **Placement**: {colocated / separate folder / mirrored structure}
+- **File naming**: `{pattern}` (e.g. `*.spec.ts`, `*Test.java`)
+
+### Patterns
+- **Setup**: {TestBed / MockMvc / fixtures / beforeEach — dominant approach}
+- **Mocking**: {what is mocked and how}
+- **Assertions**: {framework and style}
+
+### Canonical Test Example
+
+(from `{test_file_name}`):
+```{language}
+{Real test snippet — setup + act + assert. 15-30 lines.}
+```
+
+### Coverage by Artifact Role
+
+| Role | Tested | Scope |
+|------|--------|-------|
+| {role} | Yes / No | {happy path / + edge cases / + error cases} |
+
+### What NOT to Test
+- {Patterns explicitly not tested and why.}
+
+---
 
 ## Known Deviations
 
-- `{file}` — {What differs}. Expected: {What the dominant pattern would be}.
+- `{file}` — {what differs}. Expected: {dominant pattern}.
 
-{If no deviations found, write: "No deviations from the dominant pattern were detected."}
+{If none: "No deviations from the dominant pattern were detected."}

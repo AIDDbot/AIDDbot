@@ -33,7 +33,7 @@ See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and w
 
 | Phase | Skills |
 |-------|--------|
-| [Architect](docs/architect.pipelines.md) | `/initialize`, `/explore`, `/extract` |
+| [Architect](docs/architect.pipelines.md) | `/initialize`, `/explore`, `/excavate`, `/extract` |
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` |
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/release`, `/repository` |
 | [Designer](docs/designer.pipelines.md) | `/design` |

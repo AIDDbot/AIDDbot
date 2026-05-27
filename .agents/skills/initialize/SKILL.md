@@ -39,14 +39,14 @@ Act as a senior software engineer.
 
 ## Output
 
+- [ ] Summarize what was written and flag ambiguities.
 - [ ] Write `AGENTS.md` at the project root following the template structure.
 - [ ] Do not add sections or columns beyond the template. Try to keep it under 100 lines.
+- [ ] Commit via `/repository`.
 - [ ] Suggest `/explore` to start the architecture documentation process.
 
 ## Verification
 
-- [ ] `AGENTS.md` exists and is under 100 lines.
-- [ ] All template placeholders replaced.
-- [ ] **Environment** lists paths, OS, shell, git remote, and default branch.
-- [ ] **Product** has problem and solution descriptions, and a system context diagram.
-- [ ] No sections absent from or added beyond [AGENTS.template.md](./AGENTS.template.md).
+- [ ] Mermaid diagrams render; no placeholders remain.
+- [ ] `AGENTS.md` serves as a guide for the entire SDLC workflow.
+- [ ] No leftover `{placeholders}`.

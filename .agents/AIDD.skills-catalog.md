@@ -4,9 +4,10 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/initialize`](./skills/initialize/) | Project environment and `AGENTS.md` |
-| [`/explore`](./skills/explore/) | Architecture docs and ADRs from legacy code |
-| [`/extract`](./skills/extract/) | Coding rules from the codebase |
+| [`/initialize`](./skills/initialize/) | AGENTS.md — product vision + process overview (L1) |
+| [`/explore`](./skills/explore/) | System arch + ADRs — prescriptive (green) or descriptive (brown) (L2) |
+| [`/excavate`](./skills/excavate/) | Tier/component arch + ER diagram — brownfield only (L3) |
+| [`/extract`](./skills/extract/) | Coding rules and conventions — brownfield only |
 
 ## Builder
 

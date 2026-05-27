@@ -41,33 +41,20 @@
 - `{slug}`: a short (≤20 chars), readable identifier derived from a title
 - `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
 
-## Principles
-1. **Think before working** — Reason about the problem and ask the user for clarification if needed.
-2. **Simplicity first** — Avoid complex, clever, or over-engineered solutions (YAGNI).
-3. **Surgical changes** — Make the minimum changes necessary to solve the problem.
-4. **Goal-driven execution** — Keep working until the solution meets the validation criteria.
-
 ---
 
 ## Product
 
+### Problem
 {short description of the product, e.g. "The product is a web application that allows users to manage their tasks."}
 
-- {key feature 1..5 (max 5)}
+### Solution
+{short description of the technology stack, e.g. "An Angular web app with a Node API and a PostgreSQL database."}
 
-### Scope
+### Verification
+{short description of the e2e testing capabilities, e.g. "The product should be verified with a playwright test suite."}
 
-{Scope of the project, e.g. "The project is a web application that allows users to manage their tasks."}
-
-### Out of scope
-
-{Out of scope of the project, e.g. "The project is not a mobile application."}
-
-## Technology
-
-{short description of the technology stack, e.g. "An Angular web app with a Node API with and a PostgreSQL database."}
-
-### C4 Diagram — System Context
+### System Context
 
 ```mermaid
 C4Context
@@ -78,19 +65,12 @@ C4Context
   Rel({actor_id}, {system_id}, "{Interaction}", "{Protocol}")
 ```
 
-### Tier: {Tier_Name}
+---
 
-- **Folder**: `{folder}/`
-- **Archetype**: {language} - {framework}
-
-### E2E-testing
-
-- **Folder**: `e2e/`
-- **Archetype**: {language} - {framework}
-
-### Database
-
-- **Kind**: `sql` | `nosql` | `memory` | `other`
-- **Model**: `postgresql` | `mysql` | `mongodb` | `sqlite` | `redis` | `memory` | `other`
+## Principles
+1. **Think before working** — Reason about the problem and ask the user for clarification if needed.
+2. **Simplicity first** — Avoid complex, clever, or over-engineered solutions (YAGNI).
+3. **Surgical changes** — Make the minimum changes necessary to solve the problem.
+4. **Goal-driven execution** — Keep working until the solution meets the validation criteria.
 
 > last updated: {Date of last update, e.g., May 2026}

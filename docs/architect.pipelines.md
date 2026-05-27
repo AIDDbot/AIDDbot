@@ -29,10 +29,11 @@ flowchart TD
 
   HUM -->|/initialize| AGT
   HUM -->|/explore| ARC
+  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   ARC --> RUL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/explore` and `/extract` run incrementally — one file per invocation ([explore](../.agents/skills/explore/SKILL.md), [extract](../.agents/skills/extract/SKILL.md)). Mode order: explore `system` → tier arch → `adr` / `er`; extract `naming` → tier rules → `testing` (or `all` for every missing mode). Each invocation commits via [`/repository`](../.agents/skills/repository/SKILL.md). When arch is complete, `/explore` suggests `/extract`; when rules are complete, start features with `/specify`.
+`/explore` and `/excavate` and `/extract` run incrementally — one file per invocation ([explore](../.agents/skills/explore/SKILL.md), [excavate](../.agents/skills/excavate/SKILL.md), [extract](../.agents/skills/extract/SKILL.md)). Mode order: explore `system` → tier arch → `adr` / `er`; excavate `naming` → tier rules → `testing` (or `all` for every missing mode). Each invocation commits via [`/repository`](../.agents/skills/repository/SKILL.md). When arch is complete, `/explore` suggests `/extract`; when rules are complete, start features with `/specify`.

@@ -29,6 +29,7 @@ flowchart TD
 
   HUM -->|/initialize| AGT
   HUM -->|/explore| ARC
+  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
   AGT -.-> SPC  

@@ -4,28 +4,22 @@
 
 {One paragraph: what the system does, key capabilities, and target users.}
 
-## Key features
+### Key features
 
 - {Feature 1}
 - {Feature 2}
-- {Feature 3}
 
-## C4 Diagram — System Context
+### Scope
 
-```mermaid
-C4Context
-  title {Product_Name} System Context
+{What is included in this project.}
 
-  Person({actor_id}, "{Actor name}", "{What the actor does}")
+### Out of scope
 
-  System({system_id}, "{Product_Name}", "{System description}")
+{What is explicitly excluded from this project.}
 
-  System_Ext({ext_id}, "{External system}", "{Role}")
+---
 
-  Rel({actor_id}, {system_id}, "{Interaction}", "{Protocol}")
-```
-
-## C4 Diagram — Containers
+## System Containers
 
 ```mermaid
 C4Container
@@ -41,18 +35,23 @@ C4Container
   Rel({container_a}, {container_b}, "{Interaction}", "{Protocol}")
 ```
 
-## Containers — Detail
+{Repeat one `### {Container name}` block per container. Typical containers include the main
+application tiers (e.g. API, SPA), a database, and an E2E test runner. Only include
+containers that actually exist in this project.}
 
-### {Container name} (`{source_folder}/`)
+### {Container name}
 
-- **Responsibility**: {What this container does.}
-- **Technology**: {Framework, language, key libraries.}
-- **Constraints**: {Hard constraints on this container.}
+{One sentence: responsibility of this container.}
 
-{Repeat for each container.}
+- **Folder**: `{folder}/`
+- **Archetype**: {language} — {framework}
+
+---
 
 ## Inter-container communication
 
 | Source | Target | Protocol | Contract |
 |--------|--------|----------|----------|
 | {Container A} | {Container B} | {Protocol} | {Contract summary} |
+
+> last updated: {Date of last update, e.g., May 2026}

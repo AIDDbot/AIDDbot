@@ -15,7 +15,7 @@
 | Security | {auth, secrets, transport — summary} |
 | Logging | {logging/monitoring approach} |
 
-## Development workflow
+### Development workflow
 
 | Step | Command |
 |------|---------|
@@ -26,7 +26,9 @@
 | Lint | `{lint command or N/A}` |
 | Deploy | `{deploy command or N/A}` |
 
-## C4 Diagram — Components
+---
+
+## Components
 
 ```mermaid
 C4Component
@@ -39,7 +41,7 @@ C4Component
   Rel({comp_a}, {comp_b}, "{Interaction}")
 ```
 
-## Code organization
+### Code organization
 
 **Pattern**: {Layer-based | Feature-based | Hybrid}. {One sentence explaining how folders are organized.}
 
@@ -49,9 +51,7 @@ C4Component
 └── {folder_or_file}    # {One-line responsibility}
 ```
 
-**New code must follow this pattern**: {One sentence summarizing the convention for new code.}
-
-## Shared artifacts
+### Shared artifacts
 
 | Path | Purpose |
 |------|---------|
@@ -59,33 +59,19 @@ C4Component
 
 {Note if no shared folder exists and where to create one if needed.}
 
-## Key contracts
+### Key contracts
 
 {API routes, interfaces, event schemas, DB access patterns, or models exposed to other tiers. Use tables for structured contracts.}
 
-## Dependencies between {features | modules | domains}
+### Dependencies between {features | modules | domains}
 
 ```mermaid
 graph LR
   {Module_A} -->|{relationship}| {Module_B}
 ```
 
-- {Prose explanation of key dependency relationships.}
+### Storage infrastructure
 
-## Constraints
+{Connection strategy, pooling, driver configuration, etc. Omit if this tier has no storage responsibility.}
 
-- {Hard constraint — what this tier must never do or always do.}
-
-{--- db tier only sections below — omit for other tiers ---}
-
-## Storage infrastructure
-
-{Connection strategy, pooling, driver configuration, etc.}
-
-## Naming conventions
-
-{Table/collection naming, column naming, index naming, constraint naming patterns.}
-
-## Migration strategy
-
-{How schema changes are managed: tool (Flyway, Liquibase, Prisma, etc.), workflow, versioning.}
+> last updated: {Date of last update, e.g., May 2026}
