@@ -66,12 +66,23 @@ Under `{Product_Folder}/`. {status}: `pending` | `in-progress` | `done`
 
 ## Technology
 
-  {short description of the technology stack, e.g. "An Angular web app with a Node API with and a PostgreSQL database."}
+{short description of the technology stack, e.g. "An Angular web app with a Node API with and a PostgreSQL database."}
 
-| Tier | Folder | Language | Framework | Build | Run | Test |
-|------|--------|----------|-----------|-------|-----|------|
-| {Tier_Name_1} | `{folder_1}/` | {language_1} | {framework_1} | `{build_1}` | `{run_1}` | `{test_1}` |
-| {Tier_Name_2} | `{folder_2}/` | {language_2} | {framework_2} | `{build_2}` | `{run_2}` | `{test_2}` |
-| E2E-testing | `e2e/` | {language_2} | {framework_2} | `{build_2}` | `{run_2}` | `{test_2}` |
+### Tier: {Tier_Name}
+
+- **Folder**: `{folder}/`
+- **Archetype**: {language} - {framework}
+- **Development workflow**: {development_workflow}
+
+### E2E-testing
+
+- **Folder**: `e2e/`
+- **Archetype**: {language} - {framework}
+- **Development workflow**: {e2e_development_workflow}
+
+### Database
+
+- **Kind**: `sql` | `nosql` | `memory` | `other`
+- **Model**: `postgresql` | `mysql` | `mongodb` | `sqlite` | `redis` | `memory` | `other`
 
 > last updated: {Date of last update, e.g., May 2026}
