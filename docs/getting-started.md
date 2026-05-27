@@ -67,7 +67,7 @@ Example prompts:
 /codify the plan
 /verify the code
 ```
-|
+
 See [Builder pipelines](./builder.pipelines.md).
 
 ## 4. Quality and release
@@ -76,7 +76,14 @@ Default loop:
 
 ```markdown
 /review -> /repair -> /release
-```	
+```
+
+Optional hygiene (no review report — edits in place, then a detailed commit):
+
+```markdown
+/refactor the files touched by this feature
+```
+
 Example prompts:
 
 ```markdown
@@ -84,6 +91,7 @@ Example prompts:
 /repair reported issues
 /release a new version
 ```
+
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
 ## Optional: UI from design
@@ -93,10 +101,6 @@ See [Craftsman pipelines](./craftsman.pipelines.md).
 ```
 
 See [Designer pipelines](./designer.pipelines.md).
-
-## Roadmap
-
-`/refactor` is WIP — see [README § What you get](../README.md#what-you-get).
 
 ## Next
 

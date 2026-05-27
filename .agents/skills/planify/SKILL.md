@@ -14,15 +14,15 @@ Given a spec, bug report, or review report, produce one or more implementation p
 ## Context
 
 ### Input
-- `{slug}.spec.md`, 
-- `{slug}.{type}.report.md` (`quality` | `compliance` | `accessibility` | `verify`)
+- `{Product_Folder}/specs/{slug}.spec.md` (optional)
+- `{Product_Folder}/reports/{slug}.review.report.md` or `{Product_Folder}/reports/{slug}.verify.report.md` (optional)
 - a simple textual requirement
 
 ### References
 - `AGENTS.md` 
 - Architecture docs under `{Product_Folder}/arch/` 
 - The spec file if it exists: `{Product_Folder}/specs/{slug}.spec.md`
-- The report file if it exists: `{Product_Folder}/reports/{slug}.{type}.report.md`
+- The report file if it exists: `{Product_Folder}/reports/{slug}.review.report.md` or `{Product_Folder}/reports/{slug}.verify.report.md`
 - [Plan template](./plan.template.md)
 
 ### Plan naming convention

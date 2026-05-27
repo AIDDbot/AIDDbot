@@ -27,4 +27,4 @@ flowchart LR
   SPC["specs/{slug}.spec.md"] --> PLN["plans/..."] --> COD["/codify"] --> DES["/design"]
 ```
 
-Then `/review` (quality) on the implementation and `/repair` as needed.
+Then `/review` on the implementation (a11y, security, performance) and `/repair` as needed; optionally `/refactor` for clean-code passes without a report.

@@ -20,6 +20,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 ### References
 - Rules with E2E codification instructions in docs under `{Rules_Folder}`.
 - Framework guide (e.g. [Playwright](./playwright.md))
+- [testing.guidelines.md](./testing.guidelines.md) — coverage expectations when strengthening a suite
 
 ## Steps
 
@@ -29,6 +30,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ### Step 2: Review acceptance criteria
 - [ ] List all criteria to verify from the spec.
+- [ ] Cross-check against [testing.guidelines.md](./testing.guidelines.md) when adding or extending tests.
 
 ### Step 3: Write E2E tests
 - [ ] Cover all criteria and edge cases; 
@@ -40,15 +42,16 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Fix any error caused by bad test implementation.
 - [ ] Never change the application code to make tests pass.
 
-### Step 5: Report 
-- [ ] Write `{Product_Folder}/reports/verify.report.md` 
+### Step 5: Report
+- [ ] Write `{Product_Folder}/reports/{slug}.verify.report.md`
 - [ ] Mark each criterion in the spec as `[x]` when tests pass.
 
 ## Output
-- [ ] E2e tests suite executed.
+- [ ] E2E test suite executed.
 - [ ] Verify report at `{Product_Folder}/reports/{slug}.verify.report.md`.
-- [ ] If there are no errors suggest `/review` to improve the code.
-- [ ] If there are errors suggest `/repair` to fix the report.
+- [ ] If there are no errors suggest `/review` for a11y, security, and performance defects, and optionally `/refactor` for clean-code hygiene.
+- [ ] Ask the user to keep running the same test commands after follow-up edits (or re-run in-session when possible).
+- [ ] If there are errors suggest `/rectify` to fix the report.
 
 ## Verification
 - [ ] All tests are executed.

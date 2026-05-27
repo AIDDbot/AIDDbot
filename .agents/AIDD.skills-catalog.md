@@ -23,11 +23,11 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/review`](./skills/review/) | Quality, accessibility, or compliance reports -> `/repair`|
+| [`/review`](./skills/review/) | Single `{slug}.review.report.md` (a11y, security, performance) → `/repair` |
 | [`/repair`](./skills/repair/) | Fixes from review or verify reports |
 | [`/release`](./skills/release/) | Version, changelog, spec `done` + `released-version` |
 | [`/repository`](./skills/repository/) | Branches and conventional commits |
-| [`/refactor`](./skills/refactor/) | *(WIP)* — use `/review` → `/repair` for defects |
+| [`/refactor`](./skills/refactor/) | Clean-code / DRY refactors (no report); detailed commit + test handoff |
 
 ## Designer
 
@@ -43,7 +43,7 @@
 
 **Brownfield (once):** `/initialize` → `/explore all` → `/extract all` 
 
-**Feature:** `/specify` → `/planify` → `/codify` → `/verify?` → `/review?` → `/release`
+**Feature:** `/specify` → `/planify` → `/codify` → `/verify?` → `/refactor?` → `/review?` → `/release`
 
 **Failed verification:**  `/verify` → `/rectify` 
 

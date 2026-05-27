@@ -1,27 +1,64 @@
 ---
 name: refactor
 description: >-
-  *(WIP — not ready for routine use.)* Improves existing code without changing
-  observable behavior. For defects, use /repair on review or verify reports.
+  Improves implementation quality (clean code, DRY, readability, structure) without changing observable behavior. Applies edits directly — no report file. After edits, creates one detailed conventional commit via `/repository` and instructs the user to run tests (or `/verify`). For a11y, security, or performance defects, use `/review` → `/repair`. Trigger on "refactor this", "clean up this code", "apply clean code", "DRY this", or for behavior-preserving hygiene after `/codify`.
 ---
 
-# Refactor skill (WIP)
+# Refactor skill
 
-## Status
+## Role
 
-This skill is on the roadmap and not yet implemented. **Do not invoke** unless the user explicitly asks for a behavior-preserving refactor experiment.
+Act as a senior engineer doing **behavior-preserving** refactors.
 
-## Intended scope (future)
+## Task
 
-- Rename, extract, or simplify code while keeping tests and acceptance criteria green.
-- Defer defect fixes to `/repair` (from `/review` or `/verify` reports).
+Improve structure, naming, and duplication in the agreed scope. Do **not** fold accessibility, security, or performance remediation into this pass unless the user explicitly asks — use `/review` then `/repair` for those.
 
-## Until implemented
+## Context
 
-| Goal | Use instead |
-|------|-------------|
-| Fix defects or standard violations | `/review` → `/repair` |
-| Implement a spec or improvement | `/specify` → `/planify` → `/codify` |
-| UI from a design file | `/design` |
+### Input
 
-Do not commit under `/refactor` until this skill defines outputs and [`/repository`](../repository/SKILL.md) integration.
+- Feature branch: changed files
+- Plan file: files listed in plan
+- Explicit paths or globs from the user
+
+### References
+
+- [clean-code.guidelines.md](./clean-code.guidelines.md)
+
+## Steps
+
+### Step 1: Confirm scope
+
+- [ ] List files to modify; if ambiguous, ask the minimum clarifying questions.
+
+### Step 2: Guardrails
+
+- [ ] Treat existing tests and acceptance criteria as the contract; preserve public APIs and observable behavior unless the user says otherwise.
+
+### Step 3: Refactor
+
+- [ ] Apply [clean-code.guidelines.md](./clean-code.guidelines.md) file by file; keep diffs focused on the scope.
+
+### Step 4: Commit (required)
+
+- [ ] Invoke **`/repository`** once work is complete and produce **one** conventional commit.
+- [ ] Commit **subject**: concise imperative (e.g. `refactor(api): extract validation helpers`).
+- [ ] Commit **body** (mandatory, detailed): bullet or numbered list of every substantive change — files touched, renames, extractions, deleted duplication, and **why** it is safer or clearer. The body must be detailed enough for a reviewer to reconstruct intent without reading the whole diff.
+
+### Step 5: Tests
+
+- [ ] State the exact commands to run (from `AGENTS.md` or tier `*.arch.md` / `package.json`), covering **unit** and **E2E** where the product defines them.
+- [ ] Ask the user to run them now (or run them in-session if the environment allows) and report failures before merge.
+- [ ] When behavior is spec-driven, suggest **`/verify`** so acceptance criteria stay covered.
+
+## Output
+
+- [ ] Refactored code in scope.
+- [ ] One detailed commit via `/repository`.
+- [ ] Explicit test instructions or results plus `/verify` suggestion when applicable.
+
+## Verification
+
+- [ ] No sneaked-in feature or defect fix unless scoped by the user.
+- [ ] Commit body documents all meaningful edits.
