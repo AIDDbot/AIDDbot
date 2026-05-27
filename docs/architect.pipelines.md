@@ -8,15 +8,18 @@ Paths below are under `{Product_Folder}` (default `.product/`).
 flowchart TD  
   HUM[HUMAN]
   AGT["AGENTS.md"]:::nd
-  SKL[".agents/skills/"]:::nd
+  ARC["arch/"]:::nd
 
   HUM -->|/initialize| AGT
-  AGT --- SKL
+  HUM -->|/explore| ARC
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
+### Workflow
 
-`/initialize` confirms `.agents/skills/` exists and commits `AGENTS.md` via `/repository` per `AGENTS.md` git rules.
+```markdown
+/initialize -> /explore
+```
 
 ## Brownfield projects with legacy code
 
@@ -31,9 +34,12 @@ flowchart TD
   HUM -->|/explore| ARC
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
-  ARC --> RUL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-`/explore` and `/excavate` and `/extract` run incrementally — one file per invocation ([explore](../.agents/skills/explore/SKILL.md), [excavate](../.agents/skills/excavate/SKILL.md), [extract](../.agents/skills/extract/SKILL.md)). Mode order: explore `system` → tier arch → `adr` / `er`; excavate `naming` → tier rules → `testing` (or `all` for every missing mode). Each invocation commits via [`/repository`](../.agents/skills/repository/SKILL.md). When arch is complete, `/explore` suggests `/extract`; when rules are complete, start features with `/specify`.
+### Workflow
+
+```markdown
+/initialize -> /explore -> /excavate -> /extract
+```

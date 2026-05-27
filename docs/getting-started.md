@@ -32,24 +32,22 @@ In your agent chat:
 
 ```markdown
 /initialize this project
+/explore this project
 ```
 
-This sets up `AGENTS.md` (paths, slim Technology table per tier) and confirms skills are present. Product and structural detail go to `arch/` via `/explore` on brownfield projects.
+This sets up `AGENTS.md` and confirms skills are present. 
+Product and structural details are generated via `/explore`
+  - as proposals on greenfield projects 
+  - as inferred on brownfield projects
 
 ### Brownfield (existing codebase)
 
 Run once after initialize:
 
 ```markdown
-/explore this codebase
-/extract from this source code
+/excavate this codebase to get the architecture details
+/extract from this source code to get the coding rules
 ```
-
-| Skill | Output |
-|-------|--------|
-| `/explore` | Architecture insights under `{Product_Folder}/arch/` |
-| `/excavate` | Tier/component docs and domain model under `{Product_Folder}/arch/` |
-| `/extract` | Coding rules under `{Product_Folder}/rules/` |
 
 See [Architect pipelines](./architect.pipelines.md).
 
@@ -69,41 +67,23 @@ Example prompts:
 /codify the plan
 /verify the code
 ```
-
-| Step | What you get |
-|------|----------------|
-| `/specify` | Spec with acceptance criteria (`{Product_Folder}/specs/`) |
-| `/planify` | Ordered implementation plan (`plans/`) |
-| `/codify` | Code + unit tests on `feat/{slug}` ([`/repository`](../.agents/skills/repository/SKILL.md) creates the branch before coding) |
-| `/verify` | E2E tests against acceptance criteria; failures → report for `/repair` |
-
-Spec `status` stays `in-progress` during `/codify` and `/verify`. `/verify` marks each criterion `[x]` when tests pass.
-
-If verification fails, `/verify` writes `{Product_Folder}/reports/{slug}.verify.report.md`. Run `/repair` on that report, then `/verify` again. When tests pass, `/verify` suggests `/review`.
-
+|
 See [Builder pipelines](./builder.pipelines.md).
 
 ## 4. Quality and release
 
-After implementation:
+Default loop:
+
+```markdown
+/review -> /repair -> /release
+```	
+Example prompts:
 
 ```markdown
 /review the source code
 /repair reported issues
 /release a new version
 ```
-
-| Skill | What it does |
-|-------|----------------|
-| `/review` | Quality, accessibility, or compliance report |
-| `/repair` | Fixes from review or verify reports |
-| `/release` | Semver bump, `CHANGELOG.md`, spec `status: done` and `released-version` |
-| `/repository` | Branches and conventional commits (invoked by producing skills) |
-
-Before `/release`: spec at `in-progress`, associated plans `done` — see [`/release` skill](../.agents/skills/release/SKILL.md).
-
-Git: project `AGENTS.md` · [`/repository`](../.agents/skills/repository/SKILL.md).
-
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
 ## Optional: UI from design
