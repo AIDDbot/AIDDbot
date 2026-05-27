@@ -18,29 +18,28 @@
 - **Git** : {Remote URL for the git repository}
 - **Git default branch**  `main` | `master`
 
-**Layout:**
+### Layout
+
 ```txt
 {Project_Root}
-├── `AGENTS.md`
-├── `CHANGELOG.md`
-├── `README.md`
 ├── `{Agents_Folder}
 ├── `{Product_Folder}
 ├── `{Source_Folders}`
+├── `AGENTS.md`
+├── `CHANGELOG.md`
+├── `README.md`
 ```
 
 ### AIDD product artifacts
-Under `{Product_Folder}/`. {status}: `pending` | `in-progress` | `done`
 
 | Artifact | Path 
 |---|---|
-| Spec | `specs/{slug}.spec.md` | 
-| Plan | `plans/{slug}.{source?}.{tier?}.plan.md` |
-| Report | `reports/{slug}.{type}.report.md` | 
+| Spec | `{Product_Folder}/specs/{slug}.spec.md` | 
+| Plan | `{Product_Folder}/plans/{slug}.{tier?}.plan.md` |
+| Report | `{Product_Folder}/reports/{slug}.report.md` | 
 
-- `{source?}`: `spec` | `report` | omit.
+- `{slug}`: a short (≤20 chars), readable identifier derived from a title
 - `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
-- `{type}`: `quality` | `compliance` | `accessibility` | `verify`
 
 ## Principles
 1. **Think before working** — Reason about the problem and ask the user for clarification if needed.
@@ -68,17 +67,26 @@ Under `{Product_Folder}/`. {status}: `pending` | `in-progress` | `done`
 
 {short description of the technology stack, e.g. "An Angular web app with a Node API with and a PostgreSQL database."}
 
+### C4 Diagram — System Context
+
+```mermaid
+C4Context
+  title {Product_Name} System Context
+  Person({actor_id}, "{Actor name}", "{What the actor does}")
+  System({system_id}, "{Product_Name}", "{System description}")
+  System_Ext({ext_id}, "{External system}", "{Role}")
+  Rel({actor_id}, {system_id}, "{Interaction}", "{Protocol}")
+```
+
 ### Tier: {Tier_Name}
 
 - **Folder**: `{folder}/`
 - **Archetype**: {language} - {framework}
-- **Development**: `npm run dev` | `.mvnw spring-boot:run`
 
 ### E2E-testing
 
 - **Folder**: `e2e/`
 - **Archetype**: {language} - {framework}
-- **Development**: `npm start`
 
 ### Database
 

@@ -34,17 +34,8 @@ Act as a senior software engineer.
 
 ### Step 3: Define Product
 
-- [ ] From README or user input, fill **Product** brief description. 
-- [ ] List top 5 key features, scope, and out of scope items.
-
-### Step 4: Technology
-
-- [ ] Infer the technology stack from the project context.
-- [ ] Draft a short description of the technology stack based on context. Clarify with user.
-- [ ] For each physical tier, infer the language, framework, development workflow.
-- [ ] Add **E2E-testing** / **Database** sections when applicable.
-- [ ] Do not add storage, security, lint, deploy, or per-tier prose beyond the template.
-
+- [ ] From README or user input, fill **Product** brief problem and solution descriptions. 
+- [ ] Draft a system context diagram (based on C4Context diagram level 1)
 
 ## Output
 
@@ -57,6 +48,5 @@ Act as a senior software engineer.
 - [ ] `AGENTS.md` exists and is under 100 lines.
 - [ ] All template placeholders replaced.
 - [ ] **Environment** lists paths, OS, shell, git remote, and default branch.
-- [ ] **Product** has description, key features (≤5), **Scope**, and **Out of scope** filled.
-- [ ] **Technology** has stack sentence + one row per real tier (**Tier** column + E2E/DB when applicable).
+- [ ] **Product** has problem and solution descriptions, and a system context diagram.
 - [ ] No sections absent from or added beyond [AGENTS.template.md](./AGENTS.template.md).
