@@ -72,13 +72,13 @@ Under `{Product_Folder}/`. {status}: `pending` | `in-progress` | `done`
 
 - **Folder**: `{folder}/`
 - **Archetype**: {language} - {framework}
-- **Development workflow**: {development_workflow}
+- **Development**: `npm run dev` | `.mvnw spring-boot:run`
 
 ### E2E-testing
 
 - **Folder**: `e2e/`
 - **Archetype**: {language} - {framework}
-- **Development workflow**: {e2e_development_workflow}
+- **Development**: `npm start`
 
 ### Database
 
