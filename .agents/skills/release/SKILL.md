@@ -1,10 +1,7 @@
 ---
 name: release
 description: >-
-  Bumps the project version, updates CHANGELOG.md and README, and marks specs as
-  released. Use when features are verified and ready to ship. Trigger on phrases
-  like "release this", "ship version", "publish release", or after /verify passes
-  for one or more specs.
+  Bumps the project version, updates CHANGELOG.md and README, and marks specs as released. Use when features are verified and ready to ship. Trigger on phrases like "release this", "ship version", "publish release", or after `/verify` passes for one or more specs.
 ---
 
 # Release skill
@@ -41,6 +38,7 @@ Given one or more verified specifications, bump the project version, record chan
 - [ ] If incomplete or ambiguous, ask the minimum questions needed.
 
 ### Step 2: Bump version
+- [ ] Run every test suite to confirm the features are working.
 - [ ] Compute `{new_version}`; update all canonical version files.
 
 ### Step 3: Update documentation
@@ -54,6 +52,7 @@ Given one or more verified specifications, bump the project version, record chan
 ### Step 4: Update the project history
 - [ ] Update the changelog entry for the new version.
 - [ ] Update the spec frontmatter to `status: done` and `released-version: {new_version}`.
+- [ ] Remove existing reports from the `reports/` folder.
 
 ## Output
 - [ ] Commit the changes via `/repository` skill.

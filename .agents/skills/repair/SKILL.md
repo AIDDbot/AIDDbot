@@ -15,21 +15,9 @@ Given a review report, fix every listed finding in the source files.
 
 ## Context
 
-### Prerequisites
-
-- `{Product_Folder}/reports/{slug}.review.report.md` exists — run `/review` first if missing.
-
 ### References
 
-- `{Product_Folder}/reports/{slug}.review.report.md` — findings and recommendations (Accessibility, Security, Performance sections).
-
-### Report format
-
-| Section | Fix rule |
-|---------|----------|
-| Accessibility | Meet WCAG-oriented recommendations and linked guidelines. |
-| Security | Meet [security.guidelines.md](../review/security.guidelines.md). |
-| Performance | Meet [performance.guidelines.md](../review/performance.guidelines.md). |
+- `{Product_Folder}/reports/review.report.md` — findings and recommendations (Accessibility, Security, Performance sections).
 
 ## Steps
 
@@ -40,19 +28,23 @@ Given a review report, fix every listed finding in the source files.
 ### Step 2: Fix findings
 
 - [ ] Group by file; within a file fix in report order (or dependency order when one fix blocks another).
+
+
+### Step 3: Apply the recommendations
 - [ ] Apply each recommendation; use `skipped` only when a finding cannot be applied as written.
+- [ ] Write minimal diffs to fix the findings.
 - [ ] Re-read each file after edits.
 
-### Step 3: Update the report
+### Step 4: Update the report
 
-- [ ] Mark each row `resolved` \| `skipped`; preserve original text.
+- [ ] Mark each row `resolved` | `skipped`; preserve original text.
 - [ ] Document reason for any `skipped` entry.
 
 ## Output
 
 - [ ] Summarize what was fixed and what was skipped.
 - [ ] Commit via `/repository`.
-- [ ] Suggest `/review` on the same scope to confirm, and **run tests** (unit and E2E per `AGENTS.md`); suggest `/verify` when acceptance criteria need E2E proof.
+- [ ] Suggest `/review` on the same scope to confirm the fixes.
 
 ## Verification
 

@@ -26,7 +26,7 @@ Given a code scope, evaluate against the guidelines below and produce **one** re
 
 | Dimension | Reference |
 |-----------|-----------|
-| Accessibility | [accessibility.guidelines.md](./accessibility.guidelines.md) → [accessibility.WCAG.reference.md](./accessibility.WCAG.reference.md) |
+| Accessibility | [accessibility.guidelines.md](./accessibility.guidelines.md)  |
 | Security | [security.guidelines.md](./security.guidelines.md) |
 | Performance | [performance.guidelines.md](./performance.guidelines.md) |
 
@@ -41,8 +41,7 @@ Given a code scope, evaluate against the guidelines below and produce **one** re
 
 ### Step 1: Confirm scope
 
-- [ ] Derive `{slug}` from spec, branch, or user input per `AGENTS.md`.
-- [ ] Identify files in scope; if ambiguous, ask minimal questions.
+- [ ] Identify files in scope; if ambiguous, ask the minimum clarifying questions.
 
 ### Step 2: Load template and guides
 
@@ -51,15 +50,12 @@ Given a code scope, evaluate against the guidelines below and produce **one** re
 ### Step 3: Evaluate the code
 
 - [ ] Per file: data flow, trust boundaries, UI surface, I/O and query patterns.
-- [ ] Record each finding in the matching section: File, Issue, Description, Recommendation (actionable for `/repair`).
-
-### Step 4: Write the report
-
-- [ ] Create `{Product_Folder}/reports/{slug}.review.report.md` from the template; leave empty tables if no findings in that section.
+- [ ] Record each finding in the matching section: File, Issue, Description, Recommendation
+- [ ] Make the recommendation actionable for `/repair`.
 
 ## Output
 
-- [ ] Report at `{Product_Folder}/reports/{slug}.review.report.md`.
+- [ ] Report at `{Product_Folder}/reports/review.report.md`.
 
 ## Verification
 

@@ -24,17 +24,9 @@ Match implementation complexity to the intended aesthetic direction:
 
 ### Design specification
 
-Resolve the design spec in this order:
-
-1. User-provided path (e.g. `{Product_Folder}/design/{slug}/DESIGN.md`) — **consumer project** location per `AGENTS.md`
-2. [DESIGN.md](./DESIGN.md) next to this skill — **AIDDbot sample only**; do not use as the project design spec unless the user points here explicitly
+- [DESIGN.md](./DESIGN.md) next to this skill
 
 The specification defines typography, color, motion, spatial composition, texture, and component behavior.
-
-### Conventions
-
-- Derive `{slug}` from the design folder name or feature name.
-- When design is part of a spec-driven feature: link `{Product_Folder}/specs/{slug}.spec.md`; use existing `feat/{slug}` or create it per `AGENTS.md` git workflow before UI commits (same as `/codify`).
 
 ## Steps
 
