@@ -39,7 +39,7 @@ flowchart TD
   RUL -.-> COD  
   SPC -->|/planify| PLN
   ARC -.-> PLN
-  DES -.->|/design optional| COD
+  DES -.->|/envision optional| COD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -55,7 +55,7 @@ flowchart TD
 
 - **When to use each skill:** [Skills catalog](../.agents/AIDD.skills-catalog.md) 
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
-- **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [designer](./designer.pipelines.md) · [craftsman](./craftsman.pipelines.md)
+- **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 
 ## Artifacts
 
@@ -84,6 +84,9 @@ flowchart TD
 
 - `rules/` - Coding rules for each tier
   - `{tier}.rules.md` - Coding rules for the tier (`/elaborate` greenfield, `/extract` brownfield).
+
+- `design/` - UI design specifications (`/envision`).
+  - `{slug}/DESIGN.md` - Typography, color, motion, and component behavior for a feature or surface.
 
 - `specs/` - Feature specifications. 
   - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria).

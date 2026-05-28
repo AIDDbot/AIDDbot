@@ -1,6 +1,6 @@
 ---
 name: establish
-description: Establishes the AIDD project environment and generates the main AGENTS.md instructions file. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "establish the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
+description: Establishes the AIDD project environment and generates root AGENTS.md and SOUL.md. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "establish the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
 ---
 
 # Establish skill
@@ -12,6 +12,7 @@ Act as a senior software engineer.
 ## Task
 
 - Create or update root `AGENTS.md` with instructions for the whole SDLC workflow.
+- Copy root `SOUL.md` from the fixed skill template (personality and boundaries — no placeholders).
 
 ## Context
 
@@ -20,12 +21,13 @@ Act as a senior software engineer.
 ### References
 
 - [Agents Instructions template](./AGENTS.template.md)
+- [Soul template](./SOUL.md) — copy verbatim to project root
 
 ## Steps
 
 ### Step 1: Establishing the project
 
-- [ ] Check for existing `AGENTS.md` or `CLAUDE.md`, `README.md`, `CHANGELOG.md` at the project root.
+- [ ] Check for existing `AGENTS.md`, `SOUL.md`, `CLAUDE.md`, `README.md`, `CHANGELOG.md` at the project root.
 - [ ] Classify **greenfield** (empty no functional code) vs **brownfield** (legacy features and versions)
 
 ### Step 2: Confirm environment values
@@ -45,12 +47,14 @@ Act as a senior software engineer.
 
 - [ ] Summarize what was written and flag ambiguities.
 - [ ] Write `AGENTS.md` at the project root following the template structure.
-- [ ] Do not add sections or columns beyond the template. Try to keep it under 100 lines.
+- [ ] Copy [SOUL.md](./SOUL.md) to the project root unchanged (overwrite only if the user confirms or the file is missing).
+- [ ] Do not add sections or columns beyond the AGENTS template. Try to keep `AGENTS.md` under 100 lines.
 - [ ] Commit via `/repository`.
 - [ ] Suggest `/explore`, then `/elaborate` (greenfield) or `/excavate` + `/extract` (brownfield).
 
 ## Verification
 
-- [ ] Mermaid diagrams render; no placeholders remain.
+- [ ] Mermaid diagrams render; no placeholders remain in `AGENTS.md`.
+- [ ] `SOUL.md` exists at the project root and matches the establish skill template.
 - [ ] `AGENTS.md` serves as a guide for the entire SDLC workflow.
-- [ ] No leftover `{placeholders}`.
+- [ ] No leftover `{placeholders}` in `AGENTS.md`.

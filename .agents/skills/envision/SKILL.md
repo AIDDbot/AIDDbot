@@ -1,9 +1,9 @@
 ---
-name: design
-description: Create distinctive production-grade frontend interfaces based on the provided design specification.
+name: envision
+description: Create distinctive production-grade frontend interfaces based on the provided design specification. Trigger on "envision this UI", "implement the design system", "build UI from DESIGN.md", or when a design spec exists before or after /codify.
 ---
 
-# Design skill
+# Envision skill
 
 ## Role
 
@@ -24,7 +24,8 @@ Match implementation complexity to the intended aesthetic direction:
 
 ### Design specification
 
-- [DESIGN.md](./DESIGN.md) next to this skill
+- Product path: `{Product_Folder}/design/{slug}/DESIGN.md`
+- Skill template: [DESIGN.md](./DESIGN.md) (format reference; copy into the product folder per feature)
 
 The specification defines typography, color, motion, spatial composition, texture, and component behavior.
 

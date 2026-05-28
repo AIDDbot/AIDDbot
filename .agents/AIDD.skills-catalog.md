@@ -4,11 +4,12 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/establish`](./skills/establish/) | AGENTS.md — product vision + process overview (L1) |
+| [`/establish`](./skills/establish/) | `AGENTS.md` (product + paths) and `SOUL.md` (personality + boundaries) at project root (L1) |
 | [`/explore`](./skills/explore/) | System arch + ADRs — prescriptive (green) or descriptive (brown) (L2) |
 | [`/elaborate`](./skills/elaborate/) | Tier arch + ER + coding rules — greenfield only (L3 + rules) |
 | [`/excavate`](./skills/excavate/) | Tier/component arch + ER diagram — brownfield only (L3) |
 | [`/extract`](./skills/extract/) | Coding rules and conventions — brownfield only |
+| [`/envision`](./skills/envision/) | Frontend UI from a `DESIGN.md` specification |
 
 ## Builder
 
@@ -33,7 +34,6 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/design`](./skills/design/) | Frontend UI from a design specification |
 | [`/repository`](./skills/repository/) | Branches and conventional commits |
 
 ---

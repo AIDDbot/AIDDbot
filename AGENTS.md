@@ -14,7 +14,7 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 
 - Keep `SKILL.md` files actionable: Role, Task, Context, Steps (checkboxes), Output, Verification.
 - Put long checklists in `*.guidelines.md` or `*.mode.md`; link from the skill (same folder only).
-- Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put skill-specific rules in that skill's `SKILL.md`.
+- Put paths, slugs, and spec status chain in consumer `AGENTS.md`; put agent personality and boundaries in consumer `SOUL.md` (from `/establish`); put skill-specific rules in that skill's `SKILL.md`.
 - After changing a skill, align:
   - [README](./README.md)
   - [catalog](./.agents/AIDD.skills-catalog.md)

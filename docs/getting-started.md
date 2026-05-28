@@ -35,7 +35,7 @@ In your agent chat:
 /explore this project
 ```
 
-This sets up `AGENTS.md` and confirms skills are present.
+This sets up `AGENTS.md`, copies `SOUL.md` (agent personality and boundaries), and confirms skills are present.
 
 ### Greenfield (new project)
 
@@ -107,13 +107,13 @@ Example prompts:
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
-## Optional: UI from design
+## Optional: UI from a design spec
 
 ```markdown
-/design from design specification
+/envision from design specification
 ```
 
-See [Designer pipelines](./designer.pipelines.md).
+Place the spec at `{Product_Folder}/design/{slug}/DESIGN.md` (see [DESIGN.md](../.agents/skills/envision/DESIGN.md) for the format). See [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
 
 ## Next
 
