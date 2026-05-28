@@ -17,6 +17,9 @@ Given an implementation plan, or requirement, write the code necessary to implem
 - Optional: Implementation plan from `{Product_Folder}/plans/{slug}.{tier?}.plan.md`
 - Optional: Direct requirement as a simple textual requirement from the user.
 
+### Prerequisites
+- `{Rules_Folder}/{tier}.rules.md` for the tier in scope — run `/elaborate` (greenfield) or `/extract` (brownfield) if missing.
+
 ### References
 - The context at the plan if it exists.
 - Architectural decisions at `{Product_Folder}/arch/ADR.md`

@@ -35,19 +35,32 @@ In your agent chat:
 /explore this project
 ```
 
-This sets up `AGENTS.md` and confirms skills are present. 
-Product and structural details are generated via `/explore`
-  - as proposals on greenfield projects 
-  - as inferred on brownfield projects
+This sets up `AGENTS.md` and confirms skills are present.
+
+### Greenfield (new project)
+
+After `/explore`:
+
+```markdown
+/elaborate this project to prescribe tier architecture and coding rules
+```
+
+Run once per tier (or `/elaborate all` to queue every tier). When `ER.md` exists, start building:
+
+```markdown
+/specify a feature requirement
+```
 
 ### Brownfield (existing codebase)
 
-Run once after establish:
+After `/explore`, run once per tier:
 
 ```markdown
 /excavate this codebase to get the architecture details
 /extract from this source code to get the coding rules
 ```
+
+Product and structural details come from `/explore` — as proposals on greenfield, as inferred on brownfield.
 
 See [Architect pipelines](./architect.pipelines.md).
 

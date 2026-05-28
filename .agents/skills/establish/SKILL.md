@@ -47,7 +47,7 @@ Act as a senior software engineer.
 - [ ] Write `AGENTS.md` at the project root following the template structure.
 - [ ] Do not add sections or columns beyond the template. Try to keep it under 100 lines.
 - [ ] Commit via `/repository`.
-- [ ] Suggest `/explore` to start the architecture documentation process.
+- [ ] Suggest `/explore`, then `/elaborate` (greenfield) or `/excavate` + `/extract` (brownfield).
 
 ## Verification
 

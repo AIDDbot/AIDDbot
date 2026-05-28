@@ -1,6 +1,6 @@
 ---
 name: excavate
-description: Extracts component-level architecture and domain model from an existing codebase. Brownfield only. Trigger on "excavate this project", "document the tiers", "I need component docs", "extract the domain model".
+description: Extracts component-level architecture and domain model from an existing codebase. Brownfield only — on greenfield use /elaborate instead. Trigger on "excavate this project", "document the tiers", "I need component docs", "extract the domain model".
 ---
 
 # Excavate skill
@@ -20,6 +20,9 @@ Produce under `{Product_Folder}/arch/`:
 ### Prerequisites
 - `AGENTS.md` exists — run `/establish` first if missing.
 - `system.arch.md` exists — run `/explore` first if missing.
+
+### Mode
+- **Brownfield only.** If there is no functional source code, stop and suggest `/elaborate` instead.
 
 ### References
 - `AGENTS.md` — tier list, `{Source_Folders}`

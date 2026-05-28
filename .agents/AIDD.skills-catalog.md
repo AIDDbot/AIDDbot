@@ -6,6 +6,7 @@
 |-------|----------------|
 | [`/establish`](./skills/establish/) | AGENTS.md — product vision + process overview (L1) |
 | [`/explore`](./skills/explore/) | System arch + ADRs — prescriptive (green) or descriptive (brown) (L2) |
+| [`/elaborate`](./skills/elaborate/) | Tier arch + ER + coding rules — greenfield only (L3 + rules) |
 | [`/excavate`](./skills/excavate/) | Tier/component arch + ER diagram — brownfield only (L3) |
 | [`/extract`](./skills/extract/) | Coding rules and conventions — brownfield only |
 
@@ -39,9 +40,9 @@
 
 ## Typical loops
 
-**Greenfield:** `/establish` →  → `/explore system`  
+**Greenfield (once):** `/establish` → `/explore` → `/elaborate` (per tier, then `ER.md`)
 
-**Brownfield (once):** `/establish` → `/explore all` → `/extract all` 
+**Brownfield (once):** `/establish` → `/explore` → `/excavate` (per tier, then `ER.md`) → `/extract` (per tier) 
 
 **Feature:** /specify → /planify → /codify → /verify → /review? → /refactor? → /release
 

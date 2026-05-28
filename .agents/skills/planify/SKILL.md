@@ -16,6 +16,10 @@ Given a spec produce one or more implementation plan files — one per tier — 
 ### Input
 - The spec file: `{Product_Folder}/specs/{slug}.spec.md` 
 
+### Prerequisites
+- `{Product_Folder}/arch/system.arch.md` — run `/explore` if missing.
+- `{tier}.arch.md` and `ER.md` for tiers in scope — run `/elaborate` (greenfield) or `/excavate` (brownfield) if missing.
+
 ### References
 
 - Architectural decisions at `{Product_Folder}/arch/ADR.md`

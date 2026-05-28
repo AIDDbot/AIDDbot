@@ -48,7 +48,7 @@ Produce two files under `{Product_Folder}/arch/`:
 - [ ] Do not add sections or columns beyond the template. Try to keep them under 100 lines.
 - [ ] Write `system.arch.md` and `ADR.md` files under `{Product_Folder}/arch/`.
 - [ ] Commit via `/repository`.
-- [ ] Suggest next step: `/excavate` (brownfield) or first feature spec `/specify` (greenfield).
+- [ ] Suggest next step: `/excavate` (brownfield) or `/elaborate` (greenfield).
 
 ## Verification
 - [ ] Mermaid diagrams render; no placeholders remain.

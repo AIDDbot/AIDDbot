@@ -29,6 +29,8 @@ flowchart TD
 
   HUM -->|/establish| AGT
   HUM -->|/explore| ARC
+  HUM -->|/elaborate| ARC
+  HUM -->|/elaborate| RUL
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
@@ -75,13 +77,13 @@ flowchart TD
 ### Product
 
 - `arch/` - Full architecture set for planning and coding. 
-  - `system.arch.md` - Containers and technology stack.
-  - `{tier}.arch.md` - Per-tier stack, dev commands, code organization.
-  - `ADR.md` - Architectural decisions.
-  - `ER.md` - Domain model.
+  - `system.arch.md` - Containers and technology stack (`/explore`).
+  - `{tier}.arch.md` - Per-tier stack, dev commands, code organization (`/elaborate` greenfield, `/excavate` brownfield).
+  - `ADR.md` - Architectural decisions (`/explore`).
+  - `ER.md` - Domain model (`/elaborate` or `/excavate` when all tiers are done).
 
 - `rules/` - Coding rules for each tier
-  - `{tier}.rules.md` - Coding rules for the tier.
+  - `{tier}.rules.md` - Coding rules for the tier (`/elaborate` greenfield, `/extract` brownfield).
 
 - `specs/` - Feature specifications. 
   - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria).

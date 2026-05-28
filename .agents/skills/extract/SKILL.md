@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Extracts coding conventions from an existing codebase into agent-consumable rule files, one per tier. Use after /excavate to capture how code should be written, not just what exists. Trigger on "extract conventions", "generate coding rules", "I need coding patterns before codifying".
+description: Extracts coding conventions from an existing codebase into agent-consumable rule files, one per tier. Brownfield only — on greenfield use /elaborate instead. Use after /excavate. Trigger on "extract conventions", "generate coding rules", "I need coding patterns before codifying".
 ---
  
 # Extract skill
@@ -21,6 +21,9 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
  
 - Root `AGENTS.md` exists.
 - `{Product_Folder}/arch/` exists — run `/excavate` first if missing.
+
+### Mode
+- **Brownfield only.** If there is no functional source code, stop and suggest `/elaborate` instead.
 ### References
  
 - `AGENTS.md` — `{Rules_Folder}`, `{Source_Folders}`, **Technology**
