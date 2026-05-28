@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Extracts coding conventions from an existing codebase into agent-consumable rule files, one per tier. Use after /excavate to capture how code should be written, not just what exists. Trigger on: "extract conventions", "generate coding rules", "I need coding patterns before codifying".
+description: Extracts coding conventions from an existing codebase into agent-consumable rule files, one per tier. Use after /excavate to capture how code should be written, not just what exists. Trigger on "extract conventions", "generate coding rules", "I need coding patterns before codifying".
 ---
  
 # Extract skill
