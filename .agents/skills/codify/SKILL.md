@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Generates code to implement a feature, bug fix, or improvement from an implementation plan, spec, or direct requirement. Use this skill when the user wants to write code for a planned or specified change. Trigger on phrases like "codify this", "implement this", "write the code for", or whenever an implementation plan or spec is ready to be coded.
+description: Generates code to implement a feature, bug fix, or improvement from an implementation plan, or direct requirement. Use this skill when the user wants to write code for a planned or specified change. Trigger on phrases like "codify this", "implement this", "write the code for", or whenever an implementation plan or requirement is ready to be coded.
 ---
 
 # Codify skill
@@ -9,18 +9,18 @@ description: Generates code to implement a feature, bug fix, or improvement from
 Act as a software engineer.
 
 ## Task
-Given an implementation plan, spec, or requirement, write the code necessary to implement it, including unit tests for critical modules.
+Given an implementation plan, or requirement, write the code necessary to implement it, including unit tests for critical modules.
 
 ## Context
 
 ### Input
-- Implementation plan: `{Product_Folder}/plans/{slug}.{source?}.{tier?}.plan.md`
-- Spec: `{Product_Folder}/specs/{slug}.spec.md`
-- Report: `{Product_Folder}/reports/{slug}.{type}.report.md`
-- Direct requirement: a simple textual requirement
+- Optional: Implementation plan from `{Product_Folder}/plans/{slug}.{tier?}.plan.md`
+- Optional: Direct requirement as a simple textual requirement from the user.
 
 ### References
-- Rules with codification instructions in docs under `{Rules_Folder}`.
+- The context at the plan if it exists.
+- Architectural decisions at `{Product_Folder}/arch/ADR.md`
+- Tier rules at `{Rules_Folder}/{tier}.rules.md`
 
 ## Steps
 
@@ -28,29 +28,35 @@ Given an implementation plan, spec, or requirement, write the code necessary to 
 - [ ] If incomplete or ambiguous, ask the minimum questions needed.
 
 ### Step 2: Before coding
-- [ ] Check if already on `feat/{slug}`. If not, create it using repository skill.
-- [ ] If following a plan mark it as `in-progress`.
-- [ ] If related to a spec or report mark the spec as `in-progress`.
+- [ ] Commit any pending work using repository skill.
+
+#### If following a spec plan
+- [ ] Work on a feature branch `feat/{slug}`. If not exists, create it using repository skill.
+- [ ] Mark the spec as `in-progress`.
+- [ ] Mark the plan as `in-progress`.
 
 ### Step 3: Implement
-- [ ] Follow plan steps in order, or derive from spec/requirement.
-- [ ] Minimum code to fulfill requirements.
+- [ ] Follow plan steps in order, or derive a plan from requirement.
+- [ ] Write the minimum code to fulfill requirements (no comments, no extra changes)
 - [ ] Mark each task in the plan as `[x]` when completed.
 
 ### Step 4: Write unit tests
 - [ ] Only write unit tests for critical modules.
+- [ ] Write the happy path test.
+- [ ] Write the edge cases tests.
+- [ ] Write the error cases tests.
 
 ### Step 5: After coding
-- [ ] When plan or report exists: set `status: done` for the plan or report.
-- [ ] When spec exists: keep status as `in-progress` for the spec.
-- [ ] Commit the code and unit tests following the repository skill.	
-
+#### If following a spec plan
+- [ ] Set `status: done` for the plan.
+- [ ] Keep status as `in-progress` for the spec.
 
 ## Output
 - [ ] Working code in the appropriate files.
-- [ ] Spec, plan or report with appropriate status.
+- [ ] Commit changes following the repository skill.	
 
 ## Verification
 - [ ] Code compiles.
 - [ ] Unit tests pass.
-- [ ] Spec is `in-progress` Plan or Report are `done` if they exist.
+- [ ] Spec is `in-progress` if it exists.
+- [ ] Plan is `done` if it exists.

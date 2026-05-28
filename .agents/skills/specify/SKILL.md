@@ -17,8 +17,9 @@ Given a requirement or feature description, produce a complete specification fil
 - A requirement, user story, or feature description from the user.
 
 ### References
-- `AGENTS.md` 
-- Architecture docs under `{Product_Folder}/arch/` 
+
+- Architectural decisions at `{Product_Folder}/arch/ADR.md`
+- System architecture at `{Product_Folder}/arch/system.arch.md`
 - [Spec template](./spec.template.md)
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
@@ -37,8 +38,9 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### Step 3: Design the solution
 
-- [ ] Propose the solution across applicable tiers.
+- [ ] Propose the solution across applicable tiers from [system.arch.md](./arch/system.arch.md).
 - [ ] Apply [Model design convention](./model-design.convention.md) where the data model applies.
+- [ ] Respect [ADR.md](./arch/ADR.md) and [system.arch.md](./arch/system.arch.md).
 - [ ] Focus on high-level design, not implementation detail.
 
 ### Step 4: Define acceptance criteria
@@ -54,7 +56,7 @@ Given a requirement or feature description, produce a complete specification fil
   - `released-version` is empty
 
 ## Output
-- [ ] `{Product_Folder}/specs/{slug}.spec.md` is complete, clear, and actionable.
+- [ ] Write the spec at `{Product_Folder}/specs/{slug}.spec.md` following the template.
 - [ ] Suggest `/planify` to break down the spec into implementation steps.
 
 ## Verification

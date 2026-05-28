@@ -87,7 +87,7 @@ flowchart TD
   - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria).
 
 - `plans/` - Implementation plans.
-  - `{slug}.{source?}.{tier?}.plan.md` - Implementation plans for the feature in each tier.
+  - `{slug}.{tier?}.plan.md` - Implementation plans for the feature in each tier.
 
 - `reports/` - Findings from `/review` and `/verify`
   - `{slug}.review.report.md` — accessibility, security, and performance (→ `/repair`)

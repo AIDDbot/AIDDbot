@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Writes and runs E2E tests to verify that implemented code meets the defined acceptance criteria. Use this skill after implementing a feature or bug fix to ensure it fulfills the requirements and is ready for deployment. Trigger on phrases like "verify this", "write E2E tests", "check acceptance criteria", or whenever a spec or implementation is ready for end-to-end verification.
+description: Writes and runs E2E tests to verify that implemented code meets the defined acceptance criteria. Use this skill after implementing a feature to ensure it fulfills the requirements and is ready for deployment. Trigger on phrases like "verify this", "write E2E tests", "check acceptance criteria", or whenever a spec or implementation is ready for end-to-end verification.
 ---
 
 # Verify skill
@@ -18,14 +18,15 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - Spec: `{Product_Folder}/specs/{slug}.spec.md`
 
 ### References
-- Rules with E2E codification instructions in docs under `{Rules_Folder}`.
+- System architecture at `{Product_Folder}/arch/system.arch.md`
+- Rules with E2E codification instructions `{Rules_Folder}/e2e.rules.md`
 - Framework guide (e.g. [Playwright](./playwright.md))
-- [testing.guidelines.md](./testing.guidelines.md) — coverage expectations when strengthening a suite
 
 ## Steps
 
 ### Step 1: Clarify the input
-- [ ] Read `AGENTS.md` for framework, test directory, and brownfield rules when present.
+- [ ] Read the spec to understand the feature and acceptance criteria.
+- [ ] Read `AGENTS.md` and system architecture for tech stack and testing framework.
 - [ ] If spec or framework is unclear, ask the minimum questions needed.
 
 ### Step 2: Review acceptance criteria
@@ -36,22 +37,31 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Cover all criteria and edge cases; 
 - [ ] Arrange-Act-Assert where applicable; 
 - [ ] Prefer isolated tests.
+- [ ] Group tests by feature or page.
+- [ ] Use descriptive names for suites and test groups.
+- [ ] Write the happy path test.
+- [ ] Write the edge cases tests.
+- [ ] Write the error cases tests.
 
 ### Step 4: Run and verify
-- [ ] Application testable; run all E2E tests.
+- [ ] Set up the test environment.
+- [ ] Run the tests and read the results.
+- [ ] If tests pass, go to step 5.
 - [ ] Fix any error caused by bad test implementation.
 - [ ] Never change the application code to make tests pass.
+- [ ] If tests keep failing, stop iterating.
 
 ### Step 5: Report
-- [ ] Write `{Product_Folder}/reports/{slug}.verify.report.md`
+- [ ] Tear down the test environment.
 - [ ] Mark each criterion in the spec as `[x]` when tests pass.
+- [ ] Leave the failed criteria as `[ ]` in the spec.
+- [ ] Add a rectify section to the spec with the steps to rectify the failures.
 
 ## Output
 - [ ] E2E test suite executed.
-- [ ] Verify report at `{Product_Folder}/reports/{slug}.verify.report.md`.
-- [ ] If there are no errors suggest `/review` for a11y, security, and performance defects, and optionally `/refactor` for clean-code hygiene.
-- [ ] Ask the user to keep running the same test commands after follow-up edits (or re-run in-session when possible).
-- [ ] If there are errors suggest `/rectify` to fix the report.
+- [ ] Verify report at `{Product_Folder}/reports/verify.report.md`.
+- [ ] If there are errors, suggest `/rectify` to fix the report.
+- [ ] If there are no errors suggest `/review` to find defects in a11y, security, and performance.
 
 ## Verification
 - [ ] All tests are executed.

@@ -1,6 +1,5 @@
 ---
 slug: {slug}
-source: {spec, report, requirement}
 tier: {back, front, db, fullstack}
 status: pending | in-progress | done
 ---
@@ -8,9 +7,13 @@ status: pending | in-progress | done
 
 ## Specification
 
-{Description of the specification, improvement, or bug report this plan implements.}
+{Description of the specification for this tier.}
 
-**Context:** [Link to source spec, report, or requirement]()
+**Context:** 
+- [Link to source spec](./specs/{slug}.spec.md)
+- [Link to ADR](./arch/ADR.md)
+- [Link to ER](./arch/ER.md)
+- [Link to tier architecture](./arch/{tier}.arch.md)
 
 ### Data model
 
@@ -22,7 +25,7 @@ status: pending | in-progress | done
 
 {Short description.}
 
-- Paths:
+- Paths involved:
   - {path/to/file1}
   - {path/to/folder2/}
 - [ ] {Task in one line}

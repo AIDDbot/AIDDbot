@@ -9,7 +9,7 @@ description: Fixes source code to resolve E2E test failures documented by /verif
 Act as a senior software engineer fixing E2E test failures.
 
 ## Task
-Given a verify report and its screenshots, fix every listed failure in the source files.
+Given a verify report and its optional screenshots, fix every listed failure in the source files.
 
 ## Context
 
@@ -17,8 +17,8 @@ Given a verify report and its screenshots, fix every listed failure in the sourc
 - `{Product_Folder}/reports/{slug}.verify.report.md` exists — run `/verify` first if missing.
 
 ### References
-- `{Product_Folder}/reports/{slug}.verify.report.md` — failures, screenshots, steps to reproduce
-- `{Product_Folder}/specs/{slug}.spec.md` — acceptance criteria
+- `{Product_Folder}/reports/verify.report.md` — failures, screenshots, steps to reproduce
+- `{Product_Folder}/specs/{slug}.spec.md` — acceptance criteria and rectify section
 
 ## Steps
 
@@ -29,7 +29,6 @@ Given a verify report and its screenshots, fix every listed failure in the sourc
 - [ ] If failures are too broad or architectural, stop and suggest `/planify` instead.
 
 ### Step 2: Fix findings
-- [ ] Group by file; within a file fix in report order.
 - [ ] Apply minimal targeted fixes — do not refactor unrelated code.
 - [ ] Re-read each file after edits.
 
