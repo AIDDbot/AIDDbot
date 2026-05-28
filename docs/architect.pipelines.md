@@ -10,7 +10,7 @@ flowchart TD
   AGT["AGENTS.md"]:::nd
   ARC["arch/"]:::nd
 
-  HUM -->|/initialize| AGT
+  HUM -->|/establish| AGT
   HUM -->|/explore| ARC
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
@@ -18,7 +18,7 @@ flowchart TD
 ### Workflow
 
 ```markdown
-/initialize -> /explore
+/establish -> /explore
 ```
 
 ## Brownfield projects with legacy code
@@ -30,7 +30,7 @@ flowchart TD
   ARC["arch/"]:::nd
   RUL["rules/"]:::nd
 
-  HUM -->|/initialize| AGT
+  HUM -->|/establish| AGT
   HUM -->|/explore| ARC
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
@@ -41,5 +41,5 @@ flowchart TD
 ### Workflow
 
 ```markdown
-/initialize -> /explore -> /excavate -> /extract
+/establish -> /explore -> /excavate -> /extract
 ```

@@ -39,7 +39,7 @@ fix(front): apply review findings for checkout
 
 docs(product): record checkout quality review
 
-chore: initialize AGENTS.md
+chore: establish AGENTS.md
 
 chore(wip): save work before branching
 ```

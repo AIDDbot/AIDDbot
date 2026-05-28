@@ -33,7 +33,7 @@ See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and w
 
 | Phase | Skills |
 |-------|--------|
-| [Architect](docs/architect.pipelines.md) | `/initialize`, `/explore`, `/excavate`, `/extract` |
+| [Architect](docs/architect.pipelines.md) | `/establish`, `/explore`, `/excavate`, `/extract` |
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify`, `/rectify` |
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/refactor`, `/release`  |
 | [Designer](docs/designer.pipelines.md) | `/design`,`/repository` |
@@ -45,11 +45,11 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-In your agents chat run the `/initialize` command or ask AIDDbot to initialize the project.
+In your agents chat run the `/establish` command or ask AIDDbot to establish the project.
 
 Documentation:
 
-- **[Getting started](docs/getting-started.md)** — install, initialize, feature and release loops
+- **[Getting started](docs/getting-started.md)** — install, establish, feature and release loops
 - **[Skills catalog](.agents/AIDD.skills-catalog.md)** — prerequisites and when to invoke each skill
 - **[Workflow diagrams](docs/AIDD.workflow.md)** — diagrams, artifacts
 

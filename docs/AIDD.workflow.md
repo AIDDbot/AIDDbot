@@ -27,7 +27,7 @@ flowchart TD
       CHL["CHANGELOG.md"]:::nd
   end
 
-  HUM -->|/initialize| AGT
+  HUM -->|/establish| AGT
   HUM -->|/explore| ARC
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL

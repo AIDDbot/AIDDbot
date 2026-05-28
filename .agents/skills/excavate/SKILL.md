@@ -18,7 +18,7 @@ Produce under `{Product_Folder}/arch/`:
 - A tier is a logical group of code that can be run separately. eg: back-end, front-end, fullstack, e2e, db.
 
 ### Prerequisites
-- `AGENTS.md` exists — run `/initialize` first if missing.
+- `AGENTS.md` exists — run `/establish` first if missing.
 - `system.arch.md` exists — run `/explore` first if missing.
 
 ### References

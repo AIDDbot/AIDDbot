@@ -1,9 +1,9 @@
 ---
-name: initialize
-description: Initializes the AIDD project environment and generates the main AGENTS.md instructions file. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "initialize the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
+name: establish
+description: Establishes the AIDD project environment and generates the main AGENTS.md instructions file. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "establish the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
 ---
 
-# Initialize skill
+# Establish skill
 
 ## Role
 

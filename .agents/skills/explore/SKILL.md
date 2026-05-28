@@ -18,7 +18,7 @@ Produce two files under `{Product_Folder}/arch/`:
 - A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
 
 ### Prerequisites
-- Root `AGENTS.md` exists — run `/initialize` first if missing.
+- Root `AGENTS.md` exists — run `/establish` first if missing.
 
 ### References
 - `AGENTS.md` — `{Product_Folder}`, **Technology**, **Product**

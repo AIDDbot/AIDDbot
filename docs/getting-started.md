@@ -26,12 +26,12 @@ Copy-Item -Path AIDDbot-tmp/.agents -Destination ./.agents -Recurse -Force
 Remove-Item -Path AIDDbot-tmp -Recurse -Force
 ```
 
-## 2. Initialize
+## 2. Establish
 
 In your agent chat:
 
 ```markdown
-/initialize this project
+/establish this project
 /explore this project
 ```
 
@@ -42,7 +42,7 @@ Product and structural details are generated via `/explore`
 
 ### Brownfield (existing codebase)
 
-Run once after initialize:
+Run once after establish:
 
 ```markdown
 /excavate this codebase to get the architecture details
