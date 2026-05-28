@@ -14,16 +14,16 @@ Given a verify report and its optional screenshots, fix every listed failure in 
 ## Context
 
 ### Prerequisites
-- `{Product_Folder}/reports/{slug}.verify.report.md` exists — run `/verify` first if missing.
+- `{Product_Folder}/reports/verify.report.md` exists — run `/verify` first if missing.
 
 ### References
 - `{Product_Folder}/reports/verify.report.md` — failures, screenshots, steps to reproduce
-- `{Product_Folder}/specs/{slug}.spec.md` — acceptance criteria and rectify section
+- `{Product_Folder}/specs/{slug}.spec.md` — acceptance criteria 
 
 ## Steps
 
 ### Step 1: Load the report
-- [ ] Read `{slug}.verify.report.md` — extract all failures.
+- [ ] Read `verify.report.md` — extract all failures.
 - [ ] If no failures, stop with "Nothing to rectify".
 - [ ] Read `{slug}.spec.md` — confirm which acceptance criteria are violated.
 - [ ] If failures are too broad or architectural, stop and suggest `/planify` instead.
@@ -37,7 +37,8 @@ Given a verify report and its optional screenshots, fix every listed failure in 
 - [ ] Document reason for any `skipped` entry.
 
 ## Output 
-- [ ] Summarize what was fixed and what was skipped.
+- [ ] Summarize at the report what was fixed and what was skipped.
+- [ ] In any case keep spec as `in-progress`.
 - [ ] Commit via `/repository`.
 - [ ] Suggest `/verify` on `{slug}.spec.md` to confirm.
 

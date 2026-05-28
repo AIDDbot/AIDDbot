@@ -15,6 +15,8 @@ Act as a senior software engineer.
 
 ## Context
 
+- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+
 ### References
 
 - [Agents Instructions template](./AGENTS.template.md)
@@ -30,12 +32,14 @@ Act as a senior software engineer.
 
 - [ ] Propose **AIDD path defaults** and ask the user to confirm or override.
 - [ ] Infer **OS**, **Shell**, **Git** remote URL, and **Git Branch** default from the repo and environment.
-- [ ] Shallow-scan the folder tree and draft a layout with the actual files and folders.
+- [ ] Shallow-scan the folder tree 
+- [ ] Draft a layout with the actual files and folders and a short description of each.
 
 ### Step 3: Define Product
 
 - [ ] From README or user input, fill **Product** brief problem and solution descriptions. 
 - [ ] Draft a system context diagram (based on C4Context diagram level 1)
+- [ ] Infer or propose an e2e testing strategy
 
 ## Output
 

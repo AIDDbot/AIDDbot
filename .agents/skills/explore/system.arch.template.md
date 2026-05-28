@@ -42,7 +42,7 @@ containers that actually exist in this project.}
 ### {Container name}
 
 {One sentence: responsibility of this container.}
-
+- **Tier**: {`back` | `front` | `fullstack` | `e2e` | `db`}
 - **Folder**: `{folder}/`
 - **Archetype**: {language} — {framework}
 

@@ -15,6 +15,8 @@ Produce two files under `{Product_Folder}/arch/`:
 
 ## Context
 
+- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+
 ### Prerequisites
 - Root `AGENTS.md` exists — run `/initialize` first if missing.
 
@@ -25,8 +27,10 @@ Produce two files under `{Product_Folder}/arch/`:
 ## Steps
 
 ### Step 1: Detect mode
-- [ ] If no source code exists → **greenfield**: propose architecture from `AGENTS.md`.
-- [ ] If source code exists → **brownfield**: infer architecture from the codebase.
+- [ ] If no source code exists → **greenfield**
+- [ ] If source code exists → **brownfield**
+- [ ] Infer if this will a monorepo with multiple projects or a single project
+> Each project is a container that belongs to a tier. A tier can be `back`, `front`, `fullstack`, `cli`, `e2e`, `db`.
 
 ### Step 2: Generate `system.arch.md`
 - [ ] Read `system.arch.template.md`.
@@ -35,8 +39,8 @@ Produce two files under `{Product_Folder}/arch/`:
 
 ### Step 3: Generate `ADR.md`
 - [ ] Read `adr.template.md`.
-- [ ] Greenfield: document foundational decisions being made now (tech stack, API style, structure). Status: `Decided`.
-- [ ] Brownfield: infer decisions from code evidence. Status: `Inferred`. Flag low-confidence entries.
+- [ ] **Greenfield**: document foundational decisions being made now (tech stack, API style, structure). Status: `Decided`.
+- [ ] **Brownfield**: infer decisions from code evidence. Status: `Inferred`. Flag low-confidence entries.
 - [ ] Only decisions that constrain planning — nothing trivial or easily reversible.
 
 ## Output

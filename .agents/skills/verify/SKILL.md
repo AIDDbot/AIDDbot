@@ -17,6 +17,10 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 - Spec: `{Product_Folder}/specs/{slug}.spec.md`
 
+### Prerequisites
+- There is an e2e strategy in the system architecture
+- The e2e archetype (language and framework) is already installed and configured
+
 ### References
 - System architecture at `{Product_Folder}/arch/system.arch.md`
 - Rules with E2E codification instructions `{Rules_Folder}/e2e.rules.md`
@@ -50,19 +54,23 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Fix any error caused by bad test implementation.
 - [ ] Never change the application code to make tests pass.
 - [ ] If tests keep failing, stop iterating.
+- [ ] Tear down the test environment.
 
 ### Step 5: Report
-- [ ] Tear down the test environment.
 - [ ] Mark each criterion in the spec as `[x]` when tests pass.
 - [ ] Leave the failed criteria as `[ ]` in the spec.
 - [ ] Add a rectify section to the spec with the steps to rectify the failures.
 
 ## Output
 - [ ] E2E test suite executed.
-- [ ] Verify report at `{Product_Folder}/reports/verify.report.md`.
+- [ ] Write a Verify report at `{Product_Folder}/reports/verify.report.md`.
+- [ ] The report should include links and paths to any relevant files or folders or screenshots.
+- [ ] In any case keep spec as `in-progress`.
+- [ ] Commit via `/repository`.
 - [ ] If there are errors, suggest `/rectify` to fix the report.
 - [ ] If there are no errors suggest `/review` to find defects in a11y, security, and performance.
 
 ## Verification
 - [ ] All tests are executed.
-- [ ] Verify report is written.
+- [ ] Servers or apps are stopped.
+- [ ] The Verify report is written.

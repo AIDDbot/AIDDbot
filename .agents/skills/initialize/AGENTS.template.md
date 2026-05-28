@@ -8,39 +8,29 @@
 - `{slug}`: a short (≤20 chars), readable identifier derived from a title (e.g. `login-page`).
 
 ### Environment
-- **{Agents_Folder}** — `.agents/` | …
-- **{Product_Folder}** — `.product/` | `docs/`| …
-- **{Source_Folders}** — [`back/`, `front/`] | [`src/`, `e2e/`] | …
-- **{Rules_Folder}** — `{Agents_Folder}/rules/` | `{Product_Folder}/rules/` | …
-- **{Business_Domain_Language}** — `English` | `Spanish` | …
 - **OS** `Windows` | `Linux` | `MacOS` 
 - **Shell** `cmd` | `PowerShell` | `bash` | `zsh`
-- **Git** : {Remote URL for the git repository}
-- **Git default branch**  `main` | `master`
+- **Git** : {Remote URL for the git repository} - {Git default branch} `main` | `master`
+- **Starting point** : `{Greenfield}` | `{Brownfield}`
+- **Monorepo** : `{Yes}` | `{No}`
+- **Tiers** : `[back, front, fullstack, cli, e2e, db , ...]`
 
-### Layout
+### Paths
+- **{Agents_Folder}** — `.agents/` | {user choose}
+- **{Product_Folder}** — `.product/` | `docs/`| {user choose}
+- **{Rules_Folder}** — `{Agents_Folder}/rules/` | `{Product_Folder}/rules/` | {user chosen}
+- **{Source_Folders}** — [`back/`, `front/`] | [`src/`] | [`app/`] | {user chosen}
+- **{Business_Domain_Language}** — `English` | `Spanish` | {user chosen}
 
 ```txt
 {Project_Root}
-├── `{Agents_Folder}
-├── `{Product_Folder}
-├── `{Source_Folders}`
-├── `AGENTS.md`
-├── `CHANGELOG.md`
-├── `README.md`
+├── `{Agents_Folder}  # the agents configuration folder
+├── `{Product_Folder}  # this particular product content folder
+├── `{Source_Folders}`  # the source code folders (can be multiple)
+├── `AGENTS.md`  # the agents configuration file
+├── `CHANGELOG.md`  # the changelog file
+├── `README.md`  # the readme file
 ```
-
-### AIDD product artifacts
-
-| Artifact | Path 
-|---|---|
-| Spec | `{Product_Folder}/specs/{slug}.spec.md` | 
-| Plan | `{Product_Folder}/plans/{slug}.{tier?}.plan.md` |
-| Report | `{Product_Folder}/reports/{slug}.report.md` | 
-
-- `{slug}`: a short (≤20 chars), readable identifier derived from a title
-- `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
-
 ---
 
 ## Product
@@ -48,13 +38,7 @@
 ### Problem
 {short description of the product, e.g. "The product is a web application that allows users to manage their tasks."}
 
-### Solution
-{short description of the technology stack, e.g. "An Angular web app with a Node API and a PostgreSQL database."}
-
-### Verification
-{short description of the e2e testing capabilities, e.g. "The product should be verified with a playwright test suite."}
-
-### System Context
+#### System Context
 
 ```mermaid
 C4Context
@@ -65,9 +49,19 @@ C4Context
   Rel({actor_id}, {system_id}, "{Interaction}", "{Protocol}")
 ```
 
+### Solution
+{short description of the technology stack, e.g. "An Angular web app with a Node API and a PostgreSQL database."}
+
+### Verification
+{short description of the e2e testing capabilities, e.g. "The product should be verified with a playwright test suite."}
+
+```bash
+{list of commands to start servers/apps and run the e2e tests}
+```
 ---
 
-## Principles
+### Coding principles
+
 1. **Think before working** — Reason about the problem and ask the user for clarification if needed.
 2. **Simplicity first** — Avoid complex, clever, or over-engineered solutions (YAGNI).
 3. **Surgical changes** — Make the minimum changes necessary to solve the problem.

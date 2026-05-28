@@ -9,12 +9,6 @@ status: pending | in-progress | done
 
 {Description of the specification for this tier.}
 
-**Context:** 
-- [Link to source spec](./specs/{slug}.spec.md)
-- [Link to ADR](./arch/ADR.md)
-- [Link to ER](./arch/ER.md)
-- [Link to tier architecture](./arch/{tier}.arch.md)
-
 ### Data model
 
 {Data model changes, if applicable.}

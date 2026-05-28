@@ -15,6 +15,8 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
  
 ## Context
  
+- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+
 ### Prerequisites
  
 - Root `AGENTS.md` exists.
