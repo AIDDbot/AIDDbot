@@ -2,7 +2,7 @@
 
 ## Overview
 
-{One paragraph: what this domain model represents, where entities will be defined (e.g. Java records, TS interfaces), and planned storage strategy.}
+{One paragraph: what this domain model represents, where entities are defined (e.g. Java records, TS interfaces), and the storage strategy.}
 
 ## E-R Diagram
 

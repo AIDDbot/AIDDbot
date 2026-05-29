@@ -38,9 +38,9 @@ globs: "{source_glob}"
 
 **Dominant pattern**: {One sentence describing the structural pattern.}
 
-**Canonical example** (from `{file_name}`):
+**Canonical example**:
 ```{language}
-{Real code snippet — cleanest example of this role. 10-25 lines. Trim imports and boilerplate.}
+{Cleanest example of this role — real (brownfield, cite the file) or illustrative (greenfield). 10-25 lines. Trim imports and boilerplate.}
 ```
 
 **Anti-pattern**:
@@ -73,9 +73,8 @@ globs: "{source_glob}"
 
 ### Canonical Test Example
 
-(from `{test_file_name}`):
 ```{language}
-{Real test snippet — setup + act + assert. 15-30 lines.}
+{Test snippet — setup + act + assert; real (brownfield) or illustrative (greenfield). 15-30 lines.}
 ```
 
 ### Coverage by Artifact Role
@@ -93,4 +92,4 @@ globs: "{source_glob}"
 
 - `{file}` — {what differs}. Expected: {dominant pattern}.
 
-{If none: "No deviations from the dominant pattern were detected."}
+{If none: "No deviations from the dominant pattern were detected." On greenfield: "No deviations yet — greenfield baseline."}

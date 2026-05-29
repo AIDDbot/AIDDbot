@@ -37,30 +37,20 @@ In your agent chat:
 
 This sets up `AGENTS.md`, copies `SOUL.md` (agent personality, git rules, and boundaries), and confirms skills are present.
 
-### Greenfield (new project)
+### Architecture details
 
-After `/explore`:
+After `/explore`, run once per tier (or pass `all` to queue every tier):
 
 ```markdown
-/elaborate this project to prescribe tier architecture and coding rules
+/elaborate this project to get the tier architecture and domain model
+/extract this project to get the coding rules
 ```
 
-Run once per tier (or `/elaborate all` to queue every tier). When `ER.md` exists, start building:
+Both steps are mode-aware: they **prescribe** on greenfield (no source code yet) and **describe from the codebase** on brownfield. When `ER.md` and the rules exist, start building:
 
 ```markdown
 /specify a feature requirement
 ```
-
-### Brownfield (existing codebase)
-
-After `/explore`, run once per tier:
-
-```markdown
-/excavate this codebase to get the architecture details
-/extract from this source code to get the coding rules
-```
-
-Product and structural details come from `/explore` — as proposals on greenfield, as inferred on brownfield.
 
 See [Architect pipelines](./architect.pipelines.md).
 

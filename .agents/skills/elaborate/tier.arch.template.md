@@ -43,7 +43,7 @@ C4Component
 
 ### Code organization
 
-**Pattern**: {Layer-based | Feature-based | Hybrid}. {One sentence explaining how folders will be organized.}
+**Pattern**: {Layer-based | Feature-based | Hybrid}. {One sentence explaining how folders are organized.}
 
 ```text
 {source_root}/
@@ -57,7 +57,7 @@ C4Component
 |------|---------|
 | {path/to/shared/artifact} | {What it provides and who uses it.} |
 
-{Note if no shared folder is planned and where to create one when needed.}
+{Note if no shared folder exists or is planned, and where to create one when needed.}
 
 ### Key contracts
 

@@ -2,7 +2,7 @@
 
 Paths below are under `{Product_Folder}` (default `.product/`).
 
-## Greenfield projects from scratch
+## Architecture pipeline (greenfield or brownfield)
 
 ```mermaid
 flowchart TD  
@@ -14,30 +14,6 @@ flowchart TD
   HUM -->|/establish| AGT
   HUM -->|/explore| ARC
   HUM -->|/elaborate| ARC
-  HUM -->|/elaborate| RUL
-
-  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
-```
-### Workflow
-
-```markdown
-/establish -> /explore -> /elaborate
-```
-
-`/elaborate` prescribes one tier per invocation: `{tier}.arch.md` and `{tier}.rules.md`. When every tier is done, it writes `ER.md`, then you can start features with `/specify`.
-
-## Brownfield projects with legacy code
-
-```mermaid
-flowchart TD  
-  HUM[HUMAN]
-  AGT["AGENTS.md"]:::nd
-  ARC["arch/"]:::nd
-  RUL["rules/"]:::nd
-
-  HUM -->|/establish| AGT
-  HUM -->|/explore| ARC
-  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
@@ -46,8 +22,14 @@ flowchart TD
 ### Workflow
 
 ```markdown
-/establish -> /explore -> /excavate -> /extract
+/establish -> /explore -> /elaborate -> /extract
 ```
+
+The same four steps apply to every project. Each is **mode-aware**: it prescribes on greenfield (no source code) and describes from the codebase on brownfield.
+
+- `/explore` writes `system.arch.md` and `ADR.md`.
+- `/elaborate` produces one tier per invocation: `{tier}.arch.md`. When every tier is done, it writes `ER.md`.
+- `/extract` produces `{tier}.rules.md` per tier. When the rules are complete, start features with `/specify`.
 
 ## UI from design spec
 

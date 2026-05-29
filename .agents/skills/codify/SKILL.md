@@ -18,7 +18,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 - Optional: Direct requirement as a simple textual requirement from the user.
 
 ### Prerequisites
-- `{Rules_Folder}/{tier}.rules.md` for the tier in scope — run `/elaborate` (greenfield) or `/extract` (brownfield) if missing.
+- `{Rules_Folder}/{tier}.rules.md` for the tier in scope — run `/extract` if missing.
 
 ### References
 - The context at the plan if it exists.

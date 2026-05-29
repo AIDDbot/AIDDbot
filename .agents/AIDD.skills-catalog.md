@@ -6,9 +6,8 @@
 |-------|----------------|
 | [`/establish`](./skills/establish/) | `AGENTS.md` (product + paths) and `SOUL.md` (personality + git rules) at project root (L1) |
 | [`/explore`](./skills/explore/) | System arch + ADRs — prescriptive (green) or descriptive (brown) (L2) |
-| [`/elaborate`](./skills/elaborate/) | Tier arch + ER + coding rules — greenfield only (L3 + rules) |
-| [`/excavate`](./skills/excavate/) | Tier/component arch + ER diagram — brownfield only (L3) |
-| [`/extract`](./skills/extract/) | Coding rules and conventions — brownfield only |
+| [`/elaborate`](./skills/elaborate/) | Tier/component arch + ER — prescriptive (green) or descriptive (brown) (L3) |
+| [`/extract`](./skills/extract/) | Coding rules and conventions — from the ecosystem (green) or from existing code (brown) |
 | [`/envision`](./skills/envision/) | Frontend UI from a `DESIGN.md` specification |
 
 ## Builder
@@ -33,9 +32,9 @@
 
 ## Typical loops
 
-**Greenfield (once):** `/establish` → `/explore` → `/elaborate` (per tier, then `ER.md`)
+**Architecture (once, green or brown):** `/establish` → `/explore` → `/elaborate` (per tier, then `ER.md`) → `/extract` (per tier)
 
-**Brownfield (once):** `/establish` → `/explore` → `/excavate` (per tier, then `ER.md`) → `/extract` (per tier) 
+Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 
 **Feature:** /specify → /planify → /codify → /verify → /review? → /refactor? → /release
 
