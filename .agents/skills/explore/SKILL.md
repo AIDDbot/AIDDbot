@@ -15,22 +15,21 @@ Produce two files under `{Product_Folder}/arch/`:
 
 ## Context
 
-- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+- A tier is a logical group of code that can be run separately; the project's tiers are listed in `AGENTS.md`.
 
 ### Prerequisites
 - Root `AGENTS.md` exists — run `/establish` first if missing.
 
 ### References
-- `AGENTS.md` — `{Product_Folder}`, **Technology**, **Product**
+- `AGENTS.md` — `{Product_Folder}`, **Starting point**, **Tiers**, **Technology**, **Product**
 - Templates in this folder: `system.arch.template.md`, `ADR.template.md`
 
 ## Steps
 
-### Step 1: Detect mode
-- [ ] If no source code exists → **greenfield**
-- [ ] If source code exists → **brownfield**
-- [ ] Infer if this will a monorepo with multiple projects or a single project
-> Each project is a container that belongs to a tier. A tier can be `back`, `front`, `fullstack`, `cli`, `e2e`, `db`.
+### Step 1: Confirm mode and scope
+- [ ] Read the **Starting point** from `AGENTS.md` (greenfield or brownfield) — set by `/establish`, it is the source of truth.
+- [ ] Infer whether this is a monorepo with multiple projects or a single project.
+> Each project is a container that belongs to a tier (tiers are listed in `AGENTS.md`).
 
 ### Step 2: Generate `system.arch.md`
 - [ ] Read `system.arch.template.md`.

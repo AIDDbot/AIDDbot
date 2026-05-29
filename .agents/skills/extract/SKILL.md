@@ -17,7 +17,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 
 ## Context
 
-- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+- A tier is a logical group of code that can be run separately; the project's tiers are listed in `AGENTS.md`.
 
 ### Prerequisites
 
@@ -26,20 +26,19 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 
 ### References
 
-- `AGENTS.md` — `{Rules_Folder}`, `{Source_Folders}`, **Technology**
+- `AGENTS.md` — **Starting point**, `{Rules_Folder}`, `{Source_Folders}`, **Technology**
 - `{Product_Folder}/arch/{tier}.arch.md` for the target tier
 - Template in this folder: `tier.rules.template.md`
 - **Greenfield only** — external convention sources for the tier's stack:
   - Official/community style guides (e.g. Google/Airbnb style guides, PEP 8, Effective Go, framework docs).
-  - Public rule and skill directories (e.g. https://www.skills.sh/, https://awesome-copilot.github.com/ )
+  - Public rule and skill directories (e.g. [skills.sh](https://www.skills.sh/), [awesome-copilot](https://awesome-copilot.github.com/)).
   - Prefer authoritative, stack-matching sources; adapt — do not copy verbatim.
 
 ## Steps
 
-### Step 1: Detect mode
+### Step 1: Confirm mode
 
-- [ ] If the tier has no functional source code → **greenfield** (extract from the ecosystem).
-- [ ] If source code exists → **brownfield** (extract from code).
+- [ ] Default to the **Starting point** from `AGENTS.md`. Override per tier: a tier with no functional source code is **greenfield** (extract from the ecosystem); a tier with existing code is **brownfield** (extract from code).
 - [ ] Note existing files under `{Rules_Folder}` — skip tiers already documented unless refresh requested.
 
 ### Step 2: Pick tier

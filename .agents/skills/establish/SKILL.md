@@ -28,7 +28,7 @@ Act as a senior software engineer.
 ### Step 1: Establishing the project
 
 - [ ] Check for existing `AGENTS.md`, `SOUL.md`, `CLAUDE.md`, `README.md`, `CHANGELOG.md` at the project root.
-- [ ] Classify **greenfield** (empty no functional code) vs **brownfield** (legacy features and versions)
+- [ ] Classify the **Starting point**: **greenfield** (no functional code) or **brownfield** (legacy features and versions). Record it in `AGENTS.md` — downstream skills read it from there.
 
 ### Step 2: Confirm environment values
 

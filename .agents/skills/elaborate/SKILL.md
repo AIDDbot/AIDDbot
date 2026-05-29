@@ -19,22 +19,21 @@ After all tiers:
 
 ## Context
 
-- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+- A tier is a logical group of code that can be run separately; the project's tiers are listed in `AGENTS.md`.
 
 ### Prerequisites
 - Root `AGENTS.md` exists — run `/establish` first if missing.
 - `{Product_Folder}/arch/system.arch.md` exists — run `/explore` first if missing.
 
 ### References
-- `AGENTS.md` — tier list, `{Source_Folders}`, **Technology**, **Product**
+- `AGENTS.md` — **Starting point**, tier list, `{Source_Folders}`, **Technology**, **Product**
 - `system.arch.md`, `ADR.md` — containers, stack, and foundational decisions
 - Templates in this folder: `tier.arch.template.md`, `er.template.md`
 
 ## Steps
 
-### Step 1: Detect mode
-- [ ] If the tier has no functional source code → **greenfield** (prescribe).
-- [ ] If source code exists → **brownfield** (describe from code).
+### Step 1: Confirm mode
+- [ ] Default to the **Starting point** from `AGENTS.md`. Override per tier: a tier with no functional source code is **greenfield** (prescribe); a tier with existing code is **brownfield** (describe from code).
 - [ ] Note existing files under `arch/` — skip tiers already documented unless refresh requested.
 
 ### Step 2: Pick next tier

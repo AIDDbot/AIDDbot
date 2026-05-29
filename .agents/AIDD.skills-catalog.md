@@ -4,10 +4,10 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/establish`](./skills/establish/) | `AGENTS.md` (product + paths) and `SOUL.md` (personality + git rules) at project root (L1) |
-| [`/explore`](./skills/explore/) | System arch + ADRs — prescriptive (green) or descriptive (brown) (L2) |
-| [`/elaborate`](./skills/elaborate/) | Tier/component arch + ER — prescriptive (green) or descriptive (brown) (L3) |
-| [`/extract`](./skills/extract/) | Coding rules and conventions — from the ecosystem (green) or from existing code (brown) |
+| [`/establish`](./skills/establish/) | `AGENTS.md` (product + paths) and `SOUL.md` (personality + git rules) at project root — C4 L1 |
+| [`/explore`](./skills/explore/) | System architecture + ADRs — C4 L2 |
+| [`/elaborate`](./skills/elaborate/) | Tier/component architecture + ER — C4 L3 |
+| [`/extract`](./skills/extract/) | Coding rules and conventions, one file per tier |
 | [`/envision`](./skills/envision/) | Frontend UI from a `DESIGN.md` specification |
 
 ## Builder
