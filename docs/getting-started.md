@@ -96,13 +96,16 @@ Example prompts:
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
-## Optional: UI from a design spec
+## Optional: UI design spec
+
+`/envision` authors the design specification; `/codify` implements it.
 
 ```markdown
-/envision from design specification
+/envision the UI design for this feature   → writes design/{slug}/DESIGN.md
+/codify the plan                            → implements it to the DESIGN.md tokens
 ```
 
-Place the spec at `{Product_Folder}/design/{slug}/DESIGN.md` (see [DESIGN.md](../.agents/skills/envision/DESIGN.md) for the format). See [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
+See [DESIGN.md](../.agents/skills/envision/DESIGN.md) for the spec format and [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
 
 ## Next
 

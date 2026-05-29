@@ -31,12 +31,13 @@ flowchart TD
   HUM -->|/elaborate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
+  HUM -->|/envision| DES
   AGT -.-> SPC  
   AGT -.-> ARC
   RUL -.-> COD  
   SPC -->|/planify| PLN
   ARC -.-> PLN
-  DES -.->|/envision optional| COD
+  DES -.-> COD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -64,8 +65,9 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 | Artifact | Source | Context | Lifecycle |
 |----------|--------|---------|-----------|
 | **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `pending` -> `in-progress` -> `done` |
+| **Design** | `/envision` | `system.arch.md` (front-end) | - |
 | **Plan** | `/planify` | `{tier}.arch.md`,  `ER.md` | `pending` -> `done` |
-| **Code** | `/codify`  | `{tier}.rules.md` | - |
+| **Code** | `/codify`  | `{tier}.rules.md`, `DESIGN.md` | - |
 | **E2E**  | `/verify`  | `e2e.rules.md` | - |
 
 ### Workflow index
@@ -85,7 +87,7 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 - `rules/` - Coding rules for each tier
   - `{tier}.rules.md` - Coding rules for the tier (`/extract`).
 
-- `design/` - UI design specifications (`/envision`).
+- `design/` - UI design specifications (`/envision`); implemented by `/codify`.
   - `{slug}/DESIGN.md` - Typography, color, motion, and component behavior for a feature or surface.
 
 - `specs/` - Feature specifications. 

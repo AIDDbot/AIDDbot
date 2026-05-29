@@ -8,7 +8,7 @@
 | [`/explore`](./skills/explore/) | System architecture + ADRs — C4 L2 |
 | [`/elaborate`](./skills/elaborate/) | Tier/component architecture + ER — C4 L3 |
 | [`/extract`](./skills/extract/) | Coding rules and conventions, one file per tier |
-| [`/envision`](./skills/envision/) | Frontend UI from a `DESIGN.md` specification |
+| [`/envision`](./skills/envision/) | UI design spec — tokens + component behavior for a surface |
 
 ## Builder
 
@@ -37,5 +37,7 @@
 Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 
 **Feature:** /specify → /planify → /codify → /verify → /review? → /refactor? → /release
+
+**UI design (optional, per surface):** `/envision` authors `DESIGN.md`; `/codify` implements it.
 
 **Failed verification:**  `/verify` → `/rectify` 

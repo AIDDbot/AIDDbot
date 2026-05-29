@@ -16,6 +16,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 ### Input
 - Optional: Implementation plan from `{Product_Folder}/plans/{slug}.{tier?}.plan.md`
 - Optional: Direct requirement as a simple textual requirement from the user.
+- Optional: UI design specification at `{Product_Folder}/design/{slug}/DESIGN.md` (from `/envision`).
 
 ### Prerequisites
 - `{Rules_Folder}/{tier}.rules.md` for the tier in scope — run `/extract` if missing.
@@ -24,6 +25,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 - The context at the plan if it exists.
 - Architectural decisions at `{Product_Folder}/arch/ADR.md`
 - Tier rules at `{Rules_Folder}/{tier}.rules.md`
+- UI design tokens and component behavior at `{Product_Folder}/design/{slug}/DESIGN.md`, when present
 
 ## Steps
 
@@ -41,6 +43,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 ### Step 3: Implement
 - [ ] Follow plan steps in order, or derive a plan from requirement.
 - [ ] Write the minimum code to fulfill requirements (no comments, no extra changes)
+- [ ] For UI surfaces, implement to the `DESIGN.md` tokens and component behavior when a spec exists.
 - [ ] Mark each task in the plan as `[x]` when completed.
 
 ### Step 4: Write unit tests

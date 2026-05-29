@@ -44,20 +44,20 @@ flowchart TD
   COD[Source Code]:::nd
 
   HUM -->|/envision| DES
-  DES --> COD
+  DES -->|/codify| COD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Place the design spec at `design/{slug}/DESIGN.md` or pass a path explicitly. Use existing `feat/{slug}` or create it before UI commits (same as `/codify`). Format reference: [DESIGN.md](../.agents/skills/envision/DESIGN.md). Skill: [`/envision`](../.agents/skills/envision/SKILL.md).
+`/envision` authors the design spec at `design/{slug}/DESIGN.md` (tokens + component behavior); `/codify` then implements the UI from it. Use existing `feat/{slug}` or create it before UI commits (same as `/codify`). Format reference: [DESIGN.md](../.agents/skills/envision/DESIGN.md). Skill: [`/envision`](../.agents/skills/envision/SKILL.md).
 
 ### Optional: spec-driven UI work
 
-For design systems that are part of a product feature:
+For design systems that are part of a product feature, slot `/envision` between the spec and the build:
 
 ```mermaid
 flowchart LR
-  SPC["specs/{slug}.spec.md"] --> PLN["plans/..."] --> COD["/codify"] --> ENV["/envision"]
+  SPC["specs/{slug}.spec.md"] --> ENV["/envision → DESIGN.md"] --> PLN["plans/..."] --> COD["/codify"]
 ```
 
 Then `/review` on the implementation (a11y, security, performance — findings are fixed in the same pass); optionally `/refactor` for clean-code passes.
