@@ -88,10 +88,10 @@ See [Builder pipelines](./builder.pipelines.md).
 Default loop:
 
 ```markdown
-/review -> /repair -> /release
+/review -> /release
 ```
 
-Optional hygiene (no review report — edits in place, then a detailed commit):
+Optional hygiene (edits in place, then a detailed commit):
 
 ```markdown
 /refactor the files touched by this feature
@@ -101,7 +101,6 @@ Example prompts:
 
 ```markdown
 /review the source code
-/repair reported issues
 /release a new version
 ```
 

@@ -13,8 +13,8 @@ Format for all AIDD repository commits:
 | Type | Typical use in AIDD |
 |------|---------------------|
 | `feat` | Implementation code for a feature |
-| `fix` | Bug fixes (including `/repair`) |
-| `docs` | Specs, plans, arch, rules, reports under `{Product_Folder}/` |
+| `fix` | Bug fixes (including `/review` findings) |
+| `docs` | Specs, plans, arch, rules under `{Product_Folder}/` |
 | `test` | Unit or E2E tests |
 | `chore` | `AGENTS.md`, changelog, tooling, WIP saves |
 
@@ -36,8 +36,6 @@ feat(back): implement checkout API
 test(e2e): cover checkout acceptance criteria
 
 fix(front): apply review findings for checkout
-
-docs(product): record checkout quality review
 
 chore: establish AGENTS.md
 

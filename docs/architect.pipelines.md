@@ -78,4 +78,4 @@ flowchart LR
   SPC["specs/{slug}.spec.md"] --> PLN["plans/..."] --> COD["/codify"] --> ENV["/envision"]
 ```
 
-Then `/review` on the implementation (a11y, security, performance) and `/repair` as needed; optionally `/refactor` for clean-code passes without a report.
+Then `/review` on the implementation (a11y, security, performance — findings are fixed in the same pass); optionally `/refactor` for clean-code passes.

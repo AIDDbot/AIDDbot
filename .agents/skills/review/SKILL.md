@@ -1,18 +1,18 @@
 ---
 name: review
 description: >-
-  Audits code for objective defects — accessibility (WCAG-oriented), security, and performance — and writes a single structured report for `/repair`. Does not cover clean-code or DRY (use `/refactor`). Trigger on "review this", "accessibility audit", "security review", "performance review", "check a11y", or before release when standards must be evidenced.
+  Audits code for objective defects — accessibility (WCAG-oriented), security, and performance — and fixes every finding in place. Does not cover clean-code or DRY (use `/refactor`). Trigger on "review this", "accessibility audit", "security review", "performance review", "check a11y", or before release.
 ---
 
 # Review skill
 
 ## Role
 
-Act as a standards and risk reviewer (a11y, security, performance).
+Act as a standards and risk reviewer (a11y, security, performance) who resolves findings in code.
 
 ## Task
 
-Given a code scope, evaluate against the guidelines below and produce **one** report file: `{Product_Folder}/reports/{slug}.review.report.md`.
+Given a code scope, evaluate against the guidelines below, fix every finding, and commit.
 
 ## Context
 
@@ -30,11 +30,9 @@ Given a code scope, evaluate against the guidelines below and produce **one** re
 | Security | [security.guidelines.md](./security.guidelines.md) |
 | Performance | [performance.guidelines.md](./performance.guidelines.md) |
 
-### Report
+### Scope
 
-- **Path:** `{Product_Folder}/reports/{slug}.review.report.md`
-- **Template:** [review.report.template.md](./review.report.template.md)
-- **Findings:** List only issues that should be fixed. Every table row is input for `/repair`.
+- List only issues that should be fixed.
 - Omit informational items, style preferences, and clean-code nits (those belong in `/refactor`).
 
 ## Steps
@@ -43,21 +41,30 @@ Given a code scope, evaluate against the guidelines below and produce **one** re
 
 - [ ] Identify files in scope; if ambiguous, ask the minimum clarifying questions.
 
-### Step 2: Load template and guides
+### Step 2: Load guides
 
-- [ ] Open [review.report.template.md](./review.report.template.md) and all guideline files above.
+- [ ] Open all guideline files above.
 
-### Step 3: Evaluate the code
+### Step 3: Evaluate and fix
 
 - [ ] Per file: data flow, trust boundaries, UI surface, I/O and query patterns.
-- [ ] Record each finding in the matching section: File, Issue, Description, Recommendation
-- [ ] Make the recommendation actionable for `/repair`.
+- [ ] For each finding: apply the fix immediately with minimal diffs.
+- [ ] Re-read each file after edits.
+
+### Step 4: Commit (required)
+
+- [ ] Invoke **`/repository`** once work is complete and produce **one** conventional commit.
+- [ ] Commit **subject**: concise imperative (e.g. `fix(front): resolve a11y labels on checkout`).
+- [ ] Commit **body** (mandatory when fixes were applied): bullet list of every defect fixed — dimension (a11y/security/performance), file, and what changed.
 
 ## Output
 
-- [ ] Report at `{Product_Folder}/reports/review.report.md`.
+- [ ] Fixed code in scope (or confirmation of no findings).
+- [ ] One detailed commit via `/repository` when fixes were applied.
+- [ ] Chat summary of what was fixed, or "No findings".
 
 ## Verification
 
 - [ ] All scope files considered for a11y, security, and performance.
-- [ ] Report is written; no subjective clean-code rows.
+- [ ] No subjective clean-code edits.
+- [ ] No unrelated code was modified.

@@ -2,41 +2,31 @@
 
 Paths below are under `{Product_Folder}` (default `.product/`).
 
-## Build features or complex improvements
+## Quality and release
 
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
   COD["{tier}/"]:::nd
-  RPT["reports/{slug}.review.report.md"]:::nd
   CHL["CHANGELOG.md"]:::nd
   
-  HUM -->|/review| RPT
-  RPT -->|/repair| COD
+  HUM -->|/review| COD
+  HUM -->|/refactor| COD
   COD -->|/release| CHL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Hygiene without a review report: **`/refactor`** edits code in place, then uses **`/repository`** for one detailed conventional commit; run unit and E2E tests (or **`/verify`**) afterward.
+Both **`/review`** and **`/refactor`** edit code in place, then use **`/repository`** for one detailed conventional commit; run unit and E2E tests (or **`/verify`**) afterward.
 
 ### Workflow
-
-#### On success
 
 ```markdown
 /review -> /release
 ```
 
-#### On failed
-
-```markdown
-/review -> /repair -> /release
-```
-
-Optional (clean code / DRY, no `{slug}.review.report.md`):
+Optional (clean code / DRY):
 
 ```markdown
 /refactor -> (tests) -> /release
 ```
-

@@ -1,6 +1,6 @@
 # Clean-code guidelines
 
-Reference for `/refactor`. **Behavior-preserving** improvements only. For accessibility, security, or performance defects, use `/review` → `/repair`. Orchestration: [refactor SKILL](./SKILL.md).
+Reference for `/refactor`. **Behavior-preserving** improvements only. For accessibility, security, or performance defects, use `/review`. Orchestration: [refactor SKILL](./SKILL.md).
 
 ## Variables and naming
 

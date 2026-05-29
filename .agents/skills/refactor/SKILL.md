@@ -1,7 +1,7 @@
 ---
 name: refactor
 description: >-
-  Improves implementation quality (clean code, DRY, readability, structure) without changing observable behavior. Applies edits directly — no report file. After edits, creates one detailed conventional commit via `/repository` and instructs the user to run tests (or `/verify`). For a11y, security, or performance defects, use `/review` → `/repair`. Trigger on "refactor this", "clean up this code", "apply clean code", "DRY this", or for behavior-preserving hygiene after `/codify`.
+  Improves implementation quality (clean code, DRY, readability, structure) without changing observable behavior. Applies edits directly. After edits, creates one detailed conventional commit via `/repository` and instructs the user to run tests (or `/verify`). For a11y, security, or performance defects, use `/review`. Trigger on "refactor this", "clean up this code", "apply clean code", "DRY this", or for behavior-preserving hygiene after `/codify`.
 ---
 
 # Refactor skill
@@ -12,7 +12,7 @@ Act as a senior engineer doing **behavior-preserving** refactors.
 
 ## Task
 
-Improve structure, naming, and duplication in the agreed scope. Do **not** fold accessibility, security, or performance remediation into this pass unless the user explicitly asks — use `/review` then `/repair` for those.
+Improve structure, naming, and duplication in the agreed scope. Do **not** fold accessibility, security, or performance remediation into this pass unless the user explicitly asks — use `/review` for those.
 
 ## Context
 

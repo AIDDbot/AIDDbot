@@ -10,7 +10,6 @@ flowchart TD
   subgraph P["{Product_Folder}"]
       SPC["specs/"]:::nd
       PLN["plans/"]:::nd
-      RPT["reports/"]:::nd
       ARC["arch/"]:::nd
       RUL["rules/"]:::nd
       DES["design/"]:::nd
@@ -44,8 +43,7 @@ flowchart TD
   PLN -->|/codify| COD
   COD -->|/verify| E2E
   E2E -->|/rectify| COD
-  COD -->|/review| RPT
-  RPT -->|/repair| COD
+  COD -->|/review| COD
   COD -->|/release| CHL
 
   class P,A,S sg
@@ -89,19 +87,13 @@ flowchart TD
   - `{slug}/DESIGN.md` - Typography, color, motion, and component behavior for a feature or surface.
 
 - `specs/` - Feature specifications. 
-  - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria).
+  - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria). Failed `/verify` runs add a Rectify section for `/rectify`.
 
 - `plans/` - Implementation plans.
   - `{slug}.{tier?}.plan.md` - Implementation plans for the feature in each tier.
-
-- `reports/` - Findings from `/review` and `/verify`
-  - `{slug}.review.report.md` — accessibility, security, and performance (→ `/repair`)
-  - `{slug}.verify.report.md` — E2E verification outcomes (→ `/rectify` on failure)
 
 ### Solution
 
 - `{tier}/`- The source code and unit tests of the tier.
 - `e2e/` - End-to-end tests 
 - `CHANGELOG.md` - A log of all notable changes made to the codebase.
-
-

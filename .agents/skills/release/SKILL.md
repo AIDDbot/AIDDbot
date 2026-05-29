@@ -52,7 +52,6 @@ Given one or more verified specifications, bump the project version, record chan
 ### Step 4: Update the project history
 - [ ] Update the changelog entry for the new version.
 - [ ] Update the spec frontmatter to `status: done` and `released-version: {new_version}`.
-- [ ] Remove existing reports from the `reports/` folder.
 
 ## Output
 - [ ] Commit the changes via `/repository` skill.

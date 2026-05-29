@@ -35,7 +35,7 @@ See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and w
 |-------|--------|
 | [Architect](docs/architect.pipelines.md) | `/establish`, `/explore`, `/elaborate`, `/excavate`, `/extract`, `/envision` |
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify`, `/rectify` |
-| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/repair`, `/refactor`, `/release`  |
+| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/refactor`, `/release`  |
 | *(cross-cutting)* | `/repository` |
 
 ## Quick start

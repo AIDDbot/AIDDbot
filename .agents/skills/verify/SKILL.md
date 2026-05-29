@@ -56,21 +56,19 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] If tests keep failing, stop iterating.
 - [ ] Tear down the test environment.
 
-### Step 5: Report
+### Step 5: Record outcomes
 - [ ] Mark each criterion in the spec as `[x]` when tests pass.
-- [ ] Leave the failed criteria as `[ ]` in the spec.
-- [ ] Add a rectify section to the spec with the steps to rectify the failures.
+- [ ] Leave failed criteria as `[ ]` in the spec.
+- [ ] When tests fail, add or update a **Rectify** section in the spec: failing test names, expected vs actual, and suggested fix per failure.
 
 ## Output
 - [ ] E2E test suite executed.
-- [ ] Write a Verify report at `{Product_Folder}/reports/verify.report.md`.
-- [ ] The report should include links and paths to any relevant files or folders or screenshots.
-- [ ] In any case keep spec as `in-progress`.
+- [ ] Spec acceptance criteria and Rectify section updated when applicable.
+- [ ] Keep spec as `in-progress` until all criteria pass.
 - [ ] Commit via `/repository`.
-- [ ] If there are errors, suggest `/rectify` to fix the report.
-- [ ] If there are no errors suggest `/review` to find defects in a11y, security, and performance.
+- [ ] If there are failures, suggest `/rectify` on `{slug}.spec.md`.
+- [ ] If all tests pass, suggest `/review` for a11y, security, and performance.
 
 ## Verification
 - [ ] All tests are executed.
 - [ ] Servers or apps are stopped.
-- [ ] The Verify report is written.

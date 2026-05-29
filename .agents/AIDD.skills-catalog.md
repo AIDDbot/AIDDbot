@@ -16,19 +16,18 @@
 | Skill | What it does |
 |-------|----------------|
 | [`/specify`](./skills/specify/) | Specs with acceptance criteria |
-| [`/planify`](./skills/planify/) | Implementation plans from spec or report |
+| [`/planify`](./skills/planify/) | Implementation plans from spec |
 | [`/codify`](./skills/codify/) | Code and unit tests from plans |
-| [`/verify`](./skills/verify/) | E2E tests; verify report on failure → `/rectify` |
-| [`/rectify`](./skills/rectify/) | Fixes from verify report |
+| [`/verify`](./skills/verify/) | E2E tests; updates spec on failure → `/rectify` |
+| [`/rectify`](./skills/rectify/) | Fixes from spec Rectify section after failed `/verify` |
 
 ## Craftsman
 
 | Skill | What it does |
 |-------|----------------|
-| [`/review`](./skills/review/) | Single `{slug}.review.report.md` (a11y, security, performance) → `/repair` |
-| [`/repair`](./skills/repair/) | Fixes from review report findings (a11y, security, performance). |
+| [`/review`](./skills/review/) | Audit a11y, security, performance; fix findings in place |
+| [`/refactor`](./skills/refactor/) | Clean-code / DRY refactors; detailed commit + test handoff |
 | [`/release`](./skills/release/) | Version, changelog, spec `done` + `released-version` |
-| [`/refactor`](./skills/refactor/) | Clean-code / DRY refactors (no report); detailed commit + test handoff |
 
 ## Director
 
@@ -47,5 +46,3 @@
 **Feature:** /specify → /planify → /codify → /verify → /review? → /refactor? → /release
 
 **Failed verification:**  `/verify` → `/rectify` 
-
-**Failed review:**  `/review` → `/repair`

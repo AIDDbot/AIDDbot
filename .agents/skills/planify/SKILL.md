@@ -30,7 +30,7 @@ Given a spec produce one or more implementation plan files — one per tier — 
 ### Plan naming convention
 
 `{Product_Folder}/plans/{slug}.{tier?}.plan.md` 
-- `{slug}`: the slug of the spec, report or derived from the input.
+- `{slug}`: the slug of the spec or derived from the input.
 - `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
 
 ## Steps
