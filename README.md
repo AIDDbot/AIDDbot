@@ -40,7 +40,7 @@ See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and w
 ## Quick start
 
 ```bash
-git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
+git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth 1
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
