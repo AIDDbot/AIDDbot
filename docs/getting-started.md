@@ -7,7 +7,7 @@ Skills are plain markdown under `.agents/skills/` — no package install, no bin
 From your **destination repository root**:
 
 ```bash
-git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp
+git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth 1
 ```
 
 Copy `.agents` into your project, then remove the temporary clone.
