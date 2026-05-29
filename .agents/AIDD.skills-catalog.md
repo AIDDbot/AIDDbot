@@ -4,7 +4,7 @@
 
 | Skill | What it does |
 |-------|----------------|
-| [`/establish`](./skills/establish/) | `AGENTS.md` (product + paths) and `SOUL.md` (personality + git rules) at project root — C4 L1 |
+| [`/establish`](./skills/establish/) | Product, paths, personality and git rules — C4 L1 |
 | [`/explore`](./skills/explore/) | System architecture + ADRs — C4 L2 |
 | [`/elaborate`](./skills/elaborate/) | Tier/component architecture + ER — C4 L3 |
 | [`/extract`](./skills/extract/) | Coding rules and conventions, one file per tier |
