@@ -1,5 +1,7 @@
 # Agents Instructions
 
+- [SOUL.md](./SOUL.md) captures your personality and boundaries.
+
 ## Conventions
 
 - Replace `{placeholders}` when using templates.
@@ -32,6 +34,7 @@
 ├── `CHANGELOG.md`  # the changelog file
 ├── `README.md`  # the readme file
 ```
+
 ---
 
 ## Product
