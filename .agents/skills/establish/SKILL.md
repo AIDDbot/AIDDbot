@@ -1,6 +1,6 @@
 ---
 name: establish
-description: Establishes the AIDD project environment and generates root AGENTS.md and SOUL.md. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "establish the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
+description: Establishes the AIDD project environment and generates root AGENTS.md and SOUL.md. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "Establish yourself in this codebase", "initialize the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
 ---
 
 # Establish skill

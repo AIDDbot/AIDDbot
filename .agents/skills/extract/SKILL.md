@@ -31,7 +31,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 - Template in this folder: `tier.rules.template.md`
 - **Greenfield only** — external convention sources for the tier's stack:
   - Official/community style guides (e.g. Google/Airbnb style guides, PEP 8, Effective Go, framework docs).
-  - Public rule and skill directories (e.g. `.cursor/rules`, `awesome-cursorrules`, agent skill catalogs) that target the same stack.
+  - Public rule and skill directories (e.g. https://www.skills.sh/, https://awesome-copilot.github.com/ )
   - Prefer authoritative, stack-matching sources; adapt — do not copy verbatim.
 
 ## Steps
