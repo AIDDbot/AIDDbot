@@ -53,14 +53,14 @@ Given a code scope, evaluate against the guidelines below, fix every finding, an
 
 ### Step 4: Commit (required)
 
-- [ ] Invoke **`/repository`** once work is complete and produce **one** conventional commit.
+- [ ] Commit with conventional message (`fix`) — **one** commit when fixes were applied.
 - [ ] Commit **subject**: concise imperative (e.g. `fix(front): resolve a11y labels on checkout`).
 - [ ] Commit **body** (mandatory when fixes were applied): bullet list of every defect fixed — dimension (a11y/security/performance), file, and what changed.
 
 ## Output
 
 - [ ] Fixed code in scope (or confirmation of no findings).
-- [ ] One detailed commit via `/repository` when fixes were applied.
+- [ ] One detailed conventional commit when fixes were applied.
 - [ ] Chat summary of what was fixed, or "No findings".
 
 ## Verification

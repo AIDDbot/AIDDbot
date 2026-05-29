@@ -39,7 +39,7 @@ Given a spec with failed acceptance criteria and a Rectify section from `/verify
 ## Output 
 - [ ] Summarize in chat what was fixed and what was skipped.
 - [ ] Keep spec as `in-progress`.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`fix`; scope `{slug}` or tier).
 - [ ] Suggest `/verify` on `{slug}.spec.md` to confirm.
 
 ## Verification

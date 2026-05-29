@@ -31,10 +31,10 @@ Given an implementation plan, or requirement, write the code necessary to implem
 - [ ] If incomplete or ambiguous, ask the minimum questions needed.
 
 ### Step 2: Before coding
-- [ ] Commit any pending work using repository skill.
+- [ ] Commit any pending work with conventional message before branching.
 
 #### If following a spec plan
-- [ ] Work on a feature branch `feat/{slug}`. If not exists, create it using repository skill.
+- [ ] Work on feature branch `feat/{slug}`; create from the default branch if missing.
 - [ ] Mark the spec as `in-progress`.
 - [ ] Mark the plan as `in-progress`.
 
@@ -56,7 +56,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 
 ## Output
 - [ ] Working code in the appropriate files.
-- [ ] Commit changes following the repository skill.	
+- [ ] Commit with conventional message (`feat`; scope tier or `{slug}`).
 
 ## Verification
 - [ ] Code compiles.

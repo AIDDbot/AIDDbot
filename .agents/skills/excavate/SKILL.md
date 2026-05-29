@@ -55,7 +55,7 @@ Produce under `{Product_Folder}/arch/`:
 - [ ] Summarize what was written and flag ambiguities.
 - [ ] Do not add sections or columns beyond the template. Try to keep them under 100 lines.
 - [ ] Write `{tier}.arch.md` and `ER.md` files under `{Product_Folder}/arch/`.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`docs`; scope tier or `product`).
 - [ ] If tiers remain: suggest `/excavate {next-tier}`.
 - [ ] If all done: suggest `/extract`.
 

@@ -67,7 +67,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Place the design spec at `design/{slug}/DESIGN.md` or pass a path explicitly. Use existing `feat/{slug}` or create it per `AGENTS.md` before UI commits (same as `/codify`). Format reference: [DESIGN.md](../.agents/skills/envision/DESIGN.md). Git: [`/envision`](../.agents/skills/envision/SKILL.md) and [`/repository`](../.agents/skills/repository/SKILL.md).
+Place the design spec at `design/{slug}/DESIGN.md` or pass a path explicitly. Use existing `feat/{slug}` or create it before UI commits (same as `/codify`). Format reference: [DESIGN.md](../.agents/skills/envision/DESIGN.md). Skill: [`/envision`](../.agents/skills/envision/SKILL.md).
 
 ### Optional: spec-driven UI work
 

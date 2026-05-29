@@ -68,7 +68,7 @@ After all tiers:
 - [ ] Summarize what was written and flag open decisions for the user.
 - [ ] Do not add sections or columns beyond the templates. Try to keep each file under 100 lines.
 - [ ] Write `arch/{tier}.arch.md` and `{Rules_Folder}/{tier}.rules.md` for the current tier; write `arch/ER.md` only when all tiers are complete.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`docs`; scope tier or `product`).
 - [ ] If tiers remain: suggest `/elaborate {next-tier}`.
 - [ ] If all tiers and `ER.md` are done: suggest `/specify` for the first feature.
 

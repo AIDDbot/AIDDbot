@@ -12,7 +12,7 @@ Act as a release manager preparing a versioned, documented shipment.
 
 ## Task
 
-Given one or more verified specifications, bump the project version, record changes in `CHANGELOG.md`, update human-facing docs, set spec status to `done`, and commit via `/repository`.
+Given one or more verified specifications, bump the project version, record changes in `CHANGELOG.md`, update human-facing docs, set spec status to `done`, and commit with conventional message (`chore`).
 
 ## Context
 
@@ -54,7 +54,7 @@ Given one or more verified specifications, bump the project version, record chan
 - [ ] Update the spec frontmatter to `status: done` and `released-version: {new_version}`.
 
 ## Output
-- [ ] Commit the changes via `/repository` skill.
+- [ ] Commit with conventional message (`chore`; include version in summary).
 - [ ] Create a git tag for the new version.
 - [ ] Merge the changes into the default branch.
 

@@ -56,7 +56,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 - [ ] Summarize artifact roles covered and dominant patterns found.
 - [ ] Do not add sections or columns beyond the template. Try to keep them under 100 lines.
 - [ ] Write `{tier}.rules.md` file under `{Rules_Folder}`.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`docs`; scope tier or `product`).
 - [ ] Suggest next missing tier, or "Conventions are complete" if all done.
 
 ## Verification

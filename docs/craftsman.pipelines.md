@@ -17,7 +17,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-Both **`/review`** and **`/refactor`** edit code in place, then use **`/repository`** for one detailed conventional commit; run unit and E2E tests (or **`/verify`**) afterward.
+Both **`/review`** and **`/refactor`** edit code in place, then commit one detailed conventional message; run unit and E2E tests (or **`/verify`**) afterward.
 
 ### Workflow
 

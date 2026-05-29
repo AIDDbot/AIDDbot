@@ -12,7 +12,7 @@ Act as a senior software engineer.
 ## Task
 
 - Create or update root `AGENTS.md` with instructions for the whole SDLC workflow.
-- Copy root `SOUL.md` from the fixed skill template (personality and boundaries — no placeholders).
+- Copy root `SOUL.md` from the fixed skill template (personality, git rules, and boundaries — no placeholders).
 
 ## Context
 
@@ -49,7 +49,7 @@ Act as a senior software engineer.
 - [ ] Write `AGENTS.md` at the project root following the template structure.
 - [ ] Copy [SOUL.md](./SOUL.md) to the project root unchanged (overwrite only if the user confirms or the file is missing).
 - [ ] Do not add sections or columns beyond the AGENTS template. Try to keep `AGENTS.md` under 100 lines.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`chore`).
 - [ ] Suggest `/explore`, then `/elaborate` (greenfield) or `/excavate` + `/extract` (brownfield).
 
 ## Verification

@@ -55,6 +55,10 @@ flowchart TD
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
 - **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 
+## Git
+
+Branch naming and git safety rules live in project `SOUL.md` (from `/establish`).
+
 ## Artifacts
 
 ## SDD (Source, Context, Lifecycle)

@@ -65,7 +65,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] E2E test suite executed.
 - [ ] Spec acceptance criteria and Rectify section updated when applicable.
 - [ ] Keep spec as `in-progress` until all criteria pass.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`test`; scope `e2e` or `{slug}`).
 - [ ] If there are failures, suggest `/rectify` on `{slug}.spec.md`.
 - [ ] If all tests pass, suggest `/review` for a11y, security, and performance.
 

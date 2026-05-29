@@ -35,7 +35,7 @@ In your agent chat:
 /explore this project
 ```
 
-This sets up `AGENTS.md`, copies `SOUL.md` (agent personality and boundaries), and confirms skills are present.
+This sets up `AGENTS.md`, copies `SOUL.md` (agent personality, git rules, and boundaries), and confirms skills are present.
 
 ### Greenfield (new project)
 
@@ -117,6 +117,6 @@ Place the spec at `{Product_Folder}/design/{slug}/DESIGN.md` (see [DESIGN.md](..
 ## Next
 
 - [Why AIDD](../README.md#why-aidd) — principles and who this is for
-- [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts, git rules
+- [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts, git rules in `SOUL.md`
 - [Skills catalog](../.agents/AIDD.skills-catalog.md) — prerequisites and when to use each skill
 

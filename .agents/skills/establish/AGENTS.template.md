@@ -30,7 +30,7 @@
 ├── `{Product_Folder}  # this particular product content folder
 ├── `{Source_Folders}`  # the source code folders (can be multiple)
 ├── `AGENTS.md`  # project environment, product, and workflow paths
-├── `SOUL.md`  # agent personality, communication, and boundaries
+├── `SOUL.md`  # agent personality, git rules, and boundaries
 ├── `CHANGELOG.md`  # the changelog file
 ├── `README.md`  # the readme file
 ```

@@ -1,7 +1,7 @@
 ---
 name: refactor
 description: >-
-  Improves implementation quality (clean code, DRY, readability, structure) without changing observable behavior. Applies edits directly. After edits, creates one detailed conventional commit via `/repository` and instructs the user to run tests (or `/verify`). For a11y, security, or performance defects, use `/review`. Trigger on "refactor this", "clean up this code", "apply clean code", "DRY this", or for behavior-preserving hygiene after `/codify`.
+  Improves implementation quality (clean code, DRY, readability, structure) without changing observable behavior. Applies edits directly. After edits, creates one detailed conventional commit and instructs the user to run tests (or `/verify`). For a11y, security, or performance defects, use `/review`. Trigger on "refactor this", "clean up this code", "apply clean code", "DRY this", or for behavior-preserving hygiene after `/codify`.
 ---
 
 # Refactor skill
@@ -42,7 +42,7 @@ Improve structure, naming, and duplication in the agreed scope. Do **not** fold 
 
 ### Step 4: Commit (required)
 
-- [ ] Invoke **`/repository`** once work is complete and produce **one** conventional commit.
+- [ ] Commit with conventional message (`refactor` or `chore`) — **one** commit for all work in scope.
 - [ ] Commit **subject**: concise imperative (e.g. `refactor(api): extract validation helpers`).
 - [ ] Commit **body** (mandatory, detailed): bullet or numbered list of every substantive change — files touched, renames, extractions, deleted duplication, and **why** it is safer or clearer. The body must be detailed enough for a reviewer to reconstruct intent without reading the whole diff.
 
@@ -55,7 +55,7 @@ Improve structure, naming, and duplication in the agreed scope. Do **not** fold 
 ## Output
 
 - [ ] Refactored code in scope.
-- [ ] One detailed commit via `/repository`.
+- [ ] One detailed conventional commit when work is complete.
 - [ ] Explicit test instructions or results plus `/verify` suggestion when applicable.
 
 ## Verification

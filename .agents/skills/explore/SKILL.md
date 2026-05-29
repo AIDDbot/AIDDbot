@@ -47,7 +47,7 @@ Produce two files under `{Product_Folder}/arch/`:
 - [ ] Summarize what was written and flag ambiguities.
 - [ ] Do not add sections or columns beyond the template. Try to keep them under 100 lines.
 - [ ] Write `system.arch.md` and `ADR.md` files under `{Product_Folder}/arch/`.
-- [ ] Commit via `/repository`.
+- [ ] Commit with conventional message (`docs`; scope `product` or area).
 - [ ] Suggest next step: `/excavate` (brownfield) or `/elaborate` (greenfield).
 
 ## Verification
