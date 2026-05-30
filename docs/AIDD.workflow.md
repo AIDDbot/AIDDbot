@@ -60,9 +60,7 @@ flowchart TD
 
 Branch naming and git safety rules live in project `SOUL.md` (from `/establish`).
 
-## Artifacts
-
-## SDD (Source, Context, Output, Status)
+## SDD Artifacts (Source, Context, Output, Status)
 
 Builder artifacts in pipeline order. `Status` is the `status` frontmatter value; artifacts without frontmatter show `—`.
 
