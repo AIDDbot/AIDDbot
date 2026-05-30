@@ -1,9 +1,9 @@
 ---
-name: elaborate
-description: Defines component-level architecture and the domain model for each tier. Greenfield prescribes structure and contracts; brownfield extracts them from the codebase. Use after /explore, before /extract. Trigger on "elaborate this project", "define tier architecture", "document the components", "extract the domain model", "I need component docs".
+name: excavate
+description: Digs deep into component-level architecture and the domain model for each tier. Greenfield prescribes structure and contracts from model knowledge and ecosystem best practices; brownfield excavates them from legacy code and documentation. Use after /explore, before /extract. Trigger on "excavate this project", "define tier architecture", "document the components", "extract the domain model", "I need component docs".
 ---
 
-# Elaborate skill
+# Excavate skill
 
 ## Role
 Act as a senior software architect.
@@ -44,8 +44,8 @@ After all tiers:
 ### Step 3: Generate `{tier}.arch.md`
 - [ ] Read `tier.arch.template.md`.
 - [ ] Align with the `system.arch.md` container for this tier (folder, archetype, responsibilities).
-- [ ] **Greenfield**: prescribe code organization (layer / feature / hybrid), components, shared artifacts, key contracts, and storage — consistent with ADRs. Propose dev commands from the chosen stack (init, build, run, test, lint) even if folders do not exist yet.
-- [ ] **Brownfield**: read ALL source files in the tier's folder. Detect the actual code organization pattern; document components, shared artifacts, key contracts, and storage infrastructure as they exist.
+- [ ] **Greenfield**: prescribe code organization (layer / feature / hybrid), components, shared artifacts, key contracts, and storage — consistent with ADRs. Ground the prescription in the chosen stack's conventions (official docs, framework scaffolding defaults, a known reference architecture) and **name that source** so `/extract` and `/codify` can follow it; fall back to model priors only when no convention exists. Propose dev commands from the chosen stack (init, build, run, test, lint) even if folders do not exist yet.
+- [ ] **Brownfield**: read ALL source files in the tier's folder **and existing docs (README, ADRs, comments)** to recover intent the code alone doesn't show. Detect the actual code organization pattern; document components, shared artifacts, key contracts, and storage infrastructure as they exist.
 
 ### Step 4: Generate `ER.md` (after all tiers are done)
 - [ ] Read `er.template.md`.
@@ -58,7 +58,7 @@ After all tiers:
 - [ ] Do not add sections or columns beyond the templates. Try to keep each file under 100 lines.
 - [ ] Write `arch/{tier}.arch.md` for the current tier; write `arch/ER.md` only when all tiers are complete.
 - [ ] Commit with conventional message (`docs`; scope tier or `product`).
-- [ ] If tiers remain: suggest `/elaborate {next-tier}`.
+- [ ] If tiers remain: suggest `/excavate {next-tier}`.
 - [ ] If all tiers and `ER.md` are done: suggest `/extract` for coding rules.
 
 ## Verification

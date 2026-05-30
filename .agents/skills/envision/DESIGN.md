@@ -1,5 +1,5 @@
 ---
-name: Totality Festival Design System
+name: Spatial Festival Design System
 colors:
   surface: "#121318"
   surface-dim: "#121318"

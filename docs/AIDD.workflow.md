@@ -28,7 +28,7 @@ flowchart TD
 
   HUM -->|/establish| AGT
   HUM -->|/explore| ARC
-  HUM -->|/elaborate| ARC
+  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
   HUM -->|/envision| DES
@@ -80,9 +80,9 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 
 - `arch/` - Full architecture set for planning and coding. 
   - `system.arch.md` - Containers and technology stack (`/explore`).
-  - `{tier}.arch.md` - Per-tier stack, dev commands, code organization (`/elaborate`).
+  - `{tier}.arch.md` - Per-tier stack, dev commands, code organization (`/excavate`).
   - `ADR.md` - Architectural decisions (`/explore`).
-  - `ER.md` - Domain model (`/elaborate` when all tiers are done).
+  - `ER.md` - Domain model (`/excavate` when all tiers are done).
 
 - `rules/` - Coding rules for each tier
   - `{tier}.rules.md` - Coding rules for the tier (`/extract`).

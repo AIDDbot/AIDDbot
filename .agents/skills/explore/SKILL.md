@@ -47,7 +47,7 @@ Produce two files under `{Product_Folder}/arch/`:
 - [ ] Do not add sections or columns beyond the template. Try to keep them under 100 lines.
 - [ ] Write `system.arch.md` and `ADR.md` files under `{Product_Folder}/arch/`.
 - [ ] Commit with conventional message (`docs`; scope `product` or area).
-- [ ] Suggest next step: `/elaborate` (then `/extract`).
+- [ ] Suggest next step: `/excavate` (then `/extract`).
 
 ## Verification
 - [ ] Mermaid diagrams render; no placeholders remain.

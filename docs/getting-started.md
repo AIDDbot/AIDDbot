@@ -42,7 +42,7 @@ This sets up `AGENTS.md`, copies `SOUL.md` (agent personality, git rules, and bo
 After `/explore`, run once per tier (or pass `all` to queue every tier):
 
 ```markdown
-/elaborate this project to get the tier architecture and domain model
+/excavate this project to get the tier architecture and domain model
 /extract this project to get the coding rules
 ```
 

@@ -37,7 +37,7 @@ Keep the skill; reposition it from per-surface → **project design system**.
    - `{Product_Folder}/design/DESIGN.md` (single frontend), or
    - `{Product_Folder}/design/{tier}.design.md` for genuinely distinct frontends (app vs marketing vs admin).
 2. **Runs once in the Architect loop**, after `/extract` (front only):
-   `/establish -> /explore -> /elaborate -> /extract -> /envision (front only)`
+   `/establish -> /explore -> /excavate -> /extract -> /envision (front only)`
 3. **`front.rules.md` cross-references it** so it's discoverable as the visual half of the front rules.
 
 ## Answers to the open questions

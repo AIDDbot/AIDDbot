@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Produces coding conventions (one rules file per tier) that agents must follow. Greenfield extracts conventions from the ecosystem (official style guides, framework docs, public rule/skill directories); brownfield extracts the dominant patterns from existing code. Use after /elaborate. Trigger on "extract conventions", "generate coding rules", "define coding rules", "I need coding patterns before codifying".
+description: Produces coding conventions (one rules file per tier) that agents must follow. Greenfield extracts conventions from the ecosystem (official style guides, framework docs, public rule/skill directories); brownfield extracts the dominant patterns from existing code. Use after /excavate. Trigger on "extract conventions", "generate coding rules", "define coding rules", "I need coding patterns before codifying".
 ---
 
 # Extract skill
@@ -22,7 +22,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 ### Prerequisites
 
 - Root `AGENTS.md` exists.
-- `{Product_Folder}/arch/{tier}.arch.md` exists — run `/elaborate` first if missing.
+- `{Product_Folder}/arch/{tier}.arch.md` exists — run `/excavate` first if missing.
 
 ### References
 

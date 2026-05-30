@@ -6,7 +6,7 @@
 |-------|----------------|
 | [`/establish`](./skills/establish/) | Product, paths, personality and git rules — C4 L1 |
 | [`/explore`](./skills/explore/) | System architecture + ADRs — C4 L2 |
-| [`/elaborate`](./skills/elaborate/) | Tier/component architecture + ER — C4 L3 |
+| [`/excavate`](./skills/excavate/) | Tier/component architecture + ER — C4 L3 |
 | [`/extract`](./skills/extract/) | Coding rules and conventions, one file per tier |
 | [`/envision`](./skills/envision/) | UI design spec — tokens + component behavior for a surface |
 
@@ -32,7 +32,7 @@
 
 ## Typical loops
 
-**Architecture (once, green or brown):** `/establish` → `/explore` → `/elaborate` (per tier, then `ER.md`) → `/extract` (per tier)
+**Architecture (once, green or brown):** `/establish` → `/explore` → `/excavate` (per tier, then `ER.md`) → `/extract` (per tier)
 
 Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 

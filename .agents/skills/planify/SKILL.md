@@ -18,7 +18,7 @@ Given a spec produce one or more implementation plan files — one per tier — 
 
 ### Prerequisites
 - `{Product_Folder}/arch/system.arch.md` — run `/explore` if missing.
-- `{tier}.arch.md` and `ER.md` for tiers in scope — run `/elaborate` if missing.
+- `{tier}.arch.md` and `ER.md` for tiers in scope — run `/excavate` if missing.
 
 ### References
 

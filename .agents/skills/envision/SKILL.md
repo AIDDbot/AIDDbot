@@ -13,7 +13,7 @@ Act as a senior product designer and design-system architect.
 
 Produce a UI design specification at `{Product_Folder}/design/{slug}/DESIGN.md`: design tokens (color, typography, spacing, radius, elevation) and component behavior for a feature or surface.
 
-> Architect-phase, per surface: envision defines the UI's shape (as `/elaborate` defines a tier's). It does not write application code — `/codify` implements the design.
+> Architect-phase, per surface: envision defines the UI's shape (as `/excavate` defines a tier's). It does not write application code — `/codify` implements the design.
 
 ## Context
 

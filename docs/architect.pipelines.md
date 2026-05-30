@@ -13,7 +13,7 @@ flowchart TD
 
   HUM -->|/establish| AGT
   HUM -->|/explore| ARC
-  HUM -->|/elaborate| ARC
+  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
@@ -22,13 +22,13 @@ flowchart TD
 ### Workflow
 
 ```markdown
-/establish -> /explore -> /elaborate -> /extract
+/establish -> /explore -> /excavate -> /extract
 ```
 
 The same four steps apply to every project. Each is **mode-aware**: it prescribes on greenfield (no source code) and describes from the codebase on brownfield.
 
 - `/explore` writes `system.arch.md` and `ADR.md`.
-- `/elaborate` produces one tier per invocation: `{tier}.arch.md`. When every tier is done, it writes `ER.md`.
+- `/excavate` produces one tier per invocation: `{tier}.arch.md`. When every tier is done, it writes `ER.md`.
 - `/extract` produces `{tier}.rules.md` per tier. When the rules are complete, start features with `/specify`.
 
 ## UI from design spec
