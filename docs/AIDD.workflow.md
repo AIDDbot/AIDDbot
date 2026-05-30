@@ -62,16 +62,18 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 
 ## Artifacts
 
-## SDD (Source, Context, Lifecycle)
+## SDD (Source, Output, Context, Status)
 
-| Artifact | Source | Context | Lifecycle |
-|----------|--------|---------|-----------|
-| **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `pending` -> `in-progress` -> `done` |
-| **Design** | `/extract` | `{tier}.arch.md` (presentation tier), brand | - |
-| **Plan** | `/planify` | `{tier}.arch.md`,  `ER.md` | `pending` -> `done` |
-| **Code** | `/codify`  | `{tier}.rules.md`, `DESIGN.md` | - |
-| **E2E**  | `/verify`  | `e2e.rules.md` | - |
-| **Verify report** | `/verify` | `spec.md`, E2E run | rewritten each run |
+`Status` is the `status` frontmatter value; artifacts without frontmatter show `—`.
+
+| Artifact | Source | Output | Context | Status |
+|----------|--------|--------|---------|--------|
+| **Spec** | `/specify` | `specs/{slug}/spec.md` | `system.arch.md`, `ADR.md` | `pending` -> `in-progress` -> `done` |
+| **Design** | `/extract` | `design/DESIGN.md` | `{tier}.arch.md` (presentation tier), brand | — |
+| **Plan** | `/planify` | `specs/{slug}/{tier?}.plan.md` | `{tier}.arch.md`, `ER.md` | `pending` -> `done` |
+| **Code** | `/codify` | `{tier}/` | `{tier}.rules.md`, `DESIGN.md` | — |
+| **E2E** | `/verify` | `e2e/` | `e2e.rules.md` | — |
+| **Verify report** | `/verify` | `specs/{slug}/verify.md` | `spec.md`, E2E run | `pending` -> `pass` \| `fail` |
 
 ### Workflow index
 
