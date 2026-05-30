@@ -16,8 +16,8 @@
 | [`/specify`](./skills/specify/) | Specs with acceptance criteria |
 | [`/planify`](./skills/planify/) | Implementation plans from spec |
 | [`/codify`](./skills/codify/) | Code and unit tests from plans |
-| [`/verify`](./skills/verify/) | E2E tests; updates spec on failure → `/rectify` |
-| [`/rectify`](./skills/rectify/) | Fixes from spec Rectify section after failed `/verify` |
+| [`/verify`](./skills/verify/) | E2E tests; marks spec criteria + writes `verify.md` report → `/rectify` |
+| [`/rectify`](./skills/rectify/) | Fixes from the `verify.md` Rectify guide after failed `/verify` |
 
 ## Craftsman
 

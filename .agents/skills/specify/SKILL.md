@@ -49,16 +49,17 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### Step 5: Write the spec
 
-- [ ] Create `{Product_Folder}/specs/{slug}.spec.md` from [spec template](./spec.template.md).
+- [ ] Create the feature folder `{Product_Folder}/specs/{slug}/` if it does not exist.
+- [ ] Create `{Product_Folder}/specs/{slug}/spec.md` from [spec template](./spec.template.md).
 - [ ] Frontmatter: 
-  - `spec-slug` matches `{slug}`
+  - `spec-slug` matches `{slug}` (the folder name carries the slug; the filename stays `spec.md`)
   - `status` is `pending`
   - `released-version` is empty
 
 ## Output
-- [ ] Write the spec at `{Product_Folder}/specs/{slug}.spec.md` following the template.
+- [ ] Write the spec at `{Product_Folder}/specs/{slug}/spec.md` following the template.
 - [ ] Suggest `/planify` to break down the spec into implementation steps.
 
 ## Verification
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
-- [ ] Frontmatter and filename slug align; status is `pending`.
+- [ ] Frontmatter `spec-slug` matches the `{slug}` folder name; status is `pending`.

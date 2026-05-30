@@ -14,7 +14,7 @@ Given a spec produce one or more implementation plan files — one per tier — 
 ## Context
 
 ### Input
-- The spec file: `{Product_Folder}/specs/{slug}.spec.md` 
+- The spec file: `{Product_Folder}/specs/{slug}/spec.md` 
 
 ### Prerequisites
 - `{Product_Folder}/arch/system.arch.md` — run `/explore` if missing.
@@ -29,9 +29,10 @@ Given a spec produce one or more implementation plan files — one per tier — 
 
 ### Plan naming convention
 
-`{Product_Folder}/plans/{slug}.{tier?}.plan.md` 
-- `{slug}`: the slug of the spec or derived from the input.
-- `{tier?}`: `back` | `front` | `db` | `fullstack` | omit.
+`{Product_Folder}/specs/{slug}/{tier?}.plan.md` 
+- Plans live inside the spec's own folder, alongside `spec.md`.
+- `{slug}`: the slug of the spec or derived from the input (carried by the folder name and the plan frontmatter).
+- `{tier?}`: `back` | `front` | `db` | `fullstack` | omit (e.g. `back.plan.md`, or `plan.md` when no tier applies).
 
 ## Steps
 
@@ -52,9 +53,9 @@ Given a spec produce one or more implementation plan files — one per tier — 
   - `status` is `pending`
 
 ## Output
-- [ ] Write the plan file(s) under `{Product_Folder}/plans/{slug}.{tier?}.plan.md`
+- [ ] Write the plan file(s) under `{Product_Folder}/specs/{slug}/{tier?}.plan.md`
 - [ ] Suggest `/codify` to write the code for the implementation steps.
 
 ## Verification
 - [ ] Each plan is complete, ordered, and actionable without extra context.
-- [ ] Frontmatter and filename slug align; status is `pending`.
+- [ ] Frontmatter `slug` matches the `{slug}` folder name; status is `pending`.

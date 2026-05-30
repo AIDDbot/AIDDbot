@@ -15,7 +15,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ### Input
 
-- Spec: `{Product_Folder}/specs/{slug}.spec.md`
+- Spec: `{Product_Folder}/specs/{slug}/spec.md`
 
 ### Prerequisites
 - There is an e2e strategy in the system architecture
@@ -25,6 +25,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - System architecture at `{Product_Folder}/arch/system.arch.md`
 - Rules with E2E codification instructions `{Rules_Folder}/e2e.rules.md`
 - Framework guide (e.g. [Playwright](./playwright.md))
+- [Verify report template](./verify.template.md)
 
 ## Steps
 
@@ -57,16 +58,17 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - [ ] Tear down the test environment.
 
 ### Step 5: Record outcomes
-- [ ] Mark each criterion in the spec as `[x]` when tests pass.
-- [ ] Leave failed criteria as `[ ]` in the spec.
-- [ ] When tests fail, add or update a **Rectify** section in the spec: failing test names, expected vs actual, and suggested fix per failure.
+- [ ] In `{Product_Folder}/specs/{slug}/spec.md`, mark each acceptance criterion as `[x]` when its tests pass and leave failed ones as `[ ]`.
+- [ ] Write the verification report at `{Product_Folder}/specs/{slug}/verify.md` from [verify.template.md](./verify.template.md): a summary of the run (criteria covered, pass/fail counts, environment/commands).
+- [ ] When tests fail, the report's **Rectify guide** lists each failure: failing test name, violated criterion, expected vs actual, suggested fix, and links to evidence (screenshots, traces, tester reports).
+- [ ] The report — not the spec — carries the rectify guidance; the spec only reflects the `[x]/[ ]` acceptance state.
 
 ## Output
 - [ ] E2E test suite executed.
-- [ ] Spec acceptance criteria and Rectify section updated when applicable.
+- [ ] Spec acceptance criteria marked `[x]/[ ]`; `verify.md` report written.
 - [ ] Keep spec as `in-progress` until all criteria pass.
 - [ ] Commit with conventional message (`test`; scope `e2e` or `{slug}`).
-- [ ] If there are failures, suggest `/rectify` on `{slug}.spec.md`.
+- [ ] If there are failures, suggest `/rectify` on `specs/{slug}/`.
 - [ ] If all tests pass, suggest `/review` for a11y, security, and performance.
 
 ## Verification

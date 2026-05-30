@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [1.4.0] - 2026-05-19
 
 ### Added
-- Feature title from spec slug (link to `.product/specs/{slug}.spec.md` when helpful)
+- Feature title from spec slug (link to `.product/specs/{slug}/spec.md` when helpful)
 
 ## [1.3.0] - 2026-04-01
 ...

@@ -14,7 +14,7 @@ Given an implementation plan, or requirement, write the code necessary to implem
 ## Context
 
 ### Input
-- Optional: Implementation plan from `{Product_Folder}/plans/{slug}.{tier?}.plan.md`
+- Optional: Implementation plan from `{Product_Folder}/specs/{slug}/{tier?}.plan.md`
 - Optional: Direct requirement as a simple textual requirement from the user.
 - Optional: UI design specification at `{Product_Folder}/design/DESIGN.md` (from `/extract`, for presentation tiers).
 

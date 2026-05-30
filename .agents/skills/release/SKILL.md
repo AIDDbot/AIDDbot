@@ -18,7 +18,7 @@ Given one or more verified specifications, bump the project version, record chan
 
 ### Input
 
-- A spec: `{Product_Folder}/specs/{slug}.spec.md`
+- A spec: `{Product_Folder}/specs/{slug}/spec.md`
 
 ### References
 

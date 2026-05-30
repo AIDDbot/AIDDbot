@@ -8,8 +8,9 @@ flowchart TD
   HUM[HUMAN]
 
   subgraph P["{Product_Folder}"]
-      SPC["specs/"]:::nd
-      PLN["plans/"]:::nd
+      SPC["specs/{slug}/spec.md"]:::nd
+      PLN["specs/{slug}/{tier?}.plan.md"]:::nd
+      VER["specs/{slug}/verify.md"]:::nd
       ARC["arch/"]:::nd
       RUL["rules/"]:::nd
       DES["design/"]:::nd
@@ -41,7 +42,8 @@ flowchart TD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
-  E2E -->|/rectify| COD
+  E2E -->|/verify| VER
+  VER -->|/rectify| COD
   COD -->|/review| COD
   COD -->|/release| CHL
 
@@ -69,6 +71,7 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 | **Plan** | `/planify` | `{tier}.arch.md`,  `ER.md` | `pending` -> `done` |
 | **Code** | `/codify`  | `{tier}.rules.md`, `DESIGN.md` | - |
 | **E2E**  | `/verify`  | `e2e.rules.md` | - |
+| **Verify report** | `/verify` | `spec.md`, E2E run | rewritten each run |
 
 ### Workflow index
 
@@ -90,11 +93,10 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 - `design/` - UI design specification (`/extract`, presentation tiers); implemented by `/codify`.
   - `DESIGN.md` - Design tokens (color, typography, spacing, radius, elevation) and component behavior for the product UI.
 
-- `specs/` - Feature specifications. 
-  - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria). Failed `/verify` runs add a Rectify section for `/rectify`.
-
-- `plans/` - Implementation plans.
-  - `{slug}.{tier?}.plan.md` - Implementation plans for the feature in each tier.
+- `specs/` - One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
+  - `{slug}/spec.md` - Feature specification (problem, solution, acceptance criteria). `/verify` marks its criteria `[x]/[ ]`.
+  - `{slug}/{tier?}.plan.md` - Implementation plans for the feature in each tier (`/planify`).
+  - `{slug}/verify.md` - E2E verification report: run summary plus a Rectify guide for `/rectify` when there are failures (`/verify`).
 
 ### Solution
 
