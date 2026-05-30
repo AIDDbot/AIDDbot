@@ -96,16 +96,16 @@ Example prompts:
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
-## Optional: UI design spec
+## UI design spec
 
-`/envision` authors the design specification; `/codify` implements it.
+There is no separate design skill. When `/extract` processes a **presentation tier** it also authors the product design spec at `design/DESIGN.md` (design tokens + component behavior); `/codify` then implements every UI surface from it.
 
 ```markdown
-/envision the UI design for this feature   → writes design/{slug}/DESIGN.md
-/codify the plan                            → implements it to the DESIGN.md tokens
+/extract this project    → writes {tier}.rules.md, plus design/DESIGN.md for presentation tiers
+/codify the plan         → implements the UI to the DESIGN.md tokens
 ```
 
-See [DESIGN.md](../.agents/skills/envision/DESIGN.md) for the spec format and [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
+See the [DESIGN.md template](../.agents/skills/extract/design.template.md) for the spec format and [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
 
 ## Next
 

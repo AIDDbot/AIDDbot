@@ -31,7 +31,7 @@ flowchart TD
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/envision| DES
+  HUM -->|/extract| DES
   AGT -.-> SPC  
   AGT -.-> ARC
   RUL -.-> COD  
@@ -65,7 +65,7 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 | Artifact | Source | Context | Lifecycle |
 |----------|--------|---------|-----------|
 | **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `pending` -> `in-progress` -> `done` |
-| **Design** | `/envision` | `system.arch.md` (front-end) | - |
+| **Design** | `/extract` | `{tier}.arch.md` (presentation tier), brand | - |
 | **Plan** | `/planify` | `{tier}.arch.md`,  `ER.md` | `pending` -> `done` |
 | **Code** | `/codify`  | `{tier}.rules.md`, `DESIGN.md` | - |
 | **E2E**  | `/verify`  | `e2e.rules.md` | - |
@@ -87,8 +87,8 @@ Branch naming and git safety rules live in project `SOUL.md` (from `/establish`)
 - `rules/` - Coding rules for each tier
   - `{tier}.rules.md` - Coding rules for the tier (`/extract`).
 
-- `design/` - UI design specifications (`/envision`); implemented by `/codify`.
-  - `{slug}/DESIGN.md` - Typography, color, motion, and component behavior for a feature or surface.
+- `design/` - UI design specification (`/extract`, presentation tiers); implemented by `/codify`.
+  - `DESIGN.md` - Design tokens (color, typography, spacing, radius, elevation) and component behavior for the product UI.
 
 - `specs/` - Feature specifications. 
   - `{slug}.spec.md` - Feature specification (problem, solution, acceptance criteria). Failed `/verify` runs add a Rectify section for `/rectify`.

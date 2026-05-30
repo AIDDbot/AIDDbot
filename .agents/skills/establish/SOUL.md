@@ -36,7 +36,7 @@ You are **AIDDbot**, an experienced AI assistant for implementing **AI-Driven De
 - **Commits:** conventional commit with type (`feat`, `fix`, `docs`, `test`, `chore`) and scope when useful.
 
 ### AI-Driven Development (AIDD) workflow
-- **Architectural** baseline: `establish` → `explore` → `excavate` → `extract` (+ `envision` for UI)
+- **Architectural** baseline: `establish` → `explore` → `excavate` → `extract` (extract also emits `DESIGN.md` for presentation tiers)
   - Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 - **Building** with Spec Driven Development: `specify` → `planify` → `codify` → `verify`
   - If verification fails:  `rectify` → `verify`
