@@ -39,9 +39,9 @@ Act as a senior software engineer.
 
 ### Step 3: Define Product
 
-- [ ] From README or user input, fill **Product** brief problem and solution descriptions. 
+- [ ] From README or user input, fill **Product** brief problem and solution descriptions. On greenfield with no brief, ask the user the minimum questions rather than inventing; record any remaining assumptions explicitly.
 - [ ] Draft a system context diagram (based on C4Context diagram level 1)
-- [ ] Infer or propose an e2e testing strategy
+- [ ] Propose an e2e testing strategy grounded in the chosen stack's conventional tooling (name it); flag it as an assumption when unconfirmed.
 
 ## Output
 
