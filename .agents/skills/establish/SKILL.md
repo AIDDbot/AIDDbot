@@ -16,7 +16,7 @@ Act as a senior software engineer.
 
 ## Context
 
-- A tier is a logical group of code that can be run separately. eg: back, front, fullstack, cli, e2e, db.
+- A tier is a logical group of code that can be run separately (e.g. back, front, fullstack, cli, db, e2e).
 
 ### References
 

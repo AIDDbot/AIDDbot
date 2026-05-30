@@ -15,11 +15,11 @@ For each tier, produce under `{Product_Folder}/arch/`:
 After all tiers:
 2. `ER.md` — complete domain model
 
-> Mode-aware: prescriptive on greenfield, descriptive on brownfield. Coding rules are produced separately by `/extract`.
+> Mode-aware: greenfield prescribes structure and contracts grounded in stack conventions (name the source); brownfield describes them from legacy code and docs. Coding rules are produced separately by `/extract`.
 
 ## Context
 
-- A tier is a logical group of code that can be run separately; the project's tiers are listed in `AGENTS.md`.
+- A tier is a logical group of code that can be run separately (e.g. back, front, fullstack, cli, db, e2e); the project's tiers are listed in `AGENTS.md`.
 
 ### Prerequisites
 - Root `AGENTS.md` exists — run `/establish` first if missing.
@@ -33,7 +33,7 @@ After all tiers:
 ## Steps
 
 ### Step 1: Confirm mode
-- [ ] Default to the **Starting point** from `AGENTS.md`. Override per tier: a tier with no functional source code is **greenfield** (prescribe); a tier with existing code is **brownfield** (describe from code).
+- [ ] Read the **Starting point** from `AGENTS.md` — set by `/establish`, the source of truth. Override per tier: a tier with no functional source code is **greenfield** (prescribe); a tier with existing code is **brownfield** (describe from code).
 - [ ] Note existing files under `arch/` — skip tiers already documented unless refresh requested.
 
 ### Step 2: Pick next tier
@@ -45,7 +45,7 @@ After all tiers:
 - [ ] Read `tier.arch.template.md`.
 - [ ] Align with the `system.arch.md` container for this tier (folder, archetype, responsibilities).
 - [ ] **Greenfield**: prescribe code organization (layer / feature / hybrid), components, shared artifacts, key contracts, and storage — consistent with ADRs. Ground the prescription in the chosen stack's conventions (official docs, framework scaffolding defaults, a known reference architecture) and **name that source** so `/extract` and `/codify` can follow it; fall back to model priors only when no convention exists. Propose dev commands from the chosen stack (init, build, run, test, lint) even if folders do not exist yet.
-- [ ] **Brownfield**: read ALL source files in the tier's folder **and existing docs (README, ADRs, comments)** to recover intent the code alone doesn't show. Detect the actual code organization pattern; document components, shared artifacts, key contracts, and storage infrastructure as they exist.
+- [ ] **Brownfield**: read ALL source files in the tier's folder **and existing docs (README, ADRs, comments)** to recover intent the code alone doesn't show. Detect the actual code organization pattern; document components, shared artifacts, key contracts, and storage infrastructure as they exist. Flag low-confidence inferences.
 
 ### Step 4: Generate `ER.md` (after all tiers are done)
 - [ ] Read `er.template.md`.

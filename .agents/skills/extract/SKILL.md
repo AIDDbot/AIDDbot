@@ -13,11 +13,11 @@ Act as a senior software engineer defining coding conventions.
 
 Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`). For presentation tiers, also produce the product UI design spec at `{Product_Folder}/design/DESIGN.md` (design tokens + component behavior).
 
-> Mode-aware: on greenfield, extract conventions from the ecosystem (style guides, framework docs, public rule/skill directories) and prescribe design tokens from the brand, aligning both with the stack and ADRs; on brownfield, extract the dominant patterns and tokens from existing code.
+> Mode-aware: greenfield prescribes rules grounded in the ecosystem (style guides, framework docs, public rule/skill directories) and tokens from the brand — naming the sources and aligning with the stack and ADRs; brownfield describes the dominant patterns and tokens from existing code.
 
 ## Context
 
-- A tier is a logical group of code that can be run separately; the project's tiers are listed in `AGENTS.md`.
+- A tier is a logical group of code that can be run separately (e.g. back, front, fullstack, cli, db, e2e); the project's tiers are listed in `AGENTS.md`.
 
 ### Prerequisites
 
@@ -38,7 +38,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 
 ### Step 1: Confirm mode
 
-- [ ] Default to the **Starting point** from `AGENTS.md`. Override per tier: a tier with no functional source code is **greenfield** (extract from the ecosystem); a tier with existing code is **brownfield** (extract from code).
+- [ ] Read the **Starting point** from `AGENTS.md` — set by `/establish`, the source of truth. Override per tier: a tier with no functional source code is **greenfield** (prescribe from the ecosystem); a tier with existing code is **brownfield** (describe from code).
 - [ ] Note existing files under `{Rules_Folder}` — skip tiers already documented unless refresh requested.
 
 ### Step 2: Pick tier
@@ -52,7 +52,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 - [ ] Read `tier.rules.template.md`.
 - [ ] Derive `{source_glob}` from the tier's source folder (e.g. `api/src/**/*.java`, `web/src/**/*.ts`).
 - [ ] **Greenfield**: extract naming, artifact roles, wiring, error handling, and testing conventions from the ecosystem sources above; reconcile any conflicts with ADRs + stack choices (ADRs win). Write **illustrative** canonical examples that embody the chosen pattern, and cite the source guide when one drove the rule. Under **Known Deviations**, state: no deviations yet — greenfield baseline.
-- [ ] **Brownfield**: glob file names in the tier's folder → classify by artifact role using naming + content heuristics. Read 1-2 representative files per role and extract the dominant pattern. Detect deviations by skimming structurally different files. Use real (trimmed) snippets as canonical examples.
+- [ ] **Brownfield**: glob file names in the tier's folder → classify by artifact role using naming + content heuristics. Read 1-2 representative files per role and extract the dominant pattern. Detect deviations by skimming structurally different files; flag low-confidence inferences. Use real (trimmed) snippets as canonical examples.
 - [ ] Omit sections that don't apply to this tier (e.g. Testing for db, Wiring for e2e).
 
 ### Step 4: Generate `DESIGN.md` (presentation tiers only)
