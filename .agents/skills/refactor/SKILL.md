@@ -18,9 +18,12 @@ Improve structure, naming, and duplication in the agreed scope. Do **not** fold 
 
 ### Input
 
+Scope-bound (discretionary): pick one scope selector. No spec/plan `status` is changed — traceability is the commit.
+
 - Feature branch: changed files
 - Plan file: files listed in plan
 - Explicit paths or globs from the user
+- Spec slug (optional): scope = files across that spec's plan(s) under `{Product_Folder}/specs/{slug}/`
 
 ### References
 

@@ -66,7 +66,7 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|
-| **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `specs/{slug}/spec.md` | `pending` -> `in-progress` -> `done` |
+| **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (`/planify`, on branching) -> `done` (`/release`) |
 | **Plan** | `/planify` | `{tier}.arch.md`, `ER.md` | `specs/{slug}/{tier?}.plan.md` | `pending` -> `done` |
 | **Code** | `/codify` | `{tier}.rules.md`, `DESIGN.md` | `{tier}/` | — |
 | **E2E** | `/verify` | `e2e.rules.md` | `e2e/` | — |

@@ -18,9 +18,12 @@ Given a code scope, evaluate against the guidelines below, fix every finding, an
 
 ### Input
 
+Scope-bound (discretionary): pick one scope selector. No spec/plan `status` is changed — traceability is the commit.
+
 - Feature branch: all changed files
 - Plan file: files listed in plan
 - Path: recent changes on current branch
+- Spec slug (optional): scope = files across that spec's plan(s) under `{Product_Folder}/specs/{slug}/`
 
 ### Guidelines (load all)
 

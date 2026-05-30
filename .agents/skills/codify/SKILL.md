@@ -36,8 +36,8 @@ Given an implementation plan, or requirement, write the code necessary to implem
 - [ ] Commit any pending work with conventional message before branching.
 
 #### If following a spec plan
-- [ ] Work on feature branch `feat/{slug}`; create from the default branch if missing.
-- [ ] Mark the spec as `in-progress`.
+- [ ] Ensure you are on feature branch `feat/{slug}`; `/planify` normally creates it — create from the default branch only if missing.
+- [ ] Ensure the spec is `in-progress`; `/planify` normally sets it — set it only if missing.
 - [ ] Mark the plan as `in-progress`.
 
 ### Step 3: Implement
