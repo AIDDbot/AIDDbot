@@ -1,5 +1,5 @@
 ---
-spec-slug: {slug}
+slug: {slug}
 status: pending | in-progress | done
 released-version:
 ---

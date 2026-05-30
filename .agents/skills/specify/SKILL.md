@@ -52,7 +52,7 @@ Given a requirement or feature description, produce a complete specification fil
 - [ ] Create the feature folder `{Product_Folder}/specs/{slug}/` if it does not exist.
 - [ ] Create `{Product_Folder}/specs/{slug}/spec.md` from [spec template](./spec.template.md).
 - [ ] Frontmatter: 
-  - `spec-slug` matches `{slug}` (the folder name carries the slug; the filename stays `spec.md`)
+  - `slug` matches `{slug}` (the folder name carries the slug; the filename stays `spec.md`)
   - `status` is `pending`
   - `released-version` is empty
 
@@ -62,4 +62,4 @@ Given a requirement or feature description, produce a complete specification fil
 
 ## Verification
 - [ ] Problem, solution, and acceptance criteria are present and traceable.
-- [ ] Frontmatter `spec-slug` matches the `{slug}` folder name; status is `pending`.
+- [ ] Frontmatter `slug` matches the `{slug}` folder name; status is `pending`.

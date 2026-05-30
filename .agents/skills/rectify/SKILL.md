@@ -14,7 +14,7 @@ Given a `verify.md` report with a Rectify guide from `/verify`, fix every listed
 ## Context
 
 ### Prerequisites
-- `{Product_Folder}/specs/{slug}/verify.md` exists with `result: fail` and a Rectify guide — run `/verify` first if missing.
+- `{Product_Folder}/specs/{slug}/verify.md` exists with `status: fail` and a Rectify guide — run `/verify` first if missing.
 
 ### References
 - `{Product_Folder}/specs/{slug}/verify.md` — run summary and Rectify guide (failures, expected vs actual, suggested fixes, evidence links)
@@ -25,7 +25,7 @@ Given a `verify.md` report with a Rectify guide from `/verify`, fix every listed
 
 ### Step 1: Load failures
 - [ ] Read `verify.md` — extract all failures from the Rectify guide.
-- [ ] If no failures (`result: pass` or no guide), stop with "Nothing to rectify".
+- [ ] If no failures (`status: pass` or no guide), stop with "Nothing to rectify".
 - [ ] Confirm which acceptance criteria in `spec.md` are violated.
 - [ ] If failures are too broad or architectural, stop and suggest `/planify` instead.
 

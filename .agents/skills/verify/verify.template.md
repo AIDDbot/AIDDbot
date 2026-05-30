@@ -1,7 +1,7 @@
 ---
-spec-slug: {slug}
+slug: {slug}
 verified-on: {date}
-result: pass | fail
+status: pending | pass | fail
 ---
 # Verification report — {short description}
 
@@ -9,7 +9,7 @@ result: pass | fail
 
 ## Summary
 
-- **Result:** {pass | fail}
+- **Status:** {pending | pass | fail}
 - **Criteria:** {passed}/{total} passing
 - **Suite:** {test files or feature groups executed}
 - **Environment:** {commands to start servers/apps and run the tests}
@@ -22,7 +22,7 @@ result: pass | fail
 
 ## Rectify guide
 
-> Only present when `result: fail`. Each entry tells `/rectify` how to resolve a failure. Remove or trim entries as they are fixed.
+> Only present when `status: fail`. Each entry tells `/rectify` how to resolve a failure. Remove or trim entries as they are fixed.
 
 ### {failing test name}
 
