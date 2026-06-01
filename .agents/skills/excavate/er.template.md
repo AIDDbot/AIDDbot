@@ -6,12 +6,10 @@
 
 ## E-R Diagram
 
+{Entities and relationships only — fields and constraints live in the detail tables below.}
+
 ```mermaid
 erDiagram
-    {Entity} {
-        {Type} {field} {PK|FK|UK} "{constraint}"
-    }
-
     {EntityA} ||--o{ {EntityB} : "{relationship}"
 ```
 
@@ -25,12 +23,7 @@ erDiagram
 
 {Repeat one section per entity.}
 
-## Relationships and integrity rules
+## Integrity & business rules
 
-| Relationship | Cardinality | Integrity rule |
-|-------------|-------------|----------------|
-| {EntityA} → {EntityB} | {1:N, N:M, 1:1} via `{fk_field}` | {Rule enforced at creation/update time} |
-
-## Cross-entity business rules
-
-- {Business rules that span multiple entities, e.g. capacity limits, state-dependent constraints, cascade behavior, uniqueness across related entities.}
+- {Per-relationship integrity rule (cardinality is already in the diagram) — e.g. cascade/restrict on delete via `{fk_field}`.}
+- {Rules that span multiple entities — capacity limits, state-dependent constraints, uniqueness across related entities — that agents must enforce during `/codify`.}

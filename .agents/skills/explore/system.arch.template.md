@@ -31,8 +31,11 @@ C4Container
     Container({container_id}, "{Container name}", "{Technology}", "{Responsibility summary}")
   }
 
+  System_Ext({ext_id}, "{External system}", "{Role}")
+
   Rel({actor_id}, {container_id}, "{Interaction}", "{Protocol}")
   Rel({container_a}, {container_b}, "{Interaction}", "{Protocol}")
+  Rel({container_id}, {ext_id}, "{Interaction}", "{Protocol}")
 ```
 
 {Repeat one `### {Container name}` block per container. Typical containers include the main

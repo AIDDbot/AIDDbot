@@ -48,7 +48,7 @@ After all tiers:
 - [ ] Read `er.template.md`.
 - [ ] **Greenfield**: model entities, fields, constraints, and relationships from the product brief and prescribed tiers.
 - [ ] **Brownfield**: scan domain models across all tiers; include implicit constraints validated in service code, not just schema.
-- [ ] Include cross-entity business rules agents must enforce during `/codify`.
+- [ ] Capture relationship integrity and cross-entity business rules (one merged list) agents must enforce during `/codify`.
 
 ## Output
 - [ ] Summarize what was written; flag open decisions (greenfield) or ambiguities (brownfield).

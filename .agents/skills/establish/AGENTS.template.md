@@ -42,19 +42,10 @@
 ### Problem
 {short description of the product, e.g. "The product is a web application that allows users to manage their tasks."}
 
-#### System Context
-
-```mermaid
-C4Context
-  title {Product_Name} System Context
-  Person({actor_id}, "{Actor name}", "{What the actor does}")
-  System({system_id}, "{Product_Name}", "{System description}")
-  System_Ext({ext_id}, "{External system}", "{Role}")
-  Rel({actor_id}, {system_id}, "{Interaction}", "{Protocol}")
-```
-
 ### Solution
 {short description of the technology stack, e.g. "An Angular web app with a Node API and a PostgreSQL database."}
+
+> System context and container diagrams live in `{Product_Folder}/arch/system.arch.md` (from `/explore`).
 
 ### Verification
 {short description of the e2e testing capabilities, e.g. "The product should be verified with a playwright test suite."}

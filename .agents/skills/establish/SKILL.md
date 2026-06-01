@@ -37,8 +37,7 @@ Act as a senior software engineer.
 ### Step 3: Define Product
 
 - [ ] Fill **Product** problem and solution from README or user input; on greenfield with no brief, ask rather than invent.
-- [ ] Draft a system context diagram (C4 level 1).
-- [ ] Propose an e2e testing strategy.
+- [ ] Propose an e2e testing strategy. Defer system context/container diagrams to `/explore`.
 
 ## Output
 
@@ -51,6 +50,6 @@ Act as a senior software engineer.
 
 ## Verification
 
-- [ ] Mermaid renders; no placeholders remain in `AGENTS.md`.
+- [ ] No placeholders remain in `AGENTS.md`.
 - [ ] `SOUL.md` exists at the root, matching the skill template.
 - [ ] `AGENTS.md` guides the entire SDLC workflow.
