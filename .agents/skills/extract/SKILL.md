@@ -46,8 +46,8 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 
 - [ ] Read `tier.rules.template.md`.
 - [ ] Derive `{source_glob}` from the tier's source folder (e.g. `api/src/**/*.java`, `web/src/**/*.ts`).
-- [ ] **Greenfield**: extract naming, artifact roles, wiring, error handling, and testing conventions from the sources above; reconcile conflicts with ADRs + stack choices (ADRs win). Write **illustrative** canonical examples embodying the pattern; cite the source guide that drove each rule. Under **Known Deviations**: no deviations yet — greenfield baseline.
-- [ ] **Brownfield**: glob file names → classify by artifact role (naming + content heuristics). Read 1-2 representative files per role for the dominant pattern. Detect deviations by skimming structurally different files; flag low-confidence inferences. Use real (trimmed) snippets as canonical examples.
+- [ ] **Greenfield**: extract naming, artifact roles, wiring, error handling, and testing conventions from the sources above; reconcile conflicts with ADRs + stack choices (ADRs win). Capture per-role rules in the roles table and write **one** illustrative canonical example for the tier; cite the source guides that drove the rules. Under **Known Deviations**: no deviations yet — greenfield baseline.
+- [ ] **Brownfield**: glob file names → classify by artifact role (naming + content heuristics). Read 1-2 representative files per role for the dominant pattern. Detect deviations by skimming structurally different files; flag low-confidence inferences. Use one real (trimmed) snippet as the canonical example.
 - [ ] Omit sections that don't apply to this tier (e.g. Testing for db, Wiring for e2e).
 
 ### Step 4: Generate `DESIGN.md` (presentation tiers only)
@@ -60,7 +60,7 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 ## Output
 
 - [ ] Summarize artifact roles covered and the dominant (brownfield) or ecosystem-sourced (greenfield) patterns; list greenfield sources used.
-- [ ] No sections/columns beyond the template; keep rules files under 100 lines.
+- [ ] No sections/columns beyond the template; keep rules files concise (target under 60 lines).
 - [ ] Write `{tier}.rules.md` under `{Rules_Folder}`.
 - [ ] For presentation tiers, also write `{Product_Folder}/design/DESIGN.md` from `design.template.md`.
 - [ ] Commit (`docs`; scope tier or `product`).
@@ -70,6 +70,6 @@ Produce one `{tier}.rules.md` per tier under `{Rules_Folder}` (from `AGENTS.md`)
 ## Verification
 
 - [ ] `{tier}.rules.md` alone answers: how code in this tier must be written.
-- [ ] Canonical examples embody the pattern; anti-patterns are concrete.
+- [ ] The roles table and canonical example embody the dominant pattern; anti-patterns are concrete.
 - [ ] If written, `DESIGN.md` specifies color, typography, spacing, radius, elevation and component behavior; tokens are self-consistent.
 - [ ] No leftover `{placeholders}`.

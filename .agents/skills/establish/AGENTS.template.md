@@ -6,7 +6,6 @@
 
 - Replace `{placeholders}` when using templates.
 - `{slug}`: a short (≤20 chars), readable identifier derived from a title (e.g. `login-page`).
-- Each feature owns a folder `{Product_Folder}/specs/{slug}/` holding `spec.md`, its `{tier?}.plan.md` files, and the `verify.md` report. Filenames are short; the slug lives in the folder name and in each file's frontmatter.
 
 ### Environment
 - **Git** : {Remote URL for the git repository} - {Git default branch} `main` | `master`
