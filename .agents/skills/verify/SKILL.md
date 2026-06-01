@@ -18,12 +18,12 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 - Spec: `{Product_Folder}/specs/{slug}/spec.md`
 
 ### Prerequisites
-- There is an e2e strategy in the system architecture
+- There is an e2e strategy in the `AGENTS.md` Product/Architecture sections
 - The e2e archetype (language and framework) is already installed and configured
 
 ### References
-- System architecture at `{Product_Folder}/arch/system.arch.md`
-- Rules with E2E codification instructions `{Rules_Folder}/e2e.rules.md`
+- System architecture and the e2e strategy in root `AGENTS.md`
+- Rules with E2E codification instructions `{Rules_Folder}/e2e.md`
 - Framework guide (e.g. [Playwright](./playwright.md))
 - [Verify report template](./verify.template.md)
 
@@ -31,7 +31,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ### Step 1: Clarify the input
 - [ ] Read the spec to understand the feature and acceptance criteria.
-- [ ] Read `AGENTS.md` and system architecture for tech stack and testing framework.
+- [ ] Read `AGENTS.md` (environment and Architecture section) for tech stack and testing framework.
 - [ ] If spec or framework is unclear, ask the minimum questions needed.
 
 ### Step 2: Review acceptance criteria

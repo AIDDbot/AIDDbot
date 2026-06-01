@@ -43,11 +43,8 @@ Given one or more verified specifications, bump the project version, record chan
 
 ### Step 3: Update documentation
 - [ ] `README.md` and other version-aware docs when applicable; 
-- [ ] `AGENTS.md` when something big changed in the technology stack.
-- [ ] `arch/{tier}.arch.md` when something changed in the architecture.
-- [ ] `rules/{tier}.rules.md` when something changed in the rules.
-- [ ] `rules/naming.rules.md` when something changed in the naming conventions.
-- [ ] `rules/testing.rules.md` when something changed in the testing conventions.
+- [ ] `AGENTS.md` when something big changed in the technology stack or the system architecture (containers/decisions).
+- [ ] `{Rules_Folder}/{tier}.md` when something changed in a tier's architecture, domain, or conventions.
 
 ### Step 4: Update the project history
 - [ ] Update the changelog entry for the new version.

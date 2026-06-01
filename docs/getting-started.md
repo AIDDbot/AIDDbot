@@ -32,21 +32,19 @@ In your agent chat:
 
 ```markdown
 /establish this project
-/explore this project
 ```
 
-This sets up `AGENTS.md`, copies `SOUL.md` (agent personality, git rules, and boundaries), and confirms skills are present.
+This sets up `AGENTS.md` (environment, product brief, and system architecture — containers + decisions) and copies `SOUL.md` (agent personality, git rules, and boundaries).
 
 ### Architecture details
 
-After `/explore`, run once per tier (or pass `all` to queue every tier):
+After `/establish`, run `/extract` once per tier (or pass `all` to queue every tier):
 
 ```markdown
-/excavate this project to get the tier architecture and domain model
-/extract this project to get the coding rules
+/extract this project to get the tier architecture, domain, and coding rules
 ```
 
-Both steps are mode-aware: they **prescribe** on greenfield (no source code yet) and **describe from the codebase** on brownfield. When `ER.md` and the rules exist, start building:
+Both steps are mode-aware: they **prescribe** on greenfield (no source code yet) and **describe from the codebase** on brownfield. Each tier gets one `{tier}.md` under `rules/`. When the tiers are documented, start building:
 
 ```markdown
 /specify a feature requirement
@@ -96,16 +94,9 @@ Example prompts:
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
-## UI design spec
+## UI
 
-There is no separate design skill. When `/extract` processes a **presentation tier** it also authors the product design spec at `design/DESIGN.md` (design tokens + component behavior); `/codify` then implements every UI surface from it.
-
-```markdown
-/extract this project    → writes {tier}.rules.md, plus design/DESIGN.md for presentation tiers
-/codify the plan         → implements the UI to the DESIGN.md tokens
-```
-
-See the [DESIGN.md template](../.agents/skills/extract/design.template.md) for the spec format and [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
+There is no separate design skill or file. Durable UI conventions and tokens for a presentation tier live in that tier's `rules/{tier}.md` (`/extract`); per-feature UI behavior lives in the feature spec (`/specify`) as UI acceptance criteria. `/codify` implements every UI surface from those.
 
 ## Next
 

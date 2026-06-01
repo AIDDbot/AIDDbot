@@ -1,17 +1,17 @@
 ---
 name: establish
-description: Establishes the AIDD project environment and generates root AGENTS.md and SOUL.md. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "Establish yourself in this codebase", "initialize the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
+description: Establishes the AIDD project environment and generates root AGENTS.md (including system architecture and key decisions) and SOUL.md. Use this skill when setting up a new project or onboarding an existing one into the AIDD workflow. Trigger on phrases like "Establish yourself in this codebase", "initialize the project", "set up agents", "create AGENTS.md", or at the start of any new AIDD project setup.
 ---
 
 # Establish skill
 
 ## Role
 
-Act as a senior software engineer.
+Act as a senior software engineer and architect.
 
 ## Task
 
-- Create or update root `AGENTS.md` with instructions for the whole SDLC workflow.
+- Create or update root `AGENTS.md` with the project environment, product brief, **and the system architecture** (C4 L2 containers + the decisions that constrain planning).
 - Copy root `SOUL.md` from the fixed skill template (personality, git rules, and boundaries — no placeholders).
 
 ## Context
@@ -37,19 +37,26 @@ Act as a senior software engineer.
 ### Step 3: Define Product
 
 - [ ] Fill **Product** problem and solution from README or user input; on greenfield with no brief, ask rather than invent.
-- [ ] Propose an e2e testing strategy. Defer system context/container diagrams to `/explore`.
+- [ ] Propose an e2e testing strategy.
+
+### Step 4: Define Architecture
+
+- [ ] Infer whether this is a monorepo with multiple projects or a single project; each project is a container that belongs to a **Tier**.
+- [ ] **Greenfield**: prescribe containers and stack per the brief, grounded in a reference architecture; name the source so the decisions can cite it. Record foundational decisions (stack, API style, structure) as `Decided`.
+- [ ] **Brownfield**: map containers from entry points, configs, dependency manifests, and README — no implementation detail. Infer decisions from code evidence as `Inferred`. Flag low-confidence mappings.
+- [ ] Only document decisions that constrain planning — nothing trivial or easily reversible. Defer component-level structure and contracts to `/extract`.
 
 ## Output
 
-- [ ] Summarize what was written; flag ambiguities.
-- [ ] Write `AGENTS.md` at the root per the template.
+- [ ] Summarize what was written; flag ambiguities (brownfield) or open decisions (greenfield).
+- [ ] Write `AGENTS.md` at the root per the template (environment, product, and architecture).
 - [ ] Copy `SOUL.md` to the root unchanged.
-- [ ] No sections/columns beyond the template; keep `AGENTS.md` under 100 lines.
+- [ ] No sections/columns beyond the template; keep `AGENTS.md` under 140 lines.
 - [ ] Commit (`chore`).
-- [ ] Suggest `/explore`, then `/excavate` and `/extract`.
+- [ ] Suggest `/extract` to define per-tier conventions and the domain model.
 
 ## Verification
 
-- [ ] No placeholders remain in `AGENTS.md`.
+- [ ] No placeholders remain in `AGENTS.md`; Mermaid renders.
 - [ ] `SOUL.md` exists at the root, matching the skill template.
-- [ ] `AGENTS.md` guides the entire SDLC workflow.
+- [ ] `AGENTS.md` alone answers: what the system does, how containers are arranged, and which decisions constrain planning.

@@ -45,14 +45,54 @@
 ### Solution
 {short description of the technology stack, e.g. "An Angular web app with a Node API and a PostgreSQL database."}
 
-> System context and container diagrams live in `{Product_Folder}/arch/system.arch.md` (from `/explore`).
-
 ### Verification
 {short description of the e2e testing capabilities, e.g. "The product should be verified with a playwright test suite."}
 
 ```bash
 {list of commands to start servers/apps and run the e2e tests}
 ```
+---
+
+## Architecture
+
+> C4 L2 (containers) + the few decisions that constrain planning. Greenfield prescribes; brownfield describes from the code. Only include containers that actually exist or are planned.
+
+### Containers
+
+```mermaid
+C4Container
+  title {Product_Name} Containers
+
+  Person(actor_id, "{Actor name}")
+
+  Container_Boundary(system_id, "{Product_Name}") {
+    Container(container_id, "{Container name}", "{Technology}", "{Responsibility}")
+  }
+
+  System_Ext(ext_id, "{External system}", "{Role}")
+
+  Rel(actor_id, container_id, "{Interaction}", "{Protocol}")
+  Rel(container_id, ext_id, "{Interaction}", "{Protocol}")
+```
+
+{One row per container: name, the tier it belongs to, its folder, and archetype (language — framework).}
+
+| Container | Tier | Folder | Archetype |
+|-----------|------|--------|-----------|
+| {Container name} | {back \| front \| fullstack \| cli \| e2e \| db} | `{folder}/` | {language} — {framework} |
+
+### Inter-container communication
+
+| Source | Target | Protocol | Contract |
+|--------|--------|----------|----------|
+| {Container A} | {Container B} | {Protocol} | {Contract summary} |
+
+### Decisions
+
+> Only decisions that constrain planning (stack, API style, auth, data access, code organization). Status: `Decided` (greenfield) | `Inferred` (brownfield). Skip trivial or easily reversible choices.
+
+- **{Short title}** ({Decided | Inferred}) — {what was decided}; {why}; {what it constrains}.
+
 ---
 
 > last updated: {Date of last update, e.g., May 2026}

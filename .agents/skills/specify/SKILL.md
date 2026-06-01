@@ -18,8 +18,7 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### References
 
-- Architectural decisions at `{Product_Folder}/arch/ADR.md`
-- System architecture at `{Product_Folder}/arch/system.arch.md`
+- System architecture and decisions in the **Architecture** section of root `AGENTS.md`
 - [Spec template](./spec.template.md)
 - [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
@@ -38,9 +37,9 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### Step 3: Design the solution
 
-- [ ] Propose the solution across applicable tiers from [system.arch.md](./arch/system.arch.md).
+- [ ] Propose the solution across the applicable tiers from the `AGENTS.md` Architecture section.
 - [ ] Apply [Model design convention](./model-design.convention.md) where the data model applies.
-- [ ] Respect [ADR.md](./arch/ADR.md) and [system.arch.md](./arch/system.arch.md).
+- [ ] Respect the containers and decisions recorded in `AGENTS.md`.
 - [ ] Focus on high-level design, not implementation detail.
 
 ### Step 4: Define acceptance criteria

@@ -11,9 +11,7 @@ flowchart TD
       SPC["specs/{slug}/spec.md"]:::nd
       PLN["specs/{slug}/{tier?}.plan.md"]:::nd
       VER["specs/{slug}/verify.md"]:::nd
-      ARC["arch/"]:::nd
-      RUL["rules/"]:::nd
-      DES["design/"]:::nd
+      RUL["rules/{tier}.md"]:::nd
   end
 
   subgraph A["AGENTS"]
@@ -28,17 +26,14 @@ flowchart TD
   end
 
   HUM -->|/establish| AGT
-  HUM -->|/explore| ARC
-  HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/extract| DES
   AGT -.-> SPC  
-  AGT -.-> ARC
+  AGT -.-> RUL
+  AGT -.-> PLN
   RUL -.-> COD  
   SPC -->|/planify| PLN
-  ARC -.-> PLN
-  DES -.-> COD
+  RUL -.-> PLN
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -66,10 +61,10 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|
-| **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (`/planify`, on branching) -> `done` (`/release`) |
-| **Plan** | `/planify` | `{tier}.arch.md`, `ER.md` | `specs/{slug}/{tier?}.plan.md` | `pending` -> `done` |
-| **Code** | `/codify` | `{tier}.rules.md`, `DESIGN.md` | `{tier}/` | — |
-| **E2E** | `/verify` | `e2e.rules.md` | `e2e/` | — |
+| **Spec** | `/specify` | `AGENTS.md` (Architecture) | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (`/planify`, on branching) -> `done` (`/release`) |
+| **Plan** | `/planify` | `AGENTS.md`, `{tier}.md` | `specs/{slug}/{tier?}.plan.md` | `pending` -> `done` |
+| **Code** | `/codify` | `{tier}.md` | `{tier}/` | — |
+| **E2E** | `/verify` | `e2e.md` | `e2e/` | — |
 | **Verify report** | `/verify` | `spec.md`, E2E run | `specs/{slug}/verify.md` | `pending` -> `pass` \| `fail` |
 
 ### Workflow index
@@ -80,17 +75,10 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 ### Product
 
-- `arch/` - Full architecture set for planning and coding. 
-  - `system.arch.md` - Containers and technology stack (`/explore`).
-  - `{tier}.arch.md` - Per-tier stack, dev commands, code organization (`/excavate`).
-  - `ADR.md` - Architectural decisions (`/explore`).
-  - `ER.md` - Domain model (`/excavate` when all tiers are done).
+- `AGENTS.md` - Environment, product brief, and **system architecture** (C4 L2 containers, inter-container communication, and the decisions that constrain planning) — from `/establish`.
 
-- `rules/` - Coding rules for each tier
-  - `{tier}.rules.md` - Coding rules for the tier (`/extract`).
-
-- `design/` - UI design specification (`/extract`, presentation tiers); implemented by `/codify`.
-  - `DESIGN.md` - Design tokens (color, typography, spacing, radius, elevation) and component behavior for the product UI.
+- `rules/` - One file per tier, the single source of truth for that tier.
+  - `{tier}.md` - Tier architecture (C4 L3 components, code organization, contracts), domain entities, and coding conventions (`/extract`).
 
 - `specs/` - One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
   - `{slug}/spec.md` - Feature specification (problem, solution, acceptance criteria). `/verify` marks its criteria `[x]/[ ]`.

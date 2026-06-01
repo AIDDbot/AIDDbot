@@ -17,14 +17,13 @@ Given a spec produce one or more implementation plan files — one per tier — 
 - The spec file: `{Product_Folder}/specs/{slug}/spec.md` 
 
 ### Prerequisites
-- `{Product_Folder}/arch/system.arch.md` — run `/explore` if missing.
-- `{tier}.arch.md` and `ER.md` for tiers in scope — run `/excavate` if missing.
+- Root `AGENTS.md` with its **Architecture** section — run `/establish` if missing.
+- `{Rules_Folder}/{tier}.md` for the tiers in scope — run `/extract` if missing.
 
 ### References
 
-- Architectural decisions at `{Product_Folder}/arch/ADR.md`
-- Entity relationships at `{Product_Folder}/arch/ER.md`
-- Tier architecture at `{Product_Folder}/arch/{tier}.arch.md`
+- System architecture and decisions in the **Architecture** section of root `AGENTS.md`
+- Tier architecture, domain entities, and conventions at `{Rules_Folder}/{tier}.md`
 - [Plan template](./plan.template.md)
 
 ### Plan naming convention
@@ -51,7 +50,7 @@ Given a spec produce one or more implementation plan files — one per tier — 
 ### Step 4: Draft the implementation steps for the tier
 - [ ] Per tier: ordered steps with titles, descriptions, and paths; traceable to input.
 - [ ] Do not add extra steps or task for testing or documentation.
-- [ ] Respect ADRs and arch constraints.
+- [ ] Respect the decisions and architecture constraints recorded in `AGENTS.md` and `{Rules_Folder}/{tier}.md`.
 - [ ] Frontmatter: 
   - `slug` matches `{slug}`
   - `tier` is `back` | `front` | `db` | `fullstack` | omit

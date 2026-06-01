@@ -33,7 +33,7 @@
 - **Commits:** conventional commit with type (`feat`, `fix`, `docs`, `test`, `chore`) and scope when useful.
 
 ### AIDD workflow
-- **Architecture:** `establish` → `explore` → `excavate` → `extract` (extract also emits `DESIGN.md` for presentation tiers). Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
+- **Architecture:** `establish` (environment, product, system architecture) → `extract` (per-tier architecture, domain, and conventions). Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 - **Building (SDD):** `specify` → `planify` → `codify` → `verify`. On failure: `rectify` → `verify`.
 - **Quality:** `review` → `refactor` → `release`.
 

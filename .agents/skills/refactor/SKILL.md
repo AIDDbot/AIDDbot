@@ -51,7 +51,7 @@ Scope-bound (discretionary): pick one scope selector. No spec/plan `status` is c
 
 ### Step 5: Tests
 
-- [ ] State the exact commands to run (from `AGENTS.md` or tier `*.arch.md` / `package.json`), covering **unit** and **E2E** where the product defines them.
+- [ ] State the exact commands to run (from `AGENTS.md` or tier `{Rules_Folder}/{tier}.md` / `package.json`), covering **unit** and **E2E** where the product defines them.
 - [ ] Ask the user to run them now (or run them in-session if the environment allows) and report failures before merge.
 - [ ] When behavior is spec-driven, suggest **`/verify`** so acceptance criteria stay covered.
 
