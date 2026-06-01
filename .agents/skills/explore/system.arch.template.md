@@ -25,17 +25,18 @@
 C4Container
   title {Product_Name} Containers
 
-  Person({actor_id}, "{Actor name}")
+  Person(actor_id, "{Actor name}")
 
-  Container_Boundary({system_id}, "{Product_Name}") {
-    Container({container_id}, "{Container name}", "{Technology}", "{Responsibility summary}")
+  Container_Boundary(system_id, "{Product_Name}") {
+    Container(container_a, "{Container A}", "{Technology}", "{Responsibility summary}")
+    Container(container_b, "{Container B}", "{Technology}", "{Responsibility summary}")
   }
 
-  System_Ext({ext_id}, "{External system}", "{Role}")
+  System_Ext(ext_id, "{External system}", "{Role}")
 
-  Rel({actor_id}, {container_id}, "{Interaction}", "{Protocol}")
-  Rel({container_a}, {container_b}, "{Interaction}", "{Protocol}")
-  Rel({container_id}, {ext_id}, "{Interaction}", "{Protocol}")
+  Rel(actor_id, container_a, "{Interaction}", "{Protocol}")
+  Rel(container_a, container_b, "{Interaction}", "{Protocol}")
+  Rel(container_b, ext_id, "{Interaction}", "{Protocol}")
 ```
 
 {Repeat one `### {Container name}` block per container. Typical containers include the main

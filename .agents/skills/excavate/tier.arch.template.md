@@ -34,11 +34,12 @@
 C4Component
   title {Tier_Name} Components
 
-  Container_Boundary({tier_id}, "{Tier_Name}") {
-    Component({comp_id}, "{Component name}", "{Stereotype}", "{Responsibility}")
+  Container_Boundary(tier_id, "{Tier_Name}") {
+    Component(comp_a, "{Component A}", "{Stereotype}", "{Responsibility}")
+    Component(comp_b, "{Component B}", "{Stereotype}", "{Responsibility}")
   }
 
-  Rel({comp_a}, {comp_b}, "{Interaction}")
+  Rel(comp_a, comp_b, "{Interaction}")
 ```
 
 ### Code organization
@@ -67,7 +68,7 @@ C4Component
 
 ```mermaid
 graph LR
-  {Module_A} -->|{relationship}| {Module_B}
+  ModuleA -->|"{relationship}"| ModuleB
 ```
 
 ### Storage infrastructure

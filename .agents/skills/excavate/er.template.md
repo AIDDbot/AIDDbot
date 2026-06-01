@@ -10,7 +10,7 @@
 
 ```mermaid
 erDiagram
-    {EntityA} ||--o{ {EntityB} : "{relationship}"
+    EntityA ||--o{ EntityB : "relationship"
 ```
 
 ## Entities — Detail
