@@ -12,7 +12,7 @@
 - **Git** : {Remote URL for the git repository} - {Git default branch} `main` | `master`
 - **Starting point** : `{Greenfield}` | `{Brownfield}`
 - **Monorepo** : `{Yes}` | `{No}`
-- **Tiers** : `[back, front, fullstack, cli, e2e, db , ...]`
+- **Tiers** — logical code groups that run separately: `[back, front, fullstack, cli, e2e, db, ...]`
 
 #### Local environment
 - **OS** `Windows` | `Linux` | `MacOS` 
@@ -27,8 +27,8 @@
 
 ```txt
 {Project_Root}
-├── `{Agents_Folder}  # the agents configuration folder
-├── `{Product_Folder}  # this particular product content folder
+├── `{Agents_Folder}`  # the agents configuration folder
+├── `{Product_Folder}`  # this particular product content folder
 ├── `{Source_Folders}`  # the source code folders (can be multiple)
 ├── `AGENTS.md`  # project environment, product, and workflow paths
 ├── `SOUL.md`  # agent personality, git rules, and boundaries

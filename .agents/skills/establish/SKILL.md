@@ -16,8 +16,6 @@ Act as a senior software engineer.
 
 ## Context
 
-- A tier is a logical group of code that can be run separately (e.g. back, front, fullstack, cli, db, e2e).
-
 ### References
 
 - [Agents Instructions template](./AGENTS.template.md)
@@ -25,36 +23,34 @@ Act as a senior software engineer.
 
 ## Steps
 
-### Step 1: Establishing the project
+### Step 1: Establish the project
 
-- [ ] Check for existing `AGENTS.md`, `SOUL.md`, `CLAUDE.md`, `README.md`, `CHANGELOG.md` at the project root.
-- [ ] Classify the **Starting point**: **greenfield** (no functional code) or **brownfield** (legacy features and versions). Record it in `AGENTS.md` — downstream skills read it from there.
+- [ ] Check for existing `AGENTS.md`, `SOUL.md`, `CLAUDE.md`, `README.md`, `CHANGELOG.md` at the root.
+- [ ] Classify **Starting point**: **greenfield** (no functional code) or **brownfield** (existing code).
 
 ### Step 2: Confirm environment values
 
-- [ ] Propose **AIDD path defaults** and ask the user to confirm or override.
-- [ ] Infer **OS**, **Shell**, **Git** remote URL, and **Git Branch** default from the repo and environment.
-- [ ] Shallow-scan the folder tree 
-- [ ] Draft a layout with the actual files and folders and a short description of each.
+- [ ] Propose **AIDD path defaults**; ask the user to confirm or override.
+- [ ] Infer **OS**, **Shell**, **Git** remote URL, and default **Git Branch** from the repo/environment.
+- [ ] Shallow-scan the folder tree; draft a layout of actual files/folders, each with a short description.
 
 ### Step 3: Define Product
 
-- [ ] From README or user input, fill **Product** brief problem and solution descriptions. On greenfield with no brief, ask the user the minimum questions rather than inventing; record any remaining assumptions explicitly.
-- [ ] Draft a system context diagram (based on C4Context diagram level 1)
-- [ ] Propose an e2e testing strategy grounded in the chosen stack's conventional tooling (name it); flag it as an assumption when unconfirmed.
+- [ ] Fill **Product** problem and solution from README or user input; on greenfield with no brief, ask rather than invent.
+- [ ] Draft a system context diagram (C4 level 1).
+- [ ] Propose an e2e testing strategy.
 
 ## Output
 
-- [ ] Summarize what was written and flag ambiguities.
-- [ ] Write `AGENTS.md` at the project root following the template structure.
-- [ ] Copy [SOUL.md](./SOUL.md) to the project root unchanged (overwrite only if the user confirms or the file is missing).
-- [ ] Do not add sections or columns beyond the AGENTS template. Try to keep `AGENTS.md` under 100 lines.
-- [ ] Commit with conventional message (`chore`).
+- [ ] Summarize what was written; flag ambiguities.
+- [ ] Write `AGENTS.md` at the root per the template.
+- [ ] Copy `SOUL.md` to the root unchanged.
+- [ ] No sections/columns beyond the template; keep `AGENTS.md` under 100 lines.
+- [ ] Commit (`chore`).
 - [ ] Suggest `/explore`, then `/excavate` and `/extract`.
 
 ## Verification
 
-- [ ] Mermaid diagrams render; no placeholders remain in `AGENTS.md`.
-- [ ] `SOUL.md` exists at the project root and matches the establish skill template.
-- [ ] `AGENTS.md` serves as a guide for the entire SDLC workflow.
-- [ ] No leftover `{placeholders}` in `AGENTS.md`.
+- [ ] Mermaid renders; no placeholders remain in `AGENTS.md`.
+- [ ] `SOUL.md` exists at the root, matching the skill template.
+- [ ] `AGENTS.md` guides the entire SDLC workflow.
