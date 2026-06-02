@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Document system architecture (C4 L2): containers + ADRs. Greenfield prescribes; brownfield extracts.
+description: Document system architecture (C4 L2); containers + ADRs. Greenfield prescribes; brownfield extracts.
 ---
 
 # Explore skill
