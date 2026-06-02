@@ -1,6 +1,6 @@
 ---
 name: establish
-description: Set up AIDD: generate root AGENTS.md + copy SOUL.md. Use to start or onboard a project.
+description: Set up AIDD; generate root AGENTS.md + copy SOUL.md. Use to start or onboard a project.
 ---
 
 # Establish skill
