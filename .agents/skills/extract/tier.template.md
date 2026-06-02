@@ -1,6 +1,6 @@
 ---
-description: {Tier_Name} architecture and coding conventions for {Product_Name}
-globs: "{source_glob}"
+description: Tier_Name architecture and coding conventions for Product_Name
+globs: "source_glob"
 ---
 # {Tier_Name} — {Product_Name}
 
