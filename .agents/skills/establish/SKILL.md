@@ -20,6 +20,8 @@ Act as a senior software engineer and architect.
 
 - [Agents Instructions template](./AGENTS.template.md)
 - [Soul template](./SOUL.md) — copy verbatim to project root
+- [Greenfield mode guide](./greenfield.mode.md)
+- [Brownfield mode guide](./brownfield.mode.md)
 
 ## Steps
 
@@ -42,8 +44,9 @@ Act as a senior software engineer and architect.
 ### Step 4: Define Architecture
 
 - [ ] Infer whether this is a monorepo with multiple projects or a single project; each project is a container that belongs to a **Tier**.
-- [ ] **Greenfield**: prescribe containers and stack per the brief, grounded in a reference architecture; name the source so the decisions can cite it. Record foundational decisions (stack, API style, structure) as `Decided`.
-- [ ] **Brownfield**: map containers from entry points, configs, dependency manifests, and README — no implementation detail. Infer decisions from code evidence as `Inferred`. Flag low-confidence mappings.
+- [ ] Read and follow only the selected mode guide:
+  - `greenfield.mode.md` when the starting point is greenfield.
+  - `brownfield.mode.md` when the starting point is brownfield.
 - [ ] Only document decisions that constrain planning — nothing trivial or easily reversible. Defer component-level structure and contracts to `/extract`.
 
 ## Output
