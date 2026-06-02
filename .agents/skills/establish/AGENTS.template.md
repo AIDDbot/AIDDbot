@@ -9,7 +9,7 @@
 
 ### Environment
 - **Git** : {Remote URL for the git repository} - {Git default branch} `main` | `master`
-- **Starting point** : `{Greenfield}` | `{Brownfield}`
+- **Starting mode** : `{Greenfield}` | `{Brownfield}`
 - **Monorepo** : `{Yes}` | `{No}`
 - **Tiers** — logical code groups that run separately: `[back, front, fullstack, cli, e2e, db, ...]`
 
