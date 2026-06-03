@@ -96,17 +96,6 @@ Example prompts:
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
-## UI design spec
-
-There is no separate design skill. When `/extract` processes a **presentation tier** it also authors the product design spec at `design/DESIGN.md` (design tokens + component behavior); `/codify` then implements every UI surface from it.
-
-```markdown
-/extract this project    → writes {tier}.rules.md, plus design/DESIGN.md for presentation tiers
-/codify the plan         → implements the UI to the DESIGN.md tokens
-```
-
-See the [DESIGN.md template](../.agents/skills/extract/design.template.md) for the spec format and [Architect pipelines](./architect.pipelines.md#ui-from-design-spec).
-
 ## Next
 
 - [Why AIDD](../README.md#why-aidd) — principles and who this is for

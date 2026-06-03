@@ -7,7 +7,7 @@
 | [`/establish`](./skills/establish/) | Product, paths, personality and git rules — C4 L1 |
 | [`/explore`](./skills/explore/) | System architecture + ADRs — C4 L2 |
 | [`/excavate`](./skills/excavate/) | Tier/component architecture + ER — C4 L3 |
-| [`/extract`](./skills/extract/) | Coding rules per tier; plus `DESIGN.md` (tokens + component behavior) for presentation tiers |
+| [`/extract`](./skills/extract/) | Coding rules per tier |
 
 ## Builder
 
@@ -33,12 +33,10 @@
 
 ## Typical loops
 
-**Architecture (once, green or brown):** `/establish` → `/explore` → `/excavate` (per tier, then `ER.md`) → `/extract` (per tier; presentation tiers also get `DESIGN.md`)
+**Architecture (once, green or brown):** `/establish` → `/explore` → `/excavate` (per tier, then `ER.md`) → `/extract` (per tier)
 
 Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
 
 **Feature:** /specify → /planify → /codify → /verify → /review? → /refactor? → /release
-
-**UI design:** `/extract` authors `DESIGN.md` for presentation tiers; `/codify` implements the UI from it.
 
 **Failed verification:**  `/verify` → `/rectify` 

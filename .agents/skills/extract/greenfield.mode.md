@@ -11,7 +11,3 @@ Extract conventions from the ecosystem (prescribe); no existing code to read.
 ## `{tier}.rules.md`
 
 - [ ] extract naming, artifact roles, wiring, error handling, and testing conventions from the sources above; reconcile conflicts with ADRs + stack choices (ADRs win). Capture per-role rules in the roles table and write **one** illustrative canonical example for the tier; cite the source guides that drove the rules. Under **Known Deviations**: no deviations yet — greenfield baseline.
-
-## `DESIGN.md` (presentation tiers only)
-
-- [ ] prescribe a coherent token set (color, typography, spacing, radius, elevation) and component behavior from the brief and brand; keep states (default/hover/focus/active) and breakpoints consistent.

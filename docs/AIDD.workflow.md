@@ -13,7 +13,6 @@ flowchart TD
       VER["specs/{slug}/verify.md"]:::nd
       ARC["arch/"]:::nd
       RUL["rules/"]:::nd
-      DES["design/"]:::nd
   end
 
   subgraph A["AGENTS"]
@@ -32,13 +31,11 @@ flowchart TD
   HUM -->|/excavate| ARC
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/extract| DES
   AGT -.-> SPC  
   AGT -.-> ARC
   RUL -.-> COD  
   SPC -->|/planify| PLN
   ARC -.-> PLN
-  DES -.-> COD
 
   PLN -->|/codify| COD
   COD -->|/verify| E2E
@@ -68,7 +65,7 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 |----------|--------|---------|--------|--------|
 | **Spec** | `/specify` | `system.arch.md`, `ADR.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (`/planify`, on branching) -> `done` (`/release`) |
 | **Plan** | `/planify` | `{tier}.arch.md`, `ER.md` | `specs/{slug}/{tier?}.plan.md` | `pending` -> `done` |
-| **Code** | `/codify` | `{tier}.rules.md`, `DESIGN.md` | `{tier}/` | — |
+| **Code** | `/codify` | `{tier}.rules.md` | `{tier}/` | — |
 | **E2E** | `/verify` | `e2e.rules.md` | `e2e/` | — |
 | **Verify report** | `/verify` | `spec.md`, E2E run | `specs/{slug}/verify.md` | `pending` -> `pass` \| `fail` |
 
@@ -88,9 +85,6 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 - `rules/` - Coding rules for each tier
   - `{tier}.rules.md` - Coding rules for the tier (`/extract`).
-
-- `design/` - UI design specification (`/extract`, presentation tiers); implemented by `/codify`.
-  - `DESIGN.md` - Design tokens (color, typography, spacing, radius, elevation) and component behavior for the product UI.
 
 - `specs/` - One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
   - `{slug}/spec.md` - Feature specification (problem, solution, acceptance criteria). `/verify` marks its criteria `[x]/[ ]`.
