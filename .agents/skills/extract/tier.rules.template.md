@@ -1,6 +1,6 @@
 ---
-description: {Tier_Name} coding conventions for {Product_Name}
-globs: "{source_glob}"
+description: Tier_Name coding conventions for Product_Name
+globs: "source_glob"
 ---
 # {Tier_Name} Conventions — {Product_Name}
 
