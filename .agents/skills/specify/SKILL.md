@@ -21,7 +21,6 @@ Given a requirement or feature description, produce a complete specification fil
 - Architectural decisions at `{Product_Folder}/arch/ADR.md`
 - System architecture at `{Product_Folder}/arch/system.arch.md`
 - [Spec template](./spec.template.md)
-- [EARS Conventions](./EARS.convention.md)
 - [Model design convention](./model-design.convention.md)
 
 ## Steps
@@ -38,14 +37,14 @@ Given a requirement or feature description, produce a complete specification fil
 
 ### Step 3: Design the solution
 
-- [ ] Propose the solution across applicable tiers from [system.arch.md](./arch/system.arch.md).
+- [ ] Propose the solution across applicable tiers from `{Product_Folder}/arch/system.arch.md`.
 - [ ] Apply [Model design convention](./model-design.convention.md) where the data model applies.
-- [ ] Respect [ADR.md](./arch/ADR.md) and [system.arch.md](./arch/system.arch.md).
+- [ ] Respect `{Product_Folder}/arch/ADR.md` and `{Product_Folder}/arch/system.arch.md`.
 - [ ] Focus on high-level design, not implementation detail.
 
 ### Step 4: Define acceptance criteria
 
-- [ ] Write verifiable criteria using [EARS Conventions](./EARS.convention.md).
+- [ ] Write verifiable criteria using Easy Approach to Requirements Specification (EARS) Conventions
 
 ### Step 5: Write the spec
 

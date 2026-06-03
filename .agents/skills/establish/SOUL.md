@@ -32,10 +32,3 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **Branches:** `{prefix}/{slug}` — `feat/`, `fix/`, `chore/` (default branch in `AGENTS.md`).
 - **Commits:** conventional commit with type (`feat`, `fix`, `docs`, `test`, `chore`) and scope when useful.
 
-### AIDD workflow
-- **Architecture:** `establish` → `explore` → `excavate` → `extract`. Each step is mode-aware: prescriptive on greenfield, descriptive on brownfield.
-- **Building (SDD):** `specify` → `planify` → `codify` → `verify`. On failure: `rectify` → `verify`.
-- **Quality:** `review` → `refactor` → `release`. Can be run on files, folders, or branches.
-
-#### Specs
-- Each feature owns `{Product_Folder}/specs/{slug}/` holding `spec.md`, its `{tier?}.plan.md` files, and the `verify.md` report.

@@ -15,8 +15,8 @@ C4Container
   Person(actor_id, "{Actor name}")
 
   Container_Boundary(system_id, "{Product_Name}") {
-    Container(container_a, "{Container A}", "{Technology}", "{Responsibility}")
-    Container(container_b, "{Container B}", "{Technology}", "{Responsibility}")
+    Container(container_a, "{Container A}", "{Technology}")
+    Container(container_b, "{Container B}", "{Technology}")
   }
 
   Rel(actor_id, container_a, "{Interaction}", "{Protocol}")
@@ -26,7 +26,9 @@ C4Container
 {One `### {Container}` line per container: tier, folder, archetype.}
 
 ### {Container name}
-- **Tier**: `{back | front | fullstack | e2e | db}` — **Folder**: `{folder}/` — **Archetype**: {language} / {framework}
+- **Tier**: `{back | front | fullstack | e2e | db}` 
+- **Folder**: `{folder}/` 
+- **Archetype**: {language} / {framework}
 
 ---
 

@@ -36,7 +36,7 @@ Given a specification file, write and run E2E tests that cover all acceptance cr
 
 ### Step 2: Review acceptance criteria
 - [ ] List all criteria to verify from the spec.
-- [ ] Cross-check against [testing.guidelines.md](./testing.guidelines.md) when adding or extending tests.
+- [ ] Cross-check against the framework guide (e.g. [Playwright](./playwright.md)) when adding or extending tests.
 
 ### Step 3: Write E2E tests
 - [ ] Cover all criteria and edge cases; 
