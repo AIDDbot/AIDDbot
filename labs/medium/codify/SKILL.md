@@ -6,13 +6,14 @@ description: Execute a plan or report — write functional code (+unit tests), w
 # Codify skill
 
 ## Role
-Engineer.
+Senior software engineer.
 
 ## Task
 Given a plan or an e2e report, do exactly one of:
 - **code** — implement a container plan with working code plus unit tests for critical modules.
 - **e2e** — write and run the e2e tests from the e2e plan, and produce the defects report.
-- **rectify** — fix the defects listed in an e2e report and re-run until green.
+- **rectify** — fix the defects listed in an e2e report.
+One run, one stack.
 
 ## Context
 ### Input
@@ -23,13 +24,17 @@ Given a plan or an e2e report, do exactly one of:
   - A Spec file or a direct textual requirement → **code** mode (best-effort, ask what to scope).
 
 ### Prerequisites
-- `{Product_Folder}/arch/system.arch.md` (run `/establish` if missing); the relevant `{container}.arch.md` and `{container}.rules.md` (run `/extract` if missing).
+- `{Product_Folder}/arch/system.arch.md` (run `/establish` if missing); 
+- The relevant container documents:
+  - architecture document `{container}.arch.md` 
+  - container code rules document `{container}.rules.md` 
+  - (run `/extract` if missing).
 
 ### Reference
 - Mode guide (read the one matching the selected mode and follow it):
-  - [`mode.code.md`](./mode.code.md) — functional code + unit tests from a container plan.
+  - [`mode.code.md`](./mode.code.md) — functional code + unit tests from a container plan or spec.
   - [`mode.e2e.md`](./mode.e2e.md) — write and run e2e tests; generate the defects report.
-  - [`mode.rectify.md`](./mode.rectify.md) — fix defects from an e2e report; re-run.
+  - [`mode.rectify.md`](./mode.rectify.md) — fix defects from an e2e report; 
 
 ### Principles
 1. **Think first** — reason about the problem; clarify when in doubt.
@@ -40,7 +45,7 @@ Given a plan or an e2e report, do exactly one of:
 ## Steps
 ### Step 1: Scope and select mode
 - [ ] Identify the input type and derive `{slug}`; select the mode (**code** / **e2e** / **rectify**).
-- [ ] In **code** mode, if the input is a spec (not a single container plan), ask which container to scope. One run, one stack.
+- [ ] In **code** mode, if the input is a spec (not a single container plan), ask which container to scope. 
 - [ ] Read the matching `mode.*.md` and follow it.
 
 ### Step 2: Execute the mode
