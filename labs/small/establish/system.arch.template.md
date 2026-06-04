@@ -1,4 +1,4 @@
-# Architecture — {Product_Name}
+# System architecture — {Product_Name}
 
 ## Overview
 
@@ -57,6 +57,7 @@ C4Container
 
 ## Entity-Relationship diagram
 
+{Only entities and relationships; no need to add fields and constraints.}
 ```mermaid
 erDiagram
     EntityA ||--o{ EntityB : "relationship"
