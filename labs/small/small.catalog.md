@@ -4,7 +4,7 @@ A 4-skill pipeline for tiny projects. The minimum that still keeps specs and rel
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/establish`](./establish/) | AIDD setup + one architecture doc | `AGENTS.md`, `system.arch.md` |
+| [`/establish`](./establish/) | AIDD setup + architecture doc C4L2 | `AGENTS.md`, `system.arch.md` |
 | [`/specify`](./specify/) | One-page spec: problem + acceptance criteria | `specs/{slug}/spec.md` |
 | [`/codify`](./codify/) | Code + light tests + self-check against criteria | source + tests |
 | [`/release`](./release/) | Version bump, changelog, spec `done` | `CHANGELOG.md`, version bump |

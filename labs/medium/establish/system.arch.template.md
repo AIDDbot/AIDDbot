@@ -1,12 +1,12 @@
-# System Architecture — {Product_Name}
+# System architecture — {Product_Name}
 
 ## Overview
 
-{One paragraph: what the system does, key capabilities, and target users.}
+{One paragraph: what the system does}
 
 ---
 
-## Containers
+## Containers diagram
 
 ```mermaid
 C4Container
@@ -23,19 +23,49 @@ C4Container
   Rel(container_a, container_b, "{Interaction}", "{Protocol}")
 ```
 
-{One `### {Container}` line per container: tier, folder, archetype.}
+## Container 1
+- **Tier**: `{back | front | fullstack | e2e | db}`
+- **Folder**: `{folder}/`
+- **Archetype**: {language} — {framework}
 
-### {Container name}
-- **Tier**: `{back | front | fullstack | e2e | db}` 
-- **Folder**: `{folder}/` 
-- **Archetype**: {language} / {framework}
+### Development workflow scripts
+
+```bash
+{scripts to call for compiling, running, testing the container}
+```
+
+### Code organization
+
+**Pattern**: {Layer-based | Feature-based | Hybrid}.
+
+```text
+{source_root}/
+├── {folder_or_file}    # {one-line responsibility}
+└── {folder_or_file}    # {one-line responsibility}
+```
+
+### Code rules
+> Only the few rules that genuinely change how code is written here. Skip generic advice.
+
+- **Naming**: {casing for files, types, functions — one line, e.g. `kebab-case files, PascalCase types`.}
+- **Structure**: {dominant pattern — layer-based | feature-based; one line.}
+- **Errors**: {dominant error-handling rule.}
+- **Testing**: {placement + naming, e.g. colocated `*.spec.ts`.}
+- **Avoid**: {1–3 concrete anti-patterns, each with a one-clause reason.}
 
 ---
 
-## Inter-container communication
+## Entity-Relationship diagram
 
-| Source | Target | Protocol | Contract |
-|--------|--------|----------|----------|
-| {Container A} | {Container B} | {Protocol} | {Contract summary} |
+{Only entities and relationships; no need to add fields and constraints.}
+```mermaid
+erDiagram
+    EntityA ||--o{ EntityB : "relationship"
+```
+
+---
+
+
 
 > last updated: {Date}
+

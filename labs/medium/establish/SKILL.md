@@ -1,6 +1,6 @@
 ---
 name: establish
-description: Set up AIDD + system architecture (C4 L1–L2). Greenfield prescribes; brownfield extracts.
+description: Set up rules and architecture document for the current project. Greenfield prescribes; brownfield extracts.
 ---
 
 # Establish skill
@@ -9,29 +9,43 @@ description: Set up AIDD + system architecture (C4 L1–L2). Greenfield prescrib
 Senior software engineer / architect.
 
 ## Task
-- `AGENTS.md` — root; project config + workflow (paths, mode, tech, product, short personality note).
-- `{Product_Folder}/arch/system.arch.md` — C4 L2 containers + communication.
+Generate the root AGENTS.md and the system architecture document for the current project.
 
 ## Context
-- Mode: **greenfield** (no code) prescribes; **brownfield** (existing code) extracts from code.
-- Templates (same folder): [`AGENTS.template.md`](./AGENTS.template.md), [`system.arch.template.md`](./system.arch.template.md).
+
+### Input
+- Current codebase, classified as **greenfield** (no code) or **brownfield** (existing code).
+
+### Reference
+- Templates: 
+  - [`AGENTS.template.md`](./AGENTS.template.md), 
+  - [`system.arch.template.md`](./system.arch.template.md).
+- Mode guide (read the one matching the classified mode):
+  - [`mode.greenfield.md`](./mode.greenfield.md) — prescribe defaults; ask the user.
+  - [`mode.brownfield.md`](./mode.brownfield.md) — extract facts from code.
 
 ## Steps
+### Step 1: Configuration and starting mode
+- [ ] Infer OS, shell, Git remote; confirm path defaults.
+- [ ] Check root for `AGENTS.md`, `README.md`, and source code.
+- [ ] Classify mode **greenfield | brownfield**, 
+- then read the matching `mode.*.md` and follow it for the steps below.
 
-### Step 1: Detect
-- [ ] Check root for `AGENTS.md`, `README.md`; classify mode greenfield | brownfield.
-- [ ] Confirm AIDD path defaults; infer OS, shell, Git remote.
+### Step 2: Generate the root AGENTS.md
+- [ ] If ambiguous or missing, ask the minimum clarifying questions.
+- [ ] Fill `AGENTS.template.md`; keep it short (< 100 lines) and actionable.
 
-### Step 2: AGENTS.md
-- [ ] Fill `AGENTS.template.md`: product problem + solution, tech, paths, inline personality note.
-
-### Step 3: system.arch.md
-- [ ] Fill `system.arch.template.md`: containers + how they communicate (Mermaid). Keep it simple.
+### Step 3: Generate the architecture document
+- [ ] Fill `system.arch.template.md` in one pass over the whole project.
+- [ ] Draw a diagram of the containers (C4 Level 2).
+- [ ] For each container add technical details.
+- [ ] Draw a diagram of the entity-relationship (no attributes or constraints).
 
 ## Output
-- [ ] Write `AGENTS.md` and `arch/system.arch.md`. No `{placeholders}`; each under 100 lines.
-- [ ] Commit (`chore`/`docs`); suggest `/extract`.
+- [ ] Write `AGENTS.md` and `{Product_Folder}/system.arch.md`.
+- [ ] Commit (`docs`); suggest `/specify`.
 
 ## Verification
-- [ ] `AGENTS.md` guides the workflow.
-- [ ] Mermaid renders; `system.arch.md` alone explains the containers.
+- [ ] `AGENTS.md` exists and is well formatted.
+- [ ] `system.arch.md` exists and is well formatted.
+- [ ] No `{placeholders}` left.
