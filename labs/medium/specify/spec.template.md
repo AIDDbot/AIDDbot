@@ -1,30 +1,33 @@
 ---
 slug: {slug}
 status: pending | in-progress | done
-released-version:
 ---
 # Specification — {short description}
 
-## Problem
+## Problem definition
 
 {Problem statement.}
 
-### User stories
+### User Stories
 
 - As a {role}, I want to **{goal}** so that {benefit}.
 
 ## Solution overview
 
-{High-level solution across the relevant containers from `system.arch.md`: data model, API, UI — only what applies.}
+> Expected results only — outcomes, not implementation. `/planify` turns these into steps per container.
 
-## Implementation outline
+### Data Model
 
-{Ordered steps `/codify` will follow — title, one-line description, and main paths.}
+{Conceptual entities and relationships involved in this feature; no schema or field-level detail.}
 
-1. {Step} — {path(s)}
-2. {Step} — {path(s)}
+### {Container_Name}
 
-## Acceptance criteria
+{What this container must deliver for the feature, per `system.arch.md`.}
 
-- [ ] When {trigger}, the system shall {response}.
+- {Expected result — an observable outcome this container provides.}
+- {Expected result}
+
+## Acceptance and Release
+
+- [ ] {EARS-format acceptance criterion}
 - [ ] {Additional criterion}

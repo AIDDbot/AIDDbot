@@ -30,7 +30,7 @@ Given a code scope, evaluate against the merged checklist, fix every finding wit
 
 ## Output
 - [ ] Fixed code in scope (or "No findings").
-- [ ] One commit; chat summary; suggest running tests / `/verify`, then `/release`.
+- [ ] One commit; chat summary; suggest running the e2e suite (`/codify` the `e2e.plan.md`), then `/release`.
 
 ## Verification
 - [ ] Every scope file considered across all dimensions.
