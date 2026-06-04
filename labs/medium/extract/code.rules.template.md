@@ -1,12 +1,12 @@
 ---
-description: Coding conventions for {Product_Name}
+description: Code rules for the {container} container of {Product_Name}
 globs: "{source_glob}"
 ---
-# Code Conventions — {Product_Name}
+# {Container_Name} code rules — {Product_Name}
 
 ## Summary
 
-{One paragraph: dominant code style and the key principle to follow.}
+{One paragraph: dominant code style and the one principle that matters most in this tier.}
 
 ## Naming
 
@@ -23,16 +23,17 @@ globs: "{source_glob}"
 |------|----------------------------|
 | {role} | {dominant pattern for this role} |
 
-**Canonical example**:
+## Canonical example
+
+> The cleanest representative unit for this tier — copy its shape.
 
 ```{language}
-{Cleanest representative example — ≤ 20 lines; trim imports/boilerplate.}
+{≤ 25 lines; trim imports/boilerplate.}
 ```
-
-**Avoid**: {2–4 concrete anti-patterns, each with a one-clause reason.}
 
 ## Conventions
 
-- **Wiring**: {how components reference each other.}
+- **Wiring**: {how components reference each other / dependency injection.}
 - **Errors**: {dominant error-handling rule.}
 - **Testing**: {placement + naming (e.g. colocated `*.spec.ts`); what to cover.}
+- **Avoid**: {2–4 concrete anti-patterns, each with a one-clause reason.}

@@ -43,7 +43,7 @@ Generate the root AGENTS.md and the system architecture document for the current
 
 ## Output
 - [ ] Write `AGENTS.md` and `{Product_Folder}/system.arch.md`.
-- [ ] Commit (`docs`); suggest `/specify`.
+- [ ] Commit (`docs`); suggest `/extract`.
 
 ## Verification
 - [ ] `AGENTS.md` exists and is well formatted.

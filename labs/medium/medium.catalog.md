@@ -7,7 +7,7 @@ A 7-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artif
 | Skill | What it does | Produces |
 |-------|--------------|----------|
 | [`/establish`](./establish/) | AIDD setup + C4L2 | `AGENTS.md`, `arch/system.arch.md` |
-| [`/extract`](./extract/) | by container: Components + coding rules C4L3 | `arch/components.arch.md`, `code.rules.md` |
+| [`/extract`](./extract/) | per container: C4L3 components + tier code rules | `arch/{container}.arch.md`, `{container}.rules.md` |
 
 ## Builder
 

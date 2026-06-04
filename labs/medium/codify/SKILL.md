@@ -13,8 +13,8 @@ Implement the spec's solution: working code plus unit tests for critical modules
 
 ## Context
 - Input: `{Product_Folder}/specs/{slug}/spec.md` (or a direct requirement).
-- Prereq: `{Rules_Folder}/code.rules.md` (run `/extract` if missing).
-- References: `code.rules.md`, `arch/components.arch.md`.
+- Prereq: `{Source_Folder}/{container}.rules.md` (run `/extract` if missing).
+- References: `{container}.rules.md`, `arch/{container}.arch.md` for the tier you touch.
 
 ## Steps
 
@@ -24,7 +24,7 @@ Implement the spec's solution: working code plus unit tests for critical modules
 
 ### Step 2: Implement
 - [ ] Follow the outline in order; write the minimum code to fulfill it (no comments, no extra changes).
-- [ ] Apply `code.rules.md` conventions.
+- [ ] Apply the tier's `{container}.rules.md` conventions.
 
 ### Step 3: Unit tests
 - [ ] Cover critical modules: happy path, edge cases, error cases.

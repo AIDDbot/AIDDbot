@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Document components + coding rules in one pass (C4 L3 + rules). Greenfield prescribes; brownfield extracts.
+description: Document one container in depth — C4 L3 components + tier code rules. Greenfield prescribes; brownfield extracts.
 ---
 
 # Extract skill
@@ -9,30 +9,42 @@ description: Document components + coding rules in one pass (C4 L3 + rules). Gre
 Senior software engineer / architect.
 
 ## Task
-- `{Product_Folder}/arch/components.arch.md` — C4 L3 components, contracts, domain entities (one pass).
-- `{Rules_Folder}/code.rules.md` — coding conventions (one pass).
+For **one container at a time**, generate its component architecture and tier code-rules documents.
 
 ## Context
-- Prereq: `AGENTS.md`, `arch/system.arch.md` (run `/establish` if missing).
-- Mode: **greenfield** prescribes; **brownfield** extracts from code.
-- Templates (same folder): [`components.arch.template.md`](./components.arch.template.md), [`code.rules.template.md`](./code.rules.template.md).
+
+### Input
+- Root `AGENTS.md` and `{Product_Folder}/arch/system.arch.md` (run `/establish` first if missing).
+- The container to document (ask which one if not given).
+
+### Reference
+- Templates:
+  - [`components.arch.template.md`](./components.arch.template.md),
+  - [`code.rules.template.md`](./code.rules.template.md).
+- Mode guide (read the one matching the project mode from `AGENTS.md`):
+  - [`mode.greenfield.md`](./mode.greenfield.md) — prescribe the intended design.
+  - [`mode.brownfield.md`](./mode.brownfield.md) — extract facts from code.
 
 ## Steps
+### Step 1: Select container and mode
+- [ ] List containers from `system.arch.md`; pick one to document (ask if ambiguous).
+- [ ] Read project mode from `AGENTS.md`; read the matching `mode.*.md` and follow it below.
 
-### Step 1: Confirm mode
-- [ ] Read mode from `AGENTS.md`; greenfield prescribes, brownfield extracts.
+### Step 2: Component architecture
+- [ ] Fill `components.arch.template.md` for this container only.
+- [ ] Draw the C4 L3 components diagram inside the container boundary.
+- [ ] Add code organization, key contracts, and (if it owns data) domain entities.
 
-### Step 2: components.arch.md
-- [ ] Fill `components.arch.template.md`: components, contracts, and inline domain entities.
-- [ ] One pass over the whole codebase — no per-tier loop.
-
-### Step 3: code.rules.md
-- [ ] Fill `code.rules.template.md`: roles, dominant patterns, concrete anti-patterns. One pass.
+### Step 3: Tier code rules
+- [ ] Fill `code.rules.template.md`, scoped to this container's source glob.
+- [ ] Capture naming, artifact roles, conventions, and one canonical example for the tier.
 
 ## Output
-- [ ] Write `arch/components.arch.md` and `code.rules.md`. No `{placeholders}`; each under 100 lines.
-- [ ] Commit (`docs`); suggest `/specify`.
+- [ ] Write container architecture document `{Product_Folder}/arch/{container}.arch.md` 
+- [ ] Write container code rules document `{Source_Folder}/{container}.rules.md`.
+- [ ] Commit (`docs`); repeat for the next container, or suggest `/specify`.
 
 ## Verification
-- [ ] `components.arch.md` explains the components, contracts, and entities.
-- [ ] `code.rules.md` alone answers how code must be written.
+- [ ] `{container}.arch.md` exists and is well formatted.
+- [ ] `{container}.rules.md` exists and is well formatted.
+- [ ] No `{placeholders}` left.

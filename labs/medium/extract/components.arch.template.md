@@ -1,19 +1,27 @@
-# Components & Domain — {Product_Name}
+# {Container_Name} architecture — {Product_Name}
+
+> Container `{container}` from [`system.arch.md`](./system.arch.md). Tier: `{back | front | fullstack | e2e | db}`.
 
 ## Overview
 
-{One paragraph: how the codebase is organized and the main technology.}
+{One paragraph: this container's responsibility and main technology.}
+
+- **Folder**: `{source_root}/`
+- **Archetype**: {language} — {framework}
+- **Talks to**: {sibling containers / external systems it depends on}
 
 ---
 
-## Components
+## Components diagram (C4 L3)
 
 ```mermaid
 C4Component
-  title {Product_Name} Components
+  title {Container_Name} Components
 
-  Component(comp_a, "{Component A}", "{Stereotype}", "{Responsibility}")
-  Component(comp_b, "{Component B}", "{Stereotype}", "{Responsibility}")
+  Container_Boundary(boundary, "{Container_Name}") {
+    Component(comp_a, "{Component A}", "{Stereotype}", "{Responsibility}")
+    Component(comp_b, "{Component B}", "{Stereotype}", "{Responsibility}")
+  }
 
   Rel(comp_a, comp_b, "{Interaction}")
 ```
@@ -30,17 +38,17 @@ C4Component
 
 ### Key contracts
 
-{API routes, interfaces, or models exposed across the code. Use a short table.}
+{Routes, interfaces, or events this container exposes or consumes. Short table.}
 
-| Contract | Shape | Used by |
-|----------|-------|---------|
-| {name} | {signature / route / schema} | {consumer} |
+| Contract | Shape | Direction |
+|----------|-------|-----------|
+| {name} | {signature / route / schema} | {exposes \| consumes} |
 
 ---
 
 ## Domain entities
 
-{Entities and key fields folded in here — no separate ER file.}
+> Only for containers that own/persist domain data; otherwise link to the owner.
 
 ```mermaid
 erDiagram
