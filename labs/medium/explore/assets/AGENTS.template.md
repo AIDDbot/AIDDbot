@@ -16,8 +16,9 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh}`
 
 ### Paths
-- **{Product_Folder}** — `docs/` | `.product/` | {user chosen} — holds `arch.md` and specs
-- **{Source_Folders}** — [`src/`] | [`back/`, `front/`] | {user chosen}
+- **{Agents_Folder}** — `.claude/` | `.agents/` | {user chosen} — holds skills and rules for agents
+- **{Product_Folder}** — `docs/` | `.product/` | {user chosen} — holds `*.arch.md` and specs
+- **{Source_Folders}** — [`src/`] | [`back/`, `front/`] | {user chosen} - holds source code
 
 ### Git
 - Preserve work; no secrets; no destructive commands

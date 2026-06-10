@@ -1,50 +1,37 @@
 ---
 name: extract
-description: Document one container in depth — C4 L3 components + tier code rules. Greenfield prescribes; brownfield extracts.
+description: Document one container in depth — C4 L3 components + container code rules. Greenfield prescribes; brownfield extracts.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Extract skill
 
-## Role
-Senior software engineer / architect.
+For **one container at a time**, generate its component architecture and container code-rules documents, acting as a senior architect.
 
-## Task
-For **one container at a time**, generate its component architecture and tier code-rules documents.
-
-## Context
-
-### Input
-- Root `AGENTS.md` and `{Product_Folder}/arch/system.arch.md` (run `/establish` first if missing).
+## Input
+- Root `AGENTS.md` and `{Product_Folder}/arch/system.arch.md` (run `/explore` first if missing).
 - The container to document (ask which one if not given).
+- Templates: [`container.arch.template.md`](./assets/container.arch.template.md), [`code.rules.template.md`](./assets/code.rules.template.md).
+- CAUTION: Read ONLY ONE (green or brown) 
+- Mode guides (read the one that matches the project's starting mode):
+  - [`mode.greenfield.md`](./references/mode.greenfield.md) — no code; prescribe the intended design.
+  - [`mode.brownfield.md`](./references/mode.brownfield.md) — existing code; extract facts.
 
-### Reference
-- Templates:
-  - [`components.arch.template.md`](./components.arch.template.md),
-  - [`code.rules.template.md`](./code.rules.template.md).
-- Mode guide (read the one matching the project mode from `AGENTS.md`):
-  - [`mode.greenfield.md`](./mode.greenfield.md) — prescribe the intended design.
-  - [`mode.brownfield.md`](./mode.brownfield.md) — extract facts from code.
+## Glossary
+- **Container** — a runnable unit in `system.arch.md` (`back`, `front`, `db`...). Never "tier".
+- **Component** — an internal building block of one container (C4 L3).
+- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (code exists → extract).
 
 ## Steps
-### Step 1: Select container and mode
-- [ ] List containers from `system.arch.md`; pick one to document (ask if ambiguous).
-- [ ] Read project mode from `AGENTS.md`; read the matching `mode.*.md` and follow it below.
-
-### Step 2: Component architecture
-- [ ] Fill `components.arch.template.md` for this container only.
-- [ ] Draw the C4 L3 components diagram inside the container boundary.
-- [ ] Add code organization, key contracts, and (if it owns data) domain entities.
-
-### Step 3: Tier code rules
-- [ ] Fill `code.rules.template.md`, scoped to this container's source glob.
-- [ ] Capture naming, artifact roles, conventions, and one canonical example for the tier.
+1. **Select**: list containers from `system.arch.md`, pick one (ask if ambiguous). Decide its mode by whether it already has source code (code = brownfield, none = greenfield) and follow the matching `mode.*.md`.
+2. **Container architecture**: fill `container.arch.template.md` for this container only — C4 L3 components diagram, code organization, key contracts, and domain entities/data schemas/api endpoints where relevant.
+3. **Container code rules**: fill `code.rules.template.md`, scoped to this container's source glob — naming, artifact roles, conventions, and one canonical example.
 
 ## Output
-- [ ] Write container architecture document `{Product_Folder}/arch/{container}.arch.md` 
-- [ ] Write container code rules document `{Source_Folder}/{container}.rules.md`.
-- [ ] Commit (`docs`); repeat for the next container, or suggest `/specify`.
+- Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
+- Write `{Agents_Folder}/rules/{container}.rules.md`.
+- Commit (`docs`); repeat for the next container, or suggest `/specify`.
 
 ## Verification
-- [ ] `{container}.arch.md` exists and is well formatted.
-- [ ] `{container}.rules.md` exists and is well formatted.
-- [ ] No `{placeholders}` left.
+- Both files exist, are well formatted, and have no `{placeholders}` left.

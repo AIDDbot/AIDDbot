@@ -1,12 +1,12 @@
 ---
 description: Code rules for the {container} container of {Product_Name}
-globs: "{source_glob}"
+paths: "{source_glob}"
 ---
 # {Container_Name} code rules — {Product_Name}
 
 ## Summary
 
-{One paragraph: dominant code style and the one principle that matters most in this tier.}
+{One paragraph: dominant code style and the one principle that matters most in this container.}
 
 ## Naming
 
@@ -25,7 +25,7 @@ globs: "{source_glob}"
 
 ## Canonical example
 
-> The cleanest representative unit for this tier — copy its shape.
+> The cleanest representative unit for this container — copy its shape.
 
 ```{language}
 {≤ 25 lines; trim imports/boilerplate.}

@@ -46,21 +46,10 @@ C4Component
 
 ---
 
-## Domain entities
+## Data Schemas
 
-> Only for containers that own/persist domain data; otherwise link to the owner.
+{If this is a database container, list the tables and their key fields.}
 
-```mermaid
-erDiagram
-    EntityA ||--o{ EntityB : "relationship"
-```
 
-### {Entity_Name}
-
-| Field | Type | Constraints |
-|-------|------|-------------|
-| `{field}` | {Type} | {PK, FK → Target, unique, required, ...} |
-
-**Rules**: {key integrity / business rules to enforce during `/codify`.}
-
+{If this is a api container, list the api endpoints and DAOs interfaces.}
 > last updated: {Date}
