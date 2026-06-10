@@ -1,64 +1,49 @@
 ---
 name: specify
-description: Writes a specification file for a new feature or complex improvement. Use this skill when the user provides a requirement, user story, or feature description that needs to be formally defined before implementation. Trigger on phrases like "write a spec", "specify this feature", "create a spec for", or whenever a new feature needs a spec file before planning or coding.
+description: Capture a feature as a one-page spec — problem, per-container expected results, and acceptance criteria. No technical details; planify owns the steps.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Specify skill
 
 ## Role
-Act as a senior analyst.
+Analyst. Define **what** the feature must achieve, not **how**. The breakdown into steps and tasks is delegated to `/planify`.
 
 ## Task
-Given a requirement or feature description, produce a complete specification file that serves as the source of truth for code.
+- `{Product_Folder}/specs/{slug}/spec.md` — problem, a per-container list of expected results, and acceptance criteria.
 
 ## Context
-
 ### Input
-- A requirement, user story, or feature description from the user.
+- A requirement or feature description; changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context.
 
-### References
+### Prerequisites
+- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) — it identifies the containers this feature touches.
 
-- Architectural decisions at `{Product_Folder}/arch/ADR.md`
-- System architecture at `{Product_Folder}/arch/system.arch.md`
-- [Spec template](./spec.template.md)
-- [Model design convention](./model-design.convention.md)
+### Assets
+- [`spec.template.md`](./assets/spec.template.md).
+
+### Guardrails
+1. Never reopen or edit a `done` spec — always write a new one.
 
 ## Steps
 
-### Step 1: Understand the requirement
+### Step 1: Understand
+- [ ] Ask the minimum questions if unclear; derive `{slug}`.
+- [ ] From `system.arch.md`, list the containers this feature touches.
 
-- [ ] If ambiguous or incomplete, ask the minimum questions needed before proceeding.
-- [ ] Derive `{slug}` per `AGENTS.md`; confirm with the user if unclear.
-
-### Step 2: Define the problem
-
-- [ ] Articulate the problem statement.
-- [ ] Write user stories from the affected roles' perspective.
-
-### Step 3: Design the solution
-
-- [ ] Propose the solution across applicable tiers from `{Product_Folder}/arch/system.arch.md`.
-- [ ] Apply [Model design convention](./model-design.convention.md) where the data model applies.
-- [ ] Respect `{Product_Folder}/arch/ADR.md` and `{Product_Folder}/arch/system.arch.md`.
-- [ ] Focus on high-level design, not implementation detail.
-
-### Step 4: Define acceptance criteria
-
-- [ ] Write verifiable criteria using Easy Approach to Requirements Specification (EARS) Conventions
-
-### Step 5: Write the spec
-
-- [ ] Create the feature folder `{Product_Folder}/specs/{slug}/` if it does not exist.
-- [ ] Create `{Product_Folder}/specs/{slug}/spec.md` from [spec template](./spec.template.md).
-- [ ] Frontmatter: 
-  - `slug` matches `{slug}` (the folder name carries the slug; the filename stays `spec.md`)
-  - `status` is `pending`
-  - `released-version` is empty
+### Step 2: Write the spec
+- [ ] Fill `spec.template.md`: problem, user stories, a conceptual data model, and checkable acceptance criteria.
+- [ ] When amending a released feature, set `amends: {old-slug}` in the frontmatter and state the released behavior as the baseline in the problem definition.
+- [ ] For each affected container (`{Container_Name}`), list the **expected results** — observable outcomes that container must deliver.
+- [ ] Stay at the outcome level: no implementation steps, file paths, or technology choices (that is `/planify`'s job).
+- [ ] No `e2e` section in the solution overview — verification lives in the acceptance criteria.
 
 ## Output
-- [ ] Write the spec at `{Product_Folder}/specs/{slug}/spec.md` following the template.
-- [ ] Suggest `/planify` to break down the spec into implementation steps.
+- [ ] Write `spec.md` with `status: pending`. No `{placeholders}`; keep it to one page.
+- [ ] Commit (`docs`); suggest `/planify`.
 
 ## Verification
-- [ ] Problem, solution, and acceptance criteria are present and traceable.
-- [ ] Frontmatter `slug` matches the `{slug}` folder name; status is `pending`.
+- [ ] Problem and acceptance criteria are clear and checkable.
+- [ ] Each container section lists expected results (outcomes), not implementation steps.
+- [ ] No technical solution details leak into the spec.

@@ -1,65 +1,65 @@
 ---
 name: codify
-description: Generates code to implement a feature, bug fix, or improvement from an implementation plan, or direct requirement. Use this skill when the user wants to write code for a planned or specified change. Trigger on phrases like "codify this", "implement this", "write the code for", or whenever an implementation plan or requirement is ready to be coded.
+description: Implement one container plan with working functional code plus unit tests for critical modules. One run, one container.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Codify skill
 
 ## Role
-Act as a software engineer.
+Senior software engineer.
 
 ## Task
-Given an implementation plan, or requirement, write the code necessary to implement it, including unit tests for critical modules.
+Implement a container plan (or a scoped spec/requirement) with working code plus unit tests for critical modules. One run, one container.
 
 ## Context
-
 ### Input
-- Optional: Implementation plan from `{Product_Folder}/specs/{slug}/{tier?}.plan.md`
-- Optional: Direct requirement as a simple textual requirement from the user.
+- One of:
+  - A container Plan file `{Product_Folder}/specs/{slug}/{container}.plan.md`.
+  - A Spec file or a direct textual requirement (best-effort; ask which container to scope).
 
 ### Prerequisites
-- `{Rules_Folder}/{tier}.rules.md` for the tier in scope — run `/extract` if missing.
+- `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing);
+- The relevant container documents (run `/extract` if missing):
+  - architecture document `{Product_Folder}/arch/{container}.arch.md`
+  - container code rules document `{Agents_Folder}/rules/{container}.rules.md`
 
-### References
-- The context at the plan if it exists.
-- Architectural decisions at `{Product_Folder}/arch/ADR.md`
-- Tier rules at `{Rules_Folder}/{tier}.rules.md`
+### Guardrails
+1. **Think first** — reason about the problem; clarify when in doubt.
+2. **Simplicity** — no clever or over-engineered solutions (YAGNI, KISS).
+3. **Surgical changes** — minimum changes to meet the goal.
+4. **Goal-driven** — keep going until validation criteria are met.
 
 ## Steps
+### Step 1: Scope
+- [ ] Identify the input and derive `{slug}` and `{container}`.
+- [ ] If the input is a spec or requirement (not a single container plan), ask which container to scope. Do not assume.
+- [ ] Never the `e2e` container — its plan and code belong to `/verify`.
+- [ ] If the scope is large, split it into smaller ordered units and do them in order.
 
-### Step 1: Clarify the input
-- [ ] If incomplete or ambiguous, ask the minimum questions needed.
-
-### Step 2: Before coding
-- [ ] Commit any pending work with conventional message before branching.
-
-#### If following a spec plan
-- [ ] Ensure you are on feature branch `feat/{slug}`; `/planify` normally creates it — create from the default branch only if missing.
-- [ ] Ensure the spec is `in-progress`; `/planify` normally sets it — set it only if missing.
-- [ ] Mark the plan as `in-progress`.
+### Step 2: Ground in the container
+- [ ] Read `{container}.arch.md` (components, contracts, structure) and `{container}.rules.md` (naming, conventions).
 
 ### Step 3: Implement
-- [ ] Follow plan steps in order, or derive a plan from requirement.
-- [ ] Write the minimum code to fulfill requirements (no comments, no extra changes)
-- [ ] Mark each task in the plan as `[x]` when completed.
+- [ ] Write the minimum code to meet the in-scope plan steps; follow the container's rules and conventions.
+- [ ] Respect the contracts shared with sibling containers (API shapes, schemas) as planned.
+- [ ] If an in-scope change would alter a shared contract, stop and hand back to `/planify` — never improvise a cross-container change.
+- [ ] Annotate any deviation from the plan in the plan file (what changed and why).
+- [ ] Do not add comments or extra changes (YAGNI).
 
-### Step 4: Write unit tests
-- [ ] Only write unit tests for critical modules.
-- [ ] Write the happy path test.
-- [ ] Write the edge cases tests.
-- [ ] Write the error cases tests.
-
-### Step 5: After coding
-#### If following a spec plan
-- [ ] Set `status: done` for the plan.
-- [ ] Keep status as `in-progress` for the spec.
+### Step 4: Unit test
+- [ ] Add unit tests for the critical path: happy path plus error cases (if any).
+- [ ] Run the container's unit suite; fix until green.
 
 ## Output
-- [ ] Working code in the appropriate files.
-- [ ] Commit with conventional message (`feat`; scope tier or `{slug}`).
+- [ ] Working code + unit tests; every in-scope plan step checked `[x]`.
+- [ ] In `spec.md`, set `status: in-progress` if still `pending` (building has started).
+- [ ] Commit: `{feat|fix|test}(scope): {description}`.
+- [ ] Suggest handoff:
+  - `/codify` for the remaining container plans.
+  - `/verify` the `e2e.plan.md` once all containers are codified.
 
 ## Verification
-- [ ] Code compiles.
-- [ ] Unit tests pass.
-- [ ] Spec is `in-progress` if it exists.
-- [ ] Plan is `done` if it exists.
+- [ ] Code builds and unit tests pass.
+- [ ] Every step in the plan is completed.

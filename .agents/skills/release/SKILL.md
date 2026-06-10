@@ -1,63 +1,56 @@
 ---
 name: release
-description: >-
-  Bumps the project version, updates CHANGELOG.md and README, and marks specs as released. Use when features are verified and ready to ship. Trigger on phrases like "release this", "ship version", "publish release", or after `/verify` passes for one or more specs.
+description: Bump the version, update CHANGELOG and docs, and mark verified specs as done. Also ships spec-less maintenance patches (defect fixes, structural refactors).
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Release skill
 
 ## Role
-
-Act as a release manager preparing a versioned, documented shipment.
+Release manager.
 
 ## Task
-
-Given one or more verified specifications, bump the project version, record changes in `CHANGELOG.md`, update human-facing docs, set spec status to `done`, and commit with conventional message (`chore`).
+Given verified spec(s) — or a spec-less maintenance change — bump the version, record changes in `CHANGELOG.md`, update human docs, and close the spec.
 
 ## Context
-
 ### Input
+- One of:
+  - **Feature**: `{Product_Folder}/specs/{slug}/spec.md` (acceptance criteria all `[x]`).
+  - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of Steps 1 and 4.
 
-- A spec: `{Product_Folder}/specs/{slug}/spec.md`
+### Assets
+- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md).
 
-### References
-
-- [Version convention](./version.convention.md)
-- [Changelog convention](./changelog.convention.md) 
-- [CHANGELOG template](./CHANGELOG.template.md)
-
-### Prerequisites
-
-- Specs at `status: in-progress` (or user override)
-- Plans associated with the spec are `done`.
+### Conventions
+- Semantic Versioning (`major.minor.patch`); changelog follows Keep a Changelog.
 
 ## Steps
 
-### Step 1: Clarify scope
-- [ ] Read the spec.
-- [ ] If incomplete or ambiguous, ask the minimum questions needed.
+### Step 1: Confirm
+- [ ] Feature: spec is `in-progress` with criteria passing. Maintenance: the existing e2e suite is green, untouched.
+- [ ] Run the test suite to confirm.
 
-### Step 2: Bump version
-- [ ] Run every test suite to confirm the features are working.
-- [ ] Compute `{new_version}`; update all canonical version files.
+### Step 2: Bump and document
+- [ ] Compute `{new_version}`; update canonical version files.
+- [ ] Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md` (Added/Changed/Fixed/Removed).
+- [ ] Update `README.md`/docs when user-facing behavior changed.
 
-### Step 3: Update documentation
-- [ ] `README.md` and other version-aware docs when applicable; 
-- [ ] `AGENTS.md` when something big changed in the technology stack.
-- [ ] `arch/{tier}.arch.md` when something changed in the architecture.
-- [ ] `rules/{tier}.rules.md` when something changed in the rules.
-- [ ] `rules/naming.rules.md` when something changed in the naming conventions.
-- [ ] `rules/testing.rules.md` when something changed in the testing conventions.
+### Step 3: Sync arch docs
+- [ ] Reconcile architecture docs against the spec, plans, and e2e report (including annotated deviations):
+  - `{Product_Folder}/arch/system.arch.md` — containers table and ER diagram.
+  - Affected `{Product_Folder}/arch/{container}.arch.md` — components, contracts, schemas.
+  - `{Agents_Folder}/rules/{container}.rules.md` — only if a convention changed.
+  - Root `{Agents_File}` — only if commands or paths changed.
+- [ ] Skip when nothing notable changed; for heavy drift, suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
 
-### Step 4: Update the project history
-- [ ] Update the changelog entry for the new version.
-- [ ] Update the spec frontmatter to `status: done` and `released-version: {new_version}`.
+### Step 4: Close (feature only)
+- [ ] Set spec `status: done`, `released-version: {new_version}`.
+- [ ] If the spec has `amends: {old-slug}`, stamp `superseded-by: {slug}` in the old spec's frontmatter (frontmatter only — never touch its body or criteria).
 
 ## Output
-- [ ] Commit with conventional message (`chore`; include version in summary).
-- [ ] Create a git tag for the new version.
-- [ ] Merge the changes into the default branch.
+- [ ] Commit (`chore`; version in subject); tag `{new_version}`; merge to default branch.
 
 ## Verification
-- [ ] Spec is `done`.
-- [ ] Repository default branch is updated.
+- [ ] Spec is `done` (feature) or suite confirmed green (maintenance); CHANGELOG and version are consistent; default branch updated.
+- [ ] Arch docs reflect any notable change introduced by this release.

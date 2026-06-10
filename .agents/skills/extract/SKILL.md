@@ -1,42 +1,56 @@
 ---
 name: extract
-description: Per-tier coding rules. Greenfield extracts from the ecosystem; brownfield from existing code.
+description: Document one container in depth — C4 L3 components + container code rules. Greenfield prescribes; brownfield extracts.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Extract skill
 
 ## Role
-Senior software engineer.
+Senior software architect.
 
 ## Task
-- `{Rules_Folder}/{tier}.rules.md` — coding conventions (per tier).
+For **one container at a time**, generate its component architecture and container code-rules documents.
 
 ## Context
-- Prereq: `AGENTS.md`, `arch/{tier}.arch.md` (run `/excavate` if missing).
-- `AGENTS.md` — **Starting mode**, `{Rules_Folder}`, `{Source_Folders}`, **Technology**.
-- Templates: `tier.rules.template.md`.
-- Mode files (read the one for **Starting mode**): [greenfield](./greenfield.mode.md) | [brownfield](./brownfield.mode.md).
+### Input
+- Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) and `{Product_Folder}/arch/system.arch.md` (run `/explore` first if missing).
+- The container to document (ask which one if not given).
+
+### References
+- CAUTION: Read ONLY ONE (green or brown) 
+- Mode guides (read the one that matches the container's mode):
+  - [`mode.greenfield.md`](./references/mode.greenfield.md) — no code; prescribe the intended design.
+  - [`mode.brownfield.md`](./references/mode.brownfield.md) — existing code; extract facts.
+
+### Assets
+- [`container.arch.template.md`](./assets/container.arch.template.md),
+- [`code.rules.template.md`](./assets/code.rules.template.md).
+
+### Glossary
+- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
+- **Tier** — the physical/technological layer a container belongs to (`front | back | db | e2e | fullstack`) — corporate jargon. A tier classifies containers (and selects stack conventions), never identifies one.
+- **Component** — an internal building block of one container (C4 L3).
+- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (code exists → extract).
 
 ## Steps
+### Step 1: Select
+- [ ] List containers from `system.arch.md`; pick one (ask if ambiguous).
+- [ ] Decide its mode by whether it already has source code (code = brownfield, none = greenfield).
+- [ ] Read and follow the matching `mode.*.md`.
 
-### Step 1: Confirm mode
-- [ ] Read **Starting mode**; override per tier: no code → greenfield; existing code → brownfield.
-- [ ] Read the matching mode file. Skip tiers already documented unless refresh requested.
+### Step 2: Container architecture
+- [ ] Fill `container.arch.template.md` for this container only — C4 L3 components diagram, code organization, key contracts.
+- [ ] Include domain entities, data schemas, and api endpoints where relevant.
 
-### Step 2: Pick tier
-- [ ] Use the user argument; else first undocumented tier. `all` → every missing tier, one per pass.
-
-### Step 3: `{tier}.rules.md`
-- [ ] Read `tier.rules.template.md`; derive `{source_glob}` from the tier source folder.
-- [ ] Follow the mode file's `{tier}.rules.md` guidance.
-- [ ] Omit sections that don't apply (e.g. Testing for db, Wiring for e2e).
+### Step 3: Container code rules
+- [ ] Fill `code.rules.template.md`, scoped to this container's source glob — naming, artifact roles, conventions, and one canonical example.
 
 ## Output
-- [ ] Write `{tier}.rules.md` under `{Rules_Folder}`.
-- [ ] No sections/columns beyond template; no `{placeholders}`; keep files under 60 lines.
-- [ ] Summarize roles + patterns (list greenfield sources). Commit (`docs`; scope tier/`product`).
-- [ ] Tiers remain → suggest `/extract {next-tier}`; all done → suggest `/specify`.
+- [ ] Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
+- [ ] Write `{Agents_Folder}/rules/{container}.rules.md`.
+- [ ] Commit (`docs`); repeat for the next container, or suggest `/specify`.
 
 ## Verification
-- [ ] `{tier}.rules.md` alone answers how code in the tier must be written.
-- [ ] Roles table + canonical example embody the dominant pattern; anti-patterns concrete.
+- [ ] Both files exist, are well formatted, and have no `{placeholders}` left.

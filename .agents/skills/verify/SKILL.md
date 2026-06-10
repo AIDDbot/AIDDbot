@@ -1,76 +1,64 @@
 ---
 name: verify
-description: Writes and runs E2E tests to verify that implemented code meets the defined acceptance criteria. Use this skill after implementing a feature to ensure it fulfills the requirements and is ready for deployment. Trigger on phrases like "verify this", "write E2E tests", "check acceptance criteria", or whenever a spec or implementation is ready for end-to-end verification.
+description: Verify a spec end-to-end — write and run the e2e tests from the e2e plan, report defects, and fix them in a loop until the suite is green.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Verify skill
 
 ## Role
-Act as a quality assurance engineer.
+QA engineer. Success is measured by the defects you find, not by tests passing. Distrust the implementation; trust the spec.
 
 ## Task
-Given a specification file, write and run E2E tests that cover all acceptance criteria and confirm the implementation is correct.
+Given the e2e plan (first run) or an e2e report (resume), write and run the end-to-end tests, produce the defects report, and fix defects in a loop until the suite is green or a blocker is escalated.
 
 ## Context
-
 ### Input
-
-- Spec: `{Product_Folder}/specs/{slug}/spec.md`
+- One of (this selects the entry point):
+  - The transversal e2e Plan `{Product_Folder}/specs/{slug}/e2e.plan.md` → first run: write, run, report, then fix.
+  - An e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` → resume: triage and fix.
 
 ### Prerequisites
-- There is an e2e strategy in the system architecture
-- The e2e archetype (language and framework) is already installed and configured
+- `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) and, for each affected container, `{Product_Folder}/arch/{container}.arch.md` and `{Agents_Folder}/rules/{container}.rules.md` (run `/extract` if missing).
+- The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist.
+- All container plans codified (`/codify`) — the system must be runnable.
 
-### References
-- System architecture at `{Product_Folder}/arch/system.arch.md`
-- Rules with E2E codification instructions `{Rules_Folder}/e2e.rules.md`
-- Framework guide (e.g. [Playwright](./playwright.md))
-- [Verify report template](./verify.template.md)
+### Guardrails
+1. **Independence** — derive tests from the spec's acceptance criteria and the e2e plan; do not mirror the implementation.
+2. **Never weaken a test to make it pass** — if a test is wrong, flag it as a test bug in the report and fix it for correctness, not for green.
+3. **Surgical fixes** — minimal, targeted changes grounded in the affected container's arch and rules.
+4. **Escalate structural defects** — wrong contract, missing component, plan-level gap: stop, document in the report, hand off to `/planify`.
 
 ## Steps
+### Step 1: Write the tests (skip when resuming from a report)
+- [ ] For each scenario in the plan, write one e2e test mapped to an acceptance criterion.
+- [ ] Arrange-Act-Assert; descriptive names; group by feature/flow; use the planned fixtures.
 
-### Step 1: Clarify the input
-- [ ] Read the spec to understand the feature and acceptance criteria.
-- [ ] Read `AGENTS.md` and system architecture for tech stack and testing framework.
-- [ ] If spec or framework is unclear, ask the minimum questions needed.
+### Step 2: Run
+- [ ] Start the system and run the e2e suite (start/test commands from the root `{Agents_File}`).
+- [ ] Capture pass/fail per scenario; tear down servers/apps after the run.
 
-### Step 2: Review acceptance criteria
-- [ ] List all criteria to verify from the spec.
-- [ ] Cross-check against the framework guide (e.g. [Playwright](./playwright.md)) when adding or extending tests.
+### Step 3: Report
+- [ ] Write `{Product_Folder}/specs/{slug}/e2e.report.md`: one entry per failing scenario — expected vs actual, affected container, severity, and kind (`code bug | test bug | structural`).
+- [ ] In `spec.md`, mark each acceptance criterion `[x]` when its tests pass, `[ ]` otherwise.
 
-### Step 3: Write E2E tests
-- [ ] Cover all criteria and edge cases; 
-- [ ] Arrange-Act-Assert where applicable; 
-- [ ] Prefer isolated tests.
-- [ ] Group tests by feature or page.
-- [ ] Use descriptive names for suites and test groups.
-- [ ] Write the happy path test.
-- [ ] Write the edge cases tests.
-- [ ] Write the error cases tests.
-
-### Step 4: Run and verify
-- [ ] Set up the test environment.
-- [ ] Run the tests and read the results.
-- [ ] If tests pass, go to step 5.
-- [ ] Fix any error caused by bad test implementation.
-- [ ] Never change the application code to make tests pass.
-- [ ] If tests keep failing, stop iterating.
-- [ ] Tear down the test environment.
-
-### Step 5: Record outcomes
-- [ ] In `{Product_Folder}/specs/{slug}/spec.md`, mark each acceptance criterion as `[x]` when its tests pass and leave failed ones as `[ ]`.
-- [ ] Write the verification report at `{Product_Folder}/specs/{slug}/verify.md` from [verify.template.md](./verify.template.md): a summary of the run (criteria covered, pass/fail counts, environment/commands).
-- [ ] When tests fail, the report's **Rectify guide** lists each failure: failing test name, violated criterion, expected vs actual, suggested fix, and links to evidence (screenshots, traces, tester reports).
-- [ ] The report — not the spec — carries the rectify guidance; the spec only reflects the `[x]/[ ]` acceptance state.
+### Step 4: Fix (loop)
+- [ ] Triage the report: order defects by severity; escalate `structural` ones (see Guardrails) instead of fixing.
+- [ ] For each defect: read the affected `{container}.arch.md` / `{container}.rules.md`, then apply a minimal, targeted fix.
+- [ ] Annotate in the report any fix that deviates from the plan (what changed and why).
+- [ ] Re-run the failing test(s); widen to the full suite once they pass; update the report and criteria (back to Step 3).
+- [ ] Repeat until green or no further progress; then stop and document blockers.
 
 ## Output
-- [ ] E2E test suite executed.
-- [ ] Spec acceptance criteria marked `[x]/[ ]`; `verify.md` report written.
-- [ ] Keep spec as `in-progress` until all criteria pass.
-- [ ] Commit with conventional message (`test`; scope `e2e` or `{slug}`).
-- [ ] If there are failures, suggest `/rectify` on `specs/{slug}/`.
-- [ ] If all tests pass, suggest `/review` for a11y, security, and performance.
+- [ ] e2e tests written and run; `e2e.report.md` up to date; spec criteria marked `[x]/[ ]`.
+- [ ] Commit (`test(scope)` for the suite, `fix(scope)` for each rectification round).
+- [ ] Suggest handoff:
+  - `/verify` the `e2e.report.md` to resume while defects remain.
+  - `/planify` the `e2e.report.md` for structural defects.
+  - `/review` once the suite is green; `/release` after.
 
 ## Verification
-- [ ] All tests are executed.
-- [ ] Servers or apps are stopped.
+- [ ] Every acceptance criterion has a test and the suite has been run.
+- [ ] The suite is green, or every remaining defect is documented with a reason and a handoff.
+- [ ] No test was weakened or deleted to force a pass.

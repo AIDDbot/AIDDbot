@@ -1,41 +1,62 @@
 ---
 name: explore
-description: Document system architecture (C4 L2); containers + ADRs. Greenfield prescribes; brownfield extracts.
+description: Set up the root agent-instructions file and the system architecture document (C4 L2). Greenfield prescribes; brownfield extracts.
+user-invocable: true
+disable-model-invocation: true
 ---
-
 # Explore skill
 
+Explores the project to generate basic architecture documentation.
+
 ## Role
-Senior software architect.
+Act as a senior software architect.
 
 ## Task
-- `{Product_Folder}/arch/system.arch.md` — C4 L2 containers + inter-container communication.
-- `{Product_Folder}/arch/ADR.md` — architectural decisions.
+Generate the root `{Agents_File}` and the system architecture document, acting as a senior architect.
 
 ## Context
-- Prereq: root `AGENTS.md` (run `/establish` if missing).
-- `AGENTS.md` — `{Product_Folder}`, **Starting mode**, **Tiers**, **Technology**, **Product**.
-- Templates: `system.arch.template.md`, `adr.template.md`.
-- Mode files (read the one for **Starting mode**): [greenfield](./greenfield.mode.md) | [brownfield](./brownfield.mode.md).
+
+### Input
+- Existing codebase at the repo root, if any.
+
+### References
+- CAUTION: Read ONLY ONE (green or brown) 
+- Mode guides (read the one that matches the project's starting mode):
+  - [`mode.greenfield.md`](./references/mode.greenfield.md) — no code; prescribe defaults, ask the user.
+  - [`mode.brownfield.md`](./references/mode.brownfield.md) — existing code; extract facts.
+
+### Assets
+- [`AGENTS.template.md`](./assets/AGENTS.template.md), 
+- [`system.arch.template.md`](./assets/system.arch.template.md).
+
+### Glossary
+- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
+- **Tier** — the physical/technological layer a container belongs to (`front | back | db | e2e | fullstack`) — corporate jargon; classifies containers, never identifies one.
+- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (code exists → extract).
+- **{Agents_File}** — the root agent-instructions file; name depends on the harness: `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 
 ## Steps
+### Step 1: Setup
+- Infer OS, shell, Git remote. 
+- Resolve `{Agents_File}` from the user's harness (`AGENTS.md` unless the harness dictates otherwise, e.g. `CLAUDE.md`); ask if unclear.
+- Check root for an existing `{Agents_File}`, `README.md`, and source code. 
+- Classify as **greenfield | brownfield**, then read and follow the matching `mode.*.md`.
 
-### Step 1: Confirm mode
-- [ ] Read **Starting mode** from `AGENTS.md`; read the matching mode file and apply it below.
+### Step 2: {Agents_File}
+- Fill `AGENTS.template.md`. 
+- Keep it short (< 100 lines) and actionable.
+- Ask the minimum clarifying questions.
 
-### Step 2: `system.arch.md`
-- [ ] Read `system.arch.template.md`; follow the mode file's `system.arch.md` guidance.
-
-### Step 3: `ADR.md`
-- [ ] Read `adr.template.md`; follow the mode file's `ADR.md` guidance.
+### Step 3: Architecture
+- Fill `system.arch.template.md` in one pass.
+- Containers diagram (C4 L2) with per-container details.
+- Entity-relationship diagram (no attributes/constraints).
 
 ## Output
-- [ ] Write `system.arch.md` and `ADR.md` under `{Product_Folder}/arch/`.
-- [ ] No sections/columns beyond template; no `{placeholders}`; keep files under 100 lines.
-- [ ] Summarize; flag ambiguities. Commit (`docs`; scope `product`).
-- [ ] Suggest `/excavate` → `/extract`.
+- Write `{Agents_File}` at the repo root.
+- Write `{Product_Folder}/arch/system.arch.md`.
+- Commit (`docs`); suggest `/extract`.
 
 ## Verification
-- [ ] Mermaid renders.
-- [ ] Each ADR has decision, rationale, consequences.
-- [ ] `system.arch.md` alone answers what the system does and how containers are arranged.
+- [ ] `{Agents_File}` exists, is well formatted, and has no `{placeholders}` left.
+- [ ] `{Product_Folder}/arch/system.arch.md` exists, is well formatted, and has no `{placeholders}` left.
