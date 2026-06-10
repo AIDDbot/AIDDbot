@@ -14,11 +14,17 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 - `{Product_Folder}/specs/{slug}/spec.md` — problem, a per-container list of expected results, and acceptance criteria.
 
 ## Context
-- Input: a requirement or feature description.
-- Prereq: root `{Agents_File}`, `arch/system.arch.md` (run `/explore` if missing).
-- Use `system.arch.md` to identify the containers this feature touches.
-- Template: [`spec.template.md`](./assets/spec.template.md).
-- Changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context. Never reopen or edit a `done` spec — always write a new one.
+### Input
+- A requirement or feature description; changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context.
+
+### Prerequisites
+- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) — it identifies the containers this feature touches.
+
+### Assets
+- [`spec.template.md`](./assets/spec.template.md).
+
+### Guardrails
+1. Never reopen or edit a `done` spec — always write a new one.
 
 ## Steps
 

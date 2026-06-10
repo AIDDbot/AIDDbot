@@ -3,6 +3,8 @@
 A 9-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artifacts.
 `/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the transversal e2e plan. `/codify` implements and `/verify` checks — implementation and verification never share a session.
 
+This catalog is the inventory; the [lifecycle map](./medium.lifecycle.md) shows how the skills cover build, maintenance, and refactoring.
+
 ## Architect
 
 | Skill | What it does | Produces |

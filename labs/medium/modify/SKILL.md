@@ -14,17 +14,21 @@ Maintainer. Decide what kind of change this is before touching code or specs. Re
 Given a change request about a released feature, check the code against the released acceptance criteria, then route: direct fix + regression test, or handoff to `/specify` as an amending spec.
 
 ## Context
-- Input: a change request, plus the released spec `{Product_Folder}/specs/{slug}/spec.md` (`status: done`) when known.
-- Prereq: the spec is `done`. Otherwise stop — that's the normal build loop, no triage needed.
-- Guardrails:
-  1. Never edit a `done` spec's body or criteria.
-  2. No silent behavior changes — without a released criterion stating the correct behavior, it's a requirement change, even if business calls it a "bug".
-  3. The routing decision is the deliverable; this skill owns no templates or plans.
+### Input
+- A change request, plus the released spec `{Product_Folder}/specs/{slug}/spec.md` when known.
+
+### Prerequisites
+- The spec is `done`; otherwise stop — that's the normal build loop, no triage needed.
+
+### Guardrails
+1. Never edit a `done` spec's body or criteria.
+2. No silent behavior changes — without a released criterion stating the correct behavior, it's a requirement change, even if business calls it a "bug".
+3. The routing decision is the deliverable; this skill owns no templates or plans.
 
 ## Steps
 
 ### Step 1: Locate the baseline
-- [ ] Find the affected released spec (search `specs/*/spec.md` if no slug given); follow `superseded-by:` links to the latest.
+- [ ] Find the affected released spec (search `{Product_Folder}/specs/*/spec.md` if no slug given); follow `superseded-by:` links to the latest.
 - [ ] Read its acceptance criteria — the contract for current behavior.
 
 ### Step 2: Triage

@@ -1,5 +1,5 @@
 ---
-plan-type: {spec | report | requirement}
+plan-type: {spec | report | requirement | refactor}
 container: {container name from system.arch.md, e.g. api, web, db}
 ---
 # {plan-type} - {slug} - {container}

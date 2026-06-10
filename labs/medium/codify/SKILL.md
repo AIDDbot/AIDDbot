@@ -25,7 +25,7 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
   - architecture document `{Product_Folder}/arch/{container}.arch.md`
   - container code rules document `{Agents_Folder}/rules/{container}.rules.md`
 
-### Principles
+### Guardrails
 1. **Think first** — reason about the problem; clarify when in doubt.
 2. **Simplicity** — no clever or over-engineered solutions (YAGNI, KISS).
 3. **Surgical changes** — minimum changes to meet the goal.
