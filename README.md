@@ -27,15 +27,23 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-**AIDDbot** ships as slash-command **skills** under `.agents/skills/`. 
+**AIDDbot** ships as **9 slash-command skills** under `.agents/skills/`, covering the whole SDLC — build, maintenance, and refactoring.
 
-See the [Skills catalog](.agents/AIDD.skills-catalog.md) for prerequisites and when to invoke each skill.
+| Phase | Skills | What they cover |
+|-------|--------|-----------------|
+| [Architect](docs/architect.pipelines.md) | `/explore`, `/extract` | Agent setup + architecture docs (C4 L2/L3) and coding rules |
+| [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
+| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/release`, `/modify` | Quality audit, release, and maintenance triage |
 
-| Phase | Skills |
-|-------|--------|
-| [Architect](docs/architect.pipelines.md) | `/establish`, `/explore`, `/excavate`, `/extract` |
-| [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify`, `/rectify` |
-| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/refactor`, `/release`  |
+See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill produces, and the [Skills lifecycle](.agents/skills/skills.lifecycle.md) for how they cover build, maintenance, and refactoring.
+
+### The pipeline at a glance
+
+```markdown
+/explore → /extract (×container) → /specify → /planify → /codify (×container) → /verify → /review → /release
+```
+
+Changes to a released feature enter via `/modify`, which triages: defect → direct fix; behavior change → new amending spec, full pipeline.
 
 ## Quick start
 
@@ -44,12 +52,13 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-In your agents chat run the `/establish` command or ask AIDDbot to establish the project.
+In your agent chat run the `/explore` command or ask AIDDbot to explore the project. It works on greenfield (prescribes a design) and brownfield (extracts facts from the code) alike.
 
 Documentation:
 
-- **[Getting started](docs/getting-started.md)** — install, establish, feature and release loops
-- **[Skills catalog](.agents/AIDD.skills-catalog.md)** — prerequisites and when to invoke each skill
+- **[Getting started](docs/getting-started.md)** — install, architecture, feature and release loops
+- **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does and produces
+- **[Skills lifecycle](.agents/skills/skills.lifecycle.md)** — build, maintain, refactor coverage
 - **[Workflow diagrams](docs/AIDD.workflow.md)** — diagrams, artifacts
 
 ---

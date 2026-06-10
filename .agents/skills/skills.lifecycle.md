@@ -1,6 +1,6 @@
-# Medium skills lifecycle
+# AIDD skills lifecycle
 
-How the 9 skills cover the whole SDLC — build, maintain, refactor. The [catalog](./medium.catalog.md) is the inventory; this is the map.
+How the 9 skills cover the whole SDLC — build, maintain, refactor. The [catalog](./skills.catalog.md) is the inventory; this is the map.
 
 ## The model
 
