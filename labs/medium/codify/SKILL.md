@@ -44,6 +44,8 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
 ### Step 3: Implement
 - [ ] Write the minimum code to meet the in-scope plan steps; follow the container's rules and conventions.
 - [ ] Respect the contracts shared with sibling containers (API shapes, schemas) as planned.
+- [ ] If an in-scope change would alter a shared contract, stop and hand back to `/planify` — never improvise a cross-container change.
+- [ ] Annotate any deviation from the plan in the plan file (what changed and why).
 - [ ] Do not add comments or extra changes (YAGNI).
 
 ### Step 4: Unit test

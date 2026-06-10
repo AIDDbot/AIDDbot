@@ -28,7 +28,15 @@ Given verified spec(s), bump the version, record changes in `CHANGELOG.md`, upda
 - [ ] Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md` (Added/Changed/Fixed/Removed).
 - [ ] Update `README.md`/docs when user-facing behavior changed.
 
-### Step 3: Close
+### Step 3: Sync arch docs
+- [ ] Reconcile architecture docs against the spec, plans, and e2e report (including annotated deviations):
+  - `{Product_Folder}/arch/system.arch.md` — containers table and ER diagram.
+  - Affected `{Product_Folder}/arch/{container}.arch.md` — components, contracts, schemas.
+  - `{Agents_Folder}/rules/{container}.rules.md` — only if a convention changed.
+  - Root `{Agents_File}` — only if commands or paths changed.
+- [ ] Skip when nothing notable changed; for heavy drift, suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
+
+### Step 4: Close
 - [ ] Set spec `status: done`, `released-version: {new_version}`.
 
 ## Output
@@ -36,3 +44,4 @@ Given verified spec(s), bump the version, record changes in `CHANGELOG.md`, upda
 
 ## Verification
 - [ ] Spec is `done`; CHANGELOG and version are consistent; default branch updated.
+- [ ] Arch docs reflect any notable change introduced by this release.

@@ -47,6 +47,7 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 ### Step 3: Plan per container
 - [ ] Fill `plan.template.md` with ordered steps by vertical slices — each step has a title, short description, and affected paths.
 - [ ] Align contracts shared across containers (API shapes, schemas) so plans stay coherent.
+- [ ] State each shared contract in the plan's **Contracts** section — identical wording in every sibling plan that provides or consumes it.
 - [ ] Functional containers only — the e2e container is covered by the e2e plan.
 
 ### Step 4: E2E plan

@@ -46,6 +46,7 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
 ### Step 4: Fix (loop)
 - [ ] Triage the report: order defects by severity; escalate `structural` ones (see Guardrails) instead of fixing.
 - [ ] For each defect: read the affected `{container}.arch.md` / `{container}.rules.md`, then apply a minimal, targeted fix.
+- [ ] Annotate in the report any fix that deviates from the plan (what changed and why).
 - [ ] Re-run the failing test(s); widen to the full suite once they pass; update the report and criteria (back to Step 3).
 - [ ] Repeat until green or no further progress; then stop and document blockers.
 
