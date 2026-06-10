@@ -1,6 +1,6 @@
 # Medium skills catalog
 
-An 8-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artifacts.
+A 9-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artifacts.
 `/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the transversal e2e plan. `/codify` implements and `/verify` checks — implementation and verification never share a session.
 
 ## Architect
@@ -24,7 +24,8 @@ An 8-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer arti
 | Skill | What it does | Produces |
 |-------|--------------|----------|
 | [`/review`](./review/) | Audit a11y/security/perf + clean-code; fix in place (refactor folded in) | `fix`/`refactor` commit |
-| [`/release`](./release/) | Version, changelog, spec `done` | `CHANGELOG.md`, version bump |
+| [`/release`](./release/) | Version, changelog, spec `done`; stamps `superseded-by:` on amended specs | `CHANGELOG.md`, version bump |
+| [`/modify`](./modify/) | Triage a change to a released feature: implementation defect → direct fix; requirement change → amending spec | `fix` commit, or handoff to `/specify` with `amends:` |
 
 ## Pipeline
 
@@ -34,3 +35,10 @@ Each architect step is mode-aware (greenfield prescribes, brownfield extracts).
 `/codify` runs once per container (sessions can be parallel); `/verify` loops on the e2e report until green, escalating structural defects back to `/planify`.
 
 The `e2e` container is a container like any other (runnable, documented by `/extract`) but transversal: it verifies the functional containers, has no section in the spec's solution overview, and is planned via `e2e.plan.md` and owned by `/verify` — never `/codify`.
+
+## Maintenance
+
+Specs are commits; arch docs are HEAD. A `done` spec is the immutable record of what its `released-version` shipped — never edit it. Changes to released features enter via `/modify`, which triages with one question: *does the current code pass the released acceptance criteria?*
+
+- Code violates a criterion → implementation defect: direct fix + regression test + patch `/release`. No spec artifacts.
+- Code matches the criteria (including bad analysis or wrong criteria) → requirement change: new spec via `/specify` with `amends: {old-slug}`, full pipeline; `/release` stamps `superseded-by:` on the old spec.

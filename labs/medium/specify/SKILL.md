@@ -18,6 +18,7 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 - Prereq: root `{Agents_File}`, `arch/system.arch.md` (run `/explore` if missing).
 - Use `system.arch.md` to identify the containers this feature touches.
 - Template: [`spec.template.md`](./assets/spec.template.md).
+- Changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context. Never reopen or edit a `done` spec — always write a new one.
 
 ## Steps
 
@@ -27,6 +28,7 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 
 ### Step 2: Write the spec
 - [ ] Fill `spec.template.md`: problem, user stories, a conceptual data model, and checkable acceptance criteria.
+- [ ] When amending a released feature, set `amends: {old-slug}` in the frontmatter and state the released behavior as the baseline in the problem definition.
 - [ ] For each affected container (`{Container_Name}`), list the **expected results** — observable outcomes that container must deliver.
 - [ ] Stay at the outcome level: no implementation steps, file paths, or technology choices (that is `/planify`'s job).
 - [ ] No `e2e` section in the solution overview — verification lives in the acceptance criteria.

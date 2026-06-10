@@ -38,6 +38,7 @@ Given verified spec(s), bump the version, record changes in `CHANGELOG.md`, upda
 
 ### Step 4: Close
 - [ ] Set spec `status: done`, `released-version: {new_version}`.
+- [ ] If the spec has `amends: {old-slug}`, stamp `superseded-by: {slug}` in the old spec's frontmatter (frontmatter only — never touch its body or criteria).
 
 ## Output
 - [ ] Commit (`chore`; version in subject); tag `{new_version}`; merge to default branch.

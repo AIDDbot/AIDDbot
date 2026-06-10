@@ -1,6 +1,9 @@
 ---
 slug: {slug}
 status: pending # chain: pending (specified) → in-progress (first /codify) → done (released)
+# Maintenance links — omit when absent:
+# amends: {old-slug} # this spec changes a released feature (context comes from /modify)
+# superseded-by: {new-slug} # stamped by /release when an amending spec ships
 ---
 # Specification — {short description}
 
