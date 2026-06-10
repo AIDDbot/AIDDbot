@@ -42,3 +42,10 @@ Specs are commits; arch docs are HEAD. A `done` spec is the immutable record of 
 
 - Code violates a criterion → implementation defect: direct fix + regression test + patch `/release`. No spec artifacts.
 - Code matches the criteria (including bad analysis or wrong criteria) → requirement change: new spec via `/specify` with `amends: {old-slug}`, full pipeline; `/release` stamps `superseded-by:` on the old spec.
+
+Refactoring never needs a spec (the *what* doesn't change) and routes by blast radius:
+
+- Ugly internals, contracts intact → `/review` (behavior-preserving; proof = existing tests green).
+- Contracts or components must move → structural refactor: `/planify` (no spec; criterion = existing e2e suite green, untouched) → `/codify` → `/extract` brownfield to re-sync arch docs.
+- Before a big change on messy code, prefer a preparatory `/review` pass on the affected scope — make the change easy, then make the easy change.
+- If staying green would require changing a test's assertion, it was never a refactor: route through `/modify`.

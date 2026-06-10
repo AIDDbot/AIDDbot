@@ -16,11 +16,16 @@ Given a code scope, evaluate against the merged checklist, fix every finding wit
 ## Context
 - Scope (pick one): feature branch changes, plan/spec files, or explicit paths.
 - Checklist: [`review.guidelines.md`](./references/review.guidelines.md) — a11y, security, performance, clean-code/DRY.
+- Guardrails:
+  1. **Green baseline gate** — refuse to start on a failing suite; refactoring on red is changing two things at once.
+  2. **Tests are untouchable** (beyond mechanical renames) — if a fix would require changing a test's assertion, behavior changed: revert it and route through `/modify`.
+  3. **Contracts are frozen** — shared API shapes, schemas, component boundaries. Restructuring them is a structural refactor: route through `/planify`.
 
 ## Steps
 
 ### Step 1: Confirm scope
 - [ ] List files in scope; ask the minimum questions if ambiguous.
+- [ ] Run the test suite — green baseline required (see Guardrails).
 
 ### Step 2: Evaluate and fix
 - [ ] Walk each file against the checklist (data flow, trust boundaries, UI surface, I/O, structure).

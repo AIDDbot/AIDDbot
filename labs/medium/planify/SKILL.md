@@ -16,6 +16,7 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 ## Context
 ### Input
 - One of: a spec `{Product_Folder}/specs/{slug}/spec.md`, an e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` escalated by `/verify` (structural defects), or a short textual requirement.
+- A **structural-refactor goal** is also valid input (no spec — behavior doesn't change): the acceptance criterion is the existing e2e suite, unmodified and green. Skip the e2e plan; after `/codify`, suggest `/extract` (brownfield) to re-document the affected containers.
 
 ### References
 - `{Product_Folder}/arch/system.arch.md` (containers the feature can touch) and each `{Product_Folder}/arch/{container}.arch.md` (run `/extract` if missing).
