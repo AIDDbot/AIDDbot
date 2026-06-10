@@ -1,6 +1,8 @@
 ---
 name: verify
 description: Verify a spec end-to-end — write and run the e2e tests from the e2e plan, report defects, and fix them in a loop until the suite is green.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Verify skill
@@ -18,7 +20,8 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
   - An e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` → resume: triage and fix.
 
 ### Prerequisites
-- `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) and the affected `{container}.arch.md` / `{container}.rules.md` (run `/extract` if missing).
+- `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) and, for each affected container, `{Product_Folder}/arch/{container}.arch.md` and `{Agents_Folder}/rules/{container}.rules.md` (run `/extract` if missing).
+- The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist.
 - All container plans codified (`/codify`) — the system must be runnable.
 
 ### Guardrails
@@ -33,7 +36,7 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
 - [ ] Arrange-Act-Assert; descriptive names; group by feature/flow; use the planned fixtures.
 
 ### Step 2: Run
-- [ ] Start the system and run the e2e suite (start/test commands from `AGENTS.md`).
+- [ ] Start the system and run the e2e suite (start/test commands from the root `{Agents_File}`).
 - [ ] Capture pass/fail per scenario; tear down servers/apps after the run.
 
 ### Step 3: Report

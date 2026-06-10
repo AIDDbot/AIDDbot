@@ -1,6 +1,6 @@
 # {Container_Name} architecture — {Product_Name}
 
-> Container `{container}` from [`system.arch.md`](./system.arch.md). Tier: `{back | front | fullstack | e2e | db}`.
+> Container `{container}` from [`system.arch.md`](./system.arch.md). Tier: `{front | back | db | e2e | fullstack}`.
 
 ## Overview
 

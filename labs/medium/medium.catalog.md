@@ -7,8 +7,8 @@ An 8-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer arti
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/explore`](./explore/) | AIDD setup + C4L2 | `AGENTS.md`, `arch/system.arch.md` |
-| [`/extract`](./extract/) | per container: C4L3 components + tier code rules | `arch/{container}.arch.md`, `{container}.rules.md` |
+| [`/explore`](./explore/) | AIDD setup + C4L2 | `{Agents_File}` (`AGENTS.md`/`CLAUDE.md`), `arch/system.arch.md` |
+| [`/extract`](./extract/) | per container: C4L3 components + container code rules | `arch/{container}.arch.md`, `{Agents_Folder}/rules/{container}.rules.md` |
 
 ## Builder
 
@@ -32,3 +32,5 @@ An 8-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer arti
 
 Each architect step is mode-aware (greenfield prescribes, brownfield extracts).
 `/codify` runs once per container (sessions can be parallel); `/verify` loops on the e2e report until green, escalating structural defects back to `/planify`.
+
+The `e2e` container is a container like any other (runnable, documented by `/extract`) but transversal: it verifies the functional containers, has no section in the spec's solution overview, and is planned via `e2e.plan.md` and owned by `/verify` — never `/codify`.

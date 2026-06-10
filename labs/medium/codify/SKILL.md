@@ -1,6 +1,8 @@
 ---
 name: codify
 description: Implement one container plan with working functional code plus unit tests for critical modules. One run, one container.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Codify skill
@@ -19,10 +21,9 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
 
 ### Prerequisites
 - `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing);
-- The relevant container documents:
-  - architecture document `{container}.arch.md`
-  - container code rules document `{container}.rules.md`
-  - (run `/extract` if missing).
+- The relevant container documents (run `/extract` if missing):
+  - architecture document `{Product_Folder}/arch/{container}.arch.md`
+  - container code rules document `{Agents_Folder}/rules/{container}.rules.md`
 
 ### Principles
 1. **Think first** — reason about the problem; clarify when in doubt.
@@ -34,6 +35,7 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
 ### Step 1: Scope
 - [ ] Identify the input and derive `{slug}` and `{container}`.
 - [ ] If the input is a spec or requirement (not a single container plan), ask which container to scope. Do not assume.
+- [ ] Never the `e2e` container — its plan and code belong to `/verify`.
 - [ ] If the scope is large, split it into smaller ordered units and do them in order.
 
 ### Step 2: Ground in the container
@@ -50,7 +52,8 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
 
 ## Output
 - [ ] Working code + unit tests; every in-scope plan step checked `[x]`.
-- [ ] Commit (`feat|fix|chore|test)(scope): {description}`).
+- [ ] In `spec.md`, set `status: in-progress` if still `pending` (building has started).
+- [ ] Commit: `{feat|fix|test}(scope): {description}`.
 - [ ] Suggest handoff:
   - `/codify` for the remaining container plans.
   - `/verify` the `e2e.plan.md` once all containers are codified.

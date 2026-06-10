@@ -1,6 +1,6 @@
 ---
 slug: {slug}
-status: pending | in-progress | done
+status: pending # chain: pending (specified) → in-progress (first /codify) → done (released)
 ---
 # Specification — {short description}
 
@@ -15,6 +15,7 @@ status: pending | in-progress | done
 ## Solution overview
 
 > Expected results only — outcomes, not implementation. `/planify` turns these into steps per container.
+> Functional containers only — no `e2e` section here; verification is captured by the acceptance criteria.
 
 ### Data Model
 

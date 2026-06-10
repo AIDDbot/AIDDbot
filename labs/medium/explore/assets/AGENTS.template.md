@@ -9,6 +9,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ## Conventions
 - Replace `{placeholders}` when using templates.
 - `{slug}`: short (≤20 chars) readable id from a title (e.g. `login-page`).
+- Spec status chain: `pending` (specified) → `in-progress` (first `/codify`) → `done` (released).
 
 ### Environment
 - **Git**: {remote URL} — {default branch `main` | `master`}
@@ -16,6 +17,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh}`
 
 ### Paths
+- **{Agents_File}** — `AGENTS.md` | `CLAUDE.md` — this file; name depends on the harness
 - **{Agents_Folder}** — `.claude/` | `.agents/` | {user chosen} — holds skills and rules for agents
 - **{Product_Folder}** — `docs/` | `.product/` | {user chosen} — holds `*.arch.md` and specs
 - **{Source_Folders}** — [`src/`] | [`back/`, `front/`] | {user chosen} - holds source code
@@ -23,7 +25,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ### Git
 - Preserve work; no secrets; no destructive commands
 - Group related changes; keep commits small and focused.
-- Conventional commit: `{feat|fix|chore|docs|test}(scope): {description}` 
+- Conventional commit: `{feat|fix|chore|docs|test|refactor}(scope): {description}` 
 - Branch names: `{feat|fix|chore}/{slug}` 
 
 ---

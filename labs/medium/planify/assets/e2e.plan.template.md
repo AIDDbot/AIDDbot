@@ -26,7 +26,7 @@ slug: {slug}
 
 ## Execution
 
-- [ ] Run the e2e suite (start/test commands from `AGENTS.md`).
+- [ ] Run the e2e suite (start/test commands from the root `{Agents_File}`).
 - [ ] Tear down servers/apps after the run.
 
 ## Defects report

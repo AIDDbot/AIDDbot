@@ -1,6 +1,6 @@
 ---
 plan-type: {spec | report | requirement}
-container: {back | front | app | cli | db}
+container: {container name from system.arch.md, e.g. api, web, db}
 ---
 # {plan-type} - {slug} - {container}
 

@@ -1,6 +1,8 @@
 ---
 name: release
 description: Bump the version, update CHANGELOG and docs, and mark verified specs as done.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Release skill

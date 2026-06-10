@@ -1,6 +1,8 @@
 ---
 name: specify
 description: Capture a feature as a one-page spec — problem, per-container expected results, and acceptance criteria. No technical details; planify owns the steps.
+user-invocable: true
+disable-model-invocation: true
 ---
 
 # Specify skill
@@ -13,7 +15,7 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 
 ## Context
 - Input: a requirement or feature description.
-- Prereq: `AGENTS.md`, `arch/system.arch.md` (run `/explore` if missing).
+- Prereq: root `{Agents_File}`, `arch/system.arch.md` (run `/explore` if missing).
 - Use `system.arch.md` to identify the containers this feature touches.
 - Template: [`spec.template.md`](./assets/spec.template.md).
 
@@ -27,9 +29,10 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 - [ ] Fill `spec.template.md`: problem, user stories, a conceptual data model, and checkable acceptance criteria.
 - [ ] For each affected container (`{Container_Name}`), list the **expected results** — observable outcomes that container must deliver.
 - [ ] Stay at the outcome level: no implementation steps, file paths, or technology choices (that is `/planify`'s job).
+- [ ] No `e2e` section in the solution overview — verification lives in the acceptance criteria.
 
 ## Output
-- [ ] Write `spec.md`. No `{placeholders}`; keep it to one page.
+- [ ] Write `spec.md` with `status: pending`. No `{placeholders}`; keep it to one page.
 - [ ] Commit (`docs`); suggest `/planify`.
 
 ## Verification

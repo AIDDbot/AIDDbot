@@ -24,20 +24,20 @@ C4Container
 ```
 
 ### Containers table
-| Container | Technology | Responsibility |
-|-----------|------------|----------------|
-| [{Container_Name}](./{container_name}.arch.md) | {Technology} | {Responsibility} |
+| Container | Tier | Technology | Responsibility |
+|-----------|------|------------|----------------|
+| [{Container_Name}](./{container_name}.arch.md) | {front \| back \| db \| e2e \| fullstack} | {Technology} | {Responsibility} |
 
 <example>
-| Container | Technology | Responsibility |
-|-----------|------------|----------------|
-| [db](./db.arch.md) | PostgreSQL | Database |
-| [api](./api.arch.md) | Java Spring Boot | API |
-| [web](./web.arch.md) | React | Web application |
-| [mobile](./mobile.arch.md) | React Native | Mobile application |
-| [desktop](./desktop.arch.md) | Electron | Desktop application |
-| [cli](./cli.arch.md) | CLI | Command line interface |
-| [e2e](./e2e.arch.md) | Playwright | End-to-end tests |
+| Container | Tier | Technology | Responsibility |
+|-----------|------|------------|----------------|
+| [db](./db.arch.md) | db | PostgreSQL | Database |
+| [api](./api.arch.md) | back | Java Spring Boot | API |
+| [web](./web.arch.md) | front | React | Web application |
+| [mobile](./mobile.arch.md) | front | React Native | Mobile application |
+| [desktop](./desktop.arch.md) | front | Electron | Desktop application |
+| [cli](./cli.arch.md) | front | CLI | Command line interface |
+| [e2e](./e2e.arch.md) | e2e | Playwright | End-to-end tests |
 </example>
 
 ---
