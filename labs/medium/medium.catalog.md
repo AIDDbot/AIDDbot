@@ -1,13 +1,13 @@
 # Medium skills catalog
 
-A 7-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artifacts.
-`/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the transversal e2e plan (which folds in verification).
+An 8-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artifacts.
+`/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the transversal e2e plan. `/codify` implements and `/verify` checks — implementation and verification never share a session.
 
 ## Architect
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/establish`](./establish/) | AIDD setup + C4L2 | `AGENTS.md`, `arch/system.arch.md` |
+| [`/explore`](./explore/) | AIDD setup + C4L2 | `AGENTS.md`, `arch/system.arch.md` |
 | [`/extract`](./extract/) | per container: C4L3 components + tier code rules | `arch/{container}.arch.md`, `{container}.rules.md` |
 
 ## Builder
@@ -15,8 +15,9 @@ A 7-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artif
 | Skill | What it does | Produces |
 |-------|--------------|----------|
 | [`/specify`](./specify/) | Spec: per-container expected results + acceptance criteria (no technical detail) | `specs/{slug}/spec.md` |
-| [`/planify`](./planify/) | One plan per container + a transversal e2e plan (verify folded in) | `specs/{slug}/{container}.plan.md`, `specs/{slug}/e2e.plan.md` |
-| [`/codify`](./codify/) | code / e2e / rectify modes: functional code + unit tests, write+run e2e, or fix e2e defects (rectify folded in) | source, tests, `specs/{slug}/e2e.report.md` |
+| [`/planify`](./planify/) | One plan per container + a transversal e2e plan | `specs/{slug}/{container}.plan.md`, `specs/{slug}/e2e.plan.md` |
+| [`/codify`](./codify/) | Implement one container plan: functional code + unit tests | source, unit tests |
+| [`/verify`](./verify/) | Write+run e2e from the e2e plan; report and fix defects in a loop (rectify folded in) | e2e tests, `specs/{slug}/e2e.report.md` |
 
 ## Craftsman
 
@@ -27,6 +28,7 @@ A 7-skill pipeline compacted from the 12-skill origin. Fewer skills, fewer artif
 
 ## Pipeline
 
-`/establish` -> `/extract` -> `/specify` -> `/planify` -> `/codify` -> `/review` -> `/release`
+`/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify` -> `/review` -> `/release`
 
 Each architect step is mode-aware (greenfield prescribes, brownfield extracts).
+`/codify` runs once per container (sessions can be parallel); `/verify` loops on the e2e report until green, escalating structural defects back to `/planify`.

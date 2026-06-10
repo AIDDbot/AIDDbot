@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 # Planify skill
 
-Acting as a senior software engineer, turn a spec (or bug/review report) into **one implementation plan per affected container** plus **one transversal e2e plan**, each broken into ordered, actionable steps ready for `/codify`.
+Acting as a senior software engineer, turn a spec (or bug/review report) into **one implementation plan per affected container** plus **one transversal e2e plan**, each broken into ordered, actionable steps ready for `/codify` (container plans) and `/verify` (e2e plan).
 
 ## Input
 - One of: a spec `{Product_Folder}/specs/{slug}/spec.md`, a bug/review report `{slug}.report.md`, or a short textual requirement.
@@ -32,7 +32,7 @@ Acting as a senior software engineer, turn a spec (or bug/review report) into **
 
 ## Output
 - Write one `{container}.plan.md` per affected container and one `e2e.plan.md`, using the templates and naming convention.
-- Commit (`docs`); suggest `/codify`.
+- Commit (`docs`); suggest `/codify` per container plan, then `/verify` the e2e plan.
 
 ## Verification
 - One plan per affected container, each grounded in its `{container}.arch.md`, ordered and actionable without extra context.

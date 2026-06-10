@@ -13,9 +13,9 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 
 ## Context
 - Input: a requirement or feature description.
-- Prereq: `AGENTS.md`, `arch/system.arch.md` (run `/establish` if missing).
+- Prereq: `AGENTS.md`, `arch/system.arch.md` (run `/explore` if missing).
 - Use `system.arch.md` to identify the containers this feature touches.
-- Template (same folder): [`spec.template.md`](./spec.template.md).
+- Template: [`spec.template.md`](./assets/spec.template.md).
 
 ## Steps
 

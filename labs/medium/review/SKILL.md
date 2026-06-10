@@ -13,7 +13,7 @@ Given a code scope, evaluate against the merged checklist, fix every finding wit
 
 ## Context
 - Scope (pick one): feature branch changes, plan/spec files, or explicit paths.
-- Checklist (same folder): [`review.guidelines.md`](./review.guidelines.md) — a11y, security, performance, clean-code/DRY.
+- Checklist: [`review.guidelines.md`](./references/review.guidelines.md) — a11y, security, performance, clean-code/DRY.
 
 ## Steps
 
@@ -30,7 +30,7 @@ Given a code scope, evaluate against the merged checklist, fix every finding wit
 
 ## Output
 - [ ] Fixed code in scope (or "No findings").
-- [ ] One commit; chat summary; suggest running the e2e suite (`/codify` the `e2e.plan.md`), then `/release`.
+- [ ] One commit; chat summary; suggest `/verify` to re-run the e2e suite, then `/release`.
 
 ## Verification
 - [ ] Every scope file considered across all dimensions.

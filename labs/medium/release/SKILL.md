@@ -13,7 +13,7 @@ Given verified spec(s), bump the version, record changes in `CHANGELOG.md`, upda
 
 ## Context
 - Input: `{Product_Folder}/specs/{slug}/spec.md` (acceptance criteria all `[x]`).
-- Template (same folder): [`CHANGELOG.template.md`](./CHANGELOG.template.md).
+- Template: [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md).
 - Versioning: Semantic Versioning (`major.minor.patch`); changelog follows Keep a Changelog.
 
 ## Steps
