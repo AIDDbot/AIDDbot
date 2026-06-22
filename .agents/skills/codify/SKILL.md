@@ -1,29 +1,36 @@
 ---
-name: codify
+name: Codify
 description: Implement one container plan with working functional code plus unit tests for critical modules. One run, one container.
 user-invocable: true
 disable-model-invocation: true
 ---
+# Codify
 
-# Codify skill
+Implement one container plan with working code plus unit tests for agents.
 
 ## Role
-Senior software engineer.
+Act as Senior Software Engineer.
 
 ## Task
-Implement a container plan (or a scoped spec/requirement) with working code plus unit tests for critical modules. One run, one container.
+Implement a container plan (or a scoped spec/requirement) with working functional code plus unit tests for critical modules. One run, one container.
 
 ## Context
-### Input
-- One of:
-  - A container Plan file `{Product_Folder}/specs/{slug}/{container}.plan.md`.
-  - A Spec file or a direct textual requirement (best-effort; ask which container to scope).
+- CAUTION: This is a listing. Read only when necessary.
 
-### Prerequisites
-- `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing);
-- The relevant container documents (run `/extract` if missing):
-  - architecture document `{Product_Folder}/arch/{container}.arch.md`
-  - container code rules document `{Agents_Folder}/rules/{container}.rules.md`
+### Input
+- One of: a container plan `{Product_Folder}/specs/{slug}/{container}.plan.md`, or a spec file / direct textual requirement (best-effort).
+> Ask which container to scope if not given by a single container plan; never assume.
+
+### References
+- `{Product_Folder}/arch/system.arch.md`.
+- `{Product_Folder}/arch/{container}.arch.md` — components, contract surface, and structure.
+- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` — system-wide contract detail (endpoint and data shapes), linked from the container arch; read when implementing against an API or the persistence store.
+- `{Agents_Folder}/rules/{container}.rules.md` — naming and conventions.
+> Run `/explore` / `/extract` first if missing.
+
+### Glossary
+- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
+- **e2e container** — transversal; its plan and code belong to `/verify`, never `/codify`.
 
 ### Guardrails
 1. **Think first** — reason about the problem; clarify when in doubt.
@@ -32,34 +39,24 @@ Implement a container plan (or a scoped spec/requirement) with working code plus
 4. **Goal-driven** — keep going until validation criteria are met.
 
 ## Steps
-### Step 1: Scope
-- [ ] Identify the input and derive `{slug}` and `{container}`.
-- [ ] If the input is a spec or requirement (not a single container plan), ask which container to scope. Do not assume.
-- [ ] Never the `e2e` container — its plan and code belong to `/verify`.
-- [ ] If the scope is large, split it into smaller ordered units and do them in order.
+### Step 1: Research
+- Identify the input and derive `{slug}` and `{container}`.
+- If the input is a spec or requirement (not a single container plan), ask which container to scope — never the `e2e` container.
+- Read `{container}.arch.md` (components, contract surface, structure) and `{container}.rules.md` (naming, conventions); follow its links to `api.schema.md` / `db.schema.md` for the field-level shapes when the scope touches an API or the store.
 
-### Step 2: Ground in the container
-- [ ] Read `{container}.arch.md` (components, contracts, structure) and `{container}.rules.md` (naming, conventions).
+### Step 2: Plan the Content
+- If the scope is large, split it into smaller ordered units and do them in order.
+- Map the in-scope plan steps to the code to write or change, respecting the contracts shared with sibling containers (API shapes, schemas).
+- If an in-scope change would alter a shared contract, stop and hand back to `/planify` — never improvise a cross-container change.
 
-### Step 3: Implement
-- [ ] Write the minimum code to meet the in-scope plan steps; follow the container's rules and conventions.
-- [ ] Respect the contracts shared with sibling containers (API shapes, schemas) as planned.
-- [ ] If an in-scope change would alter a shared contract, stop and hand back to `/planify` — never improvise a cross-container change.
-- [ ] Annotate any deviation from the plan in the plan file (what changed and why).
-- [ ] Do not add comments or extra changes (YAGNI).
-
-### Step 4: Unit test
-- [ ] Add unit tests for the critical path: happy path plus error cases (if any).
-- [ ] Run the container's unit suite; fix until green.
-
-## Output
-- [ ] Working code + unit tests; every in-scope plan step checked `[x]`.
-- [ ] In `spec.md`, set `status: in-progress` if still `pending` (building has started).
-- [ ] Commit: `{feat|fix|test}(scope): {description}`.
-- [ ] Suggest handoff:
-  - `/codify` for the remaining container plans.
-  - `/verify` the `e2e.plan.md` once all containers are codified.
+## Implementation Output
+- Write the minimum code to meet the in-scope plan steps, following the container's rules and conventions; no extra comments or changes (YAGNI).
+- Add unit tests for the critical path (happy path plus error cases); run the container's unit suite and fix until green.
+- Annotate any deviation from the plan in the plan file (what changed and why); check each in-scope plan step `[x]`.
+- In `spec.md`, set `status: in-progress` if still `pending` (building has started).
+- Commit: `{feat|fix|test}(scope): {description}`.
+- Suggest handoff: `/codify` for the remaining container plans; `/verify` the `e2e.plan.md` once all containers are codified.
 
 ## Verification
 - [ ] Code builds and unit tests pass.
-- [ ] Every step in the plan is completed.
+- [ ] Every in-scope plan step is completed and checked `[x]`.
