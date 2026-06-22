@@ -39,12 +39,12 @@ Mode guides:
 - **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - List containers from `system.arch.md`; pick one (ask if ambiguous).
 - Classify as **greenfield | brownfield** by whether it already has source code.
 - Read and follow the appropriate reference guide.
 
-### Step 2: Plan
+### 2. Plan
 - Read the `container.arch.template.md` template.
 - Read the `code.rules.template.md` template.
 - Read the `db.schema.template.md` template when this container owns the persistence store; read the `api.schema.template.md` template when it exposes an API.
@@ -52,11 +52,11 @@ Mode guides:
 - Keep field-level detail out of `{container}.arch.md`: the container arch lists the contract surface and links the schema files.
 - Ask essential clarifying questions with closed-ended answers.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
 - When this container owns the persistence store, write `{Product_Folder}/arch/db.schema.md` (create once; update if it exists).
 - When this container exposes an API, write `{Product_Folder}/arch/api.schema.md` (create once; update if it exists).
-- Link `db.schema.md` / `api.schema.md` from this container arch and from any other extracted container that reads/writes or consumes them.
+- Link `db.schema.md` / `api.schema.md` form any cointainer that reads/writes or consumes them.
 - Write `{Agents_Folder}/rules/{container}.rules.md`.
 - Commit the changes (`docs:`).
 - Repeat for the next container, or suggest handoff to the `/specify` skill.

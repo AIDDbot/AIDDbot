@@ -41,15 +41,15 @@ Mode guides:
 - **{Term}** — {definition}.
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - {Identify the input/entry point and derive `{slug}` (and `{container}` when relevant).}
 - {Read the grounding references; classify the mode if applicable.}
 
-### Step 2: Plan
+### 2. Plan
 - {Read the relevant `*.template.md` template(s).}
 - {Prepare the content / decisions before writing or touching code; ask essential closed-ended questions only if needed.}
 
-### Step 3: Implement the Output
+### 3. Implement
 - {The concrete artifact(s) to write — exact paths with `{placeholders}` — or the edits to apply.}
 - {Status/bookkeeping updates (spec status, checkboxes, frontmatter stamps) when applicable.}
 - Commit the changes (`{docs|feat|fix|test|refactor|chore}{(scope)}: {description}`).

@@ -35,19 +35,19 @@ Mode guides:
 - **Guide files** — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `package.json`, `pom.xml`, `go.mod`...
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - Infer the operating system, shell, and remote Git repository.
 - Look for (and read) well-known guide files.
 - Classify as **greenfield | brownfield**, then read and follow the appropriate reference guide.
 
-### Step 2: Plan
+### 2. Plan
 - Read the `AGENTS.template.md` template.
 - Read the `system.arch.template.md` template.
 - Read the `ER.template.md` template.
 - Prepare the content to fill in the placeholders in the templates.
 - Ask essential clarifying questions with closed-ended answers.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
 - Write `{Product_Folder}/arch/system.arch.md`.
 - Write `{Product_Folder}/arch/ER.md` (the domain ER diagram, linked from `system.arch.md`).

@@ -37,15 +37,15 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
 - **Defect kind** — `code bug` (implementation wrong), `test bug` (test wrong), or `structural` (wrong contract, missing component, or plan-level gap → escalate to `/planify`).
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - Identify the entry point from the input (e2e plan → first run; e2e report → resume).
 - Read the spec's acceptance criteria and the e2e plan (or the report when resuming); ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist.
 
-### Step 2: Plan
+### 2. Plan
 - First run: map each plan scenario to one acceptance criterion and to one e2e test; identify the fixtures and the start/test commands (from the root `{Agents_File}`).
 - Resume: triage the report — order defects by severity and mark the `structural` ones for escalation instead of fixing.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Write one e2e test per scenario, mapped to an acceptance criterion: Arrange-Act-Assert, descriptive names, grouped by feature/flow, using the planned fixtures. (Skip when resuming from a report.)
 - Start the system and run the e2e suite; capture pass/fail per scenario; tear down servers/apps after the run.
 - Write `{Product_Folder}/specs/{slug}/e2e.report.md`: one entry per failing scenario — expected vs actual, affected container, severity, and kind. In `spec.md`, mark each acceptance criterion `[x]` when its tests pass, `[ ]` otherwise.

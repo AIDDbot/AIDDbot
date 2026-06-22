@@ -37,17 +37,17 @@ Implement a container plan (or a scoped spec/requirement) with working functiona
 - **e2e container** — transversal; its plan and code belong to `/verify`, never `/codify`.
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - Identify the input and derive `{slug}` and `{container}`.
 - If the input is a spec or requirement (not a single container plan), ask which container to scope — never the `e2e` container.
 - Read `{container}.arch.md` (components, contract surface, structure) and `{container}.rules.md` (naming, conventions); follow its links to `api.schema.md` / `db.schema.md` for the field-level shapes when the scope touches an API or the store.
 
-### Step 2: Plan
+### 2. Plan
 - If the scope is large, split it into smaller ordered units and do them in order.
 - Map the in-scope plan steps to the code to write or change, respecting the contracts shared with sibling containers (API shapes, schemas).
 - If an in-scope change would alter a shared contract, stop and hand back to `/planify` — never improvise a cross-container change.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Write the minimum code to meet the in-scope plan steps, following the container's rules and conventions; no extra comments or changes (YAGNI).
 - Add unit tests for the critical path (happy path plus error cases); run the container's unit suite and fix until green.
 - Annotate any deviation from the plan in the plan file (what changed and why); check each in-scope plan step `[x]`.

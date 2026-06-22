@@ -30,16 +30,16 @@ Given a verified spec — or a spec-less maintenance change — bump the version
 - **Maintenance patch** — a spec-less `/modify` fix or structural refactor; patch bump with no spec parts.
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - Confirm readiness: a feature spec is `in-progress` with all criteria passing, or a maintenance e2e suite is green and untouched.
 - Run the test suite to confirm; review the spec, plans, and e2e report to see what shipped.
 
-### Step 2: Plan
+### 2. Plan
 - Compute `{new_version}` (SemVer) from the change set.
 - Read `CHANGELOG.template.md` and draft the entries (Added/Changed/Fixed/Removed).
 - Identify which human docs and arch docs drifted and need reconciliation.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Update the canonical version files to `{new_version}`.
 - Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`; update `README.md`/docs when user-facing behavior changed.
 - Reconcile the drifted arch docs against the spec, plans, and e2e report; skip what didn't change, and for heavy drift suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.

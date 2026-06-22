@@ -34,16 +34,16 @@ Define **what** the feature must achieve — problem, per-container expected res
 - **{slug}** — short feature identifier; names the spec folder.
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - Ask the minimum questions if unclear; derive `{slug}`.
 - From `system.arch.md`, list the containers this feature touches.
 
-### Step 2: Plan
+### 2. Plan
 - Read the `spec.template.md` template.
 - Prepare the content: problem, user stories, a conceptual data model (the entities/relationships this feature touches, per `ER.md`), and per-container **expected results**.
 - When amending a released feature, set `amends: {old-slug}` in the frontmatter and state the released behavior as the baseline in the problem definition.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Write `{Product_Folder}/specs/{slug}/spec.md` with `status: pending`; keep it to one page with no empty `{placeholders}`.
 - Leave no `e2e` section in the solution overview — verification lives in the acceptance criteria.
 - Commit the changes (`docs:`).

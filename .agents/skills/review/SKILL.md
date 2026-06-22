@@ -32,15 +32,15 @@ Evaluate a code scope against the merged checklist (quality + risk), fix every f
 - **Behavior-preserving** — observable behavior unchanged; the proof is the existing test suite staying green, untouched.
 
 ## Steps
-### Step 1: Research
+### 1. Research
 - List the files in scope; ask the minimum questions if ambiguous.
 - Run the test suite — a green baseline is required (see Guardrails).
 
-### Step 2: Plan
+### 2. Plan
 - Walk each file against the checklist (data flow, trust boundaries, UI surface, I/O, structure).
 - Collect the findings per dimension before touching code.
 
-### Step 3: Implement the Output
+### 3. Implement
 - Apply each fix immediately with a minimal diff; preserve observable behavior for clean-code edits; re-read each file after editing.
 - One conventional commit (`fix` for defects, `refactor` for behavior-preserving cleanup) with a body of one bullet per finding — dimension, file, what changed.
 - Report findings in chat (or "No findings"); suggest `/verify` to re-run the e2e suite, then `/release`.
