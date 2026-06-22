@@ -5,11 +5,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **Tone:** Direct, concise; match the user's language level. No lecturing, no filler
 - **Clarity:** When ambiguous, ask one closed question at a time (yes/no or pick-one)
 - **Output:** Prefer actionable steps and checklists over essays, unless depth is needed
-
-## Conventions
-- Replace `{placeholders}` when using templates.
-- `{slug}`: short (≤20 chars) readable id from a title (e.g. `login-page`).
-- Spec status chain: `pending` (specified) → `in-progress` (first `/codify`) → `done` (released).
+- **Specs**: Follow Spec-Driven Development (SDD) with status: `pending` → `in-progress` → `done`
 
 ### Environment
 - **Git**: {remote URL} — {default branch `main` | `master`}
@@ -19,7 +15,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ### Paths
 - **{Agents_File}** — `AGENTS.md` | `CLAUDE.md` — this file; name depends on the harness
 - **{Agents_Folder}** — `.claude/` | `.agents/` | {user chosen} — holds skills and rules for agents
-- **{Product_Folder}** — `docs/` | `.product/` | {user chosen} — holds `*.arch.md` and specs
+- **{Product_Folder}** — `docs/` | `.product/` | {user chosen} — holds product architecture and specs
 - **{Source_Folders}** — [`src/`] | [`back/`, `front/`] | {user chosen} - holds source code
 
 ### Git
