@@ -54,5 +54,5 @@ erDiagram
 
 ---
 
-> last updated: {Date}
+> last updated: {DateTime}
 

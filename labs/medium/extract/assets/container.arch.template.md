@@ -52,4 +52,4 @@ C4Component
 
 
 {If this is a api container, list the api endpoints and DAOs interfaces.}
-> last updated: {Date}
+> last updated: {DateTime}

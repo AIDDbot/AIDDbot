@@ -38,18 +38,4 @@ C4Component
 
 ---
 
-## Contracts & data
-
-> Cross-container surface this container exposes or consumes. List names and shapes here; link the canonical artifact (migrations, OpenAPI) for field-level detail.
-
-| Contract | Shape | Direction |
-|----------|-------|-----------|
-| {name} | {signature / route / schema} | {exposes \| consumes} |
-
-{If `db` tier — tables and their key fields; link the migrations/DDL for the full schema.}
-
-{If `back`/`api` tier — endpoints and DAO interfaces; link the OpenAPI spec for full request/response shapes.}
-
----
-
-> last updated: {Date}
+> last updated: {DateTime}

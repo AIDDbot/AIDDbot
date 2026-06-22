@@ -40,7 +40,8 @@ Given verified spec(s) — or a spec-less maintenance change — bump the versio
 - [ ] Reconcile architecture docs against the spec, plans, and e2e report (including annotated deviations):
   - `{Product_Folder}/arch/system.arch.md` — containers diagram and table.
   - `{Product_Folder}/arch/ER.md` — domain entities and relationships.
-  - Affected `{Product_Folder}/arch/{container}.arch.md` — components, contracts, schemas.
+  - Affected `{Product_Folder}/arch/{container}.arch.md` — components and contract surface.
+  - `{Product_Folder}/arch/db.schema.md` / `api.schema.md` — field-level database/API schema.
   - `{Agents_Folder}/rules/{container}.rules.md` — only if a convention changed.
   - Root `{Agents_File}` — only if commands or paths changed.
 - [ ] Skip when nothing notable changed; for heavy drift, suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.

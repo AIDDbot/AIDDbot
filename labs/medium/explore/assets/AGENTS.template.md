@@ -46,4 +46,4 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ```
 ---
 
-> last updated: {Date}
+> last updated: {DateTime}

@@ -34,6 +34,6 @@ C4Container
 
 ---
 
-> last updated: {Date}
+> last updated: {DateTime}
 
 

@@ -35,7 +35,8 @@ Both steps are **mode-aware**: they prescribe on greenfield (no source code) and
   - `arch/system.arch.md` — containers diagram with per-container details.
   - `arch/ER.md` — the domain Entity-Relationship diagram (kept separate as it grows large).
 - `/extract` documents **one container per invocation** (C4 L3):
-  - `arch/{container}.arch.md` — components diagram, code organization, key contracts.
+  - `arch/{container}.arch.md` — components diagram, code organization, contract surface.
+  - `arch/db.schema.md` / `arch/api.schema.md` — system-wide field-level database/API schema, kept separate as they grow large; written when the owning container is extracted (when applicable).
   - `{Agents_Folder}/rules/{container}.rules.md` — naming, conventions, one canonical example.
 
 When every container is documented, start features with `/specify`.

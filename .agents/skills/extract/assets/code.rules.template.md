@@ -37,3 +37,7 @@ paths: "{source_glob}"
 - **Errors**: {dominant error-handling rule.}
 - **Testing**: {placement + naming (e.g. colocated `*.spec.ts`); what to cover.}
 - **Avoid**: {2–4 concrete anti-patterns, each with a one-clause reason.}
+
+---
+
+> last updated: {DateTime}

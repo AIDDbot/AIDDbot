@@ -42,7 +42,7 @@ Then document each **container** (a runnable unit from `system.arch.md`: `api`, 
 /extract the api container
 ```
 
-This writes `arch/{container}.arch.md` (C4 L3 components, contracts) and `rules/{container}.rules.md` (coding rules for that container).
+This writes `arch/{container}.arch.md` (C4 L3 components, contract surface) and `rules/{container}.rules.md` (coding rules for that container). When a container owns the persistence store or exposes an API, the field-level schema is split into the system-wide `arch/db.schema.md` and/or `arch/api.schema.md` (written while extracting that container, linked from any container that benefits) so the container arch stays readable.
 
 Both skills are **mode-aware**: they **prescribe** on greenfield (no source code yet) and **extract from the codebase** on brownfield. When every container is documented, start building.
 

@@ -10,7 +10,7 @@ This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
 | [`/explore`](./explore/) | AIDD setup + C4L2 | `{Agents_File}` (`AGENTS.md`/`CLAUDE.md`), `arch/system.arch.md`, `arch/ER.md` |
-| [`/extract`](./extract/) | per container: C4L3 components + container code rules | `arch/{container}.arch.md`, `{Agents_Folder}/rules/{container}.rules.md` |
+| [`/extract`](./extract/) | per container: C4L3 components + container code rules | `arch/{container}.arch.md`, `arch/db.schema.md` / `arch/api.schema.md` (when applicable), `{Agents_Folder}/rules/{container}.rules.md` |
 
 ## Builder
 
