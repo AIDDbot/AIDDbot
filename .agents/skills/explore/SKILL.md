@@ -30,7 +30,7 @@ Mode guides:
 Templates for output files:
 - [`AGENTS.template.md`](./assets/AGENTS.template.md),
 - [`system.arch.template.md`](./assets/system.arch.template.md),
-- [`ER.template.md`](./assets/ER.template.md) — the domain Entity-Relationship diagram in its own file.
+- [`ER.template.md`](./assets/ER.template.md) 
 
 ### Glossary
 - **Container** — an executable unit named in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.

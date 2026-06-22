@@ -4,6 +4,10 @@
 
 {One paragraph: what the system does}
 
+> The domain data model lives in its own file because it grows large for real projects.
+
+See [`ER.md`](./ER.md) for domain entities and relationships.
+
 ---
 
 ## Containers diagram
@@ -28,11 +32,8 @@ C4Container
 |-----------|------|------------|----------------|
 | [{Container_Name}](./{container_name}.arch.md) | {front \| back \| db \| e2e \| fullstack} | {Technology} | {Responsibility} |
 
-
 ---
 
-## Entity-Relationship diagram
+> last updated: {Date}
 
-> The domain data model lives in its own file because it grows large for real projects.
 
-See [`ER.md`](./ER.md).
