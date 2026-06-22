@@ -19,8 +19,8 @@ C4Component
   title {Container_Name} Components
 
   Container_Boundary(boundary, "{Container_Name}") {
-    Component(comp_a, "{Component A}", "{Stereotype}", "{Responsibility}")
-    Component(comp_b, "{Component B}", "{Stereotype}", "{Responsibility}")
+    Component(comp_a, "{Component A}", "{Stereotype}")
+    Component(comp_b, "{Component B}", "{Stereotype}")
   }
 
   Rel(comp_a, comp_b, "{Interaction}")
@@ -36,20 +36,20 @@ C4Component
 └── {folder_or_file}    # {one-line responsibility}
 ```
 
-### Key contracts
+---
 
-{Routes, interfaces, or events this container exposes or consumes. Short table.}
+## Contracts & data
+
+> Cross-container surface this container exposes or consumes. List names and shapes here; link the canonical artifact (migrations, OpenAPI) for field-level detail.
 
 | Contract | Shape | Direction |
 |----------|-------|-----------|
 | {name} | {signature / route / schema} | {exposes \| consumes} |
 
+{If `db` tier — tables and their key fields; link the migrations/DDL for the full schema.}
+
+{If `back`/`api` tier — endpoints and DAO interfaces; link the OpenAPI spec for full request/response shapes.}
+
 ---
 
-## Data Schemas
-
-{If this is a database container, list the tables and their key fields.}
-
-
-{If this is a api container, list the api endpoints and DAOs interfaces.}
 > last updated: {Date}

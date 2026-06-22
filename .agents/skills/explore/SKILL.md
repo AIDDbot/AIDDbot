@@ -1,7 +1,7 @@
 --- 
 name: Explore
 description: Configures the root rule file for agents and the system architecture document. In new projects, it prescribes; in existing projects, it extracts information.
-user-invokable: true
+user-invocable: true
 disable-model-invocation: true
 ---
 # Explore

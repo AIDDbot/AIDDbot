@@ -1,56 +1,65 @@
 ---
-name: extract
-description: Document one container in depth — C4 L3 components + container code rules. Greenfield prescribes; brownfield extracts.
+name: Extract
+description: Documents one container in depth — its component architecture (C4 L3) and container code rules. In new containers, it prescribes; in existing ones, it extracts information.
 user-invocable: true
 disable-model-invocation: true
 ---
+# Extract
 
-# Extract skill
+Document one container in depth to generate its component architecture and code rules for agents.
 
 ## Role
-Senior software architect.
+Act as Senior Software Architect.
 
 ## Task
-For **one container at a time**, generate its component architecture and container code-rules documents.
+For one container at a time, generate its component architecture and container code-rules documents.
 
 ## Context
+- CAUTION: This is a listing. Read only when necessary.
+
 ### Input
-- Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) and `{Product_Folder}/arch/system.arch.md` (run `/explore` first if missing).
+- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (run `/explore` first if missing).
 - The container to document (ask which one if not given).
 
 ### References
-- CAUTION: Read ONLY ONE (green or brown) 
-- Mode guides (read the one that matches the container's mode):
-  - [`mode.greenfield.md`](./references/mode.greenfield.md) — no code; prescribe the intended design.
-  - [`mode.brownfield.md`](./references/mode.brownfield.md) — existing code; extract facts.
 
-### Assets
+- Mode guides:
+- [`Greenfield Guide`](./references/greenfield.guide.md) — no code; prescribes the intended design.
+- [`Brownfield Guide`](./references/brownfield.guide.md) — existing code; extracts facts from the implementation.
+
+### Resources
+- Templates for output files:
 - [`container.arch.template.md`](./assets/container.arch.template.md),
 - [`code.rules.template.md`](./assets/code.rules.template.md).
 
 ### Glossary
-- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
-- **Tier** — the physical/technological layer a container belongs to (`front | back | db | e2e | fullstack`) — corporate jargon. A tier classifies containers (and selects stack conventions), never identifies one.
-- **Component** — an internal building block of one container (C4 L3).
-- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (code exists → extract).
+- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.
+- **Tier** — the physical/technological layer to which a container belongs (`front | back | db | e2e | fullstack`).
+- **Component** — an internal building block of one container — C4model Level 3.
+- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
 
 ## Steps
 ### Step 1: Select
-- [ ] List containers from `system.arch.md`; pick one (ask if ambiguous).
-- [ ] Decide its mode by whether it already has source code (code = brownfield, none = greenfield).
-- [ ] Read and follow the matching `mode.*.md`.
+- List containers from `system.arch.md`; pick one (ask if ambiguous).
+- Classify as **greenfield | brownfield** by whether it already has source code.
+- Read and follow the appropriate reference guide.
 
 ### Step 2: Container architecture
-- [ ] Fill `container.arch.template.md` for this container only — C4 L3 components diagram, code organization, key contracts.
-- [ ] Include domain entities, data schemas, and api endpoints where relevant.
+- Read the `container.arch.template.md` template.
+- Fill it for this container only — C4 L3 components diagram, code organization, key contracts.
+- Include domain entities, data schemas, and api endpoints where relevant.
 
 ### Step 3: Container code rules
-- [ ] Fill `code.rules.template.md`, scoped to this container's source glob — naming, artifact roles, conventions, and one canonical example.
+- Read the `code.rules.template.md` template.
+- Fill it scoped to this container's source glob — naming, artifact roles, conventions, and one canonical example.
 
-## Output
-- [ ] Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
-- [ ] Write `{Agents_Folder}/rules/{container}.rules.md`.
-- [ ] Commit (`docs`); repeat for the next container, or suggest `/specify`.
+## Implementation Output
+- Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
+- Write `{Agents_Folder}/rules/{container}.rules.md`.
+- Commit the changes (`docs:`).
+- Repeat for the next container, or suggest handoff to the `/specify` skill.
 
 ## Verification
-- [ ] Both files exist, are well formatted, and have no `{placeholders}` left.
+- [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
+  - `{Product_Folder}/arch/{container}.arch.md`
+  - `{Agents_Folder}/rules/{container}.rules.md`
