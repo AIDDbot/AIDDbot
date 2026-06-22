@@ -6,8 +6,6 @@ disable-model-invocation: true
 ---
 # Planify
 
-Turn a spec into one implementation plan per affected container plus a transversal e2e plan for agents.
-
 ## Role
 Act as Senior Software Engineer.
 
@@ -17,20 +15,17 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 
-### Input
+### Inputs
 - One of: a spec `{Product_Folder}/specs/{slug}/spec.md`, an e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` escalated by `/verify` (structural defects), or a short textual requirement.
 > A **structural-refactor goal** is also valid input (no spec — behavior doesn't change): the acceptance criterion is the existing e2e suite, unmodified and green.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` — the containers the feature can touch.
-- each `{Product_Folder}/arch/{container}.arch.md` — components, contract surface, and structure.
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` — system-wide contract detail (endpoint and data shapes), linked from the container arch; read whenever a plan touches an API or the persistence store.
+- `{Product_Folder}/arch/system.arch.md` (read) — the containers the feature can touch.
+- each `{Product_Folder}/arch/{container}.arch.md` (read) — components, contract surface, and structure.
+- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read) — system-wide contract detail (endpoint and data shapes), linked from the container arch; read whenever a plan touches an API or the persistence store.
 > Run `/extract` first if missing.
-
-### Resources
-Templates for output files:
-- [container plan](./assets/plan.template.md),
-- [e2e plan](./assets/e2e.plan.template.md).
+- [container plan](./assets/plan.template.md) (write-from) — output file template.
+- [e2e plan](./assets/e2e.plan.template.md) (write-from) — output file template.
 
 ### Glossary
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
@@ -46,13 +41,13 @@ Templates for output files:
 - From `system.arch.md`, determine which containers the feature touches; read each `{container}.arch.md` to ground the plan in its components, contracts, and structure.
 - If ambiguous, document assumptions and proceed best-effort.
 
-### Step 2: Plan the Content
+### Step 2: Plan
 - Read the `plan.template.md` and `e2e.plan.template.md` templates.
 - Prepare one plan per affected functional container: ordered steps by vertical slices, each with a title, short description, and affected paths.
 - Align contracts shared across containers, reading `api.schema.md` / `db.schema.md` for the field-level shapes, and state each in the plan's **Contracts** section with identical wording in every sibling plan that provides or consumes it.
 - Prepare the e2e plan covering every acceptance criterion end-to-end, including steps to generate and run the tests and produce a **defects report**.
 
-## Implementation Output
+### Step 3: Implement the Output
 - Write one `{Product_Folder}/specs/{slug}/{container}.plan.md` per affected container and one `{Product_Folder}/specs/{slug}/e2e.plan.md`.
 - For a structural-refactor goal: skip the e2e plan and make running the existing e2e suite the final step of the last container plan (the criterion needs an owner); after `/codify`, suggest `/extract` (brownfield) to re-document the affected containers, then a patch `/release`.
 - Commit the changes (`docs:`).

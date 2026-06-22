@@ -6,8 +6,6 @@ disable-model-invocation: true
 ---
 # Release
 
-Bump the version, record changes, sync docs, and close verified specs.
-
 ## Role
 Act as Release Manager.
 
@@ -17,18 +15,15 @@ Given a verified spec — or a spec-less maintenance change — bump the version
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 
-### Input
+### Inputs
 - One of:
   - **Feature**: `{Product_Folder}/specs/{slug}/spec.md` with acceptance criteria all `[x]`.
   - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of the steps and output.
 
 ### References
-- The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) — what actually shipped.
-- Arch docs to reconcile: `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
-
-### Resources
-Templates for output files:
-- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md).
+- The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) (read) — what actually shipped.
+- Arch docs to reconcile (read): `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
+- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from) — output file template.
 
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
@@ -39,12 +34,12 @@ Templates for output files:
 - Confirm readiness: a feature spec is `in-progress` with all criteria passing, or a maintenance e2e suite is green and untouched.
 - Run the test suite to confirm; review the spec, plans, and e2e report to see what shipped.
 
-### Step 2: Plan the Content
+### Step 2: Plan
 - Compute `{new_version}` (SemVer) from the change set.
 - Read `CHANGELOG.template.md` and draft the entries (Added/Changed/Fixed/Removed).
 - Identify which human docs and arch docs drifted and need reconciliation.
 
-## Implementation Output
+### Step 3: Implement the Output
 - Update the canonical version files to `{new_version}`.
 - Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`; update `README.md`/docs when user-facing behavior changed.
 - Reconcile the drifted arch docs against the spec, plans, and e2e report; skip what didn't change, and for heavy drift suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.

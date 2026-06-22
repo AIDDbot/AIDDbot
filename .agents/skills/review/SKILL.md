@@ -6,43 +6,41 @@ disable-model-invocation: true
 ---
 # Review
 
-Audit a code scope for defects and clean-code findings, then fix every one in place.
-
 ## Role
 Act as Standards Reviewer.
 
 ## Task
 Evaluate a code scope against the merged checklist (quality + risk), fix every finding with minimal diffs, and commit — never changing spec or plan status.
 
+## Guardrails
+1. **Green baseline gate** — refuse to start on a failing suite; reviewing on red is changing two things at once.
+2. **Tests are untouchable** (beyond mechanical renames) — if a fix would require changing a test's assertion, behavior changed: revert it and route through `/modify`.
+3. **Contracts are frozen** — shared API shapes, schemas, component boundaries. Restructuring them is a structural refactor: route through `/planify`.
+
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 
-### Input
+### Inputs
 - A scope, one of: feature branch changes, plan/spec files, or explicit paths.
 > Ask the minimum questions if the scope is ambiguous.
 
 ### References
-- [`review.guidelines.md`](./references/review.guidelines.md) — the merged checklist: a11y, security, performance, clean-code/DRY.
+- [`review.guidelines.md`](./references/review.guidelines.md) (read) — the merged checklist: a11y, security, performance, clean-code/DRY.
 
 ### Glossary
 - **Finding** — a checklist violation in one of the four dimensions.
 - **Behavior-preserving** — observable behavior unchanged; the proof is the existing test suite staying green, untouched.
-
-### Guardrails
-1. **Green baseline gate** — refuse to start on a failing suite; reviewing on red is changing two things at once.
-2. **Tests are untouchable** (beyond mechanical renames) — if a fix would require changing a test's assertion, behavior changed: revert it and route through `/modify`.
-3. **Contracts are frozen** — shared API shapes, schemas, component boundaries. Restructuring them is a structural refactor: route through `/planify`.
 
 ## Steps
 ### Step 1: Research
 - List the files in scope; ask the minimum questions if ambiguous.
 - Run the test suite — a green baseline is required (see Guardrails).
 
-### Step 2: Plan the Content
+### Step 2: Plan
 - Walk each file against the checklist (data flow, trust boundaries, UI surface, I/O, structure).
 - Collect the findings per dimension before touching code.
 
-## Implementation Output
+### Step 3: Implement the Output
 - Apply each fix immediately with a minimal diff; preserve observable behavior for clean-code edits; re-read each file after editing.
 - One conventional commit (`fix` for defects, `refactor` for behavior-preserving cleanup) with a body of one bullet per finding — dimension, file, what changed.
 - Report findings in chat (or "No findings"); suggest `/verify` to re-run the e2e suite, then `/release`.

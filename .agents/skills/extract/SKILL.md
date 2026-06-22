@@ -6,8 +6,6 @@ disable-model-invocation: true
 ---
 # Extract
 
-Document one container in depth to generate its component architecture and code rules for agents.
-
 ## Role
 Act as Senior Software Architect.
 
@@ -17,25 +15,22 @@ For one container at a time, generate its component architecture and container c
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 
-### Input
-- Root `{Agents_File}` 
+### Inputs
+- Root `{Agents_File}`
 - `{Product_Folder}/arch/system.arch.md`
 > Run `/explore` first if missing.
-- The container to document 
+- The container to document
 > Ask which one if not given.
 
 ### References
+- [`container.arch.template.md`](./assets/container.arch.template.md) (write-from) — output file template.
+- [`code.rules.template.md`](./assets/code.rules.template.md) (write-from) — output file template.
+- [`db.schema.template.md`](./assets/db.schema.template.md) (write-from) — system-wide database schema in its own file (`db.schema.md`).
+- [`api.schema.template.md`](./assets/api.schema.template.md) (write-from) — system-wide API schema in its own file (`api.schema.md`).
 
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) — no code; prescribes the intended design.
 - [`Brownfield Guide`](./references/brownfield.guide.md) — existing code; extracts facts from the implementation.
-
-### Resources
-Templates for output files:
-- [`container.arch.template.md`](./assets/container.arch.template.md),
-- [`code.rules.template.md`](./assets/code.rules.template.md),
-- [`db.schema.template.md`](./assets/db.schema.template.md) — system-wide database schema in its own file (`db.schema.md`),
-- [`api.schema.template.md`](./assets/api.schema.template.md) — system-wide API schema in its own file (`api.schema.md`).
 
 ### Glossary
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.
@@ -49,7 +44,7 @@ Templates for output files:
 - Classify as **greenfield | brownfield** by whether it already has source code.
 - Read and follow the appropriate reference guide.
 
-### Step 2: Plan the Content
+### Step 2: Plan
 - Read the `container.arch.template.md` template.
 - Read the `code.rules.template.md` template.
 - Read the `db.schema.template.md` template when this container owns the persistence store; read the `api.schema.template.md` template when it exposes an API.
@@ -57,7 +52,7 @@ Templates for output files:
 - Keep field-level detail out of `{container}.arch.md`: the container arch lists the contract surface and links the schema files.
 - Ask essential clarifying questions with closed-ended answers.
 
-## Implementation Output
+### Step 3: Implement the Output
 - Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
 - When this container owns the persistence store, write `{Product_Folder}/arch/db.schema.md` (create once; update if it exists).
 - When this container exposes an API, write `{Product_Folder}/arch/api.schema.md` (create once; update if it exists).
