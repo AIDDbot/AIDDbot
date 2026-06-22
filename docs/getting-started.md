@@ -34,7 +34,7 @@ In your agent chat:
 /explore this project
 ```
 
-This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — and the system architecture document `arch/system.arch.md` (C4 L2: containers + ER diagram).
+This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — and the system architecture document `arch/system.arch.md` (C4 L2: containers) and the domain Entity-Relationship diagram `arch/ER.md`.
 
 Then document each **container** (a runnable unit from `system.arch.md`: `api`, `web`, `db`...). Run once per container:
 

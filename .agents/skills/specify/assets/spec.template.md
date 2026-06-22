@@ -22,7 +22,7 @@ status: pending # chain: pending (specified) → in-progress (first /codify) →
 
 ### Data Model
 
-{Conceptual entities and relationships involved in this feature; no schema or field-level detail.}
+{Conceptual entities and relationships this feature touches, drawn from `arch/ER.md`; no schema or field-level detail.}
 
 ### {Container_Name}
 

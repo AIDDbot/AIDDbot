@@ -9,11 +9,13 @@ flowchart TD
   HUM[HUMAN]
   AGT["{Agents_File}"]:::nd
   ARC["arch/system.arch.md"]:::nd
+  ERD["arch/ER.md"]:::nd
   CAR["arch/{container}.arch.md"]:::nd
   RUL["rules/{container}.rules.md"]:::nd
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
+  HUM -->|/explore| ERD
   ARC -->|/extract ×container| CAR
   ARC -->|/extract ×container| RUL
 
@@ -30,7 +32,8 @@ Both steps are **mode-aware**: they prescribe on greenfield (no source code) and
 
 - `/explore` sets up AIDD and documents the system (C4 L2):
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
-  - `arch/system.arch.md` — containers diagram with per-container details, plus the domain ER diagram.
+  - `arch/system.arch.md` — containers diagram with per-container details.
+  - `arch/ER.md` — the domain Entity-Relationship diagram (kept separate as it grows large).
 - `/extract` documents **one container per invocation** (C4 L3):
   - `arch/{container}.arch.md` — components diagram, code organization, key contracts.
   - `{Agents_Folder}/rules/{container}.rules.md` — naming, conventions, one canonical example.

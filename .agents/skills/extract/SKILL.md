@@ -18,17 +18,20 @@ For one container at a time, generate its component architecture and container c
 - CAUTION: This is a listing. Read only when necessary.
 
 ### Input
-- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (run `/explore` first if missing).
-- The container to document (ask which one if not given).
+- Root `{Agents_File}` 
+- `{Product_Folder}/arch/system.arch.md`
+> Run `/explore` first if missing.
+- The container to document 
+> Ask which one if not given.
 
 ### References
 
-- Mode guides:
+Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) — no code; prescribes the intended design.
 - [`Brownfield Guide`](./references/brownfield.guide.md) — existing code; extracts facts from the implementation.
 
 ### Resources
-- Templates for output files:
+Templates for output files:
 - [`container.arch.template.md`](./assets/container.arch.template.md),
 - [`code.rules.template.md`](./assets/code.rules.template.md).
 
@@ -39,19 +42,16 @@ For one container at a time, generate its component architecture and container c
 - **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
 
 ## Steps
-### Step 1: Select
+### Step 1: Research
 - List containers from `system.arch.md`; pick one (ask if ambiguous).
 - Classify as **greenfield | brownfield** by whether it already has source code.
 - Read and follow the appropriate reference guide.
 
-### Step 2: Container architecture
+### Step 2: Plan the Content
 - Read the `container.arch.template.md` template.
-- Fill it for this container only — C4 L3 components diagram, code organization, key contracts.
-- Include domain entities, data schemas, and api endpoints where relevant.
-
-### Step 3: Container code rules
 - Read the `code.rules.template.md` template.
-- Fill it scoped to this container's source glob — naming, artifact roles, conventions, and one canonical example.
+- Prepare the content to fill in the placeholders, scoped to this one container — components, contracts & data, code organization, naming, conventions, and one canonical example.
+- Ask essential clarifying questions with closed-ended answers.
 
 ## Implementation Output
 - Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.

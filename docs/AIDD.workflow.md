@@ -15,6 +15,7 @@ flowchart TD
 
   subgraph P["{Product_Folder}"]
       ARC["arch/system.arch.md"]:::nd
+      ERD["arch/ER.md"]:::nd
       CAR["arch/{container}.arch.md"]:::nd
       SPC["specs/{slug}/spec.md"]:::nd
       PLN["specs/{slug}/{container}.plan.md"]:::nd
@@ -30,12 +31,14 @@ flowchart TD
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
+  HUM -->|/explore| ERD
   HUM -->|/extract| CAR
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
   HUM -->|/modify| SPC
   AGT -.-> SPC
   ARC -.-> SPC
+  ERD -.-> SPC
   SPC -->|/planify| PLN
   SPC -->|/planify| EPL
   CAR -.-> PLN
@@ -75,7 +78,7 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|
-| **Spec** | `/specify` | `system.arch.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
+| **Spec** | `/specify` | `system.arch.md`, `ER.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
 | **Container plan** | `/planify` | `{container}.arch.md` | `specs/{slug}/{container}.plan.md` | — (steps checked `[x]` by `/codify`) |
 | **E2E plan** | `/planify` | `spec.md` acceptance criteria | `specs/{slug}/e2e.plan.md` | — |
 | **Code** | `/codify` | `rules/{container}.rules.md` | `{Source_Folders}` | — |
@@ -94,7 +97,8 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 ### Product
 
 - `arch/` — Architecture set for planning and coding.
-  - `system.arch.md` — Containers diagram (C4 L2) + ER diagram (`/explore`).
+  - `system.arch.md` — Containers diagram (C4 L2) (`/explore`).
+  - `ER.md` — Domain Entity-Relationship diagram (`/explore`).
   - `{container}.arch.md` — Components (C4 L3), code organization, contracts (`/extract`).
 
 - `specs/` — One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.

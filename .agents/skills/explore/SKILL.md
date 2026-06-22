@@ -22,21 +22,22 @@ Generate the rule file for agents and the system architecture document.
 
 ### References
 
-- Mode guides:
+Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) — no code; prescribes default values ​​and prompts the user.
 - [`Brownfield Guide`](./references/brownfield.guide.md) — existing code; describes the implementation and confirms with the user.
 
 ### Resources
-- Templates for output files:
+Templates for output files:
 - [`AGENTS.template.md`](./assets/AGENTS.template.md),
-- [`system.arch.template.md`](./assets/system.arch.template.md).
+- [`system.arch.template.md`](./assets/system.arch.template.md),
+- [`ER.template.md`](./assets/ER.template.md) — the domain Entity-Relationship diagram in its own file.
 
 ### Glossary
 - **Container** — an executable unit named in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.
 - **Level** — the physical/technological layer to which a container belongs (`front | back | db | e2e | fullstack`)
 - **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
 - **{Agents_File}** — the root file of agent rules; `AGENTS.md` (default) | `CLAUDE.md` (Claude code).
-- **Guide files** — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `package.json`, `pom.xml`, `go.mod`.
+- **Guide files** — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `package.json`, `pom.xml`, `go.mod`...
 
 
 ## Steps
@@ -48,12 +49,14 @@ Generate the rule file for agents and the system architecture document.
 ### Step 2: Plan the Content
 - Read the `AGENTS.template.md` template.
 - Read the `system.arch.template.md` template.
-- Prepare the content to fill in the placeholders in the template.
+- Read the `ER.template.md` template.
+- Prepare the content to fill in the placeholders in the templates.
 - Ask essential clarifying questions with closed-ended answers.
 
 ## Implementation Output
 - Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
 - Write `{Product_Folder}/arch/system.arch.md`.
+- Write `{Product_Folder}/arch/ER.md` (the domain ER diagram, linked from `system.arch.md`).
 - Commit the changes (`docs:`).
 - Suggest handoffs to the `/extract` skill per container.
 
@@ -61,3 +64,4 @@ Generate the rule file for agents and the system architecture document.
 - [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
   - `{Agents_File}`
   - `{Product_Folder}/arch/system.arch.md`
+  - `{Product_Folder}/arch/ER.md`

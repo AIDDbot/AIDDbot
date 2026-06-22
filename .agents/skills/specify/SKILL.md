@@ -19,6 +19,7 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 
 ### Prerequisites
 - Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (run `/explore` if missing) — it identifies the containers this feature touches.
+- `{Product_Folder}/arch/ER.md` — the domain Entity-Relationship diagram; reference it for the conceptual data model.
 
 ### Assets
 - [`spec.template.md`](./assets/spec.template.md).
@@ -33,7 +34,7 @@ Analyst. Define **what** the feature must achieve, not **how**. The breakdown in
 - [ ] From `system.arch.md`, list the containers this feature touches.
 
 ### Step 2: Write the spec
-- [ ] Fill `spec.template.md`: problem, user stories, a conceptual data model, and checkable acceptance criteria.
+- [ ] Fill `spec.template.md`: problem, user stories, a conceptual data model (the entities/relationships this feature touches, per `ER.md`), and checkable acceptance criteria.
 - [ ] When amending a released feature, set `amends: {old-slug}` in the frontmatter and state the released behavior as the baseline in the problem definition.
 - [ ] For each affected container (`{Container_Name}`), list the **expected results** — observable outcomes that container must deliver.
 - [ ] Stay at the outcome level: no implementation steps, file paths, or technology choices (that is `/planify`'s job).

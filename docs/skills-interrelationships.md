@@ -7,7 +7,7 @@ Analysis of the 9 skills in `.agents/skills/`, mapping producers, artifacts, and
 | Producer | Artifact | Consumer(s) |
 |----------|----------|-------------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | `*` (every skill reads paths, mode, conventions, git rules, start/test commands) |
-| `/explore` | `arch/system.arch.md` (C4 L2 + ER) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
+| `/explore` | `arch/system.arch.md` (C4 L2), `arch/ER.md` (domain ER) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
 | `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/verify` (fix loop), `/modify` (Route A), `/release` (doc sync) |
 | `/extract` | `rules/{container}.rules.md` | `/codify`, `/verify` (fix loop), `/modify` (Route A) |
 | `/specify` | `specs/{slug}/spec.md` | `/planify`, `/verify` (criteria), `/modify` (released baseline), `/release` |
@@ -36,7 +36,7 @@ Only these transitions touch frontmatter or checkbox state, the backbone of trac
 ```mermaid
 flowchart LR
   EXP["/explore"] --> EXT["/extract"]
-  EXP -.system.arch.-> SPC["/specify"]
+  EXP -.system.arch + ER.-> SPC["/specify"]
   EXT -.container arch.-> PLN["/planify"]
   EXT -.container rules.-> COD["/codify"]
   SPC --> PLN --> COD --> VER["/verify"]

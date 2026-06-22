@@ -38,7 +38,8 @@ Given verified spec(s) — or a spec-less maintenance change — bump the versio
 
 ### Step 3: Sync arch docs
 - [ ] Reconcile architecture docs against the spec, plans, and e2e report (including annotated deviations):
-  - `{Product_Folder}/arch/system.arch.md` — containers table and ER diagram.
+  - `{Product_Folder}/arch/system.arch.md` — containers diagram and table.
+  - `{Product_Folder}/arch/ER.md` — domain entities and relationships.
   - Affected `{Product_Folder}/arch/{container}.arch.md` — components, contracts, schemas.
   - `{Agents_Folder}/rules/{container}.rules.md` — only if a convention changed.
   - Root `{Agents_File}` — only if commands or paths changed.

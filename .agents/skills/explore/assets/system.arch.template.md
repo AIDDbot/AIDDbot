@@ -33,7 +33,6 @@ C4Container
 
 ## Entity-Relationship diagram
 
-```mermaid
-erDiagram
-    EntityA ||--o{ EntityB : "relationship"
-```
+> The domain data model lives in its own file because it grows large for real projects.
+
+See [`ER.md`](./ER.md).
