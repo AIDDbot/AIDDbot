@@ -1,58 +1,56 @@
 ---
-name: release
+name: Release
 description: Bump the version, update CHANGELOG and docs, and mark verified specs as done. Also ships spec-less maintenance patches (defect fixes, structural refactors).
 user-invocable: true
 disable-model-invocation: true
 ---
+# Release
 
-# Release skill
+Bump the version, record changes, sync docs, and close verified specs.
 
 ## Role
-Release manager.
+Act as Release Manager.
 
 ## Task
-Given verified spec(s) — or a spec-less maintenance change — bump the version, record changes in `CHANGELOG.md`, update human docs, and close the spec.
+Given a verified spec — or a spec-less maintenance change — bump the version, record changes in `CHANGELOG.md`, update human and architecture docs, and close the spec.
 
 ## Context
+- CAUTION: This is a listing. Read only when necessary.
+
 ### Input
 - One of:
-  - **Feature**: `{Product_Folder}/specs/{slug}/spec.md` (acceptance criteria all `[x]`).
-  - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of Steps 1 and 4.
+  - **Feature**: `{Product_Folder}/specs/{slug}/spec.md` with acceptance criteria all `[x]`.
+  - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of the steps and output.
 
-### Assets
+### References
+- The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) — what actually shipped.
+- Arch docs to reconcile: `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
+
+### Resources
+Templates for output files:
 - [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md).
 
-### Conventions
-- Semantic Versioning (`major.minor.patch`); changelog follows Keep a Changelog.
+### Glossary
+- **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
+- **Maintenance patch** — a spec-less `/modify` fix or structural refactor; patch bump with no spec parts.
 
 ## Steps
+### Step 1: Research
+- Confirm readiness: a feature spec is `in-progress` with all criteria passing, or a maintenance e2e suite is green and untouched.
+- Run the test suite to confirm; review the spec, plans, and e2e report to see what shipped.
 
-### Step 1: Confirm
-- [ ] Feature: spec is `in-progress` with criteria passing. Maintenance: the existing e2e suite is green, untouched.
-- [ ] Run the test suite to confirm.
+### Step 2: Plan the Content
+- Compute `{new_version}` (SemVer) from the change set.
+- Read `CHANGELOG.template.md` and draft the entries (Added/Changed/Fixed/Removed).
+- Identify which human docs and arch docs drifted and need reconciliation.
 
-### Step 2: Bump and document
-- [ ] Compute `{new_version}`; update canonical version files.
-- [ ] Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md` (Added/Changed/Fixed/Removed).
-- [ ] Update `README.md`/docs when user-facing behavior changed.
-
-### Step 3: Sync arch docs
-- [ ] Reconcile architecture docs against the spec, plans, and e2e report (including annotated deviations):
-  - `{Product_Folder}/arch/system.arch.md` — containers diagram and table.
-  - `{Product_Folder}/arch/ER.md` — domain entities and relationships.
-  - Affected `{Product_Folder}/arch/{container}.arch.md` — components and contract surface.
-  - `{Product_Folder}/arch/db.schema.md` / `api.schema.md` — field-level database/API schema.
-  - `{Agents_Folder}/rules/{container}.rules.md` — only if a convention changed.
-  - Root `{Agents_File}` — only if commands or paths changed.
-- [ ] Skip when nothing notable changed; for heavy drift, suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
-
-### Step 4: Close (feature only)
-- [ ] Set spec `status: done`, `released-version: {new_version}`.
-- [ ] If the spec has `amends: {old-slug}`, stamp `superseded-by: {slug}` in the old spec's frontmatter (frontmatter only — never touch its body or criteria).
-
-## Output
-- [ ] Commit (`chore`; version in subject); tag `{new_version}`; merge to default branch.
+## Implementation Output
+- Update the canonical version files to `{new_version}`.
+- Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`; update `README.md`/docs when user-facing behavior changed.
+- Reconcile the drifted arch docs against the spec, plans, and e2e report; skip what didn't change, and for heavy drift suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
+- Feature only: set spec `status: done`, `released-version: {new_version}`; if it has `amends: {old-slug}`, stamp `superseded-by: {slug}` in the old spec's frontmatter (frontmatter only — never its body or criteria).
+- Commit (`chore`; version in subject); tag `{new_version}`; merge to the default branch.
 
 ## Verification
-- [ ] Spec is `done` (feature) or suite confirmed green (maintenance); CHANGELOG and version are consistent; default branch updated.
-- [ ] Arch docs reflect any notable change introduced by this release.
+- [ ] Spec is `done` (feature) or the suite is confirmed green (maintenance); CHANGELOG and version are consistent; the default branch is updated.
+- [ ] Arch docs reflect every notable change introduced by this release.
