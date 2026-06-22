@@ -1,5 +1,5 @@
 ---
-name: Review
+name: review
 description: Audit a code scope for defects (a11y, security, performance) and clean-code/DRY, then fix every finding in place. Folds refactor in.
 user-invocable: true
 disable-model-invocation: true

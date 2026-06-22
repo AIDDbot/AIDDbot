@@ -1,5 +1,5 @@
 ---
-name: Verify
+name: verify
 description: Verify a spec end-to-end — write and run the e2e tests from the e2e plan, report defects, and fix them in a loop until the suite is green.
 user-invocable: true
 disable-model-invocation: true

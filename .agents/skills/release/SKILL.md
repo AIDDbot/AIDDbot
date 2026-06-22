@@ -1,5 +1,5 @@
 ---
-name: Release
+name: release
 description: Bump the version, update CHANGELOG and docs, and mark verified specs as done. Also ships spec-less maintenance patches (defect fixes, structural refactors).
 user-invocable: true
 disable-model-invocation: true

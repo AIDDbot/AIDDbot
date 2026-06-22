@@ -1,5 +1,5 @@
 ---
-name: Extract
+name: extract
 description: Documents one container in depth — its component architecture (C4 L3) and container code rules. In new containers, it prescribes; in existing ones, it extracts information.
 user-invocable: true
 disable-model-invocation: true

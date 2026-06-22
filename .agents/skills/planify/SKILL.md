@@ -1,5 +1,5 @@
 ---
-name: Planify
+name: planify
 description: Turn a spec into one implementation plan per container plus a transversal e2e plan, each grounded in the container architecture.
 user-invocable: true
 disable-model-invocation: true

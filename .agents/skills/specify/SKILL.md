@@ -1,5 +1,5 @@
 ---
-name: Specify
+name: specify
 description: Capture a feature as a one-page spec — problem, per-container expected results, and acceptance criteria. No technical details; planify owns the steps.
 user-invocable: true
 disable-model-invocation: true

@@ -1,5 +1,5 @@
 ---
-name: Modify
+name: modify
 description: Triage a change to a released feature — implementation defect or requirement change — and route it to a direct fix or an amending spec via /specify.
 user-invocable: true
 disable-model-invocation: true

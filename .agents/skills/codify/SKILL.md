@@ -1,5 +1,5 @@
 ---
-name: Codify
+name: codify
 description: Implement one container plan with working functional code plus unit tests for critical modules. One run, one container.
 user-invocable: true
 disable-model-invocation: true
