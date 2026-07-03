@@ -24,10 +24,10 @@ Define **what** the feature must achieve — problem, per-container expected res
 > Changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context.
 
 ### References
-- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (read) — identify the containers this feature touches.
+- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (read, always) — identify the containers this feature touches.
 > Run `/explore` first if missing.
-- `{Product_Folder}/arch/ER.md` (read) — the domain Entity-Relationship diagram; reference it for the conceptual data model.
-- [`spec.template.md`](./assets/spec.template.md) (write-from) — output file template.
+- `{Product_Folder}/arch/ER.md` (read, always) — the domain Entity-Relationship diagram; reference it for the conceptual data model.
+- [`spec.template.md`](./assets/spec.template.md) (write-from, always) — output file template.
 
 ### Glossary
 - **Expected result** — an observable outcome a container must deliver; never an implementation step.
