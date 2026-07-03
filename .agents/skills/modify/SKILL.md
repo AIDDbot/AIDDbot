@@ -28,6 +28,10 @@ Given a change request about a released feature, check the code against the rele
 - The released spec's acceptance criteria (read) — the contract for current behavior.
 - Affected `{container}.arch.md` / `{container}.rules.md` (read) — to ground a Route A fix.
 
+Mode guides:
+- [`Route A Guide`](./references/route-a.guide.md) — implementation defect; direct fix.
+- [`Route B Guide`](./references/route-b.guide.md) — requirement change; handoff to `/specify`.
+
 ### Glossary
 - **Implementation defect** — code violates a released criterion → Route A (direct fix).
 - **Requirement change** — code matches the criteria but the requested behavior differs (incl. bad analysis or wrong criteria) → Route B (amending spec).
@@ -44,8 +48,7 @@ Given a change request about a released feature, check the code against the rele
 - Split a mixed request and route each part.
 
 ### 3. Implement
-- **Route A (defect)**: apply a minimal fix grounded in the affected `{container}.arch.md` / `{container}.rules.md`; add a regression e2e test for the violated criterion and run until green; commit (`fix(scope)`); suggest `/release` (patch; changelog under *Fixed*).
-- **Route B (change)**: derive a new `{slug}` (never reopen the old folder); hand off to `/specify` with the new requirement, the released baseline, and `amends: {old-slug}`. The full pipeline follows; `/release` stamps `superseded-by:` on the old spec.
+- Follow the matching reference guide (Route A or Route B).
 
 ## Verification
 - [ ] Triage was answered against the released criteria, not opinion.
