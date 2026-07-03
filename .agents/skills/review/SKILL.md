@@ -25,7 +25,7 @@ Evaluate a code scope against the merged checklist (quality + risk), fix every f
 > Ask the minimum questions if the scope is ambiguous.
 
 ### References
-- [`review.guidelines.md`](./references/review.guidelines.md) (read) — the merged checklist: a11y, security, performance, clean-code/DRY.
+- [`review.guidelines.md`](./references/review.guidelines.md) (read, always) — the merged checklist: a11y, security, performance, clean-code/DRY.
 
 ### Glossary
 - **Finding** — a checklist violation in one of the four dimensions.
