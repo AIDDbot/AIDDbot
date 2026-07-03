@@ -20,12 +20,12 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 > A **structural-refactor goal** is also valid input (no spec — behavior doesn't change): the acceptance criterion is the existing e2e suite, unmodified and green.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` (read) — the containers the feature can touch.
-- each `{Product_Folder}/arch/{container}.arch.md` (read) — components, contract surface, and structure.
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read) — system-wide contract detail (endpoint and data shapes), linked from the container arch; read whenever a plan touches an API or the persistence store.
+- `{Product_Folder}/arch/system.arch.md` (read, always) — the containers the feature can touch.
+- each `{Product_Folder}/arch/{container}.arch.md` (read, always) — components, contract surface, and structure.
+- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if a plan touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
 > Run `/extract` first if missing.
-- [container plan](./assets/plan.template.md) (write-from) — output file template.
-- [e2e plan](./assets/e2e.plan.template.md) (write-from) — output file template.
+- [container plan](./assets/plan.template.md) (write-from, always) — output file template.
+- [e2e plan](./assets/e2e.plan.template.md) (write-from, unless a structural-refactor goal) — output file template.
 
 ### Glossary
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
