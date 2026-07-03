@@ -45,7 +45,6 @@ Mode guides:
 - Read the `system.arch.template.md` template.
 - Read the `ER.template.md` template.
 - Prepare the content to fill in the placeholders in the templates.
-- Ask essential clarifying questions with closed-ended answers.
 
 ### 3. Implement
 - Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
