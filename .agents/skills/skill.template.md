@@ -30,14 +30,22 @@ Act as {Role}.
 - [`{name}.template.md`](./assets/{name}.template.md) (write-from) — output file template.
 > {Optional: "Run `/{skill}` first if missing."}
 
-<!-- Optional sub-form for skills that branch by mode (greenfield/brownfield). -->
+<!-- Default pattern for any skill with a heavy inline branch (mode, first-run/resume, route A/B...):
+     extract each branch to its own references/{branch}.guide.md instead of writing it inline in Steps.
+     A guide file is a flat goal statement + bullet list, with its own "## Guardrails" for invariants
+     that only apply to that branch (skill-wide invariants stay in the top-level Guardrails, if any).
+     SKILL.md's Steps stay a thin classifier + dispatcher: identify the branch, read and follow its guide.
+     Skip this split when both branches together are only a few short lines — the indirection isn't worth it. -->
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) — {no code; prescribes}.
 - [`Brownfield Guide`](./references/brownfield.guide.md) — {existing code; extracts}.
 
 ### Glossary
 <!-- Optional. Define ONLY terms with a precise, skill-specific meaning.
-     Do not re-define cross-skill terms (Container, {slug}, Tier...) — those live once in the consumer {Agents_File}. -->
+     Do not re-define cross-skill terms (Container, {slug}, Tier...) — those live once in the consumer {Agents_File}.
+     Short vocabulary/guardrail duplication ACROSS skills is accepted as-is: each skill folder is a self-contained,
+     copyable unit, so a shared `_shared/` module would introduce coupling that doesn't exist today. If a term
+     ever hurts enough to fix, the only legitimate path is centralizing it in {Agents_File} — never a new shared folder. -->
 - **{Term}** — {definition}.
 
 ## Steps
