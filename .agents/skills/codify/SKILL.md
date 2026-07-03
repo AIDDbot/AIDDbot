@@ -24,10 +24,10 @@ Implement a container plan (or a scoped spec/requirement) with working functiona
 > Ask which container to scope if not given by a single container plan; never assume.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` (read).
-- `{Product_Folder}/arch/{container}.arch.md` (read) — components, contract surface, and structure.
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read) — system-wide contract detail (endpoint and data shapes), linked from the container arch; read when implementing against an API or the persistence store.
-- `{Agents_Folder}/rules/{container}.rules.md` (read) — naming and conventions.
+- `{Product_Folder}/arch/system.arch.md` (read, always).
+- `{Product_Folder}/arch/{container}.arch.md` (read, always) — components, contract surface, and structure.
+- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if the scope touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
+- `{Agents_Folder}/rules/{container}.rules.md` (read, always) — naming and conventions.
 > Run `/explore` / `/extract` first if missing.
 
 ### Glossary
