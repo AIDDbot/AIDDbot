@@ -25,9 +25,13 @@ Act as {Role}.
 
 ### References
 <!-- Grounding docs to read AND templates to write output from — both are "read when necessary".
-     Tag each so the author knows its role: (read) for grounding, (write-from) for templates. -->
-- {`path or link` (read) — what it grounds and when to read it.}
-- [`{name}.template.md`](./assets/{name}.template.md) (write-from) — output file template.
+     Tag each with its role — (read) for grounding, (write-from) for templates — AND its cardinality:
+       always      — read unconditionally, every run.
+       if {cond}   — read only when a specific, checkable condition holds (mode, container kind, scope).
+       optional    — read opportunistically if it exists / helps; its absence is fine.
+     e.g. `path (read, always)`, `path (write-from, if {container} owns persistence)`, `path (read, optional)`. -->
+- {`path or link` (read, always|if {cond}|optional) — what it grounds.}
+- [`{name}.template.md`](./assets/{name}.template.md) (write-from, always|if {cond}) — output file template.
 > {Optional: "Run `/{skill}` first if missing."}
 
 <!-- Default pattern for any skill with a heavy inline branch (mode, first-run/resume, route A/B...):
@@ -36,9 +40,9 @@ Act as {Role}.
      that only apply to that branch (skill-wide invariants stay in the top-level Guardrails, if any).
      SKILL.md's Steps stay a thin classifier + dispatcher: identify the branch, read and follow its guide.
      Skip this split when both branches together are only a few short lines — the indirection isn't worth it. -->
-Mode guides:
-- [`Greenfield Guide`](./references/greenfield.guide.md) — {no code; prescribes}.
-- [`Brownfield Guide`](./references/brownfield.guide.md) — {existing code; extracts}.
+Mode guides (tag each `(if {mode})` — exactly one is read per run, chosen by the classifier in Step 1):
+- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — {no code; prescribes}.
+- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — {existing code; extracts}.
 
 ### Glossary
 <!-- Optional. Define ONLY terms with a precise, skill-specific meaning.
