@@ -12,13 +12,6 @@ Act as QA Engineer.
 ## Task
 Given the e2e plan (first run) or an e2e report (resume), write and run the end-to-end tests, produce the defects report, and fix defects in a loop until the suite is green or a blocker is escalated.
 
-## Guardrails
-1. **Distrust the implementation, trust the spec** — success is measured by the defects you find, not by tests passing.
-2. **Independence** — derive tests from the spec's acceptance criteria and the e2e plan; do not mirror the implementation.
-3. **Never weaken a test to make it pass** — if a test is wrong, flag it as a test bug and fix it for correctness, not for green.
-4. **Surgical fixes** — minimal, targeted changes grounded in the affected container's arch and rules.
-5. **Escalate structural defects** — stop, document in the report, and hand off to `/planify`.
-
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 
@@ -33,23 +26,23 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
 - The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist (read).
 > Run `/explore` / `/extract` first if missing. All container plans must be codified (`/codify`) — the system must be runnable.
 
+Mode guides:
+- [`First-run Guide`](./references/first-run.guide.md) — e2e plan; write, run, and report.
+- [`Resume Guide`](./references/resume.guide.md) — e2e report; triage and fix.
+
 ### Glossary
 - **Defect kind** — `code bug` (implementation wrong), `test bug` (test wrong), or `structural` (wrong contract, missing component, or plan-level gap → escalate to `/planify`).
 
 ## Steps
 ### 1. Research
-- Identify the entry point from the input (e2e plan → first run; e2e report → resume).
-- Read the spec's acceptance criteria and the e2e plan (or the report when resuming); ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist.
+- Identify the entry point from the input (e2e plan → first run; e2e report → resume), then read and follow the appropriate reference guide.
 
 ### 2. Plan
 - First run: map each plan scenario to one acceptance criterion and to one e2e test; identify the fixtures and the start/test commands (from the root `{Agents_File}`).
 - Resume: triage the report — order defects by severity and mark the `structural` ones for escalation instead of fixing.
 
 ### 3. Implement
-- Write one e2e test per scenario, mapped to an acceptance criterion: Arrange-Act-Assert, descriptive names, grouped by feature/flow, using the planned fixtures. (Skip when resuming from a report.)
-- Start the system and run the e2e suite; capture pass/fail per scenario; tear down servers/apps after the run.
-- Write `{Product_Folder}/specs/{slug}/e2e.report.md`: one entry per failing scenario — expected vs actual, affected container, severity, and kind. In `spec.md`, mark each acceptance criterion `[x]` when its tests pass, `[ ]` otherwise.
-- Fix loop: escalate `structural` defects (do not fix); for each other defect read the affected `{container}.arch.md` / `{container}.rules.md` and apply a minimal, targeted fix; re-run the failing test(s), then widen to the full suite; update the report and criteria. Repeat until green or no further progress, then document blockers. Annotate any fix that deviates from the plan.
+- Follow the reference guide: write, run, and report (first run), or triage and fix in the loop (resume).
 - Commit (`test(scope)` for the suite, `fix(scope)` for each rectification round).
 - Suggest handoff: `/verify` the `e2e.report.md` to resume while defects remain; `/planify` the report for structural defects; `/review` once the suite is green, then `/release`.
 
