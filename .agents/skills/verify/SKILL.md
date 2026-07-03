@@ -21,14 +21,14 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
   - An e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` → resume: triage and fix.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` and, for each affected container, `{Product_Folder}/arch/{container}.arch.md` and `{Agents_Folder}/rules/{container}.rules.md` (read).
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read) — system-wide contract detail (endpoint and data shapes); assert against these when checking API responses or persisted state.
-- The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` when they exist (read).
+- `{Product_Folder}/arch/system.arch.md` and, for each affected container, `{Product_Folder}/arch/{container}.arch.md` and `{Agents_Folder}/rules/{container}.rules.md` (read, always).
+- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if asserting API responses or persisted state) — system-wide contract detail (endpoint and data shapes).
+- The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` (read, optional) — when they exist.
 > Run `/explore` / `/extract` first if missing. All container plans must be codified (`/codify`) — the system must be runnable.
 
 Mode guides:
-- [`First-run Guide`](./references/first-run.guide.md) — e2e plan; write, run, and report.
-- [`Resume Guide`](./references/resume.guide.md) — e2e report; triage and fix.
+- [`First-run Guide`](./references/first-run.guide.md) (if first run) — e2e plan; write, run, and report.
+- [`Resume Guide`](./references/resume.guide.md) (if resume) — e2e report; triage and fix.
 
 ### Glossary
 - **Defect kind** — `code bug` (implementation wrong), `test bug` (test wrong), or `structural` (wrong contract, missing component, or plan-level gap → escalate to `/planify`).
