@@ -23,14 +23,14 @@ For one container at a time, generate its component architecture and container c
 > Ask which one if not given.
 
 ### References
-- [`container.arch.template.md`](./assets/container.arch.template.md) (write-from) — output file template.
-- [`code.rules.template.md`](./assets/code.rules.template.md) (write-from) — output file template.
-- [`db.schema.template.md`](./assets/db.schema.template.md) (write-from) — system-wide database schema in its own file (`db.schema.md`).
-- [`api.schema.template.md`](./assets/api.schema.template.md) (write-from) — system-wide API schema in its own file (`api.schema.md`).
+- [`container.arch.template.md`](./assets/container.arch.template.md) (write-from, always) — output file template.
+- [`code.rules.template.md`](./assets/code.rules.template.md) (write-from, always) — output file template.
+- [`db.schema.template.md`](./assets/db.schema.template.md) (write-from, if this container owns the persistence store) — system-wide database schema in its own file (`db.schema.md`).
+- [`api.schema.template.md`](./assets/api.schema.template.md) (write-from, if this container exposes an API) — system-wide API schema in its own file (`api.schema.md`).
 
 Mode guides:
-- [`Greenfield Guide`](./references/greenfield.guide.md) — no code; prescribes the intended design.
-- [`Brownfield Guide`](./references/brownfield.guide.md) — existing code; extracts facts from the implementation.
+- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — no code; prescribes the intended design.
+- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — existing code; extracts facts from the implementation.
 
 ### Glossary
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.
