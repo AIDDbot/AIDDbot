@@ -25,14 +25,18 @@ Given a verified spec — or a spec-less maintenance change — bump the version
 - Arch docs to reconcile (read): `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
 - [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from) — output file template.
 
+Mode guides:
+- [`Feature Guide`](./references/feature.guide.md) — verified spec; close it after release.
+- [`Maintenance Guide`](./references/maintenance.guide.md) — spec-less patch; no spec to close.
+
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
 - **Maintenance patch** — a spec-less `/modify` fix or structural refactor; patch bump with no spec parts.
 
 ## Steps
 ### 1. Research
-- Confirm readiness: a feature spec is `in-progress` with all criteria passing, or a maintenance e2e suite is green and untouched.
-- Run the test suite to confirm; review the spec, plans, and e2e report to see what shipped.
+- Identify the entry (feature spec or spec-less maintenance change), then read and follow the appropriate reference guide to confirm readiness.
+- Run the test suite to confirm; review what shipped.
 
 ### 2. Plan
 - Compute `{new_version}` (SemVer) from the change set.
@@ -42,8 +46,8 @@ Given a verified spec — or a spec-less maintenance change — bump the version
 ### 3. Implement
 - Update the canonical version files to `{new_version}`.
 - Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`; update `README.md`/docs when user-facing behavior changed.
-- Reconcile the drifted arch docs against the spec, plans, and e2e report; skip what didn't change, and for heavy drift suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
-- Feature only: set spec `status: done`, `released-version: {new_version}`; if it has `amends: {old-slug}`, stamp `superseded-by: {slug}` in the old spec's frontmatter (frontmatter only — never its body or criteria).
+- Reconcile the drifted arch docs against what shipped; skip what didn't change, and for heavy drift suggest re-running `/extract` (brownfield) on the affected containers instead of hand-patching.
+- Follow the reference guide's closing step (feature: mark the spec `done`; maintenance: none).
 - Commit (`chore`; version in subject); tag `{new_version}`; merge to the default branch.
 
 ## Verification
