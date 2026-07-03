@@ -1,6 +1,6 @@
 ---
 name: {slug}
-description: {One sentence: what it does + value delivered, entry points, and the key boundary (what it does NOT own). Catalog/invocation blurb — don't duplicate below.}
+description: {One sentence: what it does, the value delivered, and the key boundary (what it does NOT own).}
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,78 +10,39 @@ disable-model-invocation: true
 Act as {Role}.
 
 ## Task
-{One paragraph: given {input}, produce {output}, with the key constraint/boundary. State
-what this skill owns and what it explicitly does not (hand off to `/{other-skill}`). This
-replaces the old one-line summary — don't restate it elsewhere.}
+{One paragraph: given {input}, produce {output}, and the key boundary — hand off to
+`/{other-skill}` for what it doesn't own.}
 
 ## Guardrails
-<!-- Optional but recommended for any skill that changes code or status. Always-on
-     invariants — NOT optional reading. Numbered, imperative. -->
-1. **{Invariant}** — {why it holds / what to do instead}.
+1. **{Invariant}** — {why it holds, or what to do instead}.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
-<!-- Whenever a path prefix (e.g. `{Product_Folder}/arch`) appears below, define a short
-     local alias here, e.g. `- {Arch} = {Product_Folder}/arch.` Goal is line width, not just
-     character count — do it even for a single use below. Local to this file only — never
-     touches {Agents_File}. -->
 
 ### Inputs
-- {The entry point(s). If several, list as "One of:" and note what each one selects.}
-> {Optional: a precondition, a related entry route, or "Ask minimum questions if ambiguous."}
+- {The entry point(s); if several, list as "One of:".}
 
 ### References
-<!-- Grounding docs to read AND templates to write output from — both are "read when needed".
-     Tag each with its role — (read) for grounding, (write-from) for templates — AND its
-     cardinality:
-       always      — read unconditionally, every run.
-       if {cond}   — read only when a specific, checkable condition holds (mode, container
-                      kind, scope).
-       optional    — read opportunistically if it exists / helps; its absence is fine.
-     e.g. `path (read, always)`, `path (write-from, if {container} owns persistence)`,
-     `path (read, optional)`. -->
-- {`path or link` (read, always|if {cond}|optional) — what it grounds.}
-- [`{name}.template.md`](./assets/{name}.template.md) (write-from, always|if {cond}).
-> {Optional: "Run `/{skill}` first if missing."}
+- {`path or link`} (read | write-from, always | if {cond} | optional) — {what it grounds}.
 
-<!-- Default pattern for any skill with a heavy inline branch (mode, first-run/resume,
-     route A/B...): extract each branch to its own references/{branch}.guide.md instead of
-     writing it inline in Steps. A guide file is a flat goal statement + bullet list, with
-     its own "## Guardrails" for invariants that only apply to that branch (skill-wide
-     invariants stay in the top-level Guardrails, if any). SKILL.md's Steps stay a thin
-     classifier + dispatcher: identify the branch, read and follow its guide. Skip this
-     split when both branches together are only a few short lines — the indirection isn't
-     worth it. -->
-Mode guides (tag each `(if {mode})`; exactly one is read per run, per the Step-1 classifier):
-- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — {no code; prescribes}.
-- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — {extracts facts}.
+Mode guides, if the skill branches heavily (one is read per run):
+- [`{Branch} Guide`](./references/{branch}.guide.md) (if {branch}) — {what it covers}.
 
 ### Glossary
-<!-- Optional. Define ONLY terms with a precise, skill-specific meaning. Do not re-define
-     cross-skill terms (Container, {slug}, Tier...) — those live once in the consumer
-     {Agents_File}. Short vocabulary/guardrail duplication ACROSS skills is accepted as-is:
-     each skill folder is a self-contained, copyable unit, so a shared `_shared/` module
-     would introduce coupling that doesn't exist today. If a term ever hurts enough to fix,
-     the only legitimate path is centralizing it in {Agents_File} — never a new shared folder. -->
-- **{Term}** — {definition}.
+- **{Term}** — {definition, only if skill-specific}.
 
 ## Steps
 ### 1. Research
-- {Identify the input/entry point and derive `{slug}` (and `{container}` when relevant).}
-- {Read the grounding references; classify the mode if applicable.}
+- {Identify the input and derive `{slug}` / `{container}` when relevant.}
+- Ask the user for any additional context. One question at a time.With close-ended questions.
 
 ### 2. Plan
-- {Read the relevant `*.template.md` template(s).}
-- {Prepare the content/decisions before touching code; ask essential closed-ended
-  questions if needed.}
+- {Read the relevant template(s); prepare content before writing or touching code.}
 
 ### 3. Implement
-- {The concrete artifact(s) to write — exact paths with `{placeholders}` — or edits to apply.}
-- {Status/bookkeeping updates (spec status, checkboxes, frontmatter stamps) when applicable.}
-- Commit the changes (`{docs|feat|fix|test|refactor|chore}{(scope)}: {description}`).
-- Suggest handoff to the `/{next-skill}` skill.
+- {The artifact(s) to write, with exact paths.}
+- Commit (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
 
 ## Verification
-- [ ] {The primary artifact exists, is in the correct format, and contains no empty placeholders.}
-- [ ] {The core boundary/guardrail held (nothing out of scope was changed; status is consistent).}
-- [ ] {The skill's success condition is met (suite green, criteria checkable, etc.).}
+- [ ] {The primary artifact exists, in the correct format, no empty placeholders.}
+- [ ] {The core boundary/guardrail held.}
