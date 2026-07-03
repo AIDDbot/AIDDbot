@@ -21,13 +21,13 @@ Given a verified spec — or a spec-less maintenance change — bump the version
   - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of the steps and output.
 
 ### References
-- The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) (read) — what actually shipped.
-- Arch docs to reconcile (read): `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
-- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from) — output file template.
+- The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) (read, if feature) — what actually shipped.
+- Arch docs to reconcile (read, always): `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
+- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from, always) — output file template.
 
 Mode guides:
-- [`Feature Guide`](./references/feature.guide.md) — verified spec; close it after release.
-- [`Maintenance Guide`](./references/maintenance.guide.md) — spec-less patch; no spec to close.
+- [`Feature Guide`](./references/feature.guide.md) (if feature) — verified spec; close it after release.
+- [`Maintenance Guide`](./references/maintenance.guide.md) (if maintenance) — spec-less patch; no spec to close.
 
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
