@@ -18,16 +18,17 @@ Implement a container plan (or a scoped spec/requirement) with working functiona
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- One of: a container plan `{Product_Folder}/specs/{slug}/{container}.plan.md`, or a spec file / direct textual requirement (best-effort).
+- One of: a container plan `{Specs}/{container}.plan.md`, or a spec file / direct textual requirement (best-effort).
 > Ask which container to scope if not given by a single container plan; never assume.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` (read, always).
-- `{Product_Folder}/arch/{container}.arch.md` (read, always) — components, contract surface, and structure.
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if the scope touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
-- `{Agents_Folder}/rules/{container}.rules.md` (read, always) — naming and conventions.
+- `{Arch}/system.arch.md` (read, always).
+- `{Arch}/{container}.arch.md` (read, always) — components, contract surface, and structure.
+- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if the scope touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
+- `{Rules}/{container}.rules.md` (read, always) — naming and conventions.
 > Run `/explore` / `/extract` first if missing.
 
 ### Glossary

@@ -18,15 +18,16 @@ Define **what** the feature must achieve — problem, per-container expected res
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
 - A requirement or feature description.
 > Changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context.
 
 ### References
-- Root `{Agents_File}` and `{Product_Folder}/arch/system.arch.md` (read, always) — identify the containers this feature touches.
+- Root `{Agents_File}` and `{Arch}/system.arch.md` (read, always) — identify the containers this feature touches.
 > Run `/explore` first if missing.
-- `{Product_Folder}/arch/ER.md` (read, always) — the domain Entity-Relationship diagram; reference it for the conceptual data model.
+- `{Arch}/ER.md` (read, always) — the domain Entity-Relationship diagram; reference it for the conceptual data model.
 - [`spec.template.md`](./assets/spec.template.md) (write-from, always) — output file template.
 
 ### Glossary
@@ -44,12 +45,12 @@ Define **what** the feature must achieve — problem, per-container expected res
 - When amending a released feature, set `amends: {old-slug}` in the frontmatter and state the released behavior as the baseline in the problem definition.
 
 ### 3. Implement
-- Write `{Product_Folder}/specs/{slug}/spec.md` with `status: pending`; keep it to one page with no empty `{placeholders}`.
+- Write `{Specs}/spec.md` with `status: pending`; keep it to one page with no empty `{placeholders}`.
 - Leave no `e2e` section in the solution overview — verification lives in the acceptance criteria.
 - Commit the changes (`docs:`).
 - Suggest handoff to the `/planify` skill.
 
 ## Verification
-- [ ] `{Product_Folder}/specs/{slug}/spec.md` exists, is in the correct format, and contains no empty placeholders.
+- [ ] `{Specs}/spec.md` exists, is in the correct format, and contains no empty placeholders.
 - [ ] Problem and acceptance criteria are clear and checkable.
 - [ ] Each container section lists expected results (outcomes), not implementation steps or technical details.

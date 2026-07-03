@@ -14,15 +14,16 @@ Given a verified spec — or a spec-less maintenance change — bump the version
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
 - One of:
-  - **Feature**: `{Product_Folder}/specs/{slug}/spec.md` with acceptance criteria all `[x]`.
+  - **Feature**: `{Specs}/spec.md` with acceptance criteria all `[x]`.
   - **Maintenance** (no spec): a `/modify` defect fix or a structural refactor — patch bump; skip the spec parts of the steps and output.
 
 ### References
 - The spec, its `{container}.plan.md` plans, and `e2e.report.md` (including annotated deviations) (read, if feature) — what actually shipped.
-- Arch docs to reconcile (read, always): `{Product_Folder}/arch/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Agents_Folder}/rules/{container}.rules.md`, and the root `{Agents_File}`.
+- Arch docs to reconcile (read, always): `{Arch}/system.arch.md`, `ER.md`, affected `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Rules}/{container}.rules.md`, and the root `{Agents_File}`.
 - [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from, always) — output file template.
 
 Mode guides:

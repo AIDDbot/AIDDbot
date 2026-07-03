@@ -14,10 +14,11 @@ For one container at a time, generate its component architecture and container c
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs
 - Root `{Agents_File}`
-- `{Product_Folder}/arch/system.arch.md`
+- `{Arch}/system.arch.md`
 > Run `/explore` first if missing.
 - The container to document
 > Ask which one if not given.
@@ -52,17 +53,17 @@ Mode guides:
 - Keep field-level detail out of `{container}.arch.md`: the container arch lists the contract surface and links the schema files.
 
 ### 3. Implement
-- Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
-- When this container owns the persistence store, write `{Product_Folder}/arch/db.schema.md` (create once; update if it exists).
-- When this container exposes an API, write `{Product_Folder}/arch/api.schema.md` (create once; update if it exists).
+- Write `{Arch}/{container}.arch.md` and link it from `system.arch.md`.
+- When this container owns the persistence store, write `{Arch}/db.schema.md` (create once; update if it exists).
+- When this container exposes an API, write `{Arch}/api.schema.md` (create once; update if it exists).
 - Link `db.schema.md` / `api.schema.md` form any cointainer that reads/writes or consumes them.
-- Write `{Agents_Folder}/rules/{container}.rules.md`.
+- Write `{Rules}/{container}.rules.md`.
 - Commit the changes (`docs:`).
 - Repeat for the next container, or suggest handoff to the `/specify` skill.
 
 ## Verification
 - [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
-  - `{Product_Folder}/arch/{container}.arch.md`
-  - `{Product_Folder}/arch/db.schema.md` — once a persistence container has been extracted.
-  - `{Product_Folder}/arch/api.schema.md` — once an API container has been extracted.
-  - `{Agents_Folder}/rules/{container}.rules.md`
+  - `{Arch}/{container}.arch.md`
+  - `{Arch}/db.schema.md` — once a persistence container has been extracted.
+  - `{Arch}/api.schema.md` — once an API container has been extracted.
+  - `{Rules}/{container}.rules.md`

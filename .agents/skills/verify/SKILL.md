@@ -14,15 +14,16 @@ Given the e2e plan (first run) or an e2e report (resume), write and run the end-
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
 - One of (this selects the entry point):
-  - The transversal e2e plan `{Product_Folder}/specs/{slug}/e2e.plan.md` → first run: write, run, report, then fix.
-  - An e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` → resume: triage and fix.
+  - The transversal e2e plan `{Specs}/e2e.plan.md` → first run: write, run, report, then fix.
+  - An e2e report `{Specs}/e2e.report.md` → resume: triage and fix.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` and, for each affected container, `{Product_Folder}/arch/{container}.arch.md` and `{Agents_Folder}/rules/{container}.rules.md` (read, always).
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if asserting API responses or persisted state) — system-wide contract detail (endpoint and data shapes).
+- `{Arch}/system.arch.md` and, for each affected container, `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` (read, always).
+- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if asserting API responses or persisted state) — system-wide contract detail (endpoint and data shapes).
 - The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md` (read, optional) — when they exist.
 > Run `/explore` / `/extract` first if missing. All container plans must be codified (`/codify`) — the system must be runnable.
 

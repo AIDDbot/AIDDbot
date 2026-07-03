@@ -14,6 +14,7 @@ Generate the rule file for agents and the system architecture document.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`.
 
 ### Inputs
 - Existing source code in the repository root, if any.
@@ -48,13 +49,13 @@ Mode guides:
 
 ### 3. Implement
 - Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
-- Write `{Product_Folder}/arch/system.arch.md`.
-- Write `{Product_Folder}/arch/ER.md` (the domain ER diagram, linked from `system.arch.md`).
+- Write `{Arch}/system.arch.md`.
+- Write `{Arch}/ER.md` (the domain ER diagram, linked from `system.arch.md`).
 - Commit the changes (`docs:`).
 - Suggest handoffs to the `/extract` skill per container.
 
 ## Verification
 - [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
   - `{Agents_File}`
-  - `{Product_Folder}/arch/system.arch.md`
-  - `{Product_Folder}/arch/ER.md`
+  - `{Arch}/system.arch.md`
+  - `{Arch}/ER.md`

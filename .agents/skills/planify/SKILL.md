@@ -14,15 +14,16 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- One of: a spec `{Product_Folder}/specs/{slug}/spec.md`, an e2e report `{Product_Folder}/specs/{slug}/e2e.report.md` escalated by `/verify` (structural defects), or a short textual requirement.
+- One of: a spec `{Specs}/spec.md`, an e2e report `{Specs}/e2e.report.md` escalated by `/verify` (structural defects), or a short textual requirement.
 > A **structural-refactor goal** is also valid input (no spec — behavior doesn't change): the acceptance criterion is the existing e2e suite, unmodified and green.
 
 ### References
-- `{Product_Folder}/arch/system.arch.md` (read, always) — the containers the feature can touch.
-- each `{Product_Folder}/arch/{container}.arch.md` (read, always) — components, contract surface, and structure.
-- `{Product_Folder}/arch/api.schema.md` / `{Product_Folder}/arch/db.schema.md` (read, if a plan touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
+- `{Arch}/system.arch.md` (read, always) — the containers the feature can touch.
+- each `{Arch}/{container}.arch.md` (read, always) — components, contract surface, and structure.
+- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if a plan touches an API or the persistence store) — system-wide contract detail (endpoint and data shapes), linked from the container arch.
 > Run `/extract` first if missing.
 - [container plan](./assets/plan.template.md) (write-from, always) — output file template.
 - [e2e plan](./assets/e2e.plan.template.md) (write-from, unless a structural-refactor goal) — output file template.
@@ -48,7 +49,7 @@ Turn a spec (or an escalated e2e report) into **one implementation plan per affe
 - Prepare the e2e plan covering every acceptance criterion end-to-end, including steps to generate and run the tests and produce a **defects report**.
 
 ### 3. Implement
-- Write one `{Product_Folder}/specs/{slug}/{container}.plan.md` per affected container and one `{Product_Folder}/specs/{slug}/e2e.plan.md`.
+- Write one `{Specs}/{container}.plan.md` per affected container and one `{Specs}/e2e.plan.md`.
 - For a structural-refactor goal: skip the e2e plan and make running the existing e2e suite the final step of the last container plan (the criterion needs an owner); after `/codify`, suggest `/extract` (brownfield) to re-document the affected containers, then a patch `/release`.
 - Commit the changes (`docs:`).
 - Suggest `/codify` per container plan, then `/verify` the e2e plan.

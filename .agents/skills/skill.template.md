@@ -18,6 +18,9 @@ Act as {Role}.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+<!-- Whenever a path prefix (e.g. `{Product_Folder}/arch`) appears below, define a short local alias here,
+     e.g. `- {Arch} = {Product_Folder}/arch.` Goal is line width, not just character count — do it even for
+     a single use below. Local to this file only — never touches {Agents_File}. -->
 
 ### Inputs
 - {The entry point(s). When there are several, list them as "One of:" and note how each selects a different mode/path.}

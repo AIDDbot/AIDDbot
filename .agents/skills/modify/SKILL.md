@@ -19,9 +19,10 @@ Given a change request about a released feature, check the code against the rele
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
+- `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- A change request, plus the released spec `{Product_Folder}/specs/{slug}/spec.md` when the slug is known.
+- A change request, plus the released spec `{Specs}/spec.md` when the slug is known.
 > The spec must be `done`; otherwise stop — that's the normal build loop, no triage needed.
 
 ### References
