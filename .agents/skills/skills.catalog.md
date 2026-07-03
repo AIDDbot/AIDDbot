@@ -1,6 +1,7 @@
 # AIDD skills catalog
 
-A 9-skill pipeline covering the whole SDLC. Fewer skills, fewer artifacts.
+A 9-skill pipeline covering the whole SDLC, plus `/skillify` to extend the skillset
+itself. Fewer skills, fewer artifacts.
 `/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the
 transversal e2e plan. `/codify` implements and `/verify` checks — implementation and
 verification never share a session.
@@ -47,6 +48,17 @@ Produces:
 - `/review` → `fix`/`refactor` commit.
 - `/release` → `CHANGELOG.md`, version bump.
 - `/modify` → `fix` commit, or `/specify` handoff (`amends:`).
+
+## Meta
+
+Not part of the SDLC pipeline — it maintains the skill framework itself.
+
+| Skill | What it does |
+|-------|--------------|
+| [`/skillify`](./skillify/) | Create or fix a skill under `.agents/skills/`, per the template |
+
+Produces:
+- `/skillify` → new/updated `SKILL.md` (+ references/assets); catalog kept in sync.
 
 ## Pipeline
 

@@ -35,6 +35,9 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
 | [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/release`, `/modify` | Quality audit, release, and maintenance triage |
 
+Plus `/skillify`, a Meta skill outside the SDLC pipeline: create or fix a skill under
+`.agents/skills/` itself, following the same template.
+
 See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill produces, and the [Skills lifecycle](.agents/skills/skills.lifecycle.md) for how they cover build, maintenance, and refactoring.
 
 ### The pipeline at a glance
