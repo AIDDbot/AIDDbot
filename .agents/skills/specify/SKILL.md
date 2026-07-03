@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Capture a feature as a one-page spec: problem, expected results, criteria. No tech — planify owns the steps.
+description: Capture a feature as a one-page spec; problem, expected results, criteria. No tech — planify owns the steps.
 user-invocable: true
 disable-model-invocation: true
 ---

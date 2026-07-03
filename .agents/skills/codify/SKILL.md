@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement a container plan: code and unit tests for critical modules. One run, one container.
+description: Implement a container plan; code and unit tests for critical modules. One run, one container.
 user-invocable: true
 disable-model-invocation: true
 ---

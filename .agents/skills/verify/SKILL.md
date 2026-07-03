@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Verify a spec end-to-end: write/run the e2e tests from the plan, report defects, fix them in a loop until green.
+description: Verify a spec end-to-end; write/run e2e tests from the plan, report defects, fix them in a loop until green.
 user-invocable: true
 disable-model-invocation: true
 ---
