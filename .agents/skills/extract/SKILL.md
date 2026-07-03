@@ -50,7 +50,6 @@ Mode guides:
 - Read the `db.schema.template.md` template when this container owns the persistence store; read the `api.schema.template.md` template when it exposes an API.
 - Prepare the content to fill in the placeholders, scoped to this one container — components, contracts & data, code organization, naming, conventions, and one canonical example.
 - Keep field-level detail out of `{container}.arch.md`: the container arch lists the contract surface and links the schema files.
-- Ask essential clarifying questions with closed-ended answers.
 
 ### 3. Implement
 - Write `{Product_Folder}/arch/{container}.arch.md` and link it from `system.arch.md`.
