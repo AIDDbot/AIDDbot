@@ -2,11 +2,14 @@
 
 The goal is to document the components and conventions that exist; don't redesign.
 
-- Read the entry point, then map real modules to components and stereotype each by what it does (controller, service, repository...).
-- Contracts = real routes/interfaces/exports; entities = real schema/models. Keep the field-level detail in the dedicated system-wide schema files (`db.schema.md`, `api.schema.md`); the container arch lists only the contract surface and links them.
+- Read the entry point, then map real modules to components.
+- Stereotype each component by what it does (controller, service, repository...).
+- Contracts = real routes/interfaces/exports; entities = real schema/models.
+- Keep field-level detail in the shared `db.schema.md` / `api.schema.md` files.
+- The container arch lists only the contract surface and links those files.
 - Lift naming, structure, errors, and tests from the existing code.
 - Pick the cleanest existing unit as the canonical example — quote it, don't rewrite it.
 
 ## Guardrails
-- Observe; don't reform. If the container is inconsistent, document the dominant pattern and flag the rest.
+- Observe; don't reform. If inconsistent, document the dominant pattern and flag the rest.
 - Extract each container independently; don't promote one container's conventions onto another.

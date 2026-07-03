@@ -1,6 +1,6 @@
 ---
 name: modify
-description: Triage a change to a released feature — implementation defect or requirement change — and route it to a direct fix or an amending spec via /specify.
+description: Triage a change to a released feature — defect or requirement change — and route it to a fix or an amending spec.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,11 +10,13 @@ disable-model-invocation: true
 Act as Maintainer.
 
 ## Task
-Given a change request about a released feature, check the code against the released acceptance criteria, then route it: a direct fix + regression test, or a handoff to `/specify` as an amending spec.
+Check a change request against the released acceptance criteria, then route it: a direct fix
+plus regression test, or an amending-spec handoff to `/specify`.
 
 ## Guardrails
 1. Never edit a `done` spec's body or criteria.
-2. No silent behavior changes — without a released criterion stating the correct behavior, it's a requirement change, even if business calls it a "bug".
+2. No silent behavior changes — if no released criterion states it, it's a requirement change,
+   even if business calls it a "bug".
 3. The routing decision is the deliverable; this skill owns no templates or plans.
 
 ## Context
@@ -31,16 +33,17 @@ Given a change request about a released feature, check the code against the rele
 
 Mode guides:
 - [`Route A Guide`](./references/route-a.guide.md) (if implementation defect) — direct fix.
-- [`Route B Guide`](./references/route-b.guide.md) (if requirement change) — handoff to `/specify`.
+- [`Route B Guide`](./references/route-b.guide.md) (if requirement change) — to `/specify`.
 
 ### Glossary
 - **Implementation defect** — code violates a released criterion → Route A (direct fix).
-- **Requirement change** — code matches the criteria but the requested behavior differs (incl. bad analysis or wrong criteria) → Route B (amending spec).
+- **Requirement change** — code matches the criteria, but requested behavior differs →
+  Route B (amending spec).
 
 ## Steps
 ### 1. Research
-- Find the affected released spec (search `{Product_Folder}/specs/*/spec.md` if no slug given); follow `superseded-by:` links to the latest.
-- Read its acceptance criteria — the contract for current behavior.
+- Find the affected released spec (search `{Product_Folder}/specs/*/spec.md` if no slug given).
+- Follow `superseded-by:` links to the latest version, then read its acceptance criteria.
 
 ### 2. Plan
 - Triage with one question: **does the current code pass the released acceptance criteria?**

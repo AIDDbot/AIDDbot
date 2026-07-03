@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Configures the root rule file for agents and the system architecture document. In new projects, it prescribes; in existing projects, it extracts information.
+description: Generates the root agent-rules file and system architecture doc; prescribes new, extracts existing.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -20,20 +20,20 @@ Generate the rule file for agents and the system architecture document.
 - Existing source code in the repository root, if any.
 
 ### References
-- [`AGENTS.template.md`](./assets/AGENTS.template.md) (write-from, always) — output file template.
-- [`system.arch.template.md`](./assets/system.arch.template.md) (write-from, always) — output file template.
-- [`ER.template.md`](./assets/ER.template.md) (write-from, always) — output file template.
+- [`AGENTS.template.md`](./assets/AGENTS.template.md) (write-from, always).
+- [`system.arch.template.md`](./assets/system.arch.template.md) (write-from, always).
+- [`ER.template.md`](./assets/ER.template.md) (write-from, always).
 
 Mode guides:
-- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — no code; prescribes default values and prompts the user.
-- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — existing code; describes the implementation and confirms with the user.
+- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes defaults.
+- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — documents the code.
 
 ### Glossary
-- **Container** — an executable unit named in `system.arch.md` (`api`, `web`, `db`...) — C4model Level 2.
-- **Level** — the physical/technological layer to which a container belongs (`front | back | db | e2e | fullstack`)
+- **Container** — an executable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
+- **Level** — the layer a container belongs to (`front | back | db | e2e | fullstack`).
 - **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
-- **{Agents_File}** — the root file of agent rules; `AGENTS.md` (default) | `CLAUDE.md` (Claude code).
-- **Guide files** — `README.md`, `CHANGELOG.md`, `AGENTS.md`, `CLAUDE.md`, `package.json`, `pom.xml`, `go.mod`...
+- **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
+- **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`...
 
 ## Steps
 ### 1. Research

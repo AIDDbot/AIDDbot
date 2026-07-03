@@ -1,6 +1,6 @@
 # Release a maintenance patch
 
-The goal is to ship a spec-less change (a `/modify` defect fix or a structural refactor) as a patch release.
+The goal is to ship a spec-less change (a `/modify` fix or a structural refactor) as a patch.
 
 - Confirm readiness: the maintenance e2e suite is green and untouched.
 - Review what changed — there is no spec, plan, or e2e report to reconcile against.
