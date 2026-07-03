@@ -25,12 +25,12 @@ Given a change request about a released feature, check the code against the rele
 > The spec must be `done`; otherwise stop — that's the normal build loop, no triage needed.
 
 ### References
-- The released spec's acceptance criteria (read) — the contract for current behavior.
-- Affected `{container}.arch.md` / `{container}.rules.md` (read) — to ground a Route A fix.
+- The released spec's acceptance criteria (read, always) — the contract for current behavior.
+- Affected `{container}.arch.md` / `{container}.rules.md` (read, if Route A) — to ground the fix.
 
 Mode guides:
-- [`Route A Guide`](./references/route-a.guide.md) — implementation defect; direct fix.
-- [`Route B Guide`](./references/route-b.guide.md) — requirement change; handoff to `/specify`.
+- [`Route A Guide`](./references/route-a.guide.md) (if implementation defect) — direct fix.
+- [`Route B Guide`](./references/route-b.guide.md) (if requirement change) — handoff to `/specify`.
 
 ### Glossary
 - **Implementation defect** — code violates a released criterion → Route A (direct fix).
