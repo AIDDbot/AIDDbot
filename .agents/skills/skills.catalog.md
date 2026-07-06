@@ -9,7 +9,7 @@ transversal e2e plan included. `/codify` is the only skill that writes code; `/v
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
 
-## Architect
+## Context
 
 | Skill | What it does |
 |-------|--------------|
@@ -21,7 +21,7 @@ Produces:
 - `/extract` → `arch/{container}.arch.md`, `db.schema.md`/`api.schema.md`/`ER.md` (if
   applicable), `{Agents_Folder}/rules/{container}.rules.md`.
 
-## Builder
+## Development
 
 | Skill | What it does |
 |-------|--------------|
@@ -36,7 +36,7 @@ Produces:
 - `/codify` → source, unit tests, e2e tests.
 - `/verify` → `specs/{slug}/e2e.report.md`.
 
-## Craftsman
+## Quality and release
 
 | Skill | What it does |
 |-------|--------------|
@@ -63,7 +63,7 @@ Produces:
 `/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify`
 -> `/review` -> `/release`
 
-Each architect step is mode-aware (greenfield prescribes, brownfield extracts).
+Both context steps are mode-aware (greenfield prescribes, brownfield extracts).
 `/codify` runs once per container — e2e included (sessions can be parallel); `/verify`
 runs the suite and reports: code/test bugs loop back through `/codify` per affected
 container, structural defects escalate to `/planify`. Repeat until green.

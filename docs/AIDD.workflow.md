@@ -60,9 +60,10 @@ flowchart TD
 
 ## Commands
 
+- **The whole system in diagrams:** [AIDD in diagrams](./AIDD.diagrams.md) · [Building a feature](./feature.building.md)
 - **When to use each skill:** [Skills catalog](../.agents/skills/skills.catalog.md) · [Skills lifecycle](../.agents/skills/skills.lifecycle.md)
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
-- **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [craftsman](./craftsman.pipelines.md)
+- **Phase diagrams:** [Skill pipelines](./pipelines.md)
 - **Producers and consumers:** [Skills interrelationships](./skills-interrelationships.md)
 - **Why it is shaped this way:** [Design decisions](./design.decisions.md)
 
@@ -79,7 +80,7 @@ Branch naming, conventional commits, and git safety rules live in the root `{Age
 
 ## SDD Artifacts (Source, Context, Output, Status)
 
-Builder artifacts in pipeline order. `Status` is the `status` frontmatter value; artifacts without frontmatter show `—`.
+Feature artifacts in pipeline order. `Status` is the `status` frontmatter value; artifacts without frontmatter show `—`.
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|

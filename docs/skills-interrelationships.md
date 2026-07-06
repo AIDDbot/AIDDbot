@@ -57,11 +57,11 @@ Solid arrows are the build pipeline. Maintenance has no entry skill: a fix re-en
 
 1. **`{Agents_File}` is the universal context root.** `/explore` writes it once; every downstream skill reads it for `{Product_Folder}`, `{Agents_Folder}`, `{Source_Folders}`, starting mode, git rules, the status chain, and the start/test commands. It is the only artifact with a `*` consumer.
 
-2. **The architect phase is two mode-aware steps, not four.** `/explore` (system, C4 L2) then `/extract` once per container (components + rules, C4 L3). Mode is resolved per container: code exists = brownfield (extract facts), none = greenfield (prescribe).
+2. **Context setup is two mode-aware steps, not four.** `/explore` (system, C4 L2) then `/extract` once per container (components + rules, C4 L3). Mode is resolved per container: code exists = brownfield (extract facts), none = greenfield (prescribe).
 
 3. **Containers, not tiers, are the unit of work.** Every plan, arch doc, and rules file is keyed by container name from `system.arch.md`. *Tier* survives only as a classifier (`front | back | db | e2e | fullstack`), never as an identifier.
 
-4. **`spec.md` is the builder's source of truth — while it is open.** The only artifact with a status lifecycle (`pending -> in-progress -> done`); it stays at the outcome level and `/planify` owns all technical breakdown, including the transversal `e2e.plan.md`. Once `done`, it is a closed ticket: history, never authority — the contract lives on in the e2e suite and the feature doc.
+4. **`spec.md` is the build's source of truth — while it is open.** The only artifact with a status lifecycle (`pending -> in-progress -> done`); it stays at the outcome level and `/planify` owns all technical breakdown, including the transversal `e2e.plan.md`. Once `done`, it is a closed ticket: history, never authority — the contract lives on in the e2e suite and the feature doc.
 
 5. **One writer, two evaluators.** `/codify` is the only skill that writes code — the e2e suite included, implemented from `e2e.plan.md` like any container plan. `/verify` and `/review` only evaluate and report; implementation and evaluation never share a session. The e2e plan's scenarios derive from the spec's criteria (via `/planify`), never from sibling implementations — that derivation chain is what keeps the suite trustworthy as a safety net even though codify writes it.
 

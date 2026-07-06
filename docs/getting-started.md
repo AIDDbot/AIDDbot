@@ -26,7 +26,7 @@ Copy-Item -Path AIDDbot-tmp/.agents -Destination ./.agents -Recurse -Force
 Remove-Item -Path AIDDbot-tmp -Recurse -Force
 ```
 
-## 2. Architect the project
+## 2. Set up the context
 
 In your agent chat:
 
@@ -46,11 +46,11 @@ This writes `arch/{container}.arch.md` (C4 L3 components, contract surface) and 
 
 Both skills are **mode-aware**: they **prescribe** on greenfield (no source code yet) and **extract from the codebase** on brownfield. When every container is documented, start building.
 
-See [Architect pipelines](./architect.pipelines.md).
+See [Skill pipelines](./pipelines.md#set-up-the-context).
 
 ## 3. Build a feature
 
-Default loop:
+See [Building a feature](./feature.building.md) for the visual walkthrough. Default loop:
 
 ```markdown
 /specify → /planify → /codify (×container) → /verify
@@ -72,7 +72,7 @@ Example prompts:
 - `/codify` implements **one container plan per run** (sessions can be parallel): functional code + unit tests — and the e2e suite from its plan.
 - `/verify` runs the e2e suite and reports — never fixes: defects land in `e2e.report.md` triaged with a handoff each. Code/test bugs go back through `/codify` per affected container; structural defects escalate to `/planify`. Repeat `/verify` until green. Implementation and evaluation never share a session.
 
-See [Builder pipelines](./builder.pipelines.md).
+See [Skill pipelines](./pipelines.md#build-a-feature).
 
 ## 4. Quality and release
 
@@ -92,7 +92,7 @@ Example prompts:
 - `/review` audits a code scope for a11y, security, performance, **and** clean-code/DRY, and writes `review.report.md` with a handoff per finding (report-only; `--fix` applies the mechanical ones). Fixes land via `/codify`.
 - `/release` bumps the version, updates `CHANGELOG.md`, merges the shipped behavior into `docs/{feature}.md`, reconciles the architecture docs, and closes the spec (`status: done`, `released-version`).
 
-See [Craftsman pipelines](./craftsman.pipelines.md).
+See [Skill pipelines](./pipelines.md#quality-and-release).
 
 ## 5. Maintain a released feature
 
