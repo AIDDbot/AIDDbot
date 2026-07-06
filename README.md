@@ -46,7 +46,7 @@ See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill p
 /explore → /extract (×container) → /specify → /planify → /codify (×container) → /verify → /review → /release
 ```
 
-Changes to a released feature enter via `/modify`, which triages: defect → direct fix; behavior change → new amending spec, full pipeline.
+Changes to a released feature enter via `/modify`, which triages: defect → direct fix; behavior change → a plain new spec through the full pipeline — `/release` keeps the books (feature docs, supersession).
 
 ## Quick start
 

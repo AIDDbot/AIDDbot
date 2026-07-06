@@ -33,16 +33,16 @@ Guardrails worth knowing:
 
 ### `/release` — close the loop
 
-Bumps the version (SemVer), moves `Unreleased` changelog entries under the new version (Keep a Changelog), updates human docs, and **reconciles the architecture docs** against what shipped. For features it closes the spec (`status: done`, `released-version`) and stamps `superseded-by:` on amended specs. It also ships spec-less maintenance patches (defect fixes, structural refactors).
+Bumps the version (SemVer), moves `Unreleased` changelog entries under the new version (Keep a Changelog), updates human docs, and **reconciles the architecture docs** against what shipped. For features it also **merges the shipped behavior into `docs/{feature}.md`** — and derives the supersession from that merge: statements rewritten over another spec's link get that old spec stamped `superseded-by:` (frontmatter only) and a *Changed* changelog entry. Then it closes the spec (`status: done`, `released-version`). It also ships spec-less maintenance patches (defect fixes, structural refactors).
 
 ### `/modify` — maintenance entry point
 
-Changes to **released** features start here. One triage question — *does the current code pass the released acceptance criteria?*
+Changes to **released** features start here. Triage begins at `docs/{feature}.md`, whose statements link straight to the governing spec. One triage question — *does the current code pass the released acceptance criteria?*
 
 | Answer | It is a... | Route |
 |---|---|---|
 | Code violates a criterion | implementation defect | direct fix + regression e2e test → patch `/release` |
-| Code matches the criteria | requirement change | `/specify` with `amends: {old-slug}` → full pipeline → `/release` |
+| Code matches the criteria | requirement change | a plain new spec via `/specify` → full pipeline → `/release` derives the supersession |
 
 ### Workflow
 

@@ -18,6 +18,13 @@ container: e2e
 - [ ] {criterion copied from the spec}
 - [ ] {criterion}
 
+### Replaces
+> Only when changing released behavior: the existing e2e scenarios this plan retires.
+> Their failures during this build are expected; `/codify` removes them when
+> implementing the replacement steps. Omit the section otherwise.
+
+- {governing spec slug}: {scenario title}
+
 ### Contracts
 > Consumed only: the routes, endpoints, and fixtures agreed with the sibling plans. Must
 > match them verbatim; `/codify` may not change them without going back to `/planify`.

@@ -14,7 +14,7 @@ Define **what** the feature must achieve — problem, expected results per conta
 acceptance criteria — never **how**; the breakdown into steps is `/planify`'s job.
 
 ## Guardrails
-- Never reopen or edit a `done` spec — always write a new one.
+- Specs are write-once — a new change is a new spec; never edit an existing one.
 - Stay at the outcome level: no implementation steps, file paths, or technology choices.
 
 ## Context
@@ -23,7 +23,8 @@ acceptance criteria — never **how**; the breakdown into steps is `/planify`'s 
 
 ### Inputs
 - A requirement or feature description.
-> Changes to a released feature arrive via `/modify` with an `amends: {old-slug}` context.
+> Changes to a released feature arrive via `/modify` as a plain requirement, with the
+> released behavior already stated as context.
 
 ### References
 - Root `{Agents_File}` and `{Arch}/system.arch.md` (read, always) — the containers this
@@ -46,8 +47,8 @@ acceptance criteria — never **how**; the breakdown into steps is `/planify`'s 
 - Prepare the problem, user stories, and a conceptual data model (entities/relationships
   this feature touches, per `ER.md`).
 - Prepare per-container **expected results**.
-- When amending a released feature, set `amends: {old-slug}` in the frontmatter and state
-  the released behavior as the baseline in the problem definition.
+- State any released behavior handed over as context in the problem definition — plain
+  prose, no special mechanics.
 
 ### 3. Implement
 - Write `{Specs}/spec.md` with `status: pending`; one page, no empty `{placeholders}`.

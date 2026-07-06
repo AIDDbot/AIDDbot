@@ -29,8 +29,12 @@ in `CHANGELOG.md`, update docs, and close the spec.
   (read, if feature) — what actually shipped.
 - Arch docs to reconcile (read, always): `{Arch}/system.arch.md`, `ER.md`, affected
   `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Rules}/{container}.rules.md`.
+- `{Product_Folder}/docs/{feature}.md` (read/write, if feature) — the living functional
+  doc this release merges into.
 - Also the root `{Agents_File}`.
 - [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from, always).
+- [`feature.doc.template.md`](./assets/feature.doc.template.md) (write-from, on a
+  feature's first release).
 
 Mode guides:
 - [`Feature Guide`](./references/feature.guide.md) (if feature) — closes the verified spec.
@@ -40,6 +44,8 @@ Mode guides:
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
 - **Maintenance patch** — a spec-less `/modify` fix or structural refactor; patch bump,
   no spec parts.
+- **Feature doc** — `docs/{feature}.md`: current behavior, one statement per line, each
+  linking its governing spec. A projection merged here — on conflict, the spec wins.
 
 ## Steps
 ### 1. Research
@@ -55,6 +61,9 @@ Mode guides:
 ### 3. Implement
 - Update the canonical version files to `{new_version}`.
 - Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`.
+- Merge the shipped behavior into `{Product_Folder}/docs/{feature}.md` (feature releases;
+  see the Feature Guide) — and derive the supersession: statements rewritten over another
+  spec's link get that old spec stamped `superseded-by: {slug}` and a *Changed* entry.
 - Update `README.md`/docs when user-facing behavior changed.
 - Reconcile the drifted arch docs against what shipped; skip what didn't change.
 - For heavy drift, suggest re-running `/extract` (brownfield) instead of hand-patching.
@@ -65,3 +74,4 @@ Mode guides:
 - [ ] Spec is `done` (feature), or the suite is confirmed green (maintenance).
 - [ ] CHANGELOG and version are consistent; the default branch is updated.
 - [ ] Arch docs reflect every notable change introduced by this release.
+- [ ] The feature doc reflects the shipped behavior, and every superseded spec is stamped.

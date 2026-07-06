@@ -22,6 +22,7 @@ flowchart TD
       EPL["specs/{slug}/e2e.plan.md"]:::nd
       RPT["specs/{slug}/e2e.report.md"]:::nd
       RVR["specs/{slug}/review.report.md"]:::nd
+      DOC["docs/{feature}.md"]:::nd
   end
 
   subgraph S["SOLUTION"]
@@ -52,6 +53,8 @@ flowchart TD
   COD -->|/review| RVR
   RVR -->|/codify| COD
   SPC -->|/release| CHL
+  SPC -->|/release merges| DOC
+  DOC -.triage entry.-> SPC
 
   class P,A,S sg
 ```
@@ -105,6 +108,7 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
   - `{container}.arch.md` — Components (C4 L3), code organization, contract surface (`/extract`).
   - `db.schema.md` / `api.schema.md` — System-wide field-level database/API schema, split out as they grow large; written when the owning container is extracted, linked from any container that benefits (`/extract`, when applicable).
 
+- `docs/` — Living functional docs, one per feature: current behavior, one statement per line, each linking its governing spec (`/release` merges; on conflict the spec wins).
 - `specs/` — One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
   - `{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
   - `{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
@@ -120,9 +124,9 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 ## Maintenance
 
-Specs are commits; arch docs are HEAD. A `done` spec is immutable — changes to released features enter via `/modify`:
+Specs are commits; arch docs and feature docs are HEAD. A `done` spec is immutable — changes to released features enter via `/modify`, which starts at `docs/{feature}.md` and follows its link to the governing spec:
 
 - Implementation defect → direct fix + regression test → patch `/release`.
-- Requirement change → `/specify` with `amends: {old-slug}` → full pipeline → `/release` stamps `superseded-by:` on the old spec.
+- Requirement change → a plain new spec via `/specify` → full pipeline → `/release` merges the feature doc, derives the supersession, and stamps `superseded-by:` on the old spec.
 
 See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md) for the full maintenance and refactoring map.

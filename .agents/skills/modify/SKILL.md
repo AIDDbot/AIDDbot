@@ -1,6 +1,6 @@
 ---
 name: modify
-description: Triage a change to a released feature — defect or requirement change — and route it to a fix or an amending spec.
+description: Triage a change to a released feature — defect or requirement change — and route it to a fix or a new spec.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -11,7 +11,7 @@ Act as Maintainer.
 
 ## Task
 Check a change request against the released acceptance criteria, then route it: a direct fix
-plus regression test, or an amending-spec handoff to `/specify`.
+plus regression test, or a plain-requirement handoff to `/specify`.
 
 ## Guardrails
 1. Never edit a `done` spec's body or criteria.
@@ -28,6 +28,8 @@ plus regression test, or an amending-spec handoff to `/specify`.
 > The spec must be `done`; otherwise stop — that's the normal build loop, no triage needed.
 
 ### References
+- `{Product_Folder}/docs/{feature}.md` (read, first) — locates the behavior; each
+  statement links its governing spec.
 - The released spec's acceptance criteria (read, always) — the contract for current behavior.
 - Affected `{container}.arch.md` / `{container}.rules.md` (read, if Route A) — to ground the fix.
 
@@ -38,12 +40,15 @@ Mode guides:
 ### Glossary
 - **Implementation defect** — code violates a released criterion → Route A (direct fix).
 - **Requirement change** — code matches the criteria, but requested behavior differs →
-  Route B (amending spec).
+  Route B (a new spec that will supersede the old one).
 
 ## Steps
 ### 1. Research
-- Find the affected released spec (search `{Product_Folder}/specs/*/spec.md` if no slug given).
-- Follow `superseded-by:` links to the latest version, then read its acceptance criteria.
+- Find the behavior in `{Product_Folder}/docs/{feature}.md` and follow its link to the
+  governing spec.
+- Fallback (no feature doc yet): search `{Product_Folder}/specs/*/spec.md` and follow
+  `superseded-by:` links to the latest version.
+- Read the governing spec's acceptance criteria.
 
 ### 2. Plan
 - Triage with one question: **does the current code pass the released acceptance criteria?**
@@ -56,4 +61,5 @@ Mode guides:
 
 ## Verification
 - [ ] Triage was answered against the released criteria, not opinion.
-- [ ] No `done` spec was edited; a Route B handoff includes `amends: {old-slug}`.
+- [ ] No `done` spec was edited; a Route B handoff states the released baseline and names
+      the affected feature.

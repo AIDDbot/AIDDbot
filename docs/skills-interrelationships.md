@@ -17,17 +17,17 @@ Analysis of the 9 skills in `.agents/skills/`, mapping producers, artifacts, and
 | `/codify` | E2E tests (`e2e/`) | run by `/verify`, `/review` and `/release` (green-baseline gates), refactors (safety net) |
 | `/verify` | `specs/{slug}/e2e.report.md` (+ marks spec criteria `[x]/[ ]`) | `/codify` (fix mode, per container), `/planify` (structural escalation), `/release` (doc sync) |
 | `/review` | `specs/{slug}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` |
-| `/release` | `CHANGELOG.md`, version bump + tag, spec -> `done`, `superseded-by:` stamp, reconciled arch docs | HUMAN / `*` |
-| `/modify` | A routing decision: `fix` commit + regression test (Route A) or handoff to `/specify` with `amends:` (Route B) | `/release` (A), `/specify` (B) |
+| `/release` | `CHANGELOG.md`, version bump + tag, spec -> `done`, derived `superseded-by:` stamp, reconciled arch docs, merged `docs/{feature}.md` | HUMAN / `*`, `/modify` (triage entry) |
+| `/modify` | A routing decision: `fix` commit + regression test (Route A) or a plain-requirement handoff to `/specify` (Route B) | `/release` (A), `/specify` (B) |
 
 ## Status mutations (spec-bound chain)
 
 Only these transitions touch frontmatter or checkbox state, the backbone of traceability:
 
-- `/specify` -> spec `status: pending` (+ `amends: {old-slug}` when amending a released feature)
+- `/specify` -> spec `status: pending`
 - `/codify` -> spec `status: in-progress` on first run; checks plan steps `[x]`
 - `/verify` -> marks spec acceptance criteria `[x]/[ ]`; maintains `e2e.report.md` defect entries
-- `/release` -> spec `status: done` + `released-version: {new_version}`; stamps `superseded-by: {slug}` on the amended spec (frontmatter only)
+- `/release` -> spec `status: done` + `released-version: {new_version}`; stamps `superseded-by: {slug}` on the superseded spec (frontmatter only, derived from the feature-doc merge)
 
 `/review` is **scope-bound** — it emits only a report (plus a `refactor` commit with `--fix`) and never mutates spec/plan status. `/modify` mutates nothing either: its deliverable is the routing decision.
 
@@ -50,7 +50,7 @@ flowchart LR
   SPC -.spec.-> REL
   REL -->|done spec| MOD["/modify"]
   MOD -->|defect: fix| REL
-  MOD -->|requirement change: amends| SPC
+  MOD -->|requirement change| SPC
 ```
 
 Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` | `/specify`) cycle is the maintenance loop over released specs.
@@ -73,4 +73,4 @@ Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` 
 
 8. **`/release` is the only sink and the doc reconciler.** It closes the spec lifecycle, produces `CHANGELOG.md` + the version tag, and re-syncs arch docs with what actually shipped — specs are commits, arch docs are HEAD.
 
-9. **`/modify` guards released specs.** A `done` spec is immutable; `/modify` triages against its released criteria — violation = defect (Route A: fix + regression test + patch release), conformance = requirement change (Route B: amending spec with `amends:`, full pipeline, `superseded-by:` stamped at release).
+9. **`/modify` guards released specs, entering through the feature doc.** A `done` spec is immutable; triage starts at `docs/{feature}.md`, whose link points at the governing spec — no chain-walking. Violation = defect (Route A: fix + regression test + patch release), conformance = requirement change (Route B: a plain new spec, full pipeline; `/planify` lists the replaced e2e scenarios and `/release` derives the supersession from the feature-doc merge and stamps `superseded-by:`). Specs declare nothing about what they replace — the bookkeeping happens at release.

@@ -5,6 +5,76 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-06 — Feature docs are the functional HEAD; supersession is derived at release
+
+**Status**: adopted.
+
+### Context
+
+The spec archive was the only functional record: current behavior had to be assembled
+from all non-superseded `done` specs, and functional evolution required the
+`amends:` / `superseded-by:` ceremony declared up front — in `/specify`, the first
+skill anyone learns. That made the entry point hard to teach: lesson one carried
+maintenance concepts (amendment chains, baselines, done-spec immutability) that only
+matter months into a project's life.
+
+### Decision
+
+1. **Feature docs join the HEAD.** `{Product_Folder}/docs/{feature}.md` describes
+   current behavior — one statement per line, each linking its governing spec
+   (`spec: {slug}, v{version}`). `/release` merges what shipped into it after every
+   feature release, exactly as it already reconciles arch docs. The docs are a
+   projection: on any conflict, the spec archive wins.
+2. **`/specify` knows nothing about versioning.** A spec is a write-once ticket with
+   acceptance criteria. No `amends:` frontmatter, no baseline mechanics. A released
+   baseline, when there is one, arrives as prose context from `/modify`.
+3. **`/planify` owns test replacement.** When a change alters released behavior, the
+   e2e plan's **Replaces** section lists the scenarios it retires (governing spec +
+   scenario). Old tests retire by plan, never silently — this is the signal that lets
+   `/verify` treat their disappearance as intended rather than as regression.
+4. **`/release` derives the supersession.** When the feature-doc merge rewrites a
+   statement governed by another spec, release stamps `superseded-by:` on that old
+   spec (frontmatter only), files the changelog entry under *Changed*, and
+   cross-checks against the e2e plan's Replaces section. Nobody upstream declares the
+   amendment; release reconstructs it from the merge.
+5. **`/modify` triages through the doc.** The feature doc's link points straight at
+   the governing spec — no more `superseded-by:` chain-walking during triage.
+
+### Rejected alternatives
+
+- **Specs as disposable tickets with the doc as sole authority** (drop the archive and
+  the supersession entirely) — rejected: it trades away the immutable triage baseline
+  and the tests-change-only-with-a-spec guardrail, rebuilding both on discipline
+  alone. Kept as a possible future step; the feature docs built here are its
+  prerequisite either way.
+- **Keeping `amends:` in the spec but hiding it from the template** — rejected: the
+  concept still leaks into `/specify`'s docs and lessons; relocation beats concealment.
+
+### Consequences
+
+- The spec template lost its maintenance-links block; `/specify`'s guardrail is simply
+  "specs are write-once." The teaching story for lesson one is *spec = a ticket with
+  testable criteria*, with no asterisks; versioning appears only in the maintenance
+  lesson as "release keeps the books."
+- New asset: `release/assets/feature.doc.template.md`. The release feature guide gained
+  the merge-and-derive steps; the maintenance guide notes the doc normally stays
+  untouched (a defect fix restores documented behavior).
+- `superseded-by:` survives unchanged as the archive's liveness marker — it is now
+  written exclusively by `/release` and read mostly by machines; humans navigate via
+  the feature doc.
+- Pre-release, the replacement linkage lives in the e2e plan instead of the spec; the
+  archive becomes fully consistent at release time instead of at specify time. One
+  extra hop for an auditor, one whole concept removed from the beginner path.
+
+### Accepted trade-offs
+
+- **The doc can drift** between releases (a skipped merge). Bounded by the conflict
+  rule — the spec wins — and by `/modify`'s fallback to searching the spec archive
+  when the doc is missing or stale.
+- **Behavior is stated twice** (archive and doc). Accepted: the duplication is exactly
+  the "readable functional HEAD" the model was missing, and only one side is
+  authoritative.
+
 ## 2026-07-06 — One writer, two evaluators
 
 **Status**: adopted.

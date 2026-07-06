@@ -90,7 +90,7 @@ Example prompts:
 ```
 
 - `/review` audits a code scope for a11y, security, performance, **and** clean-code/DRY, and writes `review.report.md` with a handoff per finding (report-only; `--fix` applies the mechanical ones). Fixes land via `/codify`.
-- `/release` bumps the version, updates `CHANGELOG.md` and docs, reconciles the architecture docs, and closes the spec (`status: done`, `released-version`).
+- `/release` bumps the version, updates `CHANGELOG.md`, merges the shipped behavior into `docs/{feature}.md`, reconciles the architecture docs, and closes the spec (`status: done`, `released-version`).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
 
@@ -105,7 +105,7 @@ Once a spec is `done` it is immutable. Changes to released features enter via `/
 `/modify` asks one triage question — *does the current code pass the released acceptance criteria?* — and routes:
 
 - **Violates a criterion** → implementation defect: direct fix + regression test, then a patch `/release`.
-- **Matches the criteria** (the behavior itself must change) → requirement change: a new spec via `/specify` with `amends: {old-slug}`, through the full pipeline.
+- **Matches the criteria** (the behavior itself must change) → requirement change: a plain new spec via `/specify` (the released behavior travels as context), through the full pipeline; `/release` updates `docs/{feature}.md` and stamps the old spec.
 
 For behavior-preserving refactors, no spec is needed: route ugly internals through `/review` (report; `--fix` or `/codify` applies), and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 

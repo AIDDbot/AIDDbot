@@ -41,13 +41,13 @@ Produces:
 | Skill | What it does |
 |-------|--------------|
 | [`/review`](./review/) | Audit a11y/security/perf + clean-code; report findings (`--fix` for mechanical) |
-| [`/release`](./release/) | Version, changelog, spec `done`; stamps `superseded-by:` |
-| [`/modify`](./modify/) | Triage: defect → direct fix; requirement change → amending spec |
+| [`/release`](./release/) | Version, changelog, feature-doc merge, spec `done`; derives `superseded-by:` |
+| [`/modify`](./modify/) | Triage: defect → direct fix; requirement change → new spec |
 
 Produces:
 - `/review` → `specs/{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
-- `/release` → `CHANGELOG.md`, version bump.
-- `/modify` → `fix` commit, or `/specify` handoff (`amends:`).
+- `/release` → `CHANGELOG.md`, version bump, merged `docs/{feature}.md`.
+- `/modify` → `fix` commit, or a plain-requirement handoff to `/specify`.
 
 ## Meta
 
@@ -78,16 +78,17 @@ writes the suite but never judges it green.
 
 ## Maintenance
 
-Specs are commits; arch docs are HEAD. A `done` spec is the immutable record of what its
-`released-version` shipped — never edit it. Changes to released features enter via
-`/modify`, which triages with one question: *does the current code pass the released
-acceptance criteria?*
+Specs are commits; arch docs and feature docs (`docs/{feature}.md`) are HEAD. A `done`
+spec is the immutable record of what its `released-version` shipped — never edit it.
+Changes to released features enter via `/modify`, which starts at the feature doc and
+triages with one question: *does the current code pass the released acceptance criteria?*
 
 - Code violates a criterion → implementation defect: direct fix + regression test + patch
   `/release`. No spec artifacts.
 - Code matches the criteria (including bad analysis or wrong criteria) → requirement
-  change: new spec via `/specify` with `amends: {old-slug}`, full pipeline; `/release`
-  stamps `superseded-by:` on the old spec.
+  change: a plain new spec via `/specify` (the released baseline travels as prose
+  context), full pipeline; `/release` derives the supersession from the feature-doc
+  merge and stamps `superseded-by:` on the old spec.
 
 Refactoring never needs a spec (the *what* doesn't change) and routes by blast radius:
 
