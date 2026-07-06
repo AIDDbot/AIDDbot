@@ -17,9 +17,9 @@ skills cover build, maintenance, and refactoring.
 | [`/extract`](./extract/) | per container: C4L3 components + code rules |
 
 Produces:
-- `/explore` → `{Agents_File}`, `arch/system.arch.md`, `arch/ER.md`.
-- `/extract` → `arch/{container}.arch.md`, `db.schema.md`/`api.schema.md` (if applicable),
-  `{Agents_Folder}/rules/{container}.rules.md`.
+- `/explore` → `{Agents_File}`, `arch/system.arch.md`.
+- `/extract` → `arch/{container}.arch.md`, `db.schema.md`/`api.schema.md`/`ER.md` (if
+  applicable), `{Agents_Folder}/rules/{container}.rules.md`.
 
 ## Builder
 

@@ -4,10 +4,6 @@
 
 {One paragraph: what the system does}
 
-> The domain data model lives in its own file because it grows large for real projects.
-
-See [`ER.md`](./ER.md) for domain entities and relationships.
-
 ---
 
 ## Containers diagram

@@ -17,12 +17,12 @@ Generate the rule file for agents and the system architecture document.
 - `{Arch}` = `{Product_Folder}/arch`.
 
 ### Inputs
-- Existing source code in the repository root, if any.
+- Existing repository tree and guide files, if any — folder structure and config only, never
+  code files (business logic is `/extract`'s job, per container).
 
 ### References
-- [`AGENTS.template.md`](./assets/AGENTS.template.md) (write-from, always).
-- [`system.arch.template.md`](./assets/system.arch.template.md) (write-from, always).
-- [`ER.template.md`](./assets/ER.template.md) (write-from, always).
+- [`AGENTS.template.md`](./assets/AGENTS.template.md) 
+- [`system.arch.template.md`](./assets/system.arch.template.md) 
 
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes defaults.
@@ -44,13 +44,11 @@ Mode guides:
 ### 2. Plan
 - Read the `AGENTS.template.md` template.
 - Read the `system.arch.template.md` template.
-- Read the `ER.template.md` template.
 - Prepare the content to fill in the placeholders in the templates.
 
 ### 3. Implement
 - Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
 - Write `{Arch}/system.arch.md`.
-- Write `{Arch}/ER.md` (the domain ER diagram, linked from `system.arch.md`).
 - Commit the changes (`docs:`).
 - Suggest handoffs to the `/extract` skill per container.
 
@@ -58,4 +56,3 @@ Mode guides:
 - [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
   - `{Agents_File}`
   - `{Arch}/system.arch.md`
-  - `{Arch}/ER.md`

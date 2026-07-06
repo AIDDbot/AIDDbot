@@ -9,8 +9,19 @@ The goal is to document the code as it is; don't prescribe or redesign.
 - Identify the containers (source code folders).
 
 For each container:
-- Obtain its technical stack, paths, and scripts for developers.
-- Perform reverse engineering to extract business entities and main relationships.
+- Obtain its technical stack, paths, and scripts for developers, from guide files only.
+- Classify its tier from config-file signals, not from code:
+
+| Signal (in the container's folder) | Tier |
+|------------------------------------|------|
+| `angular.json`, `vite.config.*`, `next.config.*`, browser deps in `package.json` | `front` |
+| `pom.xml`, `go.mod`, server deps (`express`, `fastify`, `spring-boot`...) | `back` |
+| `docker-compose` service with a volume, `migrations/` folder, `*.sql` files | `db` |
+| `playwright.config.*`, `cypress.config.*` | `e2e` |
+| Front and back signals in one folder (`next.config.*` with API routes, Rails, Laravel) | `fullstack` |
+
+> Business entities, relationships, and component internals require reading code — that's
+> `/extract`'s job, one container at a time.
 
 ## Guardrails
 - Observe; don't reform.

@@ -35,8 +35,9 @@ C4Component
 - **Exposes**: {endpoints / interfaces / events this container provides}; full shapes in [`api.schema.md`](./api.schema.md).
 - **Consumes**: {contracts from sibling containers or external systems}; see [`api.schema.md`](./api.schema.md).
 - **Persists**: {entities/tables this container owns or reads}; full schema in [`db.schema.md`](./db.schema.md).
+- **Models**: {business entities/relationships this container owns}; full diagram in [`ER.md`](./ER.md).
 
-> Omit any line that doesn't apply, and link `api.schema.md` / `db.schema.md` only when this container exposes/consumes an API or touches the persistence store.
+> Omit any line that doesn't apply, and link `api.schema.md` / `db.schema.md` / `ER.md` only when this container exposes/consumes an API, touches the persistence store, or owns the domain model.
 
 ---
 

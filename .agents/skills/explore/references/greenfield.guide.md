@@ -8,7 +8,9 @@ The goal is to prescribe the default values and ask the user for the missing inf
 - Fill the **Product** problem + solution from the user's brief; if absent, ask before writing.
 - Prescribe the container split and tech per container.
 - Diagrams describe the *intended* design; mark assumptions.
-- Propose entities and relationships (no attributes/constraints).
+
+> Domain entities and relationships are proposed by `/extract` for the container that owns
+> the domain model (typically the backend).
 
 ## Guardrails
 - Prefer one strong default over a menu of options.

@@ -24,12 +24,12 @@ For one container at a time, generate its component architecture and container c
 > Ask which one if not given.
 
 ### References
-- [`container.arch.template.md`](./assets/container.arch.template.md) (write-from, always).
-- [`code.rules.template.md`](./assets/code.rules.template.md) (write-from, always).
-- [`db.schema.template.md`](./assets/db.schema.template.md) (write-from, if it owns the store) —
-  writes `db.schema.md`.
-- [`api.schema.template.md`](./assets/api.schema.template.md) (write-from, if it exposes an API) —
-  writes `api.schema.md`.
+Tier guides — read the one matching the container's tier; each lists the templates to write from:
+- [`Front Guide`](./references/front.guide.md) (if front).
+- [`Back Guide`](./references/back.guide.md) (if back).
+- [`DB Guide`](./references/db.guide.md) (if db).
+- [`E2E Guide`](./references/e2e.guide.md) (if e2e).
+> A `fullstack` container follows the Front and Back guides together.
 
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes the design.
@@ -45,12 +45,10 @@ Mode guides:
 ### 1. Research
 - List containers from `system.arch.md`; pick one (ask if ambiguous).
 - Classify as **greenfield | brownfield** by whether it already has source code.
-- Read and follow the appropriate reference guide.
+- Read the tier guide for the container's tier and the mode guide for its mode; follow both.
 
 ### 2. Plan
-- Read the `container.arch.template.md` and `code.rules.template.md` templates.
-- Read `db.schema.template.md` when this container owns the store, `api.schema.template.md`
-  when it exposes an API.
+- Read the templates listed in the tier guide.
 - Prepare the content for one container: components, contracts & data, code organization,
   naming, conventions, and one canonical example.
 - Keep field-level detail out of `{container}.arch.md` — it lists the contract surface and
@@ -58,9 +56,8 @@ Mode guides:
 
 ### 3. Implement
 - Write `{Arch}/{container}.arch.md` and link it from `system.arch.md`.
-- If this container owns the store, write `{Arch}/db.schema.md` (create once; then update).
-- If this container exposes an API, write `{Arch}/api.schema.md` (create once; then update).
-- Link `db.schema.md` / `api.schema.md` from any container that reads or writes them.
+- Write the shared docs the tier guide calls for (`db.schema.md`, `api.schema.md`, `ER.md`)
+  — create once, then update; link them from any container that reads or writes them.
 - Write `{Rules}/{container}.rules.md`.
 - Commit the changes (`docs:`).
 - Repeat for the next container, or suggest handoff to the `/specify` skill.
@@ -70,4 +67,5 @@ Mode guides:
   - `{Arch}/{container}.arch.md`
   - `{Arch}/db.schema.md` — once a persistence container has been extracted.
   - `{Arch}/api.schema.md` — once an API container has been extracted.
+  - `{Arch}/ER.md` — once the back container has been extracted.
   - `{Rules}/{container}.rules.md`
