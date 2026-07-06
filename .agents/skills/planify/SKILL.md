@@ -30,14 +30,14 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
   - A structural-refactor goal (no spec — behavior doesn't change).
 
 ### References
-- [the containers the feature can touch]({Arch}/system.arch.md) _read_ **always**
-- [components, contracts, structure]({Arch}/{container}.arch.md) _read_
-  **one per affected container**
-- [API field shapes]({Arch}/api.schema.md) _read_ **if touching an API**
-- [data field shapes]({Arch}/db.schema.md) _read_ **if touching the store**
-- [container plan template](./assets/plan.template.md) _write-from_ **always**
-- [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md)
-  _write-from_ **if not a structural refactor**
+- **always** _follow_ [the containers the feature can touch]({Arch}/system.arch.md)
+- **foreach affected container** _follow_
+  [components, contracts, structure]({Arch}/{container}.arch.md)
+- **if touching an API** _follow_ [API field shapes]({Arch}/api.schema.md)
+- **if touching the store** _follow_ [data field shapes]({Arch}/db.schema.md)
+- **always** _write-from_ [container plan template](./assets/plan.template.md)
+- **if not a structural refactor** _write-from_
+  [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md)
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

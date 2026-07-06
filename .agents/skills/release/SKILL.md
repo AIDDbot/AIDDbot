@@ -28,17 +28,17 @@ changes in `CHANGELOG.md`, update docs, and close the spec.
     skip the spec parts of the steps.
 
 ### References
-- [the shipped spec, its plans, and e2e report]({Specs}/spec.md) _read_ **if feature**
-- [system architecture]({Arch}/system.arch.md) _update_ **always**
-- [domain ER diagram]({Arch}/ER.md) _update_ **always**
-- [container arch and schemas]({Arch}/{container}.arch.md) _update_ **if affected**
-- [container code rules]({Rules}/{container}.rules.md) _update_ **if affected**
-- [living feature doc]({Product_Folder}/docs/{feature}.md) _update_ **if feature**
-- [repo rules and commands]({Agents_File}) _read_ **always**
-- [changelog entry shape](./assets/CHANGELOG.template.md) _write-from_ **always**
-- [feature doc template](./assets/feature.doc.template.md) _write-from_
-  **if first release of the feature**
-- [mode guide, what closing requires](./references/{mode}.guide.md) _read_ **one per {mode}**
+- **if feature** _follow_ [the shipped spec, its plans, and e2e report]({Specs}/spec.md)
+- **always** _update_ [system architecture]({Arch}/system.arch.md)
+- **always** _update_ [domain ER diagram]({Arch}/ER.md)
+- **if affected** _update_ [container arch and schemas]({Arch}/{container}.arch.md)
+- **if affected** _update_ [container code rules]({Rules}/{container}.rules.md)
+- **if feature** _update_ [living feature doc]({Product_Folder}/docs/{feature}.md)
+- **always** _follow_ [repo rules and commands]({Agents_File})
+- **always** _write-from_ [changelog entry shape](./assets/CHANGELOG.template.md)
+- **if first release of the feature** _write-from_
+  [feature doc template](./assets/feature.doc.template.md)
+- **foreach {mode}** _follow_ [mode guide, what closing requires](./references/{mode}.guide.md)
 
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.

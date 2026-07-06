@@ -26,8 +26,9 @@ Generate one container's component architecture and code-rules documents.
 > Not given? Ask which one.
 
 ### References
-- [tier guide, lists the templates to write](./references/{tier}.guide.md) _read_ **one per {tier}**
-- [mode guide, prescribe vs extract](./references/{mode}.guide.md) _read_ **one per {mode}**
+- **foreach {tier}** _follow_
+  [tier guide, lists the templates to write](./references/{tier}.guide.md)
+- **foreach {mode}** _follow_ [mode guide, prescribe vs extract](./references/{mode}.guide.md)
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

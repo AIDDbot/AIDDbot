@@ -24,8 +24,8 @@ Boundary: {out-of-scope} → `/{other-skill}`.}
 - {The entry point(s); if several, list as "One of:". Files: `[description](path) **when**`.}
 
 ### References
-- [{what it grounds}]({path}) _{role}_ **{when}**
-- [{branch} guide, {what it covers}](./references/{branch}.guide.md) _read_ **one per {branch}**
+- **{when: always|if {cond}|foreach {x}}** _{role: write-from|follow|update}_
+  [{what it grounds}]({path})
 
 ### Glossary
 - **{Term}** — {definition, only if skill-specific and used in this skill}.

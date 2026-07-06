@@ -29,12 +29,12 @@ every defect triaged by kind and handed off.
 > Plans not codified? Stop: → `/codify` first — the system and the suite must exist.
 
 ### References
-- [acceptance criteria, the contract under test]({Specs}/spec.md) _read_ **always**
-- [scenario ↔ criterion mapping]({Specs}/e2e.plan.md) _read_ **always**
-- [start/test commands and fixtures]({Agents_File}) _read_ **always**
-- [expected API field shapes]({Arch}/api.schema.md) _read_ **if asserting API responses**
-- [expected stored shapes]({Arch}/db.schema.md) _read_ **if asserting persisted state**
-- [defects report template](./assets/e2e.report.template.md) _write-from_ **always**
+- **always** _follow_ [acceptance criteria, the contract under test]({Specs}/spec.md)
+- **always** _follow_ [scenario ↔ criterion mapping]({Specs}/e2e.plan.md)
+- **always** _follow_ [start/test commands and fixtures]({Agents_File})
+- **if asserting API responses** _follow_ [expected API field shapes]({Arch}/api.schema.md)
+- **if asserting persisted state** _follow_ [expected stored shapes]({Arch}/db.schema.md)
+- **always** _write-from_ [defects report template](./assets/e2e.report.template.md)
 
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` (→ `/codify`, scoped to the container);

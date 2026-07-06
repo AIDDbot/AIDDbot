@@ -36,11 +36,11 @@ critical modules.
 > No single plan given? Ask which container to scope.
 
 ### References
-- [system architecture]({Arch}/system.arch.md) _read_ **always**
-- [components, contracts, structure]({Arch}/{container}.arch.md) _read_ **always**
-- [naming and conventions]({Rules}/{container}.rules.md) _read_ **always**
-- [API field shapes]({Arch}/api.schema.md) _read_ **if touching an API**
-- [data field shapes]({Arch}/db.schema.md) _read_ **if touching the store**
+- **always** _follow_ [system architecture]({Arch}/system.arch.md)
+- **always** _follow_ [components, contracts, structure]({Arch}/{container}.arch.md)
+- **always** _follow_ [naming and conventions]({Rules}/{container}.rules.md)
+- **if touching an API** _follow_ [API field shapes]({Arch}/api.schema.md)
+- **if touching the store** _follow_ [data field shapes]({Arch}/db.schema.md)
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
