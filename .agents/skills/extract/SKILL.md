@@ -25,11 +25,6 @@ Generate one container's component architecture and code-rules documents.
 - The container to document.
 > Not given? Ask which one.
 
-### References
-- **foreach {tier}** _follow_
-  [tier guide, lists the templates to write](./references/{tier}.guide.md)
-- **foreach {mode}** _follow_ [mode guide, prescribe vs extract](./references/{mode}.guide.md)
-
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
@@ -40,7 +35,8 @@ Generate one container's component architecture and code-rules documents.
 ### 1. Research
 - List containers from `system.arch.md`; pick one (ask if ambiguous).
 - Classify the mode by whether the container has source code.
-- Read and follow the matching tier guide and mode guide.
+- _follow_ [the tier guide, lists the templates to write](./references/{tier}.guide.md).
+- _follow_ [the mode guide, prescribe vs extract](./references/{mode}.guide.md).
 
 ### 2. Plan
 - Read the templates the tier guide lists.

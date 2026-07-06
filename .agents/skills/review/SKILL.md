@@ -29,11 +29,6 @@ findings report — each finding with severity, kind, and handoff.
 - Optional `--fix` — also apply the mechanical findings.
 > Ambiguous scope? Ask the minimum questions.
 
-### References
-- **always** _follow_
-  [checklist: a11y, security, performance, clean-code/DRY](./references/review.guidelines.md)
-- **always** _write-from_ [findings report template](./assets/review.report.template.md)
-
 ### Glossary
 - **Finding** — a checklist violation in one of the four dimensions.
 - **Mechanical finding** — behavior-preserving and local (rename, dead code, extraction);
@@ -45,13 +40,14 @@ findings report — each finding with severity, kind, and handoff.
 - Run the test suite (Guardrail 1).
 
 ### 2. Plan
-- Walk each file against the checklist: data flow, trust boundaries, UI surface, I/O,
-  structure.
+- _follow_ [checklist: a11y, security, perf, clean-code/DRY](./references/review.guidelines.md):
+  walk each file against it — data flow, trust boundaries, UI surface, I/O, structure.
 - Collect findings per dimension, each with severity, kind, and handoff.
 
 ### 3. Implement
-- Scope maps to a spec: write `{Specs}/review.report.md` from the template; otherwise
-  report in chat (or "No findings").
+- Scope maps to a spec: _write-from_
+  [findings report template](./assets/review.report.template.md) into
+  `{Specs}/review.report.md`; otherwise report in chat (or "No findings").
 - With `--fix`: apply each mechanical finding, re-run the suite, mark it `fixed`.
 - Commit — `docs(review)` for the report; one `refactor(scope)` commit for `--fix`,
   body one bullet per finding.

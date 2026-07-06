@@ -36,11 +36,7 @@ critical modules.
 > No single plan given? Ask which container to scope.
 
 ### References
-- **always** _follow_ [system architecture]({Arch}/system.arch.md)
-- **always** _follow_ [components, contracts, structure]({Arch}/{container}.arch.md)
-- **always** _follow_ [naming and conventions]({Rules}/{container}.rules.md)
-- **if touching an API** _follow_ [API field shapes]({Arch}/api.schema.md)
-- **if touching the store** _follow_ [data field shapes]({Arch}/db.schema.md)
+- _follow_ [naming and conventions]({Rules}/{container}.rules.md)
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
@@ -50,11 +46,14 @@ critical modules.
 ## Steps
 ### 1. Research
 - Identify the input; derive `{slug}` and `{container}`.
-- Read `{container}.arch.md` and `{container}.rules.md`; follow schema links when relevant.
+- _follow_ [components, contracts, structure]({Arch}/{container}.arch.md).
+- If touching an API, _follow_ [API field shapes]({Arch}/api.schema.md); if touching
+  the store, _follow_ [data field shapes]({Arch}/db.schema.md).
 
 ### 2. Plan
 - If the scope is large, split it into small ordered units.
-- Map plan steps to code changes, respecting contracts shared with sibling containers.
+- Map plan steps to code changes; _follow_ [system architecture]({Arch}/system.arch.md):
+  respect contracts shared with sibling containers.
 - A change that alters a shared contract → hand back to `/planify`, never improvise.
 
 ### 3. Implement

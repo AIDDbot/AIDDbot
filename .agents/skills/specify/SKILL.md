@@ -29,12 +29,7 @@ Capture a feature as a one-page spec:
 - A requirement or feature description — new behavior, or a change to released behavior.
 
 ### References
-- **always** _follow_ [repo rules and commands]({Agents_File})
-- **always** _follow_ [the containers touched]({Arch}/system.arch.md)
-- **always** _follow_ [domain ER diagram]({Arch}/ER.md)
-- **if changing released behavior** _follow_
-  [released behavior baseline]({Product_Folder}/docs/{feature}.md)
-- **always** _write-from_ [spec template](./assets/spec.template.md)
+- _follow_ [repo rules and commands]({Agents_File})
 
 ### Glossary
 - **Expected result** — an observable outcome a container must deliver; never a step.
@@ -44,13 +39,17 @@ Capture a feature as a one-page spec:
 ### 1. Research
 - Apply Guardrail 1.
 - Ask the minimum questions if unclear; derive `{slug}`.
-- From `system.arch.md`, list the containers this feature touches.
+- _follow_ [system architecture]({Arch}/system.arch.md): list the containers this
+  feature touches.
 
 ### 2. Plan
-- Read `spec.template.md`.
-- Prepare the problem, user stories, and the conceptual data model (per `ER.md`).
+- _write-from_ [spec template](./assets/spec.template.md).
+- Prepare the problem, user stories, and the conceptual data model —
+  _follow_ [domain ER diagram]({Arch}/ER.md).
 - Prepare per-container expected results.
-- If changing released behavior, quote the current behavior as the baseline in the problem.
+- If changing released behavior, _follow_
+  [released behavior baseline]({Product_Folder}/docs/{feature}.md):
+  quote the current behavior as the baseline in the problem.
 
 ### 3. Implement
 - Write `{Specs}/spec.md` with `status: pending`; one page.

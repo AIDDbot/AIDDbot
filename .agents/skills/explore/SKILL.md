@@ -22,11 +22,6 @@ Generate the agent-rules file and the system architecture document.
 ### Inputs
 - The repository tree and guide files, if any.
 
-### References
-- **always** _write-from_ [agent-rules template](./assets/AGENTS.template.md)
-- **always** _write-from_ [system architecture template](./assets/system.arch.template.md)
-- **foreach {mode}** _follow_ [mode guide, prescribe vs document](./references/{mode}.guide.md)
-
 ### Glossary
 - **Container** — an executable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
@@ -38,10 +33,12 @@ Generate the agent-rules file and the system architecture document.
 ### 1. Research
 - Infer the operating system, shell, and remote Git repository.
 - Read the guide files found.
-- Classify the mode; read and follow its guide.
+- Classify the mode; _follow_ [its guide, prescribe vs document](./references/{mode}.guide.md).
 
 ### 2. Plan
-- Read both templates; prepare the content for their placeholders.
+- _write-from_ [agent-rules template](./assets/AGENTS.template.md) and
+  [system architecture template](./assets/system.arch.template.md);
+  prepare the content for their placeholders.
 
 ### 3. Implement
 - Write `{Agents_File}` — under 100 lines, concise.

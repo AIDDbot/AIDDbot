@@ -29,16 +29,6 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
   - A short textual requirement.
   - A structural-refactor goal (no spec — behavior doesn't change).
 
-### References
-- **always** _follow_ [the containers the feature can touch]({Arch}/system.arch.md)
-- **foreach affected container** _follow_
-  [components, contracts, structure]({Arch}/{container}.arch.md)
-- **if touching an API** _follow_ [API field shapes]({Arch}/api.schema.md)
-- **if touching the store** _follow_ [data field shapes]({Arch}/db.schema.md)
-- **always** _write-from_ [container plan template](./assets/plan.template.md)
-- **if not a structural refactor** _write-from_
-  [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md)
-
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **e2e container** — transversal; verifies the others. Planned and codified like any
@@ -50,14 +40,20 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
 ## Steps
 ### 1. Research
 - Identify the input type; derive `{slug}`.
-- From `system.arch.md`, list the affected containers and their expected results.
-- Read each affected `{container}.arch.md`.
+- _follow_ [system architecture]({Arch}/system.arch.md): list the affected containers
+  and their expected results.
+- Foreach affected container, _follow_
+  [its components, contracts, structure]({Arch}/{container}.arch.md).
 - If ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan
-- Read the two plan templates.
+- _write-from_ [container plan template](./assets/plan.template.md).
+- If not a structural refactor, _write-from_
+  [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md).
 - Prepare one plan per container: ordered vertical slices — title, description, paths.
-- Align shared contracts via `api.schema.md` / `db.schema.md`.
+- Align shared contracts — if touching an API, _follow_
+  [API field shapes]({Arch}/api.schema.md); if touching the store, _follow_
+  [data field shapes]({Arch}/db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
 - Derive the e2e plan from the spec and shared contracts, never from sibling implementations.
 - If released behavior changes, apply Guardrail 2.

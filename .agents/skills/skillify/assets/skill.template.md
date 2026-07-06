@@ -24,19 +24,22 @@ Boundary: {out-of-scope} → `/{other-skill}`.}
 - {The entry point(s); if several, list as "One of:". Files: `[description](path) **when**`.}
 
 ### References
-- **{when: always|if {cond}|foreach {x}}** _{role: write-from|follow|update}_
-  [{what it grounds}]({path})
+- {Ambient grounding only — files that apply throughout, not at one step; else drop
+  the section. Items: `_{role}_ [{what it grounds}]({path})`.}
 
 ### Glossary
 - **{Term}** — {definition, only if skill-specific and used in this skill}.
 
 ## Steps
+{Cite files inline in the step that uses them:
+`{if {cond}, |foreach {x}, }_{role: write-from|follow|update}_ [{what it grounds}]({path})`.}
+
 ### 1. Research
 - {Identify the input; derive `{slug}` / `{container}` when relevant.}
 - {If unclear, ask close-ended questions, one at a time.}
 
 ### 2. Plan
-- {Read the relevant template(s); prepare content before writing or touching code.}
+- {_write-from_ the output template(s); prepare content before writing or touching code.}
 
 ### 3. Implement
 - {The artifact(s) to write, with exact paths.}

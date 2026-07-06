@@ -28,14 +28,6 @@ every defect triaged by kind and handed off.
 - [the spec, every container plan codified]({Specs}/spec.md) **always**
 > Plans not codified? Stop: → `/codify` first — the system and the suite must exist.
 
-### References
-- **always** _follow_ [acceptance criteria, the contract under test]({Specs}/spec.md)
-- **always** _follow_ [scenario ↔ criterion mapping]({Specs}/e2e.plan.md)
-- **always** _follow_ [start/test commands and fixtures]({Agents_File})
-- **if asserting API responses** _follow_ [expected API field shapes]({Arch}/api.schema.md)
-- **if asserting persisted state** _follow_ [expected stored shapes]({Arch}/db.schema.md)
-- **always** _write-from_ [defects report template](./assets/e2e.report.template.md)
-
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` (→ `/codify`, scoped to the container);
   `structural` (wrong contract, missing component, plan gap; → `/planify`).
@@ -43,15 +35,20 @@ every defect triaged by kind and handed off.
 ## Steps
 ### 1. Research
 - Derive `{slug}`; confirm every container plan's steps are checked `[x]`.
-- Map each e2e test to its scenario and criterion; an uncovered criterion is a defect.
+- _follow_ [acceptance criteria, the contract under test]({Specs}/spec.md) and
+  [scenario ↔ criterion mapping]({Specs}/e2e.plan.md): map each e2e test to its
+  scenario and criterion; an uncovered criterion is a defect.
 
 ### 2. Plan
-- Identify the fixtures and start/test commands from the root `{Agents_File}`.
+- _follow_ [start/test commands and fixtures]({Agents_File}).
+- If asserting API responses, _follow_ [expected API field shapes]({Arch}/api.schema.md);
+  if asserting persisted state, _follow_ [expected stored shapes]({Arch}/db.schema.md).
 
 ### 3. Implement
 - Start the system, run the suite, capture pass/fail per scenario, tear down.
-- Write `{Specs}/e2e.report.md` from the template: one entry per defect — scenario,
-  expected vs actual, container, severity, kind, handoff.
+- _write-from_ [defects report template](./assets/e2e.report.template.md) into
+  `{Specs}/e2e.report.md`: one entry per defect — scenario, expected vs actual,
+  container, severity, kind, handoff.
 - In `spec.md`, mark each criterion `[x]` if its tests pass, `[ ]` otherwise.
 - Commit (`docs(e2e): {slug} report`).
 - Green: → `/review`, then `/release`.
