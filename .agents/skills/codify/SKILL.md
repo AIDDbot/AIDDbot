@@ -29,18 +29,18 @@ critical modules.
 
 ### Inputs
 - One of:
-  - A container plan `{Specs}/{container}.plan.md` — `e2e.plan.md` included.
-  - A defect report (`e2e.report.md` / `review.report.md`) scoped to one container,
-    or a plain bug description — fix mode.
+  - [a container plan]({Specs}/{container}.plan.md) — `e2e.plan.md` included
+  - [an e2e report]({Specs}/e2e.report.md) or [a review report]({Specs}/review.report.md)
+    scoped to one container, or a plain bug description — fix mode
   - A spec/requirement (best-effort).
 > No single plan given? Ask which container to scope.
 
 ### References
-- `{Arch}/system.arch.md` (read, always).
-- `{Arch}/{container}.arch.md` (read, always) — components, contracts, structure.
-- `{Rules}/{container}.rules.md` (read, always) — naming and conventions.
-- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if API or store) — field shapes.
-> Missing? Run `/explore` / `/extract` first.
+- [system architecture]({Arch}/system.arch.md) _read_ **always**
+- [components, contracts, structure]({Arch}/{container}.arch.md) _read_ **always**
+- [naming and conventions]({Rules}/{container}.rules.md) _read_ **always**
+- [API field shapes]({Arch}/api.schema.md) _read_ **if touching an API**
+- [data field shapes]({Arch}/db.schema.md) _read_ **if touching the store**
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

@@ -20,21 +20,14 @@ Generate one container's component architecture and code-rules documents.
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs
-- Root `{Agents_File}` and `{Arch}/system.arch.md`.
-> Missing? Run `/explore` first.
+- [root agent rules]({Agents_File}) **always**
+- [system architecture]({Arch}/system.arch.md) **always**
 - The container to document.
 > Not given? Ask which one.
 
 ### References
-Tier guides — read the one matching the container's tier; each lists its templates:
-- [`Front Guide`](./references/front.guide.md) (if front).
-- [`Back Guide`](./references/back.guide.md) (if back).
-- [`DB Guide`](./references/db.guide.md) (if db).
-- [`E2E Guide`](./references/e2e.guide.md) (if e2e).
-
-Mode guides:
-- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes the design.
-- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — extracts the facts.
+- [tier guide, lists the templates to write](./references/{tier}.guide.md) _read_ **one per {tier}**
+- [mode guide, prescribe vs extract](./references/{mode}.guide.md) _read_ **one per {mode}**
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

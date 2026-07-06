@@ -24,19 +24,20 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
 
 ### Inputs
 - One of:
-  - A spec `{Specs}/spec.md`.
-  - An e2e report `{Specs}/e2e.report.md` escalated by `/verify` (structural defects).
+  - [a spec]({Specs}/spec.md)
+  - [an e2e report escalated by `/verify`]({Specs}/e2e.report.md) **if structural defects**
   - A short textual requirement.
   - A structural-refactor goal (no spec — behavior doesn't change).
 
 ### References
-- `{Arch}/system.arch.md` (read, always) — the containers the feature can touch.
-- Each affected `{Arch}/{container}.arch.md` (read, always) — components, contracts, structure.
-- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if API or store) — field shapes.
-> Missing? Run `/extract` first.
-- [`plan.template.md`](./assets/plan.template.md) (write-from, always).
-- [`e2e.plan.template.md`](./assets/e2e.plan.template.md) (write-from, unless
-  structural-refactor) — one scenario step per acceptance criterion.
+- [the containers the feature can touch]({Arch}/system.arch.md) _read_ **always**
+- [components, contracts, structure]({Arch}/{container}.arch.md) _read_
+  **one per affected container**
+- [API field shapes]({Arch}/api.schema.md) _read_ **if touching an API**
+- [data field shapes]({Arch}/db.schema.md) _read_ **if touching the store**
+- [container plan template](./assets/plan.template.md) _write-from_ **always**
+- [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md)
+  _write-from_ **if not a structural refactor**
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

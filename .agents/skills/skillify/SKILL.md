@@ -19,8 +19,9 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 2. **Budget** — under 50 sentences per skill; blanks and headings don't count.
 3. **Say it once** — each caution lives in Guardrails only; Task and Steps may cite it
    (`Guardrail 1`), never restate it.
-4. **Notation** — `→ /skill` = handoff; `> Missing X? Run /y first.` = precondition;
-   references tagged `(read | write-from, always | if {cond} | optional)`.
+4. **Notation** — `→ /skill` = handoff. References and file inputs read
+   `[description](path) _role_ **when**`; role ∈ `read | write-from | update`
+   (inputs drop it); when ∈ `always | if {cond} | one per {axis}`.
 5. **No shared module** — short duplication across skill folders beats a `_shared/` folder.
 6. **Never trade meaning for brevity** — a guardrail, condition, or path never drops
    just to save characters.
@@ -32,8 +33,7 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 - A new skill to draft, or the path to an existing `SKILL.md` to fix.
 
 ### References
-- [`skill.template.md`](./assets/skill.template.md) (write-from, always) — the section
-  structure every `SKILL.md` follows.
+- [section structure every skill follows](./assets/skill.template.md) _write-from_ **always**
 
 ## Steps
 ### 1. Research

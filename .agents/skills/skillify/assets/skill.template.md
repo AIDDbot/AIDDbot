@@ -10,7 +10,8 @@ disable-model-invocation: true
 Act as {Role}.
 
 ## Task
-{One or two sentences: given {input}, produce {output}. Boundary: {out-of-scope} → `/{other-skill}`.}
+{One or two sentences: given {input}, produce {output}.
+Boundary: {out-of-scope} → `/{other-skill}`.}
 
 ## Guardrails
 1. **{Invariant}** — {why it holds, or what to do instead}.
@@ -20,14 +21,11 @@ Act as {Role}.
 - {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
-- {The entry point(s); if several, list as "One of:".}
-> Missing {prereq}? Run `/{skill}` first.
+- {The entry point(s); if several, list as "One of:". Files: `[description](path) **when**`.}
 
 ### References
-- {`path or link`} (read | write-from, always | if {cond} | optional) — {what it grounds}.
-
-Mode guides, if the skill branches heavily (one is read per run):
-- [`{Branch} Guide`](./references/{branch}.guide.md) (if {branch}) — {what it covers}.
+- [{what it grounds}]({path}) _{role}_ **{when}**
+- [{branch} guide, {what it covers}](./references/{branch}.guide.md) _read_ **one per {branch}**
 
 ### Glossary
 - **{Term}** — {definition, only if skill-specific and used in this skill}.

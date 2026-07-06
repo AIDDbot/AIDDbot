@@ -23,12 +23,9 @@ Generate the agent-rules file and the system architecture document.
 - The repository tree and guide files, if any.
 
 ### References
-- [`AGENTS.template.md`](./assets/AGENTS.template.md) (write-from, always).
-- [`system.arch.template.md`](./assets/system.arch.template.md) (write-from, always).
-
-Mode guides:
-- [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes defaults.
-- [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — documents the code.
+- [agent-rules template](./assets/AGENTS.template.md) _write-from_ **always**
+- [system architecture template](./assets/system.arch.template.md) _write-from_ **always**
+- [mode guide, prescribe vs document](./references/{mode}.guide.md) _read_ **one per {mode}**
 
 ### Glossary
 - **Container** — an executable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.

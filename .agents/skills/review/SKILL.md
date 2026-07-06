@@ -30,9 +30,9 @@ findings report — each finding with severity, kind, and handoff.
 > Ambiguous scope? Ask the minimum questions.
 
 ### References
-- [`review.guidelines.md`](./references/review.guidelines.md) (read, always) — a11y,
-  security, performance, clean-code/DRY.
-- [`review.report.template.md`](./assets/review.report.template.md) (write-from, always).
+- [checklist: a11y, security, performance, clean-code/DRY](./references/review.guidelines.md)
+  _read_ **always**
+- [findings report template](./assets/review.report.template.md) _write-from_ **always**
 
 ### Glossary
 - **Finding** — a checklist violation in one of the four dimensions.

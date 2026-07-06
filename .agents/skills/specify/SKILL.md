@@ -27,11 +27,12 @@ acceptance criteria.
 - A requirement or feature description — new behavior, or a change to released behavior.
 
 ### References
-- Root `{Agents_File}` and `{Arch}/system.arch.md` (read, always) — the containers touched.
-> Missing? Run `/explore` first.
-- `{Arch}/ER.md` (read, always) — grounds the conceptual data model.
-- `{Product_Folder}/docs/{feature}.md` (read, if changing released behavior) — the baseline.
-- [`spec.template.md`](./assets/spec.template.md) (write-from, always).
+- [repo rules and commands]({Agents_File}) _read_ **always**
+- [the containers touched]({Arch}/system.arch.md) _read_ **always**
+- [domain ER diagram]({Arch}/ER.md) _read_ **always**
+- [released behavior baseline]({Product_Folder}/docs/{feature}.md) _read_
+  **if changing released behavior**
+- [spec template](./assets/spec.template.md) _write-from_ **always**
 
 ### Glossary
 - **Expected result** — an observable outcome a container must deliver; never a step.

@@ -25,16 +25,16 @@ every defect triaged by kind and handed off.
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- The spec `{Specs}/spec.md`, with every container plan codified — `e2e.plan.md` included.
+- [the spec, every container plan codified]({Specs}/spec.md) **always**
 > Plans not codified? Stop: → `/codify` first — the system and the suite must exist.
 
 ### References
-- The spec's acceptance criteria (read, always) — the contract under test.
-- `{Specs}/e2e.plan.md` (read, always) — the scenario ↔ criterion mapping.
-- Root `{Agents_File}` (read, always) — start/test commands and fixtures.
-- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if asserting API responses or
-  persisted state) — expected field shapes.
-- [`e2e.report.template.md`](./assets/e2e.report.template.md) (write-from, always).
+- [acceptance criteria, the contract under test]({Specs}/spec.md) _read_ **always**
+- [scenario ↔ criterion mapping]({Specs}/e2e.plan.md) _read_ **always**
+- [start/test commands and fixtures]({Agents_File}) _read_ **always**
+- [expected API field shapes]({Arch}/api.schema.md) _read_ **if asserting API responses**
+- [expected stored shapes]({Arch}/db.schema.md) _read_ **if asserting persisted state**
+- [defects report template](./assets/e2e.report.template.md) _write-from_ **always**
 
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` (→ `/codify`, scoped to the container);

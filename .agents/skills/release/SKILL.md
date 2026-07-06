@@ -23,23 +23,22 @@ changes in `CHANGELOG.md`, update docs, and close the spec.
 
 ### Inputs
 - One of:
-  - **Feature**: `{Specs}/spec.md` with acceptance criteria all `[x]`.
+  - **Feature**: [the verified spec, criteria all `[x]`]({Specs}/spec.md)
   - **Maintenance** (no spec): a spec-less fix or structural refactor — patch bump;
     skip the spec parts of the steps.
 
 ### References
-- The spec, its plans, and `e2e.report.md` (read, if feature) — what actually shipped.
-- Arch docs to reconcile (read, always): `system.arch.md`, `ER.md`, affected
-  `{container}.arch.md`, `db.schema.md` / `api.schema.md`, `{Rules}/{container}.rules.md`.
-- `{Product_Folder}/docs/{feature}.md` (read/write, if feature) — the living functional doc.
-- Root `{Agents_File}` (read, always).
-- [`CHANGELOG.template.md`](./assets/CHANGELOG.template.md) (write-from, always).
-- [`feature.doc.template.md`](./assets/feature.doc.template.md) (write-from, on a
-  feature's first release).
-
-Mode guides:
-- [`Feature Guide`](./references/feature.guide.md) (if feature) — closes the verified spec.
-- [`Maintenance Guide`](./references/maintenance.guide.md) (if maintenance) — no spec to close.
+- [the shipped spec, its plans, and e2e report]({Specs}/spec.md) _read_ **if feature**
+- [system architecture]({Arch}/system.arch.md) _update_ **always**
+- [domain ER diagram]({Arch}/ER.md) _update_ **always**
+- [container arch and schemas]({Arch}/{container}.arch.md) _update_ **if affected**
+- [container code rules]({Rules}/{container}.rules.md) _update_ **if affected**
+- [living feature doc]({Product_Folder}/docs/{feature}.md) _update_ **if feature**
+- [repo rules and commands]({Agents_File}) _read_ **always**
+- [changelog entry shape](./assets/CHANGELOG.template.md) _write-from_ **always**
+- [feature doc template](./assets/feature.doc.template.md) _write-from_
+  **if first release of the feature**
+- [mode guide, what closing requires](./references/{mode}.guide.md) _read_ **one per {mode}**
 
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
