@@ -10,19 +10,21 @@ disable-model-invocation: true
 Act as Senior Software Architect.
 
 ## Task
-Generate the rule file for agents and the system architecture document.
+Generate the agent-rules file and the system architecture document.
+
+## Guardrails
+1. **Structure and config only** — never read code files; business logic is `/extract`'s job.
 
 ## Context
-- CAUTION: This is a listing. Read only when necessary.
+- Listing only — read each item when needed.
 - `{Arch}` = `{Product_Folder}/arch`.
 
 ### Inputs
-- Existing repository tree and guide files, if any — folder structure and config only, never
-  code files (business logic is `/extract`'s job, per container).
+- The repository tree and guide files, if any.
 
 ### References
-- [`AGENTS.template.md`](./assets/AGENTS.template.md) 
-- [`system.arch.template.md`](./assets/system.arch.template.md) 
+- [`AGENTS.template.md`](./assets/AGENTS.template.md) (write-from, always).
+- [`system.arch.template.md`](./assets/system.arch.template.md) (write-from, always).
 
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes defaults.
@@ -30,29 +32,24 @@ Mode guides:
 
 ### Glossary
 - **Container** — an executable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **Level** — the layer a container belongs to (`front | back | db | e2e | fullstack`).
-- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
+- **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
+- **Mode** — `greenfield` (no code → prescribe) | `brownfield` (with code → extract).
 - **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 - **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`...
 
 ## Steps
 ### 1. Research
 - Infer the operating system, shell, and remote Git repository.
-- Look for (and read) well-known guide files.
-- Classify as **greenfield | brownfield**, then read and follow the appropriate reference guide.
+- Read the guide files found.
+- Classify the mode; read and follow its guide.
 
 ### 2. Plan
-- Read the `AGENTS.template.md` template.
-- Read the `system.arch.template.md` template.
-- Prepare the content to fill in the placeholders in the templates.
+- Read both templates; prepare the content for their placeholders.
 
 ### 3. Implement
-- Write the `{Agents_File}` and keep it short (< 100 lines) and concise.
+- Write `{Agents_File}` — under 100 lines, concise.
 - Write `{Arch}/system.arch.md`.
-- Commit the changes (`docs:`).
-- Suggest handoffs to the `/extract` skill per container.
+- Commit (`docs:`); → `/extract` per container.
 
 ## Verification
-- [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
-  - `{Agents_File}`
-  - `{Arch}/system.arch.md`
+- [ ] `{Agents_File}` and `{Arch}/system.arch.md` exist, correct format, no empty placeholders.

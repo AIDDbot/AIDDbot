@@ -10,17 +10,18 @@ disable-model-invocation: true
 Act as {Role}.
 
 ## Task
-{One paragraph: given {input}, produce {output}, and the key boundary — hand off to
-`/{other-skill}` for what it doesn't own.}
+{One or two sentences: given {input}, produce {output}. Boundary: {out-of-scope} → `/{other-skill}`.}
 
 ## Guardrails
 1. **{Invariant}** — {why it holds, or what to do instead}.
 
 ## Context
-- CAUTION: This is a listing. Read only when necessary.
+- Listing only — read each item when needed.
+- {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
 - {The entry point(s); if several, list as "One of:".}
+> Missing {prereq}? Run `/{skill}` first.
 
 ### References
 - {`path or link`} (read | write-from, always | if {cond} | optional) — {what it grounds}.
@@ -29,12 +30,12 @@ Mode guides, if the skill branches heavily (one is read per run):
 - [`{Branch} Guide`](./references/{branch}.guide.md) (if {branch}) — {what it covers}.
 
 ### Glossary
-- **{Term}** — {definition, only if skill-specific}.
+- **{Term}** — {definition, only if skill-specific and used in this skill}.
 
 ## Steps
 ### 1. Research
-- {Identify the input and derive `{slug}` / `{container}` when relevant.}
-- Ask the user for any additional context. One question at a time.With close-ended questions.
+- {Identify the input; derive `{slug}` / `{container}` when relevant.}
+- {If unclear, ask close-ended questions, one at a time.}
 
 ### 2. Plan
 - {Read the relevant template(s); prepare content before writing or touching code.}
@@ -42,7 +43,8 @@ Mode guides, if the skill branches heavily (one is read per run):
 ### 3. Implement
 - {The artifact(s) to write, with exact paths.}
 - Commit (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
+- {Next: → `/{skill}`.}
 
 ## Verification
-- [ ] {The primary artifact exists, in the correct format, no empty placeholders.}
+- [ ] {The primary artifact exists, correct format, no empty placeholders.}
 - [ ] {The core boundary/guardrail held.}

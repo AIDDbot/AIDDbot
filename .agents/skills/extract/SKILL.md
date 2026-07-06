@@ -10,62 +10,56 @@ disable-model-invocation: true
 Act as Senior Software Architect.
 
 ## Task
-For one container at a time, generate its component architecture and container code-rules documents.
+Generate one container's component architecture and code-rules documents.
+
+## Guardrails
+1. **One container per run** — `fullstack` counts as one, following Front and Back together.
 
 ## Context
-- CAUTION: This is a listing. Read only when necessary.
+- Listing only — read each item when needed.
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs
-- Root `{Agents_File}`
-- `{Arch}/system.arch.md`
-> Run `/explore` first if missing.
-- The container to document
-> Ask which one if not given.
+- Root `{Agents_File}` and `{Arch}/system.arch.md`.
+> Missing? Run `/explore` first.
+- The container to document.
+> Not given? Ask which one.
 
 ### References
-Tier guides — read the one matching the container's tier; each lists the templates to write from:
+Tier guides — read the one matching the container's tier; each lists its templates:
 - [`Front Guide`](./references/front.guide.md) (if front).
 - [`Back Guide`](./references/back.guide.md) (if back).
 - [`DB Guide`](./references/db.guide.md) (if db).
 - [`E2E Guide`](./references/e2e.guide.md) (if e2e).
-> A `fullstack` container follows the Front and Back guides together.
 
 Mode guides:
 - [`Greenfield Guide`](./references/greenfield.guide.md) (if greenfield) — prescribes the design.
 - [`Brownfield Guide`](./references/brownfield.guide.md) (if brownfield) — extracts the facts.
 
 ### Glossary
-- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **Tier** — the layer a container belongs to (`front | back | db | e2e | fullstack`).
+- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
+- **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
-- **Mode** — `greenfield` (no code → prescribe) or `brownfield` (with code → extract).
+- **Mode** — `greenfield` (no code → prescribe) | `brownfield` (with code → extract).
 
 ## Steps
 ### 1. Research
 - List containers from `system.arch.md`; pick one (ask if ambiguous).
-- Classify as **greenfield | brownfield** by whether it already has source code.
-- Read the tier guide for the container's tier and the mode guide for its mode; follow both.
+- Classify the mode by whether the container has source code.
+- Read and follow the matching tier guide and mode guide.
 
 ### 2. Plan
-- Read the templates listed in the tier guide.
-- Prepare the content for one container: components, contracts & data, code organization,
-  naming, conventions, and one canonical example.
-- Keep field-level detail out of `{container}.arch.md` — it lists the contract surface and
-  links the schema files.
+- Read the templates the tier guide lists.
+- Prepare components, contracts & data, code organization, naming, and one canonical example.
+- Keep field detail out of `{container}.arch.md`; it lists the surface and links the schemas.
 
 ### 3. Implement
-- Write `{Arch}/{container}.arch.md` and link it from `system.arch.md`.
-- Write the shared docs the tier guide calls for (`db.schema.md`, `api.schema.md`, `ER.md`)
-  — create once, then update; link them from any container that reads or writes them.
+- Write `{Arch}/{container}.arch.md`; link it from `system.arch.md`.
+- Write the shared docs the tier guide calls for (`db.schema.md`, `api.schema.md`, `ER.md`).
+> Shared docs: create once, then update; link from every container that reads or writes them.
 - Write `{Rules}/{container}.rules.md`.
-- Commit the changes (`docs:`).
-- Repeat for the next container, or suggest handoff to the `/specify` skill.
+- Commit (`docs:`); repeat for the next container, or → `/specify`.
 
 ## Verification
-- [ ] The following files exist, are in the correct format, and do not contain empty placeholders:
-  - `{Arch}/{container}.arch.md`
-  - `{Arch}/db.schema.md` — once a persistence container has been extracted.
-  - `{Arch}/api.schema.md` — once an API container has been extracted.
-  - `{Arch}/ER.md` — once the back container has been extracted.
-  - `{Rules}/{container}.rules.md`
+- [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no empty placeholders.
+- [ ] Shared docs (`db.schema.md`, `api.schema.md`, `ER.md`) exist once their tier is extracted.
