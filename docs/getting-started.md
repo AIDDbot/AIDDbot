@@ -113,5 +113,6 @@ For behavior-preserving refactors, no spec is needed: route ugly internals throu
 
 - [Why AIDD](../README.md#why-do-you-need-aidd) — principles and who this is for
 - [AIDD workflow](./AIDD.workflow.md) — diagram, artifacts
+- [Design decisions](./design.decisions.md) — why the pipeline is shaped this way
 - [Skills catalog](../.agents/skills/skills.catalog.md) — what each skill does and produces
 - [Skills lifecycle](../.agents/skills/skills.lifecycle.md) — build, maintain, refactor coverage

@@ -63,6 +63,7 @@ Documentation:
 - **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does and produces
 - **[Skills lifecycle](.agents/skills/skills.lifecycle.md)** — build, maintain, refactor coverage
 - **[Workflow diagrams](docs/AIDD.workflow.md)** — diagrams, artifacts
+- **[Design decisions](docs/design.decisions.md)** — why the pipeline is shaped this way
 
 ---
 

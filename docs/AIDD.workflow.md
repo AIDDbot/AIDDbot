@@ -62,6 +62,7 @@ flowchart TD
 - **Install, loops, and prompts:** [Getting started](./getting-started.md)
 - **Phase diagrams:** [architect](./architect.pipelines.md) · [builder](./builder.pipelines.md) · [craftsman](./craftsman.pipelines.md)
 - **Producers and consumers:** [Skills interrelationships](./skills-interrelationships.md)
+- **Why it is shaped this way:** [Design decisions](./design.decisions.md)
 
 ## Glossary
 
