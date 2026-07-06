@@ -17,7 +17,7 @@ changes in `CHANGELOG.md`, update docs, and close the spec.
 1. **Nothing unverified ships** — feature: all criteria `[x]`; maintenance: suite green.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 - `{Specs}` = `{Product_Folder}/specs/{slug}`.
 

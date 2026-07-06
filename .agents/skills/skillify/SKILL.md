@@ -28,7 +28,7 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
    just to save characters.
 
 ## Context
-- Listing only — read each item when needed.
+
 
 ### Inputs
 - A new skill to draft, or the path to an existing `SKILL.md` to fix.

@@ -16,7 +16,7 @@ Generate the agent-rules file and the system architecture document.
 1. **Structure and config only** — never read code files; business logic is `/extract`'s job.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`.
 
 ### Inputs

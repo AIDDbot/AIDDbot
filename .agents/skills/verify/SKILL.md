@@ -21,7 +21,7 @@ every defect triaged by kind and handed off.
    a criterion without a test is a defect too.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs

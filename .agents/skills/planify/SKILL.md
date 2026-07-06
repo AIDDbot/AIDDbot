@@ -19,7 +19,7 @@ Turn a spec (or an escalated e2e report) into one plan per affected container â€
    or retires, per feature suite, in the e2e plan's **Changes to existing scenarios**.
 
 ## Context
-- Listing only â€” read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs

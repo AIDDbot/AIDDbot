@@ -22,7 +22,7 @@ Capture a feature as a one-page spec:
 3. **Outcome level only** — no steps, file paths, or tech choices; the **how** is `/planify`'s.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs

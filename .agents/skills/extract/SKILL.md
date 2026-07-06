@@ -16,7 +16,7 @@ Generate one container's component architecture and code-rules documents.
 1. **One container per run** — `fullstack` counts as one, following Front and Back together.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs

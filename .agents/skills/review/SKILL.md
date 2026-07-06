@@ -21,7 +21,7 @@ findings report — each finding with severity, kind, and handoff.
    `/specify`; restructuring contracts or component boundaries → `/planify`.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs

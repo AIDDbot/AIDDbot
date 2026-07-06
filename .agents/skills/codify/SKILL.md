@@ -23,7 +23,7 @@ critical modules.
 4. **One run, one container** — the `e2e` container included; never assume the scope.
 
 ## Context
-- Listing only — read each item when needed.
+
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 - `{Specs}` = `{Product_Folder}/specs/{slug}`.
 

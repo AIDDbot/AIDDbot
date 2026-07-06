@@ -17,7 +17,7 @@ Boundary: {out-of-scope} → `/{other-skill}`.}
 1. **{Invariant}** — {why it holds, or what to do instead}.
 
 ## Context
-- Listing only — read each item when needed.
+
 - {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
