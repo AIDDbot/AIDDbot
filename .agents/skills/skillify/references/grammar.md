@@ -27,3 +27,13 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 - Handoffs close their step; each branch is its own Condition bullet.
 - A glossary term defined in several skills is copied verbatim, never paraphrased —
   drift must show in a plain diff.
+
+## Guides
+
+`references/*.guide.md` files follow the same sentence forms and rules, plus:
+
+- Open with a title and one goal-or-scope sentence.
+- Guardrails are bold-named and citable, like `SKILL.md`'s; a guardrail shared across
+  guides keeps its bold name verbatim (the tail may vary).
+- Tier guides list outputs as `` `{output}` from [template](path) `` under **Templates**,
+  then priorities under **Focus** — no arrows: `→` stays handoff-only.

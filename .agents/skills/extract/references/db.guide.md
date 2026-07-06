@@ -3,9 +3,9 @@
 Persistence tier: schema, migrations, and seeds — little or no runnable code.
 
 ## Templates
-- [`container.arch.template.md`](../assets/container.arch.template.md) → `{Arch}/{container}.arch.md`.
-- [`code.rules.template.md`](../assets/code.rules.template.md) → `{Rules}/{container}.rules.md`.
-- [`db.schema.template.md`](../assets/db.schema.template.md) (always) → `{Arch}/db.schema.md`;
+- `{Arch}/{container}.arch.md` from [container arch template](../assets/container.arch.template.md).
+- `{Rules}/{container}.rules.md` from [code rules template](../assets/code.rules.template.md).
+- `{Arch}/db.schema.md` from [db schema template](../assets/db.schema.template.md);
   the migrations/DDL remain the canonical source.
 
 ## Focus

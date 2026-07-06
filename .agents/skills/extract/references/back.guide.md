@@ -3,16 +3,20 @@
 Domain tier: owns the business logic, and usually the API and the domain model.
 
 ## Templates
-- [`container.arch.template.md`](../assets/container.arch.template.md) → `{Arch}/{container}.arch.md`.
-- [`code.rules.template.md`](../assets/code.rules.template.md) → `{Rules}/{container}.rules.md`.
-- [`api.schema.template.md`](../assets/api.schema.template.md) (if it exposes an API) → `{Arch}/api.schema.md`.
-- [`db.schema.template.md`](../assets/db.schema.template.md) (if it owns the store) → `{Arch}/db.schema.md`.
-- [`ER.template.md`](../assets/ER.template.md) (owns the domain model) → `{Arch}/ER.md`,
+- `{Arch}/{container}.arch.md` from [container arch template](../assets/container.arch.template.md).
+- `{Rules}/{container}.rules.md` from [code rules template](../assets/code.rules.template.md).
+- If it exposes an API, `{Arch}/api.schema.md` from
+  [API schema template](../assets/api.schema.template.md).
+- If it owns the store, `{Arch}/db.schema.md` from
+  [db schema template](../assets/db.schema.template.md).
+- If it owns the domain model, `{Arch}/ER.md` from [ER template](../assets/ER.template.md),
   linked from `system.arch.md`'s overview.
 
 ## Focus
-- Component stereotypes: controller/route handler, service/use case, repository/gateway, entity/model.
-- Follow the chain entry point → routing → services → persistence to map the components.
+- Component stereotypes: controller/route handler, service/use case, repository/gateway,
+  entity/model.
+- Map the components following the chain from entry point through routing and services
+  to persistence.
 - `ER.md` holds business entities and their main relationships — no attributes or
   constraints (that detail belongs to `db.schema.md`).
 - Capture error handling, validation, and testing conventions in the code rules.

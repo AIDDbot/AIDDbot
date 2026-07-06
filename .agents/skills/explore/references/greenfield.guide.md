@@ -9,9 +9,8 @@ The goal is to prescribe the default values and ask the user for the missing inf
 - Prescribe the container split and tech per container.
 - Diagrams describe the *intended* design; mark assumptions.
 
-> Domain entities and relationships are proposed by `/extract` for the container that owns
-> the domain model (typically the backend).
-
 ## Guardrails
-- Prefer one strong default over a menu of options.
-- Never invent product requirements — ask.
+- **One strong default** — prefer it over a menu of options.
+- **Never invent requirements** — ask the user.
+- **Entities are `/extract`'s** — domain entities and relationships are proposed there,
+  by the container that owns the domain model (typically the backend).

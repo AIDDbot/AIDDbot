@@ -46,7 +46,7 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 - Map the content onto its sections; note gaps and overruns.
 
 ### 3. Implement
-- Write or edit `SKILL.md`, applying the Guardrails above.
+- Write or edit `SKILL.md` and any `references/*.guide.md`, applying the Guardrails above.
 - Commit (`feat(skills): add /{skill}` or `refactor(skills): tighten /{skill}`).
 
 ## Verification
