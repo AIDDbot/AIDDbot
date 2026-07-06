@@ -37,7 +37,6 @@ flowchart TD
   HUM -->|/extract| CAR
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/modify| SPC
   AGT -.-> SPC
   ARC -.-> SPC
   ERD -.-> SPC
@@ -54,7 +53,7 @@ flowchart TD
   RVR -->|/codify| COD
   SPC -->|/release| CHL
   SPC -->|/release merges| DOC
-  DOC -.triage entry.-> SPC
+  DOC -.baseline for changes.-> SPC
 
   class P,A,S sg
 ```
@@ -108,7 +107,7 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
   - `{container}.arch.md` — Components (C4 L3), code organization, contract surface (`/extract`).
   - `db.schema.md` / `api.schema.md` — System-wide field-level database/API schema, split out as they grow large; written when the owning container is extracted, linked from any container that benefits (`/extract`, when applicable).
 
-- `docs/` — Living functional docs, one per feature: current behavior, one statement per line, each linking its governing spec (`/release` merges; on conflict the spec wins).
+- `docs/` — Living functional docs, one per feature: the contract in words — current behavior, one statement per line, each noting the spec that shipped it (`/release` keeps them in lockstep with the e2e suite).
 - `specs/` — One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
   - `{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
   - `{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
@@ -124,9 +123,9 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 ## Maintenance
 
-Specs are commits; arch docs and feature docs are HEAD. A `done` spec is immutable — changes to released features enter via `/modify`, which starts at `docs/{feature}.md` and follows its link to the governing spec:
+The green e2e suite is the contract; `docs/{feature}.md` states it in words; a released spec is a closed ticket. Changes to released features route on one mechanical question — *would a green e2e test have to change?*
 
-- Implementation defect → direct fix + regression test → patch `/release`.
-- Requirement change → a plain new spec via `/specify` → full pipeline → `/release` merges the feature doc, derives the supersession, and stamps `superseded-by:` on the old spec.
+- No → defect or coverage gap: `/codify` fix mode + regression test → patch `/release`.
+- Yes → behavior change: a new spec via `/specify` → full pipeline → `/release` merges the feature doc.
 
 See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md) for the full maintenance and refactoring map.

@@ -65,9 +65,9 @@ actionable for `/codify`.
 - Prepare the e2e container plan like the others — one test-scenario step per acceptance
   criterion, derived from the spec and the shared contracts, never from sibling
   implementations.
-- When the change alters released behavior, list the e2e scenarios it replaces (governing
-  spec + scenario) in the e2e plan's **Replaces** section — old tests retire by plan,
-  never silently.
+- When the change alters released behavior, list every existing scenario it changes or
+  retires — per feature suite — in the e2e plan's **Changes to existing scenarios**
+  section: green tests change by plan, never silently.
 
 ### 3. Implement
 - Write one `{Specs}/{container}.plan.md` per affected container — `e2e.plan.md` included.

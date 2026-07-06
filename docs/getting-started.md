@@ -96,16 +96,17 @@ See [Craftsman pipelines](./craftsman.pipelines.md).
 
 ## 5. Maintain a released feature
 
-Once a spec is `done` it is immutable. Changes to released features enter via `/modify`:
+Once released, a spec is a closed ticket — history, never authority. The green e2e suite is the contract, and there is no triage skill: enter through either door and it routes you.
 
 ```markdown
-/modify the login feature: lockout should trigger after 5 attempts, not 3
+/codify the login lockout crashes on the 5th attempt        (a fix)
+/specify lockout should trigger after 5 attempts, not 3     (a behavior change)
 ```
 
-`/modify` asks one triage question — *does the current code pass the released acceptance criteria?* — and routes:
+Both doors ask one mechanical question — *would satisfying the request change what a green e2e test asserts?* — and bounce a misrouted request to the other:
 
-- **Violates a criterion** → implementation defect: direct fix + regression test, then a patch `/release`.
-- **Matches the criteria** (the behavior itself must change) → requirement change: a plain new spec via `/specify` (the released behavior travels as context), through the full pipeline; `/release` updates `docs/{feature}.md` and stamps the old spec.
+- **No green test flips** → defect or coverage gap: `/codify` fix mode — minimal fix + regression test — then a patch `/release`. No spec.
+- **A green test must flip** → behavior change: a new spec via `/specify` (quoting the current behavior from `docs/{feature}.md` as baseline), through the full pipeline; the e2e plan lists the scenarios it changes and `/release` updates the feature doc.
 
 For behavior-preserving refactors, no spec is needed: route ugly internals through `/review` (report; `--fix` or `/codify` applies), and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 

@@ -16,8 +16,10 @@ plus unit tests for critical modules. One run, one container — the `e2e` conta
 ## Guardrails
 1. **Surgical changes** — minimum changes to meet the goal.
 2. **Goal-driven** — keep going until validation criteria are met.
-3. **Never weaken a test to force green** — when fixing from a defects report, a wrong
-   test gets fixed for correctness, not for a pass.
+3. **Green tests are the contract** — add tests freely, but never change what a green
+   e2e test asserts: that is a behavior change → stop and route to `/specify`. A wrong
+   test flagged in a report gets fixed for correctness, never for a pass. Untested
+   behavior? The fix plus its regression test become the contract.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
@@ -27,8 +29,8 @@ plus unit tests for critical modules. One run, one container — the `e2e` conta
 ### Inputs
 - One of:
   - A container plan `{Specs}/{container}.plan.md` — `e2e.plan.md` included.
-  - A defects report (`{Specs}/e2e.report.md` or `{Specs}/review.report.md`) scoped to
-    one container — fix mode: address the entries handed off to that container.
+  - A defect — a report (`{Specs}/e2e.report.md` / `{Specs}/review.report.md`) scoped to
+    one container, or a plain bug description — fix mode.
   - A spec/requirement (best-effort).
 > Ask which container to scope if not given a single plan; never assume.
 
@@ -63,13 +65,13 @@ plus unit tests for critical modules. One run, one container — the `e2e` conta
 - For the `e2e` container the tests **are** the deliverable: done when the suite compiles
   and executes — failures against not-yet-verified features are expected and left for
   `/verify` to judge; skip the unit-test bullet.
-- In fix mode: apply a minimal fix per report entry handed off to this container, and mark
-  it fixed in the report.
+- In fix mode: apply a minimal fix per defect, add a regression e2e test for it, and mark
+  the entry fixed when it came from a report.
 - Annotate plan deviations (what changed, why); check each in-scope step `[x]`.
 - In `spec.md`, set `status: in-progress` if still `pending`.
 - Commit: `{feat|fix|test}(scope): {description}`.
 - Suggest `/codify` for remaining plans; `/verify` once all plans (e2e included) are
-  codified, or to re-run after fixes.
+  codified, or to re-run after fixes; a patch `/release` for a spec-less fix.
 
 ## Verification
 - [ ] Code builds and unit tests pass (`e2e` container: the suite executes; red is allowed).

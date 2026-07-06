@@ -5,6 +5,71 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-06 — Disposable specs: the green suite is the contract
+
+**Status**: adopted. Supersedes the supersession machinery of the previous two entries;
+keeps their feature docs and plan-authorized test edits as its foundation.
+
+### Context
+
+Even after relocating the bookkeeping, the spec archive remained the authority for
+current behavior — yet the standing invariant (*live criteria = e2e suite = behavior*)
+meant the archive and the suite expressed the same set twice. The supersession
+machinery (`superseded-by:`, liveness rules, derive-at-release) existed only to keep
+the duplicate consistent. Meanwhile e2e tests were organized by spec slug — unlike
+production code, which is organized by feature and *modified* by tickets. And `/modify`
+existed to answer a triage question whose baseline (released criteria) was, by the
+invariant, just the suite again.
+
+### Decision
+
+1. **The green e2e suite is the contract.** Organized by feature, like production
+   code. Green tests change only through a plan — a plan step is to test edits what it
+   already is to code edits: the authorization.
+2. **Specs are disposable tickets.** One change, its criteria, its acceptance. After
+   release: a closed ticket — history (why, and since when), never authority. No
+   `superseded-by:`, no liveness, no archive triage.
+3. **Feature docs are the contract in words.** `/release` keeps `docs/{feature}.md`
+   in lockstep with the suite; statements note the spec that shipped them as
+   provenance (the archaeology pointer, like a commit hash).
+4. **`/modify` is deleted.** Its Route A is `/codify` fix mode (+ regression test →
+   patch release); its Route B is just `/specify`; its triage becomes a mechanical
+   question asked at both doors: **would satisfying the request change what a green
+   e2e test asserts?** `/specify` bounces "no" to `/codify` (fix-or-feature gate);
+   `/codify` bounces "yes" to `/specify` (green-tests-are-the-contract guardrail).
+5. **The e2e plan authorizes scenario changes per feature suite** — the Replaces
+   section generalized to *Changes to existing scenarios* (`e2e/{feature}`: scenario →
+   changed | retired).
+
+### Rejected alternatives
+
+- **Keeping `/modify` as a thin triage skill** — rejected: once the triage question is
+  mechanical, a dedicated skill is a door with nothing behind it; symmetric guardrails
+  route with certainty and cost two lines each.
+- **Keeping the spec archive as authoritative referee** — rejected as duplicate
+  accounting; the referee role passes to the suite (executable) and the feature doc
+  (readable), which check each other.
+
+### Consequences
+
+- Pipeline is 8 skills. `/modify` and its route guides are gone; `/review`'s
+  behavior-finding handoff points to `/specify`.
+- The old "no silent behavior changes" guardrail became structural: `/codify` cannot
+  flip a green test without a plan, and a plan needs a spec — the disguised-bug
+  hot-fix has no path through the system.
+- Coverage-gap default: where no test covers the behavior, a fix plus its regression
+  test *become* the contract (stated in `/codify`'s guardrail).
+- The invariant reads: *green e2e suite = current behavior = feature docs, in words*.
+
+### Accepted trade-offs
+
+- **No third referee.** If the suite and the feature doc disagree, a human arbitrates
+  intent; the closed tickets only inform. The fence (plan-authorized edits, report-only
+  evaluators, green-baseline review) replaces the second copy.
+- **Traceability by provenance, not by structure.** "Why does this behave so?" is
+  answered by the doc statement's spec pointer, the changelog, and git history — the
+  archive is consulted, never enforced.
+
 ## 2026-07-06 — Feature docs are the functional HEAD; supersession is derived at release
 
 **Status**: adopted.

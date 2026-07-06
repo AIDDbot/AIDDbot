@@ -14,24 +14,26 @@ Define **what** the feature must achieve — problem, expected results per conta
 acceptance criteria — never **how**; the breakdown into steps is `/planify`'s job.
 
 ## Guardrails
-- Specs are write-once — a new change is a new spec; never edit an existing one.
-- Stay at the outcome level: no implementation steps, file paths, or technology choices.
+1. **Fix-or-feature gate** — if the request can be satisfied while every green e2e test
+   stays green, it is a fix, not a spec: route to `/codify`.
+2. **Write-once** — a new change is a new spec; never edit an existing one.
+3. **Outcome level only** — no implementation steps, file paths, or technology choices.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- A requirement or feature description.
-> Changes to a released feature arrive via `/modify` as a plain requirement, with the
-> released behavior already stated as context.
+- A requirement or feature description — new behavior, or a change to released behavior.
 
 ### References
-- Root `{Agents_File}` and `{Arch}/system.arch.md` (read, always) — the containers this
+- Root `{Agents_File}` and `{Arch}/system.arch.md` — the containers this
   feature touches.
 > Run `/explore` first if missing.
-- `{Arch}/ER.md` (read, always) — the domain ER diagram; grounds the conceptual data model.
-- [`spec.template.md`](./assets/spec.template.md) (write-from, always).
+- `{Arch}/ER.md` — the domain ER diagram; grounds the conceptual data model.
+- `{Product_Folder}/docs/{feature}.md` (if changing released behavior) — the current
+  behavior to quote as baseline.
+- [`spec.template.md`](./assets/spec.template.md).
 
 ### Glossary
 - **Expected result** — an observable outcome a container must deliver; never a step.
@@ -39,6 +41,7 @@ acceptance criteria — never **how**; the breakdown into steps is `/planify`'s 
 
 ## Steps
 ### 1. Research
+- Apply the fix-or-feature gate: no green e2e test needs to change → hand to `/codify`, stop.
 - Ask the minimum questions if unclear; derive `{slug}`.
 - From `system.arch.md`, list the containers this feature touches.
 
@@ -47,8 +50,8 @@ acceptance criteria — never **how**; the breakdown into steps is `/planify`'s 
 - Prepare the problem, user stories, and a conceptual data model (entities/relationships
   this feature touches, per `ER.md`).
 - Prepare per-container **expected results**.
-- State any released behavior handed over as context in the problem definition — plain
-  prose, no special mechanics.
+- When changing released behavior, quote the current behavior (from `docs/{feature}.md`)
+  as the baseline in the problem definition — plain prose, no special mechanics.
 
 ### 3. Implement
 - Write `{Specs}/spec.md` with `status: pending`; one page, no empty `{placeholders}`.

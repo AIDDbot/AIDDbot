@@ -1,6 +1,6 @@
 # AIDD Skills Interrelationship Report
 
-Analysis of the 9 skills in `.agents/skills/`, mapping producers, artifacts, and consumers.
+Analysis of the 8 skills in `.agents/skills/`, mapping producers, artifacts, and consumers.
 
 ## Producer -> Artifact -> Consumer matrix
 
@@ -8,17 +8,16 @@ Analysis of the 9 skills in `.agents/skills/`, mapping producers, artifacts, and
 |----------|----------|-------------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | `*` (every skill reads paths, mode, conventions, git rules, start/test commands) |
 | `/explore` | `arch/system.arch.md` (C4 L2), `arch/ER.md` (domain ER) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
-| `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/modify` (Route A), `/release` (doc sync) |
-| `/extract` | `rules/{container}.rules.md` | `/codify`, `/modify` (Route A) |
-| `/specify` | `specs/{slug}/spec.md` | `/planify`, `/verify` (criteria), `/modify` (released baseline), `/release` |
+| `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/release` (doc sync) |
+| `/extract` | `rules/{container}.rules.md` | `/codify` |
+| `/specify` | `specs/{slug}/spec.md` | `/planify`, `/verify` (criteria), `/release` |
 | `/planify` | `specs/{slug}/{container}.plan.md` | `/codify`, `/review` (plan-scope) |
 | `/planify` | `specs/{slug}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ criterion mapping) |
-| `/codify` | Source code + unit tests (`{Source_Folders}`) | `/verify`, `/review`, `/modify` |
+| `/codify` | Source code + unit tests (`{Source_Folders}`) | `/verify`, `/review` |
 | `/codify` | E2E tests (`e2e/`) | run by `/verify`, `/review` and `/release` (green-baseline gates), refactors (safety net) |
 | `/verify` | `specs/{slug}/e2e.report.md` (+ marks spec criteria `[x]/[ ]`) | `/codify` (fix mode, per container), `/planify` (structural escalation), `/release` (doc sync) |
 | `/review` | `specs/{slug}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` |
-| `/release` | `CHANGELOG.md`, version bump + tag, spec -> `done`, derived `superseded-by:` stamp, reconciled arch docs, merged `docs/{feature}.md` | HUMAN / `*`, `/modify` (triage entry) |
-| `/modify` | A routing decision: `fix` commit + regression test (Route A) or a plain-requirement handoff to `/specify` (Route B) | `/release` (A), `/specify` (B) |
+| `/release` | `CHANGELOG.md`, version bump + tag, spec -> `done`, reconciled arch docs, merged `docs/{feature}.md` | HUMAN / `*`, `/specify` (baseline for behavior changes) |
 
 ## Status mutations (spec-bound chain)
 
@@ -27,9 +26,9 @@ Only these transitions touch frontmatter or checkbox state, the backbone of trac
 - `/specify` -> spec `status: pending`
 - `/codify` -> spec `status: in-progress` on first run; checks plan steps `[x]`
 - `/verify` -> marks spec acceptance criteria `[x]/[ ]`; maintains `e2e.report.md` defect entries
-- `/release` -> spec `status: done` + `released-version: {new_version}`; stamps `superseded-by: {slug}` on the superseded spec (frontmatter only, derived from the feature-doc merge)
+- `/release` -> spec `status: done` + `released-version: {new_version}` — the spec becomes a closed ticket: history, never authority
 
-`/review` is **scope-bound** — it emits only a report (plus a `refactor` commit with `--fix`) and never mutates spec/plan status. `/modify` mutates nothing either: its deliverable is the routing decision.
+`/review` is **scope-bound** — it emits only a report (plus a `refactor` commit with `--fix`) and never mutates spec/plan status.
 
 ## Dependency graph (who blocks whom)
 
@@ -48,12 +47,11 @@ flowchart LR
   REV --> REL["/release"]
   SPC -.spec.-> VER
   SPC -.spec.-> REL
-  REL -->|done spec| MOD["/modify"]
-  MOD -->|defect: fix| REL
-  MOD -->|requirement change| SPC
+  REL -.feature doc: baseline.-> SPC
+  COD -->|spec-less fix| REL
 ```
 
-Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` | `/specify`) cycle is the maintenance loop over released specs.
+Solid arrows are the build pipeline. Maintenance has no entry skill: a fix re-enters at `/codify` (fix mode + regression test → patch release), a behavior change re-enters at `/specify` — routed by one question, *would a green e2e test have to change?*
 
 ## Key observations
 
@@ -63,7 +61,7 @@ Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` 
 
 3. **Containers, not tiers, are the unit of work.** Every plan, arch doc, and rules file is keyed by container name from `system.arch.md`. *Tier* survives only as a classifier (`front | back | db | e2e | fullstack`), never as an identifier.
 
-4. **`spec.md` is the builder's source of truth** — the widest fan-out (4 consumers) and the only artifact with a status lifecycle (`pending -> in-progress -> done`). It stays at the outcome level; `/planify` owns all technical breakdown, including the transversal `e2e.plan.md`.
+4. **`spec.md` is the builder's source of truth — while it is open.** The only artifact with a status lifecycle (`pending -> in-progress -> done`); it stays at the outcome level and `/planify` owns all technical breakdown, including the transversal `e2e.plan.md`. Once `done`, it is a closed ticket: history, never authority — the contract lives on in the e2e suite and the feature doc.
 
 5. **One writer, two evaluators.** `/codify` is the only skill that writes code — the e2e suite included, implemented from `e2e.plan.md` like any container plan. `/verify` and `/review` only evaluate and report; implementation and evaluation never share a session. The e2e plan's scenarios derive from the spec's criteria (via `/planify`), never from sibling implementations — that derivation chain is what keeps the suite trustworthy as a safety net even though codify writes it.
 
@@ -71,6 +69,6 @@ Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` 
 
 7. **Shared contracts are the cross-container coordination mechanism.** `/planify` states each contract verbatim in every sibling plan; `/codify` treats them as frozen and hands back to `/planify` rather than improvising a cross-container change. `/review` enforces the same freeze.
 
-8. **`/release` is the only sink and the doc reconciler.** It closes the spec lifecycle, produces `CHANGELOG.md` + the version tag, and re-syncs arch docs with what actually shipped — specs are commits, arch docs are HEAD.
+8. **`/release` is the only sink and the doc reconciler.** It closes the spec lifecycle, produces `CHANGELOG.md` + the version tag, re-syncs arch docs, and merges the shipped behavior into `docs/{feature}.md` — keeping the contract-in-words in lockstep with the suite.
 
-9. **`/modify` guards released specs, entering through the feature doc.** A `done` spec is immutable; triage starts at `docs/{feature}.md`, whose link points at the governing spec — no chain-walking. Violation = defect (Route A: fix + regression test + patch release), conformance = requirement change (Route B: a plain new spec, full pipeline; `/planify` lists the replaced e2e scenarios and `/release` derives the supersession from the feature-doc merge and stamps `superseded-by:`). Specs declare nothing about what they replace — the bookkeeping happens at release.
+9. **The green e2e suite is the contract, and the triage is mechanical.** No triage skill: any request routes on *would a green test have to change?* No → `/codify` fix mode (+ regression test, patch release). Yes → `/specify` (new spec; the e2e plan lists the scenarios it changes). Each door bounces misrouted requests to the other, so hot-fixing a behavior change is structurally impossible: flipping a green test needs a plan, and a plan needs a spec.

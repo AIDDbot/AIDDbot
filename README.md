@@ -27,13 +27,13 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-**AIDDbot** ships as **9 slash-command skills** under `.agents/skills/`, covering the whole SDLC — build, maintenance, and refactoring.
+**AIDDbot** ships as **8 slash-command skills** under `.agents/skills/`, covering the whole SDLC — build, maintenance, and refactoring.
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
 | [Architect](docs/architect.pipelines.md) | `/explore`, `/extract` | Agent setup + architecture docs (C4 L2/L3) and coding rules |
 | [Builder](docs/builder.pipelines.md) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
-| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/release`, `/modify` | Quality audit, release, and maintenance triage |
+| [Craftsman](docs/craftsman.pipelines.md) | `/review`, `/release` | Quality audit and release |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: create or fix a skill under
 `.agents/skills/` itself, following the same template.
@@ -46,7 +46,7 @@ See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill p
 /explore → /extract (×container) → /specify → /planify → /codify (×container) → /verify → /review → /release
 ```
 
-Changes to a released feature enter via `/modify`, which triages: defect → direct fix; behavior change → a plain new spec through the full pipeline — `/release` keeps the books (feature docs, supersession).
+Changes to a released feature need no special skill — one mechanical question routes them: would a green e2e test have to change? No → it's a fix (`/codify` + patch release). Yes → it's a new spec through the full pipeline.
 
 ## Quick start
 

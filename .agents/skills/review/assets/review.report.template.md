@@ -13,7 +13,7 @@ suite: green
 
 > Ordered by severity, one entry per finding. Kind routes the handoff:
 > `mechanical` → `--fix` or `/codify`; `functional` → `/codify` ({container});
-> `structural` → `/planify`; `behavioral` → `/modify`.
+> `structural` → `/planify`; `behavioral` → `/specify`.
 
 ### F1: {short title}
 
@@ -23,4 +23,4 @@ suite: green
 - Suggestion: {the minimal fix}
 - Severity: {blocker | major | minor}
 - Kind: {mechanical | functional | structural | behavioral}
-- Handoff: {`/codify` {container} | `/planify` | `/modify` | fixed (`--fix`)}
+- Handoff: {`/codify` {container} | `/planify` | `/specify` | fixed (`--fix`)}

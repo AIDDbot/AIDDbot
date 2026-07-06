@@ -21,7 +21,7 @@ in `CHANGELOG.md`, update docs, and close the spec.
 ### Inputs
 - One of:
   - **Feature**: `{Specs}/spec.md` with acceptance criteria all `[x]`.
-  - **Maintenance** (no spec): a `/modify` fix or structural refactor — patch bump; skip
+  - **Maintenance** (no spec): a spec-less fix or structural refactor — patch bump; skip
     the spec parts of the steps and output.
 
 ### References
@@ -42,10 +42,11 @@ Mode guides:
 
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
-- **Maintenance patch** — a spec-less `/modify` fix or structural refactor; patch bump,
+- **Maintenance patch** — a spec-less defect fix or structural refactor; patch bump,
   no spec parts.
-- **Feature doc** — `docs/{feature}.md`: current behavior, one statement per line, each
-  linking its governing spec. A projection merged here — on conflict, the spec wins.
+- **Feature doc** — `docs/{feature}.md`: the contract in words — current behavior, one
+  statement per line, each noting the spec that shipped it. Kept in lockstep with the
+  e2e suite by this skill.
 
 ## Steps
 ### 1. Research
@@ -62,8 +63,7 @@ Mode guides:
 - Update the canonical version files to `{new_version}`.
 - Move `Unreleased` entries under `{new_version}` in `CHANGELOG.md`.
 - Merge the shipped behavior into `{Product_Folder}/docs/{feature}.md` (feature releases;
-  see the Feature Guide) — and derive the supersession: statements rewritten over another
-  spec's link get that old spec stamped `superseded-by: {slug}` and a *Changed* entry.
+  see the Feature Guide): rewritten statements log under *Changed*, new ones under *Added*.
 - Update `README.md`/docs when user-facing behavior changed.
 - Reconcile the drifted arch docs against what shipped; skip what didn't change.
 - For heavy drift, suggest re-running `/extract` (brownfield) instead of hand-patching.
@@ -74,4 +74,4 @@ Mode guides:
 - [ ] Spec is `done` (feature), or the suite is confirmed green (maintenance).
 - [ ] CHANGELOG and version are consistent; the default branch is updated.
 - [ ] Arch docs reflect every notable change introduced by this release.
-- [ ] The feature doc reflects the shipped behavior, and every superseded spec is stamped.
+- [ ] The feature doc reflects the shipped behavior, matching the e2e suite.

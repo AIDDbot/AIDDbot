@@ -18,12 +18,12 @@ container: e2e
 - [ ] {criterion copied from the spec}
 - [ ] {criterion}
 
-### Replaces
-> Only when changing released behavior: the existing e2e scenarios this plan retires.
-> Their failures during this build are expected; `/codify` removes them when
-> implementing the replacement steps. Omit the section otherwise.
+### Changes to existing scenarios
+> Only when changing released behavior: the scenarios this plan changes or retires, per
+> feature suite. Their failures during this build are expected; `/codify` applies them
+> with the implementation steps. Omit the section otherwise.
 
-- {governing spec slug}: {scenario title}
+- `e2e/{feature}`: {scenario title} → {changed | retired}
 
 ### Contracts
 > Consumed only: the routes, endpoints, and fixtures agreed with the sibling plans. Must
@@ -36,7 +36,7 @@ container: e2e
 ### Step 1: {Scenario Title}
 {Flow being verified, end-to-end across containers; maps to one acceptance criterion.}
 - Paths:
-    - {path/to/e2e/test}
+    - {path/to/e2e/{feature} suite — tests live per feature, like production code}
 - [ ] Arrange: {preconditions / fixtures}
 - [ ] Act: {user actions}
 - [ ] Assert: {expected outcome mapped to the criterion}

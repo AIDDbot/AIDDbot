@@ -21,8 +21,8 @@ apply the mechanical findings directly.
    `--fix`, apply only `mechanical` findings (renames, dead code, extractions) with
    minimal diffs — never touching tests or shared contracts.
 3. **Behavior findings are not yours** — a finding whose fix would change observable
-   behavior routes through `/modify`; restructuring contracts or component boundaries
-   routes through `/planify`.
+   behavior needs a spec: route it to `/specify`; restructuring contracts or component
+   boundaries routes to `/planify`.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.

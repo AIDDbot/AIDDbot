@@ -13,4 +13,6 @@ No schema files: it consumes `api.schema.md` and the front routes; it owns nothi
 ## Focus
 - Component stereotypes: suite/spec, fixture, page object/helper.
 - Components = suites and helpers; contracts = the user journeys it covers.
+- Suites are organized **by feature** (one suite per `docs/{feature}.md`), like
+  production code — never by spec slug.
 - Capture selector strategy, fixture management, and flake policy in the code rules.

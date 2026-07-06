@@ -16,7 +16,6 @@ flowchart TD
   RVR -->|/codify fix| COD
   COD -->|/release| CHL
   SPC -->|/release closes| SPC
-  HUM -->|/modify| COD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
@@ -28,21 +27,21 @@ Audits a code scope (feature branch, plan/spec files, or explicit paths) for **a
 Guardrails worth knowing:
 
 - **Green baseline gate** — it refuses to start on a failing suite; run `/verify` first.
-- **Behavior findings are not its call** — a finding whose fix would change observable behavior is handed to `/modify`.
+- **Behavior findings are not its call** — a finding whose fix would change observable behavior needs a spec: handed to `/specify`.
 - **Contracts are frozen** — restructuring shared API shapes, schemas, or component boundaries is a structural refactor: handed to `/planify`.
 
 ### `/release` — close the loop
 
-Bumps the version (SemVer), moves `Unreleased` changelog entries under the new version (Keep a Changelog), updates human docs, and **reconciles the architecture docs** against what shipped. For features it also **merges the shipped behavior into `docs/{feature}.md`** — and derives the supersession from that merge: statements rewritten over another spec's link get that old spec stamped `superseded-by:` (frontmatter only) and a *Changed* changelog entry. Then it closes the spec (`status: done`, `released-version`). It also ships spec-less maintenance patches (defect fixes, structural refactors).
+Bumps the version (SemVer), moves `Unreleased` changelog entries under the new version (Keep a Changelog), updates human docs, and **reconciles the architecture docs** against what shipped. For features it also **merges the shipped behavior into `docs/{feature}.md`** — the contract in words, kept in lockstep with the e2e suite; rewritten statements log under *Changed*, new ones under *Added*. Then it closes the spec (`status: done`, `released-version`) — from that point the spec is history, never authority. It also ships spec-less maintenance patches (defect fixes, structural refactors).
 
-### `/modify` — maintenance entry point
+### Maintenance — no triage skill
 
-Changes to **released** features start here. Triage begins at `docs/{feature}.md`, whose statements link straight to the governing spec. One triage question — *does the current code pass the released acceptance criteria?*
+Changes to **released** features route on one mechanical question — *would satisfying the request change what a green e2e test asserts?* Either door bounces a misrouted request to the other.
 
 | Answer | It is a... | Route |
 |---|---|---|
-| Code violates a criterion | implementation defect | direct fix + regression e2e test → patch `/release` |
-| Code matches the criteria | requirement change | a plain new spec via `/specify` → full pipeline → `/release` derives the supersession |
+| No green test flips | defect (or coverage gap) | `/codify` fix mode + regression e2e test → patch `/release` |
+| A green test must flip | behavior change | a new spec via `/specify` → full pipeline → `/release` merges the feature doc |
 
 ### Workflow
 
@@ -53,6 +52,6 @@ Changes to **released** features start here. Triage begins at `docs/{feature}.md
 Maintenance:
 
 ```markdown
-/modify -> fix -> /release           (defect)
-/modify -> /specify -> ... -> /release   (requirement change)
+/codify (fix + regression test) -> /release       (defect)
+/specify -> ... -> /release                       (behavior change)
 ```

@@ -3,8 +3,9 @@ feature: {feature}
 ---
 # {Feature name}
 
-> Current behavior only — one statement per line, each linking its governing spec.
-> Merged by `/release`; on conflict the spec wins. History lives in `specs/`.
+> Current behavior only — one statement per line, each noting the spec that shipped it.
+> The contract in words, kept in lockstep with the e2e suite by `/release`. History
+> lives in `specs/`.
 
 ## {Capability}
 
