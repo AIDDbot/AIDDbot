@@ -1,6 +1,6 @@
 # Review checklist
 
-One pass; fix every applicable item. Group findings by dimension.
+One pass; report every applicable violation. Group findings by dimension.
 
 ## Accessibility (WCAG AA)
 

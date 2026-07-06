@@ -20,9 +20,9 @@ flowchart TD
   SPC -->|/planify| PLN
   SPC -->|/planify| EPL
   PLN -->|/codify ×container| COD
-  EPL -->|/verify| E2E
-  E2E -->|/verify| RPT
-  RPT -->|/verify fix loop| COD
+  EPL -->|/codify| E2E
+  E2E -->|/verify run| RPT
+  RPT -->|/codify fix ×container| COD
   RPT -.->|structural defects| PLN
   
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
@@ -37,16 +37,16 @@ flowchart TD
 Division of labor:
 
 - `/specify` — the **what**: problem, per-container expected results, acceptance criteria. No technical detail.
-- `/planify` — the **how**: one plan per affected container plus one transversal `e2e.plan.md`. Shared contracts (API shapes, schemas) are stated verbatim in every sibling plan.
-- `/codify` — one container plan per run; sessions can run in parallel. Functional code + unit tests. If an in-scope change would alter a shared contract, it hands back to `/planify` — never improvises a cross-container change. Never touches the `e2e` container.
-- `/verify` — owns the `e2e` container: writes and runs the tests, writes `e2e.report.md`, marks the spec's acceptance criteria `[x]/[ ]`, then **fixes defects in a loop** until green. Implementation and verification never share a session.
+- `/planify` — the **how**: one plan per affected container, the transversal `e2e.plan.md` included (one scenario step per acceptance criterion). Shared contracts (API shapes, schemas) are stated verbatim in every sibling plan.
+- `/codify` — one container plan per run; sessions can run in parallel. Functional code + unit tests — and the e2e suite, implemented from `e2e.plan.md` like any plan (done when it executes; red against unverified features is expected). If an in-scope change would alter a shared contract, it hands back to `/planify` — never improvises a cross-container change.
+- `/verify` — **report-only**: runs the e2e suite, writes `e2e.report.md` with a kind and handoff per defect, and marks the spec's acceptance criteria `[x]/[ ]`. It never edits code, tests, or plans — implementation and evaluation never share a session.
 
 #### When the suite is not green
 
-`/verify` triages each defect by kind:
+`/verify` triages each defect by kind; the handoff routes the fix:
 
 ```markdown
-code bug | test bug  -> /verify fixes in place and re-runs (resume with the e2e.report.md)
+code bug | test bug  -> /codify the e2e.report.md (×affected container) -> /verify re-runs
 structural           -> escalate: /planify the e2e.report.md -> /codify -> /verify
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement a container plan; code and unit tests for critical modules. One run, one container.
+description: Implement a container plan or fix a defects report; code and unit tests for critical modules. One run, one container — e2e included.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,12 +10,14 @@ disable-model-invocation: true
 Act as Senior Software Engineer.
 
 ## Task
-Implement a container plan (or a scoped spec/requirement): working code plus unit tests for
-critical modules. One run, one container.
+Implement a container plan, or fix a defects report, scoped to one container: working code
+plus unit tests for critical modules. One run, one container — the `e2e` container included.
 
 ## Guardrails
 1. **Surgical changes** — minimum changes to meet the goal.
 2. **Goal-driven** — keep going until validation criteria are met.
+3. **Never weaken a test to force green** — when fixing from a defects report, a wrong
+   test gets fixed for correctness, not for a pass.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
@@ -23,7 +25,11 @@ critical modules. One run, one container.
 - `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- One of: a container plan `{Specs}/{container}.plan.md`, or a spec/requirement (best-effort).
+- One of:
+  - A container plan `{Specs}/{container}.plan.md` — `e2e.plan.md` included.
+  - A defects report (`{Specs}/e2e.report.md` or `{Specs}/review.report.md`) scoped to
+    one container — fix mode: address the entries handed off to that container.
+  - A spec/requirement (best-effort).
 > Ask which container to scope if not given a single plan; never assume.
 
 ### References
@@ -35,12 +41,14 @@ critical modules. One run, one container.
 
 ### Glossary
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **e2e container** — transversal; its plan and code belong to `/verify`, never `/codify`.
+- **e2e container** — transversal; its suite is implemented here from `e2e.plan.md` like
+  any plan, deriving tests from the plan's criteria — never mirroring sibling
+  implementations. Running and judging the suite belongs to `/verify`.
 
 ## Steps
 ### 1. Research
 - Identify the input and derive `{slug}` and `{container}`.
-- Given a spec/requirement (not a single plan), ask which container to scope — never `e2e`.
+- Given a spec/requirement or a report (not a single plan), ask which container to scope.
 - Read `{container}.arch.md` (components, contracts, structure) and `{container}.rules.md`.
 - Follow links to `api.schema.md` / `db.schema.md` for field shapes when touching an API or store.
 
@@ -52,11 +60,18 @@ critical modules. One run, one container.
 ### 3. Implement
 - Write the minimum code for the in-scope steps, per the container's rules (YAGNI: no extras).
 - Add unit tests for the critical path (happy path plus errors); run until the suite is green.
+- For the `e2e` container the tests **are** the deliverable: done when the suite compiles
+  and executes — failures against not-yet-verified features are expected and left for
+  `/verify` to judge; skip the unit-test bullet.
+- In fix mode: apply a minimal fix per report entry handed off to this container, and mark
+  it fixed in the report.
 - Annotate plan deviations (what changed, why); check each in-scope step `[x]`.
 - In `spec.md`, set `status: in-progress` if still `pending`.
 - Commit: `{feat|fix|test}(scope): {description}`.
-- Suggest `/codify` for remaining plans; `/verify` the `e2e.plan.md` once all are codified.
+- Suggest `/codify` for remaining plans; `/verify` once all plans (e2e included) are
+  codified, or to re-run after fixes.
 
 ## Verification
-- [ ] Code builds and unit tests pass.
-- [ ] Every in-scope plan step is completed and checked `[x]`.
+- [ ] Code builds and unit tests pass (`e2e` container: the suite executes; red is allowed).
+- [ ] Every in-scope plan step is completed and checked `[x]`, or every in-scope report
+      entry is fixed.

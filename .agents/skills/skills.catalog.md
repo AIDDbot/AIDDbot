@@ -2,9 +2,9 @@
 
 A 9-skill pipeline covering the whole SDLC, plus `/skillify` to extend the skillset
 itself. Fewer skills, fewer artifacts.
-`/specify` stays at the outcome level; `/planify` owns the per-container breakdown and the
-transversal e2e plan. `/codify` implements and `/verify` checks — implementation and
-verification never share a session.
+`/specify` stays at the outcome level; `/planify` owns the per-container breakdown — the
+transversal e2e plan included. `/codify` is the only skill that writes code; `/verify` and
+`/review` only evaluate and report — implementation and evaluation never share a session.
 
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
@@ -26,26 +26,26 @@ Produces:
 | Skill | What it does |
 |-------|--------------|
 | [`/specify`](./specify/) | Spec: expected results + acceptance criteria (no tech detail) |
-| [`/planify`](./planify/) | One plan per container + a transversal e2e plan |
-| [`/codify`](./codify/) | Implement one container plan: code + unit tests |
-| [`/verify`](./verify/) | Write+run e2e tests; report and fix defects in a loop (rectify in) |
+| [`/planify`](./planify/) | One plan per container — the e2e container included |
+| [`/codify`](./codify/) | Implement one container plan (e2e too): code + tests; fix reports |
+| [`/verify`](./verify/) | Run the e2e suite; report defects with triage + handoffs (report-only) |
 
 Produces:
 - `/specify` → `specs/{slug}/spec.md`.
-- `/planify` → `specs/{slug}/{container}.plan.md`, `specs/{slug}/e2e.plan.md`.
-- `/codify` → source, unit tests.
-- `/verify` → e2e tests, `specs/{slug}/e2e.report.md`.
+- `/planify` → `specs/{slug}/{container}.plan.md` — `e2e.plan.md` included.
+- `/codify` → source, unit tests, e2e tests.
+- `/verify` → `specs/{slug}/e2e.report.md`.
 
 ## Craftsman
 
 | Skill | What it does |
 |-------|--------------|
-| [`/review`](./review/) | Audit a11y/security/perf + clean-code; fix in place (refactor in) |
+| [`/review`](./review/) | Audit a11y/security/perf + clean-code; report findings (`--fix` for mechanical) |
 | [`/release`](./release/) | Version, changelog, spec `done`; stamps `superseded-by:` |
 | [`/modify`](./modify/) | Triage: defect → direct fix; requirement change → amending spec |
 
 Produces:
-- `/review` → `fix`/`refactor` commit.
+- `/review` → `specs/{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
 - `/release` → `CHANGELOG.md`, version bump.
 - `/modify` → `fix` commit, or `/specify` handoff (`amends:`).
 
@@ -66,12 +66,15 @@ Produces:
 -> `/review` -> `/release`
 
 Each architect step is mode-aware (greenfield prescribes, brownfield extracts).
-`/codify` runs once per container (sessions can be parallel); `/verify` loops on the e2e
-report until green, escalating structural defects back to `/planify`.
+`/codify` runs once per container — e2e included (sessions can be parallel); `/verify`
+runs the suite and reports: code/test bugs loop back through `/codify` per affected
+container, structural defects escalate to `/planify`. Repeat until green.
 
-The `e2e` container is a container like any other (runnable, documented by `/extract`) but
-transversal: it verifies the functional containers, has no section in the spec's solution
-overview, and is planned via `e2e.plan.md` and owned by `/verify` — never `/codify`.
+The `e2e` container is a container like any other: documented by `/extract`, planned by
+`/planify` (`e2e.plan.md` — one scenario per acceptance criterion), implemented by
+`/codify`. What stays special: it is transversal (verifies the functional containers, no
+section in the spec's solution overview) and its verdict belongs to `/verify` — codify
+writes the suite but never judges it green.
 
 ## Maintenance
 
@@ -88,7 +91,8 @@ acceptance criteria?*
 
 Refactoring never needs a spec (the *what* doesn't change) and routes by blast radius:
 
-- Ugly internals, contracts intact → `/review` (behavior-preserving; tests stay green).
+- Ugly internals, contracts intact → `/review` reports; apply via `--fix` (mechanical) or
+  `/codify` (behavior-preserving; tests stay green).
 - Contracts or components must move → structural refactor: `/planify` (no spec; criterion
   = existing e2e suite green, untouched) → `/codify` → `/extract` brownfield to re-sync
   arch docs.

@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Verify a spec end-to-end; write/run e2e tests from the plan, report defects, fix them in a loop until green.
+description: Run the e2e suite against the spec's criteria and write the defects report with triage and handoffs. Report-only — fixes belong to codify.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,60 +10,60 @@ disable-model-invocation: true
 Act as QA Engineer.
 
 ## Task
-Given the e2e plan (first run) or an e2e report (resume), write and run the end-to-end
-tests, produce the defects report, and fix defects in a loop until the suite is green or
-a blocker is escalated.
+Run the end-to-end suite against the spec's acceptance criteria and write the defects
+report — every defect triaged by kind and handed off. Report-only: fixes belong to
+`/codify` (code/test bugs) or `/planify` (structural).
+
+## Guardrails
+1. **Report-only** — never edit code, tests, or plans; the report is the deliverable.
+2. **Distrust the implementation, trust the spec** — success is measured by the defects
+   found, not by tests passing.
+3. **Never soften the verdict** — a flaky or wrong test is a `test bug` defect, never a
+   pass; an acceptance criterion without a test is a defect too.
 
 ## Context
 - CAUTION: This is a listing. Read only when necessary.
-- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{slug}`.
+- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- One of (this selects the entry point):
-  - The transversal e2e plan `{Specs}/e2e.plan.md` → first run: write, run, report, then fix.
-  - An e2e report `{Specs}/e2e.report.md` → resume: triage and fix.
+- The spec `{Specs}/spec.md`, with every container plan — `e2e.plan.md` included —
+  codified by `/codify`.
+> Plans not codified yet? Stop and hand back: `/codify` the missing plans first — the
+> system must be runnable and the suite must exist.
 
 ### References
-- `{Arch}/system.arch.md` (read, always).
-- For each affected container, `{Arch}/{container}.arch.md` and
-  `{Rules}/{container}.rules.md` (read, always).
-- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` — endpoint/data shapes (read, if
-  asserting API responses or persisted state).
-- The `e2e` container is yours: ground the test code in `e2e.arch.md` / `e2e.rules.md`
-  (read, optional) — when they exist.
-> Run `/explore` / `/extract` first if missing.
-> All container plans must be codified (`/codify`) — the system must be runnable.
-
-Mode guides:
-- [`First-run Guide`](./references/first-run.guide.md) (if first run) — write, run, report.
-- [`Resume Guide`](./references/resume.guide.md) (if resume) — e2e report; triage and fix.
+- The spec's acceptance criteria (read, always) — the contract under test.
+- `{Specs}/e2e.plan.md` (read, always) — the scenario ↔ criterion mapping.
+- Root `{Agents_File}` (read, always) — start/test commands and fixtures.
+- `{Arch}/api.schema.md` / `{Arch}/db.schema.md` (read, if asserting API responses or
+  persisted state) — the expected field-level shapes.
+- [`e2e.report.template.md`](./assets/e2e.report.template.md) (write-from, always).
 
 ### Glossary
-- **Defect kind** — `code bug` (implementation wrong), `test bug` (test wrong), or
-  `structural` (wrong contract, missing component, or plan-level gap → escalate to `/planify`).
+- **Defect kind** — `code bug` (implementation wrong) or `test bug` (test wrong), handoff
+  `/codify` scoped to the affected container; `structural` (wrong contract, missing
+  component, or plan-level gap), handoff `/planify`.
 
 ## Steps
 ### 1. Research
-- Identify the entry point from the input (e2e plan → first run; e2e report → resume).
-- Read and follow the appropriate reference guide.
+- Derive `{slug}`; confirm every container plan's steps are checked `[x]`.
+- Map each e2e test to its plan scenario and acceptance criterion; record any uncovered
+  criterion as a defect.
 
 ### 2. Plan
-- First run: map each plan scenario to one acceptance criterion and to one e2e test.
-- Identify the fixtures and the start/test commands (from the root `{Agents_File}`).
-- Resume: triage the report — order defects by severity and mark the `structural` ones
-  for escalation instead of fixing.
+- Identify the fixtures and the start/test commands from the root `{Agents_File}`.
 
 ### 3. Implement
-- Follow the reference guide: write, run, and report (first run), or triage and fix in
-  the loop (resume).
-- Commit (`test(scope)` for the suite, `fix(scope)` for each rectification round).
-- Suggest `/verify` the `e2e.report.md` to resume while defects remain.
-- Suggest `/planify` the report for structural defects.
-- Suggest `/review` once the suite is green, then `/release`.
+- Start the system, run the e2e suite, capture pass/fail per scenario, tear down.
+- Write `{Specs}/e2e.report.md` from the template: one entry per defect — scenario,
+  expected vs actual, affected container, severity, kind, handoff.
+- In `spec.md`, mark each acceptance criterion `[x]` when its tests pass, `[ ]` otherwise.
+- Commit the report (`docs(e2e): {slug} report`).
+- Green: suggest `/review`, then `/release`.
+- Defects: suggest `/codify` with the report, once per affected container (code/test
+  bugs), and `/planify` with the report (structural); then `/verify` again to re-run.
 
 ## Verification
-- [ ] Every acceptance criterion has a test and the suite has been run.
-- [ ] The suite is green, or every remaining defect is documented in `e2e.report.md`
-      with a reason and a handoff.
-- [ ] No test was weakened or deleted to force a pass.
+- [ ] Every acceptance criterion has a mapped test and a recorded result.
+- [ ] The suite is green, or every defect is in `e2e.report.md` with kind and handoff.
+- [ ] No code, test, or plan file was edited.

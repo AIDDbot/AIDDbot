@@ -8,15 +8,15 @@ Analysis of the 9 skills in `.agents/skills/`, mapping producers, artifacts, and
 |----------|----------|-------------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | `*` (every skill reads paths, mode, conventions, git rules, start/test commands) |
 | `/explore` | `arch/system.arch.md` (C4 L2), `arch/ER.md` (domain ER) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
-| `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/verify` (fix loop), `/modify` (Route A), `/release` (doc sync) |
-| `/extract` | `rules/{container}.rules.md` | `/codify`, `/verify` (fix loop), `/modify` (Route A) |
+| `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/modify` (Route A), `/release` (doc sync) |
+| `/extract` | `rules/{container}.rules.md` | `/codify`, `/modify` (Route A) |
 | `/specify` | `specs/{slug}/spec.md` | `/planify`, `/verify` (criteria), `/modify` (released baseline), `/release` |
 | `/planify` | `specs/{slug}/{container}.plan.md` | `/codify`, `/review` (plan-scope) |
-| `/planify` | `specs/{slug}/e2e.plan.md` | `/verify` |
+| `/planify` | `specs/{slug}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ criterion mapping) |
 | `/codify` | Source code + unit tests (`{Source_Folders}`) | `/verify`, `/review`, `/modify` |
-| `/verify` | E2E tests (`e2e/`) | re-run by `/verify`, `/review` and `/release` (green-baseline gates), refactors (safety net) |
-| `/verify` | `specs/{slug}/e2e.report.md` (+ marks spec criteria `[x]/[ ]`) | `/verify` (resume), `/planify` (structural escalation), `/release` (doc sync) |
-| `/review` | Patched code + `fix`/`refactor` commit | `/release`, `*` |
+| `/codify` | E2E tests (`e2e/`) | run by `/verify`, `/review` and `/release` (green-baseline gates), refactors (safety net) |
+| `/verify` | `specs/{slug}/e2e.report.md` (+ marks spec criteria `[x]/[ ]`) | `/codify` (fix mode, per container), `/planify` (structural escalation), `/release` (doc sync) |
+| `/review` | `specs/{slug}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` |
 | `/release` | `CHANGELOG.md`, version bump + tag, spec -> `done`, `superseded-by:` stamp, reconciled arch docs | HUMAN / `*` |
 | `/modify` | A routing decision: `fix` commit + regression test (Route A) or handoff to `/specify` with `amends:` (Route B) | `/release` (A), `/specify` (B) |
 
@@ -29,7 +29,7 @@ Only these transitions touch frontmatter or checkbox state, the backbone of trac
 - `/verify` -> marks spec acceptance criteria `[x]/[ ]`; maintains `e2e.report.md` defect entries
 - `/release` -> spec `status: done` + `released-version: {new_version}`; stamps `superseded-by: {slug}` on the amended spec (frontmatter only)
 
-`/review` is **scope-bound** — it emits only a commit and never mutates spec/plan status. `/modify` mutates nothing either: its deliverable is the routing decision.
+`/review` is **scope-bound** — it emits only a report (plus a `refactor` commit with `--fix`) and never mutates spec/plan status. `/modify` mutates nothing either: its deliverable is the routing decision.
 
 ## Dependency graph (who blocks whom)
 
@@ -40,10 +40,11 @@ flowchart LR
   EXT -.container arch.-> PLN["/planify"]
   EXT -.container rules.-> COD["/codify"]
   SPC --> PLN --> COD --> VER["/verify"]
-  PLN -.e2e.plan.-> VER
-  VER -->|code/test bug| VER
+  PLN -.e2e.plan.-> COD
+  VER -->|code/test bug| COD
   VER -->|structural| PLN
   VER -->|green| REV["/review"]
+  REV -.findings.-> COD
   REV --> REL["/release"]
   SPC -.spec.-> VER
   SPC -.spec.-> REL
@@ -64,9 +65,9 @@ Solid arrows are the build pipeline; the `/release` -> `/modify` -> (`/release` 
 
 4. **`spec.md` is the builder's source of truth** — the widest fan-out (4 consumers) and the only artifact with a status lifecycle (`pending -> in-progress -> done`). It stays at the outcome level; `/planify` owns all technical breakdown, including the transversal `e2e.plan.md`.
 
-5. **The e2e container has exactly one owner.** `/codify` may never touch it; `/verify` writes, runs, and fixes against it. Implementation and verification never share a session — that separation is what makes the e2e suite trustworthy as a safety net.
+5. **One writer, two evaluators.** `/codify` is the only skill that writes code — the e2e suite included, implemented from `e2e.plan.md` like any container plan. `/verify` and `/review` only evaluate and report; implementation and evaluation never share a session. The e2e plan's scenarios derive from the spec's criteria (via `/planify`), never from sibling implementations — that derivation chain is what keeps the suite trustworthy as a safety net even though codify writes it.
 
-6. **`/verify` is the only feedback loop and the only branching node.** It routes defects by kind: `code bug`/`test bug` are fixed in place (resume from `e2e.report.md`), `structural` escalates to `/planify`. The spec carries durable acceptance state (`[x]/[ ]`); the report carries transient run details.
+6. **`/verify` is the judge and the only branching node.** It routes defects by kind through the report's handoffs: `code bug`/`test bug` go to `/codify` scoped per affected container, `structural` escalates to `/planify`; then `/verify` re-runs. The spec carries durable acceptance state (`[x]/[ ]`); the report carries transient run details.
 
 7. **Shared contracts are the cross-container coordination mechanism.** `/planify` states each contract verbatim in every sibling plan; `/codify` treats them as frozen and hands back to `/planify` rather than improvising a cross-container change. `/review` enforces the same freeze.
 

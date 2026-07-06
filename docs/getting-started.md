@@ -63,13 +63,14 @@ Example prompts:
 /planify the specification
 /codify the api plan
 /codify the web plan
-/verify the e2e plan
+/codify the e2e plan
+/verify the feature
 ```
 
 - `/specify` captures **what** — a one-page spec with per-container expected results and acceptance criteria. No technical detail.
-- `/planify` captures **how** — one implementation plan per affected container, plus one transversal `e2e.plan.md`.
-- `/codify` implements **one container plan per run** (sessions can be parallel): functional code + unit tests.
-- `/verify` owns the e2e container: it writes and runs the e2e tests, reports defects in `e2e.report.md`, and fixes them in a loop until green — escalating structural defects back to `/planify`. Implementation and verification never share a session.
+- `/planify` captures **how** — one implementation plan per affected container, the transversal `e2e.plan.md` included (one scenario per acceptance criterion).
+- `/codify` implements **one container plan per run** (sessions can be parallel): functional code + unit tests — and the e2e suite from its plan.
+- `/verify` runs the e2e suite and reports — never fixes: defects land in `e2e.report.md` triaged with a handoff each. Code/test bugs go back through `/codify` per affected container; structural defects escalate to `/planify`. Repeat `/verify` until green. Implementation and evaluation never share a session.
 
 See [Builder pipelines](./builder.pipelines.md).
 
@@ -88,7 +89,7 @@ Example prompts:
 /release a new version
 ```
 
-- `/review` audits a code scope for a11y, security, performance, **and** clean-code/DRY, then fixes every finding in place (one commit; never touches spec status).
+- `/review` audits a code scope for a11y, security, performance, **and** clean-code/DRY, and writes `review.report.md` with a handoff per finding (report-only; `--fix` applies the mechanical ones). Fixes land via `/codify`.
 - `/release` bumps the version, updates `CHANGELOG.md` and docs, reconciles the architecture docs, and closes the spec (`status: done`, `released-version`).
 
 See [Craftsman pipelines](./craftsman.pipelines.md).
@@ -106,7 +107,7 @@ Once a spec is `done` it is immutable. Changes to released features enter via `/
 - **Violates a criterion** → implementation defect: direct fix + regression test, then a patch `/release`.
 - **Matches the criteria** (the behavior itself must change) → requirement change: a new spec via `/specify` with `amends: {old-slug}`, through the full pipeline.
 
-For behavior-preserving refactors, no spec is needed: route ugly internals through `/review`, and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
+For behavior-preserving refactors, no spec is needed: route ugly internals through `/review` (report; `--fix` or `/codify` applies), and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 
 ## Next
 

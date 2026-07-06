@@ -1,7 +1,8 @@
 # Extract an e2e container
 
-Transversal tier: verifies the functional containers from the outside; its tests are owned
-by `/verify` downstream.
+Transversal tier: verifies the functional containers from the outside. Its suite is
+implemented by `/codify` from `e2e.plan.md` (grounded in the arch/rules extracted here)
+and judged by `/verify` downstream.
 
 ## Templates
 - [`container.arch.template.md`](../assets/container.arch.template.md) → `{Arch}/{container}.arch.md`.

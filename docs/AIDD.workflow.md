@@ -21,6 +21,7 @@ flowchart TD
       PLN["specs/{slug}/{container}.plan.md"]:::nd
       EPL["specs/{slug}/e2e.plan.md"]:::nd
       RPT["specs/{slug}/e2e.report.md"]:::nd
+      RVR["specs/{slug}/review.report.md"]:::nd
   end
 
   subgraph S["SOLUTION"]
@@ -45,10 +46,11 @@ flowchart TD
 
   PLN -->|/codify| COD
   RUL -.-> COD
-  EPL -->|/verify| E2E
+  EPL -->|/codify| E2E
   E2E -->|/verify| RPT
-  RPT -->|/verify| COD
-  COD -->|/review| COD
+  RPT -->|/codify| COD
+  COD -->|/review| RVR
+  RVR -->|/codify| COD
   SPC -->|/release| CHL
 
   class P,A,S sg
@@ -65,7 +67,7 @@ flowchart TD
 
 - **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
 - **Tier** — the technological layer a container belongs to (`front | back | db | e2e | fullstack`); classifies containers, never identifies one.
-- **e2e container** — runnable like any container, but transversal: it verifies the others. Planned via `e2e.plan.md` and owned by `/verify`, never `/codify`.
+- **e2e container** — runnable like any container, but transversal: it verifies the others. Planned via `e2e.plan.md` and implemented by `/codify` like any container; only its verdict belongs to `/verify`.
 - **Mode** — `greenfield` (no code → prescribe) or `brownfield` (code exists → extract). Resolved per container by `/extract`.
 
 ## Git
@@ -80,10 +82,10 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 |----------|--------|---------|--------|--------|
 | **Spec** | `/specify` | `system.arch.md`, `ER.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
 | **Container plan** | `/planify` | `{container}.arch.md` | `specs/{slug}/{container}.plan.md` | — (steps checked `[x]` by `/codify`) |
-| **E2E plan** | `/planify` | `spec.md` acceptance criteria | `specs/{slug}/e2e.plan.md` | — |
+| **E2E plan** | `/planify` | `spec.md` acceptance criteria | `specs/{slug}/e2e.plan.md` | — (steps checked `[x]` by `/codify`) |
 | **Code** | `/codify` | `rules/{container}.rules.md` | `{Source_Folders}` | — |
-| **E2E tests** | `/verify` | `e2e.arch.md` / `e2e.rules.md` when present | `e2e/` | — |
-| **E2E report** | `/verify` | `spec.md`, E2E run | `specs/{slug}/e2e.report.md` | one entry per defect: `code bug \| test bug \| structural` |
+| **E2E tests** | `/codify` | `e2e.plan.md`, `e2e.arch.md` / `e2e.rules.md` | `e2e/` | — |
+| **E2E report** | `/verify` | `spec.md`, E2E run | `specs/{slug}/e2e.report.md` | one entry per defect: `code bug \| test bug \| structural`, each with a handoff |
 
 `/verify` also marks the spec's acceptance criteria `[x]/[ ]` — the spec carries the durable acceptance state; the report carries the transient run details.
 
@@ -105,13 +107,14 @@ Builder artifacts in pipeline order. `Status` is the `status` frontmatter value;
 - `specs/` — One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
   - `{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
   - `{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
-  - `{slug}/e2e.plan.md` — Transversal e2e plan covering every acceptance criterion (`/planify`).
-  - `{slug}/e2e.report.md` — Defects report: expected vs actual, affected container, severity, kind (`/verify`).
+  - `{slug}/e2e.plan.md` — The e2e container's plan: one scenario per acceptance criterion (`/planify`).
+  - `{slug}/e2e.report.md` — Defects report: expected vs actual, affected container, severity, kind, handoff (`/verify`).
+  - `{slug}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
 
 ### Solution
 
 - `{Source_Folders}` — The source code and unit tests of each container.
-- `e2e/` — End-to-end tests (owned by `/verify`).
+- `e2e/` — End-to-end tests (written by `/codify` from `e2e.plan.md`; judged by `/verify`).
 - `CHANGELOG.md` — Keep-a-Changelog log of all notable changes (`/release`).
 
 ## Maintenance

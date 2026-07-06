@@ -45,7 +45,8 @@ correction must travel through all of them. Never hot-fix it.
 
 No spec — the *what* is untouched. Route by blast radius:
 
-- **Ugly internals, contracts intact** → `/review` (clean-code dimension).
+- **Ugly internals, contracts intact** → `/review` (clean-code dimension) reports; apply
+  via `--fix` (mechanical) or `/codify`.
   - Proof: existing tests green.
 - **Contracts or components must move** → `/planify` (refactor, no spec) → `/codify` →
   `/extract` → patch `/release`.
@@ -57,8 +58,8 @@ No spec — the *what* is untouched. Route by blast radius:
   - Proof: a new criterion in an amending spec.
 
 Guardrails that make refactoring safe to delegate: green baseline before starting, tests
-untouchable, contracts frozen. The e2e suite that `/verify` builds for every spec is the
-safety net — SDD manufactures it as a by-product.
+untouchable, contracts frozen. The e2e suite — built by `/codify` from every spec's e2e
+plan, judged by `/verify` — is the safety net; SDD manufactures it as a by-product.
 
 ## Releases
 
