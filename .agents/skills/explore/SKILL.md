@@ -13,7 +13,7 @@ Act as Senior Software Architect.
 Generate the agent-rules file and the system architecture document.
 
 ## Guardrails
-1. **Structure and config only** — never read code files; business logic is `/extract`'s job.
+- **Structure and config only** — never read code files.
 
 ## Context
 
@@ -23,9 +23,9 @@ Generate the agent-rules file and the system architecture document.
 - The repository tree and guide files, if any.
 
 ### Glossary
-- **Container** — an executable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
+- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
-- **Mode** — `greenfield` (no code → prescribe) | `brownfield` (with code → extract).
+- **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
 - **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 - **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`...
 
@@ -33,17 +33,18 @@ Generate the agent-rules file and the system architecture document.
 ### 1. Research
 - Infer the operating system, shell, and remote Git repository.
 - Read the guide files found.
-- Classify the mode; _follow_ [its guide, prescribe vs document](./references/{mode}.guide.md).
+- Classify the mode.
+- _read_ [mode guide, prescribe vs document](./references/{mode}.guide.md).
 
 ### 2. Plan
-- _write-from_ [agent-rules template](./assets/AGENTS.template.md) and
-  [system architecture template](./assets/system.arch.template.md);
-  prepare the content for their placeholders.
+- _read_ [agent-rules template](./assets/AGENTS.template.md).
+- _read_ [system architecture template](./assets/system.arch.template.md).
+- Prepare the content for the templates' placeholders.
 
 ### 3. Implement
 - Write `{Agents_File}` — under 100 lines, concise.
 - Write `{Arch}/system.arch.md`.
-- Commit (`docs:`); → `/extract` per container.
+- Commit (`docs: {description}`); → `/extract` per container.
 
 ## Verification
 - [ ] `{Agents_File}` and `{Arch}/system.arch.md` exist, correct format, no empty placeholders.

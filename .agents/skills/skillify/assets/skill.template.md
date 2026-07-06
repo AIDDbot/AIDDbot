@@ -14,14 +14,15 @@ Act as {Role}.
 Boundary: {out-of-scope} → `/{other-skill}`.}
 
 ## Guardrails
-1. **{Invariant}** — {why it holds, or what to do instead}.
+- **{Invariant}** — {why it holds, or what to do instead}.
 
 ## Context
 
 - {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
-- {The entry point(s); if several, list as "One of:". Files: `[description](path) **when**`.}
+- {What the caller provides; if several, list as "One of:"; mark `Optional:` when so.
+  Files read unconditionally go in Steps as `_read_` bullets, not here.}
 
 ### References
 - {Ambient grounding only — files that apply throughout, not at one step; else drop
@@ -31,15 +32,18 @@ Boundary: {out-of-scope} → `/{other-skill}`.}
 - **{Term}** — {definition, only if skill-specific and used in this skill}.
 
 ## Steps
-{Cite files inline in the step that uses them:
-`{if {cond}, |foreach {x}, }_{role: write-from|follow|update}_ [{what it grounds}]({path})`.}
+{Every bullet parses as one sentence form of skillify's grammar.
+Cite files inline in the step that uses them, one action per bullet:
+`{If {cond}, |Foreach {x}, }_{role: read|update}_ [{what it grounds}]({path})`.}
 
 ### 1. Research
 - {Identify the input; derive `{slug}` / `{container}` when relevant.}
+- {_read_ the always-needed inputs and guides.}
 - {If unclear, ask close-ended questions, one at a time.}
 
 ### 2. Plan
-- {_write-from_ the output template(s); prepare content before writing or touching code.}
+- {_read_ the output template(s).}
+- {Prepare the content for the templates' placeholders before writing or touching code.}
 
 ### 3. Implement
 - {The artifact(s) to write, with exact paths.}

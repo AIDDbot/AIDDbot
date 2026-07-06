@@ -13,30 +13,31 @@ Act as Senior Software Architect.
 Generate one container's component architecture and code-rules documents.
 
 ## Guardrails
-1. **One container per run** — `fullstack` counts as one, following Front and Back together.
+- **One container per run** — `fullstack` counts as one, following Front and Back together.
+- **Shared docs are singletons** — create once, then update; link from every container
+  that reads or writes them.
 
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs
-- [root agent rules]({Agents_File}) **always**
-- [system architecture]({Arch}/system.arch.md) **always**
-- The container to document.
-> Not given? Ask which one.
+- Optional: The container to document.
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
-- **Mode** — `greenfield` (no code → prescribe) | `brownfield` (with code → extract).
+- **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
 
 ## Steps
 ### 1. Research
-- List containers from `system.arch.md`; pick one (ask if ambiguous).
+- _read_ [root agent rules]({Agents_File}).
+- _read_ [system architecture]({Arch}/system.arch.md).
+- Pick the container to document or ask which one if ambiguous or not given.
 - Classify the mode by whether the container has source code.
-- _follow_ [the tier guide, lists the templates to write](./references/{tier}.guide.md).
-- _follow_ [the mode guide, prescribe vs extract](./references/{mode}.guide.md).
+- _read_ [the tier guide, lists the templates to write](./references/{tier}.guide.md).
+- _read_ [the mode guide, prescribe vs extract](./references/{mode}.guide.md).
 
 ### 2. Plan
 - Read the templates the tier guide lists.
@@ -45,10 +46,10 @@ Generate one container's component architecture and code-rules documents.
 
 ### 3. Implement
 - Write `{Arch}/{container}.arch.md`; link it from `system.arch.md`.
-- Write the shared docs the tier guide calls for (`db.schema.md`, `api.schema.md`, `ER.md`).
-> Shared docs: create once, then update; link from every container that reads or writes them.
+- Write the shared docs the tier guide calls for, applying **Shared docs are singletons**.
 - Write `{Rules}/{container}.rules.md`.
-- Commit (`docs:`); repeat for the next container, or → `/specify`.
+- Commit (`docs: {description}`).
+- If containers remain, → `/extract` again; else → `/specify`.
 
 ## Verification
 - [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no empty placeholders.

@@ -53,7 +53,7 @@ Not part of the SDLC pipeline — it maintains the skill framework itself.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/skillify`](./skillify/) | Create or fix a skill under `.agents/skills/`, per the template |
+| [`/skillify`](./skillify/) | Create or fix a skill under `.agents/skills/`, per the template and grammar |
 
 Produces:
 - `/skillify` → new/updated `SKILL.md` (+ references/assets); catalog kept in sync.

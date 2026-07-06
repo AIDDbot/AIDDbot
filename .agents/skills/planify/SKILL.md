@@ -14,9 +14,9 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
 `e2e.plan.md` included — ordered and actionable for `/codify`.
 
 ## Guardrails
-1. **Ground in the arch** — every step traces to the container's components and contracts.
-2. **Green tests change by plan, never silently** — list every scenario the change alters
-   or retires, per feature suite, in the e2e plan's **Changes to existing scenarios**.
+- **Ground in the arch** — every step traces to the container's components and contracts.
+- **Green tests change by plan, never silently** — list every scenario the change alters
+  or retires, per feature suite, in the e2e plan's **Changes to existing scenarios**.
 
 ## Context
 
@@ -25,7 +25,7 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
 ### Inputs
 - One of:
   - [a spec]({Specs}/spec.md)
-  - [an e2e report escalated by `/verify`]({Specs}/e2e.report.md) **if structural defects**
+  - [an e2e report escalated by `/verify`, structural defects]({Specs}/e2e.report.md)
   - A short textual requirement.
   - A structural-refactor goal (no spec — behavior doesn't change).
 
@@ -40,29 +40,28 @@ Turn a spec (or an escalated e2e report) into one plan per affected container �
 ## Steps
 ### 1. Research
 - Identify the input type; derive `{slug}`.
-- _follow_ [system architecture]({Arch}/system.arch.md): list the affected containers
-  and their expected results.
-- Foreach affected container, _follow_
+- _read_ [system architecture]({Arch}/system.arch.md).
+- List the affected containers and their expected results.
+- Foreach affected container, _read_
   [its components, contracts, structure]({Arch}/{container}.arch.md).
 - If ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan
-- _write-from_ [container plan template](./assets/plan.template.md).
-- If not a structural refactor, _write-from_
+- _read_ [container plan template](./assets/plan.template.md).
+- If not a structural refactor, _read_
   [e2e plan template, one scenario step per criterion](./assets/e2e.plan.template.md).
 - Prepare one plan per container: ordered vertical slices — title, description, paths.
-- Align shared contracts — if touching an API, _follow_
-  [API field shapes]({Arch}/api.schema.md); if touching the store, _follow_
-  [data field shapes]({Arch}/db.schema.md).
+- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); if touching
+  the store, _read_ [data field shapes]({Arch}/db.schema.md); align shared contracts.
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
 - Derive the e2e plan from the spec and shared contracts, never from sibling implementations.
-- If released behavior changes, apply Guardrail 2.
+- If released behavior changes, apply **Green tests change by plan, never silently**.
 
 ### 3. Implement
 - Write one `{Specs}/{container}.plan.md` per affected container — `e2e.plan.md` included.
-- Structural refactor: skip the e2e plan; after `/codify`, → `/extract` on the affected
-  containers, then a patch `/release`.
-- Commit (`docs:`); → `/codify` per plan (e2e included), then `/verify`.
+- If a structural refactor, skip the e2e plan; after `/codify`, → `/extract` per affected
+  container, then a patch `/release`.
+- Commit (`docs: {description}`); → `/codify` per plan (e2e included), then `/verify`.
 
 ## Verification
 - [ ] One plan per affected container — `e2e.plan.md` included — no empty placeholders.
