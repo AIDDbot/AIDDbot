@@ -1,6 +1,6 @@
 ---
 slug: {slug}
-status: pending # chain: pending (specified) → in-progress (first /codify) → done (released)
+status: pending | in-progress | done
 ---
 # Specification — {short description}
 
@@ -12,10 +12,11 @@ status: pending # chain: pending (specified) → in-progress (first /codify) →
 
 - As a {role}, I want to **{goal}** so that {benefit}.
 
-## Solution overview
+### Out of scope
 
-> Expected results only — outcomes, not implementation. `/planify` turns these into steps per container.
-> Functional containers only — no `e2e` section here; verification is captured by the acceptance criteria.
+{What is out of scope for this feature.}
+
+## Solution overview
 
 ### Data Model
 

@@ -1,0 +1,1 @@
+Execute the /explore ability using a subagent. When it finishes, read the generated architectural documentation and execute the /extract ability for each container sequentially, also using a subagent, so that each container has its own context.

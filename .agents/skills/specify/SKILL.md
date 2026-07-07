@@ -16,44 +16,37 @@ Capture a feature as a one-page spec:
 - acceptance criteria.
 
 ## Guardrails
-- **Fix-or-feature gate** — if satisfiable with every green e2e test untouched, it is
-  a fix; stop: → `/codify`.
+- **Outcome level only** — no steps, file paths, or tech choices.
 - **Write-once** — a new change is a new spec; never edit an existing one.
-- **Outcome level only** — no steps, file paths, or tech choices; the **how** is `/planify`'s.
 
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
 
 ### Inputs
-- A requirement or feature description — new behavior, or a change to released behavior.
-
-### References
-- _read_ [repo rules and commands]({Agents_File})
+- A requirement or feature description.
 
 ### Glossary
-- **Expected result** — an observable outcome a container must deliver; never a step.
+- **Expected result** — an observable outcome a container must deliver.
 - **{slug}** — short feature identifier; names the spec folder.
 
 ## Steps
 ### 1. Research
-- Apply the **Fix-or-feature gate**.
-- Ask the minimum questions if unclear; derive `{slug}`.
+- Ask me to clarify the context one question at a time with closed-ended answers.
+- Derive `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the containers this feature touches.
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
 - _read_ [domain ER diagram]({Arch}/ER.md).
-- Prepare the problem, user stories, and the conceptual data model.
+- Prepare the problem, user stories, and oit of scope to define de problem.
+- Prepare the conceptual data model from the domain ER diagram.
 - Prepare per-container expected results.
-- If changing released behavior, _read_
-  [released behavior baseline]({Product_Folder}/docs/{feature}.md):
-  quote the current behavior as the baseline in the problem.
+- The `e2e` container lives in the verification criteria section.
 
 ### 3. Implement
 - Write `{Specs}/spec.md` with `status: pending`; one page.
-- Omit the `e2e` section from the solution overview; verification lives in the criteria.
 - Commit (`docs: {description}`); → `/planify`.
 
 ## Verification
