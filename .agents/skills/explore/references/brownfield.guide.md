@@ -23,5 +23,4 @@ Foreach container:
 ## Guardrails
 - **Observe, don't reform** — document the reality, not the aspirations.
 - **Flag contradictions** — e.g. between documentation and code.
-- **Internals are `/extract`'s** — business entities, relationships, and component
-  internals require reading code; that happens there, one container at a time.
+- **Internals are out of your scope** — forget everything that requires reading code.

@@ -12,5 +12,4 @@ The goal is to prescribe the default values and ask the user for the missing inf
 ## Guardrails
 - **One strong default** — prefer it over a menu of options.
 - **Never invent requirements** — ask the user.
-- **Entities are `/extract`'s** — domain entities and relationships are proposed there,
-  by the container that owns the domain model (typically the backend).
+- **Internals are out of your scope** — forget everything that requires writing code.

@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Generates the root agent-rules file and system architecture doc; prescribes new, extracts existing.
+description: Generates the root agent-rules file and system architecture doc.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -20,21 +20,21 @@ Generate the agent-rules file and the system architecture document.
 - `{Arch}` = `{Product_Folder}/arch`.
 
 ### Inputs
-- The repository tree and guide files, if any.
+- The repository tree.
 
 ### Glossary
+- **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
 - **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
-- **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 - **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`...
 
 ## Steps
 ### 1. Research
 - Infer the operating system, shell, and remote Git repository.
-- Read the guide files found.
-- Classify the mode.
-- _read_ [mode guide, prescribe vs document](./references/{mode}.guide.md).
+- Classify the project mode as greenfield or brownfield.
+- _read_ [mode guide](./references/{mode}.guide.md).
+- Ask me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
 - _read_ [agent-rules template](./assets/AGENTS.template.md).

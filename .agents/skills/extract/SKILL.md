@@ -14,8 +14,7 @@ Generate one container's component architecture and code-rules documents.
 
 ## Guardrails
 - **One container per run** — `fullstack` counts as one, following Front and Back together.
-- **Shared docs are singletons** — create once, then update; link from every container
-  that reads or writes them.
+- **Shared docs are singletons** — create once, then update and link.
 
 ## Context
 
@@ -26,7 +25,7 @@ Generate one container's component architecture and code-rules documents.
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
+- **Tier** — a container's physical layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
 - **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
 
@@ -34,19 +33,19 @@ Generate one container's component architecture and code-rules documents.
 ### 1. Research
 - _read_ [root agent rules]({Agents_File}).
 - _read_ [system architecture]({Arch}/system.arch.md).
-- Pick the container to document or ask which one if ambiguous or not given.
+- Pick the target container or ask which one if ambiguous or not given.
+- _read_ [the container tier guide](./references/{tier}.guide.md).
 - Classify the mode by whether the container has source code.
-- _read_ [the tier guide, lists the templates to write](./references/{tier}.guide.md).
 - _read_ [the mode guide, prescribe vs extract](./references/{mode}.guide.md).
+- Ask me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
-- Read the templates the tier guide lists.
 - Prepare components, contracts & data, code organization, naming, and one canonical example.
 - Keep field detail out of `{container}.arch.md`; it lists the surface and links the schemas.
 
 ### 3. Implement
 - Write `{Arch}/{container}.arch.md`; link it from `system.arch.md`.
-- Write the shared docs the tier guide calls for, applying **Shared docs are singletons**.
+- Write the shared docs of the tier, applying **Shared docs are singletons**.
 - Write `{Rules}/{container}.rules.md`.
 - Commit (`docs: {description}`).
 - If containers remain, → `/extract` again; else → `/specify`.

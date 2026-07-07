@@ -4,9 +4,9 @@ The goal is to document the components and conventions that exist; don't redesig
 
 - Read the entry point, then map real modules to components.
 - Stereotype each component by what it does — the tier guide lists the expected stereotypes.
-- Contracts are the real routes/interfaces/exports; entities are the real schema/models.
-- Keep field-level detail in the shared docs the tier guide names; the container arch lists
-  only the contract surface and links them.
+- Take contracts from the real routes/interfaces/exports and entities from the
+  real schema/models.
+- Put the field-level detail in the shared docs the tier guide names.
 - Lift naming, structure, errors, and tests from the existing code.
 - Pick the cleanest existing unit as the canonical example — quote it, don't rewrite it.
 

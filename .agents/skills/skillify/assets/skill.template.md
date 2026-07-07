@@ -37,9 +37,9 @@ Cite files inline in the step that uses them, one action per bullet:
 `{If {cond}, |Foreach {x}, }_{role: read|update}_ [{what it grounds}]({path})`.}
 
 ### 1. Research
+- Ask me to clarify the context one question at a time with closed-ended answers.
 - {Identify the input; derive `{slug}` / `{container}` when relevant.}
 - {_read_ the always-needed inputs and guides.}
-- {If unclear, ask close-ended questions, one at a time.}
 
 ### 2. Plan
 - {_read_ the output template(s).}
