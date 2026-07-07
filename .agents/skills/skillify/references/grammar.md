@@ -38,6 +38,7 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 - Guardrails are bold-named and citable, like `SKILL.md`'s; a guardrail shared across
   guides keeps its bold name verbatim (the tail may vary).
 - Tier guides mirror the skill's Steps headings (`1. Research`, `2. Plan`,
-  `3. Implement`), each holding only the container-specific bullets; outputs are
-  `` Write `{output}` from [template](path). `` bullets under **Implement** —
+  `3. Implement`), each holding only the container-specific bullets: inputs as
+  `_read_` bullets under **Research**, output templates as `_read_` bullets under
+  **Plan**, and bare `` Write `{output}`. `` bullets under **Implement** —
   no arrows: `→` stays handoff-only.

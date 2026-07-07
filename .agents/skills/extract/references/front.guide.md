@@ -8,11 +8,11 @@ UI tier: renders views, holds client state, and calls sibling APIs.
 - Stereotype the components as page/route, UI component, state store, or API client.
 
 ## 2. Plan
+- _read_ [container arch template](../assets/container.arch.template.md).
+- _read_ [code rules template](../assets/code.rules.template.md).
 - Link `api.schema.md` for contracts — never redefine its shapes here.
 
 ## 3. Implement
-- Write `{Arch}/{container}.arch.md` from
-  [container arch template](../assets/container.arch.template.md).
-- Write `{Rules}/{container}.rules.md` from
-  [code rules template](../assets/code.rules.template.md).
+- Write `{Arch}/{container}.arch.md`.
+- Write `{Rules}/{container}.rules.md`.
 - Capture styling and state-management conventions in the code rules.
