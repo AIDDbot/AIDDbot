@@ -25,7 +25,7 @@ critical modules.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{slug}`.
+- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
 
 ### Inputs
 - One of:
@@ -44,7 +44,7 @@ critical modules.
 
 ## Steps
 ### 1. Research
-- Identify the input; derive `{slug}` and `{container}`.
+- Identify the input; derive `{id}`, `{slug}`, and `{container}`.
 - If no single plan is given, ask which container to scope.
 - _read_ [components, contracts, structure]({Arch}/{container}.arch.md).
 - If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); if touching
@@ -61,6 +61,7 @@ critical modules.
 - Add unit tests for the critical path (happy path plus errors); run until green.
 - If codifying the `e2e` container, skip the unit-test bullet: the suite is the
   deliverable — done when it compiles and runs; red against unverified features is expected.
+  Each test title carries the AC id (`AC-{id}.{n}`) it asserts, per the e2e plan.
 - If in fix mode, apply the minimal fix per defect, plus a regression e2e test;
   mark report entries fixed.
 - Annotate plan deviations (what, why); check each in-scope step `[x]`.

@@ -19,7 +19,7 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`
-- `{Specs}` = `{Product_Folder}/specs/{slug}`
+- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`
 
 ### Inputs
 - One of:
@@ -33,10 +33,12 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - **e2e container** — transversal; verifies the others.
 - **Structural refactor** — its acceptance criterion is the existing e2e suite.
 - **{slug}** — inherited from the input file name or derived from the requirement.
+- **{id}** — inherited from the spec folder; if spec-less, next sequential under `specs/`.
+- **AC id** — `AC-{id}.{n}`; a numbered acceptance criterion from the spec.
 
 ## Steps
 ### 1. Research
-- Identify the input type; derive `{slug}`.
+- Identify the input type; derive `{id}` and `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the affected containers and their expected results.
 - Foreach container, _read_ [its architecture]({Arch}/{container}.arch.md).
@@ -49,7 +51,8 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); 
 - If touching the store, _read_ [data field shapes]({Arch}/db.schema.md); 
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
-- Derive the e2e plan from the spec and shared contracts, never from sibling implementations.
+- Derive the e2e plan from the spec and shared contracts, never from sibling implementations;
+  map every AC id to exactly one scenario.
 
 ### 3. Implement
 - If a structural refactor, skip the e2e plan. 
@@ -59,4 +62,4 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ## Verification
 - [ ] One plan per affected container — no empty placeholders.
 - [ ] Each plan is grounded in its `{container}.arch.md`, ordered, actionable standalone.
-- [ ] The e2e plan (if any) maps every acceptance criterion to exactly one scenario step.
+- [ ] The e2e plan (if any) maps every AC id to exactly one scenario step.

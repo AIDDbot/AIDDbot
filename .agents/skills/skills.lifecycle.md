@@ -18,6 +18,8 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
   rebuilds them when they drift.
 - A spec is a disposable ticket: one change, its criteria, its acceptance. Once released
   it is a closed ticket — history (why, and since when), never authority.
+- The PRD (`specs/PRD.md`) indexes the tickets by feature area — the product's functional
+  map and lineage (`supersedes`). Written only by `/specify`; status stays in each spec.
 - Invariant: green e2e suite = current behavior = feature docs, in words.
 
 ## Build (new project or new feature)

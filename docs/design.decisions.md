@@ -87,7 +87,7 @@ matter months into a project's life.
 
 1. **Feature docs join the HEAD.** `{Product_Folder}/docs/{feature}.md` describes
    current behavior — one statement per line, each linking its governing spec
-   (`spec: {slug}, v{version}`). `/release` merges what shipped into it after every
+   (`spec: {NNN}, v{version}`). `/release` merges what shipped into it after every
    feature release, exactly as it already reconciles arch docs. The docs are a
    projection: on any conflict, the spec archive wins.
 2. **`/specify` knows nothing about versioning.** A spec is a write-once ticket with

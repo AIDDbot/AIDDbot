@@ -31,10 +31,11 @@ Produces:
 | [`/verify`](./verify/) | Run the e2e suite; report defects with triage + handoffs (report-only) |
 
 Produces:
-- `/specify` → `specs/{slug}/spec.md`.
-- `/planify` → `specs/{slug}/{container}.plan.md` — `e2e.plan.md` included.
-- `/codify` → source, unit tests, e2e tests.
-- `/verify` → `specs/{slug}/e2e.report.md`.
+- `/specify` → `specs/{NNN}-{slug}/spec.md` (criteria numbered `AC-{NNN}.{n}`) + its line in
+  `specs/PRD.md` — the index of specs grouped by feature area, written only by `/specify`.
+- `/planify` → `specs/{NNN}-{slug}/{container}.plan.md` — `e2e.plan.md` included.
+- `/codify` → source, unit tests, e2e tests (titles carry their AC id).
+- `/verify` → `specs/{NNN}-{slug}/e2e.report.md` — a verdict per AC id plus the defects.
 
 ## Quality and release
 
@@ -44,7 +45,7 @@ Produces:
 | [`/release`](./release/) | Version, changelog, feature-doc merge; closes the spec |
 
 Produces:
-- `/review` → `specs/{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
+- `/review` → `specs/{NNN}-{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
 - `/release` → `CHANGELOG.md`, version bump, merged `docs/{feature}.md`.
 
 ## Meta
@@ -69,7 +70,7 @@ runs the suite and reports: code/test bugs loop back through `/codify` per affec
 container, structural defects escalate to `/planify`. Repeat until green.
 
 The `e2e` container is a container like any other: documented by `/extract`, planned by
-`/planify` (`e2e.plan.md` — one scenario per acceptance criterion), implemented by
+`/planify` (`e2e.plan.md` — one scenario per AC id), implemented by
 `/codify`. What stays special: it is transversal (verifies the functional containers, no
 section in the spec's solution overview) and its verdict belongs to `/verify` — codify
 writes the suite but never judges it green.

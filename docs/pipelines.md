@@ -45,17 +45,17 @@ When every container is documented, start features with `/specify`.
 
 ## Build a feature
 
-All feature artifacts live together in `specs/{slug}/` (`spec.md`, `{container}.plan.md`, `e2e.plan.md`, `e2e.report.md`). E2E test code stays in the solution (`e2e/`), organized by feature.
+All feature artifacts live together in `specs/{NNN}-{slug}/` (`spec.md`, `{container}.plan.md`, `e2e.plan.md`, `e2e.report.md`); `specs/PRD.md` indexes the specs by feature area. E2E test code stays in the solution (`e2e/`), organized by feature.
 
 ```mermaid
 flowchart TD  
   HUM[HUMAN]
-  SPC["specs/{slug}/spec.md"]:::nd
-  PLN["specs/{slug}/{container}.plan.md"]:::nd
-  EPL["specs/{slug}/e2e.plan.md"]:::nd
+  SPC["specs/{NNN}-{slug}/spec.md"]:::nd
+  PLN["specs/{NNN}-{slug}/{container}.plan.md"]:::nd
+  EPL["specs/{NNN}-{slug}/e2e.plan.md"]:::nd
   COD["{Source_Folders}"]:::nd
   E2E["e2e/"]:::nd
-  RPT["specs/{slug}/e2e.report.md"]:::nd
+  RPT["specs/{NNN}-{slug}/e2e.report.md"]:::nd
 
   HUM -->|/specify| SPC
   SPC -->|/planify| PLN
@@ -75,10 +75,10 @@ flowchart TD
 
 Division of labor:
 
-- `/specify` — the **what**: problem, per-container expected results, acceptance criteria. No technical detail.
-- `/planify` — the **how**: one plan per affected container, the transversal `e2e.plan.md` included (one scenario step per acceptance criterion). Shared contracts (API shapes, schemas) are stated verbatim in every sibling plan.
+- `/specify` — the **what**: problem, per-container expected results, acceptance criteria numbered `AC-{NNN}.{n}`. No technical detail. Also appends the spec's line to `specs/PRD.md` (sole writer).
+- `/planify` — the **how**: one plan per affected container, the transversal `e2e.plan.md` included (one scenario step per AC id). Shared contracts (API shapes, schemas) are stated verbatim in every sibling plan.
 - `/codify` — one container plan per run; sessions can run in parallel. Functional code + unit tests — and the e2e suite, implemented from `e2e.plan.md` like any plan (done when it executes; red against unverified features is expected). If an in-scope change would alter a shared contract, it hands back to `/planify` — never improvises a cross-container change.
-- `/verify` — **report-only**: runs the e2e suite, writes `e2e.report.md` with a kind and handoff per defect, and marks the spec's acceptance criteria `[x]/[ ]`. It never edits code, tests, or plans — implementation and evaluation never share a session.
+- `/verify` — **report-only**: runs the e2e suite, writes `e2e.report.md` with a verdict per AC id plus a kind and handoff per defect, and marks the spec's acceptance criteria `[x]/[ ]`. It never edits code, tests, or plans — implementation and evaluation never share a session.
 
 When the suite is not green, `/verify` triages each defect by kind; the handoff routes the fix:
 
@@ -93,8 +93,8 @@ structural           -> escalate: /planify the e2e.report.md -> /codify -> /veri
 flowchart TD  
   HUM[HUMAN]
   COD["{Source_Folders}"]:::nd
-  RVR["specs/{slug}/review.report.md"]:::nd
-  SPC["specs/{slug}/spec.md"]:::nd
+  RVR["specs/{NNN}-{slug}/review.report.md"]:::nd
+  SPC["specs/{NNN}-{slug}/spec.md"]:::nd
   CHL["CHANGELOG.md"]:::nd
   
   HUM -->|/review| RVR

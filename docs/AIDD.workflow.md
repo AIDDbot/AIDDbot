@@ -17,11 +17,12 @@ flowchart TD
       ARC["arch/system.arch.md"]:::nd
       ERD["arch/ER.md"]:::nd
       CAR["arch/{container}.arch.md"]:::nd
-      SPC["specs/{slug}/spec.md"]:::nd
-      PLN["specs/{slug}/{container}.plan.md"]:::nd
-      EPL["specs/{slug}/e2e.plan.md"]:::nd
-      RPT["specs/{slug}/e2e.report.md"]:::nd
-      RVR["specs/{slug}/review.report.md"]:::nd
+      PRD["specs/PRD.md"]:::nd
+      SPC["specs/{NNN}-{slug}/spec.md"]:::nd
+      PLN["specs/{NNN}-{slug}/{container}.plan.md"]:::nd
+      EPL["specs/{NNN}-{slug}/e2e.plan.md"]:::nd
+      RPT["specs/{NNN}-{slug}/e2e.report.md"]:::nd
+      RVR["specs/{NNN}-{slug}/review.report.md"]:::nd
       DOC["docs/{feature}.md"]:::nd
   end
 
@@ -37,6 +38,8 @@ flowchart TD
   HUM -->|/extract| CAR
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
+  HUM -->|/specify| PRD
+  PRD -.functional map.-> SPC
   AGT -.-> SPC
   ARC -.-> SPC
   ERD -.-> SPC
@@ -84,12 +87,13 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|
-| **Spec** | `/specify` | `system.arch.md`, `ER.md` | `specs/{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
-| **Container plan** | `/planify` | `{container}.arch.md` | `specs/{slug}/{container}.plan.md` | — (steps checked `[x]` by `/codify`) |
-| **E2E plan** | `/planify` | `spec.md` acceptance criteria | `specs/{slug}/e2e.plan.md` | — (steps checked `[x]` by `/codify`) |
+| **PRD** | `/specify` | existing specs | `specs/PRD.md` | — (append-only index by feature area; status stays in each spec) |
+| **Spec** | `/specify` | `system.arch.md`, `ER.md`, `PRD.md` | `specs/{NNN}-{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
+| **Container plan** | `/planify` | `{container}.arch.md` | `specs/{NNN}-{slug}/{container}.plan.md` | — (steps checked `[x]` by `/codify`) |
+| **E2E plan** | `/planify` | `spec.md` AC ids (`AC-{NNN}.{n}`) | `specs/{NNN}-{slug}/e2e.plan.md` | — (steps checked `[x]` by `/codify`) |
 | **Code** | `/codify` | `rules/{container}.rules.md` | `{Source_Folders}` | — |
-| **E2E tests** | `/codify` | `e2e.plan.md`, `e2e.arch.md` / `e2e.rules.md` | `e2e/` | — |
-| **E2E report** | `/verify` | `spec.md`, E2E run | `specs/{slug}/e2e.report.md` | one entry per defect: `code bug \| test bug \| structural`, each with a handoff |
+| **E2E tests** | `/codify` | `e2e.plan.md`, `e2e.arch.md` / `e2e.rules.md` | `e2e/` (titles carry AC ids) | — |
+| **E2E report** | `/verify` | `spec.md`, E2E run | `specs/{NNN}-{slug}/e2e.report.md` | a verdict per AC id + one entry per defect: `code bug \| test bug \| structural`, each with a handoff |
 
 `/verify` also marks the spec's acceptance criteria `[x]/[ ]` — the spec carries the durable acceptance state; the report carries the transient run details.
 
@@ -109,12 +113,13 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
   - `db.schema.md` / `api.schema.md` — System-wide field-level database/API schema, split out as they grow large; written when the owning container is extracted, linked from any container that benefits (`/extract`, when applicable).
 
 - `docs/` — Living functional docs, one per feature: the contract in words — current behavior, one statement per line, each noting the spec that shipped it (`/release` keeps them in lockstep with the e2e suite).
-- `specs/` — One folder per feature, named with the feature `{slug}`; all of the feature's artifacts live inside it.
-  - `{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
-  - `{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
-  - `{slug}/e2e.plan.md` — The e2e container's plan: one scenario per acceptance criterion (`/planify`).
-  - `{slug}/e2e.report.md` — Defects report: expected vs actual, affected container, severity, kind, handoff (`/verify`).
-  - `{slug}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
+- `specs/` — One folder per spec, named `{NNN}-{slug}` (`{NNN}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
+  - `PRD.md` — Index of specs grouped by feature area, with lineage (`supersedes`); written only by `/specify`. No status — that lives in each spec.
+  - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria numbered `AC-{NNN}.{n}` (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
+  - `{NNN}-{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
+  - `{NNN}-{slug}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).
+  - `{NNN}-{slug}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, affected container, severity, kind, handoff (`/verify`).
+  - `{NNN}-{slug}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
 
 ### Solution
 

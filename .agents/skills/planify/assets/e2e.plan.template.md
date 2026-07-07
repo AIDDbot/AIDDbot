@@ -13,16 +13,17 @@ container: e2e
 
 ### Acceptance criteria under test
 
-- [ ] {criterion copied from the spec}
-- [ ] {criterion}
+- [ ] **AC-{NNN}.1** — {criterion copied from the spec}
+- [ ] **AC-{NNN}.2** — {criterion}
 
 ## Implementation Steps
 
-### Step 1: {Scenario Title}
-{Flow being verified, end-to-end across containers; maps to one acceptance criterion.}
+### Step 1: AC-{NNN}.1 — {Scenario Title}
+{Flow being verified, end-to-end across containers; verifies exactly one AC id,
+which the test title must carry.}
 - Paths:
     - `{path/to/file1}`
     - `{path/to/folder2/}`
 - [ ] Arrange: {preconditions / fixtures}
 - [ ] Act: {user actions}
-- [ ] Assert: {expected outcome mapped to the criterion}
+- [ ] Assert: {expected outcome mapped to AC-{NNN}.1}

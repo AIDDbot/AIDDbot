@@ -17,10 +17,10 @@ flowchart TB
 
   E2E["e2e suite — the executable contract<br/>organized by feature · green = current behavior"]:::nd
   DOC["docs/{feature}.md — the contract in words<br/>one statement per line"]:::nd
-  SPECS["specs/{slug}/ — closed tickets<br/>history: why, and since when"]:::hist
+  SPECS["specs/{NNN}-{slug}/ — closed tickets<br/>history: why, and since when"]:::hist
 
   E2E <-->|"/release keeps in lockstep"| DOC
-  DOC -.->|"provenance: (spec: slug, vX)"| SPECS
+  DOC -.->|"provenance: (spec: NNN, vX)"| SPECS
 ```
 
 Green tests change only through a plan — a plan step authorizes a test edit exactly the
@@ -76,7 +76,8 @@ Each report entry carries a **kind** and a **handoff**: `code bug` / `test bug` 
 
 ## 4. The artifacts
 
-Who writes what, in pipeline order. All spec artifacts live in `specs/{slug}/`; the
+Who writes what, in pipeline order. All spec artifacts live in `specs/{NNN}-{slug}/`,
+indexed by feature area in `specs/PRD.md` (written only by `/specify`); the
 contract artifacts (suite, feature docs) live with the product.
 
 ```mermaid
@@ -84,7 +85,7 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 
   HUM[HUMAN]
-  SPC["specs/{slug}/spec.md<br/>problem · criteria"]:::nd
+  SPC["specs/{NNN}-{slug}/spec.md<br/>problem · criteria AC-NNN.n"]:::nd
   PLN["{container}.plan.md<br/>+ e2e.plan.md"]:::nd
   SRC["source + unit tests"]:::nd
   E2E["e2e/{feature} suites"]:::nd

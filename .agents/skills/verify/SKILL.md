@@ -22,7 +22,7 @@ every defect triaged by kind and handed off.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{slug}`.
+- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
 
 ### Inputs
 - Optional: the spec `{slug}` to verify.
@@ -30,14 +30,15 @@ every defect triaged by kind and handed off.
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` (→ `/codify`, scoped to the container);
   `structural` (wrong contract, missing component, plan gap; → `/planify`).
+- **AC id** — `AC-{id}.{n}`; a numbered criterion from the spec, carried by test titles.
 
 ## Steps
 ### 1. Research
-- Derive `{slug}`; confirm every container plan's steps are checked `[x]`.
+- Derive `{id}` and `{slug}`; confirm every container plan's steps are checked `[x]`.
 - If plans are not codified, stop: → `/codify` — the system and the suite must exist.
 - _read_ [acceptance criteria, the contract under test]({Specs}/spec.md).
-- _read_ [scenario ↔ criterion mapping]({Specs}/e2e.plan.md).
-- Map each e2e test to its scenario and criterion; an uncovered criterion is a defect.
+- _read_ [scenario ↔ AC id mapping]({Specs}/e2e.plan.md).
+- Match each e2e test to its AC id via the test title; an uncovered AC id is a defect.
 
 ### 2. Plan
 - _read_ [start/test commands and fixtures]({Agents_File}).
@@ -47,15 +48,15 @@ every defect triaged by kind and handed off.
 ### 3. Implement
 - Start the system, run the suite, capture pass/fail per scenario, tear down.
 - _read_ [defects report template](./assets/e2e.report.template.md).
-- Write `{Specs}/e2e.report.md`: one entry per defect — scenario, expected vs actual,
-  container, severity, kind, handoff.
-- In `spec.md`, mark each criterion `[x]` if its tests pass, `[ ]` otherwise.
-- Commit (`docs(e2e): {slug} report`).
+- Write `{Specs}/e2e.report.md`: a verdict per AC id, then one entry per defect —
+  scenario, expected vs actual, container, severity, kind, handoff.
+- In `spec.md`, mark each AC id `[x]` if its tests pass, `[ ]` otherwise.
+- Commit (`docs(e2e): {id}-{slug} report`).
 - If green, → `/review`, then `/release`.
 - If defects, → `/codify` per affected container — `/planify` for structural —
   then `/verify` again.
 
 ## Verification
-- [ ] Every acceptance criterion has a mapped test and a recorded result.
+- [ ] Every AC id has a mapped test, a verdict in the report, and its `[x]/[ ]` in the spec.
 - [ ] The suite is green, or every defect is reported with kind and handoff.
 - [ ] No code, test, or plan file was edited.

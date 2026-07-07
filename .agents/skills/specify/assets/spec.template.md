@@ -1,8 +1,9 @@
 ---
+id: {NNN}
 slug: {slug}
 status: pending | in-progress | done
 ---
-# Specification — {short description}
+# Specification {NNN} — {short description}
 
 ## Problem definition
 
@@ -41,5 +42,7 @@ status: pending | in-progress | done
 
 ## Acceptance and Release
 
-- [ ] {EARS-format acceptance criterion}
-- [ ] {Additional criterion}
+{Number every criterion `AC-{NNN}.{n}` — plans, tests, and reports reference these ids.}
+
+- [ ] **AC-{NNN}.1** — {EARS-format acceptance criterion}
+- [ ] **AC-{NNN}.2** — {Additional criterion}

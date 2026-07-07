@@ -22,7 +22,7 @@ findings report — each finding with severity, kind, and handoff.
 
 ## Context
 
-- `{Specs}` = `{Product_Folder}/specs/{slug}`.
+- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
 
 ### Inputs
 - A scope, one of: feature branch changes, plan/spec files, or explicit paths.

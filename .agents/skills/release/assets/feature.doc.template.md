@@ -9,5 +9,5 @@ feature: {feature}
 
 ## {Capability}
 
-- {Behavior statement in user terms.} (spec: {slug}, v{released-version})
-- {Behavior statement.} (spec: {slug}, v{released-version})
+- {Behavior statement in user terms.} (spec: {NNN}, v{released-version})
+- {Behavior statement.} (spec: {NNN}, v{released-version})

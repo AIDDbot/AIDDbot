@@ -19,7 +19,7 @@ changes in `CHANGELOG.md`, update docs, and close the spec.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{slug}`.
+- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
 
 ### Inputs
 - One of:
@@ -33,7 +33,7 @@ changes in `CHANGELOG.md`, update docs, and close the spec.
 ### Glossary
 - **SemVer** — `major.minor.patch`; the changelog follows Keep a Changelog.
 - **Feature doc** — `docs/{feature}.md`: current behavior, one statement per line, each
-  noting its spec; kept in lockstep with the e2e suite by this skill.
+  noting its spec `{id}`; kept in lockstep with the e2e suite by this skill.
 
 ## Steps
 ### 1. Research
