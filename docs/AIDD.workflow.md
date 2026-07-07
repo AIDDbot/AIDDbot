@@ -33,9 +33,9 @@ flowchart TD
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
-  HUM -->|/explore| ERD
   HUM -->|/extract| CAR
   HUM -->|/extract| RUL
+  HUM -->|/extract| ERD
   HUM -->|/specify| SPC
   HUM -->|/specify| PRD
   PRD -.functional log.-> SPC
@@ -106,7 +106,7 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 - `arch/` — Architecture set for planning and coding.
   - `system.arch.md` — Containers diagram (C4 L2) (`/explore`).
-  - `ER.md` — Domain Entity-Relationship diagram (`/explore`).
+  - `ER.md` — Domain Entity-Relationship diagram (`/extract`, when the owning container is extracted).
   - `{container}.arch.md` — Components (C4 L3), code organization, contract surface (`/extract`).
   - `db.schema.md` / `api.schema.md` — System-wide field-level database/API schema, split out as they grow large; written when the owning container is extracted, linked from any container that benefits (`/extract`, when applicable).
 

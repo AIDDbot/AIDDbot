@@ -17,9 +17,9 @@ flowchart TD
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
-  HUM -->|/explore| ERD
   ARC -->|/extract ×container| CAR
   ARC -->|/extract ×container| RUL
+  ARC -->|/extract ×container| ERD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
@@ -35,10 +35,10 @@ repo can mix extracted containers and prescribed ones.
 - `/explore` sets up AIDD and documents the system (C4 L2):
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
   - `arch/system.arch.md` — containers diagram with per-container details.
-  - `arch/ER.md` — the domain Entity-Relationship diagram (kept separate as it grows large).
 - `/extract` documents **one container per invocation** (C4 L3):
   - `arch/{container}.arch.md` — components diagram, code organization, contract surface.
   - `arch/db.schema.md` / `arch/api.schema.md` — system-wide field-level database/API schema, kept separate as they grow large; written when the owning container is extracted (when applicable).
+  - `arch/ER.md` — the domain Entity-Relationship diagram (kept separate as it grows large); written when the container owning the domain model is extracted.
   - `{Agents_Folder}/rules/{container}.rules.md` — naming, conventions, one canonical example.
 
 When every container is documented, start features with `/specify`.

@@ -22,13 +22,13 @@ Produce working code with unit tests for the critical modules.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
+- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 
 ### Inputs
 - One of:
   - [a container plan]({Specs}/{container}.plan.md) 
   - [an e2e plan]({Specs}/e2e.plan.md)
-  - [a verification report]({Specs}/verify.report.md) 
+  - [a defects report]({Specs}/e2e.report.md)
   - [a review report]({Specs}/review.report.md)
   - A requirement or bug report description to fix.
 
@@ -37,11 +37,11 @@ Produce working code with unit tests for the critical modules.
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **e2e container** — a running test suite that is judged by `/verify`.
+- **e2e container** — transversal; verifies the others; written by `/codify`, judged by `/verify`.
 
 ## Steps
 ### 1. Research
-- Identify the input; derive `{id}`, `{slug}`, and `{container}`.
+- Identify the input; derive `{NNN}`, `{slug}`, and `{container}`.
 - If no single plan is given, ask which container to scope.
 - _read_ [components, contracts, structure]({Arch}/{container}.arch.md).
 
@@ -57,23 +57,23 @@ Produce working code with unit tests for the critical modules.
 - In `spec.md`, set `status: in-progress` if still `pending`.
 - Commit (`{feat|fix|test}(scope): {description}`).
 
-#### 3.1 for e2e container
-- Skip the unit-test bullet.
-- Write correct code (it should compile and run)
-- -> /verify
-
-#### 3.2 for other containers
+#### 3.1 for other containers
 - Ensure the code is correct (it should compile and run)
 - Write unit tests for the critical path (happy path plus errors)
 - Ensure tests pass (rewrite tests if needed)
-- -> /codify next container
+- → /codify next container
+
+#### 3.2 for e2e container
+- Skip the unit-test bullet.
+- Write correct code (it should compile and run)
+- → /verify
 
 #### 3.3 when in fix mode
 - Apply the minimal fix per defect.
 - Annotate fix deviations (what, why); check each in-scope step `[x]`.
-- -> /verify
+- → /verify
 
 ## Verification
 - [ ] Code builds; unit tests pass (e2e container: suite executes, red allowed).
 - [ ] Every in-scope step is checked `[x]`, or every in-scope report entry is fixed.
-- [ ] If is related to a spec, ensure its status is set to `in-progress`.
+- [ ] If related to a spec, ensure its status is `in-progress`.

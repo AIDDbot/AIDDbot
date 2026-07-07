@@ -31,5 +31,3 @@ C4Container
 ---
 
 > last updated: {DateTime}
-
-

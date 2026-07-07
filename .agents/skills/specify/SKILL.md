@@ -10,8 +10,8 @@ disable-model-invocation: true
 Act as Business Analyst.
 
 ## Task
-Capture a feature as a one-page spec: 
-- problem, 
+Capture a feature as a one-page spec:
+- problem,
 - expected results per container, and
 - acceptance criteria.
 
@@ -24,7 +24,7 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
+- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 - `{PRD}` = `{Product_Folder}/specs/PRD.md`.
 
 ### Inputs
@@ -32,22 +32,22 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 
 ### Glossary
 - **Expected result** — an observable outcome a container must deliver.
-- **{slug}** — short feature identifier; names the spec folder with `{id}`.
-- **{id}** — 3-digit sequential spec number; highest under `specs/` plus one.
-- **AC id** — `AC-{id}.{n}`; numbers each acceptance criterion, referenced by plans, tests, and reports.
+- **{slug}** — short feature identifier; names the spec folder with `{NNN}`.
+- **{NNN}** — 3-digit sequential spec number; highest under `specs/` plus one.
+- **AC id** — `AC-{NNN}.{n}`; numbers each acceptance criterion, referenced by plans, tests, and reports.
 - **PRD** — functional log of specs grouped by feature area; append-only index written at spec creation.
 
 ## Steps
 ### 1. Research
 - Ask me to clarify the context one question at a time with closed-ended answers.
-- Derive `{slug}`; derive `{id}` from the `specs/` folder listing.
+- Derive `{slug}`; derive `{NNN}` from the `specs/` folder listing.
 - If present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the containers this feature touches.
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
-- _read_ [domain ER diagram]({Arch}/ER.md).
+- If present, _read_ [domain ER diagram]({Arch}/ER.md).
 - _read_ [model design convention](./references/model.conventions.md).
 - Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
 - Prepare the conceptual data model from the domain ER diagram.
@@ -56,13 +56,13 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 - Prepare the PRD line: feature area and one-line outcome.
 
 ### 3. Implement
-- Write `{Specs}/spec.md` with `status: pending`; one page; number the criteria `AC-{id}.{n}`.
+- Write `{Specs}/spec.md` with `status: pending`; one page; number the criteria `AC-{NNN}.{n}`.
 - If `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
 - Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new).
 - Commit (`docs: {description}`); → `/planify`.
 
 ## Verification
 - [ ] `{Specs}/spec.md` exists, correct format, no empty placeholders.
-- [ ] Problem and acceptance criteria are clear and checkable; criteria numbered `AC-{id}.{n}`.
+- [ ] Problem and acceptance criteria are clear and checkable; criteria numbered `AC-{NNN}.{n}`.
 - [ ] Container sections list outcomes, not implementation details.
 - [ ] `{PRD}` lists the spec under a feature area; no status there — status lives in the spec.

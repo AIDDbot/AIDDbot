@@ -34,7 +34,7 @@ In your agent chat:
 /explore this project
 ```
 
-This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — and the system architecture document `arch/system.arch.md` (C4 L2: containers) and the domain Entity-Relationship diagram `arch/ER.md`.
+This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — and the system architecture document `arch/system.arch.md` (C4 L2: containers).
 
 Then document each **container** (a runnable unit from `system.arch.md`: `api`, `web`, `db`...). Run once per container:
 
@@ -42,7 +42,7 @@ Then document each **container** (a runnable unit from `system.arch.md`: `api`, 
 /extract the api container
 ```
 
-This writes `arch/{container}.arch.md` (C4 L3 components, contract surface) and `rules/{container}.rules.md` (coding rules for that container). When a container owns the persistence store or exposes an API, the field-level schema is split into the system-wide `arch/db.schema.md` and/or `arch/api.schema.md` (written while extracting that container, linked from any container that benefits) so the container arch stays readable.
+This writes `arch/{container}.arch.md` (C4 L3 components, contract surface) and `rules/{container}.rules.md` (coding rules for that container). When a container owns the persistence store or exposes an API, the field-level schema is split into the system-wide `arch/db.schema.md` and/or `arch/api.schema.md` (written while extracting that container, linked from any container that benefits) so the container arch stays readable. The domain Entity-Relationship diagram `arch/ER.md` is likewise written while extracting the container that owns the domain model.
 
 Both skills apply **evidence wins**: they extract from the codebase where code exists and prescribe defaults (marked *intended*) where it doesn't — even inside the same repo. When every container is documented, start building.
 

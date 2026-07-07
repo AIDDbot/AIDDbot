@@ -15,7 +15,8 @@ container: e2e
 
 - [ ] **AC-{NNN}.1** — {criterion copied from the spec}
 - [ ] **AC-{NNN}.2** — {criterion}
-- Include the AC id in the test title to map it to the criterion so can be easy to find/run/fix.
+
+> Include the AC id in each test title so a criterion's tests are easy to find, run, and fix.
 
 ## Implementation Steps
 

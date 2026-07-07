@@ -21,7 +21,7 @@ Boundary: PRD → `/specify`.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`.
+- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 
 ### Inputs
 - `Optional:` [verified spec, criteria all `[x]`]({Specs}/spec.md)

@@ -15,23 +15,24 @@ every defect triaged by kind and handed off.
 
 ## Guardrails
 - **Report-only** — never edit code, tests, or plans; the report is the deliverable.
-- **Distrust the implementation, trust the spec** — found defects is a kind os success.
+- **Distrust the implementation, trust the spec** — finding defects is a kind of success.
 - **Never soften the verdict** — a flaky or wrong test is a `test bug`.
 
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`
-- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`
+- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`
 
 ### Inputs
 - Optional: the spec `{slug}` to verify.
 
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` (→ `/codify`); `structural` (→ `/planify`).
-- **AC id** — `AC-{id}.{n}`; a numbered criterion from the spec, carried by test titles.
+- **AC id** — `AC-{NNN}.{n}`; a numbered criterion from the spec, carried by test titles.
 
 ## Steps
 ### 1. Research
+- Identify the spec; if ambiguous, ask.
 - _read_ [acceptance criteria, the contract under test]({Specs}/spec.md).
 - _read_ [scenario ↔ AC id mapping]({Specs}/e2e.plan.md).
 
@@ -48,7 +49,7 @@ every defect triaged by kind and handed off.
 - Write `{Specs}/e2e.report.md`: a verdict per AC id, then one entry per defect —
   scenario, expected vs actual, container, severity, kind, handoff.
 - In `spec.md`, mark each AC id `[x]` if its tests pass, `[ ]` otherwise.
-- Commit (`docs(e2e): {id}-{slug} report`).
+- Commit (`docs(e2e): {NNN}-{slug} report`).
 - If green, → `/review`.
 - If red, → `/codify` the report.
 

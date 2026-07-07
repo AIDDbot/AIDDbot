@@ -25,7 +25,7 @@ Generate one container's component architecture and code-rules documents.
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **Tier** — a container's physical layer: `front | back | db | e2e | fullstack`.
+- **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
 
 ## Steps

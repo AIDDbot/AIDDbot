@@ -19,7 +19,7 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`
-- `{Specs}` = `{Product_Folder}/specs/{id}-{slug}`
+- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`
 
 ### Inputs
 - One of:
@@ -29,15 +29,15 @@ Turn a spec (or an escalated report) into one plan per affected container —
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **e2e container** — transversal; verifies the others.
+- **e2e container** — transversal; verifies the others; written by `/codify`, judged by `/verify`.
 - **Structural refactor** — its acceptance criterion is the existing e2e suite.
 - **{slug}** — inherited from the input file name or derived from the requirement.
-- **{id}** — inherited from the spec folder; if spec-less, next sequential under `specs/`.
-- **AC id** — `AC-{id}.{n}`; a numbered acceptance criterion from the spec.
+- **{NNN}** — inherited from the spec folder; if spec-less, next sequential under `specs/`.
+- **AC id** — `AC-{NNN}.{n}`; a numbered acceptance criterion from the spec.
 
 ## Steps
 ### 1. Research
-- Identify the input type; derive `{id}` and `{slug}`.
+- Identify the input type; derive `{NNN}` and `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the affected containers and their expected results.
 - Foreach container, _read_ [its architecture]({Arch}/{container}.arch.md).
@@ -47,8 +47,8 @@ Turn a spec (or an escalated report) into one plan per affected container —
 
 ### 2. Plan
 - Prepare one plan per container: ordered vertical slices — title, description, paths.
-- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); 
-- If touching the store, _read_ [data field shapes]({Arch}/db.schema.md); 
+- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md).
+- If touching the store, _read_ [data field shapes]({Arch}/db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
 - Derive the e2e plan from the spec and shared contracts, never from sibling implementations;
   map every AC id to exactly one scenario.
@@ -56,7 +56,7 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ### 3. Implement
 - If a structural refactor, skip the e2e plan. 
 - Write one `{Specs}/{container}.plan.md` per affected container.
-- Commit (`docs: {description}`); → `/codify` per plan .
+- Commit (`docs: {description}`); → `/codify` per plan.
 
 ## Verification
 - [ ] One plan per affected container — no empty placeholders.

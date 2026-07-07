@@ -1,1 +1,1 @@
-Execute the /specify ability using a subagent. When it finishes, read the generated specification documentation and execute the /plan ability for each container sequentially, also using a subagent, so that each container has its own context.
+Execute the /specify skill using a subagent. When it finishes, read the generated specification documentation and execute the /planify skill for each container sequentially, also using a subagent, so that each container has its own context.

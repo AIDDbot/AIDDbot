@@ -7,8 +7,9 @@ Analysis of the 8 skills in `.agents/skills/`, mapping producers, artifacts, and
 | Producer | Artifact | Consumer(s) |
 |----------|----------|-------------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | `*` (every skill reads paths, mode, conventions, git rules, start/test commands) |
-| `/explore` | `arch/system.arch.md` (C4 L2), `arch/ER.md` (domain ER) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
+| `/explore` | `arch/system.arch.md` (C4 L2) | `/extract`, `/specify`, `/planify`, `/codify`, `/verify`, `/release` |
 | `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/release` (doc sync) |
+| `/extract` | `arch/ER.md` (domain ER; when the owning container is extracted) | `/specify`, `/release` |
 | `/extract` | `rules/{container}.rules.md` | `/codify` |
 | `/specify` | `specs/{NNN}-{slug}/spec.md` + its line in `specs/PRD.md` (sole writer; functional log) | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap |
 | `/planify` | `specs/{NNN}-{slug}/{container}.plan.md` | `/codify`, `/review` (plan-scope) |
