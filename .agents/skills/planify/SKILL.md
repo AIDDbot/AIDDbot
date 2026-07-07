@@ -24,7 +24,6 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ### Inputs
 - One of:
   - [a spec]({Specs}/spec.md)
-  - [a report with functional or implementation defects]({Specs}/{verify|review}.report.md)
   - A short textual requirement.
   - A structural-refactor goal (no spec — behavior doesn't change).
 

@@ -1,0 +1,1 @@
+Execute the /codify skill using a subagent for each container plan sequentially, so that each container has its own context.
