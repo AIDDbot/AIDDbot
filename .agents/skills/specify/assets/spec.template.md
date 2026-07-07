@@ -31,7 +31,8 @@ status: pending | in-progress | done
 
 ### Data Model
 
-{Conceptual entities and relationships this feature touches; no schema or field-level detail.}
+{Conceptual entities and relationships this feature touches}
+{Follow the Model Design Convention in the references folder.}
 
 ### {Container_Name}
 
@@ -40,7 +41,7 @@ status: pending | in-progress | done
 - {Expected result — an observable outcome this container provides.}
 - {Expected result}
 
-## Acceptance and Release
+## Verification Criteria
 
 {Number every criterion `AC-{NNN}.{n}` — plans, tests, and reports reference these ids.}
 
