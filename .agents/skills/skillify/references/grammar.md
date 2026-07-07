@@ -23,6 +23,8 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 - `→` means hand off to a skill — nothing else. For cause or effect in prose, use words.
 - Conditions always read `If <cond>, <action>.` — never `<cond>: <action>`,
   `<cond>? <action>`, or `<cond> → <action>`.
+- A bare file action always runs; the `If <cond>,` prefix is the only way to make
+  a read or update conditional.
 - No blockquotes — a `>` note is either a Condition bullet in Steps or a Guardrail.
 - Handoffs close their step; each branch is its own Condition bullet.
 - A glossary term defined in several skills is copied verbatim, never paraphrased —
