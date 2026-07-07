@@ -3,9 +3,10 @@
 UI tier: renders views, holds client state, and calls sibling APIs.
 
 ## Templates
-- `{Arch}/{container}.arch.md` from
+- Write `{Arch}/{container}.arch.md` from
   [container arch template](../assets/container.arch.template.md).
-- `{Rules}/{container}.rules.md` from [code rules template](../assets/code.rules.template.md).
+- Write `{Rules}/{container}.rules.md` from
+  [code rules template](../assets/code.rules.template.md).
 
 ## Focus
 - Stereotype the components as page/route, UI component, state store, or API client.

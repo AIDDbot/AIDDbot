@@ -37,5 +37,5 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 - Open with a title and one goal-or-scope sentence.
 - Guardrails are bold-named and citable, like `SKILL.md`'s; a guardrail shared across
   guides keeps its bold name verbatim (the tail may vary).
-- Tier guides list outputs as `` `{output}` from [template](path) `` under **Templates**,
-  then priorities under **Focus** — no arrows: `→` stays handoff-only.
+- Tier guides list outputs as `` Write `{output}` from [template](path). `` under
+  **Templates**, then priorities under **Focus** — no arrows: `→` stays handoff-only.

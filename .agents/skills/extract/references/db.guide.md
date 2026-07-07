@@ -3,11 +3,12 @@
 Persistence tier: schema, migrations, and seeds — little or no runnable code.
 
 ## Templates
-- `{Arch}/{container}.arch.md` from
+- Write `{Arch}/{container}.arch.md` from
   [container arch template](../assets/container.arch.template.md).
-- `{Rules}/{container}.rules.md` from [code rules template](../assets/code.rules.template.md).
-- `{Arch}/db.schema.md` from [db schema template](../assets/db.schema.template.md);
-  the migrations/DDL remain the canonical source.
+- Write `{Rules}/{container}.rules.md` from
+  [code rules template](../assets/code.rules.template.md).
+- Write `{Arch}/db.schema.md` from [db schema template](../assets/db.schema.template.md)
+  — the migrations/DDL remain the canonical source.
 
 ## Focus
 - Stereotype the components as migration, seed, or view/procedure.

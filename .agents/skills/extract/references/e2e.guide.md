@@ -3,9 +3,10 @@
 Transversal tier: verifies the functional containers from the outside.
 
 ## Templates
-- `{Arch}/{container}.arch.md` from
+- Write `{Arch}/{container}.arch.md` from
   [container arch template](../assets/container.arch.template.md).
-- `{Rules}/{container}.rules.md` from [code rules template](../assets/code.rules.template.md).
+- Write `{Rules}/{container}.rules.md` from
+  [code rules template](../assets/code.rules.template.md).
 
 ## Focus
 - Stereotype the components as suite/spec, fixture, or page object/helper.
