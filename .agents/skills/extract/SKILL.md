@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Documents one container's component architecture (C4 L3) and code rules; prescribes new, extracts existing.
+description: Documents one container's component architecture (C4 L3) and code rules; extracts what exists, prescribes what is missing.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -27,7 +27,6 @@ Generate one container's component architecture and code-rules documents.
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's physical layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
-- **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
 
 ## Steps
 ### 1. Research
@@ -35,8 +34,7 @@ Generate one container's component architecture and code-rules documents.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - Pick the target container or ask which one if ambiguous or not given.
 - _read_ [the container tier guide](./references/{tier}.guide.md).
-- Classify the mode by whether the container has source code.
-- _read_ [the mode guide, prescribe vs extract](./references/{mode}.guide.md).
+- _read_ [the extract guide, evidence wins](./references/extract.guide.md).
 - Ask me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan

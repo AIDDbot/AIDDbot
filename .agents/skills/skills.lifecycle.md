@@ -15,12 +15,12 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
   lockstep with the suite.
 - The arch docs (`system.arch.md`, `{container}.arch.md`, rules) describe the current
   technical state. `/release` reconciles them after every change; `/extract`
-  (brownfield) rebuilds them when they drift.
+  rebuilds them when they drift.
 - A spec is a disposable ticket: one change, its criteria, its acceptance. Once released
   it is a closed ticket — history (why, and since when), never authority.
 - Invariant: green e2e suite = current behavior = feature docs, in words.
 
-## Build (greenfield or new feature)
+## Build (new project or new feature)
 
 `/explore` → `/extract` (×container) → `/specify` → `/planify` → `/codify` (×container)
 → `/verify` → `/review` → `/release`

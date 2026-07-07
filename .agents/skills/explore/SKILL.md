@@ -26,14 +26,12 @@ Generate the agent-rules file and the system architecture document.
 - **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md` (Claude Code).
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
-- **Mode** — `greenfield` (no code, prescribe) | `brownfield` (code exists, extract).
 - **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`...
 
 ## Steps
 ### 1. Research
 - Infer the operating system, shell, and remote Git repository.
-- Classify the project mode as greenfield or brownfield.
-- _read_ [mode guide](./references/{mode}.guide.md).
+- _read_ [the explore guide, evidence wins](./references/explore.guide.md).
 - Ask me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan

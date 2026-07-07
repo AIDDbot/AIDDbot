@@ -11,7 +11,6 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 
 ### Environment
 - **Git**: {remote URL} — {default branch `main` | `master`}
-- **Starting mode**: `{greenfield | brownfield}`
 - **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh}`
 
 ### Paths

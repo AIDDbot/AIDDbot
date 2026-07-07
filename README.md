@@ -55,7 +55,7 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-In your agent chat run the `/explore` command or ask AIDDbot to explore the project. It works on greenfield (prescribes a design) and brownfield (extracts facts from the code) alike.
+In your agent chat run the `/explore` command or ask AIDDbot to explore the project. It extracts facts from the existing code and prescribes defaults where nothing exists yet, so it works on empty and mature repos alike.
 
 Documentation:
 

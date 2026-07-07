@@ -57,7 +57,7 @@ Solid arrows are the build pipeline. Maintenance has no entry skill: a fix re-en
 
 1. **`{Agents_File}` is the universal context root.** `/explore` writes it once; every downstream skill reads it for `{Product_Folder}`, `{Agents_Folder}`, `{Source_Folders}`, starting mode, git rules, the status chain, and the start/test commands. It is the only artifact with a `*` consumer.
 
-2. **Context setup is two mode-aware steps, not four.** `/explore` (system, C4 L2) then `/extract` once per container (components + rules, C4 L3). Mode is resolved per container: code exists = brownfield (extract facts), none = greenfield (prescribe).
+2. **Context setup is two steps, not four.** `/explore` (system, C4 L2) then `/extract` once per container (components + rules, C4 L3). Both apply evidence wins per gap: extract facts where code exists, prescribe defaults where it doesn't.
 
 3. **Containers, not tiers, are the unit of work.** Every plan, arch doc, and rules file is keyed by container name from `system.arch.md`. *Tier* survives only as a classifier (`front | back | db | e2e | fullstack`), never as an identifier.
 

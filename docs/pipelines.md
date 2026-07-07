@@ -28,9 +28,9 @@ flowchart TD
 /explore -> /extract (×container)
 ```
 
-Both steps are **mode-aware**: they prescribe on greenfield (no source code) and extract
-from the codebase on brownfield. `/extract` resolves the mode per container — a
-brownfield repo can still have a greenfield container.
+Both steps apply **evidence wins**: they extract from the codebase where code exists and
+prescribe defaults (marked *intended*) where it doesn't. The rule resolves per gap: one
+repo can mix extracted containers and prescribed ones.
 
 - `/explore` sets up AIDD and documents the system (C4 L2):
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.

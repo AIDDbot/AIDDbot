@@ -63,7 +63,7 @@ Produces:
 `/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify`
 -> `/review` -> `/release`
 
-Both context steps are mode-aware (greenfield prescribes, brownfield extracts).
+Both context steps apply evidence wins: extract what exists, prescribe what is missing (marked *intended*).
 `/codify` runs once per container — e2e included (sessions can be parallel); `/verify`
 runs the suite and reports: code/test bugs loop back through `/codify` per affected
 container, structural defects escalate to `/planify`. Repeat until green.
@@ -94,7 +94,7 @@ Refactoring never needs a spec (the *what* doesn't change) and routes by blast r
 - Ugly internals, contracts intact → `/review` reports; apply via `--fix` (mechanical) or
   `/codify` (behavior-preserving; tests stay green).
 - Contracts or components must move → structural refactor: `/planify` (no spec; criterion
-  = existing e2e suite green, untouched) → `/codify` → `/extract` brownfield to re-sync
+  = existing e2e suite green, untouched) → `/codify` → `/extract` to re-sync
   arch docs.
 - Before a big change on messy code, prefer a preparatory `/review` pass on the affected
   scope — make the change easy, then make the easy change.
