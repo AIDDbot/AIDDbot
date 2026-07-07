@@ -31,9 +31,9 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
-| [Context](docs/pipelines.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + architecture docs (C4 L2/L3) and coding rules |
-| [Development](docs/pipelines.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
-| [Quality & release](docs/pipelines.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
+| [Context](docs/AIDD.workflow.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + architecture docs (C4 L2/L3) and coding rules |
+| [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
+| [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: create or fix a skill under
 `.agents/skills/` itself, following the same template.
@@ -65,8 +65,7 @@ Documentation:
 - **[Getting started](docs/getting-started.md)** — install, architecture, feature and release loops
 - **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does and produces
 - **[Skills lifecycle](.agents/skills/skills.lifecycle.md)** — build, maintain, refactor coverage
-- **[AIDD in diagrams](docs/AIDD.diagrams.md)** — the whole system, visually
-- **[Workflow diagrams](docs/AIDD.workflow.md)** — diagrams, artifacts
+- **[AIDD workflow](docs/AIDD.workflow.md)** — the whole system, visually: pipeline, phases, routing, artifacts
 - **[Design decisions](docs/design.decisions.md)** — why the pipeline is shaped this way
 
 ---

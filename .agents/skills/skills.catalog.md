@@ -91,24 +91,9 @@ writes the suite but never judges it green.
 ## Maintenance
 
 The green e2e suite is the contract; a `done` spec is a closed ticket — history, not
-ongoing authority. There is no triage skill: both doors answer one mechanical question — **would satisfying the request change
-what a green e2e test asserts?**
-
-- No → it is a fix: `/codify` (fix mode) + regression test → patch `/release`. No spec.
-- Yes → it is a behavior change: a new spec via `/specify`, full pipeline; the e2e plan
-  lists the scenarios it changes.
-
-Either door bounces a misrouted request to the other — specify's fix-or-feature gate,
-codify's green-tests-are-the-contract guardrail — so the human never has to choose right.
-
-Refactoring never needs a spec (the *what* doesn't change) and routes by blast radius:
-
-- Ugly internals, contracts intact → `/review` reports; apply via `--fix` (mechanical) or
-  `/codify` (behavior-preserving; tests stay green).
-- Contracts or components must move → structural refactor: `/planify` (no spec; criterion
-  = existing e2e suite green, untouched) → `/codify` → `/extract` to re-sync
-  arch docs.
-- Before a big change on messy code, prefer a preparatory `/review` pass on the affected
-  scope — make the change easy, then make the easy change.
-- If staying green would require changing a test's assertion, it was never a refactor:
-  it is a behavior change — route through `/specify`.
+ongoing authority. There is no triage skill: one mechanical question routes any request —
+**would satisfying it change what a green e2e test asserts?** No → `/codify` fix mode +
+regression test → patch `/release`. Yes → a new spec via `/specify`, full pipeline.
+Either door bounces a misrouted request to the other. Refactors need no spec and route
+by blast radius — the [lifecycle map](./skills.lifecycle.md) has the full maintenance
+and refactoring routes.
