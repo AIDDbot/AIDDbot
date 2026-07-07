@@ -12,6 +12,16 @@ status: pending | in-progress | done
 
 - As a {role}, I want to **{goal}** so that {benefit}.
 
+### Business Rules
+
+{RuleSpeak style — one testable invariant per bullet. See examples below.}
+
+- A {subject} must **{constraint}**.
+- A {subject} must **not {constraint}**.
+- A {subject} may **{action} only if {condition}**
+- A {subject} is always **{definition/property}**
+- A {subject} must be considered **{status} if {condition}**
+
 ### Out of scope
 
 {What is out of scope for this feature.}
@@ -20,7 +30,7 @@ status: pending | in-progress | done
 
 ### Data Model
 
-{Conceptual entities and relationships this feature touches, drawn from `arch/ER.md`; no schema or field-level detail.}
+{Conceptual entities and relationships this feature touches; no schema or field-level detail.}
 
 ### {Container_Name}
 

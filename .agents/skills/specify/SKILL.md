@@ -40,7 +40,7 @@ Capture a feature as a one-page spec:
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
 - _read_ [domain ER diagram]({Arch}/ER.md).
-- Prepare the problem, user stories, and oit of scope to define de problem.
+- Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
 - Prepare the conceptual data model from the domain ER diagram.
 - Prepare per-container expected results.
 - The `e2e` container lives in the verification criteria section.
