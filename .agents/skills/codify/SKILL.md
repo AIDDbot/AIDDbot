@@ -50,19 +50,28 @@ Produce working code with unit tests for the critical modules.
 - If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); 
 - If touching the store, _read_ [data field shapes]({Arch}/db.schema.md).
 - Map plan steps to code changes; respect contracts shared with sibling containers.
-- If a change alters a shared contract, stop: → `/planify` — never improvise.
 
 ### 3. Implement
 - Commit any pending changes, so the coding session starts from a clean state.
-- Write the minimum code for the in-scope steps, per the container's rules.
-- Add unit tests for the critical path (happy path plus errors); run until green.
-- If codifying the `e2e` container, skip the unit-test bullet.
-- If in fix mode, apply the minimal fix per defect.
 - Annotate plan deviations (what, why); check each in-scope step `[x]`.
 - In `spec.md`, set `status: in-progress` if still `pending`.
 - Commit (`{feat|fix|test}(scope): {description}`).
-- If plans remain, → `/codify` per plan; else → `/verify`.
-- If the fix is spec-less, → a patch `/release`.
+
+#### 3.1 for e2e container
+- Skip the unit-test bullet.
+- Write correct code (it should compile and run)
+- -> /verify
+
+#### 3.2 for other containers
+- Ensure the code is correct (it should compile and run)
+- Write unit tests for the critical path (happy path plus errors)
+- Ensure tests pass (rewrite tests if needed)
+- -> /codify next container
+
+#### 3.3 when in fix mode
+- Apply the minimal fix per defect.
+- Annotate fix deviations (what, why); check each in-scope step `[x]`.
+- -> /verify
 
 ## Verification
 - [ ] Code builds; unit tests pass (e2e container: suite executes, red allowed).

@@ -1,0 +1,1 @@
+run the /verify skill against the spec's acceptance criteria and write the defects report. If there are no defects, return "No defects found". If there are defects, run the /codify skill to fix the defects and then run the /verify skill again to verify the fixes. Do it in one subagent call per skill in order to keep the context.

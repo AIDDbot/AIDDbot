@@ -1,0 +1,2 @@
+run the /review skill against the spec's code changes and write the findings report. If there are no findings, return "No findings found" and suggest run release. 
+If there are findings, run the /codify skill to fix the findings and then run the /verify skill again to ensure feature still works as expected. Do it in one subagent call per skill in order to keep the context.
