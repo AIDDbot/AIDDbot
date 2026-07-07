@@ -8,35 +8,21 @@ container: e2e
 
 {The user-facing flows under test, spanning containers per `system.arch.md`.}
 
-**Context**: [link to the source spec for traceability]()
-**Architecture**: [link to `e2e.arch.md`]()
+- **Context**: {link to the source spec, report, or requirement for traceability[]()}
+- **Architecture**: [E2E container architecture]({Arch}/e2e.arch.md)
 
 ### Acceptance criteria under test
-> One scenario step per criterion. Derive from the spec and the shared contracts — never
-> from sibling implementations.
 
 - [ ] {criterion copied from the spec}
 - [ ] {criterion}
-
-### Changes to existing scenarios
-> Only when changing released behavior: the scenarios this plan changes or retires, per
-> feature suite. Their failures during this build are expected; `/codify` applies them
-> with the implementation steps. Omit the section otherwise.
-
-- `e2e/{feature}`: {scenario title} → {changed | retired}
-
-### Contracts
-> Consumed only: the routes, endpoints, and fixtures agreed with the sibling plans. Must
-> match them verbatim; `/codify` may not change them without going back to `/planify`.
-
-- Consumes: {route or endpoint, with its exact shape}
 
 ## Implementation Steps
 
 ### Step 1: {Scenario Title}
 {Flow being verified, end-to-end across containers; maps to one acceptance criterion.}
 - Paths:
-    - {path/to/e2e/{feature} suite — tests live per feature, like production code}
+    - `{path/to/file1}`
+    - `{path/to/folder2/}`
 - [ ] Arrange: {preconditions / fixtures}
 - [ ] Act: {user actions}
 - [ ] Assert: {expected outcome mapped to the criterion}
