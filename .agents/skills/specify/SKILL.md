@@ -56,6 +56,7 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 - Prepare the PRD line: feature area and one-line outcome.
 
 ### 3. Implement
+- If on the default branch, create branch `feat/{NNN}-{slug}`.
 - Write `{Specs}/spec.md` with `status: pending`; one page; number the criteria `AC-{NNN}.{n}`.
 - If `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
 - Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new).

@@ -70,9 +70,9 @@ flowchart TD
 
 ## Glossary
 
-- **Container** — a named runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
-- **Tier** — the technological layer a container belongs to (`front | back | db | e2e | fullstack`); classifies containers, never identifies one.
-- **e2e container** — runnable like any container, but transversal: it verifies the others. Planned via `e2e.plan.md` and implemented by `/codify` like any container; only its verdict belongs to `/verify`.
+- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
+- **Tier** — a container's layer: `front | back | db | e2e | fullstack`. Classifies containers, never identifies one.
+- **e2e container** — transversal; verifies the others; written by `/codify`, judged by `/verify`. Planned via `e2e.plan.md`.
 - **Evidence wins** — extract what exists, prescribe what is missing (marked *intended*). Applied per question, not per repo.
 
 ## Git

@@ -1,7 +1,7 @@
 # AIDD skills catalog
 
 An 8-skill pipeline covering the whole SDLC, plus `/skillify` to extend the skillset
-itself. Fewer skills, fewer artifacts.
+itself.
 `/specify` stays at the outcome level; `/planify` owns the per-container breakdown — the
 transversal e2e plan included. `/codify` is the only skill that writes code; `/verify` and
 `/review` only evaluate and report — implementation and evaluation never share a session.
@@ -58,6 +58,19 @@ Not part of the SDLC pipeline — it maintains the skill framework itself.
 
 Produces:
 - `/skillify` → new/updated `SKILL.md` (+ references/assets); catalog kept in sync.
+
+## Commands
+
+Phase orchestrators under [`.agents/commands/`](../commands/) — each chains a pipeline
+stretch, one subagent per skill run, so every step gets a fresh context.
+
+| Command | Orchestrates |
+|---------|--------------|
+| [`explore-and-extract`](../commands/explore-and-extract.md) | `/explore`, then `/extract` per container |
+| [`specify-and-planify`](../commands/specify-and-planify.md) | `/specify`, then `/planify` (one run, all plans) |
+| [`codify-plans`](../commands/codify-plans.md) | `/codify` per container plan — e2e included |
+| [`verify-and-fix`](../commands/verify-and-fix.md) | `/verify` → `/codify` → `/verify`, until green |
+| [`review-and-fix`](../commands/review-and-fix.md) | `/review` → `/codify` fixes → `/verify` |
 
 ## Pipeline
 

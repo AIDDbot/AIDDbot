@@ -1,0 +1,1 @@
+Run the /specify skill in a subagent. When it finishes, read the generated spec and run the /planify skill in a fresh subagent. Planify runs once — not per container — because it writes one plan per affected container, the e2e plan included, and shared contracts must be stated identically across all sibling plans.

@@ -1,1 +1,1 @@
-Execute the /explore skill using a subagent. When it finishes, read the generated architectural documentation and execute the /extract skill for each container sequentially, also using a subagent, so that each container has its own context.
+Run the /explore skill in a subagent. When it finishes, read `arch/system.arch.md` and run the /extract skill once per container, each in its own subagent, so every container gets a fresh context.

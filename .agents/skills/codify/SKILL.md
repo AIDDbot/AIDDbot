@@ -69,6 +69,7 @@ Produce working code with unit tests for the critical modules.
 - → /verify
 
 #### 3.3 when in fix mode
+- If on the default branch, create branch `fix/{slug}`.
 - Apply the minimal fix per defect.
 - Annotate fix deviations (what, why); check each in-scope step `[x]`.
 - → /verify
