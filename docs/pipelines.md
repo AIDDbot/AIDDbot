@@ -121,7 +121,8 @@ Guardrails worth knowing:
 
 ### `/release` — close the loop
 
-Bumps the version (SemVer), moves `Unreleased` changelog entries under the new version (Keep a Changelog), updates human docs, and **reconciles the architecture docs** against what shipped. For features it also **merges the shipped behavior into `docs/{feature}.md`** — the contract in words, kept in lockstep with the e2e suite; rewritten statements log under *Changed*, new ones under *Added*. Then it closes the spec (`status: done`, `released-version`) — from that point the spec is history, never authority. It also ships spec-less maintenance patches (defect fixes, structural refactors).
+Bumps the version (SemVer), finalizes `CHANGELOG.md`, reconciles arch docs, and closes
+the spec (`status: done`, `released-version`) when one is in scope.
 
 ### Maintenance — no triage skill
 
@@ -130,7 +131,7 @@ Changes to **released** features route on one mechanical question — *would sat
 | Answer | It is a... | Route |
 |---|---|---|
 | No green test flips | defect (or coverage gap) | `/codify` fix mode + regression e2e test → patch `/release` |
-| A green test must flip | behavior change | a new spec via `/specify` → full pipeline → `/release` merges the feature doc |
+| A green test must flip | behavior change | a new spec via `/specify` → full pipeline → `/release` |
 
 ```markdown
 /codify (fix + regression test) -> /release       (defect)

@@ -7,7 +7,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **Specs**: Follow Spec-Driven Development (SDD) with status: `pending` → `in-progress` → `done`
   - One folder per spec: `specs/{NNN}-{slug}/` — `{NNN}` is a 3-digit sequential id
   - Acceptance criteria numbered `AC-{NNN}.{n}` — referenced by plans, e2e test titles, and reports
-  - `specs/PRD.md` indexes specs by feature area — written only by `/specify`
+  - `specs/PRD.md` — functional log of specs by feature area — written only by `/specify`
 
 ## Conventions and configuration
 {} are special marks. {Pascal_Case} are placeholders for values and {short sentences} are instructions for the agent.

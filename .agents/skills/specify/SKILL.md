@@ -15,6 +15,8 @@ Capture a feature as a one-page spec:
 - expected results per container, and
 - acceptance criteria.
 
+Boundary: version bump, changelog, arch docs, closing specs → `/release`.
+
 ## Guardrails
 - **Outcome level only** — no steps, file paths, or tech choices.
 - **Write-once** — a new change is a new spec; never edit an existing one.
@@ -33,13 +35,13 @@ Capture a feature as a one-page spec:
 - **{slug}** — short feature identifier; names the spec folder with `{id}`.
 - **{id}** — 3-digit sequential spec number; highest under `specs/` plus one.
 - **AC id** — `AC-{id}.{n}`; numbers each acceptance criterion, referenced by plans, tests, and reports.
-- **PRD** — index of specs grouped by feature area; the product's functional map.
+- **PRD** — functional log of specs grouped by feature area; append-only index written at spec creation.
 
 ## Steps
 ### 1. Research
 - Ask me to clarify the context one question at a time with closed-ended answers.
 - Derive `{slug}`; derive `{id}` from the `specs/` folder listing.
-- If present, _read_ [the PRD, features already specified]({PRD}) — spot overlap and lineage.
+- If present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the containers this feature touches.
 
@@ -51,7 +53,7 @@ Capture a feature as a one-page spec:
 - Prepare the conceptual data model from the domain ER diagram.
 - Prepare per-container expected results.
 - The `e2e` container lives in the verification criteria section.
-- Prepare the PRD line: feature area, one-line outcome, `supersedes {id}` if replacing behavior.
+- Prepare the PRD line: feature area and one-line outcome.
 
 ### 3. Implement
 - Write `{Specs}/spec.md` with `status: pending`; one page; number the criteria `AC-{id}.{n}`.

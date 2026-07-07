@@ -10,17 +10,14 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
 - The e2e suite — organized by feature, like production code — is the executable
   statement of current behavior. Green tests change only through a plan, never to
   force a pass.
-- The feature docs (`docs/{feature}.md`) state the same behavior in words — one
-  statement per line, each noting the spec that shipped it. `/release` keeps them in
-  lockstep with the suite.
 - The arch docs (`system.arch.md`, `{container}.arch.md`, rules) describe the current
   technical state. `/release` reconciles them after every change; `/extract`
   rebuilds them when they drift.
-- A spec is a disposable ticket: one change, its criteria, its acceptance. Once released
-  it is a closed ticket — history (why, and since when), never authority.
-- The PRD (`specs/PRD.md`) indexes the tickets by feature area — the product's functional
-  map and lineage (`supersedes`). Written only by `/specify`; status stays in each spec.
-- Invariant: green e2e suite = current behavior = feature docs, in words.
+- A spec is the programming artifact for one change — its criteria and acceptance.
+  Once released it is closed (`done`) — history, not ongoing authority.
+- The PRD (`specs/PRD.md`) is the functional log — specs indexed by feature area when
+  created. Written only by `/specify`; status stays in each spec.
+- Invariant: green e2e suite = current behavior.
 
 ## Build (new project or new feature)
 
@@ -38,12 +35,11 @@ misrouted request to the other.
 
 - **No green test flips** → defect (or coverage gap).
   - Route: `/codify` fix mode — minimal fix + regression e2e test → patch `/release`.
-    No spec; the feature doc stays untouched (the fix restores documented behavior).
+    No spec.
   - Proof: the regression test passes; every green test still green, untouched.
 - **A green test must flip** → behavior change.
-  - Route: `/specify` (quote the current behavior from `docs/{feature}.md` as baseline)
-    → full pipeline — the e2e plan lists the scenarios it changes or retires — →
-    `/release` merges the feature doc.
+  - Route: `/specify` → full pipeline — the e2e plan lists the scenarios it changes
+    or retires.
   - Proof: the new criteria's tests pass.
 
 A "bug" the suite disagrees with is a behavior change in disguise: code, tests, and
@@ -81,6 +77,5 @@ plan, judged by `/verify` — is the safety net; SDD manufactures it as a by-pro
 | Defect fix (spec-less, `/codify` fix mode) | patch | Fixed |
 | Structural refactor | patch | Changed (internal) |
 
-Every release ends the same way: version bumped, changelog updated, arch docs
-reconciled, default branch tagged. Feature releases additionally merge the feature doc
-and close the spec (`done`, `released-version`).
+Every release: version bumped, changelog updated, arch docs reconciled, default branch
+tagged. Close the spec (`done`, `released-version`) when one is in scope.

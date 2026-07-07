@@ -32,7 +32,7 @@ Produces:
 
 Produces:
 - `/specify` → `specs/{NNN}-{slug}/spec.md` (criteria numbered `AC-{NNN}.{n}`) + its line in
-  `specs/PRD.md` — the index of specs grouped by feature area, written only by `/specify`.
+  `specs/PRD.md` — the functional log of specs by feature area, written only by `/specify`.
 - `/planify` → `specs/{NNN}-{slug}/{container}.plan.md` — `e2e.plan.md` included.
 - `/codify` → source, unit tests, e2e tests (titles carry their AC id).
 - `/verify` → `specs/{NNN}-{slug}/e2e.report.md` — a verdict per AC id plus the defects.
@@ -42,11 +42,11 @@ Produces:
 | Skill | What it does |
 |-------|--------------|
 | [`/review`](./review/) | Audit a11y/security/perf + clean-code; report findings (`--fix` for mechanical) |
-| [`/release`](./release/) | Version, changelog, feature-doc merge; closes the spec |
+| [`/release`](./release/) | Version, changelog, arch docs; closes the spec when in scope |
 
 Produces:
 - `/review` → `specs/{NNN}-{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
-- `/release` → `CHANGELOG.md`, version bump, merged `docs/{feature}.md`.
+- `/release` → `CHANGELOG.md`, version bump, reconciled arch docs.
 
 ## Meta
 
@@ -77,15 +77,13 @@ writes the suite but never judges it green.
 
 ## Maintenance
 
-The green e2e suite is the contract; `docs/{feature}.md` states the same behavior in
-words; a `done` spec is a closed ticket — history, never authority. There is no triage
-skill: both doors answer one mechanical question — **would satisfying the request change
+The green e2e suite is the contract; a `done` spec is a closed ticket — history, not
+ongoing authority. There is no triage skill: both doors answer one mechanical question — **would satisfying the request change
 what a green e2e test asserts?**
 
 - No → it is a fix: `/codify` (fix mode) + regression test → patch `/release`. No spec.
-- Yes → it is a behavior change: a new spec via `/specify` (quote the current behavior
-  from the feature doc as baseline), full pipeline; the e2e plan lists the scenarios it
-  changes, `/release` merges the feature doc.
+- Yes → it is a behavior change: a new spec via `/specify`, full pipeline; the e2e plan
+  lists the scenarios it changes.
 
 Either door bounces a misrouted request to the other — specify's fix-or-feature gate,
 codify's green-tests-are-the-contract guardrail — so the human never has to choose right.

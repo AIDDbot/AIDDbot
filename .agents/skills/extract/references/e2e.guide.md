@@ -11,7 +11,7 @@ Transversal tier: verifies the functional containers from the outside.
 ## 2. Plan
 - _read_ [container arch template](../assets/container.arch.template.md).
 - _read_ [code rules template](../assets/code.rules.template.md).
-- Organize suites by feature, one per `docs/{feature}.md` — never by spec slug.
+- Organize suites by feature area (as grouped in `{PRD}`) — one suite per feature, never by spec slug.
 - Ground the suite that `/codify` implements from `e2e.plan.md`; `/verify` judges it downstream.
 
 ## 3. Implement

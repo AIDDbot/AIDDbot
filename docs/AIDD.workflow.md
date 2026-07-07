@@ -23,7 +23,6 @@ flowchart TD
       EPL["specs/{NNN}-{slug}/e2e.plan.md"]:::nd
       RPT["specs/{NNN}-{slug}/e2e.report.md"]:::nd
       RVR["specs/{NNN}-{slug}/review.report.md"]:::nd
-      DOC["docs/{feature}.md"]:::nd
   end
 
   subgraph S["SOLUTION"]
@@ -39,7 +38,7 @@ flowchart TD
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
   HUM -->|/specify| PRD
-  PRD -.functional map.-> SPC
+  PRD -.functional log.-> SPC
   AGT -.-> SPC
   ARC -.-> SPC
   ERD -.-> SPC
@@ -55,8 +54,7 @@ flowchart TD
   COD -->|/review| RVR
   RVR -->|/codify| COD
   SPC -->|/release| CHL
-  SPC -->|/release merges| DOC
-  DOC -.baseline for changes.-> SPC
+  SPC -->|/release reconciles| ARC
 
   class P,A,S sg
 ```
@@ -87,7 +85,7 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 | Artifact | Source | Context | Output | Status |
 |----------|--------|---------|--------|--------|
-| **PRD** | `/specify` | existing specs | `specs/PRD.md` | — (append-only index by feature area; status stays in each spec) |
+| **PRD** | `/specify` | existing specs | `specs/PRD.md` | — (append-only functional log by feature area; status stays in each spec) |
 | **Spec** | `/specify` | `system.arch.md`, `ER.md`, `PRD.md` | `specs/{NNN}-{slug}/spec.md` | `pending` (`/specify`) -> `in-progress` (first `/codify`) -> `done` (`/release`) |
 | **Container plan** | `/planify` | `{container}.arch.md` | `specs/{NNN}-{slug}/{container}.plan.md` | — (steps checked `[x]` by `/codify`) |
 | **E2E plan** | `/planify` | `spec.md` AC ids (`AC-{NNN}.{n}`) | `specs/{NNN}-{slug}/e2e.plan.md` | — (steps checked `[x]` by `/codify`) |
@@ -112,10 +110,10 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
   - `{container}.arch.md` — Components (C4 L3), code organization, contract surface (`/extract`).
   - `db.schema.md` / `api.schema.md` — System-wide field-level database/API schema, split out as they grow large; written when the owning container is extracted, linked from any container that benefits (`/extract`, when applicable).
 
-- `docs/` — Living functional docs, one per feature: the contract in words — current behavior, one statement per line, each noting the spec that shipped it (`/release` keeps them in lockstep with the e2e suite).
+- `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `specs/` — One folder per spec, named `{NNN}-{slug}` (`{NNN}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
-  - `PRD.md` — Index of specs grouped by feature area, with lineage (`supersedes`); written only by `/specify`. No status — that lives in each spec.
-  - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria numbered `AC-{NNN}.{n}` (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it.
+  - `PRD.md` — Functional log: specs indexed by feature area when created; written only by `/specify`. No status — that lives in each spec.
+  - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria numbered `AC-{NNN}.{n}` (`/specify`). `/verify` marks its criteria `[x]/[ ]`; `/release` closes it when in scope.
   - `{NNN}-{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
   - `{NNN}-{slug}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).
   - `{NNN}-{slug}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, affected container, severity, kind, handoff (`/verify`).
@@ -129,9 +127,9 @@ Feature artifacts in pipeline order. `Status` is the `status` frontmatter value;
 
 ## Maintenance
 
-The green e2e suite is the contract; `docs/{feature}.md` states it in words; a released spec is a closed ticket. Changes to released features route on one mechanical question — *would a green e2e test have to change?*
+The green e2e suite is the contract; the PRD (`specs/PRD.md`) is the functional log of specs created over time; a released spec is closed history. Changes to released features route on one mechanical question — *would a green e2e test have to change?*
 
 - No → defect or coverage gap: `/codify` fix mode + regression test → patch `/release`.
-- Yes → behavior change: a new spec via `/specify` → full pipeline → `/release` merges the feature doc.
+- Yes → behavior change: a new spec via `/specify` → full pipeline → `/release`.
 
 See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md) for the full maintenance and refactoring map.

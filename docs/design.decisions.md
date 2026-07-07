@@ -5,10 +5,61 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-07 — PRD as functional log; release owns technical closure only
+
+**Status**: adopted. Supersedes the feature-doc and supersession machinery of the
+2026-07-06 entries below.
+
+### Context
+
+`/release` had absorbed functional documentation: merging `docs/{feature}.md`, deriving
+`superseded-by:` from doc diffs, and keeping a readable contract in lockstep with the
+suite. That overloaded release and duplicated the executable contract. Specs were also
+treated as evolving or superseded when behavior changed — ceremony (`amends:`,
+`supersedes`, derive-at-release) that belonged in specify and release but obscured the
+simple model: specs are tickets for programming; the suite is the contract.
+
+### Decision
+
+1. **Specs are programming artifacts.** One change, its criteria, its acceptance.
+   Write-once while open; closed at release (`done`, `released-version`) — history, not
+   ongoing authority.
+2. **PRD is the functional log.** `specs/PRD.md` indexes specs by feature area when
+   `/specify` creates them — append-only, no status, no `supersedes` lineage.
+3. **`/release` is technical closure only.** Version bump, `CHANGELOG.md`, arch doc
+   reconciliation, close the spec. It does not edit the PRD or other functional docs.
+4. **No supersession model.** New behavior = new spec via `/specify`; old specs stay
+   closed as-is. No `amends:`, `superseded-by:`, or derive-at-release.
+5. **The green e2e suite remains the contract.** Organized by PRD feature area, like
+   production code. Green tests change only through a plan.
+
+### Rejected alternatives
+
+- **Keeping feature docs as the readable contract** — rejected: duplicates the suite
+  and forced release to merge functional prose on every ship.
+- **Letting `/release` update the PRD** — deferred: the PRD is written at specify time;
+  release may revisit this if shipped-vs-logged drift becomes a problem.
+
+### Consequences
+
+- Removed `release/assets/feature.doc.template.md`, mode guides, and feature-doc merge steps.
+- `/release` is one self-contained skill: optional spec in scope, same steps either way.
+- `/specify` PRD lines are outcome-only — no supersession markers.
+- e2e suites organize by PRD feature area, not per-spec slug.
+- Invariant: *green e2e suite = current behavior*.
+
+### Accepted trade-offs
+
+- **Functional history is the PRD plus closed specs**, not a living feature-doc HEAD.
+  "What does the product do?" → read the suite; "what specs exist?" → read the PRD.
+- **No automatic linkage when behavior changes.** A new spec is a new ticket; the old
+  one stays closed. Traceability is chronological (PRD order, git, changelog), not
+  structural (`supersedes`).
+
 ## 2026-07-06 — Disposable specs: the green suite is the contract
 
-**Status**: adopted. Supersedes the supersession machinery of the previous two entries;
-keeps their feature docs and plan-authorized test edits as its foundation.
+**Status**: partially superseded (2026-07-07: feature docs and release-as-doc-reconciler
+dropped; disposable closed specs and suite-as-contract retained).
 
 ### Context
 
@@ -72,7 +123,7 @@ invariant, just the suite again.
 
 ## 2026-07-06 — Feature docs are the functional HEAD; supersession is derived at release
 
-**Status**: adopted.
+**Status**: superseded (2026-07-07).
 
 ### Context
 

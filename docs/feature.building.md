@@ -18,16 +18,16 @@ flowchart TD
 
   S1 --> S2 --> S3 --> S4 --> S5 --> S6
 
-  S1 -.-> A1["spec.md<br/>problem + acceptance criteria"]:::ar
+  S1 -.-> A1["spec.md + PRD line<br/>problem + acceptance criteria"]:::ar
   S2 -.-> A2["one plan per container<br/>+ e2e.plan.md"]:::ar
   S3 -.-> A3["code + unit tests<br/>+ e2e suite"]:::ar
   S4 -.-> A4["e2e.report.md<br/>green, or defects + handoffs"]:::ar
   S5 -.-> A5["review.report.md"]:::ar
-  S6 -.-> A6["CHANGELOG + tag<br/>docs/{feature}.md updated"]:::ar
+  S6 -.-> A6["CHANGELOG + tag<br/>arch docs reconciled"]:::ar
 ```
 
 1. **`/specify`** — a one-page ticket: the problem, expected results per container, and
-   testable acceptance criteria. No technology, no steps.
+   testable acceptance criteria; logged in `specs/PRD.md`. No technology, no steps.
 2. **`/planify`** — one plan per affected container, grounded in the architecture docs.
    The e2e plan maps one test scenario to each acceptance criterion.
 3. **`/codify`** — one run per plan; sessions can run in parallel. The e2e suite is
@@ -37,8 +37,7 @@ flowchart TD
    `/codify`, each with a handoff.
 5. **`/review`** — audits the scope (a11y, security, performance, clean code) and
    reports findings.
-6. **`/release`** — bumps the version, updates the changelog and the feature doc,
-   closes the spec.
+6. **`/release`** — bumps the version, updates the changelog, reconciles arch docs; closes the spec when in scope.
 
 ## When the suite is red
 
