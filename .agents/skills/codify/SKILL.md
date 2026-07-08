@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement a container plan or fix a defects report; code and unit tests for critical modules. One run, one container — e2e included.
+description: Implement a container plan or fix a defects report, with unit tests.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,7 +10,7 @@ disable-model-invocation: true
 Act as Senior Software Engineer.
 
 ## Task
-Implement a container plan, or fix a defects report. 
+Implement a container plan, or fix a defects report.
 Produce working code with unit tests for the critical modules.
 
 ## Guardrails
@@ -21,12 +21,13 @@ Produce working code with unit tests for the critical modules.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
+- `{Arch}` = `{Product_Folder}/arch`.
+- `{Rules}` = `{Agents_Folder}/rules`.
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 
 ### Inputs
 - One of:
-  - [a container plan]({Specs}/{container}.plan.md) 
+  - [a container plan]({Specs}/{container}.plan.md)
   - [an e2e plan]({Specs}/e2e.plan.md)
   - [a defects report]({Specs}/e2e.report.md)
   - [a review report]({Specs}/review.report.md)
@@ -47,7 +48,7 @@ Produce working code with unit tests for the critical modules.
 
 ### 2. Plan
 - _read_ [system architecture]({Arch}/system.arch.md).
-- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md); 
+- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md).
 - If touching the store, _read_ [data field shapes]({Arch}/db.schema.md).
 - Map plan steps to code changes; respect contracts shared with sibling containers.
 
@@ -58,21 +59,21 @@ Produce working code with unit tests for the critical modules.
 - Commit (`{feat|fix|test}(scope): {description}`).
 
 #### 3.1 for other containers
-- Ensure the code is correct (it should compile and run)
-- Write unit tests for the critical path (happy path plus errors)
-- Ensure tests pass (rewrite tests if needed)
-- → /codify next container
+- Ensure the code is correct (it should compile and run).
+- _write_ unit tests for the critical path (happy path plus errors).
+- Ensure tests pass (rewrite tests if needed).
+- _handoff_ to `/codify` for the next container.
 
 #### 3.2 for e2e container
 - Skip the unit-test bullet.
-- Write correct code (it should compile and run)
-- → /verify
+- _write_ correct code (it should compile and run).
+- _handoff_ to `/verify`.
 
 #### 3.3 when in fix mode
 - If on the default branch, create branch `fix/{slug}`.
 - Apply the minimal fix per defect.
 - Annotate fix deviations (what, why); check each in-scope step `[x]`.
-- → /verify
+- _handoff_ to `/verify`.
 
 ## Verification
 - [ ] Code builds; unit tests pass (e2e container: suite executes, red allowed).
