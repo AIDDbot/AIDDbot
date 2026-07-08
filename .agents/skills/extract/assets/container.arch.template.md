@@ -10,6 +10,12 @@
 - **Archetype**: {language} — {framework}
 - **Talks to**: {sibling containers / external systems it depends on}
 
+
+### Scripts
+```bash
+# command to compile, test, format, lint, etc.
+```
+
 ---
 
 ## Components diagram (C4 L3)
