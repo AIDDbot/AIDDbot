@@ -11,13 +11,13 @@ One symbol, one meaning; one idea, one syntax.
 | File action | `_read_ \| _write_ \| _update_ [what](path)` |
 | Ask | `_ask_ me to clarify ...` |
 | Condition | `_if_ <cond>, <action>.` — optionally `; else <action>.` |
-| Iteration | `_for_each_ <x>, <action>.` |
+| Iteration | `_for-each_ <x>, <action>.` |
 | Abort | `` _if_ <cond>, stop; _handoff_ to `/skill`. `` |
 | Handoff | `` _handoff_ to `/skill` `` — optionally `per <x>`, `or stop` |
 | Commit | ``Commit (`type(scope): {description}`).`` |
 | Guardrail cite | `Apply **Name**.` |
 
-Forms compose left to right: `_if_ <cond>, _for_each_ <x>, _read_ [...](...)`.
+Forms compose left to right: `_if_ <cond>, _for-each_ <x>, _read_ [...](...)`.
 
 ## Rules
 

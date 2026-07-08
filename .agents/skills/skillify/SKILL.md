@@ -20,7 +20,7 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 - **Say it once** — each caution lives in Guardrails only; Task and Steps may cite it
   by its bold name, never restate it.
 - **Grammar** — every body bullet parses as one sentence form of the skill grammar;
-  tokens (`_read_`, `_write_`, `_ask_`, `_handoff_`, `_if_`, `_for_each_`) open their clauses.
+  tokens (`_read_`, `_write_`, `_ask_`, `_handoff_`, `_if_`, `_for-each_`) open their clauses.
 - **Placement** — Inputs lists only what the caller provides (`Optional:` when so);
   files read unconditionally are `_read_` bullets in Steps; References keeps only
   ambient grounding that applies throughout the run.

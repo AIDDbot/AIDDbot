@@ -40,7 +40,7 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - Identify the input type; derive `{NNN}` and `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the affected containers and their expected results.
-- _for_each_ container, _read_ [its architecture]({Arch}/{container}.arch.md).
+- _for-each_ container, _read_ [its architecture]({Arch}/{container}.arch.md).
 - _if_ ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan

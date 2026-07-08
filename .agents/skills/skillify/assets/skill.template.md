@@ -35,7 +35,7 @@ Boundary: {out-of-scope} belongs to `/{other-skill}`.}
 ## Steps
 {Every bullet parses as one sentence form of skillify's grammar.
 Cite files inline in the step that uses them, one action per bullet:
-`{_if_ {cond}, |_for_each_ {x}, }_{read|write|update}_ [{what it grounds}]({path})`.}
+`{_if_ {cond}, |_for-each_ {x}, }_{read|write|update}_ [{what it grounds}]({path})`.}
 
 ### 1. Research
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
