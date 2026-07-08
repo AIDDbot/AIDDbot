@@ -1,6 +1,6 @@
 ---
 name: review
-description: Audit a code scope for defects (a11y, security, perf) and clean-code/DRY; report findings with handoffs. Report-only unless --fix.
+description: Audit a code scope against the merged checklist and report findings with handoffs.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -16,8 +16,6 @@ Write the findings report — each finding with severity, kind, and handoff.
 ## Guardrails
 - **Report-only by default** — no code edits.
 - **Green baseline** — refuse to start on a failing suite; run `/verify` first.
-- **Behavior findings are not yours** — look only for implementation smells;
-  behavior findings hand off to `/specify`, contract/structural moves to `/planify`.
 
 ## Context
 
@@ -31,21 +29,23 @@ Write the findings report — each finding with severity, kind, and handoff.
 
 ## Steps
 ### 1. Research
-- Run the test suite; if red, stop: → /verify.
+- Run the test suite. If red, stop; _handoff_ to `/verify`.
 - If the scope is ambiguous, ask the minimum questions.
 - List the files in scope.
 
 ### 2. Plan
 - _read_ [checklist: a11y, security, perf, clean-code/DRY](./references/review.guidelines.md).
+- _read_ [findings report template](./assets/review.report.template.md).
 - Walk each file against it — data flow, trust boundaries, UI surface, I/O, structure.
 - Collect findings per dimension, each with severity, kind, and handoff.
+- Prepare the content for the template's placeholders.
 
 ### 3. Implement
-- _read_ [findings report template](./assets/review.report.template.md) and write `{Specs}/review.report.md`.
+- _write_ `{Specs}/review.report.md`.
 - If `--fix`, apply each mechanical finding and mark it fixed in the report.
 - If `--fix`, Commit (`refactor(scope): {description}`).
 - Commit (`docs(review): {description}`).
-- If findings remain, `/codify` the report; else `/release`.
+- If findings remain, _handoff_ to `/codify` with the report; else _handoff_ to `/release`.
 
 ## Verification
 - [ ] Every scope file was considered across all four dimensions.

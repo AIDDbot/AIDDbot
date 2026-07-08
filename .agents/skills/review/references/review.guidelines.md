@@ -1,5 +1,9 @@
 # Review checklist
 
+## Guardrails
+- **Behavior findings are not yours** — look only for implementation smells;
+  behavior findings hand off to `/specify`, contract/structural moves to `/planify`.
+
 One pass; report every applicable violation. Group findings by dimension.
 
 ## Accessibility (WCAG AA)
