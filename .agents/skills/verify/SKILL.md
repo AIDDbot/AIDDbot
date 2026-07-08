@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run the e2e suite against the spec's criteria and write the defects report with triage and handoffs. Report-only — fixes belong to codify.
+description: Run the e2e suite against the spec's criteria and write the triaged defects report.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -27,7 +27,8 @@ every defect triaged by kind and handed off.
 - Optional: the spec `{slug}` to verify.
 
 ### Glossary
-- **Defect kind** — `code bug` | `test bug` (→ `/codify`); `structural` (→ `/planify`).
+- **Defect kind** — `code bug` | `test bug`, handed off to `/codify`; `structural`,
+  handed off to `/planify`.
 - **AC id** — `AC-{NNN}.{n}`; a numbered criterion from the spec, carried by test titles.
 
 ## Steps
@@ -39,19 +40,20 @@ every defect triaged by kind and handed off.
 ### 2. Plan
 - Discover the tests that must be run to verify the spec.
 - _read_ [start/test commands and fixtures]({Agents_File}).
-- If asserting API responses, _read_ [expected API field shapes]({Arch}/api.schema.md);
-  if asserting persisted state, _read_ [expected stored shapes]({Arch}/db.schema.md).
+- If asserting API responses, _read_ [expected API field shapes]({Arch}/api.schema.md).
+- If asserting persisted state, _read_ [expected stored shapes]({Arch}/db.schema.md).
+- _read_ [defects report template](./assets/e2e.report.template.md).
+- Prepare the content for the template's placeholders.
 
 ### 3. Implement
 - Run the affected test or all tests as a last resort.
 - Start the system, run the suite, capture pass/fail per scenario, tear down.
-- _read_ [defects report template](./assets/e2e.report.template.md).
-- Write `{Specs}/e2e.report.md`: a verdict per AC id, then one entry per defect —
+- _write_ `{Specs}/e2e.report.md`: a verdict per AC id, then one entry per defect —
   scenario, expected vs actual, container, severity, kind, handoff.
 - In `spec.md`, mark each AC id `[x]` if its tests pass, `[ ]` otherwise.
 - Commit (`docs(e2e): {NNN}-{slug} report`).
-- If green, → `/review`.
-- If red, → `/codify` the report.
+- If green, _handoff_ to `/review`.
+- If red, _handoff_ to `/codify` with the report.
 
 ## Verification
 - [ ] Every AC id has a mapped test, a verdict in the report, and its `[x]/[ ]` in the spec.
