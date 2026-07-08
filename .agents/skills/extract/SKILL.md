@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Documents one container's component architecture (C4 L3) and code rules; extracts what exists, prescribes what is missing.
+description: Documents the architecture (C4 L3) and code rules for one container.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -14,11 +14,11 @@ Generate one container's component architecture and code-rules documents.
 
 ## Guardrails
 - **One container per run** — `fullstack` counts as one, following Front and Back together.
-- **Shared docs are singletons** — create once, then update and link.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
+- `{Arch}` = `{Product_Folder}/arch`
+- `{Rules}` = `{Agents_Folder}/rules`
 
 ### Inputs
 - Optional: The container to document.
@@ -33,20 +33,20 @@ Generate one container's component architecture and code-rules documents.
 - _read_ [root agent rules]({Agents_File}).
 - _read_ [system architecture]({Arch}/system.arch.md).
 - Pick the target container or ask which one if ambiguous or not given.
-- _read_ [the container tier guide](./references/{tier}.guide.md).
 - _read_ [the extract guide, evidence wins](./references/extract.guide.md).
-- Ask me to clarify the context one question at a time with closed-ended answers.
+- _ask_ me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
-- Prepare components, contracts & data, code organization, naming, and one canonical example.
-- Keep field detail out of `{container}.arch.md`; it lists the surface and links the schemas.
+- _read_ [container arch template](./assets/container.arch.template.md).
+- _read_ [code rules template](./assets/code.rules.template.md).
+- Prepare the content for the templates' placeholders.
 
 ### 3. Implement
-- Write `{Arch}/{container}.arch.md`; link it from `system.arch.md`.
-- Write the shared docs of the tier, applying **Shared docs are singletons**.
-- Write `{Rules}/{container}.rules.md`.
+- _write_ `{Arch}/{container}.arch.md`; link it from `system.arch.md`.
+- _write_ the shared docs of the tier, link them when appropriate.
+- _write_ `{Rules}/{container}.rules.md`. Adapt front-matter to agent harness.
 - Commit (`docs: {description}`).
-- If containers remain, → `/extract` again; else → `/specify`.
+- If containers remain, _handoff_ to `/extract` per container; else _handoff_ to `/specify`.
 
 ## Verification
 - [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no empty placeholders.

@@ -12,9 +12,6 @@ Act as Senior Software Architect.
 ## Task
 Generate the agent-rules file and the system architecture document.
 
-## Guardrails
-- **Structure and config only** — never read code files.
-
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`.
@@ -30,9 +27,8 @@ Generate the agent-rules file and the system architecture document.
 
 ## Steps
 ### 1. Research
-- Infer the operating system, shell, and remote Git repository.
 - _read_ [the explore guide, evidence wins](./references/explore.guide.md).
-- Ask me to clarify the context one question at a time with closed-ended answers.
+- _ask_ me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
 - _read_ [agent-rules template](./assets/AGENTS.template.md).
@@ -40,9 +36,10 @@ Generate the agent-rules file and the system architecture document.
 - Prepare the content for the templates' placeholders.
 
 ### 3. Implement
-- Write `{Agents_File}` — under 100 lines, concise.
-- Write `{Arch}/system.arch.md`.
-- Commit (`docs: {description}`); → `/extract` per container.
+- _write_ `{Agents_File}` — under 100 lines, concise.
+- _write_ `{Arch}/system.arch.md`.
+- Commit (`docs: {description}`).
+- _handoff_ to `/extract` per container.
 
 ## Verification
 - [ ] `{Agents_File}` and `{Arch}/system.arch.md` exist, correct format, no empty placeholders.
