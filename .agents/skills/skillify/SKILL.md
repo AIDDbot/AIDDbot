@@ -20,10 +20,12 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 - **Say it once** — each caution lives in Guardrails only; Task and Steps may cite it
   by its bold name, never restate it.
 - **Grammar** — every body bullet parses as one sentence form of the skill grammar;
-  one symbol, one meaning (`→` is handoff only).
+  verb tokens (`_read_`, `_write_`, `_ask_`, `_handoff_`) open their bullets.
 - **Placement** — Inputs lists only what the caller provides (`Optional:` when so);
   files read unconditionally are `_read_` bullets in Steps; References keeps only
   ambient grounding that applies throughout the run.
+- **Guardrail split** — structural/scoping guardrails stay in `SKILL.md`; behavioral
+  ones move to `references/*.guide.md` when the skill has one.
 - **No shared module** — short duplication across skill folders beats a `_shared/` folder.
 - **Never trade meaning for brevity** — a guardrail, condition, or path never drops
   just to save characters.
@@ -38,14 +40,14 @@ Given a new skill to draft or an existing one to fix, write its `SKILL.md` to ma
 
 ## Steps
 ### 1. Research
-- If fixing, read the target `SKILL.md` and any `references/*.guide.md` it links.
+- If fixing, _read_ the target `SKILL.md` and any `references/*.guide.md` it links.
 
 ### 2. Plan
 - _read_ [section structure every skill follows](./assets/skill.template.md).
 - Map the content onto its sections; note gaps and overruns.
 
 ### 3. Implement
-- Write or edit `SKILL.md` and any `references/*.guide.md`, applying the Guardrails above.
+- _write_ `SKILL.md` and any `references/*.guide.md`, applying the Guardrails above.
 - Commit (`feat(skills): add /{skill}` or `refactor(skills): tighten /{skill}`).
 
 ## Verification

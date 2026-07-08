@@ -11,10 +11,11 @@ Act as {Role}.
 
 ## Task
 {One or two sentences: given {input}, produce {output}.
-Boundary: {out-of-scope} → `/{other-skill}`.}
+Boundary: {out-of-scope} belongs to `/{other-skill}`.}
 
 ## Guardrails
-- **{Invariant}** — {why it holds, or what to do instead}.
+- **{Invariant}** — {structural/scoping guardrail; behavioral guardrails belong in
+  the guide when this skill has one}.
 
 ## Context
 
@@ -34,10 +35,10 @@ Boundary: {out-of-scope} → `/{other-skill}`.}
 ## Steps
 {Every bullet parses as one sentence form of skillify's grammar.
 Cite files inline in the step that uses them, one action per bullet:
-`{If {cond}, |Foreach {x}, }_{role: read|update}_ [{what it grounds}]({path})`.}
+`{If {cond}, |Foreach {x}, }_{read|write|update}_ [{what it grounds}]({path})`.}
 
 ### 1. Research
-- Ask me to clarify the context one question at a time with closed-ended answers.
+- _ask_ me to clarify the context one question at a time with closed-ended answers.
 - {Identify the input; derive `{slug}` / `{container}` when relevant.}
 - {_read_ the always-needed inputs and guides.}
 
@@ -46,9 +47,9 @@ Cite files inline in the step that uses them, one action per bullet:
 - {Prepare the content for the templates' placeholders before writing or touching code.}
 
 ### 3. Implement
-- {The artifact(s) to write, with exact paths.}
+- {_write_ the artifact(s), with exact paths.}
 - Commit (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
-- {Next: → `/{skill}`.}
+- {_handoff_ to `/{skill}`.}
 
 ## Verification
 - [ ] {The primary artifact exists, correct format, no empty placeholders.}

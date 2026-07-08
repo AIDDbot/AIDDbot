@@ -8,11 +8,12 @@ One symbol, one meaning; one idea, one syntax.
 | Form | Syntax |
 |------|--------|
 | Action | `<Verb> <object>.` — one action per bullet |
-| File action | `_read_ \| _update_ [what it grounds](path)` |
+| File action | `_read_ \| _write_ \| _update_ [what](path)` |
+| Ask | `_ask_ me to clarify ...` |
 | Condition | `If <cond>, <action>.` — optionally `; else <action>.` |
 | Iteration | `Foreach <x>, <action>.` |
-| Abort | `If <cond>, stop: → /skill.` |
-| Handoff | `→ /skill` — optionally `per <x>`, `then /next` |
+| Abort | `` If <cond>, stop; _handoff_ to `/skill`. `` |
+| Handoff | `` _handoff_ to `/skill` `` — optionally `per <x>`, `or stop` |
 | Commit | ``Commit (`type(scope): {description}`).`` |
 | Guardrail cite | `Apply **Name**.` |
 
@@ -20,13 +21,14 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 
 ## Rules
 
-- `→` means hand off to a skill — nothing else. For cause or effect in prose, use words.
+- `→` never appears in `SKILL.md` Steps or in `references/*.guide.md`; `skills.catalog.md`,
+  `skills.lifecycle.md`, and output templates under `assets/` may use it as flow notation.
 - Conditions always read `If <cond>, <action>.` — never `<cond>: <action>`,
   `<cond>? <action>`, or `<cond> → <action>`.
 - A bare file action always runs; the `If <cond>,` prefix is the only way to make
   a read or update conditional.
 - No blockquotes — a `>` note is either a Condition bullet in Steps or a Guardrail.
-- Handoffs close their step; each branch is its own Condition bullet.
+- Commit and handoff are separate bullets; a handoff still closes its step.
 - A glossary term defined in several skills is copied verbatim, never paraphrased —
   drift must show in a plain diff.
 
@@ -34,11 +36,11 @@ Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
 
 `references/*.guide.md` files follow the same sentence forms and rules, plus:
 
-- Open with a title and one goal-or-scope sentence.
-- Guardrails are bold-named and citable, like `SKILL.md`'s; a guardrail shared across
-  guides keeps its bold name verbatim (the tail may vary).
-- Tier guides mirror the skill's Steps headings (`1. Research`, `2. Plan`,
-  `3. Implement`), each holding only the container-specific bullets: inputs as
-  `_read_` bullets under **Research**, output templates as `_read_` bullets under
-  **Plan**, and bare `` Write `{output}`. `` bullets under **Implement** —
-  no arrows: `→` stays handoff-only.
+- One guide per skill — no per-tier/variant files; variants become `##`/`###` sections
+  inside it (see `extract.guide.md`'s `## Tiers`).
+- Open with a title, then `## Guardrails` — before the goal sentence.
+- The shared evidence guardrail set is bold-named, citable, and kept byte-identical
+  across guides that reuse it: **Evidence wins**, **Never invent requirements**,
+  **One strong default**, **Observe, don't reform**, **Internals are out of your scope**.
+- After Guardrails: one goal sentence, then the bullets; variant sections nest `_if_`
+  bullets under a `##`/`###` heading, one action per bullet, no arrows.
