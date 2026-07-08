@@ -1,6 +1,6 @@
 ---
 name: planify
-description: Turn a spec into one plan per affected container — the transversal e2e container included — grounded in the container arch.
+description: Turn a spec into one plan per affected container, grounded in the container arch.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -42,11 +42,12 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - List the affected containers and their expected results.
 - Foreach container, _read_ [its architecture]({Arch}/{container}.arch.md).
 - If ambiguous, document assumptions and proceed best-effort.
-- _read_ [container plan template](./assets/plan.template.md).
-- If not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
 
 ### 2. Plan
-- Prepare one plan per container: ordered vertical slices — title, description, paths.
+- _read_ [container plan template](./assets/plan.template.md).
+- If not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
+- Prepare the content for the templates' placeholders: one ordered plan per container —
+  title, description, paths.
 - If touching an API, _read_ [API field shapes]({Arch}/api.schema.md).
 - If touching the store, _read_ [data field shapes]({Arch}/db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
@@ -54,9 +55,10 @@ Turn a spec (or an escalated report) into one plan per affected container —
   map every AC id to exactly one scenario.
 
 ### 3. Implement
-- If a structural refactor, skip the e2e plan. 
-- Write one `{Specs}/{container}.plan.md` per affected container.
-- Commit (`docs: {description}`); → `/codify` per plan.
+- If a structural refactor, skip the e2e plan.
+- _write_ one `{Specs}/{container}.plan.md` per affected container.
+- Commit (`docs: {description}`).
+- _handoff_ to `/codify` per plan.
 
 ## Verification
 - [ ] One plan per affected container — no empty placeholders.
