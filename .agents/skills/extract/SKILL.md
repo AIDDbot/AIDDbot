@@ -50,4 +50,5 @@ Generate one container's component architecture and code-rules documents.
 
 ## Verification
 - [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no empty placeholders.
-- [ ] Shared docs (`db.schema.md`, `api.schema.md`, `ER.md`) exist once their tier is extracted.
+- [ ] Tier docs exist when applicable: `{container}.db.schema.md`, `{container}.api.schema.md`,
+  and the single `ER.md`.

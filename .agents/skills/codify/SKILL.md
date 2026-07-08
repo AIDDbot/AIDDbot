@@ -48,8 +48,8 @@ Produce working code with unit tests for the critical modules.
 
 ### 2. Plan
 - _read_ [system architecture]({Arch}/system.arch.md).
-- If touching an API, _read_ [API field shapes]({Arch}/api.schema.md).
-- If touching the store, _read_ [data field shapes]({Arch}/db.schema.md).
+- If touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
+- If touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
 - Map plan steps to code changes; respect contracts shared with sibling containers.
 
 ### 3. Implement

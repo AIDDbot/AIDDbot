@@ -40,8 +40,8 @@ every defect triaged by kind and handed off.
 ### 2. Plan
 - Discover the tests that must be run to verify the spec.
 - _read_ [start/test commands and fixtures]({Agents_File}).
-- If asserting API responses, _read_ [expected API field shapes]({Arch}/api.schema.md).
-- If asserting persisted state, _read_ [expected stored shapes]({Arch}/db.schema.md).
+- If asserting API responses, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
+- If asserting persisted state, _read_ [expected stored shapes]({Arch}/{container}.db.schema.md).
 - _read_ [defects report template](./assets/e2e.report.template.md).
 - Prepare the content for the template's placeholders.
 
