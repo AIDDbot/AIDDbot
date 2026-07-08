@@ -15,7 +15,7 @@ Capture a feature as a one-page spec:
 - expected results per container, and
 - acceptance criteria.
 
-Boundary: version bump, changelog, arch docs, closing specs → `/release`.
+Boundary: version bump, changelog, arch docs, and closing specs belong to `/release`.
 
 ## Guardrails
 - **Outcome level only** — no steps, file paths, or tech choices.
@@ -24,7 +24,8 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
+- `{Arch}` = `{Product_Folder}/arch`.
+- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 - `{PRD}` = `{Product_Folder}/specs/PRD.md`.
 
 ### Inputs
@@ -39,7 +40,7 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 
 ## Steps
 ### 1. Research
-- Ask me to clarify the context one question at a time with closed-ended answers.
+- _ask_ me to clarify the context one question at a time with closed-ended answers.
 - Derive `{slug}`; derive `{NNN}` from the `specs/` folder listing.
 - If present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
 - _read_ [system architecture]({Arch}/system.arch.md).
@@ -57,10 +58,11 @@ Boundary: version bump, changelog, arch docs, closing specs → `/release`.
 
 ### 3. Implement
 - If on the default branch, create branch `feat/{NNN}-{slug}`.
-- Write `{Specs}/spec.md` with `status: pending`; one page; number the criteria `AC-{NNN}.{n}`.
+- _write_ `{Specs}/spec.md` with `status: pending`; one page; number criteria `AC-{NNN}.{n}`.
 - If `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
 - Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new).
-- Commit (`docs: {description}`); → `/planify`.
+- Commit (`docs: {description}`).
+- _handoff_ to `/planify`.
 
 ## Verification
 - [ ] `{Specs}/spec.md` exists, correct format, no empty placeholders.
