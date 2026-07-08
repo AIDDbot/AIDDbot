@@ -10,6 +10,7 @@ disable-model-invocation: true
 Act as Standards Reviewer.
 
 ## Task
+Run linting and type checking tools.
 Evaluate a code scope against the merged checklist (quality + risk).
 Write the findings report — each finding with severity, kind, and handoff.
 
@@ -34,6 +35,8 @@ Write the findings report — each finding with severity, kind, and handoff.
 - List the files in scope.
 
 ### 2. Plan
+- Run linting and type checking tools.
+- _if_ defects found are false positives, tune tooling rules, _else_ add them to the report.
 - _read_ [checklist: a11y, security, perf, clean-code/DRY](./references/review.guidelines.md).
 - _read_ [findings report template](./assets/review.report.template.md).
 - Walk each file against it — data flow, trust boundaries, UI surface, I/O, structure.

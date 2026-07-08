@@ -31,7 +31,8 @@ One pass; report every applicable violation. Group findings by dimension.
 
 ## Clean code / DRY (behavior-preserving)
 
-- [ ] Descriptive names; named constants instead of magic values.
+- [ ] Descriptive names; the code is self-documenting.
 - [ ] Small, single-purpose functions; guard clauses over deep nesting.
-- [ ] Extract duplicated logic; remove dead code and needless abstractions.
+- [ ] Extract duplicated logic; 
+- [ ] Remove needless abstractions by simplifying the code.
 - [ ] Comments explain "why", not "what".
