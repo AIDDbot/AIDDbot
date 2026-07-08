@@ -18,8 +18,9 @@ skills cover build, maintenance, and refactoring.
 
 Produces:
 - `/explore` → `{Agents_File}`, `arch/system.arch.md`.
-- `/extract` → `arch/{container}.arch.md`, `db.schema.md`/`api.schema.md`/`ER.md` (if
-  applicable), `{Agents_Folder}/rules/{container}.rules.md`.
+- `/extract` → `arch/{container}.arch.md`, `{container}.db.schema.md`/
+  `{container}.api.schema.md`/`{container}.ER.md` (if applicable),
+  `{Agents_Folder}/rules/{container}.rules.md`.
 
 ## Development
 
@@ -77,7 +78,7 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 `/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify`
 -> `/review` -> `/release`
 
-Both context steps apply evidence wins: extract what exists, prescribe what is missing (marked *intended*).
+Both context steps apply evidence wins: document what exists, propose and ask what is missing.
 `/codify` runs once per container — e2e included (sessions can be parallel); `/verify`
 runs the suite and reports: code/test bugs loop back through `/codify` per affected
 container, structural defects escalate to `/planify`. Repeat until green.
