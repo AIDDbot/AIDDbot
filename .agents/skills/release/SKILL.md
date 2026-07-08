@@ -1,6 +1,6 @@
 ---
 name: release
-description: Bump version, update CHANGELOG and arch docs; close the spec when one is in scope.
+description: Bump version, update CHANGELOG and arch docs, and close the in-scope spec.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -13,14 +13,15 @@ Act as Release Manager.
 Ship verified work: bump the version, finalize `CHANGELOG.md`, reconcile arch docs, and
 close the spec when one is in scope.
 
-Boundary: PRD → `/specify`.
+Boundary: the PRD belongs to `/specify`.
 
 ## Guardrails
 - **Nothing unverified ships** — with a spec, all criteria `[x]`; otherwise suite green.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`; `{Rules}` = `{Agents_Folder}/rules`.
+- `{Arch}` = `{Product_Folder}/arch`.
+- `{Rules}` = `{Agents_Folder}/rules`.
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 
 ### Inputs
@@ -36,6 +37,7 @@ Boundary: PRD → `/specify`.
 ### 2. Plan
 - Compute `{new_version}` (SemVer; patch when no spec).
 - _read_ [changelog shape](./assets/CHANGELOG.template.md).
+- Prepare the content for the template's placeholders.
 - Draft Added / Changed / Fixed / Removed from what shipped.
 - Note arch docs that drifted.
 
@@ -44,7 +46,7 @@ Boundary: PRD → `/specify`.
 - _update_ [system architecture]({Arch}/system.arch.md) and [domain ER diagram]({Arch}/ER.md);
   if affected, _update_ [container arch]({Arch}/{container}.arch.md) and
   [container rules]({Rules}/{container}.rules.md).
-- If drift is heavy, → `/extract`.
+- If drift is heavy, _handoff_ to `/extract`.
 - If a spec is in scope, set `status: done` and `released-version: {new_version}`.
 - Commit (`chore: release {new_version}`); tag `{new_version}`; merge to default branch.
 
