@@ -11,10 +11,10 @@ The goal is to document what exists and prescribe defaults only where nothing ex
 
 - Perform a shallow scan of the tree and entry points.
 - Confirm the operating system, shell, and remote Git repository.
-- Detect the `{Product_Folder}` and `{Source_Folders}`; if absent, propose and ask.
+- Detect the `{Product_Folder}` and `{Source_Folders}`; _if_ absent, propose and ask.
 - Look for **Guide files**, never code files.
-- Get the problem + solution from existing docs; if absent, propose and ask.
-- Identify the containers (source code folders); if none exist, prescribe and ask.
+- Get the problem + solution from existing docs; _if_ absent, propose and ask.
+- Identify the containers (source code folders); _if_ none exist, prescribe and ask.
 
 ## Containers
 

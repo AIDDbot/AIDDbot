@@ -33,7 +33,7 @@ Can include the db tier.
   - _write_ `{Arch}/{container}.db.schema.md`.
 - _if_ it owns the domain model:
   - _read_ [ER template](../assets/ER.template.md).
-  - _write_ `{Arch}/ER.md` — the single authoritative domain model; if it exists, _update_ it.
+  - _write_ `{Arch}/ER.md` — the single authoritative domain model; _if_ it exists, _update_ it.
 
 ### Front
 UI tier: renders views, holds client state, and calls sibling APIs.

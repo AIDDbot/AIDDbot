@@ -32,7 +32,7 @@ Generate one container's component architecture and code-rules documents.
 ### 1. Research
 - _read_ [root agent rules]({Agents_File}).
 - _read_ [system architecture]({Arch}/system.arch.md).
-- Pick the target container or ask which one if ambiguous or not given.
+- Pick the target container; _if_ ambiguous or not given, ask which one.
 - _read_ [the extract guide, evidence wins](./references/extract.guide.md).
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 
@@ -46,7 +46,7 @@ Generate one container's component architecture and code-rules documents.
 - _write_ the shared docs of the tier, link them when appropriate.
 - _write_ `{Rules}/{container}.rules.md`. Adapt front-matter to agent harness.
 - Commit (`docs: {description}`).
-- If containers remain, _handoff_ to `/extract` per container; else _handoff_ to `/specify`.
+- _if_ containers remain, _handoff_ to `/extract` per container; else _handoff_ to `/specify`.
 
 ## Verification
 - [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no empty placeholders.

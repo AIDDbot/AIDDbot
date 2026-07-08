@@ -40,22 +40,22 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - Identify the input type; derive `{NNN}` and `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the affected containers and their expected results.
-- Foreach container, _read_ [its architecture]({Arch}/{container}.arch.md).
-- If ambiguous, document assumptions and proceed best-effort.
+- _for_each_ container, _read_ [its architecture]({Arch}/{container}.arch.md).
+- _if_ ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan
 - _read_ [container plan template](./assets/plan.template.md).
-- If not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
+- _if_ not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
 - Prepare the content for the templates' placeholders: one ordered plan per container —
   title, description, paths.
-- If touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
-- If touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
+- _if_ touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
+- _if_ touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
 - Derive the e2e plan from the spec and shared contracts, never from sibling implementations;
   map every AC id to exactly one scenario.
 
 ### 3. Implement
-- If a structural refactor, skip the e2e plan.
+- _if_ a structural refactor, skip the e2e plan.
 - _write_ one `{Specs}/{container}.plan.md` per affected container.
 - Commit (`docs: {description}`).
 - _handoff_ to `/codify` per plan.

@@ -33,15 +33,15 @@ every defect triaged by kind and handed off.
 
 ## Steps
 ### 1. Research
-- Identify the spec; if ambiguous, ask.
+- Identify the spec; _if_ ambiguous, ask.
 - _read_ [acceptance criteria, the contract under test]({Specs}/spec.md).
 - _read_ [scenario ↔ AC id mapping]({Specs}/e2e.plan.md).
 
 ### 2. Plan
 - Discover the tests that must be run to verify the spec.
 - _read_ [start/test commands and fixtures]({Agents_File}).
-- If asserting API responses, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
-- If asserting persisted state, _read_ [expected stored shapes]({Arch}/{container}.db.schema.md).
+- _if_ asserting API responses, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
+- _if_ asserting persisted state, _read_ [expected stored shapes]({Arch}/{container}.db.schema.md).
 - _read_ [defects report template](./assets/e2e.report.template.md).
 - Prepare the content for the template's placeholders.
 
@@ -52,8 +52,8 @@ every defect triaged by kind and handed off.
   scenario, expected vs actual, container, severity, kind, handoff.
 - In `spec.md`, mark each AC id `[x]` if its tests pass, `[ ]` otherwise.
 - Commit (`docs(e2e): {NNN}-{slug} report`).
-- If green, _handoff_ to `/review`.
-- If red, _handoff_ to `/codify` with the report.
+- _if_ green, _handoff_ to `/review`.
+- _if_ red, _handoff_ to `/codify` with the report.
 
 ## Verification
 - [ ] Every AC id has a mapped test, a verdict in the report, and its `[x]/[ ]` in the spec.

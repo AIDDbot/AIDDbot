@@ -10,22 +10,22 @@ One symbol, one meaning; one idea, one syntax.
 | Action | `<Verb> <object>.` — one action per bullet |
 | File action | `_read_ \| _write_ \| _update_ [what](path)` |
 | Ask | `_ask_ me to clarify ...` |
-| Condition | `If <cond>, <action>.` — optionally `; else <action>.` |
-| Iteration | `Foreach <x>, <action>.` |
-| Abort | `` If <cond>, stop; _handoff_ to `/skill`. `` |
+| Condition | `_if_ <cond>, <action>.` — optionally `; else <action>.` |
+| Iteration | `_for_each_ <x>, <action>.` |
+| Abort | `` _if_ <cond>, stop; _handoff_ to `/skill`. `` |
 | Handoff | `` _handoff_ to `/skill` `` — optionally `per <x>`, `or stop` |
 | Commit | ``Commit (`type(scope): {description}`).`` |
 | Guardrail cite | `Apply **Name**.` |
 
-Forms compose left to right: `If <cond>, foreach <x>, _read_ [...](...)`.
+Forms compose left to right: `_if_ <cond>, _for_each_ <x>, _read_ [...](...)`.
 
 ## Rules
 
 - `→` never appears in `SKILL.md` Steps or in `references/*.guide.md`; `skills.catalog.md`,
   `skills.lifecycle.md`, and output templates under `assets/` may use it as flow notation.
-- Conditions always read `If <cond>, <action>.` — never `<cond>: <action>`,
-  `<cond>? <action>`, or `<cond> → <action>`.
-- A bare file action always runs; the `If <cond>,` prefix is the only way to make
+- Conditions always read `_if_ <cond>, <action>.` — never `If <cond>,`,
+  `<cond>: <action>`, `<cond>? <action>`, or `<cond> → <action>`.
+- A bare file action always runs; the `_if_ <cond>,` prefix is the only way to make
   a read or update conditional.
 - No blockquotes — a `>` note is either a Condition bullet in Steps or a Guardrail.
 - Commit and handoff are separate bullets; a handoff still closes its step.

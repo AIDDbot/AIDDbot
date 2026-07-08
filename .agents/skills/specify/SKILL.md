@@ -42,13 +42,13 @@ Boundary: version bump, changelog, arch docs, and closing specs belong to `/rele
 ### 1. Research
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 - Derive `{slug}`; derive `{NNN}` from the `specs/` folder listing.
-- If present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
+- _if_ present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the containers this feature touches.
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
-- If present, _read_ [domain ER diagram]({Arch}/ER.md).
+- _if_ present, _read_ [domain ER diagram]({Arch}/ER.md).
 - _read_ [model design convention](./references/model.conventions.md).
 - Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
 - Prepare the conceptual data model from the domain ER diagram.
@@ -57,9 +57,9 @@ Boundary: version bump, changelog, arch docs, and closing specs belong to `/rele
 - Prepare the PRD line: feature area and one-line outcome.
 
 ### 3. Implement
-- If on the default branch, create branch `feat/{NNN}-{slug}`.
+- _if_ on the default branch, create branch `feat/{NNN}-{slug}`.
 - _write_ `{Specs}/spec.md` with `status: pending`; one page; number criteria `AC-{NNN}.{n}`.
-- If `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
+- _if_ `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
 - Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new).
 - Commit (`docs: {description}`).
 - _handoff_ to `/planify`.

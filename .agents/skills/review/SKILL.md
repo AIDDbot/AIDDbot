@@ -29,8 +29,8 @@ Write the findings report — each finding with severity, kind, and handoff.
 
 ## Steps
 ### 1. Research
-- Run the test suite. If red, stop; _handoff_ to `/verify`.
-- If the scope is ambiguous, ask the minimum questions.
+- Run the test suite. _if_ red, stop; _handoff_ to `/verify`.
+- _if_ the scope is ambiguous, ask the minimum questions.
 - List the files in scope.
 
 ### 2. Plan
@@ -42,10 +42,10 @@ Write the findings report — each finding with severity, kind, and handoff.
 
 ### 3. Implement
 - _write_ `{Specs}/review.report.md`.
-- If `--fix`, apply each mechanical finding and mark it fixed in the report.
-- If `--fix`, Commit (`refactor(scope): {description}`).
+- _if_ `--fix`, apply each mechanical finding and mark it fixed in the report.
+- _if_ `--fix`, Commit (`refactor(scope): {description}`).
 - Commit (`docs(review): {description}`).
-- If findings remain, _handoff_ to `/codify` with the report; else _handoff_ to `/release`.
+- _if_ findings remain, _handoff_ to `/codify` with the report; else _handoff_ to `/release`.
 
 ## Verification
 - [ ] Every scope file was considered across all four dimensions.

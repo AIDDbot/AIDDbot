@@ -31,7 +31,7 @@ Boundary: the PRD belongs to `/specify`.
 ### 1. Research
 - _read_ [repo rules and commands]({Agents_File}).
 - Run the test suite.
-- If a spec is in scope, _read_ [spec, plans, and e2e report]({Specs}/spec.md); else
+- _if_ a spec is in scope, _read_ [spec, plans, and e2e report]({Specs}/spec.md); else
   review the diff since the last tag.
 
 ### 2. Plan
@@ -44,10 +44,10 @@ Boundary: the PRD belongs to `/specify`.
 ### 3. Implement
 - Set version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
 - _update_ [system architecture]({Arch}/system.arch.md) and [domain ER diagram]({Arch}/ER.md);
-  if affected, _update_ [container arch]({Arch}/{container}.arch.md) and
+  _if_ affected, _update_ [container arch]({Arch}/{container}.arch.md) and
   [container rules]({Rules}/{container}.rules.md).
-- If drift is heavy, _handoff_ to `/extract`.
-- If a spec is in scope, set `status: done` and `released-version: {new_version}`.
+- _if_ drift is heavy, _handoff_ to `/extract`.
+- _if_ a spec is in scope, set `status: done` and `released-version: {new_version}`.
 - Commit (`chore: release {new_version}`); tag `{new_version}`; merge to default branch.
 
 ## Verification

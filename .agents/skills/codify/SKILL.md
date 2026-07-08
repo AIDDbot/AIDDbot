@@ -43,19 +43,19 @@ Produce working code with unit tests for the critical modules.
 ## Steps
 ### 1. Research
 - Identify the input; derive `{NNN}`, `{slug}`, and `{container}`.
-- If no single plan is given, ask which container to scope.
+- _if_ no single plan is given, ask which container to scope.
 - _read_ [components, contracts, structure]({Arch}/{container}.arch.md).
 
 ### 2. Plan
 - _read_ [system architecture]({Arch}/system.arch.md).
-- If touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
-- If touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
+- _if_ touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
+- _if_ touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
 - Map plan steps to code changes; respect contracts shared with sibling containers.
 
 ### 3. Implement
 - Commit any pending changes, so the coding session starts from a clean state.
 - Annotate plan deviations (what, why); check each in-scope step `[x]`.
-- In `spec.md`, set `status: in-progress` if still `pending`.
+- _if_ `spec.md` is still `pending`, set `status: in-progress`.
 - Commit (`{feat|fix|test}(scope): {description}`).
 
 #### 3.1 for other containers
@@ -70,7 +70,7 @@ Produce working code with unit tests for the critical modules.
 - _handoff_ to `/verify`.
 
 #### 3.3 when in fix mode
-- If on the default branch, create branch `fix/{slug}`.
+- _if_ on the default branch, create branch `fix/{slug}`.
 - Apply the minimal fix per defect.
 - Annotate fix deviations (what, why); check each in-scope step `[x]`.
 - _handoff_ to `/verify`.
@@ -78,4 +78,4 @@ Produce working code with unit tests for the critical modules.
 ## Verification
 - [ ] Code builds; unit tests pass (e2e container: suite executes, red allowed).
 - [ ] Every in-scope step is checked `[x]`, or every in-scope report entry is fixed.
-- [ ] If related to a spec, ensure its status is `in-progress`.
+- [ ] _if_ related to a spec, ensure its status is `in-progress`.
