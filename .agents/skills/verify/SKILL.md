@@ -35,7 +35,7 @@ every defect triaged by kind and handed off.
 ### 1. Research
 - Identify the spec; _if_ ambiguous, ask.
 - _read_ [acceptance criteria, the contract under test]({Specs}/spec.md).
-- _read_ [scenario ↔ AC id mapping]({Specs}/e2e.plan.md).
+- _read_ [scenario - AC id mapping]({Specs}/e2e.plan.md).
 
 ### 2. Plan
 - Discover the tests that must be run to verify the spec.

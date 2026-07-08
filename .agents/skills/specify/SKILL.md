@@ -15,10 +15,7 @@ Capture a feature as a one-page spec:
 - expected results per container, and
 - acceptance criteria.
 
-Boundary: version bump, changelog, arch docs, and closing specs belong to `/release`.
-
 ## Guardrails
-- **Outcome level only** — no steps, file paths, or tech choices.
 - **Write-once** — a new change is a new spec; never edit an existing one.
 - **Single writer** — only this skill creates or edits the PRD.
 

@@ -44,19 +44,20 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - _if_ ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan
+- _if_ a structural refactor, skip the e2e plan.
 - _read_ [container plan template](./assets/plan.template.md).
 - _if_ not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
-- Prepare the content for the templates' placeholders: one ordered plan per container —
-  title, description, paths.
+- _for-each_ container: prepare the title, description, paths and placeholders.
 - _if_ touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
 - _if_ touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
-- Derive the e2e plan from the spec and shared contracts, never from sibling implementations;
-  map every AC id to exactly one scenario.
+- _if_ writing the e2e plan: 
+  - Derive it from the spec and shared contracts, never from sibling implementations;
+  - Map every AC id to exactly one scenario.
+  - Think as a QA engineer, not a developer.
 
 ### 3. Implement
-- _if_ a structural refactor, skip the e2e plan.
-- _write_ one `{Specs}/{container}.plan.md` per affected container.
+- _for-each_ container: _write_ `{Specs}/{container}.plan.md`.
 - Commit (`docs: {description}`).
 - _handoff_ to `/codify` per plan.
 

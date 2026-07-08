@@ -53,21 +53,21 @@ Produce working code with unit tests for the critical modules.
 - Map plan steps to code changes; respect contracts shared with sibling containers.
 
 ### 3. Implement
-- Commit any pending changes, so the coding session starts from a clean state.
+- **Commit any pending changes**, so the coding session starts from a clean state.
 - Annotate plan deviations (what, why); check each in-scope step `[x]`.
 - _if_ `spec.md` is still `pending`, set `status: in-progress`.
 - Commit (`{feat|fix|test}(scope): {description}`).
 
-#### 3.1 for other containers
+#### 3.1 for e2e container
+- Skip the unit-test bullet.
+- _write_ correct code (it should compile and run).
+- _handoff_ to `/verify`.
+
+#### 3.2 for other containers
 - Ensure the code is correct (it should compile and run).
 - _write_ unit tests for the critical path (happy path plus errors).
 - Ensure tests pass (rewrite tests if needed).
 - _handoff_ to `/codify` for the next container.
-
-#### 3.2 for e2e container
-- Skip the unit-test bullet.
-- _write_ correct code (it should compile and run).
-- _handoff_ to `/verify`.
 
 #### 3.3 when in fix mode
 - _if_ on the default branch, create branch `fix/{slug}`.
