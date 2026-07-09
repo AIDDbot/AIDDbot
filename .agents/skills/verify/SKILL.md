@@ -21,6 +21,7 @@ every defect triaged by kind and handed off.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`
+- `{Model}` = `{Product_Folder}/model`
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`
 
 ### Inputs
@@ -40,8 +41,8 @@ every defect triaged by kind and handed off.
 ### 2. Plan
 - Discover the tests that must be run to verify the spec.
 - _read_ [start/test commands and fixtures]({Agents_File}).
-- _if_ asserting API responses, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
-- _if_ asserting persisted state, _read_ [expected stored shapes]({Arch}/{container}.db.schema.md).
+- _if_ asserting API responses, _read_ [API field shapes]({Model}/api.schema.md).
+- _if_ asserting persisted state, _read_ [expected stored shapes]({Model}/db.schema.md).
 - _read_ [defects report template](./assets/e2e.report.template.md).
 - Prepare the content for the template's placeholders.
 

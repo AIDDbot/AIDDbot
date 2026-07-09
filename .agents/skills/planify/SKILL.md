@@ -19,6 +19,7 @@ Turn a spec (or an escalated report) into one plan per affected container —
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`
+- `{Model}` = `{Product_Folder}/model`
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`
 
 ### Inputs
@@ -48,8 +49,8 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - _read_ [container plan template](./assets/plan.template.md).
 - _if_ not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
 - _for-each_ container: prepare the title, description, paths and placeholders.
-- _if_ touching an API, _read_ [API field shapes]({Arch}/{container}.api.schema.md).
-- _if_ touching the store, _read_ [data field shapes]({Arch}/{container}.db.schema.md).
+- _if_ touching an API, _read_ [API field shapes]({Model}/api.schema.md).
+- _if_ touching the store, _read_ [data field shapes]({Model}/db.schema.md).
 - State each shared contract in every sibling plan's **Contracts** section, same wording.
 - _if_ writing the e2e plan: 
   - Derive it from the spec and shared contracts, never from sibling implementations;

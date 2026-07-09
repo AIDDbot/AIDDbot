@@ -22,6 +22,7 @@ Capture a feature as a one-page spec:
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`.
+- `{Model}` = `{Product_Folder}/model`.
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 - `{PRD}` = `{Product_Folder}/specs/PRD.md`.
 
@@ -45,7 +46,7 @@ Capture a feature as a one-page spec:
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
-- _if_ present, _read_ [domain ER diagram]({Arch}/ER.md).
+- _if_ present, _read_ [domain ER diagram]({Model}/ER.md).
 - _read_ [model design convention](./references/model.conventions.md).
 - Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
 - Prepare the conceptual data model from the domain ER diagram.

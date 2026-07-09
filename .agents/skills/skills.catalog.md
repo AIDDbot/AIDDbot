@@ -18,8 +18,8 @@ skills cover build, maintenance, and refactoring.
 
 Produces:
 - `/explore` → `{Agents_File}`, `arch/system.arch.md`.
-- `/extract` → `arch/{container}.arch.md`, `{container}.db.schema.md`/
-  `{container}.api.schema.md`/`ER.md` (if applicable),
+- `/extract` → `arch/{container}.arch.md`, `model/db.schema.md`/
+  `model/api.schema.md`/`model/ER.md` (if applicable),
   `{Agents_Folder}/rules/{container}.rules.md`.
 
 ## Development

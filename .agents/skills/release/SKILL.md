@@ -21,6 +21,7 @@ Boundary: the PRD belongs to `/specify`.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`.
+- `{Model}` = `{Product_Folder}/model`.
 - `{Rules}` = `{Agents_Folder}/rules`.
 - `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`.
 
@@ -43,7 +44,7 @@ Boundary: the PRD belongs to `/specify`.
 
 ### 3. Implement
 - Set version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
-- _update_ [system architecture]({Arch}/system.arch.md) and [domain ER diagram]({Arch}/ER.md);
+- _update_ [system architecture]({Arch}/system.arch.md) and [domain ER diagram]({Model}/ER.md);
   _if_ affected, _update_ [container arch]({Arch}/{container}.arch.md) and
   [container rules]({Rules}/{container}.rules.md).
 - _if_ drift is heavy, _handoff_ to `/extract`.
