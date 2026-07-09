@@ -1,15 +1,11 @@
 # Entity-Relationship diagram — {Product_Name}
 
+- No attributes; only entities and relationships.
+
 ```mermaid
 erDiagram
-    EntityA ||--o{ EntityB : "relationship"
+    EntityA ||--o{ EntityB : "{Relationship}"
 ```
-
-## Entities
-
-| Entity | Description |
-|--------|-------------|
-| {Entity} | {What it represents in the domain} |
 
 ---
 

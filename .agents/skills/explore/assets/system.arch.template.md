@@ -15,12 +15,12 @@ C4Container
   Person(actor_id, "{Actor name}")
 
   Container_Boundary(system_id, "{Product_Name}") {
-    Container(container_a, "{Container A}")
-    Container(container_b, "{Container B}")
+    Container(container_a, "{Short_Name}")
+    Container(container_b, "{Short_Name}")
   }
 
-  Rel(actor_id, container_a, "{Interaction}")
-  Rel(container_a, container_b, "{Interaction}")
+  Rel(actor_id, container_a, "{OneVerb}")
+  Rel(container_a, container_b, "{OneVerb}")
 ```
 
 ### Containers table

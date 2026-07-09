@@ -1,21 +1,19 @@
 # Database schema — {Product_Name}
 
-> Persistence schema across the system: tables, key fields, and relationships.
-> Kept in its own file because it grows large for real projects; the migrations/DDL remain the canonical source.
-> Written when the persistence container is extracted; linked from any container that reads or writes it.
+- [Table_Name_1](#table_name_1) : {Description}
+- [Table_Name_2](#table_name_2) : {Description}
 
-```mermaid
-erDiagram
-    TableA ||--o{ TableB : "fk"
-```
+## Table_Name_1
+| Key fields | Notes |
+|------------|-------|
+| {pk / fk / important columns} | {purpose, indexes, constraints} |
+| {pk / fk / important columns} | {purpose, indexes, constraints} |
 
-### Tables
-
-| Table | Key fields | Notes |
-|-------|-----------|-------|
-| {table} | {pk / fk / important columns} | {purpose, indexes, constraints} |
-
-> Canonical source: {path to migrations / DDL}.
+## Table_Name_2
+| Key fields | Notes |
+|------------|-------|
+| {pk / fk / important columns} | {purpose, indexes, constraints} |
+| {pk / fk / important columns} | {purpose, indexes, constraints} |
 
 ---
 

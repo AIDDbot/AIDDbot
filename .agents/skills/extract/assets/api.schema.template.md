@@ -1,23 +1,31 @@
 # API schema — {Product_Name}
 
-> Service contract across the system: endpoints and request/response shapes.
-> Kept in its own file because it grows large for real projects; the OpenAPI/IDL spec remains the canonical source.
-> Written when the API container is extracted; linked from any container that consumes it.
+- [Endpoint_Name_1](#endpoint_name_1) : {Description}
+- [Endpoint_Name_2](#endpoint_name_2) : {Description}
 
-### Endpoints
+## {Endpoint_Name_1}
+| Method  | URL | Request | Response | 
+|---------------|---------|----------|
+| {METHOD} | {URL} | [{TypeName_1}](#{TypeName_1}) | [{TypeName_2}](#{TypeName_2}) |
 
-| Method & Path | Request | Response | Notes |
-|---------------|---------|----------|-------|
-| {GET /resource} | {body / query shape} | {status + body shape} | {auth, errors} |
+## {Endpoint_Name_2}
+| Method  | URL | Request | Response | 
+|---------------|---------|----------|
+| {METHOD} | {URL} | [{TypeName_1}](#{TypeName_1}) | [{TypeName_2}](#{TypeName_2}) |
 
-### Shared types
+## Shared types
 
-| Type | Shape |
-|------|-------|
-| {TypeName} | {field: type, ...} |
+### {TypeName_1}
+| Field | Type | 
+|-------|------|
+| {field_1} | {type} |
+| {field_2} | {type} |
 
-> Canonical source: {path to OpenAPI / proto / GraphQL SDL}.
-
+### {TypeName_2}
+| Field | Type |
+|-------|------|
+| {field_1} | {type} |
+| {field_2} | {type} |
 ---
 
 > last updated: {DateTime}
