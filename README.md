@@ -70,4 +70,6 @@ Documentation:
 
 ---
 
+### [📚 Curso de Spec-Driven Development Inteligente en Udemy](https://www.udemy.com/course/spec-driven-development-inteligente/?referralCode=D67B0EB2BD294D29A5B7)
+
 **Author** · [Alberto Basalo](https://albertobasalo.dev) · [GitHub](https://github.com/AIDDbot/AIDDbot) · [A.I. Code Academy](https://aicode.academy) (ES)
