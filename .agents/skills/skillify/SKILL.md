@@ -10,8 +10,8 @@ disable-model-invocation: true
 Act as Skill Author.
 
 ## Task
-Given a new skill to draft or an existing one to fix, write its `SKILL.md` to match
-`skill.template.md`, applying the concision rules below.
+Given a new skill to draft or an existing one to fix, write its `SKILL.md`
+Apply the same rules to its reference files.
 
 ### Guardrails
 - **Width** — sentences and body lines under 100 chars

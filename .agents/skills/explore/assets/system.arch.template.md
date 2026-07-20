@@ -23,10 +23,15 @@ C4Container
   Rel(container_a, container_b, "{OneVerb}")
 ```
 
-### Containers table
-| Container | Tier | Technology | Responsibility |
-|-----------|------|------------|----------------|
-| [{Container_Name}](./{container_name}.arch.md) | {front \| back \| db \| e2e \| fullstack} | {Technology} | {Responsibility} |
+## {container_a}
+
+- **Folder**: `{source_root}/`
+- **Archetype**: {language} — {framework}
+
+### Scripts
+```bash
+# command to compile, test, format, lint, etc.
+```
 
 ---
 
