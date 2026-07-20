@@ -16,7 +16,8 @@ Apply the same rules to its reference files.
 ### Guardrails
 - **Width** — sentences and body lines under 100 chars
 - **Length** — under 50 sentences per skill; blanks and headings don't count
-- **Grammar** — every body bullet parses as one sentence form of the skill grammar
+- **Grammar** — Steps and References verb bullets parse as skill grammar forms
+  (commands too); Guardrails, Glossary, Inputs, Verification stay declarative.
 - **Composition** — short duplication is acceptable but favor composition over duplication.
 
 ## Context
@@ -41,5 +42,5 @@ Apply the same rules to its reference files.
 
 ## Verification
 - [ ] `SKILL.md` follows `skill.template.md`'s sections, in order, no placeholders left.
-- [ ] Every body bullet parses as one sentence form of the grammar.
+- [ ] Steps and References verb bullets parse as skill grammar forms.
 

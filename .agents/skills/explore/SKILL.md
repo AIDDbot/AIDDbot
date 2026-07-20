@@ -45,19 +45,19 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 - _read_ Guide files first (`README.md`, root manifests, container READMEs, scripts).
 - _confirm_ the OS, shell, and remote Git repository.
 - _detect_ `{Product_Folder}` and `{Source_Folders}`.
-- _if_ those paths are absent, propose defaults and ask.
+- _if_ those paths are absent, _propose_ defaults.
 - _derive_ the problem and solution from existing docs.
-- _if_ problem or solution is absent, propose and ask.
+- _if_ problem or solution is absent, _propose_ defaults.
 - _identify_ the containers and their tiers from folders and Guide files.
-- _if_ no containers exist, prescribe defaults and ask.
+- _if_ no containers exist, _prescribe_ defaults.
 - _identify_ the domain entities and relationships from existing docs.
-- _if_ entities are absent, propose defaults and ask.
+- _if_ entities are absent, _propose_ defaults.
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 - _stop_ and wait for answers before drafting documents.
 
 ### 2. Plan
 - _map_ each References template placeholder to Guide-file evidence or a user answer.
-- _if_ a placeholder has no evidence, ask a focused yes/no or multiple-choice question.
+- _if_ a placeholder has no evidence, _ask_ a focused yes/no or multiple-choice question.
 
 ### 3. Implement
 - _write_ `{Agents_File}` — under 100 lines, concise.

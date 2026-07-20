@@ -49,7 +49,7 @@ and an API schema when it exposes an API.
 - _read_ [root agent rules]({Agents_File}).
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _select_ the target container and its **Tier** from `system.arch.md`.
-- _if_ the container is ambiguous or not given, ask which one.
+- _if_ the container is ambiguous or not given, _ask_ which one.
 - _read_ the container folder, its Guide files, and representative source files.
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 
@@ -59,13 +59,13 @@ and an API schema when it exposes an API.
 - _read_ [code rules template](./assets/container.rules.template.md).
 - _if_ it exposes an API, _read_ [API schema template](./assets/api.schema.template.md).
 - _map_ each template placeholder to source evidence or an explicit user answer.
-- _if_ a placeholder has no evidence, ask a focused yes/no or multiple-choice question.
+- _if_ a placeholder has no evidence, _ask_ a focused yes/no or multiple-choice question.
 
 ### 3. Implement
 - _if_ the tier is `db`, _write_ `{Model}/db.schema.md`.
 - _if_ the tier is not `db`, _write_ `{Arch}/{container}.arch.md`.
 - _update_ the container **Detail** link in `{Arch}/system.arch.md`.
-- _write_ `{Rules}/{container}.rules.md` — adapt front-matter to the agent harness.
+- _write_ `{Rules}/{container}.rules.md` with harness-adapted front-matter.
 - _if_ it exposes an API, _write_ `{Model}/api.schema.md` (merge endpoints if present).
 - _commit_ the changes (`docs(extract): {description}`).
 - _if_ containers remain, _handoff_ to `/extract`.

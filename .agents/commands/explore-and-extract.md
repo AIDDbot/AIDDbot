@@ -1,4 +1,10 @@
-Run the `/explore` skill in a subagent. 
-When it finishes, 
- - read `arch/system.arch.md` and
- - run the `/extract` skill in a subagent for each container
+- _run_ the `/explore` skill in a subagent.
+- _tell_ it to stop after its commit with no handoff.
+- _find_ the root agent-rules file explore wrote (`AGENTS.md` | `CLAUDE.md`).
+- _read_ `{Product_Folder}` from that file.
+- _read_ `{Product_Folder}/arch/system.arch.md` for the containers.
+- _for-each_ container:
+  - _run_ `/extract` in a fresh subagent, one after another.
+  - _pass_ the container name into that run.
+  - _tell_ it to stop after its commit with no handoff.
+- _if_ every container is documented, _suggest_ `/specify`.
