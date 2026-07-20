@@ -45,10 +45,11 @@ Produce working code with unit tests for the critical modules.
 ### 1. Research
 - Identify the input; derive `{NNN}`, `{slug}`, and `{container}`.
 - _if_ no single plan is given, ask which container to scope.
-- _read_ [components, contracts, structure]({Arch}/{container}.arch.md).
+- _read_ [system architecture]({Arch}/system.arch.md) — confirm the container **Tier**.
+- _if_ the tier is not `db`, _read_ [components, contracts, structure]({Arch}/{container}.arch.md).
+- _if_ the tier is `db`, _read_ [relational schema]({Model}/db.schema.md).
 
 ### 2. Plan
-- _read_ [system architecture]({Arch}/system.arch.md).
 - _if_ touching an API, _read_ [API field shapes]({Model}/api.schema.md).
 - _if_ touching the store, _read_ [data field shapes]({Model}/db.schema.md).
 - Map plan steps to code changes; respect contracts shared with sibling containers.

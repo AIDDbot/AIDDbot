@@ -4,19 +4,19 @@
 - [Endpoint_Name_2](#endpoint_name_2) : {Description}
 
 ## {Endpoint_Name_1}
-| Method  | URL | Request | Response | 
-|---------------|---------|----------|
+| Method | URL | Request | Response |
+|--------|-----|---------|----------|
 | {METHOD} | {URL} | [{TypeName_1}](#{TypeName_1}) | [{TypeName_2}](#{TypeName_2}) |
 
 ## {Endpoint_Name_2}
-| Method  | URL | Request | Response | 
-|---------------|---------|----------|
+| Method | URL | Request | Response |
+|--------|-----|---------|----------|
 | {METHOD} | {URL} | [{TypeName_1}](#{TypeName_1}) | [{TypeName_2}](#{TypeName_2}) |
 
 ## Shared types
 
 ### {TypeName_1}
-| Field | Type | 
+| Field | Type |
 |-------|------|
 | {field_1} | {type} |
 | {field_2} | {type} |
@@ -26,6 +26,7 @@
 |-------|------|
 | {field_1} | {type} |
 | {field_2} | {type} |
+
 ---
 
 > last updated: {DateTime}

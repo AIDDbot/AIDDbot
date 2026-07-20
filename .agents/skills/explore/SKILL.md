@@ -18,7 +18,7 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 - **Assumptions** — label fallbacks as assumptions and ask for confirmation.
 - **Defaults** — when prescribing, prefer one strong default over a menu.
 - **Observe** — never redesign what exists; flag contradictions instead.
-- **Scope** — do not read or write application source code.
+- **Scope** — read the tree and Guide files only; never application source.
 - **Docs** — document what exists; prescribe defaults only where nothing exists.
 
 ## Context
@@ -28,6 +28,11 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 
 ### Inputs
 - [ ] Required: The repository tree.
+
+### References
+- _read_ [agent-rules template](./assets/AGENTS.template.md).
+- _read_ [system architecture template](./assets/system.arch.template.md).
+- _read_ [model schema template](./assets/model.schema.template.md).
 
 ### Glossary
 - **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md`.
@@ -43,7 +48,7 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 - _if_ those paths are absent, propose defaults and ask.
 - _derive_ the problem and solution from existing docs.
 - _if_ problem or solution is absent, propose and ask.
-- _identify_ the containers from source folders.
+- _identify_ the containers and their tiers from folders and Guide files.
 - _if_ no containers exist, prescribe defaults and ask.
 - _identify_ the domain entities and relationships from existing docs.
 - _if_ entities are absent, propose defaults and ask.
@@ -51,20 +56,17 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 - _stop_ and wait for answers before drafting documents.
 
 ### 2. Plan
-- _read_ [agent-rules template](./assets/AGENTS.template.md).
-- _read_ [system architecture template](./assets/system.arch.template.md).
-- _read_ [model schema template](./assets/model.schema.template.md).
-- _map_ each template placeholder to source file(s) or an explicit user answer.
+- _map_ each References template placeholder to Guide-file evidence or a user answer.
 - _if_ a placeholder has no evidence, ask a focused yes/no or multiple-choice question.
 
 ### 3. Implement
 - _write_ `{Agents_File}` — under 100 lines, concise.
-- _write_ `{Arch}/system.arch.md`.
+- _write_ `{Arch}/system.arch.md` — include **Tier** per container.
 - _write_ `{Model}/model.schema.md` — entities and relationships only; no attributes.
-- _commit_ the changes (`docs: {description}`).
+- _commit_ the changes (`docs(explore): {description}`).
 - _for-each_ container, _handoff_ to `/extract`.
 
 ## Verification
 - [ ] `{Agents_File}`, `{Arch}/system.arch.md`, and `{Model}/model.schema.md` exist.
-- [ ] No empty placeholders; model schema has no entity attributes.
+- [ ] Each container lists **Tier**; no empty placeholders; model has no attributes.
 - [ ] No unresolved assumptions remain.

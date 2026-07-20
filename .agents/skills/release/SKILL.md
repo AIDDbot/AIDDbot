@@ -46,9 +46,10 @@ Boundary: the PRD belongs to `/specify`.
 - Set version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
 - _update_ [system architecture]({Arch}/system.arch.md) and
   [model schema]({Model}/model.schema.md);
-  _if_ affected, _update_ [container arch]({Arch}/{container}.arch.md),
-  [relational schema]({Model}/db.schema.md), [API schema]({Model}/api.schema.md),
-  and [container rules]({Rules}/{container}.rules.md).
+  _if_ a non-`db` container drifted, _update_ [container arch]({Arch}/{container}.arch.md);
+  _if_ the store drifted, _update_ [relational schema]({Model}/db.schema.md);
+  _if_ an API drifted, _update_ [API schema]({Model}/api.schema.md);
+  _if_ conventions drifted, _update_ [container rules]({Rules}/{container}.rules.md).
 - _if_ drift is heavy, _handoff_ to `/explore` or `/extract`.
 - _if_ a spec is in scope, set `status: done` and `released-version: {new_version}`.
 - Commit (`chore: release {new_version}`); tag `{new_version}`; merge to default branch.

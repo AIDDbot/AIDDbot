@@ -24,6 +24,11 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - Conventional commit: `{feat|fix|chore|docs|test|refactor}(scope): {description}`
 - Branch names: `{feat|fix|chore}/{slug}`
 
+### Spec status
+- Specs live under `{Product_Folder}/specs/{NNN}-{slug}/spec.md`.
+- Status chain: `pending` (`/specify`) → `in-progress` (first `/codify`) → `done` (`/release`).
+- Do not edit a `done` spec; ship a new one for behavior change.
+
 ---
 
 ## Product

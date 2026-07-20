@@ -106,19 +106,21 @@ flowchart TD
 /explore -> /extract (×container)
 ```
 
-Both steps apply **evidence wins**: they extract from the codebase where code exists and
-prescribe defaults (marked *intended*) where it doesn't. The rule resolves per gap: one
-repo can mix extracted containers and prescribed ones.
+Both steps apply **evidence wins**: document what exists, prescribe defaults (marked
+*intended*) where it doesn't. The rule resolves per gap: one repo can mix extracted
+containers and prescribed ones. **Scope split:** `/explore` uses the tree and Guide
+files only; `/extract` reads that container's source.
 
 - `/explore` sets up AIDD and documents the system (C4 L2):
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
-  - `arch/system.arch.md` — containers diagram with per-container details.
+  - `arch/system.arch.md` — containers diagram; each container has **Tier** and a **Detail** link.
   - `model/model.schema.md` — conceptual ER diagram and entity list (no attributes).
 - `/extract` documents **one container per invocation**:
   - `arch/{container}.arch.md` — C4 L3 components and code organization (non-`db` tiers).
   - `model/db.schema.md` — relational schema (**instead of** arch when tier is `db`).
-  - `model/api.schema.md` — when the container exposes an API.
+  - `model/api.schema.md` — when the container exposes an API (merge into the shared file).
   - `{Agents_Folder}/rules/{container}.rules.md` — naming, conventions, one canonical example.
+  - Updates the container **Detail** link in `system.arch.md`.
 
 When every container is documented, start features with `/specify`.
 
@@ -324,12 +326,12 @@ flowchart TD
 | Producer | Artifact | Consumers | Status |
 |----------|----------|-----------|--------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | every skill — paths, conventions, git rules, start/test commands | — |
-| `/explore` | `arch/system.arch.md` (C4 L2) | `/extract`, `/specify`, `/planify`, `/codify`, `/release` | — |
+| `/explore` | `arch/system.arch.md` (C4 L2, Tier + Detail per container) | `/extract`, `/specify`, `/planify`, `/codify`, `/release` | — |
 | `/explore` | `model/model.schema.md` (conceptual ER, no attributes) | `/specify`, `/release` | — |
 | `/extract` | `arch/{container}.arch.md` (C4 L3, non-`db`) | `/planify`, `/codify`, `/release` (doc sync) | — |
 | `/extract` | `model/db.schema.md` (`db` tier, instead of arch) | `/planify`, `/codify`, `/verify` | — |
-| `/extract` | `model/api.schema.md` (when container exposes an API) | `/planify`, `/codify`, `/verify` | — |
-| `/extract` | `rules/{container}.rules.md` | `/codify` | — |
+| `/extract` | `model/api.schema.md` (when container exposes an API; merge) | `/planify`, `/codify`, `/verify` | — |
+| `/extract` | `{Agents_Folder}/rules/{container}.rules.md` | `/codify` | — |
 | `/specify` | `specs/{NNN}-{slug}/spec.md` + its line in `specs/PRD.md` (sole writer) | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `done` (`/release`) |
 | `/planify` | `specs/{NNN}-{slug}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
 | `/planify` | `specs/{NNN}-{slug}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ AC id mapping) | steps checked `[x]` by `/codify` |
@@ -370,7 +372,7 @@ stateDiagram-v2
 - `{Agents_Folder}/skills/` — Agent skills (from AIDDbot or custom); `{Agents_Folder}/commands/` — phase orchestrators.
 - `{Agents_Folder}/rules/{container}.rules.md` — Naming, conventions, canonical example (`/extract`).
 - `arch/` — Architecture set for planning and coding.
-  - `system.arch.md` — Containers diagram (C4 L2) (`/explore`).
+  - `system.arch.md` — Containers diagram (C4 L2), Tier + Detail per container (`/explore`).
   - `{container}.arch.md` — Components (C4 L3), code organization (`/extract`, non-`db`).
 - `model/` — Domain and field-level schemas.
   - `model.schema.md` — Conceptual ER + entity list, no attributes (`/explore`).

@@ -34,7 +34,7 @@ In your agent chat:
 /explore this project
 ```
 
-This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — the system architecture document `arch/system.arch.md` (C4 L2: containers), and the conceptual model schema `model/model.schema.md` (ER diagram + entity list, no attributes).
+This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, spec status chain, product brief — the system architecture document `arch/system.arch.md` (C4 L2: containers with **Tier**), and the conceptual model schema `model/model.schema.md` (ER diagram + entity list, no attributes). `/explore` reads the tree and Guide files only, not application source.
 
 Then document each **container** (a runnable unit from `system.arch.md`: `api`, `web`, `db`...). Run once per container:
 
@@ -42,12 +42,15 @@ Then document each **container** (a runnable unit from `system.arch.md`: `api`, 
 /extract the api container
 ```
 
-This writes `rules/{container}.rules.md` for every container. Non-`db` containers also get
-`arch/{container}.arch.md` (C4 L3). The `db` container gets `model/db.schema.md` (relational
-schema) **instead of** an arch doc. Containers that expose an API also get
-`model/api.schema.md`.
+This reads that container's source and writes `{Agents_Folder}/rules/{container}.rules.md`.
+Non-`db` containers also get `arch/{container}.arch.md` (C4 L3). The `db` container gets
+`model/db.schema.md` (relational schema) **instead of** an arch doc. Containers that expose
+an API also update `model/api.schema.md`. Each run sets the container **Detail** link in
+`system.arch.md`.
 
-Both skills apply **evidence wins**: they extract from the codebase where code exists and prescribe defaults (marked *intended*) where it doesn't — even inside the same repo. When every container is documented, start building.
+Both skills apply **evidence wins**: document what exists, prescribe defaults (marked
+*intended*) where it doesn't — even inside the same repo. When every container is
+documented, start building.
 
 See the [AIDD workflow](./AIDD.workflow.md#set-up-the-context).
 

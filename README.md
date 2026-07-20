@@ -58,7 +58,10 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth
 # copy AIDDbot-tmp/.agents → your project root, then delete AIDDbot-tmp
 ```
 
-In your agent chat run the `/explore` command or ask AIDDbot to explore the project. It extracts facts from the existing code and prescribes defaults where nothing exists yet, so it works on empty and mature repos alike.
+In your agent chat run the `/explore` command or ask AIDDbot to explore the project. It
+reads Guide files and the repo tree (not application source), then `/extract` documents
+each container from its source — prescribing defaults where nothing exists yet, so it
+works on empty and mature repos alike.
 
 Documentation:
 

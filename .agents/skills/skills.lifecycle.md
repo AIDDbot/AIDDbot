@@ -10,9 +10,9 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
 - The e2e suite — organized by feature, like production code — is the executable
   statement of current behavior. Green tests change only through a plan, never to
   force a pass.
-- The arch docs (`system.arch.md`, `{container}.arch.md`, rules) describe the current
-  technical state. `/release` reconciles them after every change; `/extract`
-  rebuilds them when they drift.
+- The arch docs (`system.arch.md` with Tier/Detail, `{container}.arch.md` or
+  `db.schema.md`, rules) describe the current technical state. `/release` reconciles
+  them after every change; `/extract` rebuilds them when they drift.
 - A spec is the programming artifact for one change — its criteria and acceptance.
   Once released it is closed (`done`) — history, not ongoing authority.
 - The PRD (`specs/PRD.md`) is the functional log — specs indexed by feature area when

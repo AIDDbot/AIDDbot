@@ -41,7 +41,8 @@ Turn a spec (or an escalated report) into one plan per affected container —
 - Identify the input type; derive `{NNN}` and `{slug}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the affected containers and their expected results.
-- _for-each_ container, _read_ [its architecture]({Arch}/{container}.arch.md).
+- _for-each_ non-`db` container, _read_ [its architecture]({Arch}/{container}.arch.md).
+- _if_ a `db` container is affected, _read_ [relational schema]({Model}/db.schema.md).
 - _if_ ambiguous, document assumptions and proceed best-effort.
 
 ### 2. Plan
@@ -64,5 +65,5 @@ Turn a spec (or an escalated report) into one plan per affected container —
 
 ## Verification
 - [ ] One plan per affected container — no empty placeholders.
-- [ ] Each plan is grounded in its `{container}.arch.md`, ordered, actionable standalone.
+- [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable standalone.
 - [ ] The e2e plan (if any) maps every AC id to exactly one scenario step.
