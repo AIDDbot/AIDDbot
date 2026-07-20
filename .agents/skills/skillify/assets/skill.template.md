@@ -1,46 +1,39 @@
 ---
 name: {slug}
-description: {One sentence: what it does, the value delivered, and the key boundary (what it does NOT own).}
+description: {what it does in one sentence}
 user-invocable: true
 disable-model-invocation: true
 ---
 # {Title}
 
 ## Role
-Act as {Role}.
+Act as {Role}
 
 ## Task
-{One or two sentences: given {input}, produce {output}.
-Boundary: {out-of-scope} belongs to `/{other-skill}`.}
+{One or two sentences explaining the goal of the skill.}
 
-## Guardrails
-- **{Invariant}** — {structural/scoping guardrail; behavioral guardrails belong in
-  the guide when this skill has one}.
+### Guardrails
+- [ ] {**guardrail**}:{explaining the guardrail}
 
 ## Context
 
 - {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
-- {What the caller provides; if several, list as "One of:"; mark `Optional:` when so.
-  Files read unconditionally go in Steps as `_read_` bullets, not here.}
+- [ ] Required: {what the caller must provide}
+- [ ] Optional: {what the caller may provide}
 
 ### References
-- {Ambient grounding only — files that apply throughout, not at one step; else drop
-  the section. Items: `_{role}_ [{what it grounds}]({path})`.}
+- {files that apply throughout the skill}
 
 ### Glossary
 - **{Term}** — {definition, only if skill-specific and used in this skill}.
 
 ## Steps
-{Every bullet parses as one sentence form of skillify's grammar.
-Cite files inline in the step that uses them, one action per bullet:
-`{_if_ {cond}, |_for-each_ {x}, }_{read|write|update}_ [{what it grounds}]({path})`.}
 
 ### 1. Research
-- _ask_ me to clarify the context one question at a time with closed-ended answers.
-- {Identify the input; derive `{slug}` / `{container}` when relevant.}
 - {_read_ the always-needed inputs and guides.}
+- _ask_ me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
 - {_read_ the output template(s).}
@@ -48,9 +41,9 @@ Cite files inline in the step that uses them, one action per bullet:
 
 ### 3. Implement
 - {_write_ the artifact(s), with exact paths.}
-- Commit (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
+- _commit_ the changes (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
 - {_handoff_ to `/{skill}`.}
 
 ## Verification
 - [ ] {The primary artifact exists, correct format, no empty placeholders.}
-- [ ] {The core boundary/guardrail held.}
+- [ ] {The core goal of the skill is achieved.}
