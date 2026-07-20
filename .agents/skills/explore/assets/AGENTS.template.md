@@ -6,7 +6,8 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **Output:** Prefer actionable steps and checklists over essays, unless depth is needed
 
 ## Conventions and configuration
-{} are special marks. {Pascal_Case} are placeholders for values and {short sentences} are instructions for the agent.
+{} are special marks. {Pascal_Case} are placeholders for values.
+{short sentences} are instructions for the agent.
 
 ### Environment
 - **Git**: {remote URL} — {default branch `main` | `master`}
@@ -14,9 +15,9 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 
 ### Paths
 - **{Agents_File}** — `AGENTS.md` | `CLAUDE.md` — {this file; name depends on the harness}
-- **{Agents_Folder}** — `.agents/` | `.claude/` | {user chosen} — {holds skills and rules for agents}
-- **{Product_Folder}** — `.product/` | `docs/` | {user chosen} — {holds product architecture and specs}
-- **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {user chosen} — {holds source code}
+- **{Agents_Folder}** — `.agents/` | `.claude/` | {chosen} — {agent skills and rules}
+- **{Product_Folder}** — `.product/` | `docs/` | {chosen} — {architecture and specs}
+- **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — {code}
 
 ### Git
 - Preserve work; no secrets; no destructive commands

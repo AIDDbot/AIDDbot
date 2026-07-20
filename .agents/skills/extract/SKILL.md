@@ -34,15 +34,13 @@ and an API schema when it exposes an API.
 - [ ] Optional: The container to document.
 
 ### References
-- _read_ [relational schema template](./assets/db.schema.template.md).
-- _read_ [container arch template](./assets/container.arch.template.md).
 - _read_ [code rules template](./assets/container.rules.template.md).
-- _read_ [API schema template](./assets/api.schema.template.md).
 
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
 - **Component** — an internal building block of one container — C4 L3.
+- **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`.
 
 ## Steps
 ### 1. Research
@@ -56,7 +54,6 @@ and an API schema when it exposes an API.
 ### 2. Plan
 - _if_ the tier is `db`, _read_ [relational schema template](./assets/db.schema.template.md).
 - _if_ the tier is not `db`, _read_ [container arch template](./assets/container.arch.template.md).
-- _read_ [code rules template](./assets/container.rules.template.md).
 - _if_ it exposes an API, _read_ [API schema template](./assets/api.schema.template.md).
 - _map_ each template placeholder to source evidence or an explicit user answer.
 - _if_ a placeholder has no evidence, _ask_ a focused yes/no or multiple-choice question.

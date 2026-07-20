@@ -43,7 +43,7 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 ## Steps
 ### 1. Research
 - _read_ Guide files first (`README.md`, root manifests, container READMEs, scripts).
-- _confirm_ the OS, shell, and remote Git repository.
+- _detect_ the OS, shell, and remote Git repository.
 - _detect_ `{Product_Folder}` and `{Source_Folders}`.
 - _if_ those paths are absent, _propose_ defaults.
 - _derive_ the problem and solution from existing docs.
@@ -53,7 +53,7 @@ Generate the agent-rules file, system architecture, and conceptual model schema.
 - _identify_ the domain entities and relationships from existing docs.
 - _if_ entities are absent, _propose_ defaults.
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
-- _stop_ and wait for answers before drafting documents.
+- _stop_ before drafting documents.
 
 ### 2. Plan
 - _map_ each References template placeholder to Guide-file evidence or a user answer.

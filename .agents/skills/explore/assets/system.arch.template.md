@@ -28,7 +28,8 @@ C4Container
 - **Folder**: `{source_root}/`
 - **Tier**: `{front | back | db | e2e | fullstack}`
 - **Archetype**: {language} — {framework}
-- **Detail**: [`{container}.arch.md`](./{container}.arch.md) | [`../model/db.schema.md`](../model/db.schema.md)
+- **Detail**: [`{container}.arch.md`](./{container}.arch.md) |
+  [`../model/db.schema.md`](../model/db.schema.md)
 
 ### Scripts
 ```bash
