@@ -8,13 +8,14 @@
 
 - **Folder**: `{source_root}/`
 - **Archetype**: {language} — {framework}
-- **Talks to**: {sibling containers / external systems it depends on}
 
 
-### Scripts
-```bash
-# command to compile, test, format, lint, etc.
-```
+
+### Dependencies
+
+- **Depends on**: {sibling containers / external systems it depends on}
+- **Used by**: {sibling containers / external systems that depend on it}
+- **Libraries**: {libraries this container uses}
 
 ---
 
@@ -31,19 +32,6 @@ C4Component
 
   Rel(comp_a, comp_b, "{Interaction}")
 ```
-
----
-
-## Contracts & data
-
-{Contract surface only — the full field-level shapes live in the linked schema files.}
-
-- **Exposes**: {endpoints / interfaces / events this container provides}; full shapes in [`api.schema.md`](../model/api.schema.md).
-- **Consumes**: {contracts from sibling containers or external systems}; see [`api.schema.md`](../model/api.schema.md).
-- **Persists**: {entities/tables this container owns or reads}; full schema in [`db.schema.md`](../model/db.schema.md).
-- **Models**: {business entities/relationships this container owns}; full diagram in [`ER.md`](../model/ER.md).
-
-> Omit any line that doesn't apply, and link `api.schema.md` / `db.schema.md` / `ER.md` only when this container exposes/consumes an API, touches the persistence store, or owns the domain model.
 
 ---
 
