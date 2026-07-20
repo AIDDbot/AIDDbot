@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Generates the root agent-rules file and system architecture doc.
+description: Generates agent rules, system architecture, and the conceptual model schema.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,7 +10,7 @@ disable-model-invocation: true
 Act as Senior Software Architect.
 
 ## Task
-Generate the agent-rules file and the system architecture document.
+Generate the agent-rules file, system architecture, and conceptual model schema.
 
 ### Guardrails
 - **Evidence** — do not invent facts; key statements need repo evidence or an answer.
@@ -24,6 +24,7 @@ Generate the agent-rules file and the system architecture document.
 ## Context
 
 - `{Arch}` = `{Product_Folder}/arch`.
+- `{Model}` = `{Product_Folder}/model`.
 
 ### Inputs
 - [ ] Required: The repository tree.
@@ -44,21 +45,26 @@ Generate the agent-rules file and the system architecture document.
 - _if_ problem or solution is absent, propose and ask.
 - _identify_ the containers from source folders.
 - _if_ no containers exist, prescribe defaults and ask.
+- _identify_ the domain entities and relationships from existing docs.
+- _if_ entities are absent, propose defaults and ask.
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 - _stop_ and wait for answers before drafting documents.
 
 ### 2. Plan
 - _read_ [agent-rules template](./assets/AGENTS.template.md).
 - _read_ [system architecture template](./assets/system.arch.template.md).
+- _read_ [model schema template](./assets/model.schema.template.md).
 - _map_ each template placeholder to source file(s) or an explicit user answer.
 - _if_ a placeholder has no evidence, ask a focused yes/no or multiple-choice question.
 
 ### 3. Implement
 - _write_ `{Agents_File}` — under 100 lines, concise.
 - _write_ `{Arch}/system.arch.md`.
+- _write_ `{Model}/model.schema.md` — entities and relationships only; no attributes.
 - _commit_ the changes (`docs: {description}`).
 - _for-each_ container, _handoff_ to `/extract`.
 
 ## Verification
-- [ ] `{Agents_File}` and `{Arch}/system.arch.md` exist, correct format, no empty placeholders.
+- [ ] `{Agents_File}`, `{Arch}/system.arch.md`, and `{Model}/model.schema.md` exist.
+- [ ] No empty placeholders; model schema has no entity attributes.
 - [ ] No unresolved assumptions remain.

@@ -34,7 +34,7 @@ In your agent chat:
 /explore this project
 ```
 
-This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — and the system architecture document `arch/system.arch.md` (C4 L2: containers).
+This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, product brief — the system architecture document `arch/system.arch.md` (C4 L2: containers), and the conceptual model schema `model/model.schema.md` (ER diagram + entity list, no attributes).
 
 Then document each **container** (a runnable unit from `system.arch.md`: `api`, `web`, `db`...). Run once per container:
 
@@ -42,7 +42,10 @@ Then document each **container** (a runnable unit from `system.arch.md`: `api`, 
 /extract the api container
 ```
 
-This writes `arch/{container}.arch.md` (C4 L3 components, contract surface) and `rules/{container}.rules.md` (coding rules for that container). When a container owns the persistence store or exposes an API, the field-level schema is split into the system-wide `arch/db.schema.md` and/or `arch/api.schema.md` (written while extracting that container, linked from any container that benefits) so the container arch stays readable. The domain Entity-Relationship diagram `arch/ER.md` is likewise written while extracting the container that owns the domain model.
+This writes `rules/{container}.rules.md` for every container. Non-`db` containers also get
+`arch/{container}.arch.md` (C4 L3). The `db` container gets `model/db.schema.md` (relational
+schema) **instead of** an arch doc. Containers that expose an API also get
+`model/api.schema.md`.
 
 Both skills apply **evidence wins**: they extract from the codebase where code exists and prescribe defaults (marked *intended*) where it doesn't — even inside the same repo. When every container is documented, start building.
 

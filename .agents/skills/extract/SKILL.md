@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Documents the architecture (C4 L3), domain model, and code rules for one container.
+description: Documents one container's architecture or relational schema, plus code rules.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,7 +10,8 @@ disable-model-invocation: true
 Act as Senior Software Architect.
 
 ## Task
-Generate one container's C4 L3 architecture, code rules, and model docs.
+Document one container: architecture or relational schema, code rules,
+and an API schema when it exposes an API.
 
 ### Guardrails
 - **One container** — `fullstack` counts as one; document Front and Back together.
@@ -43,28 +44,27 @@ Generate one container's C4 L3 architecture, code rules, and model docs.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _select_ the target container from `system.arch.md`.
 - _if_ the container is ambiguous or not given, ask which one.
-- _if_ it exposes an API, _read_ [API schema template](./assets/api.schema.template.md).
-- _if_ it owns the db store, _read_ [db schema template](./assets/db.schema.template.md).
-- _if_ it owns the domain model, _read_ [ER template](./assets/ER.template.md).
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 
 ### 2. Plan
-- _read_ [container arch template](./assets/container.arch.template.md).
-- _read_ [code rules template](./assets/code.rules.template.md).
+- _if_ the tier is `db`, _read_ [relational schema template](./assets/db.schema.template.md).
+- _if_ the tier is not `db`, _read_ [container arch template](./assets/container.arch.template.md).
+- _read_ [code rules template](./assets/container.rules.template.md).
+- _if_ it exposes an API, _read_ [API schema template](./assets/api.schema.template.md).
 - _map_ each template placeholder to source evidence or an explicit user answer.
 - _if_ a placeholder has no evidence, ask a focused yes/no or multiple-choice question.
 
 ### 3. Implement
-- _write_ `{Arch}/{container}.arch.md` — link it from `system.arch.md`.
+- _if_ the tier is `db`, _write_ `{Model}/db.schema.md`.
+- _if_ the tier is not `db`, _write_ `{Arch}/{container}.arch.md` — link from `system.arch.md`.
 - _write_ `{Rules}/{container}.rules.md` — adapt front-matter to the agent harness.
 - _if_ it exposes an API, _write_ `{Model}/api.schema.md`.
-- _if_ it owns the db store, _write_ `{Model}/db.schema.md`.
-- _if_ it owns the domain model, _write_ `{Model}/ER.md`.
 - _commit_ the changes (`docs: {description}`).
 - _if_ containers remain, _handoff_ to `/extract`.
 - _if_ no containers remain, _handoff_ to `/specify`.
 
 ## Verification
-- [ ] `{Arch}/{container}.arch.md` and `{Rules}/{container}.rules.md` exist, no placeholders.
-- [ ] Optional model docs exist when applicable, with no empty placeholders.
+- [ ] `{Rules}/{container}.rules.md` exists, with no empty placeholders.
+- [ ] Arch exists when tier is not `db`; `{Model}/db.schema.md` when tier is `db`.
+- [ ] `{Model}/api.schema.md` exists when the container exposes an API.
 - [ ] No unresolved assumptions remain.

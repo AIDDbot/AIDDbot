@@ -46,10 +46,10 @@ Capture a feature as a one-page spec:
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
-- _if_ present, _read_ [domain ER diagram]({Model}/ER.md).
+- _if_ present, _read_ [model schema]({Model}/model.schema.md).
 - _read_ [model design convention](./references/model.conventions.md).
 - Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
-- Prepare the conceptual data model from the domain ER diagram.
+- Prepare the conceptual data model from the model schema when present.
 - Prepare per-container expected results.
 - The `e2e` container lives in the verification criteria section.
 - Prepare the PRD line: feature area and one-line outcome.

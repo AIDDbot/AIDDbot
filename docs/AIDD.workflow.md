@@ -85,15 +85,19 @@ flowchart TD
   HUM[HUMAN]
   AGT["{Agents_File}"]:::nd
   ARC["arch/system.arch.md"]:::nd
-  ERD["arch/ER.md"]:::nd
+  MOD["model/model.schema.md"]:::nd
   CAR["arch/{container}.arch.md"]:::nd
+  DBS["model/db.schema.md"]:::nd
+  API["model/api.schema.md"]:::nd
   RUL["rules/{container}.rules.md"]:::nd
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
+  HUM -->|/explore| MOD
   ARC -->|/extract ×container| CAR
+  ARC -->|/extract ×container| DBS
+  ARC -->|/extract ×container| API
   ARC -->|/extract ×container| RUL
-  ARC -->|/extract ×container| ERD
 
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
@@ -109,10 +113,11 @@ repo can mix extracted containers and prescribed ones.
 - `/explore` sets up AIDD and documents the system (C4 L2):
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
   - `arch/system.arch.md` — containers diagram with per-container details.
-- `/extract` documents **one container per invocation** (C4 L3):
-  - `arch/{container}.arch.md` — components diagram, code organization, contract surface.
-  - `arch/ER.md`, `arch/db.schema.md`, `arch/api.schema.md` — shared, system-wide docs (domain ER
-    diagram and field-level schemas), written when the owning container is extracted.
+  - `model/model.schema.md` — conceptual ER diagram and entity list (no attributes).
+- `/extract` documents **one container per invocation**:
+  - `arch/{container}.arch.md` — C4 L3 components and code organization (non-`db` tiers).
+  - `model/db.schema.md` — relational schema (**instead of** arch when tier is `db`).
+  - `model/api.schema.md` — when the container exposes an API.
   - `{Agents_Folder}/rules/{container}.rules.md` — naming, conventions, one canonical example.
 
 When every container is documented, start features with `/specify`.
@@ -266,8 +271,10 @@ flowchart TD
 
   subgraph P["{Product_Folder}"]
       ARC["arch/system.arch.md"]:::nd
-      ERD["arch/ER.md"]:::nd
+      MOD["model/model.schema.md"]:::nd
       CAR["arch/{container}.arch.md"]:::nd
+      DBS["model/db.schema.md"]:::nd
+      API["model/api.schema.md"]:::nd
       PRD["specs/PRD.md"]:::nd
       SPC["specs/{NNN}-{slug}/spec.md"]:::nd
       PLN["specs/{NNN}-{slug}/{container}.plan.md"]:::nd
@@ -284,15 +291,17 @@ flowchart TD
 
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
+  HUM -->|/explore| MOD
   HUM -->|/extract| CAR
-  HUM -->|/extract| ERD
+  HUM -->|/extract| DBS
+  HUM -->|/extract| API
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
   HUM -->|/specify| PRD
   PRD -.functional log.-> SPC
   AGT -.-> SPC
   ARC -.-> SPC
-  ERD -.-> SPC
+  MOD -.-> SPC
   SPC -->|/planify| PLN
   SPC -->|/planify| EPL
   CAR -.-> PLN
@@ -316,8 +325,10 @@ flowchart TD
 |----------|----------|-----------|--------|
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | every skill — paths, conventions, git rules, start/test commands | — |
 | `/explore` | `arch/system.arch.md` (C4 L2) | `/extract`, `/specify`, `/planify`, `/codify`, `/release` | — |
-| `/extract` | `arch/{container}.arch.md` (C4 L3) | `/planify`, `/codify`, `/release` (doc sync) | — |
-| `/extract` | `arch/ER.md` / `db.schema.md` / `api.schema.md` (shared docs, when applicable) | `/specify` (ER), `/planify`, `/codify`, `/verify` (schemas) | — |
+| `/explore` | `model/model.schema.md` (conceptual ER, no attributes) | `/specify`, `/release` | — |
+| `/extract` | `arch/{container}.arch.md` (C4 L3, non-`db`) | `/planify`, `/codify`, `/release` (doc sync) | — |
+| `/extract` | `model/db.schema.md` (`db` tier, instead of arch) | `/planify`, `/codify`, `/verify` | — |
+| `/extract` | `model/api.schema.md` (when container exposes an API) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `rules/{container}.rules.md` | `/codify` | — |
 | `/specify` | `specs/{NNN}-{slug}/spec.md` + its line in `specs/PRD.md` (sole writer) | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `done` (`/release`) |
 | `/planify` | `specs/{NNN}-{slug}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
@@ -360,8 +371,11 @@ stateDiagram-v2
 - `{Agents_Folder}/rules/{container}.rules.md` — Naming, conventions, canonical example (`/extract`).
 - `arch/` — Architecture set for planning and coding.
   - `system.arch.md` — Containers diagram (C4 L2) (`/explore`).
-  - `{container}.arch.md` — Components (C4 L3), code organization, contract surface (`/extract`).
-  - `ER.md` / `db.schema.md` / `api.schema.md` — Shared, system-wide domain and field-level docs, split out as they grow large; written when the owning container is extracted (`/extract`, when applicable).
+  - `{container}.arch.md` — Components (C4 L3), code organization (`/extract`, non-`db`).
+- `model/` — Domain and field-level schemas.
+  - `model.schema.md` — Conceptual ER + entity list, no attributes (`/explore`).
+  - `db.schema.md` — Relational schema for the `db` container (instead of arch) (`/extract`).
+  - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{NNN}-{slug}` (`{NNN}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: specs indexed by feature area when created; written only by `/specify`. No status — that lives in each spec.
   - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`).

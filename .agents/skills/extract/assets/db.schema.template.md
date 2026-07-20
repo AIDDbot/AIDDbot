@@ -1,4 +1,4 @@
-# Database schema — {Product_Name}
+# Relational schema — {Product_Name}
 
 - [Table_Name_1](#table_name_1) : {Description}
 - [Table_Name_2](#table_name_2) : {Description}

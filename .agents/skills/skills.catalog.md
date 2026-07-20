@@ -13,13 +13,13 @@ skills cover build, maintenance, and refactoring.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/explore`](./explore/) | AIDD setup + C4L2 |
-| [`/extract`](./extract/) | per container: C4L3 components + code rules |
+| [`/explore`](./explore/) | AIDD setup + C4L2 + conceptual model schema |
+| [`/extract`](./extract/) | per container: arch or relational schema + code rules |
 
 Produces:
-- `/explore` → `{Agents_File}`, `arch/system.arch.md`.
-- `/extract` → `arch/{container}.arch.md`, `model/db.schema.md`/
-  `model/api.schema.md`/`model/ER.md` (if applicable),
+- `/explore` → `{Agents_File}`, `arch/system.arch.md`, `model/model.schema.md`.
+- `/extract` → `arch/{container}.arch.md` (non-db) or `model/db.schema.md` (db),
+  `model/api.schema.md` when the container exposes an API,
   `{Agents_Folder}/rules/{container}.rules.md`.
 
 ## Development
