@@ -10,6 +10,10 @@ implementation and evaluation never share a session.
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
 
+Each skill folder ships a `README.md` — the skill's spec in plain prose: what it is for,
+its inputs and outputs, its invariants, its step flow, and how to test it. It is the
+de-skillified, human-readable form of `SKILL.md`, kept in sync by `/skillify`.
+
 ## Context
 
 | Skill | What it does |
