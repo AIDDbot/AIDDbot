@@ -20,6 +20,7 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 - **Always replan after amend** — never skip `/planify` after create or amend.
 - **Checkpoints control carry-forward** — on replan, mark each prior step keep / redo / drop.
 - **Checkpoints control carry-forward** — classify before rewriting Implementation Steps.
+- **Deprecated AC drops its scenario** — checkpoint it `drop`; that authorizes `/codify` to delete its test.
 
 ## Context
 
@@ -69,9 +70,10 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 - _state_ each shared contract in every sibling software plan, same wording.
 - _if_ writing the e2e plan:
   - _derive_ it from the spec criteria and shared contracts, never from sibling code.
-  - _map_ every AC id to exactly one scenario.
+  - _map_ every **active** AC id to exactly one scenario.
   - _think_ as a QA engineer, not a developer.
   - _fill_ Checkpoints for prior scenarios when replanning.
+  - _mark_ any deprecated AC's prior scenario as `drop`.
 
 ### 3. Implement
 - _for-each_ software container, _write_ `{Specs}/{container}.plan.md`.
@@ -86,5 +88,6 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 - [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable.
 - [ ] On replan, Checkpoints cover every prior step.
 - [ ] Implementation Steps match keep/redo.
-- [ ] The e2e plan (if any) maps every AC id to exactly one scenario step.
+- [ ] The e2e plan (if any) maps every active AC id to exactly one scenario step.
+- [ ] Every deprecated AC's prior scenario is checkpointed `drop`.
 - [ ] Spec `status` is `planned`.

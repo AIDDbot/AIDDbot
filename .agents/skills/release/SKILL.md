@@ -41,6 +41,7 @@ and close the spec when one is in scope.
 - _compute_ `{new_version}` (SemVer; patch when no spec).
 - _read_ [changelog shape](./assets/CHANGELOG.template.md).
 - _prepare_ Added / Changed / Fixed / Removed from what shipped.
+- _if_ a spec retired criteria this release, _list_ them under `Removed`.
 - _note_ arch docs that drifted.
 
 ### 3. Implement

@@ -12,7 +12,7 @@ Act as Senior Software Engineer.
 ## Task
 Implement a software-container plan, the e2e plan, or fix a report that needs corrections.
 Produce working code. Smoke-test and unit-test software containers.
-For e2e, only verify the suite compiles.
+For e2e, only verify the suite compiles and lints clean.
 
 ### Guardrails
 - **Think before you code** — elaborate a couple of alternative solutions.
@@ -65,7 +65,7 @@ For e2e, only verify the suite compiles.
 - _update_ `spec.md` to `status: in-progress` after this code step.
 - _if_ mode is e2e container:
   - _write_ the suite from `e2e.plan.md` (no unit tests).
-  - _run_ a compile check only — do not run the tests.
+  - _run_ a compile check and the linter — do not run the tests.
   - _commit_ the changes (`{feat|fix|test}(scope): {description}`).
   - _handoff_ to `/verify`.
 - _if_ mode is a software container:
@@ -81,12 +81,12 @@ For e2e, only verify the suite compiles.
   - _annotate_ fix deviations.
   - _check_ each in-scope step `[x]` when applicable.
   - _run_ a smoke test and unit tests until they pass.
-  - _run_ a compile check only when the fix is e2e — do not run e2e tests.
+  - _run_ a compile check and the linter when the fix is e2e — do not run e2e tests.
   - _commit_ the changes (`{feat|fix|test}(scope): {description}`).
   - _handoff_ to `/verify`.
 
 ## Verification
 - [ ] Software container: smoke test passes; unit tests pass.
-- [ ] e2e: suite compiles; tests were not run.
+- [ ] e2e: suite compiles and lints clean; tests were not run.
 - [ ] Every in-scope plan step is `[x]`, or every in-scope report entry is fixed.
 - [ ] Related spec status is `in-progress` when a spec is in scope.

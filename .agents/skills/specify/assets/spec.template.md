@@ -51,3 +51,11 @@ released-version:
 
 - [ ] **AC-{spec_id}.1** — {EARS-format acceptance criterion}
 - [ ] **AC-{spec_id}.2** — {Additional criterion}
+
+### Deprecated criteria
+
+{Criteria retired by an amend. Keep the original id — never renumber or reuse it — so
+plans, tests, and reports stay traceable. `/planify` drops the matching e2e scenario,
+which authorizes `/codify` to delete its test. Omit this section while empty.}
+
+- **AC-{spec_id}.n** — ~~{original criterion}~~ · retired {YYYY-MM-DD} (v{version}): {why it no longer applies}

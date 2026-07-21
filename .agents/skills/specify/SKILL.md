@@ -16,8 +16,10 @@ Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 ### Guardrails
 - **Amendable** — edit an existing spec at any status.
 - **Amendable** — never invent a parallel ticket for the same `{spec_key}`.
-- **Gate on amend** — every amend sets `status: pending` and unchecks all AC boxes.
+- **Gate on amend** — every amend sets `status: pending` and unchecks all **active** AC boxes.
 - **Gate on amend** — hand off to `/planify` (always replan — software containers and e2e).
+- **Stable ids** — never renumber or reuse an `AC-{spec_id}.{n}`; plans and tests point at it.
+- **Deprecate, never delete** — a retired criterion moves to `Deprecated criteria`, id kept.
 - **PRD append-only** — on create, append the spec's line; never rewrite the shell (`/explore`).
 - **PRD append-only** — on amend, do not duplicate the PRD line.
 
@@ -43,11 +45,12 @@ Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 - **PRD** — category index; shell from `/explore`, lines appended here.
 - **Amend** — edit in place; keep `{spec_id}` / `{spec_key}`.
 - **Amend** — keep `released-version` if previously shipped.
+- **Deprecated criterion** — a retired AC moved out of the active list; keeps its id.
 
 ## Steps
 ### 1. Research
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
-- _read_ [the PRD]({PRD}) — spot overlap with the new or amended requirement.
+- _read_ [the PRD]({PRD}) — match `{category}` and `{tags}` to spot overlap with the requirement.
 - _if_ `{PRD}` is missing, _handoff_ to `/explore`.
 - _identify_ create vs amend.
 - _if_ create:
@@ -77,7 +80,9 @@ Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
   - _number_ criteria `AC-{spec_id}.{n}` all `[ ]`.
 - _if_ amend:
   - _update_ `{Specs}/spec.md` with `status: pending`.
-  - _update_ criteria and mark new or updated ones as `[ ]`.
+  - _uncheck_ every active criterion to `[ ]`.
+  - _add_ new criteria with the next unused `AC-{spec_id}.{n}` id.
+  - _move_ any criterion that no longer applies to `Deprecated criteria`, with a date and reason.
   - _keep_ `released-version` if set.
 - _if_ create, _append_ the spec's line to `{PRD}` under its category (create heading if new):
 
@@ -94,8 +99,9 @@ Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 
 ## Verification
 - [ ] `{Specs}/spec.md` exists, correct format, no empty placeholders.
-- [ ] Criteria are checkable and numbered `AC-{spec_id}.{n}`.
-- [ ] All criteria are `[ ]` after create/amend.
+- [ ] Criteria are checkable and numbered `AC-{spec_id}.{n}`; no id was renumbered or reused.
+- [ ] All active criteria are `[ ]` after create/amend.
+- [ ] Any retired criterion sits under `Deprecated criteria` with its id, a date, and a reason.
 - [ ] Solution sections list outcomes, not implementation details.
 - [ ] No `e2e` Solution section.
 - [ ] Status is `pending`; amend did not duplicate the PRD line.

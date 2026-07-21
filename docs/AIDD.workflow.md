@@ -160,8 +160,9 @@ flowchart TD
 
 1. **`/specify`** — the **what**: create or amend a one-page ticket with the problem,
    solution (per software container), and acceptance criteria numbered
-   `AC-{spec_id}.{n}`. Sets `pending`; unchecks ACs. Create appends a PRD line; amend
-   does not duplicate it. Always hands off to `/planify`.
+   `AC-{spec_id}.{n}`. Sets `pending`; unchecks active ACs and retires any that no longer
+   apply to `Deprecated criteria` (id kept, never renumbered). Create appends a PRD line;
+   amend does not duplicate it. Always hands off to `/planify`.
 2. **`/planify`** — the **how**: one plan per affected software container plus
    `e2e.plan.md` (one scenario per AC id). On amend/replan, **Checkpoints** mark each
    prior step `keep` | `redo` | `drop`. Sets `planned`.
@@ -403,7 +404,7 @@ stateDiagram-v2
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria (`/specify`; amendable).
+  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria, and `Deprecated criteria` for retired ACs (`/specify`; amendable; ids never renumbered or reused).
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).

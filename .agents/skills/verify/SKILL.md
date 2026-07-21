@@ -17,6 +17,7 @@ Do not correct code, tests, or reports.
 ### Guardrails
 - **Report-only** — never edit code, tests, or plans; never apply fixes.
 - **Report-only** — report plus spec status/ACs only.
+- **Active criteria only** — ids under `Deprecated criteria` get no test, verdict, or checkbox.
 - **Distrust the implementation, trust the spec** — finding defects is a kind of success.
 - **Never soften the verdict** — a flaky or wrong test is a `test bug`.
 
@@ -37,7 +38,7 @@ Do not correct code, tests, or reports.
 ### 1. Research
 - _identify_ the spec.
 - _if_ ambiguous, _ask_.
-- _read_ [acceptance criteria]({Specs}/spec.md).
+- _read_ [acceptance criteria]({Specs}/spec.md) — the active list only.
 - _read_ [scenario–AC mapping]({Specs}/e2e.plan.md).
 
 ### 2. Plan
@@ -58,7 +59,8 @@ Do not correct code, tests, or reports.
 - _if_ `failed`, _handoff_ to `/codify`.
 
 ## Verification
-- [ ] Every AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
+- [ ] Every active AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
+- [ ] No deprecated AC id was verified, given a verdict, or checked.
 - [ ] Spec `status` is `verified` or `failed` to match the suite outcome.
 - [ ] The suite is green, or every defect has kind and handoff.
 - [ ] No code, test, plan, or corrective edit was made — report and status only.

@@ -35,7 +35,8 @@ Produces:
 
 Produces:
 - `/specify` → `specs/{spec_key}/spec.md` (criteria numbered `AC-{spec_id}.{n}`) + its line in
-  `specs/PRD.md` on create; amend resets to `pending` and always replans.
+  `specs/PRD.md` on create; amend resets to `pending` and always replans, unchecks active
+  criteria, and moves retired ones to `Deprecated criteria` (id kept).
 - `/planify` → `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md`; sets `planned`.
 - `/codify` → source, unit tests, e2e tests (titles carry their AC id); sets `in-progress`.
 - `/verify` → `specs/{spec_key}/e2e.report.md` — a verdict per AC id plus the defects.
