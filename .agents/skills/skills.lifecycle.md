@@ -14,9 +14,11 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
   `db.schema.md`, rules) describe the current technical state. `/release` reconciles
   them after every change; `/extract` rebuilds them when they drift.
 - A spec is the programming artifact for one change — its criteria and acceptance.
-- Once released it is closed (`done`) — history, not ongoing authority.
+  It is **amendable** at any status; amend sets `pending` and always replans.
+- `done` means currently shipped (`released-version` set) — not frozen forever.
 - The PRD (`specs/PRD.md`) is the functional log — shell from `/explore`, specs indexed
   by category when `/specify` creates them. Status stays in each spec.
+- Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed` → `done`.
 - Invariant: green e2e suite = current behavior.
 
 ## Build (new project or new feature)
@@ -24,8 +26,8 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
 `/explore` → `/extract` (×container) → `/specify` → `/planify` → `/codify` (×container)
 → `/verify` → `/review` → `/release`
 
-While a spec is `pending` / `in-progress` / `failed`, edit it freely — that is the
-normal loop. Triage only starts after `done`.
+Amend anytime via `/specify` → `pending` → `/planify` (checkpoints: keep / redo / drop)
+→ `/codify` → `/verify` → …
 
 ## Maintain (the feature already shipped)
 
@@ -38,14 +40,14 @@ misrouted request to the other.
     No spec.
   - Proof: the regression test passes; every green test still green, untouched.
 - **A green test must flip** → behavior change.
-  - Route: `/specify` → full pipeline — the e2e plan lists the scenarios it changes
-    or retires.
-  - Proof: the new criteria's tests pass.
+  - Route: `/specify` amend (or create) → `/planify` (always, with checkpoints) →
+    `/codify` → `/verify` → …
+  - Proof: the amended criteria's tests pass.
 
 A "bug" the suite disagrees with is a behavior change in disguise: code, tests, and
 docs all agree with each other — they are all wrong together, so the correction must
 travel through a spec. The gate makes hot-fixing it structurally impossible: `/codify`
-cannot flip a green test without a plan, and a plan needs a spec.
+cannot flip a green test without a plan, and a plan needs a current spec.
 
 ## Refactor (behavior must not change)
 
@@ -61,22 +63,23 @@ No spec — the *what* is untouched. Route by blast radius:
   pipeline.
   - Proof: green before `/specify` re-entry.
 - **A test assertion must change to stay green** → not a refactor: a behavior change,
-  route through `/specify`.
-  - Proof: a new criterion in a new spec.
+  route through `/specify` (amend or create).
+  - Proof: updated criteria in the spec.
 
 Guardrails that make refactoring safe to delegate: green baseline before starting, tests
-untouchable, contracts frozen. The e2e suite — built by `/codify` from every spec's e2e
-plan, judged by `/verify` — is the safety net; SDD manufactures it as a by-product.
+untouchable, contracts frozen. The e2e suite — built by `/codify` from every spec's
+e2e plan, judged by `/verify` — is the safety net; SDD manufactures it as a by-product.
 
 ## Releases
 
 | Trigger | Bump | Changelog |
 |---|---|---|
 | New feature spec | minor | Added |
-| Behavior-changing spec | minor (or patch if a correction) | Changed / Fixed |
+| Behavior-changing amend / spec | minor (or patch if a correction) | Changed / Fixed |
 | Defect fix (spec-less, `/codify` fix mode) | patch | Fixed |
 | Structural refactor | patch | Changed (internal) |
 
 Every release: version bumped, changelog updated, arch docs reconciled, default branch
 tagged. Close the spec (`done`, `released-version`) when one is in scope; it must
-have been `verified` first.
+have been `verified` first. A later amend keeps the prior `released-version` until
+the next ship updates it.

@@ -32,7 +32,7 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
 | [Context](docs/AIDD.workflow.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
-| [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec → plans → code → verified e2e |
+| [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
 | [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: create or fix a skill under
@@ -49,7 +49,7 @@ See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill p
 /explore → /extract (×container) → /specify → /planify → /codify (×container) → /verify → /review → /release
 ```
 
-Changes to a released feature need no special skill — one mechanical question routes them: would a green e2e test have to change? No → it's a fix (`/codify` + patch release). Yes → it's a new spec through the full pipeline.
+Changes to a released feature: amend the spec (`/specify` → always `/planify`) or, if no green e2e assertion flips, `/codify` fix mode + patch release.
 
 ## Quick start
 

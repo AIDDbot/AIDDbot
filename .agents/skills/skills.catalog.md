@@ -2,9 +2,10 @@
 
 An 8-skill pipeline covering the whole SDLC, plus `/skillify` to extend the skillset
 itself.
-`/specify` stays at the outcome level; `/planify` owns the per-container breakdown — the
-transversal e2e plan included. `/codify` is the only skill that writes code; `/verify` and
-`/review` only evaluate and report — implementation and evaluation never share a session.
+`/specify` captures or amends a one-page spec (problem, solution, criteria). `/planify`
+owns the per-container breakdown — software containers and `e2e.plan.md`. `/codify` is
+the only skill that writes code; `/verify` and `/review` only evaluate and report —
+implementation and evaluation never share a session.
 
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
@@ -27,16 +28,16 @@ Produces:
 
 | Skill | What it does |
 |-------|--------------|
-| [`/specify`](./specify/) | Spec: expected results + acceptance criteria (no tech detail) |
-| [`/planify`](./planify/) | One plan per container — the e2e container included |
-| [`/codify`](./codify/) | Implement one container plan (e2e too): code + tests; fix reports |
-| [`/verify`](./verify/) | Run the e2e suite; report defects with triage + handoffs (report-only) |
+| [`/specify`](./specify/) | Create or amend: problem + solution + criteria → `pending` |
+| [`/planify`](./planify/) | One plan per software container + e2e; checkpoints on replan → `planned` |
+| [`/codify`](./codify/) | Implement one plan (or fix a report): smoke + unit tests; e2e compiles only → `in-progress` |
+| [`/verify`](./verify/) | Run the e2e suite; report defects with triage + handoffs (report-only, no fixes) |
 
 Produces:
 - `/specify` → `specs/{spec_key}/spec.md` (criteria numbered `AC-{spec_id}.{n}`) + its line in
-  `specs/PRD.md` — appends to the functional log created by `/explore`.
-- `/planify` → `specs/{spec_key}/{container}.plan.md` — `e2e.plan.md` included.
-- `/codify` → source, unit tests, e2e tests (titles carry their AC id).
+  `specs/PRD.md` on create; amend resets to `pending` and always replans.
+- `/planify` → `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md`; sets `planned`.
+- `/codify` → source, unit tests, e2e tests (titles carry their AC id); sets `in-progress`.
 - `/verify` → `specs/{spec_key}/e2e.report.md` — a verdict per AC id plus the defects.
 
 ## Quality and release
@@ -69,8 +70,8 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 | Command | Orchestrates |
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.md) | `/explore`, then `/extract` per container |
-| [`specify-and-planify`](../commands/specify-and-planify.md) | `/specify`, then `/planify` (one run, all plans) |
-| [`codify-plans`](../commands/codify-plans.md) | `/codify` per container plan — e2e included |
+| [`specify-and-planify`](../commands/specify-and-planify.md) | `/specify`, then `/planify` (one run, all plans including e2e) |
+| [`codify-plans`](../commands/codify-plans.md) | `/codify` per plan — software containers then e2e |
 | [`verify-and-fix`](../commands/verify-and-fix.md) | `/verify` → `/codify` → `/verify`, until green |
 | [`review-and-fix`](../commands/review-and-fix.md) | `/review` → `/codify` fixes → `/verify` |
 
@@ -79,23 +80,22 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 `/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify`
 -> `/review` -> `/release`
 
+Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed` → `done`.
+Amend at any status: `/specify` → `pending` → always `/planify` (checkpoints) → …
 Both context steps apply evidence wins: document what exists, propose and ask what is missing.
-`/codify` runs once per container — e2e included (sessions can be parallel); `/verify`
-runs the suite and reports: code/test bugs loop back through `/codify` per affected
-container, structural defects escalate to `/planify`. Repeat until green.
+`/codify` runs once per plan — e2e included (sessions can be parallel for software
+containers); `/verify` runs the suite and reports only: code/test bugs loop back through
+`/codify`, structural defects escalate to `/planify`. Repeat until green.
 
-The `e2e` container is a container like any other: documented by `/extract`, planned by
-`/planify` (`e2e.plan.md` — one scenario per AC id), implemented by
-`/codify`. What stays special: it is transversal (verifies the functional containers, no
-section in the spec's solution overview) and its verdict belongs to `/verify` — codify
-writes the suite but never judges it green.
+The `e2e` container is transversal: documented by `/extract`, planned by `/planify`
+(`e2e.plan.md` — one scenario per AC id), implemented by `/codify` (compile-only).
+No section in the spec's solution overview; its verdict belongs to `/verify`.
 
 ## Maintenance
 
-The green e2e suite is the contract; a `done` spec is a closed ticket — history, not
-ongoing authority. There is no triage skill: one mechanical question routes any request —
-**would satisfying it change what a green e2e test asserts?** No → `/codify` fix mode +
-regression test → patch `/release`. Yes → a new spec via `/specify`, full pipeline.
-Either door bounces a misrouted request to the other. Refactors need no spec and route
-by blast radius — the [lifecycle map](./skills.lifecycle.md) has the full maintenance
-and refactoring routes.
+The green e2e suite is the contract. A `done` spec may be amended in place via
+`/specify` (keeps `released-version`); amend always replans. Spec-less defects still
+route: **would satisfying it change what a green e2e test asserts?** No → `/codify`
+fix mode + regression test → patch `/release`. Yes → amend (or create) via `/specify`,
+full pipeline. Refactors need no spec and route by blast radius — the
+[lifecycle map](./skills.lifecycle.md) has the full maintenance and refactoring routes.

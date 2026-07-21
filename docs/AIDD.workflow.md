@@ -10,7 +10,7 @@ For install and first steps, see [Getting started](./getting-started.md).
 
 **The green e2e suite is the contract.** The PRD (`specs/PRD.md`) is the functional
 log — shell from `/explore`, specs indexed by category when `/specify` creates them.
-Released specs are closed — history, not ongoing authority.
+Specs are amendable; `done` means currently shipped (`released-version`), not frozen.
 
 ```mermaid
 flowchart TB
@@ -26,7 +26,8 @@ flowchart TB
 ```
 
 Green tests change only through a plan — a plan step authorizes a test edit exactly the
-way it authorizes a code edit.
+way it authorizes a code edit. `/codify` writes the e2e suite from `e2e.plan.md`
+(compile-only until `/verify` runs them).
 
 **One writer, two evaluators.** `/codify` is the only skill that writes code — source,
 unit tests, and the e2e suite alike. `/verify` and `/review` only evaluate and report;
@@ -37,8 +38,8 @@ flowchart LR
   classDef wr fill:#f0fdfa,stroke:#0d9488,color:#0f766e
   classDef ev fill:#fff7ed,stroke:#ea580c,color:#c2410c
 
-  COD["/codify — the only code writer<br/>source · unit tests · e2e suite"]:::wr
-  VER["/verify — runs the suite<br/>writes e2e.report.md"]:::ev
+  COD["/codify — the only code writer<br/>source · unit tests · e2e suite (compile-only)"]:::wr
+  VER["/verify — runs the suite<br/>writes e2e.report.md · never fixes"]:::ev
   REV["/review — audits the scope<br/>writes review.report.md"]:::ev
 
   COD --> VER
@@ -62,7 +63,7 @@ flowchart LR
   EXP["/explore"]:::nd --> EXT["/extract<br/>×container"]:::nd
   EXT --> SPC["/specify"]:::nd
   SPC --> PLN["/planify"]:::nd
-  PLN --> COD["/codify ×container<br/>e2e included"]:::nd
+  PLN --> COD["/codify ×container<br/>e2e plan included"]:::nd
   COD --> VER["/verify<br/>report-only"]:::nd
   VER -->|green| REV["/review<br/>report-only"]:::nd
   REV --> REL["/release"]:::nd
@@ -127,10 +128,13 @@ When every container is documented, start features with `/specify`.
 
 ## Build a feature
 
-From idea to verified code in four steps: one skill per step, one artifact per step.
+From idea to verified code: one skill per step, one artifact per step.
 All feature artifacts live together in `specs/{spec_key}/`; `specs/PRD.md` indexes
 the specs by category. E2E test code stays in the solution (`e2e/`), organized by
 feature.
+
+Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed` → `done`.
+Amend at any status resets to `pending` and always replans.
 
 ```mermaid
 flowchart TD
@@ -142,10 +146,10 @@ flowchart TD
   E2E["e2e/"]:::nd
   RPT["specs/{spec_key}/e2e.report.md"]:::nd
 
-  HUM -->|/specify| SPC
+  HUM -->|/specify create or amend| SPC
   SPC -->|/planify| PLN
   SPC -->|/planify| EPL
-  PLN -->|/codify ×container| COD
+  PLN -->|/codify ×software container| COD
   EPL -->|/codify| E2E
   E2E -->|/verify run| RPT
   RPT -->|/codify fix ×container| COD
@@ -154,20 +158,18 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 ```
 
-1. **`/specify`** — the **what**: a one-page ticket with the problem, expected results
-   per container, and acceptance criteria numbered `AC-{spec_id}.{n}`; appends its line to
-   `specs/PRD.md`. No technology, no steps.
-2. **`/planify`** — the **how**: one plan per affected container, the transversal
-   `e2e.plan.md` included (one scenario step per AC id). Shared contracts (API shapes,
-   schemas) are stated verbatim in every sibling plan.
-3. **`/codify`** — one container plan per run; sessions can run in parallel. Functional
-   code + unit tests — and the e2e suite, built like any other container (its tests
-   stay red until the features land — that's expected). If an in-scope change would
-   alter a shared contract, it hands back to `/planify` — never improvises a
-   cross-container change.
-4. **`/verify`** — **report-only**: runs the suite, writes `e2e.report.md` with a
-   verdict per AC id plus a kind and handoff per defect, and marks the spec's
-   acceptance criteria `[x]/[ ]`. It never fixes.
+1. **`/specify`** — the **what**: create or amend a one-page ticket with the problem,
+   solution (per software container), and acceptance criteria numbered
+   `AC-{spec_id}.{n}`. Sets `pending`; unchecks ACs. Create appends a PRD line; amend
+   does not duplicate it. Always hands off to `/planify`.
+2. **`/planify`** — the **how**: one plan per affected software container plus
+   `e2e.plan.md` (one scenario per AC id). On amend/replan, **Checkpoints** mark each
+   prior step `keep` | `redo` | `drop`. Sets `planned`.
+3. **`/codify`** — one plan per run (sessions can be parallel for software containers),
+   then the e2e plan. Software containers: smoke test + unit tests. E2e: compile only —
+   do not run. After every code step, set `in-progress`.
+4. **`/verify`** — **report-only**: runs the suite, writes `e2e.report.md`, marks ACs.
+   Never fixes. Sets `verified` or `failed`.
 
 When the suite is red, verify reports, codify fixes, verify re-runs — until green:
 
@@ -189,6 +191,15 @@ The prompts, end to end:
 /verify the feature             (until green)
 /review the feature branch
 /release
+```
+
+Amend example:
+
+```markdown
+/specify amend 001-trip-rating — allow half-star ratings
+/planify the specification      (checkpoints on prior plans)
+/codify …
+/verify …
 ```
 
 ## Quality and release
@@ -242,8 +253,8 @@ flowchart TD
   Q -->|"no — defect or coverage gap"| FIX["/codify fix mode<br/>minimal fix + regression test"]:::nd
   FIX --> PREL["patch /release"]:::nd
 
-  Q -->|"yes — behavior change"| SPEC["/specify a new spec"]:::nd
-  SPEC --> PIPE["/planify → /codify → /verify → /review<br/>e2e plan lists the scenarios it changes"]:::nd
+  Q -->|"yes — behavior change"| SPEC["/specify amend or create"]:::nd
+  SPEC --> PIPE["/planify → /codify → /verify → /review<br/>amend always replans (checkpoints)"]:::nd
   PIPE --> MREL["/release<br/>changelog · arch docs · closes the spec"]:::nd
 
   SPEC -.fix-or-feature gate: bounce.-> FIX
@@ -281,7 +292,6 @@ flowchart TD
       PRD["specs/PRD.md"]:::nd
       SPC["specs/{spec_key}/spec.md"]:::nd
       PLN["specs/{spec_key}/{container}.plan.md"]:::nd
-      EPL["specs/{spec_key}/e2e.plan.md"]:::nd
       RPT["specs/{spec_key}/e2e.report.md"]:::nd
       RVR["specs/{spec_key}/review.report.md"]:::nd
   end
@@ -335,10 +345,9 @@ flowchart TD
 | `/extract` | `model/db.schema.md` (`db` tier, instead of arch) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `model/api.schema.md` (when container exposes an API; merge) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `{Agents_Folder}/rules/{container}.rules.md` | `/codify` | — |
-| `/specify` | `specs/{spec_key}/spec.md` + its line appended to `specs/PRD.md` | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `verified` \| `failed` (`/verify`) → `done` (`/release`) |
-| `/planify` | `specs/{spec_key}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
-| `/planify` | `specs/{spec_key}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ AC id mapping) | steps checked `[x]` by `/codify` |
-| `/codify` | source + unit tests (`{Source_Folders}`); e2e tests (`e2e/`, titles carry AC ids) | `/verify`, `/review`; green-baseline gates; refactor safety net | — |
+| `/specify` | `specs/{spec_key}/spec.md` (+ PRD line on create) | `/planify`, `/verify` (criteria), `/release` | `pending` on create/amend |
+| `/planify` | `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (checkpoints on replan) | `/codify`, `/review`, `/verify` (AC mapping) | sets `planned`; steps checked `[x]` by `/codify` |
+| `/codify` | source + unit tests; e2e tests from `e2e.plan.md` (compile-only until `/verify`) | `/verify`, `/review`; green-baseline gates | sets `in-progress` |
 | `/verify` | `specs/{spec_key}/e2e.report.md` (verdict per AC id) + spec criteria `[x]/[ ]` | `/codify` (fix mode, per container), `/planify` (structural), `/release` | — |
 | `/review` | `specs/{spec_key}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` | — |
 | `/release` | `CHANGELOG.md`, version bump + tag, reconciled arch docs; spec closed when in scope | HUMAN / every skill | — |
@@ -351,26 +360,32 @@ only `/verify` sets `verified` | `failed`, `/release` gates on `verified` and cl
 ```mermaid
 stateDiagram-v2
   state "pending" as p
+  state "planned" as pl
   state "in-progress" as ip
   state "verified" as v
   state "failed" as f
   state "done" as d
 
-  [*] --> p: /specify
-  p --> ip: first /codify
+  [*] --> p: /specify create or amend
+  p --> pl: /planify
+  pl --> ip: each /codify code step
   ip --> v: /verify green
   ip --> f: /verify red
   f --> ip: /codify fix
   v --> d: /release
-  d --> [*]
+  d --> p: /specify amend
+  v --> p: /specify amend
+  f --> p: /specify amend
+  ip --> p: /specify amend
+  pl --> p: /specify amend
 
   note right of ip
     edit freely while open —
     this is the normal build loop
   end note
   note right of d
-    closed at release
-    history, not ongoing authority
+    shipped (released-version);
+    amendable via /specify
   end note
 ```
 
@@ -388,21 +403,22 @@ stateDiagram-v2
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`).
-  - `{spec_key}/{container}.plan.md` — Implementation plan for one container (`/planify`).
-  - `{spec_key}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).
+  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria (`/specify`; amendable).
+  - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
+  - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).
   - `{spec_key}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
-- `e2e/` — End-to-end tests, organized by feature (written by `/codify`; judged by `/verify`).
+- `e2e/` — End-to-end tests, organized by feature (written by `/codify` from `e2e.plan.md`; judged by `/verify`).
 - `CHANGELOG.md` — Keep-a-Changelog log of all notable changes (`/release`).
 
 ## Glossary
 
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2. Units are always identified by container name.
 - **Tier** — a container's layer: `front | back | db | e2e | fullstack`. Classifies containers, never identifies one.
-- **e2e container** — transversal; verifies the others; written by `/codify`, judged by `/verify`. Planned via `e2e.plan.md`.
+- **e2e container** — transversal; verifies the others; planned via `e2e.plan.md`, written by `/codify` (compile-only), judged by `/verify`.
+- **Software container** — any container except `e2e`; planned by `/planify` from the spec's solution overview.
 - **Evidence wins** — extract what exists, prescribe what is missing (marked *intended*). Applied per question, not per repo.
 
 ## Git

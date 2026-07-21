@@ -5,7 +5,42 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
-## 2026-07-21 — Spec identity: `{spec_id}` / `{slug}` / `{spec_key}`; PRD shell from `/explore`
+## 2026-07-21 — Amendable specs; `planned` gate; e2e plans + checkpoints
+
+**Status**: adopted. Supersedes write-once / frozen-`done` assumptions and the brief
+"planify skips e2e" experiment earlier the same day.
+
+### Context
+
+Specs were write-once tickets: `done` meant frozen history, and behavior change required
+a new `{spec_key}`. That fought real product work where criteria and solution evolve on
+the same feature. A short-lived split also dropped `e2e.plan.md`, leaving e2e authorship
+under-specified once amend entered the picture.
+
+### Decision
+
+1. **Specs are amendable** at any status via `/specify`. Same `{spec_key}`; keep
+   `released-version` if previously shipped; uncheck all ACs; set `status: pending`.
+2. **Status chain (Variant A)**: `pending` → `planned` → `in-progress` →
+   `verified` | `failed` → `done`. `/planify` owns `planned`; `/codify` owns
+   `in-progress`; `/verify` owns `verified`/`failed`; `/release` owns `done`.
+3. **Always replan after amend** — `/specify` always hands off to `/planify` (no
+   criteria-only shortcut). Code almost always changes with criteria.
+4. **Restore `e2e.plan.md`** — `/planify` plans software containers and e2e;
+   `/codify` implements from the plan (e2e compile-only); `/verify` runs and reports.
+5. **Checkpoints on replan** — each plan template has a Checkpoints table: every prior
+   step/scenario is `keep` | `redo` | `drop` before Implementation Steps are rewritten.
+
+### Consequences
+
+- Removed the "do not edit a done spec" rule from `{Agents_File}` guidance.
+- Maintenance behavior changes prefer `/specify` amend over a parallel new ticket.
+- `done` means currently shipped, not immutable.
+
+## 2026-07-21 — Spec = problem / solution / criteria; planify skips e2e; codify gates
+
+**Status**: **superseded** by the amendable-spec / e2e-plan decision above (same day).
+Kept for history: problem/solution/criteria wording and codify smoke/compile gates remain.
 
 **Status**: adopted. Narrows the 2026-07-07 PRD ownership split; renames opaque `{NNN}`.
 
@@ -221,7 +256,9 @@ matter months into a project's life.
 
 ## 2026-07-06 — One writer, two evaluators
 
-**Status**: adopted.
+**Status**: adopted; **partially superseded** by 2026-07-21 (planify skips e2e;
+codify gates). The writer/evaluator split remains; e2e is no longer planned by
+`/planify`.
 
 ### Context
 

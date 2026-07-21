@@ -73,10 +73,10 @@ Example prompts:
 /verify the feature
 ```
 
-- `/specify` captures **what** — a one-page spec with per-container expected results and acceptance criteria, and appends a line to `specs/PRD.md` (the functional log). No technical detail.
-- `/planify` captures **how** — one implementation plan per affected container, the transversal `e2e.plan.md` included (one scenario per acceptance criterion).
-- `/codify` implements **one container plan per run** (sessions can be parallel): functional code + unit tests — and the e2e suite from its plan.
-- `/verify` runs the e2e suite and reports — never fixes: defects land in `e2e.report.md` triaged with a handoff each. Code/test bugs go back through `/codify` per affected container; structural defects escalate to `/planify`. Repeat `/verify` until green. Implementation and evaluation never share a session.
+- `/specify` creates or **amends** a one-page spec (problem, solution, criteria) → `pending`. Amend always replans; create also appends a PRD line.
+- `/planify` writes one plan per software container plus `e2e.plan.md` → `planned`. On amend, **Checkpoints** mark prior steps keep / redo / drop.
+- `/codify` implements **one plan per run** (then e2e). Software containers: smoke + unit tests. E2e: compile only. Sets `in-progress`.
+- `/verify` runs the suite and reports — never fixes → `verified` | `failed`.
 
 See the [AIDD workflow](./AIDD.workflow.md#build-a-feature).
 
@@ -102,17 +102,18 @@ See the [AIDD workflow](./AIDD.workflow.md#quality-and-release).
 
 ## 5. Maintain a released feature
 
-Once released, a spec is closed history — the programming artifact for that change. The green e2e suite is the contract, and there is no triage skill: enter through either door and it routes you.
+A `done` spec is currently shipped (`released-version`) — amendable, not frozen. The green e2e suite is still the contract. No triage skill: enter through either door.
 
 ```markdown
 /codify the login lockout crashes on the 5th attempt        (a fix)
-/specify lockout should trigger after 5 attempts, not 3     (a behavior change)
+/specify amend 001-login-lockout — trigger after 5 attempts (a behavior change)
+/planify the specification
 ```
 
 Both doors ask one mechanical question — *would satisfying the request change what a green e2e test asserts?* — and bounce a misrouted request to the other:
 
 - **No green test flips** → defect or coverage gap: `/codify` fix mode — minimal fix + regression test — then a patch `/release`. No spec.
-- **A green test must flip** → behavior change: a new spec via `/specify`, through the full pipeline; the e2e plan lists the scenarios it changes.
+- **A green test must flip** → behavior change: `/specify` amend (or create) → always `/planify` (checkpoints) → `/codify` → `/verify`.
 
 For behavior-preserving refactors, no spec is needed: route ugly internals through `/review` (report; `--fix` or `/codify` applies), and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 

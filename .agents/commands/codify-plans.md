@@ -1,1 +1,8 @@
-Read the spec folder and run the /codify skill once per container plan, the e2e plan included, each in its own subagent, so every container gets a fresh context.
+- _read_ the spec folder for software-container plans and `e2e.plan.md`.
+- _require_ the spec `status` is `planned` or `failed`.
+- _for-each_ software-container plan:
+  - _run_ `/codify` in a fresh subagent, one after another.
+  - _pass_ the plan path into that run.
+  - _tell_ it to stop after its commit with no handoff.
+- _run_ `/codify` in a fresh subagent for `e2e.plan.md`.
+- _tell_ it to stop after its commit with no handoff.

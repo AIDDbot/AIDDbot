@@ -4,7 +4,7 @@ slug: {slug}
 title: {title}
 category: {category}
 tags: [{tag1}, {tag2}]
-status: pending  # pending | in-progress | verified | failed | done
+status: pending  # pending | planned | in-progress | verified | failed | done
 created: {YYYY-MM-DD}
 released-version:
 ---

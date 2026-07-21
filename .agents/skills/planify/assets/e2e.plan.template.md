@@ -18,6 +18,15 @@ container: e2e
 
 > Include the AC id in each test title so a criterion's tests are easy to find, run, and fix.
 
+## Checkpoints
+
+> On amend/replan only. Classify every scenario from the prior e2e plan, then rewrite
+> Implementation Steps. First plan: write `none — first plan`.
+
+| Prior scenario | Action | Note |
+|----------------|--------|------|
+| {AC-{spec_id}.n — title or `none — first plan`} | {keep \| redo \| drop} | {one line} |
+
 ## Implementation Steps
 
 ### Step 1: AC-{spec_id}.1 — {Scenario Title}

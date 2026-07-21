@@ -27,8 +27,8 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 
 ### Spec status
 - Specs live under `{Product_Folder}/specs/{spec_key}/spec.md` (`{spec_key}` = `{spec_id}-{slug}`).
-- Status chain: `pending` (`/specify`) → `in-progress` (first `/codify`) → `verified` | `failed` (`/verify`) → `done` (`/release`).
-- Do not edit a `done` spec; ship a new one for behavior change.
+- Status chain: `pending` (`/specify` create or amend) → `planned` (`/planify`) → `in-progress` (each `/codify` code step) → `verified` | `failed` (`/verify`) → `done` (`/release`).
+- Specs are amendable at any status; amend sets `pending` and always replans via `/planify` (keep `released-version` if previously shipped).
 
 ---
 
