@@ -16,7 +16,7 @@ Apply the same rules to its `references/` and `assets/`.
 ### Guardrails
 - **Single door** — never edit a skill outside `/skillify`.
 - **Width** — write short sentences under 100 chars; never wrap mid-sentence to fake it.
-- **Length** — under 50 sentences per skill; blanks and headings don't count.
+- **Length** — under 100 sentences per skill; blanks and headings don't count.
 - **Grammar** — Steps use skill grammar forms; other sections stay declarative.
 - **Composition** — short duplication is fine; prefer composition over duplication.
 - **Align docs** — when behavior or paths change, sync catalog, lifecycle, README, workflow.
