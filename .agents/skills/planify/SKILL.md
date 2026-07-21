@@ -11,19 +11,13 @@ Act as Senior Software Engineer.
 
 ## Task
 Turn a spec (or an escalated report) into one plan per affected software container.
-Also write `e2e.plan.md` — ordered and actionable for `/codify`.
-On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
+Also write `e2e.plan.md`, ordered and actionable for `/codify`.
 
 ### Guardrails
 - **Ground in the arch** — every step traces to the container's components and contracts.
-- **Always replan after amend**: 
-  — when the spec is `pending`, rewrite plans.
-  — never skip `/planify` after create or amend.
-- **Checkpoints control carry-forward**:  
-  — on replan, mark each prior step keep / redo / drop.
-  — classify before rewriting Implementation Steps.
-- **Deprecated AC drops its scenario**: 
-  — checkpoint it `drop`; that authorizes `/codify` to delete its test.
+- **Always replan after amend** — a `pending` spec means rewrite every plan.
+- **Checkpoints** — on replan, classify each prior step keep / redo / drop before rewriting.
+- **Deprecated AC** — checkpoint its scenario `drop`; that authorizes `/codify` to delete its test.
 
 ## Context
 
@@ -33,51 +27,36 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 
 ### Inputs
 - [ ] Required: a `pending` spec, a short requirement, or a structural-refactor goal.
-- [ ] Structural refactor has no spec — behavior does not change.
+- [ ] A structural refactor has no spec; its acceptance criterion is the existing e2e suite.
 
 ### Glossary
-- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
 - **Software container** — any container except `e2e`; planned from the solution overview.
-- **e2e container**: 
-  — transversal; planned via `e2e.plan.md` (one scenario per AC id).
-  — written by `/codify`, judged by `/verify`.
-- **Checkpoint** — a prior plan step classified `keep` | `redo` | `drop` on amend/replan.
-- **Structural refactor** — acceptance criterion is the existing e2e suite.
-- **{slug}** — from the input file name or derived from the requirement.
-- **{spec_id}** — from the spec folder; if spec-less, next sequential under `specs/`.
-- **{spec_key}** — `{spec_id}-{slug}`; the spec folder name.
+- **e2e container** — transversal; planned via `e2e.plan.md`, one scenario per AC id.
+- **Checkpoint** — a prior plan step classified `keep` | `redo` | `drop` on replan.
 - **AC id** — `AC-{spec_id}.{n}`; a numbered acceptance criterion from the spec.
 
 ## Steps
 ### 1. Research
-- _identify_ the input type.
-- _derive_ `{spec_id}`, `{slug}`, and `{spec_key}`.
+- _identify_ the input type, then derive `{spec_id}`, `{slug}`, `{spec_key}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _list_ the affected software containers and their solution outcomes (`e2e` excluded).
-- _for-each_ non-`db` software container, _read_ [its architecture]({Arch}/{container}.arch.md).
-- _if_ a `db` container is affected, _read_ [relational schema]({Model}/db.schema.md).
-- _if_ prior plans exist (amend/replan):
-  - _read_ each `{Specs}/{container}.plan.md`.
-  - _read_ `{Specs}/e2e.plan.md` when present.
+- _for-each_ affected container, _read_ its `{Arch}/{container}.arch.md` or `{Model}/db.schema.md`.
+- _if_ prior plans exist, _read_ each `{Specs}/{container}.plan.md` and `{Specs}/e2e.plan.md`.
 - _if_ ambiguous, _document_ assumptions and proceed best-effort.
 
 ### 2. Plan
-- _if_ a structural refactor, _omit_ the e2e plan.
 - _read_ [container plan template](./assets/plan.template.md).
 - _if_ not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
+- _if_ touching an API, _read_ [API shapes]({Model}/api.schema.md).
+- _if_ touching the store, _read_ [data shapes]({Model}/db.schema.md).
 - _for-each_ software container:
-  - _if_ a prior plan exists, _fill_ Checkpoints for every prior step (`keep` | `redo` | `drop`).
-  - _if_ no prior plan, _note_ `none — first plan`.
-  - _prepare_ Implementation Steps from keep/redo work plus new steps; all tasks `[ ]`.
-- _if_ touching an API, _read_ [API field shapes]({Model}/api.schema.md).
-- _if_ touching the store, _read_ [data field shapes]({Model}/db.schema.md).
+  - _if_ a prior plan exists, _fill_ its Checkpoints; _else_ _note_ `none — first plan`.
+  - _prepare_ Implementation Steps from keep/redo work plus new steps, all tasks `[ ]`.
 - _state_ each shared contract in every sibling software plan, same wording.
 - _if_ writing the e2e plan:
   - _derive_ it from the spec criteria and shared contracts, never from sibling code.
-  - _map_ every **active** AC id to exactly one scenario.
-  - _think_ as a QA engineer, not a developer.
-  - _fill_ Checkpoints for prior scenarios when replanning.
-  - _mark_ any deprecated AC's prior scenario as `drop`.
+  - _map_ every active AC id to exactly one scenario; _think_ as a QA engineer.
+  - _fill_ Checkpoints on replan and _mark_ any deprecated AC's scenario `drop`.
 
 ### 3. Implement
 - _for-each_ software container, _write_ `{Specs}/{container}.plan.md`.
@@ -87,11 +66,8 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 - _handoff_ to `/codify`.
 
 ## Verification
-- [ ] One plan per affected software container.
-- [ ] `e2e.plan.md` present unless structural refactor.
+- [ ] One plan per affected software container; `e2e.plan.md` present unless structural refactor.
 - [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable.
-- [ ] On replan, Checkpoints cover every prior step.
-- [ ] Implementation Steps match keep/redo.
-- [ ] The e2e plan (if any) maps every active AC id to exactly one scenario step.
-- [ ] Every deprecated AC's prior scenario is checkpointed `drop`.
+- [ ] On replan, Checkpoints cover every prior step and Implementation Steps match keep/redo.
+- [ ] The e2e plan maps every active AC id to one scenario; deprecated ACs are checkpointed `drop`.
 - [ ] Spec `status` is `planned`.

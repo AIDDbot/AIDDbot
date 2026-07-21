@@ -15,8 +15,7 @@ Triage every defect by kind and hand it off.
 Do not correct code, tests, or reports.
 
 ### Guardrails
-- **Report-only** — never edit code, tests, or plans; never apply fixes.
-- **Report-only** — report plus spec status/ACs only.
+- **Report-only** — never edit code, tests, or plans; touch only the report and spec status/ACs.
 - **Active criteria only** — ids under `Deprecated criteria` get no test, verdict, or checkbox.
 - **Distrust the implementation, trust the spec** — finding defects is a kind of success.
 - **Never soften the verdict** — a flaky or wrong test is a `test bug`.
