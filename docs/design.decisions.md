@@ -5,26 +5,33 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
-## 2026-07-21 — PRD shell from `/explore`; drop model conventions from `/specify`
+## 2026-07-21 — Spec identity: `{spec_id}` / `{slug}` / `{spec_key}`; PRD shell from `/explore`
 
-**Status**: adopted. Narrows the 2026-07-07 PRD ownership split.
+**Status**: adopted. Narrows the 2026-07-07 PRD ownership split; renames opaque `{NNN}`.
 
 ### Context
 
 `/specify` both created `specs/PRD.md` (if missing) and appended feature lines. Setup
 artifacts belong with `/explore`. Specs also pulled a separate model-attribute convention
-file that duplicated conceptual guidance already in `model.schema.md`.
+file that duplicated conceptual guidance already in `model.schema.md`. Identity tokens
+were inconsistent (`{NNN}`, `{Spec Id}`, status enums that did not match the pipeline).
 
 ### Decision
 
-1. **`/explore` creates the PRD shell** — product problem/goals paragraph; no feature lines.
-2. **`/specify` appends only** — indexes each new spec under a feature area; never rewrites the shell.
+1. **`/explore` creates the PRD shell** — product problem/goals paragraph; no category entries.
+2. **`/specify` appends only** — indexes each new spec under a **category** (blog-post style); never rewrites the shell.
 3. **Remove `model.conventions.md`** — conceptual data for a feature comes from `model.schema.md`.
+4. **Canonical identity** — `{spec_id}` (3-digit), `{slug}` (kebab), `{spec_key}` = `{spec_id}-{slug}`; AC ids are `AC-{spec_id}.{n}`.
+5. **Lean frontmatter** — `id`, `slug`, `title`, `category`, `tags`, `status`
+   (`pending` | `in-progress` | `verified` | `failed` | `done`), `created`,
+   `released-version`. Drop `type` and `updated_at`. `/verify` owns `verified`/`failed`;
+   `/release` closes as `done`.
 
 ### Consequences
 
 - PRD template lives under `explore/assets/`; missing PRD is a handoff to `/explore`.
 - Release still does not edit the PRD.
+- Folder, branch (`feat/{spec_key}`), and reports share one key.
 
 ## 2026-07-07 — PRD as functional log; release owns technical closure only
 

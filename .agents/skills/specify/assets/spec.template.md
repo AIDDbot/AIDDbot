@@ -1,14 +1,14 @@
 ---
-id: {NNN}
-name: {name}
+id: {spec_id}
 slug: {slug}
-created_at: {YYYY-MM-DD}
-updated_at: {YYYY-MM-DD}
-category : {unique main category of the spec}
-tags: {optional array of tags [tag1, tag2, tag3]}
-status: {pending, in-progress, verified|failed, released},
+title: {title}
+category: {category}
+tags: [{tag1}, {tag2}]
+status: pending  # pending | in-progress | verified | failed | done
+created: {YYYY-MM-DD}
+released-version:
 ---
-# Specification {NNN} — {short description}
+# {spec_id} — {title}
 
 ## Problem definition
 
@@ -47,7 +47,7 @@ status: {pending, in-progress, verified|failed, released},
 
 ## Verification Criteria
 
-{Number every criterion `AC-{NNN}.{n}` — plans, tests, and reports reference these ids.}
+{Number every criterion `AC-{spec_id}.{n}` — plans, tests, and reports reference these ids.}
 
-- [ ] **AC-{NNN}.1** — {EARS-format acceptance criterion}
-- [ ] **AC-{NNN}.2** — {Additional criterion}
+- [ ] **AC-{spec_id}.1** — {EARS-format acceptance criterion}
+- [ ] **AC-{spec_id}.2** — {Additional criterion}

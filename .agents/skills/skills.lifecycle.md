@@ -14,9 +14,9 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
   `db.schema.md`, rules) describe the current technical state. `/release` reconciles
   them after every change; `/extract` rebuilds them when they drift.
 - A spec is the programming artifact for one change — its criteria and acceptance.
-  Once released it is closed (`done`) — history, not ongoing authority.
+- Once released it is closed (`done`) — history, not ongoing authority.
 - The PRD (`specs/PRD.md`) is the functional log — shell from `/explore`, specs indexed
-  by feature area when `/specify` creates them. Status stays in each spec.
+  by category when `/specify` creates them. Status stays in each spec.
 - Invariant: green e2e suite = current behavior.
 
 ## Build (new project or new feature)
@@ -24,8 +24,8 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
 `/explore` → `/extract` (×container) → `/specify` → `/planify` → `/codify` (×container)
 → `/verify` → `/review` → `/release`
 
-While a spec is `pending`/`in-progress`, edit it freely — that is the normal loop.
-Triage only starts after `done`.
+While a spec is `pending` / `in-progress` / `failed`, edit it freely — that is the
+normal loop. Triage only starts after `done`.
 
 ## Maintain (the feature already shipped)
 
@@ -78,4 +78,5 @@ plan, judged by `/verify` — is the safety net; SDD manufactures it as a by-pro
 | Structural refactor | patch | Changed (internal) |
 
 Every release: version bumped, changelog updated, arch docs reconciled, default branch
-tagged. Close the spec (`done`, `released-version`) when one is in scope.
+tagged. Close the spec (`done`, `released-version`) when one is in scope; it must
+have been `verified` first.

@@ -33,11 +33,11 @@ Produces:
 | [`/verify`](./verify/) | Run the e2e suite; report defects with triage + handoffs (report-only) |
 
 Produces:
-- `/specify` → `specs/{NNN}-{slug}/spec.md` (criteria numbered `AC-{NNN}.{n}`) + its line in
+- `/specify` → `specs/{spec_key}/spec.md` (criteria numbered `AC-{spec_id}.{n}`) + its line in
   `specs/PRD.md` — appends to the functional log created by `/explore`.
-- `/planify` → `specs/{NNN}-{slug}/{container}.plan.md` — `e2e.plan.md` included.
+- `/planify` → `specs/{spec_key}/{container}.plan.md` — `e2e.plan.md` included.
 - `/codify` → source, unit tests, e2e tests (titles carry their AC id).
-- `/verify` → `specs/{NNN}-{slug}/e2e.report.md` — a verdict per AC id plus the defects.
+- `/verify` → `specs/{spec_key}/e2e.report.md` — a verdict per AC id plus the defects.
 
 ## Quality and release
 
@@ -47,7 +47,7 @@ Produces:
 | [`/release`](./release/) | Version, changelog, arch docs; closes the spec when in scope |
 
 Produces:
-- `/review` → `specs/{NNN}-{slug}/review.report.md` (+ a `refactor` commit with `--fix`).
+- `/review` → `specs/{spec_key}/review.report.md` (+ a `refactor` commit with `--fix`).
 - `/release` → `CHANGELOG.md`, version bump, reconciled arch docs.
 
 ## Meta

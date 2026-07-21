@@ -23,11 +23,11 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - Preserve work; no secrets; no destructive commands
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|fix|chore|docs|test|refactor}(scope): {description}`
-- Branch names: `{feat|fix|chore}/{slug}`
+- Branch names: `{feat|fix|chore}/{spec_key|slug}` — use `{spec_key}` when a spec is in scope
 
 ### Spec status
-- Specs live under `{Product_Folder}/specs/{NNN}-{slug}/spec.md`.
-- Status chain: `pending` (`/specify`) → `in-progress` (first `/codify`) → `done` (`/release`).
+- Specs live under `{Product_Folder}/specs/{spec_key}/spec.md` (`{spec_key}` = `{spec_id}-{slug}`).
+- Status chain: `pending` (`/specify`) → `in-progress` (first `/codify`) → `verified` | `failed` (`/verify`) → `done` (`/release`).
 - Do not edit a `done` spec; ship a new one for behavior change.
 
 ---

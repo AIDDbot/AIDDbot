@@ -1,10 +1,10 @@
 ---
-id: {NNN}
+id: {spec_id}
 slug: {slug}
 run: {ISO date}
 suite: {green | red}
 ---
-# e2e report - {NNN}-{slug}
+# e2e report - {spec_key}
 
 ## Summary
 
@@ -13,8 +13,8 @@ suite: {green | red}
 
 ## Criteria verdicts
 
-- [x] **AC-{NNN}.1** — passed
-- [ ] **AC-{NNN}.2** — failed → D1
+- [x] **AC-{spec_id}.1** — passed
+- [ ] **AC-{spec_id}.2** — failed → D1
 
 ## Defects
 
@@ -23,7 +23,7 @@ suite: {green | red}
 
 ### D1: {scenario title}
 
-- Criterion: **AC-{NNN}.{n}** — {the acceptance criterion this scenario verifies}
+- Criterion: **AC-{spec_id}.{n}** — {the acceptance criterion this scenario verifies}
 - Expected: {from the spec/plan}
 - Actual: {observed}
 - Container: {container}

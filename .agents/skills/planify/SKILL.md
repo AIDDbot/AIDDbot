@@ -13,48 +13,47 @@ Act as Senior Software Engineer.
 Turn a spec (or an escalated report) into one plan per affected container —
 `e2e.plan.md` included — ordered and actionable for `/codify`.
 
-## Guardrails
+### Guardrails
 - **Ground in the arch** — every step traces to the container's components and contracts.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`
-- `{Model}` = `{Product_Folder}/model`
-- `{Specs}` = `{Product_Folder}/specs/{NNN}-{slug}`
+- `{Arch}` = `{Product_Folder}/arch`.
+- `{Model}` = `{Product_Folder}/model`.
+- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
 
 ### Inputs
-- One of:
-  - [a spec]({Specs}/spec.md)
-  - A short textual requirement.
-  - A structural-refactor goal (no spec — behavior doesn't change).
+- [ ] Required: a spec, a short textual requirement, or a structural-refactor goal
+      (no spec — behavior does not change).
 
 ### Glossary
-- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`...) — C4 L2.
-- **e2e container** — transversal; verifies the others; written by `/codify`, judged by `/verify`.
-- **Structural refactor** — its acceptance criterion is the existing e2e suite.
-- **{slug}** — inherited from the input file name or derived from the requirement.
-- **{NNN}** — inherited from the spec folder; if spec-less, next sequential under `specs/`.
-- **AC id** — `AC-{NNN}.{n}`; a numbered acceptance criterion from the spec.
+- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
+- **e2e container** — transversal; written by `/codify`, judged by `/verify`.
+- **Structural refactor** — acceptance criterion is the existing e2e suite.
+- **{slug}** — from the input file name or derived from the requirement.
+- **{spec_id}** — from the spec folder; if spec-less, next sequential under `specs/`.
+- **{spec_key}** — `{spec_id}-{slug}`; the spec folder name.
+- **AC id** — `AC-{spec_id}.{n}`; a numbered acceptance criterion from the spec.
 
 ## Steps
 ### 1. Research
-- Identify the input type; derive `{NNN}` and `{slug}`.
+- _identify_ the input type; _derive_ `{spec_id}`, `{slug}`, and `{spec_key}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
-- List the affected containers and their expected results.
+- _list_ the affected containers and their expected results.
 - _for-each_ non-`db` container, _read_ [its architecture]({Arch}/{container}.arch.md).
 - _if_ a `db` container is affected, _read_ [relational schema]({Model}/db.schema.md).
-- _if_ ambiguous, document assumptions and proceed best-effort.
+- _if_ ambiguous, _document_ assumptions and proceed best-effort.
 
 ### 2. Plan
-- _if_ a structural refactor, skip the e2e plan.
+- _if_ a structural refactor, _omit_ the e2e plan.
 - _read_ [container plan template](./assets/plan.template.md).
 - _if_ not a structural refactor, _read_ [e2e plan template](./assets/e2e.plan.template.md).
-- _for-each_ container, _prepare_ the title, description, paths and placeholders.
+- _for-each_ container, _prepare_ the title, description, paths, and placeholders.
 - _if_ touching an API, _read_ [API field shapes]({Model}/api.schema.md).
 - _if_ touching the store, _read_ [data field shapes]({Model}/db.schema.md).
-- _state_ each shared contract in every sibling plan's **Contracts** section, same wording.
+- _state_ each shared contract in every sibling plan, same wording.
 - _if_ writing the e2e plan:
-  - _derive_ it from the spec and shared contracts, never from sibling implementations.
+  - _derive_ it from the spec and shared contracts, never from sibling code.
   - _map_ every AC id to exactly one scenario.
   - _think_ as a QA engineer, not a developer.
 
@@ -65,5 +64,5 @@ Turn a spec (or an escalated report) into one plan per affected container —
 
 ## Verification
 - [ ] One plan per affected container — no empty placeholders.
-- [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable standalone.
+- [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable.
 - [ ] The e2e plan (if any) maps every AC id to exactly one scenario step.

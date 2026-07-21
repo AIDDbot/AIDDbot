@@ -9,7 +9,7 @@ For install and first steps, see [Getting started](./getting-started.md).
 ## The model
 
 **The green e2e suite is the contract.** The PRD (`specs/PRD.md`) is the functional
-log — shell from `/explore`, specs indexed by feature area when `/specify` creates them.
+log — shell from `/explore`, specs indexed by category when `/specify` creates them.
 Released specs are closed — history, not ongoing authority.
 
 ```mermaid
@@ -18,8 +18,8 @@ flowchart TB
   classDef hist fill:#f8fafc,stroke:#cbd5e1,color:#94a3b8
 
   E2E["e2e suite — the executable contract<br/>organized by feature · green = current behavior"]:::nd
-  PRD["specs/PRD.md — functional log<br/>specs indexed by feature area"]:::nd
-  SPECS["specs/{NNN}-{slug}/ — programming artifacts<br/>closed at release: history"]:::hist
+  PRD["specs/PRD.md — functional log<br/>specs indexed by category"]:::nd
+  SPECS["specs/{spec_key}/ — programming artifacts<br/>closed at release: history"]:::hist
 
   PRD -->|"indexes when created"| SPECS
   E2E -.->|"implements acceptance criteria"| SPECS
@@ -115,7 +115,7 @@ files only; `/extract` reads that container's source.
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
   - `arch/system.arch.md` — containers diagram; each container has **Tier** and a **Detail** link.
   - `model/model.schema.md` — conceptual ER diagram and entity list (no attributes).
-  - `specs/PRD.md` — functional log shell (product problem/goals); feature lines come from `/specify`.
+  - `specs/PRD.md` — functional log shell (product problem/goals); category lines come from `/specify`.
 - `/extract` documents **one container per invocation**:
   - `arch/{container}.arch.md` — C4 L3 components and code organization (non-`db` tiers).
   - `model/db.schema.md` — relational schema (**instead of** arch when tier is `db`).
@@ -128,19 +128,19 @@ When every container is documented, start features with `/specify`.
 ## Build a feature
 
 From idea to verified code in four steps: one skill per step, one artifact per step.
-All feature artifacts live together in `specs/{NNN}-{slug}/`; `specs/PRD.md` indexes
-the specs by feature area. E2E test code stays in the solution (`e2e/`), organized by
+All feature artifacts live together in `specs/{spec_key}/`; `specs/PRD.md` indexes
+the specs by category. E2E test code stays in the solution (`e2e/`), organized by
 feature.
 
 ```mermaid
 flowchart TD
   HUM[HUMAN]
-  SPC["specs/{NNN}-{slug}/spec.md"]:::nd
-  PLN["specs/{NNN}-{slug}/{container}.plan.md"]:::nd
-  EPL["specs/{NNN}-{slug}/e2e.plan.md"]:::nd
+  SPC["specs/{spec_key}/spec.md"]:::nd
+  PLN["specs/{spec_key}/{container}.plan.md"]:::nd
+  EPL["specs/{spec_key}/e2e.plan.md"]:::nd
   COD["{Source_Folders}"]:::nd
   E2E["e2e/"]:::nd
-  RPT["specs/{NNN}-{slug}/e2e.report.md"]:::nd
+  RPT["specs/{spec_key}/e2e.report.md"]:::nd
 
   HUM -->|/specify| SPC
   SPC -->|/planify| PLN
@@ -155,7 +155,7 @@ flowchart TD
 ```
 
 1. **`/specify`** — the **what**: a one-page ticket with the problem, expected results
-   per container, and acceptance criteria numbered `AC-{NNN}.{n}`; appends its line to
+   per container, and acceptance criteria numbered `AC-{spec_id}.{n}`; appends its line to
    `specs/PRD.md`. No technology, no steps.
 2. **`/planify`** — the **how**: one plan per affected container, the transversal
    `e2e.plan.md` included (one scenario step per AC id). Shared contracts (API shapes,
@@ -222,7 +222,7 @@ sequenceDiagram
   R->>S: run — confirm green
   R->>C: bump version · move Unreleased entries
   R->>A: reconcile drifted docs
-  R->>P: status done · released-version (when in scope)
+  R->>P: status done · released-version (when in scope; was verified)
   R->>R: commit · tag · merge to default branch
 ```
 
@@ -279,11 +279,11 @@ flowchart TD
       DBS["model/db.schema.md"]:::nd
       API["model/api.schema.md"]:::nd
       PRD["specs/PRD.md"]:::nd
-      SPC["specs/{NNN}-{slug}/spec.md"]:::nd
-      PLN["specs/{NNN}-{slug}/{container}.plan.md"]:::nd
-      EPL["specs/{NNN}-{slug}/e2e.plan.md"]:::nd
-      RPT["specs/{NNN}-{slug}/e2e.report.md"]:::nd
-      RVR["specs/{NNN}-{slug}/review.report.md"]:::nd
+      SPC["specs/{spec_key}/spec.md"]:::nd
+      PLN["specs/{spec_key}/{container}.plan.md"]:::nd
+      EPL["specs/{spec_key}/e2e.plan.md"]:::nd
+      RPT["specs/{spec_key}/e2e.report.md"]:::nd
+      RVR["specs/{spec_key}/review.report.md"]:::nd
   end
 
   subgraph S["SOLUTION"]
@@ -335,16 +335,16 @@ flowchart TD
 | `/extract` | `model/db.schema.md` (`db` tier, instead of arch) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `model/api.schema.md` (when container exposes an API; merge) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `{Agents_Folder}/rules/{container}.rules.md` | `/codify` | — |
-| `/specify` | `specs/{NNN}-{slug}/spec.md` + its line appended to `specs/PRD.md` | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `done` (`/release`) |
-| `/planify` | `specs/{NNN}-{slug}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
-| `/planify` | `specs/{NNN}-{slug}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ AC id mapping) | steps checked `[x]` by `/codify` |
+| `/specify` | `specs/{spec_key}/spec.md` + its line appended to `specs/PRD.md` | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `verified` \| `failed` (`/verify`) → `done` (`/release`) |
+| `/planify` | `specs/{spec_key}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
+| `/planify` | `specs/{spec_key}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ AC id mapping) | steps checked `[x]` by `/codify` |
 | `/codify` | source + unit tests (`{Source_Folders}`); e2e tests (`e2e/`, titles carry AC ids) | `/verify`, `/review`; green-baseline gates; refactor safety net | — |
-| `/verify` | `specs/{NNN}-{slug}/e2e.report.md` (verdict per AC id) + spec criteria `[x]/[ ]` | `/codify` (fix mode, per container), `/planify` (structural), `/release` | — |
-| `/review` | `specs/{NNN}-{slug}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` | — |
+| `/verify` | `specs/{spec_key}/e2e.report.md` (verdict per AC id) + spec criteria `[x]/[ ]` | `/codify` (fix mode, per container), `/planify` (structural), `/release` | — |
+| `/review` | `specs/{spec_key}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` | — |
 | `/release` | `CHANGELOG.md`, version bump + tag, reconciled arch docs; spec closed when in scope | HUMAN / every skill | — |
 
 The implementer can never mark its own work verified: `/codify` checks plan steps,
-only `/verify` checks acceptance criteria, `/release` gates on criteria all `[x]`.
+only `/verify` sets `verified` | `failed`, `/release` gates on `verified` and closes as `done`.
 
 ### The spec lifecycle
 
@@ -352,11 +352,16 @@ only `/verify` checks acceptance criteria, `/release` gates on criteria all `[x]
 stateDiagram-v2
   state "pending" as p
   state "in-progress" as ip
+  state "verified" as v
+  state "failed" as f
   state "done" as d
 
   [*] --> p: /specify
   p --> ip: first /codify
-  ip --> d: /release
+  ip --> v: /verify green
+  ip --> f: /verify red
+  f --> ip: /codify fix
+  v --> d: /release
   d --> [*]
 
   note right of ip
@@ -381,13 +386,13 @@ stateDiagram-v2
   - `model.schema.md` — Conceptual ER + entity list, no attributes (`/explore`).
   - `db.schema.md` — Relational schema for the `db` container (instead of arch) (`/extract`).
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
-- `specs/` — One folder per spec, named `{NNN}-{slug}` (`{NNN}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
-  - `PRD.md` — Functional log: shell from `/explore`; specs indexed by feature area when `/specify` creates them. No status — that lives in each spec.
-  - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`).
-  - `{NNN}-{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
-  - `{NNN}-{slug}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).
-  - `{NNN}-{slug}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).
-  - `{NNN}-{slug}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
+- `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
+  - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. No status — that lives in each spec.
+  - `{spec_key}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`).
+  - `{spec_key}/{container}.plan.md` — Implementation plan for one container (`/planify`).
+  - `{spec_key}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).
+  - `{spec_key}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).
+  - `{spec_key}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
 - `e2e/` — End-to-end tests, organized by feature (written by `/codify`; judged by `/verify`).
@@ -403,6 +408,6 @@ stateDiagram-v2
 ## Git
 
 Branch naming, conventional commits, and git safety rules live in the root
-`{Agents_File}` (written by `/explore`). Spec work starts on `feat/{NNN}-{slug}`
+`{Agents_File}` (written by `/explore`). Spec work starts on `feat/{spec_key}`
 (`/specify`), spec-less fixes on `fix/{slug}` (`/codify`); `/release` merges to the
 default branch and tags.
