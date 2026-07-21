@@ -1,10 +1,16 @@
-# Review checklist
+# Review gates
 
 ## Guardrails
 - **Behavior findings are not yours** — look only for implementation smells;
-  behavior findings hand off to `/specify`, contract/structural moves to `/planify`.
+  behavioral findings hand off to `/specify`, contract/structural moves to `/planify`.
 
-One pass; report every applicable violation. Group findings by dimension.
+Each gate is pass/fail. A gate passes when every check holds; otherwise it fails.
+One pass; under a failed gate, report every violation as a finding.
+
+## Tooling gates
+
+- [ ] Lint — the linter passes with no errors.
+- [ ] Types — the type checker passes with no errors.
 
 ## Accessibility (WCAG AA)
 
@@ -33,6 +39,6 @@ One pass; report every applicable violation. Group findings by dimension.
 
 - [ ] Descriptive names; the code is self-documenting.
 - [ ] Small, single-purpose functions; guard clauses over deep nesting.
-- [ ] Extract duplicated logic; 
+- [ ] Extract duplicated logic.
 - [ ] Remove needless abstractions by simplifying the code.
 - [ ] Comments explain "why", not "what".

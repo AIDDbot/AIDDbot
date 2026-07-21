@@ -53,8 +53,8 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 
 No spec — the *what* is untouched. Route by blast radius:
 
-- **Ugly internals, contracts intact** → `/review` (clean-code dimension) reports; apply
-  via `--fix` (mechanical) or `/codify`.
+- **Ugly internals, contracts intact** → `/review` (clean-code gate) reports; failures
+  apply via `/codify`.
   - Proof: existing tests green.
 - **Contracts or components must move** → `/planify` (refactor, no spec) → `/codify` →
   `/extract` → patch `/release`.

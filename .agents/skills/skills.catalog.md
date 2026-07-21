@@ -45,11 +45,11 @@ Produces:
 
 | Skill | What it does |
 |-------|--------------|
-| [`/review`](./review/) | Audit a11y/security/perf + clean-code; report findings (`--fix` for mechanical) |
-| [`/release`](./release/) | Version, changelog, arch docs; closes the spec when in scope |
+| [`/review`](./review/) | Gate the scope (lint, types, a11y, security, perf, clean-code); report verdicts, fail → `/codify` |
+| [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec when in scope |
 
 Produces:
-- `/review` → `specs/{spec_key}/review.report.md` (+ a `refactor` commit with `--fix`).
+- `/review` → `specs/{spec_key}/review.report.md` — a pass/fail verdict per gate; failed gates hand off to `/codify`.
 - `/release` → `CHANGELOG.md`, version bump, reconciled arch docs.
 
 ## Meta

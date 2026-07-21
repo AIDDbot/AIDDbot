@@ -1,26 +1,35 @@
 ---
-scope: {branch | slug | paths}
+scope: {spec-key | branch | paths}
 run: {ISO date}
-suite: green
+suite: {green | red}
 ---
 # review report - {scope}
 
-## Summary
+## Gates
 
-- Findings: {total} — {n} a11y, {n} security, {n} performance, {n} clean-code.
+> Each gate is pass or fail. Failed gates list their findings below.
+
+| Gate | Verdict |
+|------|---------|
+| Lint | {pass \| fail} |
+| Types | {pass \| fail} |
+| Accessibility | {pass \| fail} |
+| Security | {pass \| fail} |
+| Performance | {pass \| fail} |
+| Clean-code | {pass \| fail} |
 
 ## Findings
 
-> Ordered by severity, one entry per finding. Kind routes the handoff:
-> `mechanical` → `--fix` or `/codify`; `functional` → `/codify` ({container});
-> `structural` → `/planify`; `behavioral` → `/specify`.
+> One entry per violation under a failed gate, ordered by severity. Kind routes the handoff:
+> `mechanical` / `functional` → `/codify` ({container}); `structural` → `/planify`;
+> `behavioral` → `/specify`.
 
 ### F1: {short title}
 
-- Dimension: {a11y | security | performance | clean-code}
+- Gate: {lint | types | accessibility | security | performance | clean-code}
 - File: {path}:{line}
-- Issue: {what violates the checklist}
+- Issue: {what fails the gate}
 - Suggestion: {the minimal fix}
 - Severity: {blocker | major | minor}
 - Kind: {mechanical | functional | structural | behavioral}
-- Handoff: {`/codify` {container} | `/planify` | `/specify` | fixed (`--fix`)}
+- Handoff: {`/codify` {container} | `/planify` | `/specify`}

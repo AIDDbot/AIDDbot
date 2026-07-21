@@ -16,6 +16,7 @@ and close the spec when one is in scope.
 ### Guardrails
 - **Nothing unverified ships** — with a spec, `status: verified` and all criteria `[x]`;
   otherwise suite green.
+- **Gates green** — a review report in scope must show every gate `pass`; a failure returns to `/codify`.
 - **PRD boundary** — shell belongs to `/explore`; category lines belong to `/specify`.
 
 ## Context
@@ -36,6 +37,8 @@ and close the spec when one is in scope.
   - _read_ [spec, plans, and e2e report]({Specs}/spec.md).
   - _require_ `status: verified` and all criteria `[x]`.
 - _else_ _review_ the diff since the last tag.
+- _if_ a review report is in scope, _read_ [gate report]({Specs}/review.report.md); _require_ every gate `pass`.
+- _if_ a gate failed, _handoff_ to `/codify`.
 
 ### 2. Plan
 - _compute_ `{new_version}` (SemVer; patch when no spec).
@@ -58,4 +61,5 @@ and close the spec when one is in scope.
 
 ## Verification
 - [ ] Suite green; spec was `verified` and is now `done` when in scope.
+- [ ] The review report in scope shows every gate `pass`.
 - [ ] CHANGELOG, version, and arch docs match what shipped.

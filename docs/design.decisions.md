@@ -5,6 +5,50 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-21 — `/review` pass/fail gates; `--fix` retired; `/release` gate check
+
+**Status**: adopted. Supersedes decision 4 of "Codify is the only skill that writes
+code" below — the `/review --fix` escape hatch is removed.
+
+### Context
+
+`/review` had two shapes at once: an evaluator that wrote a report, and — under an
+explicit `--fix` — a writer that applied mechanical findings in place. That escape
+hatch contradicted the invariant it was meant to preserve: *`/codify` is the only skill
+that writes code; `/verify` and `/review` only evaluate and report*. The catalog stated
+the invariant while the skill broke it. Findings were also modeled as free-form
+violations grouped by four "dimensions", with no crisp ship/no-ship signal for the
+downstream `/release`.
+
+### Decision
+
+1. **`/review` is a pass/fail gate.** The scope is checked against discrete gates — lint,
+   types, a11y, security, performance, clean-code/DRY — each with a `pass` | `fail`
+   verdict recorded in `review.report.md`. A failed gate lists its findings (severity,
+   kind, handoff).
+2. **`--fix` is retired.** `/review` never edits code. Every failed gate hands off to
+   `/codify`, restoring the "only `/codify` writes code" invariant with no exception.
+3. **Scope is spec-first.** `/review` defaults to the in-scope spec's code; a branch,
+   files, or explicit paths remain a valid override input.
+4. **`/release` gates on green.** A review report in scope must show every gate `pass`
+   before shipping; a failure returns to `/codify`. This makes the gate report an
+   explicit release precondition, not just advisory.
+
+### Consequences
+
+- `review/references/review.guidelines.md` was renamed to `review.gates.md` and gained
+  the tooling gates (lint, types) plus pass/fail framing.
+- `review.report.template.md` became a gate-verdict table plus findings; the
+  `fixed (--fix)` handoff option was removed.
+- Align-docs synced: catalog, lifecycle, `review-and-fix` command, `AIDD.workflow.md`,
+  `getting-started.md`.
+
+### Accepted trade-offs
+
+- **Loop latency.** Mechanical cleanups that `--fix` applied in place now cost a
+  `/review` → `/codify` handoff. Mitigation: mechanical findings route straight to
+  `/codify` with no plan or human gate in between.
+
 ## 2026-07-21 — Amendable specs; `planned` gate; e2e plans + checkpoints
 
 **Status**: adopted. Supersedes write-once / frozen-`done` assumptions and the brief

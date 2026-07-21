@@ -1,10 +1,10 @@
-- _run_ the `/review` skill in a subagent to produce the findings report.
-- _if_ there are no findings:
-  - _reply_ "No findings found".
+- _run_ the `/review` skill in a subagent to produce the gate report.
+- _if_ every gate passed:
+  - _reply_ "All gates passed".
   - _suggest_ `/release`.
 - _if_ a finding hands off to `/specify` or `/planify`:
   - _surface_ it to the human.
   - _stop_.
-- _if_ findings remain:
-  - _run_ `/codify` in a fresh subagent to fix them.
+- _if_ any gate failed:
+  - _run_ `/codify` in a fresh subagent to fix the findings.
   - _run_ `/verify` in another subagent to confirm the feature still works.

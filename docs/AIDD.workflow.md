@@ -50,7 +50,7 @@ flowchart LR
 
 Each report entry carries a **kind** and a **handoff**: `code bug` / `test bug` →
 `/codify` (per container); `structural` → `/planify`; `behavioral` → `/specify`;
-`mechanical` → `/review --fix` or `/codify`.
+`mechanical` → `/codify`.
 
 ## The pipeline
 
@@ -206,16 +206,16 @@ Amend example:
 ## Quality and release
 
 ```markdown
-/verify (green) -> /review -> /codify fixes (or --fix) -> /verify -> /release
+/verify (green) -> /review -> /codify fixes -> /verify -> /release
 ```
 
-`/review` audits a code scope (feature branch, plan/spec files, or explicit paths) for
-**a11y, security, performance, and clean-code/DRY**, and writes `review.report.md` —
-each finding with a dimension, severity, kind, and handoff. Report-only by default:
-fixes land via `/codify` with the report; an explicit `--fix` applies the mechanical
-findings (renames, dead code, extractions) directly. Guardrails worth knowing:
+`/review` gates a code scope (the in-scope spec's code by default, else a branch, files,
+or paths) against **pass/fail gates** — lint, types, a11y, security, performance, and
+clean-code/DRY — and writes `review.report.md` with a verdict per gate plus a finding
+per violation (severity, kind, handoff). Report-only: every failed gate hands off to
+`/codify`. Guardrails worth knowing:
 
-- **Green baseline** — it refuses to start on a failing suite; run `/verify` first.
+- **Green baseline** — the e2e suite is `/verify`'s lane; a red suite hands off to `/verify`.
 - **Behavior findings are not its call** — a finding whose fix would change observable
   behavior is handed to `/specify`; contract or component moves are handed to `/planify`.
 
@@ -232,6 +232,7 @@ sequenceDiagram
 
   H->>R: /release
   R->>S: run — confirm green
+  R->>R: gate check — review report all pass (else → /codify)
   R->>C: bump version · move Unreleased entries
   R->>A: reconcile drifted docs
   R->>P: status done · released-version (when in scope; was verified)
@@ -350,7 +351,7 @@ flowchart TD
 | `/planify` | `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (checkpoints on replan) | `/codify`, `/review`, `/verify` (AC mapping) | sets `planned`; steps checked `[x]` by `/codify` |
 | `/codify` | source + unit tests; e2e tests from `e2e.plan.md` (compile-only until `/verify`) | `/verify`, `/review`; green-baseline gates | sets `in-progress` |
 | `/verify` | `specs/{spec_key}/e2e.report.md` (verdict per AC id) + spec criteria `[x]/[ ]` | `/codify` (fix mode, per container), `/planify` (structural), `/release` | — |
-| `/review` | `specs/{spec_key}/review.report.md` (+ `refactor` commit with `--fix`) | `/codify` (fix mode), `/release` | — |
+| `/review` | `specs/{spec_key}/review.report.md` (pass/fail verdict per gate) | `/codify` (fix mode), `/release` | — |
 | `/release` | `CHANGELOG.md`, version bump + tag, reconciled arch docs; spec closed when in scope | HUMAN / every skill | — |
 
 The implementer can never mark its own work verified: `/codify` checks plan steps,
@@ -408,7 +409,7 @@ stateDiagram-v2
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).
-  - `{spec_key}/review.report.md` — Findings report: dimension, severity, kind, handoff (`/review`).
+  - `{spec_key}/review.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff) (`/review`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
 - `e2e/` — End-to-end tests, organized by feature (written by `/codify` from `e2e.plan.md`; judged by `/verify`).
