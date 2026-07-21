@@ -7,24 +7,24 @@ disable-model-invocation: true
 # {Title}
 
 ## Role
-Act as {Role}
+Act as {Role}.
 
 ## Task
-{One or two sentences explaining the goal of the skill.}
+{One or two short sentences explaining the goal of the skill.}
 
 ### Guardrails
-- [ ] {**guardrail**}:{explaining the guardrail}
+- **{guardrail}** — {one short sentence explaining the invariant}.
 
 ## Context
 
 - {Path shorthands, e.g. `{Arch}` = `{Product_Folder}/arch`.}
 
 ### Inputs
-- [ ] Required: {what the caller must provide}
-- [ ] Optional: {what the caller may provide}
+- [ ] Required: {what the caller must provide}.
+- [ ] Optional: {what the caller may provide}.
 
 ### References
-- {files that apply throughout the skill}
+- _read_ [{label}](./assets/{file}) — {when it applies}.
 
 ### Glossary
 - **{Term}** — {definition, only if skill-specific and used in this skill}.
@@ -32,17 +32,17 @@ Act as {Role}
 ## Steps
 
 ### 1. Research
-- {_read_ the always-needed inputs and guides.}
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
+- _read_ {always-needed inputs and guides}.
 
 ### 2. Plan
-- {_read_ the output template(s).}
-- {Prepare the content for the templates' placeholders before writing or touching code.}
+- _read_ [{output template}](./assets/{template}).
+- _prepare_ the content for the template placeholders before writing.
 
 ### 3. Implement
-- {_write_ the artifact(s), with exact paths.}
+- _write_ {the artifact(s), with exact paths}.
 - _commit_ the changes (`{docs|feat|fix|test|refactor|chore}(scope): {description}`).
-- {_handoff_ to `/{skill}`.}
+- _handoff_ to `/{skill}`.
 
 ## Verification
 - [ ] {The primary artifact exists, correct format, no empty placeholders.}

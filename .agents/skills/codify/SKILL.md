@@ -10,17 +10,16 @@ disable-model-invocation: true
 Act as Senior Software Engineer.
 
 ## Task
-Implement a software-container plan, the e2e plan, or fix a report that needs
-corrections. Produce working code; smoke-test and unit-test software containers;
-for e2e, only verify the suite compiles.
+Implement a software-container plan, the e2e plan, or fix a report that needs corrections.
+Produce working code. Smoke-test and unit-test software containers.
+For e2e, only verify the suite compiles.
 
 ### Guardrails
 - **Think before you code** — elaborate a couple of alternative solutions.
 - **Simplicity first** — choose the simplest solution that meets the goal (KISS).
 - **Surgical changes** — the minimum change that meets the goal (YAGNI).
 - **Goal-driven** — keep going until the task is completed.
-- **Status on every code step** — after each Implement run that writes code, set
-  the related spec to `status: in-progress`.
+- **Status on every code step** — after each code-writing Implement run, set spec to `in-progress`.
 
 ## Context
 
@@ -30,8 +29,7 @@ for e2e, only verify the suite compiles.
 - `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
 
 ### Inputs
-- [ ] Required: one of a software-container plan, `e2e.plan.md`, a defects report,
-      a review report, or a requirement/bug description to fix.
+- [ ] Required: a container plan, `e2e.plan.md`, a defects/review report, or a fix description.
 
 ### References
 - _read_ [naming and conventions]({Rules}/{container}.rules.md).
@@ -39,18 +37,15 @@ for e2e, only verify the suite compiles.
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
 - **Software container** — any container except `e2e`; planned by `/planify`.
-- **e2e container** — transversal; planned via `e2e.plan.md`, written here, judged
-  by `/verify`.
-- **Smoke test** — a minimal compile-and-run check that the container starts or
-  builds cleanly.
+- **e2e container** — transversal; planned via `e2e.plan.md`, written here, judged by `/verify`.
+- **Smoke test** — a minimal compile-and-run check that the container starts or builds cleanly.
 
 ## Steps
 ### 1. Research
 - _identify_ the input.
 - _derive_ `{spec_id}`, `{slug}`, `{spec_key}`, and `{container}`.
 - _if_ no single plan is given, _ask_ which container to scope.
-- _read_ [system architecture]({Arch}/system.arch.md) — confirm the container
-  **Tier**.
+- _read_ [system architecture]({Arch}/system.arch.md) — confirm the container **Tier**.
 - _if_ the tier is not `db`, _read_ [container arch]({Arch}/{container}.arch.md).
 - _if_ the tier is `db`, _read_ [relational schema]({Model}/db.schema.md).
 - _if_ mode is e2e:
@@ -60,8 +55,7 @@ for e2e, only verify the suite compiles.
 ### 2. Plan
 - _if_ touching an API, _read_ [API field shapes]({Model}/api.schema.md).
 - _if_ touching the store, _read_ [data field shapes]({Model}/db.schema.md).
-- _map_ plan steps to code changes; respect contracts shared with sibling
-  containers.
+- _map_ plan steps to code changes; respect contracts shared with sibling containers.
 - _if_ mode is e2e, _map_ every AC id to its scenario from the e2e plan.
 
 ### 3. Implement

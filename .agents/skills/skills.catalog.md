@@ -57,10 +57,10 @@ Not part of the SDLC pipeline — it maintains the skill framework itself.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/skillify`](./skillify/) | Create or fix a skill under `.agents/skills/`, per the template and grammar |
+| [`/skillify`](./skillify/) | Sole path to create or fix a skill under `.agents/skills/` |
 
 Produces:
-- `/skillify` → new/updated `SKILL.md` (+ references/assets); catalog kept in sync.
+- `/skillify` → new/updated `SKILL.md` (+ references/assets); align-docs when behavior or paths change.
 
 ## Commands
 

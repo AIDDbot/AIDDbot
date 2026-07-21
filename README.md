@@ -35,8 +35,7 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
 | [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
 
-Plus `/skillify`, a Meta skill outside the SDLC pipeline: create or fix a skill under
-`.agents/skills/` itself, following the same template.
+Plus `/skillify`, a Meta skill outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
 
 Five commands under `.agents/commands/` chain the skills into whole phases — one subagent
 per skill run, so each step gets a fresh context. See the [Skills catalog](.agents/skills/skills.catalog.md#commands).

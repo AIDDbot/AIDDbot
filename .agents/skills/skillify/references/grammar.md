@@ -7,6 +7,11 @@ The same grammar applies to `.agents/commands/*.md` body bullets.
 
 One symbol, one meaning; one idea, one syntax.
 
+## Concision
+
+Write short sentences (under 100 chars). Split long ideas into more sentences.
+Do not insert mid-sentence line breaks just to meet the width limit.
+
 ## Sentence forms
 
 ### Action

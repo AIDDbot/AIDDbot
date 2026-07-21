@@ -10,16 +10,16 @@ disable-model-invocation: true
 Act as Business Analyst.
 
 ## Task
-Capture a feature as a one-page spec — or amend an existing one: problem, solution,
-and criteria. Any amend resets the pipeline gate to `pending`.
+Capture a feature as a one-page spec — or amend an existing one.
+Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 
 ### Guardrails
-- **Amendable** — edit an existing spec at any status; never invent a parallel ticket
-  for the same `{spec_key}` when amending.
-- **Gate on amend** — every amend sets `status: pending`, unchecks all AC boxes, and
-  hands off to `/planify` (always replan — software containers and e2e).
-- **PRD append-only** — on create, append the spec's line; never rewrite the shell
-  (`/explore`). On amend, do not duplicate the PRD line.
+- **Amendable** — edit an existing spec at any status.
+- **Amendable** — never invent a parallel ticket for the same `{spec_key}`.
+- **Gate on amend** — every amend sets `status: pending` and unchecks all AC boxes.
+- **Gate on amend** — hand off to `/planify` (always replan — software containers and e2e).
+- **PRD append-only** — on create, append the spec's line; never rewrite the shell (`/explore`).
+- **PRD append-only** — on amend, do not duplicate the PRD line.
 
 ## Context
 
@@ -29,8 +29,8 @@ and criteria. Any amend resets the pipeline gate to `pending`.
 - `{PRD}` = `{Product_Folder}/specs/PRD.md`.
 
 ### Inputs
-- [ ] Required: A requirement or feature description — or an existing `{spec_key}` /
-      `{slug}` to amend, plus what changed.
+- [ ] Required: a requirement or feature description.
+- [ ] Or: an existing `{spec_key}` / `{slug}` to amend, plus what changed.
 
 ### Glossary
 - **{spec_id}** — 3-digit sequential id; highest under `specs/` plus one (create only).
@@ -41,12 +41,14 @@ and criteria. Any amend resets the pipeline gate to `pending`.
 - **Solution** — per-container outcomes in the Solution overview (`e2e` excluded).
 - **AC id** — `AC-{spec_id}.{n}`; referenced by plans, tests, and reports.
 - **PRD** — category index; shell from `/explore`, lines appended here.
-- **Amend** — edit in place; keep `{spec_id}` / `{spec_key}`; keep `released-version`
-  if previously shipped.
+- **Amend** — edit in place; keep `{spec_id}` / `{spec_key}`.
+- **Amend** — keep `released-version` if previously shipped.
 
 ## Steps
 ### 1. Research
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
+- _read_ [the PRD]({PRD}) — spot overlap with the new or amended requirement.
+- _if_ `{PRD}` is missing, _handoff_ to `/explore`.
 - _identify_ create vs amend.
 - _if_ create:
   - _derive_ `{slug}`.
@@ -55,8 +57,6 @@ and criteria. Any amend resets the pipeline gate to `pending`.
 - _if_ amend:
   - _resolve_ `{Specs}/spec.md`.
   - _keep_ `{spec_id}`, `{slug}`, and `{spec_key}`.
-- _read_ [the PRD]({PRD}) — spot overlap with the new or amended requirement.
-- _if_ `{PRD}` is missing, _handoff_ to `/explore`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _list_ the software containers this feature touches (`e2e` excluded).
 
@@ -65,8 +65,8 @@ and criteria. Any amend resets the pipeline gate to `pending`.
 - _if_ present, _read_ [model schema]({Model}/model.schema.md).
 - _prepare_ problem, user stories, RuleSpeak rules, and out of scope.
 - _prepare_ the conceptual data model from the model schema when present.
-- _prepare_ the solution overview — one section per software container
-  (`e2e` stays in verification criteria).
+- _prepare_ the solution overview — one section per software container.
+- _prepare_ verification criteria for `e2e` (no Solution section for `e2e`).
 - _if_ create, _prepare_ the PRD line: `{category}` and `{title}`.
 
 ### 3. Implement
@@ -77,9 +77,9 @@ and criteria. Any amend resets the pipeline gate to `pending`.
   - _number_ criteria `AC-{spec_id}.{n}` all `[ ]`.
 - _if_ amend:
   - _update_ `{Specs}/spec.md` with `status: pending`.
-  - _uncheck_ all criteria `[ ]`; keep `released-version` if set.
-- _if_ create, _append_ the spec's line to `{PRD}` under its category
-  (create heading if new):
+  - _update_ criteria and mark new or updated ones as `[ ]`.
+  - _keep_ `released-version` if set.
+- _if_ create, _append_ the spec's line to `{PRD}` under its category (create heading if new):
 
   ```markdown
   ## {category}
@@ -94,8 +94,9 @@ and criteria. Any amend resets the pipeline gate to `pending`.
 
 ## Verification
 - [ ] `{Specs}/spec.md` exists, correct format, no empty placeholders.
-- [ ] Criteria are checkable and numbered `AC-{spec_id}.{n}`; all `[ ]`
-      after create/amend.
-- [ ] Solution sections list outcomes, not implementation details; no `e2e` section.
+- [ ] Criteria are checkable and numbered `AC-{spec_id}.{n}`.
+- [ ] All criteria are `[ ]` after create/amend.
+- [ ] Solution sections list outcomes, not implementation details.
+- [ ] No `e2e` Solution section.
 - [ ] Status is `pending`; amend did not duplicate the PRD line.
 - [ ] On create, `{PRD}` lists the spec under a category.

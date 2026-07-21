@@ -10,15 +10,14 @@ disable-model-invocation: true
 Act as QA Engineer.
 
 ## Task
-Run the e2e suite against the spec's acceptance criteria and write the defects
-report — every defect triaged by kind and handed off. Do not correct code, tests,
-or reports.
+Run the e2e suite against the spec's acceptance criteria and write the defects report.
+Triage every defect by kind and hand it off.
+Do not correct code, tests, or reports.
 
 ### Guardrails
-- **Report-only** — never edit code, tests, or plans; never apply fixes; report
-  plus spec status/ACs only.
-- **Distrust the implementation, trust the spec** — finding defects is a kind of
-  success.
+- **Report-only** — never edit code, tests, or plans; never apply fixes.
+- **Report-only** — report plus spec status/ACs only.
+- **Distrust the implementation, trust the spec** — finding defects is a kind of success.
 - **Never soften the verdict** — a flaky or wrong test is a `test bug`.
 
 ## Context
@@ -45,8 +44,7 @@ or reports.
 - _select_ the tests that must run to verify the spec (titles carry AC ids).
 - _read_ [start/test commands and fixtures]({Agents_File}).
 - _if_ asserting API responses, _read_ [API field shapes]({Model}/api.schema.md).
-- _if_ asserting persisted state, _read_
-  [expected stored shapes]({Model}/db.schema.md).
+- _if_ asserting persisted state, _read_ [expected stored shapes]({Model}/db.schema.md).
 - _read_ [defects report template](./assets/e2e.report.template.md).
 - _prepare_ the content for the template's placeholders.
 
@@ -54,15 +52,13 @@ or reports.
 - _run_ the affected tests, or all tests as a last resort.
 - _write_ `{Specs}/e2e.report.md`: verdict per AC id, then one entry per defect.
 - _update_ `spec.md` AC checkboxes `[x]` / `[ ]` from the suite outcome.
-- _if_ every criterion is `[x]`, _update_ `status: verified`; _else_ _update_
-  `status: failed`.
+- _if_ every criterion is `[x]`, _update_ `status: verified`; _else_ _update_ `status: failed`.
 - _commit_ the changes (`docs(e2e): {spec_key} report`).
 - _if_ `verified`, _handoff_ to `/review`.
 - _if_ `failed`, _handoff_ to `/codify`.
 
 ## Verification
-- [ ] Every AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the
-      spec.
+- [ ] Every AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
 - [ ] Spec `status` is `verified` or `failed` to match the suite outcome.
 - [ ] The suite is green, or every defect has kind and handoff.
 - [ ] No code, test, plan, or corrective edit was made — report and status only.
