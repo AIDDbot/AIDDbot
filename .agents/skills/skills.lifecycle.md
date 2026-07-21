@@ -15,8 +15,8 @@ How the 8 skills cover the whole SDLC — build, maintain, refactor. The
   them after every change; `/extract` rebuilds them when they drift.
 - A spec is the programming artifact for one change — its criteria and acceptance.
   Once released it is closed (`done`) — history, not ongoing authority.
-- The PRD (`specs/PRD.md`) is the functional log — specs indexed by feature area when
-  created. Written only by `/specify`; status stays in each spec.
+- The PRD (`specs/PRD.md`) is the functional log — shell from `/explore`, specs indexed
+  by feature area when `/specify` creates them. Status stays in each spec.
 - Invariant: green e2e suite = current behavior.
 
 ## Build (new project or new feature)

@@ -17,7 +17,7 @@ Capture a feature as a one-page spec:
 
 ## Guardrails
 - **Write-once** — a new change is a new spec; never edit an existing one.
-- **Single writer** — only this skill creates or edits the PRD.
+- **PRD append-only** — append the spec's line to `{PRD}`; never rewrite the shell (`/explore` creates it).
 
 ## Context
 
@@ -34,20 +34,20 @@ Capture a feature as a one-page spec:
 - **{slug}** — short feature identifier; names the spec folder with `{NNN}`.
 - **{NNN}** — 3-digit sequential spec number; highest under `specs/` plus one.
 - **AC id** — `AC-{NNN}.{n}`; numbers each acceptance criterion, referenced by plans, tests, and reports.
-- **PRD** — functional log of specs grouped by feature area; append-only index written at spec creation.
+- **PRD** — functional log of specs grouped by feature area; shell from `/explore`, lines appended here.
 
 ## Steps
 ### 1. Research
 - _ask_ me to clarify the context one question at a time with closed-ended answers.
 - Derive `{slug}`; derive `{NNN}` from the `specs/` folder listing.
-- _if_ present, _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
+- _read_ [the PRD, specs already logged]({PRD}) — spot overlap with the new requirement.
+- _if_ `{PRD}` is missing, _handoff_ to `/explore`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - List the containers this feature touches.
 
 ### 2. Plan
 - _read_ [spec template](./assets/spec.template.md).
 - _if_ present, _read_ [model schema]({Model}/model.schema.md).
-- _read_ [model design convention](./references/model.conventions.md).
 - Prepare the problem, user stories, business rules (in RuleSpeak), and out of scope.
 - Prepare the conceptual data model from the model schema when present.
 - Prepare per-container expected results.
@@ -57,8 +57,16 @@ Capture a feature as a one-page spec:
 ### 3. Implement
 - _if_ on the default branch, create branch `feat/{NNN}-{slug}`.
 - _write_ `{Specs}/spec.md` with `status: pending`; one page; number criteria `AC-{NNN}.{n}`.
-- _if_ `{PRD}` is missing, _read_ [PRD template](./assets/PRD.template.md) and create it.
-- Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new).
+- Append the spec's line to `{PRD}` under its feature-area heading (create the heading if new):
+
+  ```markdown
+  ## {Feature area}
+  {short line description of the area}
+  ### [{NNN} {Feature Name}](./{NNN}-{slug}/spec.md)
+
+    - **Tags**: `{tag1, tag2}`
+  ```
+
 - Commit (`docs: {description}`).
 - _handoff_ to `/planify`.
 

@@ -13,12 +13,12 @@ skills cover build, maintenance, and refactoring.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/explore`](./explore/) | AIDD setup + C4 L2 (with Tier) + conceptual model schema |
+| [`/explore`](./explore/) | AIDD setup + C4 L2 (with Tier) + conceptual model schema + PRD shell |
 | [`/extract`](./extract/) | per container: arch or db schema + code rules (+ API) |
 
 Produces:
 - `/explore` → `{Agents_File}`, `arch/system.arch.md` (Tier per container),
-  `model/model.schema.md`. Guide files only — no application source.
+  `model/model.schema.md`, `specs/PRD.md` (shell). Guide files only — no application source.
 - `/extract` → `arch/{container}.arch.md` (non-db) or `model/db.schema.md` (db),
   `model/api.schema.md` when the container exposes an API (merge if present),
   `{Agents_Folder}/rules/{container}.rules.md`. Reads container source.
@@ -34,7 +34,7 @@ Produces:
 
 Produces:
 - `/specify` → `specs/{NNN}-{slug}/spec.md` (criteria numbered `AC-{NNN}.{n}`) + its line in
-  `specs/PRD.md` — the functional log of specs by feature area, written only by `/specify`.
+  `specs/PRD.md` — appends to the functional log created by `/explore`.
 - `/planify` → `specs/{NNN}-{slug}/{container}.plan.md` — `e2e.plan.md` included.
 - `/codify` → source, unit tests, e2e tests (titles carry their AC id).
 - `/verify` → `specs/{NNN}-{slug}/e2e.report.md` — a verdict per AC id plus the defects.

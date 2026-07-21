@@ -9,8 +9,8 @@ For install and first steps, see [Getting started](./getting-started.md).
 ## The model
 
 **The green e2e suite is the contract.** The PRD (`specs/PRD.md`) is the functional
-log — specs indexed by feature area when created. Released specs are closed — history,
-not ongoing authority.
+log — shell from `/explore`, specs indexed by feature area when `/specify` creates them.
+Released specs are closed — history, not ongoing authority.
 
 ```mermaid
 flowchart TB
@@ -115,6 +115,7 @@ files only; `/extract` reads that container's source.
   - Root `{Agents_File}` (`AGENTS.md` | `CLAUDE.md`) — environment, paths, git rules, status chain, product brief.
   - `arch/system.arch.md` — containers diagram; each container has **Tier** and a **Detail** link.
   - `model/model.schema.md` — conceptual ER diagram and entity list (no attributes).
+  - `specs/PRD.md` — functional log shell (product problem/goals); feature lines come from `/specify`.
 - `/extract` documents **one container per invocation**:
   - `arch/{container}.arch.md` — C4 L3 components and code organization (non-`db` tiers).
   - `model/db.schema.md` — relational schema (**instead of** arch when tier is `db`).
@@ -154,8 +155,8 @@ flowchart TD
 ```
 
 1. **`/specify`** — the **what**: a one-page ticket with the problem, expected results
-   per container, and acceptance criteria numbered `AC-{NNN}.{n}`; logged in
-   `specs/PRD.md` (sole writer). No technology, no steps.
+   per container, and acceptance criteria numbered `AC-{NNN}.{n}`; appends its line to
+   `specs/PRD.md`. No technology, no steps.
 2. **`/planify`** — the **how**: one plan per affected container, the transversal
    `e2e.plan.md` included (one scenario step per AC id). Shared contracts (API shapes,
    schemas) are stated verbatim in every sibling plan.
@@ -294,12 +295,13 @@ flowchart TD
   HUM -->|/explore| AGT
   HUM -->|/explore| ARC
   HUM -->|/explore| MOD
+  HUM -->|/explore| PRD
   HUM -->|/extract| CAR
   HUM -->|/extract| DBS
   HUM -->|/extract| API
   HUM -->|/extract| RUL
   HUM -->|/specify| SPC
-  HUM -->|/specify| PRD
+  SPC -->|appends line| PRD
   PRD -.functional log.-> SPC
   AGT -.-> SPC
   ARC -.-> SPC
@@ -328,11 +330,12 @@ flowchart TD
 | `/explore` | `{Agents_File}` (`AGENTS.md` \| `CLAUDE.md`) | every skill — paths, conventions, git rules, start/test commands | — |
 | `/explore` | `arch/system.arch.md` (C4 L2, Tier + Detail per container) | `/extract`, `/specify`, `/planify`, `/codify`, `/release` | — |
 | `/explore` | `model/model.schema.md` (conceptual ER, no attributes) | `/specify`, `/release` | — |
+| `/explore` | `specs/PRD.md` (functional log shell) | `/specify` (appends lines) | — |
 | `/extract` | `arch/{container}.arch.md` (C4 L3, non-`db`) | `/planify`, `/codify`, `/release` (doc sync) | — |
 | `/extract` | `model/db.schema.md` (`db` tier, instead of arch) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `model/api.schema.md` (when container exposes an API; merge) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `{Agents_Folder}/rules/{container}.rules.md` | `/codify` | — |
-| `/specify` | `specs/{NNN}-{slug}/spec.md` + its line in `specs/PRD.md` (sole writer) | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `done` (`/release`) |
+| `/specify` | `specs/{NNN}-{slug}/spec.md` + its line appended to `specs/PRD.md` | `/planify`, `/verify` (criteria), `/release`; the PRD helps the next `/specify` spot overlap | `pending` → `in-progress` (first `/codify`) → `done` (`/release`) |
 | `/planify` | `specs/{NNN}-{slug}/{container}.plan.md` | `/codify`, `/review` (plan scope) | steps checked `[x]` by `/codify` |
 | `/planify` | `specs/{NNN}-{slug}/e2e.plan.md` | `/codify` (implements the suite), `/verify` (scenario ↔ AC id mapping) | steps checked `[x]` by `/codify` |
 | `/codify` | source + unit tests (`{Source_Folders}`); e2e tests (`e2e/`, titles carry AC ids) | `/verify`, `/review`; green-baseline gates; refactor safety net | — |
@@ -379,7 +382,7 @@ stateDiagram-v2
   - `db.schema.md` — Relational schema for the `db` container (instead of arch) (`/extract`).
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{NNN}-{slug}` (`{NNN}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
-  - `PRD.md` — Functional log: specs indexed by feature area when created; written only by `/specify`. No status — that lives in each spec.
+  - `PRD.md` — Functional log: shell from `/explore`; specs indexed by feature area when `/specify` creates them. No status — that lives in each spec.
   - `{NNN}-{slug}/spec.md` — Problem, per-container expected results, acceptance criteria (`/specify`).
   - `{NNN}-{slug}/{container}.plan.md` — Implementation plan for one container (`/planify`).
   - `{NNN}-{slug}/e2e.plan.md` — The e2e container's plan: one scenario per AC id (`/planify`).

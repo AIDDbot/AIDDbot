@@ -13,7 +13,7 @@ Act as Release Manager.
 Ship verified work: bump the version, finalize `CHANGELOG.md`, reconcile arch docs, and
 close the spec when one is in scope.
 
-Boundary: the PRD belongs to `/specify`.
+Boundary: the PRD shell belongs to `/explore`; feature lines belong to `/specify`.
 
 ## Guardrails
 - **Nothing unverified ships** — with a spec, all criteria `[x]`; otherwise suite green.

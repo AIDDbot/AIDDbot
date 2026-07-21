@@ -1,7 +1,12 @@
 ---
 id: {NNN}
+name: {name}
 slug: {slug}
-status: pending | in-progress | done
+created_at: {YYYY-MM-DD}
+updated_at: {YYYY-MM-DD}
+category : {unique main category of the spec}
+tags: {optional array of tags [tag1, tag2, tag3]}
+status: {pending, in-progress, verified|failed, released},
 ---
 # Specification {NNN} — {short description}
 
@@ -31,8 +36,7 @@ status: pending | in-progress | done
 
 ### Data Model
 
-{Conceptual entities and relationships this feature touches}
-{Follow the Model Design Convention in the references folder.}
+{Conceptual entities and relationships this feature touches — from `model.schema.md` when present.}
 
 ### {Container_Name}
 

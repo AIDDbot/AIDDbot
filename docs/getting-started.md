@@ -34,7 +34,7 @@ In your agent chat:
 /explore this project
 ```
 
-This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, spec status chain, product brief — the system architecture document `arch/system.arch.md` (C4 L2: containers with **Tier**), and the conceptual model schema `model/model.schema.md` (ER diagram + entity list, no attributes). `/explore` reads the tree and Guide files only, not application source.
+This writes the root agent-instructions file (`AGENTS.md`, or `CLAUDE.md` depending on your harness) — paths, conventions, git rules, spec status chain, product brief — the system architecture document `arch/system.arch.md` (C4 L2: containers with **Tier**), the conceptual model schema `model/model.schema.md` (ER diagram + entity list, no attributes), and the PRD shell `specs/PRD.md`. `/explore` reads the tree and Guide files only, not application source.
 
 Then document each **container** (a runnable unit from `system.arch.md`: `api`, `web`, `db`...). Run once per container:
 
@@ -73,7 +73,7 @@ Example prompts:
 /verify the feature
 ```
 
-- `/specify` captures **what** — a one-page spec with per-container expected results and acceptance criteria, plus a line in `specs/PRD.md` (the functional log). No technical detail.
+- `/specify` captures **what** — a one-page spec with per-container expected results and acceptance criteria, and appends a line to `specs/PRD.md` (the functional log). No technical detail.
 - `/planify` captures **how** — one implementation plan per affected container, the transversal `e2e.plan.md` included (one scenario per acceptance criterion).
 - `/codify` implements **one container plan per run** (sessions can be parallel): functional code + unit tests — and the e2e suite from its plan.
 - `/verify` runs the e2e suite and reports — never fixes: defects land in `e2e.report.md` triaged with a handoff each. Code/test bugs go back through `/codify` per affected container; structural defects escalate to `/planify`. Repeat `/verify` until green. Implementation and evaluation never share a session.
