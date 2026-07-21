@@ -14,14 +14,17 @@ Capture a feature as a one-page spec — or amend an existing one.
 Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 
 ### Guardrails
-- **Amendable** — edit an existing spec at any status.
-- **Amendable** — never invent a parallel ticket for the same `{spec_key}`.
-- **Gate on amend** — every amend sets `status: pending` and unchecks all **active** AC boxes.
-- **Gate on amend** — hand off to `/planify` (always replan — software containers and e2e).
+- **Amendable** : 
+ — edit an existing spec at any status.
+ — never invent a parallel ticket for the same `{spec_key}`.
+- **Gate on amend**: 
+  — every amend sets `status: pending` and unchecks all **active** AC boxes.
+  — hand off to `/planify` (always replan — software containers and e2e).
 - **Stable ids** — never renumber or reuse an `AC-{spec_id}.{n}`; plans and tests point at it.
 - **Deprecate, never delete** — a retired criterion moves to `Deprecated criteria`, id kept.
-- **PRD append-only** — on create, append the spec's line; never rewrite the shell (`/explore`).
-- **PRD append-only** — on amend, do not duplicate the PRD line.
+- **PRD append-only**: 
+  — on create, append the spec's line; never rewrite the shell (`/explore`).
+  — on amend, do not duplicate the PRD line.
 
 ## Context
 
@@ -44,7 +47,6 @@ Cover problem, solution, and criteria. Any amend resets the gate to `pending`.
 - **AC id** — `AC-{spec_id}.{n}`; referenced by plans, tests, and reports.
 - **PRD** — category index; shell from `/explore`, lines appended here.
 - **Amend** — edit in place; keep `{spec_id}` / `{spec_key}`.
-- **Amend** — keep `released-version` if previously shipped.
 - **Deprecated criterion** — a retired AC moved out of the active list; keeps its id.
 
 ## Steps

@@ -16,11 +16,14 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 
 ### Guardrails
 - **Ground in the arch** — every step traces to the container's components and contracts.
-- **Always replan after amend** — when the spec is `pending`, rewrite plans.
-- **Always replan after amend** — never skip `/planify` after create or amend.
-- **Checkpoints control carry-forward** — on replan, mark each prior step keep / redo / drop.
-- **Checkpoints control carry-forward** — classify before rewriting Implementation Steps.
-- **Deprecated AC drops its scenario** — checkpoint it `drop`; that authorizes `/codify` to delete its test.
+- **Always replan after amend**: 
+  — when the spec is `pending`, rewrite plans.
+  — never skip `/planify` after create or amend.
+- **Checkpoints control carry-forward**:  
+  — on replan, mark each prior step keep / redo / drop.
+  — classify before rewriting Implementation Steps.
+- **Deprecated AC drops its scenario**: 
+  — checkpoint it `drop`; that authorizes `/codify` to delete its test.
 
 ## Context
 
@@ -35,8 +38,9 @@ On amend, always replan. Use checkpoints to keep, redo, or drop prior steps.
 ### Glossary
 - **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
 - **Software container** — any container except `e2e`; planned from the solution overview.
-- **e2e container** — transversal; planned via `e2e.plan.md` (one scenario per AC id).
-- **e2e container** — written by `/codify`, judged by `/verify`.
+- **e2e container**: 
+  — transversal; planned via `e2e.plan.md` (one scenario per AC id).
+  — written by `/codify`, judged by `/verify`.
 - **Checkpoint** — a prior plan step classified `keep` | `redo` | `drop` on amend/replan.
 - **Structural refactor** — acceptance criterion is the existing e2e suite.
 - **{slug}** — from the input file name or derived from the requirement.

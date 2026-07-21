@@ -1,1 +1,9 @@
-Run the /verify skill in a subagent to produce the defects report. If the suite is green, reply "No defects found" and suggest running /review. If not, run the /codify skill in a fresh subagent per affected container to fix the reported defects, then run the /verify skill again in a new subagent. Repeat until green. If a defect is triaged structural, stop and hand off to /planify.
+- _run_ the `/verify` skill in a subagent to produce the defects report.
+- _if_ the suite is green:
+  - _reply_ "No defects found".
+  - _suggest_ `/review`.
+- _if_ a defect is triaged structural, _handoff_ to `/planify`.
+- _if_ code or test defects remain:
+  - _for-each_ affected container, _run_ `/codify` in a fresh subagent to fix them.
+  - _run_ `/verify` again in a new subagent.
+  - _repeat_ until green.
