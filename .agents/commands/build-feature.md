@@ -1,8 +1,27 @@
-- _run_ the specify-and-planify command — `/specify` then `/planify`, each in a fresh subagent.
-- _require_ the spec reaches `status: planned` before building.
-- _run_ the codify-plans command — `/codify` per plan, software containers then e2e.
-- _run_ the verify-and-fix command to drive the e2e suite green.
+- _run_ the `/specify` skill in a subagent (create or amend).
+- _tell_ it to stop after its commit with no handoff.
+- _read_ the generated or updated `{Specs}/spec.md`.
+- _run_ the `/planify` skill in a fresh subagent.
+- _tell_ it to stop after its commit with no handoff.
+- _tell_ planify it runs once for all software-container plans plus `e2e.plan.md`.
+- _tell_ planify that amend always replans with Checkpoints (`keep` | `redo` | `drop`).
+- _require_ the spec `status` is `planned` before building.
+- _read_ the spec folder for the software-container plans and `e2e.plan.md`.
+- _for-each_ software-container plan:
+  - _run_ `/codify` in a fresh subagent, one after another.
+  - _pass_ the plan path into that run.
+  - _tell_ it to stop after its commit with no handoff.
+- _run_ `/codify` in a fresh subagent for `e2e.plan.md`.
+- _tell_ it to stop after its commit with no handoff.
+- _run_ the `/verify` skill in a fresh subagent to produce the defects report.
 - _if_ a defect is triaged structural, _surface_ the handoff to `/planify` and _stop_.
-- _run_ the review-and-fix command to gate the scope and fix failing gates.
+- _if_ code or test defects remain:
+  - _for-each_ affected container, _run_ `/codify` in a fresh subagent to fix them.
+  - _run_ `/verify` again in a new subagent.
+  - _repeat_ until the suite is green.
+- _run_ the `/review` skill in a fresh subagent to produce the gate report.
 - _if_ a finding hands off to `/specify` or `/planify`, _surface_ it to the human and _stop_.
+- _if_ any gate failed:
+  - _run_ `/codify` in a fresh subagent to fix the findings.
+  - _run_ `/verify` in another subagent to confirm the feature still works.
 - _if_ every gate passed, _run_ `/release` in a fresh subagent to ship the feature.
