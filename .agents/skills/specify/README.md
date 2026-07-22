@@ -40,9 +40,13 @@ including the `e2e` scenarios — note that `e2e` has no Solution section of its
 
 ## Write it
 
-If you are on the default branch, cut a `feat/{spec_key}` branch. Write or update
-`specs/{spec_key}/spec.md` with `status: pending`, keeping any `released-version` that was
-already set. Number the active criteria `AC-{spec_id}.{n}`, all left unchecked (`[ ]`). On an
+Get onto the right branch first. If you are already on `feat/{spec_key}`, you are mid-cycle —
+stay there. Otherwise you are on the default branch: make sure it is current, delete any stale
+`feat/{spec_key}` a prior release left behind, and cut a fresh `feat/{spec_key}` from default.
+Every amend cycle gets its own fresh branch off current default; never reopen a branch that was
+already merged and released — the spec file on default is the durable record, not the branch.
+Then write or update `specs/{spec_key}/spec.md` with `status: pending`, keeping any
+`released-version` that was already set. Number the active criteria `AC-{spec_id}.{n}`, all left unchecked (`[ ]`). On an
 amend, move any obsolete criteria into `Deprecated criteria` with a date and a reason. On a
 create, append the spec's line to the PRD under its category. Commit with a `docs: …` message,
 then hand off to the planning step.
@@ -55,3 +59,4 @@ then hand off to the planning step.
 - Any retired criterion sits under `Deprecated criteria` with its id, date, and reason.
 - Solution sections list outcomes, not implementation, and there is no `e2e` Solution section.
 - Status is `pending`; on a create the PRD lists the spec, with no duplicated line.
+- Work sits on a fresh `feat/{spec_key}` off current default, not a reopened merged branch.

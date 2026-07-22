@@ -8,7 +8,8 @@ Nothing unverified ships. With a spec in scope, it must be `status: verified` wi
 criterion `[x]`; without a spec, the suite must be green. If a review report is in scope, every
 gate must read `pass` — otherwise hand back to the code-writing step. Respect the PRD boundary:
 the shell belongs to the explore step and the category lines to the specify step, so you touch
-neither here.
+neither here. And merge before you tag — the release commit and tag belong on default's
+post-merge tip, never on a branch, so they name exactly what shipped.
 
 ## What you are given
 
@@ -29,17 +30,25 @@ release, list them under `Removed`. Note which arch docs have drifted from reali
 
 ## Ship it
 
-Update the version files and move the `Unreleased` section under the new version in
-`CHANGELOG.md`. Reconcile the docs that drifted: the system architecture
+Merge first, so everything that follows lands on the branch that actually ships. Merge the
+feature branch into default — a fast-forward when default hasn't advanced — then run the suite
+on default as a final integration check; if it comes up red, hand back to the code-writing step.
+
+Now, on default, make the release. Update the version files and move the `Unreleased` section
+under the new version in `CHANGELOG.md`. Reconcile the docs that drifted: the system architecture
 (`arch/system.arch.md`) and the model schema (`model/model.schema.md`) always, plus, as needed,
 a non-`db` container's architecture, the relational schema, an API schema, or a container's
 rules. If the drift is heavy, hand off to the explore or extract step rather than patching it
-all here. If a spec is in scope, set it to `status: done` with
-`released-version: {new_version}`. Commit with a `chore: release {new_version}` message, tag the
-release, and merge to the default branch.
+all here. If a spec is in scope, set it to `status: done` with `released-version: {new_version}`.
+Commit the release changes on default with a `chore: release {new_version}` message, and tag that
+commit — the tag marks default's post-merge tip, never a branch commit, so it names exactly what
+shipped. Finally, delete the feature branch you merged, so its key is free for a later amend
+cycle to reuse — from here on the spec's home is the file on default, not a branch.
 
 ## Done means
 
-- The suite is green; a spec in scope was `verified` and is now `done`.
+- The suite is green on default after the merge; a spec in scope was `verified` and is now `done`.
 - Any review report in scope shows every gate `pass`.
 - The changelog, the version, and the arch docs all match what shipped.
+- The release commit and tag sit on default's post-merge tip, not on a branch commit.
+- The merged feature branch was deleted after the merge to default.

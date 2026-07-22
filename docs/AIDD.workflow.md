@@ -233,10 +233,12 @@ sequenceDiagram
   H->>R: /release
   R->>S: run — confirm green
   R->>R: gate check — review report all pass (else → /codify)
+  R->>R: merge feature branch to default
+  R->>S: run on default — integration check (else → /codify)
   R->>C: bump version · move Unreleased entries
   R->>A: reconcile drifted docs
   R->>P: status done · released-version (when in scope; was verified)
-  R->>R: commit · tag · merge to default branch
+  R->>R: commit · tag default's tip · delete merged branch
 ```
 
 ## Maintenance
@@ -427,5 +429,7 @@ stateDiagram-v2
 
 Branch naming, conventional commits, and git safety rules live in the root
 `{Agents_File}` (written by `/explore`). Spec work starts on `feat/{spec_key}`
-(`/specify`), spec-less fixes on `fix/{slug}` (`/codify`); `/release` merges to the
-default branch and tags.
+(`/specify`), spec-less fixes on `fix/{slug}` (`/codify`). Every amend cycle branches
+fresh from current default and never reopens a merged branch — the spec file on default
+is the durable record, not the branch. `/release` merges to default first, then tags default's
+post-merge tip and deletes the merged branch so its key is free to reuse.

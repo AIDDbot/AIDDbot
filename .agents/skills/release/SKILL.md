@@ -18,6 +18,8 @@ and close the spec when one is in scope.
   otherwise suite green.
 - **Gates green** — a review report in scope must show every gate `pass`; else back to `/codify`.
 - **PRD boundary** — shell belongs to `/explore`; category lines belong to `/specify`.
+- **Prune on merge** — delete the merged feature branch so its key is free to reuse.
+- **Tag the mainline** — merge first; the tag marks default's tip, never a branch commit.
 
 ## Context
 
@@ -48,6 +50,8 @@ and close the spec when one is in scope.
 - _note_ arch docs that drifted.
 
 ### 3. Implement
+- _merge_ the feature branch into default (fast-forward when default has not advanced).
+- _run_ the suite on default; _if_ red, _handoff_ to `/codify`.
 - _update_ version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
 - _update_ [system architecture]({Arch}/system.arch.md).
 - _update_ [model schema]({Model}/model.schema.md).
@@ -57,9 +61,13 @@ and close the spec when one is in scope.
 - _if_ conventions drifted, _update_ [container rules]({Rules}/{container}.rules.md).
 - _if_ drift is heavy, _handoff_ to `/explore` or `/extract`.
 - _if_ a spec is in scope, _update_ `status: done` and `released-version: {new_version}`.
-- _commit_ the changes (`chore: release {new_version}`); tag; merge to default branch.
+- _commit_ the release changes on default (`chore: release {new_version}`).
+- _tag_ default at the release commit.
+- _delete_ the merged feature branch so its key is free to reuse.
 
 ## Verification
-- [ ] Suite green; spec was `verified` and is now `done` when in scope.
+- [ ] The suite is green on default after merge; a spec in scope was `verified`, now `done`.
 - [ ] The review report in scope shows every gate `pass`.
 - [ ] CHANGELOG, version, and arch docs match what shipped.
+- [ ] The release commit and tag sit on default's post-merge tip, not a branch commit.
+- [ ] The merged feature branch was deleted after the merge to default.

@@ -19,6 +19,7 @@ Cover problem, solution, and criteria.
 - **Stable ids** — never renumber or reuse an `AC-{spec_id}.{n}`; plans and tests point at it.
 - **Deprecate, never delete** — a retired criterion moves to `Deprecated criteria`, id kept.
 - **PRD append-only** — append the spec's line; never rewrite the shell or duplicate a line.
+- **Fresh branch per cycle** — branch from current default; never reopen a merged branch.
 
 ## Context
 
@@ -54,7 +55,11 @@ Cover problem, solution, and criteria.
 - _prepare_ acceptance criteria, including `e2e` scenarios (`e2e` has no Solution section).
 
 ### 3. Implement
-- _if_ on the default branch, _create_ branch `feat/{spec_key}`.
+- _if_ already on `feat/{spec_key}`, _keep_ it — an in-flight cycle stays on its branch.
+- _if_ on the default branch:
+  - _require_ default is current.
+  - _if_ a stale `feat/{spec_key}` exists, _delete_ it — a prior release orphaned it.
+  - _create_ branch `feat/{spec_key}` from default.
 - _write_ or _update_ `{Specs}/spec.md` with `status: pending`; keep `released-version` if set.
 - _number_ active criteria `AC-{spec_id}.{n}`, all `[ ]`.
 - _if_ amend, _move_ obsolete criteria to `Deprecated criteria` with a date and reason.
@@ -68,3 +73,4 @@ Cover problem, solution, and criteria.
 - [ ] Any retired criterion sits under `Deprecated criteria` with its id, date, and reason.
 - [ ] Solution sections list outcomes, not implementation; no `e2e` Solution section.
 - [ ] Status is `pending`; on create `{PRD}` lists the spec and no line was duplicated.
+- [ ] Work sits on `feat/{spec_key}` from current default; no merged branch was reopened.
