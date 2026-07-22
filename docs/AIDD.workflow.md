@@ -31,7 +31,8 @@ way it authorizes a code edit. `/codify` writes the e2e suite from `e2e.plan.md`
 
 **One writer, two evaluators.** `/codify` is the only skill that writes code — source,
 unit tests, and the e2e suite alike. `/verify` and `/review` only evaluate and report;
-implementation and evaluation never share a session.
+implementation and evaluation never share a session. The periodic `/refactor` audit is
+report-only as well — it triages findings to their pipeline door, never edits.
 
 ```mermaid
 flowchart LR
@@ -268,6 +269,31 @@ The old "no silent behavior changes" rule is structural: `/codify` cannot flip a
 test without a plan, and a plan needs a spec — a disguised behavior change has no
 hot-fix path through the system. Behavior-preserving refactors need no spec and route
 by blast radius — see the [lifecycle map](../.agents/skills/skills.lifecycle.md).
+
+## Refactor
+
+Periodic whole-app audit of accumulated decay — **report-only and triaging, like
+`/review`.** Where a per-spec review sees one diff, `/refactor` reads the *accumulated*
+system (code clarity, UI, accessibility, structure, behavior) for cross-cutting decay no
+single review can catch, and routes each finding by the same maintenance question — *would
+fixing it change what a green e2e test asserts?*
+
+```mermaid
+flowchart TD
+  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
+  classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
+
+  REF["/refactor — whole-app audit<br/>writes refactors/{slug}/refactor.report.md"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
+  Q -->|"no — local"| COD["/codify → /verify"]:::nd
+  Q -->|"no — contracts/components move"| PLN["/planify → /codify → /extract"]:::nd
+  Q -->|"yes — behavior change"| SPC["/specify amend or create"]:::nd
+```
+
+Run it every few specs, or at a release train, so cross-cutting decay gets an owner. It
+never edits code: `/codify` findings are applied and confirmed by `/verify`; `/planify` and
+`/specify` findings re-enter the pipeline at their own door. The
+[`refactor-and-verify`](../.agents/skills/skills.catalog.md#commands) command chains the
+audit and its `/codify` fixes.
 
 ## The artifacts
 

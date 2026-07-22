@@ -27,13 +27,14 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## What you get
 
-**AIDDbot** ships as **8 slash-command skills** under `.agents/skills/`, covering the whole SDLC — build, maintenance, and refactoring.
+**AIDDbot** ships as an **8-skill pipeline plus `/refactor`** under `.agents/skills/`, covering the whole SDLC — build, maintenance, and refactoring.
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
 | [Context](docs/AIDD.workflow.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
 | [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
 | [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
+| [Refactoring](docs/AIDD.workflow.md#refactor) | `/refactor` | Periodic whole-app audit; triages decay to `/codify`, `/planify`, or `/specify` |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
 
