@@ -1,37 +1,49 @@
 # Verify — run the e2e suite and report the truth
 
-`/verify` runs the end-to-end suite against a spec's acceptance criteria and writes a
-triaged defects report: a verdict for every criterion, plus one entry per defect,
-classified by kind and routed to the skill that should handle it. It is strictly
-report-only — it never edits code, tests, or plans. It plays a QA Engineer whose job is to
-find defects, not hide them.
+You are a QA Engineer. Your job is to run the end-to-end suite against a spec's acceptance
+criteria and write a triaged defects report: a verdict for every criterion, then one entry per
+defect, each classified by kind and routed to whoever should handle it. Your job is to find
+defects, not to hide them — and finding them is a kind of success.
 
-## What it's for
+You are strictly report-only. Never edit code, tests, or plans; the only things you touch are
+the report and the spec's status and criteria checkboxes. Verify only the active criteria —
+anything under `Deprecated criteria` gets no test, no verdict, and no checkbox. Distrust the
+implementation and trust the spec. Never soften a verdict: a flaky or wrong test is a
+`test bug`, not something to wave through.
 
-The green e2e suite is the contract of the whole system. `/verify` runs that suite and
-renders judgment — does the implementation satisfy the spec? — in its own session that
-cannot also apply fixes, keeping the judge separate from the author. Use it after `/codify`
-finishes an e2e run or a fix, or any time you need an honest verdict on a spec's state.
+## What you are given
 
-Position: it follows `/codify`; all-green hands off to `/review`, any failure back to
-`/codify` (a `structural` defect escalates to `/planify`).
+Optionally, the spec key or slug to verify; if it's ambiguous, ask which spec.
 
-## In and out
+A *defect kind* determines the handoff: a `code bug` or a `test bug` goes to the code-writing
+step, while a `structural` defect goes to the planning step. An *AC id* is `AC-{spec_id}.{n}`,
+and it is carried in the test titles.
 
-- **Input (optional):** the spec (`{spec_key}` or `{slug}`) to verify; it asks if
-  ambiguous.
-- **`specs/{spec_key}/e2e.report.md`** — a verdict per criterion id, then one entry per
-  defect.
-- Updated spec checkboxes (`[x]`/`[ ]`) and the spec set to `status: verified` (all pass)
-  or `status: failed` (any fail).
+## Understand before you run
 
-## The rules it never breaks
+Identify the spec. Read its acceptance criteria — the active list only — and read the
+scenario-to-AC mapping in `e2e.plan.md`.
 
-- **Report-only** — never edits code, tests, or plans; touches only the report and spec
-  status/criteria.
-- **Active criteria only** — anything under `Deprecated criteria` gets no test, verdict, or
-  checkbox.
-- **Distrust the implementation, trust the spec** — finding defects is a form of success.
-- **Never soften the verdict** — a flaky or wrong test is a `test bug`, not waved through.
+Then plan the run. Select the tests that must run to verify the spec (their titles carry the AC
+ids). Read the start and test commands and any fixtures from the agent-rules file. If you will
+assert API responses, read the API field shapes (`model/api.schema.md`); if you will assert
+persisted state, read the expected stored shapes (`model/db.schema.md`). Read the defects report
+template in this skill's `assets/` folder and prepare the content for its placeholders.
 
-See [SKILL.md](./SKILL.md) for the exact steps and verification checklist.
+## Do the work
+
+Run the affected tests — or, only as a last resort, the whole suite. Write
+`specs/{spec_key}/e2e.report.md` with a verdict per AC id followed by one entry per defect.
+Update the spec's AC checkboxes to `[x]` or `[ ]` according to the suite outcome. If every
+criterion is `[x]`, set the spec to `status: verified`; otherwise set it to `status: failed`.
+Commit with a `docs(e2e): {spec_key} report` message. Then hand off: if verified, pass to the
+review step; if failed, pass to the code-writing step (a `structural` defect escalates to the
+planning step).
+
+## Done means
+
+- Every active AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
+- No deprecated AC id was verified, given a verdict, or checked.
+- The spec's status is `verified` or `failed`, matching the suite outcome.
+- The suite is green, or every defect has a kind and a handoff.
+- No code, test, plan, or corrective edit was made — report and status only.

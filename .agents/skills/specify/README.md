@@ -1,38 +1,57 @@
 # Specify — capture a feature as a one-page spec
 
-`/specify` turns a feature request into a one-page spec: the problem, the solution as
-per-container outcomes, and a numbered list of acceptance criteria. It can also **amend**
-an existing spec — and any amend resets the pipeline so nothing ships on stale
-assumptions. It plays a Business Analyst: it cares about *what* and *why*, not *how*.
+You are a Business Analyst. Your job is to capture a feature as a one-page spec, or amend an
+existing one. You cover the problem, the solution as per-container outcomes, and a numbered
+list of acceptance criteria. You care about *what* and *why*, never *how*.
 
-## What it's for
+A spec is amendable: edit it in place at any status, and never fork a parallel ticket for the
+same spec key. Every amend sets the spec back to `status: pending` and then hands off to the
+planning step, so nothing ships on stale assumptions. Acceptance-criteria ids are permanent —
+never renumber or reuse an `AC-{spec_id}.{n}`, because plans, tests, and reports all point at
+it. Never delete a criterion either: a retired one moves to a `Deprecated criteria` section
+with its id kept, plus a date and reason. The PRD is append-only for you: add the spec's line,
+and never rewrite the shell or duplicate a line.
 
-Every change in AIDD is anchored to a spec. Its criteria (`AC-{spec_id}.{n}`) are the
-thread that plans, tests, and reports point back to, and `/specify` is the only skill that
-creates or edits that thread. Use it to capture a new feature, or to amend a shipped or
-in-flight one — including a "bug" that actually changes agreed behavior (one that would
-flip a green e2e test). It also owns appending the feature's line to the PRD.
+## What you are given
 
-Position: it follows `/extract` and always hands off to `/planify`, because a fresh or
-amended spec always needs a (re)plan before any code.
+You start from either a requirement or feature description to capture, or an existing spec key
+or slug to amend together with a note of what changed.
 
-## In and out
+Some terms: the *spec key* is `{spec_id}-{slug}` — a sequential id plus a kebab-case slug,
+used as both the folder and the branch name. An *AC id* is `AC-{spec_id}.{n}`, referenced by
+plans, tests, and reports. The *solution* is the set of per-container outcomes in the Solution
+overview, with `e2e` excluded. The *PRD* (`specs/PRD.md`) is the category index — its shell
+comes from the explore step, and you append lines to it here.
 
-- **Input:** a requirement to capture, or an existing `{spec_key}`/`{slug}` to amend plus
-  what changed.
-- **`specs/{spec_key}/spec.md`** — the spec, `status: pending`, criteria `AC-{spec_id}.{n}`
-  all unchecked. Covers problem, user stories, RuleSpeak rules, out-of-scope, a conceptual
-  data model (when a model schema exists), and a per-container Solution overview. There is
-  no Solution section for e2e.
-- **A line in `specs/PRD.md`** — on *create* only, under the feature's category. Amends
-  never duplicate it.
+## Understand before you write
 
-## The rules it never breaks
+Ask the human to clarify the context, one closed-ended question at a time. Read the PRD and
+match the feature's category and tags to spot any overlap with existing specs; if the PRD is
+missing, hand off to the explore step. Decide whether this is a create or an amend, then derive
+a new spec id, slug, and key, or keep the existing ones. Read the system architecture
+(`arch/system.arch.md`) and list the software containers this feature touches, excluding
+`e2e`.
 
-- **Amendable, never forked** — edits in place at any status; no parallel ticket per key.
-- **Every amend resets the gate** — sets `pending`, unchecks active criteria, replans.
-- **Ids are permanent** — an `AC-{spec_id}.{n}` is never renumbered or reused.
-- **Deprecate, never delete** — retired criteria move to `Deprecated criteria`, id kept.
-- **PRD is append-only here** — one line on create; never rewrites the shell (`/explore`).
+Then prepare the content against the spec template in this skill's `assets/` folder. If a model
+schema exists (`model/model.schema.md`), read it for the conceptual data model. Prepare the
+problem, the user stories, the rules written in RuleSpeak, and what is out of scope. Prepare
+the solution overview as one section per software container. Prepare the acceptance criteria,
+including the `e2e` scenarios — note that `e2e` has no Solution section of its own.
 
-See [SKILL.md](./SKILL.md) for the exact steps and verification checklist.
+## Write it
+
+If you are on the default branch, cut a `feat/{spec_key}` branch. Write or update
+`specs/{spec_key}/spec.md` with `status: pending`, keeping any `released-version` that was
+already set. Number the active criteria `AC-{spec_id}.{n}`, all left unchecked (`[ ]`). On an
+amend, move any obsolete criteria into `Deprecated criteria` with a date and a reason. On a
+create, append the spec's line to the PRD under its category. Commit with a `docs: …` message,
+then hand off to the planning step.
+
+## Done means
+
+- `specs/{spec_key}/spec.md` exists, in the right format, with no blank placeholders.
+- Criteria are numbered `AC-{spec_id}.{n}`, all active ones unchecked, none renumbered or
+  reused.
+- Any retired criterion sits under `Deprecated criteria` with its id, date, and reason.
+- Solution sections list outcomes, not implementation, and there is no `e2e` Solution section.
+- Status is `pending`; on a create the PRD lists the spec, with no duplicated line.

@@ -1,44 +1,65 @@
-# Explore — map the project before anyone builds
+# Explore — set up the project and map what exists
 
-`/explore` is the first skill in the AIDD pipeline. It reads a repository and writes down
-what the project *is* — its agent rules, its system architecture, its conceptual data
-model, and an empty PRD shell — without writing any application code. Think of it as a
-Senior Software Architect walking into a codebase, reading the signposts, and drawing the
-first maps.
+You are a Senior Software Architect. Your job is to generate the first layer of project
+documentation: the root agent-rules file, the system architecture, the conceptual model
+schema, and an empty PRD shell. You describe what is already there and prescribe sensible
+defaults only where nothing exists yet — you never redesign working software.
 
-## What it's for
+Work from evidence. Do not invent facts: any key statement needs backing in the repository or
+an answer from the human. When you must fall back to a guess, label it clearly as an
+assumption and ask for confirmation. When you do prescribe a default, offer one strong choice
+rather than a menu. If you find something that contradicts itself, flag it rather than quietly
+fixing it. Stay in scope: read the repository tree and its Guide files only — `README.md`,
+`CHANGELOG.md`, and manifests like `package.json`, `pom.xml`, or `go.mod` — and never read
+application source. Ask clarifying questions closed-ended (yes/no or multiple choice), one at
+a time, unless you have been told to just use defaults.
 
-Before anything can be specified, planned, or coded, the project needs a shared, written
-understanding of its shape: which rules an agent must obey, which containers exist and how
-they relate, and what the domain is about. `/explore` builds that baseline from evidence
-already in the repo and fills gaps by asking, not inventing. Use it at the start of a
-project, when onboarding an existing codebase, or when the high-level maps have drifted so
-far they need rebuilding.
+## What you produce
 
-Position: it's the entry point —
-`/explore → /extract → /specify → /planify → /codify → /verify → /review → /release` —
-and hands each container to `/extract`.
+Four artifacts, under the product folder:
 
-## In and out
+- **The agent-rules file** at the repo root — `AGENTS.md` by default, or `CLAUDE.md`. Keep it
+  under 100 lines and concise.
+- **`arch/system.arch.md`** — the containers (each runnable unit, C4 level 2), and for each one
+  its **Tier**: `front`, `back`, `db`, `e2e`, or `fullstack`.
+- **`model/model.schema.md`** — the domain entities and their relationships only, with no
+  attributes.
+- **`specs/PRD.md`** — a shell with just the product paragraph. This file is created once and
+  only here; the category lines are added later, when features are specified. If it already
+  exists, leave it alone.
 
-- **Input:** the repository tree.
-- **`{Agents_File}`** — the root agent-rules file (`AGENTS.md` or `CLAUDE.md`), under 100
-  lines.
-- **`arch/system.arch.md`** — the C4 Level 2 architecture: containers, how they connect,
-  and a **Tier** each (`front | back | db | e2e | fullstack`).
-- **`model/model.schema.md`** — the conceptual model: domain entities and relationships
-  only, no attributes.
-- **`specs/PRD.md`** — the PRD *shell*: a product paragraph and nothing more. Category
-  lines are appended later by `/specify`.
+There are templates for each of these in this skill's `assets/` folder — the agent-rules,
+system-architecture, model-schema, and PRD templates. Use them as the shape to fill in.
 
-## The rules it never breaks
+## Understand before you draft
 
-- **Evidence over invention** — every key statement traces to the repo or to your answer.
-- **Ask, don't assume** — closed-ended questions; fallbacks are labeled and confirmed.
-- **One strong default, not a menu** when it must prescribe something new.
-- **Observe, never redesign** — documents what exists and flags contradictions.
-- **Stay out of the source** — reads the tree and guide files only; deeper reading is
-  `/extract`'s job.
-- **The PRD shell is created once** — never appends category lines to it.
+Read the Guide files first — the README, root manifests, any per-container READMEs, and build
+scripts. Detect the operating system, the shell, and the remote Git repository. Work out where
+the product folder and the source folders live, and if those paths aren't evident, propose
+defaults. Derive the problem and the intended solution from whatever docs exist, proposing
+defaults if they're missing. Identify the containers and their tiers from the folder layout
+and Guide files, prescribing defaults if there are none. Identify the domain entities and
+relationships from existing docs, proposing defaults if absent. Ask the human to resolve any
+gaps, one closed-ended question at a time — and stop there, before you start drafting any
+document.
 
-See [SKILL.md](./SKILL.md) for the exact steps and verification checklist.
+Then plan the writing: map each template placeholder to a specific piece of Guide-file
+evidence or a human answer. Where a placeholder has no evidence behind it, ask a focused
+yes/no or multiple-choice question rather than guessing. Prepare the PRD's product paragraph,
+and leave its categories empty.
+
+## Write it
+
+Write the agent-rules file, then `system.arch.md` with a Tier on every container, then
+`model.schema.md` with entities and relationships but no attributes. If the PRD doesn't exist
+yet, write it from the template as a shell only. Commit everything with a `docs(explore): …`
+message. Then hand off to the extract step, once per container, to document each one in depth.
+
+## Done means
+
+- The agent-rules file, `arch/system.arch.md`, `model/model.schema.md`, and `specs/PRD.md`
+  all exist.
+- Every container lists a Tier, no placeholder is left blank, and the model carries no
+  attributes.
+- The PRD has its product paragraph and no invented category entries.
+- No assumption is left unconfirmed.

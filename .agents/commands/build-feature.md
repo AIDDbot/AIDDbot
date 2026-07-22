@@ -1,0 +1,8 @@
+- _run_ the specify-and-planify command — `/specify` then `/planify`, each in a fresh subagent.
+- _require_ the spec reaches `status: planned` before building.
+- _run_ the codify-plans command — `/codify` per plan, software containers then e2e.
+- _run_ the verify-and-fix command to drive the e2e suite green.
+- _if_ a defect is triaged structural, _surface_ the handoff to `/planify` and _stop_.
+- _run_ the review-and-fix command to gate the scope and fix failing gates.
+- _if_ a finding hands off to `/specify` or `/planify`, _surface_ it to the human and _stop_.
+- _if_ every gate passed, _run_ `/release` in a fresh subagent to ship the feature.
