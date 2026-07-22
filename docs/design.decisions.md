@@ -5,6 +5,75 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-22 — `/refactor` is a whole-app triaging audit; `/redesign` merged in
+
+**Status**: adopted. Consolidates the same-day `/refactor` + `/redesign` introduction
+into one skill; neutralizes the apply-in-place `_improvements` sources.
+
+### Context
+
+Some "improvement" sources under `_improvements/` — a borrowed code simplifier and two
+frontend skills — edited code in place, breaking the invariant that *only `/codify`
+writes code*. The first fix was two report-only judges in the `/review` mould:
+`/refactor` scanned code clarity, `/redesign` scanned the frontend (design system, WCAG,
+and later componentization), each writing a report for `/codify` to apply. Two judges of
+the same shape then had to hand-draw a boundary so they would not double-report — repeated
+UI markup deferred from `/refactor` to `/redesign` — and each carried its own command,
+report template, and pattern catalog. That is parallel machinery for one idea: a
+report-only cleanup pass that routes to `/codify`. The seam between "code" and "UI"
+cleanup is arbitrary; decay does not respect it.
+
+### Decision
+
+1. **One periodic whole-app auditor**, modelled on `/review`. `/refactor` reads the
+   *accumulated* system — the whole app by default — not a single diff, so cross-cutting
+   decay no per-spec review can see gets an owner.
+2. **Multiple lenses, one skill.** Code clarity (`references/refactor.patterns.md`) and
+   UI + accessibility (`references/ui.patterns.md`) are lenses the audit scans through,
+   with a shared triage brain (`references/triage.md`), alongside structure and behavior.
+3. **Every finding is triaged** with a severity, a kind, and a handoff, routed by the
+   existing maintenance question — *would fixing it change what a green e2e test asserts?*
+   Behavior-preserving and local → `/codify`; structural → `/planify`; behavioral →
+   `/specify`. It never drops a real finding to stay behavior-preserving; it escalates.
+4. **`/codify` applies only the report's `/codify` findings.** The `/planify` and
+   `/specify` findings surface to the human, since those re-enter the pipeline at their
+   own door.
+5. **The apply-in-place sources are neutralized.** `code-simplification`,
+   `frontend-ui-engineering`, and `frontend-design` become non-invocable
+   (`user-invocable: false` + `disable-model-invocation: true`) so they can no longer be
+   typed or auto-fire and bypass the report → `/codify` discipline. They stay as reference
+   catalogs pointing at `/refactor`.
+
+### Consequences
+
+- `/redesign` is removed — skill, `redesign-and-verify` command, and report template. Its
+  UI/a11y catalog moved into `/refactor` as the `ui.patterns.md` lens; `triage.md` is new.
+- `refactor-and-verify` gates on a green baseline, audits the app, applies the `/codify`
+  lane, runs `/verify` per changed container, and surfaces the `/planify` and `/specify`
+  findings to the human.
+- One report shape and one command replace two; the hand-drawn "who reports UI markup"
+  boundary is gone.
+- The single-writer invariant holds with no exception: the audit only reports.
+- Align-docs synced: catalog, lifecycle, `AIDD.workflow.md`, `getting-started.md`, README.
+
+### Rejected alternatives
+
+- **Keep `/redesign` as a separate frontend judge** — rejected: two report-only skills of
+  the same shape force an arbitrary boundary and duplicate the command, template, and
+  routing. One auditor with per-domain lenses removes the seam at no loss of coverage.
+- **Leave the `_improvements` skills invocable** — rejected: an apply-in-place cleanup path
+  bypasses the report → `/codify` discipline and reopens the single-writer hole `/refactor`
+  was created to close. Kept as non-invocable reference only; `frontend-design` is retained
+  as a distinct creative design-direction reference, not a cleanup source.
+
+### Accepted trade-offs
+
+- **A whole-app audit is broader and heavier than a per-diff cleanup.** Mitigation: it
+  scopes down to a container or paths on request, and is meant to run periodically — every
+  few specs or at a release train — not on every change.
+- **One skill now spans code and UI lenses.** Mitigation: the lenses live in separate
+  `references/` files and share one `triage.md`, so each stays a focused catalog.
+
 ## 2026-07-21 — `/review` pass/fail gates; `--fix` retired; `/release` gate check
 
 **Status**: adopted. Supersedes decision 4 of "Codify is the only skill that writes
