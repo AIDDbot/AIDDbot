@@ -1,8 +1,8 @@
 # AIDD skills lifecycle
 
-How the 8 pipeline skills — plus `/refactor` for behavior-preserving cleanups — cover
-the whole SDLC: build, maintain, refactor. The [catalog](./skills.catalog.md) is the
-inventory; this is the map.
+How the 8 pipeline skills — plus `/refactor` and `/redesign` for behavior-preserving
+cleanups — cover the whole SDLC: build, maintain, refactor. The
+[catalog](./skills.catalog.md) is the inventory; this is the map.
 
 ## The model
 
@@ -56,6 +56,9 @@ No spec — the *what* is untouched. Route by blast radius:
 
 - **Ugly internals, contracts intact** → `/refactor` reports clarity opportunities (or
   `/review`'s clean-code gate); they apply via `/codify`, then `/verify` confirms green.
+  - Proof: existing tests green.
+- **Rough UI, behavior intact** → `/redesign` reports design-system and a11y opportunities;
+  they apply via `/codify`, then `/verify` confirms green.
   - Proof: existing tests green.
 - **Contracts or components must move** → `/planify` (refactor, no spec) → `/codify` →
   `/extract` → patch `/release`.

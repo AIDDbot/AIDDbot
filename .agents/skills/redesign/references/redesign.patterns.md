@@ -1,0 +1,55 @@
+# Redesign patterns
+
+The catalog `/redesign` scans against. Report an opportunity only when the change preserves
+the functional behavior the e2e suite asserts. Align to the project's design system — its
+tokens, spacing, and type scale — not an external or "AI" aesthetic.
+
+## Principles
+- Design system over taste — use the project's tokens, spacing scale, and type scale.
+- Preserve behavior — polish look, structure, and a11y; never change what the app does.
+- Semantic first — real elements (`button`, `nav`, `label`) before ARIA patches.
+- Content-first layouts — structure follows the content, not a template.
+- Scope to the frontend — no backend or drive-by changes.
+
+## Avoid the AI aesthetic
+| Pattern | Signal | Change |
+|---------|--------|--------|
+| Safe purple/indigo | every screen looks identical | the project's real palette |
+| Excessive gradients | visual noise off the system | flat or subtle, system-matched |
+| Max rounding everywhere | one radius for all corners | the system's radius hierarchy |
+| Oversized uniform padding | flat hierarchy, wasted space | the spacing scale |
+| Shadow-heavy depth | shadows compete with content | subtle or none unless specified |
+| Stock card grids | information priority ignored | a purpose-driven layout |
+
+## Design system
+| Pattern | Signal | Change |
+|---------|--------|--------|
+| Magic values | `13px`, `2.3rem` off-scale | a value on the spacing scale |
+| Raw hex color | `#3b82f6` inline | a semantic token (`--color-primary`) |
+| Skipped heading level | `h1` → `h3` | an ordered hierarchy, no skips |
+| Heading style on non-heading | visual-only heading | a real element or body style |
+
+## Accessibility (WCAG AA)
+| Pattern | Signal | Change |
+|---------|--------|--------|
+| Non-semantic control | `div` with a click handler | a `button` or `a` |
+| Icon-only control | no accessible name | `aria-label` or visible text |
+| Unlabeled input | no `label`/`for` pair | an associated `<label>` or `aria-label` |
+| Missing focus state | keyboard user gets lost | a visible `:focus-visible` style |
+| Color-only meaning | red/green with no text | add an icon, text, or pattern |
+| Low contrast | under 4.5:1 (3:1 for large) | raise to the ratio |
+
+## Structure and states
+| Pattern | Signal | Change |
+|---------|--------|--------|
+| Missing empty state | blank screen on no data | a meaningful empty state |
+| Missing error state | silent failure | an error state with retry |
+| Missing loading state | layout jump or spinner-for-content | a skeleton or busy state |
+| Not responsive | breaks at 320 / 768 / 1024 / 1440 | a mobile-first, fluid layout |
+| Giant component | 200+ lines, many jobs | split into focused pieces |
+
+## Do not report
+- A change that alters the functional flow the e2e suite asserts — that needs a spec, not a redesign.
+- Restyling to personal taste over the project's design system.
+- Adding a framework or dependency the project does not use.
+- Speculative components no page renders.

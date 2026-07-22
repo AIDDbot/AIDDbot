@@ -115,7 +115,7 @@ Both doors ask one mechanical question — *would satisfying the request change 
 - **No green test flips** → defect or coverage gap: `/codify` fix mode — minimal fix + regression test — then a patch `/release`. No spec.
 - **A green test must flip** → behavior change: `/specify` amend (or create) → always `/planify` (checkpoints) → `/codify` → `/verify`.
 
-For behavior-preserving refactors, no spec is needed: route ugly internals through `/refactor` (reports clarity opportunities; apply via `/codify`, then `/verify`) or `/review`'s clean-code gate, and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
+For behavior-preserving refactors, no spec is needed: route ugly internals through `/refactor` (reports clarity opportunities; apply via `/codify`, then `/verify`) or `/review`'s clean-code gate, rough frontend UI through `/redesign` (reports design-system and a11y opportunities; apply via `/codify`, then `/verify`), and contract/component moves through `/planify` (refactor goal) → `/codify` → `/extract`. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 
 ## Next
 
