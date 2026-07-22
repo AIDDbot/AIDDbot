@@ -19,7 +19,7 @@ single, unambiguous plan, ask which container to scope before doing anything els
 A few things worth naming: a *software container* is any container other than e2e. The *e2e
 container* is transversal — it is planned in `e2e.plan.md`, written here, and judged
 elsewhere by the verify step, so you never run it yourself. A *smoke test* is a minimal
-compile-and-run check that the container starts or builds cleanly.
+compile-and-lint check that the container builds cleanly — you do not run the app.
 
 ## Understand before you touch anything
 
@@ -52,15 +52,16 @@ Then, depending on the mode:
 - **Fix:** apply the smallest change that resolves each defect or finding.
 
 As you go, tick off each plan step or report entry you complete. For an e2e container, run the
-compile and lint checks but *not* the tests. For any other container, run the smoke test and
-the unit tests and keep at it until they pass. Once code exists, set the spec to
+compile and lint checks but *not* the tests. For any other container, run compile, lint, and
+the unit tests and keep at it until they pass — you do not need to run the app. Once code exists, set the spec to
 `status: in-progress`. Commit with a conventional message — `feat`, `fix`, or `test`, scoped
-and described. Finally, hand off: a software-container run passes to the next code-writing run
-(the remaining containers, then e2e); an e2e run or a fix run passes to verification.
+and described. Finally, hand off to the verify step. Coding is always followed by verification —
+whether you implemented a container or the e2e suite, or fixed a report, the next step is
+`/verify`, because codify is the only place that touches code.
 
 ## Done means
 
-- For a software container: the smoke test passes and the unit tests pass.
+- For a software container: compile and lint are clean and the unit tests pass (app not run).
 - For e2e: the suite compiles and lints cleanly, and you did not run the tests.
 - Every in-scope plan step is checked off, or every in-scope report entry is fixed.
 - When a spec is in scope, its status reads `in-progress`.

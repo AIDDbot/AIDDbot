@@ -15,7 +15,7 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 
 ### Guardrails
 - **Report-only** — never edit code; failed gates hand off to `/codify`.
-- **Green baseline** — the e2e suite is `/verify`'s lane; a red suite hands off to `/verify`.
+- **Green baseline** — review runs no tests; `/codify` owns unit tests and `/verify` owns e2e.
 - **Behavior stays out** — behavioral findings go to `/specify`, structural ones to `/planify`.
 
 ## Context
@@ -34,8 +34,6 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 ### 1. Research
 - _identify_ the scope: the in-scope spec's code by default, else the given input.
 - _if_ the scope is ambiguous, _ask_ the minimum questions.
-- _run_ the test suite.
-- _if_ red, _handoff_ to `/verify`.
 - _list_ the files in scope.
 - _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
 

@@ -15,7 +15,7 @@ actual y la especificación queda marcada como publicada. También es donde se r
 desviación de los documentos de guía o, cuando es grande, se escala de vuelta a `/explore`
 o `/extract`. Úsala después de que `/review` pase todas las compuertas, o para un cambio
 sin especificación (una corrección o refactor estructural) cuya diferencia desde la última
-etiqueta esté en verde, publicado como parche.
+etiqueta esté revisada, publicado como parche.
 
 Posición: la skill final de la tubería; puede devolver a `/codify` si una compuerta falló,
 o a `/explore`/`/extract` cuando la desviación de documentación es grande.
@@ -38,7 +38,8 @@ o a `/explore`/`/extract` cuando la desviación de documentación es grande.
 ## Las reglas que nunca rompe
 
 - **Nada sin verificar se publica** — con especificación, `status: verified` y todos los
-  criterios marcados; si no, el suite en verde.
+  criterios marcados; si no, la diferencia desde la última etiqueta revisada. `/release` no
+  ejecuta pruebas: `/codify` es dueño de las unitarias y `/verify` del e2e.
 - **Las compuertas deben estar verdes** — un informe de revisión en alcance debe mostrar
   cada compuerta `pass`, o vuelve a `/codify`.
 - **Se respeta el límite del PRD** — el armazón es de `/explore`, las líneas de categoría

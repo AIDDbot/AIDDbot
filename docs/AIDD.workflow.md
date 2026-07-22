@@ -226,16 +226,13 @@ handoff). Report-only: every failed gate hands off to
 sequenceDiagram
   actor H as HUMAN
   participant R as /release
-  participant S as e2e suite
   participant C as CHANGELOG.md
   participant P as spec.md
   participant A as arch docs
 
   H->>R: /release
-  R->>S: run — confirm green
   R->>R: gate check — review report all pass (else → /codify)
   R->>R: merge feature branch to default
-  R->>S: run on default — integration check (else → /codify)
   R->>C: bump version · move Unreleased entries
   R->>A: reconcile drifted docs
   R->>P: status done · released-version (when in scope; was verified)
@@ -256,7 +253,8 @@ flowchart TD
   REQ["a request arrives"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
 
   Q -->|"no — defect or coverage gap"| FIX["/codify fix mode<br/>minimal fix + regression test"]:::nd
-  FIX --> PREL["patch /release"]:::nd
+  FIX --> VER["/verify<br/>runs the regression e2e"]:::nd
+  VER --> PREL["patch /release"]:::nd
 
   Q -->|"yes — behavior change"| SPEC["/specify amend or create"]:::nd
   SPEC --> PIPE["/planify → /codify → /verify → /review<br/>amend always replans (checkpoints)"]:::nd

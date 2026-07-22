@@ -5,7 +5,9 @@ ship work that has been verified: bump the version, finalize `CHANGELOG.md`, rec
 architecture and model docs with what actually shipped, and close the spec when one is in scope.
 
 Nothing unverified ships. With a spec in scope, it must be `status: verified` with every
-criterion `[x]`; without a spec, the suite must be green. If a review report is in scope, every
+criterion `[x]`; without a spec, work from a clean review of the diff since the last tag.
+Release runs no tests itself — the code-writing step owns the unit tests and the verify step
+owns e2e. If a review report is in scope, every
 gate must read `pass` — otherwise hand back to the code-writing step. Respect the PRD boundary:
 the shell belongs to the explore step and the category lines to the specify step, so you touch
 neither here. And merge before you tag — the release commit and tag belong on default's
@@ -18,8 +20,8 @@ from the diff since the last tag.
 
 ## Understand before you ship
 
-Read the repo rules and commands from the agent-rules file, and run the test suite. If a spec is
-in scope, read the spec, its plans, and the e2e report, and require `status: verified` with all
+Read the repo rules and commands from the agent-rules file. If a spec is in scope, read the spec,
+its plans, and the e2e report, and require `status: verified` with all
 criteria `[x]`; otherwise review the diff since the last tag. If a review report is in scope,
 read it, and if any gate is not `pass`, hand off to the code-writing step.
 
@@ -31,8 +33,8 @@ release, list them under `Removed`. Note which arch docs have drifted from reali
 ## Ship it
 
 Merge first, so everything that follows lands on the branch that actually ships. Merge the
-feature branch into default — a fast-forward when default hasn't advanced — then run the suite
-on default as a final integration check; if it comes up red, hand back to the code-writing step.
+feature branch into default — a fast-forward when default hasn't advanced. Release runs no tests
+of its own; it trusts the green baseline the code-writing and verify steps established.
 
 Now, on default, make the release. Update the version files and move the `Unreleased` section
 under the new version in `CHANGELOG.md`. Reconcile the docs that drifted: the system architecture
@@ -47,7 +49,7 @@ cycle to reuse — from here on the spec's home is the file on default, not a br
 
 ## Done means
 
-- The suite is green on default after the merge; a spec in scope was `verified` and is now `done`.
+- A spec in scope was `verified` and is now `done` after the merge to default; release ran no tests.
 - Any review report in scope shows every gate `pass`.
 - The changelog, the version, and the arch docs all match what shipped.
 - The release commit and tag sit on default's post-merge tip, not on a branch commit.

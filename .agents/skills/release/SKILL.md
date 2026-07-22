@@ -15,7 +15,8 @@ and close the spec when one is in scope.
 
 ### Guardrails
 - **Nothing unverified ships** — with a spec, `status: verified` and all criteria `[x]`;
-  otherwise suite green.
+  without a spec, a clean review of the diff since the last tag. Release runs no tests:
+  `/codify` owns unit tests, `/verify` owns e2e.
 - **Gates green** — a review report in scope must show every gate `pass`; else back to `/codify`.
 - **PRD boundary** — shell belongs to `/explore`; category lines belong to `/specify`.
 - **Prune on merge** — delete the merged feature branch so its key is free to reuse.
@@ -34,7 +35,6 @@ and close the spec when one is in scope.
 ## Steps
 ### 1. Research
 - _read_ [repo rules and commands]({Agents_File}).
-- _run_ the test suite.
 - _if_ a spec is in scope:
   - _read_ [spec, plans, and e2e report]({Specs}/spec.md).
   - _require_ `status: verified` and all criteria `[x]`.
@@ -51,7 +51,6 @@ and close the spec when one is in scope.
 
 ### 3. Implement
 - _merge_ the feature branch into default (fast-forward when default has not advanced).
-- _run_ the suite on default; _if_ red, _handoff_ to `/codify`.
 - _update_ version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
 - _update_ [system architecture]({Arch}/system.arch.md).
 - _update_ [model schema]({Model}/model.schema.md).
@@ -66,7 +65,7 @@ and close the spec when one is in scope.
 - _delete_ the merged feature branch so its key is free to reuse.
 
 ## Verification
-- [ ] The suite is green on default after merge; a spec in scope was `verified`, now `done`.
+- [ ] A spec in scope was `verified`, now `done`; release ran no tests of its own.
 - [ ] The review report in scope shows every gate `pass`.
 - [ ] CHANGELOG, version, and arch docs match what shipped.
 - [ ] The release commit and tag sit on default's post-merge tip, not a branch commit.

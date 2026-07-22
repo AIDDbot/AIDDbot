@@ -3,8 +3,8 @@
 `/codify` es la única skill que escribe código de aplicación. Implementa un plan cada vez
 —un plan de contenedor de software, el plan e2e o una corrección descrita por un informe—
 y produce código funcional con pruebas. Para contenedores de software hace pruebas de humo
-y unitarias; para e2e solo comprueba que el suite compila y pasa el linter, y deja la
-ejecución a `/verify`. Actúa como Ingeniero de Software Senior que piensa antes de escribir
+(compilar y linter, sin ejecutar la app) y unitarias; para e2e solo comprueba que el suite
+compila y pasa el linter, y deja la ejecución a `/verify`. Actúa como Ingeniero de Software Senior que piensa antes de escribir
 y cambia lo menos posible.
 
 ## Para qué sirve
@@ -20,9 +20,9 @@ corregir un informe. Se ejecuta una vez por plan; las ejecuciones de contenedor 
 pueden ir en paralelo, e2e es su propia ejecución e itera con `/verify` hasta que el suite
 está en verde.
 
-Posición: sigue a `/planify`. Las ejecuciones de contenedor de software delegan en otro
-`/codify` (siguiente contenedor y luego la ejecución e2e); las de e2e y corrección delegan
-en `/verify`.
+Posición: sigue a `/planify`. Tras escribir código —un contenedor, el suite e2e o una
+corrección— siempre delega en `/verify`: codificar va seguido de verificar, porque `/codify`
+es el único lugar que toca código.
 
 ## Entradas y salidas
 

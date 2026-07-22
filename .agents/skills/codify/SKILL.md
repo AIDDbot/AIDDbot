@@ -37,7 +37,7 @@ For e2e, only verify the suite compiles and lints clean.
 ### Glossary
 - **Software container** — any container except `e2e`; planned by `/planify`.
 - **e2e container** — transversal; planned via `e2e.plan.md`, written here, judged by `/verify`.
-- **Smoke test** — a minimal compile-and-run check that the container starts or builds cleanly.
+- **Smoke test** — a minimal compile-and-lint check that the container builds cleanly; do not run the app.
 
 ## Steps
 ### 1. Research
@@ -62,13 +62,13 @@ For e2e, only verify the suite compiles and lints clean.
 - _if_ mode is fix, _apply_ the minimal change per defect or finding.
 - _check_ each in-scope plan step or report entry `[x]`.
 - _if_ the tier is e2e, _run_ compile and lint, not the tests.
-- _if_ the tier is not e2e, _run_ the smoke and unit tests until they pass.
+- _if_ the tier is not e2e, _run_ compile, lint, and unit tests until they pass; do not run the app.
 - _update_ `spec.md` to `status: in-progress` after writing code.
 - _commit_ the changes (`{feat|fix|test}(scope): {description}`).
-- _if_ mode is a software container, _handoff_ to `/codify`; _else_ _handoff_ to `/verify`.
+- _handoff_ to `/verify` — coding is always followed by verification.
 
 ## Verification
-- [ ] Software container: smoke test passes; unit tests pass.
+- [ ] Software container: compile and lint clean; unit tests pass (app not run).
 - [ ] e2e: suite compiles and lints clean; tests were not run.
 - [ ] Every in-scope plan step is `[x]`, or every in-scope report entry is fixed.
 - [ ] Related spec status is `in-progress` when a spec is in scope.

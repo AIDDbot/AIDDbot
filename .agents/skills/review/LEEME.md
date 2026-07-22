@@ -18,7 +18,8 @@ con contratos intactos, o sobre un alcance arbitrario (cambios de rama, archivos
 
 Posición: sigue a `/verify` y delega en `/release` con un pase limpio, o en `/codify` si
 alguna compuerta falla (los hallazgos de comportamiento van a `/specify`, los estructurales
-a `/planify`). Un suite en rojo se devuelve a `/verify`.
+a `/planify`). `/review` no ejecuta pruebas: `/codify` es dueño de las unitarias y `/verify`
+del e2e.
 
 ## Entradas y salidas
 
@@ -30,8 +31,8 @@ a `/planify`). Un suite en rojo se devuelve a `/verify`.
 ## Las reglas que nunca rompe
 
 - **Solo informe** — nunca edita código; las compuertas fallidas delegan en `/codify`.
-- **Línea base verde** — el suite e2e es el carril de `/verify`; un suite en rojo delega en
-  `/verify`.
+- **Línea base verde** — `/review` no ejecuta pruebas; `/codify` es dueño de las unitarias y
+  `/verify` del e2e.
 - **El comportamiento queda fuera de alcance** — los hallazgos de comportamiento van a
   `/specify` y los estructurales a `/planify`.
 
