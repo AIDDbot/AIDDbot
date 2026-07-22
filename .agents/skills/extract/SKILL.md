@@ -22,6 +22,7 @@ and an API schema when it exposes an API.
 - **Observe** — never redesign what exists; flag contradictions instead.
 - **Requirements** — never invent requirements; propose and ask the user.
 - **Docs** — document what exists; prescribe defaults only where nothing exists.
+- **Enforceable rules** — encode machine-checkable rules in the toolchain; keep prose for the rest.
 
 ## Context
 
@@ -63,6 +64,7 @@ and an API schema when it exposes an API.
 - _if_ the tier is not `db`, _write_ `{Arch}/{container}.arch.md`.
 - _update_ the container **Detail** link in `{Arch}/system.arch.md`.
 - _write_ `{Rules}/{container}.rules.md` with harness-adapted front-matter.
+- _split_ rules: encode machine-checkable ones in the toolchain; leave advisory ones as prose.
 - _if_ it exposes an API, _write_ `{Model}/api.schema.md` (merge endpoints if present).
 - _commit_ the changes (`docs(extract): {description}`).
 - _if_ containers remain, _handoff_ to `/extract`.

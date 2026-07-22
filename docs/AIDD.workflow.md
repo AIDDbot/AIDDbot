@@ -210,9 +210,10 @@ Amend example:
 ```
 
 `/review` gates a code scope (the in-scope spec's code by default, else a branch, files,
-or paths) against **pass/fail gates** — lint, types, a11y, security, performance, and
-clean-code/DRY — and writes `review.report.md` with a verdict per gate plus a finding
-per violation (severity, kind, handoff). Report-only: every failed gate hands off to
+or paths) against **pass/fail gates** — lint, types, a11y, security, performance,
+clean-code/DRY, and each in-scope container's own `{container}.rules.md` — and writes
+`review.report.md` with a verdict per gate plus a finding per violation (severity, kind,
+handoff). Report-only: every failed gate hands off to
 `/codify`. Guardrails worth knowing:
 
 - **Green baseline** — the e2e suite is `/verify`'s lane; a red suite hands off to `/verify`.

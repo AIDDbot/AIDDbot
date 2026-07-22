@@ -42,3 +42,11 @@ One pass; under a failed gate, report every violation as a finding.
 - [ ] Extract duplicated logic.
 - [ ] Remove needless abstractions by simplifying the code.
 - [ ] Comments explain "why", not "what".
+
+## Project rules
+
+Load `{container}.rules.md` for every container in scope; check the scope against it.
+
+- [ ] Code follows the container's naming, structure, and layering conventions.
+- [ ] Machine-checkable rules are wired into lint/format/type config, so Lint/Types catch them.
+- [ ] Every convention violation is a finding, naming the rule it breaks.

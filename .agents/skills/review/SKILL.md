@@ -21,6 +21,7 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 ## Context
 
 - `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
+- `{Rules}` = `{Agents_Folder}/rules`.
 
 ### Inputs
 - [ ] Required: a scope — the in-scope spec's code by default; or branch changes, files, paths.
@@ -36,6 +37,7 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 - _run_ the test suite.
 - _if_ red, _handoff_ to `/verify`.
 - _list_ the files in scope.
+- _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
 
 ### 2. Plan
 - _read_ [gate definitions](./references/review.gates.md).
@@ -43,6 +45,7 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 - _run_ the linter and type checker for the tooling gates.
 - _if_ a defect is a false positive, _tune_ the rule; _else_ _record_ a gate failure.
 - _walk_ each scope file against every checklist gate — data flow, trust boundaries, UI, I/O.
+- _check_ each scope file against its container's [rules]({Rules}/{container}.rules.md).
 - _record_ each gate's verdict.
 - _for-each_ failed gate, _capture_ its findings with severity, kind, and handoff.
 - _prepare_ the content for the template's placeholders.
@@ -55,4 +58,5 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 ## Verification
 - [ ] Every gate has a pass/fail verdict for the scope.
 - [ ] Every failed gate lists findings with severity, kind, and handoff.
+- [ ] Each in-scope container's `{container}.rules.md` was checked; violations are findings.
 - [ ] The report routes failures to `/codify` and a clean pass to `/release`.

@@ -49,7 +49,7 @@ Produces:
 
 | Skill | What it does |
 |-------|--------------|
-| [`/review`](./review/) | Gate the scope (lint, types, a11y, security, perf, clean-code); report verdicts, fail → `/codify` |
+| [`/review`](./review/) | Gate the scope (lint, types, a11y, security, perf, clean-code, project rules); report verdicts, fail → `/codify` |
 | [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec when in scope |
 
 Produces:

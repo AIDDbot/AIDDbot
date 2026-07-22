@@ -19,6 +19,7 @@ For e2e, only verify the suite compiles and lints clean.
 - **Surgical changes** — the minimum change that meets the goal (YAGNI).
 - **Goal-driven** — keep going until the task is completed.
 - **Status on code** — set the spec to `in-progress` after each code-writing run.
+- **Apply the rules** — follow the in-scope `{container}.rules.md`; the harness may not inject it.
 
 ## Context
 
@@ -71,3 +72,4 @@ For e2e, only verify the suite compiles and lints clean.
 - [ ] e2e: suite compiles and lints clean; tests were not run.
 - [ ] Every in-scope plan step is `[x]`, or every in-scope report entry is fixed.
 - [ ] Related spec status is `in-progress` when a spec is in scope.
+- [ ] The code conforms to the in-scope container's `{container}.rules.md`.

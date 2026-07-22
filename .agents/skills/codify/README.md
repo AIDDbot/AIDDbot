@@ -30,8 +30,10 @@ read the `e2e.plan.md` and the spec's acceptance criteria as well.
 
 Before writing, gather the contracts you are about to lean on. If you will touch an API, read
 the API shapes (`model/api.schema.md`). If you will touch the store, read the data shapes
-(`model/db.schema.md`). Also read the naming and coding conventions that apply to this
-container so your code looks like the code around it. Then map the plan's steps onto concrete
+(`model/db.schema.md`). Read the in-scope container's own coding rules — its
+`{container}.rules.md` — and treat them as binding. Don't count on the harness to auto-inject
+them; load the file yourself and make your code conform, so it looks like the code around it.
+Then map the plan's steps onto concrete
 code changes, and respect any contract shared with sibling containers — you may not quietly
 break something another container depends on. In e2e mode, map every acceptance-criterion id
 to its scenario from the e2e plan, so each one is accounted for.
@@ -62,3 +64,4 @@ and described. Finally, hand off: a software-container run passes to the next co
 - For e2e: the suite compiles and lints cleanly, and you did not run the tests.
 - Every in-scope plan step is checked off, or every in-scope report entry is fixed.
 - When a spec is in scope, its status reads `in-progress`.
+- The code conforms to the in-scope container's `{container}.rules.md`.

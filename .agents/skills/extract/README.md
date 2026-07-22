@@ -47,7 +47,10 @@ Produce the documents for this container:
 - Update that container's **Detail** link in `arch/system.arch.md` so it points at the artifact
   you just wrote.
 - Write `rules/{container}.rules.md` — the code rules and naming conventions — with front
-  matter adapted to the harness.
+  matter adapted to the harness. Where a rule is machine-checkable — naming, structure, import
+  order — prefer to encode it in the project's lint, format, or type config and have the rules
+  file point at it; keep prose only for the genuinely advisory rules. That way a later review
+  can enforce the mechanical ones deterministically instead of by judgment.
 - If the container exposes an API, write `model/api.schema.md`, merging endpoints into any that
   already exist rather than duplicating them.
 
