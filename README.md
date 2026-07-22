@@ -38,8 +38,10 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
 
-Five commands under `.agents/commands/` chain the skills into whole phases — one subagent
-per skill run, so each step gets a fresh context. See the [Skills catalog](.agents/skills/skills.catalog.md#commands).
+Three commands under `.agents/commands/` chain the skills into whole phases — set up the
+context (`explore-and-extract`), build a feature end to end (`build-feature`), and refactor the
+whole app (`refactor-and-verify`) — one subagent per skill run, so each step gets a fresh
+context. See the [Skills catalog](.agents/skills/skills.catalog.md#commands).
 
 See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill produces, and the [Skills lifecycle](.agents/skills/skills.lifecycle.md) for how they cover build, maintenance, and refactoring.
 

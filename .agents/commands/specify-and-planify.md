@@ -1,7 +1,0 @@
-- _run_ the `/specify` skill in a subagent (create or amend).
-- _tell_ it to stop after its commit.
-- _read_ the generated or updated `{Specs}/spec.md`.
-- _run_ the `/planify` skill in a fresh subagent.
-- _tell_ it to stop after its commit with no further handoff.
-- _tell_ planify it runs once for all software-container plans plus `e2e.plan.md`.
-- _tell_ planify that amend always replans with Checkpoints (`keep` | `redo` | `drop`).

@@ -87,10 +87,7 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 | Command | Orchestrates |
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.md) | `/explore`, then `/extract` per container |
-| [`specify-and-planify`](../commands/specify-and-planify.md) | `/specify`, then `/planify` (one run, all plans including e2e) |
-| [`codify-plans`](../commands/codify-plans.md) | `/codify` per plan — software containers then e2e |
-| [`verify-and-fix`](../commands/verify-and-fix.md) | `/verify` → `/codify` → `/verify`, until green |
-| [`review-and-fix`](../commands/review-and-fix.md) | `/review` → `/codify` fixes → `/verify` |
+| [`build-feature`](../commands/build-feature.md) | `/specify` → `/planify` → `/codify` per plan → `/verify` (loop to green) → `/review` → `/release` |
 | [`refactor-and-verify`](../commands/refactor-and-verify.md) | audit the app: `/refactor` → apply `/codify` findings → `/verify`; route the rest |
 
 ## Pipeline
