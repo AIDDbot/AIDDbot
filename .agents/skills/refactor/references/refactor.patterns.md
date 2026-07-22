@@ -1,7 +1,8 @@
-# Refactoring patterns
+# Code-clarity lens
 
-The catalog `/refactor` scans against. Report an opportunity only when the change
-preserves behavior exactly. Prefer clarity over cleverness, and match the project's rules.
+The code-clarity catalog `/refactor` scans through. Prefer clarity over cleverness, and match
+the project's rules. Route each finding via [triage](./triage.md) — most land in the `/codify`
+lane, but a duplication that should move to a shared module is `/planify`.
 
 ## Principles
 - Clarity over cleverness — explicit beats compact when compact needs a mental pause.
@@ -37,10 +38,11 @@ preserves behavior exactly. Prefer clarity over cleverness, and match the projec
 | Over-engineering | factory-for-a-factory | the direct approach |
 | Redundant assertion | cast to an already-inferred type | remove it |
 
-## Do not report
-- Repeated UI markup that should become a shared component — that is `/redesign`'s call.
-- A change that needs a test edited to pass — that is a behavior change, not a refactor.
+## Out of scope (not a finding)
 - Removing error handling to look cleaner.
 - Renames to personal taste over project convention.
 - Over-inlining that removes a useful named concept.
 - Line-count wins that hurt comprehension.
+
+> A change that needs a test edited to pass is not out of scope — it is a `behavioral` finding.
+> Route it to `/specify` via [triage](./triage.md); do not drop it.

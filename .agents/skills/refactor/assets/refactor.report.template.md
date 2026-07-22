@@ -1,19 +1,22 @@
 ---
-scope: {container | paths}
+scope: {app | container | paths}
 run: {ISO date}
 ---
 # refactor report - {scope}
 
-## Opportunities
+## Findings
 
-> One entry per refactor, ordered by impact. All apply via `/codify` ({container}).
-> Every entry must preserve behavior exactly.
+> One entry per finding, ordered by severity. Kind routes the handoff:
+> `mechanical` / `functional` → `/codify` ({container}); `structural` → `/planify`;
+> `behavioral` → `/specify`.
 
-### R1: {short title}
+### F1: {short title}
 
-- Pattern: {deep-nesting | long-function | nested-ternary | flag-param | generic-name | duplication | dead-code | needless-wrapper | over-engineering | ...}
-- File: {path}:{line}
-- Now: {what makes it harder to read than it should be}
-- Change: {the minimal refactor}
-- Preserves behavior: {why inputs, outputs, side effects, and errors stay identical}
-- Handoff: `/codify` {container}
+- Lens: {clarity | ui | accessibility | structure | behavior}
+- File: {path}:{line} — {and how many places it recurs, if systemic}
+- Issue: {what decayed}
+- Change: {the minimal fix, or the plan/spec it needs}
+- Preserves behavior: {yes for /codify and /planify; no — describe the change — for /specify}
+- Severity: {blocker | major | minor}
+- Kind: {mechanical | functional | structural | behavioral}
+- Handoff: {`/codify` {container} | `/planify` | `/specify`}

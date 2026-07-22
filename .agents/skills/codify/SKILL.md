@@ -29,7 +29,7 @@ For e2e, only verify the suite compiles and lints clean.
 - `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
 
 ### Inputs
-- [ ] Required: a container plan, `e2e.plan.md`, a defects/review/refactor/redesign report, or a fix description.
+- [ ] Required: a container plan, `e2e.plan.md`, a defects/review/refactor report, or a fix description.
 
 ### References
 - _read_ [naming and conventions]({Rules}/{container}.rules.md).
@@ -37,8 +37,7 @@ For e2e, only verify the suite compiles and lints clean.
 ### Glossary
 - **Software container** — any container except `e2e`; planned by `/planify`.
 - **e2e container** — transversal; planned via `e2e.plan.md`, written here, judged by `/verify`.
-- **Refactor report** — `{Product_Folder}/refactors/{slug}/refactor.report.md` from `/refactor`; apply each opportunity in fix mode.
-- **Redesign report** — `{Product_Folder}/redesigns/{slug}/redesign.report.md` from `/redesign`; apply each opportunity in fix mode.
+- **Refactor report** — `{Product_Folder}/refactors/{slug}/refactor.report.md` from `/refactor`; apply only its `/codify` findings in fix mode (`/planify` and `/specify` findings route elsewhere).
 - **Smoke test** — a minimal compile-and-lint check that the container builds cleanly; do not run the app.
 
 ## Steps

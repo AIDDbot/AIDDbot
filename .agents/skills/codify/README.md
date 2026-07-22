@@ -11,8 +11,8 @@ the spec's status to `in-progress`.
 
 ## What you are given
 
-You start from one of these: a single container plan, the `e2e.plan.md`, a defects, review,
-refactor, or redesign report, or a plain description of a fix. From it, work out which spec and which container you
+You start from one of these: a single container plan, the `e2e.plan.md`, a defects, review, or
+refactor report, or a plain description of a fix. From it, work out which spec and which container you
 are in — the spec id, its slug and key, and the container name. If you were not handed a
 single, unambiguous plan, ask which container to scope before doing anything else.
 

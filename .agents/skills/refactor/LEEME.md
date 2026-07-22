@@ -1,30 +1,35 @@
-# Refactorizar — informar dónde el código puede quedar más claro
+# Refactorizar — auditar toda la app y triar lo que encuentre
 
-`/refactor` lee el código en alcance, detecta complejidad que estorba a la claridad y escribe
-un informe de refactorizaciones que preservan el comportamiento —una entrada por oportunidad,
-cada una derivada a `/codify` para aplicarla. Juzga; nunca edita. Actúa como Revisor de
-Refactorización, igual que `/review` y `/verify` son solo-informe.
+`/refactor` se aparta de cualquier spec concreta y lee el sistema *acumulado* —toda la app por
+defecto— buscando decadencia que ninguna revisión por spec puede ver: duplicación repartida
+entre features, UX inconsistente, deriva estructural, abstracciones que se volvieron
+estructurales. Escribe un único informe triado y enruta cada hallazgo a la puerta del pipeline
+que sí puede arreglarlo. Juzga; nunca edita. Actúa como Auditor de Código, igual que `/review`
+y `/verify` son solo-informe.
 
 ## Para qué sirve
 
-El suite e2e en verde es el contrato; refactorizar no debe moverlo. Esta skill es la puerta de
-"tripas feas, contratos intactos" del mantenimiento: encuentra oportunidades de claridad y las
-deja listas para que `/codify` las aplique, sin mezclar el juicio con la escritura. Úsala en un
-refactor sin especificación, sobre el código cambiado o un contenedor concreto.
+El suite e2e en verde es el contrato. `/refactor` es la pasada periódica —cada varias specs, o
+en un tren de release— que da dueño a la decadencia transversal. Cada hallazgo lleva severidad,
+tipo y destino, y se enruta por una pregunta: *¿arreglarlo cambiaría lo que afirma un test e2e
+en verde?* No, y es local → `/codify`. No, pero hay que mover contratos o componentes →
+`/planify`. Sí → `/specify`. Nunca descarta un hallazgo real por "no cambiar comportamiento": lo
+escala.
 
-Posición: reporta y delega en `/codify`; luego `/verify` confirma que el suite sigue verde.
+Posición: reporta y enruta. Los hallazgos de `/codify` se aplican y luego `/verify` confirma;
+los de `/planify` y `/specify` reingresan al pipeline por su propia puerta.
 
 ## Entradas y salidas
 
-- **Entrada (requerida):** un alcance — el código cambiado por defecto, o un contenedor o rutas.
-- **`refactors/{slug}/refactor.report.md`** — una entrada por oportunidad; todas delegan en `/codify`.
+- **Entrada (opcional):** un alcance — toda la app por defecto, o un contenedor o rutas.
+- **`refactors/{slug}/refactor.report.md`** — un hallazgo triado por entrada; enruta a `/codify`, `/planify` o `/specify`.
 
 ## Las reglas que nunca rompe
 
-- **Solo informe** — nunca edita código; las oportunidades se aplican vía `/codify`.
-- **Preserva el comportamiento** — misma entrada, salida, efectos y errores; si dudas, descártala.
-- **Alcance a lo cambiado** — nada de refactors de paso sobre código intacto.
-- **Convención sobre gusto** — refactoriza hacia las reglas del proyecto y el código vecino.
+- **Solo informe** — nunca edita código; cada hallazgo va a su puerta del pipeline.
+- **Toda la app por defecto** — audita el sistema acumulado, no un diff; acota solo si te lo piden.
+- **Enruta, nunca descartes** — preservando comportamiento y local → `/codify`; estructural → `/planify`; cambia comportamiento → `/specify`.
+- **El suite e2e es la línea** — un arreglo que cambiaría lo que afirma un test verde es de `/specify`.
 - **Aquí no hay pruebas** — `/codify` es dueño de las unitarias y `/verify` del e2e.
 
 Consulta [SKILL.md](./SKILL.md) para los pasos exactos y la lista de verificación.

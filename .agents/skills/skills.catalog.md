@@ -1,11 +1,11 @@
 # AIDD skills catalog
 
-An 8-skill pipeline covering the whole SDLC, plus `/refactor` and `/redesign` for
-behavior-preserving cleanups and `/skillify` to extend the skillset itself.
+An 8-skill pipeline covering the whole SDLC, plus `/refactor` — a periodic whole-app audit
+that triages accumulated decay — and `/skillify` to extend the skillset itself.
 `/specify` captures or amends a one-page spec (problem, solution, criteria). `/planify`
 owns the per-container breakdown — software containers and `e2e.plan.md`. `/codify` is
-the only skill that writes code; `/verify`, `/review`, `/refactor`, and `/redesign` only
-evaluate and report — implementation and evaluation never share a session.
+the only skill that writes code; `/verify`, `/review`, and `/refactor` only evaluate and
+report — implementation and evaluation never share a session.
 
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
@@ -58,16 +58,14 @@ Produces:
 
 ## Refactoring
 
-Behavior-preserving cleanup. Report-only, like `/review`.
+Periodic whole-app audit of accumulated decay. Report-only and triaging, like `/review`.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/refactor`](./refactor/) | Report clarity-only refactors in changed code; opportunities apply via `/codify` |
-| [`/redesign`](./redesign/) | Report design-system and a11y improvements in frontend code; opportunities apply via `/codify` |
+| [`/refactor`](./refactor/) | Audit the app (code clarity, UI, a11y, structure, behavior); triage each finding to `/codify`, `/planify`, or `/specify` |
 
 Produces:
-- `/refactor` → `refactors/{slug}/refactor.report.md` — one entry per opportunity; all hand off to `/codify`.
-- `/redesign` → `redesigns/{slug}/redesign.report.md` — one entry per opportunity; all hand off to `/codify`.
+- `/refactor` → `refactors/{slug}/refactor.report.md` — a triaged finding per issue (severity, kind, handoff); routes to `/codify`, `/planify`, or `/specify`.
 
 ## Meta
 
@@ -92,8 +90,7 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 | [`codify-plans`](../commands/codify-plans.md) | `/codify` per plan — software containers then e2e |
 | [`verify-and-fix`](../commands/verify-and-fix.md) | `/verify` → `/codify` → `/verify`, until green |
 | [`review-and-fix`](../commands/review-and-fix.md) | `/review` → `/codify` fixes → `/verify` |
-| [`refactor-and-verify`](../commands/refactor-and-verify.md) | per container: `/refactor` → `/codify` applies → `/verify` |
-| [`redesign-and-verify`](../commands/redesign-and-verify.md) | frontend: `/redesign` → `/codify` applies → `/verify` |
+| [`refactor-and-verify`](../commands/refactor-and-verify.md) | audit the app: `/refactor` → apply `/codify` findings → `/verify`; route the rest |
 
 ## Pipeline
 

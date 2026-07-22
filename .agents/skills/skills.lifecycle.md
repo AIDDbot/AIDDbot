@@ -1,8 +1,8 @@
 # AIDD skills lifecycle
 
-How the 8 pipeline skills — plus `/refactor` and `/redesign` for behavior-preserving
-cleanups — cover the whole SDLC: build, maintain, refactor. The
-[catalog](./skills.catalog.md) is the inventory; this is the map.
+How the 8 pipeline skills — plus `/refactor`, a periodic whole-app audit — cover the
+whole SDLC: build, maintain, refactor. The [catalog](./skills.catalog.md) is the
+inventory; this is the map.
 
 ## The model
 
@@ -54,12 +54,14 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 
 No spec — the *what* is untouched. Route by blast radius:
 
-- **Ugly internals, contracts intact** → `/refactor` reports clarity opportunities (or
-  `/review`'s clean-code gate); they apply via `/codify`, then `/verify` confirms green.
-  - Proof: existing tests green.
-- **Rough UI, behavior intact** → `/redesign` reports design-system and a11y opportunities;
-  they apply via `/codify`, then `/verify` confirms green.
-  - Proof: existing tests green.
+- **Periodic whole-app audit** → `/refactor` reads the accumulated system (clarity, UI, a11y,
+  structure, behavior) and triages each finding by one question — *would a green e2e test have
+  to change?*
+  - No, local → `/codify` applies it, then `/verify` confirms green.
+  - No, but contracts or components must move → `/planify` → `/codify` → `/extract`.
+  - Yes → `/specify` (amend or create) — the cross-cutting UX or behavior change re-enters the
+    full pipeline.
+  - Proof: the `/codify` fixes keep existing tests green; the rest carry a plan or a spec.
 - **Contracts or components must move** → `/planify` (refactor, no spec) → `/codify` →
   `/extract` → patch `/release`.
   - Proof: e2e suite green, **untouched**.

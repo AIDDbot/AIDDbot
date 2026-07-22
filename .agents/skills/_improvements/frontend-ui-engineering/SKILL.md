@@ -5,7 +5,7 @@ user-invocable: false
 disable-model-invocation: true
 ---
 
-> Superseded by [`/redesign`](../../redesign/) — kept as a reference catalog, not an invocable skill.
+> Superseded by [`/refactor`](../../refactor/)'s UI and accessibility lens — kept as a reference catalog, not an invocable skill.
 
 # Frontend UI Engineering
 

@@ -1,15 +1,13 @@
-# Redesign patterns
+# UI and accessibility lens
 
-The catalog `/redesign` scans against. Report an opportunity only when the change preserves
-the functional behavior the e2e suite asserts. Align to the project's design system — its
-tokens, spacing, and type scale — not an external or "AI" aesthetic.
+The UI, design-system, and accessibility catalog `/refactor` scans the frontend through.
+Align to the project's design system — its tokens, spacing, and type scale — not an external
+or "AI" aesthetic. Route each finding via [triage](./triage.md).
 
 ## Principles
 - Design system over taste — use the project's tokens, spacing scale, and type scale.
-- Preserve behavior — polish look, structure, and a11y; never change what the app does.
 - Semantic first — real elements (`button`, `nav`, `label`) before ARIA patches.
 - Content-first layouts — structure follows the content, not a template.
-- Scope to the frontend — no backend or drive-by changes.
 
 ## Avoid the AI aesthetic
 | Pattern | Signal | Change |
@@ -49,7 +47,8 @@ tokens, spacing, and type scale — not an external or "AI" aesthetic.
 | Giant component | 200+ lines, many jobs | split into focused pieces |
 
 ## Component architecture
-Reuse signals. Each extraction must render identical DOM — same props in, same markup out.
+Reuse signals. A pure extraction that renders identical DOM is `/codify`; a look that must
+change to unify pages is `/specify`.
 
 | Pattern | Signal | Change |
 |---------|--------|--------|
@@ -58,8 +57,7 @@ Reuse signals. Each extraction must render identical DOM — same props in, same
 | Ad-hoc component | a concept (button, badge, modal, card) re-built per file | one shared component |
 | Inline loop template | a big markup literal built inside a `.map`/loop | extract an item component |
 
-## Do not report
-- A change that alters the functional flow the e2e suite asserts — that needs a spec, not a redesign.
+## Out of scope (not a finding)
 - Restyling to personal taste over the project's design system.
 - Adding a framework or dependency the project does not use.
 - Speculative components no page renders.
