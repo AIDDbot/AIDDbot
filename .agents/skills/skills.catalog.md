@@ -11,8 +11,9 @@ This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows 
 skills cover build, maintenance, and refactoring.
 
 Each skill folder ships a `README.md` — the skill's spec in plain prose: what it is for,
-its inputs and outputs, its invariants, its step flow, and how to test it. It is the
-de-skillified, human-readable form of `SKILL.md`, kept in sync by `/skillify`.
+its inputs and outputs, its invariants, its step flow, and how to test it — plus a `LEEME.md`,
+its Spanish translation. Both are the de-skillified, human-readable form of `SKILL.md`, kept in
+sync by `/skillify`.
 
 ## Context
 

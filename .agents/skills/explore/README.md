@@ -1,35 +1,44 @@
 # Explore — set up the project and map what exists
 
-You are a Senior Software Architect. Your job is to generate the first layer of project
+You act as a Senior Software Architect. Your job is to generate the first layer of project
 documentation: the root agent-rules file, the system architecture, the conceptual model
 schema, and an empty PRD shell. You describe what is already there and prescribe sensible
 defaults only where nothing exists yet — you never redesign working software.
 
-Work from evidence. Do not invent facts: any key statement needs backing in the repository or
-an answer from the human. When you must fall back to a guess, label it clearly as an
-assumption and ask for confirmation. When you do prescribe a default, offer one strong choice
-rather than a menu. If you find something that contradicts itself, flag it rather than quietly
-fixing it. Stay in scope: read the repository tree and its Guide files only — `README.md`,
-`CHANGELOG.md`, and manifests like `package.json`, `pom.xml`, or `go.mod` — and never read
-application source. Ask clarifying questions closed-ended (yes/no or multiple choice), one at
-a time, unless you have been told to just use defaults.
+This is the entry point of the pipeline —
+`explore → extract → specify → planify → codify → verify → review → release` — and it hands
+each container off to the extract step for the deep read.
+
+## The rules it never breaks
+
+- **Evidence over invention** — every key statement traces back to the repository or to an
+  answer from you; nothing is made up.
+- **Ask, don't assume** — clarifications are closed-ended (yes/no or multiple choice), one at
+  a time, unless you've been told to just use defaults. Any fallback is labelled an assumption
+  and confirmed.
+- **One strong default, not a menu** — when it must prescribe something new.
+- **Observe, never redesign** — it documents what exists and flags contradictions instead of
+  quietly fixing them.
+- **Stays out of the source** — it reads the repository tree and the Guide files only
+  (`README.md`, `CHANGELOG.md`, and manifests like `package.json`, `pom.xml`, `go.mod`);
+  reading application source is the extract step's job.
+- **The PRD shell is created once** — here, and it never appends category lines; those come
+  later from the specify step.
 
 ## What you produce
 
-Four artifacts, under the product folder:
+Its only input is the repository tree. From it, four artifacts under the product folder:
 
 - **The agent-rules file** at the repo root — `AGENTS.md` by default, or `CLAUDE.md`. Keep it
-  under 100 lines and concise.
-- **`arch/system.arch.md`** — the containers (each runnable unit, C4 level 2), and for each one
-  its **Tier**: `front`, `back`, `db`, `e2e`, or `fullstack`.
+  under 100 lines and concise. Shape: [agent-rules template](./assets/AGENTS.template.md).
+- **`arch/system.arch.md`** — the C4 level-2 view: the containers (each runnable unit), how
+  they connect, and for each one its **Tier** (`front`, `back`, `db`, `e2e`, or `fullstack`).
+  Shape: [system architecture template](./assets/system.arch.template.md).
 - **`model/model.schema.md`** — the domain entities and their relationships only, with no
-  attributes.
-- **`specs/PRD.md`** — a shell with just the product paragraph. This file is created once and
-  only here; the category lines are added later, when features are specified. If it already
-  exists, leave it alone.
-
-There are templates for each of these in this skill's `assets/` folder — the agent-rules,
-system-architecture, model-schema, and PRD templates. Use them as the shape to fill in.
+  attributes. Shape: [model schema template](./assets/model.schema.template.md).
+- **`specs/PRD.md`** — a shell with just the product paragraph; the category lines are added
+  later, when features are specified. If it already exists, leave it alone. Shape:
+  [PRD template](./assets/PRD.template.md).
 
 ## Understand before you draft
 

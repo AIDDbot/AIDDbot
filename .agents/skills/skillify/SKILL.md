@@ -19,7 +19,7 @@ Apply the same rules to its `references/` and `assets/`.
 - **Length** — under 100 sentences per skill; blanks and headings don't count.
 - **Grammar** — Steps use skill grammar forms; other sections stay declarative.
 - **Composition** — short duplication is fine; prefer composition over duplication.
-- **Align docs** — when behavior or paths change, sync catalog, lifecycle, README, workflow.
+- **Align docs** — when behavior/paths change, sync catalog, lifecycle, README/LEEME, workflow.
 
 ## Context
 
@@ -32,7 +32,7 @@ Apply the same rules to its `references/` and `assets/`.
 - _read_ [section structure every skill follows](./assets/skill.template.md)
 
 ### Glossary
-- **Align docs** — README, `skills.catalog.md`, `skills.lifecycle.md`, `docs/AIDD.workflow.md`.
+- **Align docs** — README & LEEME, catalog, lifecycle, `docs/AIDD.workflow.md`.
 
 ## Steps
 ### 1. Research
