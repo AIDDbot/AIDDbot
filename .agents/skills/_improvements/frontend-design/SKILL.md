@@ -2,7 +2,11 @@
 name: frontend-design
 description: Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.
 license: Complete terms in LICENSE.txt
+user-invocable: false
+disable-model-invocation: true
 ---
+
+> Parked creative design-direction reference — not invocable. A genuine visual redesign is a design change that belongs upstream of `/specify`, distinct from behavior-preserving [`/redesign`](../../redesign/).
 
 # Frontend Design
 

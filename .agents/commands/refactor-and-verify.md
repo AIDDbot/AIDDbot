@@ -1,10 +1,11 @@
 # refactor-and-verify
 
-Report and apply clarity-only refactors per container, then verify the suite still passes.
-Use it when the code works but has accumulated complexity and you want a focused,
-behavior-preserving refactor pass gated by e2e.
+Report and apply clarity-only refactors per container, verifying after each so a red suite
+points at the container just changed. Use it when the code works but has accumulated complexity
+and you want a focused, behavior-preserving refactor pass gated by e2e.
 
 - _ensure_ the working tree is on branch `refactor/simplify` (create from the default branch if needed).
+- _run_ `/verify` in a fresh subagent to confirm a green baseline; _if_ red, _stop_ — refactoring needs green tests to start.
 - _read_ the software containers from [system architecture](docs/arch/system.arch.md).
 - _for-each_ software container (`back`, `front`), then `e2e` last:
   - _run_ `/refactor` in a fresh subagent scoped to that container's folder.
@@ -14,9 +15,9 @@ behavior-preserving refactor pass gated by e2e.
     - _run_ `/codify` in a fresh subagent to apply the report.
     - _tell_ it to stay on `refactor/simplify`, preserve behavior, and follow `AGENTS.md`.
     - _tell_ it to stop after its commit with no handoff.
-- _run_ `/verify` in a fresh subagent to confirm the e2e suite still passes.
-- _if_ the suite is red:
-  - _for-each_ failing area, _run_ `/codify` in a fresh subagent to fix it.
-  - _run_ `/verify` again in a new subagent.
-  - _repeat_ until green.
+    - _run_ `/verify` in a fresh subagent to confirm the suite still passes.
+    - _if_ red:
+      - _run_ `/codify` in a fresh subagent to fix the failures.
+      - _run_ `/verify` again in a new subagent.
+      - _repeat_ until green.
 - _reply_ a short summary and _suggest_ `/release`.

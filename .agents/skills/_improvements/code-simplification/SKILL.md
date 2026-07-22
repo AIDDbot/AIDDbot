@@ -1,8 +1,11 @@
 ---
 name: code-simplification
 description: Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.
-user-invocable: true
+user-invocable: false
+disable-model-invocation: true
 ---
+
+> Superseded by [`/refactor`](../../refactor/) — kept as a reference catalog, not an invocable skill.
 
 # Code Simplification
 
