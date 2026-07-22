@@ -1,11 +1,11 @@
 # AIDD skills catalog
 
-An 8-skill pipeline covering the whole SDLC, plus `/skillify` to extend the skillset
-itself.
+An 8-skill pipeline covering the whole SDLC, plus `/refactor` for behavior-preserving
+cleanups and `/skillify` to extend the skillset itself.
 `/specify` captures or amends a one-page spec (problem, solution, criteria). `/planify`
 owns the per-container breakdown — software containers and `e2e.plan.md`. `/codify` is
-the only skill that writes code; `/verify` and `/review` only evaluate and report —
-implementation and evaluation never share a session.
+the only skill that writes code; `/verify`, `/review`, and `/refactor` only evaluate and
+report — implementation and evaluation never share a session.
 
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
 skills cover build, maintenance, and refactoring.
@@ -56,6 +56,17 @@ Produces:
 - `/review` → `specs/{spec_key}/review.report.md` — a pass/fail verdict per gate; failed gates hand off to `/codify`.
 - `/release` → `CHANGELOG.md`, version bump, reconciled arch docs.
 
+## Refactoring
+
+Behavior-preserving cleanup. Report-only, like `/review`.
+
+| Skill | What it does |
+|-------|--------------|
+| [`/refactor`](./refactor/) | Report clarity-only refactors in changed code; opportunities apply via `/codify` |
+
+Produces:
+- `/refactor` → `refactors/{slug}/refactor.report.md` — one entry per opportunity; all hand off to `/codify`.
+
 ## Meta
 
 Not part of the SDLC pipeline — it maintains the skill framework itself.
@@ -79,6 +90,7 @@ stretch, one subagent per skill run, so every step gets a fresh context.
 | [`codify-plans`](../commands/codify-plans.md) | `/codify` per plan — software containers then e2e |
 | [`verify-and-fix`](../commands/verify-and-fix.md) | `/verify` → `/codify` → `/verify`, until green |
 | [`review-and-fix`](../commands/review-and-fix.md) | `/review` → `/codify` fixes → `/verify` |
+| [`refactor-and-verify`](../commands/refactor-and-verify.md) | per container: `/refactor` → `/codify` applies → `/verify` |
 
 ## Pipeline
 
