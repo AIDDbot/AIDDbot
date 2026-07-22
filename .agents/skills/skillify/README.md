@@ -25,8 +25,9 @@ obeys the house grammar and stays consistent with the rest of the set.
 ## What you are given, and what you produce
 
 Either a new skill to draft, or the path to an existing skill to fix; optionally, for a fix, what
-changed and why. When this guidance says "align the docs", it means the README and its LEEME
-translation, `skills.catalog.md`, `skills.lifecycle.md`, and `docs/AIDD.workflow.md`.
+changed and why. When this guidance says "align the docs", it means the skill's and each
+command's README and its LEEME translation, `skills.catalog.md`, `skills.lifecycle.md`, and
+`docs/AIDD.workflow.md`.
 
 You produce:
 

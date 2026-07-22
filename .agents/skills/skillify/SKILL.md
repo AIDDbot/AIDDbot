@@ -32,7 +32,7 @@ Apply the same rules to its `references/` and `assets/`.
 - _read_ [section structure every skill follows](./assets/skill.template.md)
 
 ### Glossary
-- **Align docs** — README & LEEME, catalog, lifecycle, `docs/AIDD.workflow.md`.
+- **Align docs** — skill & command README/LEEME, catalog, lifecycle, `docs/AIDD.workflow.md`.
 
 ## Steps
 ### 1. Research

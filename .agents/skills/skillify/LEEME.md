@@ -27,8 +27,8 @@ bien formada, fiel a la gramática de la casa y consistente con el resto del con
 
 O bien una skill nueva a redactar, o la ruta a una skill existente a arreglar; opcionalmente, para
 una corrección, qué cambió y por qué. Cuando esta guía dice "alinear los documentos", se refiere
-al README y su traducción LEEME, `skills.catalog.md`, `skills.lifecycle.md` y
-`docs/AIDD.workflow.md`.
+al README de cada skill y cada comando y su traducción LEEME, `skills.catalog.md`,
+`skills.lifecycle.md` y `docs/AIDD.workflow.md`.
 
 Produce:
 

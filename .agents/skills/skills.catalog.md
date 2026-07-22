@@ -82,7 +82,9 @@ Produces:
 ## Commands
 
 Phase orchestrators under [`.agents/commands/`](../commands/) — each chains a pipeline
-stretch, one subagent per skill run, so every step gets a fresh context.
+stretch, one subagent per skill run, so every step gets a fresh context. Each command file is
+lean instruction bullets, and ships a `.README.md` — its prose form — plus a `.LEEME.md`, the
+Spanish translation. Both are align-docs kept in sync by `/skillify` the same way skills are.
 
 | Command | Orchestrates |
 |---------|--------------|
