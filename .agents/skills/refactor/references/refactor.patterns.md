@@ -38,6 +38,7 @@ preserves behavior exactly. Prefer clarity over cleverness, and match the projec
 | Redundant assertion | cast to an already-inferred type | remove it |
 
 ## Do not report
+- Repeated UI markup that should become a shared component — that is `/redesign`'s call.
 - A change that needs a test edited to pass — that is a behavior change, not a refactor.
 - Removing error handling to look cleaner.
 - Renames to personal taste over project convention.

@@ -11,7 +11,7 @@ run: {ISO date}
 
 ### D1: {short title}
 
-- Pattern: {ai-aesthetic | magic-value | raw-color | heading-order | non-semantic-control | unlabeled-input | missing-focus | color-only | low-contrast | empty-state | error-state | loading-state | not-responsive | giant-component | ...}
+- Pattern: {ai-aesthetic | magic-value | raw-color | heading-order | non-semantic-control | unlabeled-input | missing-focus | color-only | low-contrast | empty-state | error-state | loading-state | not-responsive | giant-component | repeated-markup | uncomponentized-page | ad-hoc-component | inline-loop-template | ...}
 - File: {path}:{line}
 - Now: {what falls short of the design system or WCAG}
 - Change: {the minimal redesign}

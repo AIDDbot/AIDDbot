@@ -48,6 +48,16 @@ tokens, spacing, and type scale — not an external or "AI" aesthetic.
 | Not responsive | breaks at 320 / 768 / 1024 / 1440 | a mobile-first, fluid layout |
 | Giant component | 200+ lines, many jobs | split into focused pieces |
 
+## Component architecture
+Reuse signals. Each extraction must render identical DOM — same props in, same markup out.
+
+| Pattern | Signal | Change |
+|---------|--------|--------|
+| Repeated markup | the same ~5+ line block in 2+ places, only data differs | extract one shared component |
+| Uncomponentized page | a page inlines large self-contained regions (header, card grid, form) | compose named components |
+| Ad-hoc component | a concept (button, badge, modal, card) re-built per file | one shared component |
+| Inline loop template | a big markup literal built inside a `.map`/loop | extract an item component |
+
 ## Do not report
 - A change that alters the functional flow the e2e suite asserts — that needs a spec, not a redesign.
 - Restyling to personal taste over the project's design system.

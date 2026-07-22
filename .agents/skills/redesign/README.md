@@ -28,7 +28,8 @@ from the catalog — a missing focus state, a raw hex color, a blank empty scree
 List the files in scope and read the frontend container's `{container}.rules.md`. Read the
 redesign patterns and the report template that ship with this skill (its `references/` and
 `assets/` folders). Walk each scope file against the catalog — design system, accessibility,
-responsive, states — and for every opportunity capture the file and line, the pattern, the
+responsive, states, and component reuse (repeated markup or an uncomponentized page that should
+become a shared component) — and for every opportunity capture the file and line, the pattern, the
 minimal change, and the reason functional behavior holds. Drop anything whose behavior
 preservation you are unsure of.
 

@@ -48,7 +48,7 @@ redesign catalog. Write a report of opportunities that preserve functional behav
 ### 2. Plan
 - _read_ [redesign patterns](./references/redesign.patterns.md).
 - _read_ [report template](./assets/redesign.report.template.md).
-- _walk_ each scope file for the catalog patterns — design system, accessibility, responsive, states.
+- _walk_ each scope file for the catalog patterns — design system, accessibility, responsive, states, component reuse.
 - _for-each_ opportunity, _capture_ file and line, the pattern, the minimal change, and why behavior holds.
 - _drop_ any opportunity whose behavior preservation is uncertain.
 - _prepare_ the content for the template's placeholders.
