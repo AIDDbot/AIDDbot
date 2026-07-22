@@ -5,6 +5,57 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-22 — Three phase commands, not one per pipeline stretch
+
+**Status**: adopted. Supersedes the per-stretch command set introduced alongside the
+earlier pipeline work.
+
+### Context
+
+The commands under `.agents/commands/` had grown one-per-stretch:
+`explore-and-extract`, `specify-and-planify`, `codify-plans`, `verify-and-fix`,
+`review-and-fix`, and `refactor-and-verify` — plus `build-feature`, which already
+chained `/specify` → `/planify` → `/codify` (per plan) → `/verify` (loop to green) →
+`/review` → `/release` on its own. So four of the granular commands were strict subsets
+of `build-feature`: it subsumed `specify-and-planify`, `codify-plans`, `verify-and-fix`,
+and `review-and-fix` end to end. The parallel machinery had already drifted — the catalog
+table listed commands that no longer matched, the root README miscounted them ("five"),
+and one command (`refactor-and-verify`) had no README while the others did.
+
+### Decision
+
+1. **Three commands, one per lifecycle phase.** Keep `explore-and-extract` (set up the
+   context), `build-feature` (build or amend one feature from spec to shipped release),
+   and `refactor-and-verify` (periodic whole-app audit). Delete the four intermediate
+   per-stretch commands and their READMEs.
+2. **A partial run invokes the skill directly.** Re-planning only, or codifying a single
+   plan, is a single skill call (`/planify`, `/codify`, …) — the skills stay first-class
+   entry points, so no orchestrator is needed for a one-step run.
+3. **One shape for all three.** The command file is lean instruction bullets (the
+   executable form); a sibling `.README.md` carries the prose. Every command now has both.
+4. **Commands stay project-neutral.** `refactor-and-verify` no longer hard-codes a stack;
+   it tells `/refactor` to follow the project's `{Agents_File}` and container rules, so the
+   command copies cleanly into any repo.
+
+### Consequences
+
+- Eight files removed (`specify-and-planify`, `codify-plans`, `verify-and-fix`,
+  `review-and-fix`, each with its README); new `refactor-and-verify.README.md`.
+- No capability lost: the deleted stretches all live inside `build-feature`.
+- Align-docs synced: the catalog command table and the root README count/list.
+
+### Rejected alternatives
+
+- **Keep the per-stretch commands for partial runs** — rejected: `build-feature` already
+  chains them, and any single stretch is one skill call away. The extra files were
+  duplicate machinery that drifted out of sync rather than earning their keep.
+
+### Accepted trade-offs
+
+- **A partial run is a skill call, not a named command.** Slightly less discoverable than a
+  dedicated `verify-and-fix`-style command, but the skills remain first-class and
+  `build-feature` covers the common path in one go.
+
 ## 2026-07-22 — `/refactor` is a whole-app triaging audit; `/redesign` merged in
 
 **Status**: adopted. Consolidates the same-day `/refactor` + `/redesign` introduction
