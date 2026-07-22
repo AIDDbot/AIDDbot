@@ -29,6 +29,10 @@ Do not correct code, tests, or reports.
 ### Inputs
 - [ ] Optional: the spec `{spec_key}` or `{slug}` to verify.
 
+### References
+- _use_ the OS-matched port-freeing helper before starting the app:
+  [Windows](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh) — pass the app's port(s).
+
 ### Glossary
 - **Defect kind** — `code bug` | `test bug` → `/codify`; `structural` → `/planify`.
 - **AC id** — `AC-{spec_id}.{n}`; carried by test titles.
@@ -49,6 +53,7 @@ Do not correct code, tests, or reports.
 - _prepare_ the content for the template's placeholders.
 
 ### 3. Implement
+- _run_ the OS-matched port-freeing helper on the app's port(s) to clear orphaned servers.
 - _run_ the affected tests, or all tests as a last resort.
 - _write_ `{Specs}/e2e.report.md`: verdict per AC id, then one entry per defect.
 - _update_ `spec.md` AC checkboxes `[x]` / `[ ]` from the suite outcome.

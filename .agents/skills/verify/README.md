@@ -32,7 +32,10 @@ template in this skill's `assets/` folder and prepare the content for its placeh
 
 ## Do the work
 
-Run the affected tests — or, only as a last resort, the whole suite. Write
+First clear the ground: run the OS-matched port-freeing helper in this skill's `scripts/`
+(`free-port.ps1` on Windows, `free-port.sh` on Linux/macOS) against the app's port(s), so an
+orphaned server from a previous run can't block startup. Then run the affected tests — or, only
+as a last resort, the whole suite. Write
 `specs/{spec_key}/e2e.report.md` with a verdict per AC id followed by one entry per defect.
 Update the spec's AC checkboxes to `[x]` or `[ ]` according to the suite outcome. If every
 criterion is `[x]`, set the spec to `status: verified`; otherwise set it to `status: failed`.

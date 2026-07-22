@@ -17,6 +17,10 @@ cuando necesites un veredicto honesto del estado de una especificación.
 Posición: sigue a `/codify`; todo en verde delega en `/review`, cualquier fallo vuelve a
 `/codify` (un defecto `structural` escala a `/planify`).
 
+Antes de arrancar la app, libera el puerto con el script del sistema en `scripts/`
+(`free-port.ps1` en Windows, `free-port.sh` en Linux/macOS) para que un servidor huérfano de
+una ejecución previa no bloquee el arranque.
+
 ## Entradas y salidas
 
 - **Entrada (opcional):** la especificación (`{spec_key}` o `{slug}`) a verificar; pregunta
