@@ -1,11 +1,64 @@
 # Flujo de artefactos — negocio vs. arquitectura
 
-Vista en español del proceso desde sus artefactos: qué **consume** (←) y qué **produce** (→) cada
-skill, separado en dos dimensiones —lo que toca del **producto/negocio** y lo que toca de la
-**arquitectura/tecnología**—. Complementa la doc canónica del workflow
-([AIDD.workflow.md](./AIDD.workflow.md)), que es la imagen completa en inglés.
+Vista en español del proceso: los **tres escenarios** con los que un humano llega, qué skills
+recorre cada uno, y dónde está el **negocio** frente a la **tecnología**. Complementa la doc
+canónica del workflow ([AIDD.workflow.md](./AIDD.workflow.md)), que es la imagen completa en
+inglés.
 
-## Qué consume y produce cada skill
+## Los tres escenarios
+
+```mermaid
+flowchart TB
+  classDef neg fill:#dcfce7,stroke:#16a34a,color:#14532d
+  classDef tec fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+  classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
+
+  HUM([HUMANO]):::hum
+
+  subgraph S1["🛬 Aterrizo en el proyecto"]
+    direction LR
+    EXP[explore]:::tec --> EXT[extract]:::tec
+  end
+
+  subgraph S2["✨ Quiero crear algo"]
+    direction LR
+    SPC["specify<br/><i>crea o enmienda</i>"]:::neg --> PLN[planify]:::tec --> COD[codify]:::tec --> VER[verify]:::tec --> REV[review]:::tec --> REL[release]:::neg
+  end
+
+  subgraph S3["♻️ Quiero rehacer algo"]
+    direction LR
+    REF[refactor]:::tec
+  end
+
+  HUM --> S1
+  HUM --> S2
+  HUM --> S3
+
+  VER -.->|falla funcional| COD
+  REV -.->|falla calidad| COD
+  REF -.->|fallo estructural| PLN
+
+  linkStyle 9,10,11 stroke:#dc2626,color:#dc2626,stroke-width:2px
+```
+
+**Leyenda:** 🟢 verde = **negocio** (el *qué* y el *porqué*: capturar y publicar) · 🔵 azul =
+**tecnología** (el *cómo*: documentar, construir, juzgar) · 🔴 rojo punteado = **bucles** (un
+fallo o una auditoría que reingresa al pipeline).
+
+## Lo que se lee de un vistazo
+
+- **Tres puertas de entrada**, no una: *aterrizo* (preparar el terreno), *creo* (pedir una
+  funcionalidad), *rehago* (auditar y limpiar lo acumulado).
+- **La enmienda la decide `specify`**, no es una vuelta desde `release`: alguien pide algo y
+  `specify` decide si es una spec nueva o la enmienda de una existente.
+- **El negocio abre y cierra**: crear algo va de `specify` (negocio) → construir/juzgar
+  (tecnología) → `release` (negocio). El humano solo habla negocio en los extremos; el centro es
+  técnico.
+- **Los bucles contrastan por tipo de fallo**: `verify` detecta fallos **funcionales** y los
+  devuelve a `codify`; `review` devuelve fallos de **calidad** a `codify`; `refactor` detecta
+  deriva **estructural** y la devuelve a `planify`.
+
+## Detalle — qué consume y produce cada skill
 
 | Skill | Producto / Negocio | Arquitectura / Tecnología |
 |---|---|---|
@@ -17,81 +70,7 @@ skill, separado en dos dimensiones —lo que toca del **producto/negocio** y lo 
 | **verify** | ← criterios de aceptación<br>→ veredicto por AC · spec → `verified`/`failed` · casillas | ← `e2e.plan.md`, suite e2e, formas API/DB<br>→ `e2e.report.md` (defectos triados por tipo) |
 | **review** | → hallazgos de **comportamiento** reingresan a `/specify` | ← código en alcance, `{container}.rules.md`, definiciones de compuertas<br>→ `review.report.md` (veredicto por compuerta, hallazgos) |
 | **release** | ← spec verificada<br>→ `CHANGELOG.md` (Added/Changed/Fixed/Removed) · spec → `done` + `released-version` | ← informe de revisión, deriva de docs<br>→ bump de versión, docs de arquitectura/modelo reconciliados, merge + tag, poda de rama |
-| **refactor** | → hallazgos de **comportamiento** reingresan a `/specify` | ← código de toda la app, `{container}.rules.md`, lentes<br>→ `refactor.report.md` (hallazgos triados) |
+| **refactor** | — (un cambio de comportamiento se señala como feature para `/specify`, no es un refactor) | ← código de toda la app, `{container}.rules.md`, lentes<br>→ `refactor.report.md`; **todo hallazgo va a `/planify`** |
 
 > **skillify** queda fuera: es meta (fuera de la tubería SDLC). No toca artefactos de producto ni
 > de arquitectura — produce o arregla las propias skills.
-
-## Diagrama de flujo de artefactos
-
-Colores por dimensión: **verde = producto/negocio**, **azul = arquitectura/tecnología**,
-**ámbar = la cadena e2e**, que es la bisagra por donde el negocio (criterios) cruza a la técnica
-(pruebas) y vuelve (veredicto). Línea continua = produce; línea punteada = consume/informa.
-
-```mermaid
-flowchart TD
-  classDef neg fill:#f0fdf4,stroke:#16a34a,color:#166534
-  classDef arq fill:#eff6ff,stroke:#2563eb,color:#1e40af
-  classDef pnt fill:#fffbeb,stroke:#d97706,color:#92400e
-  classDef hum fill:#f8fafc,stroke:#94a3b8,color:#475569
-
-  HUM[HUMANO]:::hum
-
-  PRD["specs/PRD.md<br/>log funcional"]:::neg
-  SPEC["spec.md<br/>problema · criterios AC"]:::neg
-  CHL["CHANGELOG.md"]:::neg
-
-  AGT["AGENTS.md"]:::arq
-  SAR["system.arch.md"]:::arq
-  MOD["model.schema.md"]:::arq
-  CAR["{container}.arch.md · db.schema<br/>api.schema · {container}.rules.md"]:::arq
-  PLN["{container}.plan.md"]:::arq
-  COD["código + pruebas unitarias"]:::arq
-  RRP["review.report.md"]:::arq
-  FRP["refactor.report.md"]:::arq
-
-  EPL["e2e.plan.md"]:::pnt
-  E2E["suite e2e"]:::pnt
-  ERP["e2e.report.md"]:::pnt
-
-  HUM -->|/explore| AGT
-  HUM -->|/explore| SAR
-  HUM -->|/explore| MOD
-  HUM -->|/explore| PRD
-  SAR -->|/extract ×contenedor| CAR
-
-  HUM -->|/specify| SPEC
-  SPEC -->|añade línea| PRD
-  SAR -.-> SPEC
-  MOD -.-> SPEC
-
-  SPEC -->|/planify| PLN
-  SPEC -->|/planify| EPL
-  CAR -.-> PLN
-
-  PLN -->|/codify| COD
-  EPL -->|/codify| E2E
-  CAR -.reglas.-> COD
-
-  E2E -->|/verify| ERP
-  SPEC -.criterios.-> ERP
-  ERP -->|/codify fix| COD
-
-  COD -->|/review| RRP
-  RRP -->|/codify fix| COD
-  COD -->|/refactor| FRP
-
-  SPEC -->|/release| CHL
-  SPEC -->|/release reconcilia| SAR
-```
-
-## Lo que se lee de un vistazo
-
-- **explore → specify → release** cargan el peso de **producto/negocio** (PRD, spec, criterios,
-  CHANGELOG). El hilo de negocio es la spec y sus `AC-{spec_id}.{n}`.
-- **extract, planify, codify, review, refactor** son casi puramente **arquitectura/tecnología**.
-- La **cadena e2e** (criterios → `e2e.plan.md` → suite → `e2e.report.md` → veredicto) es la
-  bisagra entre ambas dimensiones; **verify** es quien la cruza: consume negocio y produce un
-  juicio técnico que actualiza el estado de negocio de la spec.
-- Los dos **informes de auditoría** (review, refactor) solo tocan negocio cuando detectan un
-  cambio de comportamiento → lo devuelven a `/specify`.
