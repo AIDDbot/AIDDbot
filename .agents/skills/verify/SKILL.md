@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run the e2e suite against the spec's criteria and write the triaged defects report.
+description: Run the e2e suite against the spec's criteria and write the triaged findings report.
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -10,15 +10,15 @@ disable-model-invocation: true
 Act as QA Engineer.
 
 ## Task
-Run the e2e suite against the spec's acceptance criteria and write the defects report.
-Triage every defect by kind and hand it off.
+Run the e2e suite against the spec's acceptance criteria and write the findings report.
+Triage every finding by kind and hand it off.
 Do not correct code, tests, or reports.
 
 ### Guardrails
 - **Report-only** — never edit code, tests, or plans; touch only the report and spec status/ACs.
 - **Active criteria only** — ids under `Deprecated criteria` get no test, verdict, or checkbox.
 - **Distrust the implementation, trust the spec** — finding defects is a kind of success.
-- **Never soften the verdict** — a flaky or wrong test is a `test bug`.
+- **Never soften the verdict** — a flaky or wrong test is a `test` finding.
 
 ## Context
 
@@ -34,7 +34,7 @@ Do not correct code, tests, or reports.
   [Windows](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh) — pass the app's port(s).
 
 ### Glossary
-- **Defect kind** — `code bug` | `test bug` → `/codify`; `structural` → `/planify`.
+- **Finding kind** — `functional` (code wrong) | `test` (test wrong) → `/codify`.
 - **AC id** — `AC-{spec_id}.{n}`; carried by test titles.
 
 ## Steps
@@ -49,13 +49,13 @@ Do not correct code, tests, or reports.
 - _read_ [start/test commands and fixtures]({Agents_File}).
 - _if_ asserting API responses, _read_ [API field shapes]({Model}/api.schema.md).
 - _if_ asserting persisted state, _read_ [expected stored shapes]({Model}/db.schema.md).
-- _read_ [defects report template](./assets/e2e.report.template.md).
+- _read_ [report template](./assets/e2e.report.template.md).
 - _prepare_ the content for the template's placeholders.
 
 ### 3. Implement
 - _run_ the OS-matched port-freeing helper on the app's port(s) to clear orphaned servers.
 - _run_ the affected tests, or all tests as a last resort.
-- _write_ `{Specs}/e2e.report.md`: verdict per AC id, then one entry per defect.
+- _write_ `{Specs}/e2e.report.md`: verdict per AC id, then one entry per finding.
 - _update_ `spec.md` AC checkboxes `[x]` / `[ ]` from the suite outcome.
 - _if_ every criterion is `[x]`, _update_ `status: verified`; _else_ _update_ `status: failed`.
 - _commit_ the changes (`docs(e2e): {spec_key} report`).
@@ -66,5 +66,5 @@ Do not correct code, tests, or reports.
 - [ ] Every active AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
 - [ ] No deprecated AC id was verified, given a verdict, or checked.
 - [ ] Spec `status` is `verified` or `failed` to match the suite outcome.
-- [ ] The suite is green, or every defect has kind and handoff.
+- [ ] The suite is green, or every finding has kind and handoff.
 - [ ] No code, test, plan, or corrective edit was made — report and status only.

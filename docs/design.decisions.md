@@ -5,6 +5,54 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-23 — Canonical reports, unified routing, and spec-less storage
+
+**Status**: adopted.
+
+### Context
+
+The three report artifacts had drifted apart. `e2e.report.md` (`/verify`),
+`review.report.md` (`/review`), and `refactor.report.md` (`/refactor`) each used their own
+frontmatter keys, section names, and entry names (`Defect` vs `Finding`) — and, worst, two
+different `kind` vocabularies: `code bug` / `test bug` for verify versus
+`mechanical` / `functional` / `behavioral` for review and refactor. Redundant fields had
+accumulated too: `suite` in the review report (which runs no suite) and `Preserves behavior`
+in the refactor report (derivable from `kind`). Two further gaps surfaced: refactor's
+three-door triage made every report's `target` a variable list, and the plans a refactor
+produces had no home — `/planify` wrote them to `specs/{spec_key}/`, but a refactor has no spec.
+
+### Decision
+
+1. **One report skeleton.** Frontmatter `source · target · scope · run · status`; title
+   `# {report} report — {scope}`; `## Summary` (roll-up by severity); an evaluated-units
+   section in a fixed slot (`Criteria` for verify, `Gates` for review, `Lenses` for refactor);
+   then `## Findings`.
+2. **One entry schema.** `Source · Where · Problem · Fix · Severity · Kind · Handoff`, prefixed
+   `F`, ordered by severity. Verify gains the `Fix` field it lacked.
+3. **One `kind` vocabulary.** `functional | test | mechanical | structural | behavioral`, each
+   report drawing its subset. `code bug` → `functional`, `test bug` → `test`.
+4. **Dropped redundant fields.** `suite` (review), `Preserves behavior` (refactor), and
+   `id` / `slug` (e2e, folded into `scope`).
+5. **`source` / `target` / `status`.** `source` is the producing skill; `status` is `green | red`;
+   `target` is the single next skill — verify `→ /review | /codify`, review `→ /release | /codify`
+   (by status), refactor `→ /planify`. Per-finding `Handoff` still carries the exact routing.
+6. **Refactor unifies to `/planify`.** Every refactor finding preserves behavior and routes to
+   `/planify` regardless of `kind` (which becomes informational) — the one exception to the
+   general kind→door mapping. A change that would alter what a green e2e test asserts is *not* a
+   refactor: it is surfaced as a `/specify` feature, never written as a finding. So refactor drops
+   the `behavioral` kind, and verify drops `structural` (it detects `functional` / `test` only).
+7. **Spec-less work lives under `refactors/{slug}/`.** It mirrors `specs/{spec_key}/`, holding the
+   report and the plans. `/planify` uses `{Work}` = `specs/{spec_key}` or `refactors/{slug}`.
+
+### Consequences
+
+- Propagated across the active surface: the three templates; `verify`, `refactor`, `planify`, and
+  `codify` SKILL + LEEME; the workflow doc; the catalog; and the lifecycle map. The English
+  `README.md` files still carry the old wording — deferred to the translation phase.
+- `status: green` on a refactor report means "nothing worth refactoring".
+- `/codify` no longer takes a refactor report as input; it executes the plans `/planify` derives
+  from it.
+
 ## 2026-07-22 — Three phase commands, not one per pipeline stretch
 
 **Status**: adopted. Supersedes the per-stretch command set introduced alongside the

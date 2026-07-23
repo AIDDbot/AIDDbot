@@ -1,22 +1,37 @@
 ---
+source: refactor
+target: /planify
 scope: {app | container | paths}
 run: {ISO date}
+status: {green | red}
 ---
-# refactor report - {scope}
+# refactor report — {scope}
+
+## Summary
+
+- Findings: {N} · {b} blocker · {m} major · {n} minor.
+- `status: green` means nothing worth refactoring.
+
+## Lenses
+
+- [x] clarity
+- [x] ui
+- [x] accessibility
+- [x] structure
+- [x] behavior
 
 ## Findings
 
-> One entry per finding, ordered by severity. Kind routes the handoff:
-> `mechanical` / `functional` → `/codify` ({container}); `structural` → `/planify`;
-> `behavioral` → `/specify`.
+> One entry per finding, ordered by severity. Every finding preserves behavior and routes to
+> `/planify`. A change that would alter what a green e2e test asserts is not a refactor — flag it
+> to the human as a `/specify` feature, do not write it here.
 
 ### F1: {short title}
 
-- Lens: {clarity | ui | accessibility | structure | behavior}
-- File: {path}:{line} — {and how many places it recurs, if systemic}
-- Issue: {what decayed}
-- Change: {the minimal fix, or the plan/spec it needs}
-- Preserves behavior: {yes for /codify and /planify; no — describe the change — for /specify}
+- Source: {clarity | ui | accessibility | structure | behavior}
+- Where: {container} · {path}:{line} — {recurrence, if systemic}
+- Problem: {what decayed}
+- Fix: {the minimal change, or the restructure it needs}
 - Severity: {blocker | major | minor}
-- Kind: {mechanical | functional | structural | behavioral}
-- Handoff: {`/codify` {container} | `/planify` | `/specify`}
+- Kind: {mechanical | functional | structural}
+- Handoff: `/planify`

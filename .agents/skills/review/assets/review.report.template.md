@@ -1,13 +1,18 @@
 ---
-scope: {spec-key | branch | paths}
+source: review
+target: {/release | /codify}   # green → /release · red → /codify
+scope: {spec_key | branch | paths}
 run: {ISO date}
-suite: {green | red}
+status: {green | red}
 ---
-# review report - {scope}
+# review report — {scope}
+
+## Summary
+
+- Findings: {N} · {b} blocker · {m} major · {n} minor.
+- Gates: {passed}/{total} pass.
 
 ## Gates
-
-> Each gate is pass or fail. Failed gates list their findings below.
 
 | Gate | Verdict |
 |------|---------|
@@ -26,10 +31,10 @@ suite: {green | red}
 
 ### F1: {short title}
 
-- Gate: {lint | types | accessibility | security | performance | clean-code}
-- File: {path}:{line}
-- Issue: {what fails the gate}
-- Suggestion: {the minimal fix}
+- Source: {lint | types | accessibility | security | performance | clean-code}
+- Where: {container} · {path}:{line}
+- Problem: {what fails the gate}
+- Fix: {the minimal change, or the plan/spec it needs}
 - Severity: {blocker | major | minor}
 - Kind: {mechanical | functional | structural | behavioral}
 - Handoff: {`/codify` {container} | `/planify` | `/specify`}

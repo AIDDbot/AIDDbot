@@ -3,14 +3,15 @@
 - _run_ `/refactor` in a fresh subagent scoped to the whole app.
 - _tell_ it to follow the project's `{Agents_File}` and container rules for the stack, and to ignore patterns from other stacks.
 - _tell_ it to stop after its commit with no handoff.
-- _if_ the report has `structural` or `behavioral` findings, _surface_ them to the human — they re-enter through `/planify` or `/specify`, not here.
-- _if_ the report has `/codify` findings:
-  - _run_ `/codify` in a fresh subagent to apply them.
+- _if_ no findings, _reply_ "Nothing to refactor" and _stop_.
+- _run_ `/planify` in a fresh subagent on the `refactor.report.md` to plan the cleanup.
+  - _tell_ it to stop after its commit with no handoff.
+- _for-each_ container plan, _run_ `/codify` in a fresh subagent to apply it.
   - _tell_ it to stay on `refactor/audit`, preserve behavior, and follow the `{Agents_File}`.
   - _tell_ it to stop after its commit with no handoff.
-  - _run_ `/verify` in a fresh subagent to confirm the suite still passes.
+- _run_ `/verify` in a fresh subagent to confirm the suite still passes.
   - _if_ red:
     - _run_ `/codify` in a fresh subagent to fix the failures.
     - _run_ `/verify` again in a new subagent.
     - _repeat_ until green.
-- _reply_ a summary — applied via `/codify` vs. routed to `/planify`/`/specify` — and _suggest_ `/release`.
+- _reply_ a summary of the cleanup and _suggest_ `/release`.

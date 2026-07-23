@@ -52,25 +52,19 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 
 ## Refactor (behavior must not change)
 
-No spec — the *what* is untouched. Route by blast radius:
+No spec — the *what* is untouched. Every finding routes to one door:
 
 - **Periodic whole-app audit** → `/refactor` reads the accumulated system (clarity, UI, a11y,
-  structure, behavior) and triages each finding by one question — *would a green e2e test have
-  to change?*
-  - No, local → `/codify` applies it, then `/verify` confirms green.
-  - No, but contracts or components must move → `/planify` → `/codify` → `/extract`.
-  - Yes → `/specify` (amend or create) — the cross-cutting UX or behavior change re-enters the
-    full pipeline.
-  - Proof: the `/codify` fixes keep existing tests green; the rest carry a plan or a spec.
-- **Contracts or components must move** → `/planify` (refactor, no spec) → `/codify` →
-  `/extract` → patch `/release`.
-  - Proof: e2e suite green, **untouched**.
+  structure, behavior) and asks one question per finding — *would a green e2e test have to change?*
+  - No → it is a refactor: the finding goes to `/planify`, which plans the cleanup under
+    `refactors/{slug}/`; then `/codify` executes and `/verify` confirms green, and a patch
+    `/release` reconciles any drifted docs.
+  - Yes → it is not a refactor but a behavior change: flag it to the human as a `/specify`
+    feature, never write it as a finding.
+  - Proof: the e2e suite stays green and **untouched**; the cleanup carries a plan.
 - **Big change incoming, messy landing zone** → preparatory `/review` first, then the
   pipeline.
-  - Proof: green before `/specify` re-entry.
-- **A test assertion must change to stay green** → not a refactor: a behavior change,
-  route through `/specify` (amend or create).
-  - Proof: updated criteria in the spec.
+  - Proof: green before starting.
 
 Guardrails that make refactoring safe to delegate: green baseline before starting, tests
 untouchable, contracts frozen. The e2e suite — built by `/codify` from every spec's

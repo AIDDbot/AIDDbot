@@ -32,7 +32,7 @@ way it authorizes a code edit. `/codify` writes the e2e suite from `e2e.plan.md`
 **One writer, two evaluators.** `/codify` is the only skill that writes code — source,
 unit tests, and the e2e suite alike. `/verify` and `/review` only evaluate and report;
 implementation and evaluation never share a session. The periodic `/refactor` audit is
-report-only as well — it triages findings to their pipeline door, never edits.
+report-only as well — it hands every finding to `/planify`, never edits.
 
 ```mermaid
 flowchart LR
@@ -49,9 +49,10 @@ flowchart LR
   REV -.report → fix mode.-> COD
 ```
 
-Each report entry carries a **kind** and a **handoff**: `code bug` / `test bug` →
-`/codify` (per container); `structural` → `/planify`; `behavioral` → `/specify`;
-`mechanical` → `/codify`.
+Each report entry carries a **kind** and a **handoff**: `functional` / `mechanical` /
+`test` → `/codify` (per container); `structural` → `/planify`; `behavioral` → `/specify`.
+Refactor is the exception: every refactor finding preserves behavior and routes to `/planify`
+regardless of kind.
 
 ## The pipeline
 
@@ -69,7 +70,7 @@ flowchart LR
   VER -->|green| REV["/review<br/>report-only"]:::nd
   REV --> REL["/release"]:::nd
 
-  VER -->|code / test bug| COD
+  VER -->|functional / test| COD
   VER -->|structural| PLN
   REV -.findings.-> COD
   COD -.contract change.-> PLN
@@ -176,7 +177,7 @@ flowchart TD
 When the suite is red, verify reports, codify fixes, verify re-runs — until green:
 
 ```markdown
-code bug | test bug  -> /codify the e2e.report.md (×affected container) -> /verify re-runs
+functional | test   -> /codify the e2e.report.md (×affected container) -> /verify re-runs
 structural           -> escalate: /planify the e2e.report.md -> /codify -> /verify
 ```
 
@@ -272,11 +273,10 @@ by blast radius — see the [lifecycle map](../.agents/skills/skills.lifecycle.m
 
 ## Refactor
 
-Periodic whole-app audit of accumulated decay — **report-only and triaging, like
-`/review`.** Where a per-spec review sees one diff, `/refactor` reads the *accumulated*
-system (code clarity, UI, accessibility, structure, behavior) for cross-cutting decay no
-single review can catch, and routes each finding by the same maintenance question — *would
-fixing it change what a green e2e test asserts?*
+Periodic whole-app audit of accumulated decay — **report-only, like `/review`.** Where a
+per-spec review sees one diff, `/refactor` reads the *accumulated* system (code clarity, UI,
+accessibility, structure, behavior) for cross-cutting decay no single review can catch. Every
+finding preserves behavior and routes to `/planify`, which plans the cleanup.
 
 ```mermaid
 flowchart TD
@@ -284,16 +284,16 @@ flowchart TD
   classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
 
   REF["/refactor — whole-app audit<br/>writes refactors/{slug}/refactor.report.md"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
-  Q -->|"no — local"| COD["/codify → /verify"]:::nd
-  Q -->|"no — contracts/components move"| PLN["/planify → /codify → /extract"]:::nd
-  Q -->|"yes — behavior change"| SPC["/specify amend or create"]:::nd
+  Q -->|"no — a refactor"| PLN["/planify → /codify → /verify"]:::nd
+  Q -->|"yes — not a refactor"| SPC["/specify — a feature, separately"]:::nd
 ```
 
-Run it every few specs, or at a release train, so cross-cutting decay gets an owner. It
-never edits code: `/codify` findings are applied and confirmed by `/verify`; `/planify` and
-`/specify` findings re-enter the pipeline at their own door. The
-[`refactor-and-verify`](../.agents/skills/skills.catalog.md#commands) command chains the
-audit and its `/codify` fixes.
+Run it every few specs, or at a release train, so cross-cutting decay gets an owner. It never
+edits code: every finding routes to `/planify`, which plans the cleanup for `/codify` to execute
+and `/verify` to confirm. A change that would alter what a green test asserts is not a refactor —
+it starts at `/specify` as a feature. The
+[`refactor-and-verify`](../.agents/skills/skills.catalog.md#commands) command chains the audit and
+the resulting fixes.
 
 ## The artifacts
 
@@ -435,8 +435,11 @@ stateDiagram-v2
   - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria, and `Deprecated criteria` for retired ACs (`/specify`; amendable; ids never renumbered or reused).
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`).
-  - `{spec_key}/e2e.report.md` — Verdict per AC id + defects: expected vs actual, container, severity, kind, handoff (`/verify`).
+  - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).
   - `{spec_key}/review.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff) (`/review`).
+- `refactors/` — One folder per refactor pass, named `{slug}`; mirrors `specs/{spec_key}/` for spec-less work.
+  - `{slug}/refactor.report.md` — Triaged audit findings; every finding routes to `/planify` (`/refactor`).
+  - `{slug}/{container}.plan.md` — Cleanup plan per software container (`/planify`; no `e2e.plan.md`, behavior preserved).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
 - `e2e/` — End-to-end tests, organized by feature (written by `/codify` from `e2e.plan.md`; judged by `/verify`).

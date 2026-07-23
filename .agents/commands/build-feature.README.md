@@ -4,7 +4,7 @@ Take one feature all the way from a spec to a shipped release. Use it to build o
 
 First it runs `/specify` to capture or amend the spec, then `/planify` to break that spec into one plan per container plus an e2e plan.
 Next it runs `/codify` once per plan to write the code — the software containers first, the e2e suite last.
-Then `/verify` runs the suite; any failing code or test bugs loop back through `/codify` until it's green.
+Then `/verify` runs the suite; any failing `functional` or `test` findings loop back through `/codify` until it's green.
 Then `/review` gates the result, if there are any failed review gates, it runs `/codify` again to fix the reported minor defects.
 
 At last it runs `/release` to ship it.

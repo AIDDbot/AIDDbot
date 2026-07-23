@@ -31,10 +31,8 @@ lugar que cambia código, al terminar siempre delegas en el paso de verificació
 
 ## Contexto
 
-- **Entrada obligatoria** — un plan de contenedor, el `e2e.plan.md`, un informe de defectos /
-  revisión / refactor, o una descripción simple de una corrección.
-- **Informe de refactor** — vive en `refactors/{slug}/refactor.report.md`; en modo corrección
-  aplica solo sus hallazgos `/codify` (los de `/planify` y `/specify` van a otro sitio).
+- **Entrada obligatoria** — un plan de contenedor, el `e2e.plan.md`, un informe de defectos o de
+  revisión, o una descripción simple de una corrección.
 - **Referencias** — el `{container}.rules.md` del contenedor en alcance (naming y convenciones);
   y, según lo que toques, `model/api.schema.md` o `model/db.schema.md`.
 

@@ -1,32 +1,33 @@
 ---
-id: {spec_id}
-slug: {slug}
+source: verify
+target: {/review | /codify}   # green → /review · red → /codify
+scope: {spec_key}
 run: {ISO date}
-suite: {green | red}
+status: {green | red}
 ---
-# e2e report - {spec_key}
+# e2e report — {spec_key}
 
 ## Summary
 
-- Scenarios: {passed}/{total} passing.
-- Criteria: {met}/{total} marked `[x]` in the spec.
+- Findings: {N} · {b} blocker · {m} major · {n} minor.
+- Scenarios: {passed}/{total} · Criteria: {met}/{total} marked `[x]`.
 
-## Criteria verdicts
+## Criteria
 
-- [x] **AC-{spec_id}.1** — passed
-- [ ] **AC-{spec_id}.2** — failed → D1
+- [x] **AC-{spec_id}.1** — pass
+- [ ] **AC-{spec_id}.2** — fail → F1
 
-## Defects
+## Findings
 
-> Ordered by severity, one entry per defect. Kind routes the handoff:
-> `code bug` / `test bug` → `/codify` ({container}); `structural` → `/planify`.
+> One entry per defect, ordered by severity. Every finding routes to `/codify`:
+> `functional` (the code is wrong) or `test` (the test is wrong).
 
-### D1: {scenario title}
+### F1: {scenario title}
 
-- Criterion: **AC-{spec_id}.{n}** — {the acceptance criterion this scenario verifies}
-- Expected: {from the spec/plan}
-- Actual: {observed}
-- Container: {container}
+- Source: **AC-{spec_id}.{n}** — {the acceptance criterion this scenario verifies}
+- Where: {container}
+- Problem: expected {from the spec/plan} · actual {observed}
+- Fix: {the minimal change}
 - Severity: {blocker | major | minor}
-- Kind: {code bug | test bug | structural}
-- Handoff: {`/codify` {container} | `/planify`}
+- Kind: {functional | test}
+- Handoff: `/codify` {container}

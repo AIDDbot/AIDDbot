@@ -63,10 +63,10 @@ Periodic whole-app audit of accumulated decay. Report-only and triaging, like `/
 
 | Skill | What it does |
 |-------|--------------|
-| [`/refactor`](./refactor/) | Audit the app (code clarity, UI, a11y, structure, behavior); triage each finding to `/codify`, `/planify`, or `/specify` |
+| [`/refactor`](./refactor/) | Audit the app (code clarity, UI, a11y, structure, behavior); every finding routes to `/planify` |
 
 Produces:
-- `/refactor` → `refactors/{slug}/refactor.report.md` — a triaged finding per issue (severity, kind, handoff); routes to `/codify`, `/planify`, or `/specify`.
+- `/refactor` → `refactors/{slug}/refactor.report.md` — a triaged finding per issue (severity, kind); every finding routes to `/planify`.
 
 ## Meta
 
@@ -90,7 +90,7 @@ Spanish translation. Both are align-docs kept in sync by `/skillify` the same wa
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.md) | `/explore`, then `/extract` per container |
 | [`build-feature`](../commands/build-feature.md) | `/specify` → `/planify` → `/codify` per plan → `/verify` (loop to green) → `/review` → `/release` |
-| [`refactor-and-verify`](../commands/refactor-and-verify.md) | audit the app: `/refactor` → apply `/codify` findings → `/verify`; route the rest |
+| [`refactor-and-verify`](../commands/refactor-and-verify.md) | audit the app: `/refactor` → `/planify` → `/codify` → `/verify` |
 
 ## Pipeline
 
@@ -101,8 +101,8 @@ Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed
 Amend at any status: `/specify` → `pending` → always `/planify` (checkpoints) → …
 Both context steps apply evidence wins: document what exists, propose and ask what is missing.
 `/codify` runs once per plan — e2e included (sessions can be parallel for software
-containers); `/verify` runs the suite and reports only: code/test bugs loop back through
-`/codify`, structural defects escalate to `/planify`. Repeat until green.
+containers); `/verify` runs the suite and reports only: `functional`/`test` findings loop back
+through `/codify`, `structural` findings escalate to `/planify`. Repeat until green.
 
 The `e2e` container is transversal: documented by `/extract`, planned by `/planify`
 (`e2e.plan.md` — one scenario per AC id), implemented by `/codify` (compile-only).
