@@ -30,6 +30,7 @@ Apply the same rules to its `references/` and `assets/`.
 ### References
 - _read_ [sentence grammar and examples](./references/grammar.md)
 - _read_ [section structure every skill follows](./assets/skill.template.md)
+- _read_ [prose structure for the README/LEEME](./assets/leeme.template.md)
 
 ### Glossary
 - **Align docs** — skill & command README/LEEME, catalog, lifecycle, `docs/AIDD.workflow.md`.

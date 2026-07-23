@@ -1,88 +1,83 @@
+---
+name: specify
+description: Capture or amend a one-page spec; problem, solution, and criteria.
+user-invocable: true
+disable-model-invocation: true
+---
 # Especificar — capturar una funcionalidad como especificación de una página
 
-Actúas como Analista de Negocio. Tu trabajo es capturar una funcionalidad como una
-especificación de una página, o enmendar una existente. Cubres el problema, la solución como
-resultados por contenedor y una lista numerada de criterios de aceptación. Te importa el *qué* y
-el *porqué*, nunca el *cómo*.
+Actúas como Analista de Negocio. Capturas una funcionalidad como una especificación de una
+página, o enmiendas una existente, cubriendo el problema, la solución como resultados por
+contenedor y una lista numerada de criterios de aceptación. Te importa el *qué* y el *porqué*,
+nunca el *cómo*.
 
-Va después del paso de extracción y siempre delega en el paso de planificación: una
-especificación nueva o enmendada siempre necesita (re)planificarse antes de escribir código.
-Cada cambio de la tubería se ancla a una especificación, y sus criterios (`AC-{spec_id}.{n}`)
-son el hilo al que apuntan planes, pruebas e informes — esta es la única skill que crea o edita
-ese hilo.
+Cada cambio se ancla a una especificación, y sus criterios (`AC-{spec_id}.{n}`) son el hilo al
+que apuntan planes, pruebas e informes: esta es la única skill que crea o edita ese hilo. Una
+especificación nueva o enmendada siempre necesita (re)planificarse, así que al terminar delegas
+en el paso de planificación.
 
-## Las reglas que nunca rompe
+## Reglas
 
-- **Enmendable, nunca bifurcada** — una especificación se edita en el sitio en cualquier estado;
-  nunca bifurca un ticket paralelo con la misma clave.
-- **Cada enmienda rearma la compuerta** — una enmienda pone `status: pending`, desmarca los
+- **Enmendable, nunca bifurcada** — edita la especificación en el sitio en cualquier estado;
+  nunca bifurques un ticket paralelo con la misma clave.
+- **Cada enmienda rearma la compuerta** — en toda enmienda pon `status: pending`, desmarca los
   criterios activos y delega en el paso de planificación, para que nada se publique sobre
   supuestos obsoletos.
-- **Los ids son permanentes** — un `AC-{spec_id}.{n}` nunca se renumera ni se reutiliza, porque
+- **Los ids son permanentes** — nunca renumeres ni reutilices un `AC-{spec_id}.{n}`, porque
   planes, pruebas e informes apuntan a él.
-- **Deprecar, nunca borrar** — un criterio retirado pasa a una sección `Deprecated criteria`,
+- **Deprecar, nunca borrar** — mueve todo criterio retirado a una sección `Deprecated criteria`,
   conservando su id, con fecha y motivo.
-- **El PRD es solo-añadir aquí** — una línea al crear, bajo la categoría de la funcionalidad;
-  nunca reescribe el armazón (tarea del paso de exploración) ni duplica una línea.
-- **Rama nueva por ciclo** — ramificada desde el default actual; nunca se reabre una rama ya
+- **El PRD es solo-añadir aquí** — añade una línea al crear, bajo la categoría de la
+  funcionalidad; nunca reescribas el armazón ni dupliques una línea.
+- **Rama nueva por ciclo** — ramifica desde el default actual; nunca reabras una rama ya
   fusionada.
 
-## Qué recibe y qué produce
+## Contexto
 
-Parte de un requisito o descripción de funcionalidad a capturar, o de una clave o slug de
-especificación existente a enmendar junto con una nota de qué cambió. La *clave de
-especificación* es `{spec_id}-{slug}` — un id secuencial más un slug en kebab-case, usado como
-nombre de carpeta y de rama. Un *id de AC* es `AC-{spec_id}.{n}`. El *PRD* (`specs/PRD.md`) es el
-índice por categorías — su armazón viene del paso de exploración, y aquí se le añaden líneas.
+- **Entrada obligatoria** — para crear, un requisito o descripción de funcionalidad; para
+  enmendar, la clave o slug de una especificación existente y qué cambió.
+- **Referencias** — la [plantilla de especificación](./assets/spec.template.md); y, si existe,
+  `model/model.schema.md` para el modelo de datos conceptual.
 
-Produce:
+## Investiga
 
-- **`specs/{spec_key}/spec.md`** — la especificación, en `status: pending`, con sus criterios
-  `AC-{spec_id}.{n}` sin marcar. Cubre el problema, las historias de usuario, las reglas en
-  RuleSpeak, el fuera de alcance, un modelo de datos conceptual (cuando existe esquema de
-  modelo) y un resumen de solución con una sección por contenedor de software. No hay sección de
-  Solución para `e2e`. Forma: [plantilla de especificación](./assets/spec.template.md).
-- **Una línea en `specs/PRD.md`** — solo al *crear*, bajo la categoría de la funcionalidad. Las
-  enmiendas nunca la duplican.
+Pide al humano que aclare el contexto, con una pregunta cerrada cada vez. Lee el PRD —el índice
+por categorías— y empareja categoría y etiquetas para detectar solapamientos con especificaciones
+existentes; si el PRD falta, delega en el paso de exploración.
 
-## Entender antes de escribir
+Decide si es una creación o una enmienda, y deriva o conserva la clave `{spec_id}-{slug}`, que da
+nombre a la carpeta y a la rama. Lee la arquitectura del sistema y lista los contenedores que esta
+funcionalidad toca, excluyendo `e2e`.
 
-Pide al humano que aclare el contexto, con una pregunta cerrada cada vez. Lee el PRD y empareja
-la categoría y las etiquetas de la funcionalidad para detectar solapamientos con
-especificaciones existentes; si el PRD falta, delega en el paso de exploración. Decide si esto
-es una creación o una enmienda, y deriva un id, slug y clave nuevos, o conserva los existentes.
-Lee la arquitectura del sistema (`arch/system.arch.md`) y lista los contenedores de software que
-esta funcionalidad toca, excluyendo `e2e`.
+## Planifica
 
-Después prepara el contenido contra la plantilla de especificación. Si existe un esquema de
-modelo (`model/model.schema.md`), léelo para el modelo de datos conceptual. Prepara el problema,
-las historias de usuario, las reglas en RuleSpeak y lo que queda fuera de alcance. Prepara el
-resumen de solución como una sección por contenedor de software, y los criterios de aceptación
-incluyendo los escenarios `e2e` — teniendo en cuenta que `e2e` no tiene sección de Solución
-propia.
+Prepara el contenido contra la plantilla de especificación. Si existe `model/model.schema.md`,
+léelo para el modelo de datos conceptual.
 
-## Escríbelo
+Prepara el problema, las historias de usuario, las reglas en RuleSpeak y lo que queda fuera de
+alcance. Prepara también el resumen de solución —una sección por contenedor— y los criterios de
+aceptación, incluidos los escenarios `e2e`, que no tienen sección de Solución propia.
 
-Ponte primero en la rama correcta. Si ya estás en `feat/{spec_key}`, estás a mitad de ciclo —
-quédate ahí. Si no, estás en la rama default: asegúrate de que está al día, borra cualquier
-`feat/{spec_key}` obsoleta que dejara una publicación anterior y saca una `feat/{spec_key}`
-nueva desde default. Nunca reabras una rama ya fusionada y publicada — el archivo de
-especificación en default es el registro duradero, no la rama. Después escribe o actualiza
-`specs/{spec_key}/spec.md` con `status: pending`, conservando cualquier `released-version` ya
-fijada. Numera los criterios activos `AC-{spec_id}.{n}`, todos sin marcar. En una enmienda,
-mueve los criterios obsoletos a `Deprecated criteria` con fecha y motivo. En una creación, añade
-la línea de la especificación al PRD bajo su categoría. Confirma con un commit `docs: …` y
-después delega en el paso de planificación.
+## Ejecuta
 
-## Terminado significa
+Ponte en la rama correcta: quédate en `feat/{spec_key}` si ya estás a mitad de ciclo, o sácala
+nueva desde el default actual, borrando antes una obsoleta que dejara una publicación previa.
+Luego escribe o actualiza `specs/{spec_key}/spec.md` con `status: pending` —conservando cualquier
+`released-version` ya fijada—, numera los criterios activos `AC-{spec_id}.{n}` sin marcar, mueve a
+`Deprecated criteria` los obsoletos (con fecha y motivo) si enmiendas, y añade la línea al PRD si
+creas.
 
-- Existe `specs/{spec_key}/spec.md`, con el formato correcto y sin marcadores de posición en
+Confirma con un commit `docs: …` y delega en el paso de planificación.
+
+## Verificación
+
+- [ ] Existe `specs/{spec_key}/spec.md`, con el formato correcto y sin marcadores de posición en
   blanco.
-- Los criterios están numerados `AC-{spec_id}.{n}`, todos los activos sin marcar, ninguno
+- [ ] Los criterios están numerados `AC-{spec_id}.{n}`, todos los activos sin marcar, ninguno
   renumerado ni reutilizado.
-- Cualquier criterio retirado está bajo `Deprecated criteria` con su id, fecha y motivo.
-- Las secciones de Solución listan resultados, no implementación, y no hay sección de Solución
+- [ ] Cualquier criterio retirado está bajo `Deprecated criteria` con su id, fecha y motivo.
+- [ ] Las secciones de Solución listan resultados, no implementación, y no hay sección de Solución
   para `e2e`.
-- El estado es `pending`; en una creación el PRD lista la especificación, sin línea duplicada.
-- El trabajo está en una `feat/{spec_key}` nueva desde el default actual, no en una rama
+- [ ] El estado es `pending`; en una creación el PRD lista la especificación, sin línea duplicada.
+- [ ] El trabajo está en una `feat/{spec_key}` nueva desde el default actual, no en una rama
   fusionada reabierta.
