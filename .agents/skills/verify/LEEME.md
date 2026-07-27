@@ -6,68 +6,46 @@ disable-model-invocation: true
 ---
 # Verificar — ejecutar el suite e2e e informar la verdad
 
-Actúas como Ingeniero de QA. Ejecutas el suite de extremo a extremo contra los criterios de
-aceptación de una especificación y escribes un informe de defectos triado: un veredicto por
-criterio, luego una entrada por defecto, cada uno clasificado por tipo y derivado a quien deba
-atenderlo. Tu trabajo es encontrar defectos, no ocultarlos —y encontrarlos es una forma de éxito.
+Actúas como Ingeniero de QA. Ejecutas el suite de extremo a extremo contra los criterios de aceptación de una especificación y escribes un informe de defectos. El resultado debe facilitar la corrección de esos defectos.
 
-El suite e2e en verde es el contrato de todo el sistema, y tú emites ese juicio en tu propia
-sesión —que no puede además corregir, para separar a quien juzga de quien escribió el código.
-Delegas según el resultado: todo en verde pasa al paso de revisión, cualquier fallo vuelve al de
-escritura de código.
+Si no hay defectos, el reporte y la spec se marca como `verified` y continúa hacia el proceso de revisión técnica. En otro caso, el reporte y la spec se marcan como `failed` y vuelve hacia el proceso de escritura de código.
 
 ## Reglas
 
-- **Solo informe** — nunca edites código, pruebas ni planes; toca solo el informe y el estado y
-  las casillas de criterios de la especificación.
-- **Solo criterios activos** — no des prueba, veredicto ni casilla a nada bajo `Deprecated
-  criteria`.
-- **Desconfía de la implementación, confía en la especificación** — encontrar defectos es una
-  forma de éxito.
-- **Nunca suavices el veredicto** — una prueba inestable o incorrecta es de tipo `test`; no la
-  dejes pasar.
+- **Solo informe** — nunca edites código, pruebas ni planes.
+- **Marca los criterios de aceptación** — marca los criterios activos como `[x]` o `[ ]` en la especificación.
+- **Solo criterios activos** — no ejecutes o reportes nada bajo `Deprecated criteria`.
+- **Marca la especificación** - si la suite están verde, la especificación será `verified`; si no `failed`
 
 ## Contexto
 
-- **Entrada opcional** — la clave o slug de la especificación a verificar; si es ambigua,
-  pregunta cuál.
-- **Referencias** — la [plantilla de informe de defectos](./assets/e2e.report.template.md) y el
-  helper de liberación de puertos según el SO ([Windows](./scripts/free-port.ps1) ·
-  [Linux/macOS](./scripts/free-port.sh)); y, según lo que asveres, `model/api.schema.md` o
-  `model/db.schema.md`.
+- **Entrada opcional** — la clave o slug de la especificación a verificar; o toda la suite si es un refactor.
+- **Referencias** — la [plantilla de informe de defectos](./assets/e2e.report.template.md) y el helper de liberación de puertos según el SO ([Windows PowerShell](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh))
 
 ## Investiga
 
-Identifica la especificación a verificar; si es ambigua, pregunta cuál. Lee sus criterios de
-aceptación —solo la lista activa— y el mapeo de escenario a AC en `e2e.plan.md`.
+Identifica si hay una especificación a verificar y lee sus criterios de aceptación —solo la lista activa— y el mapeo de escenario a AC en `e2e.plan.md`. 
 
 ## Planifica
 
-Selecciona las pruebas que deben ejecutarse para verificar la especificación; sus títulos llevan
-los ids de AC. Lee los comandos de arranque y de prueba y cualquier fixture del archivo de reglas
-de agente.
+Selecciona las pruebas que deben ejecutarse para verificar la especificación; si es un refactor se verificará toda la aplicación.
 
-Si vas a aseverar respuestas de API, lee `model/api.schema.md`; si vas a aseverar estado
-persistido, `model/db.schema.md`. Prepara el contenido contra la plantilla de informe de defectos.
+Lee los comandos de arranque helpers de inicio (liberación de puertos, semilla de datos...)
 
 ## Ejecuta
 
-Primero despeja el terreno: ejecuta el helper de liberación de puertos según el SO contra el/los
-puerto(s) de la app, para que un servidor huérfano de una ejecución previa no bloquee el arranque.
-Después ejecuta las pruebas afectadas —o, solo como último recurso, todo el suite.
+Primero despeja el terreno: ejecuta los comandos de liberación de puertos o limpieza de datos. Arranca los programas o servicios bajo pruebas. Después ejecuta las pruebas afectadas —o, todo el suite.
 
-Escribe `specs/{spec_key}/e2e.report.md` con un veredicto por id de AC y una entrada por defecto,
-cada uno clasificado por tipo (`functional` o `test`, ambos al paso de escritura de código), y
-actualiza las casillas de AC a `[x]` o `[ ]` según el
-resultado. Pon la especificación a `status: verified` si todos pasan o `failed` si alguno falla,
-confirma con un commit `docs(e2e): {spec_key} report` y delega: verificada al paso de revisión,
-fallida al de escritura de código.
+Si está probando una spec, escribe `specs/{spec_key}/e2e.report.md` con un veredicto por id de AC y una entrada por defecto, cada uno clasificado por tipo (`functional` o `test`, ambos al paso de escritura de código), y actualiza las casillas de AC a `[x]` o `[ ]` según el resultado. Pon la especificación a `status: verified` si todos pasan o `failed` si alguno falla.
+
+Si es un refactor, escribe `refactors/{slug}/e2e.report.md` y márcalo con `status: verified` si todos pasan o `failed` si alguno falla. 
+
+Confirma con un commit `docs(e2e): {spec_key} report`. Después delega: verificada al paso de revisión, fallida vuelta a escritura de código.
 
 ## Verificación
 
-- [ ] Cada id de AC activo tiene una prueba mapeada, un veredicto en el informe y su `[x]`/`[ ]`
-  en la especificación.
+- [ ] Si es una spec Cada id de AC activo tiene una prueba mapeada, un veredicto en el informe y su `[x]`/`[ ]` en la spec.
 - [ ] Ningún id de AC deprecado fue verificado, recibió veredicto ni fue marcado.
-- [ ] El estado de la especificación es `verified` o `failed`, acorde con el resultado del suite.
+- [ ] El estado de la especificación o del refactor es `verified` o `failed`, acorde con el resultado del suite.
 - [ ] El suite está en verde, o cada defecto tiene tipo y derivación.
 - [ ] No se hizo ninguna edición de código, prueba, plan ni corrección — solo informe y estado.
