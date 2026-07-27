@@ -48,9 +48,9 @@ released-version:
 
 ## Verification Criteria
 
-{Number every criterion `AC-{spec_id}.{n}` — plans, tests, and reports reference these ids.
-The sequence is global: a `{spec_id}` is never reused, functional or not, so no two specs
-can mint the same AC id. `/verify` marks these from the e2e suite.}
+{Number every criterion `AC-{spec_id}.{n}` — plans, tests, and reports reference these ids, and
+each one travels all the way into an e2e test title, so it must stay unique across the repo and
+must never be reused. `/verify` marks these from the e2e suite.}
 
 - [ ] **AC-{spec_id}.1** — {EARS-format acceptance criterion}
 - [ ] **AC-{spec_id}.2** — {Additional criterion}

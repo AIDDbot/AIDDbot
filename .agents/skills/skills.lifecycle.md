@@ -58,8 +58,10 @@ of the code, not what it does.
 - **On-demand audit of one container** → `/refactor` reads the accumulated code (clarity,
   structure, UI, a11y) and asks one question per finding — *would a green e2e test have to change?*
   - No → it is debt: it becomes a criterion of a `kind: non-functional` spec under
-    `specs/{spec_key}/`, which then travels the normal pipeline — `/planify` (no e2e plan),
-    `/codify`, `/verify` for non-regression, `/review` as its acceptance oracle, `/release`.
+    `specs/{YYYYMMDD}-{container}/`, which then travels the normal pipeline — `/planify` (no e2e
+    plan), `/codify`, `/verify` for non-regression, `/review` as its acceptance oracle, `/release`.
+    Each audit is independent: the spec closes when the debt is paid, and a later audit of the same
+    container is a new spec, never an amendment. Only one may be open per container at a time.
   - Yes → it is not a refactor but a behavior change: flag it to the human as a `/specify`
     feature and leave it under `Out of scope`, never as a criterion.
   - Proof: the e2e suite stays green and **untouched**, and every criterion its gate judges is `[x]`.

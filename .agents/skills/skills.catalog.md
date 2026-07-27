@@ -42,7 +42,7 @@ Produces:
 
 Produces:
 - `/specify` → `specs/{spec_key}/spec.md` with `kind: functional` (criteria numbered
-  `AC-{spec_id}.{n}`, from one global sequence shared with non-functional specs) + its line in
+  `AC-{spec_id}.{n}`, unique repo-wide because each id reaches an e2e test title) + its line in
   `specs/PRD.md` on create; amend resets to `pending` and always replans, unchecks active
   criteria, and moves retired ones to `Deprecated criteria` (id kept).
 - `/planify` → `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (functional only); sets `planned`.
@@ -69,8 +69,9 @@ On-demand audit of one container's accumulated decay. It never writes code — i
 | [`/refactor`](./refactor/) | Audit one container (clarity, structure, UI, a11y); capture its debt as a non-functional spec |
 
 Produces:
-- `/refactor` → `specs/{spec_key}/spec.md` with `kind: non-functional` — evidence per decay
-  (path, line, severity) and criteria each naming the gate that judges it; never a PRD line.
+- `/refactor` → `specs/{YYYYMMDD}-{container}/spec.md` with `kind: non-functional` — evidence per
+  decay (path, line, severity) and criteria (`AC-{n}`, local to the spec) each naming the gate that
+  judges it; never a PRD line, never amended, never two open on one container.
 
 ## Meta
 

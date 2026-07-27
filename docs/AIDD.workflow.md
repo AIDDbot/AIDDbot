@@ -276,9 +276,11 @@ by blast radius — see the [lifecycle map](../.agents/skills/skills.lifecycle.m
 On-demand audit of one container's accumulated decay — **it never edits code.** Where a per-spec
 review sees one diff, `/refactor` reads the *accumulated* code (clarity, structure, UI,
 accessibility) for decay no single review can catch, and captures what it finds as a
-**non-functional spec**: same folder, same global id sequence, same lifecycle as a functional one.
-The only asymmetries are that it never enters the PRD (a business catalog), and that its criteria
-are judged by `/review`'s gates instead of the e2e suite.
+**non-functional spec**: same folder, same format, same lifecycle as a functional one. It differs
+only where the nature of the thing differs — it never enters the PRD (a business catalog), its
+criteria are judged by `/review`'s gates instead of the e2e suite, and it is never amended: a
+functional spec *describes the system* and lives as long as the feature, while this one *records a
+debt payment* and closes.
 
 ```mermaid
 flowchart TD
@@ -434,7 +436,7 @@ stateDiagram-v2
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. **Functional specs only** — its audience is the business. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria, and `Deprecated criteria` for retired ACs (amendable; ids never renumbered or reused). `kind: functional` from `/specify`, `kind: non-functional` from `/refactor`; one global `{spec_id}` sequence covers both.
+  - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria. `kind: functional` from `/specify`, keyed `{spec_id}-{slug}`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/refactor`, keyed `{YYYYMMDD}-{container}`: one closed debt payment, never amended, criteria numbered `AC-{n}` local to the spec.
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`; functional specs only).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).

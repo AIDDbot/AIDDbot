@@ -74,7 +74,7 @@ fallo o una auditoría que reingresa al pipeline).
 | **verify** | ← criterios de aceptación<br>→ veredicto por AC · spec → `verified`/`failed` · casillas | ← `e2e.plan.md`, suite e2e, formas API/DB<br>→ `e2e.report.md` (defectos triados por tipo) |
 | **review** | → hallazgos de **comportamiento** reingresan a `/specify` | ← código en alcance, `{container}.rules.md`, definiciones de compuertas<br>→ `review.report.md` (veredicto por compuerta, hallazgos); en una spec no funcional, también veredicto y casilla por criterio |
 | **release** | ← spec verificada<br>→ `CHANGELOG.md` (Added/Changed/Fixed/Removed) · spec → `done` + `released-version` | ← informe de revisión, deriva de docs<br>→ bump de versión, docs de arquitectura/modelo reconciliados, merge + tag, poda de rama |
-| **refactor** | — (un cambio de comportamiento se señala como feature para `/specify`, no es un refactor) | ← código de **un contenedor**, `{container}.rules.md`, lentes<br>→ `spec.md` con `kind: non-functional` (evidencia + criterios comprobables por compuerta); **fuera del PRD** |
+| **refactor** | — (un cambio de comportamiento se señala como feature para `/specify`, no es un refactor) | ← código de **un contenedor**, `{container}.rules.md`, lentes<br>→ `spec.md` con `kind: non-functional` en `specs/{YYYYMMDD}-{container}/` (evidencia + criterios `AC-{n}` comprobables por compuerta); **fuera del PRD**, sin id ni enmienda |
 
 > **skillify** queda fuera: es meta (fuera de la tubería SDLC). No toca artefactos de producto ni
 > de arquitectura — produce o arregla las propias skills.

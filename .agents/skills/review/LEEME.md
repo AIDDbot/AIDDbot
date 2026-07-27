@@ -16,8 +16,7 @@ Ante una especificación no funcional eres además su oráculo: sus criterios no
 
 - **Solo informe** — nunca edites código; deriva las compuertas fallidas al paso de escritura de código.
 - **Solo calidad** — los hallazgos son con fines de corrección de la implementación, nunca de comportamiento.
-- **Marca los criterios de lo no funcional** — en una especificación `kind: non-functional`, cada criterio activo nombra la compuerta que lo juzga: márcalo `[x]` o `[ ]` según su veredicto.
-- **Solo criterios activos** — no juzgues ni marques nada bajo `Deprecated criteria`.
+- **Marca los criterios de lo no funcional** — en una especificación `kind: non-functional`, cada criterio nombra la compuerta que lo juzga: márcalo `[x]` o `[ ]` según su veredicto.
 
 ## Contexto
 
@@ -36,11 +35,11 @@ Lee también la especificación en alcance, si la hay: su `kind` decide si adem�
 
 Recorre cada archivo del alcance contra cada compuerta de checklist y regla de contenedor. Registra el veredicto de cada compuerta para rellenar el informe.
 
-Si la especificación es no funcional, empareja además cada criterio activo con la compuerta que nombra y decide su veredicto por separado: una compuerta puede pasar en general y aun así dejar sin cumplir el criterio concreto que se pedía.
+Si la especificación es no funcional, empareja además cada criterio con la compuerta que nombra y decide su veredicto por separado: una compuerta puede pasar en general y aun así dejar sin cumplir el criterio concreto que se pedía.
 
 ## Ejecuta
 
-Escribe `specs/{spec_key}/review.report.md` con el veredicto de cada compuerta y los hallazgos de las fallidas. Si la especificación es no funcional, marca en ella cada criterio activo `[x]` o `[ ]` y refleja esos veredictos en el informe.
+Escribe `specs/{spec_key}/review.report.md` con el veredicto de cada compuerta y los hallazgos de las fallidas. Si la especificación es no funcional, marca en ella cada criterio `[x]` o `[ ]` y refleja esos veredictos en el informe.
 
 Confirma con un commit `docs(review): …`. Después delega: si alguna compuerta falló, al paso de escritura de código; si todas pasaron, al de publicación.
 
@@ -49,5 +48,5 @@ Confirma con un commit `docs(review): …`. Después delega: si alguna compuerta
 - [ ] Cada compuerta tiene un veredicto pasa/falla para el alcance.
 - [ ] Cada compuerta fallida enumera hallazgos, cada uno con severidad, tipo y destino.
 - [ ] Se comprobó el `{container}.rules.md` de cada contenedor en alcance, y las violaciones son hallazgos.
-- [ ] Si la especificación es no funcional, cada criterio activo tiene veredicto en el informe y su `[x]`/`[ ]` en la spec, y ninguno deprecado fue tocado.
+- [ ] Si la especificación es no funcional, cada criterio tiene veredicto en el informe y su `[x]`/`[ ]` en la spec.
 - [ ] El informe deriva los fallos al paso de escritura de código o un pase limpio al de publicación.

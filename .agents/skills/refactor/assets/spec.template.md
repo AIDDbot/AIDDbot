@@ -1,6 +1,5 @@
 ---
-id: {spec_id}
-slug: {slug}
+slug: {YYYYMMDD}-{container}
 title: {title}
 kind: non-functional  # functional | non-functional — this template writes non-functional specs
 category: {maintainability | usability | accessibility | performance | security}
@@ -10,7 +9,7 @@ status: pending  # pending | planned | in-progress | verified | failed | done
 created: {YYYY-MM-DD}
 released-version:
 ---
-# {spec_id} — {title}
+# {title}
 
 ## Problem definition
 
@@ -38,18 +37,10 @@ and surface it to the human as a functional spec.}
 
 ## Verification Criteria
 
-{Number every criterion `AC-{spec_id}.{n}` — the sequence is global, shared with functional
-specs, so an id is never reused. Every criterion must be checkable by a gate or by the suite:
-name the gate so `/review` knows how to judge it. Prose like "the code is cleaner" is not a
-criterion.}
+{Numbered `AC-{n}`, local to this spec: no e2e test carries these ids, so they never leave this
+folder — only its plans and its review report read them. Every criterion must be checkable by a
+gate or by the suite: name the gate so `/review` knows how to judge it. Prose like "the code is
+cleaner" is not a criterion.}
 
-- [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
-- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {lint | types | accessibility | security | performance | clean-code}
-
-### Deprecated criteria
-
-{Criteria retired by an amend, including debt reported and then declined — keep it here so a
-later audit does not raise it again. Keep the original id; never renumber or reuse it. Omit
-this section while empty.}
-
-- **AC-{spec_id}.n** — ~~{original criterion}~~ · retired {YYYY-MM-DD}: {why it no longer applies, or why it was declined}
+- [ ] **AC-1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
+- [ ] **AC-2** — {observable, checkable property} · gate: {lint | types | accessibility | security | performance | clean-code}

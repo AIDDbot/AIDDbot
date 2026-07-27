@@ -8,16 +8,16 @@ disable-model-invocation: true
 
 Actúas como Auditor de Código. Te apartas de cualquier funcionalidad concreta y lees el código *acumulado* de un contenedor buscando decadencia que ninguna revisión por especificación puede ver: duplicación repartida entre funcionalidades, UX inconsistente, deriva estructural.
 
-Lo que encuentras no es un informe: es una especificación **no funcional**, con el mismo formato, la misma numeración y el mismo ciclo de vida que una funcional. Tú capturas el *qué* y el *porqué* de la deuda; el *cómo* lo decide el paso de planificación.
+Lo que encuentras no es un informe: es una especificación **no funcional**, con el mismo formato y el mismo ciclo de vida que una funcional. Tú capturas el *qué* y el *porqué* de la deuda; el *cómo* lo decide el paso de planificación.
 
 ## Reglas
 
 - **Nunca edites código** — solo capturas la deuda; el trabajo lo planifica y ejecuta el resto del ciclo.
 - **Un contenedor por auditoría** — es la unidad del resto del ciclo; auditar toda la app son varias pasadas, una especificación cada una.
+- **Cada auditoría es independiente** — una especificación no funcional registra un pago de deuda concreto y se cierra; nunca la enmiendas, porque al publicarse el código ya cambió y no queda nada que describir.
+- **Nunca dos abiertas sobre el mismo contenedor** — si ya hay una en `pending`, `planned` o `in-progress`, se termina o se descarta antes de auditar otra vez; si no, dos ramas y dos planes se pisan.
 - **Solo lo no funcional** — todo lo que captures preserva el comportamiento; si el arreglo cambiaría lo que afirma una prueba e2e en verde, es una funcionalidad y se la devuelves al humano.
 - **Criterios comprobables** — cada criterio se verifica con una compuerta nombrada o con el suite; "el código queda más limpio" no es un criterio.
-- **Enmendable, nunca bifurcada** — si la deuda ya está capturada en una especificación no funcional, la enmiendas en lugar de crear otra.
-- **Lo retirado no vuelve** — lo que figura en `Deprecated criteria` se descartó con motivo; no lo levantes de nuevo.
 - **Fuera del PRD** — no añadas línea al índice; solo cataloga funcionalidades, porque su audiencia es el negocio.
 - **Sin decadencia no hay especificación** — si el contenedor está sano, no escribas nada e infórmalo.
 
@@ -30,7 +30,7 @@ Lo que encuentras no es un informe: es una especificación **no funcional**, con
 
 Fija el contenedor a auditar y lee su arquitectura y su `{container}.rules.md` —el estándar contra el que mides—, y lista los archivos en alcance.
 
-Averigua después si esta deuda ya está capturada: no hay índice que consultar, así que lee los `spec.md` de `specs/` y quédate con los `kind: non-functional` del mismo contenedor, incluidos sus criterios retirados. Con eso decides creación o enmienda y derivas la clave `{spec_id}-{slug}`, tomando el siguiente número libre de todas las carpetas de `specs/`, no solo de las no funcionales.
+Comprueba antes de nada que no haya ya una especificación no funcional abierta sobre ese contenedor: no hay índice que consultar, así que mira las carpetas de `specs/` cuyo nombre lo lleve y descarta las que estén `done`. Si encuentras una viva, para y dilo. Si no, la clave `{spec_key}` es `{YYYYMMDD}-{container}`, y da nombre a la carpeta y a la rama.
 
 ## Planifica
 
@@ -40,7 +40,7 @@ Convierte después esas anotaciones en el contenido de la especificación: la ev
 
 ## Ejecuta
 
-Ponte en la rama correcta: quédate en `refactor/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual. Escribe `specs/{spec_key}/spec.md` con `kind: non-functional`, la categoría no funcional que corresponda y `status: pending`; numera los criterios activos `AC-{spec_id}.{n}` sin marcar y, si enmiendas, mueve a `Deprecated criteria` los que retires, con fecha y motivo.
+Ponte en la rama correcta: quédate en `refactor/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual. Escribe `specs/{spec_key}/spec.md` con `kind: non-functional`, la categoría no funcional que corresponda y `status: pending`; numera los criterios `AC-{n}`, sin marcar, empezando por el uno.
 
 Confirma con un commit `docs(refactor): …`. Después delega en el paso de planificación; si el contenedor estaba sano y no escribiste especificación, dilo y termina ahí.
 
@@ -48,7 +48,7 @@ Confirma con un commit `docs(refactor): …`. Después delega en el paso de plan
 
 - [ ] Existe `specs/{spec_key}/spec.md` con `kind: non-functional`, en el formato de la plantilla y sin marcadores de posición — o no existe y el contenedor está sano.
 - [ ] Cada anotación de evidencia tiene su archivo, su línea y su severidad.
-- [ ] Cada criterio activo nombra la compuerta que lo comprueba, y el primero es la no regresión del suite.
+- [ ] Cada criterio nombra la compuerta que lo comprueba, y el primero es la no regresión del suite.
 - [ ] Todo lo capturado preserva el comportamiento; lo que no, está en `Out of scope` y se le dijo al humano.
-- [ ] El `{spec_id}` es nuevo en todo `specs/`, o es el de la especificación que enmendaste.
+- [ ] Ninguna otra especificación no funcional del mismo contenedor quedó abierta.
 - [ ] No se añadió línea al PRD ni se editó una sola línea de código.
