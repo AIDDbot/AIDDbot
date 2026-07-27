@@ -8,42 +8,32 @@ inglés.
 ## Los tres escenarios
 
 ```mermaid
-flowchart TB
+flowchart LR
   classDef neg fill:#dcfce7,stroke:#16a34a,color:#14532d
   classDef tec fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
   classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
 
   HUM([HUMANO]):::hum
 
-  subgraph S1["🛬 Aterrizo en el proyecto"]
-    direction LR
-    EXP[explore]:::tec --> EXT[extract]:::tec
-  end
+  EXP[explore]:::tec --> EXT[extract]:::tec
+  HUM -->|"🛬 aterrizo en el proyecto"| EXP
 
-  subgraph S2["✨ Quiero crear algo"]
-    direction LR
-    SPC["specify<br/><i>crea o enmienda</i>"]:::neg --> PLN[planify]:::tec --> COD[codify]:::tec --> VER[verify]:::tec --> REV[review]:::tec --> REL[release]:::neg
-  end
+  HUM -->|"✨ quiero crear algo"| SPC["specify<br/><i>spec funcional</i>"]:::neg
+  HUM -->|"♻️ quiero limpiar un contenedor"| REF["refactor<br/><i>spec no funcional</i>"]:::tec
 
-  subgraph S3["♻️ Quiero rehacer algo"]
-    direction LR
-    REF[refactor]:::tec
-  end
+  SPC --> PLN[planify]:::tec
+  REF --> PLN
+  PLN --> COD[codify]:::tec --> VER[verify]:::tec --> REV[review]:::tec --> REL[release]:::neg
 
-  HUM --> S1
-  HUM --> S2
-  HUM --> S3
+  VER -.->|"falla funcional"| COD
+  REV -.->|"falla una compuerta"| COD
 
-  VER -.->|falla funcional| COD
-  REV -.->|falla calidad| COD
-  REF -.->|fallo estructural| PLN
-
-  linkStyle 9,10,11 stroke:#dc2626,color:#dc2626,stroke-width:2px
+  linkStyle 8,9 stroke:#dc2626,color:#dc2626,stroke-width:2px
 ```
 
 **Leyenda:** 🟢 verde = **negocio** (el *qué* y el *porqué*: capturar y publicar) · 🔵 azul =
 **tecnología** (el *cómo*: documentar, construir, juzgar) · 🔴 rojo punteado = **bucles** (un
-fallo o una auditoría que reingresa al pipeline).
+fallo que reingresa a `codify` hasta quedar en verde).
 
 ## Lo que se lee de un vistazo
 
@@ -54,11 +44,11 @@ fallo o una auditoría que reingresa al pipeline).
 - **El negocio abre y cierra**: crear algo va de `specify` (negocio) → construir/juzgar
   (tecnología) → `release` (negocio). El humano solo habla negocio en los extremos; el centro es
   técnico.
-- **Los bucles contrastan por tipo de fallo**: `verify` detecta fallos **funcionales** y los
-  devuelve a `codify`; `review` devuelve fallos de **calidad** a `codify`; `refactor` detecta
-  deriva **estructural** y la captura como especificación no funcional, que entra por `planify`.
 - **Dos partos, una especificación**: `specify` la captura del negocio y `refactor` la destila del
-  código; a partir de ahí el ciclo es el mismo, y el `kind` es lo único que lo modula.
+  código; convergen en `planify` y a partir de ahí el ciclo es el mismo, con el `kind` como única
+  modulación.
+- **Los dos bucles vuelven al mismo sitio**: `codify`. `verify` devuelve fallos **funcionales**;
+  `review`, fallos de **calidad**. Ninguno de los dos edita: juzgan y devuelven.
 - **Cada tipo tiene su oráculo**: `verify` dictamina los criterios de una spec funcional con el
   suite e2e; `review` dictamina los de una no funcional con sus compuertas.
 

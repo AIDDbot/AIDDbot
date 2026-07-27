@@ -56,16 +56,20 @@ regardless of kind.
 
 ## The pipeline
 
-Eight skills: two set up the context, four build and prove, two guard and ship.
+Nine skills: two set up the context, **two capture demand**, three build and prove, two guard
+and ship. Every cycle starts from a spec, and there are two doors into one — `/specify` for a
+functional one, `/refactor` for a non-functional one. They converge at `/planify`.
 
 ```mermaid
 flowchart LR
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
 
   EXP["/explore"]:::nd --> EXT["/extract<br/>×container"]:::nd
-  EXT --> SPC["/specify"]:::nd
+  EXT --> SPC["/specify<br/>functional spec"]:::nd
+  EXT --> REF["/refactor<br/>non-functional spec"]:::nd
   SPC --> PLN["/planify"]:::nd
-  PLN --> COD["/codify ×container<br/>e2e plan included"]:::nd
+  REF --> PLN
+  PLN --> COD["/codify ×container<br/>e2e plan when functional"]:::nd
   COD --> VER["/verify<br/>report-only"]:::nd
   VER -->|green| REV["/review<br/>report-only"]:::nd
   REV --> REL["/release"]:::nd
@@ -77,7 +81,9 @@ flowchart LR
 ```
 
 Every feedback edge is a **report**, and every fix lands through `/codify` — the skill
-that wrote the code fixes the code; the evaluators never touch what they judge.
+that wrote the code fixes the code; the evaluators never touch what they judge. The two
+evaluators split the acceptance work by kind: `/verify` judges a functional spec's criteria
+with the e2e suite, `/review` judges a non-functional spec's with the gate each criterion names.
 The commands under [`.agents/commands/`](../.agents/skills/skills.catalog.md#commands)
 chain whole stretches of this pipeline, one subagent per skill run.
 
@@ -387,6 +393,8 @@ flowchart TD
 
 The implementer can never mark its own work verified: `/codify` checks plan steps,
 only `/verify` sets `verified` | `failed`, `/release` gates on `verified` and closes as `done`.
+The amend edges belong to functional specs only — a non-functional one records a debt payment
+and closes; a later audit of the same container is a new spec, never an amendment.
 
 ### The spec lifecycle
 
@@ -400,6 +408,7 @@ stateDiagram-v2
   state "done" as d
 
   [*] --> p: /specify create or amend
+  [*] --> p: /refactor audit
   p --> pl: /planify
   pl --> ip: each /codify code step
   ip --> v: /verify green
