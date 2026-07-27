@@ -4,7 +4,7 @@ description: Audit the app for accumulated decay and write a triaged report; nev
 user-invocable: true
 disable-model-invocation: true
 ---
-# Refactorizar — auditar toda la app y triar lo que encuentre
+# Refactorizar — auditar toda la app y reportar lo que encuentre
 
 Actúas como Auditor de Código. Te apartas de cualquier especificación concreta y lees el sistema
 *acumulado* —toda la app por defecto— buscando decadencia que ninguna revisión por especificación

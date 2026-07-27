@@ -17,11 +17,11 @@ container: {container name from system.arch.md, e.g. api, web, db}
 ## Checkpoints
 
 > On amend/replan only. Classify every step from the prior plan, then rewrite
-> Implementation Steps. First plan: write `none — first plan`.
+> Implementation Steps. First plan: write `first`.
 
 | Prior step | Action | Note |
 |------------|--------|------|
-| {Step title or `none — first plan`} | {keep \| redo \| drop} | {one line} |
+| {Step title or `first`} | {keep \| redo \| drop} | {one line} |
 
 ## Implementation Steps
 

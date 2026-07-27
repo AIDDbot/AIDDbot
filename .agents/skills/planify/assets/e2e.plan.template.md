@@ -21,11 +21,11 @@ container: e2e
 ## Checkpoints
 
 > On amend/replan only. Classify every scenario from the prior e2e plan, then rewrite
-> Implementation Steps. First plan: write `none — first plan`.
+> Implementation Steps. First plan: write `first`.
 
 | Prior scenario | Action | Note |
 |----------------|--------|------|
-| {AC-{spec_id}.n — title or `none — first plan`} | {keep \| redo \| drop} | {one line} |
+| {AC-{spec_id}.n — title or `first`} | {keep \| redo \| drop} | {one line} |
 
 ## Implementation Steps
 

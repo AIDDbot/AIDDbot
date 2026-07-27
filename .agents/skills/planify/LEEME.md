@@ -4,50 +4,49 @@ description: Turn a spec into one plan per container (e2e included), grounded in
 user-invocable: true
 disable-model-invocation: true
 ---
-# Planificar — convertir una especificación en planes construibles
+# Planificar — convertir una especificación en planes para construir software
 
-Actúas como Ingeniero de Software Senior. Conviertes una especificación —o un informe de refactor— en un plan por contenedor de software afectado, más un `e2e.plan.md` cuando hay spec. Todos ordenados y accionables para el paso de escritura de código.
+Actúas como Ingeniero de Software Senior. Conviertes una especificación o un informe de refactor en planes para construir software. HAces un plan para cada pieza de software ejecutable o desplegable de forma independiente.
 
-Decides el *cómo* se hará el trabajo, antes de hacerlo. Una especificación o reporte de refactoring dice qué y por qué; tú cierras esa brecha y los conviertes en pasos para implementar la solución. Al terminar, delegas en el paso de escritura de código.
+Decides el *cómo* se hará el trabajo, antes de hacerlo. Los planes se componen de pasos ordenados con tareas concretas para la escritura de código de producción sys sus tests unitarios. Las pruebas e2e necesitan un plan propio sin tests unitario.
 
 ## Reglas
 
-- **Anclado en la arquitectura** — cada paso del plan se ancla a los componentes y contratos documentados del contenedor.
-- **Siempre replanifica tras una enmienda** — ante una especificación `pending`, reescribe todos los planes.
-- **Los puntos de control gobiernan el arrastre** — en una replanificación, clasifica cada paso previo `keep`, `redo` o `drop` antes de reescribir los Pasos de Implementación.
-- **Un criterio deprecado descarta su escenario** — marca `drop` su escenario e2e, lo que autoriza al paso de código a borrar su prueba.
-- **Los contratos compartidos se enuncian idénticos** — enuncia cada uno igual en los planes hermanos, palabra por palabra.
+- **Basado en la arquitectura** — los documentos de arquitectura deben guiar la redacción de los planes.
+- **Expón los contratos** — detalla el modelo de los datos que publicas o consumes un API o una base de datos
+- **Presta atención a las enmiendas** — ante un cambio de especificación clasifica cada paso previo `keep`, `redo` o `drop`.
+- **Un criterio deprecado descarta su escenario** — marca `drop` su escenario e2e, para borrar su prueba.
 
 ## Contexto
 
-- **Entrada obligatoria** — una especificación `pending`, un requisito corto o un `refactor.report.md`.
-- **Refactor** — no trae especificación, porque el comportamiento no cambia: su criterio de aceptación es el suite e2e existente, no se escribe plan e2e, y sus planes viven bajo `refactors/{slug}/`.
+- **Entrada obligatoria** — una especificación `pending` o un `refactor.report.md`.
+- **Un contenedor**- trabajas en un contenedor de cada vez, si no te lo dan, escoge uno.
 - **Carpeta de trabajo** (`{Work}`) — `specs/{spec_key}/` para una spec, `refactors/{slug}/` para un refactor; ahí se leen y escriben los planes.
-- **Referencias** — la [plantilla de plan de contenedor](./assets/plan.template.md) y la [plantilla de plan e2e](./assets/e2e.plan.template.md); y, según lo que toques, `model/api.schema.md` o `model/db.schema.md`.
+- **Refactor** — no se reescribe e2e, su criterio de aceptación es el suite e2e existente.
+- **Referencias** — la [plantilla de plan por contenedor](./assets/plan.template.md) y la [plantilla de plan específico e2e](./assets/e2e.plan.template.md); y, según lo que toques, `model/api.schema.md` o `model/db.schema.md`.
 
 ## Investiga
 
-Averigua el tipo de entrada y deriva la clave `{spec_key}` (spec) o el `{slug}` (refactor), y con ello la carpeta de trabajo. Si es un refactor, lee su `refactor.report.md`: sus hallazgos son el trabajo. Lee la arquitectura del sistema y lista los contenedores de software afectados —cualquiera salvo `e2e`— con sus resultados de solución.
+Según el tipo de entrada (especificación o refactor) deriva la clave `{spec_key}` (spec) o el `{slug}` (refactor), y con ello la carpeta de trabajo. Lee la arquitectura del sistema y la del contendor en curso.
 
-Para cada contenedor afectado, lee su documento de arquitectura (`arch/{container}.arch.md`) o, para una base de datos, `model/db.schema.md`; y si existen planes previos en la carpeta de trabajo, léelos todos, incluido el e2e. Donde haya ambigüedad, documenta tus supuestos y avanza con el mejor esfuerzo.
+Si es necesario lee también el modelo de datos para una base de datos, `model/db.schema.md` o del API, `model/api.schema.md`. Si existen planes previos en la carpeta de trabajo, léelos todos, incluido el e2e. Donde haya ambigüedad, documenta tus supuestos y avanza escogiendo la opción más sencilla que resuelva el problema.
 
 ## Planifica
 
-Prepara los planes contra las plantillas, leyendo además `model/api.schema.md` o `model/db.schema.md` según lo que vayas a tocar. Para cada contenedor de software, rellena sus Puntos de control —un paso previo clasificado `keep`, `redo` o `drop`, o `none — first plan` si es el primero— y prepara los Pasos de Implementación con el trabajo mantenido y rehecho más los nuevos, todas las tareas sin marcar. Enuncia cada contrato compartido en todos los planes hermanos con la misma redacción, palabra por palabra.
+Prepara los planes contra la plantilla del contenedor de producción o de pruebas e2e. Si expone o consume un contrato de datos, haz que sea idéntico en ambos extremos. Ordena los pasos, detalla las tareas, pero no caigas en micro-management ni ejemplos de código.
 
-Solo cuando hay spec, escribe el plan e2e —transversal, un escenario por criterio—: derívalo de los criterios de la especificación y de los contratos compartidos, nunca del código hermano, mapeando cada id de AC activo (`AC-{spec_id}.{n}`) a exactamente un escenario y pensando como ingeniero de QA. En una replanificación, rellena sus Puntos de control y marca `drop` el escenario de cualquier AC deprecado.
+Necesitamos un sistema de control para el caso de rehacer un plan por una enmienda a una especificación. Crea una lista de los pasos del plan previo y clasifica cada uno como  `keep`, `redo` o `drop`.  Deja marcadas las tareas que no deban tocarse y especifica claramente lo que debe ser eliminado con este cambio.
 
 ## Ejecuta
 
-Escribe un `{container}.plan.md` por cada contenedor de software en la carpeta de trabajo y, cuando hay spec, el `e2e.plan.md`. Si el trabajo viene de una spec, actualízala a `status: planned`.
+Escribe un `{container}.plan.md` por el contenedor de software en la carpeta de trabajo. Actualiza el estado de la spec o el report a `status: planned`.
 
-Confirma con un commit `docs(planify): …`. Después delega en el paso de escritura de código, una ejecución por contenedor.
+Confirma con un commit `docs(planify): …`. Después delega en el paso de escritura de código.
 
 ## Verificación
 
-- [ ] Un plan por contenedor de software afectado, y `e2e.plan.md` presente salvo que la entrada sea un refactor.
-- [ ] Los planes viven bajo la carpeta de trabajo — `specs/{spec_key}/` para una spec, `refactors/{slug}/` para un refactor.
-- [ ] Cada plan está anclado en su arquitectura o `db.schema.md`, ordenado y accionable.
-- [ ] En una replanificación, los Puntos de control cubren cada paso previo, y los Pasos de Implementación coinciden con el trabajo mantenido/rehecho.
-- [ ] El plan e2e mapea cada id de AC activo a un escenario, y los AC deprecados están marcados `drop`.
-- [ ] El estado de la especificación es `planned` cuando la entrada es una spec.
+- [ ] Un plan por el contenedor de software afectado en la carpeta`specs/{spec_key}/` o `refactors/{slug}/`.
+- [ ] Cada plan está basado en su arquitectura y respeta los modelos de datos,
+- [ ] Si el plan es de una enmienda, dispone de puntos de control para mantener, rehacer o eliminar código.
+- [ ] Si es un plan e2e mapea cada id de AC activo a un escenario, y los AC deprecados están marcados `drop`.
+- [ ] El estado de la especificación o del reporte es `planned`.
