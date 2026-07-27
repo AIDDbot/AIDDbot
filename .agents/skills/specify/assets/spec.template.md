@@ -2,6 +2,7 @@
 id: {spec_id}
 slug: {slug}
 title: {title}
+kind: functional  # functional | non-functional — this template writes functional specs
 category: {category}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | failed | done
@@ -47,7 +48,9 @@ released-version:
 
 ## Verification Criteria
 
-{Number every criterion `AC-{spec_id}.{n}` — plans, tests, and reports reference these ids.}
+{Number every criterion `AC-{spec_id}.{n}` — plans, tests, and reports reference these ids.
+The sequence is global: a `{spec_id}` is never reused, functional or not, so no two specs
+can mint the same AC id. `/verify` marks these from the e2e suite.}
 
 - [ ] **AC-{spec_id}.1** — {EARS-format acceptance criterion}
 - [ ] **AC-{spec_id}.2** — {Additional criterion}

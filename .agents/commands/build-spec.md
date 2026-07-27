@@ -1,0 +1,38 @@
+- _pick_ the entry door from the request: a requirement or a change to a feature → `/specify`; a container to audit for accumulated decay → `/refactor`.
+- _if_ the door is `/refactor`:
+  - _run_ `/verify` in a subagent to confirm a green baseline; _if_ red, _stop_ — refactoring needs green tests to lean on.
+  - _run_ `/refactor` in a fresh subagent, scoped to one container.
+  - _tell_ it to follow the project's `{Agents_File}` and container rules for the stack, and to ignore patterns from other stacks.
+  - _tell_ it to stop after its commit with no handoff.
+  - _if_ it wrote no spec, _reply_ "Nothing to refactor" and _stop_.
+- _else_:
+  - _run_ the `/specify` skill in a subagent (create or amend).
+  - _tell_ it to stop after its commit with no handoff.
+- _read_ the generated or updated `{Specs}/spec.md`; its `kind` drives the rest of the run.
+- _run_ the `/planify` skill in a fresh subagent.
+- _tell_ it to stop after its commit with no handoff.
+- _tell_ planify it runs once for all software-container plans, plus `e2e.plan.md` only when the spec is `functional`.
+- _tell_ planify that amend always replans with Checkpoints (`keep` | `redo` | `drop`).
+- _require_ the spec `status` is `planned` before building.
+- _read_ the spec folder for the software-container plans and, when functional, `e2e.plan.md`.
+- _for-each_ software-container plan:
+  - _run_ `/codify` in a fresh subagent, one after another.
+  - _pass_ the plan path into that run.
+  - _tell_ it to stop after its commit with no handoff.
+  - _if_ the spec is `non-functional`, _tell_ it to preserve behavior — the existing suite must keep asserting the same thing.
+- _if_ the spec is `functional`, _run_ `/codify` in a fresh subagent for `e2e.plan.md`.
+  - _tell_ it to stop after its commit with no handoff.
+- _run_ the `/verify` skill in a fresh subagent to produce the defects report.
+- _if_ a defect is triaged structural, _surface_ the handoff to `/planify` and _stop_.
+- _if_ code or test defects remain:
+  - _for-each_ affected container, _run_ `/codify` in a fresh subagent to fix them.
+  - _run_ `/verify` again in a new subagent.
+  - _repeat_ until the suite is green.
+- _run_ the `/review` skill in a fresh subagent to produce the gate report.
+- _tell_ it that on a `non-functional` spec it is the acceptance oracle: judge every active criterion by the gate it names, and mark it in the spec.
+- _if_ a finding hands off to `/specify` or `/planify`, _surface_ it to the human and _stop_.
+- _if_ any gate failed, or any active criterion is unmet:
+  - _run_ `/codify` in a fresh subagent to fix the findings.
+  - _run_ `/verify` in another subagent to confirm the app still works.
+  - _run_ `/review` again to re-judge.
+- _if_ every gate passed and every active criterion is `[x]`, _run_ `/release` in a fresh subagent to ship it.

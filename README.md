@@ -34,14 +34,14 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 | [Context](docs/AIDD.workflow.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
 | [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
 | [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/review`, `/release` | Quality audit and release |
-| [Refactoring](docs/AIDD.workflow.md#refactor) | `/refactor` | Periodic whole-app audit; every finding routes to `/planify` |
+| [Refactoring](docs/AIDD.workflow.md#refactor) | `/refactor` | On-demand audit of one container; its debt becomes a non-functional spec |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
 
-Three commands under `.agents/commands/` chain the skills into whole phases — set up the
-context (`explore-and-extract`), build a feature end to end (`build-feature`), and refactor the
-whole app (`refactor-and-verify`) — one subagent per skill run, so each step gets a fresh
-context. See the [Skills catalog](.agents/skills/skills.catalog.md#commands).
+Two commands under `.agents/commands/` chain the skills into whole phases — set up the
+context (`explore-and-extract`) and take one spec from capture to release (`build-spec`, entered
+through `/specify` for a feature or `/refactor` for a container's debt) — one subagent per skill
+run, so each step gets a fresh context. See the [Skills catalog](.agents/skills/skills.catalog.md#commands).
 
 See the [Skills catalog](.agents/skills/skills.catalog.md) for what each skill produces, and the [Skills lifecycle](.agents/skills/skills.lifecycle.md) for how they cover build, maintenance, and refactoring.
 

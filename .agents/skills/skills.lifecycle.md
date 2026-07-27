@@ -52,16 +52,17 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 
 ## Refactor (behavior must not change)
 
-No spec — the *what* is untouched. Every finding routes to one door:
+A spec — but a **non-functional** one: the *what* is untouched, so the demand is about the shape
+of the code, not what it does.
 
-- **Periodic whole-app audit** → `/refactor` reads the accumulated system (clarity, UI, a11y,
-  structure, behavior) and asks one question per finding — *would a green e2e test have to change?*
-  - No → it is a refactor: the finding goes to `/planify`, which plans the cleanup under
-    `refactors/{slug}/`; then `/codify` executes and `/verify` confirms green, and a patch
-    `/release` reconciles any drifted docs.
+- **On-demand audit of one container** → `/refactor` reads the accumulated code (clarity,
+  structure, UI, a11y) and asks one question per finding — *would a green e2e test have to change?*
+  - No → it is debt: it becomes a criterion of a `kind: non-functional` spec under
+    `specs/{spec_key}/`, which then travels the normal pipeline — `/planify` (no e2e plan),
+    `/codify`, `/verify` for non-regression, `/review` as its acceptance oracle, `/release`.
   - Yes → it is not a refactor but a behavior change: flag it to the human as a `/specify`
-    feature, never write it as a finding.
-  - Proof: the e2e suite stays green and **untouched**; the cleanup carries a plan.
+    feature and leave it under `Out of scope`, never as a criterion.
+  - Proof: the e2e suite stays green and **untouched**, and every criterion its gate judges is `[x]`.
 - **Big change incoming, messy landing zone** → preparatory `/review` first, then the
   pipeline.
   - Proof: green before starting.

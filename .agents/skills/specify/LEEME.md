@@ -13,10 +13,12 @@ Te importa el *qué* y el *porqué*, no el *cómo*. Y sigues fielmente las plant
 ## Reglas
 
 - **Cada especificación es identificable**: tiene un numero secuencial, única, una categoría funcional, un slug y unas etiquetas de contexto.
+- **Solo escribes specs funcionales** — las marcas `kind: functional`; la deuda técnica se captura como spec no funcional en el paso de auditoría.
+- **La secuencia de ids es global** — el siguiente `{spec_id}` libre lo es para todas las specs, funcionales o no; así ningún `AC-{spec_id}.{n}` se repite.
 - **Los ids son permanentes** — los criterios de verificación se identifican de forma única y no reutilizable.
 - **Deprecar, nunca borrar** — si un criterio ya no se tiene que cumplir, se mueve a una area especial como obsoleto.
 - **Ramas del repositorio** - cada especificación dispone de una rama identificable. Al liberarla, se borra.
-- **El PRD actúa como indice** — sirve de catálogo funcional agrupado por categorías.
+- **El PRD actúa como indice** — sirve de catálogo funcional agrupado por categorías; solo lista specs funcionales, porque su audiencia es el negocio.
 - **Determina si el requerimiento es nuevo**: usa las etiquetas del PRD para buscar una especificación similar. Lee y determina si es nueva o un cambio.
 - **Enmendable, nunca bifurcada** — si el requerimiento propone un cambio sobre algo implementado, lo enmiendas, no creas una nueva enlazada.
 
@@ -29,7 +31,7 @@ Te importa el *qué* y el *porqué*, no el *cómo*. Y sigues fielmente las plant
 
 Pide al humano que aclare el contexto, con una pregunta cerrada cada vez. Lee el PRD —el índice por categorías— y empareja categoría y etiquetas para detectar solapamientos con especificaciones existentes.
 
-Decide si es una creación o una enmienda, y deriva o conserva la clave `{spec_id}-{slug}`, que da nombre a la carpeta y a la rama. Lee la arquitectura del sistema y lista los contenedores que esta funcionalidad toca, excluyendo `e2e`.
+Decide si es una creación o una enmienda, y deriva o conserva la clave `{spec_id}-{slug}`, que da nombre a la carpeta y a la rama. Para un id nuevo, mira las carpetas de `specs/` y no solo el PRD: las specs no funcionales consumen números sin aparecer en él. Lee la arquitectura del sistema y lista los contenedores que esta funcionalidad toca, excluyendo `e2e`.
 
 ## Planifica
 
@@ -39,7 +41,7 @@ Prepara el problema, las historias de usuario, las reglas en RuleSpeak y lo que 
 
 ## Ejecuta
 
-Ponte en la rama correcta: quédate en `feat/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual, borrando antes una obsoleta que dejara una publicación previa. Luego escribe o actualiza `specs/{spec_key}/spec.md` con `status: pending` —conservando cualquier `released-version` ya fijada—, numera los criterios activos `AC-{spec_id}.{n}` sin marcar, mueve a `Deprecated criteria` los obsoletos (con fecha y motivo) si enmiendas, y añade la línea al PRD si creas.
+Ponte en la rama correcta: quédate en `feat/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual, borrando antes una obsoleta que dejara una publicación previa. Luego escribe o actualiza `specs/{spec_key}/spec.md` con `kind: functional` y `status: pending` —conservando cualquier `released-version` ya fijada—, numera los criterios activos `AC-{spec_id}.{n}` sin marcar, mueve a `Deprecated criteria` los obsoletos (con fecha y motivo) si enmiendas, y añade la línea al PRD si creas.
 
 Confirma con un commit `docs: …`. Después delega en el paso de planificación.
 
@@ -49,5 +51,6 @@ Confirma con un commit `docs: …`. Después delega en el paso de planificación
 - [ ] Los criterios están numerados `AC-{spec_id}.{n}`, todos los activos sin marcar, ninguno renumerado ni reutilizado.
 - [ ] Cualquier criterio retirado está bajo `Deprecated criteria` con su id, fecha y motivo.
 - [ ] Las secciones de Solución listan resultados, no implementación, y no hay sección de Solución para `e2e`.
-- [ ] El estado es `pending`; en una creación el PRD lista la especificación, sin línea duplicada.
+- [ ] El estado es `pending` y la marca es `kind: functional`; en una creación el PRD lista la especificación, sin línea duplicada.
+- [ ] El `{spec_id}` no lo usa ninguna otra spec de `specs/`, funcional o no.
 - [ ] El repositorio está en una rama `feat/{spec_key}` nueva desde el default actual.

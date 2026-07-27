@@ -1,14 +1,17 @@
 ---
-plan-type: {spec | report | requirement}
+spec-kind: functional
 container: e2e
 ---
-# {plan-type} - {slug} - e2e
+# {spec_key} - e2e
 
 ## Specification
 
 {The user-facing flows under test, spanning containers per `system.arch.md`.}
 
-- **Context**: {link to the source spec, report, or requirement for traceability[]()}
+> Only a functional spec gets an e2e plan. A non-functional spec preserves behavior, so the
+> existing suite is its test — never write this file for one.
+
+- **Context**: [Source spec](./spec.md)
 - **Architecture**: [E2E container architecture]({Arch}/e2e.arch.md)
 
 ### Acceptance criteria under test

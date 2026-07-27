@@ -23,11 +23,22 @@ status: {green | red}
 | Performance | {pass \| fail} |
 | Clean-code | {pass \| fail} |
 
+## Criteria
+
+> Non-functional specs only — omit this section for a functional spec, whose criteria belong to
+> `/verify`. This table is the acceptance verdict of a non-functional spec: one row per active
+> criterion, judged by the gate the criterion names. Mirror each verdict as `[x]` / `[ ]` in the
+> spec itself. A gate can pass overall and still leave its criterion unmet.
+
+| Criterion | Gate | Verdict |
+|-----------|------|---------|
+| AC-{spec_id}.{n} | {gate named by the criterion} | {pass \| fail} |
+
 ## Findings
 
-> One entry per violation under a failed gate, ordered by severity. Kind routes the handoff:
-> `mechanical` / `functional` → `/codify` ({container}); `structural` → `/planify`;
-> `behavioral` → `/specify`.
+> One entry per violation under a failed gate — or under an unmet criterion — ordered by
+> severity. Kind routes the handoff: `mechanical` / `functional` → `/codify` ({container});
+> `structural` → `/planify`; `behavioral` → `/specify`, as a functional spec.
 
 ### F1: {short title}
 

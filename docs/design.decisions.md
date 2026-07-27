@@ -5,6 +5,77 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-27 — One spec, two doors: `/refactor` writes a non-functional spec
+
+**Status**: adopted (prose layer only — `SKILL.md` and `README.md` still describe the old
+model until the English pass regenerates them from the LEEMEs).
+
+### Context
+
+`/specify` and `/refactor` are the pipeline's only two producers of demand; everything else
+consumes. They differed on just two axes that matter — where the demand comes from (a human's
+requirement vs. the code's own decay) and what proves it done (new acceptance criteria vs. the
+existing green suite) — yet they had drifted apart on eight more that did not: identity
+(permanent `{spec_id}` vs. an ephemeral `{slug}`), atomic unit (`AC` ids that survive vs. `F1..Fn`
+renumbered every run), index, branch ownership, status vocabulary, amendability, commit scope, and
+storage root. `/planify` paid for all of it, forking on `{Work}` at every step.
+
+Three concrete defects came from that drift: `status` meant `pending|planned|…` in a spec but
+`green|red` in a refactor report, and `/planify` overwrote one with the other; a re-audit renumbered
+from `F1` with no memory of what had already been reported or declined; and the audit had no way
+to be verified at all, since the e2e suite cannot judge "this duplication is gone".
+
+### Decision
+
+The artifact is always a **spec**. `/specify` captures a functional one from the business;
+`/refactor` distils a non-functional one from the code. The word "spec" stays — it is the brand
+and the discipline.
+
+1. **`kind: functional | non-functional`** in the frontmatter is the only fork. It decides whether
+   `/planify` writes an e2e plan and which skill is the acceptance oracle. Both live in
+   `specs/{spec_key}/`; `refactors/` is gone, and with it `{Work}`.
+2. **Non-functional is standard vocabulary**, not an invention (ISO 25010). `/refactor`'s lenses
+   become the `category`: maintainability, usability, accessibility, performance, security.
+3. **Findings become criteria.** No more `F1..Fn`. Each decay is written as an `AC-{spec_id}.{n}`
+   that names the gate judging it, from the same global id sequence as functional specs — so
+   amendability, deprecation, `/planify`'s `keep|redo|drop`, and traceability come for free. Debt
+   reported and then declined lives in `Deprecated criteria`, so a later audit cannot relitigate it.
+4. **Two oracles.** `/verify` judges a functional spec's criteria with the e2e suite; `/review`
+   judges a non-functional spec's criteria with the gate each names. On a non-functional spec
+   `/verify` marks only the non-regression criterion. `/release` still requires `verified` plus
+   every active criterion `[x]`, so neither oracle can close a spec alone.
+5. **The PRD stays functional-only** — its audience is the business. Non-functional specs are
+   found by reading frontmatter, not through a sibling index: an index earns its place when a
+   human consumes it, and a second one is a synchronization bug for the price of a glob.
+6. **Scope is one container**, down from the whole app. It is the unit `/planify`, `/codify`, and
+   `{container}.rules.md` already work in, and it keeps a spec to one page. Auditing the whole app
+   is several passes, several specs.
+7. **Commands collapse 3 → 2.** With refactor producing a spec, `refactor-and-verify` *was*
+   `build-feature` with a different first step. Both become `build-spec`, one cycle with two entry
+   doors. "Feature" no longer described what it built.
+
+### Consequences
+
+- `/planify` has a single input again: no `{Work}`, no `{slug}`/`{spec_key}` derivation, no
+  refactor-specific rule. The `status` collision disappears — a green audit simply writes no spec.
+- `/refactor` now owns its branch (`refactor/{spec_key}`), like `/specify` owns `feat/{spec_key}`.
+  Both skills are self-sufficient outside their orchestrator, which keeps the external-orchestrator
+  option open.
+- `/refactor` must write criteria a gate can check. "The code is cleaner" no longer passes. This is
+  the cost of having an oracle, and it disciplines the audit.
+- Each skill keeps its own copy of the spec template (`specify/assets/` and `refactor/assets/`),
+  per the 2026-07-03 decision that skill folders are self-contained and copyable. A cross-skill
+  reference was considered and rejected on those grounds.
+
+### Rejected
+
+- **Two symmetric sibling artifacts** (align every axis, keep `refactors/`) — leaves `/planify`
+  with two paths forever, for no gain once the artifacts are identical anyway.
+- **A sibling debt index** (`DEBT.md`) mirroring the PRD — see decision 5.
+- **Per-finding routing** (`mechanical` → `/codify`, `structural` → `/planify`) — the whole point
+  is that the audit produces one demand that travels one path. `kind` survives only in the review
+  report, where it still routes a finding's handoff.
+
 ## 2026-07-23 — Canonical reports, unified routing, and spec-less storage
 
 **Status**: adopted.

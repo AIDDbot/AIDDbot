@@ -56,7 +56,11 @@ fallo o una auditoría que reingresa al pipeline).
   técnico.
 - **Los bucles contrastan por tipo de fallo**: `verify` detecta fallos **funcionales** y los
   devuelve a `codify`; `review` devuelve fallos de **calidad** a `codify`; `refactor` detecta
-  deriva **estructural** y la devuelve a `planify`.
+  deriva **estructural** y la captura como especificación no funcional, que entra por `planify`.
+- **Dos partos, una especificación**: `specify` la captura del negocio y `refactor` la destila del
+  código; a partir de ahí el ciclo es el mismo, y el `kind` es lo único que lo modula.
+- **Cada tipo tiene su oráculo**: `verify` dictamina los criterios de una spec funcional con el
+  suite e2e; `review` dictamina los de una no funcional con sus compuertas.
 
 ## Detalle — qué consume y produce cada skill
 
@@ -68,9 +72,9 @@ fallo o una auditoría que reingresa al pipeline).
 | **planify** | ← criterios de aceptación de la spec<br>→ `e2e.plan.md` (un escenario por AC) | ← arquitectura/esquema de contenedor, formas API/DB<br>→ `{container}.plan.md` por contenedor · spec → `planned` |
 | **codify** | ← criterios de la spec (modo e2e)<br>→ spec → `in-progress` (señal de avance) | ← planes, `{container}.rules.md`, formas API/DB<br>→ **código** funcional, pruebas unitarias, suite e2e · pasos del plan marcados |
 | **verify** | ← criterios de aceptación<br>→ veredicto por AC · spec → `verified`/`failed` · casillas | ← `e2e.plan.md`, suite e2e, formas API/DB<br>→ `e2e.report.md` (defectos triados por tipo) |
-| **review** | → hallazgos de **comportamiento** reingresan a `/specify` | ← código en alcance, `{container}.rules.md`, definiciones de compuertas<br>→ `review.report.md` (veredicto por compuerta, hallazgos) |
+| **review** | → hallazgos de **comportamiento** reingresan a `/specify` | ← código en alcance, `{container}.rules.md`, definiciones de compuertas<br>→ `review.report.md` (veredicto por compuerta, hallazgos); en una spec no funcional, también veredicto y casilla por criterio |
 | **release** | ← spec verificada<br>→ `CHANGELOG.md` (Added/Changed/Fixed/Removed) · spec → `done` + `released-version` | ← informe de revisión, deriva de docs<br>→ bump de versión, docs de arquitectura/modelo reconciliados, merge + tag, poda de rama |
-| **refactor** | — (un cambio de comportamiento se señala como feature para `/specify`, no es un refactor) | ← código de toda la app, `{container}.rules.md`, lentes<br>→ `refactor.report.md`; **todo hallazgo va a `/planify`** |
+| **refactor** | — (un cambio de comportamiento se señala como feature para `/specify`, no es un refactor) | ← código de **un contenedor**, `{container}.rules.md`, lentes<br>→ `spec.md` con `kind: non-functional` (evidencia + criterios comprobables por compuerta); **fuera del PRD** |
 
 > **skillify** queda fuera: es meta (fuera de la tubería SDLC). No toca artefactos de producto ni
 > de arquitectura — produce o arregla las propias skills.

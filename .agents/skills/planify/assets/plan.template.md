@@ -1,14 +1,15 @@
 ---
-plan-type: {spec | report | requirement | refactor}
+spec-kind: {functional | non-functional}
 container: {container name from system.arch.md, e.g. api, web, db}
 ---
-# {plan-type} - {slug} - {container}
+# {spec_key} - {container}
 
 ## Specification
 
-{What this container must deliver, drawn from the spec's solution overview.}
+{What this container must deliver, drawn from the spec's solution overview. On a
+non-functional spec, behavior is preserved: what changes is the shape of the code.}
 
-- **Context**: {link to the source spec, report, or requirement for traceability[]()}
+- **Context**: [Source spec](./spec.md)
 - **Architecture**: [Container architecture]({Arch}/{container}.arch.md)
 
 ### Data model

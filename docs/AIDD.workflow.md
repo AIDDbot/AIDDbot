@@ -273,27 +273,29 @@ by blast radius — see the [lifecycle map](../.agents/skills/skills.lifecycle.m
 
 ## Refactor
 
-Periodic whole-app audit of accumulated decay — **report-only, like `/review`.** Where a
-per-spec review sees one diff, `/refactor` reads the *accumulated* system (code clarity, UI,
-accessibility, structure, behavior) for cross-cutting decay no single review can catch. Every
-finding preserves behavior and routes to `/planify`, which plans the cleanup.
+On-demand audit of one container's accumulated decay — **it never edits code.** Where a per-spec
+review sees one diff, `/refactor` reads the *accumulated* code (clarity, structure, UI,
+accessibility) for decay no single review can catch, and captures what it finds as a
+**non-functional spec**: same folder, same global id sequence, same lifecycle as a functional one.
+The only asymmetries are that it never enters the PRD (a business catalog), and that its criteria
+are judged by `/review`'s gates instead of the e2e suite.
 
 ```mermaid
 flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
 
-  REF["/refactor — whole-app audit<br/>writes refactors/{slug}/refactor.report.md"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
-  Q -->|"no — a refactor"| PLN["/planify → /codify → /verify"]:::nd
-  Q -->|"yes — not a refactor"| SPC["/specify — a feature, separately"]:::nd
+  REF["/refactor — audit one container<br/>writes specs/{spec_key}/spec.md (kind: non-functional)"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
+  Q -->|"no — a non-functional spec"| PLN["/planify → /codify → /verify → /review"]:::nd
+  Q -->|"yes — not a refactor"| SPC["/specify — a functional spec, separately"]:::nd
 ```
 
-Run it every few specs, or at a release train, so cross-cutting decay gets an owner. It never
-edits code: every finding routes to `/planify`, which plans the cleanup for `/codify` to execute
-and `/verify` to confirm. A change that would alter what a green test asserts is not a refactor —
+Run it when you decide to pay debt down — every few specs, or at a release train. Auditing the
+whole app is several passes, one spec each, because the container is the unit the rest of the
+pipeline already works in. A change that would alter what a green test asserts is not a refactor —
 it starts at `/specify` as a feature. The
-[`refactor-and-verify`](../.agents/skills/skills.catalog.md#commands) command chains the audit and
-the resulting fixes.
+[`build-spec`](../.agents/skills/skills.catalog.md#commands) command chains the audit and
+everything that follows it.
 
 ## The artifacts
 
@@ -431,15 +433,12 @@ stateDiagram-v2
   - `db.schema.md` — Relational schema for the `db` container (instead of arch) (`/extract`).
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
-  - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria, and `Deprecated criteria` for retired ACs (`/specify`; amendable; ids never renumbered or reused).
+  - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. **Functional specs only** — its audience is the business. No status — that lives in each spec.
+  - `{spec_key}/spec.md` — Problem, solution (per software container), acceptance criteria, and `Deprecated criteria` for retired ACs (amendable; ids never renumbered or reused). `kind: functional` from `/specify`, `kind: non-functional` from `/refactor`; one global `{spec_id}` sequence covers both.
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
-  - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`).
+  - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`; functional specs only).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).
-  - `{spec_key}/review.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff) (`/review`).
-- `refactors/` — One folder per refactor pass, named `{slug}`; mirrors `specs/{spec_key}/` for spec-less work.
-  - `{slug}/refactor.report.md` — Triaged audit findings; every finding routes to `/planify` (`/refactor`).
-  - `{slug}/{container}.plan.md` — Cleanup plan per software container (`/planify`; no `e2e.plan.md`, behavior preserved).
+  - `{spec_key}/review.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff); on a non-functional spec, also a verdict per criterion (`/review`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
 - `e2e/` — End-to-end tests, organized by feature (written by `/codify` from `e2e.plan.md`; judged by `/verify`).
