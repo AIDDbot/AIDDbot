@@ -40,13 +40,15 @@ watch what it does before trusting it with the next.
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
-| [Context](docs/AIDD.workflow.md#setting-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
-| [Capture](docs/AIDD.workflow.md#two-doors-one-spec) | `/specify`, `/restructure` | A feature spec, or a refactor spec from a directive you give |
-| [Build](docs/AIDD.workflow.md#the-pipeline) | `/planify`, `/codify` | One plan and one implementation per container |
-| [Prove](docs/AIDD.workflow.md#the-pipeline) | `/verify`, `/qualify` | E2e verdicts and quality gates — report only, never fixes |
-| [Ship](docs/AIDD.workflow.md#the-pipeline) | `/release` | Version, changelog, reconciled docs, tag |
+| Context | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
+| Capture | `/specify`, `/restructure` | A feature spec, or a refactor spec from a directive you give |
+| Build | `/planify`, `/codify` | One plan and one implementation per container |
+| Prove | `/verify`, `/qualify` | E2e verdicts and quality gates — report only, never fixes |
+| Ship | `/release` | Version, changelog, reconciled docs, tag |
 
 Plus `/skillify`, outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
+
+The [AIDD workflow](docs/AIDD.workflow.md) walks each case in pictures.
 
 ### The pipeline at a glance
 
