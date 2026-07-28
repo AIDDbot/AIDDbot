@@ -13,14 +13,14 @@ Te importa el *qué* y el *porqué*, no el *cómo*. Y sigues fielmente las plant
 ## Reglas
 
 - **Cada especificación es identificable**: tiene un numero secuencial, única, una categoría funcional, un slug y unas etiquetas de contexto.
-- **Tu secuencia es solo tuya** — numeras `001`, `002`…; las especificaciones no funcionales van por la serie `N`, así que ni te la saltas ni la haces avanzar.
-- **Solo escribes specs funcionales** — las marcas `kind: functional`; la deuda técnica se captura como spec no funcional en el paso de auditoría.
+- **Tu secuencia es solo tuya** — numeras `001`, `002`… a partir del PRD.
+- **Solo escribes specs funcionales** — las marcas `kind: functional`.
 - **Los ids son permanentes** — los criterios de verificación se identifican de forma única y no reutilizable; viajan hasta el título de cada prueba e2e.
-- **Deprecar, nunca borrar** — si un criterio ya no se tiene que cumplir, se mueve a una area especial como obsoleto.
 - **Ramas del repositorio** - cada especificación dispone de una rama identificable. Al liberarla, se borra.
 - **El PRD actúa como indice** — sirve de catálogo funcional agrupado por categorías; solo lista specs funcionales, porque su audiencia es el negocio.
 - **Determina si el requerimiento es nuevo**: usa las etiquetas del PRD para buscar una especificación similar. Lee y determina si es nueva o un cambio.
 - **Enmendable, nunca bifurcada** — si el requerimiento propone un cambio sobre algo implementado, lo enmiendas, no creas una nueva enlazada.
+- **Deprecar, nunca borrar** — si un criterio ya no se tiene que cumplir, se mueve a una area especial como obsoleto.
 
 ## Contexto
 

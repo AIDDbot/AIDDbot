@@ -2,7 +2,7 @@
 id: N{nnn}
 slug: {slug}  # names the decision, not a container — a decision may cross several
 title: {title}
-kind: non-functional  # functional | non-functional — this template writes non-functional specs
+kind: refactor  # functional | refactor 
 category: {maintainability | usability | accessibility | performance | security}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | failed | done
@@ -13,16 +13,11 @@ released-version:
 
 ## Problem definition
 
-{The structural decision the human ordered, and what hurts today for not having taken it. One
-decision per spec: if two are worth taking, that is two specs. State the pain, not the task list —
-the *how* is the plan's call.}
+{The structural decision the human ordered, and what hurts today for not having taken it.  State the pain, not the task list.}
 
 ### Affected sites
 
-{Every place the decision reaches, grouped by container. This is the reach of one decision, not a
-list of findings: each entry is a site that must end up matching the new structure, whether or not
-anything is wrong with it today. Include `e2e` when the change reaches the surface the tests speak
-to the app through.}
+{Every place the decision reaches, grouped by container. This is the reach of one decision, not a list of findings. Include `e2e` when the change reaches the surface the tests speak to the app through.}
 
 **{Container_Name}**
 
@@ -30,34 +25,17 @@ to the app through.}
 
 ### Out of scope
 
-{Anything the directive brushes that would change what the product does. It is not structural work —
-name it here and surface it to the human as a functional spec. Note that rewriting *how* an e2e
-test reaches its result is in scope; changing *what* it asserts is not.}
+{Anything the directive brushes that would change what the product does. It is not structural work — name it here and surface it to the human as a functional spec. }
 
 ## Solution overview
 
 ### {Container_Name}
 
-{The state this container is in once the decision is applied, in the terms its
-`{container}.rules.md` uses. Describe the destination, not the migration.}
+{The state this container is in once the decision is applied. Describe the destination, not the migration.}
 
 - {Expected result — an observable property of the code, not a task.}
 
-### e2e
+### Verification Criteria
 
-{Only when the change reaches the test surface — then `/planify` writes an e2e plan for it. Say
-which adapter changes — routes, selectors, helpers — and state that every existing scenario keeps
-asserting the same result. If the decision needs coverage that does not exist yet, that net is a
-separate spec closed before this one, not a step here.}
+{List the criteria that needs to be rewritten only when the change reaches the test surface. }
 
-## Verification Criteria
-
-{Number every criterion `AC-{spec_id}.{n}`, same as a functional spec — the `N` series keeps them
-distinct without sharing a sequence. The first is always suite non-regression, judged by
-`/verify`. Every other criterion states an observable property of the resulting structure and
-names who rules on it: a `/qualify` gate, or `/verify` when the suite is what proves it — as in a
-spec whose whole point is a characterization test. A criterion nothing can judge is not sharp
-enough to keep, and prose like "the code is cleaner" is not a criterion at all.}
-
-- [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
-- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {accessibility | security | performance | clean-code | ui | project-rules | /verify}

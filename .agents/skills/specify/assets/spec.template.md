@@ -2,7 +2,7 @@
 id: {spec_id}
 slug: {slug}
 title: {title}
-kind: functional  # functional | non-functional — this template writes functional specs
+kind: functional  # functional | refactor 
 category: {category}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | failed | done

@@ -6,54 +6,47 @@ disable-model-invocation: true
 ---
 # Reestructurar — capturar una decisión estructural como especificación
 
-Actúas como Arquitecto. Recibes del humano una directiva estructural —homogeneizar las rutas que expone un servicio, extraer a una utilidad común una validación repetida, unificar en un componente lo que hoy se dibuja de cinco maneras— y la conviertes en una especificación. No es una funcionalidad: cuando esté aplicada, el producto hace exactamente lo mismo, pero está construido de otra manera.
+Actúas como Arquitecto. Recibes del humano una directiva estructural y la conviertes en una especificación. En ella escribes de forma concisa y formal la razón del cambio y el estado en el que queda el código una vez aplicada.
 
-Tu unidad no es el archivo ni el contenedor: es la decisión, y una sola decisión puede alcanzar a medio repositorio. Capturas el *qué* y el *porqué* del cambio y hasta dónde llega; el *cómo* lo decide el paso de planificación. La decadencia que se ve leyendo un diff no es asunto tuyo: esa la caza la revisión.
+No es una funcionalidad: cuando esté aplicada, el producto hace exactamente lo mismo, pero está construido de otra manera.
+
+Capturas el *qué* y el *porqué* del cambio y hasta dónde llega; el *cómo* lo decide el paso de planificación. Controlas el estado y metadata en la cabecera de la especificación
 
 ## Reglas
 
-- **Sin directiva no hay especificación** — necesitas la orden del humano, sea un encargo directo o el poso de una sesión de exploración; si no la tienes, propón candidatos y pregunta, pero no escribas.
-- **Nunca edites código** — solo capturas la decisión; el trabajo lo planifica y ejecuta el resto del ciclo.
-- **Una decisión por especificación** — puede cruzar varios contenedores, y los cruza junta; lo que no puede es llevar dos decisiones dentro.
-- **Nunca dos abiertas que se pisen** — si hay una especificación no funcional en `pending`, `planned` o `in-progress` cuyo alcance solape con el tuyo, se termina o se descarta antes; si no, dos ramas y dos planes chocan.
-- **Serie propia** — los ids van por la serie `N`, separada de la secuencia de las funcionalidades; nunca tomes un número de aquella ni la hagas avanzar.
-- **El comportamiento no se toca** — el producto hace lo mismo antes y después; si la directiva cambia lo que el usuario obtiene, es una funcionalidad y se la devuelves al humano.
-- **El suite e2e cambia de forma, nunca de veredicto** — puedes reescribir *cómo* una prueba llega al resultado —rutas, selectores, ayudantes—, nunca *qué* resultado afirma; ningún criterio funcional vigente deja de cumplirse.
-- **La red va en su propia especificación** — si la decisión necesita cobertura que hoy no existe, esa prueba de caracterización —que afirma comportamiento ya existente— es otra especificación no funcional, con `e2e` como único contenedor afectado, y se cierra antes de empezar esta. Nunca viajan en el mismo ciclo el cambio y la prueba que debía protegerlo.
-- **Criterios comprobables** — cada uno nombra quién lo juzga: `/verify` cuando lo prueba el suite, o una de las compuertas de `/qualify`. El primero es siempre la no regresión. "El código queda más limpio" no es un criterio.
-- **Fuera del PRD** — no añadas línea al índice; solo cataloga funcionalidades, porque su audiencia es el negocio.
+- **Cada especificación es identificable**: tiene un numero secuencial, única, una categoría funcional, un slug y unas etiquetas de contexto.
+- **Tu secuencia es solo tuya** — numeras `R001`, `R002`… a partir de la ultima generada.
+- **Solo escribes specs no funcionales** — las marcas `kind: refactor`.
+- **Ramas del repositorio** - cada especificación dispone de una rama identificable. Al liberarla, se borra.
+- **El PRD no se toca** — no afectas a la funcionalidad del producto.
 
 ## Contexto
 
 - **Directiva obligatoria** — la orden estructural del humano: qué se homogeneiza, qué se extrae, qué se unifica. Si no la tienes, no la inventes.
-- **Referencias** — la [plantilla de especificación no funcional](./assets/spec.template.md), que lleva en el campo `gate:` la lista cerrada de compuertas de la que tus criterios toman nombre; el esquema de arquitectura `arch/system.arch.md` y el `{container}.rules.md` de cada contenedor que la decisión toque.
+- **Referencias** — la [plantilla de especificación no funcional](./assets/spec.template.md),el esquema de arquitectura del sistema y el modelo de datos conceptual :  `arch/system.arch.md`, `model/model.schema.md`.
 
 ## Investiga
 
-Parte de la directiva y acota su radio: lee la arquitectura del sistema y decide qué contenedores alcanza, incluido `e2e` si el cambio llega a la superficie por la que las pruebas hablan con la aplicación. Enumera después, contenedor a contenedor, los sitios afectados. No estás buscando defectos: estás listando dónde llega la decisión, y ahí entra también lo que hoy está bien y aun así tendrá que cambiar para encajar.
+Pide al humano que aclare el contexto, con una pregunta cerrada cada vez. Parte de la directiva y acota su radio: lee la arquitectura del sistema y decide qué contenedores alcanza, incluido `e2e` si el cambio llega a la superficie por la que las pruebas hablan con la aplicación. 
 
-Comprueba que no haya ya una especificación no funcional viva que solape con ese alcance: no hay índice que consultar, así que mira en `specs/` las carpetas de la serie `N` y descarta las que estén `done`. Si encuentras una que se pise con la tuya, para y dilo; si no, deriva la clave `{spec_key}` como `{spec_id}-{slug}`, donde el id es el siguiente libre de la serie `N` y el slug nombra la decisión, no el contenedor.
+Comprueba que no haya ya una especificación no funcional viva que solape con ese alcance: no hay índice que consultar, así que mira en `specs/` las carpetas de la serie `N` y descarta las que estén `done`. 
 
 ## Planifica
 
-Escribe el porqué —qué duele hoy por no haber tomado antes esta decisión— y el qué: el estado en el que queda el código una vez aplicada, dicho en términos que alguien pueda comprobar. Lee el `{container}.rules.md` de cada contenedor en alcance para nombrar ese destino con sus mismos términos.
+Prepara el contenido contra la plantilla de especificación. Lee el modelo de datos conceptual para usar los mismos términos, y el documento del sistema para proponer la solución por contenedores.
 
-Convierte después ese estado en criterios. Reserva el primero a la no regresión del suite y haz que los demás describan la estructura resultante, cada uno nombrando la compuerta que lo juzgará, tomada de la lista cerrada; si un criterio no cabe en ninguna, no está lo bastante afilado. Aparta a `Out of scope` todo lo que la directiva roce pero cambiaría el comportamiento, y díselo al humano.
+Prepara el indice de lugares afectados y lo que queda fuera de alcance. Propón el estado final de la solución una vez aplicado. Lista los criterios de aceptación que deben ser reescritos por cambios en la superficie expuesta.
 
 ## Ejecuta
 
-Ponte en la rama correcta: quédate en `restructure/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual. Escribe `specs/{spec_key}/spec.md` con `kind: non-functional`, la categoría no funcional que corresponda a la directiva y `status: pending`; numera los criterios `AC-{spec_id}.{n}`, todos sin marcar.
+Ponte en la rama correcta: quédate en `refactor/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual, borrando antes una obsoleta que dejara una publicación previa. Luego escribe o actualiza `specs/{spec_key}/spec.md` con `kind: refactor` y `status: pending`.
 
-Confirma con un commit `docs(restructure): …`. Después delega en el paso de planificación; si la directiva resultó ser una funcionalidad, o no había decisión estructural que tomar, no escribas especificación: dilo y termina ahí.
+Confirma con un commit `docs(refactor): …`. Después delega en el paso de planificación.
 
 ## Verificación
 
-- [ ] Hubo una directiva del humano, y nada se escribió sin ella.
-- [ ] Existe `specs/{spec_key}/spec.md` con `kind: non-functional`, en el formato de la plantilla y sin marcadores de posición.
-- [ ] La especificación recoge una sola decisión estructural, y sus sitios afectados están enumerados por contenedor.
-- [ ] Los criterios están numerados `AC-{spec_id}.{n}`; el primero es la no regresión del suite y los demás nombran la compuerta que los juzga.
-- [ ] El `{spec_id}` es el siguiente libre de la serie `N` y la secuencia de las funcionalidades quedó intacta.
-- [ ] El comportamiento queda intacto; lo que lo cambiaría está en `Out of scope` y se le dijo al humano.
-- [ ] Ninguna prueba e2e nueva afirma comportamiento que no existiera ya; la cobertura que faltaba fue a su propia especificación.
-- [ ] Ninguna otra especificación no funcional viva solapa con este alcance.
-- [ ] No se añadió línea al PRD ni se editó una sola línea de código.
+- [ ] Existe `specs/{spec_key}/spec.md`, con el formato correcto y sin marcadores de posición en blanco.
+- [ ] Los criterios afectados están numerados `AC-{spec_id}.{n}`.
+- [ ] Las secciones de Solución listan resultados, no implementación, y no hay sección de Solución para `e2e`.
+- [ ] El estado es `pending` y la marca es `kind: refactor`.
+- [ ] El repositorio está en una rama `refactor/{spec_key}` nueva desde el default actual.
