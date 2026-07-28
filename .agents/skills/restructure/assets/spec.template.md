@@ -45,18 +45,19 @@ test reaches its result is in scope; changing *what* it asserts is not.}
 
 ### e2e
 
-{Only when the change reaches the test surface. Say which adapter changes — routes, selectors,
-helpers — and state that every scenario keeps asserting the same result. List any
-characterization test needed as a net: it must assert behavior that already exists and nothing
-covered, and be written before anything else is touched.}
+{Only when the change reaches the test surface — then `/planify` writes an e2e plan for it. Say
+which adapter changes — routes, selectors, helpers — and state that every existing scenario keeps
+asserting the same result. If the decision needs coverage that does not exist yet, that net is a
+separate spec closed before this one, not a step here.}
 
 ## Verification Criteria
 
 {Number every criterion `AC-{spec_id}.{n}`, same as a functional spec — the `N` series keeps them
 distinct without sharing a sequence. The first is always suite non-regression, judged by
 `/verify`. Every other criterion states an observable property of the resulting structure and
-names the qualify gate that rules on it; a criterion that fits no gate is not sharp enough to
-keep. Prose like "the code is cleaner" is not a criterion.}
+names who rules on it: a `/qualify` gate, or `/verify` when the suite is what proves it — as in a
+spec whose whole point is a characterization test. A criterion nothing can judge is not sharp
+enough to keep, and prose like "the code is cleaner" is not a criterion at all.}
 
 - [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
-- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {accessibility | security | performance | clean-code | ui | project-rules}
+- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {accessibility | security | performance | clean-code | ui | project-rules | /verify}

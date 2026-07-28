@@ -26,10 +26,10 @@ once the decision is applied, and how each part of it is checked. Never edit cod
   hand it back to the human.
 - **The e2e suite may change shape, never verdict** — rewrite *how* a test reaches the result;
   never *what* it asserts. No live functional criterion stops holding.
-- **New tests only as characterization** — a new e2e is admitted only if it asserts behavior
-  that already exists and nothing covered, written before anything is touched.
-- **Checkable criteria** — the first is suite non-regression, judged by `/verify`; the rest name
-  the qualify gate that judges them, drawn from the closed list.
+- **The net gets its own spec** — coverage the decision needs but does not have is a separate
+  non-functional spec, `e2e` its only affected container, closed before this one starts.
+- **Checkable criteria** — each names who judges it: `/verify` when the suite proves it, else
+  one of `/qualify`'s gates. The first is always suite non-regression.
 - **Out of the PRD** — never append a line; it catalogs features only.
 
 ## Context
@@ -96,6 +96,6 @@ once the decision is applied, and how each part of it is checked. Never edit cod
       name a gate from the closed list.
 - [ ] `{spec_id}` is the next free `N` id and the feature sequence is untouched.
 - [ ] Behavior is untouched; what would change it sits in `Out of scope` and was surfaced.
-- [ ] No new e2e asserts behavior that did not already exist.
+- [ ] No new e2e asserts behavior that did not already exist; missing coverage went to its own spec.
 - [ ] No other live non-functional spec overlaps this scope.
 - [ ] No PRD line was appended and no line of code was edited.

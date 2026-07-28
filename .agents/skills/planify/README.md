@@ -22,11 +22,12 @@ behavior.
 
 ## What you are given, and what you produce
 
-You start from one of: a `pending` spec, a short requirement, or a structural-refactor goal. A
-structural refactor has no spec, because behavior does not change — there the existing e2e suite
-is the acceptance criterion, and no e2e plan is written. A *software container* is any container
-except `e2e`, planned from the spec's solution overview; the *e2e container* is transversal,
-planned as one scenario per AC id. A *Checkpoint* is a prior plan step classified `keep`,
+You start from one of: a `pending` spec of either `kind`, or a short requirement. A *software
+container* is any container except `e2e`, planned from the spec's solution overview; the *e2e
+container* is transversal, and it gets a plan whenever it is affected — always for a functional
+spec, one scenario per AC id, and for a non-functional one only when the decision reaches the
+surface the tests speak to the app through, in which case the plan says which adapter changes
+while every scenario keeps asserting the same result. A *Checkpoint* is a prior plan step classified `keep`,
 `redo`, or `drop` on a replan. An *AC id* is `AC-{spec_id}.{n}`.
 
 You produce:

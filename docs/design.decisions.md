@@ -5,6 +5,67 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-28 — An e2e plan follows the container, not the spec's kind
+
+**Status**: adopted.
+
+### Context
+
+Two rules contradicted each other. `/planify` and the catalog said a non-functional spec gets no
+e2e plan at all, since the existing suite is its non-regression test. The restructure template
+said the spec has an `e2e` Solution section, because a structural change may rewrite the adapter
+the tests speak through — routes, selectors, helpers — and may need a characterization test as a
+net. The first rule is a leftover from when a refactor had no spec, and it survived because the
+older, narrower invariant ("never touch a green test") made e2e work unthinkable for a refactor.
+
+The decisive argument is not symmetry, it is safety. **`/codify` only works from a plan.** With no
+e2e plan, a restructure that renames routes ends one of two ways: the suite is never updated and
+`/verify` goes red for a change that was supposed to preserve behavior, or someone edits the suite
+with no plan behind it. Unplanned edits to the safety net are exactly how an assertion gets
+quietly loosened, and `/codify`'s "never weaken a test" rule depends on those edits being planned
+and readable.
+
+### Decision
+
+1. **Drop the `kind` fork.** `/planify` writes one plan per affected container, `e2e` included
+   when it is affected. The fork disappears rather than moving: a functional spec always affects
+   e2e (every criterion needs a scenario), and a non-functional one affects it only when the
+   decision reaches the test surface. The old rule falls out as a consequence instead of being
+   stated as a special case.
+2. **What differs is the plan's content, not its existence.** A functional e2e plan maps one
+   scenario per AC id. A non-functional one skips the mapping — there is nothing to map, since
+   `AC-N.1` is the whole suite — and instead lists the adapter changes, asserting that every
+   existing scenario keeps its verdict.
+3. **A missing net is its own spec.** If a decision needs coverage that does not exist, that
+   characterization test is a separate non-functional spec with `e2e` as its only affected
+   container, closed before the restructure starts. This removes the ordering problem — a net
+   must be green *before* the change, while the adapter update comes *after*, which would
+   otherwise force two `/codify` passes over e2e in one cycle.
+4. **A criterion names who judges it**, not just which gate: `/verify` when the suite proves it,
+   otherwise one of `/qualify`'s six. A coverage spec's criterion is judged by `/verify`, so the
+   gate enum had to admit it.
+
+### Rejected alternatives
+
+- **Let `/codify` touch e2e without a plan when the spec is non-functional** — rejected: it is
+  the failure mode the whole decision exists to prevent.
+- **Keep "no e2e plan" and forbid restructures that reach the test surface** — rejected: it rules
+  out homogenizing routes or unifying selectors, which is most of the real structural work, and
+  it was precisely the over-narrow invariant replaced earlier today.
+- **Order characterization and adapter work inside one e2e plan** — rejected: it needs two
+  `/codify` runs over one container in one cycle, breaking the one-run-one-container rule to
+  solve a problem a separate spec solves for free.
+
+### Consequences
+
+- `e2e.plan.template.md` carries both shapes, selected by `spec-kind` in its frontmatter.
+- `build-spec` now runs `/codify` for `e2e.plan.md` whenever the file exists, after the software
+  containers, instead of testing the spec's `kind`.
+- A functional spec still gets no `e2e` section in its solution overview; a non-functional one
+  does. That asymmetry is now load-bearing rather than accidental: for a functional spec the e2e
+  work is derived from the criteria, and for a non-functional one it must be stated, because
+  nothing else implies it.
+
 ## 2026-07-28 — `/review` → `/qualify`, `/refactor` → `/restructure`
 
 **Status**: adopted. Entries dated before today keep the old names on purpose — this file records
@@ -61,11 +122,9 @@ Rename the two skills this session touched, leaving the rest of the family parke
   `/codify` still described applying that report's findings. Both artifacts died on 2026-07-27.
   Repaired rather than renamed — `{Work}` is now always `{Specs}`, and `/planify`'s
   spec-vs-refactor forks collapsed to a `kind` test.
-- **Open contradiction, deliberately left standing.** The catalog states a non-functional spec
-  gets no e2e plan at all, since the existing suite is its non-regression test. But today's
-  restructure template gives the spec an `e2e` Solution section, because a structural change may
-  legitimately rewrite the adapter the tests speak through and may need a characterization test
-  written first. Both cannot be true. Resolving it is a `/planify` decision, not a cleanup.
+- The contradiction this rename exposed — no e2e plan for a non-functional spec, versus a
+  restructure template with an `e2e` Solution section — was resolved the same day; see the entry
+  below.
 - The `-ify` family stays parked for `explore`, `extract`, `release`, and `verify`.
 
 ## 2026-07-28 — `/review` guards the diff, `/refactor` owns the decision

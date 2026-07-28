@@ -11,16 +11,16 @@
 - _read_ the generated or updated `{Specs}/spec.md`; its `kind` drives the rest of the run.
 - _run_ the `/planify` skill in a fresh subagent.
 - _tell_ it to stop after its commit with no handoff.
-- _tell_ planify it runs once for all software-container plans, plus `e2e.plan.md` only when the spec is `functional`.
+- _tell_ planify it runs once for all software-container plans, plus `e2e.plan.md` whenever the `e2e` container is affected.
 - _tell_ planify that amend always replans with Checkpoints (`keep` | `redo` | `drop`).
 - _require_ the spec `status` is `planned` before building.
-- _read_ the spec folder for the software-container plans and, when functional, `e2e.plan.md`.
+- _read_ the spec folder for the software-container plans and `e2e.plan.md` if one was written.
 - _for-each_ software-container plan:
   - _run_ `/codify` in a fresh subagent, one after another.
   - _pass_ the plan path into that run.
   - _tell_ it to stop after its commit with no handoff.
   - _if_ the spec is `non-functional`, _tell_ it to preserve behavior — the existing suite must keep asserting the same thing.
-- _if_ the spec is `functional`, _run_ `/codify` in a fresh subagent for `e2e.plan.md`.
+- _if_ `e2e.plan.md` exists, _run_ `/codify` in a fresh subagent for it, after the software containers.
   - _tell_ it to stop after its commit with no handoff.
 - _run_ the `/verify` skill in a fresh subagent to produce the defects report.
 - _if_ a defect is triaged structural, _surface_ the handoff to `/planify` and _stop_.

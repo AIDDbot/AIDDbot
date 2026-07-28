@@ -29,7 +29,8 @@ For a spec, also write `e2e.plan.md`, ordered and actionable for `/codify`.
 ### Inputs
 - [ ] Required: a `pending` spec of either `kind`, or a short requirement.
 - [ ] A `kind: non-functional` spec is planned like any other; its first criterion is suite
-      non-regression and the rest are judged by `/qualify`'s gates.
+      non-regression and the rest are judged by `/qualify`'s gates. Its e2e plan, when it has
+      one, changes how scenarios reach their result — never what they assert.
 
 ### Glossary
 - **Software container** — any container except `e2e`; planned from the solution overview.
@@ -62,13 +63,13 @@ For a spec, also write `e2e.plan.md`, ordered and actionable for `/codify`.
 
 ### 3. Implement
 - _for-each_ software container, _write_ `{Work}/{container}.plan.md`.
-- _if_ the spec is `kind: functional`, _write_ `{Work}/e2e.plan.md`.
+- _if_ the `e2e` container is affected, _write_ `{Work}/e2e.plan.md` — always for a functional spec, for a non-functional one only when the decision reaches the test surface.
 - _update_ `spec.md` to `status: planned`.
 - _commit_ the changes (`docs(planify): {description}`).
 - _handoff_ to `/codify`.
 
 ## Verification
-- [ ] One plan per affected software container; `e2e.plan.md` present for a functional spec.
+- [ ] One plan per affected container; `e2e.plan.md` present whenever `e2e` is affected.
 - [ ] Plans live under `{Work}` — `specs/{spec_key}/`, whatever the spec's `kind`.
 - [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable.
 - [ ] On replan, Checkpoints cover every prior step and Implementation Steps match keep/redo.

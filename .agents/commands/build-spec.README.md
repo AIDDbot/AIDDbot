@@ -10,8 +10,9 @@ refactoring needs passing tests to lean on — and then `/restructure` audits on
 what it finds as a non-functional spec; if the container is healthy it writes nothing and stops there.
 
 From that point the path is the same for both, and the spec's `kind` is the only thing that modulates
-it. `/planify` breaks it into one plan per container — plus an e2e plan only when it is functional,
-since non-functional work preserves behavior and leans on the existing suite. `/codify` writes the
+it. `/planify` breaks it into one plan per container — the e2e one whenever that container is
+affected, which is always for a functional spec and, for a structural change, only when it
+reaches the test surface. `/codify` writes the
 code, one run per plan. `/verify` runs the suite: any `functional` or `test` defect loops back through
 `/codify` until it is green. Then `/qualify` gates the result, and that is the other difference: on a
 non-functional spec it is also the acceptance oracle, judging every criterion by the gate it names and

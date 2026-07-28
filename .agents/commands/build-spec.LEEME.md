@@ -11,8 +11,9 @@ captura lo que encuentra como especificación no funcional; si el contenedor est
 nada y termina ahí.
 
 Desde ese punto el camino es el mismo para las dos, y el `kind` de la especificación es lo único
-que lo modula. `/planify` la divide en un plan por contenedor —más un plan e2e solo si es
-funcional, porque lo no funcional preserva el comportamiento y se apoya en el suite existente—.
+que lo modula. `/planify` la divide en un plan por contenedor —el de e2e siempre que ese contenedor esté
+afectado, que en una funcional es siempre y en un cambio estructural solo si alcanza la
+superficie de pruebas—.
 `/codify` escribe el código, una ejecución por plan. `/verify` ejecuta el suite: cualquier bug de
 código o de prueba vuelve por `/codify` hasta que está en verde. Después `/qualify` califica, y ahí
 está la otra diferencia: ante una especificación no funcional es además su oráculo, porque juzga

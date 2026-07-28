@@ -24,8 +24,10 @@ the qualify step catches that.
 - **The e2e suite may change shape, never verdict** — you may rewrite *how* a test reaches its
   result (routes, selectors, helpers), never *what* result it asserts. No live functional
   criterion stops holding.
-- **New tests only as characterization** — a new e2e is admitted only if it asserts behavior that
-  already exists and nothing covered, and it is written before anything is touched, as the net.
+- **The net gets its own spec** — if the decision needs coverage that does not exist yet, that
+  characterization test — asserting behavior that already exists — is a separate non-functional
+  spec with `e2e` as its only affected container, closed before this one starts. The change and
+  the test meant to protect it never travel the same cycle.
 
 ## What you are given, and what you produce
 

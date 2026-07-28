@@ -5,7 +5,7 @@ change to how the code is built — and `/skillify` to extend the skillset itsel
 starts from a **spec**; what differs is which door it came through. `/specify` captures or
 amends a functional one (problem, solution, criteria); `/restructure` turns an architect's
 directive into a non-functional one. `/planify` owns the per-container breakdown — software containers
-and, for functional specs only, `e2e.plan.md`. `/codify` is the only skill that writes code;
+and `e2e.plan.md` whenever the e2e container is affected. `/codify` is the only skill that writes code;
 `/verify`, `/qualify`, and `/restructure` only evaluate and report — implementation and evaluation
 never share a session.
 
@@ -45,7 +45,7 @@ Produces:
   `AC-{spec_id}.{n}`, unique repo-wide because each id reaches an e2e test title) + its line in
   `specs/PRD.md` on create; amend resets to `pending` and always replans, unchecks active
   criteria, and moves retired ones to `Deprecated criteria` (id kept).
-- `/planify` → `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (functional only); sets `planned`.
+- `/planify` → `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (when e2e is affected); sets `planned`.
 - `/codify` → source, unit tests, e2e tests (titles carry their AC id); sets `in-progress`.
 - `/verify` → `specs/{spec_key}/e2e.report.md` — a verdict per AC id plus the defects.
 
@@ -111,8 +111,10 @@ through `/codify`, `structural` findings escalate to `/planify`. Repeat until gr
 
 The `e2e` container is transversal: documented by `/extract`, planned by `/planify`
 (`e2e.plan.md` — one scenario per AC id), implemented by `/codify` (compile-only).
-No section in the spec's solution overview; its verdict belongs to `/verify`. A
-non-functional spec gets no e2e plan at all — the existing suite is its non-regression test.
+A functional spec gives it no section in its solution overview; its verdict belongs to
+`/verify`. A non-functional spec does get one, and a plan, when the decision reaches the test
+surface — that plan rewrites how scenarios reach their result, never what they assert, because
+`/codify` may not touch the suite without a plan.
 
 Each spec kind has its own acceptance oracle: `/verify` judges a functional spec's criteria
 with the e2e suite; `/qualify` judges a non-functional spec's criteria with the gate each one

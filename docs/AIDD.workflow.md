@@ -69,7 +69,7 @@ flowchart LR
   EXT --> REF["/restructure<br/>non-functional spec"]:::nd
   SPC --> PLN["/planify"]:::nd
   REF --> PLN
-  PLN --> COD["/codify ×container<br/>e2e plan when functional"]:::nd
+  PLN --> COD["/codify ×container<br/>e2e plan when e2e is affected"]:::nd
   COD --> VER["/verify<br/>report-only"]:::nd
   VER -->|green| REV["/qualify<br/>report-only"]:::nd
   REV --> REL["/release"]:::nd
@@ -447,7 +447,7 @@ stateDiagram-v2
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. **Functional specs only** — its audience is the business. No status — that lives in each spec.
   - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria, numbered `AC-{spec_id}.{n}`. Both kinds share the key shape `{spec_id}-{slug}` and differ only in their id series. `kind: functional` from `/specify`, id `007`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/restructure`, id `N001` from its own series, slug = the audited container: one closed debt payment, never amended.
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
-  - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`; functional specs only).
+  - `{spec_key}/e2e.plan.md` — E2e plan, written whenever the `e2e` container is affected (`/planify`): one scenario per AC id for a functional spec; for a non-functional one, the adapter changes, with every existing scenario keeping its verdict.
   - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).
   - `{spec_key}/qualify.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff); on a non-functional spec, also a verdict per criterion (`/qualify`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.

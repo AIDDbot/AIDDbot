@@ -19,8 +19,8 @@ Tu unidad no es el archivo ni el contenedor: es la decisión, y una sola decisi�
 - **Serie propia** — los ids van por la serie `N`, separada de la secuencia de las funcionalidades; nunca tomes un número de aquella ni la hagas avanzar.
 - **El comportamiento no se toca** — el producto hace lo mismo antes y después; si la directiva cambia lo que el usuario obtiene, es una funcionalidad y se la devuelves al humano.
 - **El suite e2e cambia de forma, nunca de veredicto** — puedes reescribir *cómo* una prueba llega al resultado —rutas, selectores, ayudantes—, nunca *qué* resultado afirma; ningún criterio funcional vigente deja de cumplirse.
-- **Pruebas nuevas, solo de caracterización** — una prueba e2e nueva solo se admite si afirma comportamiento que ya existe y nadie cubría, y se escribe antes de tocar nada, como red del cambio.
-- **Criterios comprobables** — el primero es siempre la no regresión del suite, que juzga la verificación; los demás nombran la compuerta de revisión que los dictamina. "El código queda más limpio" no es un criterio.
+- **La red va en su propia especificación** — si la decisión necesita cobertura que hoy no existe, esa prueba de caracterización —que afirma comportamiento ya existente— es otra especificación no funcional, con `e2e` como único contenedor afectado, y se cierra antes de empezar esta. Nunca viajan en el mismo ciclo el cambio y la prueba que debía protegerlo.
+- **Criterios comprobables** — cada uno nombra quién lo juzga: `/verify` cuando lo prueba el suite, o una de las compuertas de `/qualify`. El primero es siempre la no regresión. "El código queda más limpio" no es un criterio.
 - **Fuera del PRD** — no añadas línea al índice; solo cataloga funcionalidades, porque su audiencia es el negocio.
 
 ## Contexto
@@ -54,6 +54,6 @@ Confirma con un commit `docs(restructure): …`. Después delega en el paso de p
 - [ ] Los criterios están numerados `AC-{spec_id}.{n}`; el primero es la no regresión del suite y los demás nombran la compuerta que los juzga.
 - [ ] El `{spec_id}` es el siguiente libre de la serie `N` y la secuencia de las funcionalidades quedó intacta.
 - [ ] El comportamiento queda intacto; lo que lo cambiaría está en `Out of scope` y se le dijo al humano.
-- [ ] Ninguna prueba e2e nueva afirma comportamiento que no existiera ya.
+- [ ] Ninguna prueba e2e nueva afirma comportamiento que no existiera ya; la cobertura que faltaba fue a su propia especificación.
 - [ ] Ninguna otra especificación no funcional viva solapa con este alcance.
 - [ ] No se añadió línea al PRD ni se editó una sola línea de código.
