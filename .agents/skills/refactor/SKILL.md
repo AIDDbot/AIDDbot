@@ -1,76 +1,99 @@
 ---
 name: refactor
-description: Audit the app for accumulated decay and write a triaged report; never edit — every finding routes to `/planify`.
+description: Turn a human's structural directive into a non-functional spec with checkable criteria.
 user-invocable: true
 disable-model-invocation: true
 ---
 # Refactor
 
 ## Role
-Act as Codebase Auditor.
+Act as Architect.
 
 ## Task
-Audit the in-scope code — the whole app by default — for accumulated decay across clarity, UI,
-accessibility, structure, and behavior. Write a triaged report. Hand every finding to `/planify`;
-never edit.
+Turn the human's structural directive into a non-functional spec: what the code must look like
+once the decision is applied, and how each part of it is checked. Never edit code.
 
 ### Guardrails
-- **Report-only** — never edit code; every finding hands off to `/planify`.
-- **Whole-app by default** — survey the accumulated system, not one diff; scope down only when asked.
-- **One door** — every finding preserves behavior and routes to `/planify`, which plans the cleanup.
-- **The e2e suite is the line** — if a fix would change what a green test asserts, it is not a
-  refactor: flag it to the human as a `/specify` feature, do not write it as a finding.
-- **No tests here** — `/codify` owns unit tests and `/verify` owns e2e; the audit runs neither.
+- **No directive, no spec** — without the human's order, propose candidates and ask; write nothing.
+- **Report-only** — never edit code; the rest of the cycle plans and applies the change.
+- **One decision per spec** — it may cross containers, and crosses them together; it may not
+  carry two decisions.
+- **Never two overlapping** — a live non-functional spec whose scope overlaps yours must finish
+  or be dropped first.
+- **Own series** — ids run `N001`, `N002`…; never take a number from the feature sequence or
+  advance it.
+- **Behavior is untouched** — if the directive changes what the user gets, it is a feature:
+  hand it back to the human.
+- **The e2e suite may change shape, never verdict** — rewrite *how* a test reaches the result;
+  never *what* it asserts. No live functional criterion stops holding.
+- **New tests only as characterization** — a new e2e is admitted only if it asserts behavior
+  that already exists and nothing covered, written before anything is touched.
+- **Checkable criteria** — the first is suite non-regression, judged by `/verify`; the rest name
+  the review gate that judges them, drawn from the closed list.
+- **Out of the PRD** — never append a line; it catalogs features only.
 
 ## Context
 
+- `{Arch}` = `{Product_Folder}/arch`.
 - `{Rules}` = `{Agents_Folder}/rules`.
-- `{Refactors}` = `{Product_Folder}/refactors`.
-- `{Work}` = `{Refactors}/{slug}` — this pass's folder; mirrors a spec's `specs/{spec_key}/`.
+- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
 
 ### Inputs
-- [ ] Optional: a scope — the whole app by default, or a container or paths.
+- [ ] Required: a structural directive — what to homogenize, extract, or unify.
 
 ### References
-- _read_ [code-clarity lens](./references/refactor.patterns.md).
-- _read_ [UI and accessibility lens](./references/ui.patterns.md).
-- _read_ [triage: kinds, routing, severity](./references/triage.md).
-- _read_ [report template](./assets/refactor.report.template.md).
+- _read_ [non-functional spec template](./assets/spec.template.md).
+- _read_ [gate definitions](../review/references/review.gates.md) — the closed list criteria name.
 
 ### Glossary
-- **Finding** — one issue at a file and line, with severity and kind; always hands off to `/planify`.
-- **Kind** — `mechanical` | `functional` | `structural`; classifies the decay (informs `/planify`).
-- **Lens** — a catalog the audit scans through: code clarity, UI/a11y, structure, behavior.
-- **{slug}** — a short kebab-case name for the pass; groups the pass under `{Work}`.
+- **{spec_key}** — `{spec_id}-{slug}`; an `N`-series id plus a slug naming the decision, not the
+  container; folder and branch name.
+- **AC id** — `AC-{spec_id}.{n}`; referenced by plans, gates, and reports.
+- **Census** — the enumerated sites the decision reaches; the spec's evidence.
+- **Characterization test** — an e2e asserting behavior that already exists, written as a net
+  before the change.
 
 ## Steps
 ### 1. Research
-- _identify_ the scope: the whole app by default, else the given container or paths.
-- _if_ the scope is ambiguous, _ask_ the minimum questions.
-- _derive_ `{slug}` from the scope or the date.
-- _list_ the files in scope.
-- _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
+- _require_ a directive from the human; _else_ _propose_ candidates, _ask_, and _stop_.
+- _read_ [system architecture]({Arch}/system.arch.md).
+- _list_ the containers the decision reaches, `e2e` included if it reaches the test surface.
+- _enumerate_ the concrete sites affected — the census.
+- _list_ `specs/` folders in the `N` series; _discard_ those `done`.
+- _if_ a live non-functional spec overlaps this scope, _stop_ and _say so_.
+- _derive_ `{spec_id}` as the next free `N` id, `{slug}` from the decision, and `{spec_key}`.
 
 ### 2. Plan
-- _read_ the [code-clarity](./references/refactor.patterns.md) and [UI/a11y](./references/ui.patterns.md) lenses.
-- _read_ [triage](./references/triage.md) and the [report template](./assets/refactor.report.template.md).
-- _walk_ each scope file through every lens — clarity, UI, accessibility, structure, behavior.
-- _for-each_ finding, _ask_ whether its fix would change what a green e2e test asserts.
-- _if_ it would, _drop_ it from the report and _surface_ it to the human as a `/specify` feature.
-- _else_ _assign_ it a kind and a severity; its handoff is always `/planify`.
-- _drop_ nothing else that fits a lens.
-- _prepare_ the content for the template's placeholders.
+- _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
+- _prepare_ the why — what hurts today for not having taken this decision.
+- _prepare_ the what — the state the code is in once applied, in checkable terms.
+- _prepare_ criteria: the first is suite non-regression; the rest describe the resulting
+  structure, each naming its gate from the closed list.
+- _if_ a criterion fits no gate, _sharpen_ it or _drop_ it.
+- _move_ to `Out of scope` anything the directive brushes that would change behavior, and
+  _surface_ it to the human.
 
 ### 3. Implement
-- _write_ `{Work}/refactor.report.md`.
-- _commit_ the changes (`docs(refactor): {slug}`).
-- _if_ any findings, _handoff_ to `/planify`.
-- _if_ no finding, _reply_ "Nothing to refactor".
+- _if_ already on `refactor/{spec_key}`, _keep_ it — an in-flight cycle stays on its branch.
+- _if_ on the default branch:
+  - _require_ default is current.
+  - _create_ branch `refactor/{spec_key}` from default.
+- _write_ `{Specs}/spec.md` with `kind: non-functional`, its non-functional `category`, and
+  `status: pending`.
+- _number_ criteria `AC-{spec_id}.{n}`, all `[ ]`.
+- _commit_ the changes (`docs(refactor): {description}`).
+- _handoff_ to `/planify`.
+- _if_ the directive was a feature, or there was no structural decision, _write_ no spec and
+  _say so_.
 
 ## Verification
-- [ ] `{Work}/refactor.report.md` exists, in the template format, no placeholders left.
-- [ ] Every finding has a file, a line, a severity, and a kind.
-- [ ] Every finding preserves behavior and hands off to `/planify`; a behavior-changing item was
-      surfaced as a `/specify` feature, not written as a finding.
-- [ ] Nothing that fits a lens was dropped; out-of-lens noise was not invented.
-- [ ] The report routes every finding to `/planify`, or says nothing to refactor.
+- [ ] A human directive existed; nothing was written without one.
+- [ ] `{Specs}/spec.md` exists with `kind: non-functional`, template format, no placeholders.
+- [ ] The spec holds one structural decision, and its evidence enumerates the sites it reaches.
+- [ ] Criteria are numbered `AC-{spec_id}.{n}`; the first is suite non-regression and the rest
+      name a gate from the closed list.
+- [ ] `{spec_id}` is the next free `N` id and the feature sequence is untouched.
+- [ ] Behavior is untouched; what would change it sits in `Out of scope` and was surfaced.
+- [ ] No new e2e asserts behavior that did not already exist.
+- [ ] No other live non-functional spec overlaps this scope.
+- [ ] No PRD line was appended and no line of code was edited.

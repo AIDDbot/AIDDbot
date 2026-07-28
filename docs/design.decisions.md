@@ -5,6 +5,98 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-28 — `/review` guards the diff, `/refactor` owns the decision
+
+**Status**: adopted.
+
+### Context
+
+The previous entry made `/refactor` write a spec instead of a report, but left its *method*
+untouched: an auditor sweeping one container file by file through lenses. That method is
+`/review`'s verb. Both skills walked a file set and graded it against catalogs and
+`{container}.rules.md`; they differed only in what triggered them. Two skills with the same
+internal verb always collapse into one — and the name gave it away, since the skill was doing
+`audit`, not `refactor`.
+
+Meanwhile the thing the pipeline actually lacked had no door: a large structural change that no
+diff reveals — homogenizing the routes a service exposes, extracting a repeated validation into a
+shared utility, unifying five drawings of one concept into a component. Those are not discovered
+by sweeping; they are *decided*. And the old guardrail forbade exactly them: "if a fix would
+change what a green e2e test asserts, it is not a refactor" rules out any change that touches
+routes or selectors, which is most real structural work.
+
+### Decision
+
+Move the boundary rather than merge the skills. The split is no longer mechanical-vs-judgment or
+per-spec-vs-periodic, but **what the evidence is**:
+
+1. **`/review` = detectable from the diff.** Including duplication *against untouched code* — a
+   new helper that reimplements an existing one is a finding even though the diff reads clean.
+   The clarity and UI lenses move in as its catalogs.
+2. **`/refactor` = only visible in the accumulated whole.** Which means no diff contains it, which
+   means no sweep finds it: it takes a human directive. Without one, `/refactor` proposes
+   candidates and asks; it writes nothing.
+3. **The unit of a refactor is the decision, not the container.** One decision may cross several
+   containers and crosses them together. The lock became scope overlap instead of same-container.
+4. **The e2e invariant is restated on the right object**: the suite may change *shape*, never
+   *verdict*. A refactor may rewrite how a test reaches its result — routes, selectors, helpers —
+   but no live functional criterion may stop holding. New e2e tests are admitted only as
+   **characterization**: asserting behavior that already exists and nothing covered, written
+   before the change as its net.
+5. **Tooling stops being a gate.** Lint, types, and build belong to `/codify` or a hook. For
+   `/review` they are an entry precondition: if any is red, hand the scope back without opening a
+   gate. Its value is where a tool cannot reach.
+6. **`/review` got harder to pass**: one violation fails a gate (no partial pass), silence is not
+   a pass (a gate passes only against stated evidence), every finding carries a severity, and a
+   `blocker` or `major` sinks its gate.
+7. **The gate list is closed** — `accessibility`, `security`, `performance`, `clean-code`, `ui`,
+   `project-rules`. A non-functional spec's criteria draw from it, which gives `/refactor` a
+   sharpening test: a criterion that fits no gate is not ready.
+
+A refactor spec therefore has **two oracles**, correcting the previous entry: `AC-N.1` is suite
+non-regression, judged by `/verify`; the rest are structural and judged by `/review`'s gates. It
+travels the full pipeline like any spec, rather than skipping verify.
+
+### Rejected alternatives
+
+- **Fold `/refactor` into `/review` (or a later `/audit`)** — rejected: it would have deleted the
+  door for human-directed structural change, which is the expensive work the pipeline could not
+  express at all. The collision was in the method, not the purpose.
+- **Make `/refactor` a mode of `/specify`** — rejected: the artifact is already shared through
+  `kind:`, so a mode would buy nothing while merging two different roles (Business Analyst vs.
+  Architect), two different inputs, and two id series into one skill.
+- **Keep the automatic audit as a third trigger** — rejected: it reintroduces the sweep, and the
+  evidence it produces now emerges from accumulated `/review` reports, where the human sees it.
+- **Keep triage as a separate brain** — rejected: with routing collapsed to one lane (`/codify`)
+  and the category set by the directive, nothing was left but the severity ladder.
+
+### Consequences
+
+- `refactor/references/` no longer exists. `refactor.patterns.md` moved to
+  `review/references/clarity.patterns.md`, `ui.patterns.md` moved alongside it, and `triage.md`
+  was deleted — its severity ladder now lives in `review.gates.md`, its e2e question is
+  `/review`'s behavior guardrail, and its `category` selection is the architect's call.
+- `review.gates.md` lost its *Tooling gates* section, gained a *UI and design system* gate and a
+  *Severity* section, and states the closed gate list.
+- `/refactor` keeps exactly one reference, and it is another skill's: `review.gates.md`. This is
+  the first cross-skill file link in the harness, and it breaks the "each skill folder is a
+  self-contained copyable unit" property from 2026-07-03. Accepted deliberately — duplicating the
+  gate list would let the two copies drift, and drift here is worse than coupling.
+- `/refactor`'s `SKILL.md` and `README.md` were regenerated from its LEEME, so the folder has no
+  broken links. The other nine skills' English files still lag the 2026-07-27 prose; the full
+  regeneration pass is still pending.
+- Open: `/specify` and `/refactor` still ship separate `spec.template.md` copies. With one
+  artifact and one `kind:` field, two templates are drift waiting to happen.
+
+### Accepted trade-offs
+
+- **Discovery got slower.** Nothing sweeps for accumulated decay any more; it surfaces only as
+  `/review` notes candidates over time and a human reads them. That is the intended cost — an
+  autonomous sweep produced findings nobody had decided to act on.
+- **`/review` carries more weight**, and will eventually split. The line is now per lens (code /
+  UI and accessibility / security), not per determinism — the deterministic half left the skill
+  entirely and belongs to a hook.
+
 ## 2026-07-27 — One spec, two doors: `/refactor` writes a non-functional spec
 
 **Status**: adopted (prose layer only — `SKILL.md` and `README.md` still describe the old
