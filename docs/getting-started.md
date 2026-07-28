@@ -41,6 +41,8 @@ it does before trusting it with the next.
 
 ## 3. Map the ground
 
+> Example:
+
 ```markdown
 /explore-and-extract
 ```
@@ -54,6 +56,8 @@ Both ask closed questions where evidence is missing. Answering them is the work 
 documentation is every later step's context.
 
 ## 4. Build a feature
+
+> Example:
 
 ```markdown
 /spec-feature riders can rate a trip 1 to 5 stars
@@ -72,6 +76,8 @@ Nothing ships until both are green.
 
 Sometimes nothing about the product should change, only its shape: routes exposed five different
 ways, one validation copied into four handlers, a concept drawn differently on every screen.
+
+> Example:
 
 ```markdown
 /spec-refactor homogenize how the api exposes its routes
