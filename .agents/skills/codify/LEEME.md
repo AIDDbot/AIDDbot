@@ -32,7 +32,8 @@ lint, compilación y prueba unitaria que existan.
 - **Entrada** — un plan de contenedor, el `e2e.plan.md`, un informe de defectos o de compuertas, o
   una descripción simple de una corrección.
 - **Referencias** — el `{container}.rules.md` del contenedor en alcance; además de
-  `model/api.schema.md` o `model/db.schema.md`, según lo que toques.
+  `{Product_Folder}/model/api.schema.md` o `{Product_Folder}/model/db.schema.md`, según lo que
+  toques.
 
 ## Método
 

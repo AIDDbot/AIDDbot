@@ -23,12 +23,13 @@ that plans and development lean on afterwards, so it is the one that needs detai
   correcting them.
 - **Prefer the linter to the prose** — a rule the toolchain can enforce belongs in its config, not
   in `{container}.rules.md`.
-- **Merge, never duplicate** — `model/api.schema.md` is shared, so fold your endpoints into the
-  one that may already exist.
+- **Merge, never duplicate** — `{Product_Folder}/model/api.schema.md` is shared, so fold your
+  endpoints into the one that may already exist.
 
 ## Context
 
-- **Input** — `arch/system.arch.md` and the root agent-rules file; optionally, which container.
+- **Input** — `{Product_Folder}/arch/system.arch.md` and the root agent-rules file; optionally,
+  which container.
 - **References** — the templates the case calls for: [container
   architecture](./assets/container.arch.template.md), [relational
   schema](./assets/db.schema.template.md), [API schema](./assets/api.schema.template.md), and
@@ -42,5 +43,6 @@ takes the container architecture, and an API on top of either takes the API sche
 container's folder, its Guide files, and enough representative source to understand it from the
 inside.
 
-Write that container's documents, always including `rules/{container}.rules.md`, and point its
-**Detail** link in `system.arch.md` at what you wrote. Commit as `docs(extract): …`.
+Write that container's documents, always including
+`{Agents_Folder}/rules/{container}.rules.md`, and point its **Detail** link in
+`system.arch.md` at what you wrote. Commit as `docs(extract): …`.

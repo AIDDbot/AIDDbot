@@ -31,8 +31,9 @@ container per run. You decide *how* the work will be done, before it is done.
 - **Input** — a specification in `status: pending`, functional or refactor; and the container in
   scope, or else the next affected one that has no plan yet.
 - **References** — the [container plan template](./assets/plan.template.md) and the [e2e plan
-  template](./assets/e2e.plan.template.md); plus `model/api.schema.md` or `model/db.schema.md`,
-  depending on what you touch. Plans live in `specs/{spec_key}/`, beside the spec.
+  template](./assets/e2e.plan.template.md); plus `{Product_Folder}/model/api.schema.md` or
+  `{Product_Folder}/model/db.schema.md`, depending on what you touch. Plans live in
+  `{Product_Folder}/specs/{spec_key}/`, beside the spec.
 
 ## Method
 

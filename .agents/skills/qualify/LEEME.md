@@ -46,7 +46,7 @@ fichero y lente a lente, anotando cada violación con su severidad, su tipo y su
 lo recorres, busca cada símbolo nuevo entre sus vecinos: la duplicación contra código intacto solo
 aparece si vas a por ella.
 
-Escribe `specs/{spec_key}/qualify.report.md` con el veredicto de cada compuerta y la evidencia con
-la que lo decidiste. Cierra con el deterioro acumulado que hayas visto y que no te toca arreglar,
-señalado como candidato a su propia especificación de refactor. Confirma con un commit
-`docs(qualify): …`.
+Escribe `{Product_Folder}/specs/{spec_key}/qualify.report.md` con el veredicto de cada compuerta y
+la evidencia con la que lo decidiste. Cierra con el deterioro acumulado que hayas visto y que no
+te toca arreglar, señalado como candidato a su propia especificación de refactor. Confirma con un
+commit `docs(qualify): …`.

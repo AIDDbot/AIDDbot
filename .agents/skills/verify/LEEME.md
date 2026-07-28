@@ -38,5 +38,6 @@ criterio del `e2e.plan.md` cuando exista, y selecciona las pruebas que deben eje
 especificación de refactor, la suite entera como regresión. Despeja el terreno antes de ejecutar:
 libera los puertos, limpia los datos y arranca los programas o servicios bajo prueba.
 
-Escribe `specs/{spec_key}/e2e.report.md` con un veredicto por id de AC y una entrada por defecto,
-cada uno clasificado como `functional` o `test`. Confirma con un commit `docs(verify): …`.
+Escribe `{Product_Folder}/specs/{spec_key}/e2e.report.md` con un veredicto por id de AC y una
+entrada por defecto, cada uno clasificado como `functional` o `test`. Confirma con un commit
+`docs(verify): …`.

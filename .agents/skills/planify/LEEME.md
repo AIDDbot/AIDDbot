@@ -32,9 +32,9 @@ unitarias, un contenedor por ejecución. Decides el *cómo* se hará el trabajo,
 - **Entrada** — una especificación en `status: pending`, funcional o de refactor; y el contenedor
   en alcance, o si no el siguiente afectado que aún no tenga plan.
 - **Referencias** — la [plantilla de plan por contenedor](./assets/plan.template.md) y la
-  [plantilla de plan e2e](./assets/e2e.plan.template.md); además de `model/api.schema.md` o
-  `model/db.schema.md`, según lo que toques. Los planes viven en `specs/{spec_key}/`, junto a la
-  especificación.
+  [plantilla de plan e2e](./assets/e2e.plan.template.md); además de
+  `{Product_Folder}/model/api.schema.md` o `{Product_Folder}/model/db.schema.md`, según lo que
+  toques. Los planes viven en `{Product_Folder}/specs/{spec_key}/`, junto a la especificación.
 
 ## Método
 

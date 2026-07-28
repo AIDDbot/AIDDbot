@@ -36,5 +36,5 @@ Read the spec's `kind` and its active criteria, along with the scenario-to-crite
 the whole suite, as a regression. Clear the ground before running: free the ports, clean up the
 data, then start the programs or services under test.
 
-Write `specs/{spec_key}/e2e.report.md` with a verdict per AC id and one entry per defect, each
-classified `functional` or `test`. Commit as `docs(verify): …`.
+Write `{Product_Folder}/specs/{spec_key}/e2e.report.md` with a verdict per AC id and one entry per
+defect, each classified `functional` or `test`. Commit as `docs(verify): …`.

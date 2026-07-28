@@ -21,6 +21,10 @@ defecto solo donde no existe nada.
   en una, hasta que te digan que dejes de preguntar.
 - **Observa, nunca rediseñes** — documenta lo que existe y señala sus contradicciones en vez de
   corregirlas.
+- **Tú fijas las rutas** — `{Agents_File}`, `{Agents_Folder}`, `{Product_Folder}` y
+  `{Source_Folders}` se eligen aquí y se registran en el archivo de reglas de agente. Nunca des
+  por hecha la raíz del repositorio: propón lo que el repo sugiera, confírmalo y escribe tus
+  propios artefactos bajo lo acordado.
 - **El PRD es un armazón** — créalo una vez con las categorías vacías; quien le añade líneas es
   `/specify`.
 - **El archivo de reglas no pasa de 100 líneas** — se carga en todas las sesiones.
@@ -35,12 +39,13 @@ defecto solo donde no existe nada.
 
 ## Método
 
-Lee los archivos de guía y deriva de ellos el entorno, las carpetas de producto y de fuente, los
-contenedores —unidades que se ejecutan de forma independiente, cada una con su tier—, el problema
-y la solución, y las entidades del dominio con sus relaciones. Resuelve con el humano cada hueco
-antes de redactar ningún documento.
+Lee los archivos de guía y deriva de ellos el entorno, las cuatro rutas, los contenedores
+—unidades que se ejecutan de forma independiente, cada una con su tier—, el problema y la
+solución, y las entidades del dominio con sus relaciones. Una estructura existente es evidencia:
+un repo que ya tiene `docs/` o `.product/` te ha respondido la carpeta de producto. Resuelve con
+el humano cada hueco antes de redactar ningún documento.
 
 Después escribe, en orden: el archivo de reglas de agente en la raíz del repositorio, `AGENTS.md`
-por defecto o `CLAUDE.md` si el arnés lo pide; `arch/system.arch.md` como vista C4 Nivel 2; las
-entidades y relaciones de `model/model.schema.md`; y `specs/PRD.md` si aún no existe. Confirma con
-un commit `docs(explore): …`.
+por defecto o `CLAUDE.md` si el arnés lo pide; `{Product_Folder}/arch/system.arch.md` como vista
+C4 Nivel 2; las entidades y relaciones de `{Product_Folder}/model/model.schema.md`; y
+`{Product_Folder}/specs/PRD.md` si aún no existe. Confirma con un commit `docs(explore): …`.

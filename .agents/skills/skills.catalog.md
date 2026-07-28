@@ -20,12 +20,17 @@ its own work.
 amendable at any status; `done` means currently shipped, not frozen. The arch docs describe the
 current technical state — `/release` reconciles them, `/extract` rebuilds them when they drift.
 
+**Nothing assumes the repository root.** `{Product_Folder}`, `{Agents_Folder}`, `{Agents_File}`,
+and `{Source_Folders}` are settled by `/explore` with the human and recorded in `{Agents_File}`,
+which every later session loads. Paths below are written against those placeholders, never
+resolved here.
+
 ## Context
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/explore`](./explore/) | AIDD setup + C4 L2 (with Tier) + conceptual model + PRD shell. Guide files only, no application source | `{Agents_File}`, `arch/system.arch.md`, `model/model.schema.md`, `specs/PRD.md` (shell) |
-| [`/extract`](./extract/) | Per container: arch or db schema + code rules (+ API). Reads container source | `arch/{container}.arch.md` or `model/db.schema.md`, `model/api.schema.md` (merged), `{Agents_Folder}/rules/{container}.rules.md` |
+| [`/explore`](./explore/) | AIDD setup + C4 L2 (with Tier) + conceptual model + PRD shell. Guide files only, no application source | `{Agents_File}`, `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md`, `{Product_Folder}/specs/PRD.md` (shell) |
+| [`/extract`](./extract/) | Per container: arch or db schema + code rules (+ API). Reads container source | `{Product_Folder}/arch/{container}.arch.md` or `{Product_Folder}/model/db.schema.md`, `{Product_Folder}/model/api.schema.md` (merged), `{Agents_Folder}/rules/{container}.rules.md` |
 
 Both apply **evidence wins**: document what exists, propose and ask what is missing — resolved per
 gap, which is why an empty repo and a mature one both work.
@@ -34,10 +39,10 @@ gap, which is why an empty repo and a mature one both work.
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/specify`](./specify/) | Create or amend: problem + solution + criteria → `pending` | `specs/{spec_key}/spec.md` (`kind: functional`) + its PRD line on create |
-| [`/planify`](./planify/) | One plan for the container in scope; checkpoints on replan → `planned` | `specs/{spec_key}/{container}.plan.md`, or `e2e.plan.md` |
+| [`/specify`](./specify/) | Create or amend: problem + solution + criteria → `pending` | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: functional`) + its PRD line on create |
+| [`/planify`](./planify/) | One plan for the container in scope; checkpoints on replan → `planned` | `{Product_Folder}/specs/{spec_key}/{container}.plan.md`, or `e2e.plan.md` |
 | [`/codify`](./codify/) | Implement one plan or fix a report; unit tests, e2e compiles only → `in-progress` | source, unit tests, the e2e suite |
-| [`/verify`](./verify/) | Run the e2e suite; report defects with triage, no fixes | `specs/{spec_key}/e2e.report.md` — a verdict per AC id |
+| [`/verify`](./verify/) | Run the e2e suite; report defects with triage, no fixes | `{Product_Folder}/specs/{spec_key}/e2e.report.md` — a verdict per AC id |
 
 Criteria are numbered `AC-{spec_id}.{n}`, unique repo-wide because each id reaches an e2e test
 title. An amend resets to `pending` and always replans, unchecks active criteria, and moves
@@ -47,7 +52,7 @@ retired ones to `Deprecated criteria` with the id kept.
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/qualify`](./qualify/) | Grade the scope: a11y, security, perf, clean-code, ui, project rules; a failed gate routes to `/codify` | `specs/{spec_key}/qualify.report.md` — a pass/fail verdict per gate |
+| [`/qualify`](./qualify/) | Grade the scope: a11y, security, perf, clean-code, ui, project rules; a failed gate routes to `/codify` | `{Product_Folder}/specs/{spec_key}/qualify.report.md` — a pass/fail verdict per gate |
 | [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec | `CHANGELOG.md`, version bump, tag, reconciled arch docs |
 
 ## Restructuring
@@ -56,7 +61,7 @@ A structural change the human orders. It never writes code — it writes a spec.
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/restructure`](./restructure/) | Turn a human's structural directive into a refactor spec; one decision, may cross containers | `specs/{spec_key}/spec.md` (`kind: refactor`), keyed from its own `R` series |
+| [`/restructure`](./restructure/) | Turn a human's structural directive into a refactor spec; one decision, may cross containers | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: refactor`), keyed from its own `R` series |
 
 Never a PRD line, never amended, never two open whose scopes overlap. Anything that would change
 what the product does is not structural: it goes back to the human as a `/specify` feature.

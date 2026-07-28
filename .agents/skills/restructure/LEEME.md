@@ -34,19 +34,19 @@ construido de otra forma— y el *cómo* es de `/planify`.
 
 - **Entrada** — la directriz estructural del humano: qué se homogeneiza, se extrae o se unifica.
 - **Referencias** — la [plantilla de especificación de refactor](./assets/spec.template.md);
-  además de `arch/system.arch.md`, `model/model.schema.md` y el `rules/{container}.rules.md` de
-  cada contenedor en alcance.
+  además de `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md` y el
+  `{Agents_Folder}/rules/{container}.rules.md` de cada contenedor en alcance.
 
 ## Método
 
 Aclara la directriz con el humano, con una pregunta cerrada cada vez, y acota después su radio:
 lee la arquitectura del sistema, decide qué contenedores alcanza —incluido `e2e` cuando el cambio
 toca la superficie por la que las pruebas hablan con la aplicación— y enumera los sitios afectados
-agrupados por contenedor. No hay índice de especificaciones de refactor, así que busca en `specs/`
-las carpetas de la serie `R`, descarta las que ya están `done`, comprueba que ninguna de las
-demás se solapa con tu alcance y toma el siguiente id libre.
+agrupados por contenedor. No hay índice de especificaciones de refactor, así que busca en
+`{Product_Folder}/specs/` las carpetas de la serie `R`, descarta las que ya están `done`,
+comprueba que ninguna de las demás se solapa con tu alcance y toma el siguiente id libre.
 
 Lee el modelo conceptual por sus términos y las reglas de codificación de cada contenedor en
 alcance, y propón entonces el estado en que queda el código una vez aplicada la decisión. Ponte en
-`refactor/{spec_key}`, escribe `specs/{spec_key}/spec.md` y confirma con un commit
+`refactor/{spec_key}`, escribe `{Product_Folder}/specs/{spec_key}/spec.md` y confirma con un commit
 `docs(refactor): …`.

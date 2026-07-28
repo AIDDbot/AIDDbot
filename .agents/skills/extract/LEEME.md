@@ -24,13 +24,13 @@ que necesita detalle.
   corregirlas.
 - **Antes el linter que la prosa** — una regla que la cadena de herramientas puede exigir va en su
   configuración, no en `{container}.rules.md`.
-- **Fusiona, nunca dupliques** — `model/api.schema.md` es compartido, así que integra tus
-  endpoints en el que ya pueda existir.
+- **Fusiona, nunca dupliques** — `{Product_Folder}/model/api.schema.md` es compartido, así que
+  integra tus endpoints en el que ya pueda existir.
 
 ## Contexto
 
-- **Entrada** — `arch/system.arch.md` y el archivo raíz de reglas de agente; opcionalmente, qué
-  contenedor.
+- **Entrada** — `{Product_Folder}/arch/system.arch.md` y el archivo raíz de reglas de agente;
+  opcionalmente, qué contenedor.
 - **Referencias** — las plantillas que pida el caso: [arquitectura de
   contenedor](./assets/container.arch.template.md), [esquema
   relacional](./assets/db.schema.template.md), [esquema de API](./assets/api.schema.template.md)
@@ -44,6 +44,6 @@ cualquier otro la arquitectura de contenedor, y una API encima de cualquiera de 
 además el esquema de API. Después lee la carpeta del contenedor, sus archivos de guía y la fuente
 representativa que haga falta para entenderlo por dentro.
 
-Escribe los documentos de ese contenedor, incluyendo siempre `rules/{container}.rules.md`, y
-apunta su enlace **Detail** de `system.arch.md` a lo que escribiste. Confirma con un commit
-`docs(extract): …`.
+Escribe los documentos de ese contenedor, incluyendo siempre
+`{Agents_Folder}/rules/{container}.rules.md`, y apunta su enlace **Detail** de
+`system.arch.md` a lo que escribiste. Confirma con un commit `docs(extract): …`.

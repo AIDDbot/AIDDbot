@@ -30,7 +30,8 @@ e2e suite alike — and the run is done when the lint, build, and unit-test chec
 - **Input** — a container plan, the `e2e.plan.md`, a defects or gate report, or a plain
   description of a fix.
 - **References** — the `{container}.rules.md` of the container in scope; plus
-  `model/api.schema.md` or `model/db.schema.md`, depending on what you touch.
+  `{Product_Folder}/model/api.schema.md` or `{Product_Folder}/model/db.schema.md`, depending on
+  what you touch.
 
 ## Method
 

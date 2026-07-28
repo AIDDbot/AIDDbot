@@ -31,18 +31,18 @@ feature — once applied the product does exactly the same thing, only built dif
 
 - **Input** — the human's structural directive: what gets homogenized, extracted, or unified.
 - **References** — the [refactor spec template](./assets/spec.template.md); plus
-  `arch/system.arch.md`, `model/model.schema.md`, and the `rules/{container}.rules.md` of each
-  container in scope.
+  `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md`, and the
+  `{Agents_Folder}/rules/{container}.rules.md` of each container in scope.
 
 ## Method
 
 Clarify the directive with the human, one closed question at a time, then bound its radius: read
 the system architecture, decide which containers it reaches — `e2e` included when the change
 touches the surface the tests speak to the application through — and enumerate the affected sites
-grouped by container. There is no index of refactor specs, so look through `specs/` for folders in
-the `R` series, discard the ones already `done`, check none of the rest overlaps your scope, and
-take the next free id.
+grouped by container. There is no index of refactor specs, so look through
+`{Product_Folder}/specs/` for folders in the `R` series, discard the ones already `done`, check
+none of the rest overlaps your scope, and take the next free id.
 
 Read the conceptual model for its terms and the coding rules of each container in scope, then
 propose the state the code is in once the decision is applied. Get onto `refactor/{spec_key}`,
-write `specs/{spec_key}/spec.md`, and commit as `docs(refactor): …`.
+write `{Product_Folder}/specs/{spec_key}/spec.md`, and commit as `docs(refactor): …`.

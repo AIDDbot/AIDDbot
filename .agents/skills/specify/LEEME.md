@@ -30,7 +30,8 @@ los criterios que la darán por buena. Te importa el *qué* y el *porqué*, nunc
 
 - **Entrada** — un requisito o una descripción de la funcionalidad.
 - **Referencias** — la [plantilla de especificación](./assets/spec.template.md); además de
-  `arch/system.arch.md`, `model/model.schema.md` y `specs/PRD.md`.
+  `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md` y
+  `{Product_Folder}/specs/PRD.md`.
 
 ## Método
 
@@ -42,5 +43,5 @@ proponer la solución contenedor a contenedor, excluyendo `e2e`.
 
 Ponte en `feat/{spec_key}` —quédate si ya estás a mitad de ciclo, o sácala nueva desde el default
 actual, borrando antes cualquier rama obsoleta que dejara una publicación previa. Luego escribe
-`specs/{spec_key}/spec.md`, conservando cualquier `released-version` ya fijada, y confirma con un
-commit `docs(specify): …`.
+`{Product_Folder}/specs/{spec_key}/spec.md`, conservando cualquier `released-version` ya fijada, y
+confirma con un commit `docs(specify): …`.

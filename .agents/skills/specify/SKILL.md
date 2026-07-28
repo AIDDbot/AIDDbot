@@ -29,8 +29,9 @@ What matters to you is the *what* and the *why*, never the *how*.
 ## Context
 
 - **Input** — a requirement or a description of the feature.
-- **References** — the [spec template](./assets/spec.template.md); plus `arch/system.arch.md`,
-  `model/model.schema.md`, and `specs/PRD.md`.
+- **References** — the [spec template](./assets/spec.template.md); plus
+  `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md`, and
+  `{Product_Folder}/specs/PRD.md`.
 
 ## Method
 
@@ -42,5 +43,5 @@ solution container by container, `e2e` excluded.
 
 Get onto `feat/{spec_key}` — stay there if you are mid-cycle, otherwise cut it fresh from current
 default, first deleting any stale branch a previous release left behind. Then write
-`specs/{spec_key}/spec.md`, keeping any `released-version` already set, and commit as
-`docs(specify): …`.
+`{Product_Folder}/specs/{spec_key}/spec.md`, keeping any `released-version` already set, and
+commit as `docs(specify): …`.

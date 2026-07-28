@@ -45,6 +45,6 @@ and lens by lens, noting every violation with its severity, its kind, and its de
 walk it, look for each new symbol among its neighbors: duplication against untouched code only
 shows up if you go looking for it.
 
-Write `specs/{spec_key}/qualify.report.md` with each gate's verdict and the evidence you decided
-it on. Close with the accumulated decay you saw that is not yours to fix, flagged as a candidate
-for its own refactor spec. Commit as `docs(qualify): …`.
+Write `{Product_Folder}/specs/{spec_key}/qualify.report.md` with each gate's verdict and the
+evidence you decided it on. Close with the accumulated decay you saw that is not yours to fix,
+flagged as a candidate for its own refactor spec. Commit as `docs(qualify): …`.
