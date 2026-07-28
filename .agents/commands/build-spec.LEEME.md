@@ -1,28 +1,15 @@
 # build-spec
 
-Lleva una especificación desde su captura hasta una publicación, de principio a fin. Es el único
-ciclo, y tiene dos puertas de entrada: `/specify` cuando traes un requerimiento funcional, y
-`/restructure` cuando lo que quieres es auditar un contenedor y pagar su deuda acumulada.
+Lleva la especificación hasta su publicación. No la creas ni la discutes: recibes su clave, la lees, la metes en el proceso y ya.
 
-Por la puerta funcional, `/specify` captura o enmienda la especificación. Por la técnica se exige
-primero una línea base verde —`/verify` la confirma, y un suite en rojo lo detiene, porque
-refactorizar necesita pruebas en las que apoyarse—, y después `/restructure` audita un contenedor y
-captura lo que encuentra como especificación no funcional; si el contenedor está sano, no escribe
-nada y termina ahí.
+Cada skill se ejecuta en su propio subagente fresco en una sesión de trabajo nueva tomando como contexto el estado que le pases.
 
-Desde ese punto el camino es el mismo para las dos, y el `kind` de la especificación es lo único
-que lo modula. `/planify` la divide en un plan por contenedor —el de e2e siempre que ese contenedor esté
-afectado, que en una funcional es siempre y en un cambio estructural solo si alcanza la
-superficie de pruebas—.
-`/codify` escribe el código, una ejecución por plan. `/verify` ejecuta el suite: cualquier bug de
-código o de prueba vuelve por `/codify` hasta que está en verde. Después `/qualify` califica, y ahí
-está la otra diferencia: ante una especificación no funcional es además su oráculo, porque juzga
-cada criterio con la compuerta que este nombra y lo marca en la especificación.
+Para empezar llama a `/planify` para dividir la especificación en un plan por contenedor y para el e2e si necesita crear o cambiar pruebas de aceptación.
 
-Por último ejecuta `/release` para publicarla.
+Invoca a `/codify` para escribir el código de cada plan. Primero los contenedores de producción y por ultimo el de pruebas e2e si fuese necesario.
 
-Cada skill se ejecuta en su propio subagente fresco, al que se le dice que pare tras su commit,
-para que ninguna ejecución se derrame en la siguiente.
+Si hay pruebas ejecútalas con `/verify` y espera a que genere el informe con los fallos o el veredicto verde. Si hay fallos vuelve a `/codify` para corregirlos pasnadole el informe.
 
-Se detiene y te devuelve el control cuando un cambio necesita tu criterio — un defecto triado como
-estructural, o un hallazgo que debe pasar por `/specify` o `/planify`.
+Cuando lo funcional esté listo invoca a `/qualify` para revisar la calidad del código. Si el verercido detecta defectos, vuelve a `/codify` para corregirlos, repitiendo todo el proceso de verificación funcional hasta que esté todo en verde.
+
+Cuando el codigo pase las verificación funcional y la revisión técnica invoca a `/release` para publicar la especificación.
