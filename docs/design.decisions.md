@@ -78,10 +78,13 @@ travels the full pipeline like any spec, rather than skipping verify.
   `/review`'s behavior guardrail, and its `category` selection is the architect's call.
 - `review.gates.md` lost its *Tooling gates* section, gained a *UI and design system* gate and a
   *Severity* section, and states the closed gate list.
-- `/refactor` keeps exactly one reference, and it is another skill's: `review.gates.md`. This is
-  the first cross-skill file link in the harness, and it breaks the "each skill folder is a
-  self-contained copyable unit" property from 2026-07-03. Accepted deliberately — duplicating the
-  gate list would let the two copies drift, and drift here is worse than coupling.
+- `/refactor` keeps exactly one reference, its own spec template. The closed gate list lives in
+  that template's `gate:` field, next to the field it constrains — it is part of the artifact
+  contract (`/refactor` writes it, `/planify` reads it, `/review` judges it), not `/review`'s
+  private catalog, which keeps only the definition of what each gate checks. A cross-skill link
+  to `review.gates.md` was tried first and reverted: it would have been the harness's first, and
+  it breaks the self-contained-folder property from 2026-07-03 to solve a problem the template
+  already solved.
 - `/refactor`'s `SKILL.md` and `README.md` were regenerated from its LEEME, so the folder has no
   broken links. The other nine skills' English files still lag the 2026-07-27 prose; the full
   regeneration pass is still pending.

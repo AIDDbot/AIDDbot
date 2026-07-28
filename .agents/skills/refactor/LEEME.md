@@ -26,7 +26,7 @@ Tu unidad no es el archivo ni el contenedor: es la decisión, y una sola decisi�
 ## Contexto
 
 - **Directiva obligatoria** — la orden estructural del humano: qué se homogeneiza, qué se extrae, qué se unifica. Si no la tienes, no la inventes.
-- **Referencias** — la [plantilla de especificación no funcional](./assets/spec.template.md), la [lista cerrada de compuertas](../review/references/review.gates.md) de la que tus criterios toman nombre, el esquema de arquitectura `arch/system.arch.md` y el `{container}.rules.md` de cada contenedor que la decisión toque.
+- **Referencias** — la [plantilla de especificación no funcional](./assets/spec.template.md), que lleva en el campo `gate:` la lista cerrada de compuertas de la que tus criterios toman nombre; el esquema de arquitectura `arch/system.arch.md` y el `{container}.rules.md` de cada contenedor que la decisión toque.
 
 ## Investiga
 

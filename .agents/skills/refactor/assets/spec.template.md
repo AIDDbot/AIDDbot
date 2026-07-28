@@ -43,4 +43,4 @@ name the gate so `/review` knows how to judge it. Prose like "the code is cleane
 criterion.}
 
 - [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
-- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {lint | types | accessibility | security | performance | clean-code}
+- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {accessibility | security | performance | clean-code | ui | project-rules}

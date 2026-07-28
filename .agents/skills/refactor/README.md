@@ -49,7 +49,8 @@ You are not running an audit; you are counting what the decision touches.
 Check that no live non-functional spec already overlaps that scope. There is no index to consult,
 so look through `specs/` for `N`-series folders and discard the `done` ones. Read each in-scope
 container's `{container}.rules.md`, so you can name the destination in its own terms, and the
-[gate definitions](../review/references/review.gates.md), the closed list your criteria draw from.
+[spec template](./assets/spec.template.md), whose `gate:` field carries the closed list your
+criteria draw from.
 
 ## Write it
 

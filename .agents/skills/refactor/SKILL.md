@@ -42,8 +42,8 @@ once the decision is applied, and how each part of it is checked. Never edit cod
 - [ ] Required: a structural directive — what to homogenize, extract, or unify.
 
 ### References
-- _read_ [non-functional spec template](./assets/spec.template.md).
-- _read_ [gate definitions](../review/references/review.gates.md) — the closed list criteria name.
+- _read_ [non-functional spec template](./assets/spec.template.md) — its `gate:` field carries
+  the closed list criteria name.
 
 ### Glossary
 - **{spec_key}** — `{spec_id}-{slug}`; an `N`-series id plus a slug naming the decision, not the
