@@ -1,27 +1,27 @@
 # Plantilla de LEEME (prosa)
 
 El LEEME es el gemelo en español de un `SKILL.md`: la misma skill, escrita en prosa dirigida al
-agente que la ejecuta. Nada de pseudocódigo, marcado de verbos ni pasos numerados —un agente lee
-instrucciones, no una gramática. Ambos siguen este esqueleto y estas reglas.
+agente que la ejecuta —nada de pseudocódigo, marcado de verbos ni pasos numerados. Ambos siguen
+este esqueleto y estas reglas.
 
 ## Reglas de formato
 
-- **Longitud** — toda sección de prosa: 1–2 párrafos, 2–3 frases por párrafo; nunca trocees por
-  longitud. Los tres pasos suelen tener **dos movimientos**, así que dos párrafos es lo normal
-  ahí: uno por movimiento.
-- **Lista o prosa** — van en **lista**: `Reglas`, `Contexto`, `Verificación`. Van en **prosa**:
-  el intro y los tres pasos (`Investiga`, `Planifica`, `Ejecuta`).
-- **Ganchos** — cada viñeta de `Reglas` y `Contexto` empieza con `**gancho corto** —` seguido de
-  una frase.
-- **Backticks** — para rutas, nombres de archivo, identificadores, comandos y valores literales.
-- **Negrita** — solo en los ganchos de lista y, como mucho, un concepto por párrafo de paso.
-- **Enlaces** — a plantillas y documentos referenciados, concentrados en `Contexto › Referencias`.
-- **No repitas** — lo que ya es una `Regla` no se re-explica en un paso; se menciona de pasada.
-- **Tono** — dirígete siempre al agente en 2.ª persona o imperativo ("Lee", "Escribe", "No
-  ejecutes"); nunca hables de la skill en 3.ª persona ("la auditoría no ejecuta", "release
-  publica").
-- **Pipeline** — menciona la posición en la tubería lo justo; los handoffs van como acción en
-  `Ejecuta`, no como narración de secuencia en el intro.
+- **Presupuesto** — 50 líneas, medidas sobre el `SKILL.md`. El español corre algo más largo y no
+  se trocea por eso. Una skill que pide mucho más pide un fichero en `references/`, no más prosa.
+- **Las reglas se ganan su sitio** — escribe solo lo que un agente capaz erraría por su cuenta:
+  una decisión del proyecto, un límite contraintuitivo, un orden que importa. Si lo haría igual,
+  fuera.
+- **Una vez, en un solo sitio** — una invariante vive en `Reglas` y no se repite en `Método`, y no
+  hay checklist de cierre que la enuncie una tercera vez.
+- **La plantilla especifica el artefacto** — di cuándo y por qué escribir algo; deja que la
+  plantilla de `assets/` diga qué forma tiene, y no la parafrasees aquí.
+- **Sin narrar la tubería** — fija los estados que te tocan y para. El
+  [catálogo](../../skills.catalog.md) es dueño del enrutado; los comandos orquestan.
+- **Lista o prosa** — `Reglas` y `Contexto` van en lista, cada viñeta abriendo con
+  `**gancho corto** —`. `Método` va en prosa, en 2.ª persona o imperativo.
+- **Backticks** para rutas, identificadores, comandos y valores literales; **negrita** en los
+  ganchos de lista y, como mucho, un concepto por párrafo.
+- **Enlaces** a toda plantilla o documento que consumas, concentrados en `Contexto › Referencias`.
 
 ## Esqueleto
 
@@ -34,32 +34,18 @@ disable-model-invocation: true
 ---
 # {Verbo} — {subtítulo de una línea}
 
-{Intro P1 — rol y objetivo: actúas como {Rol}; qué generas y qué entregas.}
-
-{Intro P2, opcional — filosofía, límites, lo que nunca haces.}
+{Rol, qué produces y el límite que importa. De dos a cuatro frases.}
 
 ## Reglas
 - **{gancho}** — {la invariante, en una frase}.
 
 ## Contexto
-- **Entrada obligatoria** — {lo que el llamador debe aportar}.
-- **Entrada opcional** — {lo que puede aportar, si aplica}.
+- **Entrada** — {lo que aporta el llamador; dilo cuando sea opcional}.
 - **Referencias** — {las plantillas y documentos que lees o rellenas, como enlaces}.
 
-## Investiga
-{P1 — orientarse: fijar el alcance y decidir el modo.}
-{P2 — leer la evidencia y las fuentes que importan.}
-
-## Planifica
-{P1 — las guías y plantillas contra las que trabajas.}
-{P2 — producir el plan: mapear el contenido y listar qué tocar.}
-
-## Ejecuta
-{P1 — escribir los artefactos; varios entregables como una frase con ";".}
-{P2 — cerrar: el commit y el handoff.}
-
-## Verificación
-- [ ] {un resultado comprobable}.
+## Método
+{P1 — orientarse: qué leer, qué fijar, qué preguntar.}
+{P2 — escribir los artefactos y confirmar el commit.}
 ```
 
 > Pasar esta prosa de vuelta por `/skillify` debería reproducir la misma skill.

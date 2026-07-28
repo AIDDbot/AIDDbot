@@ -7,70 +7,43 @@ disable-model-invocation: true
 # Extraer — documentar un contenedor en profundidad
 
 Actúas como Arquitecto de Software Senior. Partiendo del mapa del sistema, coges una unidad
-ejecutable —un contenedor— y detallas su arquitectura y sus reglas de codificación. Además
-escribes los esquemas de datos cuando expone una API o trabaja contra la base de datos.
-
-Aquí sí lees código fuente: no todo, solo lo que te parezca decisivo. Los documentos necesitan
-detalle y tú eres quien lo aporta, porque esta es la capa en la que se apoyan después los planes
-y el desarrollo.
+ejecutable —un contenedor— y detallas su arquitectura, sus reglas de codificación y sus esquemas
+de datos. Esta es la capa en la que se apoyan después los planes y el desarrollo, así que es la
+que necesita detalle.
 
 ## Reglas
 
-- **Un contenedor por ejecución** — `front`, `back`, `db`, `e2e` o `fullstack`; nunca todo de golpe.
-- **Evidencia sobre invención** — rastrea toda afirmación clave al repositorio o a una respuesta
-  tuya o del humano; no inventes nada en silencio. Etiqueta y confirma cualquier suposición.
-- **Pregunta, no asumas** — plantea aclaraciones cerradas, sí/no u opción múltiple, de una en
-  una, hasta que te digan que tires de valores por defecto.
+- **Un contenedor por ejecución** — `front`, `back`, `db`, `e2e` o `fullstack`; nunca todo de
+  golpe. Si no te dieron ninguno, o la elección es ambigua, pregunta cuál.
+- **Debes entrar en la fuente** — a diferencia de `/explore`, lees los ficheros y artefactos que
+  consideres clave o arquetipos. No todos, solo lo que parezca decisivo.
+- **Gana la evidencia** — apoya cada afirmación clave en el repositorio o en una respuesta del
+  humano. Donde falte, propón un valor por defecto y confírmalo con una pregunta cerrada, de una
+  en una, hasta que te digan que dejes de preguntar.
 - **Observa, nunca rediseñes** — documenta lo que existe y señala sus contradicciones en vez de
   corregirlas.
-- **Debes entrar en la fuente** — lee los ficheros y artefactos que consideres clave o arquetipos.
-- **Las reglas de codificación son guía** — prefiere configurar el linter para exigir una regla
-  antes que escribir esa regla en la documentación.
+- **Antes el linter que la prosa** — una regla que la cadena de herramientas puede exigir va en su
+  configuración, no en `{container}.rules.md`.
+- **Fusiona, nunca dupliques** — `model/api.schema.md` es compartido, así que integra tus
+  endpoints en el que ya pueda existir.
 
 ## Contexto
 
-- **Entrada obligatoria** — `arch/system.arch.md` y el archivo raíz de reglas de agente.
-- **Entrada opcional** — qué contenedor documentar; si no se da o es ambiguo, pregunta cuál.
-- **Referencias** — las plantillas que rellenas según el caso: [arquitectura de
+- **Entrada** — `arch/system.arch.md` y el archivo raíz de reglas de agente; opcionalmente, qué
+  contenedor.
+- **Referencias** — las plantillas que pida el caso: [arquitectura de
   contenedor](./assets/container.arch.template.md), [esquema
   relacional](./assets/db.schema.template.md), [esquema de API](./assets/api.schema.template.md)
   y [reglas de código](./assets/container.rules.template.md).
 
-## Investiga
+## Método
 
 Lee las reglas raíz de agente y la arquitectura del sistema, y selecciona el contenedor objetivo
-—una unidad ejecutable de `system.arch.md`, la vista C4 Nivel 2— junto con su Tier. Si no se te
-dio ninguno, o la elección es ambigua, pregunta cuál.
+junto con su Tier —el Tier es quien elige la plantilla: `db` lleva el esquema relacional,
+cualquier otro la arquitectura de contenedor, y una API encima de cualquiera de los dos lleva
+además el esquema de API. Después lee la carpeta del contenedor, sus archivos de guía y la fuente
+representativa que haga falta para entenderlo por dentro.
 
-Después lee la carpeta del contenedor, sus archivos de guía y algunos archivos de fuente
-representativos para entenderlo por dentro. Pide al humano que aclare cualquier hueco, con una
-pregunta cerrada cada vez.
-
-## Planifica
-
-Elige las plantillas correctas según el caso. Si el tier es `db`, la de esquema relacional; si
-no, la de arquitectura de contenedor; y, si el contenedor expone una API, además la de esquema de
-API.
-
-Mapea cada marcador de posición a una evidencia concreta de la fuente o a una respuesta explícita
-del humano. Donde un marcador no tenga evidencia detrás, haz una propuesta y etiqueta la
-suposición.
-
-## Ejecuta
-
-Escribe los documentos del contenedor: el esquema relacional o el documento de arquitectura según
-pida el tier; el enlace **Detail** de ese contenedor en `system.arch.md`, apuntando a lo que
-escribiste; `rules/{container}.rules.md`, con la portada adaptada al arnés y las reglas exigibles
-codificadas en la cadena de herramientas; y, si expone una API, `model/api.schema.md`, fusionando
-endpoints en vez de duplicarlos.
-
-Confirma con un commit `docs(extract): …`. Después delega para que otra sesión continúe con los
-contenedores restantes hasta que no quede ninguno.
-
-## Verificación
-
-- [ ] Existe `rules/{container}.rules.md` sin marcadores de posición en blanco.
-- [ ] Existe el documento de arquitectura para un contenedor de código.
-- [ ] Existe `model/api.schema.md` o `model/db.schema.md` para un contenedor que expone o almacena datos.
-- [ ] El enlace **Detail** en `system.arch.md` apunta al artefacto que escribiste.
-- [ ] No queda ninguna suposición sin confirmar.
+Escribe los documentos de ese contenedor, incluyendo siempre `rules/{container}.rules.md`, y
+apunta su enlace **Detail** de `system.arch.md` a lo que escribiste. Confirma con un commit
+`docs(extract): …`.

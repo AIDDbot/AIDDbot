@@ -2,8 +2,63 @@
 
 Record of the structural decisions behind the skills pipeline — what changed, why, what
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
-and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
-file explains how it got that way.
+describes the current state; this file explains how it got that way.
+
+## 2026-07-28 — Shorter skills for Claude 5 generation models
+
+**Status**: adopted, experimental — branch `short-skills-post5-models`.
+
+### Context
+
+Following [the new rules of context engineering for Claude 5 generation
+models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models),
+an audit of the ten skills found most of their bulk was ceremony rather than knowledge.
+
+`Research` / `Plan` / `Implement` narrated the agent's own default loop — `/codify`'s `Plan`
+section amounted to "if you were given no plan, make one." `Verification` restated `Rules` in
+checkbox form: eight of `/restructure`'s ten items and five of `/specify`'s six were one-to-one
+with a rule directly above them. Rules like "think before you code (KISS)", "surgical changes
+(YAGNI)", and "keep going until finished" describe what a capable model does unprompted. And the
+prose paraphrased its own templates — `/specify`'s `Plan` listed the section headings of
+`spec.template.md`, which already carries them.
+
+Meanwhile the pipeline was stated in five places at once — each `SKILL.md`, the catalog, the
+lifecycle map, `AGENTS.template.md`, and `AIDD.workflow.md` — which is why the align-docs rule had
+grown to six destinations per edit, doubled by the Spanish twin.
+
+### Decision
+
+1. **Three sections, not six.** Intro, `Rules`, `Context`, `Method`. `Research`/`Plan`/`Implement`
+   collapse into one prose `Method`; `Verification` is gone, since an invariant belongs in `Rules`
+   and stating it twice is not a second check.
+2. **Rules earn their place.** The test is whether a capable agent would get it wrong on its own.
+   Project decisions, counterintuitive boundaries, and orders that matter stay — report-only
+   separation, id permanence, the `R` series, never running the e2e suite in `/codify`. Restated
+   defaults go.
+3. **The template is the artifact's spec.** A skill says when and why to write something; the
+   template in `assets/` says what shape it takes, and the prose never paraphrases it.
+4. **One owner for the pipeline.** `skills.lifecycle.md` is merged into `skills.catalog.md`, which
+   now owns routing, status chain, maintenance routes, and the release table. Skills set the
+   statuses they own and stop narrating handoffs — the commands already orchestrate.
+5. **A 50-line budget** per `SKILL.md`, measured in the template rather than as a sentence count.
+
+### Rejected alternatives
+
+- **Keep `Verification` trimmed to two or three non-obvious items** — rejected: a section that
+  exists only sometimes invites restating rules to fill it. If a check is worth making it is worth
+  being a rule.
+- **Drop the Spanish twin to halve the maintenance cost** — rejected: the audience is the reason
+  the project exists. Shortening the skills cuts that cost by the same proportion anyway.
+- **Generate `LEEME.md` from `SKILL.md` as a build step** — deferred, not rejected; it removes
+  drift but adds a toolchain to a repo that deliberately has none.
+
+### Cost
+
+Skill prose drops from 1512 lines to 932 (−38%), and `SKILL.md` averages 46 lines instead of 74.
+The risk is real and untested: some of what was cut was defensive, and a model that needed the
+guardrail will now be trusted without it. `/qualify` and `/restructure` were pruned most
+conservatively, since their rules encode genuine separation-of-powers decisions. The proof is
+running the pipeline on a real repository and comparing behavior against `main`.
 
 ## 2026-07-28 — Skills are prose, not pseudocode
 

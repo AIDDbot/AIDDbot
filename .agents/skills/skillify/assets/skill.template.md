@@ -1,62 +1,50 @@
 # Skill template (prose)
 
-Every `SKILL.md` is prose written straight at the agent that will run it. No pseudocode, no
-verb markup, no step numbering — an agent reads instructions, not a grammar. `LEEME.md` is the
-Spanish twin of the same skill; both follow this skeleton and these rules.
+Every `SKILL.md` is prose written straight at the agent that will run it — no pseudocode, no verb
+markup, no step numbering. `LEEME.md` is the Spanish twin of the same skill; both follow this
+skeleton and these rules.
 
 ## Format rules
 
-- **Length** — every prose section: 1–2 paragraphs, 2–3 sentences each. Never split for length
-  alone. The three steps usually have **two movements**, so two paragraphs is normal there.
-- **List or prose** — `Rules`, `Context`, and `Verification` are lists. The intro and the three
-  steps (`Research`, `Plan`, `Implement`) are prose.
-- **Hooks** — every `Rules` and `Context` bullet opens with `**short hook** —` then one sentence.
-- **Backticks** — for paths, file names, identifiers, commands, and literal values.
-- **Bold** — only in list hooks, plus at most one concept per step paragraph.
-- **Links** — to every template and document you consume, concentrated in `Context › References`.
-- **No repeats** — never re-explain a `Rule` inside a step; refer to it in passing.
-- **Voice** — address the agent in second person or imperative ("Read", "Write", "Never run").
-  Never talk about the skill in third person ("release publishes", "the audit does not run").
-- **Pipeline** — mention your place in the pipeline only as needed; handoffs are an action in
-  `Implement`, not narration in the intro.
+- **Budget** — 50 lines. A skill that wants more wants a `references/` file, not more prose.
+- **Rules earn their place** — write only what a capable agent would get wrong on its own: a
+  project decision, a counterintuitive boundary, an order that matters. If it would do it anyway,
+  leave it out.
+- **Once, in one place** — an invariant lives in `Rules` and is never restated in `Method`, and
+  there is no closing checklist to restate it a third time.
+- **The template is the artifact's spec** — say when and why to write something; let the template
+  in `assets/` say what shape it takes, and never paraphrase it here.
+- **No pipeline narration** — set the statuses you own and stop. The
+  [catalog](../../skills.catalog.md) owns the routing; the commands do the orchestrating.
+- **List or prose** — `Rules` and `Context` are lists, each bullet opening `**short hook** —`.
+  `Method` is prose, in second person or imperative.
+- **Backticks** for paths, identifiers, commands, and literal values; **bold** in list hooks and
+  at most one concept per paragraph.
+- **Links** to every template and document you consume, concentrated in `Context › References`.
 
 ## Skeleton
 
 ```md
 ---
 name: {slug}
-description: {what it does, one sentence}
+description: {what it does, in one sentence}
 user-invocable: true
 disable-model-invocation: true
 ---
 # {Verb} — {one-line subtitle}
 
-{Intro P1 — role and goal: act as {Role}; what you produce and what you hand over.}
-
-{Intro P2, optional — philosophy, boundaries, what you never do.}
+{Role, what you produce, and the boundary that matters. Two to four sentences.}
 
 ## Rules
 - **{hook}** — {the invariant, in one sentence}.
 
 ## Context
-- **Required input** — {what the caller must provide}.
-- **Optional input** — {what it may provide, if any}.
+- **Input** — {what the caller provides; say so when it is optional}.
 - **References** — {the templates and documents you read or fill, as links}.
 
-## Research
-{P1 — get oriented: settle the scope and the mode.}
-{P2 — read the evidence and the sources that matter.}
-
-## Plan
-{P1 — the guides and templates you work against.}
-{P2 — produce the plan: map the content, list what to touch.}
-
-## Implement
-{P1 — write the artifacts; several deliverables read as one sentence with ";".}
-{P2 — close out: the commit and the handoff.}
-
-## Verification
-- [ ] {one checkable outcome}.
+## Method
+{P1 — get oriented: what to read, what to settle, what to ask.}
+{P2 — write the artifacts and commit.}
 ```
 
 > Running this prose back through `/skillify` should reproduce the same skill.

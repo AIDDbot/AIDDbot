@@ -1,9 +1,8 @@
 # AIDD Workflow
 
 The system, one case at a time. Each section below is self-contained: a prompt, a small picture,
-and what it leaves behind. The [catalog](../.agents/skills/skills.catalog.md) is the inventory,
-the [lifecycle](../.agents/skills/skills.lifecycle.md) is the map, the
-[design decisions](./design.decisions.md) are the why. To install it, start with
+and what it leaves behind. The [catalog](../.agents/skills/skills.catalog.md) is the inventory and
+the map, the [design decisions](./design.decisions.md) are the why. To install it, start with
 [Getting started](./getting-started.md).
 
 ## What holds it together

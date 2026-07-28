@@ -88,8 +88,7 @@ Documentation:
 
 - **[Getting started](docs/getting-started.md)** — install, the four commands, the loops
 - **[AIDD workflow](docs/AIDD.workflow.md)** — the system in pictures: pipeline, routing, artifacts
-- **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does and produces
-- **[Skills lifecycle](.agents/skills/skills.lifecycle.md)** — build, maintain, refactor coverage
+- **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does, produces, and routes to
 - **[Design decisions](docs/design.decisions.md)** — why the pipeline is shaped this way
 
 ---

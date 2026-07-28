@@ -7,66 +7,40 @@ disable-model-invocation: true
 # Explorar — preparar el proyecto y mapear lo que existe
 
 Actúas como Arquitecto de Software Senior. Generas la primera capa de documentación del proyecto:
-el archivo de reglas de agente, la arquitectura del sistema, el esquema del modelo de entidades y
-un armazón para el Product Requirements Document (PRD).
-
-Describes lo que ya está y prescribes valores por defecto sensatos solo donde no existe nada;
-nunca rediseñas software que ya funciona. Al terminar, delegas en el paso de extracción para
-documentar en profundidad.
+el archivo de reglas de agente, la arquitectura del sistema, el esquema del modelo conceptual y un
+armazón del Product Requirements Document. Describes lo que ya está y prescribes valores por
+defecto solo donde no existe nada.
 
 ## Reglas
 
-- **Evidencia sobre invención** — rastrea toda afirmación clave al repositorio o a una respuesta
-  tuya o del humano; no inventes nada en silencio. Etiqueta y confirma cualquier suposición.
-- **Pregunta, no asumas** — plantea aclaraciones cerradas, sí/no u opción múltiple, de una en
-  una, hasta que te digan que tires de valores por defecto.
+- **No entres en la fuente** — lee solo el árbol del repositorio y los archivos de guía:
+  `README.md`, `CHANGELOG.md` y manifiestos como `package.json`, `pom.xml` o `go.mod`. La pasada
+  profunda es de `/extract`.
+- **Gana la evidencia** — apoya cada afirmación clave en el repositorio o en una respuesta del
+  humano. Donde falte, propón un valor por defecto y confírmalo con una pregunta cerrada, de una
+  en una, hasta que te digan que dejes de preguntar.
 - **Observa, nunca rediseñes** — documenta lo que existe y señala sus contradicciones en vez de
   corregirlas.
-- **No entres en la fuente** — lee solo el árbol del repositorio y los archivos de guía:
-  `README.md`, `CHANGELOG.md` y manifiestos como `package.json`, `pom.xml` o `go.mod`.
 - **El PRD es un armazón** — créalo una vez con las categorías vacías; quien le añade líneas es
-  el paso de especificación.
+  `/specify`.
+- **El archivo de reglas no pasa de 100 líneas** — se carga en todas las sesiones.
 
 ## Contexto
 
-- **Entrada obligatoria** — el árbol del repositorio, del que derivas todo lo demás.
+- **Entrada** — el árbol del repositorio, del que derivas todo lo demás.
 - **Referencias** — las cuatro plantillas que rellenas: [reglas de
   agente](./assets/AGENTS.template.md), [arquitectura del
-  sistema](./assets/system.arch.template.md), [esquema del modelo de
-  entidades](./assets/model.schema.template.md) y [PRD](./assets/PRD.template.md).
+  sistema](./assets/system.arch.template.md), [esquema del modelo
+  conceptual](./assets/model.schema.template.md) y [PRD](./assets/PRD.template.md).
 
-## Investiga
+## Método
 
-Lee primero los archivos de guía —README raíz, manifiestos, README por contenedor y scripts de
-build—: son tu fuente de evidencia, nunca el código de aplicación. De ahí deriva el entorno (SO,
-shell, herramientas de build, framework, repositorio remoto), la carpeta de producto y las de
-fuente, los contenedores —unidades ejecutables de forma independiente— con su tier (`front`,
-`back`, `db`, `e2e`, `fullstack`), el problema y la solución, y las entidades del dominio con sus
-relaciones.
+Lee los archivos de guía y deriva de ellos el entorno, las carpetas de producto y de fuente, los
+contenedores —unidades que se ejecutan de forma independiente, cada una con su tier—, el problema
+y la solución, y las entidades del dominio con sus relaciones. Resuelve con el humano cada hueco
+antes de redactar ningún documento.
 
-Donde falte evidencia, propón un valor por defecto y confírmalo con una pregunta cerrada. Párate
-ahí, antes de redactar ningún documento.
-
-## Planifica
-
-Mapea cada marcador de las plantillas a una evidencia de guía o a una respuesta del humano. Donde
-no haya evidencia detrás, haz una propuesta y etiqueta la suposición.
-
-Prepara el párrafo de producto del PRD y deja sus categorías vacías.
-
-## Ejecuta
-
-Escribe, en orden: el archivo de reglas de agente —`AGENTS.md` por defecto, o `CLAUDE.md`— en la
-raíz del repositorio, menos de 100 líneas; `arch/system.arch.md`, la vista C4 Nivel 2 con los
-contenedores y una **Tier** cada uno; `model/model.schema.md`, solo entidades y relaciones, sin
-atributos; y `specs/PRD.md` desde su plantilla si aún no existe.
-
-Confirma todo con un commit `docs(explore): …`. Después delega en el paso de extracción, una
-ejecución por contenedor, para documentar cada uno en profundidad.
-
-## Verificación
-
-- [ ] Existen el archivo de reglas de agente, `arch/system.arch.md`, `model/model.schema.md` y `specs/PRD.md`.
-- [ ] Cada contenedor tiene una Tier, ningún marcador de posición queda en blanco y el modelo no lleva atributos.
-- [ ] El PRD tiene su párrafo de producto y ninguna categoría inventada.
-- [ ] No queda ninguna suposición sin confirmar.
+Después escribe, en orden: el archivo de reglas de agente en la raíz del repositorio, `AGENTS.md`
+por defecto o `CLAUDE.md` si el arnés lo pide; `arch/system.arch.md` como vista C4 Nivel 2; las
+entidades y relaciones de `model/model.schema.md`; y `specs/PRD.md` si aún no existe. Confirma con
+un commit `docs(explore): …`.

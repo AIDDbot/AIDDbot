@@ -104,6 +104,5 @@ Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed
 
 - [Why AIDD](../README.md#why-do-you-need-aidd) — principles and who this is for
 - [AIDD workflow](./AIDD.workflow.md) — each case in pictures: explore, build, refactor
-- [Skills catalog](../.agents/skills/skills.catalog.md) — what each skill does and produces
-- [Skills lifecycle](../.agents/skills/skills.lifecycle.md) — build, maintain, refactor coverage
+- [Skills catalog](../.agents/skills/skills.catalog.md) — what each skill does, produces, and routes to
 - [Design decisions](./design.decisions.md) — why the pipeline is shaped this way
