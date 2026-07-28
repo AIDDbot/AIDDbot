@@ -30,7 +30,7 @@ Tu unidad no es el archivo ni el contenedor: es la decisión, y una sola decisi�
 
 ## Investiga
 
-Parte de la directiva y acota su radio: lee la arquitectura del sistema y decide qué contenedores alcanza, incluido `e2e` si el cambio llega a la superficie por la que las pruebas hablan con la aplicación. Enumera después los sitios concretos afectados, que son la evidencia de la especificación: no haces una auditoría, haces el censo de lo que la decisión toca.
+Parte de la directiva y acota su radio: lee la arquitectura del sistema y decide qué contenedores alcanza, incluido `e2e` si el cambio llega a la superficie por la que las pruebas hablan con la aplicación. Enumera después, contenedor a contenedor, los sitios afectados. No estás buscando defectos: estás listando dónde llega la decisión, y ahí entra también lo que hoy está bien y aun así tendrá que cambiar para encajar.
 
 Comprueba que no haya ya una especificación no funcional viva que solape con ese alcance: no hay índice que consultar, así que mira en `specs/` las carpetas de la serie `N` y descarta las que estén `done`. Si encuentras una que se pise con la tuya, para y dilo; si no, deriva la clave `{spec_key}` como `{spec_id}-{slug}`, donde el id es el siguiente libre de la serie `N` y el slug nombra la decisión, no el contenedor.
 
@@ -50,7 +50,7 @@ Confirma con un commit `docs(refactor): …`. Después delega en el paso de plan
 
 - [ ] Hubo una directiva del humano, y nada se escribió sin ella.
 - [ ] Existe `specs/{spec_key}/spec.md` con `kind: non-functional`, en el formato de la plantilla y sin marcadores de posición.
-- [ ] La especificación recoge una sola decisión estructural, y su evidencia enumera los sitios que alcanza.
+- [ ] La especificación recoge una sola decisión estructural, y sus sitios afectados están enumerados por contenedor.
 - [ ] Los criterios están numerados `AC-{spec_id}.{n}`; el primero es la no regresión del suite y los demás nombran la compuerta que los juzga.
 - [ ] El `{spec_id}` es el siguiente libre de la serie `N` y la secuencia de las funcionalidades quedó intacta.
 - [ ] El comportamiento queda intacto; lo que lo cambiaría está en `Out of scope` y se le dijo al humano.

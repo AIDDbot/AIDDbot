@@ -43,8 +43,9 @@ describe the resulting structure, each naming the review gate that rules on it.
 
 Start from the directive and bound its radius: read the system architecture and decide which
 containers it reaches, `e2e` included if the change reaches the surface the tests speak to the
-app through. Then enumerate the concrete sites affected — that census is the spec's evidence.
-You are not running an audit; you are counting what the decision touches.
+app through. Then enumerate the affected sites, grouped by container. You are not hunting for
+defects; you are listing where the decision lands, which includes code that is fine today and
+still has to change to fit.
 
 Check that no live non-functional spec already overlaps that scope. There is no index to consult,
 so look through `specs/` for `N`-series folders and discard the `done` ones. Read each in-scope
@@ -66,7 +67,7 @@ be a feature, or there was no structural decision to take, write no spec — say
 - A human directive existed, and nothing was written without one.
 - `specs/{spec_key}/spec.md` exists with `kind: non-functional`, in the template format, with no
   placeholders left.
-- The spec holds one structural decision, and its evidence enumerates the sites it reaches.
+- The spec holds one structural decision, and its affected sites are listed per container.
 - Criteria are numbered `AC-{spec_id}.{n}`; the first is suite non-regression and the rest name a
   gate from the closed list.
 - `{spec_id}` is the next free `N` id, and the feature sequence was left untouched.

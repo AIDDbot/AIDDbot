@@ -49,7 +49,8 @@ once the decision is applied, and how each part of it is checked. Never edit cod
 - **{spec_key}** — `{spec_id}-{slug}`; an `N`-series id plus a slug naming the decision, not the
   container; folder and branch name.
 - **AC id** — `AC-{spec_id}.{n}`; referenced by plans, gates, and reports.
-- **Census** — the enumerated sites the decision reaches; the spec's evidence.
+- **Affected sites** — every place the decision reaches, grouped by container; includes what is
+  fine today but must change to fit.
 - **Characterization test** — an e2e asserting behavior that already exists, written as a net
   before the change.
 
@@ -58,7 +59,8 @@ once the decision is applied, and how each part of it is checked. Never edit cod
 - _require_ a directive from the human; _else_ _propose_ candidates, _ask_, and _stop_.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _list_ the containers the decision reaches, `e2e` included if it reaches the test surface.
-- _enumerate_ the concrete sites affected — the census.
+- _enumerate_ the affected sites, grouped by container — not defects, but every place the
+  decision reaches.
 - _list_ `specs/` folders in the `N` series; _discard_ those `done`.
 - _if_ a live non-functional spec overlaps this scope, _stop_ and _say so_.
 - _derive_ `{spec_id}` as the next free `N` id, `{slug}` from the decision, and `{spec_key}`.
@@ -89,7 +91,7 @@ once the decision is applied, and how each part of it is checked. Never edit cod
 ## Verification
 - [ ] A human directive existed; nothing was written without one.
 - [ ] `{Specs}/spec.md` exists with `kind: non-functional`, template format, no placeholders.
-- [ ] The spec holds one structural decision, and its evidence enumerates the sites it reaches.
+- [ ] The spec holds one structural decision, and its affected sites are listed per container.
 - [ ] Criteria are numbered `AC-{spec_id}.{n}`; the first is suite non-regression and the rest
       name a gate from the closed list.
 - [ ] `{spec_id}` is the next free `N` id and the feature sequence is untouched.
