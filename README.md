@@ -31,10 +31,10 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
-| [Context](docs/AIDD.workflow.md#set-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
-| [Development](docs/AIDD.workflow.md#build-a-feature) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
-| [Quality & release](docs/AIDD.workflow.md#quality-and-release) | `/qualify`, `/release` | Quality audit and release |
-| [Restructuring](docs/AIDD.workflow.md#refactor) | `/restructure` | A structural directive you give; it becomes a refactor spec |
+| [Context](docs/AIDD.workflow.md#setting-up-the-context) | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
+| [Development](docs/AIDD.workflow.md#the-pipeline) | `/specify`, `/planify`, `/codify`, `/verify` | Spec (amendable) → plans → code → verified e2e |
+| [Quality & release](docs/AIDD.workflow.md#the-pipeline) | `/qualify`, `/release` | Quality audit and release |
+| [Restructuring](docs/AIDD.workflow.md#two-doors-one-spec) | `/restructure` | A structural directive you give; it becomes a refactor spec |
 
 Plus `/skillify`, a Meta skill outside the SDLC pipeline: the sole path to create or fix skills under `.agents/skills/`.
 
