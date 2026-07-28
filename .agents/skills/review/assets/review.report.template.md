@@ -32,7 +32,7 @@ status: {green | red}
 
 | Criterion | Gate | Verdict |
 |-----------|------|---------|
-| AC-{n} | {gate named by the criterion} | {pass \| fail} |
+| AC-{spec_id}.{n} | {gate named by the criterion} | {pass \| fail} |
 
 ## Findings
 

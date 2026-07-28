@@ -38,28 +38,31 @@ and the discipline.
    become the `category`: maintainability, usability, accessibility, performance, security.
 3. **Findings become criteria.** No more `F1..Fn`. Each decay is written as a criterion naming the
    gate that judges it, which is what gives the audit an oracle at all.
-4. **A non-functional spec is never amended, and needs no id.** A functional spec *describes the
-   system*: it lives as long as the feature, so it is amendable and its `AC-{spec_id}.{n}` must be
-   unique repo-wide and permanent — that id travels into an e2e test title. A non-functional spec
-   *records a debt payment*: once released the code has changed and there is nothing left to
-   describe, so a later audit of the same container is a new spec, not an amendment. Its criteria
-   never leave their own folder (no e2e test carries them), so they are numbered `AC-{n}`, local,
-   and its key is `{YYYYMMDD}-{container}` — self-dating, collision-free, and visibly distinct from
-   a functional `{spec_id}-{slug}` in the same directory. What replaces amendability is one guard:
-   **only one open non-functional spec per container**, so two branches and two plans cannot
-   collide. The accepted cost is that debt reported and declined will be raised again by the next
-   audit; a memory that hides still-present decay is worse than a second refusal.
-5. **Two oracles.** `/verify` judges a functional spec's criteria with the e2e suite; `/review`
+4. **A non-functional spec is never amended.** A functional spec *describes the system*: it lives
+   as long as the feature, so it is amendable and its ACs must be permanent — each one travels into
+   an e2e test title. A non-functional spec *records a debt payment*: once released the code has
+   changed and there is nothing left to describe, so a later audit of the same container is a new
+   spec, not an amendment. What replaces amendability is one guard: **only one open non-functional
+   spec per container**, so two branches and two plans cannot collide. The accepted cost is that
+   debt reported and declined will be raised again by the next audit; a memory that hides
+   still-present decay is worse than a second refusal.
+5. **One key shape, two id series.** `{spec_key}` = `{spec_id}-{slug}` for both kinds, so there is
+   one naming rule to explain, one `# {spec_id} — {title}` heading, and one criterion format
+   `AC-{spec_id}.{n}`. What differs is the series the id is drawn from: functional specs number
+   `001`, `002`…, non-functional ones `N001`, `N002`… — separate, so paying debt never advances the
+   feature counter and the two are distinguishable at a glance in the same directory. A
+   non-functional slug is the audited container.
+6. **Two oracles.** `/verify` judges a functional spec's criteria with the e2e suite; `/review`
    judges a non-functional spec's criteria with the gate each names. On a non-functional spec
    `/verify` marks only the non-regression criterion. `/release` still requires `verified` plus
    every active criterion `[x]`, so neither oracle can close a spec alone.
-6. **The PRD stays functional-only** — its audience is the business. Non-functional specs are
+7. **The PRD stays functional-only** — its audience is the business. Non-functional specs are
    found by reading frontmatter, not through a sibling index: an index earns its place when a
    human consumes it, and a second one is a synchronization bug for the price of a glob.
-7. **Scope is one container**, down from the whole app. It is the unit `/planify`, `/codify`, and
+8. **Scope is one container**, down from the whole app. It is the unit `/planify`, `/codify`, and
    `{container}.rules.md` already work in, and it keeps a spec to one page. Auditing the whole app
    is several passes, several specs.
-8. **Commands collapse 3 → 2.** With refactor producing a spec, `refactor-and-verify` *was*
+9. **Commands collapse 3 → 2.** With refactor producing a spec, `refactor-and-verify` *was*
    `build-feature` with a different first step. Both become `build-spec`, one cycle with two entry
    doors. "Feature" no longer described what it built.
 
@@ -80,12 +83,15 @@ and the discipline.
 
 - **Two symmetric sibling artifacts** (align every axis, keep `refactors/`) — leaves `/planify`
   with two paths forever, for no gain once the artifacts are identical anyway.
-- **A shared global id sequence** across both kinds, so no two specs could mint the same AC id —
-  rejected once it was clear a non-functional criterion never escapes its folder. It bought a
-  property nobody consumed.
+- **A single id sequence shared by both kinds** — rejected: paying debt would advance the feature
+  counter, and the PRD's numbering would show gaps it cannot explain. Two series in one key shape
+  gives the uniformity without the coupling (decision 5).
+- **A date-based non-functional key** (`{YYYYMMDD}-{container}`) — self-dating and free of
+  bookkeeping, but it does not rhyme with a functional key, collides on two audits of one container
+  in a day, and duplicates what `created:` already records.
 - **Amendable non-functional specs** with `Deprecated criteria` as a memory of declined debt —
   see decision 4.
-- **A sibling debt index** (`DEBT.md`) mirroring the PRD — see decision 6.
+- **A sibling debt index** (`DEBT.md`) mirroring the PRD — see decision 7.
 - **Per-finding routing** (`mechanical` → `/codify`, `structural` → `/planify`) — the whole point
   is that the audit produces one demand that travels one path. `kind` survives only in the review
   report, where it still routes a finding's handoff.

@@ -1,15 +1,15 @@
 ---
-slug: {YYYYMMDD}-{container}
+id: N{nnn}
+slug: {container}  # a non-functional spec is keyed by the container it audits
 title: {title}
 kind: non-functional  # functional | non-functional — this template writes non-functional specs
 category: {maintainability | usability | accessibility | performance | security}
-container: {audited container from system.arch.md}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | failed | done
 created: {YYYY-MM-DD}
 released-version:
 ---
-# {title}
+# {spec_id} — {title}
 
 ## Problem definition
 
@@ -37,10 +37,10 @@ and surface it to the human as a functional spec.}
 
 ## Verification Criteria
 
-{Numbered `AC-{n}`, local to this spec: no e2e test carries these ids, so they never leave this
-folder — only its plans and its review report read them. Every criterion must be checkable by a
-gate or by the suite: name the gate so `/review` knows how to judge it. Prose like "the code is
-cleaner" is not a criterion.}
+{Number every criterion `AC-{spec_id}.{n}`, same as a functional spec — the `N` series keeps them
+distinct without sharing a sequence. Every criterion must be checkable by a gate or by the suite:
+name the gate so `/review` knows how to judge it. Prose like "the code is cleaner" is not a
+criterion.}
 
-- [ ] **AC-1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
-- [ ] **AC-2** — {observable, checkable property} · gate: {lint | types | accessibility | security | performance | clean-code}
+- [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`
+- [ ] **AC-{spec_id}.2** — {observable, checkable property} · gate: {lint | types | accessibility | security | performance | clean-code}

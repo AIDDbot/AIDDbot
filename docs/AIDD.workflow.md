@@ -443,9 +443,9 @@ stateDiagram-v2
   - `model.schema.md` — Conceptual ER + entity list, no attributes (`/explore`).
   - `db.schema.md` — Relational schema for the `db` container (instead of arch) (`/extract`).
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
-- `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id); all of the spec's artifacts live inside it.
+- `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id, prefixed `N` for the non-functional series); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. **Functional specs only** — its audience is the business. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria. `kind: functional` from `/specify`, keyed `{spec_id}-{slug}`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/refactor`, keyed `{YYYYMMDD}-{container}`: one closed debt payment, never amended, criteria numbered `AC-{n}` local to the spec.
+  - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria, numbered `AC-{spec_id}.{n}`. Both kinds share the key shape `{spec_id}-{slug}` and differ only in their id series. `kind: functional` from `/specify`, id `007`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/refactor`, id `N001` from its own series, slug = the audited container: one closed debt payment, never amended.
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`; functional specs only).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).

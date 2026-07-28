@@ -69,9 +69,10 @@ On-demand audit of one container's accumulated decay. It never writes code — i
 | [`/refactor`](./refactor/) | Audit one container (clarity, structure, UI, a11y); capture its debt as a non-functional spec |
 
 Produces:
-- `/refactor` → `specs/{YYYYMMDD}-{container}/spec.md` with `kind: non-functional` — evidence per
-  decay (path, line, severity) and criteria (`AC-{n}`, local to the spec) each naming the gate that
-  judges it; never a PRD line, never amended, never two open on one container.
+- `/refactor` → `specs/{spec_key}/spec.md` with `kind: non-functional`, keyed from its own `N`
+  series (`N001-api`) — evidence per decay (path, line, severity) and criteria (`AC-{spec_id}.{n}`)
+  each naming the gate that judges it; never a PRD line, never amended, never two open on one
+  container.
 
 ## Meta
 
