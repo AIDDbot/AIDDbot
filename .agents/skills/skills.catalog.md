@@ -1,12 +1,12 @@
 # AIDD skills catalog
 
-An 8-skill pipeline covering the whole SDLC, plus `/refactor` — an on-demand audit of one
-container's accumulated decay — and `/skillify` to extend the skillset itself. Every cycle
+An 8-skill pipeline covering the whole SDLC, plus `/restructure` — a human-directed structural
+change to how the code is built — and `/skillify` to extend the skillset itself. Every cycle
 starts from a **spec**; what differs is which door it came through. `/specify` captures or
-amends a functional one (problem, solution, criteria); `/refactor` distils a non-functional
-one from the code itself. `/planify` owns the per-container breakdown — software containers
+amends a functional one (problem, solution, criteria); `/restructure` turns an architect's
+directive into a non-functional one. `/planify` owns the per-container breakdown — software containers
 and, for functional specs only, `e2e.plan.md`. `/codify` is the only skill that writes code;
-`/verify`, `/review`, and `/refactor` only evaluate and report — implementation and evaluation
+`/verify`, `/qualify`, and `/restructure` only evaluate and report — implementation and evaluation
 never share a session.
 
 This catalog is the inventory; the [lifecycle map](./skills.lifecycle.md) shows how the
@@ -53,26 +53,26 @@ Produces:
 
 | Skill | What it does |
 |-------|--------------|
-| [`/review`](./review/) | Gate the scope (lint, types, a11y, security, perf, clean-code, project rules); report verdicts, fail → `/codify` |
+| [`/qualify`](./qualify/) | Grade the scope (a11y, security, perf, clean-code, ui, project rules); report verdicts, fail → `/codify` |
 | [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec when in scope |
 
 Produces:
-- `/review` → `specs/{spec_key}/review.report.md` — a pass/fail verdict per gate; failed gates hand off to `/codify`. On a non-functional spec it is also the acceptance oracle: a verdict per criterion, mirrored as `[x]`/`[ ]` in the spec.
+- `/qualify` → `specs/{spec_key}/qualify.report.md` — a pass/fail verdict per gate; failed gates hand off to `/codify`. On a non-functional spec it is also the acceptance oracle: a verdict per criterion, mirrored as `[x]`/`[ ]` in the spec.
 - `/release` → `CHANGELOG.md`, version bump, reconciled arch docs.
 
-## Refactoring
+## Restructuring
 
-On-demand audit of one container's accumulated decay. It never writes code — it writes a spec.
+A structural change the human orders. It never writes code — it writes a spec.
 
 | Skill | What it does |
 |-------|--------------|
-| [`/refactor`](./refactor/) | Audit one container (clarity, structure, UI, a11y); capture its debt as a non-functional spec |
+| [`/restructure`](./restructure/) | Turn a human's structural directive into a non-functional spec; one decision, may cross containers |
 
 Produces:
-- `/refactor` → `specs/{spec_key}/spec.md` with `kind: non-functional`, keyed from its own `N`
-  series (`N001-api`) — evidence per decay (path, line, severity) and criteria (`AC-{spec_id}.{n}`)
-  each naming the gate that judges it; never a PRD line, never amended, never two open on one
-  container.
+- `/restructure` → `specs/{spec_key}/spec.md` with `kind: non-functional`, keyed from its own `N`
+  series (`N001-api-routes`) — the affected sites per container and criteria (`AC-{spec_id}.{n}`)
+  each naming the gate that judges it; never a PRD line, never amended, never two open whose
+  scopes overlap.
 
 ## Meta
 
@@ -95,12 +95,12 @@ Spanish translation. Both are align-docs kept in sync by `/skillify` the same wa
 | Command | Orchestrates |
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.md) | `/explore`, then `/extract` per container |
-| [`build-spec`](../commands/build-spec.md) | `/specify` or `/refactor` → `/planify` → `/codify` per plan → `/verify` (loop to green) → `/review` → `/release` |
+| [`build-spec`](../commands/build-spec.md) | `/specify` or `/restructure` → `/planify` → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |
 
 ## Pipeline
 
 `/explore` -> `/extract` -> `/specify` -> `/planify` -> `/codify` (×container) -> `/verify`
--> `/review` -> `/release`
+-> `/qualify` -> `/release`
 
 Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed` → `done`.
 Amend at any status: `/specify` → `pending` → always `/planify` (checkpoints) → …
@@ -115,7 +115,7 @@ No section in the spec's solution overview; its verdict belongs to `/verify`. A
 non-functional spec gets no e2e plan at all — the existing suite is its non-regression test.
 
 Each spec kind has its own acceptance oracle: `/verify` judges a functional spec's criteria
-with the e2e suite; `/review` judges a non-functional spec's criteria with the gate each one
+with the e2e suite; `/qualify` judges a non-functional spec's criteria with the gate each one
 names. `/release` needs both — `verified` status and every active criterion `[x]`.
 
 ## Maintenance
@@ -124,5 +124,5 @@ The green e2e suite is the contract. A `done` spec may be amended in place via
 `/specify` (keeps `released-version`); amend always replans. Spec-less defects still
 route: **would satisfying it change what a green e2e test asserts?** No → `/codify`
 fix mode + regression test → patch `/release`. Yes → amend (or create) via `/specify`,
-full pipeline. Accumulated decay gets its own spec through `/refactor` — the
+full pipeline. A structural change the human orders gets its own spec through `/restructure` — the
 [lifecycle map](./skills.lifecycle.md) has the full maintenance and refactoring routes.

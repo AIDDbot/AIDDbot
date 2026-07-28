@@ -85,17 +85,17 @@ See the [AIDD workflow](./AIDD.workflow.md#build-a-feature).
 Default loop:
 
 ```markdown
-/review → /release
+/qualify → /release
 ```
 
 Example prompts:
 
 ```markdown
-/review the source code touched by this feature
+/qualify the source code touched by this feature
 /release a new version
 ```
 
-- `/review` gates a code scope on lint, types, a11y, security, performance, **and** clean-code/DRY, and writes `review.report.md` with a pass/fail verdict per gate plus a handoff per finding (report-only). Failed gates hand off to `/codify`.
+- `/qualify` grades a code scope on a11y, security, performance, clean-code/DRY, UI, **and** the project's per-container rules, and writes `qualify.report.md` with a pass/fail verdict per gate plus a handoff per finding (report-only). Lint, types and build are not gates — they are a precondition. Failed gates hand off to `/codify`.
 - `/release` bumps the version, updates `CHANGELOG.md`, reconciles arch docs, requires the review report's gates all green, and closes the spec when one is in scope.
 
 See the [AIDD workflow](./AIDD.workflow.md#quality-and-release).
@@ -115,7 +115,7 @@ Both doors ask one mechanical question — *would satisfying the request change 
 - **No green test flips** → defect or coverage gap: `/codify` fix mode — minimal fix + regression test — then a patch `/release`. No spec.
 - **A green test must flip** → behavior change: `/specify` amend (or create) → always `/planify` (checkpoints) → `/codify` → `/verify`.
 
-For accumulated decay no single spec's review can see, run `/refactor` periodically — a whole-app audit (code clarity, UI, a11y, structure, behavior). Every behavior-preserving finding routes to `/planify`, which plans the cleanup for `/codify` to execute and `/verify` to confirm; anything that would change what a green e2e test asserts is not a refactor but a `/specify` feature. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
+For a structural change that no single diff reveals — homogenizing exposed routes, extracting a repeated validation, unifying a concept drawn five ways — give `/restructure` the directive. It captures the decision as a `kind: non-functional` spec that travels the normal pipeline; `/qualify` rules on its structural criteria and the e2e suite proves nothing regressed. Anything that changes what the product does is a `/specify` feature instead. Accumulated decay that `/qualify` merely notes in passing is the raw material for these directives. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 
 ## Next
 

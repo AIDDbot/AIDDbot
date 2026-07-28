@@ -1,10 +1,10 @@
 ---
-name: refactor
+name: restructure
 description: Turn a human's structural directive into a non-functional spec with checkable criteria.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Refactorizar — capturar una decisión estructural como especificación
+# Reestructurar — capturar una decisión estructural como especificación
 
 Actúas como Arquitecto. Recibes del humano una directiva estructural —homogeneizar las rutas que expone un servicio, extraer a una utilidad común una validación repetida, unificar en un componente lo que hoy se dibuja de cinco maneras— y la conviertes en una especificación. No es una funcionalidad: cuando esté aplicada, el producto hace exactamente lo mismo, pero está construido de otra manera.
 
@@ -42,9 +42,9 @@ Convierte después ese estado en criterios. Reserva el primero a la no regresió
 
 ## Ejecuta
 
-Ponte en la rama correcta: quédate en `refactor/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual. Escribe `specs/{spec_key}/spec.md` con `kind: non-functional`, la categoría no funcional que corresponda a la directiva y `status: pending`; numera los criterios `AC-{spec_id}.{n}`, todos sin marcar.
+Ponte en la rama correcta: quédate en `restructure/{spec_key}` si ya estás a mitad de ciclo, o sácala nueva desde el default actual. Escribe `specs/{spec_key}/spec.md` con `kind: non-functional`, la categoría no funcional que corresponda a la directiva y `status: pending`; numera los criterios `AC-{spec_id}.{n}`, todos sin marcar.
 
-Confirma con un commit `docs(refactor): …`. Después delega en el paso de planificación; si la directiva resultó ser una funcionalidad, o no había decisión estructural que tomar, no escribas especificación: dilo y termina ahí.
+Confirma con un commit `docs(restructure): …`. Después delega en el paso de planificación; si la directiva resultó ser una funcionalidad, o no había decisión estructural que tomar, no escribas especificación: dilo y termina ahí.
 
 ## Verificación
 

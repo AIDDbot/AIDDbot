@@ -1,6 +1,6 @@
 # AIDD skills lifecycle
 
-How the 8 pipeline skills — plus `/refactor`, a periodic whole-app audit — cover the
+How the 8 pipeline skills — plus `/restructure`, a human-directed structural change — cover the
 whole SDLC: build, maintain, refactor. The [catalog](./skills.catalog.md) is the
 inventory; this is the map.
 
@@ -25,7 +25,7 @@ inventory; this is the map.
 ## Build (new project or new feature)
 
 `/explore` → `/extract` (×container) → `/specify` → `/planify` → `/codify` (×container)
-→ `/verify` → `/review` → `/release`
+→ `/verify` → `/qualify` → `/release`
 
 Amend anytime via `/specify` → `pending` → `/planify` (checkpoints: keep / redo / drop)
 → `/codify` → `/verify` → …
@@ -55,17 +55,18 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 A spec — but a **non-functional** one: the *what* is untouched, so the demand is about the shape
 of the code, not what it does.
 
-- **On-demand audit of one container** → `/refactor` reads the accumulated code (clarity,
-  structure, UI, a11y) and asks one question per finding — *would a green e2e test have to change?*
-  - No → it is debt: it becomes a criterion of a `kind: non-functional` spec under
-    `specs/N{nnn}-{container}/`, which then travels the normal pipeline — `/planify` (no e2e
-    plan), `/codify`, `/verify` for non-regression, `/review` as its acceptance oracle, `/release`.
-    Each audit is independent: the spec closes when the debt is paid, and a later audit of the same
-    container is a new spec, never an amendment. Only one may be open per container at a time.
-  - Yes → it is not a refactor but a behavior change: flag it to the human as a `/specify`
-    feature and leave it under `Out of scope`, never as a criterion.
-  - Proof: the e2e suite stays green and **untouched**, and every criterion its gate judges is `[x]`.
-- **Big change incoming, messy landing zone** → preparatory `/review` first, then the
+- **A structural change you order** → `/restructure` takes your directive — homogenize these
+  routes, extract this validation, unify these five drawings into one component — bounds its
+  radius and lists the affected sites per container.
+  - It becomes a `kind: non-functional` spec under `specs/N{nnn}-{slug}/`, which then travels
+    the normal pipeline — `/planify`, `/codify`, `/verify` for non-regression, `/qualify` as the
+    oracle for its structural criteria, `/release`. Each spec closes when the change lands; a
+    later decision is a new spec, never an amendment. Two may not be open with overlapping scope.
+  - Anything that would change what the product does is not structural: flag it to the human as
+    a `/specify` feature and leave it under `Out of scope`, never as a criterion.
+  - Proof: every e2e scenario still asserts the same result — its implementation may have been
+    rewritten — and every criterion its gate judges is `[x]`.
+- **Big change incoming, messy landing zone** → preparatory `/qualify` first, then the
   pipeline.
   - Proof: green before starting.
 

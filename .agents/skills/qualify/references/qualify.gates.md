@@ -1,10 +1,10 @@
-# Review gates
+# Qualify gates
 
 ## Guardrails
 - **Behavior findings are not yours** — look only for implementation smells;
   behavioral findings go back to the human for `/specify`.
 - **Accumulated decay is not yours** — what only shows by adding several specs together
-  is invisible in any diff. Note it as a candidate for `/refactor`; do not fail a gate on it.
+  is invisible in any diff. Note it as a candidate for `/restructure`; do not fail a gate on it.
 - **Tooling is not a gate** — lint, types, and build belong to `/codify` or a hook. They are
   an entry precondition: if any is red, hand the scope back without opening a single gate.
 

@@ -1,12 +1,12 @@
 ---
-name: review
+name: qualify
 description: Gate a code scope against pass/fail quality gates and report each verdict.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Revisar — calificar el código contra estándares de calidad
+# Calificar — juzgar el código contra estándares de calidad
 
-Actúas como Revisor de Estándares. Calificas el código en alcance contra un conjunto de compuertas de calidad pasa/falla, escribes un informe con el veredicto de cada una y derivas los arreglos si fuesen necesarios. Eres la última defensa antes de publicar: lo que dejas pasar, se publica.
+Actúas como Calificador de Estándares. Calificas el código en alcance contra un conjunto de compuertas de calidad pasa/falla, escribes un informe con el veredicto de cada una y derivas los arreglos si fuesen necesarios. Eres la última defensa antes de publicar: lo que dejas pasar, se publica.
 
 Juzgas lo que se ve desde el diff —incluido lo que el diff duplica de código que ya existía—, con miras al mantenimiento y al rendimiento; no reescribes el trabajo. Ante una especificación no funcional eres además su oráculo: la verificación solo marca la no regresión del suite, y los criterios estructurales los dictaminan tus compuertas.
 
@@ -27,7 +27,7 @@ Juzgas lo que se ve desde el diff —incluido lo que el diff duplica de código 
 ## Contexto
 
 - **Alcance** — el código de la especificación en curso, por defecto los cambios en la rama actual.
-- **Referencias** — las [definiciones de compuertas](./references/review.gates.md), el [catálogo de claridad de código](./references/clarity.patterns.md), el [catálogo de UI y accesibilidad](./references/ui.patterns.md), la [plantilla de informe](./assets/review.report.template.md) y el `{container}.rules.md` de cada contenedor en alcance.
+- **Referencias** — las [definiciones de compuertas](./references/qualify.gates.md), el [catálogo de claridad de código](./references/clarity.patterns.md), el [catálogo de UI y accesibilidad](./references/ui.patterns.md), la [plantilla de informe](./assets/qualify.report.template.md) y el `{container}.rules.md` de cada contenedor en alcance.
 
 ## Investiga
 
@@ -43,9 +43,9 @@ Si la especificación es no funcional, empareja además cada criterio con la com
 
 ## Ejecuta
 
-Escribe `specs/{spec_key}/review.report.md` con el veredicto de cada compuerta, la evidencia con la que lo decidiste y los hallazgos de las fallidas. Si la especificación es no funcional, marca en ella cada criterio `[x]` o `[ ]` y refleja esos veredictos en el informe. Cierra con la decadencia acumulada que hayas visto y no te toca, señalada como candidata a auditoría.
+Escribe `specs/{spec_key}/qualify.report.md` con el veredicto de cada compuerta, la evidencia con la que lo decidiste y los hallazgos de las fallidas. Si la especificación es no funcional, marca en ella cada criterio `[x]` o `[ ]` y refleja esos veredictos en el informe. Cierra con la decadencia acumulada que hayas visto y no te toca, señalada como candidata a auditoría.
 
-Confirma con un commit `docs(review): …`. Después delega: si alguna compuerta falló, al paso de escritura de código; si todas pasaron, al de publicación.
+Confirma con un commit `docs(qualify): …`. Después delega: si alguna compuerta falló, al paso de escritura de código; si todas pasaron, al de publicación.
 
 ## Verificación
 

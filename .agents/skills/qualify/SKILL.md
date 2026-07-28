@@ -1,13 +1,13 @@
 ---
-name: review
+name: qualify
 description: Gate a code scope against pass/fail quality gates and report each verdict.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Review
+# Qualify
 
 ## Role
-Act as Standards Reviewer.
+Act as Standards Assessor.
 
 ## Task
 Gate the in-scope code against a set of pass/fail quality gates — tooling and checklist.
@@ -15,7 +15,7 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 
 ### Guardrails
 - **Report-only** — never edit code; failed gates hand off to `/codify`.
-- **Green baseline** — review runs no tests; `/codify` owns unit tests and `/verify` owns e2e.
+- **Green baseline** — qualify runs no tests; `/codify` owns unit tests and `/verify` owns e2e.
 - **Behavior stays out** — behavioral findings go to `/specify`, structural ones to `/planify`.
 
 ## Context
@@ -38,8 +38,8 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 - _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
 
 ### 2. Plan
-- _read_ [gate definitions](./references/review.gates.md).
-- _read_ [gate report template](./assets/review.report.template.md).
+- _read_ [gate definitions](./references/qualify.gates.md).
+- _read_ [gate report template](./assets/qualify.report.template.md).
 - _run_ the linter and type checker for the tooling gates.
 - _if_ a defect is a false positive, _tune_ the rule; _else_ _record_ a gate failure.
 - _walk_ each scope file against every checklist gate — data flow, trust boundaries, UI, I/O.
@@ -49,8 +49,8 @@ Write a gate report with each gate's verdict. Route every failed gate to a fix.
 - _prepare_ the content for the template's placeholders.
 
 ### 3. Implement
-- _write_ `{Specs}/review.report.md`.
-- _commit_ the changes (`docs(review): {description}`).
+- _write_ `{Specs}/qualify.report.md`.
+- _commit_ the changes (`docs(qualify): {description}`).
 - _if_ any gate failed, _handoff_ to `/codify`; _else_ _handoff_ to `/release`.
 
 ## Verification

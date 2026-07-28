@@ -5,6 +5,69 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-28 — `/review` → `/qualify`, `/refactor` → `/restructure`
+
+**Status**: adopted. Entries dated before today keep the old names on purpose — this file records
+how things got here, and rewriting history would falsify it. Mapping: `/review` = `/qualify`,
+`/refactor` = `/restructure`.
+
+### Context
+
+Two independent pressures met. The one parked on 2026-07-07: `/review` and `/verify` collide with
+Claude Code harness preset skills, and a rename to a consistent `-ify` family was proposed
+(`clarify`, `archify`, `qualify`, `ratify`) but never applied. The one from today's boundary
+shift: "refactor" has a settled industry meaning — Fowler's behavior-preserving, typically small
+and mechanical transformation — and that meaning now describes what `/review` does. The name
+pointed at the wrong skill, so a model reading `/refactor` would assume "clean this up", which is
+the one thing the skill must refuse.
+
+### Decision
+
+Rename the two skills this session touched, leaving the rest of the family parked.
+
+1. **`/review` → `/qualify`.** The second rationale turned out stronger than the collision: the
+   skill issues pass/fail verdicts against a closed gate list and is the acceptance oracle for
+   non-functional specs. It grades; "qualify" is the verb. Role renamed Standards Reviewer →
+   Standards Assessor.
+2. **`/refactor` → `/restructure`.** Says what it is without inheriting Fowler's scope. `unify`
+   was the family-consistent candidate and paired neatly with `specify`, but it only fits
+   convergent changes — splitting a module or moving a boundary is equally structural and reads
+   wrong under it. Precision beat symmetry.
+3. **Artifacts follow the skill**: `review.report.md` → `qualify.report.md`,
+   `review.gates.md` → `qualify.gates.md`, branch prefix `refactor/{spec_key}` →
+   `restructure/{spec_key}`, commit scopes `docs(review|refactor)` → `docs(qualify|restructure)`.
+4. **`review` is deliberately freed**, not retired. It is now available for a possible future
+   *human-level* step — a person judging a change, as opposed to a machine grading it against
+   written gates. That is a better split axis than the per-lens one considered earlier, and the
+   two are orthogonal: `/qualify` may still split per lens later.
+
+### Rejected alternatives
+
+- **`unify`** — see above; ~80% fit, and the missing 20% are exactly the hardest cases.
+- **`rectify`** — connotes fixing defects, the audit drift just removed, and it is a third
+  `-ctify` beside `verify` and `ratify`.
+- **`simplify`** — a harness skill of that name already exists; the collision the family was
+  meant to end.
+- **`modify`** — a retired AIDDbot skill name; recycling it confuses the record.
+- **Waking the whole `-ify` family now** — deferred: `verify` still has no answer, and a rename
+  of the two skills whose semantics changed today is separable from a cosmetic sweep.
+
+### Consequences
+
+- Reintroducing a `/review` skill later would recreate the preset collision this rename escaped.
+  The future human-judgment step likely belongs as a release-flow step or a command instead.
+- Sweeping the rename exposed pre-existing debt that a blind rename would have disguised as
+  fresh: `/planify` still defined `{Refactors}` and took a `refactor.report.md` as input, and
+  `/codify` still described applying that report's findings. Both artifacts died on 2026-07-27.
+  Repaired rather than renamed — `{Work}` is now always `{Specs}`, and `/planify`'s
+  spec-vs-refactor forks collapsed to a `kind` test.
+- **Open contradiction, deliberately left standing.** The catalog states a non-functional spec
+  gets no e2e plan at all, since the existing suite is its non-regression test. But today's
+  restructure template gives the spec an `e2e` Solution section, because a structural change may
+  legitimately rewrite the adapter the tests speak through and may need a characterization test
+  written first. Both cannot be true. Resolving it is a `/planify` decision, not a cleanup.
+- The `-ify` family stays parked for `explore`, `extract`, `release`, and `verify`.
+
 ## 2026-07-28 — `/review` guards the diff, `/refactor` owns the decision
 
 **Status**: adopted.

@@ -24,13 +24,12 @@ For a spec, also write `e2e.plan.md`, ordered and actionable for `/codify`.
 - `{Arch}` = `{Product_Folder}/arch`.
 - `{Model}` = `{Product_Folder}/model`.
 - `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
-- `{Refactors}` = `{Product_Folder}/refactors`.
-- `{Work}` = `{Specs}` for a spec, or `{Refactors}/{slug}` for a refactor — this cycle's folder.
+- `{Work}` = `{Specs}` — this cycle's folder; both spec kinds live under `specs/`.
 
 ### Inputs
-- [ ] Required: a `pending` spec, a short requirement, or a `refactor.report.md`.
-- [ ] A refactor has no spec; its acceptance criterion is the existing e2e suite (no `e2e.plan.md`),
-      and its plans live under `{Refactors}/{slug}/`.
+- [ ] Required: a `pending` spec of either `kind`, or a short requirement.
+- [ ] A `kind: non-functional` spec is planned like any other; its first criterion is suite
+      non-regression and the rest are judged by `/qualify`'s gates.
 
 ### Glossary
 - **Software container** — any container except `e2e`; planned from the solution overview.
@@ -40,8 +39,7 @@ For a spec, also write `e2e.plan.md`, ordered and actionable for `/codify`.
 
 ## Steps
 ### 1. Research
-- _identify_ the input type, then derive `{spec_key}` (spec) or `{slug}` (refactor) — hence `{Work}`.
-- _if_ the input is a refactor, _read_ `{Work}/refactor.report.md` — its findings are the work.
+- _identify_ the input type, then derive `{spec_key}` — hence `{Work}`.
 - _read_ [system architecture]({Arch}/system.arch.md).
 - _list_ the affected software containers and their solution outcomes (`e2e` excluded).
 - _for-each_ affected container, _read_ its `{Arch}/{container}.arch.md` or `{Model}/db.schema.md`.
@@ -64,15 +62,15 @@ For a spec, also write `e2e.plan.md`, ordered and actionable for `/codify`.
 
 ### 3. Implement
 - _for-each_ software container, _write_ `{Work}/{container}.plan.md`.
-- _if_ the input is a spec, _write_ `{Work}/e2e.plan.md`.
-- _if_ the input is a spec, _update_ `spec.md` to `status: planned`.
+- _if_ the spec is `kind: functional`, _write_ `{Work}/e2e.plan.md`.
+- _update_ `spec.md` to `status: planned`.
 - _commit_ the changes (`docs(planify): {description}`).
 - _handoff_ to `/codify`.
 
 ## Verification
-- [ ] One plan per affected software container; `e2e.plan.md` present unless the input is a refactor.
-- [ ] Plans live under `{Work}` — `specs/{spec_key}/` for a spec, `refactors/{slug}/` for a refactor.
+- [ ] One plan per affected software container; `e2e.plan.md` present for a functional spec.
+- [ ] Plans live under `{Work}` — `specs/{spec_key}/`, whatever the spec's `kind`.
 - [ ] Each plan is grounded in its arch or `db.schema.md`, ordered, actionable.
 - [ ] On replan, Checkpoints cover every prior step and Implementation Steps match keep/redo.
 - [ ] The e2e plan maps every active AC id to one scenario; deprecated ACs are checkpointed `drop`.
-- [ ] Spec `status` is `planned` when the input is a spec.
+- [ ] Spec `status` is `planned`.

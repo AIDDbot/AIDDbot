@@ -1,9 +1,9 @@
 # UI and accessibility lens
 
-The UI, design-system, and accessibility catalog `/review` reads the frontend scope through.
+The UI, design-system, and accessibility catalog `/qualify` reads the frontend scope through.
 Align to the project's design system — its tokens, spacing, and type scale — not an external
 or "AI" aesthetic. Every match is a finding under the [accessibility or clean code
-gate](./review.gates.md): give it a severity and hand it to `/codify`.
+gate](./qualify.gates.md): give it a severity and hand it to `/codify`.
 
 ## Principles
 - Design system over taste — use the project's tokens, spacing scale, and type scale.
@@ -50,7 +50,7 @@ gate](./review.gates.md): give it a severity and hand it to `/codify`.
 ## Component architecture
 Reuse signals. A pure extraction that renders identical DOM is `/codify`; a look that must
 change to unify pages is `/specify`; a concept re-built the same way across the whole app,
-which no single diff shows, is a candidate for `/refactor`.
+which no single diff shows, is a candidate for `/restructure`.
 
 | Pattern | Signal | Change |
 |---------|--------|--------|

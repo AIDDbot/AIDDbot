@@ -59,7 +59,7 @@ Do not correct code, tests, or reports.
 - _update_ `spec.md` AC checkboxes `[x]` / `[ ]` from the suite outcome.
 - _if_ every criterion is `[x]`, _update_ `status: verified`; _else_ _update_ `status: failed`.
 - _commit_ the changes (`docs(e2e): {spec_key} report`).
-- _if_ `verified`, _handoff_ to `/review`.
+- _if_ `verified`, _handoff_ to `/qualify`.
 - _if_ `failed`, _handoff_ to `/codify`.
 
 ## Verification

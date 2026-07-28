@@ -5,7 +5,7 @@ user-invocable: false
 disable-model-invocation: true
 ---
 
-> Superseded by [`/refactor`](../../refactor/) — kept as a reference catalog, not an invocable skill.
+> Superseded by [`/restructure`](../../restructure/) — kept as a reference catalog, not an invocable skill.
 
 # Code Simplification
 

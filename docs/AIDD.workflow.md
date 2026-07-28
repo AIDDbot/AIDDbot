@@ -30,8 +30,8 @@ way it authorizes a code edit. `/codify` writes the e2e suite from `e2e.plan.md`
 (compile-only until `/verify` runs them).
 
 **One writer, two evaluators.** `/codify` is the only skill that writes code — source,
-unit tests, and the e2e suite alike. `/verify` and `/review` only evaluate and report;
-implementation and evaluation never share a session. The periodic `/refactor` audit is
+unit tests, and the e2e suite alike. `/verify` and `/qualify` only evaluate and report;
+implementation and evaluation never share a session. The periodic `/restructure` audit is
 report-only as well — it hands every finding to `/planify`, never edits.
 
 ```mermaid
@@ -41,7 +41,7 @@ flowchart LR
 
   COD["/codify — the only code writer<br/>source · unit tests · e2e suite (compile-only)"]:::wr
   VER["/verify — runs the suite<br/>writes e2e.report.md · never fixes"]:::ev
-  REV["/review — audits the scope<br/>writes review.report.md"]:::ev
+  REV["/qualify — audits the scope<br/>writes qualify.report.md"]:::ev
 
   COD --> VER
   COD --> REV
@@ -58,7 +58,7 @@ regardless of kind.
 
 Nine skills: two set up the context, **two capture demand**, three build and prove, two guard
 and ship. Every cycle starts from a spec, and there are two doors into one — `/specify` for a
-functional one, `/refactor` for a non-functional one. They converge at `/planify`.
+functional one, `/restructure` for a non-functional one. They converge at `/planify`.
 
 ```mermaid
 flowchart LR
@@ -66,12 +66,12 @@ flowchart LR
 
   EXP["/explore"]:::nd --> EXT["/extract<br/>×container"]:::nd
   EXT --> SPC["/specify<br/>functional spec"]:::nd
-  EXT --> REF["/refactor<br/>non-functional spec"]:::nd
+  EXT --> REF["/restructure<br/>non-functional spec"]:::nd
   SPC --> PLN["/planify"]:::nd
   REF --> PLN
   PLN --> COD["/codify ×container<br/>e2e plan when functional"]:::nd
   COD --> VER["/verify<br/>report-only"]:::nd
-  VER -->|green| REV["/review<br/>report-only"]:::nd
+  VER -->|green| REV["/qualify<br/>report-only"]:::nd
   REV --> REL["/release"]:::nd
 
   VER -->|functional / test| COD
@@ -83,7 +83,7 @@ flowchart LR
 Every feedback edge is a **report**, and every fix lands through `/codify` — the skill
 that wrote the code fixes the code; the evaluators never touch what they judge. The two
 evaluators split the acceptance work by kind: `/verify` judges a functional spec's criteria
-with the e2e suite, `/review` judges a non-functional spec's with the gate each criterion names.
+with the e2e suite, `/qualify` judges a non-functional spec's with the gate each criterion names.
 The commands under [`.agents/commands/`](../.agents/skills/skills.catalog.md#commands)
 chain whole stretches of this pipeline, one subagent per skill run.
 
@@ -198,7 +198,7 @@ The prompts, end to end:
 /verify the feature
 /codify the e2e report          (only if defects)
 /verify the feature             (until green)
-/review the feature branch
+/qualify the feature branch
 /release
 ```
 
@@ -214,13 +214,13 @@ Amend example:
 ## Quality and release
 
 ```markdown
-/verify (green) -> /review -> /codify fixes -> /verify -> /release
+/verify (green) -> /qualify -> /codify fixes -> /verify -> /release
 ```
 
-`/review` gates a code scope (the in-scope spec's code by default, else a branch, files,
+`/qualify` gates a code scope (the in-scope spec's code by default, else a branch, files,
 or paths) against **pass/fail gates** — lint, types, a11y, security, performance,
 clean-code/DRY, and each in-scope container's own `{container}.rules.md` — and writes
-`review.report.md` with a verdict per gate plus a finding per violation (severity, kind,
+`qualify.report.md` with a verdict per gate plus a finding per violation (severity, kind,
 handoff). Report-only: every failed gate hands off to
 `/codify`. Guardrails worth knowing:
 
@@ -265,7 +265,7 @@ flowchart TD
   VER --> PREL["patch /release"]:::nd
 
   Q -->|"yes — behavior change"| SPEC["/specify amend or create"]:::nd
-  SPEC --> PIPE["/planify → /codify → /verify → /review<br/>amend always replans (checkpoints)"]:::nd
+  SPEC --> PIPE["/planify → /codify → /verify → /qualify<br/>amend always replans (checkpoints)"]:::nd
   PIPE --> MREL["/release<br/>changelog · arch docs · closes the spec"]:::nd
 
   SPEC -.fix-or-feature gate: bounce.-> FIX
@@ -280,11 +280,11 @@ by blast radius — see the [lifecycle map](../.agents/skills/skills.lifecycle.m
 ## Refactor
 
 On-demand audit of one container's accumulated decay — **it never edits code.** Where a per-spec
-review sees one diff, `/refactor` reads the *accumulated* code (clarity, structure, UI,
+review sees one diff, `/restructure` reads the *accumulated* code (clarity, structure, UI,
 accessibility) for decay no single review can catch, and captures what it finds as a
 **non-functional spec**: same folder, same format, same lifecycle as a functional one. It differs
 only where the nature of the thing differs — it never enters the PRD (a business catalog), its
-criteria are judged by `/review`'s gates instead of the e2e suite, and it is never amended: a
+criteria are judged by `/qualify`'s gates instead of the e2e suite, and it is never amended: a
 functional spec *describes the system* and lives as long as the feature, while this one *records a
 debt payment* and closes.
 
@@ -293,8 +293,8 @@ flowchart TD
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
 
-  REF["/refactor — audit one container<br/>writes specs/{spec_key}/spec.md (kind: non-functional)"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
-  Q -->|"no — a non-functional spec"| PLN["/planify → /codify → /verify → /review"]:::nd
+  REF["/restructure — audit one container<br/>writes specs/{spec_key}/spec.md (kind: non-functional)"]:::nd --> Q{"would a green e2e test<br/>have to change?"}:::q
+  Q -->|"no — a non-functional spec"| PLN["/planify → /codify → /verify → /qualify"]:::nd
   Q -->|"yes — not a refactor"| SPC["/specify — a functional spec, separately"]:::nd
 ```
 
@@ -332,7 +332,7 @@ flowchart TD
       SPC["specs/{spec_key}/spec.md"]:::nd
       PLN["specs/{spec_key}/{container}.plan.md"]:::nd
       RPT["specs/{spec_key}/e2e.report.md"]:::nd
-      RVR["specs/{spec_key}/review.report.md"]:::nd
+      RVR["specs/{spec_key}/qualify.report.md"]:::nd
   end
 
   subgraph S["SOLUTION"]
@@ -364,7 +364,7 @@ flowchart TD
   EPL -->|/codify| E2E
   E2E -->|/verify| RPT
   RPT -->|/codify| COD
-  COD -->|/review| RVR
+  COD -->|/qualify| RVR
   RVR -->|/codify| COD
   SPC -->|/release| CHL
   SPC -->|/release reconciles| ARC
@@ -385,10 +385,10 @@ flowchart TD
 | `/extract` | `model/api.schema.md` (when container exposes an API; merge) | `/planify`, `/codify`, `/verify` | — |
 | `/extract` | `{Agents_Folder}/rules/{container}.rules.md` | `/codify` | — |
 | `/specify` | `specs/{spec_key}/spec.md` (+ PRD line on create) | `/planify`, `/verify` (criteria), `/release` | `pending` on create/amend |
-| `/planify` | `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (checkpoints on replan) | `/codify`, `/review`, `/verify` (AC mapping) | sets `planned`; steps checked `[x]` by `/codify` |
-| `/codify` | source + unit tests; e2e tests from `e2e.plan.md` (compile-only until `/verify`) | `/verify`, `/review`; green-baseline gates | sets `in-progress` |
+| `/planify` | `specs/{spec_key}/{container}.plan.md` + `e2e.plan.md` (checkpoints on replan) | `/codify`, `/qualify`, `/verify` (AC mapping) | sets `planned`; steps checked `[x]` by `/codify` |
+| `/codify` | source + unit tests; e2e tests from `e2e.plan.md` (compile-only until `/verify`) | `/verify`, `/qualify`; green-baseline gates | sets `in-progress` |
 | `/verify` | `specs/{spec_key}/e2e.report.md` (verdict per AC id) + spec criteria `[x]/[ ]` | `/codify` (fix mode, per container), `/planify` (structural), `/release` | — |
-| `/review` | `specs/{spec_key}/review.report.md` (pass/fail verdict per gate) | `/codify` (fix mode), `/release` | — |
+| `/qualify` | `specs/{spec_key}/qualify.report.md` (pass/fail verdict per gate) | `/codify` (fix mode), `/release` | — |
 | `/release` | `CHANGELOG.md`, version bump + tag, reconciled arch docs; spec closed when in scope | HUMAN / every skill | — |
 
 The implementer can never mark its own work verified: `/codify` checks plan steps,
@@ -408,7 +408,7 @@ stateDiagram-v2
   state "done" as d
 
   [*] --> p: /specify create or amend
-  [*] --> p: /refactor audit
+  [*] --> p: /restructure audit
   p --> pl: /planify
   pl --> ip: each /codify code step
   ip --> v: /verify green
@@ -445,11 +445,11 @@ stateDiagram-v2
   - `api.schema.md` — API field shapes when a container exposes an API (`/extract`).
 - `specs/` — One folder per spec, named `{spec_key}` (`{spec_id}-{slug}`; `{spec_id}` is a 3-digit sequential id, prefixed `N` for the non-functional series); all of the spec's artifacts live inside it.
   - `PRD.md` — Functional log: shell from `/explore`; specs indexed by category when `/specify` creates them. **Functional specs only** — its audience is the business. No status — that lives in each spec.
-  - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria, numbered `AC-{spec_id}.{n}`. Both kinds share the key shape `{spec_id}-{slug}` and differ only in their id series. `kind: functional` from `/specify`, id `007`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/refactor`, id `N001` from its own series, slug = the audited container: one closed debt payment, never amended.
+  - `{spec_key}/spec.md` — Problem, solution (per software container) and acceptance criteria, numbered `AC-{spec_id}.{n}`. Both kinds share the key shape `{spec_id}-{slug}` and differ only in their id series. `kind: functional` from `/specify`, id `007`: amendable, with `Deprecated criteria` for retired ACs, ids never renumbered or reused because each reaches an e2e test title. `kind: non-functional` from `/restructure`, id `N001` from its own series, slug = the audited container: one closed debt payment, never amended.
   - `{spec_key}/{container}.plan.md` — Implementation plan for one software container (`/planify`; checkpoints on replan).
   - `{spec_key}/e2e.plan.md` — E2e plan: one scenario per AC id (`/planify`; functional specs only).
   - `{spec_key}/e2e.report.md` — Verdict per AC id + findings: source, where, problem, fix, severity, kind, handoff (`/verify`).
-  - `{spec_key}/review.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff); on a non-functional spec, also a verdict per criterion (`/review`).
+  - `{spec_key}/qualify.report.md` — Gate report: pass/fail verdict per gate + findings (severity, kind, handoff); on a non-functional spec, also a verdict per criterion (`/qualify`).
 - `docs/` — Human-oriented documentation (README, guides); not maintained by `/release`.
 - `{Source_Folders}` — The source code and unit tests of each container.
 - `e2e/` — End-to-end tests, organized by feature (written by `/codify` from `e2e.plan.md`; judged by `/verify`).

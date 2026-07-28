@@ -32,8 +32,8 @@ single, unambiguous plan, ask which container to scope before doing anything els
 container* is any container other than `e2e`; the *e2e container* is transversal — planned
 elsewhere, written here, judged by the verify step, so you never run it yourself. A *smoke test*
 is a minimal compile-and-lint check that the container builds cleanly (you do not run the app).
-A *refactor report* lives at `refactors/{slug}/refactor.report.md`; apply only its `/codify`
-findings in fix mode — its `/planify` and `/specify` findings route elsewhere.
+A *gate report* lives at `specs/{spec_key}/qualify.report.md`; in fix mode its findings are the
+work — behavioral ones are not there, having gone back to the human.
 
 You produce working source for the in-scope container; unit tests for the critical path on a
 software container, or the e2e suite (from `e2e.plan.md`, compiled and linted but *not* run

@@ -39,7 +39,7 @@ and close the spec when one is in scope.
   - _read_ [spec, plans, and e2e report]({Specs}/spec.md).
   - _require_ `status: verified` and all criteria `[x]`.
 - _else_ _review_ the diff since the last tag.
-- _if_ a review report is in scope, _read_ [gate report]({Specs}/review.report.md).
+- _if_ a review report is in scope, _read_ [gate report]({Specs}/qualify.report.md).
 - _if_ any gate is not `pass`, _handoff_ to `/codify`.
 
 ### 2. Plan

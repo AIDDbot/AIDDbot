@@ -30,7 +30,7 @@ to the app through.}
 
 ### Out of scope
 
-{Anything the directive brushes that would change what the product does. It is not a refactor —
+{Anything the directive brushes that would change what the product does. It is not structural work —
 name it here and surface it to the human as a functional spec. Note that rewriting *how* an e2e
 test reaches its result is in scope; changing *what* it asserts is not.}
 
@@ -55,7 +55,7 @@ covered, and be written before anything else is touched.}
 {Number every criterion `AC-{spec_id}.{n}`, same as a functional spec — the `N` series keeps them
 distinct without sharing a sequence. The first is always suite non-regression, judged by
 `/verify`. Every other criterion states an observable property of the resulting structure and
-names the review gate that rules on it; a criterion that fits no gate is not sharp enough to
+names the qualify gate that rules on it; a criterion that fits no gate is not sharp enough to
 keep. Prose like "the code is cleaner" is not a criterion.}
 
 - [ ] **AC-{spec_id}.1** — the e2e suite stays green; no behavior changed. · gate: `/verify`

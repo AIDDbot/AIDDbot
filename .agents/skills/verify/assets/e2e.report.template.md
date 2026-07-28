@@ -1,6 +1,6 @@
 ---
 source: verify
-target: {/review | /codify}   # green → /review · red → /codify
+target: {/qualify | /codify}   # green → /qualify · red → /codify
 scope: {spec_key}
 run: {ISO date}
 status: {green | red}

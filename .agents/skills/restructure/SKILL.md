@@ -1,10 +1,10 @@
 ---
-name: refactor
+name: restructure
 description: Turn a human's structural directive into a non-functional spec with checkable criteria.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Refactor
+# Restructure
 
 ## Role
 Act as Architect.
@@ -29,7 +29,7 @@ once the decision is applied, and how each part of it is checked. Never edit cod
 - **New tests only as characterization** — a new e2e is admitted only if it asserts behavior
   that already exists and nothing covered, written before anything is touched.
 - **Checkable criteria** — the first is suite non-regression, judged by `/verify`; the rest name
-  the review gate that judges them, drawn from the closed list.
+  the qualify gate that judges them, drawn from the closed list.
 - **Out of the PRD** — never append a line; it catalogs features only.
 
 ## Context
@@ -76,14 +76,14 @@ once the decision is applied, and how each part of it is checked. Never edit cod
   _surface_ it to the human.
 
 ### 3. Implement
-- _if_ already on `refactor/{spec_key}`, _keep_ it — an in-flight cycle stays on its branch.
+- _if_ already on `restructure/{spec_key}`, _keep_ it — an in-flight cycle stays on its branch.
 - _if_ on the default branch:
   - _require_ default is current.
-  - _create_ branch `refactor/{spec_key}` from default.
+  - _create_ branch `restructure/{spec_key}` from default.
 - _write_ `{Specs}/spec.md` with `kind: non-functional`, its non-functional `category`, and
   `status: pending`.
 - _number_ criteria `AC-{spec_id}.{n}`, all `[ ]`.
-- _commit_ the changes (`docs(refactor): {description}`).
+- _commit_ the changes (`docs(restructure): {description}`).
 - _handoff_ to `/planify`.
 - _if_ the directive was a feature, or there was no structural decision, _write_ no spec and
   _say so_.

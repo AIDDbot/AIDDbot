@@ -6,7 +6,7 @@ user-invocable: false
 disable-model-invocation: true
 ---
 
-> Parked creative design-direction reference — not invocable. A genuine visual redesign is a design change that belongs upstream of `/specify`, distinct from the behavior-preserving UI lens in [`/refactor`](../../refactor/).
+> Parked creative design-direction reference — not invocable. A genuine visual redesign is a design change that belongs upstream of `/specify`, distinct from the behavior-preserving UI lens in [`/restructure`](../../restructure/).
 
 # Frontend Design
 

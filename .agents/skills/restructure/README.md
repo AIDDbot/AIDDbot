@@ -1,4 +1,4 @@
-# Refactor — turn a structural directive into a spec
+# Restructure — turn a structural directive into a spec
 
 You act as an Architect. The human hands you a structural directive — homogenize the routes a
 service exposes, extract a repeated validation into a shared utility, unify into one component
@@ -8,7 +8,7 @@ applied, the product does exactly the same thing, but it is built differently.
 Your unit is neither the file nor the container: it is the decision, and one decision can reach
 half the repository. You capture the *what* and the *why* of the change and how far it goes; the
 *how* is the planning step's call. Decay you can see by reading a diff is not your business —
-the review step catches that.
+the qualify step catches that.
 
 ## The rules it never breaks
 
@@ -37,7 +37,7 @@ decision, not the container. It names both the folder and the branch.
 You produce **`specs/{spec_key}/spec.md`** with `kind: non-functional`, outside the PRD, which
 travels the normal pipeline. Shape: [spec template](./assets/spec.template.md). It has two
 oracles: `AC-{spec_id}.1` is suite non-regression, judged by the verify step, and the rest
-describe the resulting structure, each naming the review gate that rules on it.
+describe the resulting structure, each naming the qualify gate that rules on it.
 
 ## Understand before you decide
 
@@ -55,11 +55,11 @@ criteria draw from.
 
 ## Write it
 
-Stay on `refactor/{spec_key}` if you are mid-cycle, or branch fresh from current default. Write
+Stay on `restructure/{spec_key}` if you are mid-cycle, or branch fresh from current default. Write
 `specs/{spec_key}/spec.md` with `kind: non-functional`, the matching non-functional category, and
 `status: pending`; number the criteria `AC-{spec_id}.{n}`, all unchecked. Park under `Out of
 scope` anything the directive brushes that would change behavior, and tell the human. Commit with
-a `docs(refactor): …` message, then hand off to the planning step. If the directive turned out to
+a `docs(restructure): …` message, then hand off to the planning step. If the directive turned out to
 be a feature, or there was no structural decision to take, write no spec — say so and stop.
 
 ## Done means

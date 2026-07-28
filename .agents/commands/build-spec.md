@@ -1,7 +1,7 @@
-- _pick_ the entry door from the request: a requirement or a change to a feature → `/specify`; a container to audit for accumulated decay → `/refactor`.
-- _if_ the door is `/refactor`:
+- _pick_ the entry door from the request: a requirement or a change to a feature → `/specify`; a container to audit for accumulated decay → `/restructure`.
+- _if_ the door is `/restructure`:
   - _run_ `/verify` in a subagent to confirm a green baseline; _if_ red, _stop_ — refactoring needs green tests to lean on.
-  - _run_ `/refactor` in a fresh subagent, scoped to one container.
+  - _run_ `/restructure` in a fresh subagent, scoped to one container.
   - _tell_ it to follow the project's `{Agents_File}` and container rules for the stack, and to ignore patterns from other stacks.
   - _tell_ it to stop after its commit with no handoff.
   - _if_ it wrote no spec, _reply_ "Nothing to refactor" and _stop_.
@@ -28,11 +28,11 @@
   - _for-each_ affected container, _run_ `/codify` in a fresh subagent to fix them.
   - _run_ `/verify` again in a new subagent.
   - _repeat_ until the suite is green.
-- _run_ the `/review` skill in a fresh subagent to produce the gate report.
+- _run_ the `/qualify` skill in a fresh subagent to produce the gate report.
 - _tell_ it that on a `non-functional` spec it is the acceptance oracle: judge every active criterion by the gate it names, and mark it in the spec.
 - _if_ a finding hands off to `/specify` or `/planify`, _surface_ it to the human and _stop_.
 - _if_ any gate failed, or any active criterion is unmet:
   - _run_ `/codify` in a fresh subagent to fix the findings.
   - _run_ `/verify` in another subagent to confirm the app still works.
-  - _run_ `/review` again to re-judge.
+  - _run_ `/qualify` again to re-judge.
 - _if_ every gate passed and every active criterion is `[x]`, _run_ `/release` in a fresh subagent to ship it.

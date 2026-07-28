@@ -1,11 +1,11 @@
 ---
-source: review
+source: qualify
 target: {/release | /codify}   # green → /release · red → /codify
 scope: {spec_key | branch | paths}
 run: {ISO date}
 status: {green | red}
 ---
-# review report — {scope}
+# qualify report — {scope}
 
 ## Summary
 

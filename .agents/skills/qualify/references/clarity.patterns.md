@@ -1,7 +1,7 @@
 # Code-clarity lens
 
-The code-clarity catalog `/review` reads the scope through. Prefer clarity over cleverness, and
-match the project's rules. Every match is a finding under the [clean code gate](./review.gates.md):
+The code-clarity catalog `/qualify` reads the scope through. Prefer clarity over cleverness, and
+match the project's rules. Every match is a finding under the [clean code gate](./qualify.gates.md):
 give it a severity and hand it to `/codify`.
 
 ## Principles
@@ -49,4 +49,4 @@ give it a severity and hand it to `/codify`.
 
 > A pattern that only shows up by adding several features together — the same helper
 > reimplemented across five specs, a boundary that drifted over months — is not a finding
-> either. No diff contains it. Note it as a candidate for `/refactor` and tell the human.
+> either. No diff contains it. Note it as a candidate for `/restructure` and tell the human.
