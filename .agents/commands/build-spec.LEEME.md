@@ -1,15 +1,28 @@
+---
+name: build-spec
+description: Take an existing spec from planning through to release.
+---
 # build-spec
 
-Lleva la especificación hasta su publicación. No la creas ni la discutes: recibes su clave, la lees, la metes en el proceso y ya.
+Lleva la especificación hasta su publicación. Ni la creas ni la discutes: recibes su clave, la
+lees y la metes en el proceso.
 
-Cada skill se ejecuta en su propio subagente fresco en una sesión de trabajo nueva tomando como contexto el estado que le pases.
+Ejecuta cada skill en su propio subagente fresco, en una sesión de trabajo nueva, pasándole como
+contexto el estado del que quieres que parta.
 
-Para empezar llama a `/planify` para dividir la especificación en un plan por contenedor y para el e2e si necesita crear o cambiar pruebas de aceptación.
+Empieza llamando a `/planify`, una vez por cada contenedor afectado —el resumen de solución de la
+especificación los lista— y otra más para `e2e` cuando el cambio alcance a las pruebas de
+aceptación.
 
-Invoca a `/codify` para escribir el código de cada plan. Primero los contenedores de producción y por ultimo el de pruebas e2e si fuese necesario.
+Invoca a `/codify` para escribir el código de cada plan: primero los contenedores de producción y
+por último la suite e2e si la hay.
 
-Si hay pruebas ejecútalas con `/verify` y espera a que genere el informe con los fallos o el veredicto verde. Si hay fallos vuelve a `/codify` para corregirlos pasnadole el informe.
+Si hay pruebas, ejecútalas con `/verify` y espera su informe: los fallos, o el veredicto verde. Si
+hay fallos, vuelve a `/codify` pasándole el informe.
 
-Cuando lo funcional esté listo invoca a `/qualify` para revisar la calidad del código. Si el verercido detecta defectos, vuelve a `/codify` para corregirlos, repitiendo todo el proceso de verificación funcional hasta que esté todo en verde.
+Cuando lo funcional esté en verde, invoca a `/qualify` para calificar la calidad del código. Si
+alguna compuerta falla, vuelve a `/codify` y repite toda la verificación funcional hasta que esté
+otra vez todo en verde.
 
-Cuando el codigo pase las verificación funcional y la revisión técnica invoca a `/release` para publicar la especificación.
+Cuando el código haya pasado la verificación funcional y la revisión técnica, invoca a `/release`
+para publicar la especificación.
