@@ -95,7 +95,7 @@ same way skills are.
 | Command | Orchestrates |
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.command.md) | `/explore`, then `/extract` per container |
-| [`spec-feature`](../commands/spec-feature.command.md) | `/specify`, human check, then `build-spec` |
+| [`spec-feature`](../commands/spec-feature.command.md) | `/specify` (create or amend), human check, then `build-spec` |
 | [`spec-refactor`](../commands/spec-refactor.command.md) | `/restructure`, human check, then `build-spec` |
 | [`build-spec`](../commands/build-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |
 

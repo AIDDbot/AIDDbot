@@ -1,11 +1,12 @@
 ---
 name: spec-feature
-description: Define a new functional spec, get it validated, then take it to release.
+description: Capture or amend a functional spec, get it validated, then take it to release.
 ---
 # spec-feature
 
-Define a new functional specification from the inputs you are given.
+Settle a functional specification from the inputs you are given — a new one, or an amend to one
+that already exists. You do not decide which: `/specify` does.
 
-Call `/specify` to create it, then ask the human to check the result before going any further.
+Call `/specify` to write it, then ask the human to check the result before going any further.
 
 Once they have validated it, call `/build-spec` to take the specification through to release.
