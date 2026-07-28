@@ -1,70 +1,68 @@
 ---
 name: verify
-description: Run the e2e suite against the spec's criteria and write the triaged findings report.
+description: Run the e2e suite against the spec's criteria and write the triaged defects report.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Verify
+# Verify — run the e2e suite and report the truth
 
-## Role
-Act as QA Engineer.
+Act as QA Engineer. You run the end-to-end suite against a specification's acceptance criteria and
+write a defects report. What you write has to make those defects easy to fix.
 
-## Task
-Run the e2e suite against the spec's acceptance criteria and write the findings report.
-Triage every finding by kind and hand it off.
-Do not correct code, tests, or reports.
+If there are no defects the spec becomes `verified` and the work moves on to the quality review.
+Otherwise the spec becomes `failed` and goes back to the coding step.
 
-### Guardrails
-- **Report-only** — never edit code, tests, or plans; touch only the report and spec status/ACs.
-- **Active criteria only** — ids under `Deprecated criteria` get no test, verdict, or checkbox.
-- **Distrust the implementation, trust the spec** — finding defects is a kind of success.
-- **Never soften the verdict** — a flaky or wrong test is a `test` finding.
+## Rules
+
+- **Report only** — never edit code, tests, or plans; you touch the report, the checkboxes, and
+  the status, nothing else.
+- **Mark the acceptance criteria** — set every active criterion `[x]` or `[ ]` in the spec itself.
+- **Active criteria only** — never run, report, or mark anything under `Deprecated criteria`.
+- **Mark the spec** — green suite means `verified`, anything red means `failed`.
+- **Never soften the verdict** — a flaky or wrong test is a `test` finding, not a pass.
+- **On a refactor spec you are the non-regression** — mark only its green-suite criterion; the
+  rest name a gate and belong to the quality review.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`.
-- `{Model}` = `{Product_Folder}/model`.
-- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
+- **Optional input** — the key of the specification to verify; on a refactor spec the whole suite
+  is its test.
+- **References** — the [defects report template](./assets/e2e.report.template.md) and the
+  OS-matched port-freeing helper ([Windows PowerShell](./scripts/free-port.ps1) ·
+  [Linux/macOS](./scripts/free-port.sh)).
 
-### Inputs
-- [ ] Optional: the spec `{spec_key}` or `{slug}` to verify.
+## Research
 
-### References
-- _use_ the OS-matched port-freeing helper before starting the app:
-  [Windows](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh) — pass the app's port(s).
+Identify whether there is a specification to verify, and read its `kind` and its acceptance
+criteria — the active list only — along with the scenario-to-criterion mapping in `e2e.plan.md`
+when one exists.
 
-### Glossary
-- **Finding kind** — `functional` (code wrong) | `test` (test wrong) → `/codify`.
-- **AC id** — `AC-{spec_id}.{n}`; carried by test titles.
+## Plan
 
-## Steps
-### 1. Research
-- _identify_ the spec.
-- _if_ ambiguous, _ask_.
-- _read_ [acceptance criteria]({Specs}/spec.md) — the active list only.
-- _read_ [scenario–AC mapping]({Specs}/e2e.plan.md).
+Select the tests that have to run to verify the specification. On a refactor spec there are no new
+scenarios to map, so the whole suite runs as a regression.
 
-### 2. Plan
-- _select_ the tests that must run to verify the spec (titles carry AC ids).
-- _read_ [start/test commands and fixtures]({Agents_File}).
-- _if_ asserting API responses, _read_ [API field shapes]({Model}/api.schema.md).
-- _if_ asserting persisted state, _read_ [expected stored shapes]({Model}/db.schema.md).
-- _read_ [report template](./assets/e2e.report.template.md).
-- _prepare_ the content for the template's placeholders.
+Read the start-up commands and the helpers you will need — freeing ports, seeding data, and the like.
 
-### 3. Implement
-- _run_ the OS-matched port-freeing helper on the app's port(s) to clear orphaned servers.
-- _run_ the affected tests, or all tests as a last resort.
-- _write_ `{Specs}/e2e.report.md`: verdict per AC id, then one entry per finding.
-- _update_ `spec.md` AC checkboxes `[x]` / `[ ]` from the suite outcome.
-- _if_ every criterion is `[x]`, _update_ `status: verified`; _else_ _update_ `status: failed`.
-- _commit_ the changes (`docs(e2e): {spec_key} report`).
-- _if_ `verified`, _handoff_ to `/qualify`.
-- _if_ `failed`, _handoff_ to `/codify`.
+## Implement
+
+Clear the ground first: run the port-freeing and data-cleanup commands, then start the programs or
+services under test. Now run the affected tests, or the whole suite.
+
+Write `specs/{spec_key}/e2e.report.md` with a verdict per AC id and one entry per defect, each
+classified by kind — `functional` or `test`, both of which route to the coding step. On a
+functional spec, set each criterion's checkbox `[x]` or `[ ]` from the result; on a refactor spec,
+mark only its non-regression criterion and leave the gate-judged ones untouched. Set the spec to
+`status: verified` if the whole suite passes, or `failed` if anything fails.
+
+Commit as `docs(verify): …`. Then hand over: verified goes to the quality review, failed goes back
+to the coding step.
 
 ## Verification
-- [ ] Every active AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
-- [ ] No deprecated AC id was verified, given a verdict, or checked.
-- [ ] Spec `status` is `verified` or `failed` to match the suite outcome.
-- [ ] The suite is green, or every finding has kind and handoff.
-- [ ] No code, test, plan, or corrective edit was made — report and status only.
+
+- [ ] On a functional spec, every active AC id has a mapped test, a report verdict, and its `[x]`/`[ ]` in the spec.
+- [ ] On a refactor spec, the non-regression criterion is the only one you marked.
+- [ ] No deprecated AC id was run, given a verdict, or checked.
+- [ ] The spec status is `verified` or `failed`, matching the suite outcome.
+- [ ] The suite is green, or every defect carries a kind and a handoff.
+- [ ] No code, test, plan, or corrective edit was made — report, checkboxes, and status only.

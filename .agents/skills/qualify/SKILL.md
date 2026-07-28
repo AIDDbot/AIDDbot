@@ -4,57 +4,75 @@ description: Gate a code scope against pass/fail quality gates and report each v
 user-invocable: true
 disable-model-invocation: true
 ---
-# Qualify
+# Qualify — judge the code against quality standards
 
-## Role
-Act as Standards Assessor.
+Act as Standards Assessor. You grade the code against a set of pass/fail quality gates, write a
+report carrying each gate's verdict, and route the fixes when there are any.
 
-## Task
-Gate the in-scope code against a set of pass/fail quality gates — tooling and checklist.
-Write a gate report with each gate's verdict. Route every failed gate to a fix.
+You are the last line of defense before release: whatever you let through, ships. You judge what
+the diff shows — including what the diff duplicates from code that already existed — with an eye
+on maintenance and performance. You never rewrite the work.
 
-### Guardrails
-- **Report-only** — never edit code; failed gates hand off to `/codify`.
-- **Green baseline** — qualify runs no tests; `/codify` owns unit tests and `/verify` owns e2e.
-- **Behavior stays out** — behavioral findings go to `/specify`, structural ones to `/planify`.
+## Rules
+
+- **You do not grade what does not compile** — if the build, the linter, or the type checker is
+  red, the scope is not gradeable: hand it back without opening a single gate. That gets resolved
+  before it reaches you.
+- **Your value is where the tooling does not reach** — never spend passes on what the linter
+  already catches; you judge what takes reading and understanding.
+- **Assume nothing about the coder** — a container rule being written down does not mean it was
+  applied; check it.
+- **Report only** — never edit code; route every failed gate to the coding step.
+- **Quality only** — findings exist to correct the implementation, never the behavior; anything
+  that would change what the application does goes back to the human.
+- **One violation fails a gate** — there is no partial pass and no pass with observations.
+- **No pass without evidence** — a gate passes when you can say what you checked it against;
+  silence is not a pass.
+- **Every finding carries a severity** — `blocker` breaks something or opens a hole, `major` is
+  real decay, `minor` is polish; one `blocker` or `major` fails the gate.
+- **Duplication against what already existed** — a new helper reimplementing an existing one is a
+  finding, however clean the diff reads.
 
 ## Context
 
-- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
-- `{Rules}` = `{Agents_Folder}/rules`.
+- **Scope** — the code of the specification in flight, by default the changes on the current branch.
+- **References** — the [gate definitions](./references/qualify.gates.md), the [code-clarity
+  catalog](./references/clarity.patterns.md), the [UI and accessibility
+  catalog](./references/ui.patterns.md), the [report template](./assets/qualify.report.template.md),
+  and the `{container}.rules.md` of every container in scope.
 
-### Inputs
-- [ ] Required: a scope — the in-scope spec's code by default; or branch changes, files, paths.
+## Research
 
-### Glossary
-- **Gate** — a pass/fail check the scope must clear; a failure becomes a finding.
-- **Finding** — one violation under a failed gate, with severity, kind, and handoff.
+Identify the scope — if it is ambiguous, ask the minimum needed to pin it down — and list the files
+it contains. For each affected container read its `{container}.rules.md`, which is the concrete
+standard you measure against, and keep the gate definitions and the two pattern catalogs at hand.
 
-## Steps
-### 1. Research
-- _identify_ the scope: the in-scope spec's code by default, else the given input.
-- _if_ the scope is ambiguous, _ask_ the minimum questions.
-- _list_ the files in scope.
-- _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
+## Plan
 
-### 2. Plan
-- _read_ [gate definitions](./references/qualify.gates.md).
-- _read_ [gate report template](./assets/qualify.report.template.md).
-- _run_ the linter and type checker for the tooling gates.
-- _if_ a defect is a false positive, _tune_ the rule; _else_ _record_ a gate failure.
-- _walk_ each scope file against every checklist gate — data flow, trust boundaries, UI, I/O.
-- _check_ each scope file against its container's [rules]({Rules}/{container}.rules.md).
-- _record_ each gate's verdict.
-- _for-each_ failed gate, _capture_ its findings with severity, kind, and handoff.
-- _prepare_ the content for the template's placeholders.
+Before anything else, check that the scope compiles and is clean of linter and type errors; if it
+is not, hand it back and stop there. Then walk the scope file by file and lens by lens — clarity
+and structure, UI and accessibility, security, performance, container rules — noting every
+violation with its severity, its kind, and its destination.
 
-### 3. Implement
-- _write_ `{Specs}/qualify.report.md`.
-- _commit_ the changes (`docs(qualify): {description}`).
-- _if_ any gate failed, _handoff_ to `/codify`; _else_ _handoff_ to `/release`.
+As you walk it, look for each new symbol among its neighbors: duplication against untouched code
+only shows up if you go looking for it.
+
+## Implement
+
+Write `specs/{spec_key}/qualify.report.md` with each gate's verdict, the evidence you decided it
+on, and the findings of the failed ones. If the specification is a refactor one, mark each of its
+criteria `[x]` or `[ ]` and mirror those verdicts in the report. Close with the accumulated decay
+you saw and that is not yours to fix, flagged as a candidate for its own refactor spec.
+
+Commit as `docs(qualify): …`. Then hand over: to the coding step if any gate failed, to the release
+step if all of them passed.
 
 ## Verification
-- [ ] Every gate has a pass/fail verdict for the scope.
-- [ ] Every failed gate lists findings with severity, kind, and handoff.
-- [ ] Each in-scope container's `{container}.rules.md` was checked; violations are findings.
-- [ ] The report routes failures to `/codify` and a clean pass to `/release`.
+
+- [ ] Every gate has a pass/fail verdict for the scope and the evidence it was decided on.
+- [ ] The scope compiled and was clean of linter and type errors before the first gate opened.
+- [ ] Every finding carries severity, kind, and destination; no gate with a `blocker` or a `major` passed.
+- [ ] Each in-scope container's `{container}.rules.md` was checked, and violations name the rule they break.
+- [ ] Duplication was hunted against existing code, not only inside the diff.
+- [ ] On a refactor spec, every active criterion has a verdict, mirrored in the spec.
+- [ ] The report routes failures to the coding step, or a clean pass to the release step.

@@ -1,5 +1,5 @@
 ---
-spec-kind: {functional | non-functional}
+spec-kind: {functional | refactor}
 container: {container name from system.arch.md, e.g. api, web, db}
 ---
 # {spec_key} - {container}
@@ -7,7 +7,7 @@ container: {container name from system.arch.md, e.g. api, web, db}
 ## Specification
 
 {What this container must deliver, drawn from the spec's solution overview. On a
-non-functional spec, behavior is preserved: what changes is the shape of the code.}
+refactor spec, behavior is preserved: what changes is the shape of the code.}
 
 - **Context**: [Source spec](./spec.md)
 - **Architecture**: [Container architecture]({Arch}/{container}.arch.md)

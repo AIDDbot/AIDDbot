@@ -1,5 +1,5 @@
 ---
-spec-kind: {functional | non-functional}
+spec-kind: {functional | refactor}
 container: e2e
 ---
 # {spec_key} - e2e
@@ -9,9 +9,9 @@ container: e2e
 {The user-facing flows under test, spanning containers per `system.arch.md`.}
 
 > Write this file whenever the `e2e` container is affected. A functional spec always affects it:
-> map one scenario per AC id below. A non-functional spec affects it only when the decision
-> reaches the surface the tests speak to the app through — then skip the criteria mapping, list
-> the adapter changes as steps, and state that every existing scenario keeps its verdict.
+> map one scenario per AC id below. A refactor spec affects it only when the decision reaches the
+> surface the tests speak to the app through — then skip the criteria mapping, list the adapter
+> changes as steps, and state that every existing scenario keeps its verdict.
 
 - **Context**: [Source spec](./spec.md)
 - **Architecture**: [E2E container architecture]({Arch}/e2e.arch.md)

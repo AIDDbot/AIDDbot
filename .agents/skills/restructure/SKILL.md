@@ -1,101 +1,89 @@
 ---
 name: restructure
-description: Turn a human's structural directive into a non-functional spec with checkable criteria.
+description: Turn a human's structural directive into a refactor spec with checkable criteria.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Restructure
+# Restructure — capture a structural decision as a spec
 
-## Role
-Act as Architect.
+Act as Architect. You take a structural directive from the human and turn it into a
+specification. In it you write, concisely and formally, the reason for the change and the state
+the code is left in once it is applied.
 
-## Task
-Turn the human's structural directive into a non-functional spec: what the code must look like
-once the decision is applied, and how each part of it is checked. Never edit code.
+This is not a feature: once applied, the product does exactly the same thing, only built
+differently. You capture the *what*, the *why*, and how far it reaches; the *how* belongs to the
+planning step. You own the status and metadata in the spec's front-matter.
 
-### Guardrails
-- **No directive, no spec** — without the human's order, propose candidates and ask; write nothing.
-- **Report-only** — never edit code; the rest of the cycle plans and applies the change.
-- **One decision per spec** — it may cross containers, and crosses them together; it may not
-  carry two decisions.
-- **Never two overlapping** — a live non-functional spec whose scope overlaps yours must finish
-  or be dropped first.
-- **Own series** — ids run `N001`, `N002`…; never take a number from the feature sequence or
-  advance it.
-- **Behavior is untouched** — if the directive changes what the user gets, it is a feature:
-  hand it back to the human.
-- **The e2e suite may change shape, never verdict** — rewrite *how* a test reaches the result;
-  never *what* it asserts. No live functional criterion stops holding.
-- **The net gets its own spec** — coverage the decision needs but does not have is a separate
-  non-functional spec, `e2e` its only affected container, closed before this one starts.
-- **Checkable criteria** — each names who judges it: `/verify` when the suite proves it, else
-  one of `/qualify`'s gates. The first is always suite non-regression.
-- **Out of the PRD** — never append a line; it catalogs features only.
+## Rules
+
+- **No directive, no spec** — without the human's order, propose candidates, ask, and write nothing.
+- **Every spec is identifiable** — a unique sequential number from your own `R001`, `R002`…
+  series, a category, a slug naming the decision rather than a container, and context tags; you
+  mark it `kind: refactor`.
+- **One decision per spec** — it may reach several containers, and reaches them together, but it
+  never carries two decisions.
+- **Never two overlapping** — a live refactor spec whose scope overlaps yours must finish or be
+  dropped before you open this one.
+- **Behavior is untouched** — if the directive changes what the user gets, it is a feature: hand
+  it back to the human.
+- **The suite changes shape, never verdict** — a plan may rewrite *how* a test reaches its
+  result, never *what* it asserts; no live functional criterion stops holding.
+- **A missing net is its own spec** — coverage the decision needs but does not have becomes a
+  separate refactor spec with `e2e` as its only container, closed before this one starts.
+- **Every criterion names its judge** — the verification step when the suite proves it, otherwise
+  one of the quality gates; the first criterion is always suite non-regression.
+- **The PRD is untouched** — you do not change what the product does, so you never append a line.
+- **A branch per spec** — each spec has its own branch, deleted when it is released.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`.
-- `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
+- **Required input** — the human's structural directive: what gets homogenized, extracted, or
+  unified. If you do not have one, do not invent it.
+- **References** — the [refactor spec template](./assets/spec.template.md); plus
+  `arch/system.arch.md`, `model/model.schema.md`, and the `rules/{container}.rules.md` of each
+  container in scope.
 
-### Inputs
-- [ ] Required: a structural directive — what to homogenize, extract, or unify.
+## Research
 
-### References
-- _read_ [non-functional spec template](./assets/spec.template.md) — its `gate:` field carries
-  the closed list criteria name.
+Ask the human to clarify the context, one closed question at a time. Start from the directive and
+bound its radius: read the system architecture and decide which containers it reaches, `e2e`
+included when the change touches the surface the tests speak to the application through. Then
+enumerate the affected sites, grouped by container — every place the decision reaches, not a list
+of defects.
 
-### Glossary
-- **{spec_key}** — `{spec_id}-{slug}`; an `N`-series id plus a slug naming the decision, not the
-  container; folder and branch name.
-- **AC id** — `AC-{spec_id}.{n}`; referenced by plans, gates, and reports.
-- **Affected sites** — every place the decision reaches, grouped by container; includes what is
-  fine today but must change to fit.
-- **Characterization test** — an e2e asserting behavior that already exists, written as a net
-  before the change.
+Check that no live refactor spec already overlaps that scope. There is no index to consult, so
+look through `specs/` for folders in the `R` series and discard the ones already `done`. Derive
+`{spec_id}` as the next free `R` id, and with it the key `{spec_id}-{slug}`.
 
-## Steps
-### 1. Research
-- _require_ a directive from the human; _else_ _propose_ candidates, _ask_, and _stop_.
-- _read_ [system architecture]({Arch}/system.arch.md).
-- _list_ the containers the decision reaches, `e2e` included if it reaches the test surface.
-- _enumerate_ the affected sites, grouped by container — not defects, but every place the
-  decision reaches.
-- _list_ `specs/` folders in the `N` series; _discard_ those `done`.
-- _if_ a live non-functional spec overlaps this scope, _stop_ and _say so_.
-- _derive_ `{spec_id}` as the next free `N` id, `{slug}` from the decision, and `{spec_key}`.
+## Plan
 
-### 2. Plan
-- _read_ each in-scope container's [rules]({Rules}/{container}.rules.md).
-- _prepare_ the why — what hurts today for not having taken this decision.
-- _prepare_ the what — the state the code is in once applied, in checkable terms.
-- _prepare_ criteria: the first is suite non-regression; the rest describe the resulting
-  structure, each naming its gate from the closed list.
-- _if_ a criterion fits no gate, _sharpen_ it or _drop_ it.
-- _move_ to `Out of scope` anything the directive brushes that would change behavior, and
-  _surface_ it to the human.
+Prepare the content against the spec template. Read the conceptual model so you use the same
+terms, the system document to propose the destination container by container, and the coding
+rules of each container in scope.
 
-### 3. Implement
-- _if_ already on `restructure/{spec_key}`, _keep_ it — an in-flight cycle stays on its branch.
-- _if_ on the default branch:
-  - _require_ default is current.
-  - _create_ branch `restructure/{spec_key}` from default.
-- _write_ `{Specs}/spec.md` with `kind: non-functional`, its non-functional `category`, and
-  `status: pending`.
-- _number_ criteria `AC-{spec_id}.{n}`, all `[ ]`.
-- _commit_ the changes (`docs(restructure): {description}`).
-- _handoff_ to `/planify`.
-- _if_ the directive was a feature, or there was no structural decision, _write_ no spec and
-  _say so_.
+Prepare the why — what hurts today for not having taken this decision — the index of affected
+sites, and what stays out of scope. Then propose the state the code is in once the decision is
+applied, and list the criteria that prove it. If a criterion fits no judge, sharpen it or drop it.
+
+## Implement
+
+Get onto the right branch: stay on `refactor/{spec_key}` if you are mid-cycle, or cut a fresh one
+from current default, first deleting any stale branch a previous release left behind. Then write
+or update `specs/{spec_key}/spec.md` with `kind: refactor` and `status: pending`, numbering the
+criteria `AC-{spec_id}.{n}`, all unchecked.
+
+Commit as `docs(refactor): …`. Then hand over to the planning step. If the directive turned out
+to be a feature, or there was no structural decision in it, write no spec and say so.
 
 ## Verification
+
 - [ ] A human directive existed; nothing was written without one.
-- [ ] `{Specs}/spec.md` exists with `kind: non-functional`, template format, no placeholders.
+- [ ] `specs/{spec_key}/spec.md` exists with `kind: refactor`, in the right format, no placeholders.
 - [ ] The spec holds one structural decision, and its affected sites are listed per container.
-- [ ] Criteria are numbered `AC-{spec_id}.{n}`; the first is suite non-regression and the rest
-      name a gate from the closed list.
-- [ ] `{spec_id}` is the next free `N` id and the feature sequence is untouched.
-- [ ] Behavior is untouched; what would change it sits in `Out of scope` and was surfaced.
-- [ ] No new e2e asserts behavior that did not already exist; missing coverage went to its own spec.
-- [ ] No other live non-functional spec overlaps this scope.
+- [ ] Criteria are numbered `AC-{spec_id}.{n}`; the first is suite non-regression and the rest name their judge.
+- [ ] `{spec_id}` is the next free `R` id and the functional sequence is untouched.
+- [ ] Behavior is untouched; anything that would change it sits in `Out of scope` and was surfaced.
+- [ ] `e2e` appears among the affected containers only when the decision reaches the test surface.
+- [ ] No other live refactor spec overlaps this scope.
 - [ ] No PRD line was appended and no line of code was edited.
+- [ ] The repository sits on a `refactor/{spec_key}` branch cut from current default.

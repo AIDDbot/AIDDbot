@@ -4,69 +4,55 @@ description: Bump version, update CHANGELOG and arch docs, and close the in-scop
 user-invocable: true
 disable-model-invocation: true
 ---
-# Release
+# Release — ship verified work and reconcile the documents
 
-## Role
-Act as Release Manager.
+Act as Release Manager. You ship work that has been verified and graded: you bump the version,
+record the changes in `CHANGELOG.md`, reconcile the architecture and model documents with what
+actually shipped, and close the specification in scope.
 
-## Task
-Ship verified work: bump the version, finalize `CHANGELOG.md`, reconcile arch docs,
-and close the spec when one is in scope.
+You are the last gate before code becomes a tagged release. Make sure the specs, reports, and
+plans are complete and green before you touch anything.
 
-### Guardrails
-- **Nothing unverified ships** — with a spec, `status: verified` and all criteria `[x]`;
-  without a spec, a clean review of the diff since the last tag. Release runs no tests:
-  `/codify` owns unit tests, `/verify` owns e2e.
-- **Gates green** — a review report in scope must show every gate `pass`; else back to `/codify`.
-- **PRD boundary** — shell belongs to `/explore`; category lines belong to `/specify`.
-- **Prune on merge** — delete the merged feature branch so its key is free to reuse.
-- **Tag the mainline** — merge first; the tag marks default's tip, never a branch commit.
+## Rules
+
+- **Nothing unverified ships** — require `status: verified` with every active criterion `[x]`,
+  whether the verification step or the quality review marked it.
+- **Green gates** — the `qualify.report.md` in scope must show every gate `pass`; anything else
+  goes back to the coding step.
+- **You run no tests** — unit tests belong to the coding step and the e2e suite to verification;
+  you read their verdicts, you do not re-run them.
+- **Tag the mainline** — merge first, then tag; the tag marks default's tip, never a branch commit.
+- **Prune after merging** — delete the merged working branch so its key is free again.
+- **The PRD is not yours** — its shell belongs to exploration and its lines to specification.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`.
-- `{Model}` = `{Product_Folder}/model`.
-- `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
+- **Optional input** — a verified and graded specification, functional or refactor.
+- **References** — the [changelog template](./assets/CHANGELOG.template.md).
 
-### Inputs
-- [ ] Optional: [verified spec, `status: verified`, criteria all `[x]`]({Specs}/spec.md).
+## Research
 
-## Steps
-### 1. Research
-- _read_ [repo rules and commands]({Agents_File}).
-- _if_ a spec is in scope:
-  - _read_ [spec, plans, and e2e report]({Specs}/spec.md).
-  - _require_ `status: verified` and all criteria `[x]`.
-- _else_ _review_ the diff since the last tag.
-- _if_ a review report is in scope, _read_ [gate report]({Specs}/qualify.report.md).
-- _if_ any gate is not `pass`, _handoff_ to `/codify`.
+Read the specification, its plans, and its reports, and make sure they are ready to ship. With no
+specification in scope, review the diff since the last tag instead.
 
-### 2. Plan
-- _compute_ `{new_version}` (SemVer; patch when no spec).
-- _read_ [changelog shape](./assets/CHANGELOG.template.md).
-- _prepare_ Added / Changed / Fixed / Removed from what shipped.
-- _if_ a spec retired criteria this release, _list_ them under `Removed`.
-- _note_ arch docs that drifted.
+## Plan
 
-### 3. Implement
-- _merge_ the feature branch into default (fast-forward when default has not advanced).
-- _update_ version files; move `Unreleased` under `{new_version}` in `CHANGELOG.md`.
-- _update_ [system architecture]({Arch}/system.arch.md).
-- _update_ [model schema]({Model}/model.schema.md).
-- _if_ a non-`db` container drifted, _update_ [container arch]({Arch}/{container}.arch.md).
-- _if_ the store drifted, _update_ [relational schema]({Model}/db.schema.md).
-- _if_ an API drifted, _update_ [API schema]({Model}/api.schema.md).
-- _if_ conventions drifted, _update_ [container rules]({Rules}/{container}.rules.md).
-- _if_ drift is heavy, _handoff_ to `/explore` or `/extract`.
-- _if_ a spec is in scope, _update_ `status: done` and `released-version: {new_version}`.
-- _commit_ the release changes on default (`chore: release {new_version}`).
-- _tag_ default at the release commit.
-- _delete_ the merged feature branch so its key is free to reuse.
+Review the changes that shipped, both functional and technical. Compute the new version with
+SemVer from what actually changed — a patch when there is no specification behind it.
+
+## Implement
+
+Merge the working branch into default, set the specification to `status: done`, and record its
+`released-version`. Document the functional changes in `CHANGELOG.md` and the technical ones in
+the matching architecture documents: a refactor spec rarely touches the changelog, but it almost
+always leaves the architecture of the container it cleaned out of date.
+
+Commit the release on default as `chore: release {version}`, tag default at that commit, and
+delete the working branch.
 
 ## Verification
-- [ ] A spec in scope was `verified`, now `done`; release ran no tests of its own.
-- [ ] The review report in scope shows every gate `pass`.
-- [ ] CHANGELOG, version, and arch docs match what shipped.
-- [ ] The release commit and tag sit on default's post-merge tip, not a branch commit.
-- [ ] The merged feature branch was deleted after the merge to default.
+
+- [ ] The specification's status is `done`, with its `released-version` recorded.
+- [ ] The changelog, the version, and the architecture documents match what shipped.
+- [ ] The release commit and tag sit on default's post-merge tip, not on a branch commit.
+- [ ] The merged working branch was deleted after the merge to default.

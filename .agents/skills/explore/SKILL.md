@@ -1,80 +1,70 @@
 ---
 name: explore
-description: Generates agent rules, system architecture, conceptual model schema, and the PRD shell.
+description: Generate the agent rules, system architecture, conceptual model schema, and the PRD shell.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Explore
+# Explore — set the project up and map what exists
 
-## Role
-Act as Senior Software Architect.
+Act as Senior Software Architect. You generate the project's first layer of documentation: the
+agent-rules file, the system architecture, the conceptual model schema, and a shell for the
+Product Requirements Document (PRD).
 
-## Task
-Generate the agent-rules file, system architecture, conceptual model schema, and the
-PRD shell.
+Describe what is already there and prescribe sensible defaults only where nothing exists; never
+redesign software that already works. When you are done, hand over to the extraction step for the
+deep documentation.
 
-### Guardrails
-- **Evidence** — do not invent facts; key statements need repo evidence or an answer.
-- **Questions** — ask closed-ended clarifications unless told to use defaults.
-- **Assumptions** — label fallbacks as assumptions and ask for confirmation.
-- **Defaults** — when prescribing, prefer one strong default over a menu.
-- **Observe** — never redesign what exists; flag contradictions instead.
-- **Scope** — read the tree and Guide files only; never application source.
-- **Docs** — document what exists; prescribe defaults only where nothing exists.
-- **PRD shell** — create `specs/PRD.md` once; never append category lines (`/specify`).
+## Rules
+
+- **Evidence over invention** — trace every key statement to the repository or to an answer from
+  you or the human; never invent in silence. Label and confirm every assumption.
+- **Ask, do not assume** — raise closed clarifications, yes/no or multiple choice, one at a time,
+  until you are told to fall back on defaults.
+- **Observe, never redesign** — document what exists and flag its contradictions instead of
+  correcting them.
+- **Stay out of the source** — read only the repository tree and the Guide files: `README.md`,
+  `CHANGELOG.md`, and manifests such as `package.json`, `pom.xml`, or `go.mod`.
+- **The PRD is a shell** — create it once with its categories empty; the specification step is
+  what appends lines to it.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`.
-- `{Model}` = `{Product_Folder}/model`.
-- `{PRD}` = `{Product_Folder}/specs/PRD.md`.
+- **Required input** — the repository tree, from which you derive everything else.
+- **References** — the four templates you fill: [agent rules](./assets/AGENTS.template.md),
+  [system architecture](./assets/system.arch.template.md), [conceptual model
+  schema](./assets/model.schema.template.md), and [PRD](./assets/PRD.template.md).
 
-### Inputs
-- [ ] Required: The repository tree.
+## Research
 
-### References
-- _read_ [agent-rules template](./assets/AGENTS.template.md).
-- _read_ [system architecture template](./assets/system.arch.template.md).
-- _read_ [model schema template](./assets/model.schema.template.md).
-- _read_ [PRD template](./assets/PRD.template.md).
+Read the Guide files first — root README, manifests, per-container READMEs, build scripts. They
+are your evidence, never application code. From them derive the environment (OS, shell, build
+tools, framework, remote repository), the product folder and the source folders, the containers —
+independently runnable units — each with its tier (`front`, `back`, `db`, `e2e`, `fullstack`), the
+problem and the solution, and the domain entities with their relationships.
 
-### Glossary
-- **{Agents_File}** — root agent-rules file; `AGENTS.md` (default) | `CLAUDE.md`.
-- **Container** — a runnable unit in `system.arch.md` (`api`, `web`, `db`) — C4 L2.
-- **Tier** — a container's layer: `front | back | db | e2e | fullstack`.
-- **Guide files** — `README.md`, `CHANGELOG.md`, `package.json`, `pom.xml`, `go.mod`.
-- **PRD** — functional log shell; category lines added later by `/specify`.
+Where evidence is missing, propose a default and confirm it with a closed question. Stop there,
+before drafting a single document.
 
-## Steps
-### 1. Research
-- _read_ Guide files first (`README.md`, root manifests, container READMEs, scripts).
-- _detect_ the OS, shell, and remote Git repository.
-- _detect_ `{Product_Folder}` and `{Source_Folders}`.
-- _if_ those paths are absent, _propose_ defaults.
-- _derive_ the problem and solution from existing docs.
-- _if_ problem or solution is absent, _propose_ defaults.
-- _identify_ the containers and their tiers from folders and Guide files.
-- _if_ no containers exist, _prescribe_ defaults.
-- _identify_ the domain entities and relationships from existing docs.
-- _if_ entities are absent, _propose_ defaults.
-- _ask_ me to clarify the context one question at a time with closed-ended answers.
-- _stop_ before drafting documents.
+## Plan
 
-### 2. Plan
-- _map_ each References template placeholder to Guide-file evidence or a user answer.
-- _if_ a placeholder has no evidence, _ask_ a focused yes/no or multiple-choice question.
-- _prepare_ the PRD product paragraph; leave categories empty until `/specify`.
+Map every template placeholder to a piece of Guide-file evidence or to an answer from the human.
+Where a placeholder has nothing behind it, make a proposal and label the assumption.
 
-### 3. Implement
-- _write_ `{Agents_File}` — under 100 lines, concise.
-- _write_ `{Arch}/system.arch.md` — include **Tier** per container.
-- _write_ `{Model}/model.schema.md` — entities and relationships only; no attributes.
-- _if_ `{PRD}` is missing, _write_ `{PRD}` from the PRD template (shell only).
-- _commit_ the changes (`docs(explore): {description}`).
-- _for-each_ container, _handoff_ to `/extract`.
+Prepare the PRD's product paragraph and leave its categories empty.
+
+## Implement
+
+Write, in order: the agent-rules file — `AGENTS.md` by default, or `CLAUDE.md` — at the repository
+root, under 100 lines; `arch/system.arch.md`, the C4 Level 2 view listing the containers with a
+**Tier** each; `model/model.schema.md`, entities and relationships only, no attributes; and
+`specs/PRD.md` from its template if it does not exist yet.
+
+Commit it all as `docs(explore): …`. Then hand over to the extraction step, one run per container,
+to document each in depth.
 
 ## Verification
-- [ ] `{Agents_File}`, `{Arch}/system.arch.md`, `{Model}/model.schema.md`, and `{PRD}` exist.
-- [ ] Each container lists **Tier**; no empty placeholders; model has no attributes.
-- [ ] `{PRD}` has the product paragraph; no fabricated category entries.
-- [ ] No unresolved assumptions remain.
+
+- [ ] The agent-rules file, `arch/system.arch.md`, `model/model.schema.md`, and `specs/PRD.md` exist.
+- [ ] Every container carries a Tier, no placeholder is left blank, and the model has no attributes.
+- [ ] The PRD has its product paragraph and not one invented category.
+- [ ] No assumption is left unconfirmed.

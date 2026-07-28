@@ -4,72 +4,70 @@ description: Implement a container or e2e plan, or fix a report, with tests.
 user-invocable: true
 disable-model-invocation: true
 ---
-# Codify
+# Codify — write the code the plan describes
 
-## Role
-Act as Senior Software Engineer.
+Act as Senior Software Engineer. You write code by following a plan, or by resolving a reported
+report or bug. Respect the coding rules of the container you are touching.
 
-## Task
-Implement a software-container plan, the e2e plan, or fix a report that needs corrections.
-Produce working code. Smoke-test and unit-test software containers.
-For e2e, only verify the suite compiles and lints clean.
+Always write unit tests for the code you produce, except in an e2e container. The run is done when
+the lint, build, and unit-test checks that exist all pass.
 
-### Guardrails
-- **Think before you code** — weigh a couple of alternatives, then pick the simplest (KISS).
-- **Surgical changes** — the minimum change that meets the goal (YAGNI).
-- **Goal-driven** — keep going until the task is completed.
-- **Status on code** — set the spec to `in-progress` after each code-writing run.
-- **Apply the rules** — follow the in-scope `{container}.rules.md`; the harness may not inject it.
+## Rules
+
+- **Think before you code** — weigh a couple of alternatives and take the simplest that works (KISS).
+- **Surgical changes** — make the minimum change that meets the goal, nothing speculative (YAGNI).
+- **Goal-driven** — keep going until the task is genuinely finished and lint, build, and tests pass.
+- **Status on every coding run** — when a spec is in scope, set it to `in-progress` after any run
+  that writes code.
+- **Never weaken a test** — a failing assertion is a defect to fix, never an assertion to soften.
+- **A refactor changes no behavior** — when the plan comes from a `kind: refactor` spec, the
+  existing e2e suite must keep asserting exactly what it asserted before.
+- **Apply the rules** — follow the container's `{container}.rules.md`, loading it yourself; the
+  code you write should look like the code around it.
 
 ## Context
 
-- `{Arch}` = `{Product_Folder}/arch`.
-- `{Model}` = `{Product_Folder}/model`.
-- `{Rules}` = `{Agents_Folder}/rules`.
-- `{Specs}` = `{Product_Folder}/specs/{spec_key}`.
+- **Required input** — a container plan, the `e2e.plan.md`, a defects or gate report, or a plain
+  description of a fix.
+- **One container** — you work one container at a time; if you are not given one, work out which
+  or ask.
+- **References** — the `{container}.rules.md` of the container in scope; plus
+  `model/api.schema.md` or `model/db.schema.md`, depending on what you touch.
 
-### Inputs
-- [ ] Required: a container plan, `e2e.plan.md`, a defects or review report, or a fix description.
+## Research
 
-### References
-- _read_ [naming and conventions]({Rules}/{container}.rules.md).
+Work out which input you are starting from — plan, report, or bug — and which container. If you
+were not told, ask and settle it before anything else.
 
-### Glossary
-- **Software container** — any container except `e2e`; planned by `/planify`.
-- **e2e container** — transversal; planned via `e2e.plan.md`, written here, judged by `/verify`.
-- **Smoke test** — a minimal compile-and-lint check that the container builds cleanly; do not run the app.
+Read that container's coding rules, and the lint, build, and test commands you may need.
 
-## Steps
-### 1. Research
-- _identify_ the input, then derive `{spec_id}`, `{slug}`, `{spec_key}`, `{container}`.
-- _if_ no single plan is given, _ask_ which container to scope.
-- _read_ [system architecture]({Arch}/system.arch.md) — confirm the container Tier.
-- _read_ its `{Arch}/{container}.arch.md`, or `{Model}/db.schema.md` when the tier is `db`.
-- _if_ mode is e2e, _read_ [e2e plan]({Specs}/e2e.plan.md) and [criteria]({Specs}/spec.md).
+## Plan
 
-### 2. Plan
-- _if_ touching an API, _read_ [API shapes]({Model}/api.schema.md).
-- _if_ touching the store, _read_ [data shapes]({Model}/db.schema.md).
-- _map_ plan steps to code changes; respect contracts shared with sibling containers.
-- _if_ mode is e2e, _map_ every AC id to its scenario from the e2e plan.
+If you were given no plan, make one on the fly: a sequence of ordered steps, each with a set of
+tasks to carry out.
 
-### 3. Implement
-- _commit_ any pending changes so the session starts clean.
-- _if_ mode is fix and on the default branch, _create_ branch `fix/{slug}`.
-- _annotate_ any plan or fix deviations (what, why).
-- _if_ mode is e2e, _write_ the suite from `e2e.plan.md`.
-- _if_ mode is a software container, _write_ code and unit tests for the critical path.
-- _if_ mode is fix, _apply_ the minimal change per defect or finding.
-- _check_ each in-scope plan step or report entry `[x]`.
-- _if_ the tier is e2e, _run_ compile and lint, not the tests.
-- _if_ the tier is not e2e, _run_ compile, lint, and unit tests until they pass; do not run the app.
-- _update_ `spec.md` to `status: in-progress` after writing code.
-- _commit_ the changes (`{feat|fix|test}(scope): {description}`).
-- _handoff_ to `/verify` — coding is always followed by verification.
+When you are writing e2e tests, map the acceptance criteria so each one becomes a traceable
+scenario, its id carried in the test title.
+
+## Implement
+
+Start from a clean repository: commit anything left pending. Work on the spec's branch —
+`feat/{spec_key}` for a functional spec, `refactor/{spec_key}` for a refactor one — or on
+`fix/{slug}` when you are fixing a bug with no spec behind it. Set the spec in scope to
+`status: in-progress`.
+
+Write the smallest change that resolves each task, defect, or finding in the plan, report, or bug.
+Note any deviation from the plan or the report — what you did and why. Check off each step or
+entry you complete. Then secure the code with lint, build, and unit tests where they apply; in an
+e2e container, compile and lint only, and never run the suite.
+
+Commit with a conventional message (`feat`, `fix`, or `test`). Then hand over to the verification
+step, or to whatever coding is still pending.
 
 ## Verification
-- [ ] Software container: compile and lint clean; unit tests pass (app not run).
-- [ ] e2e: suite compiles and lints clean; tests were not run.
-- [ ] Every in-scope plan step is `[x]`, or every in-scope report entry is fixed.
-- [ ] Related spec status is `in-progress` when a spec is in scope.
-- [ ] The code conforms to the in-scope container's `{container}.rules.md`.
+
+- [ ] Software container: build and linter clean, unit tests passing, the app never run.
+- [ ] e2e: the suite compiles and lints clean, and you did not run the tests.
+- [ ] Every in-scope plan step is checked off, or every in-scope report entry is fixed.
+- [ ] The code conforms to the `{container}.rules.md` of the container in scope.
+- [ ] When a spec is in scope, its status is `in-progress`.

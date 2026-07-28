@@ -24,8 +24,8 @@ inventory; this is the map.
 
 ## Build (new project or new feature)
 
-`/explore` → `/extract` (×container) → `/specify` → `/planify` → `/codify` (×container)
-→ `/verify` → `/qualify` → `/release`
+`/explore` → `/extract` (×container) → `/specify` → `/planify` (×container)
+→ `/codify` (×container) → `/verify` → `/qualify` → `/release`
 
 Amend anytime via `/specify` → `pending` → `/planify` (checkpoints: keep / redo / drop)
 → `/codify` → `/verify` → …
@@ -52,13 +52,13 @@ cannot flip a green test without a plan, and a plan needs a current spec.
 
 ## Refactor (behavior must not change)
 
-A spec — but a **non-functional** one: the *what* is untouched, so the demand is about the shape
+A spec — but a **refactor** one: the *what* is untouched, so the demand is about the shape
 of the code, not what it does.
 
 - **A structural change you order** → `/restructure` takes your directive — homogenize these
   routes, extract this validation, unify these five drawings into one component — bounds its
   radius and lists the affected sites per container.
-  - It becomes a `kind: non-functional` spec under `specs/N{nnn}-{slug}/`, which then travels
+  - It becomes a `kind: refactor` spec under `specs/R{nnn}-{slug}/`, which then travels
     the normal pipeline — `/planify`, `/codify`, `/verify` for non-regression, `/qualify` as the
     oracle for its structural criteria, `/release`. Each spec closes when the change lands; a
     later decision is a new spec, never an amendment. Two may not be open with overlapping scope.

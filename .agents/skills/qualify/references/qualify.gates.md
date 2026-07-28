@@ -2,10 +2,10 @@
 
 ## Guardrails
 - **Behavior findings are not yours** — look only for implementation smells;
-  behavioral findings go back to the human for `/specify`.
+  behavioral findings go back to the human as a functional spec.
 - **Accumulated decay is not yours** — what only shows by adding several specs together
-  is invisible in any diff. Note it as a candidate for `/restructure`; do not fail a gate on it.
-- **Tooling is not a gate** — lint, types, and build belong to `/codify` or a hook. They are
+  is invisible in any diff. Note it as a candidate for its own refactor spec; never fail a gate on it.
+- **Tooling is not a gate** — lint, types, and build belong to the coding step or a hook. They are
   an entry precondition: if any is red, hand the scope back without opening a single gate.
 
 Each gate is pass/fail. A gate passes when every check holds and you can say what you
@@ -13,7 +13,7 @@ checked it against; silence is not a pass. One violation fails the gate — ther
 partial pass. Under a failed gate, report every violation as a finding.
 
 The gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and
-`project-rules`. That list is closed: a non-functional spec's criteria name one of these,
+`project-rules`. That list is closed: a refactor spec's criteria name one of these,
 and nothing else is a gate.
 
 ## Severity
