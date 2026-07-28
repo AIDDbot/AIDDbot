@@ -59,14 +59,15 @@ See the [AIDD workflow](./AIDD.workflow.md#set-up-the-context).
 See [Build a feature](./AIDD.workflow.md#build-a-feature) for the visual walkthrough. Default loop:
 
 ```markdown
-/specify → /planify → /codify (×container) → /verify
+/specify → /planify (×container) → /codify (×container) → /verify
 ```
 
 Example prompts:
 
 ```markdown
 /specify a feature requirement
-/planify the specification
+/planify the api container
+/planify the e2e container
 /codify the api plan
 /codify the web plan
 /codify the e2e plan
@@ -74,7 +75,7 @@ Example prompts:
 ```
 
 - `/specify` creates or **amends** a one-page spec (problem, solution, criteria) → `pending`. Amend always replans; create also appends a PRD line.
-- `/planify` writes one plan per software container plus `e2e.plan.md` → `planned`. On amend, **Checkpoints** mark prior steps keep / redo / drop.
+- `/planify` writes **one plan per run**, for the container in scope — `e2e.plan.md` included when e2e is affected → `planned` once none is left unplanned. On amend, **Checkpoints** mark prior steps keep / redo / drop.
 - `/codify` implements **one plan per run** (then e2e). Software containers: smoke + unit tests. E2e: compile only. Sets `in-progress`.
 - `/verify` runs the suite and reports — never fixes → `verified` | `failed`.
 
@@ -96,7 +97,7 @@ Example prompts:
 ```
 
 - `/qualify` grades a code scope on a11y, security, performance, clean-code/DRY, UI, **and** the project's per-container rules, and writes `qualify.report.md` with a pass/fail verdict per gate plus a handoff per finding (report-only). Lint, types and build are not gates — they are a precondition. Failed gates hand off to `/codify`.
-- `/release` bumps the version, updates `CHANGELOG.md`, reconciles arch docs, requires the review report's gates all green, and closes the spec when one is in scope.
+- `/release` bumps the version, updates `CHANGELOG.md`, reconciles arch docs, requires the qualify report's gates all green, and closes the spec when one is in scope.
 
 See the [AIDD workflow](./AIDD.workflow.md#quality-and-release).
 
@@ -115,7 +116,7 @@ Both doors ask one mechanical question — *would satisfying the request change 
 - **No green test flips** → defect or coverage gap: `/codify` fix mode — minimal fix + regression test — then a patch `/release`. No spec.
 - **A green test must flip** → behavior change: `/specify` amend (or create) → always `/planify` (checkpoints) → `/codify` → `/verify`.
 
-For a structural change that no single diff reveals — homogenizing exposed routes, extracting a repeated validation, unifying a concept drawn five ways — give `/restructure` the directive. It captures the decision as a `kind: non-functional` spec that travels the normal pipeline; `/qualify` rules on its structural criteria and the e2e suite proves nothing regressed. Anything that changes what the product does is a `/specify` feature instead. Accumulated decay that `/qualify` merely notes in passing is the raw material for these directives. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
+For a structural change that no single diff reveals — homogenizing exposed routes, extracting a repeated validation, unifying a concept drawn five ways — give `/restructure` the directive. It captures the decision as a `kind: refactor` spec that travels the normal pipeline; `/qualify` rules on its structural criteria and the e2e suite proves nothing regressed. Anything that changes what the product does is a `/specify` feature instead. Accumulated decay that `/qualify` merely notes in passing is the raw material for these directives. See the [Skills lifecycle](../.agents/skills/skills.lifecycle.md).
 
 ## Next
 

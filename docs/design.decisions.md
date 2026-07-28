@@ -5,6 +5,67 @@ was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/s
 and [lifecycle](../.agents/skills/skills.lifecycle.md) describe the current state; this
 file explains how it got that way.
 
+## 2026-07-28 — Skills are prose, not pseudocode
+
+**Status**: adopted.
+
+### Context
+
+A skill lived in three files: a formal `SKILL.md` written in a house grammar of marked-up verbs
+(`_read_`, `_if_`, `_for-each_`, `_handoff_`), an English `README.md` restating it in prose, and a
+Spanish `LEEME.md` translating that. The grammar was an attempt to make instructions parseable;
+the two prose files existed because the grammar was not readable. Three files drifted apart
+predictably — most `SKILL.md` still described a report/`{Work}`/`refactors/` model the prose had
+abandoned days earlier.
+
+The grammar also worked against the tool. An agent reads instructions; it does not parse a DSL.
+Marking verbs bought no determinism and cost readability, which is the one thing that actually
+steers a model.
+
+### Decision
+
+1. **Two files, one skill.** `SKILL.md` in English and `LEEME.md` in Spanish, same skeleton, same
+   content, differing in language only. `README.md` is gone, and so is `references/grammar.md`.
+2. **Prose is the form.** Intro, `Rules`, `Context`, `Research`, `Plan`, `Implement`,
+   `Verification`. Framing sections are lists with bold hooks; the three steps are prose in the
+   imperative, addressed at the agent. Both templates live in `skillify/assets/`.
+3. **`kind: refactor`, `R` series.** The non-functional spec had three competing identities
+   across the repo (`refactor`/`non-functional`, `R`/`N`, `refactor/`/`restructure/`). One
+   vocabulary wins: `kind: refactor`, ids `R001`, branch `refactor/{spec_key}`, commit scope
+   `docs(refactor)`, and the term **refactor spec** everywhere. The term is deliberately
+   anchored to the artifact rather than to `/restructure`, whose name may still change.
+4. **`/planify` runs one container per run**, like `/extract` and `/codify`. The spec's solution
+   overview lists the affected containers, so a command can iterate them; `status: planned` is set
+   once none is left unplanned. Sibling plans are read at the start of each run so a shared
+   contract stays worded identically at both ends.
+5. **Four commands, two doors.** `spec-feature` and `spec-refactor` capture a change through its
+   door and pause for a human check; `build-spec` then takes that spec from plan to release.
+   Commands are `{name}.command.md` plus `{name}.LEEME.md`.
+
+### Rejected alternatives
+
+- **Keep the formal `SKILL.md` and regenerate it from the prose** — rejected: it preserves the
+  drift problem and the grammar's cost without its supposed benefit.
+- **`kind: non-functional` with an `N` series** — it reads more precisely, but "refactor" is the
+  word already used in branches, commit types, and conversation; one word beats a better word
+  used inconsistently.
+- **Fold `spec-feature` and `spec-refactor` into one `spec-new`** — rejected: the two doors ask
+  different questions, and collapsing them puts a classification step where the human already
+  knows the answer.
+
+### Consequences
+
+- Every `SKILL.md` was rewritten from its `LEEME.md`, not translated: the Spanish prose is the
+  source of record for what a skill does.
+- Fixed along the way: `/verify` committed `docs(e2e)` and `/specify` committed bare `docs`, now
+  both `docs({skill})`; `{Work}` is gone; the `qualify` report listed Lint and Types as gates when
+  the gate list explicitly excludes tooling, and omitted `ui` and `project-rules`; the
+  `/restructure` verification checked for the absence of an e2e Solution section, contradicting
+  the decision below; and the workflow docs still described `/restructure` as a periodic audit of
+  one container.
+- Still parked: the `-ify` rename for `explore`, `extract`, `release`, and `verify`; and the two
+  copies of `spec.template.md` under `specify` and `restructure`.
+
 ## 2026-07-28 — An e2e plan follows the container, not the spec's kind
 
 **Status**: adopted.
