@@ -1,14 +1,14 @@
 # Code-clarity lens
 
-The code-clarity catalog `/refactor` scans through. Prefer clarity over cleverness, and match
-the project's rules. Route each finding via [triage](./triage.md) — most land in the `/codify`
-lane, but a duplication that should move to a shared module is `/planify`.
+The code-clarity catalog `/review` reads the scope through. Prefer clarity over cleverness, and
+match the project's rules. Every match is a finding under the [clean code gate](./review.gates.md):
+give it a severity and hand it to `/codify`.
 
 ## Principles
 - Clarity over cleverness — explicit beats compact when compact needs a mental pause.
 - Preserve behavior — same inputs, outputs, side effects, ordering, and errors.
 - Convention over preference — match project rules and neighboring code.
-- Scope to what changed — no drive-by refactors of untouched code.
+- Judge what changed — but a new symbol that reimplements an existing one is still a finding.
 - Chesterton's fence — understand why code exists before proposing its removal.
 
 ## Structural patterns
@@ -44,5 +44,9 @@ lane, but a duplication that should move to a shared module is `/planify`.
 - Over-inlining that removes a useful named concept.
 - Line-count wins that hurt comprehension.
 
-> A change that needs a test edited to pass is not out of scope — it is a `behavioral` finding.
-> Route it to `/specify` via [triage](./triage.md); do not drop it.
+> A change that needs a test edited to pass is not yours — it is behavioral. Hand it to the
+> human for `/specify`; do not drop it, and do not report it as a gate violation.
+
+> A pattern that only shows up by adding several features together — the same helper
+> reimplemented across five specs, a boundary that drifted over months — is not a finding
+> either. No diff contains it. Note it as a candidate for `/refactor` and tell the human.
