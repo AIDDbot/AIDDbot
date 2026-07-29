@@ -26,3 +26,21 @@ otra vez todo en verde.
 
 Cuando el código haya pasado la verificación funcional y la revisión técnica, invoca a `/release`
 para publicar la especificación.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
+flowchart TD
+  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
+  classDef loop fill:#fefce8,stroke:#ca8a04,color:#854d0e
+  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
+  classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
+
+  S([inicio · clave de la spec]):::start --> PLAN["/planify × contenedor<br/>(+ e2e si hace falta)"]:::nd
+  PLAN --> CODE["/codify × plan<br/>(producción primero, e2e al final)"]:::nd
+  CODE --> VER{"/verify"}:::loop
+  VER -->|verde| QLF{"/qualify"}:::loop
+  QLF -->|todo ok| REL["/release"]:::nd --> E([publicada]):::end
+
+  VER -.->|fallos| CODE
+  QLF -.->|compuerta fallida| CODE
+```

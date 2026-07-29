@@ -25,3 +25,21 @@ again.
 
 When the code has passed both the functional verification and the quality review, call `/release`
 to publish the specification.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
+flowchart TD
+  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
+  classDef loop fill:#fefce8,stroke:#ca8a04,color:#854d0e
+  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
+  classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
+
+  S([start · spec key]):::start --> PLAN["/planify × container<br/>(+ e2e if needed)"]:::nd
+  PLAN --> CODE["/codify × plan<br/>(production first, e2e last)"]:::nd
+  CODE --> VER{"/verify"}:::loop
+  VER -->|green| QLF{"/qualify"}:::loop
+  QLF -->|all pass| REL["/release"]:::nd --> E([released]):::end
+
+  VER -.->|defects| CODE
+  QLF -.->|gate failed| CODE
+```
