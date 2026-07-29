@@ -25,15 +25,18 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## How you use it
 
-Four commands cover the whole cycle. Each one chains a stretch of the pipeline, running every
-step in a fresh subagent so nothing inherits the previous step's clutter.
+Four commands cover the doors and the build machine. Each one chains a stretch of the pipeline,
+running every step in a fresh subagent so nothing inherits the previous step's clutter.
 
 | Command | What it does |
 |---------|--------------|
 | `/explore-and-extract` | Documents your codebase — architecture, schemas, coding rules |
 | `/spec-feature` | Turns a requirement into a spec, then builds and ships it |
-| `/spec-refactor` | Turns a structural directive into a spec, then applies it |
+| `/explore-and-refactor` | Re-explores for technical drift, then refactors it |
 | `/build-spec` | Takes an existing spec from plan to release |
+
+Arrive and explore, build features, and over time re-explore to correct drift.
+`/explore-and-refactor` is the refactor door — it drives each chosen fix through `/spec-refactor`.
 
 Underneath are ten skills you can also invoke one at a time, when you want to redo a step or
 watch what it does before trusting it with the next.
@@ -86,7 +89,7 @@ runs on.
 
 Documentation:
 
-- **[Getting started](docs/getting-started.md)** — install, the four commands, the loops
+- **[Getting started](docs/getting-started.md)** — install, the doors, the lifecycle
 - **[AIDD workflow](docs/AIDD.workflow.md)** — the system in pictures: pipeline, routing, artifacts
 - **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does, produces, and routes to
 - **[Design decisions](docs/design.decisions.md)** — why the pipeline is shaped this way

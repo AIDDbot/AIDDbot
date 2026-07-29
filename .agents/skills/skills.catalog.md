@@ -4,8 +4,7 @@ The inventory and the map: what each skill does, what it writes, and how the pip
 whole SDLC — build, maintain, refactor. This file owns the routing; the skills themselves do not
 narrate it. The human-facing version is [`docs/AIDD.workflow.md`](../../docs/AIDD.workflow.md).
 
-Each skill folder ships a `SKILL.md` — prose an agent reads — plus a `LEEME.md`, its Spanish twin.
-The two differ in language only, and `/skillify` keeps them in sync.
+Each skill folder ships a `SKILL.md` — prose an agent reads. `/skillify` is the sole path to create or fix one.
 
 ## What holds it together
 
@@ -70,7 +69,7 @@ what the product does is not structural: it goes back to the human as a `/specif
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/skillify`](./skillify/) | Sole path to create or fix a skill under `.agents/skills/` | new/updated `SKILL.md` + `LEEME.md` (+ `references/`, `assets/`), align-docs |
+| [`/skillify`](./skillify/) | Sole path to create or fix a skill under `.agents/skills/` | new/updated `SKILL.md` (+ `references/`, `assets/`), align-docs |
 
 ## Pipeline
 
@@ -127,12 +126,12 @@ later amend keeps the prior `released-version` until the next ship updates it.
 ## Commands
 
 Phase orchestrators under [`.agents/commands/`](../commands/) — each chains a pipeline stretch, one
-subagent per skill run, so every step gets a fresh context. Each ships a `{name}.command.md` and a
-`{name}.LEEME.md`, kept in sync by `/skillify` the same way skills are.
+subagent per skill run, so every step gets a fresh context. Each ships a `{name}.command.md`.
 
 | Command | Orchestrates |
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.command.md) | `/explore`, then `/extract` per container |
+| [`explore-and-refactor`](../commands/explore-and-refactor.command.md) | `/explore`, `/extract` per container → `arch/drift.report.md`, then `/spec-refactor` per chosen defect |
 | [`spec-feature`](../commands/spec-feature.command.md) | `/specify` (create or amend), human check, then `build-spec` |
 | [`spec-refactor`](../commands/spec-refactor.command.md) | `/restructure`, human check, then `build-spec` |
 | [`build-spec`](../commands/build-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |

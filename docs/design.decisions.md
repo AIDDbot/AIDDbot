@@ -4,6 +4,31 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-07-29 — English-only skills and commands
+
+**Status**: adopted. Supersedes the Spanish twin requirement from 2026-07-28.
+
+### Context
+
+Every skill and command had shipped as an English/Spanish pair — `SKILL.md` + `LEEME.md`, or
+`{name}.command.md` + `{name}.LEEME.md`. That doubled the align-docs surface on every edit and
+kept a Spanish lifecycle map (`docs/flujo-de-artefactos.md`) in sync with the English workflow
+docs. The audience is bilingual, but the canonical instructions live in one language now.
+
+### Decision
+
+1. **One file per skill** — `SKILL.md` in English only.
+2. **One file per command** — `{name}.command.md` only.
+3. **Drop the Spanish artifacts** — all `LEEME.md`, `*.LEEME.md`, and `leeme.template.md`; delete
+   `docs/flujo-de-artefactos.md`.
+4. **Align-docs shrinks** — sync the changed skill or command, the catalog when routing changed,
+   and human-facing docs only when what a human is told changes.
+
+### Consequences
+
+- All LEEME twins under `.agents/` and `docs/flujo-de-artefactos.md` are gone.
+- Historical ADR entries below still mention the twin model where it was true at the time.
+
 ## 2026-07-28 — Shorter skills for Claude 5 generation models
 
 **Status**: adopted, experimental — branch `short-skills-post5-models`.

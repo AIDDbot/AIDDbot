@@ -1,8 +1,7 @@
 # Skill template (prose)
 
 Every `SKILL.md` is prose written straight at the agent that will run it — no pseudocode, no verb
-markup, no step numbering. `LEEME.md` is the Spanish twin of the same skill; both follow this
-skeleton and these rules.
+markup, no step numbering. Follow this skeleton and these rules.
 
 ## Format rules
 

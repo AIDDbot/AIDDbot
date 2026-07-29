@@ -30,16 +30,19 @@ flowchart LR
 
   YOU -->|"what is there?"| EXP["/explore-and-extract"]:::nd
   YOU -->|"add something"| FEA["/spec-feature"]:::nd
-  YOU -->|"rebuild something"| REF["/spec-refactor"]:::nd
+  YOU -->|"what drifted?"| DRF["/explore-and-refactor"]:::nd
 
   EXP --> DOC["documentation"]:::nd
   FEA --> BLD["/build-spec"]:::nd
-  REF --> BLD
+  DRF --> DOC
+  DRF --> BLD
   BLD --> REL["released"]:::nd
 ```
 
-Documentation first: the other two doors read it. Both spec doors converge on `/build-spec`,
-which is the same machine either way — what changes is who judges the result.
+Arrive and explore, build, and over time re-explore to correct technical drift. Documentation
+first: the other doors read it. `/spec-feature` and `/explore-and-refactor` both converge on
+`/build-spec` — the latter after writing a drift report and running `/spec-refactor` per chosen
+defect. The machine is the same; what changes is who judges the result.
 
 ## Understanding what is there
 
@@ -93,7 +96,34 @@ The one manual step is yours: everything downstream is derived from the spec, so
 buys correct code for the wrong problem. After that the loops close on their own — `/verify`
 and `/qualify` report, `/codify` fixes, and nothing ships until both are green.
 
-## Changing how it is built
+## Re-exploring for drift
+
+```markdown
+/explore-and-refactor
+```
+
+```mermaid
+flowchart LR
+  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
+  classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
+
+  EXP["/explore → /extract ×container<br/>vs expected · prior failures"]:::nd --> RPT["arch/drift.report.md"]:::nd
+  RPT --> PICK{"you pick the top defect"}:::q
+  PICK --> REF["/spec-refactor"]:::nd
+  REF --> MARK["mark result in report"]:::nd
+  MARK -->|more| PICK
+```
+
+This is the refactor door. Features ship, time passes, and the shape of the code drifts from the
+docs and rules written on day one. Same documentation pass as `/explore-and-extract`, plus a
+comparison against what those docs already expect. The work product is `arch/drift.report.md`.
+You choose which defect matters most; the command runs `/spec-refactor` on it, records the
+outcome, and offers the next one.
+
+## What `/spec-refactor` does
+
+`/explore-and-refactor` is the door; `/spec-refactor` is the step it runs per defect — and the
+command you call yourself when you already hold a single structural directive.
 
 ```markdown
 /spec-refactor homogenize how the api exposes its routes

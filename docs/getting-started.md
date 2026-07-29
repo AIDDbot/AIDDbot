@@ -13,7 +13,7 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth
 ```
 
 Copy `.agents` into your project, then delete `AIDDbot-tmp`. You now have ten skills under
-`.agents/skills/` and four commands under `.agents/commands/`.
+`.agents/skills/` and five commands under `.agents/commands/`.
 
 If `/explore` does not autocomplete in your agent chat, your harness has not discovered the
 folder — no need to fight the configuration, asking for the file by path always works:
@@ -24,17 +24,19 @@ Follow .agents/skills/explore/SKILL.md on this project
 
 ## 2. Three doors
 
-There are only three things you ask for. Each has a command, and each command chains the skills
-it needs, running every one in a fresh subagent so no step inherits the previous step's clutter.
+The lifecycle is simple: you arrive and explore, you build, and over time you re-explore to
+correct technical drift. Each door has a command that chains the skills it needs, running every
+one in a fresh subagent so no step inherits the previous step's clutter.
 
 | You want to | Command |
 |---|---|
 | Understand what is there | `/explore-and-extract` |
 | Add something new | `/spec-feature` |
-| Change how it is built | `/spec-refactor` |
+| Correct technical drift | `/explore-and-refactor` |
 
-The two spec commands both hand into `/build-spec`, which carries a spec from plan to release.
-You can call it directly when a spec already exists.
+`/spec-feature` hands into `/build-spec`, which carries a spec from plan to release — call
+`/build-spec` directly when a spec already exists. `/explore-and-refactor` is the refactor door:
+it re-documents, finds drift, and drives each chosen fix through `/spec-refactor` for you.
 
 Run the commands first. Drop to individual skills when you want to redo one step or watch what
 it does before trusting it with the next.
@@ -72,25 +74,26 @@ Once you approve, `/build-spec` plans, codes, runs the e2e suite, grades the res
 quality gates, and releases. A red test or a failed gate loops back to `/codify` on its own.
 Nothing ships until both are green.
 
-## 5. Change how it is built
+## 5. Re-explore for drift
 
-Sometimes nothing about the product should change, only its shape: routes exposed five different
-ways, one validation copied into four handlers, a concept drawn differently on every screen.
+Features ship. Time passes. Routes get exposed five different ways, a validation is copied into
+four handlers, a concept is drawn differently on every screen — the product still behaves, but
+its shape has drifted from the docs and rules you wrote on day one.
 
 > Example:
 
 ```markdown
-/spec-refactor homogenize how the api exposes its routes
+/explore-and-refactor
 ```
 
-`/restructure` turns your directive into a refactor spec — what the code looks like once it is
-applied, and how each part of that is checked — and **stops for you to read it**, same as a
-feature. From there `/build-spec` takes over and the cycle is identical.
+It documents like `/explore-and-extract`, comparing what exists with what the arch docs and rules
+already expect, then writes `arch/drift.report.md`: the contradictions worth fixing. You pick
+the top defect together; it runs `/spec-refactor` on that item (same human check, same
+`/build-spec` machine underneath), marks the result in the report, and proposes the next one.
 
 The safety net is the e2e suite you already have. A refactor may change *how* a test reaches its
 result, never *what* it asserts, so if the suite still passes, the product still behaves. Any
-part of your directive that would change what the product does comes back to you as a feature
-instead.
+finding that would change what the product does comes back to you as a feature instead.
 
 ## What lands in your repo
 
@@ -103,6 +106,6 @@ Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed
 ## Next
 
 - [Why AIDD](../README.md#why-do-you-need-aidd) — principles and who this is for
-- [AIDD workflow](./AIDD.workflow.md) — each case in pictures: explore, build, refactor
+- [AIDD workflow](./AIDD.workflow.md) — each case in pictures: explore, build, re-explore
 - [Skills catalog](../.agents/skills/skills.catalog.md) — what each skill does, produces, and routes to
 - [Design decisions](./design.decisions.md) — why the pipeline is shaped this way
