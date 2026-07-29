@@ -12,7 +12,7 @@ From your **destination repository root**:
 git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth 1
 ```
 
-Copy `.agents` into your project, then delete `AIDDbot-tmp`. You now have ten skills under
+Copy `.agents` into your project, then delete `AIDDbot-tmp`. You now have nine skills under
 `.agents/skills/` and five commands under `.agents/commands/`.
 
 If `/explore` does not autocomplete in your agent chat, your harness has not discovered the

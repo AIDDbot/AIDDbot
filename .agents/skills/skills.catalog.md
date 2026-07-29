@@ -38,14 +38,20 @@ gap, which is why an empty repo and a mature one both work.
 
 | Skill | What it does | Produces |
 |-------|--------------|----------|
-| [`/specify`](./specify/) | Create or amend: problem + solution + criteria → `pending` | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: functional`) + its PRD line on create |
+| [`/specify`](./specify/) | Capture a spec of the kind the caller names: functional (create or amend) or refactor (from a directive) → `pending` | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: functional` \| `refactor`) + a PRD line on functional create |
 | [`/planify`](./planify/) | One plan for the container in scope; checkpoints on replan → `planned` | `{Product_Folder}/specs/{spec_key}/{container}.plan.md`, or `e2e.plan.md` |
 | [`/codify`](./codify/) | Implement one plan or fix a report; unit tests, e2e compiles only → `in-progress` | source, unit tests, the e2e suite |
 | [`/verify`](./verify/) | Run the e2e suite; report defects with triage, no fixes | `{Product_Folder}/specs/{spec_key}/e2e.report.md` — a verdict per AC id |
 
 Criteria are numbered `AC-{spec_id}.{n}`, unique repo-wide because each id reaches an e2e test
 title. An amend resets to `pending` and always replans, unchecks active criteria, and moves
-retired ones to `Deprecated criteria` with the id kept.
+retired ones to `Deprecated criteria` with the id kept. Functional ids draw the `F` series
+(`F001`…); refactor ids draw the `R` series (`R001`…).
+
+A structural change the human orders is still a spec: `/specify` with `kind: refactor`, never
+code. Never a PRD line, never amended, never two open whose scopes overlap. Anything that would
+change what the product does is not structural: it goes back to the human as a `/specify`
+`kind: functional` feature.
 
 ## Quality and release
 
@@ -53,17 +59,6 @@ retired ones to `Deprecated criteria` with the id kept.
 |-------|--------------|----------|
 | [`/qualify`](./qualify/) | Grade the scope: a11y, security, perf, clean-code, ui, project rules; a failed gate routes to `/codify` | `{Product_Folder}/specs/{spec_key}/qualify.report.md` — a pass/fail verdict per gate |
 | [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec | `CHANGELOG.md`, version bump, tag, reconciled arch docs |
-
-## Restructuring
-
-A structural change the human orders. It never writes code — it writes a spec.
-
-| Skill | What it does | Produces |
-|-------|--------------|----------|
-| [`/restructure`](./restructure/) | Turn a human's structural directive into a refactor spec; one decision, may cross containers | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: refactor`), keyed from its own `R` series |
-
-Never a PRD line, never amended, never two open whose scopes overlap. Anything that would change
-what the product does is not structural: it goes back to the human as a `/specify` feature.
 
 ## Meta
 
@@ -99,16 +94,16 @@ a green e2e test asserts?**
 
 - **No** → defect or coverage gap. `/codify` fix mode: minimal fix plus a regression e2e test, then
   a patch `/release`. No spec. Proof: the regression test passes and every green test stays green.
-- **Yes** → behavior change. `/specify` amend or create, then the full pipeline. Proof: the amended
-  criteria's tests pass.
+- **Yes** → behavior change. `/specify` amend or create (`kind: functional`), then the full
+  pipeline. Proof: the amended criteria's tests pass.
 
 A "bug" the suite disagrees with is a behavior change in disguise: code, tests, and docs all agree
 with each other — they are wrong together, so the correction must travel through a spec. The gate
 makes hot-fixing it structurally impossible, since `/codify` cannot flip a green test without a
 plan, and a plan needs a current spec.
 
-Structural changes the human orders travel through `/restructure` instead, and land as a
-`kind: refactor` spec that then runs the normal pipeline. Guardrails that make refactoring safe to
+Structural changes the human orders travel through `/specify` with `kind: refactor`, and land as
+a refactor spec that then runs the normal pipeline. Guardrails that make refactoring safe to
 delegate: green baseline before starting, tests untouchable, contracts frozen.
 
 ## Releases
@@ -132,6 +127,6 @@ subagent per skill run, so every step gets a fresh context. Each ships a `{name}
 |---------|--------------|
 | [`explore-and-extract`](../commands/explore-and-extract.command.md) | `/explore`, then `/extract` per container |
 | [`explore-and-refactor`](../commands/explore-and-refactor.command.md) | `/explore`, `/extract` per container → `arch/drift.report.md`, then `/spec-refactor` per chosen defect |
-| [`spec-feature`](../commands/spec-feature.command.md) | `/specify` (create or amend), human check, then `build-spec` |
-| [`spec-refactor`](../commands/spec-refactor.command.md) | `/restructure`, human check, then `build-spec` |
+| [`spec-feature`](../commands/spec-feature.command.md) | `/specify` (`kind: functional`, create or amend), human check, then `build-spec` |
+| [`spec-refactor`](../commands/spec-refactor.command.md) | `/specify` (`kind: refactor`), human check, then `build-spec` |
 | [`build-spec`](../commands/build-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |

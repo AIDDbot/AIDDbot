@@ -38,13 +38,13 @@ running every step in a fresh subagent so nothing inherits the previous step's c
 Arrive and explore, build features, and over time re-explore to correct drift.
 `/explore-and-refactor` is the refactor door — it drives each chosen fix through `/spec-refactor`.
 
-Underneath are ten skills you can also invoke one at a time, when you want to redo a step or
+Underneath are nine skills you can also invoke one at a time, when you want to redo a step or
 watch what it does before trusting it with the next.
 
 | Phase | Skills | What they cover |
 |-------|--------|-----------------|
 | Context | `/explore`, `/extract` | Agent setup + arch/schema docs and coding rules |
-| Capture | `/specify`, `/restructure` | A feature spec, or a refactor spec from a directive you give |
+| Capture | `/specify` | A feature spec or a refactor spec — kind named by the caller |
 | Build | `/planify`, `/codify` | One plan and one implementation per container |
 | Prove | `/verify`, `/qualify` | E2e verdicts and quality gates — report only, never fixes |
 | Ship | `/release` | Version, changelog, reconciled docs, tag |

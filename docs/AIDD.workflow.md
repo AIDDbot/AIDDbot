@@ -78,7 +78,7 @@ flowchart LR
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
 
-  SPEC["/specify<br/>spec.md"]:::nd --> CHK{"you read it"}:::q
+  SPEC["/specify · kind: functional<br/>spec.md"]:::nd --> CHK{"you read it"}:::q
   CHK --> PLAN["/planify ×container<br/>plans"]:::nd
   PLAN --> CODE["/codify ×container<br/>code · tests"]:::nd
   CODE --> VER["/verify<br/>e2e report"]:::nd
@@ -134,7 +134,7 @@ flowchart LR
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
 
-  DIR["your directive"]:::nd --> REF["/restructure<br/>spec.md (kind: refactor)"]:::nd
+  DIR["your directive"]:::nd --> REF["/specify<br/>kind: refactor"]:::nd
   REF --> CHK{"you read it"}:::q
   CHK --> SAME["the same machine:<br/>/planify → /codify → /verify → /qualify → /release"]:::nd
   REF -.->|"would change behavior"| OUT["back to you<br/>as a feature"]:::nd
@@ -150,11 +150,14 @@ back to you as a feature.
 
 ## The two kinds of spec
 
+Both kinds are written by `/specify`. The command (or you) names the kind; the skill never
+classifies it.
+
 | | functional | refactor |
 |---|---|---|
-| Written by | `/specify` | `/restructure` |
+| Written by | `/specify` (`kind: functional`) | `/specify` (`kind: refactor`) |
 | From | a requirement | a structural directive you give |
-| Id series | `001`, `002`… | `R001`, `R002`… |
+| Id series | `F001`, `F002`… | `R001`, `R002`… |
 | Branch | `feat/{spec_key}` | `refactor/{spec_key}` |
 | Listed in the PRD | yes — it is a business catalog | no |
 | Amendable | yes; an amend always replans | no — a later decision is a new spec |
@@ -178,7 +181,7 @@ Every artifact has exactly one producer.
 |---|---|
 | `/explore` | `{Agents_File}`, `arch/system.arch.md`, `model/model.schema.md`, `specs/PRD.md` (shell) |
 | `/extract` | `arch/{container}.arch.md` or `model/db.schema.md`, `model/api.schema.md`, `rules/{container}.rules.md` |
-| `/specify` · `/restructure` | `specs/{spec_key}/spec.md` (+ a PRD line, functional only) |
+| `/specify` | `specs/{spec_key}/spec.md` (+ a PRD line, functional only) |
 | `/planify` | `specs/{spec_key}/{container}.plan.md`, `e2e.plan.md` |
 | `/codify` | source, unit tests, the e2e suite |
 | `/verify` | `specs/{spec_key}/e2e.report.md` |

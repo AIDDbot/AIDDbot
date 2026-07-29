@@ -1,8 +1,8 @@
 ---
-id: {spec_id}
+id: F{nnn}
 slug: {slug}
 title: {title}
-kind: functional  # functional | refactor 
+kind: functional  # functional | refactor
 category: {category}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | failed | done

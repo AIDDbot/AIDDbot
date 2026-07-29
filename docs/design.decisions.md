@@ -4,6 +4,46 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-07-29 — `/specify` owns both kinds; `F` / `R` series
+
+**Status**: adopted. Supersedes the 2026-07-28 rejection of "make `/refactor` a mode of
+`/specify`", and retires `/restructure`.
+
+### Context
+
+`/restructure` existed only to avoid Fowler's meaning of "refactor" on a skill that writes a
+spec, not code. That left two skills producing the same artifact shape (`spec.md` with `kind:`),
+two templates parked in sibling folders, and a naming problem that renaming alone never solved.
+The commands already knew the door — `spec-feature` vs `spec-refactor` — so the agent never had
+to classify. Functional ids were bare `001`… while refactor ids carried an `R` prefix.
+
+### Decision
+
+1. **One skill, two personalities.** `/specify` takes an explicit `kind: functional | refactor`
+   from the caller. Functional → Business Analyst; refactor → Architect. Kind-specific rules live
+   in `specify/references/{functional|refactor}.md`; each kind keeps its own template under
+   `specify/assets/`.
+2. **Commands stay the two doors.** `spec-feature` calls `/specify` with `kind: functional`;
+   `spec-refactor` calls it with `kind: refactor`. No merged `spec-new`.
+3. **Homogeneous id series.** Functional draws `F001`, `F002`…; refactor draws `R001`, `R002`….
+   `{spec_key}` = `{spec_id}-{slug}` for both; AC ids stay `AC-{spec_id}.{n}`.
+4. **Delete `/restructure`.** The folder goes; routing, docs, and cross-skill mentions point at
+   `/specify` with the kind named.
+
+### Rejected alternatives
+
+- **Invented names (`restructify`, `reshape`, `refactorify`)** — rejected: the pain was two
+  producers of one artifact, not the English of the second name. Unifying under `/specify` removes
+  the second name.
+- **Fold the commands into one `spec-new`** — still rejected: the human already knows which door
+  they walked through; collapsing them reintroduces a classification step.
+
+### Consequences
+
+- Nine pipeline-facing skills instead of ten (plus `/skillify` still meta).
+- Commit scope for both kinds is `docs(specify): …`.
+- Historical ADR entries below still say `/restructure` where that was true at the time.
+
 ## 2026-07-29 — English-only skills and commands
 
 **Status**: adopted. Supersedes the Spanish twin requirement from 2026-07-28.

@@ -49,8 +49,8 @@ gate](./qualify.gates.md): give it a severity and hand it to `/codify`.
 
 ## Component architecture
 Reuse signals. A pure extraction that renders identical DOM is `/codify`; a look that must
-change to unify pages is `/specify`; a concept re-built the same way across the whole app,
-which no single diff shows, is a candidate for `/restructure`.
+change to unify pages is `/specify` (`kind: functional`); a concept re-built the same way across
+the whole app, which no single diff shows, is a candidate for `/specify` (`kind: refactor`).
 
 | Pattern | Signal | Change |
 |---------|--------|--------|
