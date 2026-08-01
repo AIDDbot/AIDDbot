@@ -123,10 +123,12 @@ later amend keeps the prior `released-version` until the next ship updates it.
 Phase orchestrators under [`.agents/commands/`](../commands/) — each chains a pipeline stretch, one
 subagent per skill run, so every step gets a fresh context. Each ships a `{name}.command.md`.
 
-| Command | Orchestrates |
-|---------|--------------|
-| [`explore-and-extract`](../commands/explore-and-extract.command.md) | `/explore`, then `/extract` per container |
-| [`explore-and-refactor`](../commands/explore-and-refactor.command.md) | `/explore`, `/extract` per container → `arch/drift.report.md`, then `/spec-refactor` per chosen defect |
-| [`spec-feature`](../commands/spec-feature.command.md) | `/specify` (`kind: functional`, create or amend), human check, then `build-spec` |
-| [`spec-refactor`](../commands/spec-refactor.command.md) | `/specify` (`kind: refactor`), human check, then `build-spec` |
-| [`build-spec`](../commands/build-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |
+The human doors are **ABC** — Architect, Builder, Craftsman. `/ship-spec` is the shared machine
+Builder and Craftsman call after a validated spec.
+
+| | Role | Command | Orchestrates |
+|---|------|---------|--------------|
+| **A** | Architect | [`architect-map`](../commands/architect-map.command.md) | `/explore`, then `/extract` per container |
+| **B** | Builder | [`builder-ship`](../commands/builder-ship.command.md) | `/specify` (`kind: functional`, create or amend), human check, then `ship-spec` |
+| **C** | Craftsman | [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | No directive: `/explore`, `/extract` → `arch/drift.report.md`, then per defect `/specify` (`kind: refactor`) → human check → `ship-spec`. With a directive: skip detection, same specify → check → `ship-spec` |
+| | | [`ship-spec`](../commands/ship-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |

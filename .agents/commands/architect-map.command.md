@@ -1,8 +1,10 @@
 ---
-name: explore-and-extract
-description: Document an existing codebase top to bottom — /explore once, then /extract per container.
+name: architect-map
+description: Architect (A) — document an existing codebase top to bottom; /explore once, then /extract per container.
 ---
-# explore-and-extract
+# architect-map
+
+Architect door of the ABC lifecycle — map what is there.
 
 Document an existing codebase from top to bottom.
 

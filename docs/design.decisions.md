@@ -4,6 +4,72 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-01 — Craftsman absorbs directed refactor; machine is `/ship-spec`
+
+**Status**: adopted. Supersedes the "internal commands stay" clause of the ABC-doors decision
+below (`/build-spec`, `/spec-refactor`).
+
+### Context
+
+After the ABC rename, `/spec-refactor` still looked like a peer door to Builder, though it was
+only Craftsman's per-defect step — or a developer shortcut when the structural directive was
+already clear. Forcing every directed refactor through a full drift survey was too expensive;
+folding directed refactor into Builder would blur ABC (Builder ships product change; Craftsman
+changes shape).
+
+### Decision
+
+1. **One Craftsman door, two entries.** `/craftsman-refactor` with no directive runs explore →
+   extract → `arch/drift.report.md` → pick → `/specify` (`kind: refactor`) → human check →
+   `/ship-spec`. With a directive already held, skip detection and take specify → check →
+   `/ship-spec`.
+2. **Delete `/spec-refactor`.** Its body lives inside Craftsman; no separate command.
+3. **Rename `/build-spec` → `/ship-spec`.** Shared machine under Builder and Craftsman; ships an
+   already-validated spec. Kind-agnostic.
+
+### Rejected alternatives
+
+- **Directed refactor through Builder with `kind: refactor`** — rejected: collapses the ABC
+  roles and reintroduces a classification step the human already answered by choosing a door.
+- **Detection-only Craftsman** — rejected: a known structural directive should not require a full
+  remapping of the repo.
+
+### Consequences
+
+- Four commands: three ABC doors plus `/ship-spec`.
+- Catalog, README, getting-started, and workflow describe Craftsman's dual entry.
+
+## 2026-08-01 — ABC doors: `/architect-map`, `/builder-ship`, `/craftsman-refactor`
+
+**Status**: adopted. Point 2 (internal `/build-spec` and `/spec-refactor`) superseded by the
+decision above.
+
+### Context
+
+The three human doors were named for the skills they chained (`explore-and-extract`,
+`spec-feature`, `explore-and-refactor`). That collided with skill names (`/explore`, `/release`)
+and hid the memorable Architect / Builder / Craftsman lifecycle behind procedural labels.
+
+### Decision
+
+1. **Hybrid ABC names for the three doors.** `/architect-map` (document the system),
+   `/builder-ship` (spec → release), `/craftsman-refactor` (drift report → structural fixes).
+   The role brands the door; the verb names what the door does — not an internal skill.
+2. **Internal commands stay.** `/build-spec` and `/spec-refactor` remain the shared machine and
+   the per-defect step; skills keep their existing names.
+
+### Rejected alternatives
+
+- **Role-only (`/architect`, `/builder`, `/craftsman`)** — rejected: less discoverable for what
+  each door actually runs.
+- **Skill-echo verbs (`/architect-explore`, `/builder-release`)** — rejected: collide with
+  `/explore` and `/release` and undersell the full door (extract; full ship pipeline).
+
+### Consequences
+
+- Command files, catalog, README, getting-started, and workflow use the new names.
+- Historical entries in this file keep the old names as they described past state.
+
 ## 2026-07-29 — `/specify` owns both kinds; `F` / `R` series
 
 **Status**: adopted. Supersedes the 2026-07-28 rejection of "make `/refactor` a mode of

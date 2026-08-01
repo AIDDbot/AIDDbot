@@ -17,9 +17,11 @@ and the e2e suite alike. `/verify` and `/qualify` only judge and report, and eve
 through `/codify`. Implementation and evaluation never share a session, so nothing grades its
 own work.
 
-**Every cycle starts from a spec.** What differs is which door it came through.
+**Every cycle starts from a spec.** What differs is which ABC door it came through.
 
-## The three doors
+## The ABC doors
+
+**A**rchitect maps, **B**uilder ships, **C**raftsman restores craft.
 
 ```mermaid
 flowchart LR
@@ -28,26 +30,25 @@ flowchart LR
 
   YOU([you]):::hum
 
-  YOU -->|"what is there?"| EXP["/explore-and-extract"]:::nd
-  YOU -->|"add something"| FEA["/spec-feature"]:::nd
-  YOU -->|"what drifted?"| DRF["/explore-and-refactor"]:::nd
+  YOU -->|"Architect · what is there?"| EXP["/architect-map"]:::nd
+  YOU -->|"Builder · add something"| FEA["/builder-ship"]:::nd
+  YOU -->|"Craftsman · what drifted?"| DRF["/craftsman-refactor"]:::nd
 
   EXP --> DOC["documentation"]:::nd
-  FEA --> BLD["/build-spec"]:::nd
+  FEA --> SHIP["/ship-spec"]:::nd
   DRF --> DOC
-  DRF --> BLD
-  BLD --> REL["released"]:::nd
+  DRF --> SHIP
+  SHIP --> REL["released"]:::nd
 ```
 
-Arrive and explore, build, and over time re-explore to correct technical drift. Documentation
-first: the other doors read it. `/spec-feature` and `/explore-and-refactor` both converge on
-`/build-spec` — the latter after writing a drift report and running `/spec-refactor` per chosen
-defect. The machine is the same; what changes is who judges the result.
+Architect first: documentation the other doors read. Builder and Craftsman both converge on
+`/ship-spec` — Craftsman after a drift report (or straight from a directive you already hold).
+The machine is the same; what changes is which role walked the door.
 
-## Understanding what is there
+## Architect — understanding what is there
 
 ```markdown
-/explore-and-extract
+/architect-map
 ```
 
 ```mermaid
@@ -65,12 +66,13 @@ source, one **container** at a time, and produces that container's detail.
 
 Both apply **evidence wins**: describe what exists, propose a default where nothing does. The
 rule resolves per gap, so one repository can mix documented containers and prescribed ones —
-which is why an empty repo and a mature one both work.
+which is why an empty repo and a mature one both work. That map is what Architect leaves for
+Builder and Craftsman.
 
-## Building a feature
+## Builder — shipping a feature
 
 ```markdown
-/spec-feature riders can rate a trip 1 to 5 stars
+/builder-ship riders can rate a trip 1 to 5 stars
 ```
 
 ```mermaid
@@ -94,12 +96,19 @@ criterion and its proof attached.
 
 The one manual step is yours: everything downstream is derived from the spec, so a wrong spec
 buys correct code for the wrong problem. After that the loops close on their own — `/verify`
-and `/qualify` report, `/codify` fixes, and nothing ships until both are green.
+and `/qualify` report, `/codify` fixes, and nothing ships until both are green. That arc —
+spec to released — is Builder's job.
 
-## Re-exploring for drift
+## Craftsman — correcting drift
+
+One door, two entries.
 
 ```markdown
-/explore-and-refactor
+/craftsman-refactor
+```
+
+```markdown
+/craftsman-refactor homogenize how the api exposes its routes
 ```
 
 ```mermaid
@@ -109,48 +118,36 @@ flowchart LR
 
   EXP["/explore → /extract ×container<br/>vs expected · prior failures"]:::nd --> RPT["arch/drift.report.md"]:::nd
   RPT --> PICK{"you pick the top defect"}:::q
-  PICK --> REF["/spec-refactor"]:::nd
-  REF --> MARK["mark result in report"]:::nd
+  PICK --> SPEC["/specify · kind: refactor"]:::nd
+  SPEC --> CHK{"you read it"}:::q
+  CHK --> SHIP["/ship-spec"]:::nd
+  SHIP --> MARK["mark result in report"]:::nd
   MARK -->|more| PICK
+
+  DIR["directive already held"]:::nd --> SPEC2["/specify · kind: refactor"]:::nd
+  SPEC2 --> CHK2{"you read it"}:::q
+  CHK2 --> SHIP
+  SPEC2 -.->|"would change behavior"| OUT["back to you<br/>as a feature"]:::nd
 ```
 
-This is the refactor door. Features ship, time passes, and the shape of the code drifts from the
-docs and rules written on day one. Same documentation pass as `/explore-and-extract`, plus a
-comparison against what those docs already expect. The work product is `arch/drift.report.md`.
-You choose which defect matters most; the command runs `/spec-refactor` on it, records the
-outcome, and offers the next one.
-
-## What `/spec-refactor` does
-
-`/explore-and-refactor` is the door; `/spec-refactor` is the step it runs per defect — and the
-command you call yourself when you already hold a single structural directive.
-
-```markdown
-/spec-refactor homogenize how the api exposes its routes
-```
-
-```mermaid
-flowchart LR
-  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
-  classDef q fill:#fefce8,stroke:#ca8a04,color:#854d0e
-
-  DIR["your directive"]:::nd --> REF["/specify<br/>kind: refactor"]:::nd
-  REF --> CHK{"you read it"}:::q
-  CHK --> SAME["the same machine:<br/>/planify → /codify → /verify → /qualify → /release"]:::nd
-  REF -.->|"would change behavior"| OUT["back to you<br/>as a feature"]:::nd
-```
+**Craftsman** restores craft when shape drifts from the docs and rules Architect wrote on day
+one. With no directive: same documentation pass as `/architect-map`, plus a comparison against
+what those docs already expect; the work product is `arch/drift.report.md`. You choose which
+defect matters most; each item runs `/specify` (`kind: refactor`), your check, and `/ship-spec`,
+then the report is updated and the next defect offered. With a directive already clear: skip
+detection and take that same specify → check → `/ship-spec` path.
 
 A refactor spec says what the code looks like once the decision is applied, and how each part of
 that is checked. Its first criterion is always **suite non-regression**: the e2e plan may change
 *how* a scenario reaches its result, never *what* it asserts. If the suite still passes, the
 product still behaves.
 
-Anything in your directive that would change what the product does is not structural — it comes
+Anything in the directive that would change what the product does is not structural — it comes
 back to you as a feature.
 
 ## The two kinds of spec
 
-Both kinds are written by `/specify`. The command (or you) names the kind; the skill never
+Both kinds are written by `/specify`. Builder and Craftsman name the kind; the skill never
 classifies it.
 
 | | functional | refactor |

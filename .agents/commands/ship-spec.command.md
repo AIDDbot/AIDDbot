@@ -1,8 +1,10 @@
 ---
-name: build-spec
-description: Take an existing spec from planning through to release.
+name: ship-spec
+description: Take an existing validated spec from planning through to release.
 ---
-# build-spec
+# ship-spec
+
+Shared machine under Builder and Craftsman — ship an already-validated specification.
 
 Take a specification all the way to release. You neither write it nor argue it: you are given its
 key, you read it, and you put it through the process.

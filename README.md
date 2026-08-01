@@ -25,18 +25,19 @@ Modern coding agents are strong on isolated tasks. On real projects, three failu
 
 ## How you use it
 
-Four commands cover the doors and the build machine. Each one chains a stretch of the pipeline,
-running every step in a fresh subagent so nothing inherits the previous step's clutter.
+The lifecycle is **ABC** — **A**rchitect, **B**uilder, **C**raftsman — three doors, plus
+`/ship-spec` underneath. Each command chains a stretch of the pipeline in fresh subagents so
+no step inherits the previous step's clutter.
 
-| Command | What it does |
-|---------|--------------|
-| `/explore-and-extract` | Documents your codebase — architecture, schemas, coding rules |
-| `/spec-feature` | Turns a requirement into a spec, then builds and ships it |
-| `/explore-and-refactor` | Re-explores for technical drift, then refactors it |
-| `/build-spec` | Takes an existing spec from plan to release |
+| | Role | Command | What it does |
+|---|------|---------|--------------|
+| **A** | Architect | `/architect-map` | Maps the system — architecture, schemas, coding rules |
+| **B** | Builder | `/builder-ship` | Specs a requirement, then builds and ships it |
+| **C** | Craftsman | `/craftsman-refactor` | Finds drift (or applies a directive you already hold), then refactors |
 
-Arrive and explore, build features, and over time re-explore to correct drift.
-`/explore-and-refactor` is the refactor door — it drives each chosen fix through `/spec-refactor`.
+Architect first (documentation every later step reads), Builder to ship features, Craftsman when
+shape drifts — or when you already know the structural fix. Both B and C hand a validated spec
+to `/ship-spec`.
 
 Underneath are nine skills you can also invoke one at a time, when you want to redo a step or
 watch what it does before trusting it with the next.
@@ -80,17 +81,17 @@ git clone https://github.com/AIDDbot/AIDDbot AIDDbot-tmp --single-branch --depth
 Then, in your agent chat:
 
 ```markdown
-/explore-and-extract
+/architect-map
 ```
 
-It describes what already exists and proposes defaults where nothing does, so it works on empty
-and mature repositories alike. Answer its questions and you have the context every later step
-runs on.
+Start as Architect: it describes what already exists and proposes defaults where nothing does,
+so it works on empty and mature repositories alike. Answer its questions and you have the
+context Builder and Craftsman run on.
 
 Documentation:
 
-- **[Getting started](docs/getting-started.md)** — install, the doors, the lifecycle
-- **[AIDD workflow](docs/AIDD.workflow.md)** — the system in pictures: pipeline, routing, artifacts
+- **[Getting started](docs/getting-started.md)** — install, the ABC doors, the lifecycle
+- **[AIDD workflow](docs/AIDD.workflow.md)** — Architect, Builder, Craftsman in pictures
 - **[Skills catalog](.agents/skills/skills.catalog.md)** — what each skill does, produces, and routes to
 - **[Design decisions](docs/design.decisions.md)** — why the pipeline is shaped this way
 
