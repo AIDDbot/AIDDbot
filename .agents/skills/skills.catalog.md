@@ -1,134 +1,79 @@
 # AIDD skills catalog
 
-The inventory and the map: what each skill does, what it writes, and how the pipeline covers the
-whole SDLC — build, maintain, refactor. This file owns the routing; the skills themselves do not
-narrate it. The human-facing version is [`docs/AIDD.workflow.md`](../../docs/AIDD.workflow.md).
+ABC commands open the doors. Skills are the steps underneath.
 
-Each skill folder ships a `SKILL.md` — prose an agent reads. `/skillify` is the sole path to create or fix one.
+Use commands for end-to-end flows, and invoke skills one by one when you want tighter control.
 
-## What holds it together
+## What holds
 
-**The green e2e suite is the contract.** It is the executable statement of what the product does
-today. Green tests change only through a plan, never to force a pass.
-
-**One writer, two evaluators.** `/codify` is the only skill that writes code. `/verify` and
-`/qualify` only judge and report, and every fix lands back through `/codify`, so nothing grades
-its own work.
-
-**Every cycle starts from a spec.** What differs is which door it came through. A spec is
-amendable at any status; `done` means currently shipped, not frozen. The arch docs describe the
-current technical state — `/release` reconciles them, `/extract` rebuilds them when they drift.
-
-**Nothing assumes the repository root.** `{Product_Folder}`, `{Agents_Folder}`, `{Agents_File}`,
-and `{Source_Folders}` are settled by `/explore` with the human and recorded in `{Agents_File}`,
-which every later session loads. Paths below are written against those placeholders, never
-resolved here.
+- The green e2e suite is the contract.
+- `/codify` writes code; `/verify` and `/qualify` evaluate only.
+- Every cycle starts from a spec.
 
 ## Context
 
-| Skill | What it does | Produces |
-|-------|--------------|----------|
-| [`/explore`](./explore/) | AIDD setup + C4 L2 (with Tier) + conceptual model + PRD shell. Guide files only, no application source | `{Agents_File}`, `{Product_Folder}/arch/system.arch.md`, `{Product_Folder}/model/model.schema.md`, `{Product_Folder}/specs/PRD.md` (shell) |
-| [`/extract`](./extract/) | Per container: arch or db schema + code rules (+ API). Reads container source | `{Product_Folder}/arch/{container}.arch.md` or `{Product_Folder}/model/db.schema.md`, `{Product_Folder}/model/api.schema.md` (merged), `{Agents_Folder}/rules/{container}.rules.md` |
+| Skill | What it does |
+|---|---|
+| [`/explore`](./explore/) | Agent setup, system architecture, conceptual model, and PRD shell from repo tree and guide files |
+| [`/extract`](./extract/) | Per-container architecture, schemas, and coding rules from source |
 
-Both apply **evidence wins**: document what exists, propose and ask what is missing — resolved per
-gap, which is why an empty repo and a mature one both work.
+## Capture
 
-## Development
+| Skill | What it does |
+|---|---|
+| [`/specify`](./specify/) | Writes a functional or refactor spec and stops for human review |
 
-| Skill | What it does | Produces |
-|-------|--------------|----------|
-| [`/specify`](./specify/) | Capture a spec of the kind the caller names: functional (create or amend) or refactor (from a directive) → `pending` | `{Product_Folder}/specs/{spec_key}/spec.md` (`kind: functional` \| `refactor`) + a PRD line on functional create |
-| [`/planify`](./planify/) | One plan for the container in scope; checkpoints on replan → `planned` | `{Product_Folder}/specs/{spec_key}/{container}.plan.md`, or `e2e.plan.md` |
-| [`/codify`](./codify/) | Implement one plan or fix a report; unit tests, e2e compiles only → `in-progress` | source, unit tests, the e2e suite |
-| [`/verify`](./verify/) | Run the e2e suite; report defects with triage, no fixes | `{Product_Folder}/specs/{spec_key}/e2e.report.md` — a verdict per AC id |
+## Build
 
-Criteria are numbered `AC-{spec_id}.{n}`, unique repo-wide because each id reaches an e2e test
-title. An amend resets to `pending` and always replans, unchecks active criteria, and moves
-retired ones to `Deprecated criteria` with the id kept. Functional ids draw the `F` series
-(`F001`…); refactor ids draw the `R` series (`R001`…).
+| Skill | What it does |
+|---|---|
+| [`/planify`](./planify/) | One implementation plan per container from the approved spec |
+| [`/codify`](./codify/) | The only skill that writes code, unit tests, and e2e suite updates |
 
-A structural change the human orders is still a spec: `/specify` with `kind: refactor`, never
-code. Never a PRD line, never amended, never two open whose scopes overlap. Anything that would
-change what the product does is not structural: it goes back to the human as a `/specify`
-`kind: functional` feature.
+## Prove
 
-## Quality and release
+| Skill | What it does |
+|---|---|
+| [`/verify`](./verify/) | E2e verdict against acceptance criteria (report only) |
+| [`/qualify`](./qualify/) | Quality-gate verdict (report only); failed gates route back to `/codify` |
 
-| Skill | What it does | Produces |
-|-------|--------------|----------|
-| [`/qualify`](./qualify/) | Grade the scope: a11y, security, perf, clean-code, ui, project rules; a failed gate routes to `/codify` | `{Product_Folder}/specs/{spec_key}/qualify.report.md` — a pass/fail verdict per gate |
-| [`/release`](./release/) | Version, changelog, arch docs; requires green gates; closes the spec | `CHANGELOG.md`, version bump, tag, reconciled arch docs |
+## Ship
+
+| Skill | What it does |
+|---|---|
+| [`/release`](./release/) | Version, changelog, reconciled docs, and tag after verification |
 
 ## Meta
 
-| Skill | What it does | Produces |
-|-------|--------------|----------|
-| [`/skillify`](./skillify/) | Sole path to create or fix a skill under `.agents/skills/` | new/updated `SKILL.md` (+ `references/`, `assets/`), align-docs |
+| Skill | What it does |
+|---|---|
+| [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
+
+## ABC commands
+
+| Command | What it does |
+|---|---|
+| [`architect-map`](../commands/architect-map.command.md) | Architect: map architecture, schemas, and coding rules |
+| [`builder-ship`](../commands/builder-ship.command.md) | Builder: turn requirements into a spec, then ship through `/ship-spec` |
+| [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: detect drift or take your proposal, then ship through `/ship-spec` |
+| [`ship-spec`](../commands/ship-spec.command.md) | Shared machine: `/planify` → `/codify` → `/verify` → `/qualify` → `/release` |
+
+## Human checkpoints
+
+You review only at key checkpoints:
+
+- After `/architect-map`: architecture, schemas, and rules match the repo.
+- After `/builder-ship` spec: problem, outcomes, and acceptance criteria are correct.
+- During `/craftsman-refactor`: confirm the defect or proposal before shipping.
 
 ## Pipeline
 
-`/explore` → `/extract` (×container) → `/specify` → `/planify` (×container) → `/codify`
-(×container) → `/verify` → `/qualify` → `/release`
+```markdown
+/explore → /extract (×container) → /specify → /planify (×container) → /codify (×container) → /verify → /qualify → /release
+```
 
-Status chain: `pending` → `planned` → `in-progress` → `verified` | `failed` → `done`.
+Status chain:
 
-`/planify` and `/codify` each run once per container — `e2e` included, and sessions can be
-parallel for software containers. `/verify` reports only: `functional` and `test` findings loop
-back through `/codify`; repeat until green, then `/qualify`, whose failed gates loop the same way.
-
-Each spec kind has its own acceptance oracle: `/verify` judges a functional spec's criteria with
-the e2e suite, `/qualify` judges a refactor spec's criteria with the gate each one names.
-`/release` needs both — `verified` status and every active criterion `[x]`.
-
-The `e2e` container is transversal: documented by `/extract`, planned by `/planify` (one scenario
-per AC id), implemented by `/codify` compile-only, judged by `/verify`. A functional spec gives it
-no section in its solution overview. A refactor spec does get one, and a plan, when the decision
-reaches the test surface — that plan rewrites how scenarios reach their result, never what they
-assert, because `/codify` may not touch the suite without a plan.
-
-## Maintenance
-
-No triage skill. Every request answers one mechanical question — **would satisfying it change what
-a green e2e test asserts?**
-
-- **No** → defect or coverage gap. `/codify` fix mode: minimal fix plus a regression e2e test, then
-  a patch `/release`. No spec. Proof: the regression test passes and every green test stays green.
-- **Yes** → behavior change. `/specify` amend or create (`kind: functional`), then the full
-  pipeline. Proof: the amended criteria's tests pass.
-
-A "bug" the suite disagrees with is a behavior change in disguise: code, tests, and docs all agree
-with each other — they are wrong together, so the correction must travel through a spec. The gate
-makes hot-fixing it structurally impossible, since `/codify` cannot flip a green test without a
-plan, and a plan needs a current spec.
-
-Structural changes the human orders travel through `/specify` with `kind: refactor`, and land as
-a refactor spec that then runs the normal pipeline. Guardrails that make refactoring safe to
-delegate: green baseline before starting, tests untouchable, contracts frozen.
-
-## Releases
-
-| Trigger | Bump | Changelog |
-|---|---|---|
-| New feature spec | minor | Added |
-| Behavior-changing amend / spec | minor, or patch if a correction | Changed / Fixed |
-| Defect fix (spec-less, `/codify` fix mode) | patch | Fixed |
-| Structural refactor | patch | Changed (internal) |
-
-Every release: version bumped, changelog updated, arch docs reconciled, default branch tagged. A
-later amend keeps the prior `released-version` until the next ship updates it.
-
-## Commands
-
-Phase orchestrators under [`.agents/commands/`](../commands/) — each chains a pipeline stretch, one
-subagent per skill run, so every step gets a fresh context. Each ships a `{name}.command.md`.
-
-The human doors are **ABC** — Architect, Builder, Craftsman. `/ship-spec` is the shared machine
-Builder and Craftsman call after a validated spec.
-
-| | Role | Command | Orchestrates |
-|---|------|---------|--------------|
-| **A** | Architect | [`architect-map`](../commands/architect-map.command.md) | `/explore`, then `/extract` per container |
-| **B** | Builder | [`builder-ship`](../commands/builder-ship.command.md) | `/specify` (`kind: functional`, create or amend), human check, then `ship-spec` |
-| **C** | Craftsman | [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | No directive: `/explore`, `/extract` → `arch/drift.report.md`, then per defect `/specify` (`kind: refactor`) → human check → `ship-spec`. With a directive: skip detection, same specify → check → `ship-spec` |
-| | | [`ship-spec`](../commands/ship-spec.command.md) | `/planify` per container → `/codify` per plan → `/verify` (loop to green) → `/qualify` → `/release` |
+```markdown
+pending → planned → in-progress → verified | failed → done
+```
