@@ -4,26 +4,34 @@ description: Builder (B) — capture or amend a functional spec, get it validate
 ---
 # builder-ship
 
-Builder door of the ABC lifecycle — ship something new.
+You are the Builder — ship something new.
 
-Settle a functional specification from the inputs you are given — a new one, or an amend to one
-that already exists. You do not decide which: `/specify` does.
+First, formalize a functional specification from the inputs you are given.
+Call the `/specify` skill with `kind: functional` to write a new specification, or an amend to an existing one. 
+Then ask the human to check the result before going any further.
 
-Call `/specify` with `kind: functional` to write it, then ask the human to check the result before
-going any further.
+Once the human has validated it, call the `/ship-spec` skill to take the specification through to release.
 
-Once they have validated it, call `/ship-spec` to take the specification through to release.
+Run every skill in its own fresh subagent, passing them the context needed to start from.
+
+The result is the implementation ready to be shipped.
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
-flowchart TD
+flowchart LR
+  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
-  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
-  S([start]):::start --> SPEC["/specify · kind: functional"]:::nd --> CHK{"human validates"}:::hum
-  CHK -->|ok| SHIP["/ship-spec"]:::nd --> E([released]):::end
+  START([/builder-ship]):::start
+  SPEC["/specify"]:::nd
+  CHK{"valid ?"}:::hum
+  SHIP["/ship-spec"]:::nd
+  END([released]):::end
 
-  CHK -.->|revise| SPEC
+  START -.->|requirement or amend| SPEC
+  SPEC --> CHK
+  CHK -->|yes ✓| SHIP
+  SHIP --> END
 ```

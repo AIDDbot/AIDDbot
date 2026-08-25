@@ -4,44 +4,44 @@ description: Take an existing validated spec from planning through to release.
 ---
 # ship-spec
 
-Shared machine under Builder and Craftsman — ship an already-validated specification.
+Shared workflows used by Builder and Craftsman — ships an already-validated specification.
 
-Take a specification all the way to release. You neither write it nor argue it: you are given its
-key, you read it, and you put it through the process.
+Take a specification all the way to release without changing its content.
 
-Run every skill in its own fresh subagent, in a new working session, passing it as context the
-state you want it to start from.
+Start by calling `/planify` skill, once per affected container plus one more run for `e2e` suite.
 
-Start by calling `/planify`, once per affected container — the spec's solution overview lists them
-— plus one more run for `e2e` when the change reaches the acceptance tests.
+Call the `/codify` skill to write the code of each plan.
 
-Call `/codify` to write the code of each plan: the production containers first, and the e2e suite
-last if there is one.
+Then call the `/verify` skill to run the e2e and acceptance tests.
+If there are defects, go back to `/codify` with the report in hand.
 
-If there are tests, run them with `/verify` and wait for its report: the defects, or a green
-verdict. If there are defects, go back to `/codify` with the report in hand.
+Once the tests are green, call `/qualify` skill to grade the quality of the code. 
+If a gate fails, go back to `/codify` with the report in hand.
 
-Once the functional side is green, call `/qualify` to grade the quality of the code. If a gate
-fails, go back to `/codify` and repeat the whole functional verification until everything is green
-again.
+Run every skill in its own fresh subagent, passing them the context needed to start from.
 
-When the code has passed both the functional verification and the quality review, call `/release`
-to publish the specification.
+After code has been verified and qualified, call `/release` skill to publish the specification.
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
-flowchart TD
+flowchart LR
+  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef loop fill:#fefce8,stroke:#ca8a04,color:#854d0e
-  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
-  S([start · spec key]):::start --> PLAN["/planify × container<br/>(+ e2e if needed)"]:::nd
-  PLAN --> CODE["/codify × plan<br/>(production first, e2e last)"]:::nd
-  CODE --> VER{"/verify"}:::loop
-  VER -->|green| QLF{"/qualify"}:::loop
-  QLF -->|all pass| REL["/release"]:::nd --> E([released]):::end
+  START([/ship-spec]):::start
+  PLAN["/planify"]:::nd
+  CODE["/codify"]:::nd
+  VER{"/verify"}:::loop
+  QLF{"/qualify"}:::loop
+  REL["/release"]:::nd
+  END([released]):::end
 
-  VER -.->|defects| CODE
-  QLF -.->|gate failed| CODE
+  START --> PLAN
+  PLAN --> CODE
+  CODE --> VER
+  VER -->|green ✓| QLF
+  QLF -->|all pass ✓| REL
+  REL --> END
 ```
