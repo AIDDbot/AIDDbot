@@ -1,4 +1,4 @@
-# AIDDbot
+# [AIDDbot](https://github.com/AIDDbot/AIDDbot)
 
 Build software you can trust.
 

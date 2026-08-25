@@ -21,14 +21,14 @@ The result is the codebase documentation, created or brought up to date.
 flowchart LR
   classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
-  classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
+  classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
   START([/architect-map]):::start
   EXP["/explore"]:::nd
   EXT["/extract"]:::nd
-  END([architectural documentation]):::end
+  DONE([architectural documentation]):::done
 
   START --> EXP
   EXP -->|once per container| EXT
-  EXT --> END
+  EXT --> DONE
 ```

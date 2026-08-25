@@ -22,16 +22,16 @@ flowchart LR
   classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
-  classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
+  classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
   START([/builder-ship]):::start
   SPEC["/specify"]:::nd
   CHK{"valid ?"}:::hum
   SHIP["/ship-spec"]:::nd
-  END([released]):::end
+  DONE([released]):::done
 
   START -.->|requirement or amend| SPEC
   SPEC --> CHK
   CHK -->|yes ✓| SHIP
-  SHIP --> END
+  SHIP --> DONE
 ```

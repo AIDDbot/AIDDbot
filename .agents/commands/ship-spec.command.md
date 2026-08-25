@@ -28,7 +28,7 @@ flowchart LR
   classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
   classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
   classDef loop fill:#fefce8,stroke:#ca8a04,color:#854d0e
-  classDef end fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
+  classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
   START([/ship-spec]):::start
   PLAN["/planify"]:::nd
@@ -36,12 +36,12 @@ flowchart LR
   VER{"/verify"}:::loop
   QLF{"/qualify"}:::loop
   REL["/release"]:::nd
-  END([released]):::end
+  DONE([released]):::done
 
   START --> PLAN
   PLAN --> CODE
   CODE --> VER
   VER -->|green ✓| QLF
   QLF -->|all pass ✓| REL
-  REL --> END
+  REL --> DONE
 ```
