@@ -19,8 +19,7 @@ status: {green | red}
 
 ## Findings
 
-> One entry per defect, ordered by severity. Every finding routes to `/codify`:
-> `functional` (the code is wrong) or `test` (the test is wrong).
+{One entry per defect, ordered by severity.}
 
 ### F1: {scenario title}
 
