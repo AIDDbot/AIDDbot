@@ -20,7 +20,7 @@ changes shape).
 ### Decision
 
 1. **One Craftsman door, two entries.** `/craftsman-refactor` with no directive runs explore →
-   extract → `arch/drift.report.md` → pick → `/specify` (`kind: refactor`) → human check →
+   extract → drift report → `/specify` (`kind: refactor`) → human check →
    `/ship-spec`. With a directive already held, skip detection and take specify → check →
    `/ship-spec`.
 2. **Delete `/spec-refactor`.** Its body lives inside Craftsman; no separate command.
