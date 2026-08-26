@@ -17,12 +17,11 @@ refactor spec, behavior is preserved: what changes is the shape of the code.}
 
 ## Checkpoints
 
-> On amend/replan only. Classify every step from the prior plan, then rewrite
-> Implementation Steps. First plan: write `first`.
+{On amend/replan, classify every step from the prior plan, then rewrite the implementation steps. The first plan: write `first`.}
 
 | Prior step | Action | Note |
 |------------|--------|------|
-| {Step title or `first`} | {keep \| redo \| drop} | {one line} |
+| {Step title or `first`} | {keep \| redo \| drop} | {short sentence} |
 
 ## Implementation Steps
 
