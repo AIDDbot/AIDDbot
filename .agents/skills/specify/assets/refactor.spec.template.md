@@ -1,11 +1,11 @@
 ---
 id: R{nnn}
-slug: {slug}  # names the decision, not a container — a decision may cross several
+slug: {slug}  
 title: {title}
-kind: refactor  # functional | refactor
+kind: refactor  
 category: {maintainability | usability | accessibility | performance | security}
 tags: [{tag1}, {tag2}]
-status: pending  # pending | planned | in-progress | verified | failed | done
+status: pending  # pending | planned | in-progress | verified | qualified  | released
 created: {YYYY-MM-DD}
 released-version:
 ---
@@ -37,11 +37,5 @@ released-version:
 
 ## Verification Criteria
 
-{Number every criterion `AC-{spec_id}.{n}` — plans, gates, and reports reference these ids, so
-each must stay unique across the repo and must never be reused. Every criterion names its judge:
-`verify` when the e2e suite proves it, otherwise one of `qualify`'s gates — `accessibility`,
-`security`, `performance`, `clean-code`, `ui`, `project-rules`. A criterion that fits no judge is
-not checkable: sharpen it or drop it.}
+- [ ] **AC-{spec_id}.1** - {the observable property of the code once applied}
 
-- [ ] **AC-{spec_id}.1** · judge: `verify` — the existing e2e suite stays green; no scenario changes its verdict.
-- [ ] **AC-{spec_id}.2** · judge: `{gate}` — {the observable property of the code once applied}
