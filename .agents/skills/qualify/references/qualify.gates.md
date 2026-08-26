@@ -1,20 +1,9 @@
 # Qualify gates
 
-## Guardrails
-- **Behavior findings are not yours** — look only for implementation smells;
-  behavioral findings go back to the human as a functional spec.
-- **Accumulated decay is not yours** — what only shows by adding several specs together
-  is invisible in any diff. Note it as a candidate for its own refactor spec; never fail a gate on it.
-- **Tooling is not a gate** — lint, types, and build belong to the coding step or a hook. They are
-  an entry precondition: if any is red, hand the scope back without opening a single gate.
+## Rules
 
-Each gate is pass/fail. A gate passes when every check holds and you can say what you
-checked it against; silence is not a pass. One violation fails the gate — there is no
-partial pass. Under a failed gate, report every violation as a finding.
-
-The gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and
-`project-rules`. That list is closed: a refactor spec's criteria name one of these,
-and nothing else is a gate.
+- **Closed list** — the gates are `crap`, `mutation`, `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
+- **Accumulated decay is not a fail** — what only shows by adding several specs together is a candidate for its own refactor spec; never fail a gate on it.
 
 ## Severity
 
@@ -23,6 +12,18 @@ Every finding carries one. A `blocker` or a `major` fails its gate.
 - **blocker** — actively causes bugs or security holes, or breaks accessibility (WCAG A/AA).
 - **major** — real decay: duplicated logic, a boundary crossed, a name that lies.
 - **minor** — polish: a magic value, a local nesting, a comment that restates the code.
+
+## CRAP
+
+Change Risk Anti-Patterns: cyclomatic complexity weighted by uncovered code. The container's script owns the threshold.
+
+- [ ] The CRAP script is green for the scope.
+
+## Mutation
+
+Mutation tests: the suite must kill the mutants the project requires. The container's script owns the score.
+
+- [ ] The mutation script is green for the scope.
 
 ## Accessibility (WCAG AA)
 
@@ -51,8 +52,7 @@ The [UI and accessibility lens](./ui.patterns.md) lists the patterns this gate c
 
 ## Clean code / DRY (behavior-preserving)
 
-Read the scope through the [code-clarity lens](./clarity.patterns.md); every pattern it
-lists is a violation of this gate.
+Read the scope through the [code-clarity lens](./clarity.patterns.md); every pattern it lists is a violation of this gate.
 
 - [ ] Descriptive names; the code is self-documenting.
 - [ ] Small, single-purpose functions; guard clauses over deep nesting.

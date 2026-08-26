@@ -35,7 +35,7 @@ Use commands for end-to-end flows, and invoke skills one by one when you want ti
 | Skill | What it does |
 |---|---|
 | [`/verify`](./verify/) | E2e verdict against acceptance criteria (report only) |
-| [`/qualify`](./qualify/) | Quality-gate verdict (report only); failed gates route back to `/codify` |
+| [`/qualify`](./qualify/) | Quality-gate verdict (report only); optional CRAP and mutation first; failed gates route back to `/codify` |
 
 ## Ship
 

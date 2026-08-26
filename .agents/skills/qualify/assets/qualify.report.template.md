@@ -14,11 +14,10 @@ status: {green | red}
 
 ## Gates
 
-> The list is closed. Lint, types, and build are not gates — they are the entry precondition; if
-> any is red the scope goes back without a single gate opened. `Ui` applies to frontend scope only.
-
 | Gate | Verdict | Checked against |
 |------|---------|-----------------|
+| CRAP | {pass \| fail \| n/a} | {the script you ran, or omitted} |
+| Mutation | {pass \| fail \| n/a} | {the script you ran, or omitted} |
 | Accessibility | {pass \| fail} | {what you checked it against} |
 | Security | {pass \| fail} | {what you checked it against} |
 | Performance | {pass \| fail} | {what you checked it against} |
@@ -28,10 +27,7 @@ status: {green | red}
 
 ## Criteria
 
-> Refactor specs only — omit this section for a functional spec, whose criteria belong to
-> `verify`. This table is the acceptance verdict of a refactor spec: one row per active
-> criterion, judged by the gate the criterion names. Mirror each verdict as `[x]` / `[ ]` in the
-> spec itself. A gate can pass overall and still leave its criterion unmet.
+{Refactor specs only — omit this section for a functional spec.}
 
 | Criterion | Judge | Verdict |
 |-----------|-------|---------|
@@ -39,13 +35,11 @@ status: {green | red}
 
 ## Findings
 
-> One entry per violation under a failed gate — or under an unmet criterion — ordered by
-> severity. Kind routes the handoff: `mechanical` / `functional` → `/codify` ({container});
-> `structural` → `/planify`; `behavioral` → `/specify`, as a functional spec.
+{One entry per violation, ordered by severity.}
 
 ### F1: {short title}
 
-- Gate: {accessibility | security | performance | clean-code | ui | project-rules}
+- Gate: {crap | mutation | accessibility | security | performance | clean-code | ui | project-rules}
 - Where: {container} · {path}:{line}
 - Problem: {what fails the gate}
 - Fix: {the minimal change, or the plan/spec it needs}
@@ -55,7 +49,6 @@ status: {green | red}
 
 ## Accumulated decay
 
-> What only shows by adding several specs together, invisible in this diff. It fails no gate —
-> note it here as a candidate for its own refactor spec.
+{Candidates for their own refactor spec — they fail no gate.}
 
 - {what decayed, and where}

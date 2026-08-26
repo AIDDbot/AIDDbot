@@ -48,6 +48,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ```bash
 {commands to run the app and the e2e tests}
 ```
+
 ### Context diagram
 
 ```mermaid

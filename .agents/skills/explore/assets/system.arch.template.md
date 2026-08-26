@@ -34,6 +34,7 @@ C4Container
 ### Scripts
 ```bash
 # commands to compile, test, format, lint, etc.
+# optional: crap, mutation — `/qualify` runs these before reading code
 ```
 
 ---

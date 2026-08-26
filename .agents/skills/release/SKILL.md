@@ -12,8 +12,7 @@ You are the last gate before code becomes a tagged release.
 
 ## Rules
 
-- **Nothing unverified ships** — require `status: verified` with every active criterion `[x]`, and
-  a `qualify.report.md` showing every gate `pass`; anything else goes back to `/codify`.
+- **Nothing unverified ships** — require `status: verified` with every active criterion `[x]`, and a `qualify.report.md` showing every gate `pass` or `n/a`; anything else goes back to `/codify`.
 - **You run no tests** — unit tests belong to `/codify` and the e2e suite to `/verify`; you read
   their verdicts, you do not re-run them.
 - **Merge, then tag** — the tag marks default's post-merge tip, never a branch commit.

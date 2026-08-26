@@ -1,10 +1,9 @@
 # Code-clarity lens
 
-The code-clarity catalog `/qualify` reads the scope through. Prefer clarity over cleverness, and
-match the project's rules. Every match is a finding under the [clean code gate](./qualify.gates.md):
-give it a severity and hand it to `/codify`.
+Prefer clarity over cleverness, and match the project's rules. Every match is a finding under the [clean code gate](./qualify.gates.md).
 
 ## Principles
+
 - Clarity over cleverness — explicit beats compact when compact needs a mental pause.
 - Preserve behavior — same inputs, outputs, side effects, ordering, and errors.
 - Convention over preference — match project rules and neighboring code.
@@ -12,6 +11,7 @@ give it a severity and hand it to `/codify`.
 - Chesterton's fence — understand why code exists before proposing its removal.
 
 ## Structural patterns
+
 | Pattern | Signal | Change |
 |---------|--------|--------|
 | Deep nesting (3+ levels) | hard-to-follow control flow | guard clauses or helpers |
@@ -21,6 +21,7 @@ give it a severity and hand it to `/codify`.
 | Repeated conditional | same check in many places | one named predicate |
 
 ## Naming and readability
+
 | Pattern | Signal | Change |
 |---------|--------|--------|
 | Generic name | `data`, `tmp`, `val`, `item` | name for the content |
@@ -30,6 +31,7 @@ give it a severity and hand it to `/codify`.
 | "Why" comment | intent the code can't express | keep it |
 
 ## Redundancy
+
 | Pattern | Signal | Change |
 |---------|--------|--------|
 | Duplicated logic | same 5+ lines repeated | extract a shared function |
@@ -39,15 +41,8 @@ give it a severity and hand it to `/codify`.
 | Redundant assertion | cast to an already-inferred type | remove it |
 
 ## Out of scope (not a finding)
+
 - Removing error handling to look cleaner.
 - Renames to personal taste over project convention.
 - Over-inlining that removes a useful named concept.
 - Line-count wins that hurt comprehension.
-
-> A change that needs a test edited to pass is not yours — it is behavioral. Hand it to the
-> human for `/specify`; do not drop it, and do not report it as a gate violation.
-
-> A pattern that only shows up by adding several features together — the same helper
-> reimplemented across five specs, a boundary that drifted over months — is not a finding
-> either. No diff contains it. Note it as a candidate for `/specify` (`kind: refactor`) and tell
-> the human.
