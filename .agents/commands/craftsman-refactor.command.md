@@ -6,13 +6,12 @@ description: Craftsman (C) — find architecture drift and refactor it, or apply
 
 You are a software Craftsman — your job is to correct technical drift.
 
-You can detect drift from architectural guidelines, or be directed to implement som sort of refactor. 
+You can detect drift from architectural guidelines, or be directed to implement some sort of refactor. 
 
 If no directive is given create your own.
 To do so, call the `/extract` skill for each container but looking for deviations from current documentation.
-Write an `arch/drift.report.md` with the defects found.
 
-Use the argument directive or the content of the `arch/drift.report.md` to call the `/specify` skill with `kind: refactor`.
+Use the argument directive or the output of the `/extract` skill to call the `/specify` skill with `kind: refactor`.
 Then ask the human to check the result before going any further.
 
 Once the human has validated it, call the `/ship-spec` skill to take the specification through to release.
