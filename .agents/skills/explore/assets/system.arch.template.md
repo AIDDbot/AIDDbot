@@ -33,7 +33,7 @@ C4Container
 
 ### Scripts
 ```bash
-# command to compile, test, format, lint, etc.
+# commands to compile, test, format, lint, etc.
 ```
 
 ---

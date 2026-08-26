@@ -9,8 +9,8 @@ erDiagram
 
 ## Entities
 
-- **{EntityA}** — {main description}
-- **{EntityB}** — {main description}
+- **{EntityA}** — {short description}
+- **{EntityB}** — {short description}
 
 ---
 

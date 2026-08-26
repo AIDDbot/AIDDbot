@@ -13,15 +13,15 @@ paths: "{source_glob}"
 | Element | Convention | Example |
 |---------|------------|---------|
 | Folders / Files | {pattern + casing} | `{example}` |
-| Types / Classes | {PascalCase} | `{example}` |
-| Functions / Variables | {camelCase} | `{example}` |
-| Constants | {UPPER_SNAKE} | `{example}` |
+| Types / Classes | {pattern + casing} | `{example}` |
+| Functions / Variables | {pattern + casing} | `{example}` |
+| Constants | {pattern + casing} | `{example}` |
 
 ## Artifact roles
 
 | Role | Structural rule (one line) |
 |------|----------------------------|
-| {role} | {dominant pattern for this role} |
+| { controller , service , repository , model , view , helper , other } | {dominant pattern for this role} |
 
 ## Canonical example
 

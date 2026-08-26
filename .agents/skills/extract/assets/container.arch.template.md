@@ -11,8 +11,6 @@
 - **Folder**: `{source_root}/`
 - **Archetype**: {language} — {framework}
 
-
-
 ### Dependencies
 
 - **Depends on**: {sibling containers / external systems it depends on}
