@@ -119,7 +119,7 @@ Both are written by `/specify`; the command names the kind.
 Status chain:
 
 ```markdown
-pending → planned → in-progress → verified | failed → done
+pending → planned → in-progress → verified → qualified → released
 ```
 
 ## Next

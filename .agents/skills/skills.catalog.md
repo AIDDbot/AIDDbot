@@ -75,5 +75,5 @@ You review only at key checkpoints:
 Status chain:
 
 ```markdown
-pending → planned → in-progress → verified | failed → done
+pending → planned → in-progress → verified → qualified → released
 ```
