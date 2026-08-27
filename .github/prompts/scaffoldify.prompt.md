@@ -1,0 +1,6 @@
+---
+name: scaffoldify
+description: Bootstrap a new workshop repo from AIDDbot archetypes, a domain sample, and the AIDD agent folders.
+agent: agent
+---
+Read and follow `.agents/commands/scaffoldify.command.md`.

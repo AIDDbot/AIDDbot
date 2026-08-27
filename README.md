@@ -35,6 +35,8 @@ You can also run individual skills from the catalog when you want tighter contro
 
 ## Quick start
 
+**Existing project** — copy the agents in:
+
 ```bash
 npx tiged AIDDbot/AIDDbot/.agents .agents
 npx tiged AIDDbot/AIDDbot/.claude .claude
@@ -42,11 +44,10 @@ npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
 npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
-Then run in your agent chat:
+Then run `/architect-map`.
 
-```markdown
-/architect-map
-```
+**New workshop repo** — run `/scaffoldify` and name the back, front, e2e, and domain. It asks
+where to put the new repo and scaffolds there. Open that repo and run `/architect-map`.
 
 ## Documentation
 

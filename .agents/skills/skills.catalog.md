@@ -49,12 +49,12 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 | Skill | What it does |
 |---|---|
 | [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
-| [`/scaffoldify`](./scaffoldify/) | Workshop monorepo from archetypes; `--aidd` refreshes `.agents/` and the editor folders |
 
-## ABC commands
+## Commands
 
 | Command | What it does |
 |---|---|
+| [`scaffoldify`](../commands/scaffoldify.command.md) | Bootstrap a new workshop repo: archetypes, domain, `.agents/`, and editor folders |
 | [`architect-map`](../commands/architect-map.command.md) | Architect: map architecture, schemas, and coding rules |
 | [`builder-ship`](../commands/builder-ship.command.md) | Builder: turn requirements into a spec, then ship through `/ship-spec` |
 | [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: detect drift or take your proposal, then ship through `/ship-spec` |

@@ -4,6 +4,76 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-27 — `/scaffoldify` is a command, wired in every harness
+
+**Status**: adopted. Supersedes the same-day "one file; paste `SKILL.md`" install path.
+
+### Context
+
+`/scaffoldify` was a skill you pasted into a new repo's chat. Paste is not how ABC is invoked:
+Cursor, Claude Code, and GitHub Copilot each expose commands from a different folder. A bootstrap
+that is not a slash command is invisible next to `/architect-map`. Running it *inside* the origin
+would also pollute the skills repo with `back/` and `front/`.
+
+### Decision
+
+1. **Command, not skill.** The body lives at `.agents/commands/scaffoldify.command.md`. There is
+   no `SKILL.md`. Catalog Commands lists it; Meta keeps only `/skillify`.
+2. **Thin adapters in every harness**, same shape as ABC: `.claude/commands/scaffoldify.md`,
+   `.cursor/commands/scaffoldify.md`, `.github/prompts/scaffoldify.prompt.md` — header plus a
+   pointer at the origin command.
+3. **Origin is the launcher.** If this workspace is the AIDDbot origin, ask for a destination
+   path and write the workshop there. Never scaffold `back/`, `front/`, `e2e/`, or `docs/domain/`
+   into the origin. The workshop repo is where ABC launches next.
+
+### Rejected alternatives
+
+- **Keep it a skill and paste the file** — rejected: the human already types slash commands;
+  bootstrap should be one of them.
+- **Scaffold in place inside the origin** — rejected: this repo is the skills origin, not a
+  workshop.
+
+### Consequences
+
+- Getting started and README: from this origin, `/scaffoldify`, then open the new repo and
+  `/architect-map`.
+- A clone of this origin already has `/scaffoldify` in Cursor, Claude Code, and Copilot.
+
+## 2026-08-27 — `/scaffoldify` is one file; it bootstraps a new empty repo
+
+**Status**: superseded the same day by "`/scaffoldify` is a command, wired in every harness".
+Narrows "Editor folders are copied from origin" (same day): `--aidd` is gone; AIDD folders are
+always pulled. The paste-`SKILL.md` door is gone; the command is the door.
+
+### Context
+
+The skill lived in five files (`SKILL.md`, three `references/`, a report template) and assumed
+it ran inside an already-present workshop repo, with `.agents/` optional behind `--aidd`. That
+made copy-paste into a greenfield repo a treasure hunt, and left a flag whose only job was
+"also install AIDD".
+
+### Decision
+
+1. **One file.** `SKILL.md` is the whole skill. No `references/`, no `assets/`. The copy-paste
+   unit is the file: paste it into a new repo's agent chat and run it.
+2. **New empty repo.** The skill refuses to run inside the AIDDbot origin (skills present, no
+   `back/`). The human opens a new repository; that repo is where ABC launches.
+3. **Always pull AIDD.** `.agents/` and the editor folders are part of the scaffold, not a
+   flag. `--aidd` is deleted.
+
+### Rejected alternatives
+
+- **Keep the split into `references/`** so the skill stays under the 50-line composition
+  pattern — rejected: a workshop bootstrap that cannot be pasted is not a bootstrap.
+- **Keep `--aidd`** so a workshop can stay agent-agnostic — rejected: the point of the new
+  repo is that ABC launches from there.
+
+### Consequences
+
+- Catalog Meta line names the new-repo bootstrap, not `--aidd`.
+- Getting started and README split two human paths: `tiged` into an existing project, or paste
+  `SKILL.md` into an empty repo.
+
 ## 2026-08-27 — Commands open skills by path, not by slash name
 
 **Status**: adopted.
