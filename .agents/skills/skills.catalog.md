@@ -48,6 +48,7 @@ Use commands for end-to-end flows, and invoke skills one by one when you want ti
 | Skill | What it does |
 |---|---|
 | [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
+| [`/harnessify`](./harnessify/) | Wires `.agents` commands and `AGENTS.md` into Cursor, Claude Code, or GitHub Copilot as pointer files |
 
 ## ABC commands
 

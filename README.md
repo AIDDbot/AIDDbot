@@ -42,6 +42,7 @@ npx tiged AIDDbot/AIDDbot/.agents .agents
 Then run in your agent chat:
 
 ```markdown
+/harnessify
 /architect-map
 ```
 

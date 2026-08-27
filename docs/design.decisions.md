@@ -4,6 +4,47 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-27 — `/harnessify`: pointer files, not copies or symlinks
+
+**Status**: adopted.
+
+### Context
+
+AIDDbot ships one origin — `.agents/commands/{name}.command.md` and root `AGENTS.md` — but Cursor,
+Claude Code, and GitHub Copilot each look in a different folder, under a different name
+(commands, prompts, `CLAUDE.md`). Copying the body into each harness folder would drift the
+moment a command changed. Symlinks fail on Windows checkouts without Developer Mode.
+
+### Decision
+
+1. **Origin never moves.** Commands stay under `.agents/commands/`; agent rules stay in
+   `AGENTS.md`. `/explore` always writes `AGENTS.md`, never a harness-native rules file.
+2. **`/harnessify` writes thin adapters.** Each command adapter keeps only the harness header
+   (`description`, and Copilot's `name` + `agent: agent`) and a pointer at the origin command.
+   Claude's rules adapter is `CLAUDE.md` containing `@AGENTS.md` — the native import that loads
+   at session start. Cursor and Copilot already load `AGENTS.md` and `.agents/skills/`, so they
+   get no rules or skill adapters.
+3. **Infer or ask.** One run targets the current harness, or any named subset; "all" means the
+   three. It overwrites adapters that are already pointers and leaves original harness files
+   alone.
+
+### Rejected alternatives
+
+- **Symlink `CLAUDE.md` → `AGENTS.md`** — rejected: Windows needs Administrator or Developer
+  Mode, and the import leaves room for Claude-only lines under `@AGENTS.md`.
+- **Copy command bodies into `.cursor/commands/`, `.claude/commands/`, `.github/prompts/`** —
+  rejected: three copies of every command, guaranteed to drift.
+- **Skill adapters in `.cursor/skills/` / `.claude/skills/` / `.github/skills/`** — rejected:
+  Cursor and Copilot already load `.agents/skills/`; Claude reaches them through the command
+  files and `AGENTS.md`.
+
+### Consequences
+
+- Catalog Meta gains `/harnessify`. Getting started and the README quick start run it before
+  `/architect-map`.
+- `{Agents_File}` in the agent-rules template is always `AGENTS.md`; `{Agents_Folder}` is always
+  `.agents/`.
+
 ## 2026-08-01 — Craftsman absorbs directed refactor; machine is `/ship-spec`
 
 **Status**: adopted. Supersedes the "internal commands stay" clause of the ABC-doors decision

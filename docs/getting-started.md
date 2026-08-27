@@ -15,7 +15,21 @@ npx tiged AIDDbot/AIDDbot/.agents .agents
 
 Alternatively, copy the `.agents` folder manually from the AIDDbot repository.
 
-## 2. Architect — map the project
+## 2. Wire the harness
+
+Run:
+
+```markdown
+/harnessify
+```
+
+This writes thin pointer files so the shared commands appear in your editor — Cursor, Claude Code,
+or GitHub Copilot — without copying their content. The skill infers the current harness, or asks.
+
+In Claude Code, if `/harnessify` is not yet in the slash menu, ask the agent to follow
+`.agents/skills/harnessify/SKILL.md`.
+
+## 3. Architect — map the project
 
 Run:
 
@@ -26,7 +40,7 @@ Run:
 `/architect-map` maps what already exists: architecture, conceptual model, coding rules, and container-level documentation.  
 Where evidence is missing, it asks you closed questions so the map stays grounded.
 
-## 3. Builder — ship a feature
+## 4. Builder — ship a feature
 
 Run:
 
@@ -37,7 +51,7 @@ Run:
 Builder starts with `/specify`, creates a one-page spec, and **stops for your approval**.  
 After approval, `/ship-spec` plans, codes, verifies, qualifies, and releases.
 
-## 4. Craftsman — refactor for drift
+## 5. Craftsman — refactor for drift
 
 Run:
 
