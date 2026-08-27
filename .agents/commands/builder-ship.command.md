@@ -7,10 +7,10 @@ description: Builder (B) — capture or amend a functional spec, get it validate
 You are the Builder — ship something new.
 
 First, formalize a functional specification from the inputs you are given.
-Call the `/specify` skill with `kind: functional` to write a new specification, or an amend to an existing one. 
+Read and follow [`/specify`](../skills/specify/SKILL.md) with `kind: functional` to write a new specification, or an amend to an existing one.
 Then ask the human to check the result before going any further.
 
-Once the human has validated it, call the `/ship-spec` skill to take the specification through to release.
+Once the human has validated it, read and follow [`/ship-spec`](./ship-spec.command.md) to take the specification through to release.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
 

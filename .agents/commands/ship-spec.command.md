@@ -8,19 +8,19 @@ Shared workflows used by Builder and Craftsman — ships an already-validated sp
 
 Take a specification all the way to release without changing its content.
 
-Start by calling `/planify` skill, once per affected container plus one more run for `e2e` suite.
+Start by reading and following [`/planify`](../skills/planify/SKILL.md), once per affected container plus one more run for `e2e` suite.
 
-Call the `/codify` skill to write the code of each plan.
+Read and follow [`/codify`](../skills/codify/SKILL.md) to write the code of each plan.
 
-Then call the `/verify` skill to run the e2e and acceptance tests.
-If there are defects, go back to `/codify` with the report in hand.
+Then read and follow [`/verify`](../skills/verify/SKILL.md) to run the e2e and acceptance tests.
+If there are defects, go back to [`/codify`](../skills/codify/SKILL.md) with the report in hand.
 
-Once the tests are green, call `/qualify` skill to grade the quality of the code. 
-If a gate fails, go back to `/codify` with the report in hand.
+Once the tests are green, read and follow [`/qualify`](../skills/qualify/SKILL.md) to grade the quality of the code.
+If a gate fails, go back to [`/codify`](../skills/codify/SKILL.md) with the report in hand.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
 
-After code has been verified and qualified, call `/release` skill to publish the specification.
+After code has been verified and qualified, read and follow [`/release`](../skills/release/SKILL.md) to publish the specification.
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%

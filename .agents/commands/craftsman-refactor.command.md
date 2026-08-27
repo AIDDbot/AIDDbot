@@ -9,12 +9,12 @@ You are a software Craftsman — your job is to correct technical drift.
 You can detect drift from architectural guidelines, or be directed to implement some sort of refactor. 
 
 If no directive is given create your own.
-To do so, call the `/extract` skill for each container but looking for deviations from current documentation.
+To do so, read and follow [`/extract`](../skills/extract/SKILL.md) for each container but looking for deviations from current documentation.
 
-Use the argument directive or the output of the `/extract` skill to call the `/specify` skill with `kind: refactor`.
+Use the argument directive or that output to read and follow [`/specify`](../skills/specify/SKILL.md) with `kind: refactor`.
 Then ask the human to check the result before going any further.
 
-Once the human has validated it, call the `/ship-spec` skill to take the specification through to release.
+Once the human has validated it, read and follow [`/ship-spec`](./ship-spec.command.md) to take the specification through to release.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
 

@@ -4,6 +4,30 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-27 — Commands open skills by path, not by slash name
+
+**Status**: adopted.
+
+### Context
+
+Commands said `call the /explore skill`. That is English, not a harness contract: `/explore` is not a slash command (only ABC plus `/ship-spec` have adapters), every skill has `disable-model-invocation: true`, and discovery of `.agents/skills/` differs across Cursor, Claude, and Copilot. A command that names a slug cannot guarantee the agent reads `SKILL.md`.
+
+### Decision
+
+1. **The path is the invoke.** A command follows a markdown link to the file: [`/explore`](../.agents/skills/explore/SKILL.md). The slash name is the label.
+2. **Nested commands use the same shape.** Builder and Craftsman link [`/ship-spec`](../.agents/commands/ship-spec.command.md), not “the `/ship-spec` skill”.
+3. **Diagrams keep slash labels.** Mermaid nodes stay `/explore`; they are pictures, not invokes.
+
+### Rejected alternatives
+
+- **Bare slash names** — rejected: they depend on harness skill discovery.
+- **Absolute paths with no name** — rejected: the label is what a human (and the catalog) already uses; the link carries both.
+
+### Consequences
+
+- Command files under `.agents/commands/` link `../skills/{name}/SKILL.md`.
+- Catalog What holds records the rule.
+
 ## 2026-08-27 — Editor folders are copied from origin; no wiring skill
 
 **Status**: adopted. Supersedes both same-day entries below (pointer-file skill and wire script).

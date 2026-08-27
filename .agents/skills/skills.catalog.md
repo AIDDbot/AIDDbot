@@ -2,13 +2,14 @@
 
 ABC commands open the doors. Skills are the steps underneath.
 
-Use commands for end-to-end flows, and invoke skills one by one when you want tighter control.
+Use commands for end-to-end flows, and follow a catalog skill when you want tighter control.
 
 ## What holds
 
 - The green e2e suite is the contract.
 - `/codify` writes code; `/verify` and `/qualify` evaluate only.
 - Every cycle starts from a spec.
+- A command follows a markdown link to `SKILL.md` (or another command file); the slash name is the label, not the invoke.
 
 ## Context
 
