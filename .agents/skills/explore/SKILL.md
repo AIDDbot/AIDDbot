@@ -21,10 +21,7 @@ where nothing exists.
   time, until you are told to stop asking.
 - **Observe, never redesign** — document what exists and flag its contradictions instead of
   correcting them.
-- **You settle the product paths** — `{Product_Folder}` and `{Source_Folders}` are chosen here
-  and recorded in `AGENTS.md`. `{Agents_File}` is always `AGENTS.md`; `{Agents_Folder}` is always
-  `.agents/`. Never assume the repository root: propose what the repo suggests, confirm it, and
-  write your own artifacts under what was agreed.
+- **You settle the product paths** — `{Product_Folder}` and `{Source_Folders}` are chosen here and recorded in `AGENTS.md`. `{Agents_File}` is always `AGENTS.md`; `{Agents_Folder}` is always `.agents/`. Never assume the repository root: propose what the repo suggests, confirm it, and write your own artifacts under what was agreed.
 - **The PRD is a shell** — create it once with its categories empty; `/specify` is what appends
   lines to it.
 - **The agent-rules file stays under 100 lines** — it is loaded into every session.
@@ -44,6 +41,4 @@ entities with their relationships. An existing layout is evidence: a repo alread
 or `.product/` has answered the product folder for you. Settle every gap with the human before
 drafting a single document.
 
-Then write, in order: `AGENTS.md` at the repository root; `{Product_Folder}/arch/system.arch.md` as the C4 Level 2
-view; the entities and relationships of `{Product_Folder}/model/model.schema.md`; and
-`{Product_Folder}/specs/PRD.md` if it does not exist yet. Commit as `docs(explore): …`.
+Then write, in order: `AGENTS.md` at the repository root; `{Product_Folder}/arch/system.arch.md` as the C4 Level 2 view; the entities and relationships of `{Product_Folder}/model/model.schema.md`; and `{Product_Folder}/specs/PRD.md` if it does not exist yet. Commit as `docs(explore): …`.

@@ -5,31 +5,24 @@ Copy the agents in, then run ABC: Architect, Builder, Craftsman.
 AIDDbot is markdown. Nothing to install, no binary, no package.  
 It works the same on greenfield and legacy repositories.
 
-## 1. Copy `.agents` into your project
+## 1. Copy `.agents` and the editor folders
 
-From your repository root:
+If you cloned this repository, skip this step — `.claude/`, `.cursor/commands/`, and `.github/prompts/` are already here. Run `/architect-map`.
+
+If you are bringing AIDDbot into another project, copy the origin folders with `tiged` (markdown only, nothing to run):
 
 ```bash
 npx tiged AIDDbot/AIDDbot/.agents .agents
+npx tiged AIDDbot/AIDDbot/.claude .claude
+npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
+npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
-Alternatively, copy the `.agents` folder manually from the AIDDbot repository.
+That is enough for `/architect-map` in Cursor, Claude Code, and GitHub Copilot. Claude Code also needs a root `CLAUDE.md` whose first line is `@AGENTS.md` — copy it from this repo if it is not already there.
 
-## 2. Wire the harness
+For a workshop monorepo (back + front + e2e + domain) when `/scaffoldify` is already available, run it with `--aidd` instead: it fetches `.agents/` and the same editor folders.
 
-Run:
-
-```markdown
-/harnessify
-```
-
-This writes thin pointer files so the shared commands appear in your editor — Cursor, Claude Code,
-or GitHub Copilot — without copying their content. The skill infers the current harness, or asks.
-
-In Claude Code, if `/harnessify` is not yet in the slash menu, ask the agent to follow
-`.agents/skills/harnessify/SKILL.md`.
-
-## 3. Architect — map the project
+## 2. Architect — map the project
 
 Run:
 
@@ -40,7 +33,7 @@ Run:
 `/architect-map` maps what already exists: architecture, conceptual model, coding rules, and container-level documentation.  
 Where evidence is missing, it asks you closed questions so the map stays grounded.
 
-## 4. Builder — ship a feature
+## 3. Builder — ship a feature
 
 Run:
 
@@ -51,7 +44,7 @@ Run:
 Builder starts with `/specify`, creates a one-page spec, and **stops for your approval**.  
 After approval, `/ship-spec` plans, codes, verifies, qualifies, and releases.
 
-## 5. Craftsman — refactor for drift
+## 4. Craftsman — refactor for drift
 
 Run:
 

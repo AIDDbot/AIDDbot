@@ -4,9 +4,72 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-27 — Editor folders are copied from origin; no wiring skill
+
+**Status**: adopted. Supersedes both same-day entries below (pointer-file skill and wire script).
+
+### Context
+
+ABC commands live under `.agents/commands/`, but Cursor, Claude Code, and GitHub Copilot each look in a different folder. A dedicated skill and a JavaScript script were tried to generate thin pointers. Both added a door the human did not want: a runtime, or a skill whose only job was to write files this origin can already ship.
+
+### Decision
+
+1. **This origin ships the editor folders.** `.claude/`, `.cursor/commands/`, `.github/prompts/`, and `CLAUDE.md` are committed here. Each adapter is a harness header plus a pointer at `.agents/commands/{name}.command.md`. The command body is never copied.
+2. **Consumers copy those folders** with `tiged`, same as `.agents/`. A clone of this repo is already wired.
+3. **`/scaffoldify --aidd` copies them too**, after it fetches or refreshes `.agents/`.
+
+### Rejected alternatives
+
+- **A skill that writes the pointers** — rejected: the origin already has the folders; copying them is the install.
+- **A `node`/`bun` script that writes the pointers** — rejected: AIDDbot is markdown, with no runtime of its own.
+
+### Consequences
+
+- Getting started is `tiged` of `.agents` and the three editor paths, then `/architect-map`.
+- Catalog Meta has `/scaffoldify` only, beside `/skillify`.
+
+## 2026-08-27 — Wire script first; `/scaffoldify --aidd` calls `/harnessify`
+
+**Status**: superseded the same day by "Editor folders are copied from origin; no wiring skill".
+
+### Context
+
+ABC should work in any atmosphere the moment `.agents/` is in the repo. Asking the agent to run
+`/harnessify` was a chicken-and-egg: the skill is not yet a slash command, `AGENTS.md` does not
+exist until `/explore`, and picking one harness left the other two dark. `/scaffoldify` already
+knew how to fetch `.agents/` with `--aidd`. A `node` script was tried as the comfortable door
+and rejected: AIDDbot is markdown, with no runtime of its own.
+
+### Decision
+
+1. **This origin ships the adapter folders.** `.claude/`, `.cursor/commands/`, `.github/prompts/`,
+   and `CLAUDE.md` are committed here so a clone of AIDDbot is already wired.
+2. **A consumer copies those folders.** `tiged` of `.agents` plus the three harness paths, or
+   `/harnessify` writing the same pointers. No script.
+3. **`/scaffoldify --aidd` refreshes then wires.** Fetch or refresh `.agents/` from
+   `AIDDbot/AIDDbot/.agents`, then run `/harnessify` with no nested commit. Without `--aidd`,
+   the workshop skeleton is agent-agnostic.
+
+### Rejected alternatives
+
+- **A `node`/`bun` wire script** — rejected: a second runtime next to tiged, and a file an
+  agent should not need in order to write a dozen markdown pointers.
+- **Infer the current harness** — rejected: the first run should work for any editor the human
+  opens next, not only the one that ran the skill.
+- **Fold wiring into `/explore`** — rejected: slash commands should exist before mapping, and
+  explore is about the product.
+
+### Consequences
+
+- A clone of this origin is already wired. Getting started for another repo is tiged of
+  `.agents` and the harness folders, then `/architect-map`.
+- Catalog Meta gains `/scaffoldify`.
+- `/harnessify` stays as the named door when a command is added or when `.agents/` was copied
+  without the harness folders.
+
 ## 2026-08-27 — `/harnessify`: pointer files, not copies or symlinks
 
-**Status**: adopted.
+**Status**: superseded the same day by "Editor folders are copied from origin; no wiring skill".
 
 ### Context
 
@@ -24,9 +87,8 @@ moment a command changed. Symlinks fail on Windows checkouts without Developer M
    Claude's rules adapter is `CLAUDE.md` containing `@AGENTS.md` — the native import that loads
    at session start. Cursor and Copilot already load `AGENTS.md` and `.agents/skills/`, so they
    get no rules or skill adapters.
-3. **Infer or ask.** One run targets the current harness, or any named subset; "all" means the
-   three. It overwrites adapters that are already pointers and leaves original harness files
-   alone.
+3. **Infer or ask.** Superseded the same day: the wire script always writes all three harnesses.
+   It overwrites adapters that are already pointers and leaves original harness files alone.
 
 ### Rejected alternatives
 
@@ -40,8 +102,8 @@ moment a command changed. Symlinks fail on Windows checkouts without Developer M
 
 ### Consequences
 
-- Catalog Meta gains `/harnessify`. Getting started and the README quick start run it before
-  `/architect-map`.
+- Catalog Meta gains `/harnessify`. Getting started originally ran `/harnessify` in chat before
+  `/architect-map`; that step moved to the wire script the same day.
 - `{Agents_File}` in the agent-rules template is always `AGENTS.md`; `{Agents_Folder}` is always
   `.agents/`.
 

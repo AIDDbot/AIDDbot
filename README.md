@@ -37,12 +37,14 @@ You can also run individual skills from the catalog when you want tighter contro
 
 ```bash
 npx tiged AIDDbot/AIDDbot/.agents .agents
+npx tiged AIDDbot/AIDDbot/.claude .claude
+npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
+npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
 Then run in your agent chat:
 
 ```markdown
-/harnessify
 /architect-map
 ```
 
