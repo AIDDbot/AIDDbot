@@ -5,25 +5,22 @@ Copy the agents in, then run ABC: Architect, Builder, Craftsman.
 AIDDbot is markdown. Nothing to install, no binary, no package.  
 It works the same on greenfield and legacy repositories.
 
-## 1. Copy `.agents` and the editor folders
+## 1. Copy `.agents` and the harness folders
 
-If you cloned this repository, skip this step — `.claude/`, `.cursor/commands/`, and `.github/prompts/` are already here. For a workshop, run `/scaffoldify`; otherwise run `/architect-map`.
+If you cloned this repository, skip this step — `.claude/`, `.cursor/commands/`, and `.github/prompts/` are already here. 
 
 If you are bringing AIDDbot into another project, copy the origin folders with `tiged` (markdown only, nothing to run):
 
 ```bash
+# Mandatory copy
 npx tiged AIDDbot/AIDDbot/.agents .agents
+# Optional harness copies
 npx tiged AIDDbot/AIDDbot/.claude .claude
 npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
 npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
-That is enough for `/architect-map` in Cursor, Claude Code, and GitHub Copilot. Claude Code also needs a root `CLAUDE.md` whose first line is `@AGENTS.md` — copy it from this repo if it is not already there.
-
-For a **new workshop monorepo**, run `/scaffoldify` from this origin and name the back, front,
-e2e, and domain. The command asks where to put the new repo, fetches the archetypes, the domain
-sample, `.agents/`, and the editor folders there, and never writes those pieces into this origin.
-Open that workshop repo and run `/architect-map`.
+That is enough for `/architect-map` in Cursor, Claude Code, and GitHub Copilot.
 
 ## 2. Architect — map the project
 

@@ -35,19 +35,18 @@ You can also run individual skills from the catalog when you want tighter contro
 
 ## Quick start
 
-**Existing project** — copy the agents in:
+**Existing project** — copy the agents in (this is a sample helper to do so, but you can do it manually):
 
 ```bash
+# Mandatory copy
 npx tiged AIDDbot/AIDDbot/.agents .agents
+# Optional harness copies
 npx tiged AIDDbot/AIDDbot/.claude .claude
 npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
 npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
-Then run `/architect-map`.
-
-**New workshop repo** — run `/scaffoldify` and name the back, front, e2e, and domain. It asks
-where to put the new repo and scaffolds there. Open that repo and run `/architect-map`.
+Then run `/architect-map` one time and the `/builder-ship` for each feature. Run `/craftsman-refactor` when you need to fix drift or apply structural improvements.
 
 ## Documentation
 

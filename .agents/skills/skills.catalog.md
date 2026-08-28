@@ -54,11 +54,11 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Command | What it does |
 |---|---|
-| [`scaffoldify`](../commands/scaffoldify.command.md) | Bootstrap a new workshop repo: archetypes, domain, `.agents/`, and editor folders |
 | [`architect-map`](../commands/architect-map.command.md) | Architect: map architecture, schemas, and coding rules |
 | [`builder-ship`](../commands/builder-ship.command.md) | Builder: turn requirements into a spec, then ship through `/ship-spec` |
 | [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: detect drift or take your proposal, then ship through `/ship-spec` |
 | [`ship-spec`](../commands/ship-spec.command.md) | Shared machine: `/planify` → `/codify` → `/verify` → `/qualify` → `/release` |
+| [`scaffoldify`](../commands/scaffoldify.command.md) | Helper to bootstrap a new workshop repo: archetypes, domain, `.agents/`, and editor folders |
 
 ## Human checkpoints
 
