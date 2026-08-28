@@ -43,3 +43,7 @@ which the test title must carry.}
 - [ ] Arrange: {preconditions / fixtures}
 - [ ] Act: {user actions}
 - [ ] Assert: {expected outcome mapped to AC-{spec_id}.1}
+
+---
+
+> last updated: {DateTime}
