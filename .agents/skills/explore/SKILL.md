@@ -35,6 +35,14 @@ You describe what is already there and prescribe defaults only where nothing exi
 - **The agent-rules file is short** — stays under 100 lines.
 - **Use the ISO 8601 format for DateTime timestamps** — At the end of every generated file, add a `> last updated: {DateTime}` (`YYYY-MM-DDTHH:MM:SSZ`).
 
+## Context
+- **Input** — the repository tree, from which you derive everything else.
+- **References**  Read the four templates and fill them with the information you derive from the repository tree: 
+    - [agent rules](./assets/AGENTS.template.md),
+    - [system architecture](./assets/system.arch.template.md),
+    - [conceptual model schema](./assets/model.schema.template.md), and
+    - [PRD](./assets/PRD.template.md).
+
 ## Method
 
 Read the Guide files and derive from them the 
