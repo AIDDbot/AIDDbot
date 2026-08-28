@@ -56,7 +56,9 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 |---|---|
 | [`architect-map`](../commands/architect-map.command.md) | Architect: map architecture, schemas, and coding rules |
 | [`builder-ship`](../commands/builder-ship.command.md) | Builder: turn requirements into a spec, then ship through `/ship-spec` |
-| [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: detect drift or take your proposal, then ship through `/ship-spec` |
+| [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: apply a structural directive, then ship through `/ship-spec` |
+| [`craftsman-drifter`](../commands/craftsman-drifter.command.md) | Craftsman: detect architecture drift, then ship through `/ship-spec` |
+| [`craftsman-craptor`](../commands/craftsman-craptor.command.md) | Craftsman: find CRAP (complexity and coverage) violations, then ship through `/ship-spec` |
 | [`ship-spec`](../commands/ship-spec.command.md) | Shared machine: `/planify` → `/codify` → `/verify` → `/qualify` → `/release` |
 | [`scaffoldify`](../commands/scaffoldify.command.md) | Helper to bootstrap a new workshop repo: archetypes, domain, `.agents/`, and editor folders |
 
@@ -66,7 +68,7 @@ You review only at key checkpoints:
 
 - After `/architect-map`: architecture, schemas, and rules match the repo.
 - After `/builder-ship` spec: problem, outcomes, and acceptance criteria are correct.
-- During `/craftsman-refactor`: confirm the defect or proposal before shipping.
+- During `/craftsman-refactor`, `/craftsman-drifter`, or `/craftsman-craptor`: confirm the spec before shipping.
 
 ## Pipeline
 

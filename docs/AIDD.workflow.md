@@ -22,17 +22,23 @@ What changes is which ABC role opens the door.
 |---|---|---|
 | **Architect** | `/architect-map` | Map what exists before anyone builds |
 | **Builder** | `/builder-ship` | Spec a change, then ship it through `/ship-spec` |
-| **Craftsman** | `/craftsman-refactor` | Fix drift or a proposal you bring, through `/ship-spec` |
+| **Craftsman** | `/craftsman-refactor` | Apply a structural directive through `/ship-spec` |
+|  | `/craftsman-drifter` | Detect architecture drift, then ship through `/ship-spec` |
+|  | `/craftsman-craptor` | Find CRAP violations, then ship through `/ship-spec` |
 
 ```mermaid
 flowchart LR
   YOU([you])
   YOU -->|map what exists| ARC["/architect-map"]
   YOU -->|ship value| BLD["/builder-ship"]
-  YOU -->|fix drift| CRF["/craftsman-refactor"]
+  YOU -->|apply a directive| REF["/craftsman-refactor"]
+  YOU -->|fix drift| DFT["/craftsman-drifter"]
+  YOU -->|fix CRAP| CRP["/craftsman-craptor"]
   ARC --> DOC[documentation]
   BLD --> MACH["/ship-spec"]
-  CRF --> MACH
+  REF --> MACH
+  DFT --> MACH
+  CRP --> MACH
   MACH --> REL[released]
 ```
 
@@ -80,31 +86,43 @@ Builder owns delivery from approved intent to release.
 
 ## Craftsman
 
-```markdown
-/craftsman-refactor
-```
+Three doors, one machine. Each writes a refactor spec, stops for your check, then `/ship-spec`.
 
-Or pass a directive directly:
+A directive you already hold:
 
 ```markdown
 /craftsman-refactor extract shared validation into one module
 ```
 
+Architecture drift against current docs:
+
+```markdown
+/craftsman-drifter
+```
+
+CRAP — cyclomatic complexity and poor test coverage:
+
+```markdown
+/craftsman-craptor
+```
+
 ```mermaid
 flowchart LR
   YOU([you])
-  YOU -->|no directive| MAP["/explore → /extract"]
-  MAP --> RPT[drift report]
-  RPT --> PICK{you pick a defect}
-  YOU -->|with directive| DIR[your directive]
-  PICK --> SHIP["/ship-spec"]
-  DIR --> SHIP
-  SHIP --> MARK[mark result]
+  YOU -->|a directive you hold| REF["/craftsman-refactor"]
+  YOU -->|architecture drift| DFT["/craftsman-drifter"]
+  YOU -->|CRAP| CRP["/craftsman-craptor"]
+  REF --> SPEC["/specify"]
+  DFT -->|/extract × container| SPEC
+  CRP -->|lint · coverage| SPEC
+  SPEC --> CHK{you read it}
+  CHK --> SHIP["/ship-spec"]
 ```
 
-Without arguments, Craftsman detects drift and proposes defects to ship.  
-With a directive, it skips detection and ships that proposal directly.  
-Either way, shipping enforces suite non-regression first.
+`/craftsman-refactor` takes a structural directive you already hold.  
+`/craftsman-drifter` compares each container to current architecture docs.  
+`/craftsman-craptor` hunts cyclomatic complexity and poor coverage.  
+All three ship through `/ship-spec`, which enforces suite non-regression first.
 
 ## Two spec kinds
 

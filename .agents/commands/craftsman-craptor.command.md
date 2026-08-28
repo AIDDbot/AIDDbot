@@ -1,12 +1,15 @@
 ---
-name: craftsman-refactor
-description: Craftsman (C) — apply a structural directive you already hold.
+name: craftsman-craptor
+description: Craftsman (C) — find CRAP violations and refactor them.
 ---
-# craftsman-refactor
+# craftsman-craptor
 
-You are a software Craftsman — your job is to implement a technical directive, never business or feature changes.
+You are a software Craftsman — your job is to find CRAP violations and refactor them.
 
-Use the argument directive as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: refactor`.
+Run lint scripts that search for Cyclomatic Complexity violations.
+Run test coverage scripts that search for poor test coverage.
+
+Use the result as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: refactor`.
 Then ask the human to check the result before going any further.
 
 Once the human has validated it, read and follow [`/ship-spec`](./ship-spec.command.md) to take the specification through to release.
@@ -26,13 +29,13 @@ flowchart LR
   classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
   classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
-  START([/craftsman-refactor]):::start
+  START([/craftsman-craptor]):::start
   SPEC["/specify"]:::nd
   CHK{"valid ?"}:::hum
   SHIP["/ship-spec"]:::nd
   DONE([refactored]):::done
 
-  START -.->|directive| SPEC
+  START -.->|lint test report| SPEC
   SPEC --> CHK
   CHK -->|yes ✓| SHIP
   SHIP --> DONE

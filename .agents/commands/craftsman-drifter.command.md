@@ -1,12 +1,16 @@
 ---
-name: craftsman-refactor
-description: Craftsman (C) — apply a structural directive you already hold.
+name: craftsman-drifter
+description: Craftsman (C) — find architecture drift and refactor it.
 ---
-# craftsman-refactor
+# craftsman-drifter
 
-You are a software Craftsman — your job is to implement a technical directive, never business or feature changes.
+You are a software Craftsman — your job is to correct technical drift, never business or feature changes.
 
-Use the argument directive as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: refactor`.
+You must detect drift from architectural guidelines. 
+
+To do so, read and follow [`/extract`](../skills/extract/SKILL.md) for each container but looking for deviations from current documentation.
+
+Use the output as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: refactor`.
 Then ask the human to check the result before going any further.
 
 Once the human has validated it, read and follow [`/ship-spec`](./ship-spec.command.md) to take the specification through to release.
@@ -26,13 +30,13 @@ flowchart LR
   classDef hum fill:#fef9c3,stroke:#ca8a04,color:#713f12
   classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
 
-  START([/craftsman-refactor]):::start
+  START([/craftsman-drifter]):::start
   SPEC["/specify"]:::nd
   CHK{"valid ?"}:::hum
   SHIP["/ship-spec"]:::nd
   DONE([refactored]):::done
 
-  START -.->|directive| SPEC
+  START -.->| drift report| SPEC
   SPEC --> CHK
   CHK -->|yes ✓| SHIP
   SHIP --> DONE

@@ -29,7 +29,7 @@ Three roles, one lifecycle:
 
 - **Architect** — `/architect-map`: maps architecture, schemas, and coding rules
 - **Builder** — `/builder-ship`: turns a requirement into a validated spec, then builds and ships
-- **Craftsman** — `/craftsman-refactor`: detects drift or applies structural improvements safely
+- **Craftsman** — `/craftsman-refactor`, `/craftsman-drifter`, `/craftsman-craptor`: apply a directive, fix architecture drift, or clear CRAP
 
 You can also run individual skills from the catalog when you want tighter control over each step.
 
@@ -46,7 +46,7 @@ npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
 npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
 ```
 
-Then run `/architect-map` one time and the `/builder-ship` for each feature. Run `/craftsman-refactor` when you need to fix drift or apply structural improvements.
+Then run `/architect-map` one time and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor.
 
 ## Documentation
 

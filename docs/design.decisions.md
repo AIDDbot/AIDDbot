@@ -4,6 +4,39 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-28 — Craftsman splits into three doors
+
+**Status**: adopted. Supersedes "One Craftsman door, two entries" in the 2026-08-01 decision.
+`/ship-spec` as the shared machine still holds.
+
+### Context
+
+`/craftsman-refactor` held two jobs: detect architecture drift when given nothing, and apply a
+structural directive when given one. CRAP (cyclomatic complexity and coverage) was a third hunt
+that did not belong in either path. One command with a silent default made the doors hard to
+choose.
+
+### Decision
+
+1. **`/craftsman-refactor` is directive-only.** The human already holds the structural change;
+   skip detection and take `/specify` (`kind: refactor`) → check → `/ship-spec`.
+2. **`/craftsman-drifter` hunts architecture drift.** Per-container `/extract` looking for
+   deviations from current documentation, then the same specify → check → `/ship-spec` machine.
+3. **`/craftsman-craptor` hunts CRAP.** Lint for cyclomatic complexity and coverage for missing
+   tests, then the same machine.
+
+### Rejected alternatives
+
+- **Keep one door with three silent defaults** — rejected: the human should pick the hunt, not
+  wait for the agent to guess which survey to run.
+- **Fold CRAP into `/qualify`** — rejected: qualify reports; Craftsman ships the fix.
+
+### Consequences
+
+- Six commands: Architect, Builder, three Craftsman doors, plus `/ship-spec`.
+- Catalog, README, getting-started, and workflow name all three Craftsman doors.
+- Thin adapters in every harness.
+
 ## 2026-08-27 — `/scaffoldify` is a command, wired in every harness
 
 **Status**: adopted. Supersedes the same-day "one file; paste `SKILL.md`" install path.
@@ -203,8 +236,10 @@ moment a command changed. Symlinks fail on Windows checkouts without Developer M
 
 ## 2026-08-01 — Craftsman absorbs directed refactor; machine is `/ship-spec`
 
-**Status**: adopted. Supersedes the "internal commands stay" clause of the ABC-doors decision
-below (`/build-spec`, `/spec-refactor`).
+**Status**: partially superseded by the 2026-08-28 three-door split. `/ship-spec` as the shared
+machine and the deletion of `/spec-refactor` still hold; "one Craftsman door, two entries" does
+not. Supersedes the "internal commands stay" clause of the ABC-doors decision below
+(`/build-spec`, `/spec-refactor`).
 
 ### Context
 

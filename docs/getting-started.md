@@ -44,19 +44,26 @@ Run:
 Builder starts with `/specify`, creates a one-page spec, and **stops for your approval**.  
 After approval, `/ship-spec` plans, codes, verifies, qualifies, and releases.
 
-## 4. Craftsman — refactor for drift
+## 4. Craftsman — keep the shape healthy
 
-Run:
+Three commands, same `/ship-spec` path.
 
-```markdown
-/craftsman-refactor
-```
-
-Craftsman detects architecture drift, proposes refactors, and ships them through the same `/ship-spec` path.  
-If you already know the improvement, pass it directly:
+A directive you already hold:
 
 ```markdown
 /craftsman-refactor extract shared validation into one module
+```
+
+Architecture drift against current docs:
+
+```markdown
+/craftsman-drifter
+```
+
+CRAP — cyclomatic complexity and poor test coverage:
+
+```markdown
+/craftsman-craptor
 ```
 
 ## What's next?
@@ -65,7 +72,7 @@ Keep the ABC loop active:
 
 - Architect when context is thin
 - Builder when you add value
-- Craftsman when structure drifts
+- Craftsman when you have a directive, drift, or CRAP to clear
 
 Continue with:
 
