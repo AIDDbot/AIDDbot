@@ -44,6 +44,9 @@ Read the root agent rules and the system architecture, and select the target con
 The tier is what picks the template: `db` takes the relational schema, anything else takes the container architecture, and an API on top of either takes the API schema. 
 Then read the container's folder, its _Guide files_, and enough representative source to understand it from the inside.
 
-Write that container's documents, always including `{Product_Folder}/rules/{container}.rules.md`, and point its **Detail** link in `{Product_Folder}/arch/system.arch.md` at what you wrote. 
+Write that container's documents and point its **Detail** link in `{Product_Folder}/arch/system.arch.md` at what you wrote. 
+Write the container's code rules in `{Agents_Folder}/rules/{container}.rules.md` as a source of truth for the codebase.
+Copy the rules folder into each harness folder (`.claude/`, `.cursor/`, `.github/`) as a source of truth for the harnesses.
+For github rename the folder to `.github/instructions/{container}.instructions.md`.
 
 Commit as `docs(extract): …`.

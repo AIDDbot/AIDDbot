@@ -14,7 +14,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 ### Environment
 - **Git**: {remote URL | local path} — {default branch `main` | `master`}
 - **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh | git bash}`
-- **Time** {use always ISO 8601 format for timestamps}
+- **Time** {use always ISO 8601 format for DateTime timestamps}
 
 ### Paths
 - **{Agents_File}** — `AGENTS.md` — this file

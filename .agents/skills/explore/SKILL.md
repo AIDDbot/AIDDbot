@@ -28,20 +28,12 @@ You describe what is already there and prescribe defaults only where nothing exi
 - **Observe, never redesign** — document what exists and flag its contradictions instead of correcting them.
 - **You settle the product paths** 
   - `{Product_Folder}` and `{Source_Folders}` are chosen here and recorded in `AGENTS.md`. 
-  - `{Agents_File}` is always `AGENTS.md` and a `CLAUDE.md` with a link to it.
-  - `{Agents_Folder}` is always `.agents/` and a `CLAUDE.md` with a link to it.
+  - `{Agents_File}` is always `AGENTS.md` and a `CLAUDE.md` with a link to it `@AGENTS.md`.
+  - `{Agents_Folder}` is always `.agents/` .
   - Never assume the repository root: propose what the repo suggests, confirm it, and write your own artifacts under what was agreed.
 - **The PRD is a shell** — create it once with its categories empty; Do not add any features or requirements yet.
 - **The agent-rules file is short** — stays under 100 lines.
-
-## Context
-
-- **Input** — the repository tree, from which you derive everything else.
-- **References**  the four templates you fill: 
-    - [agent rules](./assets/AGENTS.template.md),
-    - [system architecture](./assets/system.arch.template.md),
-    - [conceptual model schema](./assets/model.schema.template.md), and
-    - [PRD](./assets/PRD.template.md).
+- **Use the ISO 8601 format for DateTime timestamps** — At the end of every generated file, add a `> last updated: {DateTime}` (`YYYY-MM-DDTHH:MM:SSZ`).
 
 ## Method
 
@@ -54,9 +46,9 @@ Read the Guide files and derive from them the
 An existing layout is evidence: a repo already holding `docs/` or `.product/` has answered the product folder for you. 
 Settle every gap with the human before drafting a single document.
 
-Then write, in order: 
-  - `AGENTS.md` at the repository root and a `CLAUDE.md` with a link to it;
+Then write (following the templates), in order: 
+  - `AGENTS.md` at the repository root and a `CLAUDE.md` with a link to it `@AGENTS.md`;
   - `{Product_Folder}/arch/system.arch.md` as the C4 Level 2 view; 
-  - the entities and relationships of `{Product_Folder}/model/model.schema.md`; and 
+  - the entities and relationships of `{Product_Folder}/model/model.schema.md`; 
   - `{Product_Folder}/specs/PRD.md` if it does not exist yet. 
 Commit as `docs(explore): …`.
