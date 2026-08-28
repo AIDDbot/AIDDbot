@@ -30,3 +30,7 @@ status: {green | red}
 - Severity: {blocker | major | minor}
 - Kind: {functional | test}
 - Handoff: `/codify` {container}
+
+---
+
+> last updated: {DateTime}

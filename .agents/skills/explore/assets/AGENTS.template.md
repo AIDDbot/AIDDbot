@@ -10,10 +10,11 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 {Pascal_Case} are placeholders for values.
 {short sentences} are instructions for you to follow.
 {the rest must be copied verbatim}
+{use always ISO 8601 format for timestamps}
 
 ### Environment
-- **Git**: {remote URL} — {default branch `main` | `master`}
-- **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh}`
+- **Git**: {remote URL | local path} — {default branch `main` | `master`}
+- **OS** `{Windows | Linux | MacOS}` — **Shell** `{cmd | PowerShell | bash | zsh | git bash}`
 
 ### Paths
 - **{Agents_File}** — `AGENTS.md` — this file

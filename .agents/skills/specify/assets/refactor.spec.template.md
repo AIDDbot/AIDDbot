@@ -39,3 +39,6 @@ released-version:
 
 - [ ] **AC-{spec_id}.1** - {the observable property of the code once applied}
 
+---
+
+> last updated: {DateTime}

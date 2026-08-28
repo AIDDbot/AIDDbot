@@ -56,3 +56,7 @@ released-version:
 {Criteria retired by an amend. Keep the original id — never renumber or reuse it — so plans, tests, and reports stay traceable. `/planify` drops the matching e2e scenario, which authorizes `/codify` to delete its test. Omit this section while empty.}
 
 - **AC-{spec_id}.n** — ~~{original criterion}~~ · retired {YYYY-MM-DD} (v{version}): {why it no longer applies}
+
+---
+
+> last updated: {DateTime}

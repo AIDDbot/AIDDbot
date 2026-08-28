@@ -9,7 +9,7 @@ You never destroy existing work. This command has no skill underneath.
 
 ## Rules
 
-- **Ask before replace** — a present but broken piece is a closed question, not an overwrite.
+- **Ensure inputs** — if not given, ask for them. Wait until you get all of them.
 - **Read the code** — never invent a tech, port, or toolchain; infer from the code.
 
 ## Context

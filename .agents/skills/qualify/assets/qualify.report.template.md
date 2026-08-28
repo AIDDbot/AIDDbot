@@ -52,3 +52,7 @@ status: {green | red}
 {Candidates for their own refactor spec — they fail no gate.}
 
 - {what decayed, and where}
+
+---
+
+> last updated: {DateTime}

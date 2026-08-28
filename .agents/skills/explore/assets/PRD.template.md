@@ -7,3 +7,6 @@
 ### [{spec_id} {title}](./{spec_key}/spec.md)
   - **Tags**: `{tag1, tag2}`
 
+---
+
+> last updated: {DateTime}

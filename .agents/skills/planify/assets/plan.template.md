@@ -31,3 +31,7 @@ refactor spec, behavior is preserved: what changes is the shape of the code.}
     - `{path/to/file1}`
     - `{path/to/folder2/}`
 - [ ] {Task 1 description in one line}
+
+---
+
+> last updated: {DateTime}
