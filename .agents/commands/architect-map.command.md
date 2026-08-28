@@ -17,6 +17,8 @@ Make sure to commit at each step.
 
 The result is the codebase documentation, created or brought up to date.
 
+Suggest handoff to Builder to ship a feature.
+
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
 flowchart LR

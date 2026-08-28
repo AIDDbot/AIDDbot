@@ -46,7 +46,13 @@ Then read the container's folder, its _Guide files_, and enough representative s
 
 Write that container's documents and point its **Detail** link in `{Product_Folder}/arch/system.arch.md` at what you wrote. 
 Write the container's code rules in `{Agents_Folder}/rules/{container}.rules.md` as a source of truth for the codebase.
-Copy the rules folder into each harness folder (`.claude/`, `.cursor/`, `.github/`) as a source of truth for the harnesses, as content use only a link to the `{Agents_Folder}/rules/{container}.rules.md` file.
-For github rename the folder to `.github/instructions/{container}.instructions.md` and use the same content as the `{Agents_Folder}/rules/{container}.rules.md` file.
+For each harness make a local copy of the files, following this structure:
+| Harness | Folder | File Name | Front Matter pattern |
+| ------- | --------- | ------- | ------- |
+| Claude | .claude/rules | {container}.rules.md | paths: "**" |
+| Cursor | .cursor/rules | {container}.rules.mdc | globs: "**" |
+| Github | .github/instructions | {container}.instructions.md | applyTo: "**" |
+Respect the front matter pattern , but point the content to the `{Agents_Folder}/rules/{container}.rules.md` file as a link to the source of truth.
+
 
 Commit as `docs(extract): {container}`.

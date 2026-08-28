@@ -2,7 +2,7 @@
 
 ## Rules
 
-- **Closed list** — the gates are `crap`, `mutation`, `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
+- **Closed list** — the gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
 - **Accumulated decay is not a fail** — what only shows by adding several specs together is a candidate for its own refactor spec; never fail a gate on it.
 
 ## Severity
@@ -12,18 +12,6 @@ Every finding carries one. A `blocker` or a `major` fails its gate.
 - **blocker** — actively causes bugs or security holes, or breaks accessibility (WCAG A/AA).
 - **major** — real decay: duplicated logic, a boundary crossed, a name that lies.
 - **minor** — polish: a magic value, a local nesting, a comment that restates the code.
-
-## CRAP
-
-Change Risk Anti-Patterns: cyclomatic complexity weighted by uncovered code. The container's script owns the threshold.
-
-- [ ] The CRAP script is green for the scope.
-
-## Mutation
-
-Mutation tests: the suite must kill the mutants the project requires. The container's script owns the score.
-
-- [ ] The mutation script is green for the scope.
 
 ## Accessibility (WCAG AA)
 

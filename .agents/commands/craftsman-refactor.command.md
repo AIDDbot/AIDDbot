@@ -21,6 +21,8 @@ Make sure to commit at each step.
 
 The result is the refactored codebase ready to be shipped.
 
+Suggest handoff to Builder to ship another feature.
+
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
 flowchart LR

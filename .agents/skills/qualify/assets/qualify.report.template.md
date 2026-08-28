@@ -16,8 +16,6 @@ status: {green | red}
 
 | Gate | Verdict | Checked against |
 |------|---------|-----------------|
-| CRAP | {pass \| fail \| n/a} | {the script you ran, or omitted} |
-| Mutation | {pass \| fail \| n/a} | {the script you ran, or omitted} |
 | Accessibility | {pass \| fail} | {what you checked it against} |
 | Security | {pass \| fail} | {what you checked it against} |
 | Performance | {pass \| fail} | {what you checked it against} |

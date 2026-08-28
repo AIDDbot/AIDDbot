@@ -17,6 +17,8 @@ Make sure to commit at each step.
 
 The result is the implementation ready to be shipped.
 
+Suggest handoff to Builder to ship another feature or the Craftsman to refactor the code.
+
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
 flowchart LR
