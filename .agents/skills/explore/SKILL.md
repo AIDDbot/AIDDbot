@@ -55,7 +55,7 @@ An existing layout is evidence: a repo already holding `docs/` or `.product/` ha
 Settle every gap with the human before drafting a single document.
 
 Then write, in order: 
-  - `AGENTS.md` at the repository root; 
+  - `AGENTS.md` at the repository root and a `CLAUDE.md` with a link to it;
   - `{Product_Folder}/arch/system.arch.md` as the C4 Level 2 view; 
   - the entities and relationships of `{Product_Folder}/model/model.schema.md`; and 
   - `{Product_Folder}/specs/PRD.md` if it does not exist yet. 

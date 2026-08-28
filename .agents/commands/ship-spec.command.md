@@ -19,6 +19,7 @@ Once the tests are green, read and follow [`/qualify`](../skills/qualify/SKILL.m
 If a gate fails, go back to [`/codify`](../skills/codify/SKILL.md) with the report in hand.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
+Make sure to commit at each step.
 
 After code has been verified and qualified, read and follow [`/release`](../skills/release/SKILL.md) to publish the specification.
 

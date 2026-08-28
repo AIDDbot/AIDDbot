@@ -17,8 +17,9 @@ Then ask the human to check the result before going any further.
 Once the human has validated it, read and follow [`/ship-spec`](./ship-spec.command.md) to take the specification through to release.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
+Make sure to commit at each step.
 
-The result is the implementation ready to be shipped.
+The result is the refactored codebase ready to be shipped.
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%

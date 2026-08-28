@@ -9,8 +9,9 @@ disable-model-invocation: true
 Act as Senior Software Architect. 
 Starting from the system architecture, you take one runnable unit — one container — and generates its documentation:   
 - its architecture (`{Product_Folder}/arch/container.arch.md`), 
-- its coding rules (`{Product_Folder}/rules/container.rules.md`), and 
-- its data schemas (`{Product_Folder}/model/db.schema.md`). 
+- its data schemas (`{Product_Folder}/model/db.schema.md`), 
+- its API schema (`{Product_Folder}/model/api.schema.md`), and 
+- its coding rules (`{Agents_Folder}/rules/container.rules.md`).
 This is the layer that plans and development lean on afterwards, so it needs detail.
 
 ## Rules
@@ -41,7 +42,7 @@ This is the layer that plans and development lean on afterwards, so it needs det
 
 Read the root agent rules and the system architecture, and select the target container along with its tier. 
 The tier is what picks the template: `db` takes the relational schema, anything else takes the container architecture, and an API on top of either takes the API schema. 
-Then read the container's folder, its Guide files, and enough representative source to understand it from the inside.
+Then read the container's folder, its _Guide files_, and enough representative source to understand it from the inside.
 
 Write that container's documents, always including `{Product_Folder}/rules/{container}.rules.md`, and point its **Detail** link in `{Product_Folder}/arch/system.arch.md` at what you wrote. 
 

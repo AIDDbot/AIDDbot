@@ -13,6 +13,7 @@ First read and follow [`/explore`](../skills/explore/SKILL.md) to set the projec
 Then read and follow [`/extract`](../skills/extract/SKILL.md) once per container in parallel, documenting them one at a time.
 
 Run every skill in its own fresh subagent, passing them the context needed to start from.
+Make sure to commit at each step.
 
 The result is the codebase documentation, created or brought up to date.
 
