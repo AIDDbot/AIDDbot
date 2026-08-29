@@ -4,6 +4,31 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-29 — Consumer install is `npx github:AIDDbot/AIDDbot init`
+
+**Status**: adopted. Narrows "Editor folders are copied from origin" (2026-08-27): the origin still ships the harness adapters; consumers no longer copy them with `tiged`.
+
+### Context
+
+Getting started asked for four `tiged` copies, and the optional harness slices were incomplete. `/adapt` as a consumer step was a chicken-and-egg. A small `bin/aiddbot.js` in this repo copies the overlay (`.agents/{agents,commands,rules,skills}`, `.claude|cursor/{agents,commands,rules}`, `.github/{prompts,agents,instructions}`) into `cwd`. `npx github:` runs that bin without publishing to npm.
+
+### Decision
+
+1. **One command for humans.** `npx github:AIDDbot/AIDDbot init` from the target repo root. `--dry-run` previews; `--force` overwrites differing files; identical files are skipped; other existing files are left alone.
+2. **No `tiged` on the AIDD overlay.** README and getting-started drop the four-folder copy. `/scaffoldify` still uses `tiged` for back/front/e2e/domain archetypes, and `init` for the overlay.
+3. **Not an npm dependency.** `package.json` is `private`; the script is a one-shot copier, not something the consumer installs.
+
+### Rejected alternatives
+
+- **Keep `tiged` as a documented fallback** — rejected: two doors for the same copy.
+- **Ask the consumer to run `/adapt`** — rejected: no slash command until adapters exist.
+- **Publish `aiddbot` to npm** — deferred; `npx github:` is enough.
+
+### Consequences
+
+- Getting started is `init`, then `/architect-map`.
+- Origin clone still skips the copy step.
+
 ## 2026-08-28 — Craftsman splits into three doors
 
 **Status**: adopted. Supersedes "One Craftsman door, two entries" in the 2026-08-01 decision.

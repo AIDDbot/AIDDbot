@@ -1,26 +1,23 @@
 # Getting Started
 
-Copy the agents in, then run ABC: Architect, Builder, Craftsman.
+Copy AIDDbot in, then run ABC: Architect, Builder, Craftsman.
 
-AIDDbot is markdown. Nothing to install, no binary, no package.  
+AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.  
 It works the same on greenfield and legacy repositories.
 
-## 1. Copy `.agents` and the harness folders
+## 1. Copy AIDDbot into your project
 
-If you cloned this repository, skip this step — `.claude/`, `.cursor/commands/`, and `.github/prompts/` are already here. 
+If you cloned this repository, skip this step — the skills and harness adapters are already here.
 
-If you are bringing AIDDbot into another project, copy the origin folders with `tiged` (markdown only, nothing to run):
+From the root of any other project (Node 18+):
 
 ```bash
-# Mandatory copy
-npx tiged AIDDbot/AIDDbot/.agents .agents
-# Optional harness copies
-npx tiged AIDDbot/AIDDbot/.claude .claude
-npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
-npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
+npx github:AIDDbot/AIDDbot init
 ```
 
-That is enough for `/architect-map` in Cursor, Claude Code, and GitHub Copilot.
+That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`.
+
+Then `/architect-map` is available in those editors.
 
 ## 2. Architect — map the project
 

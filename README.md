@@ -5,9 +5,8 @@ Build software you can trust.
 AIDDbot is a set of production-ready **agent skills and commands** for AI-Driven Development.
 Everything is plain markdown inside `.agents/`:
 
-- No CLI
-- No package install
-- Works with the agent harnesses and editors you already use
+- One copy-in command; no package in your project
+- Works with Cursor, Claude Code, and GitHub Copilot
 
 ## Why AIDD
 
@@ -35,18 +34,13 @@ You can also run individual skills from the catalog when you want tighter contro
 
 ## Quick start
 
-**Existing project** — copy the agents in (this is a sample helper to do so, but you can do it manually):
+**Existing project** — from the repo root:
 
 ```bash
-# Mandatory copy
-npx tiged AIDDbot/AIDDbot/.agents .agents
-# Optional harness copies
-npx tiged AIDDbot/AIDDbot/.claude .claude
-npx tiged AIDDbot/AIDDbot/.cursor/commands .cursor/commands
-npx tiged AIDDbot/AIDDbot/.github/prompts .github/prompts
+npx github:AIDDbot/AIDDbot init
 ```
 
-Then run `/architect-map` one time and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor.
+Then run `/architect-map` once and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor. See [Getting started](docs/getting-started.md).
 
 ## Documentation
 

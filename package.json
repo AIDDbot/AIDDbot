@@ -1,0 +1,13 @@
+{
+  "name": "aiddbot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Copy AIDDbot skills and harness adapters into the current project.",
+  "bin": {
+    "aiddbot": "./bin/aiddbot.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
