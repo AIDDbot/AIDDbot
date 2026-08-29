@@ -1,9 +1,9 @@
 ---
-name: architect-spec
+name: architect-feature
 description: Architect (A) — write a specification for a feature or scaffolding solution.
 agent: architect
 ---
-# architect-spec
+# architect-feature
 
 Your goal is to write a specification for a feature or scaffolding solution.
 

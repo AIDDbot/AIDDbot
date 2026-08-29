@@ -7,12 +7,12 @@ agent: craftsman
 
 Your goal is to verify, qualify and ship the code from a specification.
 
-First read and follow [`/verify`](/.agents/skills/verify/SKILL.md) to run the e2e and acceptance tests.
+First read and follow [`/verify`](/.agents/skills/verify/SKILL.md) to run the e2e and acceptance tests and generate a report from that.
 If there are defects, suggest handoff to Builder to fix the defects by running [`/builder-fix`](./builder-fix.command.md) with the report in hand.
 
-Then read and follow [`/qualify`](/.agents/skills/qualify/SKILL.md) to grade the quality of the code.
+Then read and follow [`/qualify`](/.agents/skills/qualify/SKILL.md) to grade the quality of the code and generate a report from that.
 If a gate fails, suggest handoff to Builder to fix the defects by running [`/builder-fix`](./builder-fix.command.md) with the report in hand.
 
-Finally, read and follow [`/ship`](/.agents/skills/ship/SKILL.md) to ship the code and document it.
+Finally, read and follow [`/ship`](/.agents/skills/ship/SKILL.md) to ship the code and documentthe changes.
 
 The result is the code verified, qualified and shipped, ready to be released.

@@ -5,7 +5,7 @@ agent: craftsman
 ---
 # craftsman-clean
 
-Your goal is to clean code by finding CRAP violations and lint issues and writes an specification to fix them. Not for a specification, but for the whole codebase.
+Your goal is to clean code by finding CRAP violations and lint issues and generates a report of defects to fix them. Not for a specification, but for the whole codebase.
 
 Run lint scripts that search for Cyclomatic Complexity violations.
 Run test coverage scripts that search for poor test coverage.
