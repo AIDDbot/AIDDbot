@@ -19,6 +19,14 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`.
 
+To assemble a new workshop monorepo from AIDDbot archetypes, then copy the overlay:
+
+```bash
+npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --back {tech} --front {tech} --e2e {tech} --domain {name}
+```
+
+From this origin, use `node bin/scaffold.js --dest {workshop} …` instead. `--list` prints known techs if `gh` is installed. `--dest` writes to another folder (not this origin). Existing `back/`, `front/`, `e2e/`, and `docs/domain/` are skipped.
+
 Then `/architect-map` is available in those editors.
 
 ## 2. Architect — map the project

@@ -17,6 +17,7 @@ Getting started asked for four `tiged` copies, and the optional harness slices w
 1. **One command for humans.** `npx --allow-git=all github:AIDDbot/AIDDbot init` from the target repo root. npm 12 defaults `allow-git` to `none`, so the flag is part of the command, not an afterthought. `--dry-run` previews; `--force` overwrites differing files; identical files are skipped; other existing files are left alone.
 2. **No `tiged` on the AIDD overlay.** README and getting-started drop the four-folder copy. `/scaffoldify` still uses `tiged` for back/front/e2e/domain archetypes, and `init` for the overlay.
 3. **Not an npm dependency.** `package.json` is `private`; the script is a one-shot copier, not something the consumer installs.
+4. **Two scripts, one overlay.** `bin/aiddbot.js` copies the overlay into an existing project. `bin/scaffold.js` tigeds archetypes, `git init` if needed, then calls the same overlay (`bin/lib/overlay.js`). It refuses to write into the origin; `--dest` is the workshop. Reconcile / verify / report stay in `/scaffoldify` until that door is decided.
 
 ### Rejected alternatives
 

@@ -16,11 +16,11 @@ You never destroy existing work. This command has no skill underneath.
 
 - **Input** — back tech, front tech, e2e tech, and domain. 
 - **Missing args** — are a closed question against `gh repo list AIDDbot`. 
-- **Tools** — archetypes with `npx tiged`; AIDD overlay with `npx --allow-git=all github:AIDDbot/AIDDbot init` from the workshop root.
+- **Tools** — Fetch is `bin/scaffold.js` (tiged + overlay from `bin/lib/overlay.js`). Do not tiged or run `aiddbot.js` by hand.
 - **Sources** 
   — `AIDDbot/back-{tech}` → `back/`; 
   - `AIDDbot/front-{tech}` → `front/`;
-  - `AIDDbot/e2e-{tech}` → `e2e/`; `
+  - `AIDDbot/e2e-{tech}` → `e2e/`;
   - `AIDDbot/domain-samples/{domain}` → `docs/domain/`.
 - **Report** — `docs/scaffold.report.md` with:
   - date;
@@ -32,13 +32,19 @@ You never destroy existing work. This command has no skill underneath.
 ## Method
 
 ### Fetch:
-Init git if `.git/` is missing.
-Inventory `back/`, `front/`, `e2e/`, `docs/domain/`, and `.agents/`. 
-Fetch what the inventory marked as missing.
-Fetch the AIDD overlay from the workshop root:
+Do not write `back/`, `front/`, `e2e/`, or `docs/domain/` into the AIDDbot origin. From this origin, pass `--dest` to the workshop:
+
 ```bash
-npx --allow-git=all github:AIDDbot/AIDDbot init
+node bin/scaffold.js --dest {workshop} --back {tech} --front {tech} --e2e {tech} --domain {domain}
 ```
+
+If the cwd is already an empty workshop outside the origin:
+
+```bash
+npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --back {tech} --front {tech} --e2e {tech} --domain {domain}
+```
+
+`--dry-run` first on an unfamiliar dest. `--list` if a tech is missing (`gh repo list AIDDbot`). Existing archetype folders are skipped; then the overlay from `bin/lib/overlay.js` runs (same as `bin/aiddbot.js`).
 
 ### Reconcile: 
 One root `README.md`, `LICENSE`, and `.gitignore` 
