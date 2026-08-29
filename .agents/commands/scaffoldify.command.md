@@ -1,7 +1,7 @@
 ---
 name: scaffoldify
 description: After AIDD init, fetch workshop archetypes into this repo, reconcile, verify the tracer, and report.
-argument-hint: back={tech} front={tech} e2e={tech} domain={name}
+argument-hint: domain=astro-bookings|acorn-bank|adventure-bazaar|alpine-basecamp
 ---
 # scaffoldify
 

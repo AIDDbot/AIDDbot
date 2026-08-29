@@ -10,7 +10,7 @@ Act as Workshop Scaffolder. You fetch AIDDbot container archetypes into the curr
 
 ## Rules
 
-- **Ask first** — back tech, front tech, e2e tech, and domain. Missing values are a closed question; `--list` if needed. Wait until you have all of them.
+- **Ask first** — domain is a closed question against `astro-bookings`, `acorn-bank`, `adventure-bazaar`, `alpine-basecamp`. Back, front, and e2e default to `express`, `standard`, and `playwright`; only ask if the human wants something else from `--list`.
 - **Not the origin** — if this workspace is the AIDDbot origin (`package.json` name `aiddbot` and `bin/scaffold.js` present), stop. The human runs `init` in a dest, then `/scaffoldify` there.
 - **Read the code** — never invent a tech, port, or toolchain; infer from what landed.
 
@@ -24,7 +24,7 @@ Act as Workshop Scaffolder. You fetch AIDDbot container archetypes into the curr
 From this repo root run:
 
 ```bash
-npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --back {tech} --front {tech} --e2e {tech} --domain {domain}
+npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain {domain}
 ```
 
 `--dry-run` first if containers already exist. Then write one root `README.md`, `LICENSE`, and `.gitignore`; a root toolchain file only when every container shares that tech. Align ports and URLs. Fix what is unambiguous; preferences go to the report.

@@ -14,29 +14,51 @@ const VALUE_FLAGS = {
   "--domain": "domain",
 };
 
+const CATALOG = {
+  back: ["express"],
+  front: ["standard"],
+  e2e: ["playwright"],
+  domain: ["astro-bookings", "acorn-bank", "adventure-bazaar", "alpine-basecamp"],
+};
+
+const DEFAULTS = {
+  back: "express",
+  front: "standard",
+  e2e: "playwright",
+};
+
 function npxBin() {
   return process.platform === "win32" ? "npx.cmd" : "npx";
 }
 
 function help() {
   process.stderr.write(`Usage:
-  node bin/scaffold.js --back TECH --front TECH --e2e TECH --domain NAME [options]
-  npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --back TECH --front TECH --e2e TECH --domain NAME [options]
+  node bin/scaffold.js --domain NAME [options]
+  npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain NAME [options]
 
 Fetch workshop archetypes, git init if needed, then copy the AIDD overlay (same as bin/aiddbot.js).
-At least one of --back --front --e2e --domain is required. Existing archetype folders are left alone.
+--domain is required. Back, front, and e2e default to express, standard, and playwright.
+Existing archetype folders are left alone.
 
 Options
   --dest DIR     Workshop root (default: current directory).
                  Must not be the AIDDbot origin or a folder inside it.
-  --back TECH    AIDDbot/back-{TECH} → back/
-  --front TECH   AIDDbot/front-{TECH} → front/
-  --e2e TECH     AIDDbot/e2e-{TECH} → e2e/
+  --back TECH    AIDDbot/back-{TECH} → back/     (${CATALOG.back.join(", ")})
+  --front TECH   AIDDbot/front-{TECH} → front/   (${CATALOG.front.join(", ")})
+  --e2e TECH     AIDDbot/e2e-{TECH} → e2e/       (${CATALOG.e2e.join(", ")})
   --domain NAME  AIDDbot/domain-samples/{NAME} → docs/domain/
+                 (${CATALOG.domain.join(", ")})
   --dry-run      Print the plan; write nothing
   --force        Overlay only: overwrite differing AIDD files
-  --list         List archetype techs (needs gh)
+  --list         Print the catalog and exit
+
+Example
+  node bin/scaffold.js --dest ../workshop --domain alpine-basecamp
 `);
+}
+
+function catalogValue(key, value) {
+  return key === "dest" ? value : value.toLowerCase();
 }
 
 function parseArgs(argv) {
@@ -70,14 +92,14 @@ function parseArgs(argv) {
       const value = arg.slice(eq + 1);
       const key = VALUE_FLAGS[flag];
       if (!key || !value) return { error: `Invalid flag: ${arg}` };
-      opts[key] = value;
+      opts[key] = catalogValue(key, value);
       continue;
     }
     const key = VALUE_FLAGS[arg];
     if (key) {
       const value = argv[i + 1];
       if (!value || value.startsWith("-")) return { error: `${arg} needs a value` };
-      opts[key] = value;
+      opts[key] = catalogValue(key, value);
       i += 1;
       continue;
     }
@@ -162,37 +184,30 @@ function piecesFrom(opts, destRoot) {
   return pieces;
 }
 
-function listArchetypes() {
-  const result = spawnSync("gh", ["repo", "list", "AIDDbot", "--limit", "200", "--json", "name"], {
-    encoding: "utf8",
-  });
-  if (result.error || result.status !== 0) {
-    process.stderr.write(
-      "Install GitHub CLI (gh) to list archetypes, or browse https://github.com/orgs/AIDDbot/repositories\n"
-    );
-    process.stderr.write("Names: back-{tech}, front-{tech}, e2e-{tech}, domain-samples/{domain}\n");
-    return result.error ? 1 : result.status ?? 1;
-  }
-  const names = JSON.parse(result.stdout)
-    .map((row) => row.name)
-    .sort();
-  const back = [];
-  const front = [];
-  const e2e = [];
-  const other = [];
-  for (const name of names) {
-    if (name.startsWith("back-")) back.push(name.slice(5));
-    else if (name.startsWith("front-")) front.push(name.slice(6));
-    else if (name.startsWith("e2e-")) e2e.push(name.slice(4));
-    else other.push(name);
-  }
-  process.stdout.write(`--back     ${back.join(", ") || "(none)"}\n`);
-  process.stdout.write(`--front    ${front.join(", ") || "(none)"}\n`);
-  process.stdout.write(`--e2e      ${e2e.join(", ") || "(none)"}\n`);
-  process.stdout.write(
-    `--domain   subdirectory of AIDDbot/domain-samples${other.includes("domain-samples") ? "" : " (repo not listed)"}\n`
-  );
+function listCatalog() {
+  process.stdout.write(`--back     ${CATALOG.back.join(", ")}\n`);
+  process.stdout.write(`--front    ${CATALOG.front.join(", ")}\n`);
+  process.stdout.write(`--e2e      ${CATALOG.e2e.join(", ")}\n`);
+  process.stdout.write(`--domain   ${CATALOG.domain.join(", ")}\n`);
   return 0;
+}
+
+function applyDefaults(opts) {
+  for (const key of Object.keys(DEFAULTS)) {
+    if (!opts[key]) opts[key] = DEFAULTS[key];
+  }
+  return opts;
+}
+
+function validateCatalog(opts) {
+  for (const key of Object.keys(CATALOG)) {
+    const value = opts[key];
+    if (!value) continue;
+    if (!CATALOG[key].includes(value)) {
+      return `Unknown --${key} "${value}". Choose: ${CATALOG[key].join(", ")}`;
+    }
+  }
+  return null;
 }
 
 const parsed = parseArgs(process.argv.slice(2));
@@ -203,16 +218,25 @@ if (parsed.error) {
 }
 
 const { opts } = parsed;
-if (opts.list) process.exit(listArchetypes());
+if (opts.list) process.exit(listCatalog());
+
+applyDefaults(opts);
+const invalid = validateCatalog(opts);
+if (invalid) {
+  process.stderr.write(`${invalid}\n`);
+  help();
+  process.exit(1);
+}
 
 const destRoot = path.resolve(opts.dest ?? process.cwd());
-const pieces = piecesFrom(opts, destRoot);
-if (!pieces.length) {
-  process.stderr.write("Needs at least one of --back --front --e2e --domain (or --list).\n");
+if (!opts.domain) {
+  process.stderr.write(`--domain is required. Choose: ${CATALOG.domain.join(", ")}\n`);
   help();
   process.exit(1);
 }
 if (refuseOrigin(destRoot, "scaffold")) process.exit(1);
+
+const pieces = piecesFrom(opts, destRoot);
 
 process.stdout.write(`source     ${sourceRoot}\n`);
 process.stdout.write(`dest       ${destRoot}\n`);
