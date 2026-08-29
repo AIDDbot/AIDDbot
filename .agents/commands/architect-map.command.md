@@ -12,5 +12,5 @@ Then read and follow [`/extract`](/.agents/skills/extract/SKILL.md) once per con
 
 The result is the architectural documentation, created or brought up to date.
 
-Suggest handoff to Architect to define a new feature specification by running [`/architect-spec`](./architect-spec.command.md).
+Suggest handoff to Architect to define a new feature specification by running [`/architect-feature`](./architect-feature.command.md).
 
