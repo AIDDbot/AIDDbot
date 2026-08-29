@@ -11,7 +11,7 @@ Act as Workshop Scaffolder. You fetch AIDDbot container archetypes into the curr
 ## Rules
 
 - **Ask first** — back tech, front tech, e2e tech, and domain. Missing values are a closed question; `--list` if needed. Wait until you have all of them.
-- **Not the origin** — if this workspace is the AIDDbot origin (`package.json` name `aiddbot` and `bin/scaffold.js` present), stop. The human runs `init` in a dest, then this skill there.
+- **Not the origin** — if this workspace is the AIDDbot origin (`package.json` name `aiddbot` and `bin/scaffold.js` present), stop. The human runs `init` in a dest, then `/scaffoldify` there.
 - **Read the code** — never invent a tech, port, or toolchain; infer from what landed.
 
 ## Context

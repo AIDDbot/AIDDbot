@@ -4,9 +4,28 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-29 — `/scaffoldify` is a command after `init`; the skill is the body
+
+**Status**: adopted. Supersedes "`/scaffoldify` is a skill, run after `init`" (same day) and restores the harness door from 2026-08-27.
+
+### Context
+
+A skill under `.agents/skills/` travels with `init`, but Cursor, Claude Code, and Copilot expose slash commands from harness folders. Without adapters, `/scaffoldify` is invisible next to `/architect-map` the moment the repo opens.
+
+### Decision
+
+1. **Command is the door.** [`.agents/commands/scaffoldify.command.md`](../.agents/commands/scaffoldify.command.md) points at the skill. Thin adapters in `.claude/commands/`, `.cursor/commands/`, and `.github/prompts/` ship with `init`.
+2. **Skill is the body.** Reconcile, verify, and report stay in [`.agents/skills/scaffoldify/SKILL.md`](../.agents/skills/scaffoldify/SKILL.md). Fetch stays `aiddbot-scaffold`.
+3. **Refuse the origin.** Unchanged.
+
+### Consequences
+
+- Catalog Commands lists `/scaffoldify`; Meta keeps `/skillify` only.
+- Getting started: `init`, then `/scaffoldify` is a slash command.
+
 ## 2026-08-29 — `/scaffoldify` is a skill, run after `init`
 
-**Status**: adopted. Supersedes "`/scaffoldify` is a command, wired in every harness" (2026-08-27).
+**Status**: superseded the same day by "`/scaffoldify` is a command after `init`; the skill is the body".
 
 ### Context
 

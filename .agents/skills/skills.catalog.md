@@ -49,7 +49,6 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 | Skill | What it does |
 |---|---|
 | [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
-| [`/scaffoldify`](./scaffoldify/) | After `init`, fetch workshop archetypes, reconcile, verify the tracer, and report |
 
 ## Commands
 
@@ -61,6 +60,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 | [`craftsman-drifter`](../commands/craftsman-drifter.command.md) | Craftsman: detect architecture drift, then ship through `/ship-spec` |
 | [`craftsman-craptor`](../commands/craftsman-craptor.command.md) | Craftsman: find CRAP (complexity and coverage) violations, then ship through `/ship-spec` |
 | [`ship-spec`](../commands/ship-spec.command.md) | Shared machine: `/planify` → `/codify` → `/verify` → `/qualify` → `/release` |
+| [`scaffoldify`](../commands/scaffoldify.command.md) | After `init`, fetch workshop archetypes, reconcile, verify the tracer, and report |
 
 ## Human checkpoints
 
