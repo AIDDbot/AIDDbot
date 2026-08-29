@@ -54,15 +54,28 @@ alphabetical order, never embed timestamps or run-specific data in the
 adapter body, so the same source state always produces byte-identical
 output.
 
+### Routing split (read before mapping)
+
+**Agents own `model`. Commands own `agent`.** Never put `model` on a
+command adapter, and never put `agent` on an agent adapter. A command
+establishes *who* runs (the named ABC agent). That agent, not the
+command, chooses *which model*.
+
+When a harness can pin the field, emit it. When it cannot, emit an
+HTML comment after the marker so the human can pick it in the picker
+(or hardcode a vendor id — that edit is overwritten on the next run
+unless they drop the marker; say so in the report the first time).
+
 ### Source schemas
 
-**Agents** — `.agents/agents/{name}.agent.md`
+**Agents** — `.agents/agents/{name}.md`
 - `name` (required), `description` (required — must state clearly WHEN to invoke, harnesses use this text for auto-selection), `allowed-tools` (optional list), `model` (optional: `default` | `fast` | `capable`)
 - Body: the agent's system prompt / persona.
 
 **Commands** — `.agents/commands/{name}.command.md`
-- `name` (required), `description` (required), `argument-hint` (optional), `allowed-tools` (optional list), `model` (optional: `default` | `fast` | `capable`)
+- `name` (required), `description` (required), `argument-hint` (optional), `allowed-tools` (optional list), `agent` (required — the source agent's `name` this command runs as)
 - Body: the command's prompt template. May reference `$ARGUMENTS`.
+- No `model` on commands. If a source still has one, ignore it and list it in the report.
 
 **Rules** — `.agents/rules/{container}.rules.md`
 - `container` (required — the folder/domain this rule scopes to), `paths` (glob pattern(s) the rule applies to)
@@ -86,29 +99,18 @@ report — never guess a value.
 
 | Harness | Folder | File | Frontmatter | Body |
 | --- | --- | --- | --- | --- |
-| Claude Code | `.claude/agents/` | `{name}.md` | `name`, `description` (verbatim — Claude uses this text to decide auto-delegation), `tools` (from `allowed-tools`, comma-separated, not a YAML list), `model` (default→sonnet, fast→haiku, capable→opus, absent→`inherit`) | `<marker>`<br>`Adopt the role, expertise, and instructions defined in @.agents/agents/{name}.agent.md and follow them for this task.` |
-| Cursor | `.cursor/agents/` | `{name}.md` | `name`, `description` (verbatim — Cursor's Agent reads this to decide delegation, same role as Claude Code's), `model: inherit` always | `<marker>`<br>`Adopt the role, expertise, and instructions defined in `.agents/agents/{name}.agent.md` and follow them for this task.` |
-| GitHub Copilot | `.github/agents/` | `{name}.md` | `name`, `description` (verbatim), `tools` (from `allowed-tools`, as a YAML list) | `<marker>`<br>`Adopt the role and instructions defined in [.agents/agents/{name}.agent.md](../../.agents/agents/{name}.agent.md) for this task.` |
+| Claude Code | `.claude/agents/` | `{name}.md` | `name`, `description` (verbatim — Claude uses this text to decide auto-delegation), `tools` (from `allowed-tools`, comma-separated, not a YAML list), `model` (default→sonnet, fast→haiku, capable→opus, absent/`default`→`inherit`) | `<marker>`<br>`Adopt the role, expertise, and instructions defined in @.agents/agents/{name}.md and follow them for this task.` |
+| Cursor | `.cursor/agents/` | `{name}.md` | `name`, `description` (verbatim — Cursor's Agent reads this to decide delegation), `model: inherit` always | `<marker>` (+ pick-a-model comment when the source tier is `fast` or `capable`)<br>`Adopt the role, expertise, and instructions defined in `.agents/agents/{name}.md` and follow them for this task.` |
+| GitHub Copilot | `.github/agents/` | `{name}.md` | `name`, `description` (verbatim), `tools` (from `allowed-tools`, as a YAML list). Omit `model` — Copilot has the field, but no stable alias for our tiers | `<marker>` (+ pick-a-model comment when the source tier is `fast` or `capable`)<br>`Adopt the role and instructions defined in [.agents/agents/{name}.md](../../.agents/agents/{name}.md) for this task.` |
 
-> **Model tiers don't map cleanly onto Cursor.** Cursor subagents take
-> `inherit` or a concrete, vendor-specific model ID (`composer-2`,
-> `claude-opus-5`, `gpt-5.6-sol`...) — there's no stable alias for
-> "fast" or "capable" the way Claude Code has `haiku`/`opus`. Always
-> emit `model: inherit` for Cursor regardless of the source's `model`
-> tier, and note in the report whenever a source specifies a non-default
-> tier, so the human knows Cursor didn't get it and can hardcode a
-> concrete ID by hand if they want one (that manual edit will then be
-> preserved by the collision rule in step 3, since it has no marker —
-> or will be overwritten on the next run if it does have one; tell the
-> human this trade-off in the report the first time it comes up).
+> **Pick-a-model comment** (Cursor and Copilot, only when source `model`
+> is `fast` or `capable`):
+> `<!-- model: pick a {Cursor model ID | Copilot model} if this agent should not inherit (source tier: {tier}) -->`
 >
-> **GitHub's custom-agent format has no `model` field.** Unlike its
-> older, VS Code-only `.github/chatmodes/*.chatmode.md` format (which
-> did support `model` and still works, but is scoped to one IDE),
-> the cross-surface `.github/agents/*.md` format used above has no
-> per-agent model selector — model choice for Copilot CLI / cloud agent
-> happens elsewhere. If a source specifies a `model` tier, note in the
-> report that it couldn't be applied to the Copilot adapter.
+> Cursor subagents take `inherit` or a concrete vendor id
+> (`composer-2`, `claude-opus-5`, `gpt-5.6-sol`…). Copilot agents take a
+> display name or id (`Claude Opus 4.5`, `GPT-5.2`, …). Neither has
+> `haiku`/`opus` aliases. Claude Code does, so it gets the mapped value.
 >
 > Both Cursor and Claude Code additionally cross-read each other's
 > `agents/` folders for compatibility (Cursor also scans `.claude/agents/`
@@ -121,9 +123,17 @@ report — never guess a value.
 
 | Harness | Folder | File | Frontmatter | Body |
 | --- | --- | --- | --- | --- |
-| Claude Code | `.claude/commands/` | `{name}.md` | `description`, `argument-hint`, `allowed-tools`, `model` (mapped as above) | `<marker>`<br>`Read and execute the instructions in @.agents/commands/{name}.command.md`<br><br>`Arguments: $ARGUMENTS` |
-| Cursor | `.cursor/commands/` | `{name}.md` | none (Cursor commands carry no frontmatter) | `<marker>`<br>`**{description}**`<br><br>`Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
-| GitHub Copilot | `.github/prompts/` | `{name}.prompt.md` | `description`, `mode: agent`, `model` (mapped id if present, else omitted), `tools` (from `allowed-tools`) | `<marker>`<br>`Read and follow the instructions in [.agents/commands/{name}.command.md](../../.agents/commands/{name}.command.md).` |
+| Claude Code | `.claude/commands/` | `{name}.md` | `description`, `argument-hint`, `allowed-tools`, `context: fork`, `agent` (verbatim from source), `background: false`. No `model` | `<marker>`<br>`Read and execute the instructions in @.agents/commands/{name}.command.md`<br><br>`Arguments: $ARGUMENTS` |
+| Cursor | `.cursor/commands/` | `{name}.md` | none (Cursor commands have no agent or model field) | `<marker>`<br>`<!-- agent: Cursor commands cannot pin an agent — select the {agent} agent, or ask Agent to use the {agent} subagent. -->`<br>`**{description}**`<br><br>`Use the `{agent}` subagent.`<br><br>`Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
+| GitHub Copilot | `.github/prompts/` | `{name}.prompt.md` | `description`, `agent` (the custom-agent name from source — never `ask`/`plan`/`agent` unless that is the source value), `tools` (from `allowed-tools`). No `model`, no `mode` | `<marker>`<br>`Read and follow the instructions in [.agents/commands/{name}.command.md](../../.agents/commands/{name}.command.md).` |
+
+> **Claude forks so the command actually runs as that subagent.**
+> `context: fork` + `agent: {name}` is how Claude Code commands pin an
+> agent; `background: false` keeps the turn in the foreground so the
+> human sees the work. Cursor has no equivalent field, so the adapter
+> names the subagent in the body and leaves a pick-an-agent comment.
+> Copilot prompts take `agent:` as the custom agent in `.github/agents/`
+> — that is the field to set, not `mode` and not `model`.
 
 ### Mapping — Rules
 
@@ -176,7 +186,9 @@ asks):
 - Sources found, by family (agents/commands/rules), and how many were skipped (with reason)
 - Adapters created / updated / left unchanged / deleted, by harness
 - Any naming collisions with non-managed files
-- Any source with a non-default `model` tier that couldn't be applied to a Cursor or GitHub Copilot agent adapter (see the notes under the Agents mapping table)
+- Any command whose `agent` is missing (skipped) or names no matching agent source
+- Any agent whose `model` tier could not be mapped (Cursor / Copilot) — those adapters carry a pick-a-model comment
+- Reminder (once, not per file): Cursor commands cannot pin `agent` in frontmatter — Copilot (`agent:`) and Claude (`context: fork` + `agent:`) can
 - Confirmation that a second immediate run would report "nothing to do"
 
 ## Verification

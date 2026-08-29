@@ -42,11 +42,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 Then run `/architect-map` once and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor. See [Getting started](docs/getting-started.md).
 
-**New workshop** — empty folder outside this origin:
-
-```bash
-npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --back {tech} --front {tech} --e2e {tech} --domain {name}
-```
+**New workshop** — `init` in an empty folder outside this origin, then `/scaffoldify`.
 
 ## Documentation
 

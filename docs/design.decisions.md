@@ -4,6 +4,26 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-29 — `/scaffoldify` is a skill, run after `init`
+
+**Status**: adopted. Supersedes "`/scaffoldify` is a command, wired in every harness" (2026-08-27).
+
+### Context
+
+The workshop prompt lived in `scripts/` and never traveled with `init`. After `bin/scaffold.js` took Fetch, the remaining job (reconcile, verify, report) belongs in `.agents/skills/`, where `init` copies it.
+
+### Decision
+
+1. **Skill, user-invocable.** [`.agents/skills/scaffoldify/SKILL.md`](../.agents/skills/scaffoldify/SKILL.md). The human `init`s a dest, then launches `/scaffoldify` there.
+2. **Refuse the origin.** Same boundary as the script: do not write `back/` into the skills repo.
+3. **Fetch stays the script.** The skill runs `npx … aiddbot-scaffold`; it does not tiged by hand.
+4. **No slash-command adapters for this door.** It ships as a skill, like `/skillify`.
+
+### Consequences
+
+- Catalog Meta lists `/scaffoldify` beside `/skillify`; Commands drops it.
+- Getting started: `init`, then `/scaffoldify` for a workshop.
+
 ## 2026-08-29 — Consumer install is `npx github:AIDDbot/AIDDbot init`
 
 **Status**: adopted. Narrows "Editor folders are copied from origin" (2026-08-27): the origin still ships the harness adapters; consumers no longer copy them with `tiged`.
@@ -15,9 +35,9 @@ Getting started asked for four `tiged` copies, and the optional harness slices w
 ### Decision
 
 1. **One command for humans.** `npx --allow-git=all github:AIDDbot/AIDDbot init` from the target repo root. npm 12 defaults `allow-git` to `none`, so the flag is part of the command, not an afterthought. `--dry-run` previews; `--force` overwrites differing files; identical files are skipped; other existing files are left alone.
-2. **No `tiged` on the AIDD overlay.** README and getting-started drop the four-folder copy. `/scaffoldify` still uses `tiged` for back/front/e2e/domain archetypes, and `init` for the overlay.
+2. **No `tiged` on the AIDD overlay.** README and getting-started drop the four-folder copy. Archetypes stay behind `bin/scaffold.js`; `/scaffoldify` invokes that script after `init`.
 3. **Not an npm dependency.** `package.json` is `private`; the script is a one-shot copier, not something the consumer installs.
-4. **Two scripts, one overlay.** `bin/aiddbot.js` copies the overlay into an existing project. `bin/scaffold.js` tigeds archetypes, `git init` if needed, then calls the same overlay (`bin/lib/overlay.js`). It refuses to write into the origin; `--dest` is the workshop. Reconcile / verify / report stay in `/scaffoldify` until that door is decided.
+4. **Two scripts, one overlay.** `bin/aiddbot.js` copies the overlay into an existing project. `bin/scaffold.js` tigeds archetypes, `git init` if needed, then calls the same overlay (`bin/lib/overlay.js`). It refuses to write into the origin.
 
 ### Rejected alternatives
 
