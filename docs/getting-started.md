@@ -1,9 +1,8 @@
 # Getting Started
 
-Copy AIDDbot in, then run ABC: Architect, Builder, Craftsman.
+Copy AIDDbot in, then walk ABC in order: Architect specifies, Builder implements, Craftsman ships.
 
-AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.  
-It works the same on greenfield and legacy repositories.
+AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.
 
 ## 1. Copy AIDDbot into your project
 
@@ -19,61 +18,67 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`.
 
-To assemble a workshop monorepo, stay in that project and run `/scaffoldify` (it asks for back, front, e2e, and domain). Do not run `/scaffoldify` inside this origin.
+## 2. Start from what you have
 
-Then `/architect-map` is available in those editors.
-
-## 2. Architect — map the project
-
-Run:
+**Existing codebase** — map it once:
 
 ```markdown
 /architect-map
 ```
 
-`/architect-map` maps what already exists: architecture, conceptual model, coding rules, and container-level documentation.  
-Where evidence is missing, it asks you closed questions so the map stays grounded.
+`/architect-map` documents architecture, conceptual model, coding rules, and each container. Where evidence is missing, it asks you closed questions.
 
-## 3. Builder — ship a feature
+**New workshop** — stay in that project (an empty folder, not this origin) and run `/scaffoldify`. It asks for a domain (`astro-bookings`, `acorn-bank`, `adventure-bazaar`, or `alpine-basecamp`). Then `/architect-map`.
 
-Run:
-
-```markdown
-/builder-ship my new feature with requirements
-```
-
-Builder starts with `/specify`, creates a one-page spec, and **stops for your approval**.  
-After approval, `/ship-spec` plans, codes, verifies, qualifies, and releases.
-
-## 4. Craftsman — keep the shape healthy
-
-Three commands, same `/ship-spec` path.
-
-A directive you already hold:
+**Greenfield, no code yet** — design instead of map:
 
 ```markdown
-/craftsman-refactor extract shared validation into one module
+/architect-design
 ```
 
-Architecture drift against current docs:
+That writes the architecture and a spec so Builder can scaffold it. Then skip to step 4.
+
+## 3. Specify a feature
 
 ```markdown
-/craftsman-drifter
+/architect-feature riders can rate a trip 1 to 5 stars
 ```
 
-CRAP — cyclomatic complexity and poor test coverage:
+Architect writes a one-page spec and **stops for your approval**. Check problem, outcomes, and acceptance criteria before anyone codes.
+
+## 4. Implement
 
 ```markdown
-/craftsman-craptor
+/builder-implement
 ```
+
+Builder plans each affected container (plus e2e), then writes the code and unit tests. It does not run the acceptance suite.
+
+## 5. Review and ship
+
+```markdown
+/craftsman-review
+```
+
+Craftsman verifies against the spec, qualifies the code, and ships. If the report has defects, run `/builder-fix` with that report, then `/craftsman-review` again.
+
+## 6. Keep the shape healthy
+
+Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole codebase:
+
+```markdown
+/craftsman-clean
+```
+
+Hand the report to `/builder-fix`.
 
 ## What's next?
 
-Keep the ABC loop active:
+The usual loop after the first map:
 
-- Architect when context is thin
-- Builder when you add value
-- Craftsman when you have a directive, drift, or CRAP to clear
+1. `/architect-feature` — you approve the spec
+2. `/builder-implement`
+3. `/craftsman-review` — `/builder-fix` if the report is red
 
 Continue with:
 

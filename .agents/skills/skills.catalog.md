@@ -22,7 +22,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Skill | What it does |
 |---|---|
-| [`/specify`](./specify/) | Writes a functional or refactor spec and stops for human review |
+| [`/specify`](./specify/) | Writes a spec; the caller names the kind |
 
 ## Build
 
@@ -54,21 +54,22 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Command | What it does |
 |---|---|
-| [`architect-map`](../commands/architect-map.command.md) | Architect: map architecture, schemas, and coding rules |
-| [`builder-ship`](../commands/builder-ship.command.md) | Builder: turn requirements into a spec, then ship through `/ship-spec` |
-| [`craftsman-refactor`](../commands/craftsman-refactor.command.md) | Craftsman: apply a structural directive, then ship through `/ship-spec` |
-| [`craftsman-drifter`](../commands/craftsman-drifter.command.md) | Craftsman: detect architecture drift, then ship through `/ship-spec` |
-| [`craftsman-craptor`](../commands/craftsman-craptor.command.md) | Craftsman: find CRAP (complexity and coverage) violations, then ship through `/ship-spec` |
-| [`ship-spec`](../commands/ship-spec.command.md) | Shared machine: `/planify` → `/codify` → `/verify` → `/qualify` → `/release` |
+| [`architect-map`](../commands/architect-map.command.md) | Architect: map an existing codebase — `/explore` once, then `/extract` per container |
+| [`architect-design`](../commands/architect-design.command.md) | Architect: design a greenfield architecture and write its scaffold spec |
+| [`architect-feature`](../commands/architect-feature.command.md) | Architect: write a feature spec and stop for human review |
+| [`builder-implement`](../commands/builder-implement.command.md) | Builder: `/planify` then `/codify` from a validated spec |
+| [`builder-fix`](../commands/builder-fix.command.md) | Builder: `/codify` from a defect report |
+| [`craftsman-review`](../commands/craftsman-review.command.md) | Craftsman: `/verify` → `/qualify` → `/release`; defects go to `/builder-fix` |
+| [`craftsman-clean`](../commands/craftsman-clean.command.md) | Craftsman: hunt CRAP and lint across the codebase; the report goes to `/builder-fix` |
 | [`scaffoldify`](../commands/scaffoldify.command.md) | After `init`, fetch workshop archetypes, reconcile, verify the tracer, and report |
 
 ## Human checkpoints
 
 You review only at key checkpoints:
 
-- After `/architect-map`: architecture, schemas, and rules match the repo.
-- After `/builder-ship` spec: problem, outcomes, and acceptance criteria are correct.
-- During `/craftsman-refactor`, `/craftsman-drifter`, or `/craftsman-craptor`: confirm the spec before shipping.
+- After `/architect-map` or `/architect-design`: architecture, schemas, and rules match the repo (or the design you want built).
+- After `/architect-feature`: problem, outcomes, and acceptance criteria are correct.
+- After `/craftsman-review` or `/craftsman-clean`: if the report is red, `/builder-fix` then review again.
 
 ## Pipeline
 

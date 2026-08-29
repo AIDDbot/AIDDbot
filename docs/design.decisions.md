@@ -4,6 +4,38 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-29 — ABC doors split by job; `/ship-spec` is gone
+
+**Status**: adopted. Supersedes "Craftsman splits into three doors" (2026-08-28) and the
+`/builder-ship` + `/ship-spec` pairing from 2026-08-01.
+
+### Context
+
+One Builder door that specified *and* shipped, plus a shared `/ship-spec` machine, hid the
+handoff the human actually makes: you approve a spec, then someone codes, then someone judges.
+Craftsman's three hunt doors (`refactor` / `drifter` / `craptor`) also mixed detection with
+shipping. Onboarding needed a loop you can walk in order.
+
+### Decision
+
+1. **Architect writes specs.** `/architect-map` documents an existing repo. `/architect-design`
+   designs a greenfield architecture. `/architect-feature` writes a feature spec and stops for
+   the human. Specify is no longer Builder's first step.
+2. **Builder only codes.** `/builder-implement` plans and codes from a validated spec.
+   `/builder-fix` applies a defect report. Neither verifies nor ships.
+3. **Craftsman judges and ships.** `/craftsman-review` runs `/verify` → `/qualify` → `/release`.
+   A red report is a handoff to `/builder-fix`, then review again. `/craftsman-clean` hunts CRAP
+   and lint across the codebase (not per spec) and hands the report to Builder.
+4. **Delete `/ship-spec`.** Shipping lives inside `/craftsman-review`. Drift and directed-refactor
+   doors are parked under `scripts/` until they earn a command again.
+
+### Consequences
+
+- Seven ABC commands plus `/scaffoldify`. Catalog, README, getting-started, and workflow name them.
+- Getting started is a numbered loop: map or design → specify → implement → review.
+- `/builder-ship`, `/craftsman-refactor`, `/craftsman-drifter`, `/craftsman-craptor`, and
+  `/ship-spec` are no longer human doors.
+
 ## 2026-08-29 — `/scaffoldify` is a command after `init`; the skill is the body
 
 **Status**: adopted. Supersedes "`/scaffoldify` is a skill, run after `init`" (same day) and restores the harness door from 2026-08-27.
@@ -71,8 +103,8 @@ Getting started asked for four `tiged` copies, and the optional harness slices w
 
 ## 2026-08-28 — Craftsman splits into three doors
 
-**Status**: adopted. Supersedes "One Craftsman door, two entries" in the 2026-08-01 decision.
-`/ship-spec` as the shared machine still holds.
+**Status**: superseded the next day by "ABC doors split by job; `/ship-spec` is gone".
+`/ship-spec` as the shared machine no longer holds.
 
 ### Context
 
@@ -301,10 +333,9 @@ moment a command changed. Symlinks fail on Windows checkouts without Developer M
 
 ## 2026-08-01 — Craftsman absorbs directed refactor; machine is `/ship-spec`
 
-**Status**: partially superseded by the 2026-08-28 three-door split. `/ship-spec` as the shared
-machine and the deletion of `/spec-refactor` still hold; "one Craftsman door, two entries" does
-not. Supersedes the "internal commands stay" clause of the ABC-doors decision below
-(`/build-spec`, `/spec-refactor`).
+**Status**: superseded by "ABC doors split by job; `/ship-spec` is gone" (2026-08-29). The
+deletion of `/spec-refactor` still holds; `/ship-spec` as a human door does not. Supersedes the
+"internal commands stay" clause of the ABC-doors decision below (`/build-spec`, `/spec-refactor`).
 
 ### Context
 
@@ -338,8 +369,9 @@ changes shape).
 
 ## 2026-08-01 — ABC doors: `/architect-map`, `/builder-ship`, `/craftsman-refactor`
 
-**Status**: adopted. Point 2 (internal `/build-spec` and `/spec-refactor`) superseded by the
-decision above.
+**Status**: superseded by "ABC doors split by job; `/ship-spec` is gone" (2026-08-29). Point 2
+(internal `/build-spec` and `/spec-refactor`) was already superseded by the 2026-08-01
+`/ship-spec` decision.
 
 ### Context
 

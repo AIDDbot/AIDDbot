@@ -24,11 +24,11 @@ AIDDbot addresses that with:
 
 ## ABC workflow
 
-Three roles, one lifecycle:
+Three roles, one loop. Architect writes the spec, Builder writes the code, Craftsman ships it.
 
-- **Architect** — `/architect-map`: maps architecture, schemas, and coding rules
-- **Builder** — `/builder-ship`: turns a requirement into a validated spec, then builds and ships
-- **Craftsman** — `/craftsman-refactor`, `/craftsman-drifter`, `/craftsman-craptor`: apply a directive, fix architecture drift, or clear CRAP
+- **Architect** — `/architect-map` (existing code), `/architect-design` (greenfield), `/architect-feature` (a spec you approve)
+- **Builder** — `/builder-implement` (from a validated spec), `/builder-fix` (from a defect report)
+- **Craftsman** — `/craftsman-review` (verify, qualify, ship), `/craftsman-clean` (CRAP and lint)
 
 You can also run individual skills from the catalog when you want tighter control over each step.
 
@@ -40,9 +40,9 @@ You can also run individual skills from the catalog when you want tighter contro
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then run `/architect-map` once and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor. See [Getting started](docs/getting-started.md).
+Then `/architect-map` once. For each feature: `/architect-feature` (you approve the spec), `/builder-implement`, `/craftsman-review`. See [Getting started](docs/getting-started.md).
 
-**New workshop** — `init` in an empty folder outside this origin, then `/scaffoldify`.
+**New workshop** — `init` in an empty folder outside this origin, then `/scaffoldify`, then `/architect-map`.
 
 ## Documentation
 

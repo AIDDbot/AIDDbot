@@ -1,6 +1,6 @@
 # AIDD Workflow
 
-ABC: Architect, Builder, Craftsman. Three roles, one machine.
+ABC: Architect, Builder, Craftsman. Three roles, one loop.
 
 AIDDbot applies AI-Driven Development with practices teams already trust.  
 This page is the short version.
@@ -14,125 +14,105 @@ A green test changes only through a plan, preventing silent behavior drift.
 `/codify` is the only skill that writes code. `/verify` and `/qualify` only judge and report.
 
 **Every cycle starts from a spec.**  
-What changes is which ABC role opens the door.
+Architect writes it. Builder never starts without one. Craftsman never ships without a green review.
 
 ## ABC
 
 | Role | Command | Job |
 |---|---|---|
-| **Architect** | `/architect-map` | Map what exists before anyone builds |
-| **Builder** | `/builder-ship` | Spec a change, then ship it through `/ship-spec` |
-| **Craftsman** | `/craftsman-refactor` | Apply a structural directive through `/ship-spec` |
-|  | `/craftsman-drifter` | Detect architecture drift, then ship through `/ship-spec` |
-|  | `/craftsman-craptor` | Find CRAP violations, then ship through `/ship-spec` |
+| **Architect** | `/architect-map` | Map an existing codebase before anyone builds |
+|  | `/architect-design` | Design a greenfield architecture and its scaffold spec |
+|  | `/architect-feature` | Write a feature spec and stop for your approval |
+| **Builder** | `/builder-implement` | Plan and code from a validated spec |
+|  | `/builder-fix` | Apply a defect report in code |
+| **Craftsman** | `/craftsman-review` | Verify, qualify, and ship; defects go back to `/builder-fix` |
+|  | `/craftsman-clean` | Hunt CRAP and lint across the codebase, then `/builder-fix` |
 
 ```mermaid
 flowchart LR
   YOU([you])
-  YOU -->|map what exists| ARC["/architect-map"]
-  YOU -->|ship value| BLD["/builder-ship"]
-  YOU -->|apply a directive| REF["/craftsman-refactor"]
-  YOU -->|fix drift| DFT["/craftsman-drifter"]
-  YOU -->|fix CRAP| CRP["/craftsman-craptor"]
-  ARC --> DOC[documentation]
-  BLD --> MACH["/ship-spec"]
-  REF --> MACH
-  DFT --> MACH
-  CRP --> MACH
-  MACH --> REL[released]
+  YOU -->|existing code| MAP["/architect-map"]
+  YOU -->|greenfield| DES["/architect-design"]
+  YOU -->|a feature| FEAT["/architect-feature"]
+  MAP --> FEAT
+  FEAT -->|you approve| IMP["/builder-implement"]
+  DES --> IMP
+  IMP --> REV["/craftsman-review"]
+  REV -->|defects| FIX["/builder-fix"]
+  FIX --> REV
+  REV -->|green| REL[released]
+  YOU -->|hygiene| CLEAN["/craftsman-clean"]
+  CLEAN --> FIX
 ```
 
-Architect goes first. Builder and Craftsman use the same shipping machine.
+Map or design once. Then the feature loop is specify → implement → review.
 
 ## Architect
 
 ```markdown
 /architect-map
+/architect-design
+/architect-feature riders can rate a trip 1 to 5 stars
 ```
 
 ```mermaid
 flowchart LR
   TREE[repo tree + guide files] -->|/explore| SYS[agent rules · architecture · model · PRD shell]
   SRC[container source] -->|/extract × container| DET[container architecture · schemas · coding rules]
+  SYS --> SPEC["/specify"]
+  FEAT[a feature idea] --> SPEC
 ```
 
-- `/explore` reads repo tree and guide files only for the system-level map.
-- `/extract` reads source one container at a time for detailed documentation.
-- Both apply evidence-first behavior: document what exists, ask where evidence is missing.
+- `/architect-map` runs `/explore` once, then `/extract` per container.
+- `/architect-design` runs `/explore`, then `/specify` for the architecture to scaffold.
+- `/architect-feature` runs `/specify` for a feature and **stops so you can read the spec**.
+- All three apply evidence-first behavior: document what exists, ask where evidence is missing.
 
 ## Builder
 
 ```markdown
-/builder-ship riders can rate a trip 1 to 5 stars
+/builder-implement
+/builder-fix
 ```
 
 ```mermaid
 flowchart LR
-  SPEC["/specify"] --> CHECK{you read it}
-  CHECK --> PLAN["/planify"]
-  PLAN --> CODE["/codify"]
-  CODE --> VER["/verify"]
-  VER -->|red| CODE
-  VER -->|green| QLF["/qualify"]
-  QLF -->|failed| CODE
-  QLF -->|passed| REL["/release"]
+  SPEC[validated spec] -->|/planify × container + e2e| PLAN[plans]
+  PLAN -->|/codify| CODE[code + unit tests]
+  RPT[defect report] -->|/codify| CODE
 ```
 
-1. `/specify` writes the spec: problem, outcomes, acceptance criteria.
-2. You approve the spec (the manual checkpoint).
-3. Loops close through `/codify` until verify and qualify are green.
+1. `/builder-implement` plans each affected container plus e2e, then codes from those plans.
+2. `/builder-fix` takes a Craftsman report and codes the fixes. No new spec.
+3. Builder does not run the acceptance suite. That is Craftsman's job.
 
-Builder owns delivery from approved intent to release.
+Builder owns delivery from an approved spec to code that compiles and unit-tests green.
 
 ## Craftsman
 
-Three doors, one machine. Each writes a refactor spec, stops for your check, then `/ship-spec`.
-
-A directive you already hold:
-
 ```markdown
-/craftsman-refactor extract shared validation into one module
-```
-
-Architecture drift against current docs:
-
-```markdown
-/craftsman-drifter
-```
-
-CRAP — cyclomatic complexity and poor test coverage:
-
-```markdown
-/craftsman-craptor
+/craftsman-review
+/craftsman-clean
 ```
 
 ```mermaid
 flowchart LR
-  YOU([you])
-  YOU -->|a directive you hold| REF["/craftsman-refactor"]
-  YOU -->|architecture drift| DFT["/craftsman-drifter"]
-  YOU -->|CRAP| CRP["/craftsman-craptor"]
-  REF --> SPEC["/specify"]
-  DFT -->|/extract × container| SPEC
-  CRP -->|lint · coverage| SPEC
-  SPEC --> CHK{you read it}
-  CHK --> SHIP["/ship-spec"]
+  CODE[implementation] -->|/verify| VER[e2e report]
+  VER -->|defects| FIX["/builder-fix"]
+  VER -->|green| QLF["/qualify"]
+  QLF -->|failed| FIX
+  QLF -->|passed| REL["/release"]
+  BASE[whole codebase] -->|lint · coverage| CLEAN["/craftsman-clean"]
+  CLEAN --> FIX
 ```
 
-`/craftsman-refactor` takes a structural directive you already hold.  
-`/craftsman-drifter` compares each container to current architecture docs.  
-`/craftsman-craptor` hunts cyclomatic complexity and poor coverage.  
-All three ship through `/ship-spec`, which enforces suite non-regression first.
+`/craftsman-review` runs `/verify`, then `/qualify`, then `/release`. A red report is a handoff to `/builder-fix`, not a rewrite of the spec.
 
-## Two spec kinds
+`/craftsman-clean` hunts cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. The report goes to `/builder-fix`.
 
-Both are written by `/specify`; the command names the kind.
+## Specs
 
-| Functional | Refactor |
-|---|---|
-| Starts from a requirement | Starts from a structural directive |
-| Branch: `feat/{spec_key}` | Branch: `refactor/{spec_key}` |
-| Judged by `/verify` + e2e suite | Judged by `/qualify` + `/verify` non-regression |
+Architect names the kind when it calls `/specify`. You review the page, not the kind name.
 
 Status chain:
 
