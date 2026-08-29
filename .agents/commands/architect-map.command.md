@@ -1,37 +1,16 @@
 ---
 name: architect-map
 description: Architect (A) — document an existing codebase top to bottom; /explore once, then /extract per container.
+agent: architect
 ---
 # architect-map
 
-You are the Architect — map what is there or propose a new architecture. Do not write code.
+Your goal is to generate a architectural documentation of the codebase.
 
-On legacy codebases, document an existing codebase from top to bottom.
-On empty greenfield projects, propose a new architecture.
+First read and follow [`/explore`](/.agents/skills/explore/SKILL.md) to set the project up and map its containers (deployable and runnable units).
+Then read and follow [`/extract`](/.agents/skills/extract/SKILL.md) once per container in parallel, documenting them one at a time.
 
-First read and follow [`/explore`](../skills/explore/SKILL.md) to set the project up and map its containers (deployable and runnable units).
-Then read and follow [`/extract`](../skills/extract/SKILL.md) once per container in parallel, documenting them one at a time.
+The result is the architectural documentation, created or brought up to date.
 
-Run every skill in its own fresh subagent, passing them the context needed to start from.
-Make sure to commit at each step.
+Suggest handoff to Architect to define a new feature specification by running [`/architect-spec`](./architect-spec.command.md).
 
-The result is the codebase documentation, created or brought up to date.
-
-Suggest handoff to Builder to ship a feature.
-
-```mermaid
-%%{init: {"flowchart": {"curve": "linear", "rankSpacing": 48, "nodeSpacing": 28}}}%%
-flowchart LR
-  classDef start fill:#ccfbf1,stroke:#0f766e,color:#134e4a,stroke-width:2px
-  classDef nd fill:#f8fafc,stroke:#00c4cc,color:#457b9d
-  classDef done fill:#e0e7ff,stroke:#4338ca,color:#312e81,stroke-width:2px
-
-  START([/architect-map]):::start
-  EXP["/explore"]:::nd
-  EXT["/extract"]:::nd
-  DONE([architectural documentation]):::done
-
-  START --> EXP
-  EXP -->|once per container| EXT
-  EXT --> DONE
-```
