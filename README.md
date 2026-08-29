@@ -37,7 +37,7 @@ You can also run individual skills from the catalog when you want tighter contro
 **Existing project** — from the repo root:
 
 ```bash
-npx github:AIDDbot/AIDDbot init
+npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
 Then run `/architect-map` once and `/builder-ship` for each feature. Run `/craftsman-refactor` with a structural directive, `/craftsman-drifter` when architecture has drifted, or `/craftsman-craptor` when complexity or coverage is poor. See [Getting started](docs/getting-started.md).

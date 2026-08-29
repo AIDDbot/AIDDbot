@@ -14,7 +14,7 @@ Getting started asked for four `tiged` copies, and the optional harness slices w
 
 ### Decision
 
-1. **One command for humans.** `npx github:AIDDbot/AIDDbot init` from the target repo root. `--dry-run` previews; `--force` overwrites differing files; identical files are skipped; other existing files are left alone.
+1. **One command for humans.** `npx --allow-git=all github:AIDDbot/AIDDbot init` from the target repo root. npm 12 defaults `allow-git` to `none`, so the flag is part of the command, not an afterthought. `--dry-run` previews; `--force` overwrites differing files; identical files are skipped; other existing files are left alone.
 2. **No `tiged` on the AIDD overlay.** README and getting-started drop the four-folder copy. `/scaffoldify` still uses `tiged` for back/front/e2e/domain archetypes, and `init` for the overlay.
 3. **Not an npm dependency.** `package.json` is `private`; the script is a one-shot copier, not something the consumer installs.
 
@@ -22,7 +22,7 @@ Getting started asked for four `tiged` copies, and the optional harness slices w
 
 - **Keep `tiged` as a documented fallback** — rejected: two doors for the same copy.
 - **Ask the consumer to run `/adapt`** — rejected: no slash command until adapters exist.
-- **Publish `aiddbot` to npm** — deferred; `npx github:` is enough.
+- **Publish `aiddbot` to npm** — deferred; `npx --allow-git=all github:` avoids a registry package. Revisit if the flag is too ugly for the getting-started story.
 
 ### Consequences
 

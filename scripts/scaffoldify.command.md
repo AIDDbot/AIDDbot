@@ -16,7 +16,7 @@ You never destroy existing work. This command has no skill underneath.
 
 - **Input** — back tech, front tech, e2e tech, and domain. 
 - **Missing args** — are a closed question against `gh repo list AIDDbot`. 
-- **Tools** — archetypes with `npx tiged`; AIDD overlay with `npx github:AIDDbot/AIDDbot init` from the workshop root.
+- **Tools** — archetypes with `npx tiged`; AIDD overlay with `npx --allow-git=all github:AIDDbot/AIDDbot init` from the workshop root.
 - **Sources** 
   — `AIDDbot/back-{tech}` → `back/`; 
   - `AIDDbot/front-{tech}` → `front/`;
@@ -37,7 +37,7 @@ Inventory `back/`, `front/`, `e2e/`, `docs/domain/`, and `.agents/`.
 Fetch what the inventory marked as missing.
 Fetch the AIDD overlay from the workshop root:
 ```bash
-npx github:AIDDbot/AIDDbot init
+npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
 ### Reconcile: 

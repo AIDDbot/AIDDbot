@@ -12,8 +12,10 @@ If you cloned this repository, skip this step — the skills and harness adapter
 From the root of any other project (Node 18+):
 
 ```bash
-npx github:AIDDbot/AIDDbot init
+npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
+
+`--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
 That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`.
 

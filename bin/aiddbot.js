@@ -45,7 +45,7 @@ function parseArgs(argv) {
 
 function help() {
   process.stderr.write(
-    "Usage: npx github:AIDDbot/AIDDbot init [--dry-run] [--force]\nCopies AIDDbot into the current directory. Existing files are left alone unless they match (skipped) or you pass --force.\n"
+    "Usage: npx --allow-git=all github:AIDDbot/AIDDbot init [--dry-run] [--force]\nCopies AIDDbot into the current directory. Existing files are left alone unless they match (skipped) or you pass --force.\n"
   );
 }
 
