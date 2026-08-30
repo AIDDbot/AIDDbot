@@ -27,8 +27,15 @@ const DEFAULTS = {
   e2e: "playwright",
 };
 
-function npxBin() {
-  return process.platform === "win32" ? "npx.cmd" : "npx";
+function npxTiged(repo, dest) {
+  const destArg = dest.split(path.sep).join("/");
+  if (process.platform === "win32") {
+    return spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", `npx --yes tiged ${repo} ${destArg}`], {
+      stdio: "inherit",
+      windowsHide: true,
+    });
+  }
+  return spawnSync("npx", ["--yes", "tiged", repo, destArg], { stdio: "inherit" });
 }
 
 function help() {
@@ -151,11 +158,9 @@ function runTiged(destRoot, repo, dest, dryRun) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   if (fs.existsSync(dest) && !hasContent(dest)) fs.rmdirSync(dest);
   process.stdout.write(`fetch      tiged      ${repo} → ${shown}\n`);
-  const result = spawnSync(npxBin(), ["--yes", "tiged", repo, dest], {
-    stdio: "inherit",
-    windowsHide: true,
-  });
+  const result = npxTiged(repo, dest);
   if (result.status !== 0) {
+    if (result.error) process.stderr.write(`${result.error.message}\n`);
     process.stderr.write(`tiged failed: ${repo}\n`);
     return result.status ?? 1;
   }
