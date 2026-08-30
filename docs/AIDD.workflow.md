@@ -101,12 +101,12 @@ flowchart LR
   VER -->|defects| FIX["/builder-fix"]
   VER -->|green| QLF["/qualify"]
   QLF -->|failed| FIX
-  QLF -->|passed| REL["/release"]
+  QLF -->|passed| REL["/shipify"]
   BASE[whole codebase] -->|lint · coverage| CLEAN["/craftsman-clean"]
   CLEAN --> FIX
 ```
 
-`/craftsman-review` runs `/verify`, then `/qualify`, then `/release`. A red report is a handoff to `/builder-fix`, not a rewrite of the spec.
+`/craftsman-review` runs `/verify`, then `/qualify`, then `/shipify`. A red report is a handoff to `/builder-fix`, not a rewrite of the spec.
 
 `/craftsman-clean` hunts cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. The report goes to `/builder-fix`.
 

@@ -42,7 +42,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Skill | What it does |
 |---|---|
-| [`/release`](./release/) | Version, changelog, reconciled docs, and tag after verification |
+| [`/shipify`](./shipify/) | Version, changelog, reconciled docs, and tag after qualification |
 
 ## Meta
 
@@ -59,7 +59,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 | [`architect-feature`](../commands/architect-feature.command.md) | Architect: write a feature spec and stop for human review |
 | [`builder-implement`](../commands/builder-implement.command.md) | Builder: `/planify` then `/codify` from a validated spec |
 | [`builder-fix`](../commands/builder-fix.command.md) | Builder: `/codify` from a defect report |
-| [`craftsman-review`](../commands/craftsman-review.command.md) | Craftsman: `/verify` → `/qualify` → `/release`; defects go to `/builder-fix` |
+| [`craftsman-review`](../commands/craftsman-review.command.md) | Craftsman: `/verify` → `/qualify` → `/shipify`; defects go to `/builder-fix` |
 | [`craftsman-clean`](../commands/craftsman-clean.command.md) | Craftsman: hunt CRAP and lint across the codebase; the report goes to `/builder-fix` |
 | [`scaffoldify`](../commands/scaffoldify.command.md) | After `init`, fetch workshop archetypes, reconcile, verify the tracer, and report |
 
@@ -74,7 +74,7 @@ You review only at key checkpoints:
 ## Pipeline
 
 ```markdown
-/explore → /extract (×container) → /specify → /planify (×container) → /codify (×container) → /verify → /qualify → /release
+/explore → /extract (×container) → /specify → /planify (×container) → /codify (×container) → /verify → /qualify → /shipify
 ```
 
 Status chain:

@@ -13,6 +13,6 @@ If there are defects, handoff to Builder agent to fix the defects by running [`/
 Then read and follow [`/qualify`](/.agents/skills/qualify/SKILL.md) to grade the quality of the code and generate a report from that.
 If a gate fails, handoff to Builder agent to fix the defects by running [`/builder-fix`](./builder-fix.command.md) command with the report in hand.
 
-Finally, read and follow [`/ship`](/.agents/skills/ship/SKILL.md) to ship the code and document the changes.
+Finally, read and follow [`/shipify`](/.agents/skills/shipify/SKILL.md) to ship the code and document the changes.
 
 The result is the code verified, qualified and shipped, ready to be released.

@@ -4,6 +4,25 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-30 — `/release` is `/shipify`; status stays `released`
+
+**Status**: adopted. Unparks the `-ify` rename for this skill only.
+
+### Context
+
+`/release` collided with git tags, GitHub Releases, and the spec status `released`. The Craftsman command already said `/ship`. The house already uses `planify` and `skillify`.
+
+### Decision
+
+1. **Skill is `/shipify`.** Same job: SemVer, changelog, architecture, tag, close the spec.
+2. **Status stays `released`.** Like `planify` → `planned`, the skill name is not the status word.
+3. **The git commit stays `chore: release {version}`.** That word belongs to SemVer, not to the skill slug.
+
+### Rejected
+
+- Rename the status to `shipped` — `released` is the lifecycle word; the version is a release.
+- Rename `verify` and `qualify` in the same pass — they collide with statuses too, but not with git.
+
 ## 2026-08-30 — Spec kinds are `functional` and `technical`; series `F` / `T`
 
 **Status**: adopted. Supersedes "`/specify` owns both kinds; `F` / `R` series" (2026-07-29).

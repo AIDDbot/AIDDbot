@@ -1,6 +1,6 @@
 ---
 source: qualify
-target: {/release | /codify}   # green → /release · red → /codify
+target: {/shipify | /codify}   # green → /shipify · red → /codify
 scope: {spec_key | branch | paths}
 run: {ISO date}
 status: {green | red}
