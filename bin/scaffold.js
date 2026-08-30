@@ -5,6 +5,7 @@ const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
 const { sourceRoot, refuseOrigin, runOverlay } = require("./lib/overlay");
+const { ensureGit } = require("./lib/git");
 
 const VALUE_FLAGS = {
   "--dest": "dest",
@@ -27,15 +28,27 @@ const DEFAULTS = {
   e2e: "playwright",
 };
 
-function npxTiged(repo, dest) {
+function isolatedEnv() {
+  const env = { ...process.env };
+  for (const key of Object.keys(env)) {
+    if (/^npm_/i.test(key)) delete env[key];
+  }
+  return env;
+}
+
+function npxTiged(repo, dest, cwd) {
   const destArg = dest.split(path.sep).join("/");
+  const args = ["--yes", "--package=tiged", "--", "tiged", repo, destArg];
+  const env = isolatedEnv();
   if (process.platform === "win32") {
-    return spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", `npx --yes tiged ${repo} ${destArg}`], {
+    return spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], {
       stdio: "inherit",
       windowsHide: true,
+      env,
+      cwd,
     });
   }
-  return spawnSync("npx", ["--yes", "tiged", repo, destArg], { stdio: "inherit" });
+  return spawnSync("npx", args, { stdio: "inherit", env, cwd });
 }
 
 function help() {
@@ -124,26 +137,6 @@ function hasContent(dir) {
   }
 }
 
-function ensureGit(destRoot, dryRun) {
-  const gitDir = path.join(destRoot, ".git");
-  if (fs.existsSync(gitDir)) {
-    process.stdout.write("git        skip       already a repo\n");
-    return;
-  }
-  if (dryRun) {
-    process.stdout.write("git        create     git init\n");
-    return;
-  }
-  fs.mkdirSync(destRoot, { recursive: true });
-  const result = spawnSync("git", ["init"], { cwd: destRoot, encoding: "utf8" });
-  if (result.status !== 0) {
-    process.stderr.write("git init failed; continuing without a repo.\n");
-    if (result.stderr) process.stderr.write(result.stderr);
-    return;
-  }
-  process.stdout.write("git        create     git init\n");
-}
-
 function displayRel(destRoot, dest) {
   const rel = path.relative(destRoot, dest);
   return (rel || ".").split(path.sep).join("/");
@@ -158,7 +151,7 @@ function runTiged(destRoot, repo, dest, dryRun) {
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   if (fs.existsSync(dest) && !hasContent(dest)) fs.rmdirSync(dest);
   process.stdout.write(`fetch      tiged      ${repo} → ${shown}\n`);
-  const result = npxTiged(repo, dest);
+  const result = npxTiged(repo, dest, destRoot);
   if (result.status !== 0) {
     if (result.error) process.stderr.write(`${result.error.message}\n`);
     process.stderr.write(`tiged failed: ${repo}\n`);
@@ -252,5 +245,5 @@ for (const piece of pieces) {
   if (status !== 0) process.exit(status);
 }
 process.stdout.write("overlay    aiddbot.js\n");
-const conflicts = runOverlay(destRoot, opts);
+const { conflicts } = runOverlay(destRoot, opts);
 process.exit(conflicts ? 2 : 0);

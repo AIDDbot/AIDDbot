@@ -142,7 +142,9 @@ function applyOverlay(destRoot, rows) {
 function runOverlay(destRoot, { dryRun, force }) {
   const rows = overlayInventory(destRoot, force);
   if (!dryRun) applyOverlay(destRoot, rows);
-  return printInventory(rows);
+  const conflicts = printInventory(rows);
+  const written = rows.filter((row) => row.action === "create" || row.action === "overwritten").map((row) => row.file);
+  return { conflicts, written };
 }
 
 module.exports = { sourceRoot, refuseOrigin, runOverlay };
