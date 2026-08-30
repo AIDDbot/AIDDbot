@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Your goal is to grade the code against pass/fail quality gates and write a report carrying each verdict.
 
-Report only — never edit code. Scope is the spec in flight, by default the changes on the current branch. If the build, the linter, or the type checker is red, write the report and stop; do not open a gate. Run `lint` before any gate that needs you to read code; an unconfigured script is `n/a`, not a fail. Never spend passes on what the linter already catches. A gate passes only when you can say what you checked it against; one violation fails it. A container rule being written down does not mean it was applied. Findings correct the implementation, never the behavior.
+Report only — never edit code. Scope is the spec in flight, by default the changes on the current branch. A gate passes only when you can say what you checked it against; one violation fails it. A container rule being written down does not mean it was applied. Findings correct the implementation, never the behavior.
 
 A green run means `qualified`; anything red means `in-progress`. On a technical spec, judge its criteria against the gates they name.
 

@@ -34,7 +34,7 @@ C4Container
 ### Scripts
 ```bash
 # commands to compile, test, format, lint, etc.
-# optional: lint — `/qualify` runs this before reading code
+# optional: lint — `/codify` runs this
 ```
 
 ---
