@@ -77,12 +77,12 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  SPEC[validated spec] -->|/planify × container + e2e| PLAN[plans]
+  SPEC[validated spec] -->|/planify × container| PLAN[plans]
   PLAN -->|/codify| CODE[code + unit tests]
   RPT[defect report] -->|/codify| CODE
 ```
 
-1. `/builder-implement` plans each affected container plus e2e, then codes from those plans.
+1. `/builder-implement` plans each affected container (and e2e when the spec is functional), then codes from those plans.
 2. `/builder-fix` takes a Craftsman report and codes the fixes. No new spec.
 3. Builder does not run the acceptance suite. That is Craftsman's job.
 

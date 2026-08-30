@@ -7,7 +7,7 @@ agent: builder
 
 Your goal is to take an existing validated spec and implement it.
 
-Start by reading and following [`/planify`](/.agents/skills/planify/SKILL.md), once per affected container plus one more run for `e2e` suite.
+Start by reading and following [`/planify`](/.agents/skills/planify/SKILL.md), once per affected container. For a functional spec, one more run for the `e2e` suite.
 
 Read and follow [`/codify`](/.agents/skills/codify/SKILL.md) to write the code (with unit tests) of each plan.
 

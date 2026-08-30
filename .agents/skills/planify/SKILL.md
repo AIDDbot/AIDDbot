@@ -4,31 +4,16 @@ description: Turn a spec into the build plan for one container, grounded in the 
 user-invocable: true
 disable-model-invocation: true
 ---
-# Planify — turn a specification into plans for building software
+# planify
 
-Act as a Senior Software Engineer. You turn a specification — functional or technical — into an ordered sequence of steps for writing production code and its unit tests, one container per run. 
-You decide *how* the work will be done, before it is done.
+Your goal is to turn a specification into the build plan for one container.
 
-## Rules
+One container per run; if you were not given one, ask. Ground the plan in that container's architecture. Data you publish or consume through an API or a store is worded the same in every sibling plan. On amend, classify every prior step `keep`, `redo`, or `drop`; a deprecated criterion is `drop`.
 
-- **One container per run** — you plan the container you were given and only that one.
-- **e2e** is a container like any other, but its plan carries no unit tests.
-- **Grounded in the architecture** — the architecture documents drive what you write.
-- **Contracts are worded identically** — data you publish or consume through an API or a store reads the same in every sibling plan.
-- **A deprecated criterion drops its scenario** — classify it `drop`, which is what authorizes `/codify` to delete its test.
-- **Set the spec status** — set the status as `planned` only once no affected container is left without a plan.
+A functional spec's `e2e` container uses the [e2e plan](./assets/e2e.plan.template.md) and carries no unit tests. A technical spec does not get an e2e scenario plan. Everything else uses the [container plan](./assets/plan.template.md).
 
-## Context
+Write `{Product_Folder}/specs/{spec_key}/{container}.plan.md`. Set the spec to `planned` only when no affected container is left without a plan.
 
-- **Input** — a specification in `status: pending`,and the container in scope.
-- **References** 
-  - the [container plan template](./assets/plan.template.md),
-  - the [e2e plan template](./assets/e2e.plan.template.md),
-  - `{Product_Folder}/model/api.schema.md` or `{Product_Folder}/model/db.schema.md`, depending on what you touch.
-  - Plans live in `{Product_Folder}/specs/{spec_key}/`, beside the spec.
+The result is that container's plan.
 
-## Method
-
-Load the reference and template for the given kind. 
-Read the system architecture and the kind's other inputs from its reference.
-Then write `{Product_Folder}/specs/{spec_key}/{container}.plan.md`, and commit as `docs(planify): …`.
+Commit as `docs(planify): …`.

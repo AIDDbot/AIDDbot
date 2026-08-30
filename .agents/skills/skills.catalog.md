@@ -28,7 +28,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Skill | What it does |
 |---|---|
-| [`/planify`](./planify/) | One implementation plan per container from the approved spec |
+| [`/planify`](./planify/) | One implementation plan per affected container; e2e only for a functional spec |
 | [`/codify`](./codify/) | The only skill that writes code, unit tests, and e2e suite updates |
 
 ## Prove
