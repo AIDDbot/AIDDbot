@@ -4,6 +4,25 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-30 — `/scaffoldify` is the command; there is no skill
+
+**Status**: adopted. Supersedes "`/scaffoldify` is a command after `init`; the skill is the body" (2026-08-29).
+
+### Context
+
+The command was a one-line pointer at a skill that ran `aiddbot-scaffold` and then reconciled. Two files for one door. No other command reused the skill.
+
+### Decision
+
+1. **Command is the body.** [`.agents/commands/scaffoldify.command.md`](../.agents/commands/scaffoldify.command.md) asks, fetches via `aiddbot-scaffold`, reconciles, verifies the tracer, and writes a short report. No `SKILL.md`.
+2. **Report lives in the command.** The outline for `docs/scaffold.report.md` is in the command, not a template under skills.
+3. **Refuse the origin.** Unchanged.
+
+### Consequences
+
+- Catalog Commands still lists `/scaffoldify`; Meta keeps `/skillify` only.
+- Getting started is unchanged: `init`, then `/scaffoldify`.
+
 ## 2026-08-29 — ABC doors split by job; `/ship-spec` is gone
 
 **Status**: adopted. Supersedes "Craftsman splits into three doors" (2026-08-28) and the
@@ -38,7 +57,7 @@ shipping. Onboarding needed a loop you can walk in order.
 
 ## 2026-08-29 — `/scaffoldify` is a command after `init`; the skill is the body
 
-**Status**: adopted. Supersedes "`/scaffoldify` is a skill, run after `init`" (same day) and restores the harness door from 2026-08-27.
+**Status**: superseded on 2026-08-30 by "`/scaffoldify` is the command; there is no skill". Superseded "`/scaffoldify` is a skill, run after `init`" (same day) and restored the harness door from 2026-08-27.
 
 ### Context
 
