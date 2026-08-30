@@ -22,7 +22,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Skill | What it does |
 |---|---|
-| [`/specify`](./specify/) | Writes a spec; the caller names the kind |
+| [`/specify`](./specify/) | Writes a spec; the caller names the kind — `functional` or `technical` |
 
 ## Build
 

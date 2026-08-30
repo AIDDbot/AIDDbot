@@ -4,6 +4,25 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-08-30 — Spec kinds are `functional` and `technical`; series `F` / `T`
+
+**Status**: adopted. Supersedes "`/specify` owns both kinds; `F` / `R` series" (2026-07-29).
+
+### Context
+
+`kind: refactor` named Fowler's case and hid the others: architecture scaffolding, tooling, boilerplate. `/architect-design` already passed `kind: technical`.
+
+### Decision
+
+1. **Two kinds.** `/specify` takes `functional` or `technical`. Functional draws `F001`…; technical draws `T001`….
+2. **Technical is not a product feature.** No PRD line, no functional e2e. It still runs plan → code → review.
+3. **Doors.** `/architect-feature` passes `kind: functional`; `/architect-design` passes `kind: technical`.
+
+### Consequences
+
+- `specify/references/technical.md` and `technical.spec.template.md` replace the refactor pair.
+- A technical spec uses `chore/{spec_key}`; a functional spec uses `feat/{spec_key}`.
+
 ## 2026-08-30 — `/scaffoldify` is the command; there is no skill
 
 **Status**: adopted. Supersedes "`/scaffoldify` is a command after `init`; the skill is the body" (2026-08-29).

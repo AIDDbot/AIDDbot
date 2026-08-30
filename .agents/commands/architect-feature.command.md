@@ -7,7 +7,7 @@ agent: architect
 
 Your goal is to write a specification for a feature or scaffolding solution.
 
-Read and follow [`/specify`](/.agents/skills/specify/SKILL.md) with `kind: feature` to write a new specification for the feature.
+Read and follow [`/specify`](/.agents/skills/specify/SKILL.md) with `kind: functional` to write a new specification for the feature.
 
 Then ask the human to check the result before going any further. Wait for approval before going any further.
 

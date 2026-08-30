@@ -112,7 +112,7 @@ flowchart LR
 
 ## Specs
 
-Architect names the kind when it calls `/specify`. You review the page, not the kind name.
+Architect names the kind when it calls `/specify`: `functional` (product change — PRD and e2e) or `technical` (engineering work — plans and review, no PRD, no functional e2e). You review the page, not the kind name.
 
 Status chain:
 

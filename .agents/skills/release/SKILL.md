@@ -16,7 +16,7 @@ You are the last gate before code becomes a tagged release.
 - **Merge, then tag** — the tag marks default's post-merge tip, never a branch commit.
 - **Prune after merging** — delete the merged working branch so its key is free again.
 - **The PRD is not yours** — its shell belongs to `/explore` and its lines to `/specify`.
-- **A refactor still moves the architecture** — it rarely touches the changelog, but it almost always leaves the architecture of the container it cleaned out of date.
+- **A technical spec still moves the architecture** — it rarely touches the changelog, but it almost always leaves the architecture of the container it touched out of date.
 
 ## Context
 

@@ -25,7 +25,7 @@ status: {green | red}
 
 ## Criteria
 
-{Refactor specs only — omit this section for a functional spec.}
+{Technical specs only — omit this section for a functional spec.}
 
 | Criterion | Judge | Verdict |
 |-----------|-------|---------|
@@ -47,7 +47,7 @@ status: {green | red}
 
 ## Accumulated decay
 
-{Candidates for their own refactor spec — they fail no gate.}
+{Candidates for their own technical spec — they fail no gate.}
 
 - {what decayed, and where}
 

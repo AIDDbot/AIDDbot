@@ -51,7 +51,7 @@ Align to the project's design system — its tokens, spacing, and type scale —
 
 ## Component architecture
 
-A pure extraction that renders identical DOM is `/codify`; a look that must change to unify pages is `/specify` (`kind: functional`); a concept re-built across the whole app is a candidate for `/specify` (`kind: refactor`).
+A pure extraction that renders identical DOM is `/codify`; a look that must change to unify pages is `/specify` (`kind: functional`); a concept re-built across the whole app is a candidate for `/specify` (`kind: technical`).
 
 | Pattern | Signal | Change |
 |---------|--------|--------|

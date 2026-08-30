@@ -3,7 +3,7 @@
 ## Rules
 
 - **Closed list** — the gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
-- **Accumulated decay is not a fail** — what only shows by adding several specs together is a candidate for its own refactor spec; never fail a gate on it.
+- **Accumulated decay is not a fail** — what only shows by adding several specs together is a candidate for its own technical spec; never fail a gate on it.
 
 ## Severity
 
