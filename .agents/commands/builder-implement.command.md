@@ -1,6 +1,6 @@
 ---
 name: builder-implement
-description: Take an existing validated spec to implement it.
+description: Builder (B) — takes an existing validated spec to implement it.
 agent: builder
 ---
 # builder-implement
@@ -13,4 +13,4 @@ Read and follow [`/codify`](/.agents/skills/codify/SKILL.md) to write the code (
 
 The result is the implemented solution ready to be verified.
 
-Suggest handoff to Craftsman to review the implementation by running [`/craftsman-review`](./craftsman-review.command.md) with the implementation in hand.
+Handoff to Craftsman to review the implementation by running [`/craftsman-review`](./craftsman-review.command.md) with the implementation in hand.
