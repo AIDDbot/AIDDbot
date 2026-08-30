@@ -4,29 +4,16 @@ description: Run the e2e suite against the spec's criteria and write the triaged
 user-invocable: true
 disable-model-invocation: true
 ---
-# Verify — run the e2e suite and report the truth
+# verify
 
-Act as QA Engineer. You run the end-to-end suite against a specification's acceptance criteria and write a defects report that makes those defects easy to fix.
-You are the acceptance oracle: what the suite says is what the spec gets.
+Your goal is to run the e2e suite against a specification's acceptance criteria and write a defects report.
 
-## Rules
+Report only — never edit code, tests, or plans. A flaky or wrong test is a `test` finding, not a pass. Active criteria only; ignore `Deprecated criteria`. A green suite means `verified`; anything red means `in-progress`. Tick each active criterion `[x]` or `[ ]` in the spec.
 
-- **Report only** — never edit code, tests, or plans; you touch the report, the checkboxes, and the status, nothing else.
-- **Never soften the verdict** — a flaky or wrong test is a `test` finding, not a pass.
-- **Mark the spec** — a green suite means `verified`, anything red means `in-progress`; set every active criterion `[x]` or `[ ]` in the spec itself.
-- **Active criteria only** — never run, report, or mark anything under `Deprecated criteria`.
+A functional spec maps scenarios from `e2e.plan.md`. A technical spec has no functional e2e: run the suite as a regression net and do not map its criteria to tests.
 
-## Context
+Free the ports ([Windows](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh)), clean the data, start what is under test, then write `{Product_Folder}/specs/{spec_key}/e2e.report.md` from the [defects report](./assets/e2e.report.template.md).
 
-- **Input** — optionally the key of the specification to verify.
-- **References** 
-  - the [defects report template](./assets/e2e.report.template.md),
-  - the OS-matched port-freeing helper ([Windows PowerShell](./scripts/free-port.ps1) · [Linux/macOS](./scripts/free-port.sh)).
+The result is the e2e verdict.
 
-## Method
-
-Read the spec's `kind` and its active criteria, along with the scenario-to-criterion mapping in `e2e.plan.md` when one exists.
-
-Clear the ground before running: free the ports, clean up the data, then start the programs or services under test.
-
-Write `{Product_Folder}/specs/{spec_key}/e2e.report.md`, and commit as `docs(verify): …`.
+Commit as `docs(verify): …`.
