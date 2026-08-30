@@ -124,16 +124,17 @@ report — never guess a value.
 | Harness | Folder | File | Frontmatter | Body |
 | --- | --- | --- | --- | --- |
 | Claude Code | `.claude/commands/` | `{name}.md` | `description`, `argument-hint`, `allowed-tools`, `context: fork`, `agent` (verbatim from source), `background: false`. No `model` | `<marker>`<br>`Read and execute the instructions in @.agents/commands/{name}.command.md`<br><br>`Arguments: $ARGUMENTS` |
-| Cursor | `.cursor/commands/` | `{name}.md` | none (Cursor commands have no agent or model field) | `<marker>`<br>`<!-- agent: Cursor commands cannot pin an agent — select the {agent} agent, or ask Agent to use the {agent} subagent. -->`<br>`**{description}**`<br><br>`Use the `{agent}` subagent.`<br><br>`Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
+| Cursor | `.cursor/commands/` | `{name}.md` | none (Cursor commands have no agent or model field) | `<marker>`<br>`<!-- agent: Cursor commands cannot pin an agent — this command must run as the {agent} subagent. -->`<br>`**{description}**`<br><br>`This command must be executed by the `{agent}` subagent. If this session is not `{agent}`, launch that subagent with the prompt below and stop — do not do the work yourself. If this session already is `{agent}`, follow the prompt below.`<br><br>`Prompt: Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
 | GitHub Copilot | `.github/prompts/` | `{name}.prompt.md` | `description`, `agent` (the custom-agent name from source — never `ask`/`plan`/`agent` unless that is the source value), `tools` (from `allowed-tools`). No `model`, no `mode` | `<marker>`<br>`Read and follow the instructions in [.agents/commands/{name}.command.md](../../.agents/commands/{name}.command.md).` |
 
 > **Claude forks so the command actually runs as that subagent.**
 > `context: fork` + `agent: {name}` is how Claude Code commands pin an
 > agent; `background: false` keeps the turn in the foreground so the
 > human sees the work. Cursor has no equivalent field, so the adapter
-> names the subagent in the body and leaves a pick-an-agent comment.
-> Copilot prompts take `agent:` as the custom agent in `.github/agents/`
-> — that is the field to set, not `mode` and not `model`.
+> tells the parent to launch the named subagent and not do the work
+> itself (unless the session already is that agent). Copilot prompts
+> take `agent:` as the custom agent in `.github/agents/` — that is the
+> field to set, not `mode` and not `model`.
 
 ### Mapping — Rules
 
@@ -188,7 +189,7 @@ asks):
 - Any naming collisions with non-managed files
 - Any command whose `agent` is missing (skipped) or names no matching agent source
 - Any agent whose `model` tier could not be mapped (Cursor / Copilot) — those adapters carry a pick-a-model comment
-- Reminder (once, not per file): Cursor commands cannot pin `agent` in frontmatter — Copilot (`agent:`) and Claude (`context: fork` + `agent:`) can
+- Reminder (once, not per file): Cursor commands cannot pin `agent` in frontmatter — their body requires launching the named subagent. Copilot (`agent:`) and Claude (`context: fork` + `agent:`) can pin it
 - Confirmation that a second immediate run would report "nothing to do"
 
 ## Verification

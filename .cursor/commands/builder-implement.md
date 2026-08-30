@@ -1,7 +1,7 @@
 <!-- managed by /adapt — do not edit here, edit .agents/commands/builder-implement.command.md instead -->
-<!-- agent: Cursor commands cannot pin an agent — select the builder agent, or ask Agent to use the builder subagent. -->
-**Take an existing validated spec to implement it.**
+<!-- agent: Cursor commands cannot pin an agent — this command must run as the builder subagent. -->
+**Builder (B) — takes an existing validated spec to implement it.**
 
-Use the `builder` subagent.
+This command must be executed by the `builder` subagent. If this session is not `builder`, launch that subagent with the prompt below and stop — do not do the work yourself. If this session already is `builder`, follow the prompt below.
 
-Read and follow the instructions in `.agents/commands/builder-implement.command.md`.
+Prompt: Read and follow the instructions in `.agents/commands/builder-implement.command.md`.
