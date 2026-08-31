@@ -8,6 +8,7 @@ const sourceRoot = path.resolve(__dirname, "../..");
 const TREES = [
   ".agents/agents",
   ".agents/commands",
+  ".agents/hooks",
   ".agents/rules",
   ".agents/skills",
   ".claude/agents",
@@ -15,6 +16,7 @@ const TREES = [
   ".claude/rules",
   ".cursor/agents",
   ".cursor/commands",
+  ".cursor/hooks.json",
   ".cursor/rules",
   ".github/prompts",
   ".github/agents",
@@ -52,18 +54,29 @@ function shouldSkip(relPosix) {
   return parts.includes(".git") || parts.includes("node_modules");
 }
 
-function walkFiles(absDir, relPosix, out) {
+function walkFiles(absPath, relPosix, out) {
   if (shouldSkip(relPosix)) return;
+  let stat;
+  try {
+    stat = fs.lstatSync(absPath);
+  } catch {
+    return;
+  }
+  if (stat.isFile()) {
+    out.push(relPosix);
+    return;
+  }
+  if (!stat.isDirectory()) return;
   let entries;
   try {
-    entries = fs.readdirSync(absDir, { withFileTypes: true });
+    entries = fs.readdirSync(absPath, { withFileTypes: true });
   } catch {
     return;
   }
   entries.sort((a, b) => a.name.localeCompare(b.name));
   for (const ent of entries) {
     const childRel = relPosix ? `${relPosix}/${ent.name}` : ent.name;
-    const childAbs = path.join(absDir, ent.name);
+    const childAbs = path.join(absPath, ent.name);
     if (ent.isDirectory()) walkFiles(childAbs, childRel, out);
     else if (ent.isFile() && !shouldSkip(childRel)) out.push(childRel);
   }
