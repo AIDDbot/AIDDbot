@@ -13,6 +13,8 @@ const VALUE_FLAGS = {
   "--front": "front",
   "--e2e": "e2e",
   "--domain": "domain",
+  "--cli": "cli",
+  "--app": "app",
 };
 
 const CATALOG = {
@@ -20,6 +22,7 @@ const CATALOG = {
   front: ["standard"],
   e2e: ["playwright"],
   domain: ["astro-bookings", "acorn-bank", "adventure-bazaar", "alpine-basecamp"],
+  cli: ["node"],
 };
 
 const DEFAULTS = {
@@ -57,28 +60,39 @@ function help() {
   npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain NAME [options]
 
 Fetch workshop archetypes, git init if needed, then copy the AIDD overlay (same as bin/aiddbot.js).
---domain is required. Back, front, and e2e default to express, standard, and playwright.
+--domain is required (any slug; samples listed below). Workshop profile: back, front, and e2e
+default to express, standard, and playwright. CLI profile: --cli node. Other app models:
+--app NAME fetches AIDDbot/NAME → NAME/. Slugs not in the catalog are accepted as given.
 Existing archetype folders are left alone.
 
 Options
   --dest DIR     Workshop root (default: current directory).
                  Must not be the AIDDbot origin or a folder inside it.
-  --back TECH    AIDDbot/back-{TECH} → back/     (${CATALOG.back.join(", ")})
-  --front TECH   AIDDbot/front-{TECH} → front/   (${CATALOG.front.join(", ")})
-  --e2e TECH     AIDDbot/e2e-{TECH} → e2e/       (${CATALOG.e2e.join(", ")})
-  --domain NAME  AIDDbot/domain-samples/{NAME} → docs/domain/
-                 (${CATALOG.domain.join(", ")})
+  --back TECH    AIDDbot/back-{TECH} → back/     (catalog: ${CATALOG.back.join(", ")})
+  --front TECH   AIDDbot/front-{TECH} → front/   (catalog: ${CATALOG.front.join(", ")})
+  --e2e TECH     AIDDbot/e2e-{TECH} → e2e/       (catalog: ${CATALOG.e2e.join(", ")})
+  --cli TECH     AIDDbot/cli-{TECH} → cli/       (catalog: ${CATALOG.cli.join(", ")})
+  --app NAME     AIDDbot/{NAME} → {NAME}/        (any slug; not in catalog)
+  --domain NAME  domain sample when catalogued → docs/domain/
+                 (samples: ${CATALOG.domain.join(", ")}; any other slug skips the fetch)
   --dry-run      Print the plan; write nothing
   --force        Overlay only: overwrite differing AIDD files
   --list         Print the catalog and exit
 
-Example
+Examples
   node bin/scaffold.js --dest ../workshop --domain alpine-basecamp
+  node bin/scaffold.js --dest ../cli-tool --domain acorn-bank --cli node
+  node bin/scaffold.js --dest ../custom --domain pet-hotel --app my-stack
 `);
 }
 
 function catalogValue(key, value) {
-  return key === "dest" ? value : value.toLowerCase();
+  if (key === "dest") return value;
+  return value.toLowerCase();
+}
+
+function isSlug(value) {
+  return /^[a-z0-9][a-z0-9-]*$/.test(value);
 }
 
 function parseArgs(argv) {
@@ -88,6 +102,8 @@ function parseArgs(argv) {
     front: null,
     e2e: null,
     domain: null,
+    cli: null,
+    app: null,
     dryRun: false,
     force: false,
     list: false,
@@ -170,10 +186,16 @@ function fetchPiece(destRoot, repo, dest, dryRun) {
 
 function piecesFrom(opts, destRoot) {
   const pieces = [];
-  if (opts.back) pieces.push({ repo: `AIDDbot/back-${opts.back}`, dest: path.join(destRoot, "back") });
-  if (opts.front) pieces.push({ repo: `AIDDbot/front-${opts.front}`, dest: path.join(destRoot, "front") });
-  if (opts.e2e) pieces.push({ repo: `AIDDbot/e2e-${opts.e2e}`, dest: path.join(destRoot, "e2e") });
-  if (opts.domain) {
+  if (opts.app) {
+    pieces.push({ repo: `AIDDbot/${opts.app}`, dest: path.join(destRoot, opts.app) });
+  } else if (opts.cli) {
+    pieces.push({ repo: `AIDDbot/cli-${opts.cli}`, dest: path.join(destRoot, "cli") });
+  } else {
+    if (opts.back) pieces.push({ repo: `AIDDbot/back-${opts.back}`, dest: path.join(destRoot, "back") });
+    if (opts.front) pieces.push({ repo: `AIDDbot/front-${opts.front}`, dest: path.join(destRoot, "front") });
+    if (opts.e2e) pieces.push({ repo: `AIDDbot/e2e-${opts.e2e}`, dest: path.join(destRoot, "e2e") });
+  }
+  if (opts.domain && CATALOG.domain.includes(opts.domain)) {
     pieces.push({
       repo: `AIDDbot/domain-samples/${opts.domain}`,
       dest: path.join(destRoot, "docs", "domain"),
@@ -183,14 +205,20 @@ function piecesFrom(opts, destRoot) {
 }
 
 function listCatalog() {
-  process.stdout.write(`--back     ${CATALOG.back.join(", ")}\n`);
-  process.stdout.write(`--front    ${CATALOG.front.join(", ")}\n`);
-  process.stdout.write(`--e2e      ${CATALOG.e2e.join(", ")}\n`);
-  process.stdout.write(`--domain   ${CATALOG.domain.join(", ")}\n`);
+  process.stdout.write(`profile    workshop (default): --back, --front, --e2e\n`);
+  process.stdout.write(`           cli: --cli node\n`);
+  process.stdout.write(`           other: --app NAME (any AIDDbot repo slug)\n`);
+  process.stdout.write(`--back     ${CATALOG.back.join(", ")} (or any slug)\n`);
+  process.stdout.write(`--front    ${CATALOG.front.join(", ")} (or any slug)\n`);
+  process.stdout.write(`--e2e      ${CATALOG.e2e.join(", ")} (or any slug)\n`);
+  process.stdout.write(`--cli      ${CATALOG.cli.join(", ")} (or any slug)\n`);
+  process.stdout.write(`--app      any AIDDbot repo slug → ./{slug}/\n`);
+  process.stdout.write(`--domain   samples: ${CATALOG.domain.join(", ")} (or any slug; custom skips fetch)\n`);
   return 0;
 }
 
 function applyDefaults(opts) {
+  if (opts.cli || opts.app) return opts;
   for (const key of Object.keys(DEFAULTS)) {
     if (!opts[key]) opts[key] = DEFAULTS[key];
   }
@@ -198,14 +226,23 @@ function applyDefaults(opts) {
 }
 
 function validateCatalog(opts) {
-  for (const key of Object.keys(CATALOG)) {
+  for (const key of ["back", "front", "e2e", "cli", "app", "domain"]) {
     const value = opts[key];
     if (!value) continue;
-    if (!CATALOG[key].includes(value)) {
-      return `Unknown --${key} "${value}". Choose: ${CATALOG[key].join(", ")}`;
-    }
+    if (!isSlug(value)) return `Invalid --${key} "${value}" (use lowercase letters, digits, hyphens)`;
+  }
+  if (opts.cli && opts.app) return "Use --cli or --app, not both";
+  if (opts.cli && (opts.back || opts.front || opts.e2e)) return "Use --cli or back/front/e2e, not both";
+  if (opts.app && (opts.back || opts.front || opts.e2e)) return "Use --app or back/front/e2e, not both";
+  if (!opts.cli && !opts.app && !opts.back && !opts.front && !opts.e2e) {
+    return "Pass --cli, --app NAME, or omit flags for the default workshop (back, front, e2e)";
   }
   return null;
+}
+
+function noteCustomDomain(opts) {
+  if (!opts.domain || CATALOG.domain.includes(opts.domain)) return;
+  process.stdout.write(`domain     custom     "${opts.domain}" (no sample fetch)\n`);
 }
 
 const parsed = parseArgs(process.argv.slice(2));
@@ -228,7 +265,7 @@ if (invalid) {
 
 const destRoot = path.resolve(opts.dest ?? process.cwd());
 if (!opts.domain) {
-  process.stderr.write(`--domain is required. Choose: ${CATALOG.domain.join(", ")}\n`);
+  process.stderr.write(`--domain is required (samples: ${CATALOG.domain.join(", ")}; any slug accepted)\n`);
   help();
   process.exit(1);
 }
@@ -238,6 +275,7 @@ const pieces = piecesFrom(opts, destRoot);
 
 process.stdout.write(`source     ${sourceRoot}\n`);
 process.stdout.write(`dest       ${destRoot}\n`);
+noteCustomDomain(opts);
 if (!opts.dryRun) fs.mkdirSync(destRoot, { recursive: true });
 ensureGit(destRoot, opts.dryRun);
 for (const piece of pieces) {
