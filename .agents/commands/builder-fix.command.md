@@ -11,5 +11,5 @@ Read and follow [`/codify`](/.agents/skills/codify/SKILL.md) to write the code (
 
 The result is the defects fixed (code complies and tests pass).
 
-Suggest handoff to Craftsman to review the fixes by running [`/craftsman-review`](./craftsman-review.command.md) with the fixes in hand.
+Handoff or return to Craftsman agent in a new session to review the fixes by running [`/craftsman-review`](./craftsman-review.command.md) command and passing the fixes in hand.
 

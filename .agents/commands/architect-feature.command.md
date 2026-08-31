@@ -9,8 +9,10 @@ Your goal is to write a specification for a feature or scaffolding solution.
 
 Read and follow [`/specify`](/.agents/skills/specify/SKILL.md) with `kind: functional` to write a new specification for the feature.
 
-Then ask the human to check the result before going any further. Wait for approval before going any further.
-
 The result is the feature specification.
 
-Once the human has validated it, suggest handoff to Builder to implement the specification as a new feature by running [`/builder-implement`](./builder-implement.command.md).
+If the prompt states YOLO (means You Only Live Once) you must wait for human approval before going any further.
+
+
+
+Once the human has validated it or YOLO is set to true, handoff to Builder agent to implement the specification as a new feature by running [`/builder-implement`](./builder-implement.command.md) command in a new fresh context.

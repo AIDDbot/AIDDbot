@@ -13,4 +13,4 @@ Run hard lint scripts that search for other warnings and errors.
 
 The result is a report with found defects to be fixed or a clean sheet when no defects are found.
 
-Use the result as an input to be fixed by the builder , running [`/builder-fix`](./builder-fix.command.md) with the report in hand.
+Use the result as an input to be fixed by the Builder agent in a new session, running [`/builder-fix`](./builder-fix.command.md) command and passing the report in hand.

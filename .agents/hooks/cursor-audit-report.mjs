@@ -163,11 +163,64 @@ function readHookPayload() {
     }
     throw lastError instanceof Error ? lastError : new SyntaxError("invalid JSON");
 }
-function jsonlPathFor(rootId, cwd) {
+/** Filesystem-safe ISO stem, e.g. `2026-08-31T14-40-11.852Z`. */
+function formatAuditFileStem(date = new Date()) {
+    return date.toISOString().replace(/:/g, "-");
+}
+function sessionsIndexPath(cwd) {
+    return path.join(auditDir(cwd), "_sessions.jsonl");
+}
+function loadSessionFiles(cwd) {
+    const map = new Map();
+    const indexPath = sessionsIndexPath(cwd);
+    if (!fs.existsSync(indexPath))
+        return map;
+    for (const line of fs.readFileSync(indexPath, "utf8").split(/\r?\n/)) {
+        if (!line.trim())
+            continue;
+        try {
+            const rec = JSON.parse(line);
+            if (rec.root && rec.file)
+                map.set(rec.root, rec.file);
+        }
+        catch {
+            /* skip a corrupt index line */
+        }
+    }
+    return map;
+}
+function registerSessionFile(rootId, fileStem, cwd) {
+    const root = sanitizeId(rootId);
+    if (!root || !fileStem)
+        return;
+    ensureAuditDir(cwd);
+    fs.appendFileSync(sessionsIndexPath(cwd), `${JSON.stringify({ root, file: fileStem })}\n`);
+}
+function auditPathsForStem(fileStem, cwd) {
+    const base = path.join(auditDir(cwd), fileStem);
+    return { jsonl: `${base}.jsonl`, md: `${base}.md` };
+}
+/** Resolve timestamp-named audit files for a root session id. */
+function resolveAuditPaths(rootId, cwd, sessionFiles) {
+    const map = sessionFiles ?? loadSessionFiles(cwd);
+    const stem = map.get(sanitizeId(rootId));
+    if (!stem)
+        return undefined;
+    return auditPathsForStem(stem, cwd);
+}
+/** Legacy uuid-named path; prefer `resolveAuditPaths` when the session index exists. */
+function legacyJsonlPathFor(rootId, cwd) {
     return path.join(auditDir(cwd), `${sanitizeId(rootId)}.jsonl`);
 }
+function jsonlPathFor(rootId, cwd) {
+    return resolveAuditPaths(rootId, cwd)?.jsonl ?? legacyJsonlPathFor(rootId, cwd);
+}
 function mdPathFor(rootId, cwd) {
-    return path.join(auditDir(cwd), `${sanitizeId(rootId)}.md`);
+    return resolveAuditPaths(rootId, cwd)?.md ?? path.join(auditDir(cwd), `${sanitizeId(rootId)}.md`);
+}
+/** JSONL is kept after close unless `AUDIT_DISCARD_JSONL=1` (off while debugging). */
+function shouldDiscardJsonlOnClose() {
+    return process.env.AUDIT_DISCARD_JSONL === "1";
 }
 function mdPathFromJsonl(jsonlPath) {
     return jsonlPath.replace(/\.jsonl$/i, ".md");

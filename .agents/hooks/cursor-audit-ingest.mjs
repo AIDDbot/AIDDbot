@@ -163,11 +163,64 @@ function readHookPayload() {
     }
     throw lastError instanceof Error ? lastError : new SyntaxError("invalid JSON");
 }
-function jsonlPathFor(rootId, cwd) {
+/** Filesystem-safe ISO stem, e.g. `2026-08-31T14-40-11.852Z`. */
+function formatAuditFileStem(date = new Date()) {
+    return date.toISOString().replace(/:/g, "-");
+}
+function sessionsIndexPath(cwd) {
+    return path.join(auditDir(cwd), "_sessions.jsonl");
+}
+function loadSessionFiles(cwd) {
+    const map = new Map();
+    const indexPath = sessionsIndexPath(cwd);
+    if (!fs.existsSync(indexPath))
+        return map;
+    for (const line of fs.readFileSync(indexPath, "utf8").split(/\r?\n/)) {
+        if (!line.trim())
+            continue;
+        try {
+            const rec = JSON.parse(line);
+            if (rec.root && rec.file)
+                map.set(rec.root, rec.file);
+        }
+        catch {
+            /* skip a corrupt index line */
+        }
+    }
+    return map;
+}
+function registerSessionFile(rootId, fileStem, cwd) {
+    const root = sanitizeId(rootId);
+    if (!root || !fileStem)
+        return;
+    ensureAuditDir(cwd);
+    fs.appendFileSync(sessionsIndexPath(cwd), `${JSON.stringify({ root, file: fileStem })}\n`);
+}
+function auditPathsForStem(fileStem, cwd) {
+    const base = path.join(auditDir(cwd), fileStem);
+    return { jsonl: `${base}.jsonl`, md: `${base}.md` };
+}
+/** Resolve timestamp-named audit files for a root session id. */
+function resolveAuditPaths(rootId, cwd, sessionFiles) {
+    const map = sessionFiles ?? loadSessionFiles(cwd);
+    const stem = map.get(sanitizeId(rootId));
+    if (!stem)
+        return undefined;
+    return auditPathsForStem(stem, cwd);
+}
+/** Legacy uuid-named path; prefer `resolveAuditPaths` when the session index exists. */
+function legacyJsonlPathFor(rootId, cwd) {
     return path.join(auditDir(cwd), `${sanitizeId(rootId)}.jsonl`);
 }
+function jsonlPathFor(rootId, cwd) {
+    return resolveAuditPaths(rootId, cwd)?.jsonl ?? legacyJsonlPathFor(rootId, cwd);
+}
 function mdPathFor(rootId, cwd) {
-    return path.join(auditDir(cwd), `${sanitizeId(rootId)}.md`);
+    return resolveAuditPaths(rootId, cwd)?.md ?? path.join(auditDir(cwd), `${sanitizeId(rootId)}.md`);
+}
+/** JSONL is kept after close unless `AUDIT_DISCARD_JSONL=1` (off while debugging). */
+function shouldDiscardJsonlOnClose() {
+    return process.env.AUDIT_DISCARD_JSONL === "1";
 }
 function mdPathFromJsonl(jsonlPath) {
     return jsonlPath.replace(/\.jsonl$/i, ".md");
@@ -333,8 +386,8 @@ function collectLinks(payload, parentsFile, map) {
         recordLink(parentsFile, map, conversationId, parentConversationId);
     }
     const subagentId = nonempty(payload.subagent_id);
-    if (subagentId && isUuid(subagentId) && conversationId && subagentId !== conversationId) {
-        recordLink(parentsFile, map, subagentId, conversationId);
+    if (subagentId && conversationId && subagentId !== conversationId) {
+        recordLink(parentsFile, map, normalizeSubagentId(subagentId), conversationId);
     }
     const transcript = nonempty(payload.transcript_path);
     if (transcript) {
@@ -343,9 +396,10 @@ function collectLinks(payload, parentsFile, map) {
             recordLink(parentsFile, map, parsed.child, parsed.parent);
     }
 }
-function mergeOrphans(rootId, map, cwd) {
+function mergeOrphans(rootId, map, cwd, sessionFiles) {
     const dir = ensureAuditDir(cwd);
-    const rootFile = jsonlPathFor(rootId, cwd);
+    const rootPaths = resolveAuditPaths(rootId, cwd, sessionFiles);
+    const rootFile = rootPaths?.jsonl ?? legacyJsonlPathFor(rootId, cwd);
     let names;
     try {
         names = fs.readdirSync(dir);
@@ -487,17 +541,40 @@ async function ingest(payload) {
     const parentId = sanitizedEventId && map.has(sanitizedEventId) ? map.get(sanitizedEventId) : undefined;
     const isRoot = Boolean(sanitizedEventId) && sanitizedEventId === rootId;
     const prompt = promptForRootEvent(payload, isRoot);
-    const line = `${JSON.stringify(toIngested(payload, rootId, parentId, prompt))}\n`;
-    const jsonlFile = jsonlPathFor(rootId, project);
-    const mdFile = mdPathFor(rootId, project);
+    const isRootSessionStart = payload.hook_event_name === "sessionStart" && Boolean(sanitizedEventId) && !map.has(sanitizedEventId);
     const isRootSessionEnd = payload.hook_event_name === "sessionEnd" && Boolean(sanitizedEventId) && !map.has(sanitizedEventId);
+    const sessionFiles = loadSessionFiles(project);
+    let jsonlFile;
+    let mdFile;
+    if (isRootSessionStart) {
+        const stem = formatAuditFileStem();
+        const paths = auditPathsForStem(stem, project);
+        jsonlFile = paths.jsonl;
+        mdFile = paths.md;
+        registerSessionFile(rootId, stem, project);
+        sessionFiles.set(sanitizeId(rootId), stem);
+    }
+    else {
+        const paths = resolveAuditPaths(rootId, project, sessionFiles) ??
+            (() => {
+                const legacy = legacyJsonlPathFor(rootId, project);
+                return fs.existsSync(legacy) ? { jsonl: legacy, md: mdPathFromJsonl(legacy) } : undefined;
+            })();
+        if (!paths) {
+            console.error(`cursor-audit-ingest: no audit file for root ${rootId} (${payload.hook_event_name}); drop until sessionStart`);
+            return;
+        }
+        jsonlFile = paths.jsonl;
+        mdFile = paths.md;
+    }
+    const line = `${JSON.stringify(toIngested(payload, rootId, parentId, prompt))}\n`;
     // Closed roots leave the markdown and drop the JSONL. A late event must not
     // recreate a partial log and overwrite the finished human report.
     if (!fs.existsSync(jsonlFile) && fs.existsSync(mdFile))
         return;
     try {
         withExclusiveLock(mergeLockPath(project), () => {
-            mergeOrphans(rootId, map, project);
+            mergeOrphans(rootId, map, project, sessionFiles);
         });
     }
     catch (err) {
@@ -512,7 +589,7 @@ async function ingest(payload) {
     catch (err) {
         logError("cursor-audit-report", err);
     }
-    if (isRootSessionEnd && reported)
+    if (isRootSessionEnd && reported && shouldDiscardJsonlOnClose())
         unlinkIfExists(jsonlFile);
 }
 async function main() {
