@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": ".cursor/hooks/ingest.cmd"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": ".cursor/hooks/ingest.cmd"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": ".cursor/hooks/ingest.cmd"
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/ingest.cmd"
+      }
+    ]
+  }
+}
