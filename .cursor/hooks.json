@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node .agents/hooks/cursor-audit-ingest.mjs"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "node .agents/hooks/cursor-audit-ingest.mjs"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "node .agents/hooks/cursor-audit-ingest.mjs"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "node .agents/hooks/cursor-audit-ingest.mjs"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "node .agents/hooks/cursor-audit-ingest.mjs"
+      }
+    ]
+  }
+}
