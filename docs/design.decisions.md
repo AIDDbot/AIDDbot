@@ -20,7 +20,7 @@ in one repo.
 ### Decision
 
 1. **Job names, not role names.** `/map-solution`, `/design-solution`, `/specify-feature`,
-   `/implement-spec`, `/fix-defects`, `/review-implementation`, `/clean-implementation`.
+   `/implement-spec`, `/fix-defects`, `/review-implementation`, `/clean-solution`.
    `/scaffoldify` is `/scaffold-workshop`.
 2. **The command is the orchestrator.** The current session reads the command file and spawns
    Architect, Builder, or Craftsman. A command may run another command. It does not pin `agent`
@@ -33,7 +33,7 @@ in one repo.
 
 - Catalog, README, getting-started, and workflow name the new doors and the spawn/skill split.
 - ABC lives in `.agents/agents/`, not in command slugs.
-- A red `/review-implementation` or `/clean-implementation` runs `/fix-defects` (the command),
+- A red `/review-implementation` or `/clean-solution` runs `/fix-defects` (the command),
   then continues — it does not spawn Builder to execute a command.
 
 ## 2026-08-30 — `/release` is `/shipify`; status stays `released`

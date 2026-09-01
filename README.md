@@ -28,7 +28,7 @@ Three agents, one loop. You invoke a **command**; the current session is the orc
 
 - **Architect** — spawned by `/map-solution` (existing code), `/design-solution` (greenfield), `/specify-feature` (a spec you approve)
 - **Builder** — spawned by `/implement-spec` (from a validated spec), `/fix-defects` (from a defect report)
-- **Craftsman** — spawned by `/review-implementation` (verify, qualify, ship), `/clean-implementation` (CRAP and lint)
+- **Craftsman** — spawned by `/review-implementation` (verify, qualify, ship), `/clean-solution` (CRAP and lint)
 
 `/implement-spec` already runs `/review-implementation` when the code is in. You can also follow an individual skill from the catalog when you want tighter control of one step.
 

@@ -60,7 +60,7 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 | [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` then `/codify` per container; then run `/review-implementation` |
 | [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder: `/codify` from a defect report |
 | [`review-implementation`](../commands/review-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`; defects go through `/fix-defects` |
-| [`clean-implementation`](../commands/clean-implementation.command.md) | Spawn Craftsman to hunt CRAP and lint; defects go through `/fix-defects` |
+| [`clean-solution`](../commands/clean-solution.command.md) | Spawn Craftsman to hunt CRAP and lint; defects go through `/fix-defects` |
 | [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | After `init`, fetch workshop or CLI archetypes, document them, and report |
 
 ## Human checkpoints
@@ -69,7 +69,7 @@ You review only at key checkpoints:
 
 - After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo (or the design you want built).
 - After `/specify-feature`: problem, outcomes, and acceptance criteria are correct. YOLO skips this stop and continues to `/implement-spec`.
-- `/implement-spec` already runs `/review-implementation`. If that flow (or `/clean-implementation`) finds defects, it runs `/fix-defects` and continues.
+- `/implement-spec` already runs `/review-implementation`. If that flow (or `/clean-solution`) finds defects, it runs `/fix-defects` and continues.
 
 ## Pipeline
 

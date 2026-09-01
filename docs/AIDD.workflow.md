@@ -28,7 +28,7 @@ Architect writes it. Builder never starts without one. Craftsman never ships wit
 | `/implement-spec` | Builder, then `/review-implementation` | Plan and code from a validated spec, then review |
 | `/fix-defects` | Builder | Apply a defect report in code |
 | `/review-implementation` | Craftsman; `/fix-defects` when red | Verify, qualify, and ship |
-| `/clean-implementation` | Craftsman; `/fix-defects` when red | Hunt CRAP and lint across the codebase |
+| `/clean-solution` | Craftsman; `/fix-defects` when red | Hunt CRAP and lint across the codebase |
 | `/scaffold-workshop` | — (command body) | Fetch archetypes after `init`, document them, report |
 
 ```mermaid
@@ -45,7 +45,7 @@ flowchart LR
   REV -->|defects| FIX["/fix-defects"]
   FIX --> REV
   REV -->|green| REL[released]
-  YOU -->|hygiene| CLEAN["/clean-implementation"]
+  YOU -->|hygiene| CLEAN["/clean-solution"]
   CLEAN --> FIX
 ```
 
@@ -105,7 +105,7 @@ Builder owns delivery from an approved spec to code that compiles and unit-tests
 
 ```markdown
 /review-implementation
-/clean-implementation
+/clean-solution
 ```
 
 ```mermaid
@@ -115,13 +115,13 @@ flowchart LR
   VER -->|green| QLF["/qualify"]
   QLF -->|failed| FIX
   QLF -->|passed| REL["/shipify"]
-  BASE[whole codebase] -->|lint · coverage| CLEAN["/clean-implementation"]
+  BASE[whole codebase] -->|lint · coverage| CLEAN["/clean-solution"]
   CLEAN --> FIX
 ```
 
 `/review-implementation` spawns Craftsman to run `/verify`, then `/qualify`, then `/shipify`. A red report is a call to `/fix-defects`, then the review continues — not a rewrite of the spec.
 
-`/clean-implementation` spawns Craftsman to hunt cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. A red report goes through `/fix-defects`.
+`/clean-solution` spawns Craftsman to hunt cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. A red report goes through `/fix-defects`.
 
 ## Specs
 

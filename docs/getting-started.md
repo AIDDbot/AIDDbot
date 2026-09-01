@@ -63,7 +63,7 @@ You can also invoke `/review-implementation` or `/fix-defects` on their own when
 Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole codebase:
 
 ```markdown
-/clean-implementation
+/clean-solution
 ```
 
 Craftsman reports; `/fix-defects` applies the findings.
