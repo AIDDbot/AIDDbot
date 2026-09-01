@@ -4,10 +4,11 @@
 const path = require("node:path");
 const { sourceRoot, refuseOrigin, runOverlay } = require("./lib/overlay");
 const { ensureGit, commitFiles } = require("./lib/git");
+const { ensureSeedFiles } = require("./lib/seed");
 
 function help() {
   process.stderr.write(
-    "Usage: npx --allow-git=all github:AIDDbot/AIDDbot init [--dry-run] [--force]\nCopies AIDDbot skills and harness adapters into the current directory. Existing files are left alone unless they match (skipped) or you pass --force. Runs git init if needed and commits the overlay.\nFor a workshop monorepo, run bin/scaffold.js instead.\n"
+    "Usage: npx --allow-git=all github:AIDDbot/AIDDbot init [--dry-run] [--force]\nCopies AIDDbot skills and harness adapters into the current directory. Existing files are left alone unless they match (skipped) or you pass --force. Runs git init if needed, writes a basic .gitignore (temp and secrets) and README.md when missing, and commits the overlay.\nFor a workshop monorepo, run bin/scaffold.js instead.\n"
   );
 }
 
@@ -40,6 +41,7 @@ if (refuseOrigin(destRoot, "init")) process.exit(1);
 process.stdout.write(`source     ${sourceRoot}\n`);
 process.stdout.write(`dest       ${destRoot}\n`);
 ensureGit(destRoot, parsed.opts.dryRun);
+const seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun);
 const { conflicts, written } = runOverlay(destRoot, parsed.opts);
-commitFiles(destRoot, written, "chore: add AIDDbot overlay", parsed.opts.dryRun);
+commitFiles(destRoot, [...seeded, ...written], "chore: add AIDDbot overlay", parsed.opts.dryRun);
 process.exit(conflicts ? 2 : 0);

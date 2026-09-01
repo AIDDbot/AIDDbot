@@ -16,7 +16,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 `--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
-That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init` and commits the overlay.
+That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copilot. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets) when missing or incomplete, adds `README.md` only when none exists, and commits the overlay.
 
 ## 2. Start from what you have
 

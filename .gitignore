@@ -1,3 +1,31 @@
+# Scratch
 /temp
 /tmp
+*.tmp
+*.log
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+*.p8
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.keystore
+*.jks
+credentials.json
+secrets.json
+*.secret
+.netrc
+*.kdbx
+
+# Agent scratch
 /.claude/agents/runs

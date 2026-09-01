@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { sourceRoot, refuseOrigin, runOverlay } = require("./lib/overlay");
 const { ensureGit } = require("./lib/git");
+const { ensureSeedFiles } = require("./lib/seed");
 
 const VALUE_FLAGS = {
   "--dest": "dest",
@@ -59,7 +60,7 @@ function help() {
   node bin/scaffold.js --domain NAME [options]
   npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain NAME [options]
 
-Fetch workshop archetypes, git init if needed, then copy the AIDD overlay (same as bin/aiddbot.js).
+Fetch workshop archetypes, git init if needed, seed .gitignore and README.md when missing, then copy the AIDD overlay (same as bin/aiddbot.js).
 --domain is required (any slug; samples listed below). Workshop profile: back, front, and e2e
 default to express, standard, and playwright. CLI profile: --cli node. Other app models:
 --app NAME fetches AIDDbot/NAME → NAME/. Slugs not in the catalog are accepted as given.
@@ -278,6 +279,7 @@ process.stdout.write(`dest       ${destRoot}\n`);
 noteCustomDomain(opts);
 if (!opts.dryRun) fs.mkdirSync(destRoot, { recursive: true });
 ensureGit(destRoot, opts.dryRun);
+ensureSeedFiles(destRoot, opts.dryRun);
 for (const piece of pieces) {
   const status = fetchPiece(destRoot, piece.repo, piece.dest, opts.dryRun);
   if (status !== 0) process.exit(status);
