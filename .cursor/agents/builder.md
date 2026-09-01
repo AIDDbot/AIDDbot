@@ -1,6 +1,6 @@
 ---
 name: builder
-description: Implements specifications
+description: Implements specifications, by planning and writing code
 model: inherit
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/builder.md instead -->

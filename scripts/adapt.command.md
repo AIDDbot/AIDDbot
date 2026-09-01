@@ -17,10 +17,12 @@ the change automatically.
 
 ## Task
 
-Read every source file under `.agents/agents/`, `.agents/commands/`, and
-`.agents/rules/`, and for each one generate or update the corresponding
-adapter file in each harness's own folder, using the mapping tables below.
-Then delete any adapter this skill previously generated whose source no
+Read every source file under `.agents/agents/`, `.agents/commands/`
+(`*.command.md` only), and `.agents/rules/`, and for each one generate
+or update the corresponding adapter file in each harness's own folder,
+using the mapping tables below. Command adapters are thin pointers at
+the origin workflow — callable in every harness, no agent pin. Then
+delete any adapter this skill previously generated whose source no
 longer exists. Finish with a report.
 
 `--check`: do everything except write or delete — just report what would
@@ -56,15 +58,17 @@ output.
 
 ### Routing split (read before mapping)
 
-**Agents own `model`. Commands own `agent`.** Never put `model` on a
-command adapter, and never put `agent` on an agent adapter. A command
-establishes *who* runs (the named ABC agent). That agent, not the
+**Agents own `model`. Commands are workflows — they pin neither `agent`
+nor `model`.** Never put `model` or `agent` on a command adapter, and
+never put `agent` on an agent adapter. A command is slash-callable in
+the current session in every harness; its body at `.agents/commands/`
+is the workflow and may spawn named subagents. That agent, not the
 command, chooses *which model*.
 
-When a harness can pin the field, emit it. When it cannot, emit an
-HTML comment after the marker so the human can pick it in the picker
-(or hardcode a vendor id — that edit is overwritten on the next run
-unless they drop the marker; say so in the report the first time).
+When a harness can pin `model` on an agent, emit it. When it cannot,
+emit an HTML comment after the marker so the human can pick it in the
+picker (or hardcode a vendor id — that edit is overwritten on the next
+run unless they drop the marker; say so in the report the first time).
 
 ### Source schemas
 
@@ -73,9 +77,9 @@ unless they drop the marker; say so in the report the first time).
 - Body: the agent's system prompt / persona.
 
 **Commands** — `.agents/commands/{name}.command.md`
-- `name` (required), `description` (required), `argument-hint` (optional), `allowed-tools` (optional list), `agent` (required — the source agent's `name` this command runs as)
-- Body: the command's prompt template. May reference `$ARGUMENTS`.
-- No `model` on commands. If a source still has one, ignore it and list it in the report.
+- `name` (required), `description` (required), `argument-hint` (optional), `allowed-tools` (optional list)
+- Body: the command's prompt template (the workflow). May reference `$ARGUMENTS`.
+- No `agent` and no `model` on commands. If a source still has either, ignore it and list it in the report. A missing `agent` is valid — do not skip the command.
 
 **Rules** — `.agents/rules/{container}.rules.md`
 - `container` (required — the folder/domain this rule scopes to), `paths` (glob pattern(s) the rule applies to)
@@ -121,20 +125,23 @@ report — never guess a value.
 
 ### Mapping — Commands
 
+Every valid command gets an adapter in **all three** harnesses. The
+adapter is a native slash entry whose body points at the origin — never
+copy the workflow, never pin who runs it.
+
 | Harness | Folder | File | Frontmatter | Body |
 | --- | --- | --- | --- | --- |
-| Claude Code | `.claude/commands/` | `{name}.md` | `description`, `argument-hint`, `allowed-tools`, `context: fork`, `agent` (verbatim from source), `background: false`. No `model` | `<marker>`<br>`Read and execute the instructions in @.agents/commands/{name}.command.md`<br><br>`Arguments: $ARGUMENTS` |
-| Cursor | `.cursor/commands/` | `{name}.md` | none (Cursor commands have no agent or model field) | `<marker>`<br>`<!-- agent: Cursor commands cannot pin an agent — this command must run as the {agent} subagent. -->`<br>`**{description}**`<br><br>`This command must be executed by the `{agent}` subagent. If this session is not `{agent}`, launch that subagent with the prompt below and stop — do not do the work yourself. If this session already is `{agent}`, follow the prompt below.`<br><br>`Prompt: Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
-| GitHub Copilot | `.github/prompts/` | `{name}.prompt.md` | `description`, `agent` (the custom-agent name from source — never `ask`/`plan`/`agent` unless that is the source value), `tools` (from `allowed-tools`). No `model`, no `mode` | `<marker>`<br>`Read and follow the instructions in [.agents/commands/{name}.command.md](../../.agents/commands/{name}.command.md).` |
+| Claude Code | `.claude/commands/` | `{name}.md` | `description`, `argument-hint`, `allowed-tools`. No `agent`, no `model`, no `context: fork`, no `background` | `<marker>`<br>`Read and execute the instructions in @.agents/commands/{name}.command.md`<br><br>`Arguments: $ARGUMENTS` |
+| Cursor | `.cursor/commands/` | `{name}.md` | none | `<marker>`<br>`**{description}**`<br><br>`Read and follow the instructions in `.agents/commands/{name}.command.md`.` |
+| GitHub Copilot | `.github/prompts/` | `{name}.prompt.md` | `description`, `argument-hint`, `tools` (from `allowed-tools`). No `agent`, no `model`, no `mode` | `<marker>`<br>`Read and follow the instructions in [.agents/commands/{name}.command.md](../../.agents/commands/{name}.command.md).` |
 
-> **Claude forks so the command actually runs as that subagent.**
-> `context: fork` + `agent: {name}` is how Claude Code commands pin an
-> agent; `background: false` keeps the turn in the foreground so the
-> human sees the work. Cursor has no equivalent field, so the adapter
-> tells the parent to launch the named subagent and not do the work
-> itself (unless the session already is that agent). Copilot prompts
-> take `agent:` as the custom agent in `.github/agents/` — that is the
-> field to set, not `mode` and not `model`.
+> **The current session runs the workflow.** Commands no longer name an
+> ABC agent, so do not fork Claude (`context: fork` + `agent:`), do not
+> set Copilot `agent:` to a custom agent (or to `ask`/`plan`/`agent`),
+> and do not tell Cursor to launch a pinned subagent. Omit optional
+> frontmatter fields that the source does not set. The workflow at
+> `.agents/commands/{name}.command.md` is what may spawn Architect,
+> Builder, or Craftsman.
 
 ### Mapping — Rules
 
@@ -152,7 +159,9 @@ report — never guess a value.
 
 ### 1. Inventory
 
-List every file under `.agents/agents/`, `.agents/commands/`, `.agents/rules/`.
+List every file under `.agents/agents/` (`{name}.md`), `.agents/commands/`
+(`{name}.command.md` only — ignore any other files in that folder), and
+`.agents/rules/`.
 List every existing adapter file in the nine target locations above.
 
 ### 2. Validate sources
@@ -187,9 +196,9 @@ asks):
 - Sources found, by family (agents/commands/rules), and how many were skipped (with reason)
 - Adapters created / updated / left unchanged / deleted, by harness
 - Any naming collisions with non-managed files
-- Any command whose `agent` is missing (skipped) or names no matching agent source
+- Any command whose leftover `agent` or `model` field was ignored
+- Confirmation that every valid command produced an adapter in all three harnesses
 - Any agent whose `model` tier could not be mapped (Cursor / Copilot) — those adapters carry a pick-a-model comment
-- Reminder (once, not per file): Cursor commands cannot pin `agent` in frontmatter — their body requires launching the named subagent. Copilot (`agent:`) and Claude (`context: fork` + `agent:`) can pin it
 - Confirmation that a second immediate run would report "nothing to do"
 
 ## Verification
