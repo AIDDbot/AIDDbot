@@ -1,15 +1,15 @@
 # AIDD skills catalog
 
-ABC commands open the doors. Skills are the steps underneath.
+Commands are orchestrator flows. Skills are the steps an agent executes.
 
-Use commands for end-to-end flows, and follow a catalog skill when you want tighter control.
+Use a command for an end-to-end flow. Follow a catalog skill when you want tighter control of one step.
 
 ## What holds
 
 - The green e2e suite is the contract.
 - `/codify` writes code; `/verify` and `/qualify` evaluate only.
 - Every cycle starts from a spec.
-- A command follows a markdown link to `SKILL.md` (or another command file), or carries the work itself; the slash name is the label, not the invoke.
+- The current session runs the command: it spawns Architect, Builder, or Craftsman to follow a markdown link to `SKILL.md`, or it runs another command file. The slash name is the label, not the invoke. Agents execute skills, never commands.
 
 ## Context
 
@@ -54,22 +54,22 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 
 | Command | What it does |
 |---|---|
-| [`architect-map`](../commands/architect-map.command.md) | Architect: map an existing codebase — `/explore` once, then `/extract` per container |
-| [`architect-design`](../commands/architect-design.command.md) | Architect: design a greenfield architecture and write its scaffold spec |
-| [`architect-feature`](../commands/architect-feature.command.md) | Architect: write a feature spec and stop for human review |
-| [`builder-implement`](../commands/builder-implement.command.md) | Builder: `/planify` then `/codify` from a validated spec |
-| [`builder-fix`](../commands/builder-fix.command.md) | Builder: `/codify` from a defect report |
-| [`craftsman-review`](../commands/craftsman-review.command.md) | Craftsman: `/verify` → `/qualify` → `/shipify`; defects go to `/builder-fix` |
-| [`craftsman-clean`](../commands/craftsman-clean.command.md) | Craftsman: hunt CRAP and lint across the codebase; the report goes to `/builder-fix` |
+| [`map-solution`](../commands/map-solution.command.md) | Spawn Architect: `/explore` once, then `/extract` per container |
+| [`design-solution`](../commands/design-solution.command.md) | Spawn Architect: `/explore`, then `/specify` (`kind: technical`) |
+| [`specify-feature`](../commands/specify-feature.command.md) | Spawn Architect: `/specify` (`kind: functional`); YOLO continues with `/implement-spec` |
+| [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` then `/codify` per container; then run `/review-implementation` |
+| [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder: `/codify` from a defect report |
+| [`review-implementation`](../commands/review-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`; defects go through `/fix-defects` |
+| [`clean-implementation`](../commands/clean-implementation.command.md) | Spawn Craftsman to hunt CRAP and lint; defects go through `/fix-defects` |
 | [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | After `init`, fetch workshop or CLI archetypes, document them, and report |
 
 ## Human checkpoints
 
 You review only at key checkpoints:
 
-- After `/architect-map` or `/architect-design`: architecture, schemas, and rules match the repo (or the design you want built).
-- After `/architect-feature`: problem, outcomes, and acceptance criteria are correct.
-- After `/craftsman-review` or `/craftsman-clean`: if the report is red, `/builder-fix` then review again.
+- After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo (or the design you want built).
+- After `/specify-feature`: problem, outcomes, and acceptance criteria are correct. YOLO skips this stop and continues to `/implement-spec`.
+- `/implement-spec` already runs `/review-implementation`. If that flow (or `/clean-implementation`) finds defects, it runs `/fix-defects` and continues.
 
 ## Pipeline
 

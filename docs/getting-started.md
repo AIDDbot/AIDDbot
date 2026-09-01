@@ -1,6 +1,6 @@
 # Getting Started
 
-Copy AIDDbot in, then walk ABC in order: Architect specifies, Builder implements, Craftsman ships.
+Copy AIDDbot in, then walk the loop: specify, implement, review. You invoke a command; the orchestrator spawns Architect, Builder, or Craftsman to execute the skills.
 
 AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.
 
@@ -23,62 +23,57 @@ That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copi
 **Existing codebase** — map it once:
 
 ```markdown
-/architect-map
+/map-solution
 ```
 
-`/architect-map` documents architecture, conceptual model, coding rules, and each container. Where evidence is missing, it asks you closed questions.
+`/map-solution` spawns Architect to document architecture, conceptual model, coding rules, and each container. Where evidence is missing, it asks you closed questions.
 
 **New workshop** — stay in that project (an empty folder, not this origin) and run `/scaffold-workshop`. It asks for a profile (workshop monorepo, Node CLI, or another AIDDbot repo you name), and a domain (a sample or a name you choose). It copies the archetypes and documents them; it does not install or run smoke tests. Then `/map-solution`.
 
 **Greenfield, no code yet** — design instead of map:
 
 ```markdown
-/architect-design
+/design-solution
 ```
 
-That writes the architecture and a spec so Builder can scaffold it. Then skip to step 4.
+That spawns Architect to write the architecture and a technical spec so Builder can scaffold it. Then skip to step 4.
 
 ## 3. Specify a feature
 
 ```markdown
-/architect-feature riders can rate a trip 1 to 5 stars
+/specify-feature riders can rate a trip 1 to 5 stars
 ```
 
 Architect writes a one-page spec and **stops for your approval**. Check problem, outcomes, and acceptance criteria before anyone codes.
 
+If the prompt includes YOLO, `/specify-feature` continues straight into `/implement-spec` and skips this stop.
+
 ## 4. Implement
 
 ```markdown
-/builder-implement
+/implement-spec
 ```
 
-Builder plans each affected container (plus e2e), then writes the code and unit tests. It does not run the acceptance suite.
+Builder plans each affected container (plus e2e), then writes the code and unit tests. When that finishes, the same command runs `/review-implementation`: Craftsman verifies against the spec, qualifies the code, and ships. Defects go through `/fix-defects` and the review continues.
 
-## 5. Review and ship
+You can also invoke `/review-implementation` or `/fix-defects` on their own when you want that stretch without a full implement.
 
-```markdown
-/craftsman-review
-```
-
-Craftsman verifies against the spec, qualifies the code, and ships. If the report has defects, run `/builder-fix` with that report, then `/craftsman-review` again.
-
-## 6. Keep the shape healthy
+## 5. Keep the shape healthy
 
 Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole codebase:
 
 ```markdown
-/craftsman-clean
+/clean-implementation
 ```
 
-Hand the report to `/builder-fix`.
+Craftsman reports; `/fix-defects` applies the findings.
 
 ## What's next?
 
 The usual loop after the first map:
 
-1. `/architect-feature` — you approve the spec
-2. `/builder-implement`
-3. `/craftsman-review` — `/builder-fix` if the report is red
+1. `/specify-feature` — you approve the spec
+2. `/implement-spec` — plans, codes, reviews, and ships
 
 Continue with:
 

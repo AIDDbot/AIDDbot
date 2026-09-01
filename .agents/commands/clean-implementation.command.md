@@ -1,7 +1,6 @@
 ---
 name: clean-implementation
 description: Clean code by finding CRAP violations and lint issues
-
 ---
 # clean-implementation
 
@@ -13,5 +12,5 @@ The goal of this command is to clean code by finding CRAP violations and lint is
   - Run hard lint scripts that search for other warnings and errors.
 
 - _Triage_:
-    - _IF_ there are defects, spawn a new **Builder** sub-agent to run the [`/fix-defects`](./fix-defects.command.md) command to fix the defects by passing the report in hand.
+    - _IF_ there are defects, run the [`/fix-defects`](./fix-defects.command.md) command with the report in hand.
     - _IF_ there are no defects, return a short report of "no defects found".

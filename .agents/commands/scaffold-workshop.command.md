@@ -53,4 +53,4 @@ Commit workshop: `chore: scaffold back-{tech} + front-{tech} + e2e-{tech} ({doma
 
 The result is a workshop repo, copied and documented.
 
-Suggest handoff to Architect to map it by running [`/map-solution`](./map-solution.command.md).
+Suggest handoff to [`/map-solution`](./map-solution.command.md) to map the solution.

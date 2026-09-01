@@ -4,6 +4,38 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-01 — Commands are orchestrator flows; agents execute skills
+
+**Status**: adopted. Supersedes the naming in "ABC doors split by job" (2026-08-29) and
+"`/scaffoldify` is the command; there is no skill" (2026-08-30). The ABC job split still holds.
+
+### Context
+
+Commands were named for the agent that would run them (`/architect-map`, `/builder-implement`).
+That made the slash door look like a persona: the session *was* Architect. Some files still
+pinned `agent:` on the command. Meanwhile `/adapt` already treated commands as workflows the
+current session runs, spawning named subagents. Skills are what those agents follow. Two models
+in one repo.
+
+### Decision
+
+1. **Job names, not role names.** `/map-solution`, `/design-solution`, `/specify-feature`,
+   `/implement-spec`, `/fix-defects`, `/review-implementation`, `/clean-implementation`.
+   `/scaffoldify` is `/scaffold-workshop`.
+2. **The command is the orchestrator.** The current session reads the command file and spawns
+   Architect, Builder, or Craftsman. A command may run another command. It does not pin `agent`
+   or `model`.
+3. **Agents execute skills.** A spawned agent follows a `SKILL.md`. It never runs a command.
+4. **`/implement-spec` includes review.** After `/planify` and `/codify`, it runs
+   `/review-implementation`. `/specify-feature` still stops for the human unless YOLO.
+
+### Consequences
+
+- Catalog, README, getting-started, and workflow name the new doors and the spawn/skill split.
+- ABC lives in `.agents/agents/`, not in command slugs.
+- A red `/review-implementation` or `/clean-implementation` runs `/fix-defects` (the command),
+  then continues — it does not spawn Builder to execute a command.
+
 ## 2026-08-30 — `/release` is `/shipify`; status stays `released`
 
 **Status**: adopted. Unparks the `-ify` rename for this skill only.
@@ -44,7 +76,8 @@ describes the current state; this file explains how it got that way.
 
 ## 2026-08-30 — `/scaffoldify` is the command; there is no skill
 
-**Status**: adopted. Supersedes "`/scaffoldify` is a command after `init`; the skill is the body" (2026-08-29).
+**Status**: superseded on 2026-09-01 by "Commands are orchestrator flows; agents execute skills".
+The command-is-the-body choice still holds under `/scaffold-workshop`.
 
 ### Context
 
@@ -63,7 +96,9 @@ The command was a one-line pointer at a skill that ran `aiddbot-scaffold` and th
 
 ## 2026-08-29 — ABC doors split by job; `/ship-spec` is gone
 
-**Status**: adopted. Supersedes "Craftsman splits into three doors" (2026-08-28) and the
+**Status**: superseded on 2026-09-01 by "Commands are orchestrator flows; agents execute skills".
+The job split (Architect specifies, Builder codes, Craftsman judges) still holds; the role-prefixed names do not.
+Supersedes "Craftsman splits into three doors" (2026-08-28) and the
 `/builder-ship` + `/ship-spec` pairing from 2026-08-01.
 
 ### Context

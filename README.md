@@ -2,8 +2,8 @@
 
 Build software you can trust.
 
-AIDDbot is a set of production-ready **agent skills and commands** for AI-Driven Development.
-Everything is plain markdown inside `.agents/`:
+AIDDbot is markdown for AI-Driven Development: **commands** you invoke, **agents** they spawn, **skills** those agents follow.
+Everything lives inside `.agents/`:
 
 - One copy-in command; no package in your project
 - Works with Cursor, Claude Code, and GitHub Copilot
@@ -24,13 +24,13 @@ AIDDbot addresses that with:
 
 ## ABC workflow
 
-Three roles, one loop. Architect writes the spec, Builder writes the code, Craftsman ships it.
+Three agents, one loop. You invoke a **command**; the current session is the orchestrator and spawns Architect, Builder, or Craftsman to execute a **skill**. Agents never run commands.
 
-- **Architect** — `/architect-map` (existing code), `/architect-design` (greenfield), `/architect-feature` (a spec you approve)
-- **Builder** — `/builder-implement` (from a validated spec), `/builder-fix` (from a defect report)
-- **Craftsman** — `/craftsman-review` (verify, qualify, ship), `/craftsman-clean` (CRAP and lint)
+- **Architect** — spawned by `/map-solution` (existing code), `/design-solution` (greenfield), `/specify-feature` (a spec you approve)
+- **Builder** — spawned by `/implement-spec` (from a validated spec), `/fix-defects` (from a defect report)
+- **Craftsman** — spawned by `/review-implementation` (verify, qualify, ship), `/clean-implementation` (CRAP and lint)
 
-You can also run individual skills from the catalog when you want tighter control over each step.
+`/implement-spec` already runs `/review-implementation` when the code is in. You can also follow an individual skill from the catalog when you want tighter control of one step.
 
 ## Quick start
 
@@ -40,7 +40,7 @@ You can also run individual skills from the catalog when you want tighter contro
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then `/architect-map` once. For each feature: `/architect-feature` (you approve the spec), `/builder-implement`, `/craftsman-review`. See [Getting started](docs/getting-started.md).
+Then `/map-solution` once. For each feature: `/specify-feature` (you approve the spec), `/implement-spec`. See [Getting started](docs/getting-started.md).
 
 **New workshop** — `init` in an empty folder outside this origin, then `/scaffold-workshop`, then `/map-solution`.
 

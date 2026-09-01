@@ -1,10 +1,10 @@
 ---
 name: specify-feature
-description: Write a specification for a feature or scaffolding solution.
+description: Write a functional specification for a feature.
 ---
 # specify-feature
 
-The goal of this command is to write a specification for a feature or scaffolding solution.
+The goal of this command is to write a functional specification for a feature.
 
 - Spawn a new **Architect** sub-agent to run the [`/specify`](/.agents/skills/specify/SKILL.md) skill with `kind: functional` to write a new specification for the feature.
 
