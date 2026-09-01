@@ -9,7 +9,8 @@
             "args": [
               "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
               "ingest",
-              "claude"
+              "claude-code",
+              "SessionStart"
             ]
           }
         ]
@@ -24,7 +25,40 @@
             "args": [
               "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
               "ingest",
-              "claude"
+              "claude-code",
+              "SessionEnd"
+            ]
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
+              "ingest",
+              "claude-code",
+              "SubagentStart"
+            ]
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
+              "ingest",
+              "claude-code",
+              "SubagentStop"
             ]
           }
         ]
@@ -39,7 +73,8 @@
             "args": [
               "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
               "ingest",
-              "claude"
+              "claude-code",
+              "UserPromptSubmit"
             ]
           }
         ]
@@ -54,7 +89,8 @@
             "args": [
               "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
               "ingest",
-              "claude"
+              "claude-code",
+              "Stop"
             ]
           }
         ]

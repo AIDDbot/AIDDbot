@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot sessionStart"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot sessionEnd"
+      }
+    ],
+    "subagentStart": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot subagentStart"
+      }
+    ],
+    "subagentStop": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot subagentStop"
+      }
+    ],
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot userPromptSubmitted"
+      }
+    ],
+    "agentStop": [
+      {
+        "type": "command",
+        "command": "node .agents/hooks/index.mjs ingest copilot agentStop"
+      }
+    ]
+  }
+}
