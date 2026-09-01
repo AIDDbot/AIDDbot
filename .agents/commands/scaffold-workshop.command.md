@@ -1,13 +1,13 @@
 ---
-name: scaffoldify
-description: After AIDD init, fetch workshop archetypes into this repo, reconcile, verify the tracer, and report.
+name: scaffold-workshop
+description: After AIDD init, fetch workshop archetypes into this repo, document them, and report.
 argument-hint: profile=workshop|cli|other [domain=name] [back=express] [front=standard] [e2e=playwright] [cli=node] [app=repo-slug]
 ---
-# scaffoldify
+# scaffold-workshop
 
-Your goal is to assemble a teachable repo from AIDDbot archetypes in this repo, which already holds AIDD from `init`. Fetch is the `aiddbot-scaffold` script, never tiged by hand.
+Your goal is to assemble a teachable repo from AIDDbot archetypes in this repo, which already holds AIDD from `init`. Fetch is the `aiddbot-scaffold` script, never tiged by hand. Copy and document only: do not install dependencies and do not run smoke tests, unit tests, or any other tracer.
 
-If this workspace is the AIDDbot origin (`package.json` name `aiddbot` and `bin/scaffold.js` present), stop. The human runs `init` in a dest, then `/scaffoldify` there.
+If this workspace is the AIDDbot origin (`package.json` name `aiddbot` and `bin/scaffold.js` present), stop. The human runs `init` in a dest, then `/scaffold-workshop` there.
 
 Ask two questions:
 
@@ -43,14 +43,14 @@ npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain {domain}
 
 `--dry-run` first if containers already exist.
 
-Write one root `README.md`, `LICENSE`, and `.gitignore`; a root toolchain file only when every container shares that tech. Align ports and URLs. Fix what is unambiguous; preferences go to the report.
+Write one root `README.md`, `LICENSE`, and `.gitignore`; a root toolchain file only when every container shares that tech. Document ports and URLs as they landed. Preferences go to the report.
 
-Install each piece and run the tracer: workshop — e2e smoke (health through back and front); CLI or other — install in the fetched folder and run its unit tests. Diagnose and fix in scope; if it still fails, record the error.
+From each piece as it landed (`package.json` scripts, README), copy the install and test commands into the report. Never invent a command; if a piece has none, say so.
 
-Write `docs/scaffold.report.md`: profile, domain (sample or custom), pieces and paths, reconciliation (root files, ports, toolchain), tracer (install, smoke), pending decisions, and status `green` or `red`.
+Write `docs/scaffold.report.md`: profile, domain (sample or custom), pieces and paths, documentation (root files, ports, toolchain), how to install and run tests (commands as they landed, not executed), pending decisions, and status `green` or `red`.
 
 Commit workshop: `chore: scaffold back-{tech} + front-{tech} + e2e-{tech} ({domain})`. Commit CLI: `chore: scaffold cli-node ({domain})`. Commit other: `chore: scaffold {repo-slug} ({domain})`.
 
-The result is a workshop repo with a tracer.
+The result is a workshop repo, copied and documented.
 
-Suggest handoff to Architect to map it by running [`/architect-map`](./architect-map.command.md).
+Suggest handoff to Architect to map it by running [`/map-solution`](./map-solution.command.md).

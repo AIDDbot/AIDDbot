@@ -28,7 +28,7 @@ That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copi
 
 `/architect-map` documents architecture, conceptual model, coding rules, and each container. Where evidence is missing, it asks you closed questions.
 
-**New workshop** — stay in that project (an empty folder, not this origin) and run `/scaffoldify`. It asks for a profile (workshop monorepo, Node CLI, or another AIDDbot repo you name), and a domain (a sample or a name you choose). Then `/architect-map`.
+**New workshop** — stay in that project (an empty folder, not this origin) and run `/scaffold-workshop`. It asks for a profile (workshop monorepo, Node CLI, or another AIDDbot repo you name), and a domain (a sample or a name you choose). It copies the archetypes and documents them; it does not install or run smoke tests. Then `/map-solution`.
 
 **Greenfield, no code yet** — design instead of map:
 

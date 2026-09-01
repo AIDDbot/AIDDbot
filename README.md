@@ -42,7 +42,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 Then `/architect-map` once. For each feature: `/architect-feature` (you approve the spec), `/builder-implement`, `/craftsman-review`. See [Getting started](docs/getting-started.md).
 
-**New workshop** — `init` in an empty folder outside this origin, then `/scaffoldify`, then `/architect-map`.
+**New workshop** — `init` in an empty folder outside this origin, then `/scaffold-workshop`, then `/map-solution`.
 
 ## Documentation
 

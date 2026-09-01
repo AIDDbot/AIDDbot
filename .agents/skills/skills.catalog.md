@@ -61,7 +61,7 @@ Use commands for end-to-end flows, and follow a catalog skill when you want tigh
 | [`builder-fix`](../commands/builder-fix.command.md) | Builder: `/codify` from a defect report |
 | [`craftsman-review`](../commands/craftsman-review.command.md) | Craftsman: `/verify` → `/qualify` → `/shipify`; defects go to `/builder-fix` |
 | [`craftsman-clean`](../commands/craftsman-clean.command.md) | Craftsman: hunt CRAP and lint across the codebase; the report goes to `/builder-fix` |
-| [`scaffoldify`](../commands/scaffoldify.command.md) | After `init`, fetch workshop or CLI archetypes, reconcile, verify the tracer, and report |
+| [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | After `init`, fetch workshop or CLI archetypes, document them, and report |
 
 ## Human checkpoints
 
