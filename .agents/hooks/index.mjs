@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// v0.11.0 2026-09-01T19:08:57.559Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -102,10 +103,10 @@ var detailsByEvent = new Map([
   ["SessionStart", []],
   ["sessionEnd", ["reason"]],
   ["SessionEnd", ["reason"]],
-  ["subagentStart", ["agent_type", "task"]],
-  ["SubagentStart", ["agent_type", "task"]],
-  ["subagentStop", ["agent_type", "response_text"]],
-  ["SubagentStop", ["agent_type", "response_text"]],
+  ["subagentStart", ["agent_type", "agent_display_name", "task"]],
+  ["SubagentStart", ["agent_type", "agent_display_name", "task"]],
+  ["subagentStop", ["agent_type", "agent_display_name", "response_text"]],
+  ["SubagentStop", ["agent_type", "agent_display_name", "response_text"]],
   ["beforeSubmitPrompt", ["prompt"]],
   ["userPromptSubmitted", ["prompt"]],
   ["UserPromptSubmit", ["prompt"]],
@@ -485,6 +486,12 @@ var subagentStartFields = [
     copilot: "agentName",
     "claude-code": "agent_type"
   },
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": ""
+  },
   { name: "task", cursor: "task", copilot: "", "claude-code": "" }
 ];
 var subagentStopFields = [
@@ -493,6 +500,12 @@ var subagentStopFields = [
     cursor: "subagent_type",
     copilot: "agentType",
     "claude-code": "agent_type"
+  },
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": ""
   },
   {
     name: "response_text",
