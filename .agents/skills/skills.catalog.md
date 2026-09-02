@@ -61,7 +61,7 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 | [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder: `/codify` from a defect report |
 | [`review-implementation`](../commands/review-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`; defects go through `/fix-defects` |
 | [`clean-solution`](../commands/clean-solution.command.md) | Spawn Craftsman to hunt CRAP and lint; defects go through `/fix-defects` |
-| [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | After `init`, fetch workshop or CLI archetypes, document them, and report |
+| [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
 
 ## Human checkpoints
 

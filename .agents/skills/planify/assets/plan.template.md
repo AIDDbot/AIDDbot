@@ -26,7 +26,7 @@ technical spec, describe the destination, not user-facing behavior.}
 ## Implementation Steps
 
 ### Step 1: {Step Title}
-{short description of the step}
+{short description of the step in one line}
 - Paths:
     - `{path/to/file1}`
     - `{path/to/folder2/}`

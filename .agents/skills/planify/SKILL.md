@@ -6,7 +6,7 @@ disable-model-invocation: true
 ---
 # planify
 
-Your goal is to turn a specification into the build plan for one container.
+Your goal is to turn a specification into the build plan (short and lean) for one container.
 
 One container per run; if you were not given one, ask. Ground the plan in that container's architecture. Data you publish or consume through an API or a store is worded the same in every sibling plan. On amend, classify every prior step `keep`, `redo`, or `drop`; a deprecated criterion is `drop`.
 

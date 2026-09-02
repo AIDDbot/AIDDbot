@@ -29,7 +29,7 @@ Architect writes it. Builder never starts without one. Craftsman never ships wit
 | `/fix-defects` | Builder | Apply a defect report in code |
 | `/review-implementation` | Craftsman; `/fix-defects` when red | Verify, qualify, and ship |
 | `/clean-solution` | Craftsman; `/fix-defects` when red | Hunt CRAP and lint across the codebase |
-| `/scaffold-workshop` | — (command body) | Fetch archetypes after `init`, document them, report |
+| `/scaffold-workshop` | — (command body) | Assemble, install, smoke-test, and commit a catalogued monorepo |
 
 ```mermaid
 flowchart LR

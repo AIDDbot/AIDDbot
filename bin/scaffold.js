@@ -6,7 +6,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { sourceRoot, refuseOrigin, runOverlay } = require("./lib/overlay");
 const { ensureGit } = require("./lib/git");
-const { ensureSeedFiles } = require("./lib/seed");
+const { ensureLicense, ensureSeedFiles } = require("./lib/seed");
 
 const VALUE_FLAGS = {
   "--dest": "dest",
@@ -15,7 +15,6 @@ const VALUE_FLAGS = {
   "--e2e": "e2e",
   "--domain": "domain",
   "--cli": "cli",
-  "--app": "app",
 };
 
 const CATALOG = {
@@ -24,12 +23,6 @@ const CATALOG = {
   e2e: ["playwright"],
   domain: ["astro-bookings", "acorn-bank", "adventure-bazaar", "alpine-basecamp"],
   cli: ["node"],
-};
-
-const DEFAULTS = {
-  back: "express",
-  front: "standard",
-  e2e: "playwright",
 };
 
 function isolatedEnv() {
@@ -57,14 +50,14 @@ function npxTiged(repo, dest, cwd) {
 
 function help() {
   process.stderr.write(`Usage:
-  node bin/scaffold.js --domain NAME [options]
-  npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --domain NAME [options]
+  node bin/scaffold.js [projects] [--domain NAME]
+  npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold [projects] [--domain NAME]
 
-Fetch workshop archetypes, git init if needed, seed .gitignore and README.md when missing, then copy the AIDD overlay (same as bin/aiddbot.js).
---domain is required (any slug; samples listed below). Workshop profile: back, front, and e2e
-default to express, standard, and playwright. CLI profile: --cli node. Other app models:
---app NAME fetches AIDDbot/NAME → NAME/. Slugs not in the catalog are accepted as given.
-Existing archetype folders are left alone.
+Fetch one or more catalogued {tier}-{tech} archetypes, initialize git, seed
+.gitignore, README.md, and LICENSE when missing, then copy the AIDD overlay.
+Every project tier is optional, but at least one must be selected. Existing
+archetype folders are left alone. A catalogued domain sample is optional;
+any other domain slug records a new domain without fetching a sample.
 
 Options
   --dest DIR     Workshop root (default: current directory).
@@ -73,7 +66,6 @@ Options
   --front TECH   AIDDbot/front-{TECH} → front/   (catalog: ${CATALOG.front.join(", ")})
   --e2e TECH     AIDDbot/e2e-{TECH} → e2e/       (catalog: ${CATALOG.e2e.join(", ")})
   --cli TECH     AIDDbot/cli-{TECH} → cli/       (catalog: ${CATALOG.cli.join(", ")})
-  --app NAME     AIDDbot/{NAME} → {NAME}/        (any slug; not in catalog)
   --domain NAME  domain sample when catalogued → docs/domain/
                  (samples: ${CATALOG.domain.join(", ")}; any other slug skips the fetch)
   --dry-run      Print the plan; write nothing
@@ -81,9 +73,9 @@ Options
   --list         Print the catalog and exit
 
 Examples
-  node bin/scaffold.js --dest ../workshop --domain alpine-basecamp
-  node bin/scaffold.js --dest ../cli-tool --domain acorn-bank --cli node
-  node bin/scaffold.js --dest ../custom --domain pet-hotel --app my-stack
+  node bin/scaffold.js --dest ../workshop --back express --front standard --e2e playwright
+  node bin/scaffold.js --dest ../cli-tool --cli node --domain acorn-bank
+  node bin/scaffold.js --dest ../api --back express --domain pet-hotel
 `);
 }
 
@@ -104,7 +96,6 @@ function parseArgs(argv) {
     e2e: null,
     domain: null,
     cli: null,
-    app: null,
     dryRun: false,
     force: false,
     list: false,
@@ -187,15 +178,10 @@ function fetchPiece(destRoot, repo, dest, dryRun) {
 
 function piecesFrom(opts, destRoot) {
   const pieces = [];
-  if (opts.app) {
-    pieces.push({ repo: `AIDDbot/${opts.app}`, dest: path.join(destRoot, opts.app) });
-  } else if (opts.cli) {
-    pieces.push({ repo: `AIDDbot/cli-${opts.cli}`, dest: path.join(destRoot, "cli") });
-  } else {
-    if (opts.back) pieces.push({ repo: `AIDDbot/back-${opts.back}`, dest: path.join(destRoot, "back") });
-    if (opts.front) pieces.push({ repo: `AIDDbot/front-${opts.front}`, dest: path.join(destRoot, "front") });
-    if (opts.e2e) pieces.push({ repo: `AIDDbot/e2e-${opts.e2e}`, dest: path.join(destRoot, "e2e") });
-  }
+  if (opts.back) pieces.push({ repo: `AIDDbot/back-${opts.back}`, dest: path.join(destRoot, "back") });
+  if (opts.front) pieces.push({ repo: `AIDDbot/front-${opts.front}`, dest: path.join(destRoot, "front") });
+  if (opts.e2e) pieces.push({ repo: `AIDDbot/e2e-${opts.e2e}`, dest: path.join(destRoot, "e2e") });
+  if (opts.cli) pieces.push({ repo: `AIDDbot/cli-${opts.cli}`, dest: path.join(destRoot, "cli") });
   if (opts.domain && CATALOG.domain.includes(opts.domain)) {
     pieces.push({
       repo: `AIDDbot/domain-samples/${opts.domain}`,
@@ -206,37 +192,27 @@ function piecesFrom(opts, destRoot) {
 }
 
 function listCatalog() {
-  process.stdout.write(`profile    workshop (default): --back, --front, --e2e\n`);
-  process.stdout.write(`           cli: --cli node\n`);
-  process.stdout.write(`           other: --app NAME (any AIDDbot repo slug)\n`);
-  process.stdout.write(`--back     ${CATALOG.back.join(", ")} (or any slug)\n`);
-  process.stdout.write(`--front    ${CATALOG.front.join(", ")} (or any slug)\n`);
-  process.stdout.write(`--e2e      ${CATALOG.e2e.join(", ")} (or any slug)\n`);
-  process.stdout.write(`--cli      ${CATALOG.cli.join(", ")} (or any slug)\n`);
-  process.stdout.write(`--app      any AIDDbot repo slug → ./{slug}/\n`);
+  process.stdout.write(`--back     ${CATALOG.back.join(", ")}\n`);
+  process.stdout.write(`--front    ${CATALOG.front.join(", ")}\n`);
+  process.stdout.write(`--e2e      ${CATALOG.e2e.join(", ")}\n`);
+  process.stdout.write(`--cli      ${CATALOG.cli.join(", ")}\n`);
   process.stdout.write(`--domain   samples: ${CATALOG.domain.join(", ")} (or any slug; custom skips fetch)\n`);
   return 0;
 }
 
-function applyDefaults(opts) {
-  if (opts.cli || opts.app) return opts;
-  for (const key of Object.keys(DEFAULTS)) {
-    if (!opts[key]) opts[key] = DEFAULTS[key];
-  }
-  return opts;
-}
-
 function validateCatalog(opts) {
-  for (const key of ["back", "front", "e2e", "cli", "app", "domain"]) {
+  for (const key of ["back", "front", "e2e", "cli", "domain"]) {
     const value = opts[key];
     if (!value) continue;
     if (!isSlug(value)) return `Invalid --${key} "${value}" (use lowercase letters, digits, hyphens)`;
   }
-  if (opts.cli && opts.app) return "Use --cli or --app, not both";
-  if (opts.cli && (opts.back || opts.front || opts.e2e)) return "Use --cli or back/front/e2e, not both";
-  if (opts.app && (opts.back || opts.front || opts.e2e)) return "Use --app or back/front/e2e, not both";
-  if (!opts.cli && !opts.app && !opts.back && !opts.front && !opts.e2e) {
-    return "Pass --cli, --app NAME, or omit flags for the default workshop (back, front, e2e)";
+  for (const key of ["back", "front", "e2e", "cli"]) {
+    if (opts[key] && !CATALOG[key].includes(opts[key])) {
+      return `Unknown --${key} "${opts[key]}" (choose: ${CATALOG[key].join(", ")})`;
+    }
+  }
+  if (!opts.cli && !opts.back && !opts.front && !opts.e2e) {
+    return "Select at least one project with --back, --front, --e2e, or --cli";
   }
   return null;
 }
@@ -256,7 +232,6 @@ if (parsed.error) {
 const { opts } = parsed;
 if (opts.list) process.exit(listCatalog());
 
-applyDefaults(opts);
 const invalid = validateCatalog(opts);
 if (invalid) {
   process.stderr.write(`${invalid}\n`);
@@ -265,11 +240,6 @@ if (invalid) {
 }
 
 const destRoot = path.resolve(opts.dest ?? process.cwd());
-if (!opts.domain) {
-  process.stderr.write(`--domain is required (samples: ${CATALOG.domain.join(", ")}; any slug accepted)\n`);
-  help();
-  process.exit(1);
-}
 if (refuseOrigin(destRoot, "scaffold")) process.exit(1);
 
 const pieces = piecesFrom(opts, destRoot);
@@ -280,6 +250,7 @@ noteCustomDomain(opts);
 if (!opts.dryRun) fs.mkdirSync(destRoot, { recursive: true });
 ensureGit(destRoot, opts.dryRun);
 ensureSeedFiles(destRoot, opts.dryRun);
+ensureLicense(destRoot, fs.readFileSync(path.join(sourceRoot, "LICENSE"), "utf8"), opts.dryRun);
 for (const piece of pieces) {
   const status = fetchPiece(destRoot, piece.repo, piece.dest, opts.dryRun);
   if (status !== 0) process.exit(status);

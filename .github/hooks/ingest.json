@@ -4,36 +4,48 @@
     "sessionStart": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot sessionStart",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot sessionStart",
         "command": "node .agents/hooks/index.mjs ingest copilot sessionStart"
       }
     ],
     "sessionEnd": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot sessionEnd",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot sessionEnd",
         "command": "node .agents/hooks/index.mjs ingest copilot sessionEnd"
       }
     ],
     "subagentStart": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot subagentStart",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot subagentStart",
         "command": "node .agents/hooks/index.mjs ingest copilot subagentStart"
       }
     ],
     "subagentStop": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot subagentStop",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot subagentStop",
         "command": "node .agents/hooks/index.mjs ingest copilot subagentStop"
       }
     ],
     "userPromptSubmitted": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot userPromptSubmitted",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot userPromptSubmitted",
         "command": "node .agents/hooks/index.mjs ingest copilot userPromptSubmitted"
       }
     ],
     "agentStop": [
       {
         "type": "command",
+        "bash": "node .agents/hooks/index.mjs ingest copilot agentStop",
+        "powershell": "node .agents/hooks/index.mjs ingest copilot agentStop",
         "command": "node .agents/hooks/index.mjs ingest copilot agentStop"
       }
     ]

@@ -6,7 +6,7 @@ disable-model-invocation: true
 ---
 # specify
 
-Your goal is to capture a change as a one-page spec.
+Your goal is to capture a change as a one-page spec (short and lean).
 
 The caller names the kind — `functional` or `technical`. You never classify it; if neither the command nor the human named it, ask once and stop until you have it. Functional draws `F001`, `F002`…; technical draws `T001`, `T002`…; neither series advances the other. A criterion id is never renumbered or reused.
 

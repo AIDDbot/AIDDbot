@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// v0.11.0 2026-09-01T19:08:57.559Z
+// v0.16.0 2026-09-02T08:59:56.911Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -18,7 +18,7 @@ function parseArgv(argv) {
 }
 
 // src/ingest.ts
-import path3 from "node:path";
+import path4 from "node:path";
 
 // src/event.ts
 function nonEmptyString(value) {
@@ -92,27 +92,40 @@ function dayFolderName(now) {
 
 // src/report.ts
 import { readFile, writeFile } from "node:fs/promises";
+import path2 from "node:path";
 var headerKeys = new Set([
   "session_id",
-  "source_harness",
-  "source_event",
-  "timestamp"
+  "harness",
+  "event",
+  "timestamp",
+  "turn"
+]);
+var subagentByEvent = new Map([
+  ["subagentStart", ["agent_type", "agent_display_name"]],
+  ["SubagentStart", ["agent_type", "agent_display_name"]],
+  ["subagentStop", ["agent_type", "agent_display_name"]],
+  ["SubagentStop", ["agent_type", "agent_display_name"]]
 ]);
 var detailsByEvent = new Map([
   ["sessionStart", []],
   ["SessionStart", []],
   ["sessionEnd", ["reason"]],
   ["SessionEnd", ["reason"]],
-  ["subagentStart", ["agent_type", "agent_display_name", "task"]],
-  ["SubagentStart", ["agent_type", "agent_display_name", "task"]],
-  ["subagentStop", ["agent_type", "agent_display_name", "response_text"]],
-  ["SubagentStop", ["agent_type", "agent_display_name", "response_text"]],
+  ["subagentStart", ["task"]],
+  ["SubagentStart", ["task"]],
+  ["subagentStop", ["response_text"]],
+  ["SubagentStop", ["response_text"]],
   ["beforeSubmitPrompt", ["prompt"]],
   ["userPromptSubmitted", ["prompt"]],
   ["UserPromptSubmit", ["prompt"]],
   ["stop", []],
   ["agentStop", []],
   ["Stop", []]
+]);
+var promptKinds = new Set([
+  "beforeSubmitPrompt",
+  "userPromptSubmitted",
+  "UserPromptSubmit"
 ]);
 function takeChunk(chunks, current) {
   if (!current.some((line) => line.length > 0))
@@ -196,6 +209,21 @@ function stringField(pairs, key) {
   }
   return "";
 }
+function parseTurnValue(value) {
+  if (value === null)
+    return 0;
+  if (!/^\d+$/.test(value))
+    return 0;
+  return Number(value);
+}
+function integerField(pairs, key) {
+  for (const pair of pairs) {
+    if (pair.key !== key)
+      continue;
+    return parseTurnValue(pair.value);
+  }
+  return 0;
+}
 function bodyFields(pairs) {
   const body = {};
   for (const pair of pairs) {
@@ -210,9 +238,10 @@ function parseYamlChunk(chunk) {
 `));
   return {
     session_id: stringField(pairs, "session_id"),
-    source_harness: stringField(pairs, "source_harness"),
-    source_event: stringField(pairs, "source_event"),
+    harness: stringField(pairs, "harness"),
+    event: stringField(pairs, "event"),
     timestamp: stringField(pairs, "timestamp"),
+    turn: integerField(pairs, "turn"),
     body: bodyFields(pairs)
   };
 }
@@ -252,28 +281,25 @@ function eventCounts(docs) {
   const order = [];
   const counts = new Map;
   for (const doc of docs) {
-    const seen = counts.get(doc.source_event);
+    const seen = counts.get(doc.event);
     if (seen === undefined)
-      order.push(doc.source_event);
-    counts.set(doc.source_event, (seen ?? 0) + 1);
+      order.push(doc.event);
+    counts.set(doc.event, (seen ?? 0) + 1);
   }
   return order.map((event) => ({ event, count: counts.get(event) ?? 0 }));
 }
 function preview(value) {
   const single = value.replace(/\r\n|\n|\r/g, " ");
-  if (single.length <= 80)
+  if (single.length <= 100)
     return single;
-  return `${single.slice(0, 80)}...`;
+  return `${single.slice(0, 100)}...`;
 }
 function scalarText(value) {
   if (value === null)
     return "null";
   return preview(value);
 }
-function formatDetails(doc) {
-  const fields = detailsByEvent.get(doc.source_event);
-  if (fields === undefined)
-    return "";
+function formatFieldList(doc, fields) {
   const parts = [];
   for (const name of fields) {
     if (!(name in doc.body))
@@ -282,17 +308,34 @@ function formatDetails(doc) {
   }
   return parts.join("; ");
 }
+function formatSubagent(doc) {
+  const fields = subagentByEvent.get(doc.event);
+  if (fields === undefined)
+    return "";
+  return formatFieldList(doc, fields);
+}
+function formatDetails(doc) {
+  const fields = detailsByEvent.get(doc.event);
+  if (fields === undefined)
+    return "";
+  return formatFieldList(doc, fields);
+}
 function escapeCell(text) {
   return text.replaceAll("|", "\\|");
 }
-function overviewSection(first, last) {
+function reportSessionId(first, sessionId) {
+  if (sessionId === undefined)
+    return first.session_id;
+  return sessionId;
+}
+function overviewSection(first, last, sessionId) {
   return [
     "## Overview",
     "",
     "| Field | Value |",
     "| --- | --- |",
-    `| session_id | ${escapeCell(first.session_id)} |`,
-    `| source_harness | ${escapeCell(last.source_harness)} |`,
+    `| session_id | ${escapeCell(sessionId)} |`,
+    `| harness | ${escapeCell(last.harness)} |`,
     `| start | ${escapeCell(first.timestamp)} |`,
     `| end | ${escapeCell(last.timestamp)} |`,
     `| duration | ${formatDuration(first.timestamp, last.timestamp)} |`
@@ -305,34 +348,82 @@ function countSection(docs) {
     "",
     `Total: ${docs.length}`,
     "",
-    "| source_event | count |",
+    "| event | count |",
     "| --- | --- |",
     ...rows
   ];
 }
 function eventRow(doc) {
-  return `| ${escapeCell(doc.timestamp)} | ${escapeCell(doc.source_event)} | ${escapeCell(formatDetails(doc))} |`;
+  return `| ${escapeCell(doc.timestamp)} | ${escapeCell(doc.event)} | ${escapeCell(formatSubagent(doc))} | ${escapeCell(formatDetails(doc))} |`;
 }
-function eventsSection(docs) {
-  return [
-    "## Events",
+function turnGroups(docs) {
+  const seen = [];
+  const byTurn = new Map;
+  for (const doc of docs) {
+    const existing = byTurn.get(doc.turn);
+    if (existing === undefined) {
+      seen.push(doc.turn);
+      byTurn.set(doc.turn, [doc]);
+    } else {
+      existing.push(doc);
+    }
+  }
+  seen.sort((a, b) => a - b);
+  return seen.map((turn) => ({ turn, docs: byTurn.get(turn) ?? [] }));
+}
+function firstPromptDoc(docs) {
+  for (const doc of docs) {
+    if (promptKinds.has(doc.event))
+      return doc;
+  }
+  return;
+}
+function turnDuration(group) {
+  const last = group.docs[group.docs.length - 1];
+  const first = group.docs[0];
+  if (last === undefined || first === undefined)
+    return "00:00:00";
+  if (group.turn < 1)
+    return formatDuration(first.timestamp, last.timestamp);
+  const prompt = firstPromptDoc(group.docs);
+  const start = prompt ?? first;
+  return formatDuration(start.timestamp, last.timestamp);
+}
+function turnPrompt(group) {
+  if (group.turn < 1)
+    return;
+  const promptDoc = firstPromptDoc(group.docs);
+  if (promptDoc === undefined)
+    return;
+  if (!("prompt" in promptDoc.body))
+    return;
+  return scalarText(promptDoc.body.prompt ?? null);
+}
+function turnSection(group) {
+  const prompt = turnPrompt(group);
+  const lines = [
     "",
-    "| Time | Event | Details |",
-    "| --- | --- | --- |",
-    ...docs.map(eventRow)
+    `## Turn ${group.turn}`,
+    "",
+    `Duration: ${turnDuration(group)}`,
+    ""
   ];
+  if (prompt !== undefined) {
+    lines.push(`Prompt: ${escapeCell(prompt)}`, "");
+  }
+  lines.push("| Time | Event | Subagent | Details |", "| --- | --- | --- | --- |", ...group.docs.map(eventRow));
+  return lines;
 }
-function emitSessionReport(docs) {
+function emitSessionReport(docs, sessionId) {
   const first = docs[0];
   if (first === undefined)
     throw new Error("empty yaml");
   const last = docs[docs.length - 1] ?? first;
   const lines = [
-    ...overviewSection(first, last),
+    ...overviewSection(first, last, reportSessionId(first, sessionId)),
     "",
     ...countSection(docs),
-    "",
-    ...eventsSection(docs)
+    ...turnGroups(docs).flatMap(turnSection)
   ];
   return `${lines.join(`
 `)}
@@ -341,7 +432,7 @@ function emitSessionReport(docs) {
 async function writeSessionReport(input) {
   const text = await readFile(input.yamlPath, "utf8");
   const docs = parseYamlDocuments(text);
-  await writeFile(input.mdPath, emitSessionReport(docs));
+  await writeFile(input.mdPath, emitSessionReport(docs, path2.parse(input.yamlPath).name));
 }
 
 // src/store.ts
@@ -354,7 +445,234 @@ import {
   unlink,
   writeFile as writeFile2
 } from "node:fs/promises";
-import path2 from "node:path";
+import path3 from "node:path";
+
+// src/yaml.ts
+var sessionEndFields = [
+  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason" }
+];
+var subagentStartFields = [
+  {
+    name: "agent_type",
+    cursor: "subagent_type",
+    copilot: "agentName",
+    "claude-code": "agent_type"
+  },
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": ""
+  },
+  { name: "task", cursor: "task", copilot: "", "claude-code": "" }
+];
+var subagentStopFields = [
+  {
+    name: "agent_type",
+    cursor: "subagent_type",
+    copilot: "agentType",
+    "claude-code": "agent_type"
+  },
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": ""
+  },
+  {
+    name: "response_text",
+    cursor: "summary",
+    copilot: "response",
+    "claude-code": "last_assistant_message"
+  }
+];
+var promptFields = [
+  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt" }
+];
+var emptyFields = [];
+var bodyByEvent = new Map([
+  ["sessionStart", emptyFields],
+  ["SessionStart", emptyFields],
+  ["sessionEnd", sessionEndFields],
+  ["SessionEnd", sessionEndFields],
+  ["subagentStart", subagentStartFields],
+  ["SubagentStart", subagentStartFields],
+  ["subagentStop", subagentStopFields],
+  ["SubagentStop", subagentStopFields],
+  ["beforeSubmitPrompt", promptFields],
+  ["userPromptSubmitted", promptFields],
+  ["UserPromptSubmit", promptFields],
+  ["stop", emptyFields],
+  ["agentStop", emptyFields],
+  ["Stop", emptyFields]
+]);
+var promptKindEvents = new Set([
+  "beforeSubmitPrompt",
+  "userPromptSubmitted",
+  "UserPromptSubmit"
+]);
+function isPromptKind(event) {
+  return promptKindEvents.has(event);
+}
+function isSessionStartEvent(event) {
+  if (event === "sessionStart")
+    return true;
+  if (event === "SessionStart")
+    return true;
+  return false;
+}
+function isInitialSessionStart(existingYaml, event) {
+  if (!isSessionStartEvent(event))
+    return false;
+  if (existingYaml.includes("---"))
+    return false;
+  return true;
+}
+function unquoteYamlScalar(raw) {
+  if (!raw.startsWith('"'))
+    return raw;
+  if (!raw.endsWith('"'))
+    return raw;
+  return raw.slice(1, -1);
+}
+function headerEventValue(line) {
+  const match = /^event:(?: (.*))?$/.exec(line);
+  if (match === null)
+    return;
+  const rest = match[1];
+  if (rest === undefined)
+    return "";
+  return unquoteYamlScalar(rest.trim());
+}
+function countPromptKindEvents(existingYaml) {
+  let count = 0;
+  for (const line of existingYaml.split(`
+`)) {
+    const event = headerEventValue(line);
+    if (event === undefined)
+      continue;
+    if (!isPromptKind(event))
+      continue;
+    count += 1;
+  }
+  return count;
+}
+function nextConversationTurn(existingYaml, event) {
+  const already = countPromptKindEvents(existingYaml);
+  if (isPromptKind(event))
+    return already + 1;
+  return already;
+}
+function asHarness(value) {
+  if (value === "cursor")
+    return value;
+  if (value === "copilot")
+    return value;
+  if (value === "claude-code")
+    return value;
+  return;
+}
+function pad22(n) {
+  return String(n).padStart(2, "0");
+}
+function formatLocalHms(date) {
+  return `${pad22(date.getHours())}:${pad22(date.getMinutes())}:${pad22(date.getSeconds())}`;
+}
+function sourceInstant(payload, now) {
+  const raw = payload.timestamp;
+  if (typeof raw === "number") {
+    if (Number.isFinite(raw))
+      return new Date(raw);
+    return now;
+  }
+  if (typeof raw !== "string")
+    return now;
+  if (raw.length === 0)
+    return now;
+  const ms = Date.parse(raw);
+  if (Number.isFinite(ms))
+    return new Date(ms);
+  return now;
+}
+function needsQuote(value) {
+  if (value.length === 0)
+    return true;
+  if (/^(true|false|yes|no|on|off|null|~)$/i.test(value))
+    return true;
+  return !/^[A-Za-z_/][A-Za-z0-9_./+-]*$/.test(value);
+}
+function emitScalar(value) {
+  if (value === null)
+    return "null";
+  if (typeof value === "boolean")
+    return value ? "true" : "false";
+  if (typeof value === "number") {
+    if (Number.isFinite(value))
+      return String(value);
+    return JSON.stringify(String(value));
+  }
+  if (typeof value !== "string")
+    return JSON.stringify(value);
+  if (needsQuote(value))
+    return JSON.stringify(value);
+  return value;
+}
+function blockLines(value) {
+  return value.split(`
+`).map((line) => `  ${line}`).join(`
+`);
+}
+function emitPair(key, value) {
+  if (typeof value !== "string")
+    return `${key}: ${emitScalar(value)}`;
+  if (!value.includes(`
+`))
+    return `${key}: ${emitScalar(value)}`;
+  return `${key}: |
+${blockLines(value)}`;
+}
+function bodyLines(payload, harness, event) {
+  const column = asHarness(harness);
+  if (column === undefined)
+    return [];
+  const fields = bodyByEvent.get(event);
+  if (fields === undefined)
+    return [];
+  const lines = [];
+  for (const field of fields) {
+    const sourceKey = field[column];
+    if (sourceKey.length === 0)
+      continue;
+    if (!(sourceKey in payload))
+      continue;
+    lines.push(emitPair(field.name, payload[sourceKey]));
+  }
+  return lines;
+}
+function headerLines(input, timestamp) {
+  const lines = [];
+  if (input.includeSessionId) {
+    lines.push(emitPair("session_id", input.sessionId));
+  }
+  lines.push(emitPair("harness", input.harness));
+  lines.push(emitPair("event", input.event));
+  lines.push(emitPair("timestamp", timestamp));
+  lines.push(emitPair("turn", input.turn));
+  return lines;
+}
+function emitYamlDocument(input) {
+  const timestamp = formatLocalHms(sourceInstant(input.payload, input.now));
+  const lines = [
+    "---",
+    ...headerLines(input, timestamp),
+    ...bodyLines(input.payload, input.harness, input.event)
+  ];
+  return `${lines.join(`
+`)}
+`;
+}
+
+// src/store.ts
 var lockWaitMs = 400;
 var lockRetryMs = 10;
 var lockStaleMs = 2000;
@@ -446,193 +764,71 @@ async function persistSessionIndex(sessionsPath, sessionId) {
     return;
   await writeFile2(sessionsPath, "[]");
 }
+async function readExistingYaml(yamlPath) {
+  try {
+    return await readFile2(yamlPath, "utf8");
+  } catch (error) {
+    if (errorCode(error) === "ENOENT")
+      return "";
+    throw error;
+  }
+}
+function countedYamlDocument(existing, sessionId, emit) {
+  return emitYamlDocument({
+    payload: emit.payload,
+    sessionId,
+    harness: emit.harness,
+    event: emit.event,
+    now: emit.now,
+    turn: nextConversationTurn(existing, emit.event),
+    includeSessionId: isInitialSessionStart(existing, emit.event)
+  });
+}
+async function appendCountedYaml(yamlPath, sessionId, emit) {
+  const existing = await readExistingYaml(yamlPath);
+  await appendFile(yamlPath, countedYamlDocument(existing, sessionId, emit));
+}
+async function appendSessionYaml(input) {
+  if (input.sessionId === undefined)
+    return;
+  const yamlPath = path3.join(input.dayFolder, `${input.sessionId}.yaml`);
+  if (input.yamlDocument !== undefined) {
+    await appendFile(yamlPath, input.yamlDocument);
+    return;
+  }
+  if (input.yamlEmit === undefined)
+    return;
+  await appendCountedYaml(yamlPath, input.sessionId, input.yamlEmit);
+}
 async function writeUnderLock(input) {
-  const eventsPath = path2.join(input.dayFolder, "events.jsonl");
-  const sessionsPath = path2.join(input.dayFolder, "sessions.json");
+  const eventsPath = path3.join(input.dayFolder, "events.jsonl");
+  const sessionsPath = path3.join(input.dayFolder, "sessions.json");
   await appendFile(eventsPath, `${input.eventLine}
 `);
   await persistSessionIndex(sessionsPath, input.sessionId);
-  if (input.sessionId === undefined)
-    return;
-  if (input.yamlDocument === undefined)
-    return;
-  await appendFile(path2.join(input.dayFolder, `${input.sessionId}.yaml`), input.yamlDocument);
+  await appendSessionYaml({
+    dayFolder: input.dayFolder,
+    sessionId: input.sessionId,
+    yamlDocument: input.yamlDocument,
+    yamlEmit: input.yamlEmit
+  });
 }
 async function persistIngest(input) {
-  const dayFolder = path2.join(input.projectRoot, "temp", "audit", dayFolderName(input.now));
+  const dayFolder = path3.join(input.projectRoot, "temp", "audit", dayFolderName(input.now));
   await mkdir(dayFolder, { recursive: true });
-  const lockPath = path2.join(dayFolder, "ingest.lock");
+  const lockPath = path3.join(dayFolder, "ingest.lock");
   const lock = await acquireLock(lockPath);
   try {
     await writeUnderLock({
       dayFolder,
       eventLine: input.eventLine,
       sessionId: input.sessionId,
-      yamlDocument: input.yamlDocument
+      yamlDocument: input.yamlDocument,
+      yamlEmit: input.yamlEmit
     });
   } finally {
     await releaseLock(lock, lockPath);
   }
-}
-
-// src/yaml.ts
-var sessionEndFields = [
-  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason" }
-];
-var subagentStartFields = [
-  {
-    name: "agent_type",
-    cursor: "subagent_type",
-    copilot: "agentName",
-    "claude-code": "agent_type"
-  },
-  {
-    name: "agent_display_name",
-    cursor: "",
-    copilot: "agentDisplayName",
-    "claude-code": ""
-  },
-  { name: "task", cursor: "task", copilot: "", "claude-code": "" }
-];
-var subagentStopFields = [
-  {
-    name: "agent_type",
-    cursor: "subagent_type",
-    copilot: "agentType",
-    "claude-code": "agent_type"
-  },
-  {
-    name: "agent_display_name",
-    cursor: "",
-    copilot: "agentDisplayName",
-    "claude-code": ""
-  },
-  {
-    name: "response_text",
-    cursor: "summary",
-    copilot: "response",
-    "claude-code": "last_assistant_message"
-  }
-];
-var promptFields = [
-  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt" }
-];
-var emptyFields = [];
-var bodyByEvent = new Map([
-  ["sessionStart", emptyFields],
-  ["SessionStart", emptyFields],
-  ["sessionEnd", sessionEndFields],
-  ["SessionEnd", sessionEndFields],
-  ["subagentStart", subagentStartFields],
-  ["SubagentStart", subagentStartFields],
-  ["subagentStop", subagentStopFields],
-  ["SubagentStop", subagentStopFields],
-  ["beforeSubmitPrompt", promptFields],
-  ["userPromptSubmitted", promptFields],
-  ["UserPromptSubmit", promptFields],
-  ["stop", emptyFields],
-  ["agentStop", emptyFields],
-  ["Stop", emptyFields]
-]);
-function asHarness(value) {
-  if (value === "cursor")
-    return value;
-  if (value === "copilot")
-    return value;
-  if (value === "claude-code")
-    return value;
-  return;
-}
-function pad22(n) {
-  return String(n).padStart(2, "0");
-}
-function formatLocalHms(date) {
-  return `${pad22(date.getHours())}:${pad22(date.getMinutes())}:${pad22(date.getSeconds())}`;
-}
-function sourceInstant(payload, now) {
-  const raw = payload.timestamp;
-  if (typeof raw === "number") {
-    if (Number.isFinite(raw))
-      return new Date(raw);
-    return now;
-  }
-  if (typeof raw !== "string")
-    return now;
-  if (raw.length === 0)
-    return now;
-  const ms = Date.parse(raw);
-  if (Number.isFinite(ms))
-    return new Date(ms);
-  return now;
-}
-function needsQuote(value) {
-  if (value.length === 0)
-    return true;
-  if (/^(true|false|yes|no|on|off|null|~)$/i.test(value))
-    return true;
-  return !/^[A-Za-z_/][A-Za-z0-9_./+-]*$/.test(value);
-}
-function emitScalar(value) {
-  if (value === null)
-    return "null";
-  if (typeof value === "boolean")
-    return value ? "true" : "false";
-  if (typeof value === "number") {
-    if (Number.isFinite(value))
-      return String(value);
-    return JSON.stringify(String(value));
-  }
-  if (typeof value !== "string")
-    return JSON.stringify(value);
-  if (needsQuote(value))
-    return JSON.stringify(value);
-  return value;
-}
-function blockLines(value) {
-  return value.split(`
-`).map((line) => `  ${line}`).join(`
-`);
-}
-function emitPair(key, value) {
-  if (typeof value !== "string")
-    return `${key}: ${emitScalar(value)}`;
-  if (!value.includes(`
-`))
-    return `${key}: ${emitScalar(value)}`;
-  return `${key}: |
-${blockLines(value)}`;
-}
-function bodyLines(payload, harness, event) {
-  const column = asHarness(harness);
-  if (column === undefined)
-    return [];
-  const fields = bodyByEvent.get(event);
-  if (fields === undefined)
-    return [];
-  const lines = [];
-  for (const field of fields) {
-    const sourceKey = field[column];
-    if (sourceKey.length === 0)
-      continue;
-    if (!(sourceKey in payload))
-      continue;
-    lines.push(emitPair(field.name, payload[sourceKey]));
-  }
-  return lines;
-}
-function emitYamlDocument(input) {
-  const timestamp = formatLocalHms(sourceInstant(input.payload, input.now));
-  const lines = [
-    "---",
-    emitPair("session_id", input.sessionId),
-    emitPair("source_harness", input.harness),
-    emitPair("source_event", input.event),
-    emitPair("timestamp", timestamp),
-    ...bodyLines(input.payload, input.harness, input.event)
-  ];
-  return `${lines.join(`
-`)}
-`;
 }
 
 // src/ingest.ts
@@ -728,31 +924,29 @@ function parsePayload(stdinText) {
     return;
   }
 }
-function sessionYamlDocument(args) {
-  if (args.sessionId === undefined)
+function positionalOrEmpty(value) {
+  if (value === undefined)
+    return "";
+  return value;
+}
+function sessionYamlEmit(payload, input, sessionId, now) {
+  if (sessionId === undefined)
     return;
-  return emitYamlDocument({
-    payload: args.payload,
-    sessionId: args.sessionId,
-    harness: args.input.harness ?? "",
-    event: args.input.event ?? "",
-    now: args.now
-  });
+  return {
+    payload,
+    harness: positionalOrEmpty(input.harness),
+    event: positionalOrEmpty(input.event),
+    now
+  };
 }
 async function persistParsedIngest(args) {
   const sessionId = sessionIdentifier(args.payload);
   const now = args.input.now ?? new Date;
-  const yamlDocument = sessionYamlDocument({
-    input: args.input,
-    payload: args.payload,
-    sessionId,
-    now
-  });
   await persistIngest({
     projectRoot: args.projectRoot,
     eventLine: eventLogLine(args.payload),
     sessionId,
-    yamlDocument,
+    yamlEmit: sessionYamlEmit(args.payload, args.input, sessionId, now),
     now
   });
   await maybeWriteReport({
@@ -777,11 +971,11 @@ async function ingestOrThrow(input) {
 async function maybeWriteReport(args) {
   if (args.sessionId === undefined)
     return;
-  const folder = path3.join(args.projectRoot, "temp", "audit", dayFolderName(args.now));
+  const folder = path4.join(args.projectRoot, "temp", "audit", dayFolderName(args.now));
   try {
     await writeSessionReport({
-      yamlPath: path3.join(folder, `${args.sessionId}.yaml`),
-      mdPath: path3.join(folder, `${args.sessionId}.md`)
+      yamlPath: path4.join(folder, `${args.sessionId}.yaml`),
+      mdPath: path4.join(folder, `${args.sessionId}.md`)
     });
   } catch {}
 }

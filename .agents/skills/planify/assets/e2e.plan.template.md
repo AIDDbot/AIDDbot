@@ -34,7 +34,7 @@ container: e2e
 
 ### Step 1: AC-{spec_id}.1 — {Scenario Title}
 {Flow being verified, end-to-end across containers; verifies exactly one AC id,
-which the test title must carry.}
+which the test title must carry. One line per step.}
 - Paths:
     - `{path/to/file1}`
     - `{path/to/folder2/}`

@@ -129,6 +129,18 @@ function ensureReadme(destRoot, dryRun) {
   return rel;
 }
 
+function ensureLicense(destRoot, contents, dryRun) {
+  const rel = "LICENSE";
+  const abs = absPath(destRoot, rel);
+  if (fs.existsSync(abs)) {
+    print("skip-same", rel);
+    return null;
+  }
+  print("create", rel);
+  writeFile(abs, contents, dryRun);
+  return rel;
+}
+
 function absPath(destRoot, rel) {
   return path.join(destRoot, rel);
 }
@@ -142,4 +154,4 @@ function ensureSeedFiles(destRoot, dryRun) {
   return written;
 }
 
-module.exports = { ensureSeedFiles };
+module.exports = { ensureLicense, ensureSeedFiles };
