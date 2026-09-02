@@ -23,6 +23,7 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 | Skill | What it does |
 |---|---|
 | [`/specify`](./specify/) | Writes a spec; the caller names the kind — `functional` or `technical` |
+| [`/scope-change`](./scope-change/) | Discovers affected specs and writes a coordinated change manifest |
 
 ## Build
 
@@ -42,7 +43,7 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 
 | Skill | What it does |
 |---|---|
-| [`/shipify`](./shipify/) | Version, changelog, reconciled docs, and tag after qualification |
+| [`/shipify`](./shipify/) | Version, changelog, reconciled docs, and tag after qualification; closes a single spec or an entire change manifest atomically |
 
 ## Meta
 
@@ -56,7 +57,8 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 |---|---|
 | [`map-solution`](../commands/map-solution.command.md) | Spawn Architect: `/explore` once, then `/extract` per container |
 | [`design-solution`](../commands/design-solution.command.md) | Spawn Architect: `/explore`, then `/specify` (`kind: technical`) |
-| [`specify-feature`](../commands/specify-feature.command.md) | Spawn Architect: `/specify` (`kind: functional`); YOLO continues with `/implement-spec` |
+| [`specify-feature`](../commands/specify-feature.command.md) | Triage a requirement: one spec → `/specify` then `/implement-spec`; several specs → confirm (YOLO bypasses) then internal `/deliver-change` |
+| [`deliver-change`](../commands/deliver-change.command.md) | **Internal** — coordinated multi-spec delivery: scope, specify each spec, sequential implement, batched review, one `/shipify` |
 | [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` then `/codify` per container; then run `/review-implementation` |
 | [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder: `/codify` from a defect report |
 | [`review-implementation`](../commands/review-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`; defects go through `/fix-defects` |
@@ -68,8 +70,8 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 You review only at key checkpoints:
 
 - After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo (or the design you want built).
-- After `/specify-feature`: problem, outcomes, and acceptance criteria are correct. YOLO skips this stop and continues to `/implement-spec`.
-- `/implement-spec` already runs `/review-implementation`. If that flow (or `/clean-solution`) finds defects, it runs `/fix-defects` and continues.
+- After `/specify-feature`: problem, outcomes, and acceptance criteria are correct — or, for a coordinated change, the impact map and every spec in the bundle. YOLO skips approval and continues delivery.
+- `/implement-spec` already runs `/review-implementation`. `/deliver-change` reviews every spec after all coding, then ships once. Defects go through `/fix-defects` on the active working branch.
 
 ## Pipeline
 

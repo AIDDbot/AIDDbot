@@ -1,7 +1,7 @@
 ---
 source: qualify
 target: {/shipify | /codify}   # green → /shipify · red → /codify
-scope: {spec_key | branch | paths}
+scope: {spec_key}   # spec-local paths from plans + spec folder; not whole branch on change/{change_key}
 run: {ISO date}
 status: {green | red}
 ---

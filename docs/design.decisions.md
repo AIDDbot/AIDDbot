@@ -4,6 +4,34 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-02 — Coordinated multi-spec delivery; commands own branches
+
+**Status**: adopted. Supersedes skill-owned branch creation in `/specify` and `/codify`.
+
+### Context
+
+`/specify-feature` assumed one new or amended spec per requirement. Real requirements often amend several existing specs and may introduce a new one. Branch naming lived in `/specify` and `/codify`, which made coordinated delivery awkward and let code land on the default branch when skills were invoked directly.
+
+### Decision
+
+1. **`/specify-feature` triages every requirement.** One affected spec keeps the existing `/specify` → approval/YOLO → `/implement-spec` path. Several specs present an impact map; the human confirms coordinated delivery unless YOLO bypasses.
+2. **`/deliver-change` is internal.** It creates `change/{change_key}`, runs `/scope-change`, specifies each listed spec, implements specs sequentially on one branch, reviews every spec only after all coding, restarts review after any fix, and calls `/shipify` once for the whole manifest.
+3. **Commands own branches.** Skills write on the current branch and never switch. `/codify` alone refuses source or test writes on the default branch.
+4. **Spec-local artifacts stay spec-local.** Plans, reports, and statuses remain under each `{spec_key}`; the change manifest only coordinates delivery and records the shared `released-version`.
+
+### Rejected
+
+- **Umbrella spec duplicating owned behavior** — conflicts with "Amend, never fork."
+- **Parallel codify across specs on one branch** — file conflicts; sequential per spec is the first implementation.
+- **Separate `/specify-change` and `/implement-change` public doors** — `/specify-feature` remains the only product entry; `/deliver-change` is documented as internal.
+
+### Consequences
+
+- New skill `/scope-change` and command `/deliver-change`.
+- `/shipify` gains manifest mode for atomic multi-spec release.
+- `/qualify` scopes to spec-local paths on shared change branches.
+- Catalog, workflow, getting-started, README, and `AGENTS.template.md` updated.
+
 ## 2026-09-01 — Commands are orchestrator flows; agents execute skills
 
 **Status**: adopted. Supersedes the naming in "ABC doors split by job" (2026-08-29) and

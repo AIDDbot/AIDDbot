@@ -12,7 +12,7 @@ The caller names the kind — `functional` or `technical`. You never classify it
 
 Load the reference and template for that kind only — [functional](./references/functional.md) with its [spec template](./assets/functional.spec.template.md), or [technical](./references/technical.md) with its [spec template](./assets/technical.spec.template.md). Do not borrow the other kind's habits.
 
-Clarify with the human, one closed question at a time, until `{spec_key}` = `{spec_id}-{slug}` is settled. Write `{Product_Folder}/specs/{spec_key}/spec.md` on `feat/{spec_key}` or `chore/{spec_key}`.
+Clarify with the human, one closed question at a time, until `{spec_key}` = `{spec_id}-{slug}` is settled. Write `{Product_Folder}/specs/{spec_key}/spec.md` on the current branch — never create or switch branches.
 
 The result is the specification.
 

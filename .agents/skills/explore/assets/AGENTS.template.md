@@ -26,7 +26,9 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - MANDATORY: Preserve work; no secrets; no destructive commands
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
-- Branch names: `{feat|refactor|fix|chore}/{spec_key|slug}` 
+- Commands create and checkout branches; skills write on the current branch and never switch.
+- Branch names: `feat/{spec_key}` (functional spec) · `chore/{spec_key}` (technical spec) · `change/{change_key}` (coordinated multi-spec delivery) · `fix/{slug}` (standalone defect fix)
+- `/codify` alone refuses source or test writes on the default branch; stop and ask the caller to establish a working branch.
 
 ### Spec status
 - Specs live under `{Product_Folder}/specs/{spec_key}/spec.md` (`{spec_key}` = `{spec_id}-{slug}`).

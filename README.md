@@ -26,8 +26,8 @@ AIDDbot addresses that with:
 
 Three agents, one loop. You invoke a **command**; the current session is the orchestrator and spawns Architect, Builder, or Craftsman to execute a **skill**. Agents never run commands.
 
-- **Architect** — spawned by `/map-solution` (existing code), `/design-solution` (greenfield), `/specify-feature` (a spec you approve)
-- **Builder** — spawned by `/implement-spec` (from a validated spec), `/fix-defects` (from a defect report)
+- **Architect** — spawned by `/map-solution` (existing code), `/design-solution` (greenfield), `/specify-feature` (triage and specify — single or coordinated)
+- **Builder** — spawned by `/implement-spec` (from a validated spec), `/deliver-change` (coordinated multi-spec coding), `/fix-defects` (from a defect report)
 - **Craftsman** — spawned by `/review-implementation` (verify, qualify, ship), `/clean-solution` (CRAP and lint)
 
 `/implement-spec` already runs `/review-implementation` when the code is in. You can also follow an individual skill from the catalog when you want tighter control of one step.
@@ -40,7 +40,7 @@ Three agents, one loop. You invoke a **command**; the current session is the orc
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then `/map-solution` once. For each feature: `/specify-feature` (you approve the spec), `/implement-spec`. See [Getting started](docs/getting-started.md).
+Then `/map-solution` once. For each feature: `/specify-feature` (you approve the spec or impact map). Single-spec YOLO or approved work may continue through `/implement-spec`. See [Getting started](docs/getting-started.md).
 
 **New workshop** — `init` in an empty folder outside this origin, then `/scaffold-workshop`, then `/map-solution`.
 

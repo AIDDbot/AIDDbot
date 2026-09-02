@@ -44,9 +44,9 @@ That spawns Architect to write the architecture and a technical spec so Builder 
 /specify-feature riders can rate a trip 1 to 5 stars
 ```
 
-Architect writes a one-page spec and **stops for your approval**. Check problem, outcomes, and acceptance criteria before anyone codes.
+Architect triages every requirement. One affected spec: a one-page spec on `feat/{spec_key}` and **stop for your approval**. Several specs: an impact map and confirmation for coordinated delivery (YOLO bypasses). Check problem, outcomes, and acceptance criteria before anyone codes.
 
-If the prompt includes YOLO, `/specify-feature` continues straight into `/implement-spec` and skips this stop.
+If the prompt includes YOLO, `/specify-feature` continues straight into delivery and skips approval stops.
 
 ## 4. Implement
 
@@ -54,7 +54,7 @@ If the prompt includes YOLO, `/specify-feature` continues straight into `/implem
 /implement-spec
 ```
 
-Builder plans each affected container (plus e2e), then writes the code and unit tests. When that finishes, the same command runs `/review-implementation`: Craftsman verifies against the spec, qualifies the code, and ships. Defects go through `/fix-defects` and the review continues.
+Builder plans each affected container (plus e2e), then writes the code and unit tests. For a single spec, `/implement-spec` runs `/review-implementation` when coding is done. For a coordinated change, `/specify-feature` routes to `/deliver-change`, which codes every spec sequentially, reviews them all, and ships once. Defects go through `/fix-defects` and the review continues.
 
 You can also invoke `/review-implementation` or `/fix-defects` on their own when you want that stretch without a full implement.
 
@@ -72,8 +72,8 @@ Craftsman reports; `/fix-defects` applies the findings.
 
 The usual loop after the first map:
 
-1. `/specify-feature` — you approve the spec
-2. `/implement-spec` — plans, codes, reviews, and ships
+1. `/specify-feature` — triage, approve the spec or impact map
+2. `/implement-spec` — for a standalone spec already approved; otherwise delivery continues inside `/specify-feature`
 
 Continue with:
 
