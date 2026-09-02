@@ -14,3 +14,5 @@ The goal of this command is to clean code by finding CRAP violations and lint is
 - _Triage_:
     - _IF_ there are defects, run the [`/fix-defects`](./fix-defects.command.md) command with the report in hand.
     - _IF_ there are no defects, return a short report of "no defects found".
+
+Return a short report of the defects fixed.

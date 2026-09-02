@@ -12,3 +12,5 @@ The goal of this command is to take an existing validated spec and implement it.
 
 
 - _ONCE_ all the sub-agents have finished, run the [`/review-implementation`](/.agents/commands/review-implementation.command.md) command for this specification implementation.
+
+Return a short report of the implementation reviewed.
