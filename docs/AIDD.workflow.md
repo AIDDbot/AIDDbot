@@ -48,7 +48,7 @@ flowchart LR
   FEAT -->|N specs confirm/YOLO| DEL["/deliver-change"]
   DES --> IMP
   IMP --> REV["/review-implementation"]
-  DEL --> REVB[review all specs]
+  DEL --> REVB["one /verify · one /qualify"]
   REVB --> SHIP["/shipify once"]
   REV -->|defects| FIX["/fix-defects"]
   FIX --> REV
@@ -133,15 +133,13 @@ flowchart LR
 
 `/review-implementation` spawns Craftsman to run `/verify`, then `/qualify`, then `/shipify`. A red report is a call to `/fix-defects`, then the review continues — not a rewrite of the spec.
 
-`/deliver-change` verifies and qualifies every spec in the manifest after all coding, restarts the review sweep after any fix, then calls `/shipify` once for the whole change.
+- `/deliver-change` verifies and qualifies the whole change once after all coding, restarts from verify after any fix, then calls `/shipify` once.
 
 `/clean-solution` spawns Craftsman to hunt cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. A red report goes through `/fix-defects`.
 
 ## Specs and changes
 
-Architect names the kind when it calls `/specify`: `functional` (product change — PRD and e2e) or `technical` (engineering work — plans and review, no PRD, no functional e2e). `/specify-feature` passes `functional`; `/design-solution` passes `technical`. You review the page, not the kind name.
-
-A coordinated change lives at `{Product_Folder}/changes/{change_key}/change.md` and lists every spec to create or amend. Spec-local plans, reports, and statuses stay under each `{spec_key}`.
+Each spec owns its behavior and acceptance criteria. When a requirement touches several specs, `/specify-feature` discovers the set, you confirm, and delivery ships them together on one branch — without you naming specs or choosing a separate command.
 
 Status chain:
 

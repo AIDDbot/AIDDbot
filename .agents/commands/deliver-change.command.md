@@ -22,9 +22,11 @@ The goal of this command is to deliver a coordinated change spanning several spe
   - Do **not** verify or qualify until every spec in the manifest is coded.
 
 - **Review phase** — repeat until green:
-  - For each spec in manifest order, spawn **Craftsman** to run [`/verify`](/.agents/skills/verify/SKILL.md), then [`/qualify`](/.agents/skills/qualify/SKILL.md) with **spec-local scope** (that spec's plans and spec folder — not the whole branch diff).
-  - _IF_ any spec is red, run [`/fix-defects`](/.agents/commands/fix-defects.command.md) on the active change branch, then restart this review phase from the first spec.
+  - Spawn **Craftsman** once to run [`/verify`](/.agents/skills/verify/SKILL.md) with the change manifest in scope.
+  - _IF_ red, run [`/fix-defects`](/.agents/commands/fix-defects.command.md), then restart from `/verify`.
+  - Spawn **Craftsman** once to run [`/qualify`](/.agents/skills/qualify/SKILL.md) with the change manifest in scope.
+  - _IF_ red, run [`/fix-defects`](/.agents/commands/fix-defects.command.md), then restart from `/verify`.
 
-- _ONCE_ every spec is qualified, spawn **Craftsman** to run [`/shipify`](/.agents/skills/shipify/SKILL.md) with the change manifest in scope — one merge, one tag, one release version for all listed specs.
+- _ONCE_ the change is qualified, spawn **Craftsman** to run [`/shipify`](/.agents/skills/shipify/SKILL.md) with the change manifest in scope — one merge, one tag, one release version for all listed specs.
 
 Return a short report of the coordinated change delivered.

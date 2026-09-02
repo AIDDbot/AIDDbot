@@ -15,9 +15,9 @@ describes the current state; this file explains how it got that way.
 ### Decision
 
 1. **`/specify-feature` triages every requirement.** One affected spec keeps the existing `/specify` → approval/YOLO → `/implement-spec` path. Several specs present an impact map; the human confirms coordinated delivery unless YOLO bypasses.
-2. **`/deliver-change` is internal.** It creates `change/{change_key}`, runs `/scope-change`, specifies each listed spec, implements specs sequentially on one branch, reviews every spec only after all coding, restarts review after any fix, and calls `/shipify` once for the whole manifest.
+2. **`/deliver-change` is internal.** It creates `change/{change_key}`, runs `/scope-change`, specifies each listed spec, implements specs sequentially on one branch, runs one `/verify` and one `/qualify` for the whole change (restarting from verify after any fix), and calls `/shipify` once for the whole manifest.
 3. **Commands own branches.** Skills write on the current branch and never switch. `/codify` alone refuses source or test writes on the default branch.
-4. **Spec-local artifacts stay spec-local.** Plans, reports, and statuses remain under each `{spec_key}`; the change manifest only coordinates delivery and records the shared `released-version`.
+4. **Spec-local artifacts stay spec-local.** Plans and statuses remain under each `{spec_key}`; coordinated review writes one `e2e.report.md` and one `qualify.report.md` under the change folder.
 
 ### Rejected
 
@@ -29,7 +29,7 @@ describes the current state; this file explains how it got that way.
 
 - New skill `/scope-change` and command `/deliver-change`.
 - `/shipify` gains manifest mode for atomic multi-spec release.
-- `/qualify` scopes to spec-local paths on shared change branches.
+- `/qualify` scopes to the branch diff when a change manifest is in scope.
 - Catalog, workflow, getting-started, README, and `AGENTS.template.md` updated.
 
 ## 2026-09-01 — Commands are orchestrator flows; agents execute skills

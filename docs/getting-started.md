@@ -48,13 +48,15 @@ Architect triages every requirement. One affected spec: a one-page spec on `feat
 
 If the prompt includes YOLO, `/specify-feature` continues straight into delivery and skips approval stops.
 
+**Several specs, one requirement.** You describe the need; Architect finds which specs to create or amend. One branch, code everything, then one verify, one qualify, one release. Each spec keeps its criteria — the change manifest only coordinates.
+
 ## 4. Implement
 
 ```markdown
 /implement-spec
 ```
 
-Builder plans each affected container (plus e2e), then writes the code and unit tests. For a single spec, `/implement-spec` runs `/review-implementation` when coding is done. For a coordinated change, `/specify-feature` routes to `/deliver-change`, which codes every spec sequentially, reviews them all, and ships once. Defects go through `/fix-defects` and the review continues.
+Builder plans and codes. Single spec: `/implement-spec`. Several specs: delivery continues inside `/specify-feature` — no extra command from you.
 
 You can also invoke `/review-implementation` or `/fix-defects` on their own when you want that stretch without a full implement.
 

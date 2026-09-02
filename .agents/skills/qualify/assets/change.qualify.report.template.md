@@ -1,11 +1,14 @@
 ---
 source: qualify
 target: {/shipify | /codify}   # green → /shipify · red → /codify
-scope: {spec_key}
+scope: {change_key}   # branch diff for this coordinated change
 run: {ISO date}
 status: {green | red}
+specs:
+  - {spec_key}
+  - {spec_key}
 ---
-# qualify report — {scope}
+# qualify report — {change_key}
 
 ## Summary
 
@@ -25,11 +28,11 @@ status: {green | red}
 
 ## Criteria
 
-{Technical specs only — omit this section for a functional spec.}
+{Technical specs in the manifest only — omit when all listed specs are functional.}
 
-| Criterion | Judge | Verdict |
-|-----------|-------|---------|
-| AC-{spec_id}.{n} | {gate named by the criterion} | {pass \| fail} |
+| Spec | Criterion | Judge | Verdict |
+|------|-----------|-------|---------|
+| {spec_key} | AC-{spec_id}.{n} | {gate named by the criterion} | {pass \| fail} |
 
 ## Findings
 

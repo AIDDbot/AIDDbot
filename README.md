@@ -30,7 +30,7 @@ Three agents, one loop. You invoke a **command**; the current session is the orc
 - **Builder** — spawned by `/implement-spec` (from a validated spec), `/deliver-change` (coordinated multi-spec coding), `/fix-defects` (from a defect report)
 - **Craftsman** — spawned by `/review-implementation` (verify, qualify, ship), `/clean-solution` (CRAP and lint)
 
-`/implement-spec` already runs `/review-implementation` when the code is in. You can also follow an individual skill from the catalog when you want tighter control of one step.
+`/implement-spec` runs `/review-implementation` when the code is in. Requirements that span several specs stay on `/specify-feature` — triage, one branch, one release.
 
 ## Quick start
 
