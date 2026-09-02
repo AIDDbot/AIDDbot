@@ -20,6 +20,7 @@ const TREES = [
   ".cursor/rules",
   ".github/prompts",
   ".github/agents",
+  ".github/hooks",
   ".github/instructions",
 ];
 
