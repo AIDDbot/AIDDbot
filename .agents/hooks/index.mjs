@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// v0.16.0 2026-09-02T08:59:56.911Z
+// v0.18.0 2026-09-02T16:48:09.192Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -100,12 +100,6 @@ var headerKeys = new Set([
   "timestamp",
   "turn"
 ]);
-var subagentByEvent = new Map([
-  ["subagentStart", ["agent_type", "agent_display_name"]],
-  ["SubagentStart", ["agent_type", "agent_display_name"]],
-  ["subagentStop", ["agent_type", "agent_display_name"]],
-  ["SubagentStop", ["agent_type", "agent_display_name"]]
-]);
 var detailsByEvent = new Map([
   ["sessionStart", []],
   ["SessionStart", []],
@@ -127,126 +121,72 @@ var promptKinds = new Set([
   "userPromptSubmitted",
   "UserPromptSubmit"
 ]);
-function takeChunk(chunks, current) {
-  if (!current.some((line) => line.length > 0))
-    return;
-  chunks.push(current.join(`
-`));
-}
-function yamlChunks(text) {
-  const chunks = [];
-  let current = [];
-  for (const line of text.split(`
-`)) {
-    if (line === "---") {
-      takeChunk(chunks, current);
-      current = [];
-      continue;
-    }
-    current.push(line);
-  }
-  takeChunk(chunks, current);
-  return chunks;
-}
-function parseScalar(raw) {
-  if (raw === "null")
-    return null;
-  if (!raw.startsWith('"'))
-    return raw;
-  const parsed = JSON.parse(raw);
-  if (typeof parsed === "string")
-    return parsed;
-  return raw;
-}
-function readBlock(lines, start) {
-  const parts = [];
-  let i = start;
-  while (i < lines.length) {
-    const line = lines[i];
-    if (line === undefined)
-      break;
-    if (!line.startsWith("  "))
-      break;
-    parts.push(line.slice(2));
-    i += 1;
-  }
-  return { value: parts.join(`
-`), next: i };
-}
-function parsePairAt(lines, i) {
-  const match = /^([A-Za-z_][A-Za-z0-9_]*):(?: (.*))?$/.exec(lines[i] ?? "");
-  if (match === null)
-    return;
-  const key = match[1];
-  const rest = match[2] ?? "";
-  if (rest === "|") {
-    const block = readBlock(lines, i + 1);
-    return { pair: { key, value: block.value }, next: block.next };
-  }
-  return { pair: { key, value: parseScalar(rest) }, next: i + 1 };
-}
-function parsePairs(lines) {
-  const pairs = [];
-  let i = 0;
-  while (i < lines.length) {
-    const parsed = parsePairAt(lines, i);
-    if (parsed === undefined) {
-      i += 1;
-      continue;
-    }
-    pairs.push(parsed.pair);
-    i = parsed.next;
-  }
-  return pairs;
-}
-function stringField(pairs, key) {
-  for (const pair of pairs) {
-    if (pair.key !== key)
-      continue;
-    if (pair.value === null)
-      return "";
-    return pair.value;
-  }
-  return "";
-}
-function parseTurnValue(value) {
+function isPlainObject(value) {
+  if (typeof value !== "object")
+    return false;
   if (value === null)
-    return 0;
-  if (!/^\d+$/.test(value))
-    return 0;
-  return Number(value);
+    return false;
+  if (Array.isArray(value))
+    return false;
+  return true;
 }
-function integerField(pairs, key) {
-  for (const pair of pairs) {
-    if (pair.key !== key)
-      continue;
-    return parseTurnValue(pair.value);
-  }
-  return 0;
+function stringProp(obj, key) {
+  const value = obj[key];
+  if (typeof value !== "string")
+    return "";
+  return value;
 }
-function bodyFields(pairs) {
+function parseTurn(value) {
+  if (typeof value !== "number")
+    return 0;
+  if (!Number.isInteger(value))
+    return 0;
+  return value;
+}
+function bodyValue(value) {
+  if (value === null)
+    return null;
+  if (typeof value === "string")
+    return value;
+  if (typeof value === "number")
+    return String(value);
+  if (typeof value === "boolean")
+    return String(value);
+  return JSON.stringify(value);
+}
+function bodyFields(obj) {
   const body = {};
-  for (const pair of pairs) {
-    if (headerKeys.has(pair.key))
+  for (const [key, value] of Object.entries(obj)) {
+    if (headerKeys.has(key))
       continue;
-    body[pair.key] = pair.value;
+    if (value === undefined)
+      continue;
+    body[key] = bodyValue(value);
   }
   return body;
 }
-function parseYamlChunk(chunk) {
-  const pairs = parsePairs(chunk.split(`
-`));
+function parseSessionObject(obj) {
   return {
-    session_id: stringField(pairs, "session_id"),
-    harness: stringField(pairs, "harness"),
-    event: stringField(pairs, "event"),
-    timestamp: stringField(pairs, "timestamp"),
-    turn: integerField(pairs, "turn"),
-    body: bodyFields(pairs)
+    session_id: stringProp(obj, "session_id"),
+    harness: stringProp(obj, "harness"),
+    event: stringProp(obj, "event"),
+    timestamp: stringProp(obj, "timestamp"),
+    turn: parseTurn(obj.turn),
+    body: bodyFields(obj)
   };
 }
-function parseYamlDocuments(text) {
-  return yamlChunks(text).map(parseYamlChunk);
+function parseSessionRecords(text) {
+  const records = [];
+  for (const line of text.split(`
+`)) {
+    if (line.length === 0)
+      continue;
+    const parsed = JSON.parse(line);
+    if (!isPlainObject(parsed))
+      continue;
+    records.push(parseSessionObject(parsed));
+  }
+  return records;
 }
 function pad2(n) {
   return String(n).padStart(2, "0");
@@ -309,10 +249,9 @@ function formatFieldList(doc, fields) {
   return parts.join("; ");
 }
 function formatSubagent(doc) {
-  const fields = subagentByEvent.get(doc.event);
-  if (fields === undefined)
+  if (!("subagent" in doc.body))
     return "";
-  return formatFieldList(doc, fields);
+  return scalarText(doc.body.subagent ?? null);
 }
 function formatDetails(doc) {
   const fields = detailsByEvent.get(doc.event);
@@ -417,7 +356,7 @@ function turnSection(group) {
 function emitSessionReport(docs, sessionId) {
   const first = docs[0];
   if (first === undefined)
-    throw new Error("empty yaml");
+    throw new Error("empty jsonl");
   const last = docs[docs.length - 1] ?? first;
   const lines = [
     ...overviewSection(first, last, reportSessionId(first, sessionId)),
@@ -430,9 +369,9 @@ function emitSessionReport(docs, sessionId) {
 `;
 }
 async function writeSessionReport(input) {
-  const text = await readFile(input.yamlPath, "utf8");
-  const docs = parseYamlDocuments(text);
-  await writeFile(input.mdPath, emitSessionReport(docs, path2.parse(input.yamlPath).name));
+  const text = await readFile(input.jsonlPath, "utf8");
+  const docs = parseSessionRecords(text);
+  await writeFile(input.mdPath, emitSessionReport(docs, path2.parse(input.jsonlPath).name));
 }
 
 // src/store.ts
@@ -453,12 +392,6 @@ var sessionEndFields = [
 ];
 var subagentStartFields = [
   {
-    name: "agent_type",
-    cursor: "subagent_type",
-    copilot: "agentName",
-    "claude-code": "agent_type"
-  },
-  {
     name: "agent_display_name",
     cursor: "",
     copilot: "agentDisplayName",
@@ -467,12 +400,6 @@ var subagentStartFields = [
   { name: "task", cursor: "task", copilot: "", "claude-code": "" }
 ];
 var subagentStopFields = [
-  {
-    name: "agent_type",
-    cursor: "subagent_type",
-    copilot: "agentType",
-    "claude-code": "agent_type"
-  },
   {
     name: "agent_display_name",
     cursor: "",
@@ -486,6 +413,7 @@ var subagentStopFields = [
     "claude-code": "last_assistant_message"
   }
 ];
+var subagentSourceKeys = ["subagent_type", "agent_type", "agentType", "agentName"];
 var promptFields = [
   { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt" }
 ];
@@ -521,44 +449,51 @@ function isSessionStartEvent(event) {
     return true;
   return false;
 }
-function isInitialSessionStart(existingYaml, event) {
-  if (!isSessionStartEvent(event))
+function isPlainObject2(value) {
+  if (typeof value !== "object")
     return false;
-  if (existingYaml.includes("---"))
+  if (value === null)
+    return false;
+  if (Array.isArray(value))
     return false;
   return true;
 }
-function unquoteYamlScalar(raw) {
-  if (!raw.startsWith('"'))
-    return raw;
-  if (!raw.endsWith('"'))
-    return raw;
-  return raw.slice(1, -1);
-}
-function headerEventValue(line) {
-  const match = /^event:(?: (.*))?$/.exec(line);
-  if (match === null)
-    return;
-  const rest = match[1];
-  if (rest === undefined)
-    return "";
-  return unquoteYamlScalar(rest.trim());
-}
-function countPromptKindEvents(existingYaml) {
-  let count = 0;
-  for (const line of existingYaml.split(`
+function parseJsonlRecords(text) {
+  const records = [];
+  for (const line of text.split(`
 `)) {
-    const event = headerEventValue(line);
-    if (event === undefined)
+    if (line.length === 0)
       continue;
-    if (!isPromptKind(event))
+    const parsed = JSON.parse(line);
+    if (!isPlainObject2(parsed))
+      continue;
+    records.push(parsed);
+  }
+  return records;
+}
+function isInitialSessionStart(existingJsonl, event) {
+  if (!isSessionStartEvent(event))
+    return false;
+  if (parseJsonlRecords(existingJsonl).length > 0)
+    return false;
+  return true;
+}
+function eventField(record) {
+  if (typeof record.event !== "string")
+    return "";
+  return record.event;
+}
+function countPromptKindEvents(existingJsonl) {
+  let count = 0;
+  for (const record of parseJsonlRecords(existingJsonl)) {
+    if (!isPromptKind(eventField(record)))
       continue;
     count += 1;
   }
   return count;
 }
-function nextConversationTurn(existingYaml, event) {
-  const already = countPromptKindEvents(existingYaml);
+function nextConversationTurn(existingJsonl, event) {
+  const already = countPromptKindEvents(existingJsonl);
   if (isPromptKind(event))
     return already + 1;
   return already;
@@ -594,81 +529,58 @@ function sourceInstant(payload, now) {
     return new Date(ms);
   return now;
 }
-function needsQuote(value) {
-  if (value.length === 0)
-    return true;
-  if (/^(true|false|yes|no|on|off|null|~)$/i.test(value))
-    return true;
-  return !/^[A-Za-z_/][A-Za-z0-9_./+-]*$/.test(value);
-}
-function emitScalar(value) {
-  if (value === null)
-    return "null";
-  if (typeof value === "boolean")
-    return value ? "true" : "false";
-  if (typeof value === "number") {
-    if (Number.isFinite(value))
-      return String(value);
-    return JSON.stringify(String(value));
+function subagentValue(payload) {
+  for (const key of subagentSourceKeys) {
+    if (key in payload)
+      return payload[key];
   }
-  if (typeof value !== "string")
-    return JSON.stringify(value);
-  if (needsQuote(value))
-    return JSON.stringify(value);
-  return value;
+  return;
 }
-function blockLines(value) {
-  return value.split(`
-`).map((line) => `  ${line}`).join(`
-`);
+function assignHeader(obj, input, timestamp) {
+  if (input.includeSessionId)
+    obj.session_id = input.sessionId;
+  obj.harness = input.harness;
+  obj.event = input.event;
+  obj.timestamp = timestamp;
+  obj.turn = input.turn;
 }
-function emitPair(key, value) {
-  if (typeof value !== "string")
-    return `${key}: ${emitScalar(value)}`;
-  if (!value.includes(`
-`))
-    return `${key}: ${emitScalar(value)}`;
-  return `${key}: |
-${blockLines(value)}`;
+function assignSubagent(obj, payload) {
+  for (const key of subagentSourceKeys) {
+    if (!(key in payload))
+      continue;
+    const value = subagentValue(payload);
+    if (value === undefined)
+      return;
+    obj.subagent = value;
+    return;
+  }
 }
-function bodyLines(payload, harness, event) {
+function assignBody(obj, payload, harness, event) {
   const column = asHarness(harness);
   if (column === undefined)
-    return [];
+    return;
   const fields = bodyByEvent.get(event);
   if (fields === undefined)
-    return [];
-  const lines = [];
+    return;
   for (const field of fields) {
     const sourceKey = field[column];
     if (sourceKey.length === 0)
       continue;
     if (!(sourceKey in payload))
       continue;
-    lines.push(emitPair(field.name, payload[sourceKey]));
+    const value = payload[sourceKey];
+    if (value === undefined)
+      continue;
+    obj[field.name] = value;
   }
-  return lines;
 }
-function headerLines(input, timestamp) {
-  const lines = [];
-  if (input.includeSessionId) {
-    lines.push(emitPair("session_id", input.sessionId));
-  }
-  lines.push(emitPair("harness", input.harness));
-  lines.push(emitPair("event", input.event));
-  lines.push(emitPair("timestamp", timestamp));
-  lines.push(emitPair("turn", input.turn));
-  return lines;
-}
-function emitYamlDocument(input) {
+function emitSessionRecord(input) {
+  const obj = {};
   const timestamp = formatLocalHms(sourceInstant(input.payload, input.now));
-  const lines = [
-    "---",
-    ...headerLines(input, timestamp),
-    ...bodyLines(input.payload, input.harness, input.event)
-  ];
-  return `${lines.join(`
-`)}
+  assignHeader(obj, input, timestamp);
+  assignSubagent(obj, input.payload);
+  assignBody(obj, input.payload, input.harness, input.event);
+  return `${JSON.stringify(obj)}
 `;
 }
 
@@ -695,18 +607,18 @@ function errorCode(error) {
 async function unlinkQuiet(lockPath) {
   try {
     await unlink(lockPath);
-  } catch {}
+  } catch { }
 }
 async function unlinkIfStale(lockPath) {
   try {
     const info = await stat(lockPath);
     if (Date.now() - info.mtimeMs > lockStaleMs)
       await unlink(lockPath);
-  } catch {}
+  } catch { }
 }
 async function acquireLock(lockPath) {
   const deadline = Date.now() + lockWaitMs;
-  for (;; ) {
+  for (; ;) {
     try {
       return await open(lockPath, "wx");
     } catch (error) {
@@ -764,17 +676,17 @@ async function persistSessionIndex(sessionsPath, sessionId) {
     return;
   await writeFile2(sessionsPath, "[]");
 }
-async function readExistingYaml(yamlPath) {
+async function readExistingJsonl(jsonlPath) {
   try {
-    return await readFile2(yamlPath, "utf8");
+    return await readFile2(jsonlPath, "utf8");
   } catch (error) {
     if (errorCode(error) === "ENOENT")
       return "";
     throw error;
   }
 }
-function countedYamlDocument(existing, sessionId, emit) {
-  return emitYamlDocument({
+function countedSessionRecord(existing, sessionId, emit) {
+  return emitSessionRecord({
     payload: emit.payload,
     sessionId,
     harness: emit.harness,
@@ -784,21 +696,14 @@ function countedYamlDocument(existing, sessionId, emit) {
     includeSessionId: isInitialSessionStart(existing, emit.event)
   });
 }
-async function appendCountedYaml(yamlPath, sessionId, emit) {
-  const existing = await readExistingYaml(yamlPath);
-  await appendFile(yamlPath, countedYamlDocument(existing, sessionId, emit));
-}
-async function appendSessionYaml(input) {
+async function appendSessionJsonl(input) {
   if (input.sessionId === undefined)
     return;
-  const yamlPath = path3.join(input.dayFolder, `${input.sessionId}.yaml`);
-  if (input.yamlDocument !== undefined) {
-    await appendFile(yamlPath, input.yamlDocument);
+  if (input.sessionEmit === undefined)
     return;
-  }
-  if (input.yamlEmit === undefined)
-    return;
-  await appendCountedYaml(yamlPath, input.sessionId, input.yamlEmit);
+  const jsonlPath = path3.join(input.dayFolder, `${input.sessionId}.jsonl`);
+  const existing = await readExistingJsonl(jsonlPath);
+  await appendFile(jsonlPath, countedSessionRecord(existing, input.sessionId, input.sessionEmit));
 }
 async function writeUnderLock(input) {
   const eventsPath = path3.join(input.dayFolder, "events.jsonl");
@@ -806,11 +711,10 @@ async function writeUnderLock(input) {
   await appendFile(eventsPath, `${input.eventLine}
 `);
   await persistSessionIndex(sessionsPath, input.sessionId);
-  await appendSessionYaml({
+  await appendSessionJsonl({
     dayFolder: input.dayFolder,
     sessionId: input.sessionId,
-    yamlDocument: input.yamlDocument,
-    yamlEmit: input.yamlEmit
+    sessionEmit: input.sessionEmit
   });
 }
 async function persistIngest(input) {
@@ -823,8 +727,7 @@ async function persistIngest(input) {
       dayFolder,
       eventLine: input.eventLine,
       sessionId: input.sessionId,
-      yamlDocument: input.yamlDocument,
-      yamlEmit: input.yamlEmit
+      sessionEmit: input.sessionEmit
     });
   } finally {
     await releaseLock(lock, lockPath);
@@ -929,7 +832,7 @@ function positionalOrEmpty(value) {
     return "";
   return value;
 }
-function sessionYamlEmit(payload, input, sessionId, now) {
+function sessionEmit(payload, input, sessionId, now) {
   if (sessionId === undefined)
     return;
   return {
@@ -946,7 +849,7 @@ async function persistParsedIngest(args) {
     projectRoot: args.projectRoot,
     eventLine: eventLogLine(args.payload),
     sessionId,
-    yamlEmit: sessionYamlEmit(args.payload, args.input, sessionId, now),
+    sessionEmit: sessionEmit(args.payload, args.input, sessionId, now),
     now
   });
   await maybeWriteReport({
@@ -974,15 +877,15 @@ async function maybeWriteReport(args) {
   const folder = path4.join(args.projectRoot, "temp", "audit", dayFolderName(args.now));
   try {
     await writeSessionReport({
-      yamlPath: path4.join(folder, `${args.sessionId}.yaml`),
+      jsonlPath: path4.join(folder, `${args.sessionId}.jsonl`),
       mdPath: path4.join(folder, `${args.sessionId}.md`)
     });
-  } catch {}
+  } catch { }
 }
 async function ingestHook(input) {
   try {
     await ingestOrThrow(input);
-  } catch {}
+  } catch { }
 }
 
 // src/usage.ts
