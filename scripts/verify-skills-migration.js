@@ -196,6 +196,7 @@ function verifyOverlayFixture() {
     for (const required of [
       ".agents/skills/architect-solution-foundation/SKILL.md",
       ".agents/skills/scaffoldify/SKILL.md",
+      ".agents/skills/scaffoldify/scripts/materialize.js",
       ".claude/skills/build-requested-change/SKILL.md",
       ".claude/skills/craft-lasting-quality/SKILL.md",
       ".codex/hooks.json",
@@ -221,7 +222,13 @@ function verifyOverlayFixture() {
 verifyOverlayFixture();
 
 function verifyScaffoldCli() {
-  const scaffold = path.join(root, "bin", "scaffold.js");
+  const scaffold = path.join(root, ".agents", "skills", "scaffoldify", "scripts", "materialize.js");
+  if (fs.existsSync(path.join(root, "bin", "scaffold.js"))) fail("retired bin/scaffold.js must not remain");
+  if (read(path.join(root, "package.json")).includes("aiddbot-scaffold")) fail("retired aiddbot-scaffold binary must not remain");
+  const materializer = read(scaffold);
+  if (/runOverlay|ensureGit|\bbin[\\/]scaffold/.test(materializer)) {
+    fail("scaffold materializer must not own overlay or Git initialization");
+  }
   const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
   if (listed.status !== 0 || !/default: express/.test(listed.stdout) || /domain/.test(listed.stdout)) {
     fail("scaffold list must expose defaults without a domain surface");
@@ -230,9 +237,7 @@ function verifyScaffoldCli() {
   if (unnamed.status === 0 || !/--name needs letters or digits/.test(unnamed.stderr)) {
     fail("scaffold must require a solution name");
   }
-  const tempRoot = fs.realpathSync(os.tmpdir());
-  const destination = path.join(tempRoot, "aiddbot-scaffold-dry-run");
-  const dry = spawnSync(process.execPath, [scaffold, "--dry-run", "--dest", destination, "--name", "Demo app", "--back", "express"], {
+  const dry = spawnSync(process.execPath, [scaffold, "--dry-run", "--name", "Demo app", "--back", "express"], {
     encoding: "utf8",
   });
   if (dry.status !== 0 || !/solution   Demo app \(demo-app\)/.test(dry.stdout) || !/metadata   would/.test(dry.stdout)) {

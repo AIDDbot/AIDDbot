@@ -4,8 +4,7 @@
   "private": true,
   "description": "Copy AIDDbot skills and harness adapters into the current project.",
   "bin": {
-    "aiddbot": "./bin/aiddbot.js",
-    "aiddbot-scaffold": "./bin/scaffold.js"
+    "aiddbot": "./bin/aiddbot.js"
   },
   "scripts": {
     "test": "node scripts/verify-skills-migration.js"

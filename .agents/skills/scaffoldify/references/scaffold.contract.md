@@ -10,11 +10,12 @@ confirmation before materialization.
 For catalogued technologies, first run:
 
 ```text
-npx --allow-git=all -p github:AIDDbot/AIDDbot aiddbot-scaffold --list
+node .agents/skills/scaffoldify/scripts/materialize.js --list
 ```
 
 Then run one confirmed invocation with `--name {solution_name}` and one flag
-per selected tier. Do not add content-sample flags.
+per selected tier. The materializer runs in the current workspace and neither
+initializes Git nor copies the AIDDbot overlay.
 
 For a technology outside the catalog, research its official generator, present
 the generator and consequential choices, and obtain confirmation before running

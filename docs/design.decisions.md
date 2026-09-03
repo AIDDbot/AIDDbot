@@ -4,6 +4,27 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — Scaffoldify owns its catalogued materializer
+
+**Status**: adopted. Refines “`/scaffoldify` is a public
+solution-materialization primitive”.
+
+### Decision
+
+1. **A local helper.** The catalogued materializer lives with `/scaffoldify`,
+   so the copied skill remains executable without an extra global command.
+2. **A narrow executable boundary.** It validates explicit tiers, fetches their
+   archetypes, and reconciles the solution name. The skill owns questions,
+   confirmation, unsupported-technology research, installation, and smoke
+   testing.
+3. **No repository ownership.** The helper neither initializes Git nor copies
+   the AIDDbot overlay.
+
+### Consequences
+
+- `bin/scaffold.js` and the `aiddbot-scaffold` package binary are removed.
+- The earlier global-scaffold references below are historical.
+
 ## 2026-09-03 — `/scaffoldify` is a public solution-materialization primitive
 
 **Status**: adopted. Supersedes “`/scaffoldify` is the command; there is no
