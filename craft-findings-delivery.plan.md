@@ -1,6 +1,7 @@
 # Craft findings delivery plan
 
-Status: ready for execution.
+Status: implemented and simplified by `841ccd5`. The current Craft contract is
+defined by the skills catalog; this file preserves the original migration plan.
 
 ## Context
 

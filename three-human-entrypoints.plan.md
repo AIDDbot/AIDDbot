@@ -1,6 +1,7 @@
 # Three human entrypoints refactoring plan
 
-Status: ready for execution.
+Status: implemented by `707faeb`; public names were later finalized by `be78af9`.
+Kept as the historical migration plan.
 
 ## Context
 

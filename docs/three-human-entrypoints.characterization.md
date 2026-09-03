@@ -2,6 +2,8 @@
 
 Captured before the public-surface reduction on 2026-09-03.
 
+Historical snapshot: the current ABC entrypoints are listed in the skills catalog.
+
 | Former entrypoint | Observed contract | New owner |
 | --- | --- | --- |
 | `/map-solution` | Architect explores once and extracts every container | `map-solution` worker under `/establish-solution` |

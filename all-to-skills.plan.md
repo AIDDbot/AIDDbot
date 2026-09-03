@@ -1,6 +1,6 @@
 # All to skills migration plan
 
-Status: ready for execution.
+Status: implemented by `b4e0102`. Kept as the historical migration plan.
 
 ## Context
 

@@ -88,7 +88,7 @@ Workers are linked composition, not human entrypoints.
 
 You review only at key checkpoints:
 
-- During `/architect-solution-foundation`: resolve an ambiguous repository before files or architecture change materially.
+- During `/architect-solution-foundation`: choose brownfield or greenfield when partial files make the route unclear.
 - During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
 - During `/craft-lasting-quality`: approve the evidence-backed remediation scope. YOLO skips this stop.
 - Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify on the active working branch.

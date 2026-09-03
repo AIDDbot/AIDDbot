@@ -26,7 +26,7 @@ Run one entrypoint to establish the solution:
 /architect-solution-foundation
 ```
 
-For substantive code, it maps architecture, conceptual model, coding rules, and each container. For an empty or documentation-only repository, it designs the architecture first, then scaffolds catalogued archetypes when the validated design needs them. It asks one closed question only when a partial workspace makes that choice materially unsafe.
+Existing application code is mapped as brownfield. An empty or documentation-only repository is designed as greenfield and scaffolded when needed. If partial files make the choice unclear, you choose which route to follow before anything changes.
 
 For an empty workshop, `/architect-solution-foundation` obtains the required archetype choices, installs the selected projects, smoke-tests them, and reconciles generated containers with the design.
 
