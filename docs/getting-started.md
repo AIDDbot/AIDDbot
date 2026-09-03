@@ -28,7 +28,7 @@ Run one entrypoint to establish the solution:
 
 Existing application code is mapped as brownfield. An empty or documentation-only repository is designed as greenfield and scaffolded when needed. If partial files make the choice unclear, you choose which route to follow before anything changes.
 
-For an empty workshop, `/architect-solution-foundation` obtains the required archetype choices, installs the selected projects, smoke-tests them, and reconciles generated containers with the design.
+For a new solution, it confirms the name, selected tiers, and technologies, then installs and smoke-tests the scaffold before reconciling it with the design. Advanced users can invoke `/scaffoldify` directly.
 
 ## 3. Deliver a requirement
 

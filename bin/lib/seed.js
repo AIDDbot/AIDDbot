@@ -117,15 +117,14 @@ function ensureGitignore(destRoot, dryRun) {
   return rel;
 }
 
-function ensureReadme(destRoot, dryRun) {
+function ensureReadme(destRoot, dryRun, title = path.basename(destRoot)) {
   const rel = "README.md";
   if (hasReadme(destRoot)) {
     print("skip-same", rel);
     return null;
   }
-  const name = path.basename(destRoot);
   print("create", rel);
-  writeFile(absPath(destRoot, rel), `# ${name}\n`, dryRun);
+  writeFile(absPath(destRoot, rel), `# ${title}\n`, dryRun);
   return rel;
 }
 
@@ -145,11 +144,11 @@ function absPath(destRoot, rel) {
   return path.join(destRoot, rel);
 }
 
-function ensureSeedFiles(destRoot, dryRun) {
+function ensureSeedFiles(destRoot, dryRun, title) {
   const written = [];
   const gitignore = ensureGitignore(destRoot, dryRun);
   if (gitignore) written.push(gitignore);
-  const readme = ensureReadme(destRoot, dryRun);
+  const readme = ensureReadme(destRoot, dryRun, title);
   if (readme) written.push(readme);
   return written;
 }

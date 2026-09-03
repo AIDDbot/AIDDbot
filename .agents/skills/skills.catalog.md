@@ -8,7 +8,7 @@ skills perform focused AIDD work.
 ## What holds
 
 - The green e2e suite is the contract.
-- `/codify` writes code; `/verify` and `/qualify` evaluate only.
+- `/scaffoldify` materializes an initial solution; `/codify` writes delivery code; `/verify` and `/qualify` evaluate only.
 - Requested behavior changes start from a specification.
 - Evidence-backed maintenance starts from accepted durable findings.
 - Nothing ships without verification and qualification.
@@ -31,7 +31,6 @@ Workers are linked composition, not human entrypoints.
 | --- | --- |
 | [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
 | [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
-| [`scaffold-workshop`](./scaffold-workshop/SKILL.md) | Assemble, install, and smoke-test catalogued archetypes |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
 | [`collect-findings`](./collect-findings/SKILL.md) | Consolidate verification, qualification, and quality evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
@@ -50,6 +49,7 @@ Workers are linked composition, not human entrypoints.
 | --- | --- |
 | [`/explore`](./explore/SKILL.md) | Agent setup, system architecture, conceptual model, and PRD shell from repo tree and guide files |
 | [`/extract`](./extract/SKILL.md) | Per-container architecture, schemas, and coding rules from source |
+| [`/scaffoldify`](./scaffoldify/SKILL.md) | Materialize a confirmed, installable solution scaffold |
 
 ### Capture
 
@@ -63,7 +63,7 @@ Workers are linked composition, not human entrypoints.
 | Skill | What it does |
 | --- | --- |
 | [`/planify`](./planify/SKILL.md) | One implementation plan per affected container; e2e only for a functional spec |
-| [`/codify`](./codify/SKILL.md) | The only skill that writes code, unit tests, and e2e suite updates |
+| [`/codify`](./codify/SKILL.md) | Write application code, unit tests, and e2e suite updates during delivery |
 
 ### Prove
 

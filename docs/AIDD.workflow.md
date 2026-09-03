@@ -8,7 +8,7 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 **The green E2E suite is the contract.** A green test changes only through a plan, preventing silent behavior drift.
 
-**One writer, two evaluators.** `/codify` writes code. `/verify` and `/qualify` judge and report.
+**Initial materialization, one delivery writer, two evaluators.** `/scaffoldify` creates the initial solution. `/codify` writes delivery code. `/verify` and `/qualify` judge and report.
 
 **Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs; Craft preserves behavior from durable evidence. Craftsman ships only after green verification and qualification.
 
@@ -40,6 +40,8 @@ flowchart LR
   FIX -->|restart| REVIEW
   REVIEW -->|green| RELEASED[released]
 ```
+
+For greenfield work, Architect validates the design, then `/scaffoldify` resolves and confirms any missing name, tier, and technology choices before materializing it. It creates no branch or commit.
 
 ## Requirement delivery
 

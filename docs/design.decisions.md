@@ -4,6 +4,32 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — `/scaffoldify` is a public solution-materialization primitive
+
+**Status**: adopted. Supersedes “`/scaffoldify` is the command; there is no
+skill” (2026-08-30).
+
+### Decision
+
+1. **A primitive, not a workshop worker.** `/scaffoldify` materializes a
+   confirmed solution scaffold and is available as an advanced public skill.
+2. **Explicit initial choices.** A solution name and at least one selected tier
+   are required. Each selected tier offers its AIDDbot default; unresolved
+   material choices stop for confirmation.
+3. **Catalog first, official tooling second.** Catalogued tiers use AIDDbot
+   archetypes. A non-catalogued technology is researched, proposed, and
+   confirmed before its official generator runs locally.
+4. **No domain bootstrap or git ownership.** Domain samples are deferred.
+   Scaffoldify creates neither branch nor commit; it installs and smoke-tests
+   the materialized solution.
+
+### Consequences
+
+- `scaffold-workshop` is deleted. Greenfield Architect runs design →
+  scaffoldify → map.
+- Scaffoldify alone may write initial generated code; `/codify` remains the
+  delivery writer.
+
 ## 2026-09-03 — Craft collects evidence and repairs only behavior-preserving findings
 
 **Status**: adopted. Supersedes the Craft routing boundary in “Build delivers

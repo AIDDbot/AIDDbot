@@ -4,6 +4,7 @@
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const { spawnSync } = require("node:child_process");
 const { runOverlay } = require("../bin/lib/overlay");
 
 const root = path.resolve(__dirname, "..");
@@ -104,6 +105,10 @@ for (const name of skills) {
   }
 }
 
+if (counts.orchestrator !== 3 || counts.worker !== 11 || counts.primitive !== 11) {
+  fail("skill counts must be 3 orchestrators, 11 workers, and 11 primitives");
+}
+
 const publicOrchestrators = skills.filter((name) => {
   const fields = frontmatter(read(path.join(skillsRoot, name, "SKILL.md")), path.join(skillsRoot, name, "SKILL.md"));
   return fields.metadata && fields.metadata["aiddbot-kind"] === "orchestrator";
@@ -112,13 +117,13 @@ const expectedOrchestrators = ["architect-solution-foundation", "build-requested
 if (publicOrchestrators.join(",") !== expectedOrchestrators.join(",")) {
   fail(`public orchestrators must be exactly ${expectedOrchestrators.join(", ")}`);
 }
-for (const former of ["clean-solution", "design-solution", "map-solution", "scaffold-workshop"]) {
+for (const former of ["clean-solution", "design-solution", "map-solution"]) {
   const fields = frontmatter(read(path.join(skillsRoot, former, "SKILL.md")), path.join(skillsRoot, former, "SKILL.md"));
   if (!fields.metadata || fields.metadata["aiddbot-kind"] !== "worker" || fields["user-invocable"] !== "false") {
     fail(`${former}: former orchestrator must be an internal worker`);
   }
 }
-for (const retired of ["deliver-requirement", "establish-solution", "improve-solution", "deliver-work", "clean-drift"]) {
+for (const retired of ["deliver-requirement", "establish-solution", "improve-solution", "deliver-work", "clean-drift", "scaffold-workshop"]) {
   if (fs.existsSync(path.join(skillsRoot, retired))) fail(`${retired}: retired public skill must not remain canonical`);
   if (fs.existsSync(path.join(root, ".claude", "skills", retired))) fail(`${retired}: retired managed Claude pointer must not remain`);
 }
@@ -134,6 +139,14 @@ for (const required of [
 const buildSkill = read(path.join(skillsRoot, "build-requested-change", "SKILL.md"));
 if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-spec") || !buildSkill.includes("deliver-change")) {
   fail("build-requested-change does not own specification routing");
+}
+const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
+if (!architectSkill.includes("scaffoldify") || architectSkill.includes("scaffold-workshop")) {
+  fail("architect-solution-foundation does not route greenfield materialization through scaffoldify");
+}
+const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
+if (!scaffoldSkill.includes("confirmation") || !scaffoldSkill.includes("Never create or switch a branch, commit")) {
+  fail("scaffoldify must confirm material choices and leave branch ownership to its caller");
 }
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
 if (!craftSkill.includes("fix/{fix_key}") || !craftSkill.includes("fix-defects") || !craftSkill.includes("ship-implementation")) {
@@ -182,6 +195,7 @@ function verifyOverlayFixture() {
     if (first.conflicts) fail("clean overlay fixture reported conflicts");
     for (const required of [
       ".agents/skills/architect-solution-foundation/SKILL.md",
+      ".agents/skills/scaffoldify/SKILL.md",
       ".claude/skills/build-requested-change/SKILL.md",
       ".claude/skills/craft-lasting-quality/SKILL.md",
       ".codex/hooks.json",
@@ -205,6 +219,28 @@ function verifyOverlayFixture() {
 }
 
 verifyOverlayFixture();
+
+function verifyScaffoldCli() {
+  const scaffold = path.join(root, "bin", "scaffold.js");
+  const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
+  if (listed.status !== 0 || !/default: express/.test(listed.stdout) || /domain/.test(listed.stdout)) {
+    fail("scaffold list must expose defaults without a domain surface");
+  }
+  const unnamed = spawnSync(process.execPath, [scaffold, "--back", "express"], { encoding: "utf8" });
+  if (unnamed.status === 0 || !/--name needs letters or digits/.test(unnamed.stderr)) {
+    fail("scaffold must require a solution name");
+  }
+  const tempRoot = fs.realpathSync(os.tmpdir());
+  const destination = path.join(tempRoot, "aiddbot-scaffold-dry-run");
+  const dry = spawnSync(process.execPath, [scaffold, "--dry-run", "--dest", destination, "--name", "Demo app", "--back", "express"], {
+    encoding: "utf8",
+  });
+  if (dry.status !== 0 || !/solution   Demo app \(demo-app\)/.test(dry.stdout) || !/metadata   would/.test(dry.stdout)) {
+    fail("scaffold dry run must preserve the solution name and reconcile metadata");
+  }
+}
+
+verifyScaffoldCli();
 
 if (failures.length) {
   process.stderr.write(`${failures.map((message) => `FAIL ${message}`).join("\n")}\n`);

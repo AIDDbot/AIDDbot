@@ -42,7 +42,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
 
-**New workshop** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs first and scaffolds catalogued archetypes when needed.
+**New solution** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs first and materializes a confirmed scaffold when needed.
 
 ## Documentation
 
