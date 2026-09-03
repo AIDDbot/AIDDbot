@@ -18,22 +18,19 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 | Skill | Job |
 |---|---|
-| `/scaffold-workshop` | Assemble, install, smoke-test, and commit a catalogued monorepo |
-| `/map-solution` | Map an existing codebase before delivery |
-| `/design-solution` | Design greenfield architecture and validate its technical specification |
+| `/establish-solution` | Establish an existing or greenfield solution, with optional scaffolding |
 | `/deliver-requirement` | Scope and deliver one specification or a coordinated change |
-| `/clean-solution` | Find and fix CRAP, coverage, and lint defects |
-| `/clean-drift` | Find and fix orphaned decay and code drift |
+| `/improve-solution` | Turn durable quality, drift, architecture, or refactoring findings into delivery |
 
-These six `orchestrator` skills are the stable public slash entrypoints. `worker` skills are internal composition and are never rendered as command or prompt adapters.
+These three `orchestrator` skills are the stable public starting entrypoints. Focused primitives remain available as an advanced interface; `worker` skills are internal composition and are never rendered as command or prompt adapters.
 
 ```mermaid
 flowchart LR
-  YOU([you]) -->|existing code| MAP["/map-solution"]
-  YOU -->|greenfield| DESIGN["/design-solution"]
+  YOU([you]) -->|solution inception| ESTABLISH["/establish-solution"]
   YOU -->|requirement| DELIVER["/deliver-requirement"]
-  MAP --> DELIVER
-  DESIGN -->|validated architecture spec| DELIVER
+  YOU -->|evidence-backed remediation| IMPROVE["/improve-solution"]
+  ESTABLISH --> DELIVER
+  IMPROVE --> DELIVER
   DELIVER -->|one spec| FEAT["feat/{spec_key}"]
   DELIVER -->|many specs| CHANGE["change/{change_key}"]
   FEAT --> REVIEW["verify → qualify → ship"]
@@ -76,6 +73,10 @@ Internal `ship-implementation` worker preserves evaluator order:
 3. _ONCE_ verify is green, Craftsman runs `/qualify`.
 4. _IF_ technical or quality defects exist, `fix-defects` applies them, then review restarts from `/verify`.
 5. _ONCE_ verify and qualify are green, Craftsman runs `/shipify` once.
+
+## Solution improvement
+
+`/improve-solution` reads durable findings before it runs requested discovery. Internal `clean-solution` and `clean-drift` now report evidence only; accepted remediation is scoped and delivered through the same specification pipeline as a requirement. Findings stay pending until their linked delivery is released.
 
 ## Status chain
 

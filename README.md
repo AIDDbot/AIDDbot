@@ -34,15 +34,15 @@ Three agents, one loop. You invoke a public orchestrator skill; the current sess
 
 ## Quick start
 
-**Existing project** — from the repo root:
+**Any project** — from the repo root:
 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then `/map-solution` once. For each requirement, run `/deliver-requirement`; approve specifications when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
+Then `/establish-solution` once. For each requirement, run `/deliver-requirement`; use `/improve-solution` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
 
-**New workshop** — `init` in an empty folder outside this origin, then `/scaffold-workshop`, then `/map-solution`.
+**New workshop** — `init` in an empty folder outside this origin, then `/establish-solution`; it designs first and scaffolds catalogued archetypes when needed.
 
 ## Documentation
 
@@ -51,6 +51,8 @@ Then `/map-solution` once. For each requirement, run `/deliver-requirement`; app
 - [Skills catalog](.agents/skills/skills.catalog.md)
 - [Migration characterization](docs/all-to-skills.characterization.md)
 - [Migration verification](docs/all-to-skills.verification.md)
+- [Three-entrypoint characterization](docs/three-human-entrypoints.characterization.md)
+- [Three-entrypoint verification](docs/three-human-entrypoints.verification.md)
 - [Design decisions](docs/design.decisions.md)
 
 ## Links

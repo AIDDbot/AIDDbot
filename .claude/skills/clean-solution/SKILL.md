@@ -1,9 +1,9 @@
 ---
 name: clean-solution
-description: Clean code by finding CRAP violations and lint issues.
+description: Find durable CRAP violations and lint findings.
 metadata:
-  aiddbot-kind: orchestrator
-user-invocable: true
+  aiddbot-kind: worker
+user-invocable: false
 disable-model-invocation: true
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/clean-solution/SKILL.md instead -->

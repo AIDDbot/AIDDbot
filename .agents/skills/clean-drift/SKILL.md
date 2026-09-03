@@ -1,18 +1,16 @@
 ---
 name: clean-drift
-description: Clean code by finding drift and code decay.
+description: Find durable drift and code-decay findings.
 metadata:
-  aiddbot-kind: orchestrator
-user-invocable: true
+  aiddbot-kind: worker
+user-invocable: false
 disable-model-invocation: true
 ---
 # clean-drift
 
-Your goal is to find and fix orphaned decay and code drift across the whole codebase, outside any specification delivery.
+Your goal is to find orphaned decay and code drift across the whole codebase.
 
 - Spawn a new **Craftsman** sub-agent to inspect qualification reports for every specification represented in the codebase and produce a defect report for orphaned decay and code drift.
-- _TRIAGE_:
-  - _IF_ defects exist, read and execute the internal [fix-defects worker](../fix-defects/SKILL.md) with the report in hand, then remove fixed warnings from the qualification reports.
-  - _IF_ no defects exist, report "no defects found."
+- Write durable, evidence-backed findings for every defect. Do not fix code, alter qualification reports, or create a branch.
 
-Return a short report of the defects fixed.
+Return a short report of the findings discovered.

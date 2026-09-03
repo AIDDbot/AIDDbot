@@ -17,12 +17,9 @@ skills perform focused AIDD work.
 
 | Skill | What it does |
 | --- | --- |
-| [`/scaffold-workshop`](./scaffold-workshop/SKILL.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
-| [`/map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`/design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
+| [`/establish-solution`](./establish-solution/SKILL.md) | Establish a brownfield or greenfield solution, including optional scaffolding |
 | [`/deliver-requirement`](./deliver-requirement/SKILL.md) | Triage and deliver one specification or a coordinated multi-spec change |
-| [`/clean-solution`](./clean-solution/SKILL.md) | Hunt CRAP and lint across the codebase, then route defects internally |
-| [`/clean-drift`](./clean-drift/SKILL.md) | Hunt orphaned decay and drift, then route defects internally |
+| [`/improve-solution`](./improve-solution/SKILL.md) | Discover and deliver evidence-backed remediation for an existing solution |
 
 ## Internal workers
 
@@ -30,6 +27,13 @@ Workers are linked composition, not human entrypoints.
 
 | Skill | What it composes |
 | --- | --- |
+| [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
+| [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
+| [`scaffold-workshop`](./scaffold-workshop/SKILL.md) | Assemble, install, and smoke-test catalogued archetypes |
+| [`clean-solution`](./clean-solution/SKILL.md) | Discover durable CRAP, coverage, and lint findings |
+| [`clean-drift`](./clean-drift/SKILL.md) | Discover durable orphaned-decay and drift findings |
+| [`collect-findings`](./collect-findings/SKILL.md) | Normalize pending reports into traceable remediation scope |
+| [`deliver-work`](./deliver-work/SKILL.md) | Scope and route work to one-spec or coordinated delivery |
 | [`scope-feature`](./scope-feature/SKILL.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
 | [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
 | [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
@@ -84,8 +88,9 @@ Workers are linked composition, not human entrypoints.
 
 You review only at key checkpoints:
 
-- After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo or intended design.
+- During `/establish-solution`: resolve an ambiguous repository before files or architecture change materially.
 - During `/deliver-requirement`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
+- During `/improve-solution`: approve the evidence-backed remediation scope. YOLO skips this stop.
 - Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify on the active working branch.
 
 ## Pipeline

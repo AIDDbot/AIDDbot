@@ -1,9 +1,9 @@
 ---
 name: clean-drift
-description: Clean code by finding drift and code decay.
+description: Find durable drift and code-decay findings.
 metadata:
-  aiddbot-kind: orchestrator
-user-invocable: true
+  aiddbot-kind: worker
+user-invocable: false
 disable-model-invocation: true
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/clean-drift/SKILL.md instead -->

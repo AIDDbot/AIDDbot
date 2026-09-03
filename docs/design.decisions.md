@@ -4,6 +4,39 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — Three human intentions, durable remediation
+
+**Status**: adopted. Narrows the six public orchestrators retained by the
+all-to-skills migration without changing the primitive expert interface.
+
+### Decision
+
+1. **Public surface.** The normal human entrypoints are exactly
+   `/establish-solution`, `/deliver-requirement`, and `/improve-solution`.
+   Mapping, design, scaffolding, hygiene, and drift are internal workers.
+2. **Establishment route.** Substantive code maps as brownfield; an empty or
+   documentation-only repository follows greenfield design, optional scaffold,
+   and reconciliation. An ambiguous partial workspace stops for one material
+   routing decision rather than risking an overwrite.
+3. **One delivery owner.** `deliver-work` owns scope triage and delegates to
+   `deliver-spec` or `deliver-change`; both requested requirements and accepted
+   remediation use it.
+4. **Findings are durable.** Discovery writes evidence and provenance into a
+   repository finding ledger. It does not mutate code. An accepted finding is
+   delivered through specification, verification, qualification, and shipping;
+   it becomes delivered only after release.
+5. **Names are provisional.** This migration does not rename primitives or
+   composite skills beyond the two new public entries. Naming is reconsidered
+   after the flows have been used.
+
+### Consequences
+
+- A public requirement and evidence-backed remediation have identical delivery
+  guarantees without one public orchestrator composing another.
+- Focused primitives remain invocable for expert work, while workers remain
+  non-invocable and non-implicit.
+- The repository, not chat history, carries work across sessions and harnesses.
+
 ## 2026-09-03 — Every executable capability is an Agent Skill
 
 **Status**: adopted. Supersedes the public-workflow/internal-command file split

@@ -2,8 +2,8 @@
 name: scaffold-workshop
 description: Assemble an installable monorepo from catalogued AIDDbot archetypes.
 metadata:
-  aiddbot-kind: orchestrator
-user-invocable: true
+  aiddbot-kind: worker
+user-invocable: false
 disable-model-invocation: true
 argument-hint: "[back=tech] [front=tech] [e2e=tech] [cli=tech] [domain=sample|new-name|none]"
 ---

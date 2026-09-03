@@ -2,8 +2,8 @@
 name: scaffold-workshop
 description: Assemble an installable monorepo from catalogued AIDDbot archetypes.
 metadata:
-  aiddbot-kind: orchestrator
-user-invocable: true
+  aiddbot-kind: worker
+user-invocable: false
 disable-model-invocation: true
 ---
 # scaffold-workshop
@@ -37,5 +37,3 @@ Fix scaffold integration issues that prevent installation or the minimal smoke c
 _ONCE_ every selected project installs and passes its smoke check, commit the scaffolded solution, including root documentation, as `chore: scaffold {tier-tech list}` and append ` ({domain})` only when a domain was selected.
 
 Return a short report of the committed, installable monorepo and its smoke checks.
-
-Suggest `/map-solution` as the next public skill; see [map-solution](../map-solution/SKILL.md).

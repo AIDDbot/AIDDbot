@@ -88,12 +88,34 @@ for (const name of skills) {
     fail(`${name}: Claude pointer missing`);
   } else {
     const pointerText = read(pointer);
+    const pointerFields = frontmatter(pointerText, pointer);
     if (!pointerText.includes(`${managed}.agents/skills/${name}/SKILL.md instead -->`)) {
       fail(`${name}: Claude pointer ownership marker is wrong`);
     }
     if (!pointerText.includes(`../../../.agents/skills/${name}/SKILL.md`)) {
       fail(`${name}: Claude pointer target is wrong`);
     }
+    for (const key of ["name", "description", "user-invocable", "disable-model-invocation"]) {
+      if (pointerFields[key] !== fields[key]) fail(`${name}: Claude pointer ${key} differs from canonical skill`);
+    }
+    if (!pointerFields.metadata || pointerFields.metadata["aiddbot-kind"] !== kind) {
+      fail(`${name}: Claude pointer kind differs from canonical skill`);
+    }
+  }
+}
+
+const publicOrchestrators = skills.filter((name) => {
+  const fields = frontmatter(read(path.join(skillsRoot, name, "SKILL.md")), path.join(skillsRoot, name, "SKILL.md"));
+  return fields.metadata && fields.metadata["aiddbot-kind"] === "orchestrator";
+});
+const expectedOrchestrators = ["deliver-requirement", "establish-solution", "improve-solution"];
+if (publicOrchestrators.join(",") !== expectedOrchestrators.join(",")) {
+  fail(`public orchestrators must be exactly ${expectedOrchestrators.join(", ")}`);
+}
+for (const former of ["clean-drift", "clean-solution", "design-solution", "map-solution", "scaffold-workshop"]) {
+  const fields = frontmatter(read(path.join(skillsRoot, former, "SKILL.md")), path.join(skillsRoot, former, "SKILL.md"));
+  if (!fields.metadata || fields.metadata["aiddbot-kind"] !== "worker" || fields["user-invocable"] !== "false") {
+    fail(`${former}: former orchestrator must be an internal worker`);
   }
 }
 
@@ -121,6 +143,8 @@ function verifyOverlayFixture() {
     for (const required of [
       ".agents/skills/deliver-requirement/SKILL.md",
       ".claude/skills/deliver-requirement/SKILL.md",
+      ".agents/skills/establish-solution/SKILL.md",
+      ".claude/skills/improve-solution/SKILL.md",
       ".codex/hooks.json",
     ]) {
       if (!fs.existsSync(path.join(fixture, ...required.split("/")))) {

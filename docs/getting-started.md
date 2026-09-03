@@ -20,23 +20,15 @@ That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, 
 
 ## 2. Start from what you have
 
-**Existing codebase** — map it once:
+Run one entrypoint to establish the solution:
 
 ```markdown
-/map-solution
+/establish-solution
 ```
 
-`/map-solution` spawns Architect to document architecture, conceptual model, coding rules, and each container. Where evidence is missing, it asks you closed questions.
+For substantive code, it maps architecture, conceptual model, coding rules, and each container. For an empty or documentation-only repository, it designs the architecture first, then scaffolds catalogued archetypes when the validated design needs them. It asks one closed question only when a partial workspace makes that choice materially unsafe.
 
-**New workshop** — stay in that project (an empty folder, not this origin) and run `/scaffold-workshop`. Choose any combination of the catalogued back, front, e2e, and CLI archetypes. You can also use a sample domain, name a new one, or omit the domain. It installs the selected projects, runs their minimal smoke checks, documents the monorepo, and commits the green result. Then `/map-solution`.
-
-**Greenfield, no code yet** — design instead of map:
-
-```markdown
-/design-solution
-```
-
-That spawns Architect to write the architecture and validate its technical specification. Continue with `/deliver-requirement` and provide that specification.
+For an empty workshop, `/establish-solution` obtains the required archetype choices, installs the selected projects, smoke-tests them, and reconciles generated containers with the design.
 
 ## 3. Deliver a requirement
 
@@ -54,22 +46,22 @@ _IF_ the prompt includes YOLO, `/deliver-requirement` skips approval stops and c
 
 No extra slash command is required. The orchestrator plans and codifies one specification, or codifies coordinated specifications sequentially, then verifies, qualifies, and ships the complete scope. Functional or technical defect reports are fixed internally and review restarts from verify.
 
-## 5. Keep the shape healthy
+## 5. Improve an existing solution
 
-Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole codebase:
+Turn pending reports, quality checks, drift, architecture mismatches, or a refactoring proposal into a reviewed remediation scope:
 
 ```markdown
-/clean-solution
+/improve-solution run quality and drift checks
 ```
 
-Craftsman reports; the orchestrator applies findings through its internal defect worker.
+The discovery workers record durable evidence. Accepted remediation follows the normal specification, verify, qualify, and ship pipeline. Include YOLO to skip the remediation-scope checkpoint.
 
 ## What's next?
 
-The usual loop after the first map:
+The usual loop after establishment:
 
 1. `/deliver-requirement` — scope, specify, implement, verify, qualify, and ship
-2. `/clean-solution` or `/clean-drift` — optional codebase hygiene
+2. `/improve-solution` — optional evidence-backed remediation
 
 Continue with:
 
