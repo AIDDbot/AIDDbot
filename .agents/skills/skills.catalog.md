@@ -1,15 +1,15 @@
 # AIDD skills catalog
 
-Commands are orchestrator flows. Skills are the steps an agent executes.
+Public workflows are human entrypoints. Internal commands compose reusable orchestration. Skills are the steps an agent executes.
 
-Use a command for an end-to-end flow. Follow a catalog skill when you want tighter control of one step.
+Use a public workflow for an end-to-end flow. Internal commands are linked composition, not slash entrypoints. Follow a catalog skill when you want tighter control of one step.
 
 ## What holds
 
 - The green e2e suite is the contract.
 - `/codify` writes code; `/verify` and `/qualify` evaluate only.
 - Every cycle starts from a spec.
-- The current session runs the command: it spawns Architect, Builder, or Craftsman to follow a markdown link to `SKILL.md`, or it runs another command file. The slash name is the label, not the invoke. Agents execute skills, never commands.
+- The current session runs the workflow: it spawns Architect, Builder, or Craftsman to follow a markdown link to `SKILL.md`, or it executes a linked internal command. Agents execute skills, never commands.
 
 ## Context
 
@@ -51,27 +51,36 @@ Use a command for an end-to-end flow. Follow a catalog skill when you want tight
 |---|---|
 | [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
 
-## Commands
+## Public workflows
 
-| Command | What it does |
+| Workflow | What it does |
 |---|---|
-| [`map-solution`](../commands/map-solution.command.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`design-solution`](../commands/design-solution.command.md) | Spawn Architect: `/explore`, then `/specify` (`kind: technical`) |
-| [`specify-feature`](../commands/specify-feature.command.md) | Triage a requirement: one spec → `/specify` then `/implement-spec`; several specs → confirm (YOLO bypasses) then internal `/deliver-change` |
-| [`deliver-change`](../commands/deliver-change.command.md) | **Internal** — coordinated multi-spec delivery: scope, specify each spec, sequential implement, one `/verify`, one `/qualify`, one `/shipify` |
-| [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` then `/codify` per container; then run `/review-implementation` |
-| [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder: `/codify` from a defect report |
-| [`review-implementation`](../commands/review-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`; defects go through `/fix-defects` |
-| [`clean-solution`](../commands/clean-solution.command.md) | Spawn Craftsman to hunt CRAP and lint; defects go through `/fix-defects` |
-| [`scaffold-workshop`](../commands/scaffold-workshop.command.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
+| [`scaffold-workshop`](../commands/scaffold-workshop.workflow.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
+| [`map-solution`](../commands/map-solution.workflow.md) | Spawn Architect: `/explore` once, then `/extract` per container |
+| [`design-solution`](../commands/design-solution.workflow.md) | Spawn Architect: `/explore`, then `/specify` (`kind: technical`) |
+| [`deliver-requirement`](../commands/deliver-requirement.workflow.md) | Triage and deliver one specification or a coordinated multi-spec change |
+| [`clean-solution`](../commands/clean-solution.workflow.md) | Hunt CRAP and lint across the codebase, then route defects internally |
+| [`clean-drift`](../commands/clean-drift.workflow.md) | Hunt orphaned decay and drift, then route defects internally |
+
+## Internal commands
+
+| Command | What it composes |
+|---|---|
+| [`scope-feature`](../commands/scope-feature.command.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
+| [`deliver-spec`](../commands/deliver-spec.command.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
+| [`deliver-change`](../commands/deliver-change.command.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
+| [`specify-spec`](../commands/specify-spec.command.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
+| [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` in parallel, then `/codify` in parallel |
+| [`ship-implementation`](../commands/ship-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`, restarting verify after fixes |
+| [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder with `/codify` from a defect report |
 
 ## Human checkpoints
 
 You review only at key checkpoints:
 
-- After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo (or the design you want built).
-- After `/specify-feature`: problem, outcomes, and acceptance criteria are correct — or, for a coordinated change, the impact map and every spec in the bundle. YOLO skips approval and continues delivery.
-- `/implement-spec` already runs `/review-implementation`. `/deliver-change` runs one verify and one qualify for the whole change after all coding, then ships once. Defects go through `/fix-defects` on the active working branch.
+- After `/map-solution` or `/design-solution`: architecture, schemas, and rules match the repo or intended design.
+- During `/deliver-requirement`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
+- Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify on the active working branch.
 
 ## Pipeline
 

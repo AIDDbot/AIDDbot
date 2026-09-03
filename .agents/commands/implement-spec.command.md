@@ -1,17 +1,22 @@
 ---
 name: implement-spec
-description: Take an existing validated spec to implement it.
+description: Plan and implement a validated specification.
 ---
 # implement-spec
 
-The goal of this command is to take an existing validated spec and implement it.
+The goal of this internal command is to implement a validated specification.
 
-- Read the specification. Create and checkout `feat/{spec_key}` for a functional spec or `chore/{spec_key}` for a technical spec.
+- Read the specification and keep the delivery command's active working branch.
 
-- Spawn a new **Builder** sub-agent to run the [`/planify`](/.agents/skills/planify/SKILL.md) skill once per affected container. For a functional spec, one more run for the `e2e` suite. Do this phase in parallel; ie, spawn as many sub-agents as there are affected containers.
+- **Planning phase** — for every affected container:
+  - Spawn a new **Builder** sub-agent to run the [`planify`](/.agents/skills/planify/SKILL.md) skill.
+  - For a functional specification, include one additional plan for the `e2e` suite.
+  - Execute all container plans in parallel.
 
-- _ONCE_ all the sub-agents have finished, spawn a new **Builder** sub-agent to run the [`/codify`](/.agents/skills/codify/SKILL.md) skill to write the code (with unit tests) of each plan. Do this phase in parallel; ie, spawn as many sub-agents as there are plans to codify.
+- _ONCE_ all plans are available, start implementation.
 
-- _ONCE_ all the sub-agents have finished, run the [`/review-implementation`](/.agents/commands/review-implementation.command.md) command for this specification implementation.
+- **Implementation phase** — for every plan:
+  - Spawn a new **Builder** sub-agent to run the [`codify`](/.agents/skills/codify/SKILL.md) skill.
+  - Execute all plans in parallel.
 
-Return a short report of the implementation reviewed.
+Return a short report of the implemented specification.

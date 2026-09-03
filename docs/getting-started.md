@@ -1,6 +1,6 @@
 # Getting Started
 
-Copy AIDDbot in, then walk the loop: specify, implement, review. You invoke a command; the orchestrator spawns Architect, Builder, or Craftsman to execute the skills.
+Copy AIDDbot in, then walk the delivery loop. You invoke a public workflow; the orchestrator composes internal commands and spawns Architect, Builder, or Craftsman to execute skills.
 
 AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.
 
@@ -36,29 +36,23 @@ That copies `.agents/` and the adapters for Cursor, Claude Code, and GitHub Copi
 /design-solution
 ```
 
-That spawns Architect to write the architecture and a technical spec so Builder can scaffold it. Then skip to step 4.
+That spawns Architect to write the architecture and validate its technical specification. Continue with `/deliver-requirement` and provide that specification.
 
-## 3. Specify a feature
+## 3. Deliver a requirement
 
 ```markdown
-/specify-feature riders can rate a trip 1 to 5 stars
+/deliver-requirement riders can rate a trip 1 to 5 stars
 ```
 
-Architect triages every requirement. One affected spec: a one-page spec on `feat/{spec_key}` and **stop for your approval**. Several specs: an impact map and confirmation for coordinated delivery (YOLO bypasses). Check problem, outcomes, and acceptance criteria before anyone codes.
+Architect scopes every requirement. One affected specification uses `feat/{spec_key}`. Several coordinated specifications use `change/{change_key}`. Check each specification's problem, outcomes, and acceptance criteria when the workflow stops for approval.
 
-If the prompt includes YOLO, `/specify-feature` continues straight into delivery and skips approval stops.
+_IF_ the prompt includes YOLO, `/deliver-requirement` skips approval stops and continues through delivery.
 
 **Several specs, one requirement.** You describe the need; Architect finds which specs to create or amend. One branch, code everything, then one verify, one qualify, one release. Each spec keeps its criteria — the change manifest only coordinates.
 
-## 4. Implement
+## 4. Let delivery complete
 
-```markdown
-/implement-spec
-```
-
-Builder plans and codes. Single spec: `/implement-spec`. Several specs: delivery continues inside `/specify-feature` — no extra command from you.
-
-You can also invoke `/review-implementation` or `/fix-defects` on their own when you want that stretch without a full implement.
+No extra slash command is required. The workflow plans and codifies one specification, or codifies coordinated specifications sequentially, then verifies, qualifies, and ships the complete scope. Functional or technical defect reports are fixed internally and review restarts from verify.
 
 ## 5. Keep the shape healthy
 
@@ -68,14 +62,14 @@ Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole
 /clean-solution
 ```
 
-Craftsman reports; `/fix-defects` applies the findings.
+Craftsman reports; the workflow applies findings through its internal defect command.
 
 ## What's next?
 
 The usual loop after the first map:
 
-1. `/specify-feature` — triage, approve the spec or impact map
-2. `/implement-spec` — for a standalone spec already approved; otherwise delivery continues inside `/specify-feature`
+1. `/deliver-requirement` — scope, specify, implement, verify, qualify, and ship
+2. `/clean-solution` or `/clean-drift` — optional codebase hygiene
 
 Continue with:
 

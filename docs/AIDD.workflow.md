@@ -1,147 +1,83 @@
 # AIDD Workflow
 
-ABC: Architect, Builder, Craftsman. Three agents, one loop.
+ABC: Architect, Builder, Craftsman. Three agents, one delivery loop.
 
-You invoke a **command**. The current session is the orchestrator: it spawns the named agent, and that agent executes a **skill**. Agents never run commands. A command may run another command.
-
-AIDDbot applies AI-Driven Development with practices teams already trust.
-This page is the short version.
+You invoke a public **workflow**. The current session orchestrates it, executes linked internal **commands**, and spawns the named agent to run a **skill**. Agents execute skills, never commands.
 
 ## What holds
 
-**The green e2e suite is the contract.**
-A green test changes only through a plan, preventing silent behavior drift.
+**The green E2E suite is the contract.** A green test changes only through a plan, preventing silent behavior drift.
 
-**One writer, two evaluators.**
-`/codify` is the only skill that writes code. `/verify` and `/qualify` only judge and report.
+**One writer, two evaluators.** `/codify` writes code. `/verify` and `/qualify` judge and report.
 
-**Every cycle starts from a spec.**
-Architect writes it. Builder never starts without one. Craftsman never ships without a green review.
+**Every delivery starts from a specification.** Architect writes it, Builder implements it, and Craftsman ships only after green verification and qualification.
 
-**Commands own branches.**
-Skills write on the current branch. `/codify` refuses source or test writes on the default branch.
+**Delivery commands own branches.** One specification uses `feat/{spec_key}`. A coordinated change uses `change/{change_key}`. Skills write on the active branch.
 
-## Commands
+## Public workflows
 
-| Command | Spawns | Job |
-|---|---|---|
-| `/map-solution` | Architect | Map an existing codebase before anyone builds |
-| `/design-solution` | Architect | Design a greenfield architecture and its scaffold spec |
-| `/specify-feature` | Architect | Triage a requirement; single-spec or coordinated multi-spec delivery |
-| `/implement-spec` | Builder, then `/review-implementation` | Plan and code from a validated spec, then review |
-| `/fix-defects` | Builder | Apply a defect report in code |
-| `/review-implementation` | Craftsman; `/fix-defects` when red | Verify, qualify, and ship |
-| `/clean-solution` | Craftsman; `/fix-defects` when red | Hunt CRAP and lint across the codebase |
-| `/scaffold-workshop` | — (command body) | Assemble, install, smoke-test, and commit a catalogued monorepo |
+| Workflow | Job |
+|---|---|
+| `/scaffold-workshop` | Assemble, install, smoke-test, and commit a catalogued monorepo |
+| `/map-solution` | Map an existing codebase before delivery |
+| `/design-solution` | Design greenfield architecture and validate its technical specification |
+| `/deliver-requirement` | Scope and deliver one specification or a coordinated change |
+| `/clean-solution` | Find and fix CRAP, coverage, and lint defects |
+| `/clean-drift` | Find and fix orphaned decay and code drift |
 
-`/deliver-change` is internal — invoked by `/specify-feature` when a requirement spans several specs.
+These six root `.workflow.md` files are the only human slash entrypoints. Root `.command.md` files are internal composition and have no harness adapters.
 
 ```mermaid
 flowchart LR
-  YOU([you])
-  YOU -->|existing code| MAP["/map-solution"]
-  YOU -->|greenfield| DES["/design-solution"]
-  YOU -->|a feature| FEAT["/specify-feature"]
-  MAP --> FEAT
-  FEAT -->|1 spec approve| IMP["/implement-spec"]
-  FEAT -->|1 spec YOLO| IMP
-  FEAT -->|N specs confirm/YOLO| DEL["/deliver-change"]
-  DES --> IMP
-  IMP --> REV["/review-implementation"]
-  DEL --> REVB["one /verify · one /qualify"]
-  REVB --> SHIP["/shipify once"]
-  REV -->|defects| FIX["/fix-defects"]
-  FIX --> REV
-  REV -->|green| REL[released]
-  YOU -->|hygiene| CLEAN["/clean-solution"]
-  CLEAN --> FIX
+  YOU([you]) -->|existing code| MAP["/map-solution"]
+  YOU -->|greenfield| DESIGN["/design-solution"]
+  YOU -->|requirement| DELIVER["/deliver-requirement"]
+  MAP --> DELIVER
+  DESIGN -->|validated architecture spec| DELIVER
+  DELIVER -->|one spec| FEAT["feat/{spec_key}"]
+  DELIVER -->|many specs| CHANGE["change/{change_key}"]
+  FEAT --> REVIEW["verify → qualify → ship"]
+  CHANGE --> REVIEW
+  REVIEW -->|defect| FIX["internal fix-defects"]
+  FIX -->|restart| REVIEW
+  REVIEW -->|green| RELEASED[released]
 ```
 
-Map or design once. Then the feature loop starts at `/specify-feature`. Single-spec work continues through `/implement-spec`; multi-spec work routes through `/deliver-change`.
+## Requirement delivery
 
-How a command runs:
+`/deliver-requirement` first executes internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
 
-```mermaid
-flowchart LR
-  CMD[command] -->|spawns| AGT[Architect / Builder / Craftsman]
-  AGT -->|executes| SKL[skill]
-  CMD -->|may run| CMD2[another command]
-```
+### One specification
 
-## Architect
+Internal `deliver-spec`:
 
-```markdown
-/map-solution
-/design-solution
-/specify-feature riders can rate a trip 1 to 5 stars
-```
+1. Creates and checks out `feat/{spec_key}`.
+2. Executes `specify-spec` once. Architect runs `/specify`; without YOLO, the workflow stops for human approval.
+3. Executes `implement-spec` once. Builder runs `/planify` for affected containers in parallel, then `/codify` for the resulting plans in parallel.
+4. Executes `ship-implementation` once for the specification.
 
-```mermaid
-flowchart LR
-  TREE[repo tree + guide files] -->|/explore| SYS[agent rules · architecture · model · PRD shell]
-  SRC[container source] -->|/extract × container| DET[container architecture · schemas · coding rules]
-  SYS --> SPEC["/specify"]
-  FEAT[a feature idea] --> TRIAGE[triage]
-  TRIAGE -->|1 spec| SPEC
-  TRIAGE -->|N specs| SCOPE["/scope-change"]
-  SCOPE --> SPEC
-```
+### Coordinated change
 
-- `/map-solution` spawns Architect to run `/explore` once, then `/extract` per container.
-- `/design-solution` spawns Architect to run `/explore`, then `/specify` for the architecture to scaffold.
-- `/specify-feature` triages every requirement. One affected spec: `/specify` on `feat/{spec_key}` and stop for approval; YOLO continues into `/implement-spec`. Several specs: present the impact map, confirm coordinated delivery (YOLO bypasses), then `/deliver-change`.
-- All three apply evidence-first behavior: document what exists, ask where evidence is missing.
+Internal `deliver-change`:
 
-## Builder
+1. Creates and checks out `change/{change_key}`.
+2. Executes `specify-spec` for every affected specification in parallel.
+3. _ONCE_ all specifications are validated, executes `implement-spec` for each specification sequentially.
+4. _ONCE_ all specifications are implemented, executes `ship-implementation` once for the complete change.
 
-```markdown
-/implement-spec
-/fix-defects
-```
+The change ships atomically: one review cycle, one merge, one tag, and one release version.
 
-```mermaid
-flowchart LR
-  SPEC[validated spec] -->|/planify × container| PLAN[plans]
-  PLAN -->|/codify| CODE[code + unit tests]
-  RPT[defect report] -->|/codify| CODE
-```
+## Review and defect loops
 
-1. `/implement-spec` spawns Builder to plan each affected container (and e2e when the spec is functional), then to code from those plans. When coding is done, it runs `/review-implementation`.
-2. `/deliver-change` plans and codes each spec in manifest order on `change/{change_key}`; review starts only after every spec is coded.
-3. `/fix-defects` spawns Builder with a Craftsman report. No new spec. The orchestrator calls this command when a review is red.
-4. Builder does not run the acceptance suite. That is Craftsman's job.
+Internal `ship-implementation` preserves evaluator order:
 
-Builder owns delivery from an approved spec to code that compiles and unit-tests green.
+1. Craftsman runs `/verify` against the complete delivery scope.
+2. _IF_ functional or E2E defects exist, internal `fix-defects` spawns Builder with `/codify`, then review restarts from `/verify`.
+3. _ONCE_ verify is green, Craftsman runs `/qualify`.
+4. _IF_ technical or quality defects exist, `fix-defects` applies them, then review restarts from `/verify`.
+5. _ONCE_ verify and qualify are green, Craftsman runs `/shipify` once.
 
-## Craftsman
-
-```markdown
-/review-implementation
-/clean-solution
-```
-
-```mermaid
-flowchart LR
-  CODE[implementation] -->|/verify| VER[e2e report]
-  VER -->|defects| FIX["/fix-defects"]
-  VER -->|green| QLF["/qualify"]
-  QLF -->|failed| FIX
-  QLF -->|passed| REL["/shipify"]
-  BASE[whole codebase] -->|lint · coverage| CLEAN["/clean-solution"]
-  CLEAN --> FIX
-```
-
-`/review-implementation` spawns Craftsman to run `/verify`, then `/qualify`, then `/shipify`. A red report is a call to `/fix-defects`, then the review continues — not a rewrite of the spec.
-
-- `/deliver-change` verifies and qualifies the whole change once after all coding, restarts from verify after any fix, then calls `/shipify` once.
-
-`/clean-solution` spawns Craftsman to hunt cyclomatic complexity, poor coverage, and lint. It is not tied to a spec. A red report goes through `/fix-defects`.
-
-## Specs and changes
-
-Each spec owns its behavior and acceptance criteria. When a requirement touches several specs, `/specify-feature` discovers the set, you confirm, and delivery ships them together on one branch — without you naming specs or choosing a separate command.
-
-Status chain:
+## Status chain
 
 ```markdown
 pending → planned → in-progress → verified → qualified → released

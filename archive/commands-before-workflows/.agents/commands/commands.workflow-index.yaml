@@ -1,0 +1,92 @@
+public_workflows:
+  scaffold-workshop:
+    purpose: Assemble, install, smoke-test, and commit a monorepo.
+    handoff: map-solution
+  map-solution:
+    spawns:
+      - role: Architect
+        skill: explore
+        count: once
+      - role: Architect
+        skill: extract
+        count: per-container
+        mode: parallel
+    handoff: deliver-requirement
+  design-solution:
+    spawns:
+      - role: Architect
+        skill: explore
+      - role: Architect
+        skill: specify
+        kind: technical
+    handoff: deliver-requirement
+  deliver-requirement:
+    invokes:
+      - scope-feature
+    triage:
+      one-spec: deliver-spec
+      many-specs: deliver-change
+  clean-solution:
+    invokes:
+      - fix-defects
+  clean-drift:
+    invokes:
+      - fix-defects
+
+internal_commands:
+  scope-feature:
+    spawns:
+      - role: Architect
+        skill: scope-change
+  deliver-spec:
+    branch: feat/{spec_key}
+    sequence:
+      - specify-spec
+      - implement-spec
+      - ship-implementation
+  deliver-change:
+    branch: change/{change_key}
+    sequence:
+      - command: specify-spec
+        mode: parallel-per-spec
+      - command: implement-spec
+        mode: sequential-per-spec
+      - command: ship-implementation
+        count: once-per-change
+  specify-spec:
+    spawns:
+      - role: Architect
+        skill: specify
+  implement-spec:
+    sequence:
+      - role: Builder
+        skill: planify
+        mode: parallel-per-container
+        functional-extra: e2e
+      - role: Builder
+        skill: codify
+        mode: parallel-per-plan
+  ship-implementation:
+    sequence:
+      - role: Craftsman
+        skill: verify
+      - role: Craftsman
+        skill: qualify
+        requires: verify-green
+      - role: Craftsman
+        skill: shipify
+        requires: qualify-green
+    defect_loops:
+      verify-red:
+        command: fix-defects
+        restart: verify
+      qualify-red:
+        command: fix-defects
+        restart: verify
+  fix-defects:
+    branch:
+      delivery: active
+      hygiene-from-default: fix/{slug}
+    spawns:
+      - role: Builder
+        skill: codify

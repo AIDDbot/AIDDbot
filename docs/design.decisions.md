@@ -4,9 +4,34 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — Public workflows; internal command composition
+
+**Status**: adopted. Supersedes the public command inventory from 2026-09-01 and the
+`/specify-feature` entrypoint described on 2026-09-02.
+
+### Decision
+
+1. **Root `.workflow.md` files are public.** The six human entrypoints are
+   `/scaffold-workshop`, `/map-solution`, `/design-solution`, `/deliver-requirement`,
+   `/clean-solution`, and `/clean-drift`. Each receives adapters in all three harnesses.
+2. **Root `.command.md` files are internal.** They compose reusable requirement-delivery
+   orchestration and never receive harness adapters.
+3. **`/deliver-requirement` owns triage and delivery.** One specification uses
+   `feat/{spec_key}`. A coordinated change uses `change/{change_key}`, specifies in parallel,
+   implements specifications sequentially, and ships once.
+4. **Review is internal.** Verify runs before qualify; either defect path runs internal
+   `fix-defects` and restarts from verify. Shipify runs only after both evaluators are green.
+
+### Consequences
+
+- `/adapt` discovers public workflows by `.workflow.md` and treats `.command.md` as
+  validated, linked composition only.
+- Human documentation exposes workflows; internal command names remain implementation details.
+
 ## 2026-09-02 — Coordinated multi-spec delivery; commands own branches
 
-**Status**: adopted. Supersedes skill-owned branch creation in `/specify` and `/codify`.
+**Status**: superseded on 2026-09-03 by "Public workflows; internal command composition".
+Branch ownership and coordinated sequencing still hold.
 
 ### Context
 

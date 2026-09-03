@@ -1,0 +1,81 @@
+workflow:
+  name: specify-feature
+  purpose: Specify and deliver one requirement.
+  calls:
+    - scope-feature
+    - triage:
+        one-spec: deliver-spec
+        several-specs: deliver-change
+
+commands:
+  scope-feature:
+    purpose: Decide whether the requirement needs one or several specifications.
+    spawn:
+      skill: scope-change
+      agent: architect
+  
+  deliver-spec:
+    purpose: Deliver a requirement represented by one specification.
+    branch: feat/{spec-key}
+    calls:
+      - specify-spec: unique for requirement
+      - implement-spec: unique for the spec
+      - ship-implementation: unique for the spec
+
+  deliver-change:
+    purpose: Deliver a coordinated change represented by several specifications.
+    branch: change/{change-key}
+    calls:
+      - specify-spec: parallel for-each spec
+      - implement-spec: sequential for-each spec
+      - ship-implementation: unique for whole change
+
+  specify-spec:
+    purpose: Produce one validated specification.
+    spawn:
+      skill: specify
+      agent: architect
+    approval: YOLO | human
+
+  implement-spec:
+    purpose: Plan and implement one specification.
+    spawn:
+      - skill: planify
+        agent: builder
+        parallel: container
+      - skill: codify
+        agent: builder
+        parallel: plan
+
+  ship-implementation:
+    purpose: Verify, qualify, and ship the implemented scope.
+    spawn:
+      skill: verify
+      agent: craftsman
+    triage:
+      on: verify.result
+      defects:
+        calls:
+          - fix-defects: with verify.defect-report
+          - ship-implementation
+      clean:
+        spawn:
+          skill: qualify
+          agent: craftsman
+        triage:
+          on: qualify.result
+          defects:
+            calls:
+              - fix-defects: with qualify.defect-report
+              - ship-implementation
+          clean:
+            spawn:
+              skill: shipify
+              agent: craftsman
+
+  fix-defects:
+    purpose: Correct the defects found during implementation review.
+    spawn:
+      skill: codify
+      agent: builder
+
