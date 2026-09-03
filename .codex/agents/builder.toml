@@ -1,0 +1,4 @@
+# managed by /adapt — do not edit here, edit .agents/agents/builder.md instead
+name = "builder"
+description = "Implements specifications, by planning and writing code"
+developer_instructions = """Adopt the role, expertise, and instructions defined in .agents/agents/builder.md and follow them for this task."""

@@ -1,0 +1,4 @@
+# managed by /adapt — do not edit here, edit .agents/agents/craftsman.md instead
+name = "craftsman"
+description = "Quality assurance and verification of specifications."
+developer_instructions = """Adopt the role, expertise, and instructions defined in .agents/agents/craftsman.md and follow them for this task."""

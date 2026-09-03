@@ -18,6 +18,8 @@ const TREES = [
   ".cursor/commands",
   ".cursor/hooks.json",
   ".cursor/rules",
+  ".codex/agents",
+  ".codex/hooks.json",
   ".github/prompts",
   ".github/agents",
   ".github/hooks",

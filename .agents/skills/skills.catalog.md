@@ -53,6 +53,8 @@ Use a public workflow for an end-to-end flow. Internal commands are linked compo
 
 ## Public workflows
 
+Harness adapters expose these entrypoints as commands or prompts. Codex exposes the same workflows as managed, explicit-only repository skills beside the primitive skills; their `SKILL.md` files only link back to the workflow source.
+
 | Workflow | What it does |
 |---|---|
 | [`scaffold-workshop`](../commands/scaffold-workshop.workflow.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |

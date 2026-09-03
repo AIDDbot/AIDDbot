@@ -6,7 +6,7 @@ AIDDbot is markdown for AI-Driven Development: public **workflows** you invoke, 
 Everything lives inside `.agents/`:
 
 - One copy-in command; no package in your project
-- Works with Cursor, Claude Code, and GitHub Copilot
+- Works with Cursor, Claude Code, GitHub Copilot, and Codex
 
 ## Why AIDD
 

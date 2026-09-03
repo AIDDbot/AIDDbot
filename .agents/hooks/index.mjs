@@ -388,34 +388,37 @@ import path3 from "node:path";
 
 // src/yaml.ts
 var sessionEndFields = [
-  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason" }
+  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason", codex: "reason" }
 ];
 var subagentStartFields = [
   {
     name: "agent_display_name",
     cursor: "",
     copilot: "agentDisplayName",
-    "claude-code": ""
+    "claude-code": "",
+    codex: "agent_type"
   },
-  { name: "task", cursor: "task", copilot: "", "claude-code": "" }
+  { name: "task", cursor: "task", copilot: "", "claude-code": "", codex: "" }
 ];
 var subagentStopFields = [
   {
     name: "agent_display_name",
     cursor: "",
     copilot: "agentDisplayName",
-    "claude-code": ""
+    "claude-code": "",
+    codex: "agent_type"
   },
   {
     name: "response_text",
     cursor: "summary",
     copilot: "response",
-    "claude-code": "last_assistant_message"
+    "claude-code": "last_assistant_message",
+    codex: "last_assistant_message"
   }
 ];
 var subagentSourceKeys = ["subagent_type", "agent_type", "agentType", "agentName"];
 var promptFields = [
-  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt" }
+  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt", codex: "prompt" }
 ];
 var emptyFields = [];
 var bodyByEvent = new Map([
@@ -504,6 +507,8 @@ function asHarness(value) {
   if (value === "copilot")
     return value;
   if (value === "claude-code")
+    return value;
+  if (value === "codex")
     return value;
   return;
 }

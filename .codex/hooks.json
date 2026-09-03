@@ -1,0 +1,11 @@
+{
+  "description": "managed by /adapt — do not edit here, edit .agents/hooks/index.mjs instead",
+  "hooks": {
+    "SessionStart": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex SessionStart" }] }],
+    "SessionEnd": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex SessionEnd" }] }],
+    "SubagentStart": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex SubagentStart" }] }],
+    "SubagentStop": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex SubagentStop" }] }],
+    "UserPromptSubmit": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex UserPromptSubmit" }] }],
+    "Stop": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex Stop" }] }]
+  }
+}

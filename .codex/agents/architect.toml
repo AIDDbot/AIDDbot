@@ -1,0 +1,4 @@
+# managed by /adapt — do not edit here, edit .agents/agents/architect.md instead
+name = "architect"
+description = "Explore current legacy codebases or design new greenfield solutions"
+developer_instructions = """Adopt the role, expertise, and instructions defined in .agents/agents/architect.md and follow them for this task."""
