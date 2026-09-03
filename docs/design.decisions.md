@@ -4,6 +4,56 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — Craft collects evidence and repairs only behavior-preserving findings
+
+**Status**: adopted. Supersedes the Craft routing boundary in “Build delivers
+specifications; Craft delivers findings”.
+
+### Decision
+
+1. **One active quality hunt.** Craft always runs `clean-solution` for CRAP,
+   coverage, and strict-lint evidence; `clean-drift` is deleted.
+2. **One durable collector.** `collect-findings` alone writes `findings.md`.
+   It imports E2E reports, qualification reports, their structured accumulated
+   debt, and the active quality report.
+3. **A narrow Craft contract.** Craft repairs accepted findings only when they
+   preserve observable behavior. A behavior-changing finding remains pending;
+   Craft neither routes it nor creates a specification.
+
+### Consequences
+
+- Qualification records accumulated debt in its report without failing a gate;
+  the collector promotes it to the durable ledger later.
+- Craft's fixed path is clean → collect → approve → `fix/{fix_key}` → fix →
+  verify → qualify → ship. Free refactoring proposals are not an entry.
+
+## 2026-09-03 — Build delivers specifications; Craft delivers findings
+
+**Status**: adopted. Replaces the shared `deliver-work` path from the
+three-entrypoint migration.
+
+### Decision
+
+1. **Build owns specification delivery.** `/build-requested-change` scopes a
+   requested behavior change and routes it to `deliver-spec` or
+   `deliver-change`.
+2. **Craft owns findings delivery.** `/craft-lasting-quality` accepts durable,
+   behavior-preserving findings, creates `fix/{fix_key}`, fixes them directly,
+   and reviews them as a findings scope without creating a spec or plan.
+3. **Review remains mandatory.** Findings scopes run E2E regression and quality
+   qualification, then ship as a patch only with matching green reports.
+4. **Behavior is the boundary.** A finding that needs new or changed observable
+   behavior routes to Build before mutation. `deliver-work` is deleted.
+
+### Consequences
+
+- The finding ledger carries evidence, `Fix`, and `Released-version` across
+  sessions; it does not become an informal product specification.
+- Craft owns its fix branch; `fix-defects` works only on the caller-established
+  active branch.
+- `verify`, `qualify`, `ship-implementation`, and `shipify` accept a findings
+  scope in addition to a spec and a coordinated change.
+
 ## 2026-09-03 — ABC verbs name the public orchestrators
 
 **Status**: adopted. Replaces the provisional public names from "Three human
@@ -20,8 +70,8 @@ intentions, durable remediation" while preserving its behavior and boundaries.
 3. **ABC is the entry model.** Architect the solution foundation, build the
    requested change, and craft lasting quality. Each flow may compose all three
    agents as its work requires.
-4. **Internal names hold.** Workers and primitives keep their existing names;
-   `deliver-work` remains the common delivery owner.
+4. **Internal names hold.** Workers and primitives keep their existing names at
+   adoption; later routing decisions may remove obsolete composition workers.
 
 ### Consequences
 

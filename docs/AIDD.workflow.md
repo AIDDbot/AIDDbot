@@ -10,9 +10,9 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 **One writer, two evaluators.** `/codify` writes code. `/verify` and `/qualify` judge and report.
 
-**Every delivery starts from a specification.** Architect writes it, Builder implements it, and Craftsman ships only after green verification and qualification.
+**Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs; Craft preserves behavior from durable evidence. Craftsman ships only after green verification and qualification.
 
-**Delivery workers own branches.** One specification uses `feat/{spec_key}`. A coordinated change uses `change/{change_key}`. Skills write on the active branch.
+**Delivery owners create branches.** One specification uses `feat/{spec_key}`, a coordinated change uses `change/{change_key}`, and accepted findings use `fix/{fix_key}`. Skills write on the active branch.
 
 ## Public orchestrators
 
@@ -20,7 +20,7 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 |---|---|
 | `/architect-solution-foundation` | Architect an existing or greenfield solution, with optional scaffolding |
 | `/build-requested-change` | Build one requested change or a coordinated delivery |
-| `/craft-lasting-quality` | Turn durable quality, drift, architecture, or refactoring findings into delivery |
+| `/craft-lasting-quality` | Turn durable quality findings into behavior-preserving remediation |
 
 These three `orchestrator` skills are the stable public starting entrypoints. Focused primitives remain available as an advanced interface; `worker` skills are internal composition and are never rendered as command or prompt adapters.
 
@@ -30,11 +30,12 @@ flowchart LR
   YOU -->|requirement| DELIVER["/build-requested-change"]
   YOU -->|evidence-backed remediation| IMPROVE["/craft-lasting-quality"]
   ESTABLISH --> DELIVER
-  IMPROVE --> DELIVER
+  IMPROVE -->|accepted findings| FIX["fix/{fix_key}"]
   DELIVER -->|one spec| FEAT["feat/{spec_key}"]
   DELIVER -->|many specs| CHANGE["change/{change_key}"]
   FEAT --> REVIEW["verify → qualify → ship"]
   CHANGE --> REVIEW
+  FIX --> REVIEW
   REVIEW -->|defect| FIX["internal fix-defects"]
   FIX -->|restart| REVIEW
   REVIEW -->|green| RELEASED[released]
@@ -76,7 +77,7 @@ Internal `ship-implementation` worker preserves evaluator order:
 
 ## Solution improvement
 
-`/craft-lasting-quality` reads durable findings before it runs requested discovery. Internal `clean-solution` and `clean-drift` now report evidence only; accepted remediation is scoped and delivered through the same specification pipeline as a requirement. Findings stay pending until their linked delivery is released.
+`/craft-lasting-quality` runs internal `clean-solution`, then `collect-findings` once. The collector consolidates E2E reports, qualification reports and their accumulated debt, and the current quality report into the durable finding ledger. After approval, Craft assigns a `fix_key`, creates `fix/{fix_key}`, and applies the accepted findings through `fix-defects`. `ship-implementation` runs the complete E2E suite as a regression net, qualifies the fix diff, and ships a green patch. A finding that needs changed observable behavior remains pending because it is outside Craft's contract.
 
 ## Status chain
 

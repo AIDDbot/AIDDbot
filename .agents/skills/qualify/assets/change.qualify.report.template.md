@@ -48,11 +48,16 @@ specs:
 - Kind: {mechanical | functional | structural | behavioral}
 - Handoff: {`/codify` {container} | `/planify` | `/specify`}
 
-## Accumulated decay
+## Accumulated debt
 
-{Candidates for their own technical spec — they fail no gate.}
+{Evidence-backed debt that fails no gate. `collect-findings` later records it in the finding ledger.}
 
-- {what decayed, and where}
+### D1: {short title}
+
+- Where: {container} · {path}:{line}
+- Problem: {what has decayed}
+- Rule: {expected state}
+- Evidence: {observed facts}
 
 ---
 

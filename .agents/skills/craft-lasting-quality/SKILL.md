@@ -10,8 +10,10 @@ disable-model-invocation: true
 
 Your goal is to turn durable solution findings into released remediation.
 
-Read and execute [collect-findings](../collect-findings/SKILL.md) before running discovery. _IF_ the prompt requests quality checks, read and execute [clean-solution](../clean-solution/SKILL.md), then collect findings again. _IF_ it requests drift checks, read and execute [clean-drift](../clean-drift/SKILL.md), then collect findings again. Record a refactoring proposal as a finding; do not call it a defect without evidence.
+Read and execute [clean-solution](../clean-solution/SKILL.md), then [collect-findings](../collect-findings/SKILL.md) once. Do not accept unreported structural requests.
 
-_IF_ no pending findings remain, report that result. Otherwise present the deduplicated remediation scope for approval unless the prompt includes YOLO. _ONCE_ accepted, read and execute [deliver-work](../deliver-work/SKILL.md) with the accepted findings as the requested change. Mark findings `delivered` only after release; retain interrupted or failed work as pending with its evidence.
+_IF_ no pending findings remain, report that result. Leave any finding that needs new or changed observable behavior pending and explain that it is outside this skill's contract. Present the remaining deduplicated remediation scope for approval unless the prompt includes YOLO.
+
+_ONCE_ accepted, derive one `{fix_key}`, mark every scoped finding `accepted` with that `Fix`, and create and checkout `fix/{fix_key}`. Do not proceed over unrelated changes or an existing divergent branch. Read and execute [fix-defects](../fix-defects/SKILL.md) with the accepted findings, then read and execute [ship-implementation](../ship-implementation/SKILL.md) with the same findings scope. Keep interrupted work accepted with its branch and evidence; only release marks it delivered.
 
 The result is released remediation with traceable findings.

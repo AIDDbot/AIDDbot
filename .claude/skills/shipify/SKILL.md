@@ -1,6 +1,6 @@
 ---
 name: shipify
-description: Bump version, update CHANGELOG and arch docs, and close the in-scope spec or change.
+description: Bump version, update CHANGELOG and arch docs, and close qualified work.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

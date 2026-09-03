@@ -48,13 +48,13 @@ No extra slash command is required. The orchestrator plans and codifies one spec
 
 ## 5. Improve an existing solution
 
-Turn pending reports, quality checks, drift, architecture mismatches, or a refactoring proposal into a reviewed remediation scope:
+Turn durable findings and strict quality checks into a reviewed remediation scope:
 
 ```markdown
-/craft-lasting-quality run quality and drift checks
+/craft-lasting-quality
 ```
 
-The discovery workers record durable evidence. Accepted remediation follows the normal specification, verify, qualify, and ship pipeline. Include YOLO to skip the remediation-scope checkpoint.
+Craft runs CRAP, coverage, and strict-lint checks, then consolidates that evidence with existing verification and qualification reports in `findings.md`. Accepted behavior-preserving remediation creates `fix/{fix_key}`, then fixes, verifies, qualifies, and ships a patch without creating a spec or plan. Include YOLO to skip the remediation-scope checkpoint. A finding that needs changed observable behavior stays pending because it is outside this workflow.
 
 ## What's next?
 

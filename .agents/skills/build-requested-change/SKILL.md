@@ -10,6 +10,9 @@ disable-model-invocation: true
 
 Your goal is to take a requested change from initial analysis through delivery.
 
-Read and execute [deliver-work](../deliver-work/SKILL.md) with the requested change in hand.
+Read and execute [scope-feature](../scope-feature/SKILL.md) with the requested change in hand.
+
+- _IF_ the scope report affects one specification, read and execute [deliver-spec](../deliver-spec/SKILL.md).
+- _IF_ the scope report affects several coordinated specifications, read and execute [deliver-change](../deliver-change/SKILL.md).
 
 Return a short report of the delivered specification or coordinated change.

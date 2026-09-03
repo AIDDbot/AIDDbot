@@ -1,6 +1,6 @@
 ---
 name: fix-defects
-description: Fix defects described by a review or code-hygiene report.
+description: Fix defects or accepted findings on the active working branch.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

@@ -9,7 +9,9 @@ skills perform focused AIDD work.
 
 - The green e2e suite is the contract.
 - `/codify` writes code; `/verify` and `/qualify` evaluate only.
-- Every cycle starts from a specification.
+- Requested behavior changes start from a specification.
+- Evidence-backed maintenance starts from accepted durable findings.
+- Nothing ships without verification and qualification.
 - The current session follows links to `SKILL.md` and spawns Architect, Builder,
   or Craftsman where a skill requires it. A link is the invocation contract.
 
@@ -30,17 +32,15 @@ Workers are linked composition, not human entrypoints.
 | [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
 | [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
 | [`scaffold-workshop`](./scaffold-workshop/SKILL.md) | Assemble, install, and smoke-test catalogued archetypes |
-| [`clean-solution`](./clean-solution/SKILL.md) | Discover durable CRAP, coverage, and lint findings |
-| [`clean-drift`](./clean-drift/SKILL.md) | Discover durable orphaned-decay and drift findings |
-| [`collect-findings`](./collect-findings/SKILL.md) | Normalize pending reports into traceable remediation scope |
-| [`deliver-work`](./deliver-work/SKILL.md) | Scope and route work to one-spec or coordinated delivery |
+| [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
+| [`collect-findings`](./collect-findings/SKILL.md) | Consolidate verification, qualification, and quality evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
 | [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
 | [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
 | [`specify-spec`](./specify-spec/SKILL.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
 | [`implement-spec`](./implement-spec/SKILL.md) | Spawn Builder: `/planify` in parallel, then `/codify` in parallel |
-| [`ship-implementation`](./ship-implementation/SKILL.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`, restarting verify after fixes |
-| [`fix-defects`](./fix-defects/SKILL.md) | Spawn Builder with `/codify` from a defect report |
+| [`ship-implementation`](./ship-implementation/SKILL.md) | Review and ship a spec, change, or accepted findings scope; restart verify after fixes |
+| [`fix-defects`](./fix-defects/SKILL.md) | Spawn Builder with `/codify` from a defect report or accepted findings |
 
 ## Public primitives
 
@@ -69,14 +69,14 @@ Workers are linked composition, not human entrypoints.
 
 | Skill | What it does |
 | --- | --- |
-| [`/verify`](./verify/SKILL.md) | E2e verdict against acceptance criteria; single spec or whole change manifest |
-| [`/qualify`](./qualify/SKILL.md) | Quality-gate verdict; single spec or whole change manifest; failed gates route back to `/codify` |
+| [`/verify`](./verify/SKILL.md) | E2e verdict for a spec, change, or findings regression scope |
+| [`/qualify`](./qualify/SKILL.md) | Quality-gate verdict for a spec, change, or findings diff; failures route back to `/codify` |
 
 ### Ship
 
 | Skill | What it does |
 | --- | --- |
-| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; closes a spec or change manifest atomically |
+| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; closes a spec, change, or findings scope atomically |
 
 ### Meta
 

@@ -6,12 +6,13 @@ Use one heading per finding:
 ## {finding_id} — {short title}
 
 - Status: pending|accepted|delivered|rejected|stale
-- Source: {report path or human proposal}
+- Source: {report path}
 - Scope: {paths, containers, specs, or architecture elements}
-- Rule: {violated gate, expected state, or proposal}
+- Rule: {violated gate, expected state, or accumulated debt}
 - Evidence: {observed facts}
 - Severity: {only when the source supplies it}
-- Delivery: {spec key or change key when accepted}
+- Fix: {fix_key once accepted for Craft delivery}
+- Released-version: {version once delivered}
 ```
 
-Preserve reports as evidence. Change status to `delivered` only after the linked delivery is released.
+The findings scope is every `accepted` entry with the same `Fix`. Preserve reports as evidence. Change status to `delivered` and write `Released-version` only after the linked delivery is released.

@@ -8,12 +8,8 @@ disable-model-invocation: true
 ---
 # clean-solution
 
-Your goal is to find CRAP violations and lint issues across the whole codebase.
+Your goal is to produce evidence-backed whole-codebase quality findings.
 
-- Spawn a new **Craftsman** sub-agent to produce a defect report:
-  - Run lint scripts that detect cyclomatic complexity violations.
-  - Run test coverage scripts that detect poor test coverage.
-  - Run hard lint scripts that detect other warnings and errors.
-- Write durable, evidence-backed findings for every defect. Do not fix code or create a branch.
+Run the available complexity, coverage, and strict-lint checks. Report each CRAP violation, insufficient coverage result, warning, or error with its evidence. Do not edit code, update the finding ledger, or create a branch.
 
-Return a short report of the findings discovered.
+The result is the current quality report.

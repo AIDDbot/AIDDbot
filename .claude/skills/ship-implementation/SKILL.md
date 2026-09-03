@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Verify, qualify, and deliver an implemented specification or coordinated change.
+description: Verify, qualify, and deliver an implemented specification, change, or findings scope.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

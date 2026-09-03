@@ -112,15 +112,51 @@ const expectedOrchestrators = ["architect-solution-foundation", "build-requested
 if (publicOrchestrators.join(",") !== expectedOrchestrators.join(",")) {
   fail(`public orchestrators must be exactly ${expectedOrchestrators.join(", ")}`);
 }
-for (const former of ["clean-drift", "clean-solution", "design-solution", "map-solution", "scaffold-workshop"]) {
+for (const former of ["clean-solution", "design-solution", "map-solution", "scaffold-workshop"]) {
   const fields = frontmatter(read(path.join(skillsRoot, former, "SKILL.md")), path.join(skillsRoot, former, "SKILL.md"));
   if (!fields.metadata || fields.metadata["aiddbot-kind"] !== "worker" || fields["user-invocable"] !== "false") {
     fail(`${former}: former orchestrator must be an internal worker`);
   }
 }
-for (const retired of ["deliver-requirement", "establish-solution", "improve-solution"]) {
+for (const retired of ["deliver-requirement", "establish-solution", "improve-solution", "deliver-work", "clean-drift"]) {
   if (fs.existsSync(path.join(skillsRoot, retired))) fail(`${retired}: retired public skill must not remain canonical`);
   if (fs.existsSync(path.join(root, ".claude", "skills", retired))) fail(`${retired}: retired managed Claude pointer must not remain`);
+}
+
+for (const required of [
+  ".agents/skills/verify/assets/findings.e2e.report.template.md",
+  ".agents/skills/qualify/assets/findings.qualify.report.template.md",
+  ".agents/skills/collect-findings/references/finding.contract.md",
+]) {
+  if (!fs.existsSync(path.join(root, ...required.split("/")))) fail(`findings delivery artifact missing: ${required}`);
+}
+
+const buildSkill = read(path.join(skillsRoot, "build-requested-change", "SKILL.md"));
+if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-spec") || !buildSkill.includes("deliver-change")) {
+  fail("build-requested-change does not own specification routing");
+}
+const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
+if (!craftSkill.includes("fix/{fix_key}") || !craftSkill.includes("fix-defects") || !craftSkill.includes("ship-implementation")) {
+  fail("craft-lasting-quality does not own findings delivery");
+}
+if (/deliver-work|scope-feature|deliver-spec|deliver-change|specify|planify/.test(craftSkill)) {
+  fail("craft-lasting-quality must not route eligible findings through specification delivery");
+}
+if (/build-requested-change|clean-drift|refactor/.test(craftSkill)) {
+  fail("craft-lasting-quality must stay inside the findings-delivery contract");
+}
+const collectSkill = read(path.join(skillsRoot, "collect-findings", "SKILL.md"));
+if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution")) {
+  fail("collect-findings does not collect verification, qualification, and quality evidence");
+}
+for (const template of [
+  ".agents/skills/qualify/assets/qualify.report.template.md",
+  ".agents/skills/qualify/assets/change.qualify.report.template.md",
+  ".agents/skills/qualify/assets/findings.qualify.report.template.md",
+]) {
+  if (!read(path.join(root, ...template.split("/"))).includes("Accumulated debt")) {
+    fail(`qualification template has no structured accumulated-debt section: ${template}`);
+  }
 }
 
 for (const legacy of [".claude/commands", ".cursor/commands", ".github/prompts"]) {
