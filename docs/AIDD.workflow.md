@@ -18,17 +18,17 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 | Skill | Job |
 |---|---|
-| `/establish-solution` | Establish an existing or greenfield solution, with optional scaffolding |
-| `/deliver-requirement` | Scope and deliver one specification or a coordinated change |
-| `/improve-solution` | Turn durable quality, drift, architecture, or refactoring findings into delivery |
+| `/architect-solution-foundation` | Architect an existing or greenfield solution, with optional scaffolding |
+| `/build-requested-change` | Build one requested change or a coordinated delivery |
+| `/craft-lasting-quality` | Turn durable quality, drift, architecture, or refactoring findings into delivery |
 
 These three `orchestrator` skills are the stable public starting entrypoints. Focused primitives remain available as an advanced interface; `worker` skills are internal composition and are never rendered as command or prompt adapters.
 
 ```mermaid
 flowchart LR
-  YOU([you]) -->|solution inception| ESTABLISH["/establish-solution"]
-  YOU -->|requirement| DELIVER["/deliver-requirement"]
-  YOU -->|evidence-backed remediation| IMPROVE["/improve-solution"]
+  YOU([you]) -->|solution inception| ESTABLISH["/architect-solution-foundation"]
+  YOU -->|requirement| DELIVER["/build-requested-change"]
+  YOU -->|evidence-backed remediation| IMPROVE["/craft-lasting-quality"]
   ESTABLISH --> DELIVER
   IMPROVE --> DELIVER
   DELIVER -->|one spec| FEAT["feat/{spec_key}"]
@@ -42,7 +42,7 @@ flowchart LR
 
 ## Requirement delivery
 
-`/deliver-requirement` first follows internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
+`/build-requested-change` first follows internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
 
 ### One specification
 
@@ -76,7 +76,7 @@ Internal `ship-implementation` worker preserves evaluator order:
 
 ## Solution improvement
 
-`/improve-solution` reads durable findings before it runs requested discovery. Internal `clean-solution` and `clean-drift` now report evidence only; accepted remediation is scoped and delivered through the same specification pipeline as a requirement. Findings stay pending until their linked delivery is released.
+`/craft-lasting-quality` reads durable findings before it runs requested discovery. Internal `clean-solution` and `clean-drift` now report evidence only; accepted remediation is scoped and delivered through the same specification pipeline as a requirement. Findings stay pending until their linked delivery is released.
 
 ## Status chain
 

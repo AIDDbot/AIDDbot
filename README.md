@@ -30,7 +30,7 @@ Three agents, one loop. You invoke a public orchestrator skill; the current sess
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/deliver-requirement` owns the complete requirement flow. One-spec work uses `feat/{spec_key}`; coordinated work uses `change/{change_key}`, implements its specifications sequentially, and releases once.
+`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}`; coordinated work uses `change/{change_key}`, implements its specifications sequentially, and releases once.
 
 ## Quick start
 
@@ -40,9 +40,9 @@ Three agents, one loop. You invoke a public orchestrator skill; the current sess
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then `/establish-solution` once. For each requirement, run `/deliver-requirement`; use `/improve-solution` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
+Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
 
-**New workshop** — `init` in an empty folder outside this origin, then `/establish-solution`; it designs first and scaffolds catalogued archetypes when needed.
+**New workshop** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs first and scaffolds catalogued archetypes when needed.
 
 ## Documentation
 

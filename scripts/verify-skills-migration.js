@@ -108,7 +108,7 @@ const publicOrchestrators = skills.filter((name) => {
   const fields = frontmatter(read(path.join(skillsRoot, name, "SKILL.md")), path.join(skillsRoot, name, "SKILL.md"));
   return fields.metadata && fields.metadata["aiddbot-kind"] === "orchestrator";
 });
-const expectedOrchestrators = ["deliver-requirement", "establish-solution", "improve-solution"];
+const expectedOrchestrators = ["architect-solution-foundation", "build-requested-change", "craft-lasting-quality"];
 if (publicOrchestrators.join(",") !== expectedOrchestrators.join(",")) {
   fail(`public orchestrators must be exactly ${expectedOrchestrators.join(", ")}`);
 }
@@ -117,6 +117,10 @@ for (const former of ["clean-drift", "clean-solution", "design-solution", "map-s
   if (!fields.metadata || fields.metadata["aiddbot-kind"] !== "worker" || fields["user-invocable"] !== "false") {
     fail(`${former}: former orchestrator must be an internal worker`);
   }
+}
+for (const retired of ["deliver-requirement", "establish-solution", "improve-solution"]) {
+  if (fs.existsSync(path.join(skillsRoot, retired))) fail(`${retired}: retired public skill must not remain canonical`);
+  if (fs.existsSync(path.join(root, ".claude", "skills", retired))) fail(`${retired}: retired managed Claude pointer must not remain`);
 }
 
 for (const legacy of [".claude/commands", ".cursor/commands", ".github/prompts"]) {
@@ -141,10 +145,9 @@ function verifyOverlayFixture() {
     const first = runOverlay(fixture, { dryRun: false, force: false });
     if (first.conflicts) fail("clean overlay fixture reported conflicts");
     for (const required of [
-      ".agents/skills/deliver-requirement/SKILL.md",
-      ".claude/skills/deliver-requirement/SKILL.md",
-      ".agents/skills/establish-solution/SKILL.md",
-      ".claude/skills/improve-solution/SKILL.md",
+      ".agents/skills/architect-solution-foundation/SKILL.md",
+      ".claude/skills/build-requested-change/SKILL.md",
+      ".claude/skills/craft-lasting-quality/SKILL.md",
       ".codex/hooks.json",
     ]) {
       if (!fs.existsSync(path.join(fixture, ...required.split("/")))) {

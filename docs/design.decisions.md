@@ -4,6 +4,32 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — ABC verbs name the public orchestrators
+
+**Status**: adopted. Replaces the provisional public names from "Three human
+intentions, durable remediation" while preserving its behavior and boundaries.
+
+### Decision
+
+1. **Commands are verbs.** The public orchestrators are
+   `/architect-solution-foundation`, `/build-requested-change`, and
+   `/craft-lasting-quality`.
+2. **Agents are nouns.** Architect, Builder, and Craftsman retain their names
+   and execution responsibilities. Their verb forms identify the dominant
+   intention of a public entrypoint, not exclusive execution ownership.
+3. **ABC is the entry model.** Architect the solution foundation, build the
+   requested change, and craft lasting quality. Each flow may compose all three
+   agents as its work requires.
+4. **Internal names hold.** Workers and primitives keep their existing names;
+   `deliver-work` remains the common delivery owner.
+
+### Consequences
+
+- The three public skills sort and read as a memorable A–B–C command surface.
+- Skill names communicate an action to the human while agent names communicate
+  the role that performs a stage.
+- The former public names have no canonical or managed-adapter aliases.
+
 ## 2026-09-03 — Three human intentions, durable remediation
 
 **Status**: adopted. Narrows the six public orchestrators retained by the
@@ -11,9 +37,9 @@ all-to-skills migration without changing the primitive expert interface.
 
 ### Decision
 
-1. **Public surface.** The normal human entrypoints are exactly
-   `/establish-solution`, `/deliver-requirement`, and `/improve-solution`.
-   Mapping, design, scaffolding, hygiene, and drift are internal workers.
+1. **Public surface.** The normal human entrypoints are the three provisional
+   names adopted at that time. Mapping, design, scaffolding, hygiene, and drift
+   are internal workers.
 2. **Establishment route.** Substantive code maps as brownfield; an empty or
    documentation-only repository follows greenfield design, optional scaffold,
    and reconciliation. An ambiguous partial workspace stops for one material

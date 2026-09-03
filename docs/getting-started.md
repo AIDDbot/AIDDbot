@@ -23,22 +23,22 @@ That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, 
 Run one entrypoint to establish the solution:
 
 ```markdown
-/establish-solution
+/architect-solution-foundation
 ```
 
 For substantive code, it maps architecture, conceptual model, coding rules, and each container. For an empty or documentation-only repository, it designs the architecture first, then scaffolds catalogued archetypes when the validated design needs them. It asks one closed question only when a partial workspace makes that choice materially unsafe.
 
-For an empty workshop, `/establish-solution` obtains the required archetype choices, installs the selected projects, smoke-tests them, and reconciles generated containers with the design.
+For an empty workshop, `/architect-solution-foundation` obtains the required archetype choices, installs the selected projects, smoke-tests them, and reconciles generated containers with the design.
 
 ## 3. Deliver a requirement
 
 ```markdown
-/deliver-requirement riders can rate a trip 1 to 5 stars
+/build-requested-change riders can rate a trip 1 to 5 stars
 ```
 
 Architect scopes every requirement. One affected specification uses `feat/{spec_key}`. Several coordinated specifications use `change/{change_key}`. Check each specification's problem, outcomes, and acceptance criteria when the workflow stops for approval.
 
-_IF_ the prompt includes YOLO, `/deliver-requirement` skips approval stops and continues through delivery.
+_IF_ the prompt includes YOLO, `/build-requested-change` skips approval stops and continues through delivery.
 
 **Several specs, one requirement.** You describe the need; Architect finds which specs to create or amend. One branch, code everything, then one verify, one qualify, one release. Each spec keeps its criteria — the change manifest only coordinates.
 
@@ -51,7 +51,7 @@ No extra slash command is required. The orchestrator plans and codifies one spec
 Turn pending reports, quality checks, drift, architecture mismatches, or a refactoring proposal into a reviewed remediation scope:
 
 ```markdown
-/improve-solution run quality and drift checks
+/craft-lasting-quality run quality and drift checks
 ```
 
 The discovery workers record durable evidence. Accepted remediation follows the normal specification, verify, qualify, and ship pipeline. Include YOLO to skip the remediation-scope checkpoint.
@@ -60,8 +60,8 @@ The discovery workers record durable evidence. Accepted remediation follows the 
 
 The usual loop after establishment:
 
-1. `/deliver-requirement` — scope, specify, implement, verify, qualify, and ship
-2. `/improve-solution` — optional evidence-backed remediation
+1. `/build-requested-change` — scope, specify, implement, verify, qualify, and ship
+2. `/craft-lasting-quality` — optional evidence-backed remediation
 
 Continue with:
 

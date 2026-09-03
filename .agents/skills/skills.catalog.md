@@ -17,9 +17,9 @@ skills perform focused AIDD work.
 
 | Skill | What it does |
 | --- | --- |
-| [`/establish-solution`](./establish-solution/SKILL.md) | Establish a brownfield or greenfield solution, including optional scaffolding |
-| [`/deliver-requirement`](./deliver-requirement/SKILL.md) | Triage and deliver one specification or a coordinated multi-spec change |
-| [`/improve-solution`](./improve-solution/SKILL.md) | Discover and deliver evidence-backed remediation for an existing solution |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Architect a brownfield or greenfield solution, including optional scaffolding |
+| [`/build-requested-change`](./build-requested-change/SKILL.md) | Build one requested change or coordinated delivery |
+| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Craft lasting quality from evidence-backed solution findings |
 
 ## Internal workers
 
@@ -88,9 +88,9 @@ Workers are linked composition, not human entrypoints.
 
 You review only at key checkpoints:
 
-- During `/establish-solution`: resolve an ambiguous repository before files or architecture change materially.
-- During `/deliver-requirement`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
-- During `/improve-solution`: approve the evidence-backed remediation scope. YOLO skips this stop.
+- During `/architect-solution-foundation`: resolve an ambiguous repository before files or architecture change materially.
+- During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
+- During `/craft-lasting-quality`: approve the evidence-backed remediation scope. YOLO skips this stop.
 - Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify on the active working branch.
 
 ## Pipeline
