@@ -11,4 +11,4 @@ Use the argument directive as an input to [`/specify`](../skills/specify/SKILL.m
 
 The result is a specification to fix the defects.
 
-Suggest handoff to Builder to implement the fixes by running [`/builder-implement`](./builder-implement.command.md) with the refactoring specification in hand.
+Suggest handoff to Builder to run [`/codify`](../.agents/skills/codify/SKILL.md) with the refactoring specification in hand.

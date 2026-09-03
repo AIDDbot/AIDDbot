@@ -1,6 +1,8 @@
 ---
 name: extract
 description: Document one container in depth — architecture or schema, code rules, and API shapes.
+metadata:
+  aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---

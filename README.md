@@ -2,7 +2,7 @@
 
 Build software you can trust.
 
-AIDDbot is markdown for AI-Driven Development: public **workflows** you invoke, internal **commands** they compose, **agents** they spawn, and **skills** those agents follow.
+AIDDbot is markdown for AI-Driven Development: public **orchestrator skills** you invoke, internal **worker skills** they compose, **agents** they spawn, and focused **primitive skills** they follow.
 Everything lives inside `.agents/`:
 
 - One copy-in command; no package in your project
@@ -24,7 +24,7 @@ AIDDbot addresses that with:
 
 ## ABC workflow
 
-Three agents, one loop. You invoke a public **workflow**; the current session composes internal commands and spawns Architect, Builder, or Craftsman to execute a **skill**. Agents never run commands.
+Three agents, one loop. You invoke a public orchestrator skill; the current session follows linked worker and primitive skills and spawns Architect, Builder, or Craftsman where the skill requires it.
 
 - **Architect** — maps existing code, designs greenfield architecture, scopes requirements, and writes specifications.
 - **Builder** — plans and codifies validated specifications or fixes review defects.
@@ -49,6 +49,8 @@ Then `/map-solution` once. For each requirement, run `/deliver-requirement`; app
 - [Getting started](docs/getting-started.md)
 - [AIDD workflow](docs/AIDD.workflow.md)
 - [Skills catalog](.agents/skills/skills.catalog.md)
+- [Migration characterization](docs/all-to-skills.characterization.md)
+- [Migration verification](docs/all-to-skills.verification.md)
 - [Design decisions](docs/design.decisions.md)
 
 ## Links

@@ -2,7 +2,7 @@
 
 ABC: Architect, Builder, Craftsman. Three agents, one delivery loop.
 
-You invoke a public **workflow**. The current session orchestrates it, executes linked internal **commands**, and spawns the named agent to run a **skill**. Agents execute skills, never commands.
+You invoke a public **orchestrator skill**. The current session follows linked internal **worker skills** and spawns the named agent to run a **primitive skill**.
 
 ## What holds
 
@@ -12,11 +12,11 @@ You invoke a public **workflow**. The current session orchestrates it, executes 
 
 **Every delivery starts from a specification.** Architect writes it, Builder implements it, and Craftsman ships only after green verification and qualification.
 
-**Delivery commands own branches.** One specification uses `feat/{spec_key}`. A coordinated change uses `change/{change_key}`. Skills write on the active branch.
+**Delivery workers own branches.** One specification uses `feat/{spec_key}`. A coordinated change uses `change/{change_key}`. Skills write on the active branch.
 
-## Public workflows
+## Public orchestrators
 
-| Workflow | Job |
+| Skill | Job |
 |---|---|
 | `/scaffold-workshop` | Assemble, install, smoke-test, and commit a catalogued monorepo |
 | `/map-solution` | Map an existing codebase before delivery |
@@ -25,7 +25,7 @@ You invoke a public **workflow**. The current session orchestrates it, executes 
 | `/clean-solution` | Find and fix CRAP, coverage, and lint defects |
 | `/clean-drift` | Find and fix orphaned decay and code drift |
 
-These six root `.workflow.md` files are the only human slash entrypoints. Root `.command.md` files are internal composition and have no harness adapters.
+These six `orchestrator` skills are the stable public slash entrypoints. `worker` skills are internal composition and are never rendered as command or prompt adapters.
 
 ```mermaid
 flowchart LR
@@ -45,11 +45,11 @@ flowchart LR
 
 ## Requirement delivery
 
-`/deliver-requirement` first executes internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
+`/deliver-requirement` first follows internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
 
 ### One specification
 
-Internal `deliver-spec`:
+Internal `deliver-spec` worker:
 
 1. Creates and checks out `feat/{spec_key}`.
 2. Executes `specify-spec` once. Architect runs `/specify`; without YOLO, the workflow stops for human approval.
@@ -58,7 +58,7 @@ Internal `deliver-spec`:
 
 ### Coordinated change
 
-Internal `deliver-change`:
+Internal `deliver-change` worker:
 
 1. Creates and checks out `change/{change_key}`.
 2. Executes `specify-spec` for every affected specification in parallel.
@@ -69,7 +69,7 @@ The change ships atomically: one review cycle, one merge, one tag, and one relea
 
 ## Review and defect loops
 
-Internal `ship-implementation` preserves evaluator order:
+Internal `ship-implementation` worker preserves evaluator order:
 
 1. Craftsman runs `/verify` against the complete delivery scope.
 2. _IF_ functional or E2E defects exist, internal `fix-defects` spawns Builder with `/codify`, then review restarts from `/verify`.

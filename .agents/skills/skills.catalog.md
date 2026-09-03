@@ -1,80 +1,84 @@
 # AIDD skills catalog
 
-Public workflows are human entrypoints. Internal commands compose reusable orchestration. Skills are the steps an agent executes.
-
-Use a public workflow for an end-to-end flow. Internal commands are linked composition, not slash entrypoints. Follow a catalog skill when you want tighter control of one step.
+Every executable AIDDbot capability is an Agent Skill. This catalog is the
+single inventory and routing authority: public `orchestrator` skills own
+outcomes, internal `worker` skills compose stages, and public `primitive`
+skills perform focused AIDD work.
 
 ## What holds
 
 - The green e2e suite is the contract.
 - `/codify` writes code; `/verify` and `/qualify` evaluate only.
-- Every cycle starts from a spec.
-- The current session runs the workflow: it spawns Architect, Builder, or Craftsman to follow a markdown link to `SKILL.md`, or it executes a linked internal command. Agents execute skills, never commands.
+- Every cycle starts from a specification.
+- The current session follows links to `SKILL.md` and spawns Architect, Builder,
+  or Craftsman where a skill requires it. A link is the invocation contract.
 
-## Context
-
-| Skill | What it does |
-|---|---|
-| [`/explore`](./explore/) | Agent setup, system architecture, conceptual model, and PRD shell from repo tree and guide files |
-| [`/extract`](./extract/) | Per-container architecture, schemas, and coding rules from source |
-
-## Capture
+## Public orchestrators
 
 | Skill | What it does |
-|---|---|
-| [`/specify`](./specify/) | Writes a spec; the caller names the kind — `functional` or `technical` |
-| [`/scope-change`](./scope-change/) | Discovers affected specs and writes a coordinated change manifest |
+| --- | --- |
+| [`/scaffold-workshop`](./scaffold-workshop/SKILL.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
+| [`/map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
+| [`/design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
+| [`/deliver-requirement`](./deliver-requirement/SKILL.md) | Triage and deliver one specification or a coordinated multi-spec change |
+| [`/clean-solution`](./clean-solution/SKILL.md) | Hunt CRAP and lint across the codebase, then route defects internally |
+| [`/clean-drift`](./clean-drift/SKILL.md) | Hunt orphaned decay and drift, then route defects internally |
 
-## Build
+## Internal workers
+
+Workers are linked composition, not human entrypoints.
+
+| Skill | What it composes |
+| --- | --- |
+| [`scope-feature`](./scope-feature/SKILL.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
+| [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
+| [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
+| [`specify-spec`](./specify-spec/SKILL.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
+| [`implement-spec`](./implement-spec/SKILL.md) | Spawn Builder: `/planify` in parallel, then `/codify` in parallel |
+| [`ship-implementation`](./ship-implementation/SKILL.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`, restarting verify after fixes |
+| [`fix-defects`](./fix-defects/SKILL.md) | Spawn Builder with `/codify` from a defect report |
+
+## Public primitives
+
+### Context
 
 | Skill | What it does |
-|---|---|
-| [`/planify`](./planify/) | One implementation plan per affected container; e2e only for a functional spec |
-| [`/codify`](./codify/) | The only skill that writes code, unit tests, and e2e suite updates |
+| --- | --- |
+| [`/explore`](./explore/SKILL.md) | Agent setup, system architecture, conceptual model, and PRD shell from repo tree and guide files |
+| [`/extract`](./extract/SKILL.md) | Per-container architecture, schemas, and coding rules from source |
 
-## Prove
-
-| Skill | What it does |
-|---|---|
-| [`/verify`](./verify/) | E2e verdict against acceptance criteria (report only); single spec or whole change manifest |
-| [`/qualify`](./qualify/) | Quality-gate verdict (report only); single spec or whole change manifest; failed gates route back to `/codify` |
-
-## Ship
+### Capture
 
 | Skill | What it does |
-|---|---|
-| [`/shipify`](./shipify/) | Version, changelog, reconciled docs, and tag after qualification; closes a single spec or an entire change manifest atomically |
+| --- | --- |
+| [`/specify`](./specify/SKILL.md) | Writes a spec; the caller names the kind — `functional` or `technical` |
+| [`/scope-change`](./scope-change/SKILL.md) | Discovers affected specs and writes a coordinated change manifest |
 
-## Meta
+### Build
 
 | Skill | What it does |
-|---|---|
-| [`/skillify`](./skillify/) | Sole path to create or update skills under `.agents/skills/` |
+| --- | --- |
+| [`/planify`](./planify/SKILL.md) | One implementation plan per affected container; e2e only for a functional spec |
+| [`/codify`](./codify/SKILL.md) | The only skill that writes code, unit tests, and e2e suite updates |
 
-## Public workflows
+### Prove
 
-Harness adapters expose these entrypoints as commands or prompts. Codex exposes the same workflows as managed, explicit-only repository skills beside the primitive skills; their `SKILL.md` files only link back to the workflow source.
+| Skill | What it does |
+| --- | --- |
+| [`/verify`](./verify/SKILL.md) | E2e verdict against acceptance criteria; single spec or whole change manifest |
+| [`/qualify`](./qualify/SKILL.md) | Quality-gate verdict; single spec or whole change manifest; failed gates route back to `/codify` |
 
-| Workflow | What it does |
-|---|---|
-| [`scaffold-workshop`](../commands/scaffold-workshop.workflow.md) | Assemble, install, smoke-test, and commit a monorepo from catalogued archetypes |
-| [`map-solution`](../commands/map-solution.workflow.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`design-solution`](../commands/design-solution.workflow.md) | Spawn Architect: `/explore`, then `/specify` (`kind: technical`) |
-| [`deliver-requirement`](../commands/deliver-requirement.workflow.md) | Triage and deliver one specification or a coordinated multi-spec change |
-| [`clean-solution`](../commands/clean-solution.workflow.md) | Hunt CRAP and lint across the codebase, then route defects internally |
-| [`clean-drift`](../commands/clean-drift.workflow.md) | Hunt orphaned decay and drift, then route defects internally |
+### Ship
 
-## Internal commands
+| Skill | What it does |
+| --- | --- |
+| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; closes a spec or change manifest atomically |
 
-| Command | What it composes |
-|---|---|
-| [`scope-feature`](../commands/scope-feature.command.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
-| [`deliver-spec`](../commands/deliver-spec.command.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
-| [`deliver-change`](../commands/deliver-change.command.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
-| [`specify-spec`](../commands/specify-spec.command.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
-| [`implement-spec`](../commands/implement-spec.command.md) | Spawn Builder: `/planify` in parallel, then `/codify` in parallel |
-| [`ship-implementation`](../commands/ship-implementation.command.md) | Spawn Craftsman: `/verify` → `/qualify` → `/shipify`, restarting verify after fixes |
-| [`fix-defects`](../commands/fix-defects.command.md) | Spawn Builder with `/codify` from a defect report |
+### Meta
+
+| Skill | What it does |
+| --- | --- |
+| [`/skillify`](./skillify/SKILL.md) | Sole path to create or update skills under `.agents/skills/` |
 
 ## Human checkpoints
 

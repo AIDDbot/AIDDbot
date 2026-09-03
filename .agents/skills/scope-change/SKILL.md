@@ -1,6 +1,8 @@
 ---
 name: scope-change
 description: Discover affected specs and write a coordinated change manifest.
+metadata:
+  aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---

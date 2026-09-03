@@ -4,9 +4,70 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-03 — Every executable capability is an Agent Skill
+
+**Status**: adopted. Supersedes the public-workflow/internal-command file split
+recorded below; branch ownership, approval checkpoints, role selection,
+parallelism, and the review loop are preserved.
+
+### Decision
+
+1. **Canonical format.** Every executable capability lives at
+   `.agents/skills/{name}/SKILL.md`. `metadata.aiddbot-kind` is a flat
+   string-to-string map entry with exactly `orchestrator`, `worker`, or
+   `primitive`.
+2. **Invocation policy.** Orchestrators and primitives are public
+   (`user-invocable: true`); workers are internal (`user-invocable: false`).
+   Every kind sets `disable-model-invocation: true`. Skill composition names and
+   links the target `SKILL.md`; it does not assume a harness performs nested
+   invocation for us.
+3. **Harness policy.** Codex, Cursor, and GitHub Copilot in VS Code read the
+   canonical `.agents/skills/` tree. Claude Code receives thin pointers in
+   `.claude/skills/` because its documented project source is that directory.
+   No Codex workflow wrapper, Copilot prompt, Cursor command, or VS Code
+   `agentSkillsLocations` setting is generated.
+4. **Cleanup policy.** `/adapt` removes only marked legacy adapters. It retains
+   every unmarked collision and remains byte-stable on a second run.
+
+### Compatibility evidence
+
+Validated on 2026-09-03 against vendor documentation:
+
+| Harness | Minimum adopted | Evidence and resulting adapter |
+| --- | --- | --- |
+| Codex | Current supported release; no numeric minimum published | [Codex Build skills](https://learn.chatgpt.com/docs/build-skills) says standalone skills are available in CLI and the IDE extension and that Codex scans `.agents/skills/` up to the repository root. Canonical only. |
+| Claude Code | 2.1.233 | [Skills](https://code.claude.com/docs/en/skills) documents `.claude/skills/`, both invocation fields, metadata maps, and `claude plugin validate` from 2.1.233. Generate thin pointers for all kinds. |
+| Cursor | 2.4 | [Agent Skills](https://cursor.com/docs/skills) documents `.agents/skills/` project discovery, `disable-model-invocation`, and arbitrary metadata; its 2.4 migration guidance confirms the skills surface. Canonical only. The documented frontmatter omits `user-invocable`, so the installed Cursor release must be checked to prove workers are absent from its public picker; no pointer could hide a canonical source Cursor already discovers. |
+| GitHub Copilot in VS Code | Current extension; no numeric minimum published | [About agent skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills) and [Adding agent skills](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills) list `.agents/skills/` as a project location and include VS Code agent mode. Canonical only; Copilot CLI and GitHub.com are outside this decision. |
+
+The Claude and Copilot references accept metadata but do not interpret its
+AIDDbot value. It is an annotation for `/adapt`, not a harness extension.
+
+### Rejected
+
+- **Keep commands and workflows as canonical files** — duplicates the one
+  reusable instruction format now supported by the target harnesses.
+- **Generate copies for Codex or Copilot VS Code** — creates drift and is
+  unnecessary because both discover the canonical location.
+- **Write `.vscode/settings.json`** — `.agents/skills/` is already a documented
+  project location, so a settings file would only add ownership collisions.
+- **Claim Cursor worker invisibility without a live harness check** — its
+  current public schema does not document `user-invocable`; a generated pointer
+  cannot correct that limitation.
+
+### Consequences
+
+- The catalog is the only routing inventory; individual skill prose retains
+  only its own contract.
+- `/adapt` classifies skills semantically, not from filename suffixes.
+- The overlay installer copies the canonical tree, Claude skill pointers, and
+  remaining native agent/rule/hook adapters.
+- External fixture validation remains mandatory before relying on Cursor's
+  worker-visibility behavior in a production release.
+
 ## 2026-09-03 — Public workflows; internal command composition
 
-**Status**: adopted. Supersedes the public command inventory from 2026-09-01 and the
+**Status**: superseded by "Every executable capability is an Agent Skill" above. It superseded the public command inventory from 2026-09-01 and the
 `/specify-feature` entrypoint described on 2026-09-02.
 
 ### Decision
@@ -138,7 +199,7 @@ The command was a one-line pointer at a skill that ran `aiddbot-scaffold` and th
 
 ### Decision
 
-1. **Command is the body.** [`.agents/commands/scaffoldify.command.md`](../.agents/commands/scaffoldify.command.md) asks, fetches via `aiddbot-scaffold`, reconciles, verifies the tracer, and writes a short report. No `SKILL.md`.
+1. **Command was the body.** The former `scaffoldify.command.md` asked, fetched via `aiddbot-scaffold`, reconciled, verified the tracer, and wrote a short report. No `SKILL.md`.
 2. **Report lives in the command.** The outline for `docs/scaffold.report.md` is in the command, not a template under skills.
 3. **Refuse the origin.** Unchanged.
 
@@ -191,7 +252,7 @@ A skill under `.agents/skills/` travels with `init`, but Cursor, Claude Code, an
 
 ### Decision
 
-1. **Command is the door.** [`.agents/commands/scaffoldify.command.md`](../.agents/commands/scaffoldify.command.md) points at the skill. Thin adapters in `.claude/commands/`, `.cursor/commands/`, and `.github/prompts/` ship with `init`.
+1. **Command was the door.** The former `scaffoldify.command.md` pointed at the skill. Thin adapters in `.claude/commands/`, `.cursor/commands/`, and `.github/prompts/` shipped with `init`.
 2. **Skill is the body.** Reconcile, verify, and report stay in [`.agents/skills/scaffoldify/SKILL.md`](../.agents/skills/scaffoldify/SKILL.md). Fetch stays `aiddbot-scaffold`.
 3. **Refuse the origin.** Unchanged.
 
@@ -360,7 +421,7 @@ Commands said `call the /explore skill`. That is English, not a harness contract
 ### Decision
 
 1. **The path is the invoke.** A command follows a markdown link to the file: [`/explore`](../.agents/skills/explore/SKILL.md). The slash name is the label.
-2. **Nested commands use the same shape.** Builder and Craftsman link [`/ship-spec`](../.agents/commands/ship-spec.command.md), not “the `/ship-spec` skill”.
+2. **Nested commands used the same shape.** Builder and Craftsman linked `/ship-spec`, not “the `/ship-spec` skill”.
 3. **Diagrams keep slash labels.** Mermaid nodes stay `/explore`; they are pictures, not invokes.
 
 ### Rejected alternatives

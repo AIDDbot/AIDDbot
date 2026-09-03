@@ -10,7 +10,9 @@ Write only what a capable agent would get wrong on its own.
 ---
 name: {slug}
 description: {what it does, in one sentence}
-user-invocable: true
+metadata:
+  aiddbot-kind: {orchestrator|worker|primitive}
+user-invocable: {true|false}
 disable-model-invocation: true
 ---
 # {slug}
@@ -23,3 +25,7 @@ The result is {the artifact}.
 
 Commit as `{message}`.
 ```
+
+Use `orchestrator` for a public end-to-end outcome, `worker` for internal
+composition, and `primitive` for one focused capability. The `metadata` map is
+flat and every key and value is a string. See the [classification guide](../references/aiddbot-kinds.md).

@@ -1,6 +1,6 @@
 # Getting Started
 
-Copy AIDDbot in, then walk the delivery loop. You invoke a public workflow; the orchestrator composes internal commands and spawns Architect, Builder, or Craftsman to execute skills.
+Copy AIDDbot in, then walk the delivery loop. You invoke a public orchestrator skill; it composes internal worker skills and spawns Architect, Builder, or Craftsman where required.
 
 AIDDbot is markdown. One `npx` command copies it into your repo; it does not add a dependency.
 
@@ -16,7 +16,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 `--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
-That copies `.agents/` and the adapters for Cursor, Claude Code, GitHub Copilot, and Codex. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets) when missing or incomplete, adds `README.md` only when none exists, and commits the overlay. In Codex, review and trust the project audit hooks with `/hooks` after installation.
+That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, and hook adapters. Codex, Cursor, and GitHub Copilot in VS Code discover `.agents/skills/` directly. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets) when missing or incomplete, adds `README.md` only when none exists, and commits the overlay. In Codex, review and trust the project audit hooks with `/hooks` after installation.
 
 ## 2. Start from what you have
 
@@ -52,7 +52,7 @@ _IF_ the prompt includes YOLO, `/deliver-requirement` skips approval stops and c
 
 ## 4. Let delivery complete
 
-No extra slash command is required. The workflow plans and codifies one specification, or codifies coordinated specifications sequentially, then verifies, qualifies, and ships the complete scope. Functional or technical defect reports are fixed internally and review restarts from verify.
+No extra slash command is required. The orchestrator plans and codifies one specification, or codifies coordinated specifications sequentially, then verifies, qualifies, and ships the complete scope. Functional or technical defect reports are fixed internally and review restarts from verify.
 
 ## 5. Keep the shape healthy
 
@@ -62,7 +62,7 @@ Hunt CRAP (complexity and coverage) and lint — not for one spec, for the whole
 /clean-solution
 ```
 
-Craftsman reports; the workflow applies findings through its internal defect command.
+Craftsman reports; the orchestrator applies findings through its internal defect worker.
 
 ## What's next?
 

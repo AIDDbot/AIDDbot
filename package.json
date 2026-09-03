@@ -7,6 +7,9 @@
     "aiddbot": "./bin/aiddbot.js",
     "aiddbot-scaffold": "./bin/scaffold.js"
   },
+  "scripts": {
+    "test": "node scripts/verify-skills-migration.js"
+  },
   "engines": {
     "node": ">=18"
   },

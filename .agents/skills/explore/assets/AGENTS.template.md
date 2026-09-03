@@ -18,7 +18,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 
 ### Paths
 - **{Agents_File}** — `AGENTS.md` — this file
-- **{Agents_Folder}** — `.agents/` — agent skills and commands
+- **{Agents_Folder}** — `.agents/` — agent skills, rules, and hooks
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 

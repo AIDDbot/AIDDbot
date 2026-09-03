@@ -1,6 +1,8 @@
 ---
 name: specify
 description: Capture a functional or technical spec — problem or decision, solution, and criteria.
+metadata:
+  aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---
@@ -8,7 +10,7 @@ disable-model-invocation: true
 
 Your goal is to capture a change as a one-page spec (short and lean).
 
-The caller names the kind — `functional` or `technical`. You never classify it; if neither the command nor the human named it, ask once and stop until you have it. Functional draws `F001`, `F002`…; technical draws `T001`, `T002`…; neither series advances the other. A criterion id is never renumbered or reused.
+The caller names the kind — `functional` or `technical`. You never classify it; if neither the linked skill nor the human named it, ask once and stop until you have it. Functional draws `F001`, `F002`…; technical draws `T001`, `T002`…; neither series advances the other. A criterion id is never renumbered or reused.
 
 Load the reference and template for that kind only — [functional](./references/functional.md) with its [spec template](./assets/functional.spec.template.md), or [technical](./references/technical.md) with its [spec template](./assets/technical.spec.template.md). Do not borrow the other kind's habits.
 

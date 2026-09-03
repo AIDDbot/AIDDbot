@@ -15,6 +15,6 @@ To do so, read and follow [`/extract`](../skills/extract/SKILL.md) for each cont
 
 Use the result as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: technical` to write a specification to fix the defects.
 
-Suggest handoff to Builder to implement the fixes by running [`/builder-implement`](./builder-implement.command.md) with the refactoring specification in hand.
+Suggest handoff to Builder to run [`/codify`](../.agents/skills/codify/SKILL.md) with the refactoring specification in hand.
 
 The result is the architectural documentation, created or brought up to date.

@@ -1,6 +1,8 @@
 ---
 name: planify
 description: Turn a spec into the build plan for one container, grounded in the architecture.
+metadata:
+  aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---

@@ -1,6 +1,8 @@
 ---
 name: qualify
 description: Gate a code scope against pass/fail quality gates and report each verdict.
+metadata:
+  aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---
