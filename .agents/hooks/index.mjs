@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// v0.18.0 2026-09-02T16:48:09.192Z
+// v0.19.0 2026-09-04T16:07:09.808Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -102,19 +102,19 @@ var headerKeys = new Set([
 ]);
 var detailsByEvent = new Map([
   ["sessionStart", []],
-  ["SessionStart", []],
+  ["SessionStart", ["model", "permission_mode", "source", "cwd"]],
   ["sessionEnd", ["reason"]],
-  ["SessionEnd", ["reason"]],
+  ["SessionEnd", ["reason", "cwd"]],
   ["subagentStart", ["task"]],
-  ["SubagentStart", ["task"]],
+  ["SubagentStart", ["agent_id", "task"]],
   ["subagentStop", ["response_text"]],
-  ["SubagentStop", ["response_text"]],
+  ["SubagentStop", ["agent_id", "response_text"]],
   ["beforeSubmitPrompt", ["prompt"]],
   ["userPromptSubmitted", ["prompt"]],
-  ["UserPromptSubmit", ["prompt"]],
+  ["UserPromptSubmit", ["prompt", "cwd"]],
   ["stop", []],
   ["agentStop", []],
-  ["Stop", []]
+  ["Stop", ["response_text"]]
 ]);
 var promptKinds = new Set([
   "beforeSubmitPrompt",
@@ -387,8 +387,15 @@ import {
 import path3 from "node:path";
 
 // src/yaml.ts
+var codexSessionStartFields = [
+  { name: "model", cursor: "", copilot: "", "claude-code": "", codex: "model" },
+  { name: "permission_mode", cursor: "", copilot: "", "claude-code": "", codex: "permission_mode" },
+  { name: "source", cursor: "", copilot: "", "claude-code": "", codex: "source" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
+];
 var sessionEndFields = [
-  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason", codex: "reason" }
+  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason", codex: "reason" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
 ];
 var subagentStartFields = [
   {
@@ -396,7 +403,7 @@ var subagentStartFields = [
     cursor: "",
     copilot: "agentDisplayName",
     "claude-code": "",
-    codex: "agent_type"
+    codex: ""
   },
   { name: "task", cursor: "task", copilot: "", "claude-code": "", codex: "" }
 ];
@@ -406,7 +413,7 @@ var subagentStopFields = [
     cursor: "",
     copilot: "agentDisplayName",
     "claude-code": "",
-    codex: "agent_type"
+    codex: ""
   },
   {
     name: "response_text",
@@ -418,12 +425,16 @@ var subagentStopFields = [
 ];
 var subagentSourceKeys = ["subagent_type", "agent_type", "agentType", "agentName"];
 var promptFields = [
-  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt", codex: "prompt" }
+  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt", codex: "prompt" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
 ];
 var emptyFields = [];
+var codexStopFields = [
+  { name: "response_text", cursor: "", copilot: "", "claude-code": "", codex: "last_assistant_message" }
+];
 var bodyByEvent = new Map([
   ["sessionStart", emptyFields],
-  ["SessionStart", emptyFields],
+  ["SessionStart", codexSessionStartFields],
   ["sessionEnd", sessionEndFields],
   ["SessionEnd", sessionEndFields],
   ["subagentStart", subagentStartFields],
@@ -435,7 +446,7 @@ var bodyByEvent = new Map([
   ["UserPromptSubmit", promptFields],
   ["stop", emptyFields],
   ["agentStop", emptyFields],
-  ["Stop", emptyFields]
+  ["Stop", codexStopFields]
 ]);
 var promptKindEvents = new Set([
   "beforeSubmitPrompt",
@@ -495,7 +506,37 @@ function countPromptKindEvents(existingJsonl) {
   }
   return count;
 }
-function nextConversationTurn(existingJsonl, event) {
+function nativeCodexTurn(existingJsonl, payload) {
+  const records = parseJsonlRecords(existingJsonl);
+  const nativeTurnId = payload.turn_id;
+  if (typeof nativeTurnId === "string" && nativeTurnId.length > 0) {
+    for (const record of records) {
+      if (record.turn_id !== nativeTurnId)
+        continue;
+      if (typeof record.turn === "number" && Number.isInteger(record.turn))
+        return record.turn;
+    }
+    let highest = 0;
+    for (const record of records) {
+      if (typeof record.turn !== "number" || !Number.isInteger(record.turn))
+        continue;
+      if (record.turn > highest)
+        highest = record.turn;
+    }
+    return highest + 1;
+  }
+  for (let index = records.length - 1;index >= 0; index -= 1) {
+    const turn = records[index]?.turn;
+    if (typeof turn === "number" && Number.isInteger(turn) && turn > 0)
+      return turn;
+  }
+  return 0;
+}
+function nextConversationTurn(existingJsonl, input) {
+  if (typeof input !== "string" && input.harness === "codex") {
+    return nativeCodexTurn(existingJsonl, input.payload);
+  }
+  const event = typeof input === "string" ? input : input.event;
   const already = countPromptKindEvents(existingJsonl);
   if (isPromptKind(event))
     return already + 1;
@@ -560,6 +601,20 @@ function assignSubagent(obj, payload) {
     return;
   }
 }
+function assignCodexTurnId(obj, payload, harness) {
+  if (harness !== "codex")
+    return;
+  if ("turn_id" in payload && payload.turn_id !== undefined)
+    obj.turn_id = payload.turn_id;
+}
+function assignCodexAgentId(obj, payload, harness, event) {
+  if (harness !== "codex")
+    return;
+  if (event !== "SubagentStart" && event !== "SubagentStop")
+    return;
+  if ("agent_id" in payload && payload.agent_id !== undefined)
+    obj.agent_id = payload.agent_id;
+}
 function assignBody(obj, payload, harness, event) {
   const column = asHarness(harness);
   if (column === undefined)
@@ -583,7 +638,9 @@ function emitSessionRecord(input) {
   const obj = {};
   const timestamp = formatLocalHms(sourceInstant(input.payload, input.now));
   assignHeader(obj, input, timestamp);
+  assignCodexTurnId(obj, input.payload, input.harness);
   assignSubagent(obj, input.payload);
+  assignCodexAgentId(obj, input.payload, input.harness, input.event);
   assignBody(obj, input.payload, input.harness, input.event);
   return `${JSON.stringify(obj)}
 `;
@@ -612,18 +669,18 @@ function errorCode(error) {
 async function unlinkQuiet(lockPath) {
   try {
     await unlink(lockPath);
-  } catch { }
+  } catch {}
 }
 async function unlinkIfStale(lockPath) {
   try {
     const info = await stat(lockPath);
     if (Date.now() - info.mtimeMs > lockStaleMs)
       await unlink(lockPath);
-  } catch { }
+  } catch {}
 }
 async function acquireLock(lockPath) {
   const deadline = Date.now() + lockWaitMs;
-  for (; ;) {
+  for (;; ) {
     try {
       return await open(lockPath, "wx");
     } catch (error) {
@@ -697,7 +754,11 @@ function countedSessionRecord(existing, sessionId, emit) {
     harness: emit.harness,
     event: emit.event,
     now: emit.now,
-    turn: nextConversationTurn(existing, emit.event),
+    turn: nextConversationTurn(existing, {
+      harness: emit.harness,
+      event: emit.event,
+      payload: emit.payload
+    }),
     includeSessionId: isInitialSessionStart(existing, emit.event)
   });
 }
@@ -885,12 +946,12 @@ async function maybeWriteReport(args) {
       jsonlPath: path4.join(folder, `${args.sessionId}.jsonl`),
       mdPath: path4.join(folder, `${args.sessionId}.md`)
     });
-  } catch { }
+  } catch {}
 }
 async function ingestHook(input) {
   try {
     await ingestOrThrow(input);
-  } catch { }
+  } catch {}
 }
 
 // src/usage.ts
