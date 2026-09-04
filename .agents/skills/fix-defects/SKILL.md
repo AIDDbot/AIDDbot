@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Your goal is to fix defects or accepted findings described by a report.
 
-- Require the caller to establish a non-default working branch before invoking this skill.
+- _IF_ your are in a default branch, switch to a new fix branch before proceeding.
 - Spawn a new **Builder** sub-agent to run the [codify skill](../codify/SKILL.md) with the defect report or accepted findings in hand.
 - Limit changes to the reported defects and their necessary tests.
 
