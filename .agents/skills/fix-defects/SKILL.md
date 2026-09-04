@@ -8,10 +8,10 @@ disable-model-invocation: true
 ---
 # fix-defects
 
-Your goal is to fix defects or accepted findings described by a report.
+Your goal is to **fix defects or accepted findings** described by a report.
 
 - _IF_ your are in a default branch, switch to a new fix branch before proceeding.
 - Spawn a new **Builder** sub-agent to run the [codify skill](../codify/SKILL.md) with the defect report or accepted findings in hand.
 - Limit changes to the reported defects and their necessary tests.
 
-Return a short report of the defects fixed.
+_RETURN_ a short report of the defects fixed.
