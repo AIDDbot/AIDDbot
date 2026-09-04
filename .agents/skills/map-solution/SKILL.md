@@ -8,9 +8,10 @@ disable-model-invocation: true
 ---
 # map-solution
 
-Your goal is to map the solution architecture.
+Your goal is to **map the solution architecture**.
 
-- Spawn a new **Architect** sub-agent to run the [explore skill](../explore/SKILL.md) to set the project up and map its deployable and runnable containers.
-- For every container found during exploration, spawn a new **Architect** sub-agent to run the [extract skill](../extract/SKILL.md) for that container.
+- Spawn a new **Architect** sub-agent to run the [explore](../explore/SKILL.md) skill to set the project up and map its deployable and runnable containers.
+- _FOR-EACH_ container found during exploration,
+  - Spawn a new **Architect** sub-agent to run the [extract](../extract/SKILL.md) skill for that container.
 
-Return a short report of the mapped solution.
+_RETURN_ a short report of the mapped solution.
