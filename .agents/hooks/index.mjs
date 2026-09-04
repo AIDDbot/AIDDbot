@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// v0.19.1 2026-09-04T16:29:55.264Z
+// v0.19.2 2026-09-04T16:44:28.093Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -93,33 +93,87 @@ function dayFolderName(now) {
 // src/report.ts
 import { readFile, writeFile } from "node:fs/promises";
 import path2 from "node:path";
+
+// src/event-schema.ts
+var codexSessionStartFields = [
+  { name: "model", cursor: "", copilot: "", "claude-code": "", codex: "model" },
+  { name: "permission_mode", cursor: "", copilot: "", "claude-code": "", codex: "permission_mode" },
+  { name: "source", cursor: "", copilot: "", "claude-code": "", codex: "source" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
+];
+var sessionEndFields = [
+  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason", codex: "reason" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
+];
+var subagentStartFields = [
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": "",
+    codex: ""
+  },
+  { name: "task", cursor: "task", copilot: "", "claude-code": "", codex: "" }
+];
+var subagentStopFields = [
+  {
+    name: "agent_display_name",
+    cursor: "",
+    copilot: "agentDisplayName",
+    "claude-code": "",
+    codex: ""
+  },
+  {
+    name: "response_text",
+    cursor: "summary",
+    copilot: "response",
+    "claude-code": "last_assistant_message",
+    codex: "last_assistant_message"
+  }
+];
+var promptFields = [
+  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt", codex: "prompt" },
+  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
+];
+var emptyFields = [];
+var codexStopFields = [
+  { name: "response_text", cursor: "", copilot: "", "claude-code": "", codex: "last_assistant_message" }
+];
+var eventSchemas = new Map([
+  ["sessionStart", { mappedFields: emptyFields, reportFields: [] }],
+  ["SessionStart", { mappedFields: codexSessionStartFields, reportFields: ["model", "permission_mode", "source", "cwd"] }],
+  ["sessionEnd", { mappedFields: sessionEndFields, reportFields: ["reason"] }],
+  ["SessionEnd", { mappedFields: sessionEndFields, reportFields: ["reason", "cwd"] }],
+  ["subagentStart", { mappedFields: subagentStartFields, reportFields: ["task"] }],
+  ["SubagentStart", { mappedFields: subagentStartFields, reportFields: ["agent_id", "task"] }],
+  ["subagentStop", { mappedFields: subagentStopFields, reportFields: ["response_text"] }],
+  ["SubagentStop", { mappedFields: subagentStopFields, reportFields: ["agent_id", "response_text"] }],
+  ["beforeSubmitPrompt", { mappedFields: promptFields, reportFields: ["prompt"] }],
+  ["userPromptSubmitted", { mappedFields: promptFields, reportFields: ["prompt"] }],
+  ["UserPromptSubmit", { mappedFields: promptFields, reportFields: ["prompt", "cwd"] }],
+  ["stop", { mappedFields: emptyFields, reportFields: [] }],
+  ["agentStop", { mappedFields: emptyFields, reportFields: [] }],
+  ["Stop", { mappedFields: codexStopFields, reportFields: ["response_text"] }]
+]);
+var promptKindEvents = new Set([
+  "beforeSubmitPrompt",
+  "userPromptSubmitted",
+  "UserPromptSubmit"
+]);
+function mappedFieldsForEvent(event) {
+  return eventSchemas.get(event)?.mappedFields;
+}
+function reportFieldsForEvent(event) {
+  return eventSchemas.get(event)?.reportFields;
+}
+
+// src/report.ts
 var headerKeys = new Set([
   "session_id",
   "harness",
   "event",
   "timestamp",
   "turn"
-]);
-var detailsByEvent = new Map([
-  ["sessionStart", []],
-  ["SessionStart", ["model", "permission_mode", "source", "cwd"]],
-  ["sessionEnd", ["reason"]],
-  ["SessionEnd", ["reason", "cwd"]],
-  ["subagentStart", ["task"]],
-  ["SubagentStart", ["agent_id", "task"]],
-  ["subagentStop", ["response_text"]],
-  ["SubagentStop", ["agent_id", "response_text"]],
-  ["beforeSubmitPrompt", ["prompt"]],
-  ["userPromptSubmitted", ["prompt"]],
-  ["UserPromptSubmit", ["prompt", "cwd"]],
-  ["stop", []],
-  ["agentStop", []],
-  ["Stop", ["response_text"]]
-]);
-var promptKinds = new Set([
-  "beforeSubmitPrompt",
-  "userPromptSubmitted",
-  "UserPromptSubmit"
 ]);
 function isPlainObject(value) {
   if (typeof value !== "object")
@@ -254,7 +308,7 @@ function formatSubagent(doc) {
   return scalarText(doc.body.subagent ?? null);
 }
 function formatDetails(doc) {
-  const fields = detailsByEvent.get(doc.event);
+  const fields = reportFieldsForEvent(doc.event);
   if (fields === undefined)
     return "";
   return formatFieldList(doc, fields);
@@ -312,7 +366,7 @@ function turnGroups(docs) {
 }
 function firstPromptDoc(docs) {
   for (const doc of docs) {
-    if (promptKinds.has(doc.event))
+    if (promptKindEvents.has(doc.event))
       return doc;
   }
   return;
@@ -387,72 +441,7 @@ import {
 import path3 from "node:path";
 
 // src/yaml.ts
-var codexSessionStartFields = [
-  { name: "model", cursor: "", copilot: "", "claude-code": "", codex: "model" },
-  { name: "permission_mode", cursor: "", copilot: "", "claude-code": "", codex: "permission_mode" },
-  { name: "source", cursor: "", copilot: "", "claude-code": "", codex: "source" },
-  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
-];
-var sessionEndFields = [
-  { name: "reason", cursor: "reason", copilot: "reason", "claude-code": "reason", codex: "reason" },
-  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
-];
-var subagentStartFields = [
-  {
-    name: "agent_display_name",
-    cursor: "",
-    copilot: "agentDisplayName",
-    "claude-code": "",
-    codex: ""
-  },
-  { name: "task", cursor: "task", copilot: "", "claude-code": "", codex: "" }
-];
-var subagentStopFields = [
-  {
-    name: "agent_display_name",
-    cursor: "",
-    copilot: "agentDisplayName",
-    "claude-code": "",
-    codex: ""
-  },
-  {
-    name: "response_text",
-    cursor: "summary",
-    copilot: "response",
-    "claude-code": "last_assistant_message",
-    codex: "last_assistant_message"
-  }
-];
 var subagentSourceKeys = ["subagent_type", "agent_type", "agentType", "agentName"];
-var promptFields = [
-  { name: "prompt", cursor: "prompt", copilot: "prompt", "claude-code": "prompt", codex: "prompt" },
-  { name: "cwd", cursor: "", copilot: "", "claude-code": "", codex: "cwd" }
-];
-var emptyFields = [];
-var codexStopFields = [
-  { name: "response_text", cursor: "", copilot: "", "claude-code": "", codex: "last_assistant_message" }
-];
-var bodyByEvent = new Map([
-  ["sessionStart", emptyFields],
-  ["SessionStart", codexSessionStartFields],
-  ["sessionEnd", sessionEndFields],
-  ["SessionEnd", sessionEndFields],
-  ["subagentStart", subagentStartFields],
-  ["SubagentStart", subagentStartFields],
-  ["subagentStop", subagentStopFields],
-  ["SubagentStop", subagentStopFields],
-  ["beforeSubmitPrompt", promptFields],
-  ["userPromptSubmitted", promptFields],
-  ["UserPromptSubmit", promptFields],
-  ["stop", emptyFields],
-  ["agentStop", emptyFields],
-  ["Stop", codexStopFields]
-]);
-var promptKindEvents = new Set([
-  "beforeSubmitPrompt",
-  "userPromptSubmitted",
-  "UserPromptSubmit"
-]);
 function isPromptKind(event) {
   return promptKindEvents.has(event);
 }
@@ -621,7 +610,7 @@ function assignBody(obj, payload, harness, event) {
   const column = asHarness(harness);
   if (column === undefined)
     return;
-  const fields = bodyByEvent.get(event);
+  const fields = mappedFieldsForEvent(event);
   if (fields === undefined)
     return;
   for (const field of fields) {
