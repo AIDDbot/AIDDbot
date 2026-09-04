@@ -8,12 +8,19 @@ disable-model-invocation: true
 ---
 # craft-lasting-quality
 
-Your goal is to turn durable solution findings into released remediation.
+Your goal is to **craft lasting quality** from evidence-backed solution findings.
 
-Read and execute [clean-solution](../clean-solution/SKILL.md), then [collect-findings](../collect-findings/SKILL.md) once. Do not accept unreported structural requests.
+- Execute [clean-solution](../clean-solution/SKILL.md) command, 
+- Execute [collect-findings](../collect-findings/SKILL.md) command. 
+- _IF_ no pending findings remain, 
+  - Report that result. 
+- _IF_ findings require new or changed observable behavior, 
+  - Leave it pending and explain that it is outside this skill's contract. 
+- _ASK_ for approval of the remaining deduplicated remediation scope unless the prompt includes YOLO.
+- _ONCE_ accepted or YOLO, 
+  - Derive one `{fix_key}`, mark every scoped finding `accepted` with that `Fix`, and create and checkout `fix/{fix_key}`. 
+  - Do not proceed over unrelated changes or an existing divergent branch. 
+  - Execute [fix-defects](../fix-defects/SKILL.md) command with the accepted findings, 
+  - Execute [ship-implementation](../ship-implementation/SKILL.md) command with the same findings scope. 
 
-_IF_ no pending findings remain, report that result. Leave any finding that needs new or changed observable behavior pending and explain that it is outside this skill's contract. Present the remaining deduplicated remediation scope for approval unless the prompt includes YOLO.
-
-_ONCE_ accepted, derive one `{fix_key}`, mark every scoped finding `accepted` with that `Fix`, and create and checkout `fix/{fix_key}`. Do not proceed over unrelated changes or an existing divergent branch. Read and execute [fix-defects](../fix-defects/SKILL.md) with the accepted findings, then read and execute [ship-implementation](../ship-implementation/SKILL.md) with the same findings scope. Keep interrupted work accepted with its branch and evidence; only release marks it delivered.
-
-The result is released remediation with traceable findings.
+_RETURN_ a released remediation with traceable findings.
