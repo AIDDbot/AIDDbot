@@ -229,6 +229,9 @@ function verifyScaffoldCli() {
   if (/runOverlay|ensureGit|\bbin[\\/]scaffold/.test(materializer)) {
     fail("scaffold materializer must not own overlay or Git initialization");
   }
+  if (!materializer.includes('process.env.ComSpec || "cmd.exe"') || !materializer.includes('["npx", ...args].join(" ")')) {
+    fail("scaffold materializer must invoke npx through cmd.exe on Windows");
+  }
   const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
   if (listed.status !== 0 || !/default: express/.test(listed.stdout) || /domain/.test(listed.stdout)) {
     fail("scaffold list must expose defaults without a domain surface");

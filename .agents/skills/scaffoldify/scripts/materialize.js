@@ -94,8 +94,13 @@ function runTiged(repo, destination, workspace, dryRun) {
     return 1;
   }
   const args = ["--yes", "--package=tiged", "--", "tiged", repo, path.basename(destination)];
-  const command = process.platform === "win32" ? "npx.cmd" : "npx";
-  const result = spawnSync(command, args, { cwd: workspace, stdio: "inherit", windowsHide: true });
+  const result = process.platform === "win32"
+    ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], {
+      cwd: workspace,
+      stdio: "inherit",
+      windowsHide: true,
+    })
+    : spawnSync("npx", args, { cwd: workspace, stdio: "inherit", windowsHide: true });
   if (result.status !== 0) process.stderr.write(`tiged failed: ${repo}\n`);
   return result.status ?? 1;
 }
