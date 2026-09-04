@@ -21,6 +21,10 @@ function help() {
   --front TECH   default: ${CATALOG.front[0]}; catalog: ${CATALOG.front.join(", ")}
   --e2e TECH     default: ${CATALOG.e2e[0]}; catalog: ${CATALOG.e2e.join(", ")}
   --cli TECH     default: ${CATALOG.cli[0]}; catalog: ${CATALOG.cli.join(", ")}
+  --back-dir DIR Destination folder for --back; default: back
+  --front-dir DIR Destination folder for --front; default: front
+  --e2e-dir DIR  Destination folder for --e2e; default: e2e
+  --cli-dir DIR  Destination folder for --cli; default: cli
   --dry-run      Print the materialization plan only
   --list         Print catalogued defaults and exit
 `);
@@ -36,7 +40,10 @@ function slug(value) {
 
 function parse(argv) {
   const options = { name: null, dryRun: false, list: false };
-  for (const tier of TIERS) options[tier] = null;
+  for (const tier of TIERS) {
+    options[tier] = null;
+    options[`${tier}Dir`] = tier;
+  }
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--dry-run") {
@@ -48,10 +55,13 @@ function parse(argv) {
       continue;
     }
     const key = arg.slice(2);
-    if (arg.startsWith("--") && (key === "name" || TIERS.includes(key))) {
+    const tier = TIERS.find((candidate) => key === `${candidate}-dir`);
+    if (arg.startsWith("--") && (key === "name" || TIERS.includes(key) || tier)) {
       const value = argv[index + 1];
       if (!value || value.startsWith("--")) return { error: `${arg} needs a value` };
-      options[key] = key === "name" ? value : value.toLowerCase();
+      if (key === "name") options.name = value;
+      else if (tier) options[`${tier}Dir`] = value;
+      else options[key] = value.toLowerCase();
       index += 1;
       continue;
     }
@@ -70,10 +80,25 @@ function validate(options) {
   if (!options.name || !slug(options.name)) return "--name needs letters or digits";
   const selected = TIERS.filter((tier) => options[tier]);
   if (!selected.length) return "Select at least one tier";
+  for (const tier of TIERS) {
+    if (!options[tier] && options[`${tier}Dir`] !== tier) return `--${tier}-dir requires --${tier}`;
+  }
   for (const tier of selected) {
     if (!CATALOG[tier].includes(options[tier])) return `Unknown --${tier} "${options[tier]}" (choose: ${CATALOG[tier].join(", ")})`;
   }
+  const destinations = selected.map((tier) => options[`${tier}Dir`]);
+  for (const destination of destinations) {
+    if (!isSafeDestination(destination)) return `Invalid destination folder "${destination}" (use one safe child folder name)`;
+  }
+  if (new Set(destinations.map((destination) => destination.toLowerCase())).size !== destinations.length) {
+    return "Selected destination folders must be unique";
+  }
   return null;
+}
+
+function isSafeDestination(destination) {
+  if (!/^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(destination)) return false;
+  return !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(destination);
 }
 
 function hasContent(folder) {
@@ -94,8 +119,13 @@ function runTiged(repo, destination, workspace, dryRun) {
     return 1;
   }
   const args = ["--yes", "--package=tiged", "--", "tiged", repo, path.basename(destination)];
-  const command = process.platform === "win32" ? "npx.cmd" : "npx";
-  const result = spawnSync(command, args, { cwd: workspace, stdio: "inherit", windowsHide: true });
+  const result = process.platform === "win32"
+    ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], {
+      cwd: workspace,
+      stdio: "inherit",
+      windowsHide: true,
+    })
+    : spawnSync("npx", args, { cwd: workspace, stdio: "inherit", windowsHide: true });
   if (result.status !== 0) process.stderr.write(`tiged failed: ${repo}\n`);
   return result.status ?? 1;
 }
@@ -117,12 +147,13 @@ function reconcileReadme(workspace, name, dryRun) {
   process.stdout.write(`metadata   update     README.md -> ${name}\n`);
 }
 
-function reconcilePackages(workspace, selected, solutionSlug, dryRun) {
+function reconcilePackages(workspace, selected, options, solutionSlug, dryRun) {
   for (const tier of selected) {
-    const file = path.join(workspace, tier, "package.json");
+    const destination = options[`${tier}Dir`];
+    const file = path.join(workspace, destination, "package.json");
     const name = `${solutionSlug}-${tier}`;
     if (dryRun) {
-      process.stdout.write(`metadata   would      ${tier}/package.json -> ${name}\n`);
+      process.stdout.write(`metadata   would      ${destination}/package.json -> ${name}\n`);
       continue;
     }
     if (!fs.existsSync(file)) continue;
@@ -130,13 +161,13 @@ function reconcilePackages(workspace, selected, solutionSlug, dryRun) {
     try {
       manifest = JSON.parse(fs.readFileSync(file, "utf8"));
     } catch {
-      process.stderr.write(`Cannot update invalid package manifest: ${tier}/package.json\n`);
+      process.stderr.write(`Cannot update invalid package manifest: ${destination}/package.json\n`);
       continue;
     }
     if (manifest.name === name) continue;
     manifest.name = name;
     fs.writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-    process.stdout.write(`metadata   update     ${tier}/package.json -> ${name}\n`);
+    process.stdout.write(`metadata   update     ${destination}/package.json -> ${name}\n`);
   }
 }
 
@@ -162,8 +193,9 @@ const solutionSlug = slug(parsed.options.name);
 const selected = TIERS.filter((tier) => parsed.options[tier]);
 process.stdout.write(`solution   ${parsed.options.name} (${solutionSlug})\n`);
 for (const tier of selected) {
-  const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, tier), workspace, parsed.options.dryRun);
+  const destination = parsed.options[`${tier}Dir`];
+  const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, destination), workspace, parsed.options.dryRun);
   if (status !== 0) process.exit(status);
 }
 reconcileReadme(workspace, parsed.options.name, parsed.options.dryRun);
-reconcilePackages(workspace, selected, solutionSlug, parsed.options.dryRun);
+reconcilePackages(workspace, selected, parsed.options, solutionSlug, parsed.options.dryRun);

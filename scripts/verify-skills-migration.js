@@ -148,6 +148,25 @@ const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
 if (!scaffoldSkill.includes("confirmation") || !scaffoldSkill.includes("Never create or switch a branch, commit")) {
   fail("scaffoldify must confirm material choices and leave branch ownership to its caller");
 }
+const scaffoldContract = read(path.join(skillsRoot, "scaffoldify", "references", "scaffold.contract.md"));
+for (const required of [
+  "reconcile the root\n`README.md` yourself",
+  "product summary",
+  "author fields for name, email, and website",
+  "Use a single clearly marked solution block",
+  "first inspect the fetched archetypes for a declared",
+  "matching Git identity or configuration\nvalue",
+  "render that field explicitly blank",
+  "confirmed `--{tier}-dir` destination",
+  "root `.gitignore` and `LICENSE`",
+]) {
+  if (!scaffoldContract.includes(required)) {
+    fail(`scaffoldify reconciliation contract is missing: ${required.replace(/\n/g, " ")}`);
+  }
+}
+if (scaffoldContract.indexOf("For each author field") < scaffoldContract.indexOf("After materialization")) {
+  fail("scaffoldify must resolve author fields from fetched archetypes after materialization");
+}
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
 if (!craftSkill.includes("fix/{fix_key}") || !craftSkill.includes("fix-defects") || !craftSkill.includes("ship-implementation")) {
   fail("craft-lasting-quality does not own findings delivery");
@@ -229,6 +248,9 @@ function verifyScaffoldCli() {
   if (/runOverlay|ensureGit|\bbin[\\/]scaffold/.test(materializer)) {
     fail("scaffold materializer must not own overlay or Git initialization");
   }
+  if (!materializer.includes('process.env.ComSpec || "cmd.exe"') || !materializer.includes('["npx", ...args].join(" ")')) {
+    fail("scaffold materializer must invoke npx through cmd.exe on Windows");
+  }
   const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
   if (listed.status !== 0 || !/default: express/.test(listed.stdout) || /domain/.test(listed.stdout)) {
     fail("scaffold list must expose defaults without a domain surface");
@@ -242,6 +264,32 @@ function verifyScaffoldCli() {
   });
   if (dry.status !== 0 || !/solution   Demo app \(demo-app\)/.test(dry.stdout) || !/metadata   would/.test(dry.stdout)) {
     fail("scaffold dry run must preserve the solution name and reconcile metadata");
+  }
+  if (!/back\/package\.json -> demo-app-back/.test(dry.stdout)) {
+    fail("scaffold defaults must retain literal tier destinations");
+  }
+  const named = spawnSync(process.execPath, [
+    scaffold, "--dry-run", "--name", "Astro Bookings",
+    "--back", "express", "--back-dir", "astro-bookings-api",
+    "--front", "standard", "--front-dir", "astro-bookings-web",
+    "--e2e", "playwright", "--e2e-dir", "astro-bookings-e2e",
+  ], { encoding: "utf8" });
+  if (named.status !== 0
+    || !/AIDDbot\/back-express -> astro-bookings-api/.test(named.stdout)
+    || !/AIDDbot\/front-standard -> astro-bookings-web/.test(named.stdout)
+    || !/AIDDbot\/e2e-playwright -> astro-bookings-e2e/.test(named.stdout)
+    || !/astro-bookings-api\/package\.json -> astro-bookings-back/.test(named.stdout)) {
+    fail("scaffold must materialize catalogued tiers into confirmed destination folders");
+  }
+  for (const args of [
+    ["--name", "Demo", "--back", "express", "--back-dir", "../outside"],
+    ["--name", "Demo", "--back", "express", "--back-dir", "same", "--front", "standard", "--front-dir", "SAME"],
+    ["--name", "Demo", "--back", "express", "--front-dir", "unused"],
+  ]) {
+    const invalidDestination = spawnSync(process.execPath, [scaffold, "--dry-run", ...args], { encoding: "utf8" });
+    if (invalidDestination.status === 0 || !/(Invalid destination folder|destination folders must be unique|requires --front)/.test(invalidDestination.stderr)) {
+      fail("scaffold must reject unsafe or duplicate destination folders");
+    }
   }
 }
 
