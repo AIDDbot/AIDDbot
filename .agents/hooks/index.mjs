@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// v0.19.0 2026-09-04T16:07:09.808Z
+// v0.19.1 2026-09-04T16:29:55.264Z
 
 // src/index.ts
 import { readFileSync } from "node:fs";
@@ -485,62 +485,73 @@ function parseJsonlRecords(text) {
   }
   return records;
 }
-function isInitialSessionStart(existingJsonl, event) {
-  if (!isSessionStartEvent(event))
-    return false;
-  if (parseJsonlRecords(existingJsonl).length > 0)
-    return false;
-  return true;
-}
 function eventField(record) {
   if (typeof record.event !== "string")
     return "";
   return record.event;
 }
-function countPromptKindEvents(existingJsonl) {
+function countPromptKindEvents(records) {
   let count = 0;
-  for (const record of parseJsonlRecords(existingJsonl)) {
+  for (const record of records) {
     if (!isPromptKind(eventField(record)))
       continue;
     count += 1;
   }
   return count;
 }
-function nativeCodexTurn(existingJsonl, payload) {
-  const records = parseJsonlRecords(existingJsonl);
-  const nativeTurnId = payload.turn_id;
-  if (typeof nativeTurnId === "string" && nativeTurnId.length > 0) {
-    for (const record of records) {
-      if (record.turn_id !== nativeTurnId)
-        continue;
-      if (typeof record.turn === "number" && Number.isInteger(record.turn))
-        return record.turn;
-    }
-    let highest = 0;
-    for (const record of records) {
-      if (typeof record.turn !== "number" || !Number.isInteger(record.turn))
-        continue;
-      if (record.turn > highest)
-        highest = record.turn;
-    }
-    return highest + 1;
+function integerTurn(record) {
+  if (typeof record.turn !== "number")
+    return;
+  if (!Number.isInteger(record.turn))
+    return;
+  return record.turn;
+}
+function turnForNativeId(records, nativeTurnId) {
+  let highest = 0;
+  for (const record of records) {
+    const turn = integerTurn(record);
+    if (turn === undefined)
+      continue;
+    if (record.turn_id === nativeTurnId)
+      return turn;
+    highest = Math.max(highest, turn);
   }
+  return highest + 1;
+}
+function latestPositiveTurn(records) {
   for (let index = records.length - 1;index >= 0; index -= 1) {
-    const turn = records[index]?.turn;
-    if (typeof turn === "number" && Number.isInteger(turn) && turn > 0)
+    const record = records[index];
+    if (record === undefined)
+      continue;
+    const turn = integerTurn(record);
+    if (turn !== undefined && turn > 0)
       return turn;
   }
   return 0;
 }
-function nextConversationTurn(existingJsonl, input) {
+function nativeCodexTurn(records, payload) {
+  const nativeTurnId = payload.turn_id;
+  if (typeof nativeTurnId !== "string" || nativeTurnId.length === 0) {
+    return latestPositiveTurn(records);
+  }
+  return turnForNativeId(records, nativeTurnId);
+}
+function conversationTurn(records, input) {
   if (typeof input !== "string" && input.harness === "codex") {
-    return nativeCodexTurn(existingJsonl, input.payload);
+    return nativeCodexTurn(records, input.payload);
   }
   const event = typeof input === "string" ? input : input.event;
-  const already = countPromptKindEvents(existingJsonl);
+  const already = countPromptKindEvents(records);
   if (isPromptKind(event))
     return already + 1;
   return already;
+}
+function sessionRecordPosition(existingJsonl, input) {
+  const records = parseJsonlRecords(existingJsonl);
+  return {
+    turn: conversationTurn(records, input),
+    includeSessionId: isSessionStartEvent(input.event) && records.length === 0
+  };
 }
 function asHarness(value) {
   if (value === "cursor")
@@ -575,13 +586,6 @@ function sourceInstant(payload, now) {
     return new Date(ms);
   return now;
 }
-function subagentValue(payload) {
-  for (const key of subagentSourceKeys) {
-    if (key in payload)
-      return payload[key];
-  }
-  return;
-}
 function assignHeader(obj, input, timestamp) {
   if (input.includeSessionId)
     obj.session_id = input.sessionId;
@@ -594,10 +598,8 @@ function assignSubagent(obj, payload) {
   for (const key of subagentSourceKeys) {
     if (!(key in payload))
       continue;
-    const value = subagentValue(payload);
-    if (value === undefined)
-      return;
-    obj.subagent = value;
+    if (payload[key] !== undefined)
+      obj.subagent = payload[key];
     return;
   }
 }
@@ -748,18 +750,19 @@ async function readExistingJsonl(jsonlPath) {
   }
 }
 function countedSessionRecord(existing, sessionId, emit) {
+  const position = sessionRecordPosition(existing, {
+    harness: emit.harness,
+    event: emit.event,
+    payload: emit.payload
+  });
   return emitSessionRecord({
     payload: emit.payload,
     sessionId,
     harness: emit.harness,
     event: emit.event,
     now: emit.now,
-    turn: nextConversationTurn(existing, {
-      harness: emit.harness,
-      event: emit.event,
-      payload: emit.payload
-    }),
-    includeSessionId: isInitialSessionStart(existing, emit.event)
+    turn: position.turn,
+    includeSessionId: position.includeSessionId
   });
 }
 async function appendSessionJsonl(input) {
