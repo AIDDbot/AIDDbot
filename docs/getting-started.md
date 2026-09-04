@@ -28,7 +28,7 @@ Run one entrypoint to establish the solution:
 
 Existing application code is mapped as brownfield. An empty or documentation-only repository is designed as greenfield and scaffolded when needed. If partial files make the choice unclear, you choose which route to follow before anything changes.
 
-For a new solution, it confirms the name, selected tiers, and technologies, then installs and smoke-tests the scaffold before reconciling it with the design. Advanced users can invoke `/scaffoldify` directly.
+For a new solution, it confirms the name, selected tiers, technologies, and product summary, then installs and smoke-tests the scaffold. It resolves author details from the fetched projects or Git before asking for missing values, and preserves unrelated root README content while reconciling a solution summary with links and documented setup details for each selected project. Advanced users can invoke `/scaffoldify` directly.
 
 ## 3. Deliver a requirement
 

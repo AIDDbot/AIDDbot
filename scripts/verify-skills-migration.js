@@ -148,6 +148,25 @@ const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
 if (!scaffoldSkill.includes("confirmation") || !scaffoldSkill.includes("Never create or switch a branch, commit")) {
   fail("scaffoldify must confirm material choices and leave branch ownership to its caller");
 }
+const scaffoldContract = read(path.join(skillsRoot, "scaffoldify", "references", "scaffold.contract.md"));
+for (const required of [
+  "reconcile the root\n`README.md` yourself",
+  "product summary",
+  "author fields for name, email, and website",
+  "Use a single clearly marked solution block",
+  "first inspect the fetched archetypes for a declared",
+  "matching Git identity or configuration\nvalue",
+  "render that field explicitly blank",
+  "confirmed `--{tier}-dir` destination",
+  "root `.gitignore` and `LICENSE`",
+]) {
+  if (!scaffoldContract.includes(required)) {
+    fail(`scaffoldify reconciliation contract is missing: ${required.replace(/\n/g, " ")}`);
+  }
+}
+if (scaffoldContract.indexOf("For each author field") < scaffoldContract.indexOf("After materialization")) {
+  fail("scaffoldify must resolve author fields from fetched archetypes after materialization");
+}
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
 if (!craftSkill.includes("fix/{fix_key}") || !craftSkill.includes("fix-defects") || !craftSkill.includes("ship-implementation")) {
   fail("craft-lasting-quality does not own findings delivery");

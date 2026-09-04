@@ -10,8 +10,10 @@ disable-model-invocation: true
 
 Your goal is to materialize an installable solution scaffold.
 
-Resolve every missing material choice and obtain confirmation using the [scaffold contract](./references/scaffold.contract.md) before writing files. For catalogued tiers, run the local [materializer](./scripts/materialize.js) with the confirmed name and technologies. Research, propose, and obtain confirmation before using official tooling for a technology outside that catalog.
+Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md). Run the local [materializer](./scripts/materialize.js) for catalogued tiers; use confirmed official tooling outside that catalog. After materialization, reconcile the root README yourself as the contract requires.
 
 Never create or switch a branch, commit, overwrite a non-empty project directory, or proceed over unresolved conflicts or unrelated changes.
 
 The result is an installable, smoke-tested solution scaffold.
+
+Commit: never; the caller owns commits.
