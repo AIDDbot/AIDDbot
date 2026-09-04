@@ -14,8 +14,12 @@ node .agents/skills/scaffoldify/scripts/materialize.js --list
 ```
 
 Then run one confirmed invocation with `--name {solution_name}` and one flag
-per selected tier. The materializer runs in the current workspace and neither
-initializes Git nor copies the AIDDbot overlay.
+per selected tier. Each selected tier defaults to its literal folder (`back`,
+`front`, `cli`, or `e2e`). When the confirmed architecture names containers
+differently, pass the matching `--{tier}-dir {container_name}` flag. A
+destination must be one safe direct-child folder name and every selected
+destination must be distinct. The materializer runs in the current workspace
+and neither initializes Git nor copies the AIDDbot overlay.
 
 For a technology outside the catalog, research its official generator, present
 the generator and consequential choices, and obtain confirmation before running
