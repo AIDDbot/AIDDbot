@@ -26,8 +26,9 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - MANDATORY: Preserve work; no secrets; no destructive commands
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
-- Commands create and checkout branches; skills write on the current branch and never switch.
-- Branch names: `feat/{spec_key}` (functional spec) · `chore/{spec_key}` (technical spec) · `change/{change_key}` (coordinated multi-spec delivery) · `fix/{slug}` (standalone defect fix)
+- The delivery owner records the default-branch base, creates or reuses the working branch, and performs final integration. A resumed branch is reused only when its scope and recorded base are compatible; diagnose divergence before writing.
+- Branch names: `feat/{spec_key}` (functional spec) · `chore/{spec_key}` (technical spec) · `change/{change_key}` (coordinated multi-spec delivery) · `fix/{fix_key}` (accepted findings or standalone defect fix)
+- Primitives write on the current branch and never create or switch branches. The owner may delegate stage commits only sequentially and limited to that stage's files; only `/shipify`, when expressly delegated, integrates the completed branch.
 - `/codify` alone refuses source or test writes on the default branch; stop and ask the caller to establish a working branch.
 
 ### Spec status

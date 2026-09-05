@@ -1,11 +1,13 @@
 ---
 source: qualify
-target: {/shipify | /codify}
+target: {/shipify | /codify | caller}
 scope: {fix_key}
 findings:
   - {finding_id}
+base-revision: {full commit id from the accepted findings}
+evaluated-revision: {full commit id}
 run: {ISO date}
-status: {green | red}
+status: {green | red | blocked}
 ---
 # findings qualification report — {fix_key}
 
@@ -14,18 +16,24 @@ status: {green | red}
 - Findings scope: {finding_ids}.
 - Diff: `fix/{fix_key}` against {default branch base}.
 - Findings: {N} · {b} blocker · {m} major · {n} minor.
-- Gates: {passed}/{total} pass.
+- Gates: {passed} pass · {not_applicable} n/a · 6 total.
+
+## Evidence
+
+| Command or check | Result |
+|------------------|--------|
+| {exact command, inspection, or measurement} | {result and relevant output} |
 
 ## Gates
 
 | Gate | Verdict | Checked against |
 |------|---------|-----------------|
-| Accessibility | {pass \| fail} | {what you checked} |
-| Security | {pass \| fail} | {what you checked} |
-| Performance | {pass \| fail} | {what you checked} |
-| Clean-code | {pass \| fail} | {what you checked} |
-| Ui | {pass \| fail \| n/a} | {what you checked} |
-| Project-rules | {pass \| fail} | {the `{container}.rules.md` files checked} |
+| Accessibility | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
+| Security | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
+| Performance | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
+| Clean-code | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
+| Ui | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
+| Project-rules | {pass \| fail \| n/a} | {rules checked, or why none can apply} |
 
 ## Behavior boundary
 
@@ -37,13 +45,17 @@ status: {green | red}
 
 ### F1: {short title}
 
-- Gate: {crap | mutation | accessibility | security | performance | clean-code | ui | project-rules}
+- Gate: {accessibility | security | performance | clean-code | ui | project-rules}
 - Where: {container} · {path}:{line}
 - Problem: {what fails the gate}
 - Fix: {the minimal change}
 - Severity: {blocker | major | minor}
 - Kind: {mechanical | structural | behavioral}
 - Handoff: `/codify` {container}
+
+## Blocker
+
+{For `blocked`, state the unavailable gate, evidence, and caller action. Omit otherwise.}
 
 ## Accumulated debt
 

@@ -12,6 +12,7 @@ Use one heading per finding:
 - Evidence: {observed facts}
 - Severity: {only when the source supplies it}
 - Fix: {fix_key once accepted for Craft delivery}
+- Base-revision: {full default-branch commit id once accepted}
 - Released-version: {version once delivered}
 ```
 

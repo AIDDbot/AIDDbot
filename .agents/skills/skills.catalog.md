@@ -7,7 +7,7 @@ skills perform focused AIDD work.
 
 ## What holds
 
-- The green e2e suite is the contract.
+- The green E2E suite is the behavior contract; technical criteria additionally require explicit qualification evidence.
 - `/scaffoldify` materializes an initial solution; `/codify` writes delivery code; `/verify` and `/qualify` evaluate only.
 - Requested behavior changes start from a specification.
 - Evidence-backed maintenance starts from accepted durable findings.
@@ -33,13 +33,13 @@ Workers are linked composition, not human entrypoints.
 | [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
 | [`collect-findings`](./collect-findings/SKILL.md) | Consolidate verification, qualification, and quality evidence into durable findings |
-| [`scope-feature`](./scope-feature/SKILL.md) | Spawn Architect with `/scope-change` and return one-spec or many-spec triage |
-| [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` and sequence specify, implement, and ship |
-| [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; specify in parallel, implement sequentially, and ship once |
+| [`scope-feature`](./scope-feature/SKILL.md) | Return read-only one-spec or many-spec triage with reserved key, kind, action, and base |
+| [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` or `chore/{spec_key}` and sequence specify, implement, and ship |
+| [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; persist its manifest, write stages sequentially, and ship once |
 | [`specify-spec`](./specify-spec/SKILL.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
-| [`implement-spec`](./implement-spec/SKILL.md) | Spawn Builder: `/planify` in parallel, then `/codify` in parallel |
-| [`ship-implementation`](./ship-implementation/SKILL.md) | Review and ship a spec, change, or accepted findings scope; restart verify after fixes |
-| [`fix-defects`](./fix-defects/SKILL.md) | Spawn Builder with `/codify` from a defect report or accepted findings |
+| [`implement-spec`](./implement-spec/SKILL.md) | Run `/planify`, then `/codify`, sequentially with one owner for aggregate status |
+| [`ship-implementation`](./ship-implementation/SKILL.md) | Review and ship current evidence; restart after fixes or return an explicit blocker |
+| [`fix-defects`](./fix-defects/SKILL.md) | Run `/codify` sequentially per container on the owner's active branch |
 
 ## Public primitives
 
@@ -56,7 +56,7 @@ Workers are linked composition, not human entrypoints.
 | Skill | What it does |
 | --- | --- |
 | [`/specify`](./specify/SKILL.md) | Writes a spec; the caller names the kind — `functional` or `technical` |
-| [`/scope-change`](./scope-change/SKILL.md) | Discovers affected specs and writes a coordinated change manifest |
+| [`/scope-change`](./scope-change/SKILL.md) | Resolves spec identity read-only; persists a manifest only for an approved multi-spec scope |
 
 ### Build
 
@@ -69,8 +69,8 @@ Workers are linked composition, not human entrypoints.
 
 | Skill | What it does |
 | --- | --- |
-| [`/verify`](./verify/SKILL.md) | E2e verdict for a spec, change, or findings regression scope |
-| [`/qualify`](./qualify/SKILL.md) | Quality-gate verdict for a spec, change, or findings diff; failures route back to `/codify` |
+| [`/verify`](./verify/SKILL.md) | Revision-bound E2E verdict for functional criteria or a regression scope |
+| [`/qualify`](./qualify/SKILL.md) | Revision-bound six-gate verdict plus explicit technical-criteria evidence |
 
 ### Ship
 
@@ -91,7 +91,7 @@ You review only at key checkpoints:
 - During `/architect-solution-foundation`: choose brownfield or greenfield when partial files make the route unclear.
 - During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
 - During `/craft-lasting-quality`: approve the evidence-backed remediation scope. YOLO skips this stop.
-- Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify on the active working branch.
+- Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify; an unavailable check returns a blocker without inventing a pass.
 
 ## Pipeline
 

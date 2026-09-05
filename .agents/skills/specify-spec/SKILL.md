@@ -8,9 +8,8 @@ disable-model-invocation: true
 ---
 # specify-spec
 
-Your goal is to produce a validated specification.
+Your goal is to produce a validated specification from identity already settled by triage.
 
-- Spawn a new **Architect** sub-agent to run the [specify skill](../specify/SKILL.md) with the requirement, scope report, and affected specification in hand.
-- _IF_ YOLO is not present in the prompt, present the resulting specification and stop for human approval.
+Pass the requirement and the scope entry's exact `key`, `kind`, and `action` to an Architect following [specify](../specify/SKILL.md). Keep the delivery owner's active branch. Without YOLO, present the resulting specification and stop for human approval.
 
-Return the resulting specification.
+The result is the validated specification with the reserved identity unchanged.

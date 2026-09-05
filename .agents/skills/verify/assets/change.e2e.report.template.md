@@ -1,9 +1,11 @@
 ---
 source: verify
-target: {/qualify | /codify}   # green → /qualify · red → /codify
+target: {/qualify | /codify | caller}
 scope: {change_key}
+base-revision: {full commit id from the manifest}
+evaluated-revision: {full commit id}
 run: {ISO date}
-status: {green | red}
+status: {green | red | blocked}
 specs:
   - {spec_key}
   - {spec_key}
@@ -13,9 +15,17 @@ specs:
 ## Summary
 
 - Findings: {N} · {b} blocker · {m} major · {n} minor.
-- Scenarios: {passed}/{total} · Criteria: {met}/{total} marked `[x]` across {N} specs.
+- Scenarios: {passed}/{total} · Functional criteria: {met}/{total} marked `[x]` across {N} specs.
+
+## Evidence
+
+| Command or check | Result |
+|------------------|--------|
+| {exact command or preparation check} | {exit/result and relevant output} |
 
 ## Criteria
+
+{Functional specs only. Technical criteria remain for `/qualify`.}
 
 ### {spec_key}
 
@@ -39,6 +49,10 @@ specs:
 - Severity: {blocker | major | minor}
 - Kind: {functional | test}
 - Handoff: `/codify` {container}
+
+## Blocker
+
+{For `blocked`, state the unavailable check, evidence, and caller action. Omit otherwise.}
 
 ---
 

@@ -8,16 +8,12 @@ disable-model-invocation: true
 ---
 # ship-implementation
 
-Your goal is to review and deliver the complete implemented scope.
+Your goal is to review and deliver the complete implemented scope without stale evidence or endless repair loops.
 
-- Spawn a new **Craftsman** sub-agent to run the [verify skill](../verify/SKILL.md) with the complete specification, coordinated change, or accepted findings in scope.
-- _TRIAGE_ the functional report:
-  - _IF_ `verify` finds functional or E2E defects, read and execute [fix-defects](../fix-defects/SKILL.md) with its report, then restart this skill from `verify`.
-  - _IF_ `verify` is green, continue to technical qualification.
-- Spawn a new **Craftsman** sub-agent to run the [qualify skill](../qualify/SKILL.md) with the same scope.
-- _TRIAGE_ the technical report:
-  - _IF_ `qualify` finds technical or quality defects, read and execute [fix-defects](../fix-defects/SKILL.md) with its report, then restart this skill from `verify`.
-  - _IF_ `qualify` is green, continue to delivery.
-- _ONCE_ verify and qualify are green, spawn a new **Craftsman** sub-agent to run the [shipify skill](../shipify/SKILL.md) with the same scope.
+Have a Craftsman follow [verify](../verify/SKILL.md) for the complete specification, change, or findings scope. Continue only on green. On red, send correctable findings to [fix-defects](../fix-defects/SKILL.md) sequentially by container and restart from verify after any write. On blocked, return the recorded impediment to the caller without inventing a defect or changing spec status beyond `in-progress`.
 
-Return a short report with the delivery result.
+After green verification, have a Craftsman follow [qualify](../qualify/SKILL.md) for the same scope. Treat red and blocked the same way, except that a required change to criteria or behavior returns to the delivery caller for a new scope decision rather than being repaired here. Never retry identical evidence with the same corrective hypothesis.
+
+When both reports are green and current for the content being delivered, expressly delegate final integration to a Craftsman following [shipify](../shipify/SKILL.md). A content change during integration returns to verify; report-only and expressly identified non-semantic closure metadata do not.
+
+The result is the delivery outcome or one explicit blocker with its evidence and owner.

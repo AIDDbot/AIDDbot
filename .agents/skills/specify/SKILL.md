@@ -8,13 +8,13 @@ disable-model-invocation: true
 ---
 # specify
 
-Your goal is to capture a change as a one-page spec (short and lean).
+Your goal is to capture a change as a one-page spec.
 
-The caller names the kind — `functional` or `technical`. You never classify it; if neither the linked skill nor the human named it, ask once and stop until you have it. Functional draws `F001`, `F002`…; technical draws `T001`, `T002`…; neither series advances the other. A criterion id is never renumbered or reused.
+Require the caller to provide the triaged `key`, `kind`, and `action`; do not reclassify or allocate a different identity. If invoked directly without them, resolve them before writing using the same F/T series rules and existing ownership: functional draws `F001`, `F002`… and technical draws `T001`, `T002`…. A criterion ID is never renumbered or reused.
 
 Load the reference and template for that kind only — [functional](./references/functional.md) with its [spec template](./assets/functional.spec.template.md), or [technical](./references/technical.md) with its [spec template](./assets/technical.spec.template.md). Do not borrow the other kind's habits.
 
-Clarify with the human, one closed question at a time, until `{spec_key}` = `{spec_id}-{slug}` is settled. Write `{Product_Folder}/specs/{spec_key}/spec.md` on the current branch — never create or switch branches.
+Clarify with the human, one closed question at a time, without changing the reserved identity. Write `{Product_Folder}/specs/{spec_key}/spec.md` on the current branch with the delivery base and branch supplied by the owner; never create or switch branches. For an amend, reset the spec to `pending` and preserve retired criterion IDs. Update the PRD only for a functional spec, within the same sequential stage.
 
 The result is the specification.
 

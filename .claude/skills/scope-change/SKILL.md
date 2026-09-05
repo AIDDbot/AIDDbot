@@ -1,6 +1,6 @@
 ---
 name: scope-change
-description: Discover affected specs and write a coordinated change manifest.
+description: Resolve specification identity and persist an approved coordinated change scope when needed.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

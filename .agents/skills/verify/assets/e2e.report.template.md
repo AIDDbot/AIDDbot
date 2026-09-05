@@ -1,16 +1,24 @@
 ---
 source: verify
-target: {/qualify | /codify}   # green → /qualify · red → /codify
+target: {/qualify | /codify | caller}
 scope: {spec_key}
+base-revision: {full commit id from the spec}
+evaluated-revision: {full commit id}
 run: {ISO date}
-status: {green | red}
+status: {green | red | blocked}
 ---
 # e2e report — {spec_key}
 
 ## Summary
 
 - Findings: {N} · {b} blocker · {m} major · {n} minor.
-- Scenarios: {passed}/{total} · Criteria: {met}/{total} marked `[x]`.
+- Scenarios: {passed}/{total} · Functional criteria: {met}/{total} marked `[x]` or `n/a` for a technical spec.
+
+## Evidence
+
+| Command or check | Result |
+|------------------|--------|
+| {exact command or preparation check} | {exit/result and relevant output} |
 
 ## Criteria
 
@@ -30,6 +38,10 @@ status: {green | red}
 - Severity: {blocker | major | minor}
 - Kind: {functional | test}
 - Handoff: `/codify` {container}
+
+## Blocker
+
+{For `blocked`, state the unavailable check, evidence, and caller action. Omit otherwise.}
 
 ---
 

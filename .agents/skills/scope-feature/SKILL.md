@@ -8,9 +8,8 @@ disable-model-invocation: true
 ---
 # scope-feature
 
-Your goal is to **determine the specification scope** of a requirement.
+Your goal is to determine the specification scope of a requirement before delivery writes begin.
 
-- Spawn a new **Architect** sub-agent to run the [scope-change](../scope-change/SKILL.md) skill with the requirement in hand.
-- Determine whether the requirement affects one specification or requires several coordinated specifications.
+Spawn an Architect to follow [scope-change](../scope-change/SKILL.md) in read-only triage mode. Resolve and reserve a stable `key`, `kind`, and `action` for every affected specification, plus a change key when several specifications are involved. Do not create a manifest during triage.
 
-_RETURN_ a short report with the decision, affected specifications, and their create or amend actions.
+The result is a scope report containing the delivery base and either one specification or a coordinated set. Each entry has `key`, `kind`, and `action`; the caller can choose the branch without resolving identity again.

@@ -2,11 +2,15 @@
 id: C{nnn}
 slug: {slug}
 title: {title}
+status: pending  # pending | released
+base-revision: {full commit id of the delivery base}
 branch: change/{change_key}
 specs:
   - key: {spec_key}
+    kind: {functional | technical}
     action: {create | amend}
   - key: {spec_key}
+    kind: {functional | technical}
     action: {create | amend}
 created: {YYYY-MM-DD}
 released-version:
@@ -19,9 +23,9 @@ released-version:
 
 ## Impact map
 
-| Spec | Action | Rationale |
-|------|--------|-----------|
-| {spec_key} | {create \| amend} | {why this spec is in scope} |
+| Spec | Kind | Action | Rationale |
+|------|------|--------|-----------|
+| {spec_key} | {functional \| technical} | {create \| amend} | {why this spec is in scope} |
 
 ## Notes
 

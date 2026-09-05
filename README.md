@@ -30,7 +30,7 @@ Three agents, one loop. You invoke a public orchestrator skill; the current sess
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}`; coordinated work uses `change/{change_key}`, implements its specifications sequentially, and releases once. `/craft-lasting-quality` scans strict quality evidence, consolidates durable findings, and repairs accepted behavior-preserving findings on `fix/{fix_key}` without creating a specification.
+`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work; coordinated work uses `change/{change_key}`. Delivery writes plans, implementations, and multi-spec stages sequentially, then releases once from revision-bound verification and qualification evidence. `/craft-lasting-quality` scans strict quality evidence, consolidates durable findings, and repairs accepted behavior-preserving findings on `fix/{fix_key}` without creating a specification.
 
 ## Quick start
 

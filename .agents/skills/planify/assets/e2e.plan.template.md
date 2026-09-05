@@ -21,6 +21,9 @@ container: e2e
 
 > Include the AC id in each test title so a criterion's tests are easy to find, run, and fix.
 
+### Shared contracts
+{Interfaces and fixtures shared with container plans, worded identically. Name the single writer for shared files, or write `none`.}
+
 ## Checkpoints
 
 > On amend/replan only. Classify every scenario from the prior e2e plan, then rewrite

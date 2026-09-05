@@ -6,6 +6,8 @@ kind: technical
 category: {architecture | tooling | maintainability | performance | security}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | qualified  | released
+base-revision: {full commit id of the delivery base}
+branch: chore/{spec_key}
 created: {YYYY-MM-DD}
 released-version:
 ---
@@ -37,7 +39,15 @@ released-version:
 
 ## Verification Criteria
 
-- [ ] **AC-{spec_id}.1** - {the observable technical property once applied}
+- [ ] **AC-{spec_id}.1** — {the observable technical property once applied}
+  - Method: {command, inspection, measurement, or other specific check `/qualify` must perform}
+  - Evidence: {result or artifact that will demonstrate the property}
+
+### Deprecated criteria
+
+{Criteria retired by an amend. Keep the original id — never renumber or reuse it — so plans and reports stay traceable. Omit this section while empty.}
+
+- **AC-{spec_id}.n** — ~~{original criterion}~~ · retired {YYYY-MM-DD} (v{version}): {why it no longer applies}
 
 ---
 

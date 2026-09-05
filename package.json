@@ -8,7 +8,7 @@
     "aiddbot": "./bin/aiddbot.js"
   },
   "scripts": {
-    "test": "node scripts/verify-skills-migration.js && node scripts/verify-cli-update.js"
+    "test": "node scripts/verify-skills-migration.js && node scripts/verify-cli-update.js && node scripts/verify-skills-batch-a.js"
   },
   "engines": {
     "node": ">=18"

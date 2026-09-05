@@ -1,6 +1,6 @@
 ---
 name: scope-change
-description: Discover affected specs and write a coordinated change manifest.
+description: Resolve specification identity and persist an approved coordinated change scope when needed.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,12 @@ disable-model-invocation: true
 ---
 # scope-change
 
-Your goal is to discover which specs a requirement touches and write a coordinated change manifest (short and lean).
+Your goal is to resolve which specifications a requirement touches and, only for an approved multi-spec delivery, persist its manifest.
 
-Read the PRD, existing functional specs, and architecture. Apply [Amend, never fork](./references/triage.md): behavior already owned by a spec is an `amend`; genuinely new behavior is a `create`. Draw the next `C001`, `C002`… id; neither series advances the other. `{change_key}` = `{change_id}-{slug}`.
+Read the PRD, every functional and technical spec, and the architecture. Follow [the triage contract](./references/triage.md). Resolve `key`, `kind`, and `action` before any branch or artifact is created; reserve new spec IDs together so later stages cannot choose different identities.
 
-Clarify with the human, one closed question at a time, until the impact map is settled. Write `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md). Work on the current branch — never create or switch branches.
+Clarify ambiguity with the human one closed question at a time. Initial triage is read-only and returns the repository base revision plus the impact map. For one specification, return without a manifest. For several, also reserve the next change ID and return `{change_key}`. After the delivery owner has established `change/{change_key}`, a second call with the approved report writes `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md). Never create or switch branches.
 
-The result is the change manifest and proposed impact map.
+The result is either a read-only scope report or the manifest for an approved coordinated delivery.
 
 Commit as `docs(scope-change): …`.

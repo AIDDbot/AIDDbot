@@ -6,13 +6,13 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 ## What holds
 
-**The green E2E suite is the contract.** A green test changes only through a plan, preventing silent behavior drift.
+**The green E2E suite is the behavior contract.** A green test changes only through a plan, preventing silent behavior drift. Technical criteria are proved separately by `/qualify` using their stated method and evidence.
 
 **Initial materialization, one delivery writer, two evaluators.** `/scaffoldify` creates the initial solution. `/codify` writes delivery code. `/verify` and `/qualify` judge and report.
 
 **Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs; Craft preserves behavior from durable evidence. Craftsman ships only after green verification and qualification.
 
-**Delivery owners create branches.** One specification uses `feat/{spec_key}`, a coordinated change uses `change/{change_key}`, and accepted findings use `fix/{fix_key}`. Skills write on the active branch.
+**Delivery owners control Git.** They record the base and create or compatibly resume the branch before any write: functional `feat/{spec_key}`, technical `chore/{spec_key}`, coordinated `change/{change_key}`, or findings `fix/{fix_key}`. Primitives keep the active branch; `/shipify` integrates only by express delegation.
 
 ## Public orchestrators
 
@@ -31,9 +31,11 @@ flowchart LR
   YOU -->|evidence-backed remediation| IMPROVE["/craft-lasting-quality"]
   ESTABLISH --> DELIVER
   IMPROVE -->|accepted findings| FIX["fix/{fix_key}"]
-  DELIVER -->|one spec| FEAT["feat/{spec_key}"]
+  DELIVER -->|functional spec| FEAT["feat/{spec_key}"]
+  DELIVER -->|technical spec| CHORE["chore/{spec_key}"]
   DELIVER -->|many specs| CHANGE["change/{change_key}"]
   FEAT --> REVIEW["verify → qualify → ship"]
+  CHORE --> REVIEW
   CHANGE --> REVIEW
   FIX --> REVIEW
   REVIEW -->|defect| FIX["internal fix-defects"]
@@ -45,24 +47,24 @@ For greenfield work, Architect validates the design, then `/scaffoldify` resolve
 
 ## Requirement delivery
 
-`/build-requested-change` first follows internal `scope-feature`. Architect runs `/scope-change` and returns whether the requirement affects one specification or several coordinated specifications.
+`/build-requested-change` first follows internal `scope-feature`. Architect runs read-only `/scope-change` triage and returns the delivery base plus a reserved `key`, `kind`, and `action` for every affected spec. A single-spec route creates no manifest; an approved multi-spec route persists one only after its delivery branch exists.
 
 ### One specification
 
 Internal `deliver-spec` worker:
 
-1. Creates and checks out `feat/{spec_key}`.
+1. Creates or compatibly resumes `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work from the recorded base.
 2. Executes `specify-spec` once. Architect runs `/specify`; without YOLO, the workflow stops for human approval.
-3. Executes `implement-spec` once. Builder runs `/planify` for affected containers in parallel, then `/codify` for the resulting plans in parallel.
+3. Executes `implement-spec` once. Builder runs `/planify` sequentially for affected containers, agrees shared contracts, then runs `/codify` sequentially. The worker alone advances aggregate spec status.
 4. Executes `ship-implementation` once for the specification.
 
 ### Coordinated change
 
 Internal `deliver-change` worker:
 
-1. Creates and checks out `change/{change_key}`.
-2. Executes `specify-spec` for every affected specification in parallel.
-3. _ONCE_ all specifications are validated, executes `implement-spec` for each specification sequentially.
+1. Creates or compatibly resumes `change/{change_key}` from the recorded base and persists the approved manifest.
+2. Executes `specify-spec` for every affected specification sequentially, avoiding concurrent PRD, ID, spec, and index writes.
+3. Once all specifications are validated, executes `implement-spec` for each specification sequentially.
 4. _ONCE_ all specifications are implemented, executes `ship-implementation` once for the complete change.
 
 The change ships atomically: one review cycle, one merge, one tag, and one release version.
@@ -71,11 +73,11 @@ The change ships atomically: one review cycle, one merge, one tag, and one relea
 
 Internal `ship-implementation` worker preserves evaluator order:
 
-1. Craftsman runs `/verify` against the complete delivery scope.
-2. _IF_ functional or E2E defects exist, internal `fix-defects` spawns Builder with `/codify`, then review restarts from `/verify`.
-3. _ONCE_ verify is green, Craftsman runs `/qualify`.
-4. _IF_ technical or quality defects exist, `fix-defects` applies them, then review restarts from `/verify`.
-5. _ONCE_ verify and qualify are green, Craftsman runs `/shipify` once.
+1. Craftsman runs `/verify` against the complete delivery scope and records base, evaluated revision, commands, and results. It marks functional criteria only.
+2. Correctable functional or E2E defects go through `fix-defects` sequentially by container, then review restarts from `/verify`. An unavailable check reports `blocked`; it does not invent a defect or spec status.
+3. Once verify is green, Craftsman runs `/qualify` against the complete diff. Six gates apply: blocker/major fail, minor is recorded without blocking, and `n/a` requires a reason. Technical criteria need their own method and evidence.
+4. Correctable quality defects restart the cycle from `/verify`. A blocked check returns to the caller; changing criteria or behavior requires a scope decision.
+5. Once both reports are green and current, `/shipify` validates later changes, integrates, writes one final release commit, tags that exact commit, and only then deletes the branch. Content-changing conflict resolution requires review again.
 
 ## Solution improvement
 

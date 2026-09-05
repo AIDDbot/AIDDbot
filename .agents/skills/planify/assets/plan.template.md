@@ -15,6 +15,9 @@ technical spec, describe the destination, not user-facing behavior.}
 ### Data model
 {Detailed data model changes scoped to this container, if applicable.}
 
+### Shared contracts
+{Exact API, store, lockfile, configuration, or schema contract agreed before implementation. Name its single writer for this plan, or write `none`.}
+
 ## Checkpoints
 
 {On amend/replan, classify every step from the prior plan, then rewrite the implementation steps. The first plan: write `first`.}

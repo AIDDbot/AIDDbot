@@ -8,16 +8,10 @@ disable-model-invocation: true
 ---
 # implement-spec
 
-Your goal is to implement a validated specification.
+Your goal is to plan and implement a validated specification without concurrent writers.
 
-- Read the specification and keep the delivery worker's active working branch.
-- **Planning phase** — for every affected container:
-  - Spawn a new **Builder** sub-agent to run the [planify skill](../planify/SKILL.md).
-  - For a functional specification, include one additional plan for the `e2e` suite.
-  - Execute all container plans in parallel.
-- _ONCE_ all plans are available, start implementation.
-- **Implementation phase** — for every plan:
-  - Spawn a new **Builder** sub-agent to run the [codify skill](../codify/SKILL.md).
-  - Execute all plans in parallel.
+Read the specification and keep the delivery owner's active branch. Agree shared contracts and file ownership before planning. Run a Builder following [planify](../planify/SKILL.md) for each affected container sequentially; include the `e2e` plan for a functional specification. After every required plan exists and their shared contracts agree, this worker alone sets the aggregate spec status to `planned`.
 
-Return a short report of the implemented specification.
+Only then run a Builder following [codify](../codify/SKILL.md) for each plan sequentially. A shared lockfile, contract, configuration file, spec file, or Git index has one writer at a time. After all plans are complete, this worker alone sets the aggregate spec status to `in-progress`. No container completion represents completion of the specification.
+
+The result is the implemented specification and a record of any plan deviation.

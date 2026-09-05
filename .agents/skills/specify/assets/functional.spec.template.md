@@ -6,6 +6,8 @@ kind: functional
 category: {category}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | qualified  | released
+base-revision: {full commit id of the delivery base}
+branch: feat/{spec_key}
 created: {YYYY-MM-DD}
 released-version:
 ---

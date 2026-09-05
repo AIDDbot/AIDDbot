@@ -1,6 +1,6 @@
 # UI and accessibility lens
 
-Align to the project's design system — its tokens, spacing, and type scale — not an external or "AI" aesthetic. Every match is a finding under the [accessibility or clean code gate](./qualify.gates.md).
+Align to the project's design system — its tokens, spacing, and type scale — not an external or "AI" aesthetic. Accessibility patterns belong to `accessibility`, design-system and visual-state patterns to `ui`, and component-structure patterns to `clean-code`, unless a named project rule is the direct basis.
 
 ## Principles
 
