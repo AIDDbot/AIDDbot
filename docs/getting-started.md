@@ -24,7 +24,7 @@ Plain `bunx` follows the CLI's Node shebang; `bunx --bun github:AIDDbot/AIDDbot 
 
 `--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
-That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, and hook adapters. Codex, Cursor, and GitHub Copilot in VS Code discover `.agents/skills/` directly. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets) when missing or incomplete, adds `README.md` only when none exists, and commits the overlay. In Codex, review and trust the project audit hooks with `/hooks` after installation.
+That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, and hook adapters. Codex, Cursor, and GitHub Copilot in VS Code discover `.agents/skills/` directly. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets), `README.md`, and minimal `AGENTS.md` plus a Claude `CLAUDE.md` pointer only when each is missing, then commits the overlay. `/explore` replaces the minimal rules after the product and source folders are settled. In Codex, review and trust the project audit hooks with `/hooks` after installation.
 
 ## Updating an installed overlay
 
@@ -43,7 +43,7 @@ Run one entrypoint to establish the solution:
 /architect-solution-foundation
 ```
 
-Existing application code is mapped as brownfield. An empty or documentation-only repository is designed as greenfield and scaffolded when needed. If partial files make the choice unclear, you choose which route to follow before anything changes.
+Existing application code is mapped as brownfield. An empty or documentation-only repository is designed as greenfield, scaffolded once, then mapped. If partial files make the choice unclear, you choose which route to follow before anything changes.
 
 For a new solution, it confirms the name, selected tiers, technologies, and product summary, then installs and smoke-tests the scaffold. It resolves author details from the fetched projects or Git before asking for missing values, and preserves unrelated root README content while reconciling a solution summary with links and documented setup details for each selected project. Advanced users can invoke `/scaffoldify` directly.
 

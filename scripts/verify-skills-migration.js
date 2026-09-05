@@ -140,12 +140,18 @@ if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-spec"
   fail("build-requested-change does not own specification routing");
 }
 const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
-if (!architectSkill.includes("scaffoldify") || architectSkill.includes("scaffold-workshop")) {
-  fail("architect-solution-foundation does not route greenfield materialization through scaffoldify");
+const designSkill = read(path.join(skillsRoot, "design-solution", "SKILL.md"));
+if (!architectSkill.includes("design-solution") || architectSkill.includes("scaffold-workshop")
+  || !designSkill.includes("scaffoldify") || !designSkill.includes("exactly once")) {
+  fail("greenfield design does not route mandatory materialization through scaffoldify");
 }
 const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
 if (!scaffoldSkill.includes("confirmation") || !scaffoldSkill.includes("Never create or switch a branch, commit")) {
   fail("scaffoldify must confirm material choices and leave branch ownership to its caller");
+}
+const prdTemplate = read(path.join(skillsRoot, "explore", "assets", "PRD.template.md"));
+if (/^## \{category\}|\{spec_id\}/m.test(prdTemplate) || !prdTemplate.includes("Empty index")) {
+  fail("initial PRD must be an empty index shell");
 }
 const scaffoldContract = read(path.join(skillsRoot, "scaffoldify", "references", "scaffold.contract.md"));
 for (const required of [
@@ -214,7 +220,7 @@ function verifyOverlayFixture() {
     for (const required of [
       ".agents/skills/architect-solution-foundation/SKILL.md",
       ".agents/skills/scaffoldify/SKILL.md",
-      ".agents/skills/scaffoldify/scripts/materialize.js",
+      ".agents/skills/scaffoldify/scripts/materialize.mjs",
       ".claude/skills/build-requested-change/SKILL.md",
       ".claude/skills/craft-lasting-quality/SKILL.md",
       ".codex/hooks.json",
@@ -240,7 +246,10 @@ function verifyOverlayFixture() {
 verifyOverlayFixture();
 
 function verifyScaffoldCli() {
-  const scaffold = path.join(root, ".agents", "skills", "scaffoldify", "scripts", "materialize.js");
+  const scaffold = path.join(root, ".agents", "skills", "scaffoldify", "scripts", "materialize.mjs");
+  if (fs.existsSync(path.join(root, ".agents", "skills", "scaffoldify", "scripts", "materialize.js"))) {
+    fail("scaffold materializer must use the .mjs extension");
+  }
   if (fs.existsSync(path.join(root, "bin", "scaffold.js"))) fail("retired bin/scaffold.js must not remain");
   if (read(path.join(root, "package.json")).includes("aiddbot-scaffold")) fail("retired aiddbot-scaffold binary must not remain");
   const materializer = read(scaffold);

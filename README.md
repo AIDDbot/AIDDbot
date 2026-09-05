@@ -46,11 +46,11 @@ With Bun, the equivalent launcher needs no npm `allow-git` flag:
 bunx github:AIDDbot/AIDDbot init
 ```
 
-`bunx` respects the Node shebang; use `bunx --bun` only to explicitly select the Bun runtime. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
+`bunx` respects the Node shebang; use `bunx --bun` only to explicitly select the Bun runtime. `init` also adds a small, safe `AGENTS.md` and a Claude `CLAUDE.md` pointer when they do not already exist; `/explore` expands those rules after it knows the project. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
 
 Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
 
-**New solution** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs first and materializes a confirmed scaffold when needed.
+**New solution** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs, materializes one confirmed scaffold, and maps the resulting containers.
 
 ## Documentation
 

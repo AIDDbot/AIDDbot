@@ -15,7 +15,7 @@ released-version:
 
 ## Problem definition
 
-{Problem statement.}
+{Required: validated problem statement. Do not invent it.}
 
 ### User Stories
 
@@ -33,25 +33,23 @@ released-version:
 
 ### Out of scope
 
-{What is out of scope for this feature.}
+{Required: validated exclusions. Do not invent them.}
 
 ## Solution overview
 
 ### Data Model
 
-{Conceptual entities and relationships this feature touches — from `model.schema.md` when present.}
+{Use only validated or existing entities and relationships. Omit this subsection while none are known.}
 
 ### {Container_Name}
 
 {What this container must deliver for the feature, per `system.arch.md`.}
 
-- {Expected result — an observable outcome this container provides.}
-- {Expected result}
+{Repeat this subsection only for known affected containers. Omit it while none are known.}
 
 ## Verification Criteria
 
-- [ ] **AC-{spec_id}.1** — {EARS-format acceptance criterion}
-- [ ] **AC-{spec_id}.2** — {Additional criterion}
+{Add only validated, testable criteria. Leave this section empty until they are known.}
 
 ### Deprecated criteria
 

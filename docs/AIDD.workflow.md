@@ -18,7 +18,7 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 | Skill | Job |
 |---|---|
-| `/architect-solution-foundation` | Architect an existing or greenfield solution, with optional scaffolding |
+| `/architect-solution-foundation` | Map an existing solution, or design, scaffold, and map a greenfield solution |
 | `/build-requested-change` | Build one requested change or a coordinated delivery |
 | `/craft-lasting-quality` | Turn durable quality findings into behavior-preserving remediation |
 
@@ -43,7 +43,7 @@ flowchart LR
   REVIEW -->|green| RELEASED[released]
 ```
 
-For greenfield work, Architect validates the design, then `/scaffoldify` resolves and confirms any missing name, tier, and technology choices before materializing it. It creates no branch or commit.
+For greenfield work, Architect first expands the `init` agent seed into project rules and empty documentation shells, validates the design, then always runs `/scaffoldify`. It resolves and confirms missing name, tier, and technology choices before materializing one scaffold, then maps the resulting containers. It creates no branch or commit.
 
 ## Requirement delivery
 

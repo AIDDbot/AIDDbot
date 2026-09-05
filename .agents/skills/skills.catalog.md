@@ -19,7 +19,7 @@ skills perform focused AIDD work.
 
 | Skill | What it does |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Architect a brownfield or greenfield solution, including optional scaffolding |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Architect a brownfield solution or design, scaffold, and map a greenfield one |
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Build one requested change or coordinated delivery |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Craft lasting quality from evidence-backed solution findings |
 
@@ -30,7 +30,7 @@ Workers are linked composition, not human entrypoints.
 | Skill | What it composes |
 | --- | --- |
 | [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, then `/specify` with `kind: technical` |
+| [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, technical `/specify`, mandatory scaffold, then reconciliation map |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
 | [`collect-findings`](./collect-findings/SKILL.md) | Consolidate verification, qualification, and quality evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Return read-only one-spec or many-spec triage with reserved key, kind, action, and base |

@@ -11,7 +11,7 @@ before materialization.
 For catalogued technologies, first run:
 
 ```text
-node .agents/skills/scaffoldify/scripts/materialize.js --list
+node .agents/skills/scaffoldify/scripts/materialize.mjs --list
 ```
 
 Then run one confirmed invocation with `--name {solution_name}` and one flag

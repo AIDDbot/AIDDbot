@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Your goal is to materialize an installable solution scaffold.
 
-Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md). Run the local [materializer](./scripts/materialize.js) for catalogued tiers; use confirmed official tooling outside that catalog. After materialization, reconcile the root README yourself as the contract requires.
+Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md). Run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; use confirmed official tooling outside that catalog. After materialization, reconcile the root README yourself as the contract requires.
 
 Never create or switch a branch, commit, overwrite a non-empty project directory, or proceed over unresolved conflicts or unrelated changes.
 

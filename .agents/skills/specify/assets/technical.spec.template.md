@@ -15,19 +15,17 @@ released-version:
 
 ## Problem definition
 
-{The technical work the human ordered — architecture, tooling, boilerplate, a structural decision — and what hurts today for not having it. State the pain, not the task list.}
+{Required: validated technical problem and current pain. Do not invent it.}
 
 ### Affected sites
 
-{Every place the work reaches, grouped by container. This is the reach of one effort, not a list of findings.}
+{List only evidenced affected sites. Leave empty until they are known.}
 
-**{Container_Name}**
-
-- {path} — {what it looks like today, in one line}
+{Repeat a container block only for an evidenced affected site.}
 
 ### Out of scope
 
-{Anything that would change what the product does for a user. That is a functional spec.}
+{Validated exclusions only. Do not invent them.}
 
 ## Solution overview
 
@@ -35,13 +33,11 @@ released-version:
 
 {The state this container is in once the work is done. Describe the destination, not the migration.}
 
-- {Expected result — an observable property of the code, tooling, or architecture, not a task.}
+{Repeat this subsection only for a known affected container. Omit it while none are known.}
 
 ## Verification Criteria
 
-- [ ] **AC-{spec_id}.1** — {the observable technical property once applied}
-  - Method: {command, inspection, measurement, or other specific check `/qualify` must perform}
-  - Evidence: {result or artifact that will demonstrate the property}
+{Add only validated observable criteria, each with a specific method and expected evidence. Leave this section empty until they are known.}
 
 ### Deprecated criteria
 

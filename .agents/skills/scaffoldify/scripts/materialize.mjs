@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// Native ESM; requires the Node version declared by the AIDDbot launcher.
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
@@ -12,7 +13,7 @@ const CATALOG = {
 const TIERS = Object.keys(CATALOG);
 
 function help() {
-  process.stderr.write(`Usage: node .agents/skills/scaffoldify/scripts/materialize.js --name NAME [tiers]
+  process.stderr.write(`Usage: node .agents/skills/scaffoldify/scripts/materialize.mjs --name NAME [tiers]
 
   --name NAME    Human-readable solution name (required)
   --back TECH    default: ${CATALOG.back[0]}; catalog: ${CATALOG.back.join(", ")}

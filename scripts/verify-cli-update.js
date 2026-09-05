@@ -6,6 +6,7 @@ import os from "node:os";
 import path from "node:path";
 import { reconcile, runOverlay } from "../bin/lib/overlay.js";
 import { loadManifest, manifestText } from "../bin/lib/manifest.js";
+import { ensureSeedFiles } from "../bin/lib/seed.js";
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), "aiddbot-cli-update-"));
 const digest = (value) => `sha256:${crypto.createHash("sha256").update(value).digest("hex")}`;
@@ -13,6 +14,12 @@ const write = (file, value) => { const target = path.join(root, "source", ...fil
 const inventory = (files) => Object.fromEntries(Object.entries(files).map(([file, value]) => [file, { digest: digest(value), source: write(file, value) }]));
 try {
   const dest = path.join(root, "dest"); fs.mkdirSync(dest);
+  const seed = ensureSeedFiles(dest, false, "Demo");
+  assert.deepEqual(seed.sort(), [".gitignore", "AGENTS.md", "CLAUDE.md", "README.md"]);
+  assert.match(fs.readFileSync(path.join(dest, "AGENTS.md"), "utf8"), /Product direction/);
+  assert.equal(fs.readFileSync(path.join(dest, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
+  fs.writeFileSync(path.join(dest, "AGENTS.md"), "consumer rules\n");
+  assert.equal(ensureSeedFiles(dest, false, "Demo").includes("AGENTS.md"), false);
   const first = inventory({ "x/a.txt": "one", "x/b.txt": "two" });
   let result = runOverlay(dest, { inventory: first });
   assert.equal(result.conflicts, 0); assert.equal(fs.readFileSync(path.join(dest, "x/a.txt"), "utf8"), "one");
