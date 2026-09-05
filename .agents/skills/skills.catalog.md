@@ -76,7 +76,7 @@ Workers are linked composition, not human entrypoints.
 
 | Skill | What it does |
 | --- | --- |
-| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; closes a spec, change, or findings scope atomically |
+| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; resumes incomplete closure from the recorded release commit without repeating delivery |
 
 ### Meta
 

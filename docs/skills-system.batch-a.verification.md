@@ -25,3 +25,9 @@ Esta verificación cierra el [plan del lote A](./skills-system.batch-a.plan.md) 
 | `git diff --quiet -- docs/skills-system.review.md` | PASS: el informe original no cambió. |
 
 No se hizo push, merge ni tag. Las limitaciones de ejecución anteriores permanecen declaradas y no cuentan como PASS.
+
+## Corrección tras revisión independiente
+
+La revisión detectó cinco omisiones en los veredictos de contrato anteriores, corregidas en esta continuación: reanudación desde el commit de release con estados ya cerrados; rama efectiva del owner en ambas plantillas de spec; transiciones explícitas de single-spec a verified/qualified/released y versión; propietario agregado coherente con `in-progress` antes de escribir código; y `blocked` representable en cada gate de las tres plantillas.
+
+Se revisaron los casos de interrupción antes del tag y después del tag, cambio coordinado mixto, entrega single-spec, implementación interrumpida y gate no ejecutable. Son comprobaciones de contrato, no ejecuciones de un arnés. Se volvieron a ejecutar `npm test` y `git diff --check`: PASS. Se mantienen las limitaciones de Bash y de ejecución del workflow completo indicadas arriba.

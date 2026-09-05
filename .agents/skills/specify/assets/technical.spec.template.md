@@ -7,7 +7,7 @@ category: {architecture | tooling | maintainability | performance | security}
 tags: [{tag1}, {tag2}]
 status: pending  # pending | planned | in-progress | verified | qualified  | released
 base-revision: {full commit id of the delivery base}
-branch: chore/{spec_key}
+branch: {actual delivery branch supplied by the owner, including change/{change_key} for coordinated work}
 created: {YYYY-MM-DD}
 released-version:
 ---

@@ -24,12 +24,12 @@ status: {green | red | blocked}
 
 | Gate | Verdict | Checked against |
 |------|---------|-----------------|
-| Accessibility | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
-| Security | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
-| Performance | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
-| Clean-code | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
-| Ui | {pass \| fail \| n/a} | {evidence, or why this gate cannot apply} |
-| Project-rules | {pass \| fail \| n/a} | {rules checked, or why none can apply} |
+| Accessibility | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
+| Security | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
+| Performance | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
+| Clean-code | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
+| Ui | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
+| Project-rules | {pass \| fail \| n/a \| blocked} | {rules checked, or why none can apply; impediment if blocked} |
 
 ## Criteria
 
