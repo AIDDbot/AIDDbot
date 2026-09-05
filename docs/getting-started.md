@@ -14,9 +14,26 @@ From the root of any other project (Node 18+):
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
+Or, with Bun's package launcher:
+
+```bash
+bunx github:AIDDbot/AIDDbot init
+```
+
+Plain `bunx` follows the CLI's Node shebang; `bunx --bun github:AIDDbot/AIDDbot init` explicitly uses Bun as the runtime.
+
 `--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
 That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, and hook adapters. Codex, Cursor, and GitHub Copilot in VS Code discover `.agents/skills/` directly. Existing files are left alone. Preview with `--dry-run`; replace differing files with `--force`. If the folder is not a git repo, `init` runs `git init`. It writes a basic `.gitignore` (temp and secrets) when missing or incomplete, adds `README.md` only when none exists, and commits the overlay. In Codex, review and trust the project audit hooks with `/hooks` after installation.
+
+## Updating an installed overlay
+
+```bash
+npx --allow-git=all github:AIDDbot/AIDDbot update --dry-run
+npx --allow-git=all github:AIDDbot/AIDDbot update
+```
+
+`update` never initializes Git or touches seed files such as `README.md` and `.gitignore`. It records ownership of safely installed overlay files in `.aiddbot/manifest.json`; an untouched owned file can be refreshed or retired automatically, while an edited file is preserved and reported as a conflict (exit code `2`). `--force` explicitly permits replacement and removal of regular, manifest-validated managed files. Legacy installs without a manifest are adopted only when identical, newly created, or explicitly forced. `--dry-run` changes neither files, metadata, Git index, nor history.
 
 ## 2. Start from what you have
 

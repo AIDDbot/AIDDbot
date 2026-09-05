@@ -1,13 +1,12 @@
 #!/usr/bin/env node
-"use strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
+import { runOverlay } from "../bin/lib/overlay.js";
 
-const fs = require("node:fs");
-const os = require("node:os");
-const path = require("node:path");
-const { spawnSync } = require("node:child_process");
-const { runOverlay } = require("../bin/lib/overlay");
-
-const root = path.resolve(__dirname, "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = path.join(root, ".agents", "skills");
 const managed = "<!-- managed by /adapt — do not edit here, edit ";
 const kinds = new Set(["orchestrator", "worker", "primitive"]);

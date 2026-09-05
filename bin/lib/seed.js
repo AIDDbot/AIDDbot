@@ -1,7 +1,5 @@
-"use strict";
-
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
 const GITIGNORE = `# Scratch
 /temp
@@ -153,4 +151,4 @@ function ensureSeedFiles(destRoot, dryRun, title) {
   return written;
 }
 
-module.exports = { ensureLicense, ensureSeedFiles };
+export { ensureLicense, ensureSeedFiles };

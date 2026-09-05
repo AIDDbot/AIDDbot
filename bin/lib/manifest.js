@@ -1,0 +1,12 @@
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+
+const HASH = /^sha256:[a-f0-9]{64}$/;
+export const manifestRelativePath = ".aiddbot/manifest.json";
+function validPath(file) { return typeof file === "string" && file !== "" && !path.isAbsolute(file) && !file.includes("\\") && file.split("/").every((part) => part && part !== "." && part !== ".."); }
+export function validateManifest(value) { if (!value || value.schemaVersion !== 1 || typeof value.packageVersion !== "string" || !HASH.test(value.payloadDigest) || !value.files || Array.isArray(value.files)) throw new Error("schema is invalid"); for (const [file, digest] of Object.entries(value.files)) if (!validPath(file) || !HASH.test(digest)) throw new Error(`unsafe manifest entry: ${file}`); return value; }
+export function loadManifest(root) { const file = path.join(root, ...manifestRelativePath.split("/")); if (!fs.existsSync(file)) return null; const stat = fs.lstatSync(file); if (!stat.isFile() || stat.isSymbolicLink()) throw new Error("manifest is not a regular file"); try { return validateManifest(JSON.parse(fs.readFileSync(file, "utf8"))); } catch (error) { throw new Error(error.message); } }
+export function payloadDigest(inventory) { const stable = Object.keys(inventory).sort().map((file) => `${file}\0${inventory[file].digest}\n`).join(""); return `sha256:${crypto.createHash("sha256").update(stable).digest("hex")}`; }
+export function manifestText(manifest) { const files = Object.fromEntries(Object.entries(manifest.files).sort(([a], [b]) => a.localeCompare(b))); return `${JSON.stringify({ schemaVersion: 1, packageVersion: manifest.packageVersion, payloadDigest: manifest.payloadDigest, files }, null, 2)}\n`; }
+export function writeManifestAtomic(root, manifest) { const folder = path.join(root, ".aiddbot"), target = path.join(folder, "manifest.json"), temp = path.join(folder, `.manifest-${process.pid}-${Date.now()}.tmp`); if (fs.existsSync(folder)) { const stat = fs.lstatSync(folder); if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error("manifest directory is unsafe"); } else fs.mkdirSync(folder, { recursive: true }); if (fs.existsSync(target)) { const stat = fs.lstatSync(target); if (!stat.isFile() || stat.isSymbolicLink()) throw new Error("manifest target is unsafe"); } try { fs.writeFileSync(temp, manifestText(manifest), "utf8"); fs.renameSync(temp, target); } finally { try { if (fs.existsSync(temp)) fs.unlinkSync(temp); } catch {} } }

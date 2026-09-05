@@ -4,6 +4,12 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-05 — Portable ESM installer with hash-owned updates
+
+**Status**: adopted.
+
+The dependency-free CLI is standards-based ESM with a Node shebang, retaining Node 18+ and allowing `npx`, `bunx`, or explicit `bunx --bun` launch. Installation metadata is a deterministic, atomically written `.aiddbot/manifest.json`: SHA-256 content hashes prove ownership. Updates only replace or remove files whose recorded content remains intact; conflicts preserve consumer edits and return exit code `2`. Force is the deliberate destructive override, never permission to traverse symlinks or unsafe paths. `init` retains Git and seed behavior; `update` owns neither.
+
 ## 2026-09-03 — Scaffoldify owns its catalogued materializer
 
 **Status**: adopted. Refines “`/scaffoldify` is a public

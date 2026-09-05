@@ -1,47 +1,20 @@
 #!/usr/bin/env node
-"use strict";
+import path from "node:path";
+import { sourceRoot, refuseOrigin, runOverlay } from "./lib/overlay.js";
+import { ensureGit, commitFiles } from "./lib/git.js";
+import { ensureSeedFiles } from "./lib/seed.js";
 
-const path = require("node:path");
-const { sourceRoot, refuseOrigin, runOverlay } = require("./lib/overlay");
-const { ensureGit, commitFiles } = require("./lib/git");
-const { ensureSeedFiles } = require("./lib/seed");
-
-function help() {
-  process.stderr.write(
-    "Usage: npx --allow-git=all github:AIDDbot/AIDDbot init [--dry-run] [--force]\nCopies AIDDbot skills and harness adapters into the current directory. Existing files are left alone unless they match (skipped) or you pass --force. Runs git init if needed, writes a basic .gitignore (temp and secrets) and README.md when missing, and commits the overlay.\n"
-  );
-}
-
-function parseArgs(argv) {
-  const opts = { dryRun: false, force: false };
-  const positionals = [];
-  for (const arg of argv) {
-    if (arg === "--dry-run") opts.dryRun = true;
-    else if (arg === "--force") opts.force = true;
-    else if (arg.startsWith("-")) return { error: `Unknown flag: ${arg}` };
-    else positionals.push(arg);
-  }
-  if (positionals.length && positionals[0] !== "init") {
-    return { error: `Unknown argument: ${positionals.join(" ")}` };
-  }
-  if (positionals.length > 1) return { error: `Unexpected extra arguments: ${positionals.slice(1).join(" ")}` };
-  return { opts };
-}
-
-const parsed = parseArgs(process.argv.slice(2));
-if (parsed.error) {
-  process.stderr.write(`${parsed.error}\n`);
-  help();
-  process.exit(1);
-}
-
+function help() { process.stderr.write("Usage: npx --allow-git=all github:AIDDbot/AIDDbot [init|update] [--dry-run] [--force]\ninit (the default) initializes Git, seed files, and the overlay. update reconciles only owned overlay files. Existing differing files are preserved unless --force is supplied.\n"); }
+function parse(argv) { const opts = { dryRun: false, force: false }, words = []; for (const arg of argv) { if (arg === "--dry-run") opts.dryRun = true; else if (arg === "--force") opts.force = true; else if (arg.startsWith("-")) return { error: `Unknown flag: ${arg}` }; else words.push(arg); } if (words.length > 1 || (words[0] && !["init", "update"].includes(words[0]))) return { error: `Unknown argument: ${words.join(" ")}` }; return { opts, command: words[0] || "init" }; }
+const parsed = parse(process.argv.slice(2));
+if (parsed.error) { process.stderr.write(`${parsed.error}\n`); help(); process.exit(1); }
 const destRoot = path.resolve(process.cwd());
-if (refuseOrigin(destRoot, "init")) process.exit(1);
-
-process.stdout.write(`source     ${sourceRoot}\n`);
-process.stdout.write(`dest       ${destRoot}\n`);
-ensureGit(destRoot, parsed.opts.dryRun);
-const seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun);
-const { conflicts, written } = runOverlay(destRoot, parsed.opts);
-commitFiles(destRoot, [...seeded, ...written], "chore: add AIDDbot overlay", parsed.opts.dryRun);
-process.exit(conflicts ? 2 : 0);
+if (refuseOrigin(destRoot, parsed.command)) process.exit(1);
+process.stdout.write(`source     ${sourceRoot}\ndest       ${destRoot}\n`);
+let seeded = [];
+if (parsed.command === "init") { ensureGit(destRoot, parsed.opts.dryRun); seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun); }
+const result = runOverlay(destRoot, parsed.opts);
+if (result.fatal) process.exit(1);
+const changed = [...seeded, ...result.written];
+commitFiles(destRoot, changed, parsed.command === "init" ? "chore: add AIDDbot overlay" : "chore: update AIDDbot overlay", parsed.opts.dryRun);
+process.exit(result.conflicts ? 2 : 0);

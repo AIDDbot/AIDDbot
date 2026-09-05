@@ -1,8 +1,6 @@
-"use strict";
-
-const { spawnSync } = require("node:child_process");
-const fs = require("node:fs");
-const path = require("node:path");
+import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 
 function runGit(destRoot, args) {
   return spawnSync("git", args, { cwd: destRoot, encoding: "utf8", windowsHide: true });
@@ -52,18 +50,18 @@ function commitFiles(destRoot, files, message, dryRun) {
     process.stdout.write("git        skip       no repo\n");
     return;
   }
-  const add = runGit(destRoot, ["add", "--", ...files]);
+  const add = runGit(destRoot, ["add", "-A", "--", ...files]);
   if (add.status !== 0) {
     process.stderr.write("git add failed; skipping commit.\n");
     if (add.stderr) process.stderr.write(add.stderr);
     return;
   }
-  const staged = runGit(destRoot, ["diff", "--cached", "--quiet"]);
+  const staged = runGit(destRoot, ["diff", "--cached", "--quiet", "--", ...files]);
   if (staged.status === 0) {
     process.stdout.write("git        skip       nothing to commit\n");
     return;
   }
-  const commit = runGit(destRoot, [...commitIdentity(destRoot), "commit", "-m", message]);
+  const commit = runGit(destRoot, [...commitIdentity(destRoot), "commit", "--only", "-m", message, "--", ...files]);
   if (commit.status !== 0) {
     process.stderr.write("git commit failed.\n");
     if (commit.stderr) process.stderr.write(commit.stderr);
@@ -72,4 +70,4 @@ function commitFiles(destRoot, files, message, dryRun) {
   process.stdout.write(`git        commit     ${message}\n`);
 }
 
-module.exports = { ensureGit, commitFiles };
+export { ensureGit, commitFiles };
