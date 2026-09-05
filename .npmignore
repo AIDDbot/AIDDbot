@@ -11,6 +11,8 @@
 !.agents/hooks/**
 !.agents/rules/
 !.agents/rules/**
+!.agents/templates/
+!.agents/templates/**
 !.agents/skills/
 !.agents/skills/**
 

@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const assets = path.join(here, "..", "assets");
+const agentsTemplates = path.join(here, "..", "..", ".agents", "templates");
 
 const GITIGNORE = `# Scratch
 /temp
@@ -132,14 +132,14 @@ function ensureReadme(destRoot, dryRun, title = path.basename(destRoot)) {
 
 function ensureAgentSeed(destRoot, dryRun) {
   const written = [];
-  for (const [rel, template] of [["AGENTS.md", "AGENTS.minimal.template.md"], ["CLAUDE.md", "CLAUDE.minimal.template.md"]]) {
+  for (const [rel, template] of [["AGENTS.md", "AGENTS.seed.md"], ["CLAUDE.md", "CLAUDE.seed.md"]]) {
     const abs = absPath(destRoot, rel);
     if (fs.existsSync(abs)) {
       print("skip-same", rel);
       continue;
     }
     print("create", rel);
-    writeFile(abs, fs.readFileSync(path.join(assets, template), "utf8"), dryRun);
+    writeFile(abs, fs.readFileSync(path.join(agentsTemplates, template), "utf8"), dryRun);
     written.push(rel);
   }
   return written;
