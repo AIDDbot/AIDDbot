@@ -8,8 +8,11 @@ disable-model-invocation: true
 ---
 # specify-spec
 
-Your goal is to produce a validated specification from identity already settled by triage.
+GOAL: produce a validated specification from identity settled by triage.
 
-Pass the requirement and the scope entry's exact `key`, `kind`, and `action` to an Architect following [specify](../specify/SKILL.md). Keep the delivery owner's active branch. Without YOLO, present the resulting specification and stop for human approval.
-
-The result is the validated specification with the reserved identity unchanged.
+PASS requirement and scope entry's exact `key`, `kind`, and `action` to Architect => FOLLOW [specify](../specify/SKILL.md).
+KEEP delivery owner's active branch.
+IF NOT YOLO:
+  PRESENT resulting specification.
+  STOP for human approval.
+RETURN validated specification with reserved identity unchanged.

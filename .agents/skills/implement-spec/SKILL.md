@@ -8,10 +8,19 @@ disable-model-invocation: true
 ---
 # implement-spec
 
-Your goal is to plan and implement a validated specification without concurrent writers.
+GOAL: plan and implement a validated specification without concurrent writers.
 
-Read the specification and keep the delivery owner's active branch. Agree shared contracts and file ownership before planning. Run a Builder following [planify](../planify/SKILL.md) for each affected container sequentially; include the `e2e` plan for a functional specification. After every required plan exists and their shared contracts agree, this worker alone sets the aggregate spec status to `planned`.
-
-Before the first implementation write, this worker alone sets the aggregate spec status to `in-progress`. Then run a Builder following [codify](../codify/SKILL.md) for each plan sequentially. A shared lockfile, contract, configuration file, spec file, or Git index has one writer at a time. Keep `in-progress` through implementation and interruptions until review advances it. No container completion represents completion of the specification.
-
-The result is the implemented specification and a record of any plan deviation.
+READ specification; KEEP delivery owner's active branch.
+AGREE shared contracts and file ownership before planning.
+FOR EACH affected container, SEQUENTIALLY:
+  SPAWN Builder => FOLLOW [planify](../planify/SKILL.md).
+IF specification is functional: INCLUDE `e2e` plan.
+WHEN every required plan exists AND shared contracts agree:
+  SET aggregate specification status to `planned` (worker only).
+BEFORE first implementation write: SET aggregate specification status to `in-progress` (worker only).
+FOR EACH plan, SEQUENTIALLY:
+  SPAWN Builder => FOLLOW [codify](../codify/SKILL.md).
+ALLOW one writer at a time for a shared lockfile, contract, configuration file, specification file, or Git index.
+KEEP `in-progress` through implementation and interruption until review advances it.
+DO NOT treat container completion as specification completion.
+RETURN implemented specification and every plan deviation.

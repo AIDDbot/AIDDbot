@@ -8,11 +8,10 @@ disable-model-invocation: true
 ---
 # clean-solution
 
-Your goal is to produce evidence-backed **whole-codebase quality findings**.
+GOAL: produce evidence-backed whole-codebase quality findings.
 
-- Spawn a new **Craftsman** agent to run the available complexity, coverage, and strict-lint checks.
-  - Report each CRAP violation, insufficient coverage result, warning, or error with its evidence. 
-  - Do not edit code, update the finding ledger, or create a branch.
-  - Avoid fixing by relaxing lint rules.
-
-_RETURN_ the current quality report.
+SPAWN Craftsman:
+  RUN available complexity, coverage, and strict-lint checks.
+  REPORT each CRAP violation, insufficient-coverage result, warning, or error with evidence.
+  DO NOT edit code, update the finding ledger, create a branch, or relax lint rules.
+RETURN current quality report.

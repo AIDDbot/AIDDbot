@@ -8,12 +8,28 @@ disable-model-invocation: true
 ---
 # ship-implementation
 
-Your goal is to review and deliver the complete implemented scope without stale evidence or endless repair loops.
+GOAL: review and deliver complete implemented scope without stale evidence or endless repair loops.
 
-Have a Craftsman follow [verify](../verify/SKILL.md) for the complete specification, change, or findings scope. Continue only on green. On red, send correctable findings to [fix-defects](../fix-defects/SKILL.md) sequentially by container and restart from verify after any write. On blocked, return the recorded impediment to the caller without inventing a defect or changing spec status beyond `in-progress`.
-
-After green verification, have a Craftsman follow [qualify](../qualify/SKILL.md) for the same scope. Treat red and blocked the same way, except that a required change to criteria or behavior returns to the delivery caller for a new scope decision rather than being repaired here. Never retry identical evidence with the same corrective hypothesis.
-
-When both reports are green and current for the content being delivered, expressly delegate final integration to a Craftsman following [shipify](../shipify/SKILL.md). A content change during integration returns to verify; report-only and expressly identified non-semantic closure metadata do not.
-
-The result is the delivery outcome or one explicit blocker with its evidence and owner.
+LOOP:
+  SPAWN Craftsman => FOLLOW [verify](../verify/SKILL.md) for complete specification, change, or findings scope.
+  IF verify is blocked:
+    RETURN recorded impediment to caller; KEEP status no later than `in-progress`.
+  IF verify is red:
+    SEND correctable findings to [fix-defects](../fix-defects/SKILL.md) sequentially by container.
+    IF any write: RESTART LOOP.
+    RETURN unresolved verification findings to caller.
+  IF verify is green:
+    SPAWN Craftsman => FOLLOW [qualify](../qualify/SKILL.md) for same scope.
+    IF qualify is blocked: RETURN recorded impediment to caller.
+    IF qualify is red AND criteria or behavior must change:
+      RETURN to delivery caller for new scope decision.
+    IF qualify is red:
+      SEND correctable findings to [fix-defects](../fix-defects/SKILL.md) sequentially by container.
+      IF any write: RESTART LOOP.
+      RETURN unresolved qualification findings to caller.
+    IF both reports are green and current:
+      EXPRESSLY DELEGATE final integration to Craftsman => FOLLOW [shipify](../shipify/SKILL.md).
+      IF integration changes content: RESTART LOOP.
+      IGNORE report-only and expressly identified non-semantic closure metadata.
+      RETURN delivery outcome.
+DO NOT invent defects or retry identical evidence with identical corrective hypothesis.

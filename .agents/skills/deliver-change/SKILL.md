@@ -8,12 +8,20 @@ disable-model-invocation: true
 ---
 # deliver-change
 
-Your goal is to deliver several coordinated specifications while owning their shared Git lifecycle.
+GOAL: deliver coordinated specifications while owning their shared Git lifecycle.
 
-Require the approved scope report's change key, base revision, and each specification's `key`, `kind`, and `action`. From that base, create `change/{change_key}` or reuse it when its manifest, scope, and ancestry are compatible; diagnose divergence before writing. On the established branch, follow [scope-change](../scope-change/SKILL.md) once to persist the manifest.
-
-Run [specify-spec](../specify-spec/SKILL.md) sequentially in manifest order so ID, PRD, spec, and index writes never overlap. Once all specifications are validated or YOLO, run [implement-spec](../implement-spec/SKILL.md) sequentially in the same order. Shared contracts and shared files have one writer at a time. Stage commits may be delegated only sequentially and limited to that stage's files.
-
-After every specification is implemented, follow [ship-implementation](../ship-implementation/SKILL.md) once with the complete manifest. Final integration remains owned here and is expressly delegated to `shipify`.
-
-The result is one atomically delivered coordinated change.
+REQUIRE approved scope report's change key, base revision, and every specification's `key`, `kind`, and `action`.
+FROM base: CREATE `change/{change_key}` OR REUSE it only when manifest, scope, and ancestry are compatible.
+IF divergence exists: DIAGNOSE before writing; STOP.
+ON established branch: FOLLOW [scope-change](../scope-change/SKILL.md) once to persist manifest.
+FOR EACH specification in manifest order, SEQUENTIALLY:
+  FOLLOW [specify-spec](../specify-spec/SKILL.md).
+WHEN all specifications are validated OR YOLO:
+  FOR EACH specification in manifest order, SEQUENTIALLY:
+    FOLLOW [implement-spec](../implement-spec/SKILL.md).
+ALLOW one writer at a time for shared contracts and shared files.
+DELEGATE stage commits only sequentially and only for the current stage's files.
+WHEN every specification is implemented:
+  FOLLOW [ship-implementation](../ship-implementation/SKILL.md) once with complete manifest.
+KEEP final integration here; EXPRESSLY DELEGATE it to `shipify`.
+RETURN one atomically delivered coordinated change.

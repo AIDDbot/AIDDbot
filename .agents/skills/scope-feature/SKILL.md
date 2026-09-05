@@ -8,8 +8,12 @@ disable-model-invocation: true
 ---
 # scope-feature
 
-Your goal is to determine the specification scope of a requirement before delivery writes begin.
+GOAL: determine the requirement's specification scope before delivery writes begin.
 
-Spawn an Architect to follow [scope-change](../scope-change/SKILL.md) in read-only triage mode. Resolve and reserve a stable `key`, `kind`, and `action` for every affected specification, plus a change key when several specifications are involved. Do not create a manifest during triage.
-
-The result is a scope report containing the delivery base and either one specification or a coordinated set. Each entry has `key`, `kind`, and `action`; the caller can choose the branch without resolving identity again.
+SPAWN Architect => FOLLOW [scope-change](../scope-change/SKILL.md) in read-only triage mode.
+FOR EACH affected specification:
+  RESOLVE and RESERVE stable `key`, `kind`, and `action`.
+IF several specifications are involved:
+  RESOLVE and RESERVE change key.
+DO NOT create a manifest during triage.
+RETURN scope report with delivery base and one specification or coordinated set; every entry includes `key`, `kind`, and `action`.

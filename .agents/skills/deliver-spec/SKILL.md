@@ -8,10 +8,18 @@ disable-model-invocation: true
 ---
 # deliver-spec
 
-Your goal is to deliver a requirement that affects one specification while owning its Git lifecycle.
+GOAL: deliver a one-specification requirement while owning its Git lifecycle.
 
-Require the scope report's `key`, `kind`, `action`, and base revision. Use `feat/{spec_key}` for functional work and `chore/{spec_key}` for technical work. From the recorded base, create that branch or reuse it when its scope and ancestry are compatible; if the active or existing branch diverges, report the conflict before writing and preserve its work.
-
-Pass the fixed identity to [specify-spec](../specify-spec/SKILL.md). After validation or YOLO, follow [implement-spec](../implement-spec/SKILL.md), then [ship-implementation](../ship-implementation/SKILL.md) for the same scope. Stage commits may be delegated only one at a time and only for the files produced by that stage; final integration remains owned here and is expressly delegated to `shipify`.
-
-The result is the delivered specification and its release identity.
+REQUIRE scope report's `key`, `kind`, `action`, and base revision.
+IF work is functional: USE `feat/{spec_key}`.
+IF work is technical: USE `chore/{spec_key}`.
+FROM recorded base: CREATE branch OR REUSE it only when scope and ancestry are compatible.
+IF active or existing branch diverges:
+  REPORT conflict before writing.
+  PRESERVE existing work.
+  STOP.
+PASS fixed identity => FOLLOW [specify-spec](../specify-spec/SKILL.md).
+AFTER validation OR YOLO: FOLLOW [implement-spec](../implement-spec/SKILL.md), THEN [ship-implementation](../ship-implementation/SKILL.md) for same scope.
+DELEGATE stage commits one at a time and only for files produced in that stage.
+KEEP final integration here; EXPRESSLY DELEGATE it to `shipify`.
+RETURN delivered specification and release identity.
