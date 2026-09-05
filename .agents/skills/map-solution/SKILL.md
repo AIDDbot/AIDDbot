@@ -8,9 +8,9 @@ disable-model-invocation: true
 ---
 # map-solution
 
-GOAL: map the solution architecture.
+_GOAL_: map the solution architecture.
 
-SPAWN Architect => FOLLOW [explore](../explore/SKILL.md) to set up the project and identify deployable and runnable containers.
-FOR EACH container found:
-  SPAWN Architect => FOLLOW [extract](../extract/SKILL.md) for container.
-RETURN short mapped-solution report.
+_SPAWN_ Architect => _FOLLOW_ [explore](../explore/SKILL.md) to set up the project and identify deployable and runnable containers.
+_FOR-EACH_ container found:
+  _SPAWN_ Architect => _FOLLOW_ [extract](../extract/SKILL.md) for container.
+_RETURN_ short mapped-solution report.

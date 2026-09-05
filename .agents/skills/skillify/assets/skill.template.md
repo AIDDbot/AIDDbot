@@ -1,6 +1,6 @@
 # Skill template
 
-A primitive skill is short prose an agent reads — the same voice as a command, without role and without handoff. A worker uses concise English pseudocode: uppercase control-flow verbs, explicit conditions, and an explicit `RETURN`.
+A primitive skill is short prose an agent reads — the same voice as a command, without role and without handoff. A worker uses concise English pseudocode: render uppercase control-flow commands in Markdown italics (for example, `_IF_`), use explicit conditions, and include an explicit `_RETURN_`.
 
 Keep output templates in `assets/` and long guides in `references/`. Link them; never paraphrase them. Every link stays inside this skill's folder.
 
@@ -29,10 +29,10 @@ Commit as `{message}`.
 For a worker, use this body shape instead:
 
 ```md
-GOAL: {composed stage outcome}.
+_GOAL_: {composed stage outcome}.
 
-REQUIRE {preconditions}.
-{control-flow pseudocode using FOLLOW, SPAWN, IF, FOR EACH, and RETURN.}
+_REQUIRE_ {preconditions}.
+{control-flow pseudocode using _FOLLOW_, _SPAWN_, _IF_, _FOR-EACH_, and _RETURN_.}
 ```
 
 Use `orchestrator` for a public end-to-end outcome, `worker` for internal
