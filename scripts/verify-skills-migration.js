@@ -187,14 +187,16 @@ if (/deliver-work|scope-feature|deliver-spec|deliver-change|specify|planify/.tes
 if (/build-requested-change|clean-drift|refactor/.test(craftSkill)) {
   fail("craft-lasting-quality must stay inside the findings-delivery contract");
 }
-const concreteFinding = craftSkill.indexOf("prompt names a concrete defect or finding");
-const inspectLedger = craftSkill.indexOf("finding ledger contains eligible work");
+const concreteFinding = craftSkill.indexOf("human-named defect or finding");
+const acceptedFinding = craftSkill.indexOf("unfinished `accepted` group");
+const pendingFinding = craftSkill.indexOf("most important `pending` finding");
 const cleanFallback = craftSkill.indexOf("execute [clean-solution]");
-const emptyReturn = craftSkill.indexOf("nothing is selected");
-if (concreteFinding < 0 || inspectLedger < concreteFinding || cleanFallback < inspectLedger || emptyReturn < cleanFallback) {
+const emptyReturn = craftSkill.lastIndexOf("no scope was selected");
+if (concreteFinding < 0 || acceptedFinding < concreteFinding || pendingFinding < acceptedFinding
+  || cleanFallback < pendingFinding || emptyReturn < cleanFallback) {
   fail("craft-lasting-quality must prioritize human direction and known findings before discovery, then terminate an empty scope");
 }
-if (!craftSkill.includes("resume an unfinished `accepted` group") || !craftSkill.includes("reusing an unfinished compatible scope")) {
+if (!craftSkill.includes("unfinished `accepted` group") || !craftSkill.includes("reusing an unfinished compatible scope")) {
   fail("craft-lasting-quality must resume unfinished accepted findings");
 }
 if (craftSkill.includes("_ASK_")) {
