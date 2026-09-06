@@ -57,6 +57,30 @@ skill” (2026-08-30).
 - Scaffoldify alone may write initial generated code; `/codify` remains the
   delivery writer.
 
+## 2026-09-06 — Craft prioritizes known work before discovery
+
+**Status**: adopted. Supersedes the execution order and approval checkpoint in
+“Craft collects evidence and repairs only behavior-preserving findings”.
+
+### Decision
+
+1. A concrete human instruction selects the remediation scope first.
+2. Without one, Craft resumes an accepted group or selects the most important
+   eligible pending evidence without inventing product priority.
+3. Only an empty eligible ledger triggers `clean-solution` and
+   `collect-findings`; an empty result terminates without a branch or write.
+4. Invoking Craft authorizes the selected remediation. It does not add a second
+   approval checkpoint.
+
+### Consequences
+
+- Known work is neither delayed by a redundant whole-solution scan nor lost
+  when a previous delivery was interrupted.
+- Concrete defect instructions are normalized by `collect-findings` when they
+  are not already present in the durable ledger.
+- The behavior-preservation boundary and the verified findings delivery path
+  remain unchanged.
+
 ## 2026-09-03 — Craft collects evidence and repairs only behavior-preserving findings
 
 **Status**: adopted. Supersedes the Craft routing boundary in “Build delivers

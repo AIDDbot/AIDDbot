@@ -71,7 +71,7 @@ Turn durable findings and strict quality checks into a reviewed remediation scop
 /craft-lasting-quality
 ```
 
-Craft runs CRAP, coverage, and strict-lint checks, then consolidates that evidence with existing verification and qualification reports in `findings.md`. Accepted behavior-preserving remediation creates `fix/{fix_key}`, then fixes, verifies, qualifies, and ships a patch without creating a spec or plan. Include YOLO to skip the remediation-scope checkpoint. A finding that needs changed observable behavior stays pending because it is outside this workflow.
+Name a concrete defect or finding to give it precedence. Otherwise Craft resumes accepted work or fixes the most important eligible pending finding using its recorded evidence. It runs CRAP, coverage, and strict-lint checks and consolidates their evidence only when the ledger has no eligible work. Behavior-preserving remediation creates or resumes `fix/{fix_key}`, then fixes, verifies, qualifies, and ships a patch without creating a spec or plan. A finding that needs changed observable behavior stays pending because it is outside this workflow.
 
 ## What's next?
 

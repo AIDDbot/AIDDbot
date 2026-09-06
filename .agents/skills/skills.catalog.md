@@ -21,7 +21,7 @@ skills perform focused AIDD work.
 | --- | --- |
 | [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Architect a brownfield solution or design, scaffold, and map a greenfield one |
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Build one requested change or coordinated delivery |
-| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Craft lasting quality from evidence-backed solution findings |
+| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Repair a human-prioritized or highest-importance known finding, discovering new findings only when none is pending |
 
 ## Internal workers
 
@@ -32,7 +32,7 @@ Workers are linked composition, not human entrypoints.
 | [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
 | [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, technical `/specify`, mandatory scaffold, then reconciliation map |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
-| [`collect-findings`](./collect-findings/SKILL.md) | Consolidate verification, qualification, and quality evidence into durable findings |
+| [`collect-findings`](./collect-findings/SKILL.md) | Consolidate reported defects, verification, qualification, and quality evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Return read-only one-spec or many-spec triage with reserved key, kind, action, and base |
 | [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` or `chore/{spec_key}` and sequence specify, implement, and ship |
 | [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; persist its manifest, write stages sequentially, and ship once |
@@ -90,7 +90,7 @@ You review only at key checkpoints:
 
 - During `/architect-solution-foundation`: choose brownfield or greenfield when partial files make the route unclear.
 - During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
-- During `/craft-lasting-quality`: approve the evidence-backed remediation scope. YOLO skips this stop.
+- During `/craft-lasting-quality`: name a finding to give it precedence; otherwise Craft resumes accepted work or selects the most important evidence-backed pending scope.
 - Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify; an unavailable check returns a blocker without inventing a pass.
 
 ## Pipeline

@@ -81,7 +81,7 @@ Internal `ship-implementation` worker preserves evaluator order:
 
 ## Solution improvement
 
-`/craft-lasting-quality` runs internal `clean-solution`, then `collect-findings` once. The collector consolidates E2E reports, qualification reports and their accumulated debt, and the current quality report into the durable finding ledger. After approval, Craft assigns a `fix_key`, creates `fix/{fix_key}`, and applies the accepted findings through `fix-defects`. `ship-implementation` runs the complete E2E suite as a regression net, qualifies the fix diff, and ships a green patch. A finding that needs changed observable behavior remains pending because it is outside Craft's contract.
+`/craft-lasting-quality` first honors a concrete defect or finding named by the human. Otherwise it resumes an unfinished accepted group, then prefers the most important eligible pending finding using recorded severity and evidence. Only when the ledger has no eligible work does it run internal `clean-solution` and pass the new report to `collect-findings`; the collector also normalizes concrete defect evidence supplied by the caller. Craft assigns or reuses a `fix_key`, creates or resumes `fix/{fix_key}`, and applies the accepted findings through `fix-defects`. `ship-implementation` runs the complete E2E suite as a regression net, qualifies the fix diff, and ships a green patch. If nothing eligible exists, Craft terminates without a branch or code changes. A finding that needs changed observable behavior remains pending because it is outside Craft's contract.
 
 ## Status chain
 

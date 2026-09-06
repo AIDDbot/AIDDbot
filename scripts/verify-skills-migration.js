@@ -187,8 +187,21 @@ if (/deliver-work|scope-feature|deliver-spec|deliver-change|specify|planify/.tes
 if (/build-requested-change|clean-drift|refactor/.test(craftSkill)) {
   fail("craft-lasting-quality must stay inside the findings-delivery contract");
 }
+const concreteFinding = craftSkill.indexOf("prompt identifies a concrete defect or finding");
+const inspectLedger = craftSkill.indexOf("inspect the durable finding ledger");
+const cleanFallback = craftSkill.indexOf("execute [clean-solution]");
+const emptyReturn = craftSkill.indexOf("no eligible finding remains");
+if (concreteFinding < 0 || inspectLedger < concreteFinding || cleanFallback < inspectLedger || emptyReturn < cleanFallback) {
+  fail("craft-lasting-quality must prioritize human direction and known findings before discovery, then terminate an empty scope");
+}
+if (!craftSkill.includes("accepted` group is unfinished") || !craftSkill.includes("resume its existing `Fix`")) {
+  fail("craft-lasting-quality must resume unfinished accepted findings");
+}
+if (craftSkill.includes("_ASK_") || !craftSkill.includes("do not request a separate scope approval")) {
+  fail("craft-lasting-quality invocation must authorize its selected remediation scope");
+}
 const collectSkill = read(path.join(skillsRoot, "collect-findings", "SKILL.md"));
-if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution")) {
+if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution") || !collectSkill.includes("concrete defect evidence")) {
   fail("collect-findings does not collect verification, qualification, and quality evidence");
 }
 for (const template of [

@@ -30,7 +30,7 @@ Three agents, one loop. You invoke a public orchestrator skill; the current sess
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work; coordinated work uses `change/{change_key}`. Delivery writes plans, implementations, and multi-spec stages sequentially, then releases once from revision-bound verification and qualification evidence. `/craft-lasting-quality` scans strict quality evidence, consolidates durable findings, and repairs accepted behavior-preserving findings on `fix/{fix_key}` without creating a specification.
+`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work; coordinated work uses `change/{change_key}`. Delivery writes plans, implementations, and multi-spec stages sequentially, then releases once from revision-bound verification and qualification evidence. `/craft-lasting-quality` repairs the human-named or most important known behavior-preserving finding on `fix/{fix_key}`; it scans for new evidence only when no eligible work is already recorded.
 
 ## Quick start
 
@@ -48,7 +48,7 @@ bunx github:AIDDbot/AIDDbot init
 
 `bunx` respects the Node shebang; use `bunx --bun` only to explicitly select the Bun runtime. `init` also adds a small, safe `AGENTS.md` and a Claude `CLAUDE.md` pointer from the `.agents/templates/` seeds when they do not already exist; `/explore` expands those rules after it knows the project. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
 
-Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Approve scopes when prompted, or include YOLO to continue without approval stops. See [Getting started](docs/getting-started.md).
+Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Requested-change specifications still pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
 
 **New solution** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs, materializes one confirmed scaffold, and maps the resulting containers.
 

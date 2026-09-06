@@ -11,7 +11,7 @@ disable-model-invocation: true
 _GOAL_: collect durable findings without changing application code.
 
 _SPAWN_ Craftsman:
-  _READ_ every `e2e.report.md`, `qualify.report.md`, accumulated-debt entry, and current `clean-solution` report.
+  _READ_ every `e2e.report.md`, `qualify.report.md`, accumulated-debt entry, current `clean-solution` report, and any concrete defect evidence supplied by the caller.
   _NORMALIZE_ durable evidence into `{Product_Folder}/findings.md` using the [finding contract](./references/finding.contract.md).
   _RETAIN_ source links and evidence.
   _DEDUPLICATE_ only findings with identical violated state and scope; _NEVER_ infer product priority.
