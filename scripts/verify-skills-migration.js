@@ -187,17 +187,17 @@ if (/deliver-work|scope-feature|deliver-spec|deliver-change|specify|planify/.tes
 if (/build-requested-change|clean-drift|refactor/.test(craftSkill)) {
   fail("craft-lasting-quality must stay inside the findings-delivery contract");
 }
-const concreteFinding = craftSkill.indexOf("prompt identifies a concrete defect or finding");
-const inspectLedger = craftSkill.indexOf("inspect the durable finding ledger");
+const concreteFinding = craftSkill.indexOf("prompt names a concrete defect or finding");
+const inspectLedger = craftSkill.indexOf("finding ledger contains eligible work");
 const cleanFallback = craftSkill.indexOf("execute [clean-solution]");
-const emptyReturn = craftSkill.indexOf("no eligible finding remains");
+const emptyReturn = craftSkill.indexOf("nothing is selected");
 if (concreteFinding < 0 || inspectLedger < concreteFinding || cleanFallback < inspectLedger || emptyReturn < cleanFallback) {
   fail("craft-lasting-quality must prioritize human direction and known findings before discovery, then terminate an empty scope");
 }
-if (!craftSkill.includes("accepted` group is unfinished") || !craftSkill.includes("resume its existing `Fix`")) {
+if (!craftSkill.includes("resume an unfinished `accepted` group") || !craftSkill.includes("reusing an unfinished compatible scope")) {
   fail("craft-lasting-quality must resume unfinished accepted findings");
 }
-if (craftSkill.includes("_ASK_") || !craftSkill.includes("do not request a separate scope approval")) {
+if (craftSkill.includes("_ASK_")) {
   fail("craft-lasting-quality invocation must authorize its selected remediation scope");
 }
 const collectSkill = read(path.join(skillsRoot, "collect-findings", "SKILL.md"));
