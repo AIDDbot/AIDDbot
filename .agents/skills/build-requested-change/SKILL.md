@@ -11,9 +11,9 @@ disable-model-invocation: true
 Your goal is to **build a requested change** from initial analysis through delivery.
 
 - Execute [scope-feature](../scope-feature/SKILL.md) command with the requested change in hand.
-- _IF_ the scope report affects one specification, 
-  - _THEN_ execute [deliver-spec](../deliver-spec/SKILL.md) command.
-- _IF_ the scope report affects several coordinated specifications, 
-  - _THEN_ execute [deliver-change](../deliver-change/SKILL.md) command.
+- _IF_ the scope report affects one specification:
+  - Execute [deliver-spec](../deliver-spec/SKILL.md) command.
+- _IF_ the scope report affects several coordinated specifications:
+  - Execute [deliver-change](../deliver-change/SKILL.md) command.
 
-- _RETURN_ a released change implemented and verified.
+_RETURN_ a released change implemented and verified.

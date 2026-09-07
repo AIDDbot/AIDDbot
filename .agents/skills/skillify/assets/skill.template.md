@@ -29,10 +29,12 @@ Commit as `{message}`.
 For a worker, use this body shape instead:
 
 ```md
-_GOAL_: {composed stage outcome}.
+Your goal is to {composed stage outcome}.
 
-_REQUIRE_ {preconditions}.
-{control-flow pseudocode using _FOLLOW_, _SPAWN_, _IF_, _FOR-EACH_, and _RETURN_.}
+- {Plain-language ordered actions.}
+- {Use explicit conditions and flow with only these control-flow keywords: _IF_, _FOR-EACH_, _REPEAT_, and _RETURN_.}
+
+_RETURN_ {stage result}.
 ```
 
 Use `orchestrator` for a public end-to-end outcome, `worker` for internal

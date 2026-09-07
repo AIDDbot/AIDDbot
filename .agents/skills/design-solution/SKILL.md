@@ -8,15 +8,19 @@ disable-model-invocation: true
 ---
 # design-solution
 
-_GOAL_: design and materialize a greenfield solution foundation.
+Your goal is to **design and materialize a greenfield solution foundation**.
 
-_SPAWN_ Architect => _FOLLOW_ [explore](../explore/SKILL.md).
-_ON_ first write: REPLACE init seed with complete project rules; _CREATE_ empty architecture, model, and PRD shells.
-_RESOLVE_ technical-spec identity.
-_FROM_ recorded base: delivery owner _CREATE_ _OR_ compatibly _REUSE_ `chore/{spec_key}`.
-_SPAWN_ Architect => _FOLLOW_ [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action; _KEEP_ received branch.
-_CONFIRM_ missing material choices.
-_FOLLOW_ [scaffoldify](../scaffoldify/SKILL.md) exactly once using validated design.
-_DO-NOT_ skip scaffoldification because repository is empty or a scaffold is implied.
-_FOLLOW_ [map-solution](../map-solution/SKILL.md) after materialization to reconcile documented containers with selected design.
+- Spawn Architect and execute [explore](../explore/SKILL.md).
+- On first write:
+  - Replace init seed with complete project rules.
+  - Create empty architecture, model, and PRD shells.
+- Resolve technical-spec identity.
+- From recorded base, delivery owner creates `chore/{spec_key}` or compatibly reuses it.
+- Spawn Architect and execute [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action.
+  - Keep the received branch.
+- Confirm missing material choices.
+- Execute [scaffoldify](../scaffoldify/SKILL.md) exactly once using validated design.
+  - Do not skip scaffoldification because repository is empty or a scaffold is implied.
+- Execute [map-solution](../map-solution/SKILL.md) after materialization to reconcile documented containers with selected design.
+
 _RETURN_ scaffolded solution, reconciled architecture, and technical specification.

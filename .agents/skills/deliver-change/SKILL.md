@@ -8,20 +8,23 @@ disable-model-invocation: true
 ---
 # deliver-change
 
-_GOAL_: deliver coordinated specifications while owning their shared Git lifecycle.
+Your goal is to **deliver coordinated specifications** while owning their shared Git lifecycle.
 
-_REQUIRE_ approved scope report's change key, base revision, and every specification's `key`, `kind`, and `action`.
-_FROM_ base: _CREATE_ `change/{change_key}` _OR_ _REUSE_ it only when manifest, scope, and ancestry are compatible.
-_IF_ divergence exists: _DIAGNOSE_ before writing; _STOP_.
-_ON_ established branch: _FOLLOW_ [scope-change](../scope-change/SKILL.md) once to persist manifest.
-_FOR-EACH_ specification in manifest order, _SEQUENTIALLY_:
-  _FOLLOW_ [specify-spec](../specify-spec/SKILL.md).
-_WHEN_ all specifications are validated _OR_ YOLO:
-  _FOR-EACH_ specification in manifest order, _SEQUENTIALLY_:
-    _FOLLOW_ [implement-spec](../implement-spec/SKILL.md).
-_ALLOW_ one writer at a time for shared contracts and shared files.
-_DELEGATE_ stage commits only sequentially and only for the current stage's files.
-_WHEN_ every specification is implemented:
-  _FOLLOW_ [ship-implementation](../ship-implementation/SKILL.md) once with complete manifest.
-_KEEP_ final integration here; _EXPRESSLY-DELEGATE_ it to `shipify`.
+- Require the approved scope report change key, base revision, and every specification `key`, `kind`, and `action`.
+- From base, create `change/{change_key}` or reuse it only when manifest, scope, and ancestry are compatible.
+- _IF_ divergence exists:
+  - Diagnose it before writing.
+  - _RETURN_ the branch divergence to caller.
+- On the established branch, execute [scope-change](../scope-change/SKILL.md) once to persist the manifest.
+- _FOR-EACH_ specification in manifest order:
+  - Execute [specify-spec](../specify-spec/SKILL.md) sequentially.
+- _IF_ all specifications are validated or YOLO applies:
+  - _FOR-EACH_ specification in manifest order:
+    - Execute [implement-spec](../implement-spec/SKILL.md) sequentially.
+- Allow one writer at a time for shared contracts and shared files.
+- Delegate stage commits only sequentially and only for the current stage files.
+- _IF_ every specification is implemented:
+  - Execute [ship-implementation](../ship-implementation/SKILL.md) once with the complete manifest.
+- Keep final integration here and expressly delegate it to `shipify`.
+
 _RETURN_ one atomically delivered coordinated change.

@@ -8,16 +8,18 @@ disable-model-invocation: true
 ---
 # fix-defects
 
-_GOAL_: fix correctable reported defects or accepted findings on the delivery owner's branch.
+Your goal is to **fix correctable reported defects or accepted findings** on the delivery owner's branch.
 
-_DO-NOT_ create or switch branches.
-_IF_ owner did not supply compatible non-default working branch:
-  _RETURN_ that requirement without writing.
-SPLIT multi-container report by container.
-_FOR-EACH_ part, _SEQUENTIALLY_:
-  _SPAWN_ Builder => _FOLLOW_ [codify](../codify/SKILL.md).
-_LIMIT_ changes to reported defects and necessary tests.
-_IF_ check is blocked _OR_ required criterion changes:
-  _RETURN_ it to caller; _DO-NOT_ classify it as code defect.
-_DO-NOT_ repeat repair against identical evidence UNLESS next attempt has distinct corrective hypothesis.
+- Do not create or switch branches.
+- _IF_ the owner did not supply a compatible non-default working branch:
+  - _RETURN_ that requirement without writing.
+- Split a multi-container report by container.
+- _FOR-EACH_ part:
+  - Spawn Builder and execute [codify](../codify/SKILL.md) sequentially.
+- Limit changes to reported defects and necessary tests.
+- _IF_ a check is blocked or a required criterion changes:
+  - Do not classify it as a code defect.
+  - _RETURN_ it to the caller.
+- Do not repeat repair against identical evidence unless the next attempt has a distinct corrective hypothesis.
+
 _RETURN_ short report of fixes, container, and review-meaningful evidence or hypothesis.
