@@ -1,0 +1,419 @@
+document:
+  title: Adaptive AIDD workflows
+  status: exploratory
+  executable: false
+  purpose: >-
+    Model requested changes, architecture foundations, and Craftsman findings
+    with one set of responsibilities and metadata-driven stage activation.
+  authority:
+    current:
+      - .agents/skills/skills.catalog.md
+      - docs/AIDD.workflow.md
+    note: This document records candidate decisions; it does not change them.
+
+principles:
+  - Classification is mechanical and reproducible.
+  - Small diff size alone never makes a change simple.
+  - Technical work does not require E2E by default.
+  - E2E is enabled only when the selected policy requires end-to-end behavior proof.
+  - Disabling a stage must not leave an acceptance criterion without an evidence owner.
+  - A human may approve a classification but may not freely disable safeguards.
+  - Actual implementation may escalate required future stages but never suppress them.
+  - Mapping, design, and prepared foundations are valid non-release outcomes.
+
+case_metadata:
+  dimensions:
+    origin:
+      values: [requested-change, architecture-foundation, accepted-findings]
+      meaning: Why the work entered the system.
+    nature:
+      values: [functional, technical, remediation, foundation]
+      meaning: The contract and evidence family involved.
+    scope:
+      values: [one-container, one-spec, coordinated, finding-group, foundation]
+      meaning: The consistency boundary.
+    complexity:
+      values: [simple, standard]
+      meaning: Whether implementation needs a durable plan.
+    outcome:
+      values: [mapped, designed, prepared, released, blocked]
+      meaning: What the owning orchestrator promises to return.
+
+  candidate_shape:
+    origin: requested-change
+    nature: technical
+    scope: one-spec
+    complexity: simple
+    outcome: released
+    stages:
+      specify: true
+      planify: false
+      codify: true
+      verify-e2e: false
+      qualify: true
+      shipify: true
+
+stage_contracts:
+  specify:
+    owns:
+      - Validated problem and destination.
+      - Active acceptance criteria and exclusions.
+    capability: specify
+  planify:
+    owns:
+      - Durable container tasks.
+      - Shared-contract and file ownership.
+      - Functional E2E scenario mapping when E2E is required.
+    capability: planify
+  codify:
+    owns:
+      - Implementation and necessary tests.
+      - Applicable lint, build, and unit-test results.
+    capability: codify
+  verify-e2e:
+    owns:
+      - End-to-end functional criterion evidence.
+      - End-to-end regression evidence when explicitly required.
+    capability: verify
+  qualify:
+    owns:
+      - Technical acceptance criteria.
+      - Applicable quality and project-rule gates.
+      - Contract-preservation evidence for technical findings.
+    capability: qualify
+  shipify:
+    owns:
+      - Evidence freshness and release eligibility.
+      - Integration, version, changelog or architecture reconciliation, and tag.
+    capability: shipify
+  scaffold-smoke:
+    owns:
+      - Installability and the smallest documented runnable check.
+    capability: scaffoldify
+
+selection:
+  order:
+    - architecture-non-release
+    - coordinated-change
+    - accepted-findings
+    - simple-change
+    - functional-standard
+    - technical-standard
+  rules:
+    architecture-non-release:
+      when:
+        origin: architecture-foundation
+      choose-by-requested-outcome:
+        understand: architecture-map
+        design: architecture-design
+        prepare-new: foundation-prepare
+        prepare-existing-application: architecture-evolution
+    coordinated-change:
+      when:
+        origin: requested-change
+        scope: coordinated
+      choose: requested-coordinated
+    accepted-findings:
+      when:
+        origin: accepted-findings
+      choose-by-contract:
+        functional-behavior: findings-functional
+        technical-rule: findings-technical
+    simple-change:
+      when:
+        origin: requested-change
+        scope: one-spec
+        complexity: simple
+      choose-by-nature:
+        functional: requested-functional-simple
+        technical: requested-technical-simple
+    functional-standard:
+      when:
+        origin: requested-change
+        nature: functional
+      choose: requested-functional-standard
+    technical-standard:
+      when:
+        origin: requested-change
+        nature: technical
+      choose: requested-technical-standard
+
+profiles:
+  architecture-map:
+    release: false
+    outcome: mapped
+    workflow: [map-solution]
+
+  architecture-design:
+    release: false
+    outcome: designed
+    workflow:
+      - map-existing-context
+      - specify-technical-design
+
+  foundation-prepare:
+    release: false
+    outcome: prepared
+    workflow:
+      - specify-technical-foundation
+      - scaffoldify
+      - scaffold-smoke
+      - map-solution
+    rationale: >-
+      A new foundation has no established E2E behavior contract. Its guarantee is
+      installability, a smoke check, and architecture reconciliation.
+
+  architecture-evolution:
+    release: true
+    outcome: route-to-requested-change
+    forced_profile: requested-technical-standard
+    rationale: Architecture impact excludes simple classification.
+
+  requested-functional-simple:
+    release: true
+    stages:
+      specify: true
+      planify: false
+      codify: true
+      verify-e2e: false
+      qualify: false
+      shipify: true
+    evidence:
+      owned-by-codify: [lint, build, unit-tests, criterion-linked-tests]
+      independent-proof: none
+    unresolved_policy: >-
+      Shipping from author-produced evidence only is the principal assurance
+      reduction and requires an explicit project decision.
+
+  requested-technical-simple:
+    release: true
+    stages:
+      specify: true
+      planify: false
+      codify: true
+      verify-e2e: false
+      qualify: candidate
+      shipify: true
+    evidence:
+      owned-by-codify: [lint, build, unit-tests]
+      criterion-owner-when-qualify-is-enabled: qualify
+    unresolved_policy: >-
+      If qualify is disabled, codify or another lightweight proof contract must
+      explicitly own every technical criterion before shipify can release it.
+
+  requested-functional-standard:
+    release: true
+    stages:
+      specify: true
+      planify: true
+      codify: true
+      verify-e2e: true
+      qualify: true
+      shipify: true
+
+  requested-technical-standard:
+    release: true
+    stages:
+      specify: true
+      planify: true
+      codify: true
+      verify-e2e: false
+      qualify: true
+      shipify: true
+    rationale: >-
+      Technical criteria and applicable gates are qualified without imposing an
+      unrelated E2E regression run.
+
+  requested-coordinated:
+    release: true
+    forced_complexity: standard
+    stages:
+      specify: true
+      planify: true
+      codify: true
+      verify-e2e: true-when-any-functional-spec-requires-it
+      qualify: true
+      shipify: true
+
+  findings-functional:
+    release: true
+    stages:
+      specify: false
+      planify: false
+      codify: true
+      verify-e2e: true
+      qualify: true
+      shipify: true
+    rationale: The E2E suite proves restoration of an approved behavior contract.
+
+  findings-technical:
+    release: true
+    stages:
+      specify: false
+      planify: false
+      codify: true
+      verify-e2e: false
+      qualify: true
+      shipify: true
+    rationale: >-
+      The accepted finding is already the work contract; qualification proves the
+      technical rule and contract preservation. This path is already planless.
+
+simple_classification:
+  evaluated:
+    - During read-only requested-change triage.
+    - Before the first implementation write.
+    - Before proof and after every repair write.
+  all_required:
+    - Exactly one specification and one affected container.
+    - No shared-contract writer or coordinated file ownership.
+    - Criteria are complete enough to implement without a design decision.
+    - Relevant lint, build, and unit or focused-test tooling is available.
+    - The change is locally reversible.
+  any_excludes:
+    - Architecture or container-boundary impact.
+    - Public API or shared contract changes.
+    - Persistence schema or data migration changes.
+    - Dependency, infrastructure, or deployment changes.
+    - Security, authentication, authorization, or privacy changes.
+    - Concurrency, transaction, or consistency changes.
+    - UI, accessibility, or design-system changes.
+    - Performance-sensitive paths.
+    - Multiple specifications or containers.
+    - Missing focused automated coverage.
+
+adaptation:
+  before-implementation:
+    - Persist the mechanically selected profile and resolved stages.
+    - Escalate to standard when any simple condition fails.
+  after-implementation-starts:
+    - A future stage may change only from disabled to enabled.
+    - Never fabricate a skipped plan retrospectively.
+    - Return for a new scope decision when implementation uncovers design work.
+  after-any-repair:
+    - Invalidate evidence bound to an earlier revision.
+    - Recheck the complete diff against the selected profile.
+    - Rerun every enabled proof stage.
+
+criterion_ownership:
+  functional-with-e2e: verify-e2e
+  technical-with-qualification: qualify
+  functional-simple-without-e2e: unresolved
+  technical-simple-without-qualification: unresolved
+  finding-restoring-functional-contract: verify-e2e
+  finding-restoring-technical-rule: qualify
+  invariant: Every active criterion must have exactly one evidence owner.
+
+release_invariant:
+  candidate: >-
+    Nothing is released without current evidence for every stage enabled by its
+    persisted workflow metadata and every active criterion having a passing owner.
+  freshness:
+    - Evidence records the delivery base and evaluated revision.
+    - Semantic changes after evaluation invalidate affected evidence.
+    - A latest red or blocked result prevents release.
+
+metadata_placement:
+  single-spec-request:
+    source-of-truth: specs/{spec_key}/spec.md
+    selected-by: scope-feature
+    persisted-by: specify
+  coordinated-request:
+    source-of-truth: changes/{change_key}/change.md
+    policy: standard
+  accepted-findings:
+    source-of-truth: findings entries sharing one fix key
+    derived-from: finding contract and source evidence
+  architecture-foundation:
+    source-of-truth: orchestrator outcome
+    delivery-metadata: not-applicable-until-routed-to-requested-change
+
+state_paths:
+  full:
+    - pending
+    - planned
+    - in-progress
+    - verified
+    - qualified
+    - released
+  without-plan:
+    - pending
+    - in-progress
+  without-e2e:
+    note: The verified state is skipped.
+  without-qualification:
+    note: The qualified state is skipped.
+  findings:
+    - accepted
+    - delivered
+  non-release:
+    - mapped
+    - designed
+    - prepared
+
+open_decisions:
+  - id: D1
+    question: Who proves functional criteria for a simple change when E2E is disabled?
+    options:
+      - codify-focused-tests
+      - qualify-focused-evidence
+      - new-lightweight-proof
+      - no-independent-proof
+  - id: D2
+    question: Who proves technical criteria when both E2E and qualification are disabled?
+    options:
+      - codify-recorded-evidence
+      - lightweight-qualification
+      - qualification-remains-required
+  - id: D3
+    question: Which simple profiles may ship without an independent evaluator?
+    options:
+      - none
+      - functional-only
+      - technical-only
+      - both
+  - id: D4
+    question: How should policy be persisted?
+    options:
+      - explicit-stage-flags
+      - named-profile
+      - named-profile-plus-resolved-stage-flags
+    current-preference: named-profile-plus-resolved-stage-flags
+  - id: D5
+    question: Should a prepared greenfield foundation remain a non-release outcome?
+    options:
+      - remain-prepared
+      - define-a-foundation-release-lifecycle
+
+workflow_graph:
+  requested-functional-standard:
+    - classify -> specify
+    - specify -> planify
+    - planify -> codify
+    - codify -> verify-e2e
+    - verify-e2e -> qualify
+    - qualify -> shipify
+  requested-technical-standard:
+    - classify -> specify
+    - specify -> planify
+    - planify -> codify
+    - codify -> qualify
+    - qualify -> shipify
+  requested-simple-candidate:
+    - classify -> specify
+    - specify -> codify
+    - codify -> optional-qualify
+    - optional-qualify -> shipify
+  findings-functional:
+    - select -> codify
+    - codify -> verify-e2e
+    - verify-e2e -> qualify
+    - qualify -> shipify
+  findings-technical:
+    - select -> codify
+    - codify -> qualify
+    - qualify -> shipify
+  foundation:
+    - design -> scaffoldify
+    - scaffoldify -> scaffold-smoke
+    - scaffold-smoke -> map-solution
