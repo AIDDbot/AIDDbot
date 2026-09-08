@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import fs from "node:fs";
 import path from "node:path";
 import { commitFiles, ensureGit } from "./lib/git.js";
 import { refuseOrigin, runOverlay, sourceRoot } from "./lib/overlay.js";
@@ -11,13 +12,23 @@ function countActions(rows) {
   for (const row of rows) if (counts[row.action] !== undefined) counts[row.action]++;
   return counts;
 }
+function packageVersion() {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(sourceRoot, "package.json"), "utf8"));
+    return typeof pkg.version === "string" && pkg.version ? pkg.version : "unknown";
+  } catch {
+    return "unknown";
+  }
+}
 function printFinalSummary({ command, dryRun, force, destRoot, seeded, result }) {
   const counts = countActions(result.rows || []);
   const mode = dryRun ? "DRY-RUN" : "APPLY";
   const platform = `${process.platform}/${process.arch}`;
   const runtime = `node ${process.versions.node}`;
+  const version = packageVersion();
   const changed = (seeded?.length || 0) + (result?.written?.length || 0);
   process.stdout.write("\n=== AIDDbot summary ===\n");
+  process.stdout.write(`aiddbot    v${version}\n`);
   process.stdout.write(`command    ${command}\n`);
   process.stdout.write(`mode       ${mode}${force ? " (force)" : ""}\n`);
   process.stdout.write(`platform   ${platform}\n`);
@@ -27,7 +38,7 @@ function printFinalSummary({ command, dryRun, force, destRoot, seeded, result })
   process.stdout.write(`seed       ${seeded?.length || 0}\n`);
   process.stdout.write(`changed    ${changed}\n`);
   process.stdout.write(`status     ${counts.conflict ? "completed with conflicts" : "completed"}\n`);
-  process.stdout.write("next       run /architect-solution-foundation\n");
+  process.stdout.write("next       ask your coding agent to run: /architect-solution-foundation\n");
 }
 const parsed = parse(process.argv.slice(2));
 if (parsed.error) { process.stderr.write(`${parsed.error}\n`); help(); process.exit(1); }
