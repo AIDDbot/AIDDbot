@@ -51,7 +51,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 With Bun, use Bun's package form (no npm `allow-git` flag needed):
 
 ```bash
-bun x --package github:AIDDbot/AIDDbot aiddbot init
+bun x github:AIDDbot/AIDDbot init
 ```
 
 Use `bun x --bun --package github:AIDDbot/AIDDbot aiddbot init` only to explicitly select the Bun runtime. `init` also adds a small, safe `AGENTS.md` and a Claude `CLAUDE.md` pointer from the `.agents/templates/` seeds when they do not already exist; `/explore` expands those rules after it knows the project. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
