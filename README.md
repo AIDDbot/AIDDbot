@@ -24,13 +24,21 @@ AIDDbot addresses that with:
 
 ## ABC workflow
 
-Three agents, one loop. You invoke a public orchestrator skill; the current session follows linked worker and primitive skills and spawns Architect, Builder, or Craftsman where the skill requires it.
+Choose an entrypoint from the outcome you need:
+
+| Need | Entrypoint | Public flow |
+| --- | --- | --- |
+| Understand or define architecture | `/architect-solution-foundation` | Understand → design → prepare when requested |
+| Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
+| Maintain the quality of existing work | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
+
+The current session follows linked worker and primitive skills and spawns Architect, Builder, or Craftsman where the skill requires it.
 
 - **Architect** — maps existing code, designs greenfield architecture, scopes requirements, and writes specifications.
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work; coordinated work uses `change/{change_key}`. Delivery writes plans, implementations, and multi-spec stages sequentially, then releases once from revision-bound verification and qualification evidence. `/craft-lasting-quality` repairs the human-named or most important known behavior-preserving finding on `fix/{fix_key}`; it scans for new evidence only when no eligible work is already recorded.
+`/build-requested-change` owns the complete requirement flow. One-spec work uses `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work; coordinated work uses `change/{change_key}`. Delivery writes plans and implementations sequentially, then releases once from revision-bound verification and qualification evidence. `/craft-lasting-quality` repairs the human-named or most important eligible finding on `fix/{fix_key}` and can refresh complexity, coverage, and lint evidence when explicitly requested.
 
 ## Quick start
 
@@ -48,9 +56,9 @@ bunx github:AIDDbot/AIDDbot init
 
 `bunx` respects the Node shebang; use `bunx --bun` only to explicitly select the Bun runtime. `init` also adds a small, safe `AGENTS.md` and a Claude `CLAUDE.md` pointer from the `.agents/templates/` seeds when they do not already exist; `/explore` expands those rules after it knows the project. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
 
-Then `/architect-solution-foundation` once. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Requested-change specifications still pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
+Then use `/architect-solution-foundation` to explain what exists, define a design, or prepare an executable foundation. For each requirement, run `/build-requested-change`; use `/craft-lasting-quality` for evidence-backed remediation. Requested-change specifications pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
 
-**New solution** — `init` in an empty folder outside this origin, then `/architect-solution-foundation`; it designs, materializes one confirmed scaffold, and maps the resulting containers.
+**New solution** — `init` in an empty folder outside this origin, then ask `/architect-solution-foundation` either to define the architecture or to prepare an executable foundation. Only the latter confirms material choices, scaffolds, and maps the resulting containers.
 
 ## Documentation
 

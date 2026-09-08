@@ -10,7 +10,7 @@ skills perform focused AIDD work.
 - The green E2E suite is the behavior contract; technical criteria additionally require explicit qualification evidence.
 - `/scaffoldify` materializes an initial solution; `/codify` writes delivery code; `/verify` and `/qualify` evaluate only.
 - Requested behavior changes start from a specification.
-- Evidence-backed maintenance starts from accepted durable findings.
+- Evidence-backed maintenance starts from accepted durable findings and may restore an approved contract.
 - Nothing ships without verification and qualification.
 - The current session follows links to `SKILL.md` and spawns Architect, Builder,
   or Craftsman where a skill requires it. A link is the invocation contract.
@@ -19,9 +19,9 @@ skills perform focused AIDD work.
 
 | Skill | What it does |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Architect a brownfield solution or design, scaffold, and map a greenfield one |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Understand an existing architecture, design a new or evolved one, or prepare an executable foundation |
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Build one requested change or coordinated delivery |
-| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Repair a human-prioritized or highest-importance known finding, discovering new findings only when none is pending |
+| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review current evidence when requested and repair one eligible quality scope |
 
 ## Internal workers
 
@@ -30,7 +30,7 @@ Workers are linked composition, not human entrypoints.
 | Skill | What it composes |
 | --- | --- |
 | [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`design-solution`](./design-solution/SKILL.md) | Spawn Architect: `/explore`, technical `/specify`, mandatory scaffold, then reconciliation map |
+| [`design-solution`](./design-solution/SKILL.md) | Map relevant context, capture a technical design, and optionally materialize and reconcile a new foundation |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
 | [`collect-findings`](./collect-findings/SKILL.md) | Consolidate reported defects, verification, qualification, and quality evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Return read-only one-spec or many-spec triage with reserved key, kind, action, and base |
@@ -88,9 +88,9 @@ Workers are linked composition, not human entrypoints.
 
 You review only at key checkpoints:
 
-- During `/architect-solution-foundation`: choose brownfield or greenfield when partial files make the route unclear.
+- During `/architect-solution-foundation`: clarify whether to understand, design, or prepare only when the request leaves the material outcome ambiguous; confirm missing scaffold choices before materialization.
 - During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
-- During `/craft-lasting-quality`: name a finding to give it precedence; otherwise Craft resumes accepted work or selects the most important evidence-backed pending scope.
+- During `/craft-lasting-quality`: name a finding to give it precedence or request a current review explicitly; changes to the approved product contract require specification.
 - Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify; an unavailable check returns a blocker without inventing a pass.
 
 ## Pipeline

@@ -4,6 +4,16 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-08 — Public workflows follow intent and report actual outcomes
+
+**Status**: adopted.
+
+The three orchestrators remain the stable public interface, expressed as user needs: understand or define architecture, develop a requested change, and maintain existing quality. Their YAML files are documentary maps of intent, stages, human decisions, and possible outcomes; linked worker `SKILL.md` files remain the executable composition contracts.
+
+Architecture routing now begins with the requested outcome. Repository contents provide evidence and constraints, so documentation-only no longer implies mandatory scaffolding. A design may finish as a technical architecture, while explicit preparation of a new executable solution continues through `/scaffoldify` and reconciliation. Existing application evolution is designed first and implemented through requested-change delivery.
+
+Findings delivery may preserve observable behavior or restore an approved contract when an active criterion, valid test, or applicable documented rule records that contract. Changing the contract still requires a specification. Craft can refresh complexity, coverage, and strict-lint evidence on explicit request, checks old evidence before repair, and reports no-work or blocked outcomes without claiming a release.
+
 ## 2026-09-05 — Portable ESM installer with hash-owned updates
 
 **Status**: adopted.

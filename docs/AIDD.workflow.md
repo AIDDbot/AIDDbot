@@ -1,6 +1,6 @@
 # AIDD Workflow
 
-ABC: Architect, Builder, Craftsman. Three agents, one delivery loop.
+ABC: Architect, Builder, Craftsman. Three needs, three public entrypoints, one proof cycle.
 
 You invoke a public **orchestrator skill**. The current session follows linked internal **worker skills** and spawns the named agent to run a **primitive skill**.
 
@@ -10,7 +10,7 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 **Initial materialization, one delivery writer, two evaluators.** `/scaffoldify` creates the initial solution. `/codify` writes delivery code. `/verify` and `/qualify` judge and report.
 
-**Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs; Craft preserves behavior from durable evidence. Craftsman ships only after green verification and qualification.
+**Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs. Craft preserves behavior or restores an approved contract from durable evidence. Craftsman ships only after green verification and qualification.
 
 **Delivery owners control Git.** They record the base and create or compatibly resume the branch before any write: functional `feat/{spec_key}`, technical `chore/{spec_key}`, coordinated `change/{change_key}`, or findings `fix/{fix_key}`. Primitives keep the active branch; `/shipify` integrates only by express delegation.
 
@@ -18,32 +18,32 @@ You invoke a public **orchestrator skill**. The current session follows linked i
 
 | Skill | Job |
 |---|---|
-| `/architect-solution-foundation` | Map an existing solution, or design, scaffold, and map a greenfield solution |
-| `/build-requested-change` | Build one requested change or a coordinated delivery |
-| `/craft-lasting-quality` | Turn durable quality findings into behavior-preserving remediation |
+| Need | Skill | Public flow |
+|---|---|---|
+| Understand or define architecture | `/architect-solution-foundation` | Understand → design → prepare when requested |
+| Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
+| Maintain existing quality | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
 
 These three `orchestrator` skills are the stable public starting entrypoints. Focused primitives remain available as an advanced interface; `worker` skills are internal composition and are never rendered as command or prompt adapters.
 
 ```mermaid
 flowchart LR
-  YOU([you]) -->|solution inception| ESTABLISH["/architect-solution-foundation"]
-  YOU -->|requirement| DELIVER["/build-requested-change"]
-  YOU -->|evidence-backed remediation| IMPROVE["/craft-lasting-quality"]
-  ESTABLISH --> DELIVER
-  IMPROVE -->|accepted findings| FIX["fix/{fix_key}"]
-  DELIVER -->|functional spec| FEAT["feat/{spec_key}"]
-  DELIVER -->|technical spec| CHORE["chore/{spec_key}"]
-  DELIVER -->|many specs| CHANGE["change/{change_key}"]
-  FEAT --> REVIEW["verify → qualify → ship"]
-  CHORE --> REVIEW
-  CHANGE --> REVIEW
-  FIX --> REVIEW
-  REVIEW -->|defect| FIX["internal fix-defects"]
-  FIX -->|restart| REVIEW
-  REVIEW -->|green| RELEASED[released]
+  YOU([you]) -->|architecture| ARCH["/architect-solution-foundation"]
+  YOU -->|requested change| BUILD["/build-requested-change"]
+  YOU -->|quality evidence| CRAFT["/craft-lasting-quality"]
+  ARCH --> MAP["map"]
+  ARCH --> DESIGN["design"]
+  ARCH --> PREPARE["prepare"]
+  BUILD --> PROOF["verify → qualify → ship"]
+  CRAFT --> PROOF
+  PROOF -->|correctable finding| REPAIR["internal fix-defects"]
+  REPAIR -->|review again| PROOF
+  PROOF -->|green and current| RELEASED[released]
 ```
 
-For greenfield work, Architect first expands the `init` agent seed into project rules and empty documentation shells, validates the design, then always runs `/scaffoldify`. It resolves and confirms missing name, tier, and technology choices before materializing one scaffold, then maps the resulting containers. It creates no branch or commit.
+`/architect-solution-foundation` resolves the intended result before choosing its route. Understanding an existing solution runs `map-solution`. Designing a new solution or an evolution uses the existing map and documents a technical design without requiring a scaffold. Preparing a new executable foundation also resolves material choices, runs `/scaffoldify`, and maps the resulting containers. Existing documentation is evidence to reuse or reconcile, not an automatic greenfield signal.
+
+Design work uses the technical `chore/{spec_key}` lifecycle owned by `design-solution`. `/scaffoldify` stays on the branch it receives and creates no branch or commit. An executable evolution of existing application code continues through requested-change delivery rather than scaffolding over it.
 
 ## Requirement delivery
 
@@ -81,7 +81,11 @@ Internal `ship-implementation` worker preserves evaluator order:
 
 ## Solution improvement
 
-`/craft-lasting-quality` first honors a concrete defect or finding named by the human. Otherwise it resumes an unfinished accepted group, then prefers the most important eligible pending finding using recorded severity and evidence. Only when the ledger has no eligible work does it run internal `clean-solution` and pass the new report to `collect-findings`; the collector also normalizes concrete defect evidence supplied by the caller. Craft assigns or reuses a `fix_key`, creates or resumes `fix/{fix_key}`, and applies the accepted findings through `fix-defects`. `ship-implementation` runs the complete E2E suite as a regression net, qualifies the fix diff, and ships a green patch. If nothing eligible exists, Craft terminates without a branch or code changes. A finding that needs changed observable behavior remains pending because it is outside Craft's contract.
+`/craft-lasting-quality` normalizes concrete evidence supplied by the caller before selection. When asked for a current review, it refreshes complexity, coverage, and strict-lint evidence even if work is already recorded; these checks are its automatic discovery scope, not a complete security or architecture audit. Without that request, it discovers new evidence only when no eligible work exists.
+
+Craft first honors a named finding, then resumes an unfinished accepted group, then selects the most important eligible pending finding supported by recorded evidence. It confirms the violated state still exists; obsolete evidence becomes `stale`. An eligible fix preserves observable behavior or restores an approved contract backed by an active criterion, valid test, or applicable documented rule. Changing that contract, or asserting expected behavior without evidence, requires a specification and remains pending.
+
+Before writing, Craft accepts one scope, assigns or reuses a `fix_key`, records its base, and creates or resumes `fix/{fix_key}`. `fix-defects` applies it and `ship-implementation` runs the existing E2E suite as a regression net, qualifies the diff, and ships a green patch. If nothing is eligible, Craft terminates without a branch, code changes, or a claimed release.
 
 ## Status chain
 
