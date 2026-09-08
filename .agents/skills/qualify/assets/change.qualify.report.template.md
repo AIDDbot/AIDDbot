@@ -1,14 +1,13 @@
 ---
 source: qualify
 target: {/shipify | /codify | caller}
-scope: {change_key}   # branch diff for this coordinated change
+scope: {change_key}   # complete branch diff for this complex change
 base-revision: {full commit id from the manifest}
 evaluated-revision: {full commit id}
 run: {ISO date}
 status: {green | red | blocked}
-specs:
-  - {spec_key}
-  - {spec_key}
+specs: [{spec_key}]
+findings: [{finding_id}]
 ---
 # qualify report — {change_key}
 
@@ -36,7 +35,7 @@ specs:
 
 ## Criteria
 
-{Technical specs in the manifest only — omit when all listed specs are functional.}
+{Every technical criterion in the manifest or referenced specs.}
 
 | Spec | Criterion | Method | Evidence | Verdict |
 |------|-----------|--------|----------|---------|

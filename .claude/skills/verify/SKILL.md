@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run the e2e suite against the spec's criteria and write the triaged defects report.
+description: Run one revision-bound E2E verification for a change that requires it.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

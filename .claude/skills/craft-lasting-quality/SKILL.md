@@ -1,6 +1,6 @@
 ---
 name: craft-lasting-quality
-description: Craft lasting quality from evidence-backed solution findings.
+description: Review current quality and deliver one prioritized batch of corrections.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

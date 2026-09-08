@@ -1,6 +1,6 @@
 ---
 name: implement-spec
-description: Plan and implement a validated specification.
+description: Implement a classified change and plan only when its policy requires it.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

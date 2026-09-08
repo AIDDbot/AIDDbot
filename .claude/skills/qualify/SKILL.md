@@ -1,6 +1,6 @@
 ---
 name: qualify
-description: Gate a code scope against pass/fail quality gates and report each verdict.
+description: Qualify one complex change against technical criteria and six quality gates.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

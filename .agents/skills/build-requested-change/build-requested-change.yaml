@@ -3,11 +3,10 @@ intent: develop requested functionality or a technical change
 inputs:
   - requested change
 stages:
-  - scope-feature
-  - deliver-spec for one specification
-  - deliver-change for coordinated specifications
+  - scope-feature classifies the change and derives applicable stages
+  - deliver-change owns every delivery
 human_decisions:
-  - approve each specification before implementation unless YOLO applies
+  - approve durable specifications before implementation unless YOLO applies
 outcomes:
   - released change
   - specification awaiting approval

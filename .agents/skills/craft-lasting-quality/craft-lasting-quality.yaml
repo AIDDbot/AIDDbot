@@ -1,19 +1,18 @@
 orchestrator: craft-lasting-quality
-intent: maintain existing solution quality from current evidence
+intent: review current quality and release one correction batch
 inputs:
-  - findings ledger and recorded reports
-  - optional human-named finding or new defect evidence
-  - optional request for a current quality review
+  - current repository and automated quality evidence
+rejects:
+  - human defect evidence
+  - human-named findings
+  - human priority
 stages:
-  - collect-findings for new evidence
-  - clean-solution then collect-findings for an explicit current review or when no eligible work exists
-  - select and confirm one eligible scope
-  - accept the scope before fix-defects
-  - ship-implementation after fixes
-human_decisions:
-  - requested contract changes or unsupported expected behavior require a specification
+  - resume an unfinished fixed batch, or run clean-solution and collect-findings
+  - group findings by shared cause and correction
+  - select up to five eligible groups
+  - classify one origin-craft intent-fix change
+  - deliver-change once without planning and with final verification
 outcomes:
-  - released remediation
+  - released remediation batch
   - no eligible findings
-  - need for specification
   - blocker

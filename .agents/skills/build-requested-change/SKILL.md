@@ -1,6 +1,6 @@
 ---
 name: build-requested-change
-description: Build a requested change through one specification or a coordinated change.
+description: Classify and deliver a requested change with only its applicable stages.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
@@ -8,12 +8,9 @@ disable-model-invocation: true
 ---
 # build-requested-change
 
-Your goal is to **build a requested change** from initial analysis through delivery.
+Your goal is to build a requested change from classification through one delivery.
 
-- Execute [scope-feature](../scope-feature/SKILL.md) command with the requested change in hand.
-- _IF_ the scope report affects one specification:
-  - Execute [deliver-spec](../deliver-spec/SKILL.md) command.
-- _IF_ the scope report affects several coordinated specifications:
-  - Execute [deliver-change](../deliver-change/SKILL.md) command.
+- Execute [scope-feature](../scope-feature/SKILL.md) with the request.
+- Execute [deliver-change](../deliver-change/SKILL.md) with the classified scope.
 
-_RETURN_ the actual delivery outcome: released change, specification awaiting approval, or concrete blocker.
+_RETURN_ the actual outcome: released change, specification awaiting approval, or concrete blocker.

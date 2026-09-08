@@ -1,12 +1,24 @@
-# Triage
+# Change classification
 
-A requirement may touch one spec or several. Inspect both functional and technical specs and count every spec that must be created or amended before writing anything.
+Classify every delivery before writing. A change may touch zero, one, or several specifications. Inspect existing functional and technical specs to decide whether durable contracts must be created or amended.
 
-- **Amend, never fork** — behavior already owned by an existing spec is an `amend`, not a new spec.
-- **Create** — genuinely new behavior with no owning spec.
-- **One spec** — the caller may proceed with ordinary single-spec flow.
-- **Several specs** — the caller routes to coordinated delivery; present the impact map for approval.
+- **Amend, never fork** — behavior already owned by an existing spec is an `amend`.
+- **Create** — genuinely new durable behavior or technical policy with no owning spec.
+- **No spec** — a bounded simple adjustment or contract-restoring correction may carry its criteria in the change.
 
-Every impact-map entry has a reserved `key`, `kind: functional | technical`, and `action: create | amend`. Resolve a missing kind during triage, before a branch name depends on it. Reuse the existing key and kind for an amend; reserve new IDs from the appropriate F/T series as one atomic decision. Reuse category and tags already in the PRD.
+Resolve `origin`, `kind`, `intent`, and `complexity`. `simple` requires one affected container, no more than one durable spec, complete criteria, a known solution, focused automated checks, and local reversibility. Classify as `complex` when any requirement is absent or the work affects architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, transactions, accessibility, performance-sensitive paths, several containers, or several specs. Diff size alone does not establish simplicity.
 
-Record the current default-branch revision as the proposed delivery base. Triage does not reset status, update the PRD, create a manifest, or commit. Those writes happen sequentially on the established delivery branch. An amend resets its spec to `status: pending` during specification.
+Derive stages mechanically:
+
+| Condition | Rule |
+| --- | --- |
+| `complexity: simple` | no plan and no qualification |
+| `intent: fix` | no plan |
+| requested `kind: technical` | no verification |
+| requested `kind: functional` or `mixed` | verification required |
+| `origin: craft` | one final verification for the complete batch |
+| `complexity: complex` | qualification required |
+
+A skipped qualification makes implementation the evidence owner for every technical criterion. Every impact-map entry has a stable `key`, `kind: functional | technical`, and `action: create | amend`. Reuse an existing identity for an amend and reserve new IDs atomically. Reserve one change key for every delivery.
+
+Record the default-branch revision as the proposed base. Triage is read-only; the owner persists the approved classification on `change/{change_key}`. Re-evaluate before implementation and after repairs. A discovered exclusion may only enable future stages or return for a scope decision.

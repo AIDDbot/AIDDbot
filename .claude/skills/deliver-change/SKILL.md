@@ -1,6 +1,6 @@
 ---
 name: deliver-change
-description: Specify, implement, review, and deliver a coordinated multi-spec change.
+description: Own and deliver any classified change through its applicable stages.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

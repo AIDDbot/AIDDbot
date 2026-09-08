@@ -6,6 +6,6 @@ There is no Solution section for `e2e` — its criteria are scenarios, and the s
 
 The PRD is the index: append its line on creation only. It lists functional specs alone. Reuse category and tags already in use.
 
-Amend, never fork: a requirement that changes something already implemented amends that spec rather than opening a new one. An amend resets `status: pending`.
+Amend, never fork: a requirement that changes something already implemented amends that spec rather than opening a new one. An amend is `draft` until validated again.
 
 When a requirement touches several specs, the `/build-requested-change` orchestrator routes to coordinated delivery.

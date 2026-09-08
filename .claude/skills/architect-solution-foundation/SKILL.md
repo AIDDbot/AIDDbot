@@ -1,6 +1,6 @@
 ---
 name: architect-solution-foundation
-description: Architect a brownfield or greenfield solution foundation ready for delivery.
+description: Understand, design, or prepare a solution architecture from repository evidence.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

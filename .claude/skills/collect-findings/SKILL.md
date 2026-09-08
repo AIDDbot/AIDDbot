@@ -1,6 +1,6 @@
 ---
 name: collect-findings
-description: Normalize durable solution findings into one traceable remediation scope.
+description: Normalize current automated quality evidence into durable findings.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

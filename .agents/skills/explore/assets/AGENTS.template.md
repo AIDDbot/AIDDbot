@@ -27,14 +27,14 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
 - The delivery owner records the default-branch base, creates or reuses the working branch, and performs final integration. A resumed branch is reused only when its scope and recorded base are compatible; diagnose divergence before writing.
-- Branch names: `feat/{spec_key}` (functional spec) · `chore/{spec_key}` (technical spec) · `change/{change_key}` (coordinated multi-spec delivery) · `fix/{fix_key}` (accepted findings or standalone defect fix)
+- Every delivery uses `change/{change_key}`; the change manifest owns its base, scope, classification, applicable stages, and release. Non-release architecture design may use `design/{spec_key}`.
 - Primitives write on the current branch and never create or switch branches. The owner may delegate stage commits only sequentially and limited to that stage's files; only `/shipify`, when expressly delegated, integrates the completed branch.
 - `/codify` alone refuses source or test writes on the default branch; stop and ask the caller to establish a working branch.
 
-### Spec status
+### Change status
 - Specs live under `{Product_Folder}/specs/{spec_key}/spec.md` (`{spec_key}` = `{spec_id}-{slug}`).
-- Status chain: `pending` (`/specify` create or amend) → `planned` (implementation caller, after all plans) → `in-progress` (same caller, before the first implementation write) → `verified` (`/verify`) → `qualified` (`/qualify`) → `released` (`/shipify`).
-- Specs are amendable at any status; amend sets `pending` and always replans via `/planify`.
+- Status chain: `pending` → `in-progress` → `ready` → `released`. Proof reports record stage outcomes; they are not work states.
+- Specs describe durable contracts with `draft`, `active`, or `retired` status; delivery state belongs only to their owning change. Planning occurs only when the change policy requires it.
 
 ---
 

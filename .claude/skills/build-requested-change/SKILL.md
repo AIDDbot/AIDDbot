@@ -1,6 +1,6 @@
 ---
 name: build-requested-change
-description: Build a requested change through one specification or a coordinated change.
+description: Classify and deliver a requested change with only its applicable stages.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

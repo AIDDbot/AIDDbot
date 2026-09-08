@@ -1,96 +1,60 @@
 # AIDD Workflow
 
-ABC: Architect, Builder, Craftsman. Three needs, three public entrypoints, one proof cycle.
+AIDDbot exposes three entrypoints and uses one adaptive delivery contract.
 
-You invoke a public **orchestrator skill**. The current session follows linked internal **worker skills** and spawns the named agent to run a **primitive skill**.
+| Need | Entrypoint | Outcome |
+| --- | --- | --- |
+| Understand or define architecture | `/architect-solution-foundation` | map, design, or prepare |
+| Request product or technical work | `/build-requested-change` | one classified and released change |
+| Improve current quality | `/craft-lasting-quality` | one reviewed correction batch |
 
-## What holds
+## One change contract
 
-**The green E2E suite is the behavior contract.** A green test changes only through a plan, preventing silent behavior drift. Technical criteria are proved separately by `/qualify` using their stated method and evidence.
+Every delivery gets a `change/{change_key}` branch and manifest. A change may reference zero, one, or several specs and optional findings. Specs hold durable behavior or technical policy; the change holds the intervention, workflow, evidence, status, and release.
 
-**Initial materialization, one delivery writer, two evaluators.** `/scaffoldify` creates the initial solution. `/codify` writes delivery code. `/verify` and `/qualify` judge and report.
+Classification uses four fields:
 
-**Requested changes start from a specification; maintenance starts from accepted findings.** Architect writes requested-change specs. Craft preserves behavior or restores an approved contract from durable evidence. Craftsman ships only after green verification and qualification.
+- `origin`: `requested` or `craft`
+- `kind`: `functional`, `technical`, or `mixed`
+- `intent`: `modify` or `fix`
+- `complexity`: `simple` or `complex`
 
-**Delivery owners control Git.** They record the base and create or compatibly resume the branch before any write: functional `feat/{spec_key}`, technical `chore/{spec_key}`, coordinated `change/{change_key}`, or findings `fix/{fix_key}`. Primitives keep the active branch; `/shipify` integrates only by express delegation.
+The derived stages are fixed by policy:
 
-## Public orchestrators
+| Condition | Plan | Verify | Qualify |
+| --- | --- | --- | --- |
+| Simple | no | by kind/origin | no |
+| Fix | no | by kind/origin | if complex |
+| Requested technical | by complexity and intent | no | if complex |
+| Requested functional or mixed | by complexity and intent | yes | if complex |
+| Craft batch | no | yes, once for the batch | if complex |
 
-| Skill | Job |
-|---|---|
-| Need | Skill | Public flow |
-|---|---|---|
-| Understand or define architecture | `/architect-solution-foundation` | Understand → design → prepare when requested |
-| Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
-| Maintain existing quality | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
+Simple means one container, at most one durable spec, complete criteria, a known locally reversible solution, and focused automated checks. Architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, accessibility, performance-sensitive paths, or multiple containers/specs make it complex. Line count does not decide complexity.
 
-These three `orchestrator` skills are the stable public starting entrypoints. Focused primitives remain available as an advanced interface; `worker` skills are internal composition and are never rendered as command or prompt adapters.
+When qualification is skipped, implementation records the technical-criterion evidence. A skipped phase produces no green report. Before release, every criterion must have current passing evidence from its assigned owner.
 
-```mermaid
-flowchart LR
-  YOU([you]) -->|architecture| ARCH["/architect-solution-foundation"]
-  YOU -->|requested change| BUILD["/build-requested-change"]
-  YOU -->|quality evidence| CRAFT["/craft-lasting-quality"]
-  ARCH --> MAP["map"]
-  ARCH --> DESIGN["design"]
-  ARCH --> PREPARE["prepare"]
-  BUILD --> PROOF["verify → qualify → ship"]
-  CRAFT --> PROOF
-  PROOF -->|correctable finding| REPAIR["internal fix-defects"]
-  REPAIR -->|review again| PROOF
-  PROOF -->|green and current| RELEASED[released]
-```
+## Requested delivery
 
-`/architect-solution-foundation` resolves the intended result before choosing its route. Understanding an existing solution runs `map-solution`. Designing a new solution or an evolution uses the existing map and documents a technical design without requiring a scaffold. Preparing a new executable foundation also resolves material choices, runs `/scaffoldify`, and maps the resulting containers. Existing documentation is evidence to reuse or reconcile, not an automatic greenfield signal.
+`/build-requested-change` classifies the request read-only, reserves its change and optional spec identities, then delegates the complete lifecycle to `deliver-change`. Durable specs pause for validation unless YOLO applies. Simple bounded work may carry its criteria directly in the manifest.
 
-Design work uses the technical `chore/{spec_key}` lifecycle owned by `design-solution`. `/scaffoldify` stays on the branch it receives and creates no branch or commit. An executable evolution of existing application code continues through requested-change delivery rather than scaffolding over it.
+The owner persists the manifest, plans only when required, implements sequentially, runs applicable proof stages, and releases once. Corrections from a human use `intent: fix` and never create a plan.
 
-## Requirement delivery
+## Craft delivery
 
-`/build-requested-change` first follows internal `scope-feature`. Architect runs read-only `/scope-change` triage and returns the delivery base plus a reserved `key`, `kind`, and `action` for every affected spec. A single-spec route creates no manifest; an approved multi-spec route persists one only after its delivery branch exists.
+`/craft-lasting-quality` is an autonomous review-and-repair entrypoint. It does not accept human defect evidence, named findings, or human priority. Requested corrections use `/build-requested-change`.
 
-### One specification
+A fresh Craft run executes current quality discovery, normalizes findings, marks stale evidence, groups findings with a shared cause and correction, and selects up to five eligible groups by severity, impact, and bounded scope. Work needing product or unsupported contract decisions stays outside the batch.
 
-Internal `deliver-spec` worker:
+The selected findings become one `origin: craft`, `intent: fix` change. It has no plan, one final verification for the entire batch, optional qualification when complex, one integration, one version, and one tag. An interrupted batch resumes its original finding set without adding newly discovered work. No eligible findings means no branch or release.
 
-1. Creates or compatibly resumes `feat/{spec_key}` for functional work or `chore/{spec_key}` for technical work from the recorded base.
-2. Executes `specify-spec` once. Architect runs `/specify`; without YOLO, the workflow stops for human approval.
-3. Executes `implement-spec` once. Builder runs `/planify` sequentially for affected containers, agrees shared contracts, then runs `/codify` sequentially. The worker alone sets `planned` after all plans and `in-progress` before the first implementation write.
-4. Executes `ship-implementation` once for the specification.
+## Review and repair
 
-### Coordinated change
+`ship-implementation` evaluates only enabled stages. A red report sends correctable defects through planless repair and then repeats classification plus every applicable proof stage for the complete change. A blocked check returns the concrete impediment. Semantic changes invalidate affected evidence.
 
-Internal `deliver-change` worker:
-
-1. Creates or compatibly resumes `change/{change_key}` from the recorded base and persists the approved manifest.
-2. Executes `specify-spec` for every affected specification sequentially, avoiding concurrent PRD, ID, spec, and index writes.
-3. Once all specifications are validated, executes `implement-spec` for each specification sequentially.
-4. _ONCE_ all specifications are implemented, executes `ship-implementation` once for the complete change.
-
-The change ships atomically: one review cycle, one merge, one tag, and one release version.
-
-## Review and defect loops
-
-Internal `ship-implementation` worker preserves evaluator order:
-
-1. Craftsman runs `/verify` against the complete delivery scope and records base, evaluated revision, commands, and results. It marks functional criteria only.
-2. Correctable functional or E2E defects go through `fix-defects` sequentially by container, then review restarts from `/verify`. An unavailable check reports `blocked`; it does not invent a defect or spec status.
-3. Once verify is green, Craftsman runs `/qualify` against the complete diff. Six gates apply: blocker/major fail, minor is recorded without blocking, and `n/a` requires a reason. Technical criteria need their own method and evidence.
-4. Correctable quality defects restart the cycle from `/verify`. A blocked check returns to the caller; changing criteria or behavior requires a scope decision.
-5. Once both reports are green and current, `/shipify` validates later changes, integrates, writes one final release commit, tags that exact commit, and only then deletes the branch. Content-changing conflict resolution requires review again. If interrupted after the release commit, it validates the recorded closure and finishes only the missing tag or branch cleanup, without requiring pre-release statuses or creating another version.
-
-## Solution improvement
-
-`/craft-lasting-quality` normalizes concrete evidence supplied by the caller before selection. When asked for a current review, it refreshes complexity, coverage, and strict-lint evidence even if work is already recorded; these checks are its automatic discovery scope, not a complete security or architecture audit. Without that request, it discovers new evidence only when no eligible work exists.
-
-Craft first honors a named finding, then resumes an unfinished accepted group, then selects the most important eligible pending finding supported by recorded evidence. It confirms the violated state still exists; obsolete evidence becomes `stale`. An eligible fix preserves observable behavior or restores an approved contract backed by an active criterion, valid test, or applicable documented rule. Changing that contract, or asserting expected behavior without evidence, requires a specification and remains pending.
-
-Before writing, Craft accepts one scope, assigns or reuses a `fix_key`, records its base, and creates or resumes `fix/{fix_key}`. `fix-defects` applies it and `ship-implementation` runs the existing E2E suite as a regression net, qualifies the diff, and ships a green patch. If nothing is eligible, Craft terminates without a branch, code changes, or a claimed release.
-
-## Status chain
+Once all required evidence is current, the change advances from `in-progress` to `ready`. `/shipify` integrates and marks the change, referenced specs, and referenced findings released together. It can resume an interrupted closure from the recorded release commit without creating another version.
 
 ```markdown
-pending → planned → in-progress → verified → qualified → released
+pending → in-progress → ready → released
 ```
 
 ## Next

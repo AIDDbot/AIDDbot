@@ -1,106 +1,67 @@
 # AIDD skills catalog
 
-Every executable AIDDbot capability is an Agent Skill. This catalog is the
-single inventory and routing authority: public `orchestrator` skills own
-outcomes, internal `worker` skills compose stages, and public `primitive`
-skills perform focused AIDD work.
+Every executable capability is an Agent Skill. This catalog is the inventory and routing authority: public `orchestrator` skills own outcomes, internal `worker` skills compose stages, and public `primitive` skills perform focused work.
 
-## What holds
+## Delivery policy
 
-- The green E2E suite is the behavior contract; technical criteria additionally require explicit qualification evidence.
-- `/scaffoldify` materializes an initial solution; `/codify` writes delivery code; `/verify` and `/qualify` evaluate only.
-- Requested behavior changes start from a specification.
-- Evidence-backed maintenance starts from accepted durable findings and may restore an approved contract.
-- Nothing ships without verification and qualification.
-- The current session follows links to `SKILL.md` and spawns Architect, Builder,
-  or Craftsman where a skill requires it. A link is the invocation contract.
+Every release is represented by one `change` with `origin`, `kind`, `intent`, and `complexity`. The change owns its branch, status, criteria, evidence, optional specs, optional findings, and final release.
 
-## Public orchestrators
-
-| Skill | What it does |
+| Condition | Applicable policy |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Understand an existing architecture, design a new or evolved one, or prepare an executable foundation |
-| [`/build-requested-change`](./build-requested-change/SKILL.md) | Build one requested change or coordinated delivery |
-| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review current evidence when requested and repair one eligible quality scope |
+| Simple | no plan or qualification |
+| Fix | no plan, including requested and Craft corrections |
+| Requested technical | no E2E verification |
+| Requested functional or mixed | E2E verification |
+| Craft | one final E2E verification for the batch |
+| Complex | qualification |
 
-## Internal workers
-
-Workers are linked composition, not human entrypoints.
-
-| Skill | What it composes |
-| --- | --- |
-| [`map-solution`](./map-solution/SKILL.md) | Spawn Architect: `/explore` once, then `/extract` per container |
-| [`design-solution`](./design-solution/SKILL.md) | Map relevant context, capture a technical design, and optionally materialize and reconcile a new foundation |
-| [`clean-solution`](./clean-solution/SKILL.md) | Discover CRAP, coverage, and strict-lint evidence |
-| [`collect-findings`](./collect-findings/SKILL.md) | Consolidate reported defects, verification, qualification, and quality evidence into durable findings |
-| [`scope-feature`](./scope-feature/SKILL.md) | Return read-only one-spec or many-spec triage with reserved key, kind, action, and base |
-| [`deliver-spec`](./deliver-spec/SKILL.md) | Own `feat/{spec_key}` or `chore/{spec_key}` and sequence specify, implement, and ship |
-| [`deliver-change`](./deliver-change/SKILL.md) | Own `change/{change_key}`; persist its manifest, write stages sequentially, and ship once |
-| [`specify-spec`](./specify-spec/SKILL.md) | Spawn Architect with `/specify` and stop for approval unless YOLO |
-| [`implement-spec`](./implement-spec/SKILL.md) | Run `/planify`, then `/codify`, sequentially with one owner for aggregate status |
-| [`ship-implementation`](./ship-implementation/SKILL.md) | Review and ship current evidence; restart after fixes or return an explicit blocker |
-| [`fix-defects`](./fix-defects/SKILL.md) | Run `/codify` sequentially per container on the owner's active branch |
-
-## Public primitives
-
-### Context
-
-| Skill | What it does |
-| --- | --- |
-| [`/explore`](./explore/SKILL.md) | Agent setup, system architecture, conceptual model, and PRD shell from repo tree and guide files |
-| [`/extract`](./extract/SKILL.md) | Per-container architecture, schemas, and coding rules from source |
-| [`/scaffoldify`](./scaffoldify/SKILL.md) | Materialize a confirmed, installable solution scaffold |
-
-### Capture
-
-| Skill | What it does |
-| --- | --- |
-| [`/specify`](./specify/SKILL.md) | Writes a spec; the caller names the kind — `functional` or `technical` |
-| [`/scope-change`](./scope-change/SKILL.md) | Resolves spec identity read-only; persists a manifest only for an approved multi-spec scope |
-
-### Build
-
-| Skill | What it does |
-| --- | --- |
-| [`/planify`](./planify/SKILL.md) | One implementation plan per affected container; e2e only for a functional spec |
-| [`/codify`](./codify/SKILL.md) | Write application code, unit tests, and e2e suite updates during delivery |
-
-### Prove
-
-| Skill | What it does |
-| --- | --- |
-| [`/verify`](./verify/SKILL.md) | Revision-bound E2E verdict for functional criteria or a regression scope |
-| [`/qualify`](./qualify/SKILL.md) | Revision-bound six-gate verdict plus explicit technical-criteria evidence |
-
-### Ship
-
-| Skill | What it does |
-| --- | --- |
-| [`/shipify`](./shipify/SKILL.md) | Version, changelog, reconciled docs, and tag after qualification; resumes incomplete closure from the recorded release commit without repeating delivery |
-
-### Meta
-
-| Skill | What it does |
-| --- | --- |
-| [`/skillify`](./skillify/SKILL.md) | Sole path to create or update skills under `.agents/skills/` |
-
-## Human checkpoints
-
-You review only at key checkpoints:
-
-- During `/architect-solution-foundation`: clarify whether to understand, design, or prepare only when the request leaves the material outcome ambiguous; confirm missing scaffold choices before materialization.
-- During `/build-requested-change`: validate each specification's problem, outcomes, and acceptance criteria. YOLO skips approval and continues delivery.
-- During `/craft-lasting-quality`: name a finding to give it precedence or request a current review explicitly; changes to the approved product contract require specification.
-- Delivery verifies first, qualifies only after verify is green, and ships once. Any defect fix restarts review from verify; an unavailable check returns a blocker without inventing a pass.
-
-## Pipeline
-
-```markdown
-/explore → /extract (×container) → /specify → /planify (×container) → /codify (×container) → /verify → /qualify → /shipify
-```
+`/codify` owns technical-criterion evidence when qualification is skipped. `/verify` and `/qualify` write reports only when enabled. Every active criterion must have current passing evidence before `/shipify` releases the change.
 
 Status chain:
 
 ```markdown
-pending → planned → in-progress → verified → qualified → released
+pending → in-progress → ready → released
 ```
+
+## Public orchestrators
+
+| Skill | Outcome |
+| --- | --- |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Understand, design, or prepare a solution architecture |
+| [`/build-requested-change`](./build-requested-change/SKILL.md) | Classify and deliver a requested change |
+| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver one prioritized correction batch |
+
+## Internal workers
+
+| Skill | Composition |
+| --- | --- |
+| [`map-solution`](./map-solution/SKILL.md) | `/explore`, then `/extract` per container |
+| [`design-solution`](./design-solution/SKILL.md) | Map context, capture design, and optionally prepare a foundation |
+| [`clean-solution`](./clean-solution/SKILL.md) | Discover current complexity, coverage, and strict-lint evidence |
+| [`collect-findings`](./collect-findings/SKILL.md) | Normalize automated evidence into durable findings |
+| [`scope-feature`](./scope-feature/SKILL.md) | Classify a requested change read-only |
+| [`deliver-change`](./deliver-change/SKILL.md) | Own the common `change/{change_key}` delivery |
+| [`deliver-spec`](./deliver-spec/SKILL.md) | Compatibility adapter into `deliver-change`; never owns a separate lifecycle |
+| [`specify-spec`](./specify-spec/SKILL.md) | Produce and validate an optional durable specification |
+| [`implement-spec`](./implement-spec/SKILL.md) | Plan when required and implement the complete change |
+| [`ship-implementation`](./ship-implementation/SKILL.md) | Run applicable proof stages and ship once |
+| [`fix-defects`](./fix-defects/SKILL.md) | Repair review evidence without a plan |
+
+## Public primitives
+
+| Area | Skills |
+| --- | --- |
+| Context | [`/explore`](./explore/SKILL.md), [`/extract`](./extract/SKILL.md), [`/scaffoldify`](./scaffoldify/SKILL.md) |
+| Capture | [`/scope-change`](./scope-change/SKILL.md), [`/specify`](./specify/SKILL.md) |
+| Build | [`/planify`](./planify/SKILL.md), [`/codify`](./codify/SKILL.md) |
+| Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md) |
+| Ship | [`/shipify`](./shipify/SKILL.md) |
+| Meta | [`/skillify`](./skillify/SKILL.md) |
+
+## Routing
+
+Requested work enters `/build-requested-change`. Simple changes may need no spec. Corrections requested by a human also enter this route with `intent: fix`.
+
+`/craft-lasting-quality` accepts no human defect or finding selection. Each fresh run reviews current evidence, groups related causes, selects up to five eligible repair groups, and delivers them as one change. An unfinished Craft batch resumes with its fixed finding set.
+
+Architecture work remains non-release unless executable evolution is requested; that implementation routes into the common change delivery.

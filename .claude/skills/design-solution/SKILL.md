@@ -1,6 +1,6 @@
 ---
 name: design-solution
-description: Design a solution architecture for a greenfield project.
+description: Design a new or evolved solution architecture and optionally materialize a new foundation.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

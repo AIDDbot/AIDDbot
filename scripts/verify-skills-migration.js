@@ -133,16 +133,33 @@ for (const retired of ["deliver-requirement", "establish-solution", "improve-sol
 }
 
 for (const required of [
-  ".agents/skills/verify/assets/findings.e2e.report.template.md",
-  ".agents/skills/qualify/assets/findings.qualify.report.template.md",
+  ".agents/skills/scope-change/assets/change.manifest.template.md",
+  ".agents/skills/verify/assets/change.e2e.report.template.md",
+  ".agents/skills/qualify/assets/change.qualify.report.template.md",
   ".agents/skills/collect-findings/references/finding.contract.md",
 ]) {
-  if (!fs.existsSync(path.join(root, ...required.split("/")))) fail(`findings delivery artifact missing: ${required}`);
+  if (!fs.existsSync(path.join(root, ...required.split("/")))) fail(`adaptive delivery artifact missing: ${required}`);
 }
 
 const buildSkill = read(path.join(skillsRoot, "build-requested-change", "SKILL.md"));
-if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-spec") || !buildSkill.includes("deliver-change")) {
-  fail("build-requested-change does not own specification routing");
+if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-change") || buildSkill.includes("[deliver-spec]")) {
+  fail("build-requested-change does not route every request through common change delivery");
+}
+const changeTemplate = read(path.join(skillsRoot, "scope-change", "assets", "change.manifest.template.md"));
+for (const field of ["origin:", "kind:", "intent:", "complexity:", "stages:", "findings:"]) {
+  if (!changeTemplate.includes(field)) fail(`common change manifest is missing ${field}`);
+}
+const triage = read(path.join(skillsRoot, "scope-change", "references", "triage.md"));
+for (const rule of ["simple", "intent: fix", "origin: craft", "requested `kind: technical`", "complexity: complex"]) {
+  if (!triage.includes(rule)) fail(`change policy is missing ${rule}`);
+}
+const implementation = read(path.join(skillsRoot, "implement-spec", "SKILL.md"));
+if (!implementation.includes("do not create a plan artifact") || !implementation.includes("technical criterion")) {
+  fail("implementation does not support planless work with criterion evidence");
+}
+const shipping = read(path.join(skillsRoot, "ship-implementation", "SKILL.md"));
+if (!shipping.includes("stages.verify") || !shipping.includes("stages.qualify") || !shipping.includes("Set the change `ready`")) {
+  fail("shipping does not honor adaptive proof stages");
 }
 const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
 const designSkill = read(path.join(skillsRoot, "design-solution", "SKILL.md"));
@@ -178,38 +195,27 @@ if (scaffoldContract.indexOf("For each author field") < scaffoldContract.indexOf
   fail("scaffoldify must resolve author fields from fetched archetypes after materialization");
 }
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
-if (!craftSkill.includes("fix/{fix_key}") || !craftSkill.includes("fix-defects") || !craftSkill.includes("ship-implementation")) {
-  fail("craft-lasting-quality does not own findings delivery");
+if (!craftSkill.includes("up to five") || !craftSkill.includes("origin: craft") || !craftSkill.includes("deliver-change")) {
+  fail("craft-lasting-quality does not own batched change delivery");
 }
-if (/deliver-work|scope-feature|deliver-spec|deliver-change|specify|planify/.test(craftSkill)) {
-  fail("craft-lasting-quality must not route eligible findings through specification delivery");
+if (/deliver-work|scope-feature|deliver-spec|planify/.test(craftSkill)) {
+  fail("craft-lasting-quality must not route findings through requested specification delivery");
 }
-if (/build-requested-change|clean-drift|refactor/.test(craftSkill)) {
-  fail("craft-lasting-quality must stay inside the findings-delivery contract");
+if (!craftSkill.includes("Do not accept a human-supplied defect") || !craftSkill.includes("/build-requested-change")) {
+  fail("craft-lasting-quality must reject human corrections and route them to requested delivery");
 }
-const concreteFinding = craftSkill.indexOf("human-named defect or finding");
-const acceptedFinding = craftSkill.indexOf("unfinished `accepted` group");
-const pendingFinding = craftSkill.indexOf("most important `pending` finding");
-const cleanFallback = craftSkill.indexOf("execute [clean-solution]");
-const emptyReturn = craftSkill.lastIndexOf("no scope was selected");
-if (concreteFinding < 0 || acceptedFinding < concreteFinding || pendingFinding < acceptedFinding
-  || cleanFallback < pendingFinding || emptyReturn < cleanFallback) {
-  fail("craft-lasting-quality must prioritize human direction and known findings before discovery, then terminate an empty scope");
-}
-if (!craftSkill.includes("unfinished `accepted` group") || !craftSkill.includes("reusing an unfinished compatible scope")) {
-  fail("craft-lasting-quality must resume unfinished accepted findings");
+if (!craftSkill.includes("unfinished Craft change") || !craftSkill.includes("without adding newly discovered findings")) {
+  fail("craft-lasting-quality must resume an unchanged unfinished batch");
 }
 if (craftSkill.includes("_ASK_")) {
   fail("craft-lasting-quality invocation must authorize its selected remediation scope");
 }
 const collectSkill = read(path.join(skillsRoot, "collect-findings", "SKILL.md"));
-if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution") || !collectSkill.includes("concrete defect evidence")) {
+if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution") || collectSkill.includes("supplied by the caller")) {
   fail("collect-findings does not collect verification, qualification, and quality evidence");
 }
 for (const template of [
-  ".agents/skills/qualify/assets/qualify.report.template.md",
   ".agents/skills/qualify/assets/change.qualify.report.template.md",
-  ".agents/skills/qualify/assets/findings.qualify.report.template.md",
 ]) {
   if (!read(path.join(root, ...template.split("/"))).includes("Accumulated debt")) {
     fail(`qualification template has no structured accumulated-debt section: ${template}`);

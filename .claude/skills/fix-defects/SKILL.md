@@ -1,6 +1,6 @@
 ---
 name: fix-defects
-description: Fix defects or accepted findings on the active working branch.
+description: Fix correctable evidence for a change without creating a plan.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

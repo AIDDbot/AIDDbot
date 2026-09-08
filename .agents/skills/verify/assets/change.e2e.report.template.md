@@ -1,21 +1,20 @@
 ---
 source: verify
 target: {/qualify | /codify | caller}
-scope: {change_key}
+scope: {change_key}  # complete classified change
 base-revision: {full commit id from the manifest}
 evaluated-revision: {full commit id}
 run: {ISO date}
 status: {green | red | blocked}
-specs:
-  - {spec_key}
-  - {spec_key}
+specs: [{spec_key}]
+findings: [{finding_id}]
 ---
 # e2e report — {change_key}
 
 ## Summary
 
 - Findings: {N} · {b} blocker · {m} major · {n} minor.
-- Scenarios: {passed}/{total} · Functional criteria: {met}/{total} marked `[x]` across {N} specs.
+- Scenarios: {passed}/{total} · Functional criteria or Craft regression scope: {met}/{total}.
 
 ## Evidence
 
@@ -25,7 +24,7 @@ specs:
 
 ## Criteria
 
-{Functional specs only. Technical criteria remain for `/qualify`.}
+{Functional criteria and Craft batch regression coverage. Technical criteria belong to `/qualify` or recorded implementation evidence.}
 
 ### {spec_key}
 

@@ -5,9 +5,9 @@ title: {title}
 kind: functional  
 category: {category}
 tags: [{tag1}, {tag2}]
-status: pending  # pending | planned | in-progress | verified | qualified  | released
+status: draft  # draft | active | retired
 base-revision: {full commit id of the delivery base}
-branch: {actual delivery branch supplied by the owner, including change/{change_key} for coordinated work}
+branch: change/{change_key}
 created: {YYYY-MM-DD}
 released-version:
 ---

@@ -1,6 +1,6 @@
 ---
 name: specify-spec
-description: Produce and validate a specification for one part of a requirement.
+description: Produce and validate a specification for one part of a change.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

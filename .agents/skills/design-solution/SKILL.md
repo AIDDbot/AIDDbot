@@ -17,7 +17,7 @@ Your goal is to **design a new or evolved solution architecture and materialize 
   - Spawn Architect and execute [explore](../explore/SKILL.md).
 - Reuse settled design decisions and show contradictions between documentation and code.
 - Resolve technical-spec identity and record the base revision.
-- The delivery owner creates `chore/{spec_key}` or compatibly reuses it before the first design write.
+- The design owner creates `design/{spec_key}` or compatibly reuses it before the first design write.
 - Spawn Architect and execute [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action; keep the owner's branch.
 - _IF_ materialization was not requested:
   - _RETURN_ the mapped context and validated technical design without installing a scaffold.

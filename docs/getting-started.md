@@ -55,34 +55,32 @@ When materializing a new solution, it confirms the name, selected tiers, technol
 /build-requested-change riders can rate a trip 1 to 5 stars
 ```
 
-Architect scopes every requirement. One affected specification uses `feat/{spec_key}`. Several coordinated specifications use `change/{change_key}`. Check each specification's problem, outcomes, and acceptance criteria when the workflow stops for approval.
+Architect classifies every requirement and creates one `change/{change_key}` delivery. A change may reference zero, one, or several durable specifications. Check each new or amended specification's problem, outcomes, and acceptance criteria when the workflow stops for approval.
 
 _IF_ the prompt includes YOLO, `/build-requested-change` skips approval stops and continues through delivery.
 
-**Several specs, one requirement.** You describe the need; Architect finds which specs to create or amend. One branch, code everything, then one verify, one qualify, one release. Each spec keeps its criteria — the change manifest only coordinates.
+The manifest records origin, kind, intent, complexity, criteria, and applicable stages. Simple changes skip planning and qualification. Corrections skip planning. Requested technical changes skip E2E verification. Functional and mixed changes verify; complex changes qualify.
 
 ## 4. Let delivery complete
 
-No extra slash command is required. The orchestrator plans and codifies one specification, or codifies coordinated specifications sequentially, then verifies, qualifies, and ships the complete scope. Functional or technical defect reports are fixed internally and review restarts from verify.
+No extra slash command is required. The orchestrator executes only the stages derived from the persisted classification and ships the complete scope once. Correctable report findings are fixed internally, then all applicable evidence is refreshed.
 
 ## 5. Improve an existing solution
 
-Turn durable findings and strict quality checks into a reviewed remediation scope:
+Review current quality and deliver a bounded remediation batch:
 
 ```markdown
 /craft-lasting-quality
 ```
 
-Name a concrete defect or finding to give it precedence. Otherwise Craft resumes accepted work or fixes the most important eligible pending finding using current recorded evidence. Ask it to `review current quality` to refresh complexity, coverage, and strict-lint evidence even when the ledger already has work. Other findings enter through verification, qualification, or concrete evidence you supply.
-
-Craft confirms that the finding still exists, accepts one scope, creates or resumes `fix/{fix_key}`, then fixes, verifies, qualifies, and ships without creating a spec or plan. It may preserve observable behavior or restore behavior backed by an approved criterion, valid test, or applicable documented rule. A request to change the product contract, or expected behavior without that evidence, remains pending and needs a specification.
+Craft does not accept defect reports, named findings, or priorities from the prompt; send requested corrections to `/build-requested-change`. A fresh run performs current quality checks, groups findings with a common cause, and selects up to five eligible repair groups. It creates one planless change, implements the batch, verifies it once, qualifies it when complex, and produces one release. An interrupted batch resumes without silently adding new findings.
 
 ## What's next?
 
 The usual loop after establishment:
 
-1. `/build-requested-change` — scope, specify, implement, verify, qualify, and ship
-2. `/craft-lasting-quality` — optional evidence-backed remediation
+1. `/build-requested-change` — classify and deliver requested work through applicable stages
+2. `/craft-lasting-quality` — review and deliver one correction batch
 
 Continue with:
 

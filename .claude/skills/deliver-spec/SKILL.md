@@ -1,6 +1,6 @@
 ---
 name: deliver-spec
-description: Specify, implement, review, and deliver a requirement represented by one specification.
+description: Forward a legacy one-spec delivery into the common change lifecycle.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

@@ -1,6 +1,6 @@
 ---
 name: deliver-change
-description: Specify, implement, review, and deliver a coordinated multi-spec change.
+description: Own and deliver any classified change through its applicable stages.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,23 +8,21 @@ disable-model-invocation: true
 ---
 # deliver-change
 
-Your goal is to **deliver coordinated specifications** while owning their shared Git lifecycle.
+Your goal is to deliver one classified change while owning its Git lifecycle.
 
-- Require the approved scope report change key, base revision, and every specification `key`, `kind`, and `action`.
-- From base, create `change/{change_key}` or reuse it only when manifest, scope, and ancestry are compatible.
+- Require change key, base revision, classification, derived stages, criteria, scope, and any specification or finding references.
+- Create `change/{change_key}` from base or reuse it only when manifest, scope, and ancestry agree.
 - _IF_ divergence exists:
   - Diagnose it before writing.
-  - _RETURN_ the branch divergence to caller.
-- On the established branch, execute [scope-change](../scope-change/SKILL.md) once to persist the manifest.
-- _FOR-EACH_ specification in manifest order:
-  - Execute [specify-spec](../specify-spec/SKILL.md) sequentially.
-- _IF_ all specifications are validated or YOLO applies:
-  - _FOR-EACH_ specification in manifest order:
-    - Execute [implement-spec](../implement-spec/SKILL.md) sequentially.
-- Allow one writer at a time for shared contracts and shared files.
-- Delegate stage commits only sequentially and only for the current stage files.
-- _IF_ every specification is implemented:
-  - Execute [ship-implementation](../ship-implementation/SKILL.md) once with the complete manifest.
+  - _RETURN_ the divergence to caller.
+- Execute [scope-change](../scope-change/SKILL.md) on the branch to persist the manifest; set it `in-progress` before the first delivery write.
+- _FOR-EACH_ referenced specification in manifest order, execute [specify-spec](../specify-spec/SKILL.md) sequentially.
+- _IF_ every referenced specification is validated or YOLO applies:
+  - Execute [implement-spec](../implement-spec/SKILL.md) once for the complete change.
+- _IF_ no specification is referenced:
+  - Execute [implement-spec](../implement-spec/SKILL.md) from the manifest criteria.
+- Allow one writer at a time for shared files and the Git index.
+- Execute [ship-implementation](../ship-implementation/SKILL.md) once for the complete change.
 - Keep final integration here and expressly delegate it to `shipify`.
 
-_RETURN_ one atomically delivered coordinated change.
+_RETURN_ one atomically delivered change.

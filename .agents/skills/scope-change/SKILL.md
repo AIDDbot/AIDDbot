@@ -1,6 +1,6 @@
 ---
 name: scope-change
-description: Resolve specification identity and persist an approved coordinated change scope when needed.
+description: Classify and persist the common delivery change.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,12 @@ disable-model-invocation: true
 ---
 # scope-change
 
-Your goal is to resolve which specifications a requirement touches and, only for an approved multi-spec delivery, persist its manifest.
+Your goal is to classify one delivery and persist its common change manifest.
 
-Read the PRD, every functional and technical spec, and the architecture. Follow [the triage contract](./references/triage.md). Resolve `key`, `kind`, and `action` before any branch or artifact is created; reserve new spec IDs together so later stages cannot choose different identities.
+Read the PRD, relevant specifications, findings, and architecture. Follow [the classification contract](./references/triage.md). Resolve the change key, `origin`, `kind`, `intent`, `complexity`, derived stages, criteria, scope, and any specification identities before a branch or artifact is created.
 
-Clarify ambiguity with the human one closed question at a time. Initial triage is read-only and returns the repository base revision plus the impact map. For one specification, return without a manifest. For several, also reserve the next change ID and return `{change_key}`. After the delivery owner has established `change/{change_key}`, a second call with the approved report writes `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md). Never create or switch branches.
+For requested work, clarify material ambiguity with the human one closed question at a time. Craft input comes only from its current finding review. Initial classification is read-only and returns the base revision and complete scope. After the owner establishes `change/{change_key}`, write `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md). Never create or switch branches.
 
-The result is either a read-only scope report or the manifest for an approved coordinated delivery.
+The result is either a read-only classification or the manifest for one delivery.
 
 Commit as `docs(scope-change): …`.

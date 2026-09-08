@@ -1,6 +1,6 @@
 ---
 name: shipify
-description: Bump version, update CHANGELOG and arch docs, and close qualified work.
+description: Release a ready change from its current applicable evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

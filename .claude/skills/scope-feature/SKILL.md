@@ -1,6 +1,6 @@
 ---
 name: scope-feature
-description: Decide whether a requirement needs one specification or several coordinated specifications.
+description: Classify a requested change and resolve any durable specifications it affects.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

@@ -1,6 +1,6 @@
 ---
 name: scope-change
-description: Resolve specification identity and persist an approved coordinated change scope when needed.
+description: Classify and persist the common delivery change.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
