@@ -17,10 +17,10 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 Or, with Bun's package launcher:
 
 ```bash
-bunx github:AIDDbot/AIDDbot init
+bun x --package github:AIDDbot/AIDDbot aiddbot init
 ```
 
-Plain `bunx` follows the CLI's Node shebang; `bunx --bun github:AIDDbot/AIDDbot init` explicitly uses Bun as the runtime.
+This package form follows the CLI's Node shebang; `bun x --bun --package github:AIDDbot/AIDDbot aiddbot init` explicitly uses Bun as the runtime.
 
 `--allow-git=all` is required on npm 12, which blocks git fetches by default.
 
@@ -31,6 +31,8 @@ That copies `.agents/`, Claude Code skill pointers, and the native agent, rule, 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot update --dry-run
 npx --allow-git=all github:AIDDbot/AIDDbot update
+bun x --package github:AIDDbot/AIDDbot aiddbot update --dry-run
+bun x --package github:AIDDbot/AIDDbot aiddbot update
 ```
 
 `update` never initializes Git or touches seed files such as `README.md` and `.gitignore`. It records ownership of safely installed overlay files in `.aiddbot/manifest.json`; an untouched owned file can be refreshed or retired automatically, while an edited file is preserved and reported as a conflict (exit code `2`). `--force` explicitly permits replacement and removal of regular, manifest-validated managed files. Legacy installs without a manifest are adopted only when identical, newly created, or explicitly forced. `--dry-run` changes neither files, metadata, Git index, nor history.
