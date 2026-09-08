@@ -1,29 +1,17 @@
 orchestrator: architect-solution-foundation
-flow:
-  - IF: existing application code is identifiable
-    worker: map-solution
-    flow:
-      - skill: explore
-        agent: Architect
-      - FOR-EACH: container
-        skill: extract
-        agent: Architect
-  - IF: repository is empty or documentation-only
-    worker: design-solution
-    flow:
-      - skill: explore
-        agent: Architect
-      - skill: specify
-        agent: Architect
-        with: { kind: technical }
-      - skill: scaffoldify
-      - worker: map-solution
-        flow:
-          - skill: explore
-            agent: Architect
-          - FOR-EACH: container
-            skill: extract
-            agent: Architect
-  - IF: files exist but classification is unsafe
-    action: ask the user, then follow the selected route
-  - RETURN: architected solution foundation ready for delivery
+intent: understand, design, or prepare a solution architecture
+inputs:
+  - user intent
+  - repository evidence and existing architecture documents
+stages:
+  - resolve requested outcome
+  - map-solution when understanding existing code
+  - design-solution when defining a new or evolved architecture
+  - materialize through design-solution only when an executable foundation is requested
+human_decisions:
+  - clarify only when the requested outcome or a material choice is ambiguous
+outcomes:
+  - mapped architecture
+  - validated design
+  - prepared executable foundation
+  - ambiguity or blocker

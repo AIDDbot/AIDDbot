@@ -14,6 +14,7 @@ Your goal is to **collect durable findings** without changing application code.
   - Read every `e2e.report.md`, `qualify.report.md`, accumulated-debt entry, current `clean-solution` report, and any concrete defect evidence supplied by the caller.
   - Normalize durable evidence into `{Product_Folder}/findings.md` using the [finding contract](./references/finding.contract.md).
   - Retain source links and evidence.
+  - Record the approved criterion, valid test, or applicable documented rule when evidence says a defect violates an existing contract.
   - Deduplicate only findings with identical violated state and scope.
   - Do not infer product priority.
   - Keep `pending`, `accepted`, `delivered`, `rejected`, and `stale` distinct.

@@ -16,4 +16,4 @@ Your goal is to **build a requested change** from initial analysis through deliv
 - _IF_ the scope report affects several coordinated specifications:
   - Execute [deliver-change](../deliver-change/SKILL.md) command.
 
-_RETURN_ a released change implemented and verified.
+_RETURN_ the actual delivery outcome: released change, specification awaiting approval, or concrete blocker.

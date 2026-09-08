@@ -35,9 +35,9 @@ status: {green | red | blocked}
 | Ui | {pass \| fail \| n/a \| blocked} | {evidence, or why this gate cannot apply; impediment if blocked} |
 | Project-rules | {pass \| fail \| n/a \| blocked} | {rules checked, or why none can apply; impediment if blocked} |
 
-## Behavior boundary
+## Contract boundary
 
-{Confirm the diff preserves observable behavior. A behavior change is red and remains outside this delivery scope.}
+{Confirm the diff preserves observable behavior or restores the approved contract recorded by each finding. A contract change or unsupported expected behavior is red and remains outside this delivery scope.}
 
 ## Findings
 

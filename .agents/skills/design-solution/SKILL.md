@@ -1,6 +1,6 @@
 ---
 name: design-solution
-description: Design a solution architecture for a greenfield project.
+description: Design a new or evolved solution architecture and optionally materialize a new foundation.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,19 +8,22 @@ disable-model-invocation: true
 ---
 # design-solution
 
-Your goal is to **design and materialize a greenfield solution foundation**.
+Your goal is to **design a new or evolved solution architecture and materialize it only when requested**.
 
-- Spawn Architect and execute [explore](../explore/SKILL.md).
-- On first write:
-  - Replace init seed with complete project rules.
-  - Create empty architecture, model, and PRD shells.
-- Resolve technical-spec identity.
-- From recorded base, delivery owner creates `chore/{spec_key}` or compatibly reuses it.
-- Spawn Architect and execute [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action.
-  - Keep the received branch.
-- Confirm missing material choices.
-- Execute [scaffoldify](../scaffoldify/SKILL.md) exactly once using validated design.
-  - Do not skip scaffoldification because repository is empty or a scaffold is implied.
-- Execute [map-solution](../map-solution/SKILL.md) after materialization to reconcile documented containers with selected design.
+- Inspect existing documentation and application evidence before writing.
+- _IF_ identifiable application code exists:
+  - Execute [map-solution](../map-solution/SKILL.md) and use that map as the current architecture.
+- _IF_ the project documentation foundation is missing:
+  - Spawn Architect and execute [explore](../explore/SKILL.md).
+- Reuse settled design decisions and show contradictions between documentation and code.
+- Resolve technical-spec identity and record the base revision.
+- The delivery owner creates `chore/{spec_key}` or compatibly reuses it before the first design write.
+- Spawn Architect and execute [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action; keep the owner's branch.
+- _IF_ materialization was not requested:
+  - _RETURN_ the mapped context and validated technical design without installing a scaffold.
+- _IF_ materialization was requested and application files already exist:
+  - _RETURN_ the validated design and route its implementation through requested-change delivery.
+- Resolve missing material choices and execute [scaffoldify](../scaffoldify/SKILL.md) exactly once.
+- Execute [map-solution](../map-solution/SKILL.md) after materialization to reconcile the documented and actual containers.
 
-_RETURN_ scaffolded solution, reconciled architecture, and technical specification.
+_RETURN_ the actual outcome: validated technical design, prepared and reconciled foundation, or blocker.

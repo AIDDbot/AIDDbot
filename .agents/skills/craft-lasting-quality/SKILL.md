@@ -8,25 +8,20 @@ disable-model-invocation: true
 ---
 # craft-lasting-quality
 
-Your goal is to **craft lasting quality** from evidence-backed solution findings.
+Your goal is to **maintain solution quality from current, evidence-backed findings**.
 
-- Select one behavior-preserving findings scope in this order:
-  - A human-named defect or finding.
-  - An unfinished `accepted` group.
-  - The most important `pending` finding supported by recorded evidence.
-  - Normalize new human evidence through [collect-findings](../collect-findings/SKILL.md).
-  - Leave behavior-changing findings `pending` and explain why.
-- _IF_ no scope was selected:
-  - execute [clean-solution](../clean-solution/SKILL.md).
-  - execute [collect-findings](../collect-findings/SKILL.md).
-  - Select the most important eligible result.
-- _IF_ no scope was selected:
-  - Report that result.
-  - _RETURN_ without creating a branch or changing code.
-- Prepare one accepted findings scope on `fix/{fix_key}`.
-  - reusing an unfinished compatible scope.
-  - Do not proceed over unrelated changes or a divergent branch.
-- Execute [fix-defects](../fix-defects/SKILL.md) with that scope.
-- Execute [ship-implementation](../ship-implementation/SKILL.md) with the same scope.
+- _IF_ the user supplies new defect evidence:
+  - Execute [collect-findings](../collect-findings/SKILL.md) before selection.
+- _IF_ the user explicitly requests a current quality review:
+  - Execute [clean-solution](../clean-solution/SKILL.md) and then [collect-findings](../collect-findings/SKILL.md), even when findings already exist; preserve any accepted unfinished scope.
+- Select one eligible scope in this order: a human-named finding, an unfinished `accepted` group, then the most important evidence-backed `pending` finding.
+- Confirm that each selected finding still exists. Mark obsolete evidence `stale` and select again.
+- An eligible repair either preserves observable behavior or restores an approved contract backed by an active criterion, valid test, or applicable documented rule. Leave a requested contract change or an unsupported expected behavior `pending` and return its need for specification.
+- _IF_ no eligible scope was selected and no current review has run:
+  - Execute [clean-solution](../clean-solution/SKILL.md), then [collect-findings](../collect-findings/SKILL.md), and select again.
+- _IF_ no eligible scope was selected:
+  - _RETURN_ no eligible findings without creating a branch or changing code.
+- Accept the selected pending findings, assign or reuse one `fix_key`, record the base revision, and create or compatibly reuse `fix/{fix_key}`. Do not proceed over unrelated changes or divergence.
+- Execute [fix-defects](../fix-defects/SKILL.md), then [ship-implementation](../ship-implementation/SKILL.md) with the same accepted scope.
 
-_RETURN_ a released remediation with traceable findings.
+_RETURN_ the actual outcome: released remediation, no eligible findings, need for specification, or concrete blocker.

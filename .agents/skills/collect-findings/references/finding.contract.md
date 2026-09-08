@@ -10,6 +10,7 @@ Use one heading per finding:
 - Scope: {paths, containers, specs, or architecture elements}
 - Rule: {violated gate, expected state, or accumulated debt}
 - Evidence: {observed facts}
+- Contract: {active criterion, valid test, or applicable documented rule when the finding violates approved behavior; omit otherwise}
 - Severity: {only when the source supplies it}
 - Fix: {fix_key once accepted for Craft delivery}
 - Base-revision: {full default-branch commit id once accepted}

@@ -1,81 +1,14 @@
 orchestrator: build-requested-change
-flow:
-  - worker: scope-feature
-    flow:
-      - skill: scope-change
-        agent: Architect
-        mode: read-only triage
-  - IF: scope affects one specification
-    worker: deliver-spec
-    flow:
-      - worker: specify-spec
-        flow:
-          - skill: specify
-            agent: Architect
-      - worker: implement-spec
-        flow:
-          - FOR-EACH: affected container
-            skill: planify
-            agent: Builder
-          - FOR-EACH: implementation plan
-            skill: codify
-            agent: Builder
-      - worker: ship-implementation
-        flow:
-          - REPEAT: until delivered or blocked
-            flow:
-              - skill: verify
-                agent: Craftsman
-              - IF: verify is green
-                skill: qualify
-                agent: Craftsman
-              - IF: verify or qualify has correctable findings
-                worker: fix-defects
-                flow:
-                  - FOR-EACH: affected container
-                    skill: codify
-                    agent: Builder
-              - IF: verify and qualify are green and current
-                skill: shipify
-                agent: Craftsman
-  - IF: scope affects coordinated specifications
-    worker: deliver-change
-    flow:
-      - skill: scope-change
-        mode: persist manifest
-      - FOR-EACH: specification
-        sequential: true
-        worker: specify-spec
-        flow:
-          - skill: specify
-            agent: Architect
-      - FOR-EACH: specification
-        sequential: true
-        worker: implement-spec
-        flow:
-          - FOR-EACH: affected container
-            skill: planify
-            agent: Builder
-          - FOR-EACH: implementation plan
-            skill: codify
-            agent: Builder
-      - worker: ship-implementation
-        once_for: complete manifest
-        flow:
-          - REPEAT: until delivered or blocked
-            flow:
-              - skill: verify
-                agent: Craftsman
-              - IF: verify is green
-                skill: qualify
-                agent: Craftsman
-              - IF: verify or qualify has correctable findings
-                worker: fix-defects
-                flow:
-                  - FOR-EACH: affected container
-                    skill: codify
-                    agent: Builder
-              - IF: verify and qualify are green and current
-                skill: shipify
-                agent: Craftsman
-  - RETURN: released change implemented and verified
+intent: develop requested functionality or a technical change
+inputs:
+  - requested change
+stages:
+  - scope-feature
+  - deliver-spec for one specification
+  - deliver-change for coordinated specifications
+human_decisions:
+  - approve each specification before implementation unless YOLO applies
+outcomes:
+  - released change
+  - specification awaiting approval
+  - blocker
