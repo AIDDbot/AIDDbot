@@ -1,0 +1,42 @@
+orchestrator: craft-lasting-quality
+flow:
+  - IF: new human evidence must be normalized
+    worker: collect-findings
+    agent: Craftsman
+  - selection_priority:
+      - user-named eligible finding
+      - accepted unfinished scope
+      - highest-importance eligible pending finding
+  - IF: no eligible scope exists
+    worker: clean-solution
+    agent: Craftsman
+    checks: [complexity, coverage, strict-lint]
+  - IF: clean-solution produced evidence
+    worker: collect-findings
+    agent: Craftsman
+  - IF: an eligible scope is accepted
+    worker: fix-defects
+    flow:
+      - FOR-EACH: affected container
+        skill: codify
+        agent: Builder
+  - IF: fixes are complete
+    worker: ship-implementation
+    flow:
+      - REPEAT: until delivered or blocked
+        flow:
+          - skill: verify
+            agent: Craftsman
+          - IF: verify is green
+            skill: qualify
+            agent: Craftsman
+          - IF: verify or qualify has correctable findings
+            worker: fix-defects
+            flow:
+              - FOR-EACH: affected container
+                skill: codify
+                agent: Builder
+          - IF: verify and qualify are green and current
+            skill: shipify
+            agent: Craftsman
+  - RETURN: repaired and released findings scope
