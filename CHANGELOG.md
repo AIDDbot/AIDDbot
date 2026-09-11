@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.6 - 2026-09-11
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .npmignore
+ M scripts/verify-cli-update.js
+ M scripts/verify-skills-migration.js
+```
+
 ## 0.0.5 - 2026-09-11
 
 - chore: release 004 (8c759d2)

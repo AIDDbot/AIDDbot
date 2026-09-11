@@ -8,14 +8,14 @@ import { runOverlay } from "../bin/lib/overlay.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = path.join(root, ".agents", "skills");
+const failures = [];
 for (const seed of ["AGENTS.seed.md", "CLAUDE.seed.md"]) {
-  if (!fs.existsSync(path.join(root, ".agents", "templates", seed))) {
-    fail(`init agent seed is missing from .agents/templates: ${seed}`);
+  if (!fs.existsSync(path.join(root, ".agents", "seeds", seed))) {
+    fail(`init agent seed is missing from .agents/seeds: ${seed}`);
   }
 }
 const managed = "<!-- managed by /adapt — do not edit here, edit ";
 const kinds = new Set(["orchestrator", "worker", "primitive"]);
-const failures = [];
 
 function fail(message) {
   failures.push(message);

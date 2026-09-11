@@ -16,7 +16,7 @@ try {
   const dest = path.join(root, "dest"); fs.mkdirSync(dest);
   const seed = ensureSeedFiles(dest, false, "Demo");
   assert.deepEqual(seed.sort(), [".gitignore", "AGENTS.md", "CLAUDE.md", "README.md"]);
-  assert.match(fs.readFileSync(path.join(dest, "AGENTS.md"), "utf8"), /Product direction/);
+  assert.equal(fs.readFileSync(path.join(dest, "AGENTS.md"), "utf8"), fs.readFileSync(new URL("../.agents/seeds/AGENTS.seed.md", import.meta.url), "utf8"));
   assert.equal(fs.readFileSync(path.join(dest, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
   fs.writeFileSync(path.join(dest, "AGENTS.md"), "consumer rules\n");
   assert.equal(ensureSeedFiles(dest, false, "Demo").includes("AGENTS.md"), false);
