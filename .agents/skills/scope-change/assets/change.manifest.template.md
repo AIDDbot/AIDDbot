@@ -32,9 +32,9 @@ released-version:
 
 {The bounded implementation scope.}
 
-## Acceptance criteria
+## Out of scope
 
-- {Observable criterion and its evidence method.}
+{What is out of scope.}
 
 ## Impact map
 
@@ -43,14 +43,6 @@ released-version:
 | {spec_key} | {functional \| technical} | {create \| amend} | {why this spec is in scope} |
 
 {Omit the table when no durable specification is created or amended.}
-
-## Finding set
-
-{Finding IDs selected for one Craft batch. Omit for requested work.}
-
-## Evidence
-
-{Record criterion evidence produced during implementation when qualification is not required.}
 
 ## Notes
 

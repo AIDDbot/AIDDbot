@@ -2,18 +2,22 @@
 name: scope-change
 description: Classify and persist the common delivery change.
 metadata:
-  aiddbot-kind: primitive
+  aiddbot-kind: worker
 user-invocable: true
 disable-model-invocation: true
 ---
 # scope-change
 
-Your goal is to classify one delivery and persist its common change manifest.
+Classify one delivery and persist its common change manifest.
 
-Read the PRD, relevant specifications, findings, and architecture. Follow [the classification contract](./references/triage.md). Resolve the change key, `origin`, `kind`, `intent`, `complexity`, derived stages, criteria, scope, and any specification identities before a branch or artifact is created.
-
-For requested work, clarify material ambiguity with the human one closed question at a time. Craft input comes only from its current finding review. Initial classification is read-only and returns the base revision and complete scope. After the owner establishes `change/{change_key}`, write `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md). Never create or switch branches.
-
-The result is either a read-only classification or the manifest for one delivery.
+- _SPAWN_ a new _Architect_ agent to:
+  - Read the PRD, relevant specifications, findings, and architecture.
+  - Follow [the classification triage contract](./references/triage.md).
+  - Resolve the change key, `origin`, `kind`, `intent`, `complexity`, derived stages, criteria, scope, and any specification identities before a branch or artifact is created.
+  - Determine change-key using change id and slug. `{change_key} = f"{change_id}-{slug}"`
+  - Create or switch to the branch for the change named `{feat|fix|chore}/{change_key}`
+  - Write `{Product_Folder}/{change_key}.change.md` from the [change template](./assets/change.manifest.template.md). 
 
 Commit as `docs(scope-change): …`.
+
+_RETURN_ the change key and link to the change manifest.

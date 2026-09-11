@@ -15,7 +15,7 @@ Your goal is to fix correctable reported defects or selected Craft findings on t
   - _RETURN_ that requirement without writing.
 - Split a multi-container report by container.
 - _FOR-EACH_ part:
-  - Spawn Builder and execute [codify](../codify/SKILL.md) sequentially from the finding evidence without a plan artifact.
+  - Execute [codify](../codify/SKILL.md) sequentially from the finding evidence without a plan artifact.
 - Limit changes to reported defects and necessary tests.
 - _IF_ a check is blocked or a required criterion changes:
   - Do not classify it as a code defect.

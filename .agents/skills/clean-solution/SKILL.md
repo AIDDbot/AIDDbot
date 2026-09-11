@@ -8,11 +8,12 @@ disable-model-invocation: true
 ---
 # clean-solution
 
-Your goal is to **produce evidence-backed whole-codebase quality findings**.
+Clean the codebase and **produce evidence-backed code-smells and quality findings**.
 
 - _SPAWN_ a _Craftasman_ agent to
   - Run available complexity, coverage, and strict-lint checks.
-  - Report each CRAP violation, insufficient-coverage result, warning, or error with evidence.
+  - Report each CRAP violation, insufficient-coverage, warning, or error with evidence.
   - Do not edit code, update the finding ledger, create a branch, or relax lint rules.
-
+  - Normalize durable evidence into `{Product_Folder}/findings.md` using the [finding contract](./references/finding.contract.md).
+  
 _RETURN_ current quality report.

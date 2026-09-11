@@ -12,7 +12,7 @@ Map the solution architecture to have documentation and rules for this codebase.
 
 - _SPAWN_ an _Architect_ agent to read and execute [explore skill](../explore/SKILL.md).
 - _FOR-EACH_ container found:
-  - _SPAWN_ an _Architect_ agent to read and execute [extract skill](../extract/SKILL.md) for that container.
+  - _SPAWN_ in parallel an _Architect_ agent to read and execute [extract skill](../extract/SKILL.md) for that container.
 
 **Checklist**
 - [ ] [explore skill templates](../explore/assets) were used to generate architecture documentation

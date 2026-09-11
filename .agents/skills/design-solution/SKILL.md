@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Choose the required tiers and technologies for a new solution and materialize its scaffold.
 
-- Inspect and clarify to resolve the solution name, problem, intended users, and proposed solution.
+- _SPAWN_ an _Architect_ agent to inspect and clarify solution name, problem, intended users, and proposed solution.
 - _SPAWN_ a _Builder_ agent to read and execute [scaffoldify skill](../scaffoldify/SKILL.md) with those inputs.
 
 **Checklist**

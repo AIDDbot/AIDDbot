@@ -8,9 +8,9 @@ disable-model-invocation: true
 ---
 # specify-spec
 
-Your goal is to produce a validated durable specification from identity settled by classification.
+Produce a **validated durable specification** settled by classification.
 
-- Pass the exact `key`, `kind`, and `action` to Architect and execute [specify](../specify/SKILL.md) on the owner's branch.
+- Execute [specify](../specify/SKILL.md) with the exact `key`, `kind`, and `action`.
 - _IF_ YOLO does not apply:
   - Present the resulting specification and return it awaiting human approval.
 - _IF_ the specification is approved or YOLO applies:

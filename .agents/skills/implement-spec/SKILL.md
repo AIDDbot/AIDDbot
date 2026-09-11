@@ -8,7 +8,7 @@ disable-model-invocation: true
 ---
 # implement-spec
 
-Your goal is to implement a classified change without concurrent writers.
+Implement a classified change without concurrent writers.
 
 - Read its manifest and referenced specifications; keep the owner's active branch.
 - _IF_ `stages.plan` is true:
