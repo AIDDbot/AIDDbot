@@ -16,6 +16,7 @@ Choose the required tiers and technologies for a new solution and materialize it
     - discuss that tier (responibility, language, framework, destination)
     - offer the the actual arquetype solution, plus an alternative or omit the tier  
     - let user have the final say
+- Show the proposed table and wait for user confirmation.
 - _SPAWN_ _Builder_ to execute [scaffoldify skill](../scaffoldify/SKILL.md) with the table to materialize the arquetypes.
 - _FOR-EACH_ tier not yet materialized, 
     - Search for its official scaffolding support on the internet 
