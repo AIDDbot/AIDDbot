@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.15 - 2026-09-11
+
+- docs: remove yaml workflows (867771b)
+- feat: agents (973810e)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/clean-solution/SKILL.md
+ M .agents/skills/collect-findings/SKILL.md
+ M .agents/skills/deliver-change/SKILL.md
+ M .agents/skills/design-solution/SKILL.md
+ M .agents/skills/map-solution/SKILL.md
+ M .agents/skills/scope-feature/SKILL.md
+```
+
 ## 0.0.14 - 2026-09-11
 
 - Include working tree changes.

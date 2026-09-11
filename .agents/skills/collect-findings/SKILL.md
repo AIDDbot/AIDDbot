@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 Your goal is to **collect durable findings** without changing application code.
 
-- Spawn Craftsman.
+- _SPAWN_ a _Craftasman_ agent to
   - Read every `e2e.report.md`, `qualify.report.md`, accumulated-debt entry, and the current `clean-solution` report.
   - Normalize durable evidence into `{Product_Folder}/findings.md` using the [finding contract](./references/finding.contract.md).
   - Retain source links and evidence.

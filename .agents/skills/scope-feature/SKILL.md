@@ -8,9 +8,9 @@ disable-model-invocation: true
 ---
 # scope-feature
 
-Your goal is to classify a requested change before delivery writes begin.
+Classify a requested change before delivery writes begin.
 
-- Spawn Architect and execute [scope-change](../scope-change/SKILL.md) in read-only mode.
+- _SPAWN_ an _Architect_ agent to execute [scope-change](../scope-change/SKILL.md) in read-only mode.
 - Resolve one change key, base, origin, kind, intent, complexity, derived stages, criteria, and scope.
 - _FOR-EACH_ affected durable specification, reserve stable `key`, `kind`, and `action`.
 - Do not persist the manifest during triage.
