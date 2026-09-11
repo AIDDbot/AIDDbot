@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.7 - 2026-09-11
+
+- feat: arcchitect workflow (dcf6dd8)
+- refactor(skills): tighten /design-solution (ae9d833)
+- refactor(skills): tighten /scaffoldify (463a39c)
+- feat: rewrite of aiddbot orchestrators (ccfdd04)
+- refactor(skills): tighten orchestrator workflows (c03d259)
+
 ## 0.0.6 - 2026-09-11
 
 - Include working tree changes.
