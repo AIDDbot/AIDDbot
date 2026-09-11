@@ -1,6 +1,6 @@
 ---
 name: architect-solution-foundation
-description: Understand, design, or prepare a solution architecture from repository evidence.
+description: Understand, or design a solution architecture from repository evidence.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
@@ -8,7 +8,7 @@ disable-model-invocation: true
 ---
 # architect-solution-foundation
 
-Your goal is to **understand, design, or prepare a solution architecture**.
+Your goal is to **understand or design a solution architecture**.
 
 - Infer if current solution is a legacy brownfield or a new greenfield.
   - If no code at all, is a new greenfield.

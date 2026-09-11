@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.14 - 2026-09-11
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-solution-foundation/SKILL.md
+ M .agents/skills/design-solution/SKILL.md
+ M .agents/skills/explore/SKILL.md
+ M .agents/skills/extract/SKILL.md
+ M .agents/skills/map-solution/SKILL.md
+ M .agents/skills/scaffoldify/SKILL.md
+```
+
 ## 0.0.13 - 2026-09-11
 
 - Include working tree changes.

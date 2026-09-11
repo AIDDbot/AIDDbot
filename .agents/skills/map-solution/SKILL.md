@@ -8,14 +8,14 @@ disable-model-invocation: true
 ---
 # map-solution
 
-Your goal is to **map the solution architecture**.
+Map the solution architecture to have documentation and rules for this codebase.
 
 - _SPAWN_ _Architect_ to read and execute [explore skill](../explore/SKILL.md).
 - _FOR-EACH_ container found:
   - _SPAWN_ _Architect_ to read and execute [extract skill](../extract/SKILL.md) for that container.
 
 **Checklist**
-- [ ] [explore skill](../explore/SKILL.md) templates where used to generate architecture documentation
-- [ ] [extract skill](../extract/SKILL.md) templates where used to extract container information
+- [ ] [explore skill templates](../explore/assets) were used to generate architecture documentation
+- [ ] [extract skill templates](../extract/assets) were used to extract container information
 
 _RETURN_ short mapped-solution report.

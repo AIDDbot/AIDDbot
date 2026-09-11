@@ -11,8 +11,7 @@ disable-model-invocation: true
 Choose the required tiers and technologies for a new solution and materialize its scaffold.
 
 - Inspect and clarify to resolve the solution name, problem, intended users, and proposed solution.
-
-- _SPAWN_ _Builder_ to read and execute [scaffoldify skill](../scaffoldify/SKILL.md) .
+- _SPAWN_ _Builder_ to read and execute [scaffoldify skill](../scaffoldify/SKILL.md) with those inputs.
 
 **Checklist**
 - [ ] solution name, problem, and proposed solution are clarified

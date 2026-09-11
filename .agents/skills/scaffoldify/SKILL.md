@@ -8,13 +8,13 @@ disable-model-invocation: true
 ---
 # scaffoldify
 
-Your goal is to determine the archetypes a solution needs and materialize an installable and runnable scaffold (no business logic).
+Determine the archetypes a solution needs and materialize an installable and runnable scaffold (no business logic).
 
 Before suggesting technologies, run `node .agents/skills/scaffoldify/scripts/materialize.mjs --list` as the catalog authority.
 
 - For each tier in `back`, `front`, `e2e`, and `cli`, 
     - discuss that tier (responibility, language, framework, destination)
-    - offer the the actual arquetype solution, plus an alternative or omit the tier  
+    - offer the actual arquetype solution, plus an alternative or omit the tier  
     - let user have the final say
 - Show a table with the proposed scaffolding and wait for user confirmation.
 
@@ -34,9 +34,9 @@ For non-catalogued technologies, search for their official scaffolding support o
 
 Install and run smoke tests (or e2e if available) for each container.
 
-After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). The script supplies minimal metadata; you supply the grounded project narrative and authorship.
+After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). 
 
-The result is an installable, smoke-tested solution scaffold with coherent root documentation and metadata.
+The result is asmoke-tested solution scaffold with coherent root documentation and metadata.
 
 **Git process**: Commit and merge to default branch after materializing.
 
