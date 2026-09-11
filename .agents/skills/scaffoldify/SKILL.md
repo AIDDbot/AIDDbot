@@ -14,7 +14,7 @@ Resolve and obtain confirmation for the material choices in the [scaffold contra
 
 Commit pending changes and switch to a new branch `chore/scaffold`
 
-Resolve each container independently: run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; for technologies outside the catalog, research and use official scaffolding tools or instructions as the contract requires. A solution may combine both sources.
+Resolve each container independently: run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; for technologies outside the catalog do nothing. A solution may combine both sources.
 
 A selected catalog archetype MUST be fetched by the materializer. It is a concrete project template, not a suggestion of framework: never recreate it from scratch, replace it with a generic generator, or rewrite its structure to your preferences. If materialization fails, resolve the failure or report it; do not silently substitute your own scaffold.
 
@@ -23,3 +23,5 @@ After all containers are materialized, reconcile the root documentation and meta
 The result is an installable, smoke-tested solution scaffold with coherent root documentation and metadata.
 
 Commit and merge to default branch.
+
+Return a short summary of the tiers materialized or pending.
