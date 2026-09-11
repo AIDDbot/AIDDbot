@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.10 - 2026-09-11
+
+- fix: simplify scaffold (3b75822)
+
 ## 0.0.9 - 2026-09-11
 
 - fix: scaffold (eac19ba)
