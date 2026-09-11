@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.9 - 2026-09-11
+
+- fix: scaffold (eac19ba)
+
 ## 0.0.8 - 2026-09-11
 
 - refactor(skills): tighten /scaffoldify (a663b4e)
