@@ -21,5 +21,6 @@ Your goal is to choose the required tiers and technologies for a new solution an
   - Record the user's selection or omission; for a selected tier, record responsibility, language, framework (or none), destination, and catalog archetype or official source URL.
 - Summarize the resolved choices in one tier/technology/directory/source table. At least one tier must be selected. Resolve requested changes before materialization.
 - Spawn Builder to read and follow [scaffoldify](../scaffoldify/SKILL.md), passing the product context, table, and explicit user decisions so it does not ask the same questions again.
+- For every catalog selection, explicitly instruct Builder to fetch that exact archetype with `materialize.mjs`. Choosing `express` or `standard` means using the AIDDbot project template, not building a project with that technology from scratch. Preserve the catalog identifier in the handoff.
 
 _RETURN_ the prepared foundation and selected tier table ready to be mapped, or the concrete blocker.

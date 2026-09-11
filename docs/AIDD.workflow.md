@@ -17,6 +17,12 @@ request another technology or omit the tier. It waits for the user's answer befo
 moving to the next tier and carries existing explicit choices forward. The final
 table records these decisions; it does not replace the individual questions.
 
+Catalog choices are concrete AIDDbot project templates. The agent must fetch them
+with `materialize.mjs`, preserve their structure and conventions, and then install
+their dependencies. It cannot replace a selected archetype with handwritten files
+or a generic framework generator; a failed fetch remains a blocker until resolved
+or the user explicitly changes the choice.
+
 When preparing a foundation, `/scaffoldify` determines the required archetypes
 for the `back`, `front`, `e2e`, and `cli` tiers selected by `design-solution`,
 respecting each tier's chosen language and framework. Catalog defaults do not

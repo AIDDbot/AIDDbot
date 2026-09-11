@@ -30,7 +30,30 @@ node .agents/skills/scaffoldify/scripts/materialize.mjs --list
 ```
 
 Then run one confirmed invocation with `--name {solution_name}` and one flag
-per selected tier. Each selected tier defaults to its literal folder (`back`,
+per selected catalog tier. The script fetches the concrete `AIDDbot/{tier}-{archetype}`
+repository through `tiged` into the destination and adjusts minimal project metadata.
+Running `--list` or `--dry-run` does not install an archetype; execute the actual
+materialization command before reporting that the scaffold exists.
+
+For example, when the user selects the catalog's Express backend and standard
+frontend, run:
+
+```text
+node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --back express --front standard
+```
+
+Use the confirmed solution name and destinations. This fetches `AIDDbot/back-express`
+and `AIDDbot/front-standard`; do not create equivalent-looking files yourself or
+run a generic Express/frontend generator instead. Preserve the fetched structure,
+dependencies, scripts, and conventions, apart from required identity reconciliation
+and explicit user-requested configuration. Dependency installation is a subsequent
+step using each fetched project's documented package manager.
+
+If fetching fails, diagnose and retry when appropriate or report the blocker.
+Do not populate the destination manually, delete partial work to force a retry,
+or switch to external tooling without an explicit change of choice from the user.
+
+Each selected tier defaults to its literal folder (`back`,
 `front`, `cli`, or `e2e`). When the confirmed architecture names containers
 differently, pass the matching `--{tier}-dir {container_name}` flag. A
 destination must be one safe direct-child folder name and every selected
