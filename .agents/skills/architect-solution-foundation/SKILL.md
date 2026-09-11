@@ -17,3 +17,5 @@ Your goal is to **understand, design, or prepare a solution architecture**.
 - _IF_ is a new greenfield:
   - Execute [design-solution](../design-solution/SKILL.md) passing any received user request.
 - Always execute [map-solution](../map-solution/SKILL.md) in any scenario (greenfield or brownfield).
+
+Suggests continue with [build-requested-change workflow](../build-requested-change/SKILL.md) for the first feature.

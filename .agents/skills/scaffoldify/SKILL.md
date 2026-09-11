@@ -32,6 +32,8 @@ node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --b
 
 For non-catalogued technologies, search for their official scaffolding support on the internet.
 
+Install and run smoke tests (or e2e if available) for each container.
+
 After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). The script supplies minimal metadata; you supply the grounded project narrative and authorship.
 
 The result is an installable, smoke-tested solution scaffold with coherent root documentation and metadata.
