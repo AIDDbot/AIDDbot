@@ -54,11 +54,28 @@ With Bun, use Bun's package form (no npm `allow-git` flag needed):
 bun x github:AIDDbot/AIDDbot init
 ```
 
-Use `bun x --bun --package github:AIDDbot/AIDDbot aiddbot init` only to explicitly select the Bun runtime. `init` also adds a small, safe `AGENTS.md` and a Claude `CLAUDE.md` pointer from the `.agents/templates/` seeds when they do not already exist; `/explore` expands those rules after it knows the project. Run `update` later to reconcile only the installed overlay. It preserves edited files, returns exit code `2` for conflicts, previews with `--dry-run`, and overwrites or removes managed files only with `--force`.
+Use `bun x --bun --package github:AIDDbot/AIDDbot aiddbot init` only to explicitly select the Bun runtime. 
 
-Then use `/architect-solution-foundation` to explain what exists, define a design, or prepare an executable foundation. Run `/build-requested-change` for requested work or corrections; use `/craft-lasting-quality` for autonomous quality review and batched remediation. Durable requested-change specifications pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
+Then use `/architect-solution-foundation` to explain what exists, define a design, or prepare an executable foundation. 
+Run `/build-requested-change` for requested work or corrections; 
 
-**New solution** — `init` in an empty folder outside this origin, then ask `/architect-solution-foundation` either to define the architecture or to prepare an executable foundation. Only the latter confirms material choices, scaffolds, and maps the resulting containers.
+Use `/craft-lasting-quality` for autonomous quality review and batched remediation. Durable requested-change specifications pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
+
+## Releases
+
+Run `npm run release` to increment the patch version, or `npm run release -- minor`
+or `npm run release -- major`. Add `--dry-run` to preview without writing files.
+The script updates `package.json` with the version and UTC build timestamp and
+prepends commit subjects to `CHANGELOG.md`. It records the current Git commit as
+the boundary for the next release; the first release uses the latest reachable
+`v*` version tag, or all history if none exists. Commit the intended changes before
+running it so they appear in the changelog, then review and commit the generated
+files. The command does not create commits or tags, or publish the package.
+
+`aiddbot --version` (or `-v`) prints the version and build timestamp without
+initializing a project. Both also appear in the `init` and `update` summary.
+The timestamp represents release preparation, since this JavaScript CLI has no
+compilation step; before the first release it displays `unreleased`.
 
 ## Documentation
 
