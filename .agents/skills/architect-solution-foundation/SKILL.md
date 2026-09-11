@@ -11,9 +11,9 @@ disable-model-invocation: true
 Your goal is to **understand, design, or prepare a solution architecture**.
 
 - Infer if current solution is a legacy brownfield or a new greenfield.
-- _IF_ is a legacy brownfield:
-  - Execute [map-solution](../map-solution/SKILL.md).
+  - If no code at all, is a new greenfield.
+  - If basic scaffold with no features, is an scaffolded greenfield.
+  - Any other scenario is a legacy brownfield.
 - _IF_ is a new greenfield:
-  - Execute [design-solution](../design-solution/SKILL.md) without materialization.
-- _IF_ the user wants an executable foundation:
-  - Execute [design-solution](../design-solution/SKILL.md) with materialization requested.
+  - Execute [design-solution](../design-solution/SKILL.md) passing any received user request.
+- Execute [map-solution](../map-solution/SKILL.md) in any scenario.
