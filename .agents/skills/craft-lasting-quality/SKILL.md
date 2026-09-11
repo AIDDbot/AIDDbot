@@ -8,20 +8,14 @@ disable-model-invocation: true
 ---
 # craft-lasting-quality
 
-Your goal is to review current solution quality and deliver one evidence-backed correction batch.
+Your goal is to **review solution quality and deliver one evidence-backed correction batch**.
 
-- Do not accept a human-supplied defect, finding selection, or priority; route requested corrections through `/build-requested-change`.
-- _IF_ an unfinished Craft change exists:
-  - Resume its fixed finding set without adding newly discovered findings.
+- Do not accept human-supplied defects, finding selections, or priorities.
+- Resume any unfinished Craft change with its fixed finding set.
 - _IF_ no unfinished Craft change exists:
   - Execute [clean-solution](../clean-solution/SKILL.md), then [collect-findings](../collect-findings/SKILL.md).
-  - Confirm current evidence and mark obsolete findings `stale`.
-  - Group findings with one cause and correction as one repair group.
-  - Select up to five eligible groups by severity, then impact and bounded scope.
-  - Exclude work that changes product behavior or needs an unsupported contract or product decision.
+  - Confirm evidence, mark obsolete findings `stale`, and group findings sharing one cause and correction.
+  - Select up to five groups by severity, impact, then bounded scope. Exclude behavior changes, unsupported contracts, and unresolved product decisions.
 - _IF_ no eligible group exists:
   - _RETURN_ no eligible findings without a branch or release.
-- Execute [scope-change](../scope-change/SKILL.md) to classify one `origin: craft`, `intent: fix` change referencing the fixed batch. Its policy always skips planning and requires one final verification; qualification follows complexity.
-- Execute [deliver-change](../deliver-change/SKILL.md) once for the batch.
-
-_RETURN_ one released remediation batch, no eligible findings, or a concrete blocker.
+- Execute [scope-change](../scope-change/SKILL.md) for the fixed batch with `origin: craft` and `intent: fix`, then [deliver-change](../deliver-change/SKILL.md) once.
