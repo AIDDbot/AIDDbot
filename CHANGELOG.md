@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.8 - 2026-09-11
+
+- refactor(skills): tighten /scaffoldify (a663b4e)
+- refactor(skills): tighten /design-solution (ad2b48c)
+
 ## 0.0.7 - 2026-09-11
 
 - feat: arcchitect workflow (dcf6dd8)
