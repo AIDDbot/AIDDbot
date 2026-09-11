@@ -11,11 +11,20 @@ AIDDbot exposes three entrypoints and uses one adaptive delivery contract.
 ## Foundation preparation
 
 When preparing a foundation, `/scaffoldify` determines the required archetypes
+for the `back`, `front`, `e2e`, and `cli` tiers selected by `design-solution`,
+respecting each tier's chosen language and framework. Catalog defaults do not
+restrict those choices: unmatched stacks use current official instructions
+researched on the internet. It then materializes the selected tiers
 and uses the catalog materializer or official scaffolding tooling per container.
 After generation, the agent reconciles the root README, license, and native
 manifest, grounding the problem and proposed solution in project context and
 authorship in the solution owner's identity. Existing documentation and upstream
 attribution are preserved.
+
+This preparation applies only when no application code or scaffold exists.
+Both a newly prepared foundation and existing code go through `map-solution`
+to establish AIDDbot documentation. Evolution of existing code belongs to
+requested delivery, not to foundation design.
 
 ## One change contract
 

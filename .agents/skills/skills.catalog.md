@@ -36,7 +36,7 @@ pending → in-progress → ready → released
 | Skill | Composition |
 | --- | --- |
 | [`map-solution`](./map-solution/SKILL.md) | `/explore`, then `/extract` per container |
-| [`design-solution`](./design-solution/SKILL.md) | Map context, capture design, and optionally prepare a foundation |
+| [`design-solution`](./design-solution/SKILL.md) | Choose new-solution tiers and technologies, then materialize through `/scaffoldify` |
 | [`clean-solution`](./clean-solution/SKILL.md) | Discover current complexity, coverage, and strict-lint evidence |
 | [`collect-findings`](./collect-findings/SKILL.md) | Normalize automated evidence into durable findings |
 | [`scope-feature`](./scope-feature/SKILL.md) | Classify a requested change read-only |
@@ -59,6 +59,10 @@ pending → in-progress → ready → released
 | Meta | [`/skillify`](./skillify/SKILL.md) |
 
 ## Routing
+
+`/architect-solution-foundation` prepares a new foundation only when no application
+code or scaffold exists, then always maps the solution. Existing code is mapped
+for later evolution through requested delivery; this route does not redesign it.
 
 `/scaffoldify` resolves the required archetypes, uses the catalog materializer or
 official external scaffolding tooling per container, and reconciles root README,

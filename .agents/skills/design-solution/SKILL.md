@@ -1,6 +1,6 @@
 ---
 name: design-solution
-description: Design a new or evolved solution architecture and optionally materialize a new foundation.
+description: Choose tiers and technologies for a new solution and materialize its foundation.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,22 +8,13 @@ disable-model-invocation: true
 ---
 # design-solution
 
-Your goal is to **design a new or evolved solution architecture and materialize it only when requested**.
+Your goal is to choose the required tiers and technologies for a new solution and materialize its scaffold, without business logic.
 
-- Inspect existing documentation and application evidence before writing.
-- _IF_ identifiable application code exists:
-  - Execute [map-solution](../map-solution/SKILL.md) and use that map as the current architecture.
-- _IF_ the project documentation foundation is missing:
-  - Spawn Architect and execute [explore](../explore/SKILL.md).
-- Reuse settled design decisions and show contradictions between documentation and code.
-- Resolve technical-spec identity and record the base revision.
-- The design owner creates `design/{spec_key}` or compatibly reuses it before the first design write.
-- Spawn Architect and execute [specify](../specify/SKILL.md) with fixed `key`, `kind: technical`, and action; keep the owner's branch.
-- _IF_ materialization was not requested:
-  - _RETURN_ the mapped context and validated technical design without installing a scaffold.
-- _IF_ materialization was requested and application files already exist:
-  - _RETURN_ the validated design and route its implementation through requested-change delivery.
-- Resolve missing material choices and execute [scaffoldify](../scaffoldify/SKILL.md) exactly once.
-- Execute [map-solution](../map-solution/SKILL.md) after materialization to reconcile the documented and actual containers.
+- Inspect the request and existing product documentation to resolve the solution name, problem, intended users, and proposed solution.
+- _IF_ application code or a scaffold already exists, _RETURN_ that the solution is ready for mapping; do not redesign or regenerate it.
+- Propose only the required tiers from `back`, `front`, `e2e`, and `cli`; not every solution needs all four. Respect user choices and clarify missing consequential decisions.
+- _FOR-EACH_ selected tier, settle its responsibility, language, framework (or none), and destination directory. Technologies may differ across tiers; a Python CLI or a Laravel backend with a Vue frontend is a valid choice, regardless of catalog coverage.
+- Confirm the selected tier/technology/directory mapping with the user, reusing decisions already settled. Pass it and the product context to the Builder; do not generate architecture documentation before the scaffold exists.
+- Spawn Builder to read and follow [scaffoldify](../scaffoldify/SKILL.md) exactly once. It resolves catalog matches and researches official scaffolding instructions on the internet for every unmatched technology.
 
-_RETURN_ the actual outcome: validated technical design, prepared and reconciled foundation, or blocker.
+_RETURN_ the prepared and reconciled foundation with the selected mapping, or the concrete blocker and any partially materialized directories.

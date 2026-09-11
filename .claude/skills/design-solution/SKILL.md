@@ -1,6 +1,6 @@
 ---
 name: design-solution
-description: Design a new or evolved solution architecture and optionally materialize a new foundation.
+description: Choose tiers and technologies for a new solution and materialize its foundation.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
