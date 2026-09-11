@@ -175,24 +175,13 @@ const prdTemplate = read(path.join(skillsRoot, "explore", "assets", "PRD.templat
 if (/^## \{category\}|\{spec_id\}/m.test(prdTemplate) || !prdTemplate.includes("Empty index")) {
   fail("initial PRD must be an empty index shell");
 }
-const scaffoldContract = read(path.join(skillsRoot, "scaffoldify", "references", "scaffold.contract.md"));
-for (const required of [
-  "reconcile the root\n`README.md` yourself",
-  "product summary",
-  "author fields for name, email, and website",
-  "Use a single clearly marked solution block",
-  "first inspect the fetched archetypes for a declared",
-  "matching Git identity or configuration\nvalue",
-  "render that field explicitly blank",
-  "confirmed `--{tier}-dir` destination",
-  "root `.gitignore` and `LICENSE`",
-]) {
-  if (!scaffoldContract.includes(required)) {
-    fail(`scaffoldify reconciliation contract is missing: ${required.replace(/\n/g, " ")}`);
-  }
-}
-if (scaffoldContract.indexOf("For each author field") < scaffoldContract.indexOf("After materialization")) {
-  fail("scaffoldify must resolve author fields from fetched archetypes after materialization");
+const scaffoldReadme = read(path.join(skillsRoot, "scaffoldify", "assets", "solution-readme.template.md"));
+const solutionStart = "<!-- aidd:solution:start -->";
+const solutionEnd = "<!-- aidd:solution:end -->";
+if (scaffoldReadme.split(solutionStart).length !== 2
+  || scaffoldReadme.split(solutionEnd).length !== 2
+  || scaffoldReadme.indexOf(solutionStart) > scaffoldReadme.indexOf(solutionEnd)) {
+  fail("scaffold README template must define exactly one replaceable solution block");
 }
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
 if (!craftSkill.includes("up to five") || !craftSkill.includes("origin: craft") || !craftSkill.includes("deliver-change")) {

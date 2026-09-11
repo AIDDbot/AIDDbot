@@ -1,6 +1,6 @@
 ---
 name: scaffoldify
-description: Materialize an explicitly chosen, installable solution scaffold.
+description: Resolve solution archetypes, materialize the scaffold, and reconcile root documentation and metadata.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

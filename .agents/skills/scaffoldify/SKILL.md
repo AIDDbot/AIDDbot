@@ -1,6 +1,6 @@
 ---
 name: scaffoldify
-description: Materialize an explicitly chosen, installable solution scaffold.
+description: Resolve solution archetypes, materialize the scaffold, and reconcile root documentation and metadata.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,16 @@ disable-model-invocation: true
 ---
 # scaffoldify
 
-Your goal is to materialize an installable solution scaffold.
+Your goal is to determine the archetypes a solution needs and materialize an installable and runnable scaffold (no business logic).
 
-Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md). Run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; use confirmed official tooling outside that catalog. After materialization, reconcile the root README yourself as the contract requires.
+Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md).
 
-Never create or switch a branch, commit, overwrite a non-empty project directory, or proceed over unresolved conflicts or unrelated changes.
+Commit pending changes and switch to a new branch `chore/scaffold`
 
-The result is an installable, smoke-tested solution scaffold.
+Resolve each container independently: run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; for technologies outside the catalog, research and use official scaffolding tools or instructions as the contract requires. A solution may combine both sources.
 
-Commit: never; the caller owns commits.
+After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). The script supplies minimal metadata; you supply the grounded project narrative and authorship.
+
+The result is an installable, smoke-tested solution scaffold with coherent root documentation and metadata.
+
+Commit and merge to default branch.

@@ -60,6 +60,10 @@ pending → in-progress → ready → released
 
 ## Routing
 
+`/scaffoldify` resolves the required archetypes, uses the catalog materializer or
+official external scaffolding tooling per container, and reconciles root README,
+license, and ecosystem metadata with the solution context and author identity.
+
 Requested work enters `/build-requested-change`. Simple changes may need no spec. Corrections requested by a human also enter this route with `intent: fix`.
 
 `/craft-lasting-quality` accepts no human defect or finding selection. Each fresh run reviews current evidence, groups related causes, selects up to five eligible repair groups, and delivers them as one change. An unfinished Craft batch resumes with its fixed finding set.

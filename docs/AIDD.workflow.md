@@ -8,6 +8,15 @@ AIDDbot exposes three entrypoints and uses one adaptive delivery contract.
 | Request product or technical work | `/build-requested-change` | one classified and released change |
 | Improve current quality | `/craft-lasting-quality` | one reviewed correction batch |
 
+## Foundation preparation
+
+When preparing a foundation, `/scaffoldify` determines the required archetypes
+and uses the catalog materializer or official scaffolding tooling per container.
+After generation, the agent reconciles the root README, license, and native
+manifest, grounding the problem and proposed solution in project context and
+authorship in the solution owner's identity. Existing documentation and upstream
+attribution are preserved.
+
 ## One change contract
 
 Every delivery gets a `change/{change_key}` branch and manifest. A change may reference zero, one, or several specs and optional findings. Specs hold durable behavior or technical policy; the change holds the intervention, workflow, evidence, status, and release.
