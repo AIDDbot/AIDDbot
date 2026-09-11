@@ -51,6 +51,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 Then use `/architect-solution-foundation` to explain what exists, define a design, or prepare an executable foundation. 
 Foundation scaffolding resolves archetypes from the catalog or official tooling and completes root documentation and metadata with the project's problem, proposed solution, and author.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
+For each tier, the agent reads the catalog, offers its archetype and a verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Run `/build-requested-change` for requested work or corrections; 
 
 Use `/craft-lasting-quality` for autonomous quality review and batched remediation. Durable requested-change specifications pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).

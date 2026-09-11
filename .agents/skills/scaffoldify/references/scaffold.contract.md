@@ -2,7 +2,17 @@
 
 Require a solution name and derive a safe slug for project metadata. Resolve
 the selected `back`, `front`, `cli`, and `e2e` tiers; at least one is required.
-For every selected tier, show the catalogued default and known alternatives.
+Before suggesting technologies, run the catalog listing below and inspect the
+listed archetypes' README or manifests for their actual stacks. Never reconstruct
+the catalog or infer a stack from an alias using model memory.
+For choices not already explicitly settled with the user, discuss `back`, `front`,
+`e2e`, and `cli` one at a time. Present the catalog archetype first, with its
+language/framework, then one alternative verified through current official web
+documentation and its tradeoff. Offer another user-specified technology or omission
+of the tier. Ask for that tier's choice and wait before moving on. A recommendation,
+default, or unanswered question is not a user decision. Record the answer and the
+catalog reference or official URL; do not leave technology selection to a final
+blanket confirmation. Report unavailable catalog evidence rather than inventing it.
 Catalog coverage requires a matching language and framework, not merely a matching
 tier. Inspect the archetype's declared stack when its catalog name is ambiguous;
 never replace the user's technology choice with the tier's default.

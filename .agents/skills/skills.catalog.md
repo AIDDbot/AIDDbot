@@ -67,6 +67,10 @@ for later evolution through requested delivery; this route does not redesign it.
 `/scaffoldify` resolves the required archetypes, uses the catalog materializer or
 official external scaffolding tooling per container, and reconciles root README,
 license, and ecosystem metadata with the solution context and author identity.
+Technology selection starts with the live catalog and proceeds one tier at a time:
+the user chooses the catalog archetype, a verified alternative, another technology,
+or omission. `/design-solution` passes these decisions to `/scaffoldify`; direct
+scaffolding resolves missing choices using the same interaction.
 
 Requested work enters `/build-requested-change`. Simple changes may need no spec. Corrections requested by a human also enter this route with `intent: fix`.
 

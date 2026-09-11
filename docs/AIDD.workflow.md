@@ -10,6 +10,13 @@ AIDDbot exposes three entrypoints and uses one adaptive delivery contract.
 
 ## Foundation preparation
 
+Technology selection happens one tier at a time, after reading the actual catalog.
+For `back`, `front`, `e2e`, and `cli`, the agent offers the catalog archetype and
+one alternative verified through official web documentation, with the option to
+request another technology or omit the tier. It waits for the user's answer before
+moving to the next tier and carries existing explicit choices forward. The final
+table records these decisions; it does not replace the individual questions.
+
 When preparing a foundation, `/scaffoldify` determines the required archetypes
 for the `back`, `front`, `e2e`, and `cli` tiers selected by `design-solution`,
 respecting each tier's chosen language and framework. Catalog defaults do not
