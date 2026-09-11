@@ -10,12 +10,8 @@ disable-model-invocation: true
 
 Your goal is to **review solution quality and deliver one evidence-backed correction batch**.
 
-- Do not accept human-supplied defects, finding selections, or priorities.
-- Resume any unfinished Craft change with its fixed finding set.
-- _IF_ no unfinished Craft change exists:
-  - Execute [clean-solution](../clean-solution/SKILL.md), then [collect-findings](../collect-findings/SKILL.md).
-  - Confirm evidence, mark obsolete findings `stale`, and group findings sharing one cause and correction.
-  - Select up to five groups by severity, impact, then bounded scope. Exclude behavior changes, unsupported contracts, and unresolved product decisions.
-- _IF_ no eligible group exists:
-  - _RETURN_ no eligible findings without a branch or release.
-- Execute [scope-change](../scope-change/SKILL.md) for the fixed batch with `origin: craft` and `intent: fix`, then [deliver-change](../deliver-change/SKILL.md) once.
+- Execute [clean-solution](../clean-solution/SKILL.md) to find code defects.
+- Execute [collect-findings](../collect-findings/SKILL.md) to have a backlog of findings to work with.
+- Review status and priorities, exclude behavior changes, and mark stale findings.
+- Select up to five pending findings sorted by severity, impact, then bounded scope. 
+- Execute [build-requested-change](../build-requested-change/SKILL.md) for the findings batch with `origin: craft` and `intent: fix`

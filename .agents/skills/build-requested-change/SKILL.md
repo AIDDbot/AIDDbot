@@ -8,8 +8,7 @@ disable-model-invocation: true
 ---
 # build-requested-change
 
-Your goal is to **classify and deliver one requested change**.
+Your goal is to **deliver one requested change**.
 
-- Execute [scope-feature](../scope-feature/SKILL.md) with the request.
-- Execute [deliver-change](../deliver-change/SKILL.md) with the classified scope.
-- _RETURN_ the release, specification awaiting approval, or blocker.
+- Determine the scope of the change using [scope-feature](../scope-feature/SKILL.md).
+- Execute [deliver-change](../deliver-change/SKILL.md) with the determined scope.
