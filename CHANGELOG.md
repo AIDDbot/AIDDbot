@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.11 - 2026-09-11
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-solution-foundation/SKILL.md
+ M .agents/skills/design-solution/SKILL.md
+ M .agents/skills/map-solution/SKILL.md
+ M .agents/skills/scaffoldify/SKILL.md
+```
+
 ## 0.0.10 - 2026-09-11
 
 - fix: simplify scaffold (3b75822)

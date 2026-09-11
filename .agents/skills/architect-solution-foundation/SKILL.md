@@ -16,4 +16,4 @@ Your goal is to **understand, design, or prepare a solution architecture**.
   - Any other scenario is a legacy brownfield.
 - _IF_ is a new greenfield:
   - Execute [design-solution](../design-solution/SKILL.md) passing any received user request.
-- Execute [map-solution](../map-solution/SKILL.md) in any scenario.
+- Always execute [map-solution](../map-solution/SKILL.md) in any scenario (greenfield or brownfield).

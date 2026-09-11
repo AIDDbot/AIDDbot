@@ -21,3 +21,10 @@ Choose the required tiers and technologies for a new solution and materialize it
 - _FOR-EACH_ tier not yet materialized, 
     - Search for its official scaffolding support on the internet 
     - Materialize the scaffold following the new technology's official scaffolding guide
+
+**Checklist**
+- [ ] solution name, problem, and proposed solution are clarified
+- [ ] archetypes were chosen when applicable
+- [ ] there is at least a tier scaffolded
+
+_RETURN_ short summary of the materialized tiers

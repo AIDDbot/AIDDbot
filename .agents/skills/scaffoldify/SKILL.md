@@ -12,7 +12,7 @@ Your goal is to determine the archetypes a solution needs and materialize an ins
 
 Resolve and obtain confirmation for the material choices in the [scaffold contract](./references/scaffold.contract.md).
 
-Commit pending changes and switch to a new branch `chore/scaffold`
+**Git process**: Commit pending changes and switch to a new branch `chore/scaffold` before materializing.
 
 Resolve each container independently: run the local modern-Node [materializer](./scripts/materialize.mjs) for catalogued tiers; for technologies outside the catalog do nothing. A solution may combine both sources.
 
@@ -22,6 +22,6 @@ After all containers are materialized, reconcile the root documentation and meta
 
 The result is an installable, smoke-tested solution scaffold with coherent root documentation and metadata.
 
-Commit and merge to default branch.
+**Git process**: Commit and merge to default branch after materializing.
 
 Return a short summary of the tiers materialized or pending.
