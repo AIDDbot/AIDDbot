@@ -15,3 +15,5 @@ Your goal is to **review solution quality and deliver one evidence-backed correc
 - Review status and priorities, exclude behavior changes, and mark stale findings.
 - Select up to five pending findings sorted by severity, impact, then bounded scope. 
 - Execute [build-requested-change](../build-requested-change/SKILL.md) for the findings batch with `origin: craft` and `intent: fix`
+
+Suggests continue with [build-requested-change workflow](../build-requested-change/SKILL.md) for the first feature.
