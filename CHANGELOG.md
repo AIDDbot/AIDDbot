@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.5 - 2026-09-11
+
+- chore: release 004 (8c759d2)
+
+Pending changes included in this release:
+
+```text
+M docs/releases.md
+ M scripts/release.js
+ M scripts/verify-release.js
+```
+
 ## 0.0.4 - 2026-09-11
 
 - feat: seed agents (c8e0b18)
