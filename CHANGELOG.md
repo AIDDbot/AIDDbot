@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.16 - 2026-09-11
+
+- feat: review and delete unused skills (05d59ea)
+
 ## 0.0.15 - 2026-09-11
 
 - docs: remove yaml workflows (867771b)
