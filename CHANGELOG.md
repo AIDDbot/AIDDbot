@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.4 - 2026-09-11
+
+- feat: seed agents (c8e0b18)
+- Create releases.md (5ced8e9)
+- docs: readme releases (0be6e3d)
+- feat: version release info (58c5049)
+
 ## 0.0.3 - 2026-09-11
 
 - fix: update Bun command syntax for initialization (5fecd38)
