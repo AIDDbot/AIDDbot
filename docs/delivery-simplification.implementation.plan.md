@@ -1,6 +1,6 @@
 # Plan de implementación — entrega mínima sin fase de planificación
 
-Estado: preparado para ejecutar con Sol; no implementado.
+Estado: implementado en `change/C001-delivery-simplification`; esta nota conserva el encargo y los criterios aplicados.
 
 ## Encargo
 
