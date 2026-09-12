@@ -4,6 +4,28 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-12 — Delivery derives evidence without plans or change checklists
+
+**Status**: adopted. Supersedes the optional change plan and the change-local
+acceptance/check list introduced by “Change-owned delivery documents and
+generated PRD”.
+
+Changes now contain a verifiable introduction, contextual links to affected
+specs, and only applicable operational notes. Durable criteria remain in their
+specs; the report records the evidence for the revision under evaluation.
+`/verify`, `/qualify`, and closure derive required coverage from the change,
+affected contracts, diff, and risk policy. Pending, missing, failed, or blocked
+coverage prevents release.
+
+`/planify` and `plan.md` are removed. Builders retain sequential container
+implementation and shared-file ownership, recording a short decision only when
+a migration, reversal, or interruption cannot be recovered from code, specs,
+report, or Git.
+
+Container rule files become optional. They record only specific, non-automated
+restrictions backed by evidence or a decision; ordinary convention belongs in
+the codebase and its tooling.
+
 ## 2026-09-12 — Orchestrators absorb redundant workers
 
 **Status**: adopted. Supersedes earlier routing through `design-solution`,

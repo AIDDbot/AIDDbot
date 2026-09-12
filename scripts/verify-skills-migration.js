@@ -110,8 +110,8 @@ for (const name of skills) {
   }
 }
 
-if (counts.orchestrator !== 3 || counts.worker !== 4 || counts.primitive !== 10) {
-  fail("skill counts must be 3 orchestrators, 4 workers, and 10 primitives");
+if (counts.orchestrator !== 3 || counts.worker !== 4 || counts.primitive !== 9) {
+  fail("skill counts must be 3 orchestrators, 4 workers, and 9 primitives");
 }
 
 const publicOrchestrators = skills.filter((name) => {
@@ -126,7 +126,7 @@ for (const retired of [
   "clean-solution", "collect-findings", "deliver-change", "deliver-spec",
   "design-solution", "map-solution", "scope-change", "scope-feature",
   "deliver-requirement", "establish-solution", "improve-solution", "deliver-work",
-  "clean-drift", "scaffold-workshop",
+  "clean-drift", "scaffold-workshop", "planify",
 ]) {
   if (fs.existsSync(path.join(skillsRoot, retired))) fail(`${retired}: retired public skill must not remain canonical`);
   if (fs.existsSync(path.join(root, ".claude", "skills", retired))) fail(`${retired}: retired managed Claude pointer must not remain`);
@@ -152,10 +152,10 @@ if (!buildSkill.includes("./references/discovery.md") || !buildSkill.includes("c
   fail("build-requested-change must discover contracts and coordinate one change through release");
 }
 const changeTemplate = read(path.join(skillsRoot, "build-requested-change", "assets", "change.template.md"));
-for (const field of ["status: open", "base:", "## Related specs", "## Acceptance criteria", "## Checks", "## Approval"]) {
+for (const field of ["status: open", "base:", "## Related specs"]) {
   if (!changeTemplate.includes(field)) fail(`change template is missing ${field}`);
 }
-for (const retired of ["origin:", "kind:", "intent:", "complexity:", "stages:", "released-version:"]) {
+for (const retired of ["origin:", "kind:", "intent:", "complexity:", "stages:", "released-version:", "## Acceptance criteria", "## Checks"]) {
   if (changeTemplate.includes(retired)) fail(`change template retains ${retired}`);
 }
 const discovery = read(path.join(skillsRoot, "build-requested-change", "references", "discovery.md"));
@@ -163,13 +163,13 @@ for (const rule of ["PRD.md", "candidate", "amend", "reference", "create", "no s
   if (!discovery.includes(rule)) fail(`spec discovery is missing ${rule}`);
 }
 const implementation = read(path.join(skillsRoot, "implement-change", "SKILL.md"));
-if (!implementation.includes("planify") || !implementation.includes("current evidence")) {
-  fail("implementation must plan when necessary and record current evidence");
+if (implementation.includes("planify") || !implementation.includes("sequentially") || !implementation.includes("current evidence")) {
+  fail("implementation must coordinate sequential container work and record current evidence");
 }
 if (fs.existsSync(path.join(skillsRoot, "implement-spec"))) fail("implement-spec must not remain as a legacy worker");
 const shipping = read(path.join(skillsRoot, "ship-implementation", "SKILL.md"));
-if (!shipping.includes("Checks table") || !shipping.includes("current passing evidence") || shipping.includes("stages.")) {
-  fail("shipping must use concrete checks rather than derived stages");
+if (shipping.includes("Checks table") || !shipping.includes("derived from scope, specs, diff, and risk policy") || shipping.includes("stages.")) {
+  fail("shipping must derive coverage from scope, contracts, diff, and risk policy");
 }
 const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
 if (!architectSkill.includes("../scaffoldify/SKILL.md") || !architectSkill.includes("../explore/SKILL.md")
@@ -205,6 +205,9 @@ if (!craftSkill.includes("./references/finding.contract.md")
 const reportTemplate = read(path.join(skillsRoot, "codify", "assets", "report.template.md"));
 for (const section of ["## Implementation", "## E2E", "## Review", "## Findings"]) {
   if (!reportTemplate.includes(section)) fail(`common report template is missing ${section}`);
+}
+if (!reportTemplate.includes("Required coverage") || !reportTemplate.includes("pending")) {
+  fail("common report template must record required coverage and pending evidence");
 }
 const indexSpecs = path.join(skillsRoot, "build-requested-change", "scripts", "index-specs.mjs");
 const indexFixture = fs.mkdtempSync(path.join(os.tmpdir(), "aiddbot-spec-index-"));

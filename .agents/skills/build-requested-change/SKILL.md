@@ -14,7 +14,7 @@ Your goal is to **deliver one requested change**.
 
 - _SPAWN_ a new _Architect_ agent to:
   - Read the PRD, relevant architecture, findings, and only candidate specifications selected through [spec discovery](./references/discovery.md).
-  - Resolve scope, risks, affected contracts, criteria, checks, and whether a plan is needed.
+  - Resolve a verifiable scope, risks, and affected contracts.
   - Determine `change_key` and any new spec identities from `{Agents_File}`.
   - Create or switch to `change/{change_key}`.
   - Write `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.template.md).

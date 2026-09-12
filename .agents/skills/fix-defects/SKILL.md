@@ -12,8 +12,8 @@ Your goal is to repair correctable reported findings on the owner branch.
 
 - _IF_ no compatible non-default branch is supplied:
   - _RETURN_ that requirement without writing.
-- _IF_ the repair needs coordination, changed criteria, or a new migration/reversal plan:
-  - _RETURN_ it to the owner for change or plan revision.
+- _IF_ the repair changes scope or contracts:
+  - _RETURN_ it to the owner for a change or contract decision.
 - _FOR-EACH_ affected container:
   - Execute [codify](../codify/SKILL.md) sequentially from the findings.
 - Do not repeat identical evidence without a distinct corrective hypothesis.

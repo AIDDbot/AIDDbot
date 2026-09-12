@@ -61,7 +61,7 @@ Architect discovers affected contracts through the generated PRD, creates one `c
 
 _IF_ the prompt includes YOLO, `/build-requested-change` skips approval stops and continues through delivery.
 
-`change.md` records scope, related contracts, criteria, and required checks. It creates `plan.md` only for coordinated or ordered work, and one `report.md` accumulates implementation, E2E, and review evidence. Corrections can need a plan; technical changes can need E2E when their impact requires it.
+`change.md` records a verifiable scope and related contracts. Builders coordinate work sequentially by container, while one `report.md` accumulates implementation, E2E, and review evidence derived from the scope, contracts, and impact. Technical changes can need E2E when their impact requires it.
 
 ## 4. Let delivery complete
 
@@ -75,7 +75,7 @@ Review current quality and deliver a bounded remediation batch:
 /craft-lasting-quality
 ```
 
-Craft does not accept defect reports, named findings, or priorities from the prompt; send requested corrections to `/build-requested-change`. A fresh run performs current quality checks, groups findings with a common cause, and selects up to five eligible repair groups. It creates one change, plans and verifies when its recorded impact requires it, and produces one release. An interrupted batch resumes without silently adding new findings.
+Craft does not accept defect reports, named findings, or priorities from the prompt; send requested corrections to `/build-requested-change`. A fresh run performs current quality checks, groups findings with a common cause, and selects up to five eligible repair groups. It creates one change, coordinates and verifies work when impact requires it, and produces one release. An interrupted batch resumes without silently adding new findings.
 
 ## What's next?
 

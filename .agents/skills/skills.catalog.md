@@ -4,13 +4,13 @@ Every executable capability is an Agent Skill. This catalog is the inventory and
 
 ## Delivery policy
 
-One change owns its objective, criteria, required checks, evidence, optional plan, release, and links to affected contracts. A spec owns only a durable contract. The generated PRD is the compact entry point for finding specs; it does not own requirements.
+One change owns its objective, evidence, release, and links to affected contracts. A spec owns only a durable contract and its criteria. The generated PRD is the compact entry point for finding specs; it does not own requirements.
 
 Every change begins `open` and becomes `released` only when changed contracts have approval and every required control has current passing evidence. It may become `cancelled` with a recorded reason. Required checks come from concrete impact and risks:
 
 | Need | Required action |
 | --- | --- |
-| Ordered work, shared writers, migration, or non-trivial reversal | Create one change plan. |
+| Ordered work, shared writers, migration, or non-trivial reversal | Coordinate it before the dependent work; record only a decision that cannot otherwise be recovered. |
 | Functional criteria or flow regression | Run E2E. |
 | Architecture, shared contract, schema, migration, dependency, infrastructure, security, privacy, concurrency, transaction, accessibility, performance, or transversal impact | Run technical review. |
 | Correctable failed finding | Repair and refresh affected evidence. |
@@ -40,7 +40,7 @@ Every change begins `open` and becomes `released` only when changed contracts ha
 | --- | --- |
 | Context | [`/explore`](./explore/SKILL.md), [`/extract`](./extract/SKILL.md), [`/scaffoldify`](./scaffoldify/SKILL.md) |
 | Capture | [`/specify`](./specify/SKILL.md) |
-| Build | [`/planify`](./planify/SKILL.md), [`/codify`](./codify/SKILL.md) |
+| Build | [`/codify`](./codify/SKILL.md) |
 | Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md) |
 | Ship | [`/shipify`](./shipify/SKILL.md) |
 | Meta | [`/skillify`](./skillify/SKILL.md) |

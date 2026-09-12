@@ -61,7 +61,7 @@ Frontend scope only. Read it through the [UI and accessibility lens](./ui.patter
 
 ## Project rules
 
-Load `{container}.rules.md` for every container in scope; check the scope against it.
+When `{container}.rules.md` exists for a container in scope, check that scope against it. Its absence does not create a finding or block review.
 
 - [ ] Code follows the container's naming, structure, and layering conventions.
 - [ ] Every convention violation is a finding, naming the rule it breaks.

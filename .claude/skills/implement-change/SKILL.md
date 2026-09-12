@@ -1,6 +1,6 @@
 ---
 name: implement-change
-description: Plan when needed and implement one complete change with current evidence.
+description: Coordinate and implement one complete change with current evidence.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

@@ -9,7 +9,7 @@ For every part of the request resolve one operation:
 - `amend` changes a durable contract it already owns.
 - `reference` implements or restores an existing contract without changing it.
 - `create` introduces a durable contract that has no owner.
-- `no spec` is a bounded intervention with criteria of its own.
+- `no spec` is a bounded intervention whose introduction states a verifiable result.
 
 Record each affected contract once under `Related specs` in `change.md`. A new spec must state why candidates do not own its scope. A shared container does not make two capabilities one contract. Missing literal search results do not prove a capability is new: check alternatives and the owners of affected sites first.
 

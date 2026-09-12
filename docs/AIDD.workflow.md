@@ -4,13 +4,13 @@ AIDDbot has three entrypoints: `/architect-solution-foundation` maps or prepares
 
 ## One change contract
 
-Each delivery uses `change/{change_key}` and `{Product_Folder}/changes/{change_key}/change.md`. The change records its goal, scope, related specs, acceptance criteria, checks, approval when a contract changes, and its state: `open`, `released`, or `cancelled`. Git supplies titles, dates, branch history, and intermediate progress.
+Each delivery uses `change/{change_key}` and `{Product_Folder}/changes/{change_key}/change.md`. The change records a verifiable result, scope, related specs, approval when a contract changes, and its state: `open`, `released`, or `cancelled`. Git supplies titles, dates, branch history, and intermediate progress.
 
 A durable spec lives at `specs/F{nnn}-{slug}.md` or `specs/T{nnn}-{slug}.md`. Its concise Scope states what it owns. `specs/PRD.md` is generated from titles and scopes, including both kinds of spec. The delivery triage reads this compact index first, then opens only candidate specs and justified dependencies. A change may amend, reference, create, or need no spec.
 
-The change owns every temporary delivery artifact. `plan.md` exists only for ordered, coordinated, migratory, or non-trivially reversible work. `report.md` collects Implementation, E2E, Review, and Findings evidence; its sections are written by the agents that run those controls. `{Product_Folder}/findings.md` keeps unresolved durable findings.
+The change owns every temporary delivery artifact. Builders coordinate dependent work before implementation and keep a brief note only for a migration, reversal, or interruption decision that cannot be recovered elsewhere. `report.md` collects Implementation, E2E, Review, and Findings evidence; its sections are written by the agents that run those controls. `{Product_Folder}/findings.md` keeps unresolved durable findings.
 
-Required checks follow real impact: functional criteria and necessary regression flows need E2E; architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, transactions, accessibility, performance, and transversal work need technical review. A correction may need a plan, and a technical change may need E2E. Each required control needs current passing evidence before release.
+Required checks follow real impact: affected functional criteria and necessary regression flows need E2E; architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, transactions, accessibility, performance, and transversal work need technical review. A technical change may need E2E. Each required obligation needs current passing evidence before release.
 
 ## Delivery and repair
 
