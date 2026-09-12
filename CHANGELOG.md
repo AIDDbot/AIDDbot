@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19 - 2026-09-12
+
+- docs(change): record delivery simplification evidence (45983c6)
+- fix(skills): make container rules optional (a16d3f8)
+- refactor(skills): simplify delivery evidence (022aba1)
+
 ## 0.0.18 - 2026-09-12
 
 - Include working tree changes.
