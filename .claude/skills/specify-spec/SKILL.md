@@ -1,6 +1,6 @@
 ---
 name: specify-spec
-description: Produce and validate a specification for one part of a change.
+description: Produce one created or amended contract and obtain its approval.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

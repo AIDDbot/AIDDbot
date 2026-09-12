@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run one revision-bound E2E verification for a change that requires it.
+description: Run required end-to-end checks for one change and record their evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

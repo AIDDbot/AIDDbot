@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Run the applicable proof stages and deliver one classified change.
+description: Refresh necessary evidence and release one complete change.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,28 +8,20 @@ disable-model-invocation: true
 ---
 # ship-implementation
 
-Your goal is to prove and deliver a complete change from its persisted policy.
+Your goal is to prove and deliver one complete change.
 
-- _REPEAT_ until a delivery outcome or blocking return is produced:
-  - Recheck the classification; future stages may be enabled but never disabled.
-  - _IF_ `stages.verify` is true:
-    - _SPAWN_ a _Craftasman_ agent and execute [verify](../verify/SKILL.md) once for the complete change.
-    - _IF_ verification is blocked:
-      - _RETURN_ the recorded impediment.
-    - _IF_ verification is red:
-      - _SPAWN_ a _Builder_ agent to execute [fix-defects](../fix-defects/SKILL.md) for correctable findings.
-      - _IF_ any write occurred, repeat from classification.
-      - _RETURN_ unresolved findings.
-  - _IF_ `stages.qualify` is true:
-    - _SPAWN_ a _Craftasman_ agent and execute [qualify](../qualify/SKILL.md) once for the complete change.
-    - _IF_ qualification is blocked:
-      - _RETURN_ the recorded impediment.
-    - _IF_ qualification is red:
-      - _SPAWN_ a _Builder_ agent to execute [fix-defects](../fix-defects/SKILL.md) for correctable findings.
-      - _IF_ any write occurred, repeat from classification.
-      - _RETURN_ unresolved findings or the required scope decision.
-  - Confirm every criterion has current passing evidence from implementation, verification, or qualification as assigned by policy.
-  - Set the change `ready` and expressly delegate final integration to Craftsman via [shipify](../shipify/SKILL.md).
-  - _IF_ integration changes semantic content, repeat the applicable proof cycle.
-  - _RETURN_ the delivery outcome.
-- Do not create reports for skipped stages or retry identical evidence with the same corrective hypothesis.
+- _REPEAT_ until delivery or a blocker:
+  - Read the change Checks table and report; run [verify](../verify/SKILL.md) and [qualify](../qualify/SKILL.md) for each required owner with missing or stale evidence.
+  - _IF_ a required control is blocked:
+    - Record the impediment in the change and _RETURN_ it.
+  - _IF_ correctable findings fail a required control:
+    - Execute [fix-defects](../fix-defects/SKILL.md).
+    - _IF_ repair changes scope, contracts, criteria, or requires planning:
+      - _RETURN_ the required owner decision.
+    - Repeat the affected checks after repair.
+  - _IF_ every required control has current passing evidence and applicable approval:
+    - Delegate final integration to [shipify](../shipify/SKILL.md).
+    - _IF_ integration changes semantics, repeat affected checks.
+    - _RETURN_ the delivery outcome.
+
+Do not repeat current evidence without a change or a reason.

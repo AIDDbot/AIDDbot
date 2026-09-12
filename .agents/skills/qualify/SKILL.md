@@ -1,6 +1,6 @@
 ---
 name: qualify
-description: Qualify one complex change against technical criteria and six quality gates.
+description: Review risk-relevant technical controls for one change and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,10 @@ disable-model-invocation: true
 ---
 # qualify
 
-Your goal is to grade a complex change whose persisted policy requires qualification.
+Your goal is to review assigned technical controls for one change.
 
-Read `{Product_Folder}/changes/{change_key}/change.md`; reject invocation when `stages.qualify` is false. Report only—never edit code. Grade the complete diff from its recorded base and write `{Product_Folder}/changes/{change_key}/qualify.report.md` from the [change report](./assets/change.qualify.report.template.md). Record base, evaluated revision, methods, commands, results, and evidence for every technical criterion.
+Read its Checks table and grade the complete diff from its base for controls assigned to review. Apply the [gates and severities](./references/qualify.gates.md), [clarity patterns](./references/clarity.patterns.md), and [UI patterns](./references/ui.patterns.md) where relevant. Do not edit code. Update only Review and Findings in `{Product_Folder}/changes/{change_key}/report.md`, recording revision, method, result, and evidence. A blocker, major, failed criterion, or unavailable required control prevents release.
 
-Apply exactly the six [gates and severities](./references/qualify.gates.md): blocker or major findings fail; minor findings do not. Use `n/a` only with an evidence-backed reason. An unavailable check is blocked. Red or blocked keeps the change `in-progress`. Follow the [code-clarity catalog](./references/clarity.patterns.md) and [UI and accessibility catalog](./references/ui.patterns.md).
-
-The result is the change quality verdict.
+The result is current review evidence.
 
 Commit as `docs(qualify): …`.

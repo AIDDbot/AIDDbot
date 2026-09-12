@@ -1,50 +1,25 @@
----
-id: T{nnn}
-slug: {slug}
-title: {title}
-kind: technical
-category: {architecture | tooling | maintainability | performance | security}
-tags: [{tag1}, {tag2}]
-status: draft  # draft | active | retired
-base-revision: {full commit id of the delivery base}
-branch: change/{change_key}
-created: {YYYY-MM-DD}
-released-version:
----
-# {spec_id} — {title}
+# {spec_key} — {title}
+
+## Scope
+
+{One or two sentences: owned technical policy, affected sites, and boundary.}
 
 ## Problem definition
 
-{Required: validated technical problem and current pain. Do not invent it.}
+{Validated technical problem and current pain. Do not invent it.}
 
-### Affected sites
+## Constraints and decision
 
-{List only evidenced affected sites. Leave empty until they are known.}
-
-{Repeat a container block only for an evidenced affected site.}
-
-### Out of scope
-
-{Validated exclusions only. Do not invent them.}
+{Validated rules, limits, and related contracts.}
 
 ## Solution overview
 
-### {Container_Name}
+{The evidenced destination for each affected container.}
 
-{The state this container is in once the work is done. Describe the destination, not the migration.}
+## Verification criteria
 
-{Repeat this subsection only for a known affected container. Omit it while none are known.}
+- **AC-{spec_id}.1** — {observable criterion, method, and expected evidence}
 
-## Verification Criteria
+## Deprecated criteria
 
-{Add only validated observable criteria, each with a specific method and expected evidence. Leave this section empty until they are known.}
-
-### Deprecated criteria
-
-{Criteria retired by an amend. Keep the original id — never renumber or reuse it — so plans and reports stay traceable. Omit this section while empty.}
-
-- **AC-{spec_id}.n** — ~~{original criterion}~~ · retired {YYYY-MM-DD} (v{version}): {why it no longer applies}
-
----
-
-> last updated: {DateTime}
+- **AC-{spec_id}.n** — ~~{original criterion}~~ · retired: {reason}

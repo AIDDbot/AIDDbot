@@ -38,7 +38,7 @@ The current session follows linked worker and primitive skills and spawns Archit
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` owns requested work through one common `change/{change_key}` delivery. Its origin, kind, intent, and complexity determine which stages apply: simple changes skip planning and qualification, corrections skip planning, and requested technical changes skip E2E verification. `/craft-lasting-quality` reviews current evidence autonomously and releases up to five eligible repair groups as one verified batch.
+`/build-requested-change` owns requested work through one `change/{change_key}` delivery. Its scope, risks, criteria, and concrete checks determine whether it needs a plan, E2E, or technical review. `/craft-lasting-quality` reviews current evidence autonomously and releases up to five eligible repair groups as one batch.
 
 ## Quick start
 

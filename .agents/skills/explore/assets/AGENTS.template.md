@@ -22,11 +22,18 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 
+### Delivery documents
+- **Changes** — `{Product_Folder}/changes/C{nnn}-{slug}/` holds `change.md`, optional `plan.md`, and evidence `report.md`.
+- **Specs** — `{Product_Folder}/specs/F{nnn}-{slug}.md` and `T{nnn}-{slug}.md` are durable contracts; `specs/PRD.md` is their generated index.
+- **Findings** — `{Product_Folder}/findings.md` holds unresolved durable findings.
+- **Keys** — use stable lowercase kebab-case slugs; reserve independent F, T, and C counters without reuse. Criteria are `AC-F{nnn}.n`, `AC-T{nnn}.n`, or change-local `AC-C{nnn}.n`.
+- **Change state** — `open`, `released`, or `cancelled`; evidence, not an intermediate state, determines release readiness.
+
 ### Git
 - MANDATORY: Preserve work; no secrets; no destructive commands
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
-- Branch naming: `{feat|bu|chore}/{change_key|short-slug}` 
+- Branch naming: `change/{change_key}`
 
 ---
 

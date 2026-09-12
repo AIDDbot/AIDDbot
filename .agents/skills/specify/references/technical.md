@@ -2,9 +2,9 @@
 
 This is not a product feature. It starts a development process complex enough to need plans, implementation, and review — architecture, tooling, boilerplate, a structural change.
 
-There is no functional e2e: criteria are technical properties of the destination, not user-facing scenarios. Do not write an e2e scenario plan. Give each active criterion its own verification method and expected evidence; `/qualify` performs that check and records the result. A green regression suite alone never proves a technical criterion.
+Technical criteria describe the destination and their evidence. A technical change may still require E2E regression when its impact requires it; E2E does not prove technical criteria by itself.
 
-The PRD is untouched — you do not change what the product does, so you never index this spec there.
+The generated PRD indexes technical contracts too. Give Scope its policy boundary and regenerate it after writing.
 
 On amend, move retired criteria to `Deprecated criteria` without renumbering or reusing their IDs.
 

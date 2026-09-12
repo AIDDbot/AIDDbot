@@ -1,5 +1,69 @@
 # Changelog
 
+## 0.0.18 - 2026-09-12
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/build-requested-change/SKILL.md
+ D .agents/skills/build-requested-change/assets/change.manifest.template.md
+ D .agents/skills/build-requested-change/references/triage.md
+ M .agents/skills/codify/SKILL.md
+ M .agents/skills/craft-lasting-quality/SKILL.md
+ M .agents/skills/craft-lasting-quality/references/finding.contract.md
+ M .agents/skills/explore/SKILL.md
+ M .agents/skills/explore/assets/AGENTS.template.md
+ D .agents/skills/explore/assets/PRD.template.md
+ M .agents/skills/fix-defects/SKILL.md
+ D .agents/skills/implement-spec/SKILL.md
+ M .agents/skills/planify/SKILL.md
+ D .agents/skills/planify/assets/e2e.plan.template.md
+ M .agents/skills/planify/assets/plan.template.md
+ M .agents/skills/qualify/SKILL.md
+ D .agents/skills/qualify/assets/change.qualify.report.template.md
+ M .agents/skills/qualify/references/ui.patterns.md
+ M .agents/skills/ship-implementation/SKILL.md
+ M .agents/skills/shipify/SKILL.md
+ M .agents/skills/skills.catalog.md
+ M .agents/skills/specify-spec/SKILL.md
+ M .agents/skills/specify/SKILL.md
+ M .agents/skills/specify/assets/functional.spec.template.md
+ M .agents/skills/specify/assets/technical.spec.template.md
+ M .agents/skills/specify/references/functional.md
+ M .agents/skills/specify/references/technical.md
+ M .agents/skills/verify/SKILL.md
+ D .agents/skills/verify/assets/change.e2e.report.template.md
+ M .claude/skills/build-requested-change/SKILL.md
+ M .claude/skills/codify/SKILL.md
+ M .claude/skills/craft-lasting-quality/SKILL.md
+ M .claude/skills/explore/SKILL.md
+ M .claude/skills/fix-defects/SKILL.md
+ D .claude/skills/implement-spec/SKILL.md
+ M .claude/skills/planify/SKILL.md
+ M .claude/skills/qualify/SKILL.md
+ M .claude/skills/ship-implementation/SKILL.md
+ M .claude/skills/shipify/SKILL.md
+ M .claude/skills/specify-spec/SKILL.md
+ M .claude/skills/specify/SKILL.md
+ M .claude/skills/verify/SKILL.md
+ M README.md
+ M docs/AIDD.workflow.md
+ D docs/adaptive-delivery.workflow.yaml
+ M docs/design.decisions.md
+ M docs/getting-started.md
+ M scripts/verify-skills-migration.js
+?? .agents/skills/build-requested-change/assets/change.template.md
+?? .agents/skills/build-requested-change/references/discovery.md
+?? .agents/skills/build-requested-change/scripts/index-specs.mjs
+?? .agents/skills/codify/assets/report.template.md
+?? .agents/skills/implement-change/SKILL.md
+?? .claude/skills/implement-change/SKILL.md
+?? docs/build-requested-change.informe.md
+?? docs/build-requested-change.simplification.plan.md
+```
+
 ## 0.0.17 - 2026-09-12
 
 - Include working tree changes.

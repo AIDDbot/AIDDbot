@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Capture a functional or technical spec — problem or decision, solution, and criteria.
+description: Create or amend one durable functional or technical contract.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,14 +8,12 @@ disable-model-invocation: true
 ---
 # specify
 
-Your goal is to capture a change as a one-page spec.
+Your goal is to capture one durable contract.
 
-Require the caller to provide the triaged `key`, `kind`, and `action`; do not reclassify or allocate a different identity. If invoked directly without them, resolve them before writing using the same F/T series rules and existing ownership: functional draws `F001`, `F002`… and technical draws `T001`, `T002`…. A criterion ID is never renumbered or reused.
+Require the owner to supply its reserved `spec_key` and operation. Use [the functional guidance](./references/functional.md) and [template](./assets/functional.spec.template.md), or [the technical guidance](./references/technical.md) and [template](./assets/technical.spec.template.md). Never reclassify, allocate another identity, or create a branch.
 
-Load the reference and template for that kind only — [functional](./references/functional.md) with its [spec template](./assets/functional.spec.template.md), or [technical](./references/technical.md) with its [spec template](./assets/technical.spec.template.md). Do not borrow the other kind's habits.
+Write `{Product_Folder}/specs/{spec_key}.md` on the owner branch. Give it a concise `Scope` that identifies what it owns and excludes. Preserve criterion IDs; put retired ones under `Deprecated criteria`. Fill only repository evidence or facts validated by the human. Regenerate the PRD with `../build-requested-change/scripts/index-specs.mjs write {Product_Folder}` after a create, amend, or retirement.
 
-Clarify with the human, one closed question at a time, without changing the reserved identity. Write `{Product_Folder}/specs/{spec_key}/spec.md` on the current owner branch with the supplied base; never create or switch branches. Fill only facts validated by the human or repository evidence. Keep optional sections as the template's empty skeleton until they have content; never turn placeholders into made-up requirements, categories, containers, entities, rules, or criteria. A new or amended spec is `draft` until validated, then `active`; preserve retired criterion IDs. Update the PRD only for a functional spec, within the same sequential stage.
-
-The result is the specification.
+The result is the proposed contract.
 
 Commit as `docs(specify): …`.

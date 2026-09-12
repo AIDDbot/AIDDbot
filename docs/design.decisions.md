@@ -1872,3 +1872,8 @@ original analysis).
   none. Short duplicated vocabulary is cheaper than the indirection.
 - Cross-skill terms (Container, Tier, Mode…) live once in `{Agents_File}`; skills may
   restate only what they specialize.
+# 2026-09-12 — Change-owned delivery documents and generated PRD
+
+**Status**: adopted.
+
+New projects use a change folder for `change.md`, optional `plan.md`, and shared `report.md`; specs are flat F/T contracts. `specs/PRD.md` remains the generated compact index of their titles and scopes, so discovery reads only candidates. Change classification fields, derived stage flags, spec delivery states, spec-local plans, stage-local reports, categories, and tags are retired. Changes use `open`, `released`, or `cancelled`; evidence determines readiness.

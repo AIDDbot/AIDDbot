@@ -1,6 +1,6 @@
 ---
 name: shipify
-description: Release a ready change from its current applicable evidence.
+description: Integrate and close an evidenced open change.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

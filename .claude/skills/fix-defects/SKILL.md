@@ -1,6 +1,6 @@
 ---
 name: fix-defects
-description: Fix correctable evidence for a change without creating a plan.
+description: Repair correctable findings on a change branch and return current evidence needs.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

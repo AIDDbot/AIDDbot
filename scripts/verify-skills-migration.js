@@ -136,35 +136,40 @@ for (const name of fs.readdirSync(path.join(root, ".claude", "skills"))) {
 }
 
 for (const required of [
-  ".agents/skills/build-requested-change/assets/change.manifest.template.md",
-  ".agents/skills/verify/assets/change.e2e.report.template.md",
-  ".agents/skills/qualify/assets/change.qualify.report.template.md",
+  ".agents/skills/build-requested-change/assets/change.template.md",
+  ".agents/skills/build-requested-change/references/discovery.md",
+  ".agents/skills/build-requested-change/scripts/index-specs.mjs",
+  ".agents/skills/codify/assets/report.template.md",
   ".agents/skills/craft-lasting-quality/references/finding.contract.md",
 ]) {
   if (!fs.existsSync(path.join(root, ...required.split("/")))) fail(`adaptive delivery artifact missing: ${required}`);
 }
 
 const buildSkill = read(path.join(skillsRoot, "build-requested-change", "SKILL.md"));
-if (!buildSkill.includes("./references/triage.md") || !buildSkill.includes("change/{change_key}")
-  || !buildSkill.includes("../specify-spec/SKILL.md") || !buildSkill.includes("../implement-spec/SKILL.md")
+if (!buildSkill.includes("./references/discovery.md") || !buildSkill.includes("change/{change_key}")
+  || !buildSkill.includes("../specify-spec/SKILL.md") || !buildSkill.includes("../implement-change/SKILL.md")
   || !buildSkill.includes("../ship-implementation/SKILL.md")) {
-  fail("build-requested-change must classify and coordinate one change through release");
+  fail("build-requested-change must discover contracts and coordinate one change through release");
 }
-const changeTemplate = read(path.join(skillsRoot, "build-requested-change", "assets", "change.manifest.template.md"));
-for (const field of ["origin:", "kind:", "intent:", "complexity:", "stages:", "findings:"]) {
-  if (!changeTemplate.includes(field)) fail(`common change manifest is missing ${field}`);
+const changeTemplate = read(path.join(skillsRoot, "build-requested-change", "assets", "change.template.md"));
+for (const field of ["status: open", "base:", "## Related specs", "## Acceptance criteria", "## Checks", "## Approval"]) {
+  if (!changeTemplate.includes(field)) fail(`change template is missing ${field}`);
 }
-const triage = read(path.join(skillsRoot, "build-requested-change", "references", "triage.md"));
-for (const rule of ["simple", "intent: fix", "origin: craft", "requested `kind: technical`", "complexity: complex"]) {
-  if (!triage.includes(rule)) fail(`change policy is missing ${rule}`);
+for (const retired of ["origin:", "kind:", "intent:", "complexity:", "stages:", "released-version:"]) {
+  if (changeTemplate.includes(retired)) fail(`change template retains ${retired}`);
 }
-const implementation = read(path.join(skillsRoot, "implement-spec", "SKILL.md"));
-if (!implementation.includes("do not create a plan artifact") || !implementation.includes("technical criterion")) {
-  fail("implementation does not support planless work with criterion evidence");
+const discovery = read(path.join(skillsRoot, "build-requested-change", "references", "discovery.md"));
+for (const rule of ["PRD.md", "candidate", "amend", "reference", "create", "no spec"]) {
+  if (!discovery.includes(rule)) fail(`spec discovery is missing ${rule}`);
 }
+const implementation = read(path.join(skillsRoot, "implement-change", "SKILL.md"));
+if (!implementation.includes("planify") || !implementation.includes("current evidence")) {
+  fail("implementation must plan when necessary and record current evidence");
+}
+if (fs.existsSync(path.join(skillsRoot, "implement-spec"))) fail("implement-spec must not remain as a legacy worker");
 const shipping = read(path.join(skillsRoot, "ship-implementation", "SKILL.md"));
-if (!shipping.includes("stages.verify") || !shipping.includes("stages.qualify") || !shipping.includes("Set the change `ready`")) {
-  fail("shipping does not honor adaptive proof stages");
+if (!shipping.includes("Checks table") || !shipping.includes("current passing evidence") || shipping.includes("stages.")) {
+  fail("shipping must use concrete checks rather than derived stages");
 }
 const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
 if (!architectSkill.includes("../scaffoldify/SKILL.md") || !architectSkill.includes("../explore/SKILL.md")
@@ -175,9 +180,8 @@ const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
 if (!scaffoldSkill.includes("wait for user confirmation")) {
   fail("scaffoldify must confirm material choices before materializing");
 }
-const prdTemplate = read(path.join(skillsRoot, "explore", "assets", "PRD.template.md"));
-if (/^## \{category\}|\{spec_id\}/m.test(prdTemplate) || !prdTemplate.includes("Empty index")) {
-  fail("initial PRD must be an empty index shell");
+if (fs.existsSync(path.join(skillsRoot, "explore", "assets", "PRD.template.md"))) {
+  fail("PRD must be generated from specs, not created as an empty shell");
 }
 const scaffoldReadme = read(path.join(skillsRoot, "scaffoldify", "assets", "solution-readme.template.md"));
 const solutionStart = "<!-- aidd:solution:start -->";
@@ -188,22 +192,41 @@ if (scaffoldReadme.split(solutionStart).length !== 2
   fail("scaffold README template must define exactly one replaceable solution block");
 }
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
-if (!craftSkill.includes("up to five") || !craftSkill.includes("origin: craft") || !craftSkill.includes("../build-requested-change/SKILL.md")) {
+if (!craftSkill.includes("up to five") || !craftSkill.includes("findings.md") || !craftSkill.includes("../build-requested-change/SKILL.md")) {
   fail("craft-lasting-quality does not own batched change delivery");
 }
 if (/deliver-work|scope-feature|deliver-spec|planify/.test(craftSkill)) {
   fail("craft-lasting-quality must not route findings through requested specification delivery");
 }
-if (!craftSkill.includes("findings.md") || !craftSkill.includes("./references/finding.contract.md")
-  || !craftSkill.includes("no eligible pending findings remain")) {
+if (!craftSkill.includes("./references/finding.contract.md")
+  || !craftSkill.includes("no eligible finding remains")) {
   fail("craft-lasting-quality must own finding normalization and an empty-batch exit");
 }
-for (const template of [
-  ".agents/skills/qualify/assets/change.qualify.report.template.md",
-]) {
-  if (!read(path.join(root, ...template.split("/"))).includes("Accumulated debt")) {
-    fail(`qualification template has no structured accumulated-debt section: ${template}`);
+const reportTemplate = read(path.join(skillsRoot, "codify", "assets", "report.template.md"));
+for (const section of ["## Implementation", "## E2E", "## Review", "## Findings"]) {
+  if (!reportTemplate.includes(section)) fail(`common report template is missing ${section}`);
+}
+const indexSpecs = path.join(skillsRoot, "build-requested-change", "scripts", "index-specs.mjs");
+const indexFixture = fs.mkdtempSync(path.join(os.tmpdir(), "aiddbot-spec-index-"));
+try {
+  const fixtureSpecs = path.join(indexFixture, "specs");
+  fs.mkdirSync(fixtureSpecs);
+  fs.writeFileSync(path.join(fixtureSpecs, "T002-auth.md"), "# T002-auth — Auth\n\n## Scope\n\nAuthentication policy for protected requests.\n");
+  fs.writeFileSync(path.join(fixtureSpecs, "F001-payments.md"), "# F001-payments — Payments\n\n## Scope\n\nCreate and refund payments.\n");
+  fs.writeFileSync(path.join(fixtureSpecs, "F003-missing.md"), "# F003-missing — Missing\n");
+  const printed = spawnSync(process.execPath, [indexSpecs, "print", indexFixture], { encoding: "utf8" });
+  if (printed.status !== 0 || !printed.stdout.includes("F001-payments") || !printed.stdout.includes("T002-auth")
+    || printed.stdout.indexOf("F001-payments") > printed.stdout.indexOf("T002-auth")
+    || !printed.stderr.includes("F003-missing.md: missing Scope")) {
+    fail("generated PRD must index sorted F and T specs and warn about missing Scope");
   }
+  const written = spawnSync(process.execPath, [indexSpecs, "write", indexFixture], { encoding: "utf8" });
+  if (written.status !== 0 || read(path.join(fixtureSpecs, "PRD.md")) !== printed.stdout) {
+    fail("generated PRD write must persist the printed view");
+  }
+} finally {
+  const resolved = path.resolve(indexFixture);
+  if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });
 }
 
 for (const legacy of [
@@ -220,7 +243,7 @@ const retiredNames = [
 ];
 for (const relative of [
   "README.md", "docs/AIDD.workflow.md", "docs/getting-started.md",
-  "docs/adaptive-delivery.workflow.yaml", ".agents/skills/skills.catalog.md",
+  ".agents/skills/skills.catalog.md",
 ]) {
   const file = path.join(root, ...relative.split("/"));
   const content = read(file);

@@ -1,40 +1,23 @@
----
-spec-kind: {functional | technical}
-container: {container name from system.arch.md, e.g. api, web, db}
----
-# {spec_key} - {container}
+# {change_key} — implementation plan
 
-## Specification
+## Sequence and dependencies
 
-{What this container must deliver, drawn from the spec's solution overview. On a
-technical spec, describe the destination, not user-facing behavior.}
+{Ordered work, migrations or reversions, and dependencies.}
 
-- **Context**: [Source spec](./spec.md)
-- **Architecture**: [Container architecture]({Arch}/{container}.arch.md)
+## Shared contracts
 
-### Data model
-{Detailed data model changes scoped to this container, if applicable.}
+| Contract or file | Owner | Agreement |
+| --- | --- | --- |
+| {API, schema, lockfile, or configuration} | {container} | {exact shared contract} |
 
-### Shared contracts
-{Exact API, store, lockfile, configuration, or schema contract agreed before implementation. Name its single writer for this plan, or write `none`.}
+## {container}
 
-## Checkpoints
+### Step 1: {title}
 
-{On amend/replan, classify every step from the prior plan, then rewrite the implementation steps. The first plan: write `first`.}
+- Paths: `{path}`
+- Criteria: {AC ids}
+- [ ] {task}
 
-| Prior step | Action | Note |
-|------------|--------|------|
-| {Step title or `first`} | {keep \| redo \| drop} | {short sentence} |
+## E2E
 
-## Implementation Steps
-
-### Step 1: {Step Title}
-{short description of the step in one line}
-- Paths:
-    - `{path/to/file1}`
-    - `{path/to/folder2/}`
-- [ ] {Task 1 description in one line}
-
----
-
-> last updated: {DateTime}
+{Flows and criterion IDs to cover when E2E work is required. Omit when none.}

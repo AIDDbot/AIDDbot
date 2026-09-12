@@ -57,15 +57,15 @@ When materializing a new solution, it confirms the name, selected tiers, technol
 /build-requested-change riders can rate a trip 1 to 5 stars
 ```
 
-Architect classifies every requirement and creates one `change/{change_key}` delivery. A change may reference zero, one, or several durable specifications. Check each new or amended specification's problem, outcomes, and acceptance criteria when the workflow stops for approval.
+Architect discovers affected contracts through the generated PRD, creates one `change/{change_key}` delivery, and reads only candidate specs and relevant dependencies. A change may reference zero, one, or several durable specifications. Check each new or amended specification's scope, rules, and acceptance criteria when the workflow stops for approval.
 
 _IF_ the prompt includes YOLO, `/build-requested-change` skips approval stops and continues through delivery.
 
-The manifest records origin, kind, intent, complexity, criteria, and applicable stages. Simple changes skip planning and qualification. Corrections skip planning. Requested technical changes skip E2E verification. Functional and mixed changes verify; complex changes qualify.
+`change.md` records scope, related contracts, criteria, and required checks. It creates `plan.md` only for coordinated or ordered work, and one `report.md` accumulates implementation, E2E, and review evidence. Corrections can need a plan; technical changes can need E2E when their impact requires it.
 
 ## 4. Let delivery complete
 
-No extra slash command is required. The orchestrator executes only the stages derived from the persisted classification and ships the complete scope once. Correctable report findings are fixed internally, then all applicable evidence is refreshed.
+No extra slash command is required. The orchestrator runs the checks recorded for the change and ships the complete scope once. Correctable findings are fixed internally, then affected evidence is refreshed.
 
 ## 5. Improve an existing solution
 
@@ -75,13 +75,13 @@ Review current quality and deliver a bounded remediation batch:
 /craft-lasting-quality
 ```
 
-Craft does not accept defect reports, named findings, or priorities from the prompt; send requested corrections to `/build-requested-change`. A fresh run performs current quality checks, groups findings with a common cause, and selects up to five eligible repair groups. It creates one planless change, implements the batch, verifies it once, qualifies it when complex, and produces one release. An interrupted batch resumes without silently adding new findings.
+Craft does not accept defect reports, named findings, or priorities from the prompt; send requested corrections to `/build-requested-change`. A fresh run performs current quality checks, groups findings with a common cause, and selects up to five eligible repair groups. It creates one change, plans and verifies when its recorded impact requires it, and produces one release. An interrupted batch resumes without silently adding new findings.
 
 ## What's next?
 
 The usual loop after establishment:
 
-1. `/build-requested-change` — classify and deliver requested work through applicable stages
+1. `/build-requested-change` — discover contracts and deliver requested work with necessary checks
 2. `/craft-lasting-quality` — review and deliver one correction batch
 
 Continue with:

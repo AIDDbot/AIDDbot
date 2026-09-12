@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Run the applicable proof stages and deliver one classified change.
+description: Refresh necessary evidence and release one complete change.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

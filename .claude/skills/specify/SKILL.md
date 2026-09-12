@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Capture a functional or technical spec — problem or decision, solution, and criteria.
+description: Create or amend one durable functional or technical contract.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

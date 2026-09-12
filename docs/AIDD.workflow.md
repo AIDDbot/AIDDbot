@@ -1,96 +1,24 @@
 # AIDD Workflow
 
-AIDDbot exposes three entrypoints and uses one adaptive delivery contract.
-
-| Need | Entrypoint | Outcome |
-| --- | --- | --- |
-| Understand or define architecture | `/architect-solution-foundation` | map, design, or prepare |
-| Request product or technical work | `/build-requested-change` | one classified and released change |
-| Improve current quality | `/craft-lasting-quality` | one reviewed correction batch |
-
-## Foundation preparation
-
-Technology selection happens one tier at a time, after reading the actual catalog.
-For `back`, `front`, `e2e`, and `cli`, the agent offers the catalog archetype and
-one alternative verified through official web documentation, with the option to
-request another technology or omit the tier. It waits for the user's answer before
-moving to the next tier and carries existing explicit choices forward. The final
-table records these decisions; it does not replace the individual questions.
-
-Catalog choices are concrete AIDDbot project templates. The agent must fetch them
-with `materialize.mjs`, preserve their structure and conventions, and then install
-their dependencies. It cannot replace a selected archetype with handwritten files
-or a generic framework generator; a failed fetch remains a blocker until resolved
-or the user explicitly changes the choice.
-
-When preparing a foundation, `/scaffoldify` determines the required archetypes
-for the `back`, `front`, `e2e`, and `cli` tiers selected by `/architect-solution-foundation`,
-respecting each tier's chosen language and framework. Catalog defaults do not
-restrict those choices: unmatched stacks use current official instructions
-researched on the internet. It then materializes the selected tiers
-and uses the catalog materializer or official scaffolding tooling per container.
-After generation, the agent reconciles the root README, license, and native
-manifest, grounding the problem and proposed solution in project context and
-authorship in the solution owner's identity. Existing documentation and upstream
-attribution are preserved.
-
-This preparation applies only when no application code or scaffold exists.
-Both a newly prepared foundation and existing code are mapped with `/explore`
-and `/extract` to establish AIDDbot documentation. A design-only request can
-finish without scaffolding. Evolution of existing code belongs to requested
-delivery after its design is agreed.
+AIDDbot has three entrypoints: `/architect-solution-foundation` maps or prepares a solution, `/build-requested-change` delivers requested work, and `/craft-lasting-quality` reviews and repairs current quality.
 
 ## One change contract
 
-Every delivery gets a `change/{change_key}` branch and manifest. A change may reference zero, one, or several specs and optional findings. Specs hold durable behavior or technical policy; the change holds the intervention, workflow, evidence, status, and release.
+Each delivery uses `change/{change_key}` and `{Product_Folder}/changes/{change_key}/change.md`. The change records its goal, scope, related specs, acceptance criteria, checks, approval when a contract changes, and its state: `open`, `released`, or `cancelled`. Git supplies titles, dates, branch history, and intermediate progress.
 
-Classification uses four fields:
+A durable spec lives at `specs/F{nnn}-{slug}.md` or `specs/T{nnn}-{slug}.md`. Its concise Scope states what it owns. `specs/PRD.md` is generated from titles and scopes, including both kinds of spec. The delivery triage reads this compact index first, then opens only candidate specs and justified dependencies. A change may amend, reference, create, or need no spec.
 
-- `origin`: `requested` or `craft`
-- `kind`: `functional`, `technical`, or `mixed`
-- `intent`: `modify` or `fix`
-- `complexity`: `simple` or `complex`
+The change owns every temporary delivery artifact. `plan.md` exists only for ordered, coordinated, migratory, or non-trivially reversible work. `report.md` collects Implementation, E2E, Review, and Findings evidence; its sections are written by the agents that run those controls. `{Product_Folder}/findings.md` keeps unresolved durable findings.
 
-The derived stages are fixed by policy:
+Required checks follow real impact: functional criteria and necessary regression flows need E2E; architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, transactions, accessibility, performance, and transversal work need technical review. A correction may need a plan, and a technical change may need E2E. Each required control needs current passing evidence before release.
 
-| Condition | Plan | Verify | Qualify |
-| --- | --- | --- | --- |
-| Simple | no | by kind/origin | no |
-| Fix | no | by kind/origin | if complex |
-| Requested technical | by complexity and intent | no | if complex |
-| Requested functional or mixed | by complexity and intent | yes | if complex |
-| Craft batch | no | yes, once for the batch | if complex |
+## Delivery and repair
 
-Simple means one container, at most one durable spec, complete criteria, a known locally reversible solution, and focused automated checks. Architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, accessibility, performance-sensitive paths, or multiple containers/specs make it complex. Line count does not decide complexity.
+`/build-requested-change` discovers contract ownership, creates the change, approves created or amended contracts unless YOLO applies, implements, refreshes required evidence, and releases once. Failed correctable findings are repaired and the affected controls run again. A blocked check remains recorded in the open change. Semantic changes invalidate related evidence; changes only to evidence or closing metadata do not.
 
-When qualification is skipped, implementation records the technical-criterion evidence. A skipped phase produces no green report. Before release, every criterion must have current passing evidence from its assigned owner.
-
-## Requested delivery
-
-`/build-requested-change` classifies the request, reserves its change and optional spec identities, persists the manifest, then coordinates specification, implementation, proof, and release. Durable specs pause for validation unless YOLO applies. Simple bounded work may carry its criteria directly in the manifest.
-
-The owner persists the manifest, plans only when required, implements sequentially, runs applicable proof stages, and releases once. Corrections from a human use `intent: fix` and never create a plan.
-
-## Craft delivery
-
-`/craft-lasting-quality` is an autonomous review-and-repair entrypoint. It does not accept human defect evidence, named findings, or human priority. Requested corrections use `/build-requested-change`.
-
-A fresh Craft run executes current quality discovery, normalizes findings, marks stale evidence, groups findings with a shared cause and correction, and selects up to five eligible groups by severity, impact, and bounded scope. Work needing product or unsupported contract decisions stays outside the batch.
-
-The selected findings become one `origin: craft`, `intent: fix` change. It has no plan, one final verification for the entire batch, optional qualification when complex, one integration, one version, and one tag. An interrupted batch resumes its original finding set without adding newly discovered work. No eligible findings means no branch or release.
-
-## Review and repair
-
-`ship-implementation` evaluates only enabled stages. A red report sends correctable defects through planless repair and then repeats classification plus every applicable proof stage for the complete change. A blocked check returns the concrete impediment. Semantic changes invalidate affected evidence.
-
-Once all required evidence is current, the change advances from `in-progress` to `ready`. `/shipify` integrates and marks the change, referenced specs, and referenced findings released together. It can resume an interrupted closure from the recorded release commit without creating another version.
-
-```markdown
-pending → in-progress → ready → released
-```
+Craft reads change reports and quality checks, records persistent items in `findings.md`, selects at most five related repair groups, and sends that fixed set through the same delivery route. An interrupted batch resumes its original set. Once release is recorded, linked findings become resolved.
 
 ## Next
 
 - [Getting started](./getting-started.md)
 - [Skills catalog](../.agents/skills/skills.catalog.md)
-- [GitHub](https://github.com/AIDDbot/AIDDbot)

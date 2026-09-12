@@ -1,6 +1,6 @@
 ---
 name: planify
-description: Turn a spec into the build plan for one container, grounded in the architecture.
+description: Write one lean implementation plan for a complete change.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,14 +8,12 @@ disable-model-invocation: true
 ---
 # planify
 
-Your goal is to turn a specification into the build plan (short and lean) for one container.
+Your goal is to turn one change into its implementation plan.
 
-One container per run; if you were not given one, ask. Ground the plan in that container's architecture. Data you publish or consume through an API or a store is worded the same in every sibling plan. On amend, classify every prior step `keep`, `redo`, or `drop`; a deprecated criterion is `drop`.
+Read its change, related specs, and affected architecture. Use the [plan template](./assets/plan.template.md). Agree shared contracts and their single writer before tasks begin. Cover all affected containers and E2E work in one plan; do not copy spec text or classify prior plans.
 
-A functional spec's `e2e` container uses the [e2e plan](./assets/e2e.plan.template.md) and carries no unit tests. A technical spec does not get an e2e scenario plan. Everything else uses the [container plan](./assets/plan.template.md).
+Write only `{Product_Folder}/changes/{change_key}/plan.md` on the owner branch.
 
-Write only `{Product_Folder}/specs/{spec_key}/{container}.plan.md`. The caller owns change status. Do not update the PRD or sibling plans.
-
-The result is that container's plan.
+The result is the change plan.
 
 Commit as `docs(planify): …`.

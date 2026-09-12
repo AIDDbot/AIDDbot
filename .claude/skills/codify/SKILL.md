@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement a container or e2e plan, or fix a report, with tests.
+description: Implement one change task or repair and record implementation evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

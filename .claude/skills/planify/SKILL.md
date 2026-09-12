@@ -1,6 +1,6 @@
 ---
 name: planify
-description: Turn a spec into the build plan for one container, grounded in the architecture.
+description: Write one lean implementation plan for a complete change.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

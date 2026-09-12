@@ -1,6 +1,6 @@
 ---
 name: fix-defects
-description: Fix correctable evidence for a change without creating a plan.
+description: Repair correctable findings on a change branch and return current evidence needs.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,18 +8,14 @@ disable-model-invocation: true
 ---
 # fix-defects
 
-Your goal is to fix correctable reported defects or selected Craft findings on the change owner's branch.
+Your goal is to repair correctable reported findings on the owner branch.
 
-- Do not create or switch branches.
-- _IF_ the owner did not supply a compatible non-default working branch:
+- _IF_ no compatible non-default branch is supplied:
   - _RETURN_ that requirement without writing.
-- Split a multi-container report by container.
-- _FOR-EACH_ part:
-  - Execute [codify](../codify/SKILL.md) sequentially from the finding evidence without a plan artifact.
-- Limit changes to reported defects and necessary tests.
-- _IF_ a check is blocked or a required criterion changes:
-  - Do not classify it as a code defect.
-  - _RETURN_ it to the caller.
-- Do not repeat repair against identical evidence unless the next attempt has a distinct corrective hypothesis.
+- _IF_ the repair needs coordination, changed criteria, or a new migration/reversal plan:
+  - _RETURN_ it to the owner for change or plan revision.
+- _FOR-EACH_ affected container:
+  - Execute [codify](../codify/SKILL.md) sequentially from the findings.
+- Do not repeat identical evidence without a distinct corrective hypothesis.
 
-_RETURN_ fixes, container, and evidence needed to repeat every applicable proof stage for the complete change.
+_RETURN_ repairs and the checks that need refreshing.

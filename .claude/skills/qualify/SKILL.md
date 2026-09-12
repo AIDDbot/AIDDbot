@@ -1,6 +1,6 @@
 ---
 name: qualify
-description: Qualify one complex change against technical criteria and six quality gates.
+description: Review risk-relevant technical controls for one change and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
