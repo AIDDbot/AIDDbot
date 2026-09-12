@@ -6,7 +6,7 @@ Every executable capability is an Agent Skill. This catalog is the inventory and
 
 One change owns its objective, evidence, release, and links to affected contracts. A spec owns only a durable contract and its criteria. The generated PRD is the compact entry point for finding specs; it does not own requirements.
 
-Every change begins `open` and becomes `released` only when changed contracts have approval and every required control has current passing evidence. It may become `cancelled` with a recorded reason. Required checks come from concrete impact and risks:
+Every change begins `open` and becomes `released` only when changed contracts have approval and every required control has current passing evidence. Missing, pending, failed, blocked, or stale evidence prevents release. It may become `cancelled` with a recorded reason. Required checks come from concrete impact and risks:
 
 | Need | Required action |
 | --- | --- |
@@ -15,7 +15,7 @@ Every change begins `open` and becomes `released` only when changed contracts ha
 | Architecture, shared contract, schema, migration, dependency, infrastructure, security, privacy, concurrency, transaction, accessibility, performance, or transversal impact | Run technical review. |
 | Correctable failed finding | Repair and refresh affected evidence. |
 
-`/codify`, `/verify`, and `/qualify` write their assigned sections of one report. Missing, failed, blocked, or stale evidence prevents release.
+`/codify`, `/verify`, and `/qualify` write their assigned sections of one report.
 
 ## Public orchestrators
 
@@ -30,7 +30,7 @@ Every change begins `open` and becomes `released` only when changed contracts ha
 | Skill | Composition |
 | --- | --- |
 | [`specify-spec`](./specify-spec/SKILL.md) | Produce and approve a changed durable contract |
-| [`implement-change`](./implement-change/SKILL.md) | Plan when needed and implement the complete change |
+| [`implement-change`](./implement-change/SKILL.md) | Coordinate and implement the complete change |
 | [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship once |
 | [`fix-defects`](./fix-defects/SKILL.md) | Repair correctable findings |
 
