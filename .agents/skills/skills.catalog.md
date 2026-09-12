@@ -35,13 +35,6 @@ pending → in-progress → ready → released
 
 | Skill | Composition |
 | --- | --- |
-| [`map-solution`](./map-solution/SKILL.md) | `/explore`, then `/extract` per container |
-| [`design-solution`](./design-solution/SKILL.md) | Choose new-solution tiers and technologies, then materialize through `/scaffoldify` |
-| [`clean-solution`](./clean-solution/SKILL.md) | Discover current complexity, coverage, and strict-lint evidence |
-| [`collect-findings`](./collect-findings/SKILL.md) | Normalize automated evidence into durable findings |
-| [`scope-feature`](./scope-feature/SKILL.md) | Classify a requested change read-only |
-| [`deliver-change`](./deliver-change/SKILL.md) | Own the common `change/{change_key}` delivery |
-| [`deliver-spec`](./deliver-spec/SKILL.md) | Compatibility adapter into `deliver-change`; never owns a separate lifecycle |
 | [`specify-spec`](./specify-spec/SKILL.md) | Produce and validate an optional durable specification |
 | [`implement-spec`](./implement-spec/SKILL.md) | Plan when required and implement the complete change |
 | [`ship-implementation`](./ship-implementation/SKILL.md) | Run applicable proof stages and ship once |
@@ -52,7 +45,7 @@ pending → in-progress → ready → released
 | Area | Skills |
 | --- | --- |
 | Context | [`/explore`](./explore/SKILL.md), [`/extract`](./extract/SKILL.md), [`/scaffoldify`](./scaffoldify/SKILL.md) |
-| Capture | [`/scope-change`](./scope-change/SKILL.md), [`/specify`](./specify/SKILL.md) |
+| Capture | [`/specify`](./specify/SKILL.md) |
 | Build | [`/planify`](./planify/SKILL.md), [`/codify`](./codify/SKILL.md) |
 | Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md) |
 | Ship | [`/shipify`](./shipify/SKILL.md) |
@@ -69,8 +62,9 @@ official external scaffolding tooling per container, and reconciles root README,
 license, and ecosystem metadata with the solution context and author identity.
 Technology selection starts with the live catalog and proceeds one tier at a time:
 the user chooses the catalog archetype, a verified alternative, another technology,
-or omission. `/design-solution` passes these decisions to `/scaffoldify`; direct
-scaffolding resolves missing choices using the same interaction.
+or omission. `/architect-solution-foundation` passes these decisions to `/scaffoldify`
+when an executable foundation is requested; direct scaffolding resolves missing
+choices using the same interaction.
 Catalog selections must be fetched through `materialize.mjs` as concrete AIDDbot
 templates; they must not be recreated from scratch or replaced with generic generators.
 

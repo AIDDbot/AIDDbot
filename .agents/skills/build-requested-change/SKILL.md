@@ -8,9 +8,27 @@ disable-model-invocation: true
 ---
 # build-requested-change
 
-Your goal is to **deliver one requested change**.
+Your goal is to **deliver one classified change**.
 
-- Determine the scope of the change using [scope-change](../scope-change/SKILL.md).
-- Execute [deliver-change](../deliver-change/SKILL.md) with the determined scope.
+## Determine the scope
+- _SPAWN_ a new _Architect_ agent to:
+### Resolve change properties
+  - Read the PRD, relevant specifications, findings, and architecture.
+  - Follow [the classification triage contract](./references/triage.md).
+  - Resolve the change properties:
+    - `origin`, `kind`, `intent`, `complexity`, derived stages, criteria, and scope.
+  - Determine `change_key` = `{change_id}-{slug}`.
+### Generate Branch and Change Manifest
+  - Create or switch to `change/{change_key}`.
+  - Write `{Product_Folder}/changes/{change_key}/change.md` from the [change template](./assets/change.manifest.template.md).
+  - Commit as `docs(change): …`.
+  
+## Deliver the change with the determined scope.
+### Generate Specifications
+- _FOR-EACH_ referenced specification in manifest:
+  - _SPAWN_ an _Architect_ agent to execute [specify-spec](../specify-spec/SKILL.md) sequentially.
+### Implement and Ship
+- _SPAWN_ a _Builder_ agent to execute [implement-spec](../implement-spec/SKILL.md) once for the complete change.
+- _SPAWN_ a _Craftsman_ agent to execute [ship-implementation](../ship-implementation/SKILL.md) once for the complete change.
 
-Suggests continue with [build-requested-change workflow](../build-requested-change/SKILL.md) for another feature or perform a craft revision running the [craft-lasting-quality workflow](../craft-lasting-quality/SKILL.md).
+_RETURN_ the delivered change or its concrete blocker.

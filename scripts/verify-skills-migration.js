@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+import crypto from "node:crypto";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { runOverlay } from "../bin/lib/overlay.js";
+import { runOverlay, sourceInventory } from "../bin/lib/overlay.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = path.join(root, ".agents", "skills");
@@ -109,8 +110,8 @@ for (const name of skills) {
   }
 }
 
-if (counts.orchestrator !== 3 || counts.worker !== 11 || counts.primitive !== 11) {
-  fail("skill counts must be 3 orchestrators, 11 workers, and 11 primitives");
+if (counts.orchestrator !== 3 || counts.worker !== 4 || counts.primitive !== 10) {
+  fail("skill counts must be 3 orchestrators, 4 workers, and 10 primitives");
 }
 
 const publicOrchestrators = skills.filter((name) => {
@@ -121,35 +122,39 @@ const expectedOrchestrators = ["architect-solution-foundation", "build-requested
 if (publicOrchestrators.join(",") !== expectedOrchestrators.join(",")) {
   fail(`public orchestrators must be exactly ${expectedOrchestrators.join(", ")}`);
 }
-for (const former of ["clean-solution", "design-solution", "map-solution"]) {
-  const fields = frontmatter(read(path.join(skillsRoot, former, "SKILL.md")), path.join(skillsRoot, former, "SKILL.md"));
-  if (!fields.metadata || fields.metadata["aiddbot-kind"] !== "worker" || fields["user-invocable"] !== "false") {
-    fail(`${former}: former orchestrator must be an internal worker`);
-  }
-}
-for (const retired of ["deliver-requirement", "establish-solution", "improve-solution", "deliver-work", "clean-drift", "scaffold-workshop"]) {
+for (const retired of [
+  "clean-solution", "collect-findings", "deliver-change", "deliver-spec",
+  "design-solution", "map-solution", "scope-change", "scope-feature",
+  "deliver-requirement", "establish-solution", "improve-solution", "deliver-work",
+  "clean-drift", "scaffold-workshop",
+]) {
   if (fs.existsSync(path.join(skillsRoot, retired))) fail(`${retired}: retired public skill must not remain canonical`);
   if (fs.existsSync(path.join(root, ".claude", "skills", retired))) fail(`${retired}: retired managed Claude pointer must not remain`);
 }
+for (const name of fs.readdirSync(path.join(root, ".claude", "skills"))) {
+  if (!skills.includes(name)) fail(`${name}: Claude skill has no canonical source`);
+}
 
 for (const required of [
-  ".agents/skills/scope-change/assets/change.manifest.template.md",
+  ".agents/skills/build-requested-change/assets/change.manifest.template.md",
   ".agents/skills/verify/assets/change.e2e.report.template.md",
   ".agents/skills/qualify/assets/change.qualify.report.template.md",
-  ".agents/skills/collect-findings/references/finding.contract.md",
+  ".agents/skills/craft-lasting-quality/references/finding.contract.md",
 ]) {
   if (!fs.existsSync(path.join(root, ...required.split("/")))) fail(`adaptive delivery artifact missing: ${required}`);
 }
 
 const buildSkill = read(path.join(skillsRoot, "build-requested-change", "SKILL.md"));
-if (!buildSkill.includes("scope-feature") || !buildSkill.includes("deliver-change") || buildSkill.includes("[deliver-spec]")) {
-  fail("build-requested-change does not route every request through common change delivery");
+if (!buildSkill.includes("./references/triage.md") || !buildSkill.includes("change/{change_key}")
+  || !buildSkill.includes("../specify-spec/SKILL.md") || !buildSkill.includes("../implement-spec/SKILL.md")
+  || !buildSkill.includes("../ship-implementation/SKILL.md")) {
+  fail("build-requested-change must classify and coordinate one change through release");
 }
-const changeTemplate = read(path.join(skillsRoot, "scope-change", "assets", "change.manifest.template.md"));
+const changeTemplate = read(path.join(skillsRoot, "build-requested-change", "assets", "change.manifest.template.md"));
 for (const field of ["origin:", "kind:", "intent:", "complexity:", "stages:", "findings:"]) {
   if (!changeTemplate.includes(field)) fail(`common change manifest is missing ${field}`);
 }
-const triage = read(path.join(skillsRoot, "scope-change", "references", "triage.md"));
+const triage = read(path.join(skillsRoot, "build-requested-change", "references", "triage.md"));
 for (const rule of ["simple", "intent: fix", "origin: craft", "requested `kind: technical`", "complexity: complex"]) {
   if (!triage.includes(rule)) fail(`change policy is missing ${rule}`);
 }
@@ -162,14 +167,13 @@ if (!shipping.includes("stages.verify") || !shipping.includes("stages.qualify") 
   fail("shipping does not honor adaptive proof stages");
 }
 const architectSkill = read(path.join(skillsRoot, "architect-solution-foundation", "SKILL.md"));
-const designSkill = read(path.join(skillsRoot, "design-solution", "SKILL.md"));
-if (!architectSkill.includes("design-solution") || architectSkill.includes("scaffold-workshop")
-  || !designSkill.includes("scaffoldify") || !designSkill.includes("exactly once")) {
-  fail("greenfield design does not route mandatory materialization through scaffoldify");
+if (!architectSkill.includes("../scaffoldify/SKILL.md") || !architectSkill.includes("../explore/SKILL.md")
+  || !architectSkill.includes("../extract/SKILL.md") || !architectSkill.includes("an executable foundation is requested")) {
+  fail("foundation orchestrator must separate design from requested materialization and mapping");
 }
 const scaffoldSkill = read(path.join(skillsRoot, "scaffoldify", "SKILL.md"));
-if (!scaffoldSkill.includes("confirmation") || !scaffoldSkill.includes("Never create or switch a branch, commit")) {
-  fail("scaffoldify must confirm material choices and leave branch ownership to its caller");
+if (!scaffoldSkill.includes("wait for user confirmation")) {
+  fail("scaffoldify must confirm material choices before materializing");
 }
 const prdTemplate = read(path.join(skillsRoot, "explore", "assets", "PRD.template.md"));
 if (/^## \{category\}|\{spec_id\}/m.test(prdTemplate) || !prdTemplate.includes("Empty index")) {
@@ -184,24 +188,15 @@ if (scaffoldReadme.split(solutionStart).length !== 2
   fail("scaffold README template must define exactly one replaceable solution block");
 }
 const craftSkill = read(path.join(skillsRoot, "craft-lasting-quality", "SKILL.md"));
-if (!craftSkill.includes("up to five") || !craftSkill.includes("origin: craft") || !craftSkill.includes("deliver-change")) {
+if (!craftSkill.includes("up to five") || !craftSkill.includes("origin: craft") || !craftSkill.includes("../build-requested-change/SKILL.md")) {
   fail("craft-lasting-quality does not own batched change delivery");
 }
 if (/deliver-work|scope-feature|deliver-spec|planify/.test(craftSkill)) {
   fail("craft-lasting-quality must not route findings through requested specification delivery");
 }
-if (!craftSkill.includes("Do not accept a human-supplied defect") || !craftSkill.includes("/build-requested-change")) {
-  fail("craft-lasting-quality must reject human corrections and route them to requested delivery");
-}
-if (!craftSkill.includes("unfinished Craft change") || !craftSkill.includes("without adding newly discovered findings")) {
-  fail("craft-lasting-quality must resume an unchanged unfinished batch");
-}
-if (craftSkill.includes("_ASK_")) {
-  fail("craft-lasting-quality invocation must authorize its selected remediation scope");
-}
-const collectSkill = read(path.join(skillsRoot, "collect-findings", "SKILL.md"));
-if (!collectSkill.includes("e2e.report.md") || !collectSkill.includes("qualify.report.md") || !collectSkill.includes("clean-solution") || collectSkill.includes("supplied by the caller")) {
-  fail("collect-findings does not collect verification, qualification, and quality evidence");
+if (!craftSkill.includes("findings.md") || !craftSkill.includes("./references/finding.contract.md")
+  || !craftSkill.includes("no eligible pending findings remain")) {
+  fail("craft-lasting-quality must own finding normalization and an empty-batch exit");
 }
 for (const template of [
   ".agents/skills/qualify/assets/change.qualify.report.template.md",
@@ -211,9 +206,34 @@ for (const template of [
   }
 }
 
-for (const legacy of [".claude/commands", ".cursor/commands", ".github/prompts"]) {
+for (const legacy of [
+  ".claude/commands", ".cursor/commands", ".github/prompts",
+  ".codex/skills", ".cursor/skills", ".github/skills",
+]) {
   const folder = path.join(root, ...legacy.split("/"));
   if (fs.existsSync(folder) && fs.readdirSync(folder).length) fail(`${legacy} contains retired adapters`);
+}
+
+const retiredNames = [
+  "clean-solution", "collect-findings", "deliver-change", "deliver-spec",
+  "design-solution", "map-solution", "scope-change", "scope-feature",
+];
+for (const relative of [
+  "README.md", "docs/AIDD.workflow.md", "docs/getting-started.md",
+  "docs/adaptive-delivery.workflow.yaml", ".agents/skills/skills.catalog.md",
+]) {
+  const file = path.join(root, ...relative.split("/"));
+  const content = read(file);
+  for (const name of retiredNames) {
+    if (content.includes(name)) fail(`${relative}: active documentation names retired skill ${name}`);
+  }
+  for (const link of content.matchAll(/\]\(([^)]+)\)/g)) {
+    const target = link[1].split("#", 1)[0];
+    if (!target || /^[a-z]+:/i.test(target)) continue;
+    if (!fs.existsSync(path.resolve(path.dirname(file), target))) {
+      fail(`${relative}: broken local link ${target}`);
+    }
+  }
 }
 
 if (fs.existsSync(path.join(root, ".vscode", "settings.json"))) {
@@ -230,7 +250,18 @@ function verifyOverlayFixture() {
   const tempRoot = fs.realpathSync(os.tmpdir());
   const fixture = fs.mkdtempSync(path.join(tempRoot, "aiddbot-skills-fixture-"));
   try {
-    const first = runOverlay(fixture, { dryRun: false, force: false });
+    const retiredPointer = ".claude/skills/clean-solution/SKILL.md";
+    const retiredSource = path.join(fixture, "retired-pointer-source.md");
+    const retiredText = "retired managed Claude pointer\n";
+    fs.writeFileSync(retiredSource, retiredText);
+    const formerInventory = {
+      ...sourceInventory(),
+      [retiredPointer]: {
+        source: retiredSource,
+        digest: `sha256:${crypto.createHash("sha256").update(retiredText).digest("hex")}`,
+      },
+    };
+    const first = runOverlay(fixture, { dryRun: false, force: false, inventory: formerInventory });
     if (first.conflicts) fail("clean overlay fixture reported conflicts");
     for (const required of [
       ".agents/skills/architect-solution-foundation/SKILL.md",
@@ -248,6 +279,14 @@ function verifyOverlayFixture() {
       if (fs.existsSync(path.join(fixture, ...retired.split("/")))) {
         fail(`clean overlay fixture retained ${retired}`);
       }
+    }
+    const updatePreview = runOverlay(fixture, { dryRun: true, force: false });
+    if (updatePreview.rows.find((row) => row.file === retiredPointer)?.action !== "remove") {
+      fail("overlay update did not plan removal of a retired Claude skill pointer");
+    }
+    const update = runOverlay(fixture, { dryRun: false, force: false });
+    if (update.conflicts || fs.existsSync(path.join(fixture, ...retiredPointer.split("/")))) {
+      fail("overlay update retained a retired Claude skill pointer");
     }
     const second = runOverlay(fixture, { dryRun: true, force: false });
     if (second.conflicts || second.written.length) fail("overlay fixture is not idempotent");

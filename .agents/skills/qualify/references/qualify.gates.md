@@ -5,7 +5,7 @@
 - **Closed list** — the gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
 - **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope; unavailable evidence is `blocked`, not `n/a`.
 - **Technical criteria are additional** — perform each criterion's stated method and record its evidence. A failed or blocked criterion prevents a green qualification even if all six gates pass.
-- **Accumulated debt is not a fail** — record evidence that only shows across scopes in the report; never fail a gate on it. `collect-findings` later decides whether it belongs in the durable finding ledger.
+- **Accumulated debt is not a fail** — record evidence that only shows across scopes in the report; never fail a gate on it. `/craft-lasting-quality` later decides whether it belongs in the durable finding ledger.
 
 ## Severity
 

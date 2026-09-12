@@ -61,7 +61,7 @@ findings: [{finding_id}]
 
 ## Accumulated debt
 
-{Evidence-backed debt that fails no gate. `collect-findings` later records it in the finding ledger.}
+{Evidence-backed debt that fails no gate. `/craft-lasting-quality` later records it in the finding ledger.}
 
 ### D1: {short title}
 

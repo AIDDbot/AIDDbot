@@ -49,7 +49,7 @@ Use the same entrypoint with the outcome you need:
 
 Understanding existing application code produces a map and explanation. Designing produces a technical design for a new solution or an evolution of an existing one. Preparing a new executable foundation additionally confirms material choices, installs and smoke-tests one scaffold, then reconciles its documented containers. Existing documents are reused as evidence; their presence alone never triggers scaffolding.
 
-When materializing a new solution, it confirms the name, selected tiers, technologies, and product summary. It resolves author details from the fetched projects or Git before asking for missing values, and preserves unrelated root README content while reconciling a solution summary with links and documented setup details for each selected project. Architecture design is captured on its technical working branch; `/scaffoldify` itself never manages branches or commits. Advanced users can invoke `/scaffoldify` directly.
+When materializing a new solution, it confirms the name, selected tiers, technologies, and product summary. It resolves author details from the fetched projects or Git before asking for missing values, and preserves unrelated root README content while reconciling a solution summary with links and documented setup details for each selected project. `/scaffoldify` creates a `chore/scaffold` branch, commits the materialized foundation, and merges it into the default branch. Advanced users can invoke `/scaffoldify` directly.
 
 ## 3. Deliver a requirement
 

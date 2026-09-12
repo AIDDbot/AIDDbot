@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.0.17 - 2026-09-12
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+MM .agents/skills/architect-solution-foundation/SKILL.md
+MM .agents/skills/build-requested-change/SKILL.md
+R  .agents/skills/scope-change/assets/change.manifest.template.md -> .agents/skills/build-requested-change/assets/change.manifest.template.md
+R  .agents/skills/scope-change/references/triage.md -> .agents/skills/build-requested-change/references/triage.md
+D  .agents/skills/clean-solution/SKILL.md
+D  .agents/skills/collect-findings/SKILL.md
+MM .agents/skills/craft-lasting-quality/SKILL.md
+R  .agents/skills/collect-findings/references/finding.contract.md -> .agents/skills/craft-lasting-quality/references/finding.contract.md
+D  .agents/skills/deliver-change/SKILL.md
+D  .agents/skills/deliver-spec/SKILL.md
+D  .agents/skills/design-solution/SKILL.md
+D  .agents/skills/map-solution/SKILL.md
+ M .agents/skills/qualify/assets/change.qualify.report.template.md
+ M .agents/skills/qualify/references/qualify.gates.md
+D  .agents/skills/scope-change/SKILL.md
+ M .agents/skills/skills.catalog.md
+ D .claude/skills/clean-solution/SKILL.md
+ D .claude/skills/collect-findings/SKILL.md
+ D .claude/skills/deliver-change/SKILL.md
+ D .claude/skills/deliver-spec/SKILL.md
+ D .claude/skills/design-solution/SKILL.md
+ D .claude/skills/map-solution/SKILL.md
+ D .claude/skills/scope-change/SKILL.md
+ D .claude/skills/scope-feature/SKILL.md
+ M docs/AIDD.workflow.md
+ M docs/adaptive-delivery.workflow.yaml
+ M docs/design.decisions.md
+ M docs/getting-started.md
+ M scripts/verify-skills-migration.js
+```
+
 ## 0.0.16 - 2026-09-11
 
 - feat: review and delete unused skills (05d59ea)

@@ -24,7 +24,7 @@ or a generic framework generator; a failed fetch remains a blocker until resolve
 or the user explicitly changes the choice.
 
 When preparing a foundation, `/scaffoldify` determines the required archetypes
-for the `back`, `front`, `e2e`, and `cli` tiers selected by `design-solution`,
+for the `back`, `front`, `e2e`, and `cli` tiers selected by `/architect-solution-foundation`,
 respecting each tier's chosen language and framework. Catalog defaults do not
 restrict those choices: unmatched stacks use current official instructions
 researched on the internet. It then materializes the selected tiers
@@ -35,9 +35,10 @@ authorship in the solution owner's identity. Existing documentation and upstream
 attribution are preserved.
 
 This preparation applies only when no application code or scaffold exists.
-Both a newly prepared foundation and existing code go through `map-solution`
-to establish AIDDbot documentation. Evolution of existing code belongs to
-requested delivery, not to foundation design.
+Both a newly prepared foundation and existing code are mapped with `/explore`
+and `/extract` to establish AIDDbot documentation. A design-only request can
+finish without scaffolding. Evolution of existing code belongs to requested
+delivery after its design is agreed.
 
 ## One change contract
 
@@ -66,7 +67,7 @@ When qualification is skipped, implementation records the technical-criterion ev
 
 ## Requested delivery
 
-`/build-requested-change` classifies the request read-only, reserves its change and optional spec identities, then delegates the complete lifecycle to `deliver-change`. Durable specs pause for validation unless YOLO applies. Simple bounded work may carry its criteria directly in the manifest.
+`/build-requested-change` classifies the request, reserves its change and optional spec identities, persists the manifest, then coordinates specification, implementation, proof, and release. Durable specs pause for validation unless YOLO applies. Simple bounded work may carry its criteria directly in the manifest.
 
 The owner persists the manifest, plans only when required, implements sequentially, runs applicable proof stages, and releases once. Corrections from a human use `intent: fix` and never create a plan.
 

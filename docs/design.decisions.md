@@ -4,6 +4,23 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-12 — Orchestrators absorb redundant workers
+
+**Status**: adopted. Supersedes earlier routing through `design-solution`,
+`map-solution`, `scope-change`, `deliver-change`, `deliver-spec`,
+`collect-findings`, and `clean-solution`. Their prior entries remain below as
+historical decisions.
+
+The three public orchestrators now coordinate foundation design and mapping,
+classified change delivery, and quality discovery and repair directly. The
+remaining workers own specification validation, implementation, proof and
+release, and defect repair. The change manifest and finding contract move into
+their new owning skills; the delivery branch remains `change/{change_key}`.
+
+Claude retains one managed pointer per canonical skill. Retired pointers,
+including the already orphaned `scope-feature`, are removed. Codex, Cursor,
+and GitHub Copilot continue to discover the canonical `.agents/skills/` tree.
+
 ## 2026-09-08 — Public workflows follow intent and report actual outcomes
 
 **Status**: adopted.

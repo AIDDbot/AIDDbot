@@ -33,7 +33,7 @@ policy:
     technical-criteria-with-qualification: qualify
 
 delivery:
-  worker: deliver-change
+  orchestrator: build-requested-change
   sequence:
     - classify
     - persist-change
