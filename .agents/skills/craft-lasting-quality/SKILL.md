@@ -25,6 +25,6 @@ Your goal is to reduce current quality debt with evidence-backed specs.
   - group remaining findings with one coherent repair.
   - _IF_ no eligible group remains:
     - _RETURN_ the quality review.
-  - Execute [build-requested-change](../build-requested-change/SKILL.md) for one selected repair spec.
+  - Read [the build-requested-change skill](../build-requested-change/SKILL.md) and follow its instructions for one selected repair spec.
 
 _RETURN_ the shipped repair spec or its concrete blocker.
