@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Create or amend one durable functional or technical contract.
+description: Create one proposed spec and its PRD edits.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

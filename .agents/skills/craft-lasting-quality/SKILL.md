@@ -1,6 +1,6 @@
 ---
 name: craft-lasting-quality
-description: Review current quality and deliver one prioritized correction batch.
+description: Review current quality and deliver selected repairs.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
@@ -8,21 +8,23 @@ disable-model-invocation: true
 ---
 # craft-lasting-quality
 
-Your goal is to **review solution quality and deliver one evidence-backed correction batch**.
+Your goal is to reduce current quality debt with evidence-backed specs.
 
-## Collect findings
+- _SPAWN_ a _Craftsman_ agent to: 
+  - read `{Product_Folder}/quality/findings.md`, 
+  - qualification reports from shipped specs, 
+  - and `{Product_Folder}/quality/review.md`; 
+  - normalize findings with the [finding contract](./references/finding.contract.md).
+- _SPAWN_ a _Craftsman_ agent to: 
+  - run only team-configured quality tools against the shipped revision. 
+  - Confirm actionable results, record their evidence in `quality/review.md`, and deduplicate the index. 
+  - Missing tools are not findings or blockers.
+- _SPAWN_ an _Architect_ agent to: 
+  - recheck selected findings, 
+  - remove invalid, obsolete, or duplicate entries with evidence, and 
+  - group remaining findings with one coherent repair.
+  - _IF_ no eligible group remains:
+    - _RETURN_ the quality review.
+  - Execute [build-requested-change](../build-requested-change/SKILL.md) for one selected repair spec.
 
-- The `{Product_Folder}/findings.md` records durable unresolved findings.
-- _SPAWN_ a _Craftsman_ agent to read Findings in `changes/*/report.md`, including accumulated debt, and report unresolved evidence.
-- _SPAWN_ a _Craftsman_ agent to run available complexity, coverage, and strict-lint checks.
-- Normalize durable evidence into `{Product_Folder}/findings.md` with the [finding contract](./references/finding.contract.md). Deduplicate identical scope and rule; retain source links.
-
-## Select and fix
-
-- Select up to five open repair groups by severity, impact, and bounded scope. Exclude behavior changes and stale evidence.
-- _IF_ no eligible finding remains:
-  - _RETURN_ the quality report without a change.
-- Execute [build-requested-change](../build-requested-change/SKILL.md) with the fixed source set.
-- After release, mark only its linked findings resolved.
-
-_RETURN_ the released batch or its concrete blocker.
+_RETURN_ the shipped repair spec or its concrete blocker.

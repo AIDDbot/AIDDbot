@@ -1,6 +1,6 @@
 ---
 name: specify-spec
-description: Produce one created or amended contract and obtain its approval.
+description: Produce and approve one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

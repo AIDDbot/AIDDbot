@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run required end-to-end checks for one change and record their evidence.
+description: Execute acceptance tests for one spec and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

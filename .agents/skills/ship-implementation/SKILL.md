@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Refresh necessary evidence and release one complete change.
+description: Refresh evidence and ship one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,20 +8,18 @@ disable-model-invocation: true
 ---
 # ship-implementation
 
-Your goal is to prove and deliver one complete change.
+Your goal is to prove and deliver one spec.
 
-- _REPEAT_ until delivery or a blocker:
-  - Read the change, related specs, diff from `base`, and report; derive the required coverage and run [verify](../verify/SKILL.md) and [qualify](../qualify/SKILL.md) for each required owner with missing or stale evidence.
-  - _IF_ a required control is blocked:
-    - Record the impediment in the change and _RETURN_ it.
-  - _IF_ correctable findings fail a required control:
-    - Execute [fix-defects](../fix-defects/SKILL.md).
-    - _IF_ repair changes scope or contracts:
-      - _RETURN_ the required owner decision.
-    - Repeat the affected checks after repair.
-  - _IF_ every required obligation derived from scope, specs, diff, and risk policy has current passing evidence and applicable approval:
-    - Delegate final integration to [shipify](../shipify/SKILL.md).
-    - _IF_ integration changes semantics, repeat affected checks.
-    - _RETURN_ the delivery outcome.
+- _REPEAT_ until both reports have current passing evidence:
+    - Execute [verify](../verify/SKILL.md) and [qualify](../qualify/SKILL.md), refreshing missing or stale evidence.
+    - _IF_ a required check cannot be completed:
+        - _RETURN_ the blocker recorded in its report.
+    - _IF_ required checks failed:
+        - _IF_ repair requires a different spec scope or requirements:
+            - _RETURN_ the required owner decision before editing.
+        - Execute [implement-change](../implement-change/SKILL.md) on the current spec branch, limited to the blocking findings.
+        - _IF_ repair cannot proceed:
+            - _RETURN_ the repair blocker.
+- Execute [shipify](../shipify/SKILL.md). Non-blocking debt does not require another repair cycle.
 
-Do not repeat current evidence without a change or a reason.
+_RETURN_ the shipping result or blocker.

@@ -4,10 +4,46 @@ paths: "{source_glob}"
 glob: "{source_glob}"
 applyTo: "{source_glob}"
 ---
-# {Container_Name} restrictions — {Product_Name}
+# {Container_Name} rules — {Product_Name}
 
-Record only restrictions that are specific to this project, cannot be enforced by configured tooling, and are supported by evidence or an explicit decision.
+## Problem
 
-| Restriction | Scope | Reason or evidence |
+{Why this container exists and its boundary.}
+
+## Solution
+
+- **Source**: `{source_root}/`
+- **Language**: {language}
+- **Framework**: {framework}
+- **Testing**: {testing strategy}
+
+### Dependencies
+
+- **Depends on**: {sibling containers / external systems it depends on}
+- **Used by**: {sibling containers / external systems that depend on it}
+- **Libraries**: {main libraries this container uses}
+
+### Code organization
+
+**Pattern**: {Layer-based | Feature-based | Hybrid}.
+
+```text
+{source_root}/
+├── {folder_or_file}    # {one-line responsibility}
+└── {folder_or_file}    # {one-line responsibility}
+```
+### Coding rules
+
+| Rule | Scope | Reason |
 | --- | --- | --- |
-| {specific restriction} | `{path or glob}` | {decision or repository evidence} |
+| {project-specific non-automatable rule} | `{path or glob}` | {evidence or decision} |
+
+## Verification
+
+Functional and quality checks
+
+- `{command}` — {what it checks}
+
+---
+
+> last updated: {DateTime}

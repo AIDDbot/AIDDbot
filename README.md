@@ -38,7 +38,7 @@ The current session follows linked worker and primitive skills and spawns Archit
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` owns requested work through one `change/{change_key}` delivery. Its scope, related contracts, and impact determine E2E and technical review; Builders implement sequentially by container. `/craft-lasting-quality` reviews current evidence autonomously and releases up to five eligible repair groups as one batch.
+`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by container. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
 
 ## Quick start
 
@@ -55,7 +55,7 @@ For each tier, the agent reads the catalog, offers its archetype and a verified 
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
 Run `/build-requested-change` for requested work or corrections; 
 
-Use `/craft-lasting-quality` for autonomous quality review and batched remediation. Durable requested-change specifications pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
+Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
 
 
 
@@ -64,11 +64,6 @@ Use `/craft-lasting-quality` for autonomous quality review and batched remediati
 - [Getting started](docs/getting-started.md)
 - [AIDD workflow](docs/AIDD.workflow.md)
 - [Skills catalog](.agents/skills/skills.catalog.md)
-- [Migration characterization](docs/all-to-skills.characterization.md)
-- [Migration verification](docs/all-to-skills.verification.md)
-- [Three-entrypoint characterization](docs/three-human-entrypoints.characterization.md)
-- [Three-entrypoint verification](docs/three-human-entrypoints.verification.md)
-- [Design decisions](docs/design.decisions.md)
 
 ## Links
 

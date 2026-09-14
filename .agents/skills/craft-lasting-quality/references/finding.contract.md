@@ -1,18 +1,9 @@
-# Finding contract
+# Quality finding contract
 
-Use one heading per finding:
+Keep `{Product_Folder}/quality/findings.md` as one line per open finding:
 
 ```md
-## {finding_id} — {short title}
-
-- Status: open|resolved|dismissed
-- Source: {report path}
-- Scope: {paths, containers, specs, or architecture elements}
-- Rule: {violated gate, expected state, or accumulated debt}
-- Evidence: {observed facts}
-- Contract: {active criterion, valid test, or applicable documented rule when the finding violates approved behavior; omit otherwise}
-- Severity: {only when the source supplies it}
-- Change: {change_key while addressed}
+- Q0001: {concrete problem} — {scope} ([evidence]({report-or-review-link}))
 ```
 
-One repair group contains findings with the same cause and correction. A Craft change references up to five groups. Preserve source reports; mark linked findings `resolved` only after the change releases. Record a dismissal reason.
+Reserve IDs from `counters.yaml`. Keep one ID when observations describe the same underlying problem. Remove a line after a shipped repair proves resolution, or when the debt specifier records evidence that it is invalid, obsolete, or duplicate. Git keeps the reason and history.

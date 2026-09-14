@@ -1,6 +1,6 @@
 ---
 name: shipify
-description: Integrate and close an evidenced open change.
+description: Integrate and close an evidenced spec.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

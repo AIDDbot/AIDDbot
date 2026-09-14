@@ -1,6 +1,6 @@
 ---
 name: specify-spec
-description: Produce one created or amended contract and obtain its approval.
+description: Produce and approve one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,12 +8,12 @@ disable-model-invocation: true
 ---
 # specify-spec
 
-Your goal is to produce an approved contract for one change.
+Your goal is to produce an approved spec.
 
-- Execute [specify](../specify/SKILL.md) with the resolved key and operation.
+- Execute [specify](../specify/SKILL.md) with the reserved identity.
 - _IF_ YOLO does not apply:
-  - Present all created and amended contract content in the change for human approval.
+  - Present the spec and proposed PRD edits for human approval.
 - _IF_ approval or YOLO applies:
-  - Record the reviewed revision and authorization once in the change Approval section.
+  - Set the spec to `in-progress` and record authorization in Git.
 
-_RETURN_ the approved contract without a separate spec state.
+_RETURN_ the approved spec.

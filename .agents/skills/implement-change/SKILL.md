@@ -1,6 +1,6 @@
 ---
 name: implement-change
-description: Coordinate and implement one complete change with current evidence.
+description: Coordinate implementation for one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,14 +8,12 @@ disable-model-invocation: true
 ---
 # implement-change
 
-Your goal is to implement one complete change without concurrent writers.
+Your goal is to implement one spec or its reported repairs.
 
-- Read its change and related specs. Resolve dependencies and shared contracts before implementation.
-- _FOR-EACH_ affected container:
-  - Execute [codify](../codify/SKILL.md) sequentially with its relevant scope, specs, and technology context. Include E2E as a container when it needs test writing.
-- Keep one writer for shared files, the report, and the Git index.
+- Read its spec, PRD edits, and container rules.
+- _FOR-EACH_ affected application container, sequentially:
+    - Execute [codify](../codify/SKILL.md) with its spec scope or supplied repair findings.
+- _IF_ acceptance tests need writing or repair:
+    - Execute [codify](../codify/SKILL.md) with E2E and the relevant scope or findings.
 
-_IF_ migration, reversal, or interruption requires a decision that cannot be recovered from code, specs, report, or Git:
-  - Record a brief note in the change before the dependent action.
-
-_RETURN_ implemented change and current evidence.
+_RETURN_ the implementation result or blocker.

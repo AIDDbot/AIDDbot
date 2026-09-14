@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Refresh necessary evidence and release one complete change.
+description: Refresh evidence and ship one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

@@ -1,6 +1,6 @@
 ---
 name: qualify
-description: Review risk-relevant technical controls for one change and record evidence.
+description: Review technical quality for one spec and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,10 +8,10 @@ disable-model-invocation: true
 ---
 # qualify
 
-Your goal is to review assigned technical controls for one change.
+Your goal is to review technical quality for one spec.
 
-Derive review coverage from the change introduction, related specs, complete diff from `base`, and applicable risk policy. Apply the [gates and severities](./references/qualify.gates.md), [clarity patterns](./references/clarity.patterns.md), and [UI patterns](./references/ui.patterns.md) where relevant. Consult `{container}.rules.md` when it exists. Do not edit code. Update only Review and Findings in `{Product_Folder}/changes/{change_key}/report.md`, recording required coverage, revision, method, result, and evidence; record unexecuted required coverage as `pending`. A blocker, major, failed, pending, or blocked required control prevents release.
+Read the spec, complete diff, and affected container rules. Apply the [gates and severities](./references/qualify.gates.md), [clarity patterns](./references/clarity.patterns.md), and [UI patterns](./references/ui.patterns.md) where relevant. Do not edit code. Write `{Product_Folder}/specs/{spec_key}/qualification.md` from the [qualification template](./assets/qualification.template.md). Record the checked revision, controls, results, evidence, and non-blocking quality debt. A blocker, major, failed, pending, or blocked control prevents shipping.
 
-The result is current review evidence.
+The result is current qualification evidence.
 
 Commit as `docs(qualify): …`.

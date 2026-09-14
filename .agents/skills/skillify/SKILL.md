@@ -14,6 +14,8 @@ Write `SKILL.md` from the [skill template](./assets/skill.template.md), not from
 
 When behavior or paths change, sync [`skills.catalog.md`](../skills.catalog.md). Touch `docs/` only when what a human is told changes. Do not create a commit when the caller forbids it.
 
+Use nested Markdown lists for non-primitive pseudocode. Indent each controlled block by four spaces and keep actions outside the block at the parent level.
+
 The result is a skill an agent can follow without ceremony.
 
 Commit as `feat(skills): add /{skill}` for a new skill, or `refactor(skills): tighten /{skill}` for a fix.

@@ -13,23 +13,49 @@
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 
+## Product
+
+### Problem
+
+{What the product solves.}
+
+### Solution
+
+| Container | Source path | Responsibility | Rules |
+| --- | --- | --- | --- |
+| {container} | `{source_root}/` | {one-line responsibility} | [rules](.agents/rules/{container}.rules.md) |
+
+{Only necessary cross-container facts.}
+
+### Verification
+
+{Project-level checks and expected evidence.}
+
+```bash
+# commands to run e2e tests
+# include intalls , build and run target container
+```
+
 ## Delivery documents
 
-- **Changes** — `{Product_Folder}/changes/C{nnn}-{slug}/` holds `change.md` and evidence `report.md`.
-- **Specs** — `{Product_Folder}/specs/F{nnn}-{slug}.md` and `T{nnn}-{slug}.md` are durable contracts; `specs/PRD.md` is their generated index.
-- **Findings** — `{Product_Folder}/findings.md` holds unresolved durable findings.
-- **Keys** — use stable lowercase kebab-case slugs; reserve independent F, T, and C counters without reuse. Durable criteria are `AC-F{nnn}.n` or `AC-T{nnn}.n`.
-- **Change state** — `open`, `released`, or `cancelled`; evidence, not an intermediate state, determines release readiness.
+- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, `verification.md`, and `qualification.md`. `specs/PRD.md` lists current requirements.
+- **Counters** — `{Product_Folder}/counters.yaml` stores the last reserved S, F, T, and Q numbers.
+- **Quality** — `{Product_Folder}/quality/findings.md` lists open quality findings. `quality/review.md` records tool discovery.
+- **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
+- **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`.
 
 ## Git
 
 - MANDATORY: Preserve work; no secrets; no destructive commands.
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
-- Branch naming: `change/{change_key}`
+- Branch naming: `{feat|fix|chore}/S{nnnn}-{slug}`
 
 ## Project decisions
 
-- Architecture: `{Product_Folder}/arch/system.arch.md`
 - Model: `{Product_Folder}/model/model.schema.md`
 - {Project-specific decision needed to work safely.}
+
+---
+
+> last updated: {DateTime}

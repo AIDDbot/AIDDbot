@@ -1,6 +1,6 @@
 ---
 name: implement-change
-description: Coordinate and implement one complete change with current evidence.
+description: Coordinate implementation for one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
