@@ -10,9 +10,23 @@ status: draft
 
 ## Problem
 
-{Requested behavior, relevant business rules, and scope.}
+{Requested behavior and scope.}
+
+### User Stories
+
+- As a {user role}, I want {user goal} so that {user reason}.
+
+### Business rules
+
+- A {subject} must **{constraint}**.
+
+### Out of context
+
+{Explicit exclusions from this spec.}
 
 ## Solution
+
+{One subsection per affected container.}
 
 ### {container}
 
