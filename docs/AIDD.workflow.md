@@ -6,7 +6,7 @@ AIDDbot has three entrypoints. `/architect-solution-foundation` maps, designs, o
 
 The PRD lists the current requirements in EARS form. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
-The Architect translates the natural-language request into a scoped problem, a concrete proposed solution by container, and verification scenarios. Existing requirements keep their IDs; only new requirements need new IDs. Product ambiguities that affect acceptance remain explicit blockers. Proposed design decisions include their rationale. Approval covers the complete proposal and PRD diff before implementation starts, unless existing authorization or YOLO already covers it.
+The Architect follows `specify` to formalize the request, propose a solution by container, and update the PRD. If the user requests YOLO or the active mode is YOLO, the proposal is approved. Otherwise, `specify` asks the human and waits before implementation.
 
 The PRD owns durable requirement text. Functional requirements use EARS conditions and observable responses. The spec references those IDs and records their delivery impact:
 
@@ -17,7 +17,7 @@ The PRD owns durable requirement text. Functional requirements use EARS conditio
 | `deprecated` | Keep the line until verified shipping, then remove it | Delete obsolete tests/assertions and verify the removal outcome |
 | `related` | Preserve the current requirement | Retain and run regression coverage; repair gaps when needed |
 
-Each functional requirement has concrete scenarios with inputs, actions, expected results, and test locations. Shared tests retain assertions for active requirements. Technical work names its check and evidence owner without inventing functional requirements. Proposed PRD edits live on the spec branch. The default branch remains the shipped product view.
+The spec links each requirement change to its acceptance test and expected result. Proposed PRD edits live on the spec branch; the default branch remains the shipped product view.
 
 Builders run `codify` for each affected container and for E2E when acceptance tests need work. Codify runs basic lint and unit tests. Verify executes acceptance tests and writes its report. Qualify writes technical quality evidence and records any non-blocking debt. Both reports must be current before shipping.
 

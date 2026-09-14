@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Create one proposed spec and its PRD edits.
+description: Specify a request, update the PRD, and obtain approval.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,14 +8,14 @@ disable-model-invocation: true
 ---
 # specify
 
-Your goal is to create one proposed spec.
+Your goal is to formalize a request and propose its solution.
 
-Require the original request, a reserved spec ID, any needed new requirement IDs, and the active spec branch. Do not require new F or T IDs for existing requirements or changes without new requirements. Do not allocate another identity or create a branch; return an identity shortage to the caller.
+Use the supplied spec identity and branch. Read the request, current PRD, and relevant code and rules. Clarify missing product decisions; propose the design.
 
-Translate the request using the current PRD, implementation, acceptance tests, and container rules. Distinguish observed facts from the proposed design: existing code is evidence, not authority to override the requested behavior. Ask only for missing product decisions that materially change scope or acceptance; mark them unresolved until answered. Propose implementation decisions with their rationale instead of requiring the human to supply the design.
+Write the [spec](./assets/spec.template.md) and [PRD edits](./assets/PRD.template.md) in the project locations. The PRD owns requirement text; the spec references its IDs. Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines until shipping.
 
-Write the spec using the [spec template](./assets/spec.template.md) and edit the PRD using the [PRD template](./assets/PRD.template.md), at the locations defined by the project instructions. Compare the proposal with the branch's starting PRD and reconcile every requirement delta and acceptance-test action. Preserve unrelated requirements. Return unresolved contradictions or missing coverage as blockers, not as a completed proposal.
+If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` and record authorization in Git.
 
-The result is a reviewable spec and its matching proposed PRD edits, or a draft with explicit blockers.
+The result is an approved spec and its PRD edits.
 
 Commit as `docs(specify): …`.
