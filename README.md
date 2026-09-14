@@ -60,7 +60,7 @@ For each tier, the agent reads the catalog, offers its archetype and any justifi
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
 Run `/build-requested-change` for requested work or corrections;
 
-Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
+Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. It runs the strictest configured lint, complexity analysis, and coverage checks, and reports missing checks without inventing thresholds. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
 
 
 

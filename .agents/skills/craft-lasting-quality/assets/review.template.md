@@ -4,9 +4,9 @@ Revision: {commit}
 
 ## Checks
 
-| Check | Method | Result | Limit |
+| Check | Method | Result | Threshold / evidence |
 | --- | --- | --- | --- |
-| {configured check} | {command} | {pass | fail | unavailable} | {scope or reason} |
+| {lint, complexity, coverage, or other configured check} | {command or not configured} | {pass / fail / not configured / unavailable} | {configured threshold, measured result, evidence, or reason} |
 
 ## Findings
 

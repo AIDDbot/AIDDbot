@@ -33,7 +33,7 @@ Each process permits three automatic evaluations, including the first. A blockin
 
 ## Quality review
 
-Craft reads open quality findings and qualification evidence. It also runs only the tools configured by the project team. Confirmed tool findings link to the quality review. Repeated observations share one finding ID.
+Craft reads open quality findings and qualification evidence. It reads each container's quality configuration and runs the strictest configured lint, complexity analysis, test coverage checks, and other team-configured tools. The review records commands, results, and threshold violations, distinguishing checks that are not configured from configured checks that could not run. It does not invent tools or thresholds. Confirmed tool findings link to the quality review. Repeated observations share one finding ID.
 
 Selected repairs use ordinary specs. A shipped repair removes only the findings it proves resolved. The debt specifier may remove invalid, obsolete, or duplicate findings with evidence recorded in Git.
 
