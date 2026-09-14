@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.20 - 2026-09-14
+
+- Merge branch 'less-harness' into main (19ff5a4)
+- refactor(skills): remove obsolete fix-defects skill and update references (d3a3c98)
+- feat: timestamp (4e46ece)
+- refactor(skills): simplify nested delivery and repair flow (d44f197)
+- feat: template impovements (4ce1034)
+- feat: nested instructions (4820eaa)
+- chore(harness): clean less-harness seed formatting (8717100)
+- docs(harness): complete less-harness redesign (4e76c7e)
+- feat(quality): route debt through qualification and specs (7456370)
+- refactor(context): replace architecture docs with container rules (6b5aa15)
+- refactor(skills): make specs the delivery unit (0b420da)
+- feat(harness): establish less-harness artifact templates (b049b87)
+- docs: split human and product docs (746ddda)
+
 ## 0.0.19 - 2026-09-12
 
 - docs(change): record delivery simplification evidence (45983c6)
