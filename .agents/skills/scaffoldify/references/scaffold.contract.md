@@ -17,7 +17,7 @@ For example, when the user selects the catalog's Express backend and standard fr
 node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --back express --front standard
 ```
 
-If fetching fails, diagnose and retry when appropriate or report the blocker.
+If fetching fails, report the error and stop.
 
 Do not populate the destination manually without an explicit change of choice from the user.
 
@@ -25,7 +25,4 @@ Each selected tier defaults to its literal folder.
 
 For a technology outside the catalog, search the internet for its official generator or scaffolding instructions.
 
-After either scaffolding route, complete the root reconciliation linked from the skill. 
-Ensure root `.gitignore` exists without replacing an existing file.
-Then install every selected project using its declared package manager and lockfile
-Run the smallest documented non-destructive smoke check for each runnable project.
+Stop after creating the selected scaffolds. Do not add functional code, installation, testing, documentation rewriting, commits, or merges.

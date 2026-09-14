@@ -53,11 +53,12 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
 Then use `/architect-solution-foundation` to map an existing solution or scaffold and map a greenfield solution.
-Foundation scaffolding resolves archetypes from the catalog or official tooling and completes root documentation and metadata with the project's problem, proposed solution, and author.
+Foundation scaffolding selects the needed containers and fetches suitable catalogued archetypes. A container outside the catalog receives only a minimal scaffold from official tooling or documentation.
 For greenfield solutions, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing containers or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
 For each tier, the agent reads the catalog, offers its archetype and any justified, verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
+Scaffolding stops when the folders are created: it adds no functional code, dependency installation, tests, documentation rewriting, or Git operations. Architecture documentation follows through `explore` and `extract`.
 Run `/build-requested-change` for requested work or corrections;
 
 Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. It runs the strictest configured lint, complexity analysis, and coverage checks, and reports missing checks without inventing thresholds. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).

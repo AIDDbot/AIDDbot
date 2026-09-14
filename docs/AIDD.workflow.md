@@ -2,7 +2,7 @@
 
 AIDDbot has three entrypoints. `/architect-solution-foundation` scaffolds greenfield solutions and maps repository architecture. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
 
-For greenfield solutions, `scaffoldify` clarifies needs, consults the archetype catalog, confirms the selection with the user, and materializes the foundation. Alternatives need a concrete unmet requirement or an explicit user preference. In every case, `explore` maps the repository and `extract` documents each container.
+For greenfield solutions, `scaffoldify` selects needed containers, consults the archetype catalog, confirms the selection with the user, and runs the materializer. Only containers without a suitable or selected archetype receive a minimal scaffold from official tooling or documentation. It stops at the scaffold, with no functional code or additional installation, testing, documentation, or Git tasks. A failed download is reported, not replaced with handwritten code. In every case, `explore` maps the repository and `extract` documents each container.
 
 ## Spec delivery
 

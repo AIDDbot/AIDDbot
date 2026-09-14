@@ -1,6 +1,6 @@
 ---
 name: scaffoldify
-description: Resolve solution archetypes, materialize the scaffold, and reconcile root documentation and metadata.
+description: Choose the needed containers and create only their scaffold, using catalogued archetypes when suitable.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

@@ -1,6 +1,6 @@
 ---
 name: scaffoldify
-description: Resolve solution archetypes, materialize the scaffold, and reconcile root documentation and metadata.
+description: Choose the needed containers and create only their scaffold, using catalogued archetypes when suitable.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,35 +8,18 @@ disable-model-invocation: true
 ---
 # scaffoldify
 
-Determine the archetypes a solution needs and materialize an installable and runnable scaffold (no business logic).
+Your goal is to create only the initial scaffold. Do not implement features, business logic, product screens, or extra application code.
 
-Clarify the solution name, problem, intended users, and proposed solution.
-
-Before proposing containers or technologies, run `node .agents/skills/scaffoldify/scripts/materialize.mjs --list` as the catalog authority. Start from its available archetypes. Justify non-catalogued alternatives with a concrete need the catalog does not cover or an explicit user preference, and verify their official scaffolding support.
-
-For each tier in `back`, `front`, `e2e`, and `cli`, discuss its responsibility, language, framework, and destination. Offer the catalogued archetype, any justified alternative, or omission of the tier; let the user have the final say. Show a table with the proposed scaffolding and wait for user confirmation.
-
-**Git process**: Commit pending changes and switch to a new branch `chore/scaffold` before materializing.
-
-Resolve each container independently. A solution may combine both sources.
-
-Then run one confirmed invocation with `--name {solution_name}` and one flag per selected catalog tier. 
-
-For example, when the user selects the catalog's Express backend and standard frontend, run:
+1. Clarify the solution name and what the system needs. Decide which containers are necessary: frontend (`front`), backend (`back`), end-to-end tests (`e2e`), or command-line tool (`cli`). Omit unnecessary containers.
+2. Run `node .agents/skills/scaffoldify/scripts/materialize.mjs --list` before choosing technologies. Prefer a catalogued archetype for each needed container. Use something else only when no archetype fits a concrete need or the user explicitly chooses another technology. Show the proposed containers, archetypes or exceptions, and destination folders; confirm the selection with the user.
+3. Run the materializer from the project root with the solution name and only the selected catalog tiers. The script fetches the archetypes; do not recreate or extend them yourself. For example, for an Express backend and standard frontend:
 
 ```text
 node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --back express --front standard
 ```
 
-For non-catalogued technologies, search for their official scaffolding support on the internet.
+For a selected container outside the catalog, use its official scaffold generator or create the minimum framework scaffold from official documentation. This exception applies only to that container and still excludes functional implementation.
 
-Install and run smoke tests (or e2e if available) for each container.
+If the materializer fails, report the error and stop. A failed download is not permission to replace an archetype with handwritten code.
 
-After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). 
-
-The result is a smoke-tested solution scaffold with coherent root documentation and metadata.
-
-**Git process**: Commit changes and merge to `main` or `master` branch after materializing.
-
-
-Return a short summary of the tiers materialized or pending.
+Stop when the selected scaffolds exist. Report created folders and any pending containers. Do not add installation, testing, documentation rewriting, commits, or merges to this task.
