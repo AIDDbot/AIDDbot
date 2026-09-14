@@ -12,6 +12,8 @@ Every spec advances from `draft` to `shipped` only with approval and current pas
 
 `/codify` writes code, basic lint, and unit tests. `/verify` writes acceptance evidence. `/qualify` writes qualification evidence and may record non-blocking quality debt.
 
+Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.md` (`green`, `amber`, or `red`), with spec ID, evaluation counter, evaluated commit, and update time. Shipping requires current green verification and green or amber qualification. After three evaluations per process, unresolved blockers require human direction; counters persist across resumptions. Verification records failures; qualification records findings.
+
 ## Public orchestrators
 
 | Skill | Outcome |

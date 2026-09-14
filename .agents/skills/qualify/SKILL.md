@@ -14,6 +14,8 @@ Read the spec, complete diff, and affected container rules. Apply the [gates and
 
 Verify the spec's technical outcomes and record their evidence under Controls.
 
+Always save the spec's report, including failed or blocked evaluations. Set `status` to `green` when all required controls pass without open findings, `amber` when only minor findings remain, or `red` for blocking findings or incomplete or failed controls. Increment `revision` once per evaluation, starting at 1, not for document edits. Record the evaluated code commit and update time; preserve the counter when resuming.
+
 The result is current qualification evidence.
 
 Commit as `docs(qualify): …`.

@@ -25,6 +25,10 @@ The Builder applies every declared test action, including deletions. Verify reco
 
 Shipify integrates the approved branch, its code, and its PRD edits together. It removes deprecated requirements only after the required checks pass. It marks the spec shipped and updates rules and quality findings where required.
 
+Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification records findings: `green` means no open findings, `amber` allows minor debt, and `red` blocks delivery. Shipping requires current green verification and green or amber qualification.
+
+Each process permits three automatic evaluations, including the first. A blocking third result stops repairs and returns the reports to the human. Explicit human direction can authorize another three evaluations; the revision counter never resets. Document edits do not count as evaluations.
+
 ## Quality review
 
 Craft reads open quality findings and qualification evidence. It also runs only the tools configured by the project team. Confirmed tool findings link to the quality review. Repeated observations share one finding ID.

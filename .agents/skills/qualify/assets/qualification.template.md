@@ -1,6 +1,11 @@
+---
+spec: S0001
+status: red
+revision: 1
+evaluated_commit: {commit}
+updated_at: {DateTime}
+---
 # S0001-{slug} — qualification
-
-Revision: {commit}
 
 ## Controls
 
@@ -8,7 +13,7 @@ Revision: {commit}
 | --- | --- | --- | --- |
 | {gate or rule} | {inspection or command} | {pass | fail | blocked | n/a} | {output or link} |
 
-## Quality debt
+## Findings
 
 ### {short title}
 
@@ -18,7 +23,3 @@ Revision: {commit}
 - Severity: {blocker | major | minor}
 
 {Blockers and majors prevent delivery. Minors may become quality findings at shipping.}
-
----
-
-> last updated: {DateTime}

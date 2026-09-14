@@ -16,6 +16,8 @@ Check coverage by requirement ID, including test updates and deletions. Missing 
 
 Use test data isolated by run or project. Stop listeners with the ownership-safe [Windows](./scripts/free-port.ps1) or [Linux/macOS](./scripts/free-port.sh) helper only when this run captured its PID and start identity.
 
+Always save the spec's report, including failed or blocked evaluations. Set `status: green` only when all required checks pass with complete coverage; otherwise use `red` and explain under Failures. Increment `revision` once per evaluation, starting at 1, not for document edits. Record the evaluated code commit and update time; preserve the counter when resuming.
+
 The result is current acceptance evidence.
 
 Commit as `docs(verify): …`.

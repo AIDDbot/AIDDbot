@@ -42,6 +42,8 @@ The current session follows linked worker and primitive skills and spawns Archit
 
 Start with a natural-language request. The proposal formalizes the problem, designs the solution, and links functional EARS requirements in the enduring PRD to acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 
+Verification must be green; qualification may be green or amber (minor debt). Each spec report tracks its evaluated commit and evaluation count. After three evaluations per process, unresolved blockers stop automatic repairs for human direction.
+
 ## Quick start
 
 **Any project** — from the repo root:

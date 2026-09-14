@@ -1,6 +1,11 @@
+---
+spec: S0001
+status: red
+revision: 1
+evaluated_commit: {commit}
+updated_at: {DateTime}
+---
 # S0001-{slug} — verification
-
-Revision: {commit}
 
 ## Acceptance
 
@@ -8,6 +13,6 @@ Revision: {commit}
 | --- | --- | --- | --- |
 | {ID or technical outcome} | {Test or check} | {pass / fail / blocked} | {output or link} |
 
-## Findings
+## Failures
 
 {Functional failures and missing coverage block delivery.}
