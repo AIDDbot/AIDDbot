@@ -62,8 +62,8 @@ for (const retired of [
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
-  "build-requested-change/SKILL.md": ["one requested spec", "counters.yaml", "ship-implementation"],
-  "specify/SKILL.md": ["spec.md", "specs/PRD.md", "deprecated PRD line"],
+  "build-requested-change/SKILL.md": ["one requested spec", "Reserve the spec ID and any new requirement IDs", "ship-implementation"],
+  "specify/SKILL.md": ["./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],

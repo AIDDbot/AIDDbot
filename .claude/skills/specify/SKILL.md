@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Create one proposed spec and its PRD edits.
+description: Specify a request, update the PRD, and obtain approval.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
