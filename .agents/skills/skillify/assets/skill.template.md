@@ -1,6 +1,6 @@
 # Skill template
 
-A primitive skill is short prose an agent reads â€” the same voice as a command, without role and without handoff. Orchestrators and workers use concise English pseudocode: render uppercase control-flow commands in Markdown italics (for example, `_IF_`), use explicit conditions, and include an explicit `_RETURN_`.
+A primitive skill is short prose an agent reads — the same voice as a command, without role and without handoff. Orchestrators and workers use concise English pseudocode: render uppercase control-flow commands in Markdown italics (for example, `_IF_`), use explicit conditions, and include an explicit `_RETURN_`.
 
 Keep output templates in `assets/` and long guides in `references/`. Link them; never paraphrase them. Resource links stay inside this skill's folder; composition links target the invoked skill's `SKILL.md`.
 

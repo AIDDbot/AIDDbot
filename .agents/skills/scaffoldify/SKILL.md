@@ -10,13 +10,11 @@ disable-model-invocation: true
 
 Determine the archetypes a solution needs and materialize an installable and runnable scaffold (no business logic).
 
-Before suggesting technologies, run `node .agents/skills/scaffoldify/scripts/materialize.mjs --list` as the catalog authority.
+Clarify the solution name, problem, intended users, and proposed solution.
 
-- For each tier in `back`, `front`, `e2e`, and `cli`, 
-    - discuss that tier (responibility, language, framework, destination)
-    - offer the actual arquetype solution, plus an alternative or omit the tier  
-    - let user have the final say
-- Show a table with the proposed scaffolding and wait for user confirmation.
+Before proposing containers or technologies, run `node .agents/skills/scaffoldify/scripts/materialize.mjs --list` as the catalog authority. Start from its available archetypes. Justify non-catalogued alternatives with a concrete need the catalog does not cover or an explicit user preference, and verify their official scaffolding support.
+
+For each tier in `back`, `front`, `e2e`, and `cli`, discuss its responsibility, language, framework, and destination. Offer the catalogued archetype, any justified alternative, or omission of the tier; let the user have the final say. Show a table with the proposed scaffolding and wait for user confirmation.
 
 **Git process**: Commit pending changes and switch to a new branch `chore/scaffold` before materializing.
 
@@ -36,7 +34,7 @@ Install and run smoke tests (or e2e if available) for each container.
 
 After all containers are materialized, reconcile the root documentation and metadata using the [reconciliation guide](./references/root-reconciliation.md) and fill the [solution README template](./assets/solution-readme.template.md). 
 
-The result is asmoke-tested solution scaffold with coherent root documentation and metadata.
+The result is a smoke-tested solution scaffold with coherent root documentation and metadata.
 
 **Git process**: Commit changes and merge to `main` or `master` branch after materializing.
 

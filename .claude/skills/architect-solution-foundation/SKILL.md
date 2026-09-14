@@ -1,6 +1,6 @@
 ---
 name: architect-solution-foundation
-description: Understand, design, or prepare a solution architecture from repository evidence.
+description: Scaffold greenfield solutions and map repository architecture.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

@@ -18,7 +18,7 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Understand, design, or prepare a solution architecture |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Scaffold greenfield solutions and map repository architecture |
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
@@ -44,4 +44,4 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 ## Routing
 
-`/architect-solution-foundation` consults the archetype catalog before greenfield container or technology proposals, uses catalogued archetypes as the starting point, prepares a foundation when requested, then maps the solution. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.
+`/architect-solution-foundation` runs `scaffoldify` for greenfield solutions, then always runs `explore` for the repository and `extract` for each container. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.

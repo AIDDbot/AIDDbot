@@ -12,9 +12,10 @@ The command copies `.agents/` and supported harness adapters. Existing files rem
 
 ```markdown
 /architect-solution-foundation explain the current architecture
-/architect-solution-foundation define the architecture for this product
 /architect-solution-foundation prepare an executable foundation for this product
 ```
+
+Greenfield solutions first go through `scaffoldify` to agree and materialize a foundation. Every solution then goes through `explore` and `extract`.
 
 The result is a compact root `AGENTS.md` and one `.agents/rules/{container}.rules.md` file per container. Each rules file describes the container's Problem, Solution, and Verification.
 

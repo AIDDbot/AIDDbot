@@ -1,8 +1,8 @@
 # AIDD workflow
 
-AIDDbot has three entrypoints. `/architect-solution-foundation` maps, designs, or prepares a solution. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
+AIDDbot has three entrypoints. `/architect-solution-foundation` scaffolds greenfield solutions and maps repository architecture. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
 
-Greenfield architecture proposals consult the archetype catalog before choosing containers or technologies and start from its available archetypes. Departures need a concrete unmet requirement or an explicit user preference, even when only design is requested.
+For greenfield solutions, `scaffoldify` clarifies needs, consults the archetype catalog, confirms the selection with the user, and materializes the foundation. Alternatives need a concrete unmet requirement or an explicit user preference. In every case, `explore` maps the repository and `extract` documents each container.
 
 ## Spec delivery
 
