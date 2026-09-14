@@ -60,7 +60,7 @@ Cursor directly discovers `.agents/skills/` and honors `disable-model-invocation
 
 ### Agents
 
-For each valid agent, render thin native adapters in `.claude/agents/`, `.cursor/agents/`, `.github/agents/`, and `.codex/agents/`. Preserve the existing agent mappings: body-only Markdown pointers for Claude, Cursor, and Copilot; a valid TOML agent for Codex. Do not pin a model unless the source explicitly requires one.
+For each valid agent, render thin native adapters in `.claude/agents/`, `.cursor/agents/`, `.github/agents/`, and `.codex/agents/`. Preserve the existing agent mappings: body-only Markdown pointers for Claude and Cursor; body-only Markdown pointers named `{name}.agent.md` for Copilot; and a valid TOML agent for Codex. Do not pin a model unless the source explicitly requires one.
 
 ### Rules
 
