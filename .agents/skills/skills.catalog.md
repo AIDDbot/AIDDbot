@@ -25,7 +25,7 @@ Every spec advances from `draft` to `shipped` only with approval and current pas
 | [`specify-spec`](./specify-spec/SKILL.md) | Produce and approve one spec |
 | [`implement-change`](./implement-change/SKILL.md) | Coordinate implementation for one spec |
 | [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship one spec |
-| [`fix-defects`](./fix-defects/SKILL.md) | Repair correctable findings |
+| [`fix-defects`](./fix-defects/SKILL.md) | Keep repairs in scope and delegate to `implement-change` |
 
 ## Public primitives
 

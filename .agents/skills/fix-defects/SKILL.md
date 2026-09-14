@@ -10,11 +10,8 @@ disable-model-invocation: true
 
 Your goal is to repair correctable findings on the owner branch.
 
-- _IF_ no compatible non-default branch is supplied:
-  - _RETURN_ that requirement without writing.
-- _IF_ the repair changes spec scope or requirements:
-  - _RETURN_ it to the owner for a spec decision.
-- _FOR-EACH_ affected container:
-  - Execute [codify](../codify/SKILL.md) sequentially from the findings.
+- _IF_ the proposed repair requires a different spec scope or requirements:
+    - _RETURN_ the required owner decision before editing.
+- Execute [implement-change](../implement-change/SKILL.md) on the current spec branch, limited to the supplied repair findings.
 
-_RETURN_ repairs and checks that need refreshing.
+_RETURN_ the repair result or blocker.

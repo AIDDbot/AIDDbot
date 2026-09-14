@@ -26,13 +26,16 @@ The result is {the artifact}.
 Commit as `{message}`.
 ```
 
-For a worker, use this body shape instead:
+For non-primitive pseudocode, use nested lists with four spaces per level. Nest controlled actions under their condition or loop. Keep subsequent actions at the parent level. For a worker, use this body shape:
 
 ```md
 Your goal is to {composed stage outcome}.
 
-- {Plain-language ordered actions.}
-- {Use explicit conditions and flow with only these control-flow keywords: _IF_, _FOR-EACH_, _REPEAT_, and _RETURN_.}
+- _FOR-EACH_ {item}:
+    - {Action.}
+    - _IF_ {condition}:
+        - _RETURN_ {blocker}.
+- {Action after the loop.}
 
 _RETURN_ {stage result}.
 ```
