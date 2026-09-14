@@ -15,7 +15,9 @@ Your goal is to prove and deliver one spec.
     - _IF_ a required check cannot be completed:
         - _RETURN_ the blocker recorded in its report.
     - _IF_ required checks failed:
-        - Execute [fix-defects](../fix-defects/SKILL.md) for their blocking findings.
+        - _IF_ repair requires a different spec scope or requirements:
+            - _RETURN_ the required owner decision before editing.
+        - Execute [implement-change](../implement-change/SKILL.md) on the current spec branch, limited to the blocking findings.
         - _IF_ repair cannot proceed:
             - _RETURN_ the repair blocker.
 - Execute [shipify](../shipify/SKILL.md). Non-blocking debt does not require another repair cycle.
