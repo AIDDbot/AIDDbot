@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.22 - 2026-09-14
+
+- refactor(skills): tighten /craft-lasting-quality (e1bda0c)
+- refactor(skills): tighten orchestrator skill calls (1aabd26)
+- refactor(skills): tighten /architect-solution-foundation (b80f668)
+- refactor(skills): tighten /architect-solution-foundation (e97056b)
+
 ## 0.0.21 - 2026-09-14
 
 - refactor(skills): tighten /verify and /qualify (918279c)
