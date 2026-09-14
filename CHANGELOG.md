@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.24 - 2026-09-14
+
+- fix(checks): align skill contracts and specify adapter (3330c17)
+- refactor(skills): replace container terminology with project (46ed01f)
+- refactor(skills): tighten /scaffoldify (1d841fb)
+- refactor(skills): tighten /scaffoldify (581f472)
+
 ## 0.0.23 - 2026-09-14
 
 - fix(adapt): use Copilot agent filenames (a8e364b)
