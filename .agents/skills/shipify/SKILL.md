@@ -1,6 +1,6 @@
 ---
 name: shipify
-description: Integrate and close an evidenced open change.
+description: Integrate and close an evidenced spec.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,12 @@ disable-model-invocation: true
 ---
 # shipify
 
-Your goal is to integrate and close an open change by owner delegation.
+Your goal is to integrate and close an evidenced spec.
 
-Read its change, related specs, diff from `base`, and report. Require approval for changed contracts and current passing evidence for every required obligation derived from scope, specs, diff, and risk policy. Missing, pending, failed, or blocked evidence prevents release. Treat semantic changes to code, tests, configuration, criteria, contracts, or rules as invalidating affected evidence.
+Read the spec, its PRD edits, qualification and verification reports, and diff. Require approval and current passing evidence. Missing, failed, blocked, or stale evidence prevents shipping. A semantic conflict resolution requires affected checks again.
 
-Inspect the default branch, release commit, version, tag, and `change/{change_key}` before integrating. If the matching release commit already exists, validate scope and complete only missing tag or branch cleanup. Integrate the branch. A semantic conflict resolution returns the change for refreshed evidence. After content-preserving integration, reconcile architecture and changelog from the change content, create one `chore: release {version}` commit, tag it, set `status: released` and `release: {version}` in `change.md`, then delete the merged branch. Resolve linked findings in `{Product_Folder}/findings.md` after release.
+Confirm deprecated PRD lines only leave after their checks pass. Integrate the branch so code and PRD change together. Set `status: shipped` and `shipped_at` in `spec.md`; add `tag` when the project creates one. Reconcile the root map and container rules with approved work. New rule decisions return to the spec before closing.
 
-The result is one tagged release.
+The result is one shipped spec.
 
-Commit on default as `chore: release {version}`, tag that commit, and delete the working branch.
+Commit and tag under the project release policy, then delete the working branch.

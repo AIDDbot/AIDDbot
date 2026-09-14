@@ -1,37 +1,30 @@
 # AIDD skills catalog
 
-Every executable capability is an Agent Skill. This catalog is the inventory and routing authority: public `orchestrator` skills own outcomes, internal `worker` skills compose stages, and public `primitive` skills perform focused work.
+Every executable capability is an Agent Skill. This catalog owns routing.
 
 ## Delivery policy
 
-One change owns its objective, evidence, release, and links to affected contracts. A spec owns only a durable contract and its criteria. The generated PRD is the compact entry point for finding specs; it does not own requirements.
+The PRD is the current list of requirements. A spec owns one small delivery, its proposed PRD edits, and its evidence. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
-Every change begins `open` and becomes `released` only when changed contracts have approval and every required control has current passing evidence. Missing, pending, failed, blocked, or stale evidence prevents release. It may become `cancelled` with a recorded reason. Required checks come from concrete impact and risks:
+Every spec advances from `draft` to `shipped` only with approval and current passing evidence. Missing, pending, failed, blocked, or stale evidence prevents shipping.
 
-| Need | Required action |
-| --- | --- |
-| Ordered work, shared writers, migration, or non-trivial reversal | Coordinate it before the dependent work; record only a decision that cannot otherwise be recovered. |
-| Functional criteria or flow regression | Run E2E. |
-| Architecture, shared contract, schema, migration, dependency, infrastructure, security, privacy, concurrency, transaction, accessibility, performance, or transversal impact | Run technical review. |
-| Correctable failed finding | Repair and refresh affected evidence. |
-
-`/codify`, `/verify`, and `/qualify` write their assigned sections of one report.
+`/codify` writes code, basic lint, and unit tests. `/verify` writes acceptance evidence. `/qualify` writes qualification evidence and may record non-blocking quality debt.
 
 ## Public orchestrators
 
 | Skill | Outcome |
 | --- | --- |
 | [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Understand, design, or prepare a solution architecture |
-| [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested change |
-| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver one correction batch |
+| [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested spec |
+| [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
 ## Internal workers
 
 | Skill | Composition |
 | --- | --- |
-| [`specify-spec`](./specify-spec/SKILL.md) | Produce and approve a changed durable contract |
-| [`implement-change`](./implement-change/SKILL.md) | Coordinate and implement the complete change |
-| [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship once |
+| [`specify-spec`](./specify-spec/SKILL.md) | Produce and approve one spec |
+| [`implement-change`](./implement-change/SKILL.md) | Coordinate implementation for one spec |
+| [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship one spec |
 | [`fix-defects`](./fix-defects/SKILL.md) | Repair correctable findings |
 
 ## Public primitives
@@ -47,4 +40,4 @@ Every change begins `open` and becomes `released` only when changed contracts ha
 
 ## Routing
 
-`/architect-solution-foundation` prepares a foundation only when no application code or scaffold exists, then maps the solution. Requested work enters `/build-requested-change`; corrections requested by a human use the same route. `/craft-lasting-quality` discovers current quality evidence, groups at most five eligible repair groups, and delivers them as one change. Architecture work remains non-release unless executable evolution is requested.
+`/architect-solution-foundation` prepares a foundation when requested, then maps the solution. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.

@@ -1,6 +1,6 @@
 ---
 name: specify
-description: Create or amend one durable functional or technical contract.
+description: Create one proposed spec and its PRD edits.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,12 +8,12 @@ disable-model-invocation: true
 ---
 # specify
 
-Your goal is to capture one durable contract.
+Your goal is to create one proposed spec.
 
-Require the owner to supply its reserved `spec_key` and operation. Use [the functional guidance](./references/functional.md) and [template](./assets/functional.spec.template.md), or [the technical guidance](./references/technical.md) and [template](./assets/technical.spec.template.md). Never reclassify, allocate another identity, or create a branch.
+Require reserved S, F, and T IDs and the active spec branch. Use the [spec template](./assets/spec.template.md) and [PRD template](./assets/PRD.template.md). Do not allocate another identity or create a branch.
 
-Write `{Product_Folder}/specs/{spec_key}.md` on the owner branch. Give it a concise `Scope` that identifies what it owns and excludes. Preserve criterion IDs; put retired ones under `Deprecated criteria`. Fill only repository evidence or facts validated by the human. Regenerate the PRD with `../build-requested-change/scripts/index-specs.mjs write {Product_Folder}` after a create, amend, or retirement.
+Write `{Product_Folder}/specs/{spec_key}/spec.md`. Keep Problem, Solution by container, and Verification concise. List changed, affected, and deprecated requirements in the body. Add or change proposed EARS lines in `specs/PRD.md` on the branch. Keep a deprecated PRD line until shipping. Fill only repository evidence or facts validated by the human.
 
-The result is the proposed contract.
+The result is the proposed spec.
 
 Commit as `docs(specify): …`.
