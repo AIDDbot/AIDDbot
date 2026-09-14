@@ -40,6 +40,8 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 | Ship | [`/shipify`](./shipify/SKILL.md) |
 | Meta | [`/skillify`](./skillify/SKILL.md) |
 
+`/skillify` maintains concise prose for primitives and nested English pseudocode for orchestrators and workers, including explicit agent assignments.
+
 ## Routing
 
-`/architect-solution-foundation` prepares a foundation when requested, then maps the solution. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.
+`/architect-solution-foundation` consults the archetype catalog before greenfield container or technology proposals, uses catalogued archetypes as the starting point, prepares a foundation when requested, then maps the solution. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.

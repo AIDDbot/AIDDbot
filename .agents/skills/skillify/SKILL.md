@@ -1,6 +1,6 @@
 ---
 name: skillify
-description: Create or fix a skill under .agents/skills/ — the only path to write skills.
+description: Create or fix a skill under .agents/skills/ â€” the only path to write skills.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,9 +8,9 @@ disable-model-invocation: true
 ---
 # skillify
 
-Your goal is to create or fix a skill under `.agents/skills/` — and its `references/` and `assets/`. Never edit a skill outside this process.
+Your goal is to create or fix a skill under `.agents/skills/` â€” and its `references/` and `assets/`. Never edit a skill outside this process.
 
-Write `SKILL.md` from the [skill template](./assets/skill.template.md), not from a sibling skill. Write primitives as concise instructional prose and workers as English pseudocode that makes composition and control flow explicit. In workers, use only `_IF_`, `_FOR-EACH_`, `_REPEAT_`, and `_RETURN_` as pseudocode control-flow keywords, rendered in Markdown italics. Classify every executable skill through the [AIDDbot kinds](./references/aiddbot-kinds.md). Add whatever `references/` or `assets/` the skill needs.
+Write `SKILL.md` from the [skill template](./assets/skill.template.md), not from a sibling skill. Write primitives as concise instructional prose and orchestrators and workers as English pseudocode that makes composition and control flow explicit. In orchestrators and workers, render command tokens in Markdown italics: `_IF_`, `_FOR-EACH_`, `_REPEAT_`, `_ALWAYS_`, `_SPAWN_`, and `_RETURN_`. Use `_SPAWN_` for an agent assignment and nest its instructions beneath it. Classify every executable skill through the [AIDDbot kinds](./references/aiddbot-kinds.md). Add whatever `references/` or `assets/` the skill needs.
 
 When behavior or paths change, sync [`skills.catalog.md`](../skills.catalog.md). Touch `docs/` only when what a human is told changes. Do not create a commit when the caller forbids it.
 

@@ -28,15 +28,15 @@ Choose an entrypoint from the outcome you need:
 
 | Need | Entrypoint | Public flow |
 | --- | --- | --- |
-| Understand or define architecture | `/architect-solution-foundation` | Understand → design → prepare when requested |
-| Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
-| Maintain the quality of existing work | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
+| Understand or define architecture | `/architect-solution-foundation` | Understand â†’ design â†’ prepare when requested |
+| Develop functionality or a technical change | `/build-requested-change` | Specify â†’ validate â†’ implement â†’ prove â†’ deliver |
+| Maintain the quality of existing work | `/craft-lasting-quality` | Review evidence â†’ prioritize â†’ repair â†’ prove â†’ deliver |
 
 The current session follows linked worker and primitive skills and spawns Architect, Builder, or Craftsman where the skill requires it.
 
-- **Architect** — maps existing code, designs greenfield architecture, scopes requirements, and writes specifications.
-- **Builder** — plans and codifies validated specifications or fixes review defects.
-- **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
+- **Architect** â€” maps existing code, designs greenfield architecture, scopes requirements, and writes specifications.
+- **Builder** â€” plans and codifies validated specifications or fixes review defects.
+- **Craftsman** â€” verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
 `/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by container. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
 
@@ -46,7 +46,7 @@ Verification must be green; qualification may be green or amber (minor debt). Ea
 
 ## Quick start
 
-**Any project** — from the repo root:
+**Any project** â€” from the repo root:
 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot init
@@ -54,6 +54,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 Then use `/architect-solution-foundation` to explain what exists, define a design, or prepare an executable foundation.
 Foundation scaffolding resolves archetypes from the catalog or official tooling and completes root documentation and metadata with the project's problem, proposed solution, and author.
+Greenfield design starts from the archetype catalog before proposing containers or technologies, even when no scaffolding is requested. Alternatives need a concrete unmet requirement or your explicit preference.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
 For each tier, the agent reads the catalog, offers its archetype and a verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.

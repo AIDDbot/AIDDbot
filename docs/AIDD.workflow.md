@@ -2,6 +2,8 @@
 
 AIDDbot has three entrypoints. `/architect-solution-foundation` maps, designs, or prepares a solution. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
 
+Greenfield architecture proposals consult the archetype catalog before choosing containers or technologies and start from its available archetypes. Departures need a concrete unmet requirement or an explicit user preference, even when only design is requested.
+
 ## Spec delivery
 
 The PRD lists the current requirements in EARS form. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and Q IDs.
