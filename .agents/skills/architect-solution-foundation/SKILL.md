@@ -15,7 +15,7 @@ Your goal is to understand, design, or prepare a solution architecture.
     - clarify the solution name, problem, intended users, solution, containers, and technology decisions.
 - _IF_ an executable foundation is requested, 
   - _SPAWN_ a _Builder_ agent to read and execute [scaffoldify](../scaffoldify/SKILL.md).
-- _IF_ application code exists or a foundation was materialized,
+- _ALWAYS_ after design or materialization,
   - _SPAWN_ an _Architect_ agent to:
     - execute [explore](../explore/SKILL.md) once for the whole repository
     - and [extract](../extract/SKILL.md) for each container.

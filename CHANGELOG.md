@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.0.21 - 2026-09-14
+
+- refactor(skills): tighten /verify and /qualify (918279c)
+- refactor(skills): tighten /specify (7ce38b0)
+- refactor(skills): tighten /specify (18735c8)
+- refactor(skills): tighten /specify (c4bf8ed)
+- refactor(skills): tighten /specify (40a6485)
+- refactor(skills): tighten /specify (b788b31)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-solution-foundation/SKILL.md
+ M .agents/skills/scaffoldify/SKILL.md
+ M .agents/skills/shipify/SKILL.md
+```
+
 ## 0.0.20 - 2026-09-14
 
 - Merge branch 'less-harness' into main (19ff5a4)

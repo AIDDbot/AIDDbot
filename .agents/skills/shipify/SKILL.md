@@ -18,4 +18,6 @@ Promote still-present, non-blocking quality debt from the qualification report t
 
 The result is one shipped spec.
 
-Commit and tag under the project release policy, then delete the working branch.
+Write a CHANGELOG entry for the shipped spec following [CHANGELOG.template.md](./assets/CHANGELOG.template.md)
+
+**Git Procedure**Commit and tag under the project release policy, then delete the working branch.

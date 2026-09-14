@@ -38,6 +38,7 @@ After all containers are materialized, reconcile the root documentation and meta
 
 The result is asmoke-tested solution scaffold with coherent root documentation and metadata.
 
-**Git process**: Commit and merge to default branch after materializing.
+**Git process**: Commit changes and merge to `main` or `master` branch after materializing.
+
 
 Return a short summary of the tiers materialized or pending.
