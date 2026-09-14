@@ -11,7 +11,9 @@ disable-model-invocation: true
 Your goal is to prove and deliver one spec.
 
 - _REPEAT_ until delivery or a blocker:
-  - Read the spec, PRD edits, diff, and reports; run [verify](../verify/SKILL.md) and [qualify](../qualify/SKILL.md) when evidence is missing or stale.
+  - Read the spec, PRD edits, diff, and reports; 
+  - run [verify](../verify/SKILL.md) to report functional defects
+  - and [qualify](../qualify/SKILL.md) to report technical defects
   - _IF_ a required control is blocked:
     - Record the impediment in the relevant report and _RETURN_ it.
   - _IF_ correctable findings fail a required control:

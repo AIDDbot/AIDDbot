@@ -12,17 +12,17 @@ status: draft
 
 {Validated problem and scope.}
 
-## Requirements
+### User Stories
 
-### Changes
+- As a {user role}, I want {user goal} so that {user reason}.
 
-- F0001 — new | {full EARS requirement}
-- T0001 — changed | {full EARS requirement}
-- F0002 — deprecated | {removal intent}
+### Business rules
 
-### Affected
+- A {subject} must **{constraint}**.
 
-- F0003 — {why this current requirement is affected without changing it}
+### Out of scope
+
+{Validated exclusions.}
 
 ## Solution
 
@@ -33,3 +33,10 @@ status: draft
 ## Verification
 
 - {Acceptance result or technical outcome to prove.}
+
+### Requirements
+
+- F0001 — new | {full EARS requirement}
+- T0001 — changed | {full EARS requirement}
+- F0002 — deprecated | {removal intent}
+- F0003 — related | {why this current requirement is affected without changing it}

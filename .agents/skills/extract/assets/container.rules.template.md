@@ -13,9 +13,26 @@ applyTo: "{source_glob}"
 ## Solution
 
 - **Source**: `{source_root}/`
-- **Responsibility**: {what this container owns}
-- **Interfaces**: {dependencies and consumers}
-- **Structure**: {key parts and their roles}
+- **Language**: {language}
+- **Framework**: {framework}
+- **Testing**: {testing strategy}
+
+### Dependencies
+
+- **Depends on**: {sibling containers / external systems it depends on}
+- **Used by**: {sibling containers / external systems that depend on it}
+- **Libraries**: {main libraries this container uses}
+
+### Code organization
+
+**Pattern**: {Layer-based | Feature-based | Hybrid}.
+
+```text
+{source_root}/
+├── {folder_or_file}    # {one-line responsibility}
+└── {folder_or_file}    # {one-line responsibility}
+```
+### Coding rules
 
 | Rule | Scope | Reason |
 | --- | --- | --- |
@@ -23,4 +40,10 @@ applyTo: "{source_glob}"
 
 ## Verification
 
+Functional and quality checks
+
 - `{command}` — {what it checks}
+
+---
+
+> last updated: {DateTime}

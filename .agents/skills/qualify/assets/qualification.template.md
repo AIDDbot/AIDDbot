@@ -18,3 +18,7 @@ Revision: {commit}
 - Severity: {blocker | major | minor}
 
 {Blockers and majors prevent delivery. Minors may become quality findings at shipping.}
+
+---
+
+> last updated: {DateTime}

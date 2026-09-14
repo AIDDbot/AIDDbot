@@ -31,6 +31,11 @@
 
 {Project-level checks and expected evidence.}
 
+```bash
+# commands to run e2e tests
+# include intalls , build and run target container
+```
+
 ## Delivery documents
 
 - **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, `verification.md`, and `qualification.md`. `specs/PRD.md` lists current requirements.
@@ -50,3 +55,7 @@
 
 - Model: `{Product_Folder}/model/model.schema.md`
 - {Project-specific decision needed to work safely.}
+
+---
+
+> last updated: {DateTime}
