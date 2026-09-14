@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.23 - 2026-09-14
+
+- fix(adapt): use Copilot agent filenames (a8e364b)
+
 ## 0.0.22 - 2026-09-14
 
 - refactor(skills): tighten /craft-lasting-quality (e1bda0c)
