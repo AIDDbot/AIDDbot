@@ -18,7 +18,12 @@ status: draft
 
 ### Business rules
 
-- A {subject} must **{constraint}**.
+{Use this RuleSpeak variant; replace the examples with applicable rules.}
+
+- User.age -> MUST_BE >= 18
+- Order.total -> MUST_NOT_BE <= 0
+- IF (Customer.country == "ES") -> Customer.tax_id -> MUST_COMPLY regex(^[0-9]{8}[A-Z]$)
+- IF (Account.balance < 0) -> Account.status -> MUST_NOT_BE "Active"
 
 ### Out of context
 
