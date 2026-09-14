@@ -61,7 +61,7 @@ Frontend scope only. Read it through the [UI and accessibility lens](./ui.patter
 
 ## Project rules
 
-When `{container}.rules.md` exists for a container in scope, check that scope against it. Its absence does not create a finding or block review.
+When `{project}.rules.md` exists for a project in scope, check that scope against it. Its absence does not create a finding or block review.
 
 - [ ] Every recorded restriction is checked only within its stated scope.
 - [ ] A violation is a finding only when it names the recorded restriction it breaks.

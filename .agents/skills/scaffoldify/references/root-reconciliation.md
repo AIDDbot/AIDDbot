@@ -1,6 +1,6 @@
 # Root reconciliation
 
-Perform this once all selected containers exist
+Perform this once all selected projects exist
 Inspect existing root files before editing
 
 ## Project narrative and author

@@ -47,6 +47,7 @@ for (const required of [
   ".agents/skills/verify/assets/verification.template.md",
   ".agents/skills/qualify/assets/qualification.template.md",
   ".agents/skills/explore/assets/counters.template.yaml",
+  ".agents/skills/extract/assets/project.rules.template.md",
   ".agents/skills/craft-lasting-quality/assets/findings.template.md",
   ".agents/skills/craft-lasting-quality/assets/review.template.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
@@ -57,6 +58,7 @@ for (const retired of [
   ".agents/skills/codify/assets/report.template.md",
   ".agents/skills/explore/assets/system.arch.template.md",
   ".agents/skills/extract/assets/container.arch.template.md",
+  ".agents/skills/extract/assets/container.rules.template.md",
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
@@ -65,7 +67,7 @@ const contract = {
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
-  "shipify/SKILL.md": ["status: shipped", "quality/findings.md", "container rules"],
+  "shipify/SKILL.md": ["status: shipped", "quality/findings.md", "project rules"],
   "craft-lasting-quality/SKILL.md": ["quality/findings.md", "team-configured", "build-requested-change"],
   "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
@@ -96,7 +98,7 @@ function verifyOverlay() {
   try {
     const result = runOverlay(temp, { inventory: sourceInventory() });
     if (result.conflicts) fail("overlay fixture has conflicts");
-    for (const required of [".agents/skills/specify/assets/spec.template.md", ".claude/skills/specify/SKILL.md"]) {
+    for (const required of [".agents/skills/specify/assets/spec.template.md", ".claude/skills/specify/SKILL.md", ".agents/skills/extract/assets/project.rules.template.md"]) {
       if (!fs.existsSync(path.join(temp, ...required.split("/")))) fail(`overlay misses ${required}`);
     }
     const repeat = runOverlay(temp, { dryRun: true, inventory: sourceInventory() });

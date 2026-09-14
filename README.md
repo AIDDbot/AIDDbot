@@ -8,6 +8,8 @@ Everything lives inside `.agents/`:
 - One copy-in command; no package in your project
 - Works with Cursor, Claude Code, GitHub Copilot, and Codex
 
+A solution comprises projects, such as a frontend, backend, CLI, or test suite. Each project has its own source folder, configuration, and tooling. Modules organize code within a project.
+
 ## Why AIDD
 
 AI agents can write code fast. Real projects still fail in three recurring ways:
@@ -38,7 +40,7 @@ The current session follows linked worker and primitive skills and spawns Archit
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by container. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
+`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by project. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
 
 Start with a natural-language request. The proposal formalizes the problem, designs the solution, and links functional EARS requirements in the enduring PRD to acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 
@@ -53,8 +55,8 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
 Then use `/architect-solution-foundation` to map an existing solution or scaffold and map a greenfield solution.
-Foundation scaffolding selects the needed containers and fetches suitable catalogued archetypes. A container outside the catalog receives only a minimal scaffold from official tooling or documentation.
-For greenfield solutions, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing containers or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
+Foundation scaffolding selects the needed projects and fetches suitable catalogued archetypes. A project outside the catalog receives only a minimal scaffold from official tooling or documentation.
+For greenfield solutions, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing projects or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
 For each tier, the agent reads the catalog, offers its archetype and any justified, verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.

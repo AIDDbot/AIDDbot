@@ -4,6 +4,19 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-14 — Solution, projects, and modules
+
+**Status**: adopted. Use `project` for each frontend, backend, CLI, or test
+project within a solution, and `module` for internal code organization.
+The former C4 term `container` was ambiguous with runtime containers after
+the architecture-diagram model was retired.
+
+Active skills, templates, adapters, and documentation use this vocabulary.
+The rules template is `project.rules.template.md`; `{project}` identifies
+the same stable slug in `.agents/rules/{project}.rules.md`. Existing concrete
+rules filenames do not need renaming. Historical plans and changelog entries
+retain the terminology used when they were written.
+
 ## 2026-09-12 — Delivery derives evidence without plans or change checklists
 
 **Status**: adopted. Supersedes the optional change plan and the change-local

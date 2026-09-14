@@ -16,7 +16,7 @@ Your goal is to reduce current quality debt with evidence-backed specs.
     - and `{Product_Folder}/quality/review.md`;
     - normalize findings with the [finding contract](./references/finding.contract.md).
 - _SPAWN_ a _Craftsman_ agent to:
-    - Read each container's quality scripts, configuration, and rules.
+    - Read each project's quality scripts, configuration, and rules.
     - Run the strictest configured lint, complexity analysis, and test coverage checks against the shipped revision, along with other team-configured quality tools.
     - Record commands, results, and configured threshold violations in `quality/review.md` using the [review template](./assets/review.template.md).
     - Record checks with no configuration as not configured; distinguish them from configured checks that could not run. Do not invent tools or thresholds.

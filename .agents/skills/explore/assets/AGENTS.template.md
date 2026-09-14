@@ -21,19 +21,21 @@
 
 ### Solution
 
-| Container | Source path | Responsibility | Rules |
-| --- | --- | --- | --- |
-| {container} | `{source_root}/` | {one-line responsibility} | [rules](.agents/rules/{container}.rules.md) |
+A solution comprises projects, such as a frontend, backend, CLI, or test suite. Each project has its own source folder, configuration, and tooling. Modules organize code within a project.
 
-{Only necessary cross-container facts.}
+| Project | Source path | Responsibility | Rules |
+| --- | --- | --- | --- |
+| {project} | `{source_root}/` | {one-line responsibility} | [rules](.agents/rules/{project}.rules.md) |
+
+{Only necessary cross-project facts.}
 
 ### Verification
 
-{Project-level checks and expected evidence.}
+{Solution-wide checks and expected evidence.}
 
 ```bash
 # commands to run e2e tests
-# include intalls , build and run target container
+# include installation, build, and run commands for the target project
 ```
 
 ## Delivery documents

@@ -15,6 +15,6 @@ Your goal is to prepare a greenfield foundation and map the solution architectur
 - _ALWAYS_:
     - _SPAWN_ an _Architect_ agent to:
         - Read [the explore skill](../explore/SKILL.md) and follow its instructions once for the whole repository.
-        - Read [the extract skill](../extract/SKILL.md) and follow its instructions for each container.
+        - Read [the extract skill](../extract/SKILL.md) and follow its instructions for each project.
 
 _RETURN_ the mapped architecture and any prepared foundation.

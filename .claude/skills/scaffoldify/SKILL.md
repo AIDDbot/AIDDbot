@@ -1,6 +1,6 @@
 ---
 name: scaffoldify
-description: Choose the needed containers and create only their scaffold, using catalogued archetypes when suitable.
+description: Choose the needed projects and create only their scaffold, using catalogued archetypes when suitable.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

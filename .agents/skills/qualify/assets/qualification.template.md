@@ -17,7 +17,7 @@ updated_at: {DateTime}
 
 ### {short title}
 
-- Scope: {paths or containers}
+- Scope: {paths or projects}
 - Rule: {gate or project rule}
 - Evidence: {observed facts}
 - Severity: {blocker | major | minor}

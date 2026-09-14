@@ -10,8 +10,8 @@ disable-model-invocation: true
 
 Your goal is to implement one spec or its reported repairs.
 
-- Read its spec, PRD edits, and container rules.
-- _FOR-EACH_ affected application container, sequentially:
+- Read its spec, PRD edits, and project rules.
+- _FOR-EACH_ affected application project, sequentially:
     - Execute [codify](../codify/SKILL.md) with its spec scope or supplied repair findings.
 - _IF_ the spec assigns acceptance-test creation, updates, deletion, or repair:
     - Execute [codify](../codify/SKILL.md) with E2E and the complete acceptance-test change scope or findings.

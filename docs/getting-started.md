@@ -17,7 +17,7 @@ The command copies `.agents/` and supported harness adapters. Existing files rem
 
 Greenfield solutions first go through `scaffoldify` to agree and materialize a foundation. Every solution then goes through `explore` and `extract`.
 
-The result is a compact root `AGENTS.md` and one `.agents/rules/{container}.rules.md` file per container. Each rules file describes the container's Problem, Solution, and Verification.
+The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.md` file per project. Each rules file describes the project's Problem, Solution, and Verification.
 
 ## Deliver a spec
 
@@ -25,7 +25,7 @@ The result is a compact root `AGENTS.md` and one `.agents/rules/{container}.rule
 /build-requested-change riders can rate a trip from 1 to 5 stars
 ```
 
-The Architect reserves IDs, creates one small spec branch, and proposes its PRD edits. The spec pauses for approval unless the request includes YOLO. Builders implement its solution by container. Verify runs the written E2E acceptance tests. Qualify reviews technical quality. Shipify integrates the code and PRD together when evidence is current.
+The Architect reserves IDs, creates one small spec branch, and proposes its PRD edits. The spec pauses for approval unless the request includes YOLO. Builders implement its solution by project. Verify runs the written E2E acceptance tests. Qualify reviews technical quality. Shipify integrates the code and PRD together when evidence is current.
 
 ## Review quality
 

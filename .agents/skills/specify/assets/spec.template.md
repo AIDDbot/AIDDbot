@@ -27,9 +27,9 @@ constraint, followed by any applicable condition.}
 
 ## Solution
 
-{One subsection per affected container.}
+{One subsection per affected project.}
 
-### {container}
+### {project}
 
 {Proposed changes, affected components, and interactions.}
 

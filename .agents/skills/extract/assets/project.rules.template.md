@@ -1,14 +1,14 @@
 ---
-description: Restrictions for the {container} container of {Product_Name}
+description: Restrictions for the {project} project of {Product_Name}
 paths: "{source_glob}"
 glob: "{source_glob}"
 applyTo: "{source_glob}"
 ---
-# {Container_Name} rules — {Product_Name}
+# {Project_Name} rules — {Product_Name}
 
 ## Problem
 
-{Why this container exists and its boundary.}
+{Why this project exists and its boundary.}
 
 ## Solution
 
@@ -19,9 +19,9 @@ applyTo: "{source_glob}"
 
 ### Dependencies
 
-- **Depends on**: {sibling containers / external systems it depends on}
-- **Used by**: {sibling containers / external systems that depend on it}
-- **Libraries**: {main libraries this container uses}
+- **Depends on**: {sibling projects / external systems it depends on}
+- **Used by**: {sibling projects / external systems that depend on it}
+- **Libraries**: {main libraries this project uses}
 
 ### Code organization
 

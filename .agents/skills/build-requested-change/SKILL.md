@@ -11,7 +11,7 @@ disable-model-invocation: true
 Your goal is to **turn a natural-language request into one spec** formally.
 
 - _SPAWN_ an _Architect_ agent  to:
-    - Read the PRD, container rules, and findings.
+    - Read the PRD, project rules, and findings.
     - Identify one coherent scope, its delivery type.
     - Select requirements to change, deprecate, or preserve.
     - Reserve the spec ID and any new requirement IDs; create or resume its branch.

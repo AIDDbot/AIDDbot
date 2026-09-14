@@ -13,13 +13,13 @@ Current state: scaffold; business capabilities are not implemented yet.
 
 | Project | Tier | Technology | Purpose |
 | --- | --- | --- | --- |
-| [{container_name}](./{container_directory}/) | {tier} | {technology} | {role_in_solution} |
+| [{project_name}](./{project_directory}/) | {tier} | {technology} | {role_in_solution} |
 
 ## Getting started
 
-### {container_name}
+### {project_name}
 
-- Working directory: `{container_directory}`
+- Working directory: `{project_directory}`
 - Prerequisites: {documented_prerequisites}
 - Install: {documented_install_command}
 - Run: {documented_run_command}

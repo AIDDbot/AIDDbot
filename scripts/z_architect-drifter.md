@@ -11,7 +11,7 @@ Your goal is to correct architectural drift, never business or feature changes.
 
 You must detect drift from architectural guidelines. 
 
-To do so, read and follow [`/extract`](../skills/extract/SKILL.md) for each container but looking for deviations from current documentation.
+To do so, read and follow [`/extract`](../skills/extract/SKILL.md) for each project but looking for deviations from current documentation.
 
 Use the result as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: technical` to write a specification to fix the defects.
 

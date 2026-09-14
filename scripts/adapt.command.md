@@ -64,7 +64,7 @@ For each valid agent, render thin native adapters in `.claude/agents/`, `.cursor
 
 ### Rules
 
-For each valid `.agents/rules/{container}.rules.md`, render a short managed pointer to the canonical file in `.claude/rules/{container}.rules.md`, `.cursor/rules/{container}.rules.mdc`, and `.github/instructions/{container}.instructions.md`. Preserve each harness's native path scope and report it. Do not copy the rules body into a second maintained file. Codex receives no rule adapter because the root `AGENTS.md` links to canonical rules.
+For each valid `.agents/rules/{project}.rules.md`, render a short managed pointer to the canonical file in `.claude/rules/{project}.rules.md`, `.cursor/rules/{project}.rules.mdc`, and `.github/instructions/{project}.instructions.md`. Preserve each harness's native path scope and report it. Do not copy the rules body into a second maintained file. Codex receives no rule adapter because the root `AGENTS.md` links to canonical rules.
 
 ### Audit hook
 

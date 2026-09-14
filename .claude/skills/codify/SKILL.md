@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement one spec scope in one container.
+description: Implement one spec scope in one project.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
