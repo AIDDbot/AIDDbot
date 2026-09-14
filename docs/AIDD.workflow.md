@@ -1,22 +1,22 @@
-# AIDD Workflow
+# AIDD workflow
 
-AIDDbot has three entrypoints: `/architect-solution-foundation` maps or prepares a solution, `/build-requested-change` delivers requested work, and `/craft-lasting-quality` reviews and repairs current quality.
+AIDDbot has three entrypoints. `/architect-solution-foundation` maps, designs, or prepares a solution. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
 
-## One change contract
+## Spec delivery
 
-Each delivery uses `change/{change_key}` and `{Product_Folder}/changes/{change_key}/change.md`. The change records a verifiable result, scope, related specs, approval when a contract changes, and its state: `open`, `released`, or `cancelled`. Git supplies titles, dates, branch history, and intermediate progress.
+The PRD lists the current requirements in EARS form. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
-A durable spec lives at `specs/F{nnn}-{slug}.md` or `specs/T{nnn}-{slug}.md`. Its concise Scope states what it owns. `specs/PRD.md` is generated from titles and scopes, including both kinds of spec. The delivery triage reads this compact index first, then opens only candidate specs and justified dependencies. A change may amend, reference, create, or need no spec.
+The spec records Problem, Solution by container, and Verification. It can add, change, deprecate, or reference requirements. Proposed PRD edits live on its branch. The default branch remains the shipped product view.
 
-The change owns every temporary delivery artifact. Builders coordinate dependent work before implementation and keep a brief note only for a migration, reversal, or interruption decision that cannot be recovered elsewhere. `report.md` collects Implementation, E2E, Review, and Findings evidence; its sections are written by the agents that run those controls. `{Product_Folder}/findings.md` keeps unresolved durable findings.
+Builders run `codify` for each affected container and for E2E when acceptance tests need work. Codify runs basic lint and unit tests. Verify executes acceptance tests and writes its report. Qualify writes technical quality evidence and records any non-blocking debt. Both reports must be current before shipping.
 
-Required checks follow real impact: affected functional criteria and necessary regression flows need E2E; architecture, shared contracts, schemas, migrations, dependencies, infrastructure, security, privacy, concurrency, transactions, accessibility, performance, and transversal work need technical review. A technical change may need E2E. Each required obligation needs current passing evidence before release.
+Shipify integrates the approved branch, its code, and its PRD edits together. It removes deprecated requirements only after the required checks pass. It marks the spec shipped and updates rules and quality findings where required.
 
-## Delivery and repair
+## Quality review
 
-`/build-requested-change` discovers contract ownership, creates the change, approves created or amended contracts unless YOLO applies, implements, refreshes required evidence, and releases once. Failed correctable findings are repaired and the affected controls run again. A blocked check remains recorded in the open change. Semantic changes invalidate related evidence; changes only to evidence or closing metadata do not.
+Craft reads open quality findings and qualification evidence. It also runs only the tools configured by the project team. Confirmed tool findings link to the quality review. Repeated observations share one finding ID.
 
-Craft reads change reports and quality checks, records persistent items in `findings.md`, selects at most five related repair groups, and sends that fixed set through the same delivery route. An interrupted batch resumes its original set. Once release is recorded, linked findings become resolved.
+Selected repairs use ordinary specs. A shipped repair removes only the findings it proves resolved. The debt specifier may remove invalid, obsolete, or duplicate findings with evidence recorded in Git.
 
 ## Next
 

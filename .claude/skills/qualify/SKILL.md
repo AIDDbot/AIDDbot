@@ -1,6 +1,6 @@
 ---
 name: qualify
-description: Review risk-relevant technical controls for one change and record evidence.
+description: Review technical quality for one spec and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

@@ -1,6 +1,6 @@
 # Quality flow plan
 
-Status: ready for review; implementation pending.
+Status: implemented on `less-harness`.
 
 ## Goal
 
@@ -10,7 +10,7 @@ Write skills and templates in plain English. Use short sentences and standard te
 
 ## Documents and IDs
 
-The following names are provisional: `{Product_Folder}/quality/findings.md`, `{Product_Folder}/quality/review.md`, and finding IDs such as `Q0001`. Keep the roles stable even if the names change.
+Use `{Product_Folder}/quality/findings.md`, `{Product_Folder}/quality/review.md`, and finding IDs such as `Q0001`.
 
 - The findings file is a short index of open quality problems in the shipped system. Each entry is one line: stable ID, concrete problem, scope, and evidence link. It has no resolved entries or process status. Git keeps the history.
 - The review file holds evidence from system-wide tool runs. Record the checked revision, commands or tools, relevant results, and limits. Give each confirmed tool finding a section that its index entry can link to. Keep details for open findings available; do not replace them with only the latest summary. A run with no new findings still records what was checked.
@@ -56,7 +56,3 @@ Craftsman's special responsibility is discovery, confirmation, grouping, and sco
 - A repair may address several findings, but uses one ordinary `S` spec and passes both `verify` and `qualify`. `shipify` removes findings proven resolved. The debt specifier may also remove invalid, obsolete, or duplicate entries with evidence and a reason in Git, without a repair spec.
 - Missing quality tools do not produce findings, installation proposals, or blockers. The review makes clear which team-configured checks ran.
 - No `changes/` artifact, global delivery report, fixed repair schedule, or arbitrary metric threshold is introduced.
-
-## Name decision before implementation
-
-Review the provisional pair `findings.md` and `review.md`, and the provisional `Q` prefix. Alternatives discussed: `debt.md` or `issues.md` for the index; `checks.md` or `scan.md` for tool detail; `D` or `I` for the prefix.

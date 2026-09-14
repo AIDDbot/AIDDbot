@@ -1,6 +1,6 @@
 ---
 name: craft-lasting-quality
-description: Review current quality and deliver one prioritized correction batch.
+description: Review current quality and deliver selected repairs.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

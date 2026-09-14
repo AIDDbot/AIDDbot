@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Generate agent rules, system architecture, and a conceptual model from repository evidence.
+description: Generate root project instructions and a conceptual model from repository evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

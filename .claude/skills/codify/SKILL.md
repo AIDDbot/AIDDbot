@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement one change task or repair and record implementation evidence.
+description: Implement one spec scope in one container.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

@@ -1,6 +1,6 @@
 # Less-harness implementation plan
 
-Status: ready for review; implementation pending.
+Status: implemented on `less-harness`.
 
 ## Goal and scope
 
@@ -22,7 +22,7 @@ Check the current worktree and branch. Keep this redesign on `less-harness`; the
 
 ## Stage 1 — Shared templates and contracts
 
-Settle the remaining format choices before changing consumers: spec folder filenames, local acceptance criterion references, and the provisional quality filenames and ID prefix. Use the linked designs for metadata, counters, state, and ownership. Do not reopen agreed decisions without concrete evidence of a problem.
+Use `spec.md`, `verification.md`, and `qualification.md` in each spec folder. Use `quality/findings.md`, `quality/review.md`, and Q IDs. Use the linked designs for metadata, counters, state, and ownership.
 
 Prepare the PRD, spec, two spec report templates, counter format, root project instructions, container rules, findings index, and tool review template. Use one spec template for the common work item contract; retain specialized guidance only where it adds useful information.
 

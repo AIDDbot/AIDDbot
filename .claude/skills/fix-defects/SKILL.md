@@ -1,6 +1,6 @@
 ---
 name: fix-defects
-description: Repair correctable findings on a change branch and return current evidence needs.
+description: Repair correctable findings on a spec branch and return evidence needs.
 metadata:
   aiddbot-kind: worker
 user-invocable: false

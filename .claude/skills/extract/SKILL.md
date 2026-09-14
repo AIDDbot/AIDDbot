@@ -1,6 +1,6 @@
 ---
 name: extract
-description: Document one container in depth — architecture or schema and API shapes.
+description: Document one container's rules or a shared schema from repository evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

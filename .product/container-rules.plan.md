@@ -1,6 +1,6 @@
 # Container rules plan
 
-Status: ready for review; implementation pending.
+Status: implemented on `less-harness`.
 
 ## Goal
 

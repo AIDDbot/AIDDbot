@@ -1,6 +1,6 @@
 # Spec-first redesign plan
 
-Status: design agreed; implementation pending.
+Status: implemented on `less-harness`.
 
 ## Goal
 
@@ -87,7 +87,8 @@ status: draft
 - Every spec has separate reports tied to the checked revision. Missing, failed, or stale evidence prevents `shipped`. Both `verify` and `qualify` run for every spec.
 - No new `change.md`, shared report, or persistent work plan is generated. Skills stay brief. Templates define document structure. All new text uses plain English, short sentences, and standard terms.
 
-## Format details to settle during implementation
+## Settled format
 
-- The names of the three files in each `S` folder and local acceptance criterion references.
-- How report templates show applicable coverage within `verify` and `qualify` without skipping either check.
+- Each spec folder contains `spec.md`, `verification.md`, and `qualification.md`.
+- Quality uses `quality/findings.md`, `quality/review.md`, and `Q` IDs.
+- Verification records E2E acceptance evidence. Qualification records technical controls and non-blocking debt.
