@@ -25,4 +25,4 @@ Each selected tier defaults to its literal folder.
 
 For a technology outside the catalog, search the internet for its official generator or scaffolding instructions.
 
-Stop after creating the selected scaffolds. Do not add functional code, installation, testing, documentation rewriting, commits, or merges.
+Create the selected scaffolds on `chore/scaffold`, commit the task's changes, and merge into the repository's default branch only when every selected scaffold is complete. Do not add functional code, installation, testing, or documentation rewriting.

@@ -58,7 +58,7 @@ For greenfield solutions, `scaffoldify` clarifies needs and starts from the arch
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
 For each tier, the agent reads the catalog, offers its archetype and any justified, verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
-Scaffolding stops when the folders are created: it adds no functional code, dependency installation, tests, documentation rewriting, or Git operations. Architecture documentation follows through `explore` and `extract`.
+Scaffolding runs on `chore/scaffold`, commits its changes, and merges into the default branch when complete. It adds no functional code, dependency installation, tests, or documentation rewriting. Architecture documentation follows through `explore` and `extract`.
 Run `/build-requested-change` for requested work or corrections;
 
 Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. It runs the strictest configured lint, complexity analysis, and coverage checks, and reports missing checks without inventing thresholds. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).

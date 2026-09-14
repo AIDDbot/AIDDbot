@@ -44,6 +44,6 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 ## Routing
 
-`scaffoldify` stops after fetching selected catalogued archetypes or creating minimal scaffolds for explicit exceptions. It adds no functional implementation or follow-up installation, testing, documentation rewriting, or Git operations.
+`scaffoldify` fetches selected catalogued archetypes or creates minimal scaffolds for explicit exceptions on `chore/scaffold`, commits its changes, and merges into the default branch when complete. It adds no functional implementation or follow-up installation, testing, or documentation rewriting.
 
 `/architect-solution-foundation` runs `scaffoldify` for greenfield solutions, then always runs `explore` for the repository and `extract` for each container. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence using the strictest configured lint, complexity analysis, coverage checks, and other team-configured tools, records unconfigured or unavailable checks, and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.
