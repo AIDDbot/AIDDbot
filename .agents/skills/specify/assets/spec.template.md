@@ -40,3 +40,7 @@ status: draft
 - T0001 — changed | {full EARS requirement}
 - F0002 — deprecated | {removal intent}
 - F0003 — related | {why this current requirement is affected without changing it}
+
+---
+
+> last updated: {DateTime}
