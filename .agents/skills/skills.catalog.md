@@ -6,6 +6,8 @@ Every executable capability is an Agent Skill. This catalog owns routing.
 
 The PRD is the current list of requirements. A spec owns one small delivery, its proposed PRD edits, and its evidence. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
+Natural-language requests become a formal problem, a proposed solution by container, and verification scope. The PRD owns durable requirement text; functional requirements use observable EARS statements. Specs reference permanent IDs as `new`, `changed`, `deprecated`, or `related` and assign acceptance-test creation, updates, deletion, or retained regression coverage. Deprecated PRD lines remain until verified shipping. Missing coverage blocks delivery even when the existing suite passes.
+
 Every spec advances from `draft` to `shipped` only with approval and current passing evidence. Missing, pending, failed, blocked, or stale evidence prevents shipping.
 
 `/codify` writes code, basic lint, and unit tests. `/verify` writes acceptance evidence. `/qualify` writes qualification evidence and may record non-blocking quality debt.

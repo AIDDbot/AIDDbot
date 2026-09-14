@@ -12,6 +12,8 @@ Your goal is to review technical quality for one spec.
 
 Read the spec, complete diff, and affected container rules. Apply the [gates and severities](./references/qualify.gates.md), [clarity patterns](./references/clarity.patterns.md), and [UI patterns](./references/ui.patterns.md) where relevant. Do not edit code. Write `{Product_Folder}/specs/{spec_key}/qualification.md` from the [qualification template](./assets/qualification.template.md). Record the checked revision, controls, results, evidence, and non-blocking quality debt. A blocker, major, failed, pending, or blocked control prevents shipping.
 
+Execute the spec's qualification-owned technical checks and record each requirement ID or scoped outcome, method, expected result, and actual evidence under Controls. Missing evidence blocks delivery; generic quality checks do not substitute for the specified technical outcome.
+
 The result is current qualification evidence.
 
 Commit as `docs(qualify): …`.

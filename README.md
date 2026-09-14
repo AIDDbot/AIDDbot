@@ -40,6 +40,8 @@ The current session follows linked worker and primitive skills and spawns Archit
 
 `/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by container. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
 
+Start with a natural-language request. The proposal formalizes the problem, designs the solution, and links functional EARS requirements in the enduring PRD to acceptance tests that must be created, updated, deleted, or retained. Approval covers both the spec and its PRD changes.
+
 ## Quick start
 
 **Any project** — from the repo root:
