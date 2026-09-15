@@ -1,5 +1,5 @@
 ---
-name: architect
+name: Architect
 description: Explore current legacy codebases or design new greenfield solutions
 model: inherit
 ---

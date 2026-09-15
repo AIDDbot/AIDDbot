@@ -1,5 +1,5 @@
 ---
-name: craftsman
+name: Craftsman
 description: Quality assurance and verification of specifications.
 model: inherit
 ---

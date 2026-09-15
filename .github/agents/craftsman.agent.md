@@ -1,5 +1,5 @@
 ---
-name: craftsman
+name: Craftsman
 description: Quality assurance and verification of specifications.
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/craftsman.md instead -->

@@ -1,5 +1,5 @@
 ---
-name: builder
+name: Builder
 description: Implements specifications, by planning and writing code
 model: inherit
 ---
