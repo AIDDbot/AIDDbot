@@ -10,7 +10,7 @@ disable-model-invocation: false
 
 Your goal is to turn one natural-language request into an approved spec and its proposed PRD edits.
 
-Read the request, current PRD, counters, relevant code, project rules, and existing findings. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and propose the design.
+Read the request, current PRD, TDR, counters, relevant code, and project rules. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and propose the design.
 
 For a new delivery, determine its spec ID and any new requirement IDs, create the working branch, and reserve those IDs in `counters.yaml` on that branch. When resuming an existing delivery, reuse its identity and branch without reserving replacement IDs. Make these decisions before writing delivery artifacts.
 

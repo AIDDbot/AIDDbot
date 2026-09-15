@@ -22,4 +22,4 @@ updated_at: {DateTime}
 - Evidence: {observed facts}
 - Severity: {blocker | major | minor}
 
-{Blockers and majors prevent delivery. Minors may become quality findings at shipping.}
+{Blockers and majors prevent delivery. Still-present minors may become D entries in the TDR at shipping.}

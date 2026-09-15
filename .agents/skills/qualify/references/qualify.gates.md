@@ -5,7 +5,7 @@
 - **Closed list** — the gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
 - **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope; unavailable evidence is `blocked`, not `n/a`.
 - **Technical criteria are additional** — perform each criterion's stated method and record its evidence. A failed or blocked criterion makes qualification red even if all six gates pass.
-- **Non-blocking debt** — record supported minor debt in the qualification report. `shipify` promotes still-present debt to the quality index after shipping.
+- **Non-blocking debt** — record supported minor findings in the qualification report. `shipify` promotes those still present after shipping to D entries in the TDR.
 
 ## Severity
 

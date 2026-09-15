@@ -46,9 +46,9 @@ Requirements refer to the [PRD](../PRD.md). Include only applicable rows.
 
 {Technical checks and expected results, if applicable.}
 
-## Quality findings
+## Technical debt
 
-{List source Q IDs when this spec repairs recorded quality debt. Omit this section otherwise.}
+{List source D IDs when this spec repairs recorded technical debt. Omit this section otherwise.}
 
 ---
 

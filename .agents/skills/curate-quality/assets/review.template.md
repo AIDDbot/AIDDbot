@@ -12,7 +12,7 @@
 
 ### Confirmed findings
 
-#### Q0001 — {short title} — {YYYY-MM-DD}
+#### D0001 — {short title} — {YYYY-MM-DD}
 
 - Scope: {paths or projects}
 - Evidence: {observed facts}

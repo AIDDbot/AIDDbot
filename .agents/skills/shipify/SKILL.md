@@ -14,7 +14,7 @@ Read the spec, its PRD edits, qualification and verification reports, and diff. 
 
 Confirm deprecated PRD lines only leave after their checks pass. Integrate the branch so code and PRD change together. Set `status: shipped` and `shipped_at` in `spec.md`; add `tag` when the project creates one. Reconcile the root map and project rules with approved work. New rule decisions return to the spec before closing.
 
-Execute the `curate-quality` skill for the shipped spec. It promotes still-present non-blocking debt and removes only declared finding IDs whose resolution this spec proves.
+Execute the `curate-quality` skill for the shipped spec. It promotes still-present minor findings to `TDR.md` and removes only declared D IDs whose resolution this spec proves.
 
 The result is one shipped spec.
 

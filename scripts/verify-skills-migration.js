@@ -62,9 +62,9 @@ for (const required of [
   ".agents/skills/qualify/assets/qualification.template.md",
   ".agents/skills/explore/assets/counters.template.yaml",
   ".agents/skills/extract/assets/project.rules.template.md",
-  ".agents/skills/curate-quality/assets/findings.template.md",
+  ".agents/skills/curate-quality/assets/TDR.template.md",
   ".agents/skills/curate-quality/assets/review.template.md",
-  ".agents/skills/curate-quality/references/finding.contract.md",
+  ".agents/skills/curate-quality/references/debt.contract.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
 
 for (const retired of [
@@ -83,9 +83,9 @@ const contract = {
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
-  "shipify/SKILL.md": ["status: shipped", "curate-quality", "declared finding IDs", "project rules"],
+  "shipify/SKILL.md": ["status: shipped", "curate-quality", "declared D IDs", "project rules"],
   "craft-lasting-quality/SKILL.md": ["curate-quality", "natural-language repair request", "without editing the quality records", "build-requested-change"],
-  "curate-quality/SKILL.md": ["quality/findings.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/findings.template.md", "./assets/review.template.md", "./references/finding.contract.md"],
+  "curate-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
   "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
 };
@@ -95,13 +95,13 @@ for (const [relative, needles] of Object.entries(contract)) {
 }
 
 const specTemplate = read(path.join(skillsRoot, "specify", "assets", "spec.template.md"));
-for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "## Solution", "## Verification", "## Quality findings", "new", "changed", "deprecated"]) {
+for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "## Solution", "## Verification", "## Technical debt", "new", "changed", "deprecated"]) {
   if (!specTemplate.includes(section)) fail(`spec template missing ${section}`);
 }
 const prdTemplate = read(path.join(skillsRoot, "specify", "assets", "PRD.template.md"));
 if (!prdTemplate.includes("F0001") || !prdTemplate.includes("T0001")) fail("PRD template lacks F and T requirements");
 const counters = read(path.join(skillsRoot, "explore", "assets", "counters.template.yaml"));
-for (const key of ["spec:", "functional:", "technical:", "finding:"]) if (!counters.includes(key)) fail(`counter template missing ${key}`);
+for (const key of ["spec:", "functional:", "technical:", "debt:"]) if (!counters.includes(key)) fail(`counter template missing ${key}`);
 
 for (const relative of ["README.md", "docs/AIDD.workflow.md", "docs/getting-started.md", ".agents/skills/skills.catalog.md"]) {
   const content = read(path.join(root, ...relative.split("/")));

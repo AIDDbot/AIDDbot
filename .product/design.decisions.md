@@ -4,6 +4,14 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-15 — TDR indexes technical debt; reports retain findings
+
+**Status**: adopted. `TDR.md` is the compact Technical Debt Register, analogous to `PRD.md`: it contains one line per open debt item using permanent `D{nnnn}` IDs. Each line states the concrete debt or defect, its scope, and a link to evidence. It contains no detailed analysis, measurements, process state, or closed entries; source reports and Git retain those details and history.
+
+`qualification.md` records findings from one spec, while `quality/review.md` records dated evidence from stricter system-wide checks. A finding becomes a TDR entry only after it is confirmed as debt that remains in shipped code. `shipify` asks `curate-quality` to promote surviving minor qualification findings or remove D IDs that a shipped repair proves resolved. Craftsman uses the same primitive to record system reviews, deduplicate debt, and maintain the TDR before selecting a coherent repair scope.
+
+This supersedes `quality/findings.md` and Q IDs. New counters use `debt`; finding remains the term for an observation inside an evidence report, not for the durable backlog item.
+
 ## 2026-09-14 — Solution, projects, and modules
 
 **Status**: adopted. Use `project` for each frontend, backend, CLI, or test

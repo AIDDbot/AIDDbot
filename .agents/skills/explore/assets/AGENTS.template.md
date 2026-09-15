@@ -42,7 +42,7 @@ A solution comprises projects, such as a frontend, backend, CLI, or test suite. 
 
 - **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, `verification.md`, and `qualification.md`. `specs/PRD.md` lists current requirements.
 - **Counters** — `{Product_Folder}/counters.yaml` stores the last reserved S, F, T, and Q numbers.
-- **Quality** — `{Product_Folder}/quality/findings.md` lists open quality findings. `quality/review.md` records tool discovery.
+- **Quality** — `{Product_Folder}/TDR.md` indexes open technical debt. `{Product_Folder}/quality/review.md` records detailed system-review evidence.
 - **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
 - **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`.
 

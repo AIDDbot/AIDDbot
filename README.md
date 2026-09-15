@@ -40,7 +40,7 @@ The current session discovers and executes worker and primitive skills when each
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by project. `/craft-lasting-quality` reviews current quality, turns one coherent group of findings into a natural-language repair request, and passes it through the same definition and delivery flow.
+`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by project. `/craft-lasting-quality` reviews current quality, turns one coherent group of TDR debt entries into a natural-language repair request, and passes it through the same definition and delivery flow.
 
 Start with a natural-language request. `specify` owns its complete definition: scope, delivery type, branch, IDs, spec, proposed PRD edits, and approval. It writes requirement text only in the enduring PRD; the spec links those IDs to the acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 

@@ -33,7 +33,7 @@ Through `specify`, the Architect defines one coherent scope, reserves its IDs, c
 /craft-lasting-quality
 ```
 
-Craft reviews open quality findings and runs the quality tools configured by the project team. It confirms and groups findings before creating one repair spec. Repairs use the same verification and qualification flow as requested work.
+Craft reviews open TDR entries and runs the quality tools configured by the project team. It records detailed findings in the review, promotes confirmed debt to the TDR, and groups debt entries before creating one repair spec. Repairs use the same verification and qualification flow as requested work.
 
 ## More
 
