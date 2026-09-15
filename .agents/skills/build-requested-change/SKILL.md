@@ -4,7 +4,7 @@ description: Take a natural-language request and deliver the change.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # build-requested-change
 

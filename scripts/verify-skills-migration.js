@@ -18,7 +18,6 @@ const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
   .map((entry) => entry.name).sort();
 const explicitOnly = new Set([
   "architect-solution-foundation",
-  "build-requested-change",
   "craft-lasting-quality",
   "skillify",
 ]);
@@ -83,7 +82,7 @@ const contract = {
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
   "shipify/SKILL.md": ["status: shipped", "quality/findings.md", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["quality/findings.md", "quality configurations", "build-requested-change"],
+  "craft-lasting-quality/SKILL.md": ["quality/findings.md", "quality configurations", "natural-language repair request", "without defining a spec", "build-requested-change"],
   "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
 };

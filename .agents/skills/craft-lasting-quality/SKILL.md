@@ -18,7 +18,9 @@ Then, spawn another **Craftsman** agent to inspect each project's quality config
 
 Record all commands, results, and threshold violations in `quality/review.md` using the review template—distinguishing unconfigured checks from failed attempts without inventing tools or thresholds. Ensure results are actionable, evidence is documented, and the index is deduplicated (noting that missing tools do not count as findings or blockers).
 
-Next, spawn an **Architect** agent to review the findings, eliminate invalid or duplicate entries with clear evidence, and group the remaining items into a single, coherent repair. If no eligible findings remain, return the quality review directly. Otherwise, execute the `build-requested-change` skill for the selected repair specification.
+Next, spawn an **Architect** agent to review the findings, eliminate invalid or duplicate entries with clear evidence, and select one coherent group for repair. Have the **Architect** express that group as a natural-language repair request with its supporting evidence, without defining a spec, editing the PRD, reserving IDs, or creating a branch.
+
+If no eligible findings remain, return the quality review directly. Otherwise, execute the `build-requested-change` skill with the natural-language repair request. That flow creates the **Architect** responsible for executing `specify` and formally defining the delivery.
 
 Finally, return the shipped repair spec or any concrete blocker.
 

@@ -4,7 +4,7 @@ description: Take a natural-language request and deliver the change.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/build-requested-change/SKILL.md instead -->
 
