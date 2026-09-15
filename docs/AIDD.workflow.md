@@ -1,8 +1,8 @@
 # AIDD workflow
 
-AIDDbot has three entrypoints. `/architect-solution-foundation` scaffolds greenfield solutions and maps repository architecture. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
+AIDDbot has three entrypoints. `/architect-solution-foundation` scaffolds solutions without application or project source code and maps repository architecture. `/build-requested-change` delivers one requested spec. `/craft-lasting-quality` reviews current quality and delivers selected repairs.
 
-For greenfield solutions, `scaffoldify` selects needed projects, consults the archetype catalog, confirms the selection with the user, and runs the materializer on `chore/scaffold`. Only projects without a suitable or selected archetype receive a minimal scaffold from official tooling or documentation. It commits the scaffold changes and merges into the default branch once all selected scaffolds are complete, with no functional code or additional installation, testing, or documentation tasks. A failed download is reported, not replaced with handwritten code. In every case, `explore` maps the repository and `extract` documents each project.
+When no application or project source code exists, `scaffoldify` selects needed projects, consults the archetype catalog, confirms the selection with the user, and runs the materializer on `chore/scaffold`. Agent configuration and instructions, AIDD product files, harness adapters, and documentation are ignored when checking for source code. Only projects without a suitable or selected archetype receive a minimal scaffold from official tooling or documentation. It commits the scaffold changes and merges into the default branch once all selected scaffolds are complete, with no functional code or additional installation, testing, or documentation tasks. A failed download is reported, not replaced with handwritten code. In every case, `explore` maps the repository and `extract` documents each project.
 
 ## Spec delivery
 

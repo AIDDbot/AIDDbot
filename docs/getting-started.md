@@ -15,7 +15,7 @@ The command copies `.agents/` and supported harness adapters. Existing files rem
 /architect-solution-foundation prepare an executable foundation for this product
 ```
 
-Greenfield solutions first go through `scaffoldify` to agree and materialize a foundation. Every solution then goes through `explore` and `extract`.
+Solutions without application or project source code first go through `scaffoldify` to agree and materialize a foundation. Agent files, AIDD product files, harness adapters, and documentation do not count as source code. Every solution then goes through `explore` and `extract`.
 
 The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.md` file per project. Each rules file describes the project's Problem, Solution, and Verification.
 

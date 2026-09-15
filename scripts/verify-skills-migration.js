@@ -76,6 +76,7 @@ for (const retired of [
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
+  "architect-solution-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffoldify"],
   "build-requested-change/SKILL.md": ["execute the `specify` skill using the natural-language request", "specify` skill owns", "ship-implementation"],
   "specify/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],

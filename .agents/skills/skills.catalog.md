@@ -18,7 +18,7 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Scaffold greenfield solutions and map repository architecture |
+| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Scaffold when no project source code exists, then map repository architecture |
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
@@ -46,4 +46,4 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 `scaffoldify` fetches selected catalogued archetypes or creates minimal scaffolds for explicit exceptions on `chore/scaffold`, commits its changes, and merges into the default branch when complete. It adds no functional implementation or follow-up installation, testing, or documentation rewriting.
 
-`/architect-solution-foundation` runs `scaffoldify` for greenfield solutions, then always runs `explore` for the repository and `extract` for each project. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`, which delegates the complete definition transaction to `specify` before implementation. `/craft-lasting-quality` discovers current quality evidence, asks an **Architect** to select one coherent group and express it as an evidence-backed natural-language repair request, then passes that request to `build-requested-change`. The receiving flow creates the **Architect** that executes `specify`; the selecting **Architect** does not define the spec or edit the PRD. Architecture work remains non-release unless executable evolution is requested.
+`/architect-solution-foundation` runs `scaffoldify` whenever no application or project source code exists, ignoring AIDD, agent, harness, and documentation files during that check. It then always runs `explore` for the repository and `extract` for each project. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`, which delegates the complete definition transaction to `specify` before implementation. `/craft-lasting-quality` discovers current quality evidence, asks an **Architect** to select one coherent group and express it as an evidence-backed natural-language repair request, then passes that request to `build-requested-change`. The receiving flow creates the **Architect** that executes `specify`; the selecting **Architect** does not define the spec or edit the PRD. Architecture work remains non-release unless executable evolution is requested.

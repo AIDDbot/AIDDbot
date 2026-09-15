@@ -12,13 +12,9 @@ disable-model-invocation: true
 
 Your goal is to **set up the foundation architecture** for the solution.
 
-First, determine the solution state:
+First, check whether the repository contains application or project source code. Ignore agent configuration and instructions, AIDD product files, harness adapters, and documentation when making this decision, including `.agents/`, `.claude/`, `.codex/`, `.cursor/`, `.github/`, `.product/`, `docs/`, `AGENTS.md`, and `CLAUDE.md`.
 
-- **New greenfield:** No code exists.
-- **Scaffolded greenfield:** Basic boilerplate exists, but no formal documentation.
-- **Legacy brownfield:** Any other scenario with existing feature code.
-
-If the solution is a new greenfield solution, spawn a **Builder** agent to execute the `scaffoldify` skill, and wait for it to complete.
+If no application or project source code is present, spawn a **Builder** agent to execute the `scaffoldify` skill, and wait for it to complete. The presence of ignored files does not prevent scaffolding.
 
 Next, spawn an **Architect** agent to execute the `explore` skill.
 When finished, loop through each project and run the `extract` skill.

@@ -30,7 +30,7 @@ Choose an entrypoint from the outcome you need:
 
 | Need | Entrypoint | Public flow |
 | --- | --- | --- |
-| Understand or prepare architecture | `/architect-solution-foundation` | Scaffold greenfield solutions, then map architecture |
+| Understand or prepare architecture | `/architect-solution-foundation` | Scaffold when no project source code exists, then map architecture |
 | Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
 | Maintain the quality of existing work | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
 
@@ -54,9 +54,9 @@ Verification must be green; qualification may be green or amber (minor debt). Ea
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then use `/architect-solution-foundation` to map an existing solution or scaffold and map a greenfield solution.
+Then use `/architect-solution-foundation` to map an existing solution or scaffold one when no application or project source code exists. Agent files, AIDD product files, harness adapters, and documentation do not count as source code for this decision.
 Foundation scaffolding selects the needed projects and fetches suitable catalogued archetypes. A project outside the catalog receives only a minimal scaffold from official tooling or documentation.
-For greenfield solutions, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing projects or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
+When scaffolding is needed, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing projects or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.
 For each tier, the agent reads the catalog, offers its archetype and any justified, verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
