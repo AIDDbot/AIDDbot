@@ -129,47 +129,6 @@ function runTiged(repo, destination, workspace, dryRun) {
   return result.status ?? 1;
 }
 
-function reconcileReadme(workspace, name, dryRun) {
-  const file = path.join(workspace, "README.md");
-  if (dryRun) {
-    process.stdout.write(`metadata   would      README.md -> ${name}\n`);
-    return;
-  }
-  if (!fs.existsSync(file)) {
-    fs.writeFileSync(file, `# ${name}\n`, "utf8");
-    process.stdout.write(`metadata   create     README.md -> ${name}\n`);
-    return;
-  }
-  const current = fs.readFileSync(file, "utf8");
-  if (current.includes(name)) return;
-  fs.writeFileSync(file, `${current.replace(/\s*$/, "")}\n\n## Solution\n\n${name}\n`, "utf8");
-  process.stdout.write(`metadata   update     README.md -> ${name}\n`);
-}
-
-function reconcilePackages(workspace, selected, options, solutionSlug, dryRun) {
-  for (const tier of selected) {
-    const destination = options[`${tier}Dir`];
-    const file = path.join(workspace, destination, "package.json");
-    const name = `${solutionSlug}-${tier}`;
-    if (dryRun) {
-      process.stdout.write(`metadata   would      ${destination}/package.json -> ${name}\n`);
-      continue;
-    }
-    if (!fs.existsSync(file)) continue;
-    let manifest;
-    try {
-      manifest = JSON.parse(fs.readFileSync(file, "utf8"));
-    } catch {
-      process.stderr.write(`Cannot update invalid package manifest: ${destination}/package.json\n`);
-      continue;
-    }
-    if (manifest.name === name) continue;
-    manifest.name = name;
-    fs.writeFileSync(file, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-    process.stdout.write(`metadata   update     ${destination}/package.json -> ${name}\n`);
-  }
-}
-
 const parsed = parse(process.argv.slice(2));
 if (parsed.error) {
   process.stderr.write(`${parsed.error}\n`);
@@ -196,5 +155,3 @@ for (const tier of selected) {
   const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, destination), workspace, parsed.options.dryRun);
   if (status !== 0) process.exit(status);
 }
-reconcileReadme(workspace, parsed.options.name, parsed.options.dryRun);
-reconcilePackages(workspace, selected, parsed.options, solutionSlug, parsed.options.dryRun);
