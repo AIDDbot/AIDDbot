@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.25 - 2026-09-15
+
+- refactor(skills): tighten /skillify (274d9fc)
+- Update SKILL.md (038058e)
+- fix: capitalize agent names (49ed256)
+- fix: capitalize agent names (cd4cdad)
+- feat: lean scaffoldify (b5d192a)
+
 ## 0.0.24 - 2026-09-14
 
 - fix(checks): align skill contracts and specify adapter (3330c17)
