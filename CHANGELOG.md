@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.28 - 2026-09-15
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/explore/SKILL.md
+```
+
 ## 0.0.27 - 2026-09-15
 
 - refactor(skills): tighten /curate-quality (1b9b7cd)
