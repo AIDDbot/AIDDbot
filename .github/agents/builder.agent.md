@@ -1,5 +1,5 @@
 ---
-name: builder
+name: Builder
 description: Implements specifications, by planning and writing code
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/builder.md instead -->

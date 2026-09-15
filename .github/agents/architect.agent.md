@@ -1,5 +1,5 @@
 ---
-name: architect
+name: Architect
 description: Explore current legacy codebases or design new greenfield solutions
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/architect.md instead -->
