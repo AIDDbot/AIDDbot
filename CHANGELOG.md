@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.27 - 2026-09-15
+
+- refactor(skills): tighten /curate-quality (1b9b7cd)
+- feat(skills): add /curate-quality (9d6ee2e)
+- feat: bold test in templates (120f1ef)
+- refactor(skills): tighten /architect-solution-foundation (874ac9b)
+
 ## 0.0.26 - 2026-09-15
 
 - refactor(skills): tighten /craft-lasting-quality (07d4857)
