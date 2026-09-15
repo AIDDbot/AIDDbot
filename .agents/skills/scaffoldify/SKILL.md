@@ -16,7 +16,7 @@ Your goal is to create only the initial scaffold. Do not implement features, bus
 4. Prefer a catalogued archetype for each needed project. Use something else only when no archetype fits a concrete need or the user explicitly chooses another technology. 
 5. Show the proposed projects, archetypes or exceptions, and destination folders; confirm the selection with the user.
 6. Identify the repository's default branch. Create or resume `chore/scaffold` before creating any scaffold files. 
-7. Run the [materializer](./scripts/materialize.mjs) from the project root with the solution name and only the selected catalog tiers. For example, for an Express backend and standard frontend:
+7. Run the materializer script `materialize.mjs` from the project root with the solution name and only the selected catalog tiers. For example, for an Express backend and standard frontend:
 
 ```text
 node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --back express --front standard

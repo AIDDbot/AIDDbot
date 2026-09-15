@@ -18,6 +18,6 @@ Execute the `curate-quality` skill for the shipped spec. It promotes still-prese
 
 The result is one shipped spec.
 
-Write a `CHANGELOG.md` entry for the shipped spec following [CHANGELOG.template.md](./assets/CHANGELOG.template.md).
+Write a `CHANGELOG.md` entry for the shipped spec following the `CHANGELOG.template.md`.
 
 **Git procedure:** Commit and tag under the project release policy, then delete the working branch.
