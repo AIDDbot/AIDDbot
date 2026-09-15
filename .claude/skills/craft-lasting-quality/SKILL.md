@@ -1,6 +1,6 @@
 ---
 name: craft-lasting-quality
-description: Review current quality and deliver selected repairs.
+description: Reduce existing quality debt.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

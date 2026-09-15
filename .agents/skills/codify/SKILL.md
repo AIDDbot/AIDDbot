@@ -4,7 +4,7 @@ description: Implement one spec scope in one project.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # codify
 

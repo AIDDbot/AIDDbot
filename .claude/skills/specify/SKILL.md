@@ -4,7 +4,7 @@ description: Specify a request, update the PRD, and obtain approval.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/specify/SKILL.md instead -->
 

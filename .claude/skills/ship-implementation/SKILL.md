@@ -4,7 +4,7 @@ description: Refresh evidence and ship one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/ship-implementation/SKILL.md instead -->
 

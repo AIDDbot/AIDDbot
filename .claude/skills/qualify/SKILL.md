@@ -4,7 +4,7 @@ description: Review technical quality for one spec and record evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/qualify/SKILL.md instead -->
 

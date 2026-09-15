@@ -4,7 +4,7 @@ description: Coordinate implementation for one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/implement-change/SKILL.md instead -->
 

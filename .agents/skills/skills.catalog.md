@@ -40,7 +40,7 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 | Ship | [`/shipify`](./shipify/SKILL.md) |
 | Meta | [`/skillify`](./skillify/SKILL.md) |
 
-`/skillify` maintains concise prose for primitives and nested English pseudocode for orchestrators and workers, including explicit agent assignments.
+`/skillify` maintains concise instructional prose for every skill. Composed flows name **Architect**, **Builder**, or **Craftsman** assignments explicitly and invoke backticked skill names through native discovery, which delays loading their instructions until execution reaches them.
 
 ## Routing
 

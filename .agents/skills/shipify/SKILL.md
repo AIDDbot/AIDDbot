@@ -4,7 +4,7 @@ description: Integrate and close an evidenced spec.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # shipify
 
@@ -18,6 +18,6 @@ Promote still-present, non-blocking quality debt from the qualification report t
 
 The result is one shipped spec.
 
-Write a CHANGELOG entry for the shipped spec following [CHANGELOG.template.md](./assets/CHANGELOG.template.md)
+Write a `CHANGELOG.md` entry for the shipped spec following [CHANGELOG.template.md](./assets/CHANGELOG.template.md).
 
-**Git Procedure**Commit and tag under the project release policy, then delete the working branch.
+**Git procedure:** Commit and tag under the project release policy, then delete the working branch.

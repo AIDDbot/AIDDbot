@@ -4,7 +4,7 @@ description: Generate root project instructions and a conceptual model from repo
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # explore
 

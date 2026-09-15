@@ -34,7 +34,7 @@ Choose an entrypoint from the outcome you need:
 | Develop functionality or a technical change | `/build-requested-change` | Specify → validate → implement → prove → deliver |
 | Maintain the quality of existing work | `/craft-lasting-quality` | Review evidence → prioritize → repair → prove → deliver |
 
-The current session follows linked worker and primitive skills and spawns Architect, Builder, or Craftsman where the skill requires it.
+The current session discovers and executes worker and primitive skills when each step reaches them, and spawns **Architect**, **Builder**, or **Craftsman** where the skill requires it.
 
 - **Architect** — maps repository architecture, scopes requirements, and writes specifications.
 - **Builder** — plans and codifies validated specifications or fixes review defects.

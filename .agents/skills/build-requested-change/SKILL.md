@@ -1,6 +1,6 @@
 ---
 name: build-requested-change
-description: Deliver one requested spec with its checks and evidence.
+description: Take a natural-language request and deliver the change.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
@@ -8,16 +8,21 @@ disable-model-invocation: true
 ---
 # build-requested-change
 
-Your goal is to **turn a natural-language request into one spec** formally.
+**Build Requested Change**
 
-- _SPAWN_ an _Architect_ agent  to:
-    - Read the PRD, project rules, and findings.
-    - Identify one coherent scope, its delivery type.
-    - Select requirements to change, deprecate, or preserve.
-    - Reserve the spec ID and any new requirement IDs; create or resume its branch.
-    - Read [the specify skill](../specify/SKILL.md) and follow its instructions with the request, scope, and id.
-- Wait for the approved spec before starting implementation.
-- _SPAWN_ a _Builder_ agent to read [the implement-change skill](../implement-change/SKILL.md) and follow its instructions with the approved spec and PRD delta; wait for its result.
-- _SPAWN_ a _Craftsman_ agent to read [the ship-implementation skill](../ship-implementation/SKILL.md) and follow its instructions with the implemented spec; wait for its result.
+Your goal is to **take a natural-language request and deliver the change.**
 
-_RETURN_ the shipped spec or its concrete blocker.
+First, spawn an **Architect** agent to review the PRD, project rules, and existing findings. The **Architect** will define a single coherent scope, determine its delivery type, identify requirements to change, deprecate, or preserve, and reserve the necessary spec and requirement IDs before creating or resuming the working branch.
+
+Then, have it execute the `specify` skill using the request, scope, and spec ID.
+
+Wait for the spec to be approved (or automatically approved by the system) before moving forward.
+
+Once approved, spawn a **Builder** agent to execute the `implement-change` skill using the approved spec and PRD delta, and wait for completion.
+
+Then, spawn a **Craftsman** agent to execute the `ship-implementation` skill on the implemented spec, and wait for its result.
+
+Finally, return the shipped spec or any concrete blocker encountered along the way.
+
+- The spec file
+- `CHANGELOG.md`

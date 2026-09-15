@@ -4,17 +4,16 @@ description: Coordinate implementation for one spec.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # implement-change
 
 Your goal is to implement one spec or its reported repairs.
 
-- Read its spec, PRD edits, and project rules.
-- _FOR-EACH_ affected application project, sequentially:
-    - Execute [codify](../codify/SKILL.md) with its spec scope or supplied repair findings.
-- _IF_ the spec assigns acceptance-test creation, updates, deletion, or repair:
-    - Execute [codify](../codify/SKILL.md) with E2E and the complete acceptance-test change scope or findings.
-- Reconcile the implementation and test diff with every action in the approved spec; return missing work as a blocker.
+First, read its spec, PRD edits, and project rules.
 
-_RETURN_ the implementation result or blocker.
+For each affected application project, execute the `codify` skill with that project's spec scope or supplied repair findings. Process the projects sequentially.
+
+If the spec assigns acceptance-test creation, updates, deletion, or repair, execute the `codify` skill for E2E with the complete acceptance-test change scope or findings.
+
+Finally, reconcile the implementation and test diff with every action in the approved spec. Return missing work as a blocker; otherwise, return the implementation result.

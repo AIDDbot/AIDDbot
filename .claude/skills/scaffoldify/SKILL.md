@@ -4,7 +4,7 @@ description: Choose the needed projects and create only their scaffold, using ca
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/scaffoldify/SKILL.md instead -->
 

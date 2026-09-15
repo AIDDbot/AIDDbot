@@ -1,6 +1,6 @@
 ---
 name: build-requested-change
-description: Deliver one requested spec with its checks and evidence.
+description: Take a natural-language request and deliver the change.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

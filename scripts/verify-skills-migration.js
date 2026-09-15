@@ -16,6 +16,12 @@ const exists = (relative) => fs.existsSync(path.join(root, ...relative.split("/"
 const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(skillsRoot, entry.name, "SKILL.md")))
   .map((entry) => entry.name).sort();
+const explicitOnly = new Set([
+  "architect-solution-foundation",
+  "build-requested-change",
+  "craft-lasting-quality",
+  "skillify",
+]);
 
 function frontmatter(text) {
   return text.match(/^(---\r?\n[\s\S]*?\r?\n---)/)?.[1] || "";
@@ -27,7 +33,16 @@ for (const name of skills) {
   if (!frontmatter(content)) fail(`${name}: missing frontmatter`);
   if (!content.includes(`name: ${name}`)) fail(`${name}: name differs from folder`);
   if (!content.includes("aiddbot-kind:")) fail(`${name}: missing skill kind`);
-  if (!content.includes("disable-model-invocation: true")) fail(`${name}: implicit invocation enabled`);
+  const expectedInvocation = explicitOnly.has(name) ? "true" : "false";
+  if (!content.includes(`disable-model-invocation: ${expectedInvocation}`)) {
+    fail(`${name}: disable-model-invocation must be ${expectedInvocation}`);
+  }
+  if (/_IF_|_FOR-EACH_|_REPEAT_|_ALWAYS_|_SPAWN_|_RETURN_/.test(content)) {
+    fail(`${name}: indented pseudocode command remains`);
+  }
+  for (const link of content.matchAll(/\]\(([^)]+\/SKILL\.md)\)/g)) {
+    if (link[1].startsWith("../")) fail(`${name}: eager composition link ${link[1]}`);
+  }
   for (const link of content.matchAll(/\]\(([^)]+\/SKILL\.md)\)/g)) {
     if (!fs.existsSync(path.resolve(path.dirname(source), link[1]))) fail(`${name}: broken skill link ${link[1]}`);
   }
@@ -62,13 +77,13 @@ for (const retired of [
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
-  "build-requested-change/SKILL.md": ["one requested spec", "Reserve the spec ID and any new requirement IDs", "ship-implementation"],
+  "build-requested-change/SKILL.md": ["single coherent scope", "reserve the necessary spec and requirement IDs", "ship-implementation"],
   "specify/SKILL.md": ["./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
   "shipify/SKILL.md": ["status: shipped", "quality/findings.md", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["quality/findings.md", "team-configured", "build-requested-change"],
+  "craft-lasting-quality/SKILL.md": ["quality/findings.md", "quality configurations", "build-requested-change"],
   "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
 };

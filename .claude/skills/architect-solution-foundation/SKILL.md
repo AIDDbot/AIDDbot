@@ -1,6 +1,6 @@
 ---
 name: architect-solution-foundation
-description: Scaffold greenfield solutions and map repository architecture.
+description: Sets up the foundation architecture for the solution.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
