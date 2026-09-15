@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.29 - 2026-09-15
+
+- feat: remove links from skills (81e67f4)
+
 ## 0.0.28 - 2026-09-15
 
 - Include working tree changes.
