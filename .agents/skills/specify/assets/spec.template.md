@@ -2,9 +2,9 @@
 id: S0001
 slug: {slug}
 key: S0001-{slug}
-type: feat
+type: feat # feat, fix, refactor, chore
 branch: feat/S0001-{slug}
-status: draft
+status: draft # draft, in-progress, verified, qualified, shipped
 ---
 # S0001-{slug} — {title}
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.26 - 2026-09-15
+
+- refactor(skills): tighten /craft-lasting-quality (07d4857)
+- refactor(skills): tighten /specify (ba3bed9)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/explore/SKILL.md
+ M .agents/skills/extract/SKILL.md
+ M .agents/skills/scaffoldify/SKILL.md
+ M .agents/skills/specify/assets/spec.template.md
+```
+
 ## 0.0.25 - 2026-09-15
 
 - refactor(skills): tighten /skillify (274d9fc)

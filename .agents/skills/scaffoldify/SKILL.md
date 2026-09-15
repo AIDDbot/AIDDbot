@@ -26,7 +26,9 @@ node .agents/skills/scaffoldify/scripts/materialize.mjs --name "My solution" --b
 
 9. If the materializer fails, report the error and stop. A failed download is not permission to replace an archetype with handwritten code.
 
-10. Commit the scaffold changes on `chore/scaffold` as `chore(scaffold): add {projects}`. Include only changes belonging to this task. Once all selected scaffolds are created and committed, switch to the default branch (`main` or `master`) and merge `chore/scaffold` into it. If scaffolding is incomplete, report the blocker without merging.
+10. Install any necessary dependencies for the scaffold by going over each project's documentation.
+
+11. Commit the scaffold changes on `chore/scaffold` as `chore(scaffold): add {projects}`. Include only changes belonging to this task. Once all selected scaffolds are created and committed, switch to the default branch (`main` or `master`) and merge `chore/scaffold` into it. If scaffolding is incomplete, report the blocker without merging.
 
 Report created folders, commits, and merge result. Do not add installation, testing, or documentation rewriting to this task.
 
