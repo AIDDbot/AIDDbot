@@ -19,6 +19,8 @@ If no application or project source code is present, spawn a **Builder** agent t
 Next, spawn an **Architect** agent to execute the `explore` skill.
 When finished, loop through each project and run the `extract` skill.
 
+Commit any pending   changes to the repository with a `docs(foundation):{}` commit message.
+
 Finally, return the mapped architecture:
 
 - `AGENTS.md` or `CLAUDE.md` files

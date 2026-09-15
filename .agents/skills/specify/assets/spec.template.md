@@ -14,12 +14,12 @@ status: draft # draft, in-progress, verified, qualified, shipped
 
 ### User Stories
 
-- As a {user role}, I want {user goal} so that {user reason}.
+- As a {user role}, I want **{user goal}** so that {user reason}.
 
 ### Business rules
 
 {List rules in natural-language RuleSpeak: subject + must / must not +
-constraint, followed by any applicable condition.}
+**constraint**, followed by any applicable condition.}
 
 ### Out of context
 
