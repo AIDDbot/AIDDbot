@@ -33,9 +33,9 @@ Each process permits three automatic evaluations, including the first. A blockin
 
 ## Quality review
 
-Craft reads open quality findings and qualification evidence. It reads each project's quality configuration and runs the strictest configured lint, complexity analysis, test coverage checks, and other team-configured tools. The review records commands, results, and threshold violations, distinguishing checks that are not configured from configured checks that could not run. It does not invent tools or thresholds. Confirmed tool findings link to the quality review. Repeated observations share one finding ID.
+Craft uses `curate-quality` to read open quality findings and qualification evidence. It reads each project's quality configuration and runs the strictest configured lint, complexity analysis, test coverage checks, and other team-configured tools. `quality/review.md` is the dated evidence history for system-wide checks; `quality/findings.md` is the short index of currently open problems. The review records commands, results, and threshold violations, distinguishing checks that are not configured from configured checks that could not run. It does not invent tools or thresholds. Confirmed tool findings link to their dated review evidence. Repeated observations share one finding ID.
 
-For selected repairs, an **Architect** removes invalid, obsolete, or duplicate findings with evidence recorded in Git, groups one coherent repair, and expresses it as a natural-language request without creating delivery artifacts. `build-requested-change` receives that request and creates the **Architect** that executes `specify`. Selected repairs then use ordinary specs. A shipped repair removes only the findings it proves resolved.
+For selected repairs, an **Architect** groups one coherent set of current findings and expresses it as a natural-language request with its Q IDs, without creating delivery artifacts or editing the quality records. `build-requested-change` receives that request and creates the **Architect** that executes `specify`. The resulting ordinary spec records those source IDs. At closure, `shipify` uses `curate-quality` to promote surviving minor debt and remove only findings the shipped repair proves resolved.
 
 ## Next
 
