@@ -25,7 +25,7 @@ The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.
 /build-requested-change riders can rate a trip from 1 to 5 stars
 ```
 
-The Architect reserves IDs, creates one small spec branch, and proposes its PRD edits. The spec pauses for approval unless the request includes YOLO. Builders implement its solution by project. Verify runs the written E2E acceptance tests. Qualify reviews technical quality. Shipify integrates the code and PRD together when evidence is current.
+Through `specify`, the Architect defines one coherent scope, reserves its IDs, creates one small spec branch, and writes the spec and proposed PRD edits together. Requirement text lives only in the PRD; the spec references its IDs. The spec pauses for approval unless the request includes YOLO. Builders implement its solution by project. Verify runs the written E2E acceptance tests. Qualify reviews technical quality. Shipify integrates the code and PRD together when evidence is current.
 
 ## Review quality
 

@@ -12,9 +12,7 @@ disable-model-invocation: true
 
 Your goal is to **take a natural-language request and deliver the change.**
 
-First, spawn an **Architect** agent to review the PRD, project rules, and existing findings. The **Architect** will define a single coherent scope, determine its delivery type, identify requirements to change, deprecate, or preserve, and reserve the necessary spec and requirement IDs before creating or resuming the working branch.
-
-Then, have it execute the `specify` skill using the request, scope, and spec ID.
+First, spawn an **Architect** agent to execute the `specify` skill using the natural-language request, and wait for it to complete. The `specify` skill owns the scope, delivery type, branch, IDs, spec, proposed PRD edits, and approval.
 
 Wait for the spec to be approved (or automatically approved by the system) before moving forward.
 

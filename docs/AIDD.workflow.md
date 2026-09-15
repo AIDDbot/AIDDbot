@@ -8,7 +8,7 @@ For greenfield solutions, `scaffoldify` selects needed projects, consults the ar
 
 The PRD lists the current requirements in EARS form. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
-The Architect follows `specify` to formalize the request, propose a solution by project, and update the PRD. If the user requests YOLO or the active mode is YOLO, the proposal is approved. Otherwise, `specify` asks the human and waits before implementation.
+The Architect follows `specify`, which owns the complete definition transaction. It scopes the natural-language request, chooses the delivery type, reserves the branch and IDs, proposes a solution by project, writes the spec and proposed PRD edits together, and obtains approval. Requirement text exists only in the PRD; the spec references its IDs and records their delivery and verification impact. If the user requests YOLO or the active mode is YOLO, the proposal is approved. Otherwise, `specify` asks the human and waits before implementation.
 
 The PRD owns durable requirement text. Functional requirements use EARS conditions and observable responses. The spec references those IDs and records their delivery impact:
 

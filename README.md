@@ -42,7 +42,7 @@ The current session discovers and executes worker and primitive skills when each
 
 `/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by project. `/craft-lasting-quality` reviews current quality and delivers selected repairs through the same spec flow.
 
-Start with a natural-language request. The proposal formalizes the problem, designs the solution, and links functional EARS requirements in the enduring PRD to acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
+Start with a natural-language request. `specify` owns its complete definition: scope, delivery type, branch, IDs, spec, proposed PRD edits, and approval. It writes requirement text only in the enduring PRD; the spec links those IDs to the acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 
 Verification must be green; qualification may be green or amber (minor debt). Each spec report tracks its evaluated commit and evaluation count. After three evaluations per process, unresolved blockers stop automatic repairs for human direction.
 

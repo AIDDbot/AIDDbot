@@ -6,7 +6,7 @@ Every executable capability is an Agent Skill. This catalog owns routing.
 
 The PRD is the current list of requirements. A spec owns one small delivery, its proposed PRD edits, and its evidence. `counters.yaml` reserves permanent S, F, T, and Q IDs.
 
-`specify` formalizes the request, proposes a solution, and obtains approval. The PRD owns functional EARS requirements. Specs reference their IDs as `new`, `changed`, `deprecated`, or `related` to create, update, delete, or retain acceptance tests.
+`specify` owns the complete definition transaction: it scopes the request, chooses the delivery type, reserves the branch and IDs, writes the spec and proposed PRD edits together, and obtains approval. The PRD alone owns functional EARS requirement text. Specs reference requirement IDs as `new`, `changed`, `deprecated`, or `related` to create, update, delete, or retain acceptance tests.
 
 Every spec advances from `draft` to `shipped` only with approval and current passing evidence. Missing, pending, failed, blocked, or stale evidence prevents shipping.
 
@@ -46,4 +46,4 @@ Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.
 
 `scaffoldify` fetches selected catalogued archetypes or creates minimal scaffolds for explicit exceptions on `chore/scaffold`, commits its changes, and merges into the default branch when complete. It adds no functional implementation or follow-up installation, testing, or documentation rewriting.
 
-`/architect-solution-foundation` runs `scaffoldify` for greenfield solutions, then always runs `explore` for the repository and `extract` for each project. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`. `/craft-lasting-quality` discovers current quality evidence using the strictest configured lint, complexity analysis, coverage checks, and other team-configured tools, records unconfigured or unavailable checks, and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.
+`/architect-solution-foundation` runs `scaffoldify` for greenfield solutions, then always runs `explore` for the repository and `extract` for each project. `scaffoldify` owns needs clarification, catalog-based selection, confirmation, and materialization. Requested work enters `/build-requested-change`, which delegates the complete definition transaction to `specify` before implementation. `/craft-lasting-quality` discovers current quality evidence using the strictest configured lint, complexity analysis, coverage checks, and other team-configured tools, records unconfigured or unavailable checks, and delivers selected repairs as specs. Architecture work remains non-release unless executable evolution is requested.

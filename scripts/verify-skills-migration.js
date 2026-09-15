@@ -77,8 +77,8 @@ for (const retired of [
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
-  "build-requested-change/SKILL.md": ["single coherent scope", "reserve the necessary spec and requirement IDs", "ship-implementation"],
-  "specify/SKILL.md": ["./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
+  "build-requested-change/SKILL.md": ["execute the `specify` skill using the natural-language request", "specify` skill owns", "ship-implementation"],
+  "specify/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
