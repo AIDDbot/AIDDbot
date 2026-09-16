@@ -1,6 +1,6 @@
 ---
 name: explore
-description: Generate root project instructions and a conceptual model from repository evidence.
+description: Set the solution documentation from repository evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,17 +8,16 @@ disable-model-invocation: false
 ---
 # explore
 
-Your goal is to set the first project documentation from repository evidence.
+Set the solution documentation from repository evidence.
 
 Read the tree, guide files, and manifests. Do not redesign or read source code. 
 Settle `{Product_Folder}` and `{Source_Folders}` with the human. 
-Replace the init seed in `AGENTS.md` with the `AGENTS.template.md`, preserving settled direction. 
+Generate or improve the `AGENTS.md` file with the `AGENTS.template.md`,filled with founds and human input.
 
-Write `counters.yaml` from its `counters.template.yaml`.
-Write model documentation based on repository evidence following the `model.schema.template`.
+Write model documentation based on repository evidence following the `model.schema.template` at `{Product_Folder}/model/model.schema.md`
 
 Do not create any non templated files.
 
-The result is root project instructions and current product documents.
+The result is root project instructions and product high level overview.
 
-Commit as `docs(explore): …`.
+Git commit as `docs(explore): …`.

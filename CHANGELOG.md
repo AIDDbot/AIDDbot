@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.30 - 2026-09-16
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-solution-foundation/SKILL.md
+ M .agents/skills/explore/SKILL.md
+ D .agents/skills/explore/assets/counters.template.yaml
+ M .agents/skills/extract/SKILL.md
+ M .agents/skills/scaffoldify/SKILL.md
+?? .agents/skills/specify/assets/counters.template.yaml
+```
+
 ## 0.0.29 - 2026-09-15
 
 - feat: remove links from skills (81e67f4)
