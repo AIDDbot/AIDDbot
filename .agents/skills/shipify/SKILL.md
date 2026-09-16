@@ -8,25 +8,20 @@ disable-model-invocation: false
 ---
 # shipify
 
-Your goal is to integrate and close an evidenced spec.
+Integrate and close an evidenced spec.
 
 Read the spec, its PRD edits, qualification and verification reports, and diff. Require approval and current passing evidence. Missing, failed, blocked, or stale evidence prevents shipping. A semantic conflict resolution requires affected checks again.
 
-Confirm deprecated PRD lines only leave after their checks pass. Integrate the branch so code and PRD change together. Set `status: shipped` and `shipped_at` in `spec.md`; add `tag` when the project creates one. Reconcile the root map and project rules with approved work. New rule decisions return to the spec before closing.
+Remove from the PRD only requirements marked `deprecated` whose obsolete implementation and acceptance coverage the evidence proves removed. Integrate the branch so code and PRD change together. Set `status: shipped` and `shipped_at` in `spec.md`; add `tag` when the project creates one. Reconcile the root map and project rules with approved work. New rule decisions return to the spec before closing.
 
-Execute the `curate-quality` skill for the shipped spec. It promotes still-present minor findings to `TDR.md` and removes only declared D IDs whose resolution this spec proves.
-
-The result is one shipped spec.
+Reconcile `TDR.md` from existing evidence without running lint, complexity, coverage, or other quality discovery. Promote each still-present minor qualification finding that is not already represented to one concise D entry linked to that qualification report, reserving its ID from `counters.yaml`. Remove only source D IDs declared by the spec whose resolution its passing evidence proves. Preserve every other entry and never reuse an ID.
 
 Write a `CHANGELOG.md` entry for the shipped spec following the `CHANGELOG.template.md`.
 
-## Journaling
+Append a high-level release and version entry with a complete ISO 8601 timestamp to the spec's `journal.md`.
 
-Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level entries releasin, and tag verisions.
+Commit the spec delivery changes, merge its branch into the default branch, create the next semantic version tag when the repository uses release tags, and remove the merged branch.
 
-## Git procedure
+The result is one shipped spec with current product and debt records.
 
-Commit any pending changes.
-Generate a version git tag following standard versioning conventions and git history.
-Merge the changes into the default branch.
-Remove working branch once merged.
+Commit as `chore(release): {version}`.
