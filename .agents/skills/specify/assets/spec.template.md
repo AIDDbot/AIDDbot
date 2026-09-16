@@ -44,7 +44,7 @@ Requirements refer to the [PRD](../PRD.md). Include only applicable rows.
 | F0003 | deprecated | {Delete: obsolete test; expected removal outcome} |
 | F0004 | related | {Retain: regression scenario} |
 
-{Technical checks and expected results, if applicable.}
+{Technical checks and expected results for non-functional specs. No linting or any other tooling. Just a plain list of expected outcomes.}
 
 ## Technical debt
 
