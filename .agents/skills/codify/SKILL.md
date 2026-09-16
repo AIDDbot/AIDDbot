@@ -20,7 +20,7 @@ For production code write unit tests for the critical section and make them pass
 If writing E2E tests, do not unit-testing those tests.
 
 ## Linting
-Run basic lint after each change. No warnings nor complexity.
+Run basic lint (`bun lint`, errors only) after each change and fix what it reports. Do not look for hard checks (warnings, complexity, coverage) at this stage.
 
 ## Journaling
 

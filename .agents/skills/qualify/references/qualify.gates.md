@@ -3,7 +3,7 @@
 ## Rules
 
 - **Closed list** — the gates are `security`, `performance`, `clean-code`, `accessibility`, `ui`, and `project-rules`.
-- **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope.
+- **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope. `ui` gates are non blockers.
 - **Technical criteria are additional** — perform each criterion's stated method and record its evidence. A failed or blocked criterion makes qualification red even if other gates pass.
 - **Non-blocking debt** — record supported minor findings in the qualification report. 
 
@@ -54,7 +54,7 @@ Every finding carries one.
 - [ ] Form inputs have associated labels; errors described and linked to fields.
 - [ ] `lang` set on `<html>`; landmarks present; prefer native elements over ARIA.
 
-## UI and design system
+## UI and design system (not blocking, just minor findings)
 
 - [ ] Spacing, type, radius, and color come from the design system, not magic values.
 - [ ] Empty, loading, and error states are handled, not left implicit.

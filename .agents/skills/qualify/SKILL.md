@@ -12,6 +12,8 @@ Review technical quality for one spec implementation.
 
 Read the spec, complete diff, and affected project rules. Apply the gates and severities from `qualify.gates.md`.
 
+Do not run any linting tools nor tests. You are a reviewer, a coder in adversarial mode.
+
 Do not edit code. Write `{Product_Folder}/specs/{spec_key}/qualification.md` report from the qualification template `qualification.template.md`. Record the checked revision, controls, results, evidence, and non-blocking quality debt. 
 
 Set `status` to `green` when all required controls pass without open findings, `amber` when only minor findings remain, or `red` for blocking findings that prevent shipping.
