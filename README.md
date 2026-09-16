@@ -40,7 +40,7 @@ The current session discovers and executes worker and primitive skills when each
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` delivers one small spec with PRD edits, acceptance evidence, and qualification evidence. Builders implement sequentially by project. `/craft-lasting-quality` reviews current quality, turns one coherent group of TDR debt entries into a natural-language repair request, and passes it through the same definition and delivery flow.
+`/build-requested-change` keeps delivery fast: it uses basic checks and records minor debt instead of running expensive quality analysis. `/craft-lasting-quality` runs the strict configured lint, complexity, and coverage tools, then repairs selected debt through the same delivery flow.
 
 Start with a natural-language request. `specify` owns its complete definition: scope, delivery type, branch, IDs, spec, proposed PRD edits, and approval. It writes requirement text only in the enduring PRD; the spec links those IDs to the acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 
@@ -61,11 +61,8 @@ New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and thei
 For each tier, the agent reads the catalog, offers its archetype and any justified, verified alternative, and waits for your choice; you can also request another technology or omit the tier.
 Choosing a catalog archetype installs the actual AIDDbot template through the materializer, preserving its structure and conventions.
 Scaffolding runs on `chore/scaffold`, commits its changes, and merges into the default branch when complete. It adds no functional code, dependency installation, tests, or documentation rewriting. Architecture documentation follows through `explore` and `extract`.
-Run `/build-requested-change` for requested work or corrections;
 
-Use `/craft-lasting-quality` for autonomous quality review and grouped remediation. It runs the strictest configured lint, complexity analysis, and coverage checks, and reports missing checks without inventing thresholds. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
-
-
+Run `/build-requested-change` for requested work and `/craft-lasting-quality` when you want a deeper quality review. Requested specs pause for approval unless you include YOLO. See [Getting started](docs/getting-started.md).
 
 ## Documentation
 

@@ -25,7 +25,7 @@ The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.
 /build-requested-change riders can rate a trip from 1 to 5 stars
 ```
 
-Through `specify`, the Architect defines one coherent scope, reserves its IDs, creates one small spec branch, and writes the spec and proposed PRD edits together. Requirement text lives only in the PRD; the spec references its IDs. The spec pauses for approval unless the request includes YOLO. Builders implement its solution by project. Verify runs the written E2E acceptance tests. Qualify reviews technical quality. Shipify integrates the code and PRD together when evidence is current.
+The spec pauses for approval unless the request includes YOLO. The delivery flow defines, implements, verifies, and ships one small change. It uses basic checks and records minor technical debt for later instead of running expensive quality analysis. See the [`build-requested-change` skill](../.agents/skills/build-requested-change/SKILL.md) for the exact flow.
 
 ## Review quality
 
@@ -33,7 +33,7 @@ Through `specify`, the Architect defines one coherent scope, reserves its IDs, c
 /craft-lasting-quality
 ```
 
-Craft reviews open TDR entries and runs the quality tools configured by the project team. It records detailed findings in the review, promotes confirmed debt to the TDR, and groups debt entries before creating one repair spec. Repairs use the same verification and qualification flow as requested work.
+Craft runs the project's strict configured quality tools, updates the technical debt register, and delivers one selected repair. See the [`craft-lasting-quality` skill](../.agents/skills/craft-lasting-quality/SKILL.md) for the exact flow.
 
 ## More
 

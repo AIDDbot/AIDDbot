@@ -25,7 +25,7 @@ Builders run `codify` for each affected project and for E2E when acceptance test
 
 The Builder applies every declared test action, including deletions. Verify reconciles requirement IDs, the test diff, and executed evidence; a passing suite with missing coverage or an unperformed action blocks delivery.
 
-Shipify integrates the approved branch, its code, and its PRD edits together. It removes deprecated requirements only when passing evidence proves their obsolete implementation and acceptance coverage were removed. It marks the spec shipped and reconciles rules and known debt without running lint, complexity, coverage, or other quality-discovery tooling. Still-present minor qualification findings become concise TDR entries, while source debt is removed only when the shipped evidence proves its resolution.
+Shipify integrates the approved code and PRD when evidence passes. It records minor findings in the TDR but does not run strict lint, complexity, coverage, or other quality-discovery tools. See [`shipify`](../.agents/skills/shipify/SKILL.md) for its exact contract.
 
 Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification records findings: `green` means no open findings, `amber` allows minor debt, and `red` blocks delivery. Shipping requires current green verification and green or amber qualification.
 
@@ -33,9 +33,7 @@ Each process permits three automatic evaluations, including the first. A blockin
 
 ## Quality review
 
-Craft uses `curate-quality` to read the TDR and qualification evidence. It reads each project's quality configuration and runs the strictest configured lint, complexity analysis, test coverage checks, and other team-configured tools. `quality/review.md` is the dated evidence history for system-wide checks; `TDR.md` is the one-line index of currently open technical debt. The review records commands, results, and threshold violations, distinguishing checks that are not configured from configured checks that could not run. It does not invent tools or thresholds. Confirmed findings promoted to debt link to their detailed qualification or dated review evidence. Repeated observations share one D ID.
-
-For selected repairs, an **Architect** groups one coherent set of current debt entries and expresses it as a natural-language request with its D IDs, without creating delivery artifacts or editing the quality records. `build-requested-change` receives that request and creates the **Architect** that executes `specify`. The resulting ordinary spec records those source IDs. At closure, `shipify` directly promotes surviving minor findings and removes only TDR entries the shipped repair proves resolved. Additional debt discovery remains exclusive to the system review launched by `craft-lasting-quality`.
+`craft-lasting-quality` is the only normal flow that runs strict configured lint, complexity, coverage, and other quality tools. It updates the TDR and sends one coherent debt repair through the ordinary spec flow. See [`craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) and [`curate-quality`](../.agents/skills/curate-quality/SKILL.md) for their exact contracts.
 
 ## Next
 
