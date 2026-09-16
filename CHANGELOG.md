@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.33 - 2026-09-16
+
+- docs(workflow): clarify quality boundary (bad7d16)
+- feat: no hard lints at spec loop (ffda48f)
+- refactor(skills): tighten /shipify (7119bbd)
+- refactor(skills): tighten /curate-quality (4370fbd)
+- refactor(skills): tighten /shipify (f805dae)
+
 ## 0.0.32 - 2026-09-16
 
 - feat: verify and qualify simplification (12abaae)
