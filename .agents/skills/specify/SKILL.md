@@ -22,4 +22,8 @@ Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines unti
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
 
+## Journaling
+
+Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level creation and approval status. Use complete ISO 8601 date and time format.
+
 Commit as `docs(specify): …`.

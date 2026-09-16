@@ -20,4 +20,13 @@ The result is one shipped spec.
 
 Write a `CHANGELOG.md` entry for the shipped spec following the `CHANGELOG.template.md`.
 
-**Git procedure:** Commit and tag under the project release policy, then delete the working branch.
+## Journaling
+
+Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level entries releasin, and tag verisions.
+
+## Git procedure
+
+Commit any pending changes.
+Generate a version git tag following standard versioning conventions and git history.
+Merge the changes into the default branch.
+Remove working branch once merged.

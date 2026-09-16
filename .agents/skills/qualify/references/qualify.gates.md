@@ -2,10 +2,10 @@
 
 ## Rules
 
-- **Closed list** — the gates are `accessibility`, `security`, `performance`, `clean-code`, `ui`, and `project-rules`.
-- **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope; unavailable evidence is `blocked`, not `n/a`.
-- **Technical criteria are additional** — perform each criterion's stated method and record its evidence. A failed or blocked criterion makes qualification red even if all six gates pass.
-- **Non-blocking debt** — record supported minor findings in the qualification report. `shipify` promotes those still present after shipping to D entries in the TDR.
+- **Closed list** — the gates are `security`, `performance`, `clean-code`, `accessibility`, `ui`, and `project-rules`.
+- **Verdicts** — `blocker` and `major` findings fail their gate. Record `minor` findings without failing the gate. `n/a` is allowed for any gate only when the report states why the gate cannot apply to the scope.
+- **Technical criteria are additional** — perform each criterion's stated method and record its evidence. A failed or blocked criterion makes qualification red even if other gates pass.
+- **Non-blocking debt** — record supported minor findings in the qualification report. 
 
 ## Severity
 
@@ -15,15 +15,13 @@ Every finding carries one.
 - **major** — real decay: duplicated logic, a boundary crossed, a name that lies.
 - **minor** — polish: a magic value, a local nesting, a comment that restates the code.
 
-## Accessibility (WCAG AA)
+## Principles
 
-The [UI and accessibility lens](./ui.patterns.md) lists the patterns this gate catches.
-
-- [ ] Color contrast >= 4.5:1 (3:1 large text); never rely on color alone.
-- [ ] Every meaningful image has alt text; decorative images use `alt=""`.
-- [ ] All functionality keyboard-accessible; visible focus; no focus traps.
-- [ ] Form inputs have associated labels; errors described and linked to fields.
-- [ ] `lang` set on `<html>`; landmarks present; prefer native elements over ARIA.
+- Clarity over cleverness — explicit beats compact when compact needs a mental pause.
+- Preserve behavior — same inputs, outputs, side effects, ordering, and errors.
+- Convention over preference — match project rules and neighboring code.
+- Judge what changed — but a new symbol that reimplements an existing one is still a finding.
+- Chesterton's fence — understand why code exists before proposing its removal.
 
 ## Security
 
@@ -42,22 +40,26 @@ The [UI and accessibility lens](./ui.patterns.md) lists the patterns this gate c
 
 ## Clean code / DRY (behavior-preserving)
 
-Read the scope through the [code-clarity lens](./clarity.patterns.md); every pattern it lists is a violation of this gate.
-
 - [ ] Descriptive names; the code is self-documenting.
 - [ ] Small, single-purpose functions; guard clauses over deep nesting.
 - [ ] Duplicated logic extracted — including logic that already existed outside the diff.
 - [ ] Remove needless abstractions by simplifying the code.
 - [ ] Comments explain "why", not "what".
 
-## UI and design system
+## Accessibility (WCAG AA)
 
-Frontend scope only. Read it through the [UI and accessibility lens](./ui.patterns.md).
+- [ ] Color contrast >= 4.5:1 (3:1 large text); never rely on color alone.
+- [ ] Every meaningful image has alt text; decorative images use `alt=""`.
+- [ ] All functionality keyboard-accessible; visible focus; no focus traps.
+- [ ] Form inputs have associated labels; errors described and linked to fields.
+- [ ] `lang` set on `<html>`; landmarks present; prefer native elements over ARIA.
+
+## UI and design system
 
 - [ ] Spacing, type, radius, and color come from the design system, not magic values.
 - [ ] Empty, loading, and error states are handled, not left implicit.
 - [ ] Repeated markup is one shared component, not a copy per page.
-- [ ] Layout holds at 320 / 768 / 1024 / 1440.
+- [ ] Layout holds at 360 / 768 / 1440.
 
 ## Project rules
 
@@ -65,3 +67,10 @@ When `{project}.rules.md` exists for a project in scope, check that scope agains
 
 - [ ] Every recorded restriction is checked only within its stated scope.
 - [ ] A violation is a finding only when it names the recorded restriction it breaks.
+- [ ] Suggest tooling that can help automate gate checks.
+
+## Out of scope (not a finding)
+
+- Removing error handling to look cleaner.
+- Renames to personal taste over project convention.
+- Over-inlining that removes a useful named concept.
