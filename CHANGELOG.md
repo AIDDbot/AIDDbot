@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.34 - 2026-09-16
+
+- feat: qualify speed up (b0997b6)
+
 ## 0.0.33 - 2026-09-16
 
 - docs(workflow): clarify quality boundary (bad7d16)
