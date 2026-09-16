@@ -1,6 +1,6 @@
 ---
 name: ship-implementation
-description: Refresh evidence and ship one spec.
+description: Prove functionality and quality to deliver one spec implementation.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
@@ -8,16 +8,12 @@ disable-model-invocation: false
 ---
 # ship-implementation
 
-Your goal is to prove and deliver one spec.
+Prove functionality and quality to deliver one spec implementation.
 
-First, read both reports. Each process has an automatic evaluation ceiling of revision 3. Only explicit human direction grants another three evaluations for a stopped process, counted from its current revision; never reset the counter. Record that authorization and the new ceiling in Git.
+Execute the `verify` skill to exercise the E2E tests and verify the acceptance criteria.
 
-Repeat the evidence cycle until verification is `green` and qualification is `green` or `amber`, with current evidence. Before evaluating a required report, return both reports and request human direction if its revision has reached the authorized ceiling.
+If the resulting verification report is `green` proceed to the `qualify` skill.
 
-Execute the `verify` and `qualify` skills as needed for missing, red, or stale reports. Evidence becomes stale when evaluated code, requirements, tests, or applicable rules change; report-only commits do not invalidate it. If a required check cannot be completed, return the blocker recorded in its report.
+If the qualification report is `green` or `amber`, proceed to exeute the `shipify` skill and return the result as a success.
 
-If either report is `red`, return both reports and request human direction when that report has reached its authorized ceiling. Return the required owner decision when repair would change the spec scope or requirements. Otherwise, execute the `implement-change` skill on the current spec branch, limited to verification failures and blocking qualification findings. Return any repair blocker and repeat the evidence cycle after a successful repair.
-
-Once the required evidence passes, execute the `shipify` skill. Non-blocking debt does not require another repair cycle.
-
-Finally, return the shipping result or blocker.
+If either report is `red`, return a summary and suggest to run the `implement-change` skill to fix the issue if the revision count is below 3.  Otherwise, return a summary and suggest to hand off to human review.

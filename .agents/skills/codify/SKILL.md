@@ -1,6 +1,6 @@
 ---
 name: codify
-description: Implement one spec scope in one project.
+description: Implement supplied spec scope or repair findings.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,14 +8,22 @@ disable-model-invocation: false
 ---
 # codify
 
-Your goal is to implement supplied spec scope or repair findings.
+Implement supplied spec scope or repair findings.
 
+## Coding
 Work one project at a time on the owner branch. Follow its rules file, do not weaken assertions, and stop when the default branch is checked out. Respect shared-file and Git-index ownership.
 
-Implement the approved Solution. Run basic lint and unit tests. E2E work writes or repairs acceptance tests but does not execute the E2E suite. Do not create a report.
+Implement the approved plan from the solution section in order. For E2E scope, use the spec's requirement IDs and respect their state (new, changed, deprecated, related).
 
-For E2E scope, use the spec's requirement IDs: `new` creates tests, `changed` updates them, `deprecated` removes obsolete tests, and `related` preserves regression coverage. Preserve assertions for active requirements in shared tests.
+## Testing
+For production code write unit tests for the critical section and make them pass. Do not write unit test for UI-related code. 
+If writing E2E tests, do not unit-testing those tests.
 
-The result is implemented code and tests.
+## Linting
+Run basic lint after each change. No warnings nor complexity.
 
-Commit following the project convention.
+## Journaling
+
+Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level entries about each project implmentation work (coded, tested, linted... failures)
+
+Commit following the conventional commit `{feat|fix|chore|test|docs:message}`.

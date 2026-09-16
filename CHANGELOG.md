@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.31 - 2026-09-16
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/build-requested-change/SKILL.md
+ M .agents/skills/codify/SKILL.md
+ M .agents/skills/implement-change/SKILL.md
+ M .agents/skills/ship-implementation/SKILL.md
+ M .agents/skills/specify/SKILL.md
+```
+
 ## 0.0.30 - 2026-09-16
 
 - Include working tree changes.
