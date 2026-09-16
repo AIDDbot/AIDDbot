@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.32 - 2026-09-16
+
+- feat: verify and qualify simplification (12abaae)
+
 ## 0.0.31 - 2026-09-16
 
 - Include working tree changes.
