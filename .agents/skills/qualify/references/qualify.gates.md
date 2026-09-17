@@ -1,20 +1,65 @@
 # Qualify gates
 
-Inspect the complete diff against this closed list. Evaluate each applicable gate once. Mark a gate `n/a` only when its category cannot apply to the changed scope and state why. Missing evidence for an applicable gate is a failure.
+Inspect the complete diff. Judge changed code by project convention, not personal preference, and preserve its intended behavior.
 
 ## Blocking gates
 
-- **Security** — Every changed protected action or resource rejects unauthorized access.
-- **Performance** — The change introduces no unbounded or blocking work on a request, hot path, or user-controlled collection.
-- **Clean code** — Changed business logic respects the project's existing architectural boundaries.
-- **Accessibility** — Every changed user interaction is operable by keyboard.
-- **UI** — Every changed interface handles its failure state without becoming unusable.
+Evaluate every applicable blocking gate first. Mark one `n/a` only when its category cannot apply to the changed scope and state why. Missing evidence for an applicable gate is a failure.
+
+- **Security** — Authentication and authorization protect every changed action and resource that requires them.
+- **Performance** — The change adds no blocking I/O to a hot path.
+- **Clean code** — The change does not duplicate business logic within or beyond the diff.
+- **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
+- **UI** — Every changed interface handles empty, loading, and error states.
 - **Project rules** — The changed scope violates no explicit restriction in its applicable `{project}.rules.md` file.
 
-Evaluate every technical criterion explicitly declared by the spec as an additional blocking gate. Do not invent criteria or fail a gate for personal preference.
+Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
+
+## Debt checks
+
+When every blocking gate passes, evaluate the remaining applicable checks. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope.
+
+### Security
+
+- [ ] User input is validated and sanitized.
+- [ ] Queries are parameterized without string-built SQL.
+- [ ] No secrets are hardcoded.
+- [ ] Errors do not expose sensitive information.
+
+### Performance
+
+- [ ] Queries avoid N+1 access and use indexes where needed.
+- [ ] Large lists are paginated or streamed.
+- [ ] Expensive work is cached when appropriate.
+
+### Clean code / DRY
+
+- [ ] Names describe their behavior.
+- [ ] Functions have one purpose and avoid deep nesting.
+- [ ] Needless abstractions are simplified.
+- [ ] Comments explain why rather than restating what the code does.
+
+### Accessibility
+
+- [ ] Text and controls meet WCAG AA contrast and do not rely on color alone.
+- [ ] Images have appropriate alternative text.
+- [ ] Form controls have associated labels and linked error descriptions.
+- [ ] Documents declare their language and use native landmarks before ARIA.
+
+### UI and design system
+
+- [ ] Spacing, typography, radius, and color use the design system.
+- [ ] Repeated markup is shared when it represents the same component.
+- [ ] Layout works at 360, 768, and 1440 pixels.
+
+### Project rules
+
+- [ ] Each restriction is checked only within its declared scope.
+- [ ] Every finding names the restriction it violates.
+- [ ] Useful automation is suggested when an existing tool can enforce the rule.
 
 ## Findings
 
-Classify every finding as `blocking` or `debt`. A failed blocking gate is `blocking` and makes qualification red. A concrete, evidenced problem observed in the changed scope that does not fail a gate is `debt` and makes qualification amber. Do not run an additional quality checklist to search for debt.
+Classify every finding as `blocking` or `debt`. Blocking findings make qualification red. Debt findings make it amber and may enter the TDR at shipping. With no findings, qualification is green.
 
 Do not record stylistic preference, speculative improvement, or unrelated pre-existing code as a finding.
