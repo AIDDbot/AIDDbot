@@ -25,7 +25,7 @@ The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.
 /build-requested-change riders can rate a trip from 1 to 5 stars
 ```
 
-The spec pauses for approval unless the request includes YOLO. The delivery flow defines, implements, verifies, and ships one small change. It uses basic checks and records minor technical debt for later instead of running expensive quality analysis. See the [`build-requested-change` skill](../.agents/skills/build-requested-change/SKILL.md) for the exact flow.
+The spec pauses for approval unless the request includes YOLO. The delivery flow defines, implements, verifies, and ships one small change. It applies a short list of blocking gates and records other evidenced findings as debt instead of running expensive quality analysis. See the [`build-requested-change` skill](../.agents/skills/build-requested-change/SKILL.md) for the exact flow.
 
 ## Review quality
 

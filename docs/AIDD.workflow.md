@@ -25,9 +25,9 @@ Builders run `codify` for each affected project and for E2E when acceptance test
 
 The Builder applies every declared test action, including deletions. Verify reconciles requirement IDs, the test diff, and executed evidence; a passing suite with missing coverage or an unperformed action blocks delivery.
 
-Shipify integrates the approved code and PRD when evidence passes. It records minor findings in the TDR but does not run strict lint, complexity, coverage, or other quality-discovery tools. See [`shipify`](../.agents/skills/shipify/SKILL.md) for its exact contract.
+Shipify integrates the approved code and PRD when evidence passes. It records qualification findings classified as `debt` in the TDR but does not run strict lint, complexity, coverage, or other quality-discovery tools. See [`shipify`](../.agents/skills/shipify/SKILL.md) for its exact contract.
 
-Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification records findings: `green` means no open findings, `amber` allows minor debt, and `red` blocks delivery. Shipping requires current green verification and green or amber qualification.
+Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification checks one blocking gate per quality category: `green` means no findings, `amber` contains only `debt`, and `red` contains a `blocking` gate failure. Shipping requires current green verification and green or amber qualification.
 
 Each process permits three automatic evaluations, including the first. A blocking third result stops repairs and returns the reports to the human. Explicit human direction can authorize another three evaluations; the revision counter never resets. Document edits do not count as evaluations.
 

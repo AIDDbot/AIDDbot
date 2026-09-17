@@ -40,11 +40,11 @@ The current session discovers and executes worker and primitive skills when each
 - **Builder** — plans and codifies validated specifications or fixes review defects.
 - **Craftsman** — verifies behavior, qualifies quality, ships green delivery, and supports hygiene workflows.
 
-`/build-requested-change` keeps delivery fast: it uses basic checks and records minor debt instead of running expensive quality analysis. `/craft-lasting-quality` runs the strict configured lint, complexity, and coverage tools, then repairs selected debt through the same delivery flow.
+`/build-requested-change` keeps delivery fast: it applies a short list of blocking gates and records other evidenced findings as debt instead of running expensive quality analysis. `/craft-lasting-quality` runs the strict configured lint, complexity, and coverage tools, then repairs selected debt through the same delivery flow.
 
 Start with a natural-language request. `specify` owns its complete definition: scope, delivery type, branch, IDs, spec, proposed PRD edits, and approval. It writes requirement text only in the enduring PRD; the spec links those IDs to the acceptance tests that must be created, updated, deleted, or retained. `specify` approves the proposal under user-requested or active-mode YOLO; otherwise it asks the human and waits.
 
-Verification must be green; qualification may be green or amber (minor debt). Each spec report tracks its evaluated commit and evaluation count. After three evaluations per process, unresolved blockers stop automatic repairs for human direction.
+Verification must be green; qualification may be green or amber (`debt` only). Each spec report tracks its evaluated commit and evaluation count. After three evaluations per process, unresolved blockers stop automatic repairs for human direction.
 
 ## Quick start
 

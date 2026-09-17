@@ -11,15 +11,15 @@ updated_at: {DateTime}
 
 | Control | Method | Result | Evidence |
 | --- | --- | --- | --- |
-| {gate or rule} | {inspection or command} | {pass | fail | blocked | n/a} | {output or link} |
+| {blocking gate} | {inspection} | {pass | fail | n/a} | {observed fact or link} |
 
 ## Findings
 
 ### {short title}
 
 - Scope: {paths or projects}
-- Rule: {gate or project rule}
+- Gate: {gate, technical criterion, or none}
 - Evidence: {observed facts}
-- Severity: {blocker | major | minor}
+- Classification: {blocking | debt}
 
-{Blockers and majors prevent delivery. Still-present minors may become D entries in the TDR at shipping.}
+{Blocking findings prevent delivery. Still-present debt becomes a D entry in the TDR at shipping.}

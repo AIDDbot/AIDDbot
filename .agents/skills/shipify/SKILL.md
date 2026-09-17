@@ -14,7 +14,7 @@ Read the approved spec, diff, and current reports. Ship only with green verifica
 
 Apply its PRD edits, removing `deprecated` requirements only when verification proves the obsolete implementation and tests are gone.
 
-Without running quality tools, add still-present minor qualification findings to `{Product_Folder}/quality/TDR.md` and remove declared D IDs whose resolution the evidence proves. If the initialized register or counters are missing, return the need to execute `explore`; do not create replacements. Reserve new D IDs from `counters.yaml` and never reuse them.
+Without running quality tools, add still-present qualification findings classified as `debt` to `{Product_Folder}/quality/TDR.md` and remove declared D IDs whose resolution the evidence proves. If the initialized register or counters are missing, return the need to execute `explore`; do not create replacements. Reserve new D IDs from `counters.yaml` and never reuse them.
 
 Set the spec to `shipped` with its date and tag. Update `CHANGELOG.md` following `CHANGELOG.template.md` and append the release to `journal.md`.
 

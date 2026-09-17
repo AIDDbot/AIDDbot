@@ -12,7 +12,7 @@ Every spec advances from `draft` to `shipped` only with approval and current pas
 
 `/codify` writes code, basic lint, and unit tests. `/verify` writes acceptance evidence. `/qualify` writes qualification evidence and may record non-blocking quality debt. `/shipify` reconciles that known debt without running quality-discovery tooling; system-wide lint, complexity, coverage, and other configured checks belong to `/craft-lasting-quality`.
 
-Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.md` (`green`, `amber`, or `red`), with spec ID, evaluation counter, evaluated commit, and update time. Shipping requires current green verification and green or amber qualification. After three evaluations per process, unresolved blockers require human direction; counters persist across resumptions. Verification records failures; qualification records findings.
+Each evaluated spec has `verification.md` (`green` or `red`) and `qualification.md` (`green`, `amber`, or `red`), with spec ID, evaluation counter, evaluated commit, and update time. Qualification applies one blocking gate per quality category: a failed gate is `blocking` and red, while other evidenced findings are `debt` and amber. Shipping requires current green verification and green or amber qualification. After three evaluations per process, unresolved blockers require human direction; counters persist across resumptions. Verification records failures; qualification records findings.
 
 ## Public orchestrators
 
