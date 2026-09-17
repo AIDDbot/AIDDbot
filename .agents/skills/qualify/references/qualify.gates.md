@@ -7,10 +7,7 @@ Inspect the complete diff. Judge changed code by project convention, not persona
 Evaluate every applicable blocking gate first. Mark one `n/a` only when its category cannot apply to the changed scope and state why. Missing evidence for an applicable gate is a failure.
 
 - **Security** — Authentication and authorization protect every changed action and resource that requires them.
-- **Performance** — The change adds no blocking I/O to a hot path.
-- **Clean code** — The change does not duplicate business logic within or beyond the diff.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
-- **UI** — Every changed interface handles empty, loading, and error states.
 - **Project rules** — The changed scope violates no explicit restriction in its applicable `{project}.rules.md` file.
 
 Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
@@ -28,12 +25,14 @@ When every blocking gate passes, evaluate the remaining applicable checks. A fai
 
 ### Performance
 
+- [ ] No blocking I/O is added to a hot path.
 - [ ] Queries avoid N+1 access and use indexes where needed.
 - [ ] Large lists are paginated or streamed.
 - [ ] Expensive work is cached when appropriate.
 
 ### Clean code / DRY
 
+- [ ] Business logic is not duplicated within or beyond the diff.
 - [ ] Names describe their behavior.
 - [ ] Functions have one purpose and avoid deep nesting.
 - [ ] Needless abstractions are simplified.
@@ -48,6 +47,7 @@ When every blocking gate passes, evaluate the remaining applicable checks. A fai
 
 ### UI and design system
 
+- [ ] Changed interfaces handle empty, loading, and error states.
 - [ ] Spacing, typography, radius, and color use the design system.
 - [ ] Repeated markup is shared when it represents the same component.
 - [ ] Layout works at 360, 768, and 1440 pixels.

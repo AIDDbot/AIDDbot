@@ -27,7 +27,7 @@ The Builder applies every declared test action, including deletions. Verify reco
 
 Shipify integrates the approved code and PRD when evidence passes. It records qualification findings classified as `debt` in the TDR but does not run strict lint, complexity, coverage, or other quality-discovery tools. See [`shipify`](../.agents/skills/shipify/SKILL.md) for its exact contract.
 
-Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification checks one blocking gate per quality category: `green` means no findings, `amber` contains only `debt`, and `red` contains a `blocking` gate failure. Shipping requires current green verification and green or amber qualification.
+Each spec's reports carry `spec`, `status`, `revision`, `evaluated_commit`, and `updated_at` in frontmatter. Verification is `green` or `red` and records failures. Qualification blocks only on security, accessibility, applicable project restrictions, and explicit technical criteria from the spec. `Green` means no findings, `amber` contains only `debt`, and `red` contains a `blocking` gate failure. Shipping requires current green verification and green or amber qualification.
 
 Each process permits three automatic evaluations, including the first. A blocking third result stops repairs and returns the reports to the human. Explicit human direction can authorize another three evaluations; the revision counter never resets. Document edits do not count as evaluations.
 
