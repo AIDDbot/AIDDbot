@@ -55,6 +55,7 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
 Then use `/architect-solution-foundation` to map an existing solution or scaffold one when no application or project source code exists. Agent files, AIDD product files, harness adapters, and documentation do not count as source code for this decision.
+Foundation setup creates empty counters, PRD, and quality TDR records from exact templates, preserving any records that already exist.
 Foundation scaffolding selects the needed projects and fetches suitable catalogued archetypes. A project outside the catalog receives only a minimal scaffold from official tooling or documentation.
 When scaffolding is needed, `scaffoldify` clarifies needs and starts from the archetype catalog before proposing projects or technologies. Alternatives need a concrete unmet requirement or your explicit preference.
 New solutions choose the needed `back`, `front`, `e2e`, and `cli` tiers and their technologies before scaffolding. Existing code is mapped for subsequent development; both paths end with AIDDbot documentation.

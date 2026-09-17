@@ -6,7 +6,7 @@ When no application or project source code exists, `scaffoldify` selects needed 
 
 ## Spec delivery
 
-The PRD lists the current requirements in EARS form. The TDR lists open technical debt as one `D{nnnn}` entry per line. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and D IDs.
+During foundation setup, `explore` creates missing `counters.yaml`, `specs/PRD.md`, and `quality/TDR.md` from exact empty templates without replacing existing documents. The PRD then lists the current requirements in EARS form. The TDR lists open technical debt as one `D{nnnn}` entry per line. Each delivery has one small `S{nnnn}-{slug}` spec folder with `spec.md`, `verification.md`, and `qualification.md`. `counters.yaml` reserves permanent S, F, T, and D IDs.
 
 The Architect follows `specify`, which owns the complete definition transaction. It scopes the natural-language request, chooses the delivery type, reserves the branch and IDs, proposes a solution by project, writes the spec and proposed PRD edits together, and obtains approval. Requirement text exists only in the PRD; the spec references its IDs and records their delivery and verification impact. If the user requests YOLO or the active mode is YOLO, the proposal is approved. Otherwise, `specify` asks the human and waits before implementation.
 

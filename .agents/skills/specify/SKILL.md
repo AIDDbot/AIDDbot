@@ -10,7 +10,7 @@ disable-model-invocation: false
 
 Turn one natural-language request into an approved spec and its proposed PRD edits.
 
-Read or create the current PRD, TDR, counters, follow the assetes templates. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and determine its spec ID, name, and slug to generate a spec key. 
+Read the current PRD, quality TDR, and counters. If any initialization document is missing, return the need to execute `explore`; do not invent its contents. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and determine its spec ID, name, and slug to generate a spec key.
 
 Use them to compose the branch name. `{type}/{spec_key}`. Example: `feat/implement-user-authentication` or `fix/incorrect-tax-calculation`. Create the git branch.
 

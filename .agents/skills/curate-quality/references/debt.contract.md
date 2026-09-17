@@ -1,6 +1,6 @@
 # Technical debt register contract
 
-Keep `{Product_Folder}/TDR.md` as a short index containing one line per open debt item:
+Keep `{Product_Folder}/quality/TDR.md` as a short index containing one line per open debt item:
 
 ```md
 - **D0001**: {concrete debt or defect} — {scope} ([evidence]({qualification-or-review-link}))
