@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.35 - 2026-09-17
+
+- refactor(skills): tighten /qualify (8bfc421)
+- refactor(skills): tighten /curate-quality (47ec8b8)
+- refactor(skills): tighten /qualify (7703272)
+- refactor(skills): tighten /qualify (40d78e4)
+- refactor(skills): tighten /explore (3edc8b8)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/explore/assets/AGENTS.template.md
+ M .agents/skills/shipify/assets/CHANGELOG.template.md
+```
+
 ## 0.0.34 - 2026-09-16
 
 - feat: qualify speed up (b0997b6)

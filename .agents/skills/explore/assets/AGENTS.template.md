@@ -25,7 +25,7 @@ A solution comprises projects, such as a frontend, backend, CLI, or test suite. 
 
 | Project | Source path | Responsibility | Rules |
 | --- | --- | --- | --- |
-| {project} | `{source_root}/` | {one-line responsibility} | [rules](.agents/rules/{project}.rules.md) |
+| {project} | `{source_root}/` | {one-line responsibility} | `.agents/rules/{project}.rules.md` |
 
 {Only necessary cross-project facts.}
 
