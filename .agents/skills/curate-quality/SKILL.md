@@ -12,9 +12,11 @@ Review shipped quality and maintain its technical debt register.
 
 Do not edit code nor write tests. Do not execute e2e tests. Just run the strictest configured lint, complexity, and coverage, and other quality checks. 
 
-For each tool, record every check in `quality/review.md` following `review.template.md`, including passes, unavailable tools, unconfigured checks, and runs without new findings. Use configured thresholds only and confirm concrete impact before recording debt.
+Read the current TDR and review before running the strictest configured checks. Use configured thresholds only and confirm concrete impact before recording debt.
 
-Update `{Product_Folder}/quality/TDR.md` following `TDR.template.md` and `debt.contract.md`. If the initialized register or counters are missing, return the need to execute `explore`; do not create replacements. Reserve new D IDs from `counters.yaml`; consolidate or remove entries only when the evidence supports it.
+Build a complete replacement for `quality/review.md` following `review.template.md`. Include passes, failures, unavailable or unconfigured checks, and every open system-review finding. Reconfirm each existing review-backed D entry; when its check is unavailable, retain it as not revalidated with its last confirmation. Do not append previous reviews or replace the current file before all checks have a recorded result.
+
+Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review following `TDR.template.md` and `debt.contract.md`, then rewrite the review in one edit. If the initialized register or counters are missing, return the need to execute `explore`; do not create replacements. Reserve new D IDs from `counters.yaml`; consolidate or remove entries only when the evidence supports it.
 
 The result is current, traceable quality records.
 

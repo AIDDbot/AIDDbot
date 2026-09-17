@@ -1,21 +1,25 @@
+---
+shipped_revision: {commit}
+reviewed_at: {DateTime}
+---
 # Quality review
 
-## Review {DateTime}
-
-- Shipped revision: `{commit}`
-
-### Checks
+## Checks
 
 | Check | Method | Result | Threshold / evidence |
 | --- | --- | --- | --- |
 | {configured check} | {command or configuration inspection} | {pass / fail / not configured / unavailable} | {configured threshold, measured result, evidence, or reason} |
 
-### Confirmed findings
+## Open system-review findings
 
-#### D0001 — {short title} — {YYYY-MM-DD}
+### {Dnnnn}
 
+- Title: {short title}
+- State: {confirmed | not revalidated}
 - Scope: {paths or projects}
+- Last confirmed: {DateTime}
 - Evidence: {observed facts}
 - Impact: {concrete risk or maintenance cost}
+- Revalidation: {current evidence or unavailable-check reason}
 
-{State that no new findings were confirmed when applicable.}
+{State that no system-review findings remain when applicable.}

@@ -33,7 +33,7 @@ Each process permits three automatic evaluations, including the first. A blockin
 
 ## Quality review
 
-`craft-lasting-quality` is the only normal flow that runs strict configured lint, complexity, coverage, and other quality tools. It updates the TDR and sends one coherent debt repair through the ordinary spec flow. See [`craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) and [`curate-quality`](../.agents/skills/curate-quality/SKILL.md) for their exact contracts.
+`craft-lasting-quality` is the only normal flow that runs strict configured lint, complexity, coverage, and other quality tools. Each run replaces `quality/review.md` with a current snapshot only after all checks finish, while Git retains its history. Open review-backed debts remain in that snapshot as confirmed or not revalidated. The flow updates the TDR and sends one coherent debt repair through the ordinary spec flow. See [`craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) and [`curate-quality`](../.agents/skills/curate-quality/SKILL.md) for their exact contracts.
 
 ## Next
 
