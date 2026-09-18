@@ -1,31 +1,28 @@
 # Getting started
 
-Copy AIDDbot into a project, then use the entrypoint that matches the outcome you need.
+Install AIDDbot from the root of your repository:
 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-The command copies `.agents/` and supported harness adapters. Existing files remain unchanged unless you request `--force`.
+The command copies `.agents/` and the supported agent adapters. Existing files remain unchanged unless you use `--force`.
 
-## Understand or prepare a solution
+## Prepare the repository
 
 ```markdown
-/architect-solution-foundation explain the current architecture
-/architect-solution-foundation prepare an executable foundation for this product
+/architect-solution-foundation
 ```
 
-Solutions without application or project source code first go through `scaffoldify` to agree and materialize a foundation. Agent files, AIDD product files, harness adapters, and documentation do not count as source code. Every solution then goes through `explore` and `extract`.
+For an existing solution, this documents its projects and working rules. When no application source exists, it first asks what projects are needed, scaffolds them, installs their required dependencies, and reconciles their main documentation.
 
-The result is a compact root `AGENTS.md` and one `.agents/rules/{project}.rules.md` file per project. Each rules file describes the project's Problem, Solution, and Verification.
-
-## Deliver a spec
+## Deliver a change
 
 ```markdown
 /build-requested-change riders can rate a trip from 1 to 5 stars
 ```
 
-The spec pauses for approval unless the request includes YOLO. The delivery flow defines, implements, verifies, and ships one small change. It applies a short list of blocking gates and records other evidenced findings as debt instead of running expensive quality analysis. See the [`build-requested-change` skill](../.agents/skills/build-requested-change/SKILL.md) for the exact flow.
+The flow defines one small specification, asks for approval, implements it, verifies its acceptance behavior, reviews the changed code, and ships it. Add `YOLO` when you want the proposal approved without a pause.
 
 ## Review quality
 
@@ -33,10 +30,9 @@ The spec pauses for approval unless the request includes YOLO. The delivery flow
 /craft-lasting-quality
 ```
 
-Craft runs the project's strict configured quality tools, updates the technical debt register, and delivers one selected repair. See the [`craft-lasting-quality` skill](../.agents/skills/craft-lasting-quality/SKILL.md) for the exact flow.
+The flow runs the repository's configured quality checks, updates its technical-debt records, and delivers one coherent repair when eligible debt exists.
 
-## More
+## Learn more
 
-- [Workflow](./AIDD.workflow.md)
+- [Workflow and delivery rules](./AIDD.workflow.md)
 - [Skills catalog](../.agents/skills/skills.catalog.md)
-- [Why AIDD](../README.md#why-aidd)
