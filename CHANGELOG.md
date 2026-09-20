@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.37 - 2026-09-20
+
+- refactor(skills): separate build and quality checks (77be651)
+
 ## 0.0.36 - 2026-09-20
 
 - refactor(skills): reuse orchestrator agents (2a10e91)
