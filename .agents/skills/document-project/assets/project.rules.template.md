@@ -38,20 +38,6 @@ applyTo: "{source_glob}"
 | --- | --- | --- |
 | {project-specific non-automatable rule} | `{path or glob}` | {evidence or decision} |
 
-## Commands
-
-| Phase | Command | Owner | Purpose |
-| --- | --- | --- | --- |
-| Build | `{unit_test_command or unavailable}` | `implement-project` | Run affected unit tests |
-| Build | `{error_lint_command or unavailable}` | `implement-project` | Report error-level diagnostics only |
-| Acceptance | `{acceptance_command or unavailable}` | `verify-acceptance` | Exercise affected product requirements |
-| Quality | `{warning_command or unavailable}` | `inspect-quality` | Treat configured warnings as quality findings |
-| Quality | `{complexity_command or unavailable}` | `inspect-quality` | Apply configured complexity thresholds |
-| Quality | `{coverage_command or unavailable}` | `inspect-quality` | Measure configured coverage |
-| Quality | `{other_hardening_command or unavailable}` | `inspect-quality` | Run other strict or system-wide analysis |
-
-Commands are classified by effective behavior, not by script name. Each skill executes only its owned phase. A missing command remains unavailable; do not substitute or construct one from another phase.
-
 ---
 
 > last updated: {DateTime}

@@ -13,6 +13,8 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
+System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
+
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current passing reports allow shipping.
 
 - Verification: `green` ships; `red` blocks.

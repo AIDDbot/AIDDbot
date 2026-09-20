@@ -86,12 +86,18 @@ const contract = {
   "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules"],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
-  "document-system/SKILL.md": ["configured behavior, never by the script name", "Build", "Acceptance", "Quality"],
-  "document-project/SKILL.md": ["effective flags and configuration, not its script name", "Build", "Acceptance", "Quality", "rules.md", "Do not create system architecture"],
+  "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
+  "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "Do not create system architecture"],
 };
 for (const [relative, needles] of Object.entries(contract)) {
   const content = read(path.join(skillsRoot, ...relative.split("/")));
   for (const needle of needles) if (!content.includes(needle)) fail(`${relative}: missing ${needle}`);
+}
+
+for (const relative of ["document-system/assets/AGENTS.template.md", "document-project/assets/project.rules.template.md"]) {
+  const content = read(path.join(skillsRoot, ...relative.split("/")));
+  if (/^#{2,3} Commands$/m.test(content)) fail(`${relative}: must not document commands`);
+  if (/\| Phase \| Command \|/m.test(content)) fail(`${relative}: must not contain a command inventory`);
 }
 
 const specTemplate = read(path.join(skillsRoot, "define-spec", "assets", "spec.template.md"));

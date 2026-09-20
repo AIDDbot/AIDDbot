@@ -9,7 +9,7 @@
 ## Paths
 
 - **{Agents_File}** — `AGENTS.md` — this file
-- **{Agents_Folder}** — `.agents/` — agent skills, rules, and hooks
+- **{Agents_Folder}** — `.agents/` — agent configuration and project rules
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 
@@ -35,19 +35,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 | --- | --- | --- | --- |
 | {project} | `{source_root}/` | {one-line responsibility} | `.agents/rules/{project}.rules.md` |
 
-{Only necessary cross-project facts.}
-
-### Commands
-
-Only cross-project commands belong here. Project-specific commands belong in the corresponding project rules file.
-
-| Phase | Command | Owner | Purpose |
-| --- | --- | --- | --- |
-| Build | `{cross_project_build_command or unavailable}` | `implement-project` | Compile or report error-level diagnostics without quality hardening |
-| Acceptance | `{system_acceptance_command or unavailable}` | `verify-acceptance` | Exercise product requirements through E2E tests |
-| Quality | `{system_quality_command or unavailable}` | `inspect-quality` | Run configured warnings, complexity, coverage, or hardening checks |
-
-Commands are classified by configured behavior, not by script name. A missing command remains unavailable; never substitute one from another phase.
+{Only necessary cross-project facts and important paths. Do not list skills or commands.}
 
 ## Delivery documents
 

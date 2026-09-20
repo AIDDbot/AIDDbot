@@ -17,6 +17,8 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
+Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. It does not repeat skill routing or commands executed by the models.
+
 ## Change delivery
 
 | Stage | Owner | Work |
