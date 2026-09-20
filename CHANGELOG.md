@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.39 - 2026-09-20
+
+- No new commits.
+
 ## 0.0.38 - 2026-09-20
 
 - refactor(skills): use append-only delivery journal (49ba756)
