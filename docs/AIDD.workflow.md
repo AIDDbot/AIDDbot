@@ -44,7 +44,7 @@ Shipping applies the PRD changes, updates debt and changelog records, and integr
 
 `inspect-quality` → select coherent debt → `/build-requested-spec`
 
-It runs the strict configured lint, complexity, coverage, and other system-wide checks. Regular change delivery runs only basic lint, unit tests, acceptance tests, and changed-scope review.
+Commands are classified by their effective behavior, not their script names. Quality review runs configured warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening. Regular delivery runs only error-level lint, affected unit tests, acceptance tests, and changed-scope review.
 
 The latest system evidence replaces `quality/review.md`; open debt remains indexed in `quality/TDR.md`.
 

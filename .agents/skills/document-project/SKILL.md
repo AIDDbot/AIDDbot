@@ -10,9 +10,11 @@ disable-model-invocation: false
 
 Document one project or subdomain folder generating archotecture, detailed diagramas and coding rules.
 
-Read only decisive source files and tree folders.
+Read only decisive source files, tree folders, manifests, and referenced tool configuration.
 
 Identify the project/domain by its source folder, responsibility, and configuration. 
+
+Classify each discovered command by its effective flags and configuration, not its script name. Put error-level lint, ordinary build checks, and affected unit tests in `Build`. Put E2E requirement checks in `Acceptance`. Put warning denial, complexity, coverage, strict analysis, full-repository checks, and hardening in `Quality`. A command that chains multiple phases belongs to the strictest phase it executes. Record unavailable commands explicitly and never invent a safer or stricter substitute.
 
 Write one rules file named `{Agents_Folder}/rules/{project}.rules.md` following the `project.rules.template.md`. Example: `./agents/rules/front.rules.md` or `./agents/rules/invoicing.rules.md`
 

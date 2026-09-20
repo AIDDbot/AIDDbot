@@ -10,7 +10,7 @@ disable-model-invocation: false
 
 Execute acceptance tests for one spec and write a verification report.
 
-Do not edit code nor write tests. No not execute unit tests nor lint. Just run the e2e tests and record the results to verify the acceptance criteria.
+Do not edit code or write tests. Do not execute unit tests, lint, or quality checks. Run only commands classified as `Acceptance` in the system or project instructions and record the results against the acceptance criteria.
 
 Read the spec, its proposed PRD edits, and current code. Execute applicable E2E acceptance tests without editing code, tests, or contracts. Write `{Product_Folder}/specs/{spec_key}/verification.md` from the verification template `verification.template.md`. Record the checked revision, command, result, and evidence.
 

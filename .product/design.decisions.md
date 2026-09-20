@@ -4,6 +4,12 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-20 — Command behavior determines delivery phase
+
+**Status**: adopted. Documentation classifies configured commands as `Build`, `Acceptance`, or `Quality` from their effective flags and referenced configuration, never from script names. Project rules own project-specific commands; root instructions contain only cross-project commands.
+
+`implement-project` owns error-level lint and affected unit tests. `verify-acceptance` owns E2E requirement checks. `inspect-quality` owns warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening. A missing command remains unavailable: skills neither construct stricter invocations nor substitute commands across phases. Aggregate quality commands run instead of, not in addition to, the individual checks they subsume.
+
 ## 2026-09-20 — Skill names expose level and scope
 
 **Status**: adopted. Orchestrators use three-word action names, while primitives use two-word action-object names. `metadata.aiddbot-kind` remains authoritative; word count makes the two levels visible and descriptive names reduce collisions with skills from other frameworks.

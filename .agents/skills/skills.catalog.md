@@ -21,7 +21,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 - Stale or incomplete evidence blocks shipping.
 - A third unresolved `red` report requires human direction.
 
-Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scope review. System-wide lint, complexity, coverage, and other quality checks belong to `/craft-lasting-quality`.
+Commands are classified by effective behavior, not script name. Regular delivery owns `Build` and `Acceptance`: error-level lint, affected unit tests, E2E acceptance tests, and changed-scope review. `/craft-lasting-quality` owns `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
 ## Public orchestrators
 

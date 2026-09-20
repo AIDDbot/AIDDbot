@@ -10,9 +10,9 @@ disable-model-invocation: false
 
 Review shipped quality and maintain its technical debt register.
 
-Do not edit code nor write tests. Do not execute e2e tests. Just run the strictest configured lint, complexity, and coverage, and other quality checks. 
+Do not edit code or write tests. Do not execute E2E tests or commands classified as `Build` or `Acceptance`. Run the configured commands classified as `Quality`, including warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
-Read the current TDR and review before running the strictest configured checks. Use configured thresholds only and confirm concrete impact before recording debt.
+Read the current TDR and review before running the quality commands. Confirm their effective flags and referenced configuration rather than trusting script names. Prefer one configured aggregate quality command when it subsumes the individual checks; otherwise run each independent check once. Use configured commands and thresholds exactly as declared; never construct a stricter invocation or substitute the build lint for a missing quality check. Record unavailable or unconfigured checks as such and confirm concrete impact before recording debt.
 
 Build a complete replacement for `quality/review.md` following `review.template.md`. Include passes, failures, unavailable or unconfigured checks, and every open system-review finding. Reconfirm each existing review-backed D entry; when its check is unavailable, retain it as not revalidated with its last confirmation. Do not append previous reviews or replace the current file before all checks have a recorded result.
 

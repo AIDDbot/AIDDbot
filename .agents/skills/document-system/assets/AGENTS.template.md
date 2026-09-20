@@ -37,14 +37,17 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 {Only necessary cross-project facts.}
 
-### Checks
+### Commands
 
-{System-wide checks and expected evidence.}
+Only cross-project commands belong here. Project-specific commands belong in the corresponding project rules file.
 
-```bash
-# commands to run e2e tests
-# include installation, build, and run commands for the target project
-```
+| Phase | Command | Owner | Purpose |
+| --- | --- | --- | --- |
+| Build | `{cross_project_build_command or unavailable}` | `implement-project` | Compile or report error-level diagnostics without quality hardening |
+| Acceptance | `{system_acceptance_command or unavailable}` | `verify-acceptance` | Exercise product requirements through E2E tests |
+| Quality | `{system_quality_command or unavailable}` | `inspect-quality` | Run configured warnings, complexity, coverage, or hardening checks |
+
+Commands are classified by configured behavior, not by script name. A missing command remains unavailable; never substitute one from another phase.
 
 ## Delivery documents
 
