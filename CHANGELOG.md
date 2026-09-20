@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.36 - 2026-09-20
+
+- refactor(skills): reuse orchestrator agents (2a10e91)
+- refactor(skills): group public entrypoints (53044f2)
+- refactor(skills): adopt explicit skill names (f89da2d)
+- refactor(skills): remove worker layer (60fa206)
+- refactor(skills): align names and naming model (7970af1)
+- docs: simplify public workflow guidance (ad3ff22)
+
 ## 0.0.35 - 2026-09-17
 
 - refactor(skills): tighten /qualify (8bfc421)
