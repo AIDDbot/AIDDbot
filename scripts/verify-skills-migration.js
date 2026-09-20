@@ -78,13 +78,13 @@ for (const retired of [
 
 const contract = {
   "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
-  "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "execute the `verify-acceptance` skill", "execute `review-implementation`", "execute `ship-spec`", "revision count is below 3"],
+  "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "execute the `verify-acceptance` skill", "execute `review-implementation`", "execute `ship-spec`", "Keep the three agents available", "existing implementation agent", "existing evaluation agent", "revision count is below 3"],
   "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
   "implement-project/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify-acceptance/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt"],
   "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "without editing the quality records", "build-requested-spec"],
+  "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
   "inspect-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
   "document-system/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "document-project/SKILL.md": ["rules.md", "Do not create system architecture"],

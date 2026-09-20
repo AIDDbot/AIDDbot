@@ -20,6 +20,8 @@ The vocabulary reserves `solution` for the product response in the problem-solut
 
 This supersedes the remaining-worker portion of “Orchestrators absorb redundant workers”. Agent roles remain distinct from skill levels: removing worker skills does not remove the **Builder** or **Craftsman** execution boundaries.
 
+Each orchestrator retains a spawned agent for every later step with the same responsibility. Nested orchestration passes compatible agents to the callee: quality repair reuses its selection agent for specification and its inspection agent for evaluation, while requested-spec delivery spawns only the missing implementation agent. Repair loops return findings to those same agents instead of spawning replacements.
+
 ## 2026-09-15 — TDR indexes technical debt; reports retain findings
 
 **Status**: adopted. `TDR.md` is the compact Technical Debt Register, analogous to `PRD.md`: it contains one line per open debt item using permanent `D{nnnn}` IDs. Each line states the concrete debt or defect, its scope, and a link to evidence. It contains no detailed analysis, measurements, process state, or closed entries; source reports and Git retain those details and history.

@@ -16,4 +16,4 @@ First, check whether the repository contains a legacy brownfield system or a new
 
 If no application or project source code is present, treat it as a greenfield system. Spawn a **Builder** agent to execute the `scaffold-system` skill, and wait for it to complete. The presence of ignored files does not prevent scaffolding.
 
-For a legacy brownfield system or newly scaffolded system, spawn an **Architect** agent to execute the `document-system` skill. When finished, execute the `document-project` skill for each project.
+For a legacy brownfield system or newly scaffolded system, spawn an **Architect** agent to execute the `document-system` skill and then execute `document-project` for every project. Reuse that agent for the complete documentation sequence and wait for it to finish.

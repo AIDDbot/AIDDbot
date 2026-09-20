@@ -52,6 +52,8 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 
 `scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery.
 
+Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
+
 ## Pipeline overview
 
 ```yaml
@@ -78,6 +80,6 @@ build-requested-spec:
 craft-lasting-quality:
   - "Craftsman: inspect-quality"
   - "Architect: select one coherent group of eligible debt"
-  - "build-requested-spec when eligible debt remains"
+  - "build-requested-spec reusing both agents when eligible debt remains"
   - "return the quality review when no repair is eligible"
 ```
