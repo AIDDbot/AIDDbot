@@ -35,7 +35,7 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 
 | Skill | Composition |
 | --- | --- |
-| [`implement-change`](./implement-change/SKILL.md) | Coordinate implementation for one spec |
+| [`implement-spec`](./implement-spec/SKILL.md) | Coordinate implementation for one spec |
 | [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship one spec |
 
 ## Public primitives
@@ -45,7 +45,7 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | Context | [`/explore`](./explore/SKILL.md), [`/extract`](./extract/SKILL.md), [`/scaffoldify`](./scaffoldify/SKILL.md) |
 | Capture | [`/specify`](./specify/SKILL.md) |
 | Build | [`/codify`](./codify/SKILL.md) |
-| Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md), [`/curate-quality`](./curate-quality/SKILL.md) |
+| Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md), [`/audit-quality`](./audit-quality/SKILL.md) |
 | Ship | [`/shipify`](./shipify/SKILL.md) |
 | Meta | [`/skillify`](./skillify/SKILL.md) |
 
@@ -54,7 +54,39 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | Entrypoint | Route |
 | --- | --- |
 | `/architect-solution-foundation` | No source: `scaffoldify` → `explore` → `extract`. Existing source: `explore` → `extract`. |
-| `/build-requested-change` | `specify` → `implement-change` → `ship-implementation` |
-| `/craft-lasting-quality` | `curate-quality` → select debt → `/build-requested-change` |
+| `/build-requested-change` | `specify` → `implement-spec` → `ship-implementation` |
+| `/craft-lasting-quality` | `audit-quality` → select debt → `/build-requested-change` |
 
 `scaffoldify` creates no functional code. `shipify` reconciles known debt without running system-wide quality discovery.
+
+## Pipeline overview
+
+```yaml
+architect-solution-foundation:
+  greenfield:
+    - "Builder: scaffoldify"
+    - "Architect: explore"
+    - "Architect: extract per project"
+  brownfield:
+    - "Architect: explore"
+    - "Architect: extract per project"
+
+build-requested-change:
+  - "Architect: specify and obtain approval"
+  - "Builder: implement-spec"
+  - implement-spec:
+      production-projects: "codify sequentially, from lower to higher abstraction"
+      e2e-project: "codify when the spec assigns acceptance-test changes"
+  - "Craftsman: ship-implementation"
+  - ship-implementation:
+      verification: "verify; green continues, red returns for repair"
+      qualification: "qualify; green or amber continues, red returns for repair"
+      delivery: "shipify"
+      repair-loop: "implement-spec while the revision count is below 3; otherwise ask the human"
+
+craft-lasting-quality:
+  - "Craftsman: audit-quality"
+  - "Architect: select one coherent group of eligible debt"
+  - "build-requested-change when eligible debt remains"
+  - "return the quality review when no repair is eligible"
+```

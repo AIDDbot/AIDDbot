@@ -62,9 +62,9 @@ for (const required of [
   ".agents/skills/qualify/assets/qualification.template.md",
   ".agents/skills/explore/assets/counters.template.yaml",
   ".agents/skills/extract/assets/project.rules.template.md",
-  ".agents/skills/curate-quality/assets/TDR.template.md",
-  ".agents/skills/curate-quality/assets/review.template.md",
-  ".agents/skills/curate-quality/references/debt.contract.md",
+  ".agents/skills/audit-quality/assets/TDR.template.md",
+  ".agents/skills/audit-quality/assets/review.template.md",
+  ".agents/skills/audit-quality/references/debt.contract.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
 
 for (const retired of [
@@ -83,9 +83,9 @@ const contract = {
   "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "qualify/SKILL.md": ["qualification.md", "quality debt"],
-  "shipify/SKILL.md": ["status: shipped", "curate-quality", "declared D IDs", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["curate-quality", "natural-language repair request", "without editing the quality records", "build-requested-change"],
-  "curate-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
+  "shipify/SKILL.md": ["status: shipped", "audit-quality", "declared D IDs", "project rules"],
+  "craft-lasting-quality/SKILL.md": ["audit-quality", "natural-language repair request", "without editing the quality records", "build-requested-change"],
+  "audit-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
   "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
 };

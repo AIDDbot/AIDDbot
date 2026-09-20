@@ -16,4 +16,4 @@ If the resulting verification report is `green` proceed to the `qualify` skill.
 
 If the qualification report is `green` or `amber`, proceed to exeute the `shipify` skill and return the result as a success.
 
-If either report is `red`, return a summary and suggest to run the `implement-change` skill to fix the issue if the revision count is below 3.  Otherwise, return a summary and suggest to hand off to human review.
+If either report is `red`, return a summary and suggest to run the `implement-spec` skill to fix the issue if the revision count is below 3. Otherwise, return a summary and suggest to hand off to human review.

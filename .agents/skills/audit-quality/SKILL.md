@@ -1,12 +1,12 @@
 ---
-name: curate-quality
-description: Review quality evidence and maintain durable quality records.
+name: audit-quality
+description: Audit quality evidence and maintain durable quality records.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: false
 ---
-# curate-quality
+# audit-quality
 
 Review shipped quality and maintain its technical debt register.
 
@@ -20,4 +20,4 @@ Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review followin
 
 The result is current, traceable quality records.
 
-Commit as `docs(quality): curate debt`.
+Commit as `docs(quality): audit system`.

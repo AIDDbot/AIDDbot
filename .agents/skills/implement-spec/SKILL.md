@@ -1,12 +1,12 @@
 ---
-name: implement-change
+name: implement-spec
 description: Implement one spec or its reported repairs.
 metadata:
   aiddbot-kind: worker
 user-invocable: false
 disable-model-invocation: false
 ---
-# implement-change
+# implement-spec
 
 Implement one spec or its reported repairs.
 

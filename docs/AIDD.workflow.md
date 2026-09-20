@@ -22,7 +22,7 @@ Existing product records are preserved. A completed scaffold is merged from `cho
 | Stage | Owner | Work |
 | --- | --- | --- |
 | Define | **Architect** | `specify`: scope, branch, spec, PRD proposal, and approval |
-| Build | **Builder** | `implement-change`: code and required tests |
+| Build | **Builder** | `implement-spec`: code and required tests |
 | Prove and ship | **Craftsman** | `ship-implementation`: verify, qualify, and release |
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
@@ -42,7 +42,7 @@ Shipping applies the PRD changes, updates debt and changelog records, and integr
 
 `craft-lasting-quality` follows:
 
-`curate-quality` → select coherent debt → `/build-requested-change`
+`audit-quality` → select coherent debt → `/build-requested-change`
 
 It runs the strict configured lint, complexity, coverage, and other system-wide checks. Regular change delivery runs only basic lint, unit tests, acceptance tests, and changed-scope review.
 
