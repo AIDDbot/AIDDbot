@@ -4,16 +4,16 @@
 
 | Need | Command |
 | --- | --- |
-| Prepare or understand a solution | `/architect-solution-foundation` |
-| Deliver one change | `/build-requested-change` |
+| Prepare or understand a system | `/architect-system-foundation` |
+| Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
 
 ## Foundation
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | `scaffoldify` → `explore` → `extract` | Scaffold, dependencies, documentation, rules, and product records |
-| Existing application source | `explore` → `extract` | Documentation, rules, and missing product records |
+| No application source | `scaffold-system` → `document-system` → `document-project` | Scaffold, dependencies, documentation, rules, and product records |
+| Existing application source | `document-system` → `document-project` | Documentation, rules, and missing product records |
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
@@ -21,9 +21,9 @@ Existing product records are preserved. A completed scaffold is merged from `cho
 
 | Stage | Owner | Work |
 | --- | --- | --- |
-| Define | **Architect** | `specify`: scope, branch, spec, PRD proposal, and approval |
-| Build | **Builder** | `codify` each affected project: code and required tests |
-| Prove and ship | **Craftsman** | `verify`, `qualify`, and `shipify` |
+| Define | **Architect** | `define-spec`: scope, branch, spec, PRD proposal, and approval |
+| Build | **Builder** | `implement-project` for each affected project: code and required tests |
+| Prove and ship | **Craftsman** | `verify-acceptance`, `review-implementation`, and `ship-spec` |
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 
@@ -42,7 +42,7 @@ Shipping applies the PRD changes, updates debt and changelog records, and integr
 
 `craft-lasting-quality` follows:
 
-`audit-quality` → select coherent debt → `/build-requested-change`
+`audit-quality` → select coherent debt → `/build-requested-spec`
 
 It runs the strict configured lint, complexity, coverage, and other system-wide checks. Regular change delivery runs only basic lint, unit tests, acceptance tests, and changed-scope review.
 

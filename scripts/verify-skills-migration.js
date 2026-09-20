@@ -17,9 +17,9 @@ const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(skillsRoot, entry.name, "SKILL.md")))
   .map((entry) => entry.name).sort();
 const explicitOnly = new Set([
-  "architect-solution-foundation",
+  "architect-system-foundation",
   "craft-lasting-quality",
-  "skillify",
+  "author-skills",
 ]);
 
 function frontmatter(text) {
@@ -56,51 +56,51 @@ for (const name of skills) {
 }
 
 for (const required of [
-  ".agents/skills/specify/assets/PRD.template.md",
-  ".agents/skills/specify/assets/spec.template.md",
-  ".agents/skills/verify/assets/verification.template.md",
-  ".agents/skills/qualify/assets/qualification.template.md",
-  ".agents/skills/explore/assets/counters.template.yaml",
-  ".agents/skills/extract/assets/project.rules.template.md",
+  ".agents/skills/define-spec/assets/PRD.template.md",
+  ".agents/skills/define-spec/assets/spec.template.md",
+  ".agents/skills/verify-acceptance/assets/verification.template.md",
+  ".agents/skills/review-implementation/assets/qualification.template.md",
+  ".agents/skills/document-system/assets/counters.template.yaml",
+  ".agents/skills/document-project/assets/project.rules.template.md",
   ".agents/skills/audit-quality/assets/TDR.template.md",
   ".agents/skills/audit-quality/assets/review.template.md",
   ".agents/skills/audit-quality/references/debt.contract.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
 
 for (const retired of [
-  ".agents/skills/build-requested-change/assets/change.template.md",
-  ".agents/skills/build-requested-change/scripts/index-specs.mjs",
-  ".agents/skills/codify/assets/report.template.md",
-  ".agents/skills/explore/assets/system.arch.template.md",
-  ".agents/skills/extract/assets/container.arch.template.md",
-  ".agents/skills/extract/assets/container.rules.template.md",
+  ".agents/skills/build-requested-spec/assets/change.template.md",
+  ".agents/skills/build-requested-spec/scripts/index-specs.mjs",
+  ".agents/skills/implement-project/assets/report.template.md",
+  ".agents/skills/document-system/assets/system.arch.template.md",
+  ".agents/skills/document-project/assets/container.arch.template.md",
+  ".agents/skills/document-project/assets/container.rules.template.md",
 ]) if (exists(retired)) fail(`retired artifact remains ${retired}`);
 
 const contract = {
-  "architect-solution-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffoldify"],
-  "build-requested-change/SKILL.md": ["execute the `specify` skill using the natural-language request", "execute the `codify` skill for each affected production project sequentially", "execute the `verify` skill", "execute `qualify`", "execute `shipify`", "revision count is below 3"],
-  "specify/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
-  "codify/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
-  "verify/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
-  "qualify/SKILL.md": ["qualification.md", "quality debt"],
-  "shipify/SKILL.md": ["status: shipped", "audit-quality", "declared D IDs", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["audit-quality", "natural-language repair request", "without editing the quality records", "build-requested-change"],
+  "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
+  "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "execute the `verify-acceptance` skill", "execute `review-implementation`", "execute `ship-spec`", "revision count is below 3"],
+  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
+  "implement-project/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
+  "verify-acceptance/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
+  "review-implementation/SKILL.md": ["qualification.md", "quality debt"],
+  "ship-spec/SKILL.md": ["status: shipped", "audit-quality", "declared D IDs", "project rules"],
+  "craft-lasting-quality/SKILL.md": ["audit-quality", "natural-language repair request", "without editing the quality records", "build-requested-spec"],
   "audit-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
-  "explore/SKILL.md": ["counters.yaml", "specs/PRD.md"],
-  "extract/SKILL.md": ["rules.md", "Do not create system architecture"],
+  "document-system/SKILL.md": ["counters.yaml", "specs/PRD.md"],
+  "document-project/SKILL.md": ["rules.md", "Do not create system architecture"],
 };
 for (const [relative, needles] of Object.entries(contract)) {
   const content = read(path.join(skillsRoot, ...relative.split("/")));
   for (const needle of needles) if (!content.includes(needle)) fail(`${relative}: missing ${needle}`);
 }
 
-const specTemplate = read(path.join(skillsRoot, "specify", "assets", "spec.template.md"));
+const specTemplate = read(path.join(skillsRoot, "define-spec", "assets", "spec.template.md"));
 for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "## Solution", "## Verification", "## Technical debt", "new", "changed", "deprecated"]) {
   if (!specTemplate.includes(section)) fail(`spec template missing ${section}`);
 }
-const prdTemplate = read(path.join(skillsRoot, "specify", "assets", "PRD.template.md"));
+const prdTemplate = read(path.join(skillsRoot, "define-spec", "assets", "PRD.template.md"));
 if (!prdTemplate.includes("F0001") || !prdTemplate.includes("T0001")) fail("PRD template lacks F and T requirements");
-const counters = read(path.join(skillsRoot, "explore", "assets", "counters.template.yaml"));
+const counters = read(path.join(skillsRoot, "document-system", "assets", "counters.template.yaml"));
 for (const key of ["spec:", "functional:", "technical:", "debt:"]) if (!counters.includes(key)) fail(`counter template missing ${key}`);
 
 for (const relative of ["README.md", "docs/AIDD.workflow.md", "docs/getting-started.md", ".agents/skills/skills.catalog.md"]) {
@@ -115,7 +115,7 @@ function verifyOverlay() {
   try {
     const result = runOverlay(temp, { inventory: sourceInventory() });
     if (result.conflicts) fail("overlay fixture has conflicts");
-    for (const required of [".agents/skills/specify/assets/spec.template.md", ".claude/skills/specify/SKILL.md", ".agents/skills/extract/assets/project.rules.template.md"]) {
+    for (const required of [".agents/skills/define-spec/assets/spec.template.md", ".claude/skills/define-spec/SKILL.md", ".agents/skills/document-project/assets/project.rules.template.md"]) {
       if (!fs.existsSync(path.join(temp, ...required.split("/")))) fail(`overlay misses ${required}`);
     }
     const repeat = runOverlay(temp, { dryRun: true, inventory: sourceInventory() });
@@ -127,7 +127,7 @@ function verifyOverlay() {
 }
 
 verifyOverlay();
-const scaffold = path.join(skillsRoot, "scaffoldify", "scripts", "materialize.mjs");
+const scaffold = path.join(skillsRoot, "scaffold-system", "scripts", "materialize.mjs");
 const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
 if (listed.status !== 0 || !/default: express/.test(listed.stdout)) fail("scaffold catalog is unavailable");
 

@@ -11,15 +11,15 @@ The command copies `.agents/` and the supported agent adapters. Existing files r
 ## Prepare the repository
 
 ```markdown
-/architect-solution-foundation
+/architect-system-foundation
 ```
 
-For an existing solution, this documents its projects and working rules. When no application source exists, it first asks what projects are needed, scaffolds them, installs their required dependencies, and reconciles their main documentation.
+For an existing system, this documents its projects and working rules. When no application source exists, it first asks what projects are needed, scaffolds them, installs their required dependencies, and reconciles their main documentation.
 
 ## Deliver a change
 
 ```markdown
-/build-requested-change riders can rate a trip from 1 to 5 stars
+/build-requested-spec riders can rate a trip from 1 to 5 stars
 ```
 
 The flow defines one small specification, asks for approval, implements it, verifies its acceptance behavior, reviews the changed code, and ships it. Add `YOLO` when you want the proposal approved without a pause.

@@ -7,8 +7,8 @@ agent: craftsman
 
 Your goal is to implement a technical directive, never business or feature changes.
 
-Use the argument directive as an input to [`/specify`](../skills/specify/SKILL.md) with `kind: technical` to write a specification to fix the defects.
+Use the argument directive as an input to [`/define-spec`](../.agents/skills/define-spec/SKILL.md) with `kind: technical` to write a specification to fix the defects.
 
 The result is a specification to fix the defects.
 
-Suggest handoff to Builder to run [`/codify`](../.agents/skills/codify/SKILL.md) with the refactoring specification in hand.
+Suggest handoff to Builder to run [`/implement-project`](../.agents/skills/implement-project/SKILL.md) with the refactoring specification in hand.

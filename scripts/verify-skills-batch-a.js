@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 import { spawn, spawnSync } from "node:child_process";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const powerShellHelper = path.join(root, ".agents", "skills", "verify", "scripts", "free-port.ps1");
-const bashHelper = path.join(root, ".agents", "skills", "verify", "scripts", "free-port.sh");
+const powerShellHelper = path.join(root, ".agents", "skills", "verify-acceptance", "scripts", "free-port.ps1");
+const bashHelper = path.join(root, ".agents", "skills", "verify-acceptance", "scripts", "free-port.sh");
 const powerShell = process.platform === "win32" ? "pwsh.exe" : "pwsh";
 
 function fail(message) {

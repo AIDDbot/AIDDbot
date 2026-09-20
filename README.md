@@ -16,11 +16,11 @@ Then choose the outcome you need:
 
 | Need | Command |
 | --- | --- |
-| Prepare or understand a solution | `/architect-solution-foundation` |
-| Deliver a feature, fix, or technical change | `/build-requested-change` |
+| Prepare or understand a system | `/architect-system-foundation` |
+| Deliver a requested spec | `/build-requested-spec` |
 | Review quality and repair technical debt | `/craft-lasting-quality` |
 
-The architecture flow maps existing code or scaffolds a new solution when no application source exists. The delivery flow turns a natural-language request into an approved specification, implementation, evidence, and release. The quality flow runs the configured quality checks and delivers one selected repair.
+The architecture flow documents existing code or scaffolds a new system when no application source exists. The delivery flow turns a natural-language request into an approved specification, implementation, evidence, and release. The quality flow runs the configured quality checks and delivers one selected repair.
 
 Specifications pause for approval unless you request YOLO mode.
 

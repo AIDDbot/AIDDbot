@@ -1,6 +1,6 @@
 # Skill naming proposal
 
-Working document for choosing explicit skill names. These proposals are not approved names and do not change skill routing.
+Record of the explicit skill names adopted on 2026-09-20. The preferred proposals are now canonical; alternatives remain as design context.
 
 Use [`naming-glossary.md`](./naming-glossary.md) to interpret scope terms consistently.
 
@@ -48,10 +48,11 @@ The orchestrator owns the `red` repair loop. Below the revision ceiling it sends
 | `qualify` | `review-implementation` | `qualify-implementation` | `inspect-implementation` | Review one spec implementation against blocking gates and record technical debt. |
 | `audit-quality` | `audit-quality` | `audit-system` | `assess-quality` | Run strict system-wide quality checks and reconcile durable quality records. |
 | `shipify` | `ship-spec` | `release-spec` | `integrate-spec` | Integrate and close an evidenced spec, updating product and debt records. |
+| `skillify` | `author-skills` | `manage-skills` | `write-skills` | Create or correct canonical AIDDbot skills and their resources. |
 
 ## Orchestrator proposals
 
-Every candidate follows the three-word rule. The A/B/C entrypoint prefixes remain `architect-`, `build-`, and `craft-`.
+Every adopted name follows the three-word rule. The A/B/C entrypoint prefixes remain `architect-`, `build-`, and `craft-`.
 
 | Current name | Preferred proposal | Alternative A | Alternative B | Intended scope |
 | --- | --- | --- | --- | --- |
@@ -59,7 +60,6 @@ Every candidate follows the three-word rule. The A/B/C entrypoint prefixes remai
 | `build-requested-change` | `build-requested-spec` | `build-product-request` | `build-spec-delivery` | Formalize one request as a spec, coordinate the primitives directly, and carry it through delivery. |
 | `craft-lasting-quality` | `craft-lasting-quality` | `craft-system-quality` | `craft-technical-health` | Review system quality and deliver coherent repairs. |
 
-## Open decisions
+## Remaining decision
 
 - Decide which primitives remain directly invocable by humans.
-- Apply the approved renames and worker removal atomically across canonical skills, harness adapters, routing, human documentation, and active verification scripts.

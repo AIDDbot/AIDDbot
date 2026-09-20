@@ -11,7 +11,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
 | `counters.yaml` | Permanent S, F, T, and D IDs |
 
-`explore` creates missing records. `specify` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
+`document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current passing reports allow shipping.
 
@@ -27,57 +27,57 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-solution-foundation`](./architect-solution-foundation/SKILL.md) | Scaffold when no project source code exists, then map repository architecture |
-| [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested spec |
+| [`/architect-system-foundation`](./architect-system-foundation/SKILL.md) | Scaffold when no project source code exists, then document system architecture |
+| [`/build-requested-spec`](./build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
 ## Public primitives
 
 | Area | Skills |
 | --- | --- |
-| Context | [`/explore`](./explore/SKILL.md), [`/extract`](./extract/SKILL.md), [`/scaffoldify`](./scaffoldify/SKILL.md) |
-| Capture | [`/specify`](./specify/SKILL.md) |
-| Build | [`/codify`](./codify/SKILL.md) |
-| Prove | [`/verify`](./verify/SKILL.md), [`/qualify`](./qualify/SKILL.md), [`/audit-quality`](./audit-quality/SKILL.md) |
-| Ship | [`/shipify`](./shipify/SKILL.md) |
-| Meta | [`/skillify`](./skillify/SKILL.md) |
+| Context | [`/document-system`](./document-system/SKILL.md), [`/document-project`](./document-project/SKILL.md), [`/scaffold-system`](./scaffold-system/SKILL.md) |
+| Capture | [`/define-spec`](./define-spec/SKILL.md) |
+| Build | [`/implement-project`](./implement-project/SKILL.md) |
+| Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/audit-quality`](./audit-quality/SKILL.md) |
+| Ship | [`/ship-spec`](./ship-spec/SKILL.md) |
+| Meta | [`/author-skills`](./author-skills/SKILL.md) |
 
 ## Routing
 
 | Entrypoint | Route |
 | --- | --- |
-| `/architect-solution-foundation` | No source: `scaffoldify` → `explore` → `extract`. Existing source: `explore` → `extract`. |
-| `/build-requested-change` | `specify` → `codify` per project → `verify` → `qualify` → `shipify` |
-| `/craft-lasting-quality` | `audit-quality` → select debt → `/build-requested-change` |
+| `/architect-system-foundation` | No source: `scaffold-system` → `document-system` → `document-project`. Existing source: `document-system` → `document-project`. |
+| `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
+| `/craft-lasting-quality` | `audit-quality` → select debt → `/build-requested-spec` |
 
-`scaffoldify` creates no functional code. `shipify` reconciles known debt without running system-wide quality discovery.
+`scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery.
 
 ## Pipeline overview
 
 ```yaml
-architect-solution-foundation:
+architect-system-foundation:
   greenfield:
-    - "Builder: scaffoldify"
-    - "Architect: explore"
-    - "Architect: extract per project"
+    - "Builder: scaffold-system"
+    - "Architect: document-system"
+    - "Architect: document-project per project"
   brownfield:
-    - "Architect: explore"
-    - "Architect: extract per project"
+    - "Architect: document-system"
+    - "Architect: document-project per project"
 
-build-requested-change:
-  - "Architect: specify and obtain approval"
+build-requested-spec:
+  - "Architect: define-spec and obtain approval"
   - Builder:
-      production-projects: "codify sequentially, from lower to higher abstraction"
-      e2e-project: "codify when the spec assigns acceptance-test changes"
+      production-projects: "implement-project sequentially, from lower to higher abstraction"
+      e2e-project: "implement-project when the spec assigns acceptance-test changes"
   - Craftsman:
-      verification: "verify; green continues, red returns for repair"
-      qualification: "qualify; green or amber continues, red returns for repair"
-      delivery: "shipify"
-      repair-loop: "codify reported repairs while the revision count is below 3; otherwise ask the human"
+      verification: "verify-acceptance; green continues, red returns for repair"
+      qualification: "review-implementation; green or amber continues, red returns for repair"
+      delivery: "ship-spec"
+      repair-loop: "implement-project applies reported repairs while the revision count is below 3; otherwise ask the human"
 
 craft-lasting-quality:
   - "Craftsman: audit-quality"
   - "Architect: select one coherent group of eligible debt"
-  - "build-requested-change when eligible debt remains"
+  - "build-requested-spec when eligible debt remains"
   - "return the quality review when no repair is eligible"
 ```

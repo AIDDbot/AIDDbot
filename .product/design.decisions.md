@@ -4,6 +4,14 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-20 — Skill names expose level and scope
+
+**Status**: adopted. Orchestrators use three-word action names, while primitives use two-word action-object names. `metadata.aiddbot-kind` remains authoritative; word count makes the two levels visible and descriptive names reduce collisions with skills from other frameworks.
+
+The public entrypoints are `architect-system-foundation`, `build-requested-spec`, and `craft-lasting-quality`. The renamed primitives are `scaffold-system`, `document-system`, `document-project`, `define-spec`, `implement-project`, `verify-acceptance`, `review-implementation`, `audit-quality`, `ship-spec`, and `author-skills`.
+
+The vocabulary reserves `solution` for the product response in the problem-solution-verification trio. `system` means its technical realization, `project` one independently configured technical unit, and `repository` the version-controlled container.
+
 ## 2026-09-20 — Orchestrators compose primitives directly
 
 **Status**: adopted. AIDDbot has two executable skill levels: public orchestrators own complete outcomes and routing, while primitives execute one focused capability and return its result without advancing the pipeline.

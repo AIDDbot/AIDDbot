@@ -39,7 +39,7 @@ function printFinalSummary({ command, dryRun, force, destRoot, seeded, result })
   process.stdout.write(`seed       ${seeded?.length || 0}\n`);
   process.stdout.write(`changed    ${changed}\n`);
   process.stdout.write(`status     ${counts.conflict ? "completed with conflicts" : "completed"}\n`);
-  process.stdout.write("next       ask your coding agent to run: /architect-solution-foundation\n");
+  process.stdout.write("next       ask your coding agent to run: /architect-system-foundation\n");
 }
 if (process.argv.length === 3 && ["--version", "-v"].includes(process.argv[2])) {
   const { version, buildTimestamp } = packageInfo();
