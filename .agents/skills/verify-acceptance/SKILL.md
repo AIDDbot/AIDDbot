@@ -24,6 +24,6 @@ The result is current acceptance evidence.
 
 ## Journaling
 
-Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level entries about each revision and status
+Append one high-level event for each verification revision and status to `journal.jsonl` in the spec folder. Each line is one valid JSON object with `timestamp`, `stage`, `revision`, `event`, `status`, and `summary`; use `stage: "verify"`. Read the current system time immediately before each append and write it as complete ISO 8601 with an offset or `Z`. The file is append-only: never edit, delete, reorder, or backdate existing lines. Physical line order is canonical even if a timestamp is wrong. Do not convert or extend a legacy `journal.md`.
 
 Commit as `docs(verification): record acceptance`.

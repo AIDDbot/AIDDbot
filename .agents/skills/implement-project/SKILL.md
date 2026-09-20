@@ -26,6 +26,6 @@ Run that soft lint after each change and fix its errors. Never enumerate or exec
 
 ## Journaling
 
-Keep a journal of your work in the a `journal.md` file in the spec folder. Just write down high-level entries about each project implmentation work (coded, tested, linted... failures)
+Append high-level coding, testing, linting, and failure events to `journal.jsonl` in the spec folder. Each line is one valid JSON object with `timestamp`, `stage`, `project`, `event`, `status`, and `summary`; use `stage: "build"`. Read the current system time immediately before each append and write it as complete ISO 8601 with an offset or `Z`. The file is append-only: never edit, delete, reorder, or backdate existing lines. Physical line order is canonical even if a timestamp is wrong. Do not convert or extend a legacy `journal.md`.
 
 Commit following the conventional commit `{feat|fix|chore|test|docs:message}`.

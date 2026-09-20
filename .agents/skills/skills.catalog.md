@@ -9,9 +9,12 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `specs/PRD.md` | Current requirements |
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
+| `specs/S{nnnn}-{slug}/journal.jsonl` | Append-only chronological delivery events |
 | `counters.yaml` | Permanent S, F, T, and D IDs |
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
+
+Journal lines are never rewritten or sorted. Their physical order is canonical, and every stage reads the system clock immediately before appending a complete ISO 8601 timestamp.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 

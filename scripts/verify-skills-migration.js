@@ -79,11 +79,11 @@ for (const retired of [
 const contract = {
   "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
   "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "execute the `verify-acceptance` skill", "execute `review-implementation`", "execute `ship-spec`", "Keep the three agents available", "existing implementation agent", "existing evaluation agent", "revision count is below 3"],
-  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line"],
-  "implement-project/SKILL.md": ["error-level lint", "effective flags", "Never enumerate or execute commands classified as `Acceptance` or `Quality`", "unit tests"],
-  "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code"],
-  "review-implementation/SKILL.md": ["qualification.md", "quality debt"],
-  "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules"],
+  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line", "journal.jsonl", "stage: \"define\""],
+  "implement-project/SKILL.md": ["error-level lint", "effective flags", "Never enumerate or execute commands classified as `Acceptance` or `Quality`", "unit tests", "journal.jsonl", "stage: \"build\""],
+  "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "journal.jsonl", "stage: \"verify\""],
+  "review-implementation/SKILL.md": ["qualification.md", "quality debt", "journal.jsonl", "stage: \"qualify\""],
+  "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules", "journal.jsonl", "stage: \"ship\""],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
@@ -92,6 +92,13 @@ const contract = {
 for (const [relative, needles] of Object.entries(contract)) {
   const content = read(path.join(skillsRoot, ...relative.split("/")));
   for (const needle of needles) if (!content.includes(needle)) fail(`${relative}: missing ${needle}`);
+}
+
+for (const relative of ["define-spec/SKILL.md", "implement-project/SKILL.md", "verify-acceptance/SKILL.md", "review-implementation/SKILL.md", "ship-spec/SKILL.md"]) {
+  const content = read(path.join(skillsRoot, ...relative.split("/")));
+  for (const needle of ["current system time immediately before", "complete ISO 8601", "append-only", "Physical line order is canonical", "legacy `journal.md`"]) {
+    if (!content.includes(needle)) fail(`${relative}: missing journal contract ${needle}`);
+  }
 }
 
 for (const relative of ["document-system/assets/AGENTS.template.md", "document-project/assets/project.rules.template.md"]) {
