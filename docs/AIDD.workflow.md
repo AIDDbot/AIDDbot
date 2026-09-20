@@ -42,7 +42,7 @@ Shipping applies the PRD changes, updates debt and changelog records, and integr
 
 `craft-lasting-quality` follows:
 
-`audit-quality` → select coherent debt → `/build-requested-spec`
+`inspect-quality` → select coherent debt → `/build-requested-spec`
 
 It runs the strict configured lint, complexity, coverage, and other system-wide checks. Regular change delivery runs only basic lint, unit tests, acceptance tests, and changed-scope review.
 

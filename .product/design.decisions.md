@@ -8,7 +8,7 @@ describes the current state; this file explains how it got that way.
 
 **Status**: adopted. Orchestrators use three-word action names, while primitives use two-word action-object names. `metadata.aiddbot-kind` remains authoritative; word count makes the two levels visible and descriptive names reduce collisions with skills from other frameworks.
 
-The public entrypoints are `architect-system-foundation`, `build-requested-spec`, and `craft-lasting-quality`. The renamed primitives are `scaffold-system`, `document-system`, `document-project`, `define-spec`, `implement-project`, `verify-acceptance`, `review-implementation`, `audit-quality`, `ship-spec`, and `author-skills`.
+The public entrypoints are `architect-system-foundation`, `build-requested-spec`, and `craft-lasting-quality`. The renamed primitives are `scaffold-system`, `document-system`, `document-project`, `define-spec`, `implement-project`, `verify-acceptance`, `review-implementation`, `inspect-quality`, `ship-spec`, and `maintain-skills`. Reserving the initials A, B, and C for orchestrators keeps the three human entrypoints together in alphabetical skill inventories.
 
 The vocabulary reserves `solution` for the product response in the problem-solution-verification trio. `system` means its technical realization, `project` one independently configured technical unit, and `repository` the version-controlled container.
 

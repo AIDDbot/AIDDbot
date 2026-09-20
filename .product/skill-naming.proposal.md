@@ -46,9 +46,9 @@ The orchestrator owns the `red` repair loop. Below the revision ceiling it sends
 | `codify` | `implement-project` | `build-project` | `code-project` | Implement the supplied scope or repair findings in one project at a time. |
 | `verify` | `verify-acceptance` | `test-acceptance` | `prove-acceptance` | Execute acceptance tests and record verification evidence for one spec. |
 | `qualify` | `review-implementation` | `qualify-implementation` | `inspect-implementation` | Review one spec implementation against blocking gates and record technical debt. |
-| `audit-quality` | `audit-quality` | `audit-system` | `assess-quality` | Run strict system-wide quality checks and reconcile durable quality records. |
+| `audit-quality` | `inspect-quality` | `evaluate-quality` | `review-quality` | Run strict system-wide quality checks and reconcile durable quality records. |
 | `shipify` | `ship-spec` | `release-spec` | `integrate-spec` | Integrate and close an evidenced spec, updating product and debt records. |
-| `skillify` | `author-skills` | `manage-skills` | `write-skills` | Create or correct canonical AIDDbot skills and their resources. |
+| `skillify` | `maintain-skills` | `develop-skills` | `write-skills` | Create or correct canonical AIDDbot skills and their resources. |
 
 ## Orchestrator proposals
 

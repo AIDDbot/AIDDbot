@@ -38,9 +38,9 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | Context | [`/document-system`](./document-system/SKILL.md), [`/document-project`](./document-project/SKILL.md), [`/scaffold-system`](./scaffold-system/SKILL.md) |
 | Capture | [`/define-spec`](./define-spec/SKILL.md) |
 | Build | [`/implement-project`](./implement-project/SKILL.md) |
-| Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/audit-quality`](./audit-quality/SKILL.md) |
+| Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/inspect-quality`](./inspect-quality/SKILL.md) |
 | Ship | [`/ship-spec`](./ship-spec/SKILL.md) |
-| Meta | [`/author-skills`](./author-skills/SKILL.md) |
+| Meta | [`/maintain-skills`](./maintain-skills/SKILL.md) |
 
 ## Routing
 
@@ -48,7 +48,7 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | --- | --- |
 | `/architect-system-foundation` | No source: `scaffold-system` → `document-system` → `document-project`. Existing source: `document-system` → `document-project`. |
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
-| `/craft-lasting-quality` | `audit-quality` → select debt → `/build-requested-spec` |
+| `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
 
 `scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery.
 
@@ -76,7 +76,7 @@ build-requested-spec:
       repair-loop: "implement-project applies reported repairs while the revision count is below 3; otherwise ask the human"
 
 craft-lasting-quality:
-  - "Craftsman: audit-quality"
+  - "Craftsman: inspect-quality"
   - "Architect: select one coherent group of eligible debt"
   - "build-requested-spec when eligible debt remains"
   - "return the quality review when no repair is eligible"

@@ -19,7 +19,7 @@ const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
 const explicitOnly = new Set([
   "architect-system-foundation",
   "craft-lasting-quality",
-  "author-skills",
+  "maintain-skills",
 ]);
 
 function frontmatter(text) {
@@ -62,9 +62,9 @@ for (const required of [
   ".agents/skills/review-implementation/assets/qualification.template.md",
   ".agents/skills/document-system/assets/counters.template.yaml",
   ".agents/skills/document-project/assets/project.rules.template.md",
-  ".agents/skills/audit-quality/assets/TDR.template.md",
-  ".agents/skills/audit-quality/assets/review.template.md",
-  ".agents/skills/audit-quality/references/debt.contract.md",
+  ".agents/skills/inspect-quality/assets/TDR.template.md",
+  ".agents/skills/inspect-quality/assets/review.template.md",
+  ".agents/skills/inspect-quality/references/debt.contract.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
 
 for (const retired of [
@@ -83,9 +83,9 @@ const contract = {
   "implement-project/SKILL.md": ["basic lint", "unit tests", "Do not create a report"],
   "verify-acceptance/SKILL.md": ["acceptance tests", "verification.md", "without editing"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt"],
-  "ship-spec/SKILL.md": ["status: shipped", "audit-quality", "declared D IDs", "project rules"],
-  "craft-lasting-quality/SKILL.md": ["audit-quality", "natural-language repair request", "without editing the quality records", "build-requested-spec"],
-  "audit-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
+  "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules"],
+  "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "without editing the quality records", "build-requested-spec"],
+  "inspect-quality/SKILL.md": ["TDR.md", "quality/review.md", "quality configuration", "counters.yaml", "./assets/TDR.template.md", "./assets/review.template.md", "./references/debt.contract.md"],
   "document-system/SKILL.md": ["counters.yaml", "specs/PRD.md"],
   "document-project/SKILL.md": ["rules.md", "Do not create system architecture"],
 };

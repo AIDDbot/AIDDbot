@@ -1,12 +1,12 @@
 ---
-name: author-skills
-description: Create or fix a skill under .agents/skills/.
+name: maintain-skills
+description: Create or maintain a skill under .agents/skills/.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
 disable-model-invocation: true
 ---
-# author-skills
+# maintain-skills
 
 Your goal is to create or fix a skill under `.agents/skills/` — and its `references/` and `assets/`. Never edit a skill outside this process.
 
