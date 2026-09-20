@@ -22,8 +22,8 @@ Existing product records are preserved. A completed scaffold is merged from `cho
 | Stage | Owner | Work |
 | --- | --- | --- |
 | Define | **Architect** | `specify`: scope, branch, spec, PRD proposal, and approval |
-| Build | **Builder** | `implement-spec`: code and required tests |
-| Prove and ship | **Craftsman** | `ship-implementation`: verify, qualify, and release |
+| Build | **Builder** | `codify` each affected project: code and required tests |
+| Prove and ship | **Craftsman** | `verify`, `qualify`, and `shipify` |
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 

@@ -31,13 +31,6 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | [`/build-requested-change`](./build-requested-change/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
-## Internal workers
-
-| Skill | Composition |
-| --- | --- |
-| [`implement-spec`](./implement-spec/SKILL.md) | Coordinate implementation for one spec |
-| [`ship-implementation`](./ship-implementation/SKILL.md) | Refresh evidence and ship one spec |
-
 ## Public primitives
 
 | Area | Skills |
@@ -54,7 +47,7 @@ Regular delivery runs basic lint, unit tests, acceptance tests, and changed-scop
 | Entrypoint | Route |
 | --- | --- |
 | `/architect-solution-foundation` | No source: `scaffoldify` → `explore` → `extract`. Existing source: `explore` → `extract`. |
-| `/build-requested-change` | `specify` → `implement-spec` → `ship-implementation` |
+| `/build-requested-change` | `specify` → `codify` per project → `verify` → `qualify` → `shipify` |
 | `/craft-lasting-quality` | `audit-quality` → select debt → `/build-requested-change` |
 
 `scaffoldify` creates no functional code. `shipify` reconciles known debt without running system-wide quality discovery.
@@ -73,16 +66,14 @@ architect-solution-foundation:
 
 build-requested-change:
   - "Architect: specify and obtain approval"
-  - "Builder: implement-spec"
-  - implement-spec:
+  - Builder:
       production-projects: "codify sequentially, from lower to higher abstraction"
       e2e-project: "codify when the spec assigns acceptance-test changes"
-  - "Craftsman: ship-implementation"
-  - ship-implementation:
+  - Craftsman:
       verification: "verify; green continues, red returns for repair"
       qualification: "qualify; green or amber continues, red returns for repair"
       delivery: "shipify"
-      repair-loop: "implement-spec while the revision count is below 3; otherwise ask the human"
+      repair-loop: "codify reported repairs while the revision count is below 3; otherwise ask the human"
 
 craft-lasting-quality:
   - "Craftsman: audit-quality"

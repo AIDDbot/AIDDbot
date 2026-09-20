@@ -4,6 +4,14 @@ Record of the structural decisions behind the skills pipeline — what changed, 
 was rejected, and what it costs. Newest first. The [catalog](../.agents/skills/skills.catalog.md)
 describes the current state; this file explains how it got that way.
 
+## 2026-09-20 — Orchestrators compose primitives directly
+
+**Status**: adopted. AIDDbot has two executable skill levels: public orchestrators own complete outcomes and routing, while primitives execute one focused capability and return its result without advancing the pipeline.
+
+`build-requested-change` now assigns `specify`, per-project `codify`, `verify`, `qualify`, and `shipify` directly to the appropriate **Architect**, **Builder**, or **Craftsman**. It also owns the red-report repair loop and human handoff. The intermediate `implement-spec` and `ship-implementation` workers are removed because no second orchestrator reused their compositions.
+
+This supersedes the remaining-worker portion of “Orchestrators absorb redundant workers”. Agent roles remain distinct from skill levels: removing worker skills does not remove the **Builder** or **Craftsman** execution boundaries.
+
 ## 2026-09-15 — TDR indexes technical debt; reports retain findings
 
 **Status**: adopted. `TDR.md` is the compact Technical Debt Register, analogous to `PRD.md`: it contains one line per open debt item using permanent `D{nnnn}` IDs. Each line states the concrete debt or defect, its scope, and a link to evidence. It contains no detailed analysis, measurements, process state, or closed entries; source reports and Git retain those details and history.

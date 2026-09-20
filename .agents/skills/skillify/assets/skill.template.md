@@ -11,7 +11,7 @@ Write only what a capable agent would get wrong on its own. Use the prose shape 
 name: {slug}
 description: {what it does, in one sentence}
 metadata:
-  aiddbot-kind: {orchestrator|worker|primitive}
+  aiddbot-kind: {orchestrator|primitive}
 user-invocable: {true|false}
 disable-model-invocation: {true for explicit-only entrypoints|false when another skill may execute it}
 ---
@@ -36,4 +36,4 @@ First, spawn a **Builder** agent to execute the `codify` skill for each affected
 If any result blocks the delivery, return that blocker. Otherwise, return the completed stage result.
 ```
 
-Use `orchestrator` for a public end-to-end outcome, `worker` for internal composition, and `primitive` for one focused capability. The `metadata` map is flat and every key and value is a string. See the [classification guide](../references/aiddbot-kinds.md).
+Use `orchestrator` for a public end-to-end outcome and `primitive` for one focused capability that does not invoke the next pipeline stage. The `metadata` map is flat and every key and value is a string. See the [classification guide](../references/aiddbot-kinds.md).

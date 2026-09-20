@@ -15,10 +15,9 @@ Keep Claude Code, Cursor, GitHub Copilot in VS Code, and Codex synchronized with
 
 Read every `.agents/skills/*/SKILL.md`, `.agents/agents/*.md`, `.agents/rules/*.rules.md`, and `.agents/hooks/index.mjs` when present. Ignore nested documentation and assets except when a skill links to them.
 
-A skill requires `name`, `description`, `metadata.aiddbot-kind`, `user-invocable`, and `disable-model-invocation`. `name` matches its directory; `aiddbot-kind` is exactly `orchestrator`, `worker`, or `primitive`; the metadata map is flat and all its keys and values are strings.
+A skill requires `name`, `description`, `metadata.aiddbot-kind`, `user-invocable`, and `disable-model-invocation`. `name` matches its directory; `aiddbot-kind` is exactly `orchestrator` or `primitive`; the metadata map is flat and all its keys and values are strings.
 
 - `orchestrator` and `primitive` require `user-invocable: true`.
-- `worker` requires `user-invocable: false`.
 - Every kind requires `disable-model-invocation: true`.
 - Every composition link targets another canonical `SKILL.md`, never a command or workflow file.
 
@@ -54,9 +53,9 @@ Claude Code loads project skills from `.claude/skills/`, so generate a thin poin
 Read and follow [the canonical {name} skill](../../../.agents/skills/{name}/SKILL.md).
 ```
 
-This directory name preserves the public slash name for orchestrators and primitives; workers remain non-invocable. Never create a Claude command adapter for a skill. Do not create adapters for unsupported or retired Copilot surfaces.
+This directory name preserves the public slash name for orchestrators and primitives. Never create a Claude command adapter for a skill. Do not create adapters for unsupported or retired Copilot surfaces.
 
-Cursor directly discovers `.agents/skills/` and honors `disable-model-invocation`; it documents no `user-invocable` frontmatter control. Retain the canonical field, generate no duplicate adapter, and report that a runtime Cursor check must confirm worker visibility for the installed release. A pointer adapter cannot hide a source Cursor already discovers.
+Cursor directly discovers `.agents/skills/` and honors `disable-model-invocation`. Retain the canonical field and generate no duplicate adapter.
 
 ### Agents
 
@@ -82,10 +81,10 @@ Confirm and report:
 
 - each skill has valid classification and links only to canonical skills;
 - public orchestrators and primitives have no generated Codex, Cursor, or Copilot copies, while Claude has one thin pointer per canonical skill;
-- no worker has a command or prompt adapter;
+- every canonical skill is an orchestrator or primitive;
 - no managed Copilot prompt remains and no `.vscode/settings.json` was made;
 - agent, rule, and hook adapters retain their mappings;
 - no unmarked file was overwritten or deleted; and
 - a second immediate run would do nothing.
 
-Report source counts by kind; created, updated, unchanged, deleted, and collision counts by harness; skipped sources; hook status; the Cursor worker visibility caveat; and the Codex hook trust reminder.
+Report source counts by kind; created, updated, unchanged, deleted, and collision counts by harness; skipped sources; hook status; and the Codex hook trust reminder.

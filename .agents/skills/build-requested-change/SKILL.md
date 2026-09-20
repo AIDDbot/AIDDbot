@@ -14,8 +14,8 @@ Your goal is to **take a natural-language request and deliver the change.**
 
 First, spawn an **Architect** agent to execute the `specify` skill using the natural-language request, and wait for it to complete and be approved. 
 
-Once approved, spawn a **Builder** agent to execute the `implement-spec` skill using the approved spec and PRD delta, and wait for completion.
+Once approved, spawn a **Builder** agent to read the spec, its PRD or TDR edits, and the affected project rules. Have the **Builder** execute the `codify` skill for each affected production project sequentially, from lower to higher levels of abstraction, using that project's scope or the supplied repair findings. If the spec assigns acceptance-test creation, update, deletion, or repair, have the same **Builder** execute `codify` for the E2E project with the complete acceptance-test scope. Wait for completion and return any missing work as a blocker.
 
-Then, spawn a **Craftsman** agent to execute the `ship-implementation` skill on the implemented spec, and wait for its result.
+Then, spawn a **Craftsman** agent to execute the `verify` skill on the implemented spec. If verification is `green`, have the same **Craftsman** execute `qualify`. If qualification is `green` or `amber`, have the **Craftsman** execute `shipify` and return the shipped spec.
 
-In case of a `red` report, below the revisions ceiling, spawn a **Builder** agent to implement a fix using the `implement-spec` skill. If the revisions ceiling is exceeded, stop and ask the human.
+If verification or qualification is `red` and its revision count is below 3, spawn a **Builder** agent to apply the reported repairs through `codify`, following the same project order and E2E rules. Then spawn a **Craftsman** agent and repeat evaluation from `verify`. If the revision ceiling is reached, stop and ask the human.

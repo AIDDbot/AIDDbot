@@ -26,7 +26,7 @@ Specifications pause for approval unless you request YOLO mode.
 
 ## How it is organized
 
-AIDDbot uses public orchestrator skills, internal worker skills, and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Everything installed in the target repository lives under `.agents/`.
+AIDDbot uses public orchestrator skills and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Everything installed in the target repository lives under `.agents/`.
 
 ## Documentation
 
