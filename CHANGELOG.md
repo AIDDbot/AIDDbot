@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.38 - 2026-09-20
+
+- refactor(skills): use append-only delivery journal (49ba756)
+- refactor(skills): streamline documentation context (758cefe)
+
 ## 0.0.37 - 2026-09-20
 
 - refactor(skills): separate build and quality checks (77be651)
