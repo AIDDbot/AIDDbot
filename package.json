@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.0.44",
+  "version": "0.0.45",
   "private": true,
   "type": "module",
   "description": "Copy AIDDbot skills and harness adapters into the current project.",
@@ -16,6 +16,6 @@
     "bun": ">=1"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-09-21T13:47:49.623Z",
-  "releaseCommit": "3b2deeb8b28aaa91e1314f815733a8d15d865ba7"
+  "buildTimestamp": "2026-09-21T15:44:04.816Z",
+  "releaseCommit": "c0e65e8bda578106fbd7d91d34cfeccd2f9fd9e1"
 }

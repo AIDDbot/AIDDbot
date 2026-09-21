@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.45 - 2026-09-21
+
+- refactor(skills): tighten /document-project (c0e65e8)
+- refactor(skills): tighten /build-requested-spec (ce1c291)
+- refactor(skills): tighten /record-journal (0d2e512)
+
 ## 0.0.44 - 2026-09-21
 
 - test(skills): allow model invocation of /maintain-skills (3b2deeb)
