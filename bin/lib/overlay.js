@@ -6,7 +6,9 @@ import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const sourceRoot = path.resolve(here, "../..");
-export const TREES = [".agents/agents", ".agents/hooks", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/rules", ".claude/skills", ".cursor/agents", ".cursor/hooks.json", ".cursor/rules", ".codex/agents", ".codex/hooks.json", ".github/agents", ".github/hooks", ".github/instructions"];
+export const TREES = [".agents/agents", ".agents/hooks", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/rules", ".claude/settings.json", ".claude/skills", ".cursor/agents", ".cursor/hooks.json", ".cursor/rules", ".codex/agents", ".codex/hooks.json", ".github/agents", ".github/hooks", ".github/instructions"];
+const CLAUDE_SETTINGS = ".claude/settings.json";
+const CLAUDE_HOOK_ARGS = ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code"];
 
 const sha = (data) => `sha256:${crypto.createHash("sha256").update(data).digest("hex")}`;
 function skip(rel) { return rel === ".claude/agents/runs" || rel.startsWith(".claude/agents/runs/") || rel.split("/").some((p) => p === ".git" || p === "node_modules"); }
@@ -44,6 +46,63 @@ function destination(root, rel) {
   catch (error) { if (error.code === "ENOENT") return { target, stat: null, digest: null }; throw error; }
 }
 
+function plainObject(value) { return value !== null && typeof value === "object" && !Array.isArray(value); }
+function ownedClaudeHandler(value) {
+  return plainObject(value) && value.command === "node" && Array.isArray(value.args) && value.args.length === 4 && typeof value.args[3] === "string" && CLAUDE_HOOK_ARGS.every((part, index) => value.args[index] === part);
+}
+function desiredClaudeHandlers(source) {
+  if (!source) return {};
+  const parsed = JSON.parse(fs.readFileSync(source, "utf8"));
+  const desired = {};
+  for (const [event, groups] of Object.entries(parsed.hooks ?? {})) {
+    for (const group of groups) for (const handler of group.hooks ?? []) if (ownedClaudeHandler(handler)) desired[event] = handler;
+  }
+  return desired;
+}
+function removeOwnedClaudeHandlers(hooks) {
+  for (const [event, groups] of Object.entries(hooks)) {
+    if (!Array.isArray(groups)) continue;
+    const kept = [];
+    for (const group of groups) {
+      if (!plainObject(group) || !Array.isArray(group.hooks)) { kept.push(group); continue; }
+      const handlers = group.hooks.filter((handler) => !ownedClaudeHandler(handler));
+      if (handlers.length || handlers.length === group.hooks.length) kept.push({ ...group, hooks: handlers });
+    }
+    if (kept.length) hooks[event] = kept;
+    else delete hooks[event];
+  }
+}
+function addClaudeHandler(hooks, event, handler) {
+  if (!Array.isArray(hooks[event])) hooks[event] = [];
+  let group = hooks[event].find((candidate) => plainObject(candidate) && !("matcher" in candidate) && Array.isArray(candidate.hooks));
+  if (!group) { group = { hooks: [] }; hooks[event].push(group); }
+  group.hooks.push(handler);
+}
+function reconcileClaudeSettings(destRoot, source, dryRun) {
+  const target = safeFile(destRoot, CLAUDE_SETTINGS);
+  let current = {}, exists = false;
+  try {
+    const stat = fs.lstatSync(target);
+    if (!stat.isFile() || stat.isSymbolicLink()) return { row: { action: "conflict", file: CLAUDE_SETTINGS, source }, written: false };
+    current = JSON.parse(fs.readFileSync(target, "utf8")); exists = true;
+  } catch (error) {
+    if (error.code !== "ENOENT") return { row: { action: "conflict", file: CLAUDE_SETTINGS, source }, written: false };
+  }
+  if (!source && !exists) return { row: { action: "skip-same", file: CLAUDE_SETTINGS, source }, written: false };
+  if (!plainObject(current) || (current.hooks !== undefined && !plainObject(current.hooks))) return { row: { action: "conflict", file: CLAUDE_SETTINGS, source }, written: false };
+  const next = structuredClone(current);
+  const hooks = next.hooks ?? {};
+  removeOwnedClaudeHandlers(hooks);
+  for (const [event, handler] of Object.entries(desiredClaudeHandlers(source))) addClaudeHandler(hooks, event, handler);
+  if (Object.keys(hooks).length || next.hooks !== undefined || source) next.hooks = hooks;
+  const rendered = `${JSON.stringify(next, null, 2)}\n`;
+  const previous = exists ? fs.readFileSync(target, "utf8") : null;
+  if (previous === rendered) return { row: { action: "skip-same", file: CLAUDE_SETTINGS, source }, written: false };
+  const action = exists ? "update" : "create";
+  if (!dryRun) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.writeFileSync(target, rendered, "utf8"); }
+  return { row: { action, file: CLAUDE_SETTINGS, source }, written: true };
+}
+
 export function reconcile(destRoot, inventory, oldManifest, force = false) {
   const old = oldManifest?.files ?? {};
   const paths = [...new Set([...Object.keys(old), ...Object.keys(inventory)])].sort();
@@ -74,12 +133,18 @@ function printInventory(rows) {
   return counts;
 }
 function removeEmptyParents(root, target) { for (let dir = path.dirname(target); inside(dir, root) && dir !== path.resolve(root); dir = path.dirname(dir)) { try { fs.rmdirSync(dir); } catch { break; } } }
-function apply(root, plan) { for (const row of plan.rows) { const target = safeFile(root, row.file); if (["create", "update", "overwritten"].includes(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, path.dirname(target)); } } }
+function apply(root, plan) { for (const row of plan.rows) { if (row.file === CLAUDE_SETTINGS) continue; const target = safeFile(root, row.file); if (["create", "update", "overwritten"].includes(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, path.dirname(target)); } } }
 
 export function runOverlay(destRoot, { dryRun = false, force = false, inventory = sourceInventory() } = {}) {
   let oldManifest;
   try { oldManifest = loadManifest(destRoot); } catch (error) { process.stderr.write(`Invalid AIDDbot manifest: ${error.message}\n`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
-  const plan = reconcile(destRoot, inventory, oldManifest, force);
+  const claudeSettings = inventory[CLAUDE_SETTINGS];
+  const managedInventory = { ...inventory };
+  delete managedInventory[CLAUDE_SETTINGS];
+  const plan = reconcile(destRoot, managedInventory, oldManifest, force);
+  const settings = reconcileClaudeSettings(destRoot, claudeSettings?.source, dryRun);
+  plan.rows.push(settings.row);
+  plan.rows.sort((a, b) => a.file.localeCompare(b.file));
   const counts = printInventory(plan.rows);
   const metadata = ".aiddbot/manifest.json", manifestPath = safeFile(destRoot, metadata), desired = manifestText(plan.manifest);
   if (fs.existsSync(manifestPath)) { const stat = fs.lstatSync(manifestPath); if (!stat.isFile() || stat.isSymbolicLink()) { process.stderr.write("Invalid AIDDbot manifest: manifest target is unsafe\n"); return { conflicts: true, fatal: true, written: [], rows: plan.rows }; } }

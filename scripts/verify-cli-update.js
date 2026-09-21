@@ -37,6 +37,23 @@ try {
   fs.writeFileSync(path.join(dest, "x/a.txt"), "consumer"); result = runOverlay(dest, { inventory: {} }); assert.equal(result.conflicts, 1); assert.equal(fs.existsSync(path.join(dest, "x/a.txt")), true);
   result = runOverlay(dest, { force: true, inventory: {} }); assert.equal(result.conflicts, 0); assert.equal(fs.existsSync(path.join(dest, "x/a.txt")), false);
 
+  const claudeSource = JSON.stringify({ hooks: { Stop: [{ hooks: [{ type: "command", command: "node", args: ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code", "Stop"] }] }] } });
+  const claudeInventory = inventory({ ".claude/settings.json": claudeSource });
+  const claudeDest = path.join(root, "claude-dest"); fs.mkdirSync(path.join(claudeDest, ".claude"), { recursive: true });
+  const stale = { type: "command", command: "node", args: ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code", "OldEvent"] };
+  fs.writeFileSync(path.join(claudeDest, ".claude/settings.json"), JSON.stringify({ permissions: { allow: ["Read"] }, hooks: { SessionStart: [{ hooks: [stale] }], Stop: [{ matcher: "custom", hooks: [{ type: "command", command: "custom" }] }] } }));
+  result = runOverlay(claudeDest, { inventory: claudeInventory }); assert.equal(result.conflicts, 0);
+  const claudeSettings = JSON.parse(fs.readFileSync(path.join(claudeDest, ".claude/settings.json"), "utf8"));
+  assert.deepEqual(claudeSettings.permissions, { allow: ["Read"] });
+  assert.equal(claudeSettings.hooks.SessionStart, undefined);
+  assert.equal(claudeSettings.hooks.Stop.length, 2); assert.equal(claudeSettings.hooks.Stop[1].hooks[0].args[3], "Stop");
+  result = runOverlay(claudeDest, { inventory: claudeInventory }); assert.equal(result.written.length, 0);
+
+  const invalidClaudeDest = path.join(root, "invalid-claude-dest"); fs.mkdirSync(path.join(invalidClaudeDest, ".claude"), { recursive: true });
+  fs.writeFileSync(path.join(invalidClaudeDest, ".claude/settings.json"), "invalid json");
+  result = runOverlay(invalidClaudeDest, { inventory: claudeInventory }); assert.equal(result.conflicts, 1);
+  assert.equal(fs.readFileSync(path.join(invalidClaudeDest, ".claude/settings.json"), "utf8"), "invalid json");
+
   const legacy = path.join(root, "legacy"); fs.mkdirSync(legacy); fs.mkdirSync(path.join(legacy, "x")); fs.writeFileSync(path.join(legacy, "x/a.txt"), "foreign");
   result = runOverlay(legacy, { inventory: inventory({ "x/a.txt": "source", "x/b.txt": "new" }) }); assert.equal(result.conflicts, 1); assert.equal(fs.readFileSync(path.join(legacy, "x/a.txt"), "utf8"), "foreign"); assert.equal(fs.existsSync(path.join(legacy, "x/b.txt")), true);
   const before = fs.readFileSync(path.join(legacy, "x/b.txt")); result = runOverlay(legacy, { dryRun: true, inventory: inventory({ "x/a.txt": "source", "x/b.txt": "changed" }) }); assert.equal(fs.readFileSync(path.join(legacy, "x/b.txt")).equals(before), true);

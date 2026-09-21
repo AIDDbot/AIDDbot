@@ -139,8 +139,13 @@ function verifyOverlay() {
   try {
     const result = runOverlay(temp, { inventory: sourceInventory() });
     if (result.conflicts) fail("overlay fixture has conflicts");
-    for (const required of [".agents/skills/define-spec/assets/spec.template.md", ".claude/skills/define-spec/SKILL.md", ".agents/skills/document-project/assets/project.rules.template.md"]) {
+    for (const required of [".agents/skills/define-spec/assets/spec.template.md", ".claude/skills/define-spec/SKILL.md", ".claude/settings.json", ".agents/skills/document-project/assets/project.rules.template.md"]) {
       if (!fs.existsSync(path.join(temp, ...required.split("/")))) fail(`overlay misses ${required}`);
+    }
+    const claudeSettings = JSON.parse(read(path.join(temp, ".claude", "settings.json")));
+    for (const event of ["SessionStart", "SessionEnd", "SubagentStart", "SubagentStop", "UserPromptSubmit", "Stop"]) {
+      const handlers = claudeSettings.hooks?.[event]?.flatMap((group) => group.hooks ?? []) ?? [];
+      if (!handlers.some((handler) => handler.command === "node" && handler.args?.[3] === event)) fail(`overlay misses Claude ${event} hook`);
     }
     const repeat = runOverlay(temp, { dryRun: true, inventory: sourceInventory() });
     if (repeat.conflicts || repeat.written.length) fail("overlay is not idempotent");

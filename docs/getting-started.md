@@ -6,7 +6,7 @@ Install AIDDbot from the root of your repository:
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-The command copies `.agents/` and the supported agent adapters. Existing files remain unchanged unless you use `--force`.
+The command copies `.agents/` and the supported agent adapters. It also adds the AIDDbot audit handlers to `.claude/settings.json` without replacing unrelated Claude settings or hooks. Review and enable project hooks in Claude Code when prompted. Existing managed files remain unchanged unless you use `--force`.
 
 ## Prepare the repository
 
