@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.46 - 2026-09-21
+
+- refactor(skills): tighten /build-requested-spec (2816693)
+- refactor(skills): tighten /record-journal (b364f06)
+- refactor(skills): tighten /record-journal (0f817f4)
+
 ## 0.0.45 - 2026-09-21
 
 - refactor(skills): tighten /document-project (c0e65e8)
