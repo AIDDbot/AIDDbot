@@ -24,8 +24,8 @@ Foundation documentation records important paths, project boundaries, and produc
 | Stage | Owner | Work |
 | --- | --- | --- |
 | Define | **Architect** | `define-spec`: scope, branch, spec, PRD proposal, and approval |
-| Build | **Builder** | `implement-project` for each affected project: code and required tests |
-| Prove and ship | **Craftsman** | `verify-acceptance`, `review-implementation`, and `ship-spec` |
+| Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
+| Prove and ship | **Craftsman** | `verify-acceptance` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 
@@ -48,7 +48,7 @@ Shipping applies the PRD changes, updates debt and changelog records, and integr
 
 `inspect-quality` → select coherent debt → `/build-requested-spec`
 
-Commands are classified by their effective behavior, not their script names. Quality review runs configured warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening. Regular delivery runs only error-level lint, affected unit tests, acceptance tests, and changed-scope review.
+Commands are classified by their effective behavior, not their script names. During coding, the Builder runs only error-level lint and affected unit tests; it may author E2E tests but does not execute them. The Craftsman executes acceptance tests afterward. Quality review runs configured warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
 The latest system evidence replaces `quality/review.md`; open debt remains indexed in `quality/TDR.md`.
 

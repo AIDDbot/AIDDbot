@@ -17,12 +17,12 @@ Implement the approved plan from the solution section in order. For E2E scope, u
 
 ## Testing
 For production code write unit tests for the critical section and make them pass. Do not write unit tests for UI-related code.
-If writing E2E tests, do not unit-test those tests.
+When the scope includes E2E tests, write or repair them from the spec and reported evidence, but do not enumerate or execute commands classified as `Acceptance`, including E2E runs. This prohibition also applies while repairing a red verification report: return the code and test changes for a later `verify-acceptance` run. Do not unit-test E2E tests.
 
 ## Linting
 Use only the command classified as error-level lint in the project rules. Confirm from its effective flags and referenced configuration that it reports error-severity diagnostics without denying warnings or enabling complexity, coverage, strict analysis, full-repository checks, or other hardening. The script name alone is not evidence of its severity.
 
-Run that soft lint after each change and fix its errors. Never enumerate or execute commands classified as `Acceptance` or `Quality`. If no unambiguous error-level lint is configured, record it as unavailable in the journal instead of substituting or constructing a command.
+Run that soft lint after each change and fix its errors. Never enumerate or execute commands classified as `Quality`. If no unambiguous error-level lint is configured, record it as unavailable in the journal instead of substituting or constructing a command.
 
 Execute `record-journal` for each high-level coding, testing, linting, and failure event with `stage: build` and the project name.
 

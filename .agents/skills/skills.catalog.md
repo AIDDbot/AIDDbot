@@ -26,7 +26,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 - Stale or incomplete evidence blocks shipping.
 - A third unresolved `red` report ships after its failures are recorded as technical debt.
 
-Commands are classified by effective behavior, not script name. Regular delivery owns `Build` and `Acceptance`: error-level lint, affected unit tests, E2E acceptance tests, and changed-scope review. `/craft-lasting-quality` owns `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
+Commands are classified by effective behavior, not script name. `implement-project` owns `Build`: error-level lint and affected unit tests. It may author E2E tests but never executes them. `verify-acceptance` exclusively owns `Acceptance`, including E2E execution. `/craft-lasting-quality` owns `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
 ## Public orchestrators
 
@@ -78,7 +78,7 @@ build-requested-spec:
   - "Architect: define-spec and obtain approval"
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
-      e2e-project: "implement-project when the spec assigns acceptance-test changes"
+      e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
       verification: "verify-acceptance; green continues, red returns for repair through revision 3"
       qualification: "review-implementation; green or amber continues, red returns for repair through revision 3"

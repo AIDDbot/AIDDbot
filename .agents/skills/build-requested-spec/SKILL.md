@@ -17,7 +17,7 @@ Reuse an agent supplied by the caller when available. Otherwise, spawn an **Arch
 Reuse an implementation agent supplied by the caller when available. Otherwise, spawn a **Builder** agent to implement the approved spec. Have that agent read the spec, its PRD or TDR edits.
 Then execute the `implement-project` skill for each affected production project sequentially, from lower to higher levels of abstraction. Use that project's rules and scope or the supplied repair findings. Wait for the whole process to complete.
 
-If the spec assigns _acceptance-test_ creation, update, deletion, or repair, execute `implement-project` for the E2E project with the complete acceptance-test scope. Wait for completion.
+If the spec assigns _acceptance-test_ creation, update, deletion, or repair, execute `implement-project` for the E2E project with the complete acceptance-test scope. This step authors the tests without executing them. Wait for completion.
 
 Reuse an evaluation agent supplied by the caller when available. Otherwise, spawn a **Craftsman** agent to evaluate and ship the implementation. Have that agent execute the `verify-acceptance` and `review-implementation` skills. If verification is `green` and qualification is `green` or `amber`, execute `ship-spec` and return the shipped spec.
 
