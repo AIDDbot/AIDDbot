@@ -14,13 +14,16 @@ if (!productFolder || option !== args.length - 2) {
   const skillFolder = resolve(dirname(fileURLToPath(import.meta.url)), '..');
   const destination = resolve(productFolder);
   const documents = [
-    ['assets/counters.template.yaml', 'counters.yaml'],
     ['assets/PRD.template.md', 'specs/PRD.md'],
     ['assets/TDR.template.md', 'quality/TDR.md'],
   ];
 
-  for (const [template, relativeTarget] of documents) {
-    const target = join(destination, relativeTarget);
+  const targets = [
+    ['assets/counters.template.yaml', resolve('.aiddbot', 'counters.yaml')],
+    ...documents.map(([template, relativeTarget]) => [template, join(destination, relativeTarget)]),
+  ];
+
+  for (const [template, target] of targets) {
     await mkdir(dirname(target), { recursive: true });
     try {
       await copyFile(join(skillFolder, template), target, constants.COPYFILE_EXCL);

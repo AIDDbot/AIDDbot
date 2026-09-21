@@ -39,8 +39,9 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delivery documents
 
-- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, human-readable append-only `journal.log`, `verification.md`, and `qualification.md`. `specs/PRD.md` lists current requirements.
-- **Counters** — `{Product_Folder}/counters.yaml` stores the last reserved S, F, T, and D numbers.
+- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, `verification.md`, and `qualification.md`. `specs/PRD.md` lists current requirements.
+- **Counters** — `.aiddbot/counters.yaml` stores the last reserved S, F, T, and D numbers.
+- **Journal** — `.aiddbot/journal.log` is the local, untracked, append-only log of process events.
 - **Quality** — `{Product_Folder}/quality/TDR.md` indexes open technical debt. `{Product_Folder}/quality/review.md` records detailed system-review evidence.
 - **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
 - **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`.

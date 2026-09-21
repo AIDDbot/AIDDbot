@@ -1,6 +1,6 @@
 ---
 name: record-journal
-description: Append one human-readable delivery event without disturbing journal order.
+description: Append one human-readable process event without disturbing journal order.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

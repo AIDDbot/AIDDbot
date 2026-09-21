@@ -16,7 +16,9 @@ Read the current TDR and review before running the quality commands. Confirm the
 
 Build a complete replacement for `quality/review.md` following `review.template.md`. Include passes, failures, unavailable or unconfigured checks, and every open system-review finding. Reconfirm each existing review-backed D entry; when its check is unavailable, retain it as not revalidated with its last confirmation. Do not append previous reviews or replace the current file before all checks have a recorded result.
 
-Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review following `TDR.template.md` and `debt.contract.md`, then rewrite the review in one edit. If the initialized register or counters are missing, return the need to execute `document-system`; do not create replacements. Reserve new D IDs from `counters.yaml`; consolidate or remove entries only when the evidence supports it.
+Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review following `TDR.template.md` and `debt.contract.md`, then rewrite the review in one edit. If the initialized register or counters are missing, return the need to execute `document-system`; do not create replacements. Reserve new D IDs from `.aiddbot/counters.yaml`; consolidate or remove entries only when the evidence supports it.
+
+Execute `record-journal` once for the review result with `stage: inspect` and its status.
 
 The result is current, traceable quality records.
 

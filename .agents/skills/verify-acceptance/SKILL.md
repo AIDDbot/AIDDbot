@@ -22,6 +22,6 @@ Increment `revision` once per evaluation, starting at 1, not for document edits.
 
 The result is current acceptance evidence.
 
-Execute `record-journal` once for each verification revision with `stage: verify`, its revision, and status.
+Execute `record-journal` once for each verification revision with `stage: verify`, the spec ID, its revision, and status.
 
 Commit as `docs(verification): record acceptance`.

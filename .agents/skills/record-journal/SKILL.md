@@ -1,6 +1,6 @@
 ---
 name: record-journal
-description: Append one human-readable delivery event without disturbing journal order.
+description: Append one human-readable process event without disturbing journal order.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -8,14 +8,16 @@ disable-model-invocation: false
 ---
 # record-journal
 
-Your goal is to append one event to a spec's `journal.log`.
+Your goal is to append one event to the process journal `.aiddbot/journal.log`.
 
-Run `node .agents/skills/record-journal/scripts/append.mjs` with `--journal`, `--stage`, `--event`, `--status`, and `--summary`. Pass `--project` or `--revision` only when the event has that value. Do not construct the line or timestamp yourself.
+Run `node .agents/skills/record-journal/scripts/append.mjs` from the repository root with `--flow`, `--stage`, `--event`, `--status`, and `--summary`. Pass `--spec`, `--project`, or `--revision` only when the event has that value. Do not construct the line, timestamp, or path yourself.
 
-The script owns the initial date header, reads the system clock immediately before appending, and writes one complete event line. It places the status immediately after the timestamp and renders `green` as `Info`, `amber` as `Warn`, and `red` as `Error`. The status, stage, event, project, and revision fields are trimmed and rendered as exactly six characters: longer values are truncated and shorter values are padded on the right with spaces. Keep the status spellings and capitalization exact so IDE log coloring recognizes them. The final summary remains untruncated and single-line.
+Use the flow the orchestrator supplied: `found` for `architect-system-foundation`, `build` for `build-requested-spec`, or `craft` for `craft-lasting-quality`. When a primitive runs without an orchestrator, use `direct`. Pass the spec ID, such as `S0012`, not its key.
 
-Physical line order is canonical. Never edit, delete, reorder, backdate, or convert existing journal content. Existing entries retain their historical format; the six-character text status format applies to new entries. Do not extend a legacy `journal.jsonl` or `journal.md`.
+The script creates `.aiddbot/` and keeps `journal.log` out of Git. On the first event it writes the date header and a comment line naming the columns. It reads the system clock immediately before appending and writes one complete event line with the status immediately after the timestamp, rendering `green` as `Info`, `amber` as `Warn`, and `red` as `Error`. Status is exactly six characters; flow, spec, stage, event, project, and revision are exactly eight. Longer values are truncated and shorter values are padded on the right with spaces. Keep the status spellings and capitalization exact so IDE log coloring recognizes them. The final summary remains untruncated and single-line.
 
-The result is one appended delivery event.
+Physical line order is canonical. Never edit, delete, reorder, or backdate existing journal content.
 
-Do not stage or commit files. The calling skill includes the journal update in its owning change.
+The result is one appended process event.
+
+Do not stage or commit the journal.

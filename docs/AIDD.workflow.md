@@ -17,7 +17,7 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
-Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
+Foundation documentation records important paths, project boundaries, and product files such as specs and quality records, and creates the ID counters in `.aiddbot/counters.yaml`. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -31,7 +31,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 
 The PRD owns requirement text. A spec marks each affected requirement as `new`, `changed`, `deprecated`, or `related` and declares its acceptance-test work. Approval is required before implementation unless YOLO mode is active.
 
-Each delivery records high-level events in a human-readable, append-only `journal.log`. Its initial header records the first event's date; event lines begin with the current local time followed by a six-character status: `Info`, `Warn`, or `Error`, padded with spaces for IDE log coloring. Stage, event, project, and revision fields are trimmed, truncated, or right-padded with spaces to six characters, while the final summary stays on one untruncated line. Physical line order is canonical and is never replaced by timestamp sorting.
+Every workflow records high-level events in one human-readable, append-only `.aiddbot/journal.log`, which stays out of Git. Its initial header records the first event's date and names the columns. Event lines begin with the current local time followed by a six-character status: `Info`, `Warn`, or `Error`, padded with spaces for IDE log coloring. Flow, spec, stage, event, project, and revision fields are trimmed, truncated, or right-padded with spaces to eight characters, while the final summary stays on one untruncated line. Physical line order is canonical and is never replaced by timestamp sorting.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

@@ -9,12 +9,12 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `specs/PRD.md` | Current requirements |
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
-| `specs/S{nnnn}-{slug}/journal.log` | Human-readable append-only delivery events |
-| `counters.yaml` | Permanent S, F, T, and D IDs |
+| `.aiddbot/counters.yaml` | Permanent S, F, T, and D IDs, tracked in Git |
+| `.aiddbot/journal.log` | Human-readable append-only process events, ignored by Git |
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
-`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time followed by the six-character text status `Info`, `Warn`, or `Error`. Status, stage, event, project, and revision fields are trimmed, truncated, and right-padded with spaces rather than visible markers so IDE log coloring remains reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
+`record-journal` owns journal rendering. The whole process shares one journal: `.aiddbot/journal.log`, kept out of Git by `.aiddbot/.gitignore`. Its initial date header is followed by a comment line naming the columns. Each event starts with the current local time and the six-character text status `Info`, `Warn`, or `Error`, then the flow (`found`, `build`, `craft`, or `direct`), spec ID, stage, event, project, and revision, each trimmed, truncated, and right-padded to eight characters so IDE log coloring and column alignment remain reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
@@ -56,7 +56,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
 
-Delivery stages invoke `record-journal` whenever they produce a high-level event.
+Every orchestrator passes its journal flow to the agents it assigns, and every stage invokes `record-journal` whenever it produces a high-level event: `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`.
 
 `scaffold-system` creates no functional code. It writes `.aiddbot/aiddbot.system.json`, initializes root product metadata, and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. It finishes with dependency installation and basic lint only. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes every release to the authoritative root product version and other existing authoritative declarations.
 

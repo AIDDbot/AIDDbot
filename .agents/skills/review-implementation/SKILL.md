@@ -22,6 +22,6 @@ Increment `revision` once per evaluation, starting at 1, not for document edits.
 
 The result is current qualification evidence.
 
-Execute `record-journal` once for each qualification revision with `stage: qualify`, its revision, and status.
+Execute `record-journal` once for each qualification revision with `stage: qualify`, the spec ID, its revision, and status.
 
 Commit as `docs(review): qualify implementation`.

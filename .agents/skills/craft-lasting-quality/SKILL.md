@@ -12,6 +12,8 @@ disable-model-invocation: true
 
 Your goal is to **reduce existing quality debt** using evidence-backed specifications.
 
+Use the journal flow `craft` and pass it to every agent and to `build-requested-spec`.
+
 First, spawn a **Craftsman** agent to execute the `inspect-quality` skill for a system review, and wait for its result.
 
 Next, spawn an **Architect** agent to select one coherent group of current debt entries for repair and express it as a natural-language request with its D IDs and supporting evidence. Do not edit code nor documentation, just express the request.

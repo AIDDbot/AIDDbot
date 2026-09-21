@@ -14,7 +14,7 @@ Read the current PRD, quality TDR, and counters. If any initialization document 
 
 Use them to compose the branch name. `{type}/{spec_key}`. Example: `feat/implement-user-authentication` or `fix/incorrect-tax-calculation`. Create the git branch.
 
-The spec ID and any new requirement IDs, must be reserved in `counters.yaml` on that branch.
+The spec ID and any new requirement IDs, must be reserved in `.aiddbot/counters.yaml` on that branch.
 
 Write the spec following `spec.template.md` and proposed PRD edits following `PRD.template.md` together in the project locations. 
 The PRD is the only owner of requirement text. The spec references requirement IDs as `new`, `changed`, `deprecated`, or `related` and records their reason, delivery impact, and acceptance evidence without copying their normative text. 
@@ -23,6 +23,6 @@ Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines unti
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
 
-Execute `record-journal` for each high-level creation and approval event with `stage: define`.
+Execute `record-journal` for each high-level creation and approval event with `stage: define` and the spec ID.
 
 Commit as `docs(spec): define delivery`.

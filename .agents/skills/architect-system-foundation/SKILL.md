@@ -12,6 +12,8 @@ disable-model-invocation: true
 
 Your goal is to **set up the foundation architecture** for the system.
 
+Tell every agent this skill spawns to journal with flow `found`.
+
 First, check whether the repository contains a legacy _brownfield_ system or a newly scaffolded system. Ignore agent configuration and instructions, AIDD product files, harness adapters, and documentation when making this decision. Working code makes the decision.
 
 If no application or project source code is present, treat it as a _greenfield_ system. The presence of ignored files does not prevent scaffolding. Spawn a **Builder** agent to execute the `scaffold-system` skill, and wait for it to complete. 

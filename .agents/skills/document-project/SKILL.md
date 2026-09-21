@@ -22,6 +22,8 @@ Write a database or API schema from its existing template only when the project 
 
 Do not create system architecture or separate project architecture files other than the templates from assets.
 
+Execute `record-journal` for the documentation result with `stage: document` and the project name.
+
 The result is current project/domain rules or a shared schema.
 
 Link or reference those documents in the AGENTS.md file to ease finding them.
