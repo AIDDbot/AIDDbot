@@ -31,7 +31,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 
 The PRD owns requirement text. A spec marks each affected requirement as `new`, `changed`, `deprecated`, or `related` and declares its acceptance-test work. Approval is required before implementation unless YOLO mode is active.
 
-Every workflow records high-level events in one human-readable, append-only `.aiddbot/journal.log`, which stays out of Git. Its initial header records the first event's date and names the columns. Event lines begin with the current local time followed by a six-character status: `Info`, `Warn`, or `Error`, padded with spaces for IDE log coloring. Flow, spec, stage, event, project, and revision fields are trimmed, truncated, or right-padded with spaces to eight characters, while the final summary stays on one untruncated line. Physical line order is canonical and is never replaced by timestamp sorting.
+Every workflow records high-level events in one human-readable, append-only `.aiddbot/journal.log`, which stays out of Git. Its initial header records the first event's date and any known harness and model before naming the columns. Event lines begin with the current local time, a six-character status (`Info`, `Warn`, or `Error`), and the active agent (`Arch.`, `Build.`, `Craft.`, or `Direct`). Spec, stage, event, and project are six characters, revision is three, and spaces are the only column separator; fixed-width values are trimmed, truncated, or right-padded. The final summary stays on one untruncated line. Physical line order is canonical and is never replaced by timestamp sorting.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

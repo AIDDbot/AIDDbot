@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 Your goal is to **reduce existing quality debt** using evidence-backed specifications.
 
-Use the journal flow `craft` and pass it to every agent and to `build-requested-spec`.
+Tell every agent, including those reused by `build-requested-spec`, to journal with its active agent role.
 
 First, spawn a **Craftsman** agent to execute the `inspect-quality` skill for a system review, and wait for its result.
 

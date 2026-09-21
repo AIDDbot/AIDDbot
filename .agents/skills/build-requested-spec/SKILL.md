@@ -12,7 +12,7 @@ disable-model-invocation: false
 
 Your goal is to **turn a natural-language request into a shipped spec.**
 
-Use the journal flow supplied by the caller, or `build`, and pass it to every agent that executes a stage.
+Tell every agent that executes a stage to journal with its active agent role.
 
 Reuse an agent supplied by the caller when available. Otherwise, spawn an **Architect** agent to execute the `define-spec` skill using the natural-language request. Wait for the spec to be approved.
 

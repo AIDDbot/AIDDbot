@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 Your goal is to **set up the foundation architecture** for the system.
 
-Tell every agent this skill spawns to journal with flow `arch`.
+Tell every agent this skill spawns to journal with its active agent role.
 
 First, check whether the repository contains a legacy _brownfield_ system or a newly scaffolded system. Ignore agent configuration and instructions, AIDD product files, harness adapters, and documentation when making this decision. Working code makes the decision.
 
