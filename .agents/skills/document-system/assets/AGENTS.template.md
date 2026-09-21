@@ -10,6 +10,7 @@
 
 - **{Agents_File}** — `AGENTS.md` — this file
 - **{Agents_Folder}** — `.agents/` — agent configuration and project rules
+- **Delegation policy** — `.aiddbot/efforts.yaml` — portable effort-to-harness mapping, when present
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 
@@ -52,6 +53,11 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
 - Branch naming: `{feat|fix|chore}/S{nnnn}-{slug}`
+
+## Delegation
+
+- Request `low`, `medium`, or `high` effort; use `medium` when unspecified.
+- When `.aiddbot/efforts.yaml` exists, resolve native spawn controls from it. Inherit compatible parent settings when a harness, model, or reasoning control is unavailable.
 
 ## Project decisions
 

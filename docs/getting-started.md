@@ -8,6 +8,11 @@ npx --allow-git=all github:AIDDbot/AIDDbot init
 
 The command copies `.agents/` and the supported agent adapters. It also adds the AIDDbot audit handlers to `.claude/settings.json` without replacing unrelated Claude settings or hooks. Review and enable project hooks in Claude Code when prompted. Existing managed files remain unchanged unless you use `--force`.
 
+## What `init` adds
+
+- `.aiddbot/counters.yaml` starts the permanent S, F, T, and D identifiers. It is project state: later `update` never changes it.
+- `.aiddbot/efforts.yaml` maps portable delegated-agent effort (`low`, `medium`, or `high`) to each harness's supported model controls. `update` manages this policy together with skills and adapters.
+
 ## Prepare the repository
 
 ```markdown

@@ -22,3 +22,8 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
   - its `SKILL.md`
   - the [catalog](./.agents/skills/skills.catalog.md), when behavior, paths, or routing changed
   - the root [README](./README.md) and [workflow](./docs/AIDD.workflow.md), only when what a human is told changes
+
+## Delegation
+
+- Request portable delegation effort as `low`, `medium`, or `high`; use `medium` when it is not stated.
+- Resolve the harness-native spawn controls from [`.aiddbot/efforts.yaml`](./.aiddbot/efforts.yaml). If the harness, model, or reasoning setting is unavailable, inherit the parent's compatible settings.

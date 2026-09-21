@@ -17,7 +17,7 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
-Foundation documentation records important paths, project boundaries, and product files such as specs and quality records, and creates the ID counters in `.aiddbot/counters.yaml`. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
+`aiddbot init` seeds the ID counters in `.aiddbot/counters.yaml`; foundation documentation preserves them and creates them only when the CLI was not used. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -27,7 +27,7 @@ Foundation documentation records important paths, project boundaries, and produc
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
 | Prove and ship | **Craftsman** | `verify-acceptance` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
-When an orchestrator delegates, it names a portable effort level: `low`, `medium`, or `high`. The harness selects its compatible model and native setting. `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
+When an orchestrator delegates, it names a portable effort level: `low`, `medium`, or `high`. The harness resolves its compatible model and native setting from [`.aiddbot/efforts.yaml`](../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation. An unavailable harness, model, or native reasoning control inherits the compatible parent setting; unsupported reasoning is omitted.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 

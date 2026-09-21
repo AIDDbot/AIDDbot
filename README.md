@@ -26,7 +26,9 @@ Specifications pause for approval unless you request YOLO mode.
 
 ## How it is organized
 
-AIDDbot uses public orchestrator skills and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Everything installed in the target repository lives under `.agents/`.
+AIDDbot uses public orchestrator skills and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Its canonical skills live under `.agents/`.
+
+`init` also creates `.aiddbot/counters.yaml` for permanent delivery IDs and installs `.aiddbot/efforts.yaml`, the portable policy for delegated-agent model selection. Later `update` synchronizes managed skills, adapters, and the effort policy; it never changes the project counters.
 
 ## Documentation
 

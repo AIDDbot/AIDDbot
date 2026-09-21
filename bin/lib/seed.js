@@ -6,6 +6,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const agentsSeeds = path.join(here, "..", "..", ".agents", "seeds");
 
 const gitignoreSeed = path.join(agentsSeeds, "GITIGNORE.seed");
+const countersSeed = path.join(here, "..", "..", ".agents", "skills", "document-system", "assets", "counters.template.yaml");
 
 function ignoreKey(line) {
   const trimmed = line.trim();
@@ -102,6 +103,18 @@ function ensureAgentSeed(destRoot, dryRun) {
   return written;
 }
 
+function ensureCounters(destRoot, dryRun) {
+  const rel = ".aiddbot/counters.yaml";
+  const abs = absPath(destRoot, rel);
+  if (fs.existsSync(abs)) {
+    print("skip-same", rel);
+    return null;
+  }
+  print("create", rel);
+  writeFile(abs, fs.readFileSync(countersSeed, "utf8"), dryRun);
+  return rel;
+}
+
 function absPath(destRoot, rel) {
   return path.join(destRoot, rel);
 }
@@ -113,6 +126,8 @@ function ensureSeedFiles(destRoot, dryRun, title) {
   const readme = ensureReadme(destRoot, dryRun, title);
   if (readme) written.push(readme);
   written.push(...ensureAgentSeed(destRoot, dryRun));
+  const counters = ensureCounters(destRoot, dryRun);
+  if (counters) written.push(counters);
   return written;
 }
 

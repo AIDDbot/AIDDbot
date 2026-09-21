@@ -15,12 +15,17 @@ const inventory = (files) => Object.fromEntries(Object.entries(files).map(([file
 try {
   const dest = path.join(root, "dest"); fs.mkdirSync(dest);
   const seed = ensureSeedFiles(dest, false, "Demo");
-  assert.deepEqual(seed.sort(), [".gitignore", "AGENTS.md", "CLAUDE.md", "README.md"]);
+  assert.deepEqual(seed.sort(), [".aiddbot/counters.yaml", ".gitignore", "AGENTS.md", "CLAUDE.md", "README.md"]);
   assert.match(fs.readFileSync(path.join(dest, ".gitignore"), "utf8"), /id_ed25519/);
   assert.equal(fs.readFileSync(path.join(dest, "AGENTS.md"), "utf8"), fs.readFileSync(new URL("../.agents/seeds/AGENTS.seed.md", import.meta.url), "utf8"));
   assert.equal(fs.readFileSync(path.join(dest, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
+  assert.equal(fs.readFileSync(path.join(dest, ".aiddbot", "counters.yaml"), "utf8"), fs.readFileSync(new URL("../.agents/skills/document-system/assets/counters.template.yaml", import.meta.url), "utf8"));
   fs.writeFileSync(path.join(dest, "AGENTS.md"), "consumer rules\n");
-  assert.equal(ensureSeedFiles(dest, false, "Demo").includes("AGENTS.md"), false);
+  fs.writeFileSync(path.join(dest, ".aiddbot", "counters.yaml"), "spec: 9\nfunctional: 0\ntechnical: 0\ndebt: 0\n");
+  const repeatedSeed = ensureSeedFiles(dest, false, "Demo");
+  assert.equal(repeatedSeed.includes("AGENTS.md"), false);
+  assert.equal(repeatedSeed.includes(".aiddbot/counters.yaml"), false);
+  assert.match(fs.readFileSync(path.join(dest, ".aiddbot", "counters.yaml"), "utf8"), /^spec: 9$/m);
   const existingSeed = path.join(root, "existing-seed"); fs.mkdirSync(existingSeed); fs.writeFileSync(path.join(existingSeed, ".gitignore"), ".env\n");
   ensureSeedFiles(existingSeed, false, "Demo"); assert.match(fs.readFileSync(path.join(existingSeed, ".gitignore"), "utf8"), /id_ed25519/);
   const first = inventory({ "x/a.txt": "one", "x/b.txt": "two" });

@@ -135,9 +135,11 @@ function verifyOverlay() {
   try {
     const result = runOverlay(temp, { inventory: sourceInventory() });
     if (result.conflicts) fail("overlay fixture has conflicts");
-    for (const required of [".agents/skills/define-spec/assets/spec.template.md", ".claude/skills/define-spec/SKILL.md", ".claude/settings.json", ".agents/skills/document-project/assets/project.rules.template.md"]) {
+    for (const required of [".agents/skills/define-spec/assets/spec.template.md", ".claude/skills/define-spec/SKILL.md", ".claude/settings.json", ".agents/skills/document-project/assets/project.rules.template.md", ".aiddbot/efforts.yaml"]) {
       if (!fs.existsSync(path.join(temp, ...required.split("/")))) fail(`overlay misses ${required}`);
     }
+    const manifest = JSON.parse(read(path.join(temp, ".aiddbot", "manifest.json")));
+    if (!manifest.files[".aiddbot/efforts.yaml"]) fail("overlay manifest does not manage .aiddbot/efforts.yaml");
     const claudeSettings = JSON.parse(read(path.join(temp, ".claude", "settings.json")));
     for (const event of ["SessionStart", "SessionEnd", "SubagentStart", "SubagentStop", "UserPromptSubmit", "Stop"]) {
       const handlers = claudeSettings.hooks?.[event]?.flatMap((group) => group.hooks ?? []) ?? [];
@@ -145,6 +147,16 @@ function verifyOverlay() {
     }
     const repeat = runOverlay(temp, { dryRun: true, inventory: sourceInventory() });
     if (repeat.conflicts || repeat.written.length) fail("overlay is not idempotent");
+    const updatedPolicy = path.join(temp, ".aiddbot", "efforts.next.yaml");
+    const updatedContent = `${read(path.join(root, ".aiddbot", "efforts.yaml"))}\n# updated policy fixture\n`;
+    fs.writeFileSync(updatedPolicy, updatedContent);
+    const updatedInventory = sourceInventory();
+    updatedInventory[".aiddbot/efforts.yaml"] = {
+      source: updatedPolicy,
+      digest: `sha256:${crypto.createHash("sha256").update(updatedContent).digest("hex")}`
+    };
+    const update = runOverlay(temp, { inventory: updatedInventory });
+    if (!update.rows.some((row) => row.file === ".aiddbot/efforts.yaml" && row.action === "update")) fail("overlay does not update .aiddbot/efforts.yaml");
   } finally {
     const resolved = path.resolve(temp);
     if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });

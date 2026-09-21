@@ -10,9 +10,10 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
 | `.aiddbot/counters.yaml` | Permanent S, F, T, and D IDs, tracked in Git |
+| `.aiddbot/efforts.yaml` | Portable delegated-agent effort mapped to native harness controls |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Human-readable append-only process events by local date, ignored by Git |
 
-`document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
+`aiddbot init` seeds the counters; `document-system` creates missing records when the CLI was not used. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
 `record-journal` owns journal rendering. The whole process shares daily journals at `.aiddbot/journals/YYYY-MM-DD.log`, kept out of Git by the root `.gitignore` policy. Each day's initial header records the date and any known harness and model before naming the columns. Each event starts with the current local time, the six-character text status `Info`, `Warn`, or `Error`, and the active agent (`Arch`, `Build`, `Craft`, or `Direct`). Spec and project are six characters, stage and event are eight, revision is three, and spaces are the only column separator; all fixed-width values are trimmed, truncated, and right-padded. The project header is `proj`. The final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical within each daily file.
 
@@ -58,7 +59,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`.
 
-Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses select the compatible model and native setting. `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
+Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
 
 `scaffold-system` creates no functional code. It writes `.aiddbot/aiddbot.system.json`, initializes root product metadata, and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. It finishes with dependency installation and basic lint only. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes every release to the authoritative root product version and other existing authoritative declarations.
 

@@ -16,6 +16,9 @@
 !.agents/skills/
 !.agents/skills/**
 
+!.aiddbot/
+!.aiddbot/efforts.yaml
+
 !.claude/
 !.claude/settings.json
 !.claude/agents/
