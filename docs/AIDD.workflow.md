@@ -38,7 +38,7 @@ Every workflow records high-level events in one human-readable, append-only `.ai
 | Verification | `green` | Acceptance behavior |
 | Qualification | `green` or `amber` | Changed-code quality |
 
-`red` returns the findings for repair and both evaluations repeat, up to three revisions. If a current report is still red at revision 3, delivery continues and every unresolved functional or technical failure is recorded in the TDR. Amber findings also enter the TDR. Missing or stale evidence still blocks shipping.
+Verification runs before qualification. A red verification returns directly for repair and repeats verification, without qualification, until revision 3. A red qualification also returns for repair and restarts at verification. At revision 3, a red verification continues once to qualification and either current red finding is recorded in the TDR at shipping. Amber findings also enter the TDR. Missing or stale evidence still blocks shipping.
 
 Shipping applies the PRD changes, updates debt, promotes reusable error-prevention lessons into the applicable project rules, and synchronizes one release version across the changelog, spec and tag, the authoritative root `package.json`, and every existing manifest or build file that declares that product version. It does not change dependency, toolchain, schema, API, migration, historical, or independently released component versions. It then integrates the branch.
 

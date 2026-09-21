@@ -20,8 +20,8 @@ System and project documentation records important paths, boundaries, and files.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
 
-- Verification: `green` ships normally; `red` requires repair until evaluation revision 3.
-- Qualification: `green` or `amber` ships normally; `red` requires repair until evaluation revision 3.
+- Verification: `green` enables qualification; `red` returns for repair until revision 3, then qualification records current evidence before delivery.
+- Qualification: `green` or `amber` ships normally; `red` returns for repair until revision 3.
 - Amber findings and failures still present in a revision-3 red report become technical debt.
 - Stale or incomplete evidence blocks shipping.
 - A third unresolved `red` report ships after its failures are recorded as technical debt.
@@ -80,10 +80,10 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
-      verification: "verify-acceptance; green continues, red returns for repair through revision 3"
-      qualification: "review-implementation; green or amber continues, red returns for repair through revision 3"
-      delivery: "ship-spec"
-      repair-loop: "implement-project applies reported repairs through evaluation revision 3; unresolved failures then become debt and ship"
+      verification: "verify-acceptance; red before revision 3 returns directly for repair, otherwise continues to qualification"
+      qualification: "review-implementation only after green verification or verification revision 3; green or amber ships, red before revision 3 returns for repair"
+      delivery: "ship-spec after a passing qualification or either red gate reaches revision 3"
+      repair-loop: "implement-project repairs verification or qualification findings, then restarts at verification; revision-3 failures become debt"
 
 craft-lasting-quality:
   - "Craftsman: inspect-quality"
