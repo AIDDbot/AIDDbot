@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.47 - 2026-09-21
+
+- feat(init): seed AIDD policy and counters (75cde6e)
+- refactor(skills): avoid nested journal ignore (43d811f)
+- fix(cli): harden installer reconciliation (fcb81f4)
+- refactor(skills): enable model invocation (d2c879a)
+
 ## 0.0.46 - 2026-09-21
 
 - refactor(skills): tighten /build-requested-spec (2816693)
