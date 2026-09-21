@@ -34,6 +34,14 @@ function pad(value) {
   return String(value).padStart(2, "0");
 }
 
+function field(value) {
+  return value.slice(0, 8).padEnd(8, "_");
+}
+
+function level(status) {
+  return { green: "INFO", amber: "WARN", red: "ERROR" }[status.toLowerCase()] ?? status;
+}
+
 const input = argumentsFrom(process.argv.slice(2));
 for (const name of Object.keys(input)) {
   if (!["journal", "stage", "event", "status", "summary", "project", "revision"].includes(name)) fail(`Unknown argument: --${name}`);
@@ -53,7 +61,7 @@ if (!fs.existsSync(parent) || !fs.statSync(parent).isDirectory()) fail(`Journal 
 const now = new Date();
 const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-const line = `${time} | ${stage} | ${event} | ${status} | project=${project} | revision=${revision} | ${summary}\n`;
+const line = `${time} | ${field(stage)} | ${field(event)} | ${field(level(status))} | ${field(project)} | ${field(revision)} | ${summary}\n`;
 
 let prefix = "";
 try {

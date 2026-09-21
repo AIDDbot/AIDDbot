@@ -31,7 +31,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 
 The PRD owns requirement text. A spec marks each affected requirement as `new`, `changed`, `deprecated`, or `related` and declares its acceptance-test work. Approval is required before implementation unless YOLO mode is active.
 
-Each delivery records high-level events in a human-readable, append-only `journal.log`. Its initial header records the first event's date; event lines begin with the current local time. Physical line order is canonical and is never replaced by timestamp sorting.
+Each delivery records high-level events in a human-readable, append-only `journal.log`. Its initial header records the first event's date; event lines begin with the current local time. Intermediate fields are truncated or right-padded with underscores to eight characters, while the final summary stays on one untruncated line. Green, amber, and red outcomes appear as the standard log levels `INFO`, `WARN`, and `ERROR`. Physical line order is canonical and is never replaced by timestamp sorting.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |
