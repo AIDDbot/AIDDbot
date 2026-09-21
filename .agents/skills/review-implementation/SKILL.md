@@ -4,7 +4,6 @@ description: Review technical quality for one spec implementation.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # review-implementation
 

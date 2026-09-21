@@ -4,7 +4,6 @@ description: Implement supplied spec scope or repair findings.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # implement-project
 

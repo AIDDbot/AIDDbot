@@ -4,7 +4,6 @@ description: Review technical quality for one spec implementation.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/review-implementation/SKILL.md instead -->
 

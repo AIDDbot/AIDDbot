@@ -4,7 +4,6 @@ description: Turn a natural-language request into a shipped spec.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
-disable-model-invocation: false
 ---
 # build-requested-spec
 

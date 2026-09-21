@@ -13,7 +13,6 @@ description: {what it does, in one sentence}
 metadata:
   aiddbot-kind: {orchestrator|primitive}
 user-invocable: {true|false}
-disable-model-invocation: {true for explicit-only entrypoints|false when another skill may execute it}
 ---
 # {slug}
 

@@ -4,7 +4,6 @@ description: Turn a natural-language request into a shipped spec.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
-disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/build-requested-spec/SKILL.md instead -->
 

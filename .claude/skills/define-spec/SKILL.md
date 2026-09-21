@@ -4,7 +4,6 @@ description: Turn one natural-language request into an approved spec and its pro
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/define-spec/SKILL.md instead -->
 

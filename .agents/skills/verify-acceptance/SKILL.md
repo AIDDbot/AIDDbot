@@ -4,7 +4,6 @@ description: Execute acceptance tests for one spec and write a verification repo
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # verify-acceptance
 

@@ -4,7 +4,6 @@ description: Append one human-readable process event without disturbing journal 
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # record-journal
 

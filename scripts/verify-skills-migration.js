@@ -16,11 +16,6 @@ const exists = (relative) => fs.existsSync(path.join(root, ...relative.split("/"
 const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(skillsRoot, entry.name, "SKILL.md")))
   .map((entry) => entry.name).sort();
-const explicitOnly = new Set([
-  "architect-system-foundation",
-  "craft-lasting-quality",
-]);
-
 const adaptCommand = read(path.join(root, "scripts", "adapt.command.md"));
 for (const required of [
   ".claude/settings.json",
@@ -44,10 +39,7 @@ for (const name of skills) {
   if (!frontmatter(content)) fail(`${name}: missing frontmatter`);
   if (!content.includes(`name: ${name}`)) fail(`${name}: name differs from folder`);
   if (!content.includes("aiddbot-kind:")) fail(`${name}: missing skill kind`);
-  const expectedInvocation = explicitOnly.has(name) ? "true" : "false";
-  if (!content.includes(`disable-model-invocation: ${expectedInvocation}`)) {
-    fail(`${name}: disable-model-invocation must be ${expectedInvocation}`);
-  }
+  if (/^disable-model-invocation:/m.test(frontmatter(content))) fail(`${name}: must not disable model invocation`);
   if (/_IF_|_FOR-EACH_|_REPEAT_|_ALWAYS_|_SPAWN_|_RETURN_/.test(content)) {
     fail(`${name}: indented pseudocode command remains`);
   }

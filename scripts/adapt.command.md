@@ -15,10 +15,9 @@ Keep Claude Code, Cursor, GitHub Copilot in VS Code, and Codex synchronized with
 
 Read every `.agents/skills/*/SKILL.md`, `.agents/agents/*.md`, `.agents/rules/*.rules.md`, and `.agents/hooks/index.mjs` when present. Ignore nested documentation and assets except when a skill links to them.
 
-A skill requires `name`, `description`, `metadata.aiddbot-kind`, `user-invocable`, and `disable-model-invocation`. `name` matches its directory; `aiddbot-kind` is exactly `orchestrator` or `primitive`; the metadata map is flat and all its keys and values are strings.
+A skill requires `name`, `description`, `metadata.aiddbot-kind`, and `user-invocable`. `name` matches its directory; `aiddbot-kind` is exactly `orchestrator` or `primitive`; the metadata map is flat and all its keys and values are strings.
 
 - `orchestrator` and `primitive` require `user-invocable: true`.
-- Every kind requires `disable-model-invocation: true`.
 - Every composition link targets another canonical `SKILL.md`, never a command or workflow file.
 
 Skip invalid sources and report each violation; never guess. Report counts by skill kind and public/private exposure.
@@ -49,7 +48,7 @@ Overwrite or delete only files carrying the applicable marker. Preserve and repo
 
 Codex, Cursor, and GitHub Copilot in VS Code consume `.agents/skills/` directly. Generate no Codex workflow wrapper, Cursor command or skill adapter, Copilot prompt file, or `.vscode/settings.json` for skill discovery.
 
-Claude Code loads project skills from `.claude/skills/`, so generate a thin pointer for every valid skill at `.claude/skills/{name}/SKILL.md`. Preserve the canonical `name`, `description`, `metadata`, `user-invocable`, `disable-model-invocation`, and optional `argument-hint` and `allowed-tools`. After its frontmatter render the marker, then:
+Claude Code loads project skills from `.claude/skills/`, so generate a thin pointer for every valid skill at `.claude/skills/{name}/SKILL.md`. Preserve the canonical `name`, `description`, `metadata`, `user-invocable`, and optional `argument-hint` and `allowed-tools`. After its frontmatter render the marker, then:
 
 ```md
 Read and follow [the canonical {name} skill](../../../.agents/skills/{name}/SKILL.md).
@@ -57,7 +56,7 @@ Read and follow [the canonical {name} skill](../../../.agents/skills/{name}/SKIL
 
 This directory name preserves the public slash name for orchestrators and primitives. Never create a Claude command adapter for a skill. Do not create adapters for unsupported or retired Copilot surfaces.
 
-Cursor directly discovers `.agents/skills/` and honors `disable-model-invocation`. Retain the canonical field and generate no duplicate adapter.
+Cursor directly discovers `.agents/skills/`. Generate no duplicate adapter.
 
 ### Agents
 

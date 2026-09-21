@@ -4,7 +4,6 @@ description: Set up the foundation architecture for the system.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
-disable-model-invocation: true
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/architect-system-foundation/SKILL.md instead -->
 

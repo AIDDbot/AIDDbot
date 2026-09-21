@@ -4,7 +4,6 @@ description: Set the system documentation from repository evidence.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # document-system
 

@@ -4,7 +4,6 @@ description: Integrate and close an evidenced spec.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # ship-spec
 

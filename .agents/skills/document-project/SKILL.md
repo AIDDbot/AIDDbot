@@ -4,7 +4,6 @@ description: Document one project or subdomain folder.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # document-project
 

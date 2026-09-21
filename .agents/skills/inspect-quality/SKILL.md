@@ -4,7 +4,6 @@ description: Inspect quality evidence and maintain durable quality records.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # inspect-quality
 

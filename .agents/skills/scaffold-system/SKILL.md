@@ -4,7 +4,6 @@ description: Build only the initial scaffold for a system.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: false
 ---
 # scaffold-system
 
