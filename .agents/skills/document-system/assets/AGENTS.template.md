@@ -56,6 +56,8 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 ## Project decisions
 
 - Model: `{Product_Folder}/model/model.schema.md`
+- Database: `{Product_Folder}/model/db.schema.md` when relational persistence exists
+- API: `{Product_Folder}/model/api.schema.md` when an API contract exists
 - {Project-specific decision needed to work safely.}
 
 ---

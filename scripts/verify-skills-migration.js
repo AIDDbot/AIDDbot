@@ -74,6 +74,7 @@ for (const required of [
   ".agents/skills/review-implementation/assets/qualification.template.md",
   ".agents/skills/document-system/assets/counters.template.yaml",
   ".agents/skills/document-project/assets/project.rules.template.md",
+  ".agents/skills/document-project/assets/db.schema.template.md",
   ".agents/skills/inspect-quality/assets/TDR.template.md",
   ".agents/skills/inspect-quality/assets/review.template.md",
   ".agents/skills/inspect-quality/references/debt.contract.md",
@@ -100,7 +101,7 @@ const contract = {
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "Do not edit code nor documentation", "build-requested-spec", "Reuse these agents to spawn only the missing implementation agent."],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", ".aiddbot/counters.yaml", "record-journal", "stage: inspect"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
-  "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "Do not create system architecture"],
+  "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "relational persistence", "real columns and physical types", "many-to-many join table", "not generated executable SQL", "Do not create system architecture"],
   "scaffold-system/SKILL.md": [".aiddbot/aiddbot.system.json", "root `package.json` product metadata", "basic lint command", "Do not run tests", "root `start` and `test:e2e` scripts", ".aiddbot/run-system.mjs", "must not invent a command"],
 };
 for (const [relative, needles] of Object.entries(contract)) {

@@ -16,7 +16,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `record-journal` owns journal rendering. The whole process shares one journal: `.aiddbot/journal.log`, kept out of Git by `.aiddbot/.gitignore`. Its initial header records the date and any known harness and model before naming the columns. Each event starts with the current local time, the six-character text status `Info`, `Warn`, or `Error`, and the active agent (`Arch.`, `Build.`, `Craft.`, or `Direct`). Spec, stage, event, and project are six characters, revision is three, and spaces are the only column separator; all fixed-width values are trimmed, truncated, and right-padded. The final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
 
-System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
+System and project documentation records important paths, boundaries, and files. When repository evidence shows relational persistence, project documentation also records its physical tables in `model/db.schema.md`, including real column types and required join tables. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
 
