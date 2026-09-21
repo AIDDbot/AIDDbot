@@ -60,13 +60,7 @@ const model = clean("model", input.model);
 
 const folder = path.resolve(".aiddbot");
 const journals = path.join(folder, "journals");
-const ignore = path.join(folder, ".gitignore");
 fs.mkdirSync(folder, { recursive: true });
-
-const ignored = fs.existsSync(ignore) ? fs.readFileSync(ignore, "utf8") : "";
-if (!/^\/?journals\/\s*$/m.test(ignored)) {
-  fs.appendFileSync(ignore, `${ignored && !ignored.endsWith("\n") ? "\n" : ""}journals/\n`, "utf8");
-}
 
 const row = (cells) => cells.join(" ");
 const now = new Date();

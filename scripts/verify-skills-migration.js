@@ -102,7 +102,7 @@ for (const [relative, needles] of Object.entries(contract)) {
 }
 
 const journalSkill = read(path.join(skillsRoot, "record-journal", "SKILL.md"));
-for (const needle of [".aiddbot/journal.log", "date, known harness and model", "column names", "system clock immediately before", "status immediately after the timestamp", "exactly six characters", "revision is exactly three", "spaces as the only column separator", "`amber` as `Warn`", "IDE log coloring recognizes them", "Physical line order is canonical", "`Architect`", "`Builder`", "`Craftsman`", "`Direct`", "Do not stage or commit the journal"]) {
+for (const needle of [".aiddbot/journals/YYYY-MM-DD.log", "date, known harness and model", "column names", "system clock immediately before", "status immediately after the timestamp", "exactly six characters", "revision is exactly three", "spaces as the only column separator", "`amber` as `Warn`", "IDE log coloring recognizes them", "Physical line order is canonical", "`Architect`", "`Builder`", "`Craftsman`", "`Direct`", "Do not stage or commit the journal"]) {
   if (!journalSkill.includes(needle)) fail(`record-journal: missing journal contract ${needle}`);
 }
 
@@ -155,9 +155,11 @@ verifyOverlay();
 
 function verifyJournal() {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "aiddbot-journal-"));
-  const journal = path.join(temp, ".aiddbot", "journal.log");
+  const now = new Date();
+  const journal = path.join(temp, ".aiddbot", "journals", `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}.log`);
   const script = path.join(skillsRoot, "record-journal", "scripts", "append.mjs");
   try {
+    fs.writeFileSync(path.join(temp, ".gitignore"), "*.log\n");
     for (const [stage, event, status, summary] of [
       ["define", "created", "green", "Specification created"],
       ["verification", "checked-too-long", "red", "Acceptance failed"],
@@ -169,12 +171,12 @@ function verifyJournal() {
     const content = read(journal);
     if ((content.match(/^# Journal · \d{4}-\d{2}-\d{2}$/gm) || []).length !== 1) fail("record-journal must write one initial date header");
     if (!/^# Harness · Codex \| Model · gpt-5\.6-terra$/m.test(content)) fail("record-journal runtime header differs");
-    if (!/^time     status agent  spec   stage  event  project rev summary$/m.test(content)) fail("record-journal column header differs");
-    if (!/^journal\.log$/m.test(read(path.join(temp, ".aiddbot", ".gitignore")))) fail("record-journal must keep the journal out of Git");
+    if (!/^time     status agent  spec   stage    event    proj   rev summary$/m.test(content)) fail("record-journal column header differs");
+    if (fs.existsSync(path.join(temp, ".aiddbot", ".gitignore"))) fail("record-journal must not create a nested Git ignore file");
     if (content.indexOf("Specification created") > content.indexOf("Acceptance failed")) fail("record-journal changed physical event order");
-    if (!/^\d{2}:\d{2}:\d{2} Info   Build\. S0001  define create -      -   Specification created$/m.test(content)) fail("record-journal padded line format differs");
-    if (!/^\d{2}:\d{2}:\d{2} Error  Build\. S0001  verifi checke -      -   Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
-    if (!/^\d{2}:\d{2}:\d{2} Warn   Build\. S0001  qualif review -      -   Debt remains$/m.test(content)) fail("record-journal warning level differs");
+    if (!/^\d{2}:\d{2}:\d{2} Info   Build  S0001  define   created  -      -   Specification created$/m.test(content)) fail("record-journal padded line format differs");
+    if (!/^\d{2}:\d{2}:\d{2} Error  Build  S0001  verifica checked- -      -   Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
+    if (!/^\d{2}:\d{2}:\d{2} Warn   Build  S0001  qualify  reviewed -      -   Debt remains$/m.test(content)) fail("record-journal warning level differs");
   } finally {
     const resolved = path.resolve(temp);
     if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });
