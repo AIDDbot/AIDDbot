@@ -59,19 +59,20 @@ const harness = clean("harness", input.harness);
 const model = clean("model", input.model);
 
 const folder = path.resolve(".aiddbot");
-const journal = path.join(folder, "journal.log");
+const journals = path.join(folder, "journals");
 const ignore = path.join(folder, ".gitignore");
 fs.mkdirSync(folder, { recursive: true });
 
 const ignored = fs.existsSync(ignore) ? fs.readFileSync(ignore, "utf8") : "";
-if (!/^\/?journal\.log\s*$/m.test(ignored)) {
-  fs.appendFileSync(ignore, `${ignored && !ignored.endsWith("\n") ? "\n" : ""}journal.log\n`, "utf8");
+if (!/^\/?journals\/\s*$/m.test(ignored)) {
+  fs.appendFileSync(ignore, `${ignored && !ignored.endsWith("\n") ? "\n" : ""}journals/\n`, "utf8");
 }
 
 const row = (cells) => cells.join(" ");
 const now = new Date();
 const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+const journal = path.join(journals, `${date}.log`);
 const agentLabel = { Architect: "Arch", Builder: "Build", Craftsman: "Craft", Direct: "Direct" }[agent] ?? agent;
 const line = `${row([field(time, 8), field(level(status)), field(agentLabel), field(spec), field(stage, 8), field(event, 8), field(project), field(revision, 3), summary])}\n`;
 
@@ -82,4 +83,5 @@ if (!fs.existsSync(journal) || fs.statSync(journal).size === 0) {
   prefix = `# Journal · ${date}\n${runtime ? `# ${runtime}\n` : ""}\n${row([field("time", 8), field("status"), ...names, field("proj"), field("rev", 3), "summary"])}\n`;
 }
 
+fs.mkdirSync(journals, { recursive: true });
 fs.appendFileSync(journal, prefix + line, { encoding: "utf8", flag: "a" });
