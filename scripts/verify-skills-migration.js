@@ -22,6 +22,19 @@ const explicitOnly = new Set([
   "maintain-skills",
 ]);
 
+const adaptCommand = read(path.join(root, "scripts", "adapt.command.md"));
+for (const required of [
+  ".claude/settings.json",
+  "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs",
+  "Preserve every other top-level setting, hook event, matcher group, and handler",
+  "Remove duplicate or stale owned handlers",
+  "invalid JSON or a non-object `hooks` value",
+  "Claude project hooks require review through `/hooks`",
+]) if (!adaptCommand.includes(required)) fail(`adapt command lacks Claude hook contract: ${required}`);
+if (adaptCommand.includes("Do not synthesize hooks for the other harnesses")) {
+  fail("adapt command still excludes Claude hook generation");
+}
+
 function frontmatter(text) {
   return text.match(/^(---\r?\n[\s\S]*?\r?\n---)/)?.[1] || "";
 }
@@ -79,11 +92,11 @@ for (const retired of [
 const contract = {
   "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
   "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "execute the `verify-acceptance` skill", "execute `review-implementation`", "execute `ship-spec`", "Keep the three agents available", "existing implementation agent", "existing evaluation agent", "revision count is below 3"],
-  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line", "journal.jsonl", "stage: \"define\""],
-  "implement-project/SKILL.md": ["error-level lint", "effective flags", "Never enumerate or execute commands classified as `Acceptance` or `Quality`", "unit tests", "journal.jsonl", "stage: \"build\""],
-  "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "journal.jsonl", "stage: \"verify\""],
-  "review-implementation/SKILL.md": ["qualification.md", "quality debt", "journal.jsonl", "stage: \"qualify\""],
-  "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules", "journal.jsonl", "stage: \"ship\""],
+  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line", "record-journal", "stage: define"],
+  "implement-project/SKILL.md": ["error-level lint", "effective flags", "Never enumerate or execute commands classified as `Acceptance` or `Quality`", "unit tests", "record-journal", "stage: build"],
+  "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "record-journal", "stage: verify"],
+  "review-implementation/SKILL.md": ["qualification.md", "quality debt", "record-journal", "stage: qualify"],
+  "ship-spec/SKILL.md": ["status: shipped", "inspect-quality", "declared D IDs", "project rules", "record-journal", "stage: ship"],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
@@ -94,11 +107,9 @@ for (const [relative, needles] of Object.entries(contract)) {
   for (const needle of needles) if (!content.includes(needle)) fail(`${relative}: missing ${needle}`);
 }
 
-for (const relative of ["define-spec/SKILL.md", "implement-project/SKILL.md", "verify-acceptance/SKILL.md", "review-implementation/SKILL.md", "ship-spec/SKILL.md"]) {
-  const content = read(path.join(skillsRoot, ...relative.split("/")));
-  for (const needle of ["current system time immediately before", "complete ISO 8601", "append-only", "Physical line order is canonical", "legacy `journal.md`"]) {
-    if (!content.includes(needle)) fail(`${relative}: missing journal contract ${needle}`);
-  }
+const journalSkill = read(path.join(skillsRoot, "record-journal", "SKILL.md"));
+for (const needle of ["journal.log", "initial date header", "system clock immediately before", "Physical line order is canonical", "legacy `journal.jsonl`", "Do not stage or commit files", "calling skill includes the journal update"]) {
+  if (!journalSkill.includes(needle)) fail(`record-journal: missing journal contract ${needle}`);
 }
 
 for (const relative of ["document-system/assets/AGENTS.template.md", "document-project/assets/project.rules.template.md"]) {
@@ -140,6 +151,30 @@ function verifyOverlay() {
 }
 
 verifyOverlay();
+
+function verifyJournal() {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "aiddbot-journal-"));
+  const journal = path.join(temp, "journal.log");
+  const script = path.join(skillsRoot, "record-journal", "scripts", "append.mjs");
+  try {
+    for (const [stage, event, status, summary] of [
+      ["define", "created", "green", "Specification created"],
+      ["verify", "checked", "red", "Acceptance failed"],
+    ]) {
+      const result = spawnSync(process.execPath, [script, "--journal", journal, "--stage", stage, "--event", event, "--status", status, "--summary", summary], { encoding: "utf8" });
+      if (result.status !== 0) fail(`record-journal failed: ${result.stderr.trim()}`);
+    }
+    const content = read(journal);
+    if ((content.match(/^# Journal · \d{4}-\d{2}-\d{2}$/gm) || []).length !== 1) fail("record-journal must write one initial date header");
+    if (content.indexOf("Specification created") > content.indexOf("Acceptance failed")) fail("record-journal changed physical event order");
+    if (!/^\d{2}:\d{2}:\d{2} \| define \| created \| green \| project=- \| revision=- \| Specification created$/m.test(content)) fail("record-journal line format differs");
+  } finally {
+    const resolved = path.resolve(temp);
+    if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });
+  }
+}
+
+verifyJournal();
 const scaffold = path.join(skillsRoot, "scaffold-system", "scripts", "materialize.mjs");
 const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
 if (listed.status !== 0 || !/default: express/.test(listed.stdout)) fail("scaffold catalog is unavailable");

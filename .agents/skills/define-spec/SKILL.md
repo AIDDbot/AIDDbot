@@ -22,8 +22,6 @@ Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines unti
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
 
-## Journaling
-
-Append high-level creation and approval events to `journal.jsonl` in the spec folder. Each line is one valid JSON object with `timestamp`, `stage`, `event`, `status`, and `summary`; use `stage: "define"`. Read the current system time immediately before each append and write it as complete ISO 8601 with an offset or `Z`. The file is append-only: never edit, delete, reorder, or backdate existing lines. Physical line order is canonical even if a timestamp is wrong. Do not convert or extend a legacy `journal.md`.
+Execute `record-journal` for each high-level creation and approval event with `stage: define`.
 
 Commit as `docs(spec): define delivery`.

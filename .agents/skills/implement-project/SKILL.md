@@ -24,8 +24,6 @@ Use only the command classified as error-level lint in the project rules. Confir
 
 Run that soft lint after each change and fix its errors. Never enumerate or execute commands classified as `Acceptance` or `Quality`. If no unambiguous error-level lint is configured, record it as unavailable in the journal instead of substituting or constructing a command.
 
-## Journaling
-
-Append high-level coding, testing, linting, and failure events to `journal.jsonl` in the spec folder. Each line is one valid JSON object with `timestamp`, `stage`, `project`, `event`, `status`, and `summary`; use `stage: "build"`. Read the current system time immediately before each append and write it as complete ISO 8601 with an offset or `Z`. The file is append-only: never edit, delete, reorder, or backdate existing lines. Physical line order is canonical even if a timestamp is wrong. Do not convert or extend a legacy `journal.md`.
+Execute `record-journal` for each high-level coding, testing, linting, and failure event with `stage: build` and the project name.
 
 Commit following the conventional commit `{feat|fix|chore|test|docs:message}`.

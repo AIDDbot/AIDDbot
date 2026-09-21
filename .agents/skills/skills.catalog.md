@@ -9,12 +9,12 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `specs/PRD.md` | Current requirements |
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
-| `specs/S{nnnn}-{slug}/journal.jsonl` | Append-only chronological delivery events |
+| `specs/S{nnnn}-{slug}/journal.log` | Human-readable append-only delivery events |
 | `counters.yaml` | Permanent S, F, T, and D IDs |
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
-Journal lines are never rewritten or sorted. Their physical order is canonical, and every stage reads the system clock immediately before appending a complete ISO 8601 timestamp.
+`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time. Lines are never rewritten or sorted; their physical order is canonical.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
@@ -45,6 +45,7 @@ Commands are classified by effective behavior, not script name. Regular delivery
 | Build | [`/implement-project`](./implement-project/SKILL.md) |
 | Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/inspect-quality`](./inspect-quality/SKILL.md) |
 | Ship | [`/ship-spec`](./ship-spec/SKILL.md) |
+| Record | [`/record-journal`](./record-journal/SKILL.md) |
 | Meta | [`/maintain-skills`](./maintain-skills/SKILL.md) |
 
 ## Routing
@@ -54,6 +55,8 @@ Commands are classified by effective behavior, not script name. Regular delivery
 | `/architect-system-foundation` | No source: `scaffold-system` → `document-system` → `document-project`. Existing source: `document-system` → `document-project`. |
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
+
+Delivery stages invoke `record-journal` whenever they produce a high-level event.
 
 `scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery.
 

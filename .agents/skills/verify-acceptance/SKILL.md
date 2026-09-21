@@ -22,8 +22,6 @@ Increment `revision` once per evaluation, starting at 1, not for document edits.
 
 The result is current acceptance evidence.
 
-## Journaling
-
-Append one high-level event for each verification revision and status to `journal.jsonl` in the spec folder. Each line is one valid JSON object with `timestamp`, `stage`, `revision`, `event`, `status`, and `summary`; use `stage: "verify"`. Read the current system time immediately before each append and write it as complete ISO 8601 with an offset or `Z`. The file is append-only: never edit, delete, reorder, or backdate existing lines. Physical line order is canonical even if a timestamp is wrong. Do not convert or extend a legacy `journal.md`.
+Execute `record-journal` once for each verification revision with `stage: verify`, its revision, and status.
 
 Commit as `docs(verification): record acceptance`.

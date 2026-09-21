@@ -37,7 +37,9 @@ The Codex TOML agent equivalent is the first line:
 # managed by /adapt — do not edit here, edit {source path} instead
 ```
 
-Harness hook JSON cannot carry comments. Treat it as managed only when its top-level `description` is exactly `managed by /adapt — do not edit here, edit .agents/hooks/index.mjs instead`.
+Harness hook JSON cannot carry comments. Treat `.codex/hooks.json` as managed only when its top-level `description` is exactly `managed by /adapt — do not edit here, edit .agents/hooks/index.mjs instead`.
+
+Claude settings are a shared user file, not a managed adapter. In `.claude/settings.json`, own only command handlers whose `command` is `node` and whose `args` target `${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs`, followed by `ingest`, `claude-code`, and an event name. Preserve every other top-level setting, hook event, matcher group, and handler byte-for-byte in meaning. Never add an ownership field that Claude Code does not support.
 
 Overwrite or delete only files carrying the applicable marker. Preserve and report all unmarked collisions. Compare rendered content byte-for-byte before writing so identical files and mtimes remain untouched.
 
@@ -69,11 +71,15 @@ For each valid `.agents/rules/{project}.rules.md`, render a short managed pointe
 
 When `.agents/hooks/index.mjs` exists, render the managed `.codex/hooks.json` with synchronous command hooks for `SessionStart`, `SessionEnd`, `SubagentStart`, `SubagentStop`, `UserPromptSubmit`, and `Stop`; each runs `node .agents/hooks/index.mjs ingest codex {event}` with matcher `*`.
 
-Do not synthesize hooks for the other harnesses. Validate their existing configuration and report whether it invokes the shared audit source. Remind the user that Codex project hooks require review and trust through `/hooks`.
+Reconcile the same six events in `.claude/settings.json`. For each event, keep one owned handler with `type: command`, `command: node`, and `args: ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code", "{event}"]`. Put it in a matcher group without `matcher`, because all six events must be observed and `UserPromptSubmit` and `Stop` do not support matchers. Reuse an existing matcherless group when possible; otherwise append one. Remove duplicate or stale owned handlers, and remove an empty group left by that removal. If the file is absent, create it with only the `hooks` object. If it contains invalid JSON or a non-object `hooks` value, report a collision and do not change it.
+
+When the audit source is absent, remove only the owned Claude handlers. Retain `.claude/settings.json` even when that cleanup leaves an empty object, because it is a shared settings file rather than an owned adapter.
+
+Do not synthesize hooks for Cursor or GitHub Copilot. Validate their existing configuration and report whether it invokes the shared audit source. Remind the user that Claude project hooks require review through `/hooks`, and that Codex project hooks require review and trust through `/hooks`.
 
 ## Reconcile and verify
 
-Inventory every existing target under `.claude/skills`, `.claude/commands`, `.cursor/skills`, `.cursor/commands`, `.github/prompts`, `.codex/agents`, and the agent, rule, and hook target folders.
+Inventory every existing target under `.claude/skills`, `.claude/commands`, `.cursor/skills`, `.cursor/commands`, `.github/prompts`, `.codex/agents`, and the agent, rule, and hook target folders, including `.claude/settings.json`.
 
 Delete a managed target when its source disappeared, was renamed, no longer matches the schema, or belongs to the retired command/workflow/prompt contract. This includes marked `.claude/commands/*.md`, `.cursor/commands/*.md`, and `.github/prompts/*.prompt.md`. Do not delete unmarked files. Do not treat a canonical `.agents/skills/{name}/SKILL.md` as an adapter or orphan.
 
@@ -83,8 +89,8 @@ Confirm and report:
 - public orchestrators and primitives have no generated Codex, Cursor, or Copilot copies, while Claude has one thin pointer per canonical skill;
 - every canonical skill is an orchestrator or primitive;
 - no managed Copilot prompt remains and no `.vscode/settings.json` was made;
-- agent, rule, and hook adapters retain their mappings;
+- agent, rule, and hook adapters retain their mappings, and Claude settings retain unrelated content;
 - no unmarked file was overwritten or deleted; and
 - a second immediate run would do nothing.
 
-Report source counts by kind; created, updated, unchanged, deleted, and collision counts by harness; skipped sources; hook status; and the Codex hook trust reminder.
+Report source counts by kind; created, updated, unchanged, deleted, and collision counts by harness; skipped sources; hook status; and the Claude and Codex hook trust reminders.

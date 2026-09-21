@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.0.40 - 2026-09-21
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-system-foundation/SKILL.md
+ M .agents/skills/build-requested-spec/SKILL.md
+ M .agents/skills/craft-lasting-quality/SKILL.md
+ M .agents/skills/define-spec/SKILL.md
+ M .agents/skills/document-system/assets/AGENTS.template.md
+ M .agents/skills/implement-project/SKILL.md
+ M .agents/skills/review-implementation/SKILL.md
+ M .agents/skills/ship-spec/SKILL.md
+ M .agents/skills/skills.catalog.md
+ M .agents/skills/verify-acceptance/SKILL.md
+ M docs/AIDD.workflow.md
+ M scripts/adapt.command.md
+ M scripts/verify-skills-migration.js
+?? .agents/skills/record-journal/SKILL.md
+?? .agents/skills/record-journal/scripts/append.mjs
+?? .claude/skills/record-journal/SKILL.md
+```
+
 ## 0.0.39 - 2026-09-20
 
 - No new commits.
