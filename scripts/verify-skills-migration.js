@@ -110,7 +110,7 @@ for (const [relative, needles] of Object.entries(contract)) {
 }
 
 const journalSkill = read(path.join(skillsRoot, "record-journal", "SKILL.md"));
-for (const needle of ["journal.log", "initial date header", "system clock immediately before", "status immediately after the timestamp", "exactly eight characters", "IDE log coloring recognizes them", "Existing entries retain their historical format", "Physical line order is canonical", "legacy `journal.jsonl`", "Do not stage or commit files", "calling skill includes the journal update"]) {
+for (const needle of ["journal.log", "initial date header", "system clock immediately before", "status immediately after the timestamp", "exactly six characters", "`amber` as `Warn`", "IDE log coloring recognizes them", "Existing entries retain their historical format", "Physical line order is canonical", "legacy `journal.jsonl`", "Do not stage or commit files", "calling skill includes the journal update"]) {
   if (!journalSkill.includes(needle)) fail(`record-journal: missing journal contract ${needle}`);
 }
 
@@ -177,9 +177,9 @@ function verifyJournal() {
     const content = read(journal);
     if ((content.match(/^# Journal · \d{4}-\d{2}-\d{2}$/gm) || []).length !== 1) fail("record-journal must write one initial date header");
     if (content.indexOf("Specification created") > content.indexOf("Acceptance failed")) fail("record-journal changed physical event order");
-    if (!/^\d{2}:\d{2}:\d{2} \| Info     \| define   \| created  \| -        \| -        \| Specification created$/m.test(content)) fail("record-journal padded line format differs");
-    if (!/^\d{2}:\d{2}:\d{2} \| Error    \| verifica \| checked- \| -        \| -        \| Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
-    if (!/^\d{2}:\d{2}:\d{2} \| Warning  \| qualify  \| reviewed \| -        \| -        \| Debt remains$/m.test(content)) fail("record-journal warning level differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Info   \| define \| create \| -      \| -      \| Specification created$/m.test(content)) fail("record-journal padded line format differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Error  \| verifi \| checke \| -      \| -      \| Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Warn   \| qualif \| review \| -      \| -      \| Debt remains$/m.test(content)) fail("record-journal warning level differs");
   } finally {
     const resolved = path.resolve(temp);
     if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });

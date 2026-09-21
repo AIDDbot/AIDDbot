@@ -35,11 +35,11 @@ function pad(value) {
 }
 
 function field(value) {
-  return value.slice(0, 8).padEnd(8, " ");
+  return value.trim().slice(0, 6).padEnd(6, " ");
 }
 
 function level(status) {
-  return { green: "Info", success: "Info", info: "Info", amber: "Warning", warning: "Warning", warn: "Warning", red: "Error", error: "Error" }[status.toLowerCase()] ?? status;
+  return { green: "Info", success: "Info", info: "Info", amber: "Warn", warning: "Warn", warn: "Warn", red: "Error", error: "Error" }[status.toLowerCase()] ?? status;
 }
 
 const input = argumentsFrom(process.argv.slice(2));

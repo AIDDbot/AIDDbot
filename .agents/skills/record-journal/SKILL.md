@@ -12,9 +12,9 @@ Your goal is to append one event to a spec's `journal.log`.
 
 Run `node .agents/skills/record-journal/scripts/append.mjs` with `--journal`, `--stage`, `--event`, `--status`, and `--summary`. Pass `--project` or `--revision` only when the event has that value. Do not construct the line or timestamp yourself.
 
-The script owns the initial date header, reads the system clock immediately before appending, and writes one complete event line. It places the status immediately after the timestamp and renders `green` as `Info`, `amber` as `Warning`, and `red` as `Error`. The status, stage, event, project, and revision fields are exactly eight characters: longer values are truncated and shorter values are padded on the right with spaces. Keep the status spellings and capitalization exact so IDE log coloring recognizes them. The final summary remains untruncated and single-line.
+The script owns the initial date header, reads the system clock immediately before appending, and writes one complete event line. It places the status immediately after the timestamp and renders `green` as `Info`, `amber` as `Warn`, and `red` as `Error`. The status, stage, event, project, and revision fields are trimmed and rendered as exactly six characters: longer values are truncated and shorter values are padded on the right with spaces. Keep the status spellings and capitalization exact so IDE log coloring recognizes them. The final summary remains untruncated and single-line.
 
-Physical line order is canonical. Never edit, delete, reorder, backdate, or convert existing journal content. Existing entries retain their historical format; the eight-character text status format applies to new entries. Do not extend a legacy `journal.jsonl` or `journal.md`.
+Physical line order is canonical. Never edit, delete, reorder, backdate, or convert existing journal content. Existing entries retain their historical format; the six-character text status format applies to new entries. Do not extend a legacy `journal.jsonl` or `journal.md`.
 
 The result is one appended delivery event.
 

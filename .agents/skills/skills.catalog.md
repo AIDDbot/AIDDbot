@@ -14,7 +14,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
-`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time followed by the eight-character text status `Info`, `Warning`, or `Error`. Status, stage, event, project, and revision fields use right spaces rather than visible padding markers so IDE log coloring remains reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
+`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time followed by the six-character text status `Info`, `Warn`, or `Error`. Status, stage, event, project, and revision fields are trimmed, truncated, and right-padded with spaces rather than visible markers so IDE log coloring remains reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
