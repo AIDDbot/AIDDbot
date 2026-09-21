@@ -72,14 +72,14 @@ const row = (cells) => cells.join(" ");
 const now = new Date();
 const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-const agentLabel = { Architect: "Arch.", Builder: "Build.", Craftsman: "Craft.", Direct: "Direct" }[agent] ?? agent;
-const line = `${row([field(time, 8), field(level(status)), field(agentLabel), field(spec), field(stage), field(event), field(project), field(revision, 3), summary])}\n`;
+const agentLabel = { Architect: "Arch", Builder: "Build", Craftsman: "Craft", Direct: "Direct" }[agent] ?? agent;
+const line = `${row([field(time, 8), field(level(status)), field(agentLabel), field(spec), field(stage, 8), field(event, 8), field(project), field(revision, 3), summary])}\n`;
 
 let prefix = "";
 if (!fs.existsSync(journal) || fs.statSync(journal).size === 0) {
   const runtime = [["Harness", harness], ["Model", model]].filter(([, value]) => value !== "-").map(([name, value]) => `${name} · ${value}`).join(" | ");
-  const names = ["agent", "spec", "stage", "event"].map((name) => field(name));
-  prefix = `# Journal · ${date}\n${runtime ? `# ${runtime}\n` : ""}\n${row([field("time", 8), field("status"), ...names, "project", field("rev", 3), "summary"])}\n`;
+  const names = [field("agent"), field("spec"), field("stage", 8), field("event", 8)];
+  prefix = `# Journal · ${date}\n${runtime ? `# ${runtime}\n` : ""}\n${row([field("time", 8), field("status"), ...names, field("proj"), field("rev", 3), "summary"])}\n`;
 }
 
 fs.appendFileSync(journal, prefix + line, { encoding: "utf8", flag: "a" });
