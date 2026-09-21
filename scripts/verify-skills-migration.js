@@ -19,7 +19,6 @@ const skills = fs.readdirSync(skillsRoot, { withFileTypes: true })
 const explicitOnly = new Set([
   "architect-system-foundation",
   "craft-lasting-quality",
-  "maintain-skills",
 ]);
 
 const adaptCommand = read(path.join(root, "scripts", "adapt.command.md"));
