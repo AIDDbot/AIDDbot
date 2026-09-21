@@ -27,6 +27,8 @@ Foundation documentation records important paths, project boundaries, and produc
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
 | Prove and ship | **Craftsman** | `verify-acceptance` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
+When an orchestrator delegates, it names a portable effort level: `low`, `medium`, or `high`. The harness selects its compatible model and native setting. `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
+
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 
 The PRD owns requirement text. A spec marks each affected requirement as `new`, `changed`, `deprecated`, or `related` and declares its acceptance-test work. Approval is required before implementation unless YOLO mode is active.

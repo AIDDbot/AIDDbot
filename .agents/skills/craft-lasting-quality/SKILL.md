@@ -14,9 +14,9 @@ Your goal is to **reduce existing quality debt** using evidence-backed specifica
 
 Tell every agent, including those reused by `build-requested-spec`, to journal with its active agent role.
 
-First, spawn a **Craftsman** agent to execute the `inspect-quality` skill for a system review, and wait for its result.
+First, spawn a **Craftsman** agent with `high` effort to execute the `inspect-quality` skill for a system review, and wait for its result.
 
-Next, spawn an **Architect** agent to select one coherent group of current debt entries for repair and express it as a natural-language request with its D IDs and supporting evidence. Do not edit code nor documentation, just express the request.
+Next, spawn an **Architect** agent with `low` effort to select one coherent group of current debt entries for repair and express it as a natural-language request with its D IDs and supporting evidence. Do not edit code nor documentation, just express the request.
 
 If no eligible debt remains, return the quality review directly. 
 

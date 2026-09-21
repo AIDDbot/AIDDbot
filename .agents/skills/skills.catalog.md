@@ -58,6 +58,8 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`.
 
+Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses select the compatible model and native setting. `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
+
 `scaffold-system` creates no functional code. It writes `.aiddbot/aiddbot.system.json`, initializes root product metadata, and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. It finishes with dependency installation and basic lint only. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes every release to the authoritative root product version and other existing authoritative declarations.
 
 Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
