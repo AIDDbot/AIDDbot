@@ -19,3 +19,5 @@ Next, spawn an **Architect** agent to select one coherent group of current debt 
 If no eligible debt remains, return the quality review directly. 
 
 Otherwise, execute the `build-requested-spec` skill with the natural-language repair request. Reuse these agents to spawn only the missing implementation agent.
+
+Before returning, stop every sub-agent this skill spawned and every terminal or background process it started. Never stop agents or processes supplied by the caller; the caller stops them.

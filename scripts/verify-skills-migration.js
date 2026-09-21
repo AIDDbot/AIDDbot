@@ -93,15 +93,16 @@ for (const retired of [
 const contract = {
   "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
   "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "authors the tests without executing them", "execute the `verify-acceptance`", "`review-implementation` skills", "execute `ship-spec`", "existing implementation agent", "evaluation agent supplied by the caller", "up to three evaluation revisions", "records every unresolved failure as technical debt"],
-  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID and any new requirement IDs", "reserve those IDs in `counters.yaml` on that branch", "PRD is the only owner of requirement text", "./assets/spec.template.md", "./assets/PRD.template.md", "deprecated PRD line", "record-journal", "stage: define"],
+  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID, name, and slug", "The spec ID and any new requirement IDs, must be reserved in `counters.yaml` on that branch.", "PRD is the only owner of requirement text", "EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL`", "spec following `spec.template.md` and proposed PRD edits following `PRD.template.md`", "Keep deprecated PRD lines until shipping.", "record-journal", "stage: define"],
   "implement-project/SKILL.md": ["error-level lint", "effective flags", "do not enumerate or execute commands classified as `Acceptance`", "including E2E runs", "also applies while repairing a red verification report", "later `verify-acceptance` run", "Never enumerate or execute commands classified as `Quality`", "unit tests", "record-journal", "stage: build"],
   "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "record-journal", "stage: verify"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt", "record-journal", "stage: qualify"],
   "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "release-versioning.md", "every existing authoritative declaration", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
-  "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
+  "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "Do not edit code nor documentation", "build-requested-spec", "Reuse these agents to spawn only the missing implementation agent."],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
   "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "Do not create system architecture"],
+  "scaffold-system/SKILL.md": ["aiddbot.system.json", "root `start` and `test:e2e` scripts", ".aiddbot/run-system.mjs", "must not invent a command"],
 };
 for (const [relative, needles] of Object.entries(contract)) {
   const content = read(path.join(skillsRoot, ...relative.split("/")));
@@ -109,7 +110,7 @@ for (const [relative, needles] of Object.entries(contract)) {
 }
 
 const journalSkill = read(path.join(skillsRoot, "record-journal", "SKILL.md"));
-for (const needle of ["journal.log", "initial date header", "system clock immediately before", "untruncated single-line summary last", "exactly eight characters", "`INFO`, `WARN`, and `ERROR`", "Physical line order is canonical", "legacy `journal.jsonl`", "Do not stage or commit files", "calling skill includes the journal update"]) {
+for (const needle of ["journal.log", "initial date header", "system clock immediately before", "status immediately after the timestamp", "exactly eight characters", "IDE log coloring recognizes them", "Existing entries retain their historical format", "Physical line order is canonical", "legacy `journal.jsonl`", "Do not stage or commit files", "calling skill includes the journal update"]) {
   if (!journalSkill.includes(needle)) fail(`record-journal: missing journal contract ${needle}`);
 }
 
@@ -124,7 +125,9 @@ for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "#
   if (!specTemplate.includes(section)) fail(`spec template missing ${section}`);
 }
 const prdTemplate = read(path.join(skillsRoot, "define-spec", "assets", "PRD.template.md"));
-if (!prdTemplate.includes("F0001") || !prdTemplate.includes("T0001")) fail("PRD template lacks F and T requirements");
+for (const contractLine of ["stable F or T IDs", "observable EARS statements", "EARS keywords IF, WHEN, WHILE, WHERE, and SHALL in uppercase"]) {
+  if (!prdTemplate.includes(contractLine)) fail(`PRD template lacks ${contractLine}`);
+}
 const counters = read(path.join(skillsRoot, "document-system", "assets", "counters.template.yaml"));
 for (const key of ["spec:", "functional:", "technical:", "debt:"]) if (!counters.includes(key)) fail(`counter template missing ${key}`);
 
@@ -174,9 +177,9 @@ function verifyJournal() {
     const content = read(journal);
     if ((content.match(/^# Journal · \d{4}-\d{2}-\d{2}$/gm) || []).length !== 1) fail("record-journal must write one initial date header");
     if (content.indexOf("Specification created") > content.indexOf("Acceptance failed")) fail("record-journal changed physical event order");
-    if (!/^\d{2}:\d{2}:\d{2} \| define__ \| created_ \| INFO____ \| -_______ \| -_______ \| Specification created$/m.test(content)) fail("record-journal padded line format differs");
-    if (!/^\d{2}:\d{2}:\d{2} \| verifica \| checked- \| ERROR___ \| -_______ \| -_______ \| Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
-    if (!/^\d{2}:\d{2}:\d{2} \| qualify_ \| reviewed \| WARN____ \| -_______ \| -_______ \| Debt remains$/m.test(content)) fail("record-journal warning level differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Info     \| define   \| created  \| -        \| -        \| Specification created$/m.test(content)) fail("record-journal padded line format differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Error    \| verifica \| checked- \| -        \| -        \| Acceptance failed$/m.test(content)) fail("record-journal truncation or error level differs");
+    if (!/^\d{2}:\d{2}:\d{2} \| Warning  \| qualify  \| reviewed \| -        \| -        \| Debt remains$/m.test(content)) fail("record-journal warning level differs");
   } finally {
     const resolved = path.resolve(temp);
     if (path.dirname(resolved) === fs.realpathSync(os.tmpdir())) fs.rmSync(resolved, { recursive: true, force: true });
@@ -187,6 +190,8 @@ verifyJournal();
 const scaffold = path.join(skillsRoot, "scaffold-system", "scripts", "materialize.mjs");
 const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
 if (listed.status !== 0 || !/default: express/.test(listed.stdout)) fail("scaffold catalog is unavailable");
+const plan = spawnSync(process.execPath, [scaffold, "--name", "Demo system", "--back", "express", "--e2e", "playwright", "--dry-run"], { encoding: "utf8" });
+if (plan.status !== 0 || !/create\s+aiddbot\.system\.json/.test(plan.stdout) || !/create\s+\.aiddbot\/run-system\.mjs/.test(plan.stdout) || !/package\.json/.test(plan.stdout)) fail("scaffold root orchestration plan is unavailable");
 
 if (failures.length) {
   process.stderr.write(`${failures.map((message) => `FAIL ${message}`).join("\n")}\n`);

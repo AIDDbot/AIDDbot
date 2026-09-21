@@ -17,7 +17,7 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
-Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. It does not repeat skill routing or commands executed by the models.
+Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. A scaffold also leaves `aiddbot.system.json` at the root as the system index and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -31,7 +31,7 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 
 The PRD owns requirement text. A spec marks each affected requirement as `new`, `changed`, `deprecated`, or `related` and declares its acceptance-test work. Approval is required before implementation unless YOLO mode is active.
 
-Each delivery records high-level events in a human-readable, append-only `journal.log`. Its initial header records the first event's date; event lines begin with the current local time. Intermediate fields are truncated or right-padded with underscores to eight characters, while the final summary stays on one untruncated line. Green, amber, and red outcomes appear as the standard log levels `INFO`, `WARN`, and `ERROR`. Physical line order is canonical and is never replaced by timestamp sorting.
+Each delivery records high-level events in a human-readable, append-only `journal.log`. Its initial header records the first event's date; event lines begin with the current local time followed by an eight-character status: `Info`, `Warning`, or `Error`, padded with spaces for IDE log coloring. Stage, event, project, and revision fields are also truncated or right-padded with spaces to eight characters, while the final summary stays on one untruncated line. Physical line order is canonical and is never replaced by timestamp sorting.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

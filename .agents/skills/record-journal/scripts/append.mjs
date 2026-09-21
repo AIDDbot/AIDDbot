@@ -35,11 +35,11 @@ function pad(value) {
 }
 
 function field(value) {
-  return value.slice(0, 8).padEnd(8, "_");
+  return value.slice(0, 8).padEnd(8, " ");
 }
 
 function level(status) {
-  return { green: "INFO", amber: "WARN", red: "ERROR" }[status.toLowerCase()] ?? status;
+  return { green: "Info", success: "Info", info: "Info", amber: "Warning", warning: "Warning", warn: "Warning", red: "Error", error: "Error" }[status.toLowerCase()] ?? status;
 }
 
 const input = argumentsFrom(process.argv.slice(2));
@@ -61,7 +61,7 @@ if (!fs.existsSync(parent) || !fs.statSync(parent).isDirectory()) fail(`Journal 
 const now = new Date();
 const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-const line = `${time} | ${field(stage)} | ${field(event)} | ${field(level(status))} | ${field(project)} | ${field(revision)} | ${summary}\n`;
+const line = `${time} | ${field(level(status))} | ${field(stage)} | ${field(event)} | ${field(project)} | ${field(revision)} | ${summary}\n`;
 
 let prefix = "";
 try {

@@ -14,7 +14,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
-`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time. Intermediate fields are fixed at eight characters and use `INFO`, `WARN`, or `ERROR` for green, amber, or red outcomes; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
+`record-journal` owns journal rendering. The initial header records the first event's date and each event starts with the current local time followed by the eight-character text status `Info`, `Warning`, or `Error`. Status, stage, event, project, and revision fields use right spaces rather than visible padding markers so IDE log coloring remains reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
@@ -58,7 +58,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 Delivery stages invoke `record-journal` whenever they produce a high-level event.
 
-`scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes the release version across existing authoritative product declarations.
+`scaffold-system` creates no functional code. It also writes the root `aiddbot.system.json` index and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes the release version across existing authoritative product declarations.
 
 Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
 

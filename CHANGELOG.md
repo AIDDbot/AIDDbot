@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.0.42 - 2026-09-21
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/architect-system-foundation/SKILL.md
+ M .agents/skills/build-requested-spec/SKILL.md
+ M .agents/skills/craft-lasting-quality/SKILL.md
+ M .agents/skills/define-spec/SKILL.md
+ M .agents/skills/define-spec/assets/PRD.template.md
+ M .agents/skills/record-journal/SKILL.md
+ M .agents/skills/record-journal/scripts/append.mjs
+ M .agents/skills/scaffold-system/SKILL.md
+ M .agents/skills/scaffold-system/scripts/materialize.mjs
+ M .agents/skills/skills.catalog.md
+ M .npmignore
+ M .product/spec-first.plan.md
+ M .product/specification-workflow.diagnosis.md
+ M docs/AIDD.workflow.md
+ M scripts/verify-skills-migration.js
+?? .agents/skills/scaffold-system/assets/run-system.mjs
+```
+
 ## 0.0.41 - 2026-09-21
 
 - refactor(skills): tighten /ship-spec (c9e1ea9)

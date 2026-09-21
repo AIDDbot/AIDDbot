@@ -17,6 +17,7 @@
 !.agents/skills/**
 
 !.claude/
+!.claude/settings.json
 !.claude/agents/
 !.claude/agents/**
 !.claude/rules/

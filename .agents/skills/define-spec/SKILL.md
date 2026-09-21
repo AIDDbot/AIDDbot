@@ -18,6 +18,7 @@ The spec ID and any new requirement IDs, must be reserved in `counters.yaml` on 
 
 Write the spec following `spec.template.md` and proposed PRD edits following `PRD.template.md` together in the project locations. 
 The PRD is the only owner of requirement text. The spec references requirement IDs as `new`, `changed`, `deprecated`, or `related` and records their reason, delivery impact, and acceptance evidence without copying their normative text. 
+Write each new or changed requirement as one observable EARS line. Keep the EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL` in uppercase.
 Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines until shipping.
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .

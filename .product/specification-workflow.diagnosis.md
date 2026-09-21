@@ -41,7 +41,7 @@ consumidor ni tests de una aplicaciÃ³n.
 
 | Caso | PRD y spec esperados | Consumo y comprobaciÃ³n |
 | --- | --- | --- |
-| Nueva exportaciÃ³n CSV | Nuevo F: `When a user exports filtered results, the system shall provide a CSV containing exactly the matching records.`; spec `new` | Builder crea un escenario con registros coincidentes y no coincidentes; Verify exige ejecuciÃ³n y correspondencia con el ID |
+| Nueva exportaciÃ³n CSV | Nuevo F: `WHEN a user exports filtered results, the system SHALL provide a CSV containing exactly the matching records.`; spec `new` | Builder crea un escenario con registros coincidentes y no coincidentes; Verify exige ejecuciÃ³n y correspondencia con el ID |
 | Ampliar lÃ­mite de adjunto de 5 a 10 MiB | Mismo ID, nueva condiciÃ³n EARS; spec `changed` explica antes/despuÃ©s | Actualizar escenarios de lÃ­mite, admisiÃ³n y rechazo; cobertura ausente queda explÃ­cita |
 | Retirar exportaciÃ³n XML | Mantener la lÃ­nea hasta shipping; spec `deprecated` conserva obligaciÃ³n anterior y motivo | Eliminar assertions XML, conservar las CSV compartidas y comprobar que la operaciÃ³n retirada ya no estÃ¡ disponible segÃºn el diseÃ±o aprobado |
 | Reparar CSV que omite registros coincidentes | PRD intacto; spec `related` | Reparar implementaciÃ³n y cobertura; ejecutar regresiÃ³n sin inventar requisito ni ID |

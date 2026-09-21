@@ -11,7 +11,7 @@ Make the PRD the current list of requirements. Make each spec one unit of work a
 ### PRD
 
 - `{Product_Folder}/specs/PRD.md` is the source of current requirements. Edit it in place. Do not generate it as a spec index.
-- Group requirements under Markdown category headings. Write each requirement on one line in EARS form. Do not add status fields, spec links, or a change log.
+- Group requirements under Markdown category headings. Write each requirement on one line in EARS form, with the keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL` in uppercase. Do not add status fields, spec links, or a change log.
 - Give each requirement a permanent `F0001` or `T0001` ID. Use separate counters. Never rename or reuse an ID, even after removal. Git keeps the history.
 - Add or change proposed requirements in the PRD on the spec branch before verification. The PRD on the default branch remains the current shipped contract. Mark proposed removals in the spec. `shipify` deletes their PRD lines only after verification and qualification pass. Integrate code and PRD together.
 

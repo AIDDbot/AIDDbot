@@ -129,6 +129,71 @@ function runTiged(repo, destination, workspace, dryRun) {
   return result.status ?? 1;
 }
 
+function readProjectScripts(workspace, destination) {
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(workspace, destination, "package.json"), "utf8"));
+    return packageJson.scripts && typeof packageJson.scripts === "object" ? packageJson.scripts : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeSystemFiles(workspace, name, systemSlug, selected, options, dryRun) {
+  const projects = selected.map((tier) => {
+    const directory = options[`${tier}Dir`];
+    const scripts = readProjectScripts(workspace, directory);
+    return {
+      kind: tier,
+      technology: options[tier],
+      directory,
+      scripts: Object.fromEntries(["start", "dev", "test:e2e", "test:acceptance", "test"].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
+    };
+  });
+  const hasStart = projects.some((project) => project.kind !== "e2e" && (project.scripts.start || project.scripts.dev));
+  const hasE2e = projects.some((project) => project.kind === "e2e" && (project.scripts["test:e2e"] || project.scripts["test:acceptance"] || project.scripts.test));
+  const manifest = {
+    name,
+    slug: systemSlug,
+    projects,
+    commands: {
+      ...(hasStart ? { start: "node .aiddbot/run-system.mjs start" } : {}),
+      ...(hasE2e ? { "test:e2e": "node .aiddbot/run-system.mjs test:e2e" } : {}),
+    },
+  };
+  const manifestPath = path.join(workspace, "aiddbot.system.json");
+  const runnerPath = path.join(workspace, ".aiddbot", "run-system.mjs");
+  const runnerSource = fs.readFileSync(new URL("../assets/run-system.mjs", import.meta.url), "utf8");
+  if (fs.existsSync(manifestPath) || fs.existsSync(runnerPath)) {
+    process.stderr.write("Refusing to overwrite existing system manifest or runner\n");
+    return 1;
+  }
+  if (dryRun) {
+    process.stdout.write("create     aiddbot.system.json\n");
+    process.stdout.write("create     .aiddbot/run-system.mjs\n");
+  } else {
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+    fs.mkdirSync(path.dirname(runnerPath), { recursive: true });
+    fs.writeFileSync(runnerPath, runnerSource, "utf8");
+  }
+  const packagePath = path.join(workspace, "package.json");
+  let packageJson = {};
+  let hasPackage = false;
+  if (fs.existsSync(packagePath)) {
+    try { packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8")); hasPackage = true; }
+    catch { process.stderr.write("Root package.json is invalid; skipping root orchestration scripts\n"); return 0; }
+  }
+  packageJson.private ??= true;
+  if (!packageJson.scripts || typeof packageJson.scripts !== "object" || Array.isArray(packageJson.scripts)) packageJson.scripts = {};
+  if (manifest.commands.start && !packageJson.scripts.start) packageJson.scripts.start = manifest.commands.start;
+  if (manifest.commands["test:e2e"] && !packageJson.scripts["test:e2e"]) packageJson.scripts["test:e2e"] = manifest.commands["test:e2e"];
+  if (manifest.commands["test:e2e"] && !packageJson.scripts.test) packageJson.scripts.test = "npm run test:e2e";
+  if (!packageJson.aiddbot || typeof packageJson.aiddbot !== "object" || Array.isArray(packageJson.aiddbot)) packageJson.aiddbot = {};
+  packageJson.aiddbot.system = "aiddbot.system.json";
+  if (dryRun) process.stdout.write(`${hasPackage ? "update    " : "create    "} package.json\n`);
+  else fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}\n`, "utf8");
+  return 0;
+}
+
 const parsed = parse(process.argv.slice(2));
 if (parsed.error) {
   process.stderr.write(`${parsed.error}\n`);
@@ -155,3 +220,5 @@ for (const tier of selected) {
   const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, destination), workspace, parsed.options.dryRun);
   if (status !== 0) process.exit(status);
 }
+const systemStatus = writeSystemFiles(workspace, parsed.options.name, systemSlug, selected, parsed.options, parsed.options.dryRun);
+if (systemStatus !== 0) process.exit(systemStatus);
