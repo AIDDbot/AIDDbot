@@ -14,7 +14,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `document-system` creates missing records. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
 
-`record-journal` owns journal rendering. The whole process shares one journal: `.aiddbot/journal.log`, kept out of Git by `.aiddbot/.gitignore`. Its initial date header is followed by a comment line naming the columns. Each event starts with the current local time and the six-character text status `Info`, `Warn`, or `Error`, then the flow (`found`, `build`, `craft`, or `direct`), spec ID, stage, event, project, and revision, each trimmed, truncated, and right-padded to eight characters so IDE log coloring and column alignment remain reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
+`record-journal` owns journal rendering. The whole process shares one journal: `.aiddbot/journal.log`, kept out of Git by `.aiddbot/.gitignore`. Its initial date header is followed by a comment line naming the columns. Each event starts with the current local time and the six-character text status `Info`, `Warn`, or `Error`, then the flow (`arch`, `build`, `craft`, or `direct`), spec ID, stage, event, project, and revision, each trimmed, truncated, and right-padded to eight characters so IDE log coloring and column alignment remain reliable; the final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical.
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 

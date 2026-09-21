@@ -110,7 +110,7 @@ for (const [relative, needles] of Object.entries(contract)) {
 }
 
 const journalSkill = read(path.join(skillsRoot, "record-journal", "SKILL.md"));
-for (const needle of [".aiddbot/journal.log", "date header", "comment line naming the columns", "system clock immediately before", "status immediately after the timestamp", "Status is exactly six characters", "are exactly eight", "`amber` as `Warn`", "IDE log coloring recognizes them", "Physical line order is canonical", "`found`", "`build`", "`craft`", "`direct`", "Do not stage or commit the journal"]) {
+for (const needle of [".aiddbot/journal.log", "date header", "comment line naming the columns", "system clock immediately before", "status immediately after the timestamp", "Status is exactly six characters", "are exactly eight", "`amber` as `Warn`", "IDE log coloring recognizes them", "Physical line order is canonical", "`arch`", "`build`", "`craft`", "`direct`", "Do not stage or commit the journal"]) {
   if (!journalSkill.includes(needle)) fail(`record-journal: missing journal contract ${needle}`);
 }
 
