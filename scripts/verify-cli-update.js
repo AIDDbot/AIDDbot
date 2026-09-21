@@ -16,10 +16,13 @@ try {
   const dest = path.join(root, "dest"); fs.mkdirSync(dest);
   const seed = ensureSeedFiles(dest, false, "Demo");
   assert.deepEqual(seed.sort(), [".gitignore", "AGENTS.md", "CLAUDE.md", "README.md"]);
+  assert.match(fs.readFileSync(path.join(dest, ".gitignore"), "utf8"), /id_ed25519/);
   assert.equal(fs.readFileSync(path.join(dest, "AGENTS.md"), "utf8"), fs.readFileSync(new URL("../.agents/seeds/AGENTS.seed.md", import.meta.url), "utf8"));
   assert.equal(fs.readFileSync(path.join(dest, "CLAUDE.md"), "utf8"), "@AGENTS.md\n");
   fs.writeFileSync(path.join(dest, "AGENTS.md"), "consumer rules\n");
   assert.equal(ensureSeedFiles(dest, false, "Demo").includes("AGENTS.md"), false);
+  const existingSeed = path.join(root, "existing-seed"); fs.mkdirSync(existingSeed); fs.writeFileSync(path.join(existingSeed, ".gitignore"), ".env\n");
+  ensureSeedFiles(existingSeed, false, "Demo"); assert.match(fs.readFileSync(path.join(existingSeed, ".gitignore"), "utf8"), /id_ed25519/);
   const first = inventory({ "x/a.txt": "one", "x/b.txt": "two" });
   let result = runOverlay(dest, { inventory: first });
   assert.equal(result.conflicts, 0); assert.equal(fs.readFileSync(path.join(dest, "x/a.txt"), "utf8"), "one");
@@ -35,7 +38,7 @@ try {
 
   result = runOverlay(dest, { inventory: inventory({ "x/a.txt": "latest" }) }); assert.equal(result.rows.find((r) => r.file === "x/b.txt").action, "remove"); assert.equal(fs.existsSync(path.join(dest, "x/b.txt")), false);
   fs.writeFileSync(path.join(dest, "x/a.txt"), "consumer"); result = runOverlay(dest, { inventory: {} }); assert.equal(result.conflicts, 1); assert.equal(fs.existsSync(path.join(dest, "x/a.txt")), true);
-  result = runOverlay(dest, { force: true, inventory: {} }); assert.equal(result.conflicts, 0); assert.equal(fs.existsSync(path.join(dest, "x/a.txt")), false);
+  result = runOverlay(dest, { force: true, inventory: {} }); assert.equal(result.conflicts, 0); assert.equal(fs.existsSync(path.join(dest, "x/a.txt")), false); assert.equal(fs.existsSync(path.join(dest, "x")), false);
 
   const claudeSource = JSON.stringify({ hooks: { Stop: [{ hooks: [{ type: "command", command: "node", args: ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code", "Stop"] }] }] } });
   const claudeInventory = inventory({ ".claude/settings.json": claudeSource });
@@ -59,6 +62,10 @@ try {
   const before = fs.readFileSync(path.join(legacy, "x/b.txt")); result = runOverlay(legacy, { dryRun: true, inventory: inventory({ "x/a.txt": "source", "x/b.txt": "changed" }) }); assert.equal(fs.readFileSync(path.join(legacy, "x/b.txt")).equals(before), true);
   const unsafe = { schemaVersion: 1, packageVersion: "0.0.0", payloadDigest: digest("x"), files: { "../outside": digest("x") } }; fs.mkdirSync(path.join(legacy, ".aiddbot"), { recursive: true }); fs.writeFileSync(path.join(legacy, ".aiddbot/manifest.json"), JSON.stringify(unsafe));
   result = runOverlay(legacy, { inventory: {} }); assert.equal(result.fatal, true);
+  const linkedDest = path.join(root, "linked-dest"); const external = path.join(root, "external");
+  fs.mkdirSync(linkedDest); fs.mkdirSync(external); fs.symlinkSync(external, path.join(linkedDest, ".agents"), "junction");
+  result = runOverlay(linkedDest, { inventory: inventory({ ".agents/agents/worker.md": "source" }) });
+  assert.equal(result.conflicts, 1); assert.equal(fs.existsSync(path.join(external, "agents", "worker.md")), false);
   const plan = reconcile(legacy, {}, null); assert.equal(plan.manifest.payloadDigest, reconcile(legacy, {}, null).manifest.payloadDigest);
   process.stdout.write("PASS CLI reconciliation coverage\n");
 } finally {

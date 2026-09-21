@@ -7,6 +7,9 @@ import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const sourceRoot = path.resolve(here, "../..");
 export const TREES = [".agents/agents", ".agents/hooks", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/rules", ".claude/settings.json", ".claude/skills", ".cursor/agents", ".cursor/hooks.json", ".cursor/rules", ".codex/agents", ".codex/hooks.json", ".github/agents", ".github/hooks", ".github/instructions"];
+export const ACTION_ORDER = ["create", "update", "remove", "skip-same", "conflict", "overwritten"];
+const WRITE_ACTIONS = new Set(["create", "update", "overwritten"]);
+export const MUTATING_ACTIONS = new Set(["create", "update", "remove", "overwritten"]);
 const CLAUDE_SETTINGS = ".claude/settings.json";
 const CLAUDE_HOOK_ARGS = ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code"];
 
@@ -15,6 +18,28 @@ function skip(rel) { return rel === ".claude/agents/runs" || rel.startsWith(".cl
 function inside(child, parent) { const rel = path.relative(path.resolve(parent), path.resolve(child)); return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel)); }
 function abs(root, rel) { return path.resolve(root, ...rel.split("/")); }
 function safeFile(root, rel) { const target = abs(root, rel); if (!inside(target, root)) throw new Error(`Unsafe overlay path: ${rel}`); return target; }
+function hasUnsafeAncestor(root, target) {
+  const rootPath = path.resolve(root);
+  const relative = path.relative(rootPath, target);
+  let current = rootPath;
+  try {
+    const stat = fs.lstatSync(current);
+    if (!stat.isDirectory() || stat.isSymbolicLink()) return true;
+  } catch {
+    return true;
+  }
+  for (const part of relative.split(path.sep).slice(0, -1)) {
+    current = path.join(current, part);
+    try {
+      const stat = fs.lstatSync(current);
+      if (!stat.isDirectory() || stat.isSymbolicLink()) return true;
+    } catch (error) {
+      if (error.code === "ENOENT") return false;
+      return true;
+    }
+  }
+  return false;
+}
 
 export function refuseOrigin(destRoot, command) {
   let same = false;
@@ -42,6 +67,7 @@ export function sourceInventory(root = sourceRoot) {
 
 function destination(root, rel) {
   const target = safeFile(root, rel);
+  if (hasUnsafeAncestor(root, target)) return { target, unsafe: true, stat: null, digest: null };
   try { const stat = fs.lstatSync(target); return { target, stat, digest: stat.isFile() && !stat.isSymbolicLink() ? sha(fs.readFileSync(target)) : null }; }
   catch (error) { if (error.code === "ENOENT") return { target, stat: null, digest: null }; throw error; }
 }
@@ -80,6 +106,7 @@ function addClaudeHandler(hooks, event, handler) {
 }
 function reconcileClaudeSettings(destRoot, source, dryRun) {
   const target = safeFile(destRoot, CLAUDE_SETTINGS);
+  if (hasUnsafeAncestor(destRoot, target)) return { row: { action: "conflict", file: CLAUDE_SETTINGS, source }, written: false };
   let current = {}, exists = false;
   try {
     const stat = fs.lstatSync(target);
@@ -110,7 +137,10 @@ export function reconcile(destRoot, inventory, oldManifest, force = false) {
   for (const file of paths) {
     const next = inventory[file]?.digest, prior = old[file], current = destination(destRoot, file);
     let action;
-    if (!next) {
+    if (current.unsafe) {
+      action = "conflict";
+      if (prior) files[file] = prior;
+    } else if (!next) {
       if (!current.stat) action = "skip-same";
       else if (!current.stat.isFile() || current.stat.isSymbolicLink()) { action = "conflict"; files[file] = prior; }
       else if (current.digest === prior || force) action = "remove";
@@ -127,20 +157,19 @@ export function reconcile(destRoot, inventory, oldManifest, force = false) {
 }
 
 function printInventory(rows) {
-  const counts = Object.fromEntries(["create", "update", "remove", "skip-same", "conflict", "overwritten"].map((key) => [key, 0]));
+  const counts = Object.fromEntries(ACTION_ORDER.map((key) => [key, 0]));
   for (const row of rows) { counts[row.action]++; process.stdout.write(`${row.action.padEnd(11)} ${row.file}\n`); }
   process.stdout.write(`# ${Object.entries(counts).map(([key, count]) => `${key} ${count}`).join("  ")}\n`);
   return counts;
 }
 function removeEmptyParents(root, target) { for (let dir = path.dirname(target); inside(dir, root) && dir !== path.resolve(root); dir = path.dirname(dir)) { try { fs.rmdirSync(dir); } catch { break; } } }
-function apply(root, plan) { for (const row of plan.rows) { if (row.file === CLAUDE_SETTINGS) continue; const target = safeFile(root, row.file); if (["create", "update", "overwritten"].includes(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, path.dirname(target)); } } }
+function apply(root, plan) { for (const row of plan.rows) { if (row.file === CLAUDE_SETTINGS) continue; const target = safeFile(root, row.file); if (WRITE_ACTIONS.has(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, target); } } }
 
 export function runOverlay(destRoot, { dryRun = false, force = false, inventory = sourceInventory() } = {}) {
   let oldManifest;
   try { oldManifest = loadManifest(destRoot); } catch (error) { process.stderr.write(`Invalid AIDDbot manifest: ${error.message}\n`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
   const claudeSettings = inventory[CLAUDE_SETTINGS];
-  const managedInventory = { ...inventory };
-  delete managedInventory[CLAUDE_SETTINGS];
+  const { [CLAUDE_SETTINGS]: _claudeSettings, ...managedInventory } = inventory;
   const plan = reconcile(destRoot, managedInventory, oldManifest, force);
   const settings = reconcileClaudeSettings(destRoot, claudeSettings?.source, dryRun);
   plan.rows.push(settings.row);
@@ -150,7 +179,7 @@ export function runOverlay(destRoot, { dryRun = false, force = false, inventory 
   if (fs.existsSync(manifestPath)) { const stat = fs.lstatSync(manifestPath); if (!stat.isFile() || stat.isSymbolicLink()) { process.stderr.write("Invalid AIDDbot manifest: manifest target is unsafe\n"); return { conflicts: true, fatal: true, written: [], rows: plan.rows }; } }
   const metadataChanged = !fs.existsSync(manifestPath) || !fs.lstatSync(manifestPath).isFile() || fs.readFileSync(manifestPath, "utf8") !== desired;
   try { if (!dryRun) { apply(destRoot, plan); if (metadataChanged) writeManifestAtomic(destRoot, plan.manifest); } } catch (error) { process.stderr.write(`AIDDbot reconciliation warning: ${error.message}\n`); return { conflicts: true, fatal: true, written: [], rows: plan.rows }; }
-  const written = plan.rows.filter((r) => ["create", "update", "remove", "overwritten"].includes(r.action)).map((r) => r.file);
+  const written = plan.rows.filter((r) => MUTATING_ACTIONS.has(r.action)).map((r) => r.file);
   if (metadataChanged) written.push(metadata);
   return { conflicts: counts.conflict, written, rows: plan.rows };
 }

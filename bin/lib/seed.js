@@ -5,59 +5,16 @@ import { fileURLToPath } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const agentsSeeds = path.join(here, "..", "..", ".agents", "seeds");
 
-const GITIGNORE = `# Scratch
-/temp
-/tmp
-*.tmp
-*.log
-
-# Secrets and credentials
-.env
-.env.*
-!.env.example
-!.env.sample
-!.env.template
-*.pem
-*.key
-*.p12
-*.pfx
-*.p8
-id_rsa
-id_dsa
-id_ecdsa
-id_ed25519
-*.keystore
-*.jks
-credentials.json
-secrets.json
-*.secret
-.netrc
-*.kdbx
-
-# Agent scratch
-/.claude/agents/runs
-`;
-
-const REQUIRED_IGNORE = [
-  "/temp",
-  "/tmp",
-  ".env",
-  ".env.*",
-  "*.pem",
-  "*.key",
-  "*.p12",
-  "*.pfx",
-  "id_rsa",
-  "credentials.json",
-  "secrets.json",
-  "*.secret",
-];
+const gitignoreSeed = path.join(agentsSeeds, "GITIGNORE.seed");
 
 function ignoreKey(line) {
   const trimmed = line.trim();
   if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("!")) return null;
   return trimmed.replace(/^\/+/, "").replace(/\/+$/, "");
 }
+
+const GITIGNORE = fs.readFileSync(gitignoreSeed, "utf8");
+const REQUIRED_IGNORE = GITIGNORE.split(/\r?\n/).map(ignoreKey).filter(Boolean);
 
 function missingIgnorePatterns(text) {
   const present = new Set(
@@ -145,18 +102,6 @@ function ensureAgentSeed(destRoot, dryRun) {
   return written;
 }
 
-function ensureLicense(destRoot, contents, dryRun) {
-  const rel = "LICENSE";
-  const abs = absPath(destRoot, rel);
-  if (fs.existsSync(abs)) {
-    print("skip-same", rel);
-    return null;
-  }
-  print("create", rel);
-  writeFile(abs, contents, dryRun);
-  return rel;
-}
-
 function absPath(destRoot, rel) {
   return path.join(destRoot, rel);
 }
@@ -171,4 +116,4 @@ function ensureSeedFiles(destRoot, dryRun, title) {
   return written;
 }
 
-export { ensureLicense, ensureSeedFiles };
+export { ensureSeedFiles };
