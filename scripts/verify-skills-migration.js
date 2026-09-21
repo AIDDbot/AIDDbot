@@ -97,12 +97,12 @@ const contract = {
   "implement-project/SKILL.md": ["error-level lint", "effective flags", "do not enumerate or execute commands classified as `Acceptance`", "including E2E runs", "also applies while repairing a red verification report", "later `verify-acceptance` run", "Never enumerate or execute commands classified as `Quality`", "unit tests", "record-journal", "stage: build"],
   "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "record-journal", "stage: verify"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt", "record-journal", "stage: qualify"],
-  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "release-versioning.md", "every existing authoritative declaration", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
+  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "release-versioning.md", "every existing authoritative declaration", "root `package.json` version", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "Do not edit code nor documentation", "build-requested-spec", "Reuse these agents to spawn only the missing implementation agent."],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
   "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "Do not create system architecture"],
-  "scaffold-system/SKILL.md": ["aiddbot.system.json", "root `start` and `test:e2e` scripts", ".aiddbot/run-system.mjs", "must not invent a command"],
+  "scaffold-system/SKILL.md": [".aiddbot/aiddbot.system.json", "root `package.json` product metadata", "basic lint command", "Do not run tests", "root `start` and `test:e2e` scripts", ".aiddbot/run-system.mjs", "must not invent a command"],
 };
 for (const [relative, needles] of Object.entries(contract)) {
   const content = read(path.join(skillsRoot, ...relative.split("/")));
@@ -190,8 +190,8 @@ verifyJournal();
 const scaffold = path.join(skillsRoot, "scaffold-system", "scripts", "materialize.mjs");
 const listed = spawnSync(process.execPath, [scaffold, "--list"], { encoding: "utf8" });
 if (listed.status !== 0 || !/default: express/.test(listed.stdout)) fail("scaffold catalog is unavailable");
-const plan = spawnSync(process.execPath, [scaffold, "--name", "Demo system", "--back", "express", "--e2e", "playwright", "--dry-run"], { encoding: "utf8" });
-if (plan.status !== 0 || !/create\s+aiddbot\.system\.json/.test(plan.stdout) || !/create\s+\.aiddbot\/run-system\.mjs/.test(plan.stdout) || !/package\.json/.test(plan.stdout)) fail("scaffold root orchestration plan is unavailable");
+const plan = spawnSync(process.execPath, [scaffold, "--name", "Demo system", "--author", "Demo author", "--back", "express", "--e2e", "playwright", "--dry-run"], { encoding: "utf8" });
+if (plan.status !== 0 || !/create\s+\.aiddbot\/aiddbot\.system\.json/.test(plan.stdout) || !/create\s+\.aiddbot\/run-system\.mjs/.test(plan.stdout) || !/package\.json/.test(plan.stdout)) fail("scaffold root orchestration plan is unavailable");
 
 if (failures.length) {
   process.stderr.write(`${failures.map((message) => `FAIL ${message}`).join("\n")}\n`);

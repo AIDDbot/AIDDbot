@@ -5,7 +5,7 @@ import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const manifestPath = path.join(root, "aiddbot.system.json");
+const manifestPath = path.join(root, ".aiddbot", "aiddbot.system.json");
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 const children = new Set();
 

@@ -58,7 +58,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 Delivery stages invoke `record-journal` whenever they produce a high-level event.
 
-`scaffold-system` creates no functional code. It also writes the root `aiddbot.system.json` index and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes the release version across existing authoritative product declarations.
+`scaffold-system` creates no functional code. It writes `.aiddbot/aiddbot.system.json`, initializes root product metadata, and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. It finishes with dependency installation and basic lint only. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes every release to the authoritative root product version and other existing authoritative declarations.
 
 Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
 

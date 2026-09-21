@@ -17,7 +17,7 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
-Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. A scaffold also leaves `aiddbot.system.json` at the root as the system index and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It does not repeat skill routing or commands executed by the models.
+Foundation documentation records important paths, project boundaries, and product files such as specs, quality records, and counters. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -40,7 +40,7 @@ Each delivery records high-level events in a human-readable, append-only `journa
 
 `red` returns the findings for repair and both evaluations repeat, up to three revisions. If a current report is still red at revision 3, delivery continues and every unresolved functional or technical failure is recorded in the TDR. Amber findings also enter the TDR. Missing or stale evidence still blocks shipping.
 
-Shipping applies the PRD changes, updates debt, promotes reusable error-prevention lessons into the applicable project rules, and synchronizes one release version across the changelog, spec and tag, and every existing manifest or build file that declares that product version. It does not change dependency, toolchain, schema, API, migration, historical, or independently released component versions. It then integrates the branch.
+Shipping applies the PRD changes, updates debt, promotes reusable error-prevention lessons into the applicable project rules, and synchronizes one release version across the changelog, spec and tag, the authoritative root `package.json`, and every existing manifest or build file that declares that product version. It does not change dependency, toolchain, schema, API, migration, historical, or independently released component versions. It then integrates the branch.
 
 ## Quality review
 
