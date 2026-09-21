@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.41 - 2026-09-21
+
+- refactor(skills): tighten /ship-spec (c9e1ea9)
+- refactor(skills): tighten /implement-project (6025798)
+- refactor(skills): tighten /build-requested-spec (b9ba54a)
+- fix(adapt): install Claude hook settings (fdb9e2e)
+- refactor(skills): tighten /record-journal (ce4cec3)
+
 ## 0.0.40 - 2026-09-21
 
 - Include working tree changes.
