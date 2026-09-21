@@ -78,6 +78,7 @@ for (const required of [
   ".agents/skills/inspect-quality/assets/TDR.template.md",
   ".agents/skills/inspect-quality/assets/review.template.md",
   ".agents/skills/inspect-quality/references/debt.contract.md",
+  ".agents/skills/ship-spec/references/release-versioning.md",
 ]) if (!exists(required)) fail(`missing new artifact ${required}`);
 
 for (const retired of [
@@ -96,7 +97,7 @@ const contract = {
   "implement-project/SKILL.md": ["error-level lint", "effective flags", "do not enumerate or execute commands classified as `Acceptance`", "including E2E runs", "also applies while repairing a red verification report", "later `verify-acceptance` run", "Never enumerate or execute commands classified as `Quality`", "unit tests", "record-journal", "stage: build"],
   "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "record-journal", "stage: verify"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt", "record-journal", "stage: qualify"],
-  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "record-journal", "stage: ship"],
+  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "release-versioning.md", "every existing authoritative declaration", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language request", "Do not edit the quality records", "build-requested-spec", "reuses both"],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", "counters.yaml"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],

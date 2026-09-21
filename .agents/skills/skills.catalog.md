@@ -58,7 +58,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 Delivery stages invoke `record-journal` whenever they produce a high-level event.
 
-`scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery.
+`scaffold-system` creates no functional code. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes the release version across existing authoritative product declarations.
 
 Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
 
