@@ -22,4 +22,4 @@ updated_at: {DateTime}
 - Evidence: {observed facts}
 - Classification: {blocking | debt}
 
-{Blocking findings prevent delivery. Still-present debt becomes a D entry in the TDR at shipping.}
+{Blocking findings require repair. At revision 3, every still-present finding becomes a D entry in the TDR at shipping.}

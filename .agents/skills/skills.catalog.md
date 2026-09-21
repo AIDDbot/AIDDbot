@@ -18,13 +18,13 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 System and project documentation records important paths, boundaries, and files. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
-Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current passing reports allow shipping.
+Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
 
-- Verification: `green` ships; `red` blocks.
-- Qualification: `green` or `amber` ships; `red` blocks.
-- Amber findings become technical debt.
+- Verification: `green` ships normally; `red` requires repair until evaluation revision 3.
+- Qualification: `green` or `amber` ships normally; `red` requires repair until evaluation revision 3.
+- Amber findings and failures still present in a revision-3 red report become technical debt.
 - Stale or incomplete evidence blocks shipping.
-- A third unresolved `red` report requires human direction.
+- A third unresolved `red` report ships after its failures are recorded as technical debt.
 
 Commands are classified by effective behavior, not script name. Regular delivery owns `Build` and `Acceptance`: error-level lint, affected unit tests, E2E acceptance tests, and changed-scope review. `/craft-lasting-quality` owns `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
@@ -80,10 +80,10 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project when the spec assigns acceptance-test changes"
   - Craftsman:
-      verification: "verify-acceptance; green continues, red returns for repair"
-      qualification: "review-implementation; green or amber continues, red returns for repair"
+      verification: "verify-acceptance; green continues, red returns for repair through revision 3"
+      qualification: "review-implementation; green or amber continues, red returns for repair through revision 3"
       delivery: "ship-spec"
-      repair-loop: "implement-project applies reported repairs while the revision count is below 3; otherwise ask the human"
+      repair-loop: "implement-project applies reported repairs through evaluation revision 3; unresolved failures then become debt and ship"
 
 craft-lasting-quality:
   - "Craftsman: inspect-quality"

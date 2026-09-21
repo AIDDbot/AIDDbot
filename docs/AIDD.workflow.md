@@ -38,7 +38,7 @@ Each delivery records high-level events in a human-readable, append-only `journa
 | Verification | `green` | Acceptance behavior |
 | Qualification | `green` or `amber` | Changed-code quality |
 
-`red` blocks delivery. Amber debt is recorded in the TDR. A third unresolved red report requires human direction.
+`red` returns the findings for repair and both evaluations repeat, up to three revisions. If a current report is still red at revision 3, delivery continues and every unresolved functional or technical failure is recorded in the TDR. Amber findings also enter the TDR. Missing or stale evidence still blocks shipping.
 
 Shipping applies the PRD changes, updates debt and changelog records, and integrates the branch.
 

@@ -15,4 +15,4 @@ updated_at: {DateTime}
 
 ## Failures
 
-{Functional failures and missing coverage block delivery.}
+{Functional failures and missing coverage require repair. Failures still present at revision 3 become technical debt at shipping.}

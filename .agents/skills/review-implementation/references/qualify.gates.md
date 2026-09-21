@@ -60,6 +60,6 @@ When every blocking gate passes, evaluate the remaining applicable checks. A fai
 
 ## Findings
 
-Classify every finding as `blocking` or `debt`. Blocking findings make qualification red. Debt findings make it amber and may enter the TDR at shipping. With no findings, qualification is green.
+Classify every finding as `blocking` or `debt`. Blocking findings make qualification red and require repair. Debt findings make it amber and enter the TDR at shipping. With no findings, qualification is green. If red remains at evaluation revision 3, shipping promotes every still-present finding to the TDR.
 
 Do not record stylistic preference, speculative improvement, or unrelated pre-existing code as a finding.
