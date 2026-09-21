@@ -4,7 +4,7 @@ description: Create or maintain a skill under .agents/skills/.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 # maintain-skills
 
