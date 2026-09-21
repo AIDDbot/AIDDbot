@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.44 - 2026-09-21
+
+- test(skills): allow model invocation of /maintain-skills (3b2deeb)
+- refactor(skills): tighten /record-journal (7e1b5c6)
+- refactor(skills): tighten /record-journal (d0f2a6e)
+- feat: allow skills (974f140)
+- chore: format PRD (9ebc00c)
+
 ## 0.0.43 - 2026-09-21
 
 - refactor(skills): tighten /record-journal (b280a55)
