@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.43 - 2026-09-21
+
+- refactor(skills): tighten /record-journal (b280a55)
+- refactor(skills): tighten scaffold and ship (bb33307)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/scaffold-system/SKILL.md
+```
+
 ## 0.0.42 - 2026-09-21
 
 - Include working tree changes.
