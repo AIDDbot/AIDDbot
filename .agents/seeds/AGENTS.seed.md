@@ -11,7 +11,6 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **{Product_Folder}** — `/.product/` — requirements, specs, and quality files
 - **{Source_Folders}** — `/` - projects source at root inside a folder for each one
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
-- **Model Efforts** — `/.aiddbot/efforts.yaml` — portable effort-to-harness mapping
 
 ### Delegation
 - Before spawning any agent, read `/.aiddbot/efforts.yaml`
