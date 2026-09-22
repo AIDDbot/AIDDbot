@@ -20,7 +20,7 @@ The PRD is the only owner of requirement text. The spec references requirement I
 Write each new or changed requirement as one observable EARS line. Keep the EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL` in uppercase.
 Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines until shipping.
 
-When the scope adds, changes, or removes an entity, relation, table, column, or endpoint, declare each one in the spec's schema impact against the current schema documents. Do not edit the schema documents; shipping reconciles them.
+When the scope adds, changes, or removes an entity, relation, table, column, or endpoint, declare each one in the spec's schema impact against the current schema documents. For every new or changed endpoint, declare its success status and each error status with its cause, and add at least one error scenario to the verification table. Do not edit the schema documents; shipping reconciles them.
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
 

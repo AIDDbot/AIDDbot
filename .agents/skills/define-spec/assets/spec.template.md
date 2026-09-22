@@ -41,7 +41,7 @@ status: draft # draft, in-progress, verified, qualified, shipped
 | --- | --- | --- | --- |
 | model | {Entity or relation} | {new/changed/deprecated} | {Conceptual change} |
 | {project}.db | {table.column} | {new/changed/deprecated} | {Physical change and migration} |
-| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change} |
+| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change; success status; each error status and when} |
 
 ## Verification
 

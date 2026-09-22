@@ -21,7 +21,7 @@ When the rules file already exists, rewrite the sections derived from code to ma
 
 When repository evidence shows relational persistence owned by this project, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`. Derive it from the real migrations, DDL, ORM schema, or database configuration, rather than from the entity-relationship model. Record every physical table, its real columns and physical types, keys, nullability, defaults, constraints, indexes, and foreign references. Include every required many-to-many join table as a table in its own right. This is documentation, not generated executable SQL.
 
-When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, and response types.
+When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, success status and response type, and the error statuses the code actually returns.
 
 For a backend project, always write both schema documents, even before it has tables or endpoints: keep the template headings and leave the entries empty rather than inventing any, so later deliveries only update them. One file per project keeps projects from overwriting each other. Replace an existing schema document only with what the current evidence shows.
 

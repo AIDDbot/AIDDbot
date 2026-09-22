@@ -9,7 +9,7 @@ Evaluate every applicable blocking gate first. Mark one `n/a` only when its cate
 - **Security** — Authentication and authorization protect every changed action and resource that requires them.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
 - **Project rules** — The changed scope violates no explicit restriction in its applicable `{project}.rules.md` file.
-- **Schema impact** — Every entity, table, column, and endpoint change in the diff is declared in the spec's schema impact, and every declared change is present. Mark it `n/a` only when the diff changes no persistence or API shape.
+- **Schema impact** — Every entity, table, column, and endpoint change in the diff is declared in the spec's schema impact, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
 
 Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
 
