@@ -11,6 +11,8 @@ const CATALOG = {
   cli: ["node"],
 };
 const TIERS = Object.keys(CATALOG);
+// E2E archetypes that start their own target servers, so the root runner must not start them too.
+const SELF_HOSTED_E2E = ["playwright"];
 
 function help() {
   process.stderr.write(`Usage: node .agents/skills/scaffold-system/scripts/materialize.mjs --name NAME [tiers]
@@ -140,6 +142,28 @@ function readProjectScripts(workspace, destination) {
   }
 }
 
+// The front renders its title from displayName; setting it here keeps the name out of agent reconciliation.
+function nameFrontProject(workspace, destination, name, dryRun) {
+  const packagePath = path.join(workspace, destination, "package.json");
+  if (dryRun) {
+    process.stdout.write(`update     ${destination}/package.json displayName
+`);
+    return 0;
+  }
+  if (!fs.existsSync(packagePath)) return 0;
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+    packageJson.displayName = name;
+    fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}
+`, "utf8");
+    return 0;
+  } catch {
+    process.stderr.write(`${destination}/package.json is invalid; cannot set displayName
+`);
+    return 1;
+  }
+}
+
 function writeSystemFiles(workspace, name, author, systemSlug, selected, options, dryRun) {
   const projects = selected.map((tier) => {
     const directory = options[`${tier}Dir`];
@@ -148,6 +172,7 @@ function writeSystemFiles(workspace, name, author, systemSlug, selected, options
       kind: tier,
       technology: options[tier],
       directory,
+      ...(tier === "e2e" && SELF_HOSTED_E2E.includes(options[tier]) ? { startsTargets: true } : {}),
       scripts: Object.fromEntries(["start", "dev", "test:e2e", "test:acceptance", "test"].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
     };
   });
@@ -225,6 +250,10 @@ process.stdout.write(`system     ${parsed.options.name} (${systemSlug})\n`);
 for (const tier of selected) {
   const destination = parsed.options[`${tier}Dir`];
   const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, destination), workspace, parsed.options.dryRun);
+  if (status !== 0) process.exit(status);
+}
+if (parsed.options.front) {
+  const status = nameFrontProject(workspace, parsed.options.frontDir, parsed.options.name.trim(), parsed.options.dryRun);
   if (status !== 0) process.exit(status);
 }
 const systemStatus = writeSystemFiles(workspace, parsed.options.name, parsed.options.author, systemSlug, selected, parsed.options, parsed.options.dryRun);
