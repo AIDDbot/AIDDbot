@@ -17,6 +17,7 @@ Implement the approved plan from the solution section in order. Read the spec's 
 ## Testing
 For production code write unit tests for the critical section and make them pass. Do not write unit tests for UI-related code.
 When the scope includes E2E tests, write or repair them from the spec and reported evidence, but do not enumerate or execute commands classified as `Acceptance`, including E2E runs. This prohibition also applies while repairing a red verification report: return the code and test changes for a later `verify-acceptance` run. Do not unit-test E2E tests.
+E2E tests run in parallel against one shared database per run. Make each test create the data it needs with unique identifiers, and never depend on test order, pre-existing data, or global counts.
 
 ## Linting
 Use only the command classified as error-level lint in the project rules. Confirm from its effective flags and referenced configuration that it reports error-severity diagnostics without denying warnings or enabling complexity, coverage, strict analysis, full-repository checks, or other hardening. The script name alone is not evidence of its severity.
