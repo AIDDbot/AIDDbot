@@ -19,4 +19,6 @@ If no application or project source code is present, treat it as a _greenfield_ 
 
 In any case, spawn an **Architect** agent with `medium` effort to execute the `document-system` skill and then execute `document-project` for every project found. Reuse that agent for the complete documentation sequence and wait for it to finish.
 
+This skill may be rerun at any time to bring the documentation back in line with the code. Before documenting, stop and report if any spec is `in-progress`, because its branch owns the pending changes. Otherwise, run the documentation sequence on a `chore/document` branch created from the default branch, then merge it into the default branch and delete it.
+
 Before returning, stop every sub-agent this skill spawned and every terminal or background process it started. Never stop agents or processes supplied by the caller; the caller stops them.

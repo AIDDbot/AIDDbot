@@ -17,6 +17,8 @@ Document important project paths and files. Do not inventory skills, commands, o
 
 Write one rules file named `{Agents_Folder}/rules/{project}.rules.md` following the `project.rules.template.md`. Example: `./agents/rules/front.rules.md` or `./agents/rules/invoicing.rules.md`
 
+When the rules file already exists, rewrite the sections derived from code to match it, but keep every coding-rules row: shipping promotes those lessons and code cannot regenerate them. Drop a row only when its scope no longer exists. Update the timestamp only when the content changes.
+
 When repository evidence shows relational persistence owned by this project, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`. Derive it from the real migrations, DDL, ORM schema, or database configuration, rather than from the entity-relationship model. Record every physical table, its real columns and physical types, keys, nullability, defaults, constraints, indexes, and foreign references. Include every required many-to-many join table as a table in its own right. This is documentation, not generated executable SQL.
 
 When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, and response types.

@@ -17,6 +17,8 @@
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
+Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
+
 `aiddbot init` seeds the ID counters in `.aiddbot/counters.yaml`; foundation documentation preserves them and creates them only when the CLI was not used. A scaffold leaves `.aiddbot/aiddbot.system.json` beside its runner as the system index, initializes the root `package.json` with product name, description, author, and version, and provides root `start` and `test:e2e` delegates when the selected projects expose compatible package scripts. It finishes by installing dependencies and running basic lint only: no tests, warning denial, quality analysis, automatic fixes, or repair. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery

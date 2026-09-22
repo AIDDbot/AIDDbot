@@ -17,9 +17,11 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `record-journal` owns journal rendering. The whole process shares daily journals at `.aiddbot/journals/YYYY-MM-DD.log`, kept out of Git by the root `.gitignore` policy. Each day's initial header records the date and any known harness and model before naming the columns. Each event starts with the current local time, the six-character text status `Info`, `Warn`, or `Error`, and the active agent (`Arch`, `Build`, `Craft`, or `Direct`). Spec and project are six characters, stage and event are eight, revision is three, and spaces are the only column separator; all fixed-width values are trimmed, truncated, and right-padded. The project header is `proj`. The final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical within each daily file.
 
-System and project documentation records important paths, boundaries, and files. `document-system` writes the conceptual model in `model/model.schema.md`, drafted from the PRD and human input when no code exists yet. `document-project` records each project's physical tables in `model/{project}.db.schema.md`, including real column types and required join tables, and its endpoints in `model/{project}.api.schema.md`, both written for every backend project and left empty until evidence exists.
+System and project documentation records important paths, boundaries, and files. `document-system` writes the conceptual model in `model/model.schema.md`, drafted from the PRD and human input when no code exists yet. `document-project` records each project's physical tables in `model/{project}.db.schema.md`, including real column types and required join tables, and its endpoints in `model/{project}.api.schema.md`, both written for every backend project and left empty until evidence exists. It does not duplicate skill routing or executable commands owned by the orchestrators.
 
-Schemas follow each delivery: `define-spec` declares the spec's schema impact, `implement-project` builds exactly that shape, `review-implementation` gates the diff against it, and `ship-spec` reconciles the model from the spec and the database and API schemas from the merged code. It does not duplicate skill routing or executable commands owned by the orchestrators.
+Rerunning `/architect-system-foundation` resyncs documentation with the code on a `chore/document` branch, and refuses while a spec is `in-progress`. Code wins for structure, model, and schemas; coding-rules rows promoted by shipping are kept unless their scope disappears, and records of removed projects are deleted.
+
+Schemas follow each delivery: `define-spec` declares the spec's schema impact, `implement-project` builds exactly that shape, `review-implementation` gates the diff against it, and `ship-spec` reconciles the model from the spec and the database and API schemas from the merged code.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
 
@@ -35,7 +37,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](./architect-system-foundation/SKILL.md) | Scaffold when no project source code exists, then document system architecture |
+| [`/architect-system-foundation`](./architect-system-foundation/SKILL.md) | Scaffold when no project source code exists, then document system architecture; rerun any time to resync documentation with the code |
 | [`/build-requested-spec`](./build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
