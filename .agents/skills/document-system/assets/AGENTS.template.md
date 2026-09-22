@@ -56,8 +56,10 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delegation
 
-- Request `low`, `medium`, or `high` effort; use `medium` when unspecified.
-- When `.aiddbot/efforts.yaml` exists, resolve native spawn controls from it. Inherit compatible parent settings when a harness, model, or reasoning control is unavailable.
+- Before spawning any agent, read `.aiddbot/efforts.yaml`.
+- Spawn the role the skill names (**Architect**, **Builder**, or **Craftsman**) as the agent.
+- Map the requested effort (`low`, `medium`, `high`; `medium` when unstated) to the active harness's native controls in that file and pass them explicitly. Never keep the default model when a mapping applies.
+- Inherit the parent's settings only when the harness, model, or control is unavailable.
 
 ## Project decisions
 

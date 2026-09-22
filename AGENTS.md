@@ -25,5 +25,7 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 
 ## Delegation
 
-- Request portable delegation effort as `low`, `medium`, or `high`; use `medium` when it is not stated.
-- Resolve the harness-native spawn controls from [`.aiddbot/efforts.yaml`](./.aiddbot/efforts.yaml). If the harness, model, or reasoning setting is unavailable, inherit the parent's compatible settings.
+- Before spawning any agent, read [`.aiddbot/efforts.yaml`](./.aiddbot/efforts.yaml).
+- Spawn the role the skill names (**Architect**, **Builder**, or **Craftsman**) as the agent.
+- Map the requested effort (`low`, `medium`, `high`; `medium` when unstated) to the active harness's native controls in that file and pass them explicitly. Never keep the default model when a mapping applies.
+- Inherit the parent's settings only when the harness, model, or control is unavailable.
