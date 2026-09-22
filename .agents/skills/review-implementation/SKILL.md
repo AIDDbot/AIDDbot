@@ -9,7 +9,7 @@ user-invocable: true
 
 Review technical quality for one spec implementation.
 
-Read the spec, complete diff, and affected project rules. Apply the blocking gates first, then the debt checks only when every gate passes, following `qualify.gates.md`.
+Read the spec, complete diff, affected project rules, and affected schema documents under `{Product_Folder}/model/`. Apply the blocking gates first, then the debt checks only when every gate passes, following `qualify.gates.md`.
 
 Do not run any linting tools nor tests. You are a reviewer, a coder in adversarial mode.
 

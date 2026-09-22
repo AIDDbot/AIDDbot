@@ -17,16 +17,18 @@ Document important project paths and files. Do not inventory skills, commands, o
 
 Write one rules file named `{Agents_Folder}/rules/{project}.rules.md` following the `project.rules.template.md`. Example: `./agents/rules/front.rules.md` or `./agents/rules/invoicing.rules.md`
 
-When repository evidence shows relational persistence, write `{Product_Folder}/model/db.schema.md` from `db.schema.template.md`. Derive it from the real migrations, DDL, ORM schema, or database configuration, rather than from the entity-relationship model. Record every physical table, its real columns and physical types, keys, nullability, defaults, constraints, indexes, and foreign references. Include every required many-to-many join table as a table in its own right. This is documentation, not generated executable SQL.
+When repository evidence shows relational persistence owned by this project, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`. Derive it from the real migrations, DDL, ORM schema, or database configuration, rather than from the entity-relationship model. Record every physical table, its real columns and physical types, keys, nullability, defaults, constraints, indexes, and foreign references. Include every required many-to-many join table as a table in its own right. This is documentation, not generated executable SQL.
 
-Write `{Product_Folder}/model/api.schema.md` from `api.schema.template.md` only when the project exposes an API contract.
+When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, and response types.
+
+One file per project keeps projects from overwriting each other. Replace an existing schema document only with what the current evidence shows.
 
 Do not create system architecture or separate project architecture files other than the templates from assets.
 
 Execute `record-journal` for the documentation result with `stage: document` and the project name.
 
-The result is current project/domain rules and any evidenced shared schema.
+The result is current project/domain rules and the project's evidenced schemas.
 
-Link or reference those documents in the AGENTS.md file to ease finding them.
+List every written rules and schema file under the project decisions in `AGENTS.md`.
 
 Commit as `docs(project): document {project}`.

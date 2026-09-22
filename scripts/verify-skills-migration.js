@@ -67,6 +67,8 @@ for (const required of [
   ".agents/skills/document-system/assets/counters.template.yaml",
   ".agents/skills/document-project/assets/project.rules.template.md",
   ".agents/skills/document-project/assets/db.schema.template.md",
+  ".agents/skills/document-project/assets/api.schema.template.md",
+  ".agents/skills/document-system/assets/model.schema.template.md",
   ".agents/skills/inspect-quality/assets/TDR.template.md",
   ".agents/skills/inspect-quality/assets/review.template.md",
   ".agents/skills/inspect-quality/references/debt.contract.md",
@@ -85,15 +87,15 @@ for (const retired of [
 const contract = {
   "architect-system-foundation/SKILL.md": ["application or project source code", "Ignore agent configuration", "presence of ignored files does not prevent scaffolding", "scaffold-system"],
   "build-requested-spec/SKILL.md": ["execute the `define-spec` skill using the natural-language request", "execute the `implement-project` skill for each affected production project sequentially", "authors the tests without executing them", "execute `verify-acceptance` first", "Do not execute `review-implementation` while that verification is red.", "qualification before revision 3 returns its findings", "restart at verification", "verification red at revision 3 proceeds to qualification", "qualification red at revision 3 also ships", "ships with every current unresolved finding as technical debt"],
-  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID, name, and slug", "The spec ID and any new requirement IDs, must be reserved in `.aiddbot/counters.yaml` on that branch.", "PRD is the only owner of requirement text", "EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL`", "spec following `spec.template.md` and proposed PRD edits following `PRD.template.md`", "Keep deprecated PRD lines until shipping.", "record-journal", "stage: define"],
+  "define-spec/SKILL.md": ["one coherent scope", "determine its spec ID, name, and slug", "The spec ID and any new requirement IDs, must be reserved in `.aiddbot/counters.yaml` on that branch.", "PRD is the only owner of requirement text", "EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL`", "spec following `spec.template.md` and proposed PRD edits following `PRD.template.md`", "Keep deprecated PRD lines until shipping.", "schema impact", "record-journal", "stage: define"],
   "implement-project/SKILL.md": ["error-level lint", "effective flags", "do not enumerate or execute commands classified as `Acceptance`", "including E2E runs", "also applies while repairing a red verification report", "later `verify-acceptance` run", "Never enumerate or execute commands classified as `Quality`", "unit tests", "record-journal", "stage: build"],
   "verify-acceptance/SKILL.md": ["commands classified as `Acceptance`", "verification.md", "Do not edit code", "record-journal", "stage: verify"],
   "review-implementation/SKILL.md": ["qualification.md", "quality debt", "record-journal", "stage: qualify"],
-  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "release-versioning.md", "every existing authoritative declaration", "root `package.json` version", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
+  "ship-spec/SKILL.md": ["green verification", "evaluation revision is at least 3", "verification failure", "qualification finding", "declared D IDs", "same class of error", "non-automatable constraint", "rules/{project}.rules.md", "Reconcile the schema documents", "release-versioning.md", "every existing authoritative declaration", "root `package.json` version", "Do not create a version file", "matching tag", "record-journal", "stage: ship"],
   "craft-lasting-quality/SKILL.md": ["inspect-quality", "natural-language repair request", "Do not edit code nor documentation", "build-requested-spec", "Reuse these agents to spawn only the missing implementation agent."],
   "inspect-quality/SKILL.md": ["commands classified as `Quality`", "effective flags", "aggregate quality command", "never construct a stricter invocation", "TDR.md", "quality/review.md", ".aiddbot/counters.yaml", "record-journal", "stage: inspect"],
   "document-system/SKILL.md": ["important repository paths and product records", "Do not inventory skills, commands", "orchestrator skills own that routing"],
-  "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "relational persistence", "real columns and physical types", "many-to-many join table", "not generated executable SQL", "Do not create system architecture"],
+  "document-project/SKILL.md": ["important project paths and files", "Do not inventory skills, commands", "rules.md", "relational persistence", "real columns and physical types", "many-to-many join table", "{project}.db.schema.md", "{project}.api.schema.md", "not generated executable SQL", "Do not create system architecture"],
   "scaffold-system/SKILL.md": [".aiddbot/aiddbot.system.json", "root `package.json` product metadata", "basic lint command", "Do not run tests", "root `start` and `test:e2e` scripts", ".aiddbot/run-system.mjs", "must not invent a command"],
 };
 for (const [relative, needles] of Object.entries(contract)) {
@@ -113,7 +115,7 @@ for (const relative of ["document-system/assets/AGENTS.template.md", "document-p
 }
 
 const specTemplate = read(path.join(skillsRoot, "define-spec", "assets", "spec.template.md"));
-for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "## Solution", "## Verification", "## Technical debt", "new", "changed", "deprecated"]) {
+for (const section of ["id: S0001", "slug:", "key:", "branch:", "## Problem", "## Solution", "## Schema impact", "## Verification", "## Technical debt", "new", "changed", "deprecated"]) {
   if (!specTemplate.includes(section)) fail(`spec template missing ${section}`);
 }
 const prdTemplate = read(path.join(skillsRoot, "define-spec", "assets", "PRD.template.md"));

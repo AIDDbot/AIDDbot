@@ -1,4 +1,4 @@
-# Relational database schema — {Product_Name}
+# Relational database schema — {Project_Name}
 
 Source of truth inspected: {migration files | DDL | ORM schema | database configuration}
 

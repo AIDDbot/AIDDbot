@@ -33,6 +33,16 @@ status: draft # draft, in-progress, verified, qualified, shipped
 
 {Proposed changes, affected components, and interactions.}
 
+## Schema impact
+
+{Omit this section when no entity, table, or endpoint changes.}
+
+| Schema | Element | Change | Description |
+| --- | --- | --- | --- |
+| model | {Entity or relation} | {new/changed/deprecated} | {Conceptual change} |
+| {project}.db | {table.column} | {new/changed/deprecated} | {Physical change and migration} |
+| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change} |
+
 ## Verification
 
 Requirements refer to the [PRD](../PRD.md). Include only applicable rows.

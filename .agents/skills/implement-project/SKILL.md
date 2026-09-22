@@ -12,7 +12,7 @@ Implement supplied spec scope or repair findings.
 ## Coding
 Work one project at a time on the owner branch. Follow its rules file, do not weaken assertions, and stop when the default branch is checked out. Respect shared-file and Git-index ownership.
 
-Implement the approved plan from the solution section in order. For E2E scope, use the spec's requirement IDs and respect their state (new, changed, deprecated, related).
+Implement the approved plan from the solution section in order. Read the spec's schema impact and this project's schema documents under `{Product_Folder}/model/`; build exactly the declared entity, table, and endpoint shape. When the work needs an undeclared shape change, stop and return it for spec approval instead of making it. For E2E scope, use the spec's requirement IDs and respect their state (new, changed, deprecated, related).
 
 ## Testing
 For production code write unit tests for the critical section and make them pass. Do not write unit tests for UI-related code.

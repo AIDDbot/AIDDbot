@@ -1,4 +1,6 @@
-# API schema — {Product_Name}
+# API schema — {Project_Name}
+
+Source of truth inspected: {route definitions | controllers | OpenAPI document}
 
 - [Endpoint_Name_1](#endpoint_name_1) : {Description}
 - [Endpoint_Name_2](#endpoint_name_2) : {Description}
