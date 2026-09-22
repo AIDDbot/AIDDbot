@@ -12,8 +12,6 @@ const CATALOG = {
   cli: ["node"],
 };
 const TIERS = Object.keys(CATALOG);
-// E2E archetypes that start their own target servers, so the root runner must not start them too.
-const SELF_HOSTED_E2E = ["playwright"];
 const START_SCRIPTS = ["start", "dev"];
 const E2E_SCRIPTS = ["test:e2e", "test:acceptance", "test"];
 const FLAGS = {
@@ -126,7 +124,6 @@ function describeProject(workspace, options, tier) {
     kind: tier,
     technology: options[tier],
     directory,
-    ...(tier === "e2e" && SELF_HOSTED_E2E.includes(options[tier]) ? { startsTargets: true } : {}),
     scripts: Object.fromEntries([...START_SCRIPTS, ...E2E_SCRIPTS].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
   };
 }
