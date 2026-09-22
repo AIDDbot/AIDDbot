@@ -21,7 +21,7 @@ When repository evidence shows relational persistence owned by this project, wri
 
 When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, and response types.
 
-One file per project keeps projects from overwriting each other. Replace an existing schema document only with what the current evidence shows.
+For a backend project, always write both schema documents, even before it has tables or endpoints: keep the template headings and leave the entries empty rather than inventing any, so later deliveries only update them. One file per project keeps projects from overwriting each other. Replace an existing schema document only with what the current evidence shows.
 
 Do not create system architecture or separate project architecture files other than the templates from assets.
 
