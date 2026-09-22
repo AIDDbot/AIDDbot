@@ -142,11 +142,11 @@ function readProjectScripts(workspace, destination) {
   }
 }
 
-// The front renders its title from displayName; setting it here keeps the name out of agent reconciliation.
-function nameFrontProject(workspace, destination, name, dryRun) {
+// The front renders its title and author from package.json; setting them here keeps them out of agent reconciliation.
+function brandFrontProject(workspace, destination, name, author, dryRun) {
   const packagePath = path.join(workspace, destination, "package.json");
   if (dryRun) {
-    process.stdout.write(`update     ${destination}/package.json displayName
+    process.stdout.write(`update     ${destination}/package.json displayName, author
 `);
     return 0;
   }
@@ -154,11 +154,12 @@ function nameFrontProject(workspace, destination, name, dryRun) {
   try {
     const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
     packageJson.displayName = name;
+    packageJson.author = author;
     fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}
 `, "utf8");
     return 0;
   } catch {
-    process.stderr.write(`${destination}/package.json is invalid; cannot set displayName
+    process.stderr.write(`${destination}/package.json is invalid; cannot set displayName and author
 `);
     return 1;
   }
@@ -253,7 +254,7 @@ for (const tier of selected) {
   if (status !== 0) process.exit(status);
 }
 if (parsed.options.front) {
-  const status = nameFrontProject(workspace, parsed.options.frontDir, parsed.options.name.trim(), parsed.options.dryRun);
+  const status = brandFrontProject(workspace, parsed.options.frontDir, parsed.options.name.trim(), parsed.options.author.trim(), parsed.options.dryRun);
   if (status !== 0) process.exit(status);
 }
 const systemStatus = writeSystemFiles(workspace, parsed.options.name, parsed.options.author, systemSlug, selected, parsed.options, parsed.options.dryRun);
