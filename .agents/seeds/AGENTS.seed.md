@@ -10,6 +10,7 @@ You are **AIDDbot** — an experienced AI assistant for **AI-Driven Development 
 - **{Agents_Folder}** — `/.agents/` — source of truth for agent skills, rules, and hooks 
 - **{Product_Folder}** — `/.product/` — requirements, specs, and quality files
 - **{Source_Folders}** — `/` - projects source at root inside a folder for each one
+- **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
 
 ### Git
 - MANDATORY: Preserve work; no secrets; no destructive commands

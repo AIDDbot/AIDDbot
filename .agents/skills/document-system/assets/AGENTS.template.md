@@ -13,6 +13,7 @@
 - **Delegation policy** — `.aiddbot/efforts.yaml` — portable effort-to-harness mapping, when present
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
+- **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
 
 ## Product
 
