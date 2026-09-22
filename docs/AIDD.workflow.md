@@ -29,7 +29,7 @@ Run `/architect-system-foundation` again whenever the documentation should refle
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
 | Prove and ship | **Craftsman** | `verify-acceptance` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
-When an orchestrator delegates, it names a portable effort level: `low`, `medium`, or `high`. The harness resolves its compatible model and native setting from [`.aiddbot/efforts.yaml`](../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation. An unavailable harness, model, or native reasoning control inherits the compatible parent setting; unsupported reasoning is omitted.
+When an orchestrator delegates, it names a portable effort level: `low`, `medium`, or `high`. The harness resolves its compatible model and native setting from [`.aiddbot/efforts.yaml`](../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation. An unavailable harness, model, or native reasoning control inherits the compatible parent setting; unsupported reasoning is omitted. Each spawn is journaled with its role, its requested effort, and the resolved model, and an inherited setting is journaled as a warning, so you can read back which model actually did the work.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 

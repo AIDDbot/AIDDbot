@@ -29,3 +29,4 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 - Spawn the role the skill names (**Architect**, **Builder**, or **Craftsman**) as the agent.
 - Map the requested effort (`low`, `medium`, `high`; `medium` when unstated) to the active harness's native controls in that file and pass them explicitly. Never keep the default model when a mapping applies.
 - Inherit the parent's settings only when the harness, model, or control is unavailable.
+- Journal every spawn with `record-journal`, naming the role, the requested effort, and the resolved model or native control. Journal an inherited setting with an amber status naming what was unavailable.

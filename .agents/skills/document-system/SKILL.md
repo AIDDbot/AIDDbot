@@ -12,7 +12,7 @@ Set the system documentation from repository evidence.
 Read the tree and guide files. Do not redesign. Read source code only to find the domain entities for the model.
 Take `{Product_Folder}` and `{Source_Folders}` from an existing `AGENTS.md`; settle them with the human only when they are missing.
 Run `node .agents/skills/document-system/scripts/initialize-product-docs.mjs --product-folder "{Product_Folder}"` to create missing `.aiddbot/counters.yaml`, PRD, and TDR from the exact empty templates. The script resolves the repository root itself, so a relative `{Product_Folder}` lands there whatever the working directory is. Never replace existing product documents.
-Generate `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it already exists, update only what the repository contradicts and keep human-written content.
+Generate `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it already exists, update only what the repository contradicts and keep human-written content. Keep every template section, above all `## Delegation` and the `.aiddbot/efforts.yaml` path: a section the repository gives no evidence for is copied from the template as written, never dropped or summarized. An `AGENTS.md` that says nothing about efforts and models leaves every later spawn on the harness default.
 
 Document the important repository paths and product records. Do not inventory skills, commands, or the model actions that execute them; the orchestrator skills own that routing.
 

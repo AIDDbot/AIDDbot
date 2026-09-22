@@ -14,6 +14,7 @@
 - **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
+- **Model Efforts** — `/.aiddbot/efforts.yaml`
 
 ## Product
 
@@ -61,6 +62,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 - Spawn the role the skill names (**Architect**, **Builder**, or **Craftsman**) as the agent.
 - Map the requested effort (`low`, `medium`, `high`; `medium` when unstated) to the active harness's native controls in that file and pass them explicitly. Never keep the default model when a mapping applies.
 - Inherit the parent's settings only when the harness, model, or control is unavailable.
+- Journal every spawn with `record-journal`, naming the role, the requested effort, and the resolved model or native control. Journal an inherited setting with an amber status naming what was unavailable.
 
 ## Project decisions
 
