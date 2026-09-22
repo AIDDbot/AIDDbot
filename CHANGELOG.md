@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.49 - 2026-09-22
+
+- refactor(skills): declare and enforce API status codes (7df34f4)
+- refactor(skills): tighten E2E data isolation in /implement-project and /verify-acceptance (c8aa23f)
+- feat: path to aiddbot folder (a6e2853)
+- refactor(skills): tighten /document-system delegation rules (ff5f27a)
+- refactor(skills): tighten /architect-system-foundation (9a2523b)
+- refactor(skills): tighten /document-project (49747d0)
+- refactor(skills): tighten /ship-spec (7c5b797)
+- refactor(skills): tighten /ship-spec (94b50aa)
+- refactor(skills): tighten schema lifecycle across skills (67f9135)
+
 ## 0.0.48 - 2026-09-22
 
 - refactor(skills): tighten /scaffold-system (588fcab)
