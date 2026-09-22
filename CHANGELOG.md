@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.50 - 2026-09-22
+
+- refactor(skills): drop the duplicated efforts path from the seed (29eb763)
+- feat(skills): journal orchestrator routing and every delegation (e08a49a)
+- refactor(skills): tighten /architect-system-foundation (75761c7)
+- refactor(skills): tighten /document-system (234e165)
+- refactor(skills): tighten /record-journal (7d460a7)
+
 ## 0.0.49 - 2026-09-22
 
 - refactor(skills): declare and enforce API status codes (7df34f4)
