@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.48 - 2026-09-22
+
+- refactor(skills): tighten /scaffold-system (588fcab)
+- refactor(skills): tighten /scaffold-system (0870c30)
+- refactor(skills): tighten /scaffold-system (6ec7883)
+- fix(cli): read gitignore seed on demand (7da9590)
+- refactor(skills): tighten /scaffold-system (bfb2e44)
+
 ## 0.0.47 - 2026-09-21
 
 - feat(init): seed AIDD policy and counters (75cde6e)
