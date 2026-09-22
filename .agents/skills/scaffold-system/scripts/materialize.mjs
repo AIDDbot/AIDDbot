@@ -3,6 +3,7 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { parseArgs } from "node:util";
 
 const CATALOG = {
   back: ["express"],
@@ -13,9 +14,38 @@ const CATALOG = {
 const TIERS = Object.keys(CATALOG);
 // E2E archetypes that start their own target servers, so the root runner must not start them too.
 const SELF_HOSTED_E2E = ["playwright"];
+const START_SCRIPTS = ["start", "dev"];
+const E2E_SCRIPTS = ["test:e2e", "test:acceptance", "test"];
+const FLAGS = {
+  name: { type: "string" },
+  author: { type: "string" },
+  "dry-run": { type: "boolean" },
+  list: { type: "boolean" },
+  ...Object.fromEntries(TIERS.flatMap((tier) => [[tier, { type: "string" }], [`${tier}-dir`, { type: "string" }]])),
+};
 
-function help() {
-  process.stderr.write(`Usage: node .agents/skills/scaffold-system/scripts/materialize.mjs --name NAME [tiers]
+const out = (text) => process.stdout.write(`${text}\n`);
+const fail = (message) => {
+  process.stderr.write(`${message}\n`);
+  return 1;
+};
+const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
+const writeJson = (file, value) => fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+const objectOr = (value) => (value && typeof value === "object" && !Array.isArray(value) ? value : {});
+const slug = (value) => value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+const selectedTiers = (options) => TIERS.filter((tier) => options[tier]);
+const destinationsOf = (options) => selectedTiers(options).map((tier) => options[`${tier}Dir`]);
+const isSafeDestination = (destination) => /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(destination)
+  && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(destination);
+const hasContent = (folder) => fs.statSync(folder, { throwIfNoEntry: false })?.isDirectory() && fs.readdirSync(folder).length > 0;
+const exposesAny = (projects, scripts) => projects.some((project) => scripts.some((script) => project.scripts[script]));
+const listCatalog = () => out(TIERS.map((tier) => `--${tier} default: ${CATALOG[tier][0]}; catalog: ${CATALOG[tier].join(", ")}`).join("\n"));
+const spawnNpx = (args, cwd) => (process.platform === "win32"
+  ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], { cwd, stdio: "inherit", windowsHide: true })
+  : spawnSync("npx", args, { cwd, stdio: "inherit", windowsHide: true }));
+
+const usage = (problem) => process.stderr.write(`${problem}
+Usage: node .agents/skills/scaffold-system/scripts/materialize.mjs --name NAME [tiers]
 
   --name NAME    Human-readable system name (required)
   --author NAME  Product author (required)
@@ -30,232 +60,145 @@ function help() {
   --dry-run      Print the materialization plan only
   --list         Print catalogued defaults and exit
 `);
-}
 
-function slug(value) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+// Each check returns its error message, or nothing when the options pass.
+const CHECKS = [
+  (options) => (options.name && slug(options.name) ? null : "--name needs letters or digits"),
+  (options) => (options.author?.trim() ? null : "--author needs a value"),
+  (options) => (selectedTiers(options).length ? null : "Select at least one tier"),
+  (options) => TIERS.filter((tier) => !options[tier] && options[`${tier}Dir`] !== tier).map((tier) => `--${tier}-dir requires --${tier}`)[0],
+  (options) => selectedTiers(options).filter((tier) => !CATALOG[tier].includes(options[tier]))
+    .map((tier) => `Unknown --${tier} "${options[tier]}" (choose: ${CATALOG[tier].join(", ")})`)[0],
+  (options) => destinationsOf(options).filter((destination) => !isSafeDestination(destination))
+    .map((destination) => `Invalid destination folder "${destination}" (use one safe child folder name)`)[0],
+  (options) => (new Set(destinationsOf(options).map((destination) => destination.toLowerCase())).size === destinationsOf(options).length
+    ? null
+    : "Selected destination folders must be unique"),
+];
 
 function parse(argv) {
-  const options = { name: null, author: null, dryRun: false, list: false };
-  for (const tier of TIERS) {
-    options[tier] = null;
-    options[`${tier}Dir`] = tier;
-  }
-  for (let index = 0; index < argv.length; index += 1) {
-    const arg = argv[index];
-    if (arg === "--dry-run") {
-      options.dryRun = true;
-      continue;
-    }
-    if (arg === "--list") {
-      options.list = true;
-      continue;
-    }
-    const key = arg.slice(2);
-    const tier = TIERS.find((candidate) => key === `${candidate}-dir`);
-    if (arg.startsWith("--") && (["name", "author"].includes(key) || TIERS.includes(key) || tier)) {
-      const value = argv[index + 1];
-      if (!value || value.startsWith("--")) return { error: `${arg} needs a value` };
-      if (["name", "author"].includes(key)) options[key] = value;
-      else if (tier) options[`${tier}Dir`] = value;
-      else options[key] = value.toLowerCase();
-      index += 1;
-      continue;
-    }
-    return { error: `Unknown argument: ${arg}` };
-  }
-  return { options };
-}
-
-function listCatalog() {
-  for (const tier of TIERS) {
-    process.stdout.write(`--${tier} default: ${CATALOG[tier][0]}; catalog: ${CATALOG[tier].join(", ")}\n`);
-  }
-}
-
-function validate(options) {
-  if (!options.name || !slug(options.name)) return "--name needs letters or digits";
-  if (!options.author || !options.author.trim()) return "--author needs a value";
-  const selected = TIERS.filter((tier) => options[tier]);
-  if (!selected.length) return "Select at least one tier";
-  for (const tier of TIERS) {
-    if (!options[tier] && options[`${tier}Dir`] !== tier) return `--${tier}-dir requires --${tier}`;
-  }
-  for (const tier of selected) {
-    if (!CATALOG[tier].includes(options[tier])) return `Unknown --${tier} "${options[tier]}" (choose: ${CATALOG[tier].join(", ")})`;
-  }
-  const destinations = selected.map((tier) => options[`${tier}Dir`]);
-  for (const destination of destinations) {
-    if (!isSafeDestination(destination)) return `Invalid destination folder "${destination}" (use one safe child folder name)`;
-  }
-  if (new Set(destinations.map((destination) => destination.toLowerCase())).size !== destinations.length) {
-    return "Selected destination folders must be unique";
-  }
-  return null;
-}
-
-function isSafeDestination(destination) {
-  if (!/^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(destination)) return false;
-  return !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(destination);
-}
-
-function hasContent(folder) {
   try {
-    return fs.readdirSync(folder).length > 0;
+    const { values } = parseArgs({ args: argv, options: FLAGS, strict: true });
+    const tiers = TIERS.flatMap((tier) => [[tier, values[tier]?.toLowerCase() ?? null], [`${tier}Dir`, values[`${tier}-dir`] ?? tier]]);
+    return { options: { name: values.name ?? null, author: values.author ?? null, dryRun: Boolean(values["dry-run"]), list: Boolean(values.list), ...Object.fromEntries(tiers) } };
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+function readJsonOr(file, fallback) {
+  try {
+    return readJson(file);
   } catch {
-    return false;
+    return fallback;
   }
 }
 
 function runTiged(repo, destination, workspace, dryRun) {
+  const folder = path.basename(destination);
   if (dryRun) {
-    process.stdout.write(`fetch      would      ${repo} -> ${path.basename(destination)}\n`);
+    out(`fetch      would      ${repo} -> ${folder}`);
     return 0;
   }
-  if (hasContent(destination)) {
-    process.stderr.write(`Refusing to overwrite ${path.basename(destination)}\n`);
-    return 1;
-  }
-  const args = ["--yes", "--package=tiged", "--", "tiged", repo, path.basename(destination)];
-  const result = process.platform === "win32"
-    ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], {
-      cwd: workspace,
-      stdio: "inherit",
-      windowsHide: true,
-    })
-    : spawnSync("npx", args, { cwd: workspace, stdio: "inherit", windowsHide: true });
-  if (result.status !== 0) process.stderr.write(`tiged failed: ${repo}\n`);
+  if (hasContent(destination)) return fail(`Refusing to overwrite ${folder}`);
+  const result = spawnNpx(["--yes", "--package=tiged", "--", "tiged", repo, folder], workspace);
+  if (result.status !== 0) fail(`tiged failed: ${repo}`);
   return result.status ?? 1;
 }
 
-function readProjectScripts(workspace, destination) {
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(path.join(workspace, destination, "package.json"), "utf8"));
-    return packageJson.scripts && typeof packageJson.scripts === "object" ? packageJson.scripts : {};
-  } catch {
-    return {};
-  }
-}
-
 // The front renders its title and author from package.json; setting them here keeps them out of agent reconciliation.
-function brandFrontProject(workspace, destination, name, author, dryRun) {
-  const packagePath = path.join(workspace, destination, "package.json");
+function brandFrontProject(workspace, { frontDir, name, author, dryRun }) {
+  const packagePath = path.join(workspace, frontDir, "package.json");
   if (dryRun) {
-    process.stdout.write(`update     ${destination}/package.json displayName, author
-`);
+    out(`update     ${frontDir}/package.json displayName, author`);
     return 0;
   }
-  if (!fs.existsSync(packagePath)) return 0;
-  try {
-    const packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8"));
-    packageJson.displayName = name;
-    packageJson.author = author;
-    fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}
-`, "utf8");
-    return 0;
-  } catch {
-    process.stderr.write(`${destination}/package.json is invalid; cannot set displayName and author
-`);
-    return 1;
-  }
-}
-
-function writeSystemFiles(workspace, name, author, systemSlug, selected, options, dryRun) {
-  const projects = selected.map((tier) => {
-    const directory = options[`${tier}Dir`];
-    const scripts = readProjectScripts(workspace, directory);
-    return {
-      kind: tier,
-      technology: options[tier],
-      directory,
-      ...(tier === "e2e" && SELF_HOSTED_E2E.includes(options[tier]) ? { startsTargets: true } : {}),
-      scripts: Object.fromEntries(["start", "dev", "test:e2e", "test:acceptance", "test"].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
-    };
-  });
-  const hasStart = projects.some((project) => project.kind !== "e2e" && (project.scripts.start || project.scripts.dev));
-  const hasE2e = projects.some((project) => project.kind === "e2e" && (project.scripts["test:e2e"] || project.scripts["test:acceptance"] || project.scripts.test));
-  const manifest = {
-    name,
-    slug: systemSlug,
-    projects,
-    commands: {
-      ...(hasStart ? { start: "node .aiddbot/run-system.mjs start" } : {}),
-      ...(hasE2e ? { "test:e2e": "node .aiddbot/run-system.mjs test:e2e" } : {}),
-    },
-  };
-  const manifestPath = path.join(workspace, ".aiddbot", "aiddbot.system.json");
-  const runnerPath = path.join(workspace, ".aiddbot", "run-system.mjs");
-  const runnerSource = fs.readFileSync(new URL("../assets/run-system.mjs", import.meta.url), "utf8");
-  if (fs.existsSync(manifestPath) || fs.existsSync(runnerPath)) {
-    process.stderr.write("Refusing to overwrite existing system manifest or runner\n");
-    return 1;
-  }
-  if (dryRun) {
-    process.stdout.write("create     .aiddbot/aiddbot.system.json\n");
-    process.stdout.write("create     .aiddbot/run-system.mjs\n");
-  } else {
-    fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
-    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
-    fs.mkdirSync(path.dirname(runnerPath), { recursive: true });
-    fs.writeFileSync(runnerPath, runnerSource, "utf8");
-  }
-  const packagePath = path.join(workspace, "package.json");
-  let packageJson = {};
-  let hasPackage = false;
-  if (fs.existsSync(packagePath)) {
-    try { packageJson = JSON.parse(fs.readFileSync(packagePath, "utf8")); hasPackage = true; }
-    catch { process.stderr.write("Root package.json is invalid; cannot write product metadata or orchestration scripts\n"); return 1; }
-  }
-  packageJson.name = systemSlug;
-  packageJson.version = "0.1.0";
-  packageJson.description = name;
-  packageJson.author = author.trim();
-  packageJson.private ??= true;
-  if (!packageJson.scripts || typeof packageJson.scripts !== "object" || Array.isArray(packageJson.scripts)) packageJson.scripts = {};
-  if (manifest.commands.start && !packageJson.scripts.start) packageJson.scripts.start = manifest.commands.start;
-  if (manifest.commands["test:e2e"] && !packageJson.scripts["test:e2e"]) packageJson.scripts["test:e2e"] = manifest.commands["test:e2e"];
-  if (manifest.commands["test:e2e"] && !packageJson.scripts.test) packageJson.scripts.test = "npm run test:e2e";
-  if (!packageJson.aiddbot || typeof packageJson.aiddbot !== "object" || Array.isArray(packageJson.aiddbot)) packageJson.aiddbot = {};
-  packageJson.aiddbot.system = ".aiddbot/aiddbot.system.json";
-  if (dryRun) process.stdout.write(`${hasPackage ? "update    " : "create    "} package.json\n`);
-  else fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}\n`, "utf8");
+  const packageJson = readJsonOr(packagePath, null);
+  if (!packageJson) return fail(`${frontDir}/package.json is missing or invalid; cannot set displayName and author`);
+  writeJson(packagePath, Object.assign(packageJson, { displayName: name.trim(), author: author.trim() }));
   return 0;
 }
 
-const parsed = parse(process.argv.slice(2));
-if (parsed.error) {
-  process.stderr.write(`${parsed.error}\n`);
-  help();
-  process.exit(1);
-}
-if (parsed.options.list) {
-  listCatalog();
-  process.exit(0);
-}
-const invalid = validate(parsed.options);
-if (invalid) {
-  process.stderr.write(`${invalid}\n`);
-  help();
-  process.exit(1);
+function describeProject(workspace, options, tier) {
+  const directory = options[`${tier}Dir`];
+  const scripts = objectOr(readJsonOr(path.join(workspace, directory, "package.json"), null)?.scripts);
+  return {
+    kind: tier,
+    technology: options[tier],
+    directory,
+    ...(tier === "e2e" && SELF_HOSTED_E2E.includes(options[tier]) ? { startsTargets: true } : {}),
+    scripts: Object.fromEntries([...START_SCRIPTS, ...E2E_SCRIPTS].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
+  };
 }
 
-const workspace = process.cwd();
-const systemSlug = slug(parsed.options.name);
-const selected = TIERS.filter((tier) => parsed.options[tier]);
-process.stdout.write(`system     ${parsed.options.name} (${systemSlug})\n`);
-for (const tier of selected) {
-  const destination = parsed.options[`${tier}Dir`];
-  const status = runTiged(`AIDDbot/${tier}-${parsed.options[tier]}`, path.join(workspace, destination), workspace, parsed.options.dryRun);
-  if (status !== 0) process.exit(status);
+function buildManifest(workspace, options, systemSlug) {
+  const projects = selectedTiers(options).map((tier) => describeProject(workspace, options, tier));
+  const commands = {
+    ...(exposesAny(projects.filter((project) => project.kind !== "e2e"), START_SCRIPTS) ? { start: "node .aiddbot/run-system.mjs start" } : {}),
+    ...(exposesAny(projects.filter((project) => project.kind === "e2e"), E2E_SCRIPTS) ? { "test:e2e": "node .aiddbot/run-system.mjs test:e2e" } : {}),
+  };
+  return { name: options.name, slug: systemSlug, projects, commands };
 }
-if (parsed.options.front) {
-  const status = brandFrontProject(workspace, parsed.options.frontDir, parsed.options.name.trim(), parsed.options.author.trim(), parsed.options.dryRun);
-  if (status !== 0) process.exit(status);
+
+function writeRunner(workspace, manifest, dryRun) {
+  const manifestPath = path.join(workspace, ".aiddbot", "aiddbot.system.json");
+  const runnerPath = path.join(workspace, ".aiddbot", "run-system.mjs");
+  if (fs.existsSync(manifestPath) || fs.existsSync(runnerPath)) return fail("Refusing to overwrite existing system manifest or runner");
+  if (dryRun) {
+    out("create     .aiddbot/aiddbot.system.json\ncreate     .aiddbot/run-system.mjs");
+    return 0;
+  }
+  fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+  writeJson(manifestPath, manifest);
+  fs.copyFileSync(new URL("../assets/run-system.mjs", import.meta.url), runnerPath);
+  return 0;
 }
-const systemStatus = writeSystemFiles(workspace, parsed.options.name, parsed.options.author, systemSlug, selected, parsed.options, parsed.options.dryRun);
-if (systemStatus !== 0) process.exit(systemStatus);
+
+// Existing root scripts win; only missing delegates are added.
+function applyProductMetadata(packageJson, options, systemSlug, commands) {
+  Object.assign(packageJson, { name: systemSlug, version: "0.1.0", description: options.name, author: options.author.trim() });
+  packageJson.private ??= true;
+  packageJson.scripts = objectOr(packageJson.scripts);
+  const delegates = { ...commands, ...(commands["test:e2e"] ? { test: "npm run test:e2e" } : {}) };
+  for (const [key, command] of Object.entries(delegates)) packageJson.scripts[key] ||= command;
+  packageJson.aiddbot = { ...objectOr(packageJson.aiddbot), system: ".aiddbot/aiddbot.system.json" };
+}
+
+function writeRootPackage(workspace, options, systemSlug, manifest) {
+  const packagePath = path.join(workspace, "package.json");
+  const hasPackage = fs.existsSync(packagePath);
+  const packageJson = hasPackage ? readJsonOr(packagePath, null) : {};
+  if (!packageJson) return fail("Root package.json is invalid; cannot write product metadata or orchestration scripts");
+  applyProductMetadata(packageJson, options, systemSlug, manifest.commands);
+  if (options.dryRun) out(`${hasPackage ? "update    " : "create    "} package.json`);
+  else writeJson(packagePath, packageJson);
+  return 0;
+}
+
+function materialize(options) {
+  const workspace = process.cwd();
+  const systemSlug = slug(options.name);
+  out(`system     ${options.name} (${systemSlug})`);
+  for (const tier of selectedTiers(options)) {
+    const status = runTiged(`AIDDbot/${tier}-${options[tier]}`, path.join(workspace, options[`${tier}Dir`]), workspace, options.dryRun);
+    if (status !== 0) return status;
+  }
+  const manifest = buildManifest(workspace, options, systemSlug);
+  return (options.front && brandFrontProject(workspace, options))
+    || writeRunner(workspace, manifest, options.dryRun)
+    || writeRootPackage(workspace, options, systemSlug, manifest);
+}
+
+function main(argv) {
+  const { error, options } = parse(argv);
+  if (options?.list) {
+    listCatalog();
+    return 0;
+  }
+  const problem = error ?? CHECKS.reduce((found, check) => found || check(options), null);
+  if (!problem) return materialize(options);
+  usage(problem);
+  return 1;
+}
+
+process.exitCode = main(process.argv.slice(2));
