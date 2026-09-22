@@ -61,7 +61,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
 
-Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`.
+Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `setup`, `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`. `architect-system-foundation` owns the `setup` stage and journals as **Architect** before it reads the repository, so the day's header, the greenfield or brownfield verdict, and the foundation outcome are on the trace even when no stage below writes a line.
 
 Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
 
