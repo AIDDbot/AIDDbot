@@ -14,17 +14,20 @@ function ignoreKey(line) {
   return trimmed.replace(/^\/+/, "").replace(/\/+$/, "");
 }
 
-const GITIGNORE = fs.readFileSync(gitignoreSeed, "utf8");
-const REQUIRED_IGNORE = GITIGNORE.split(/\r?\n/).map(ignoreKey).filter(Boolean);
+// Read on demand so commands that never seed, such as --version, do not need the payload.
+function readGitignoreSeed() {
+  return fs.readFileSync(gitignoreSeed, "utf8");
+}
 
-function missingIgnorePatterns(text) {
+function missingIgnorePatterns(text, seed) {
+  const required = seed.split(/\r?\n/).map(ignoreKey).filter(Boolean);
   const present = new Set(
     text
       .split(/\r?\n/)
       .map(ignoreKey)
       .filter(Boolean)
   );
-  return REQUIRED_IGNORE.filter((pattern) => !present.has(ignoreKey(pattern)));
+  return required.filter((pattern) => !present.has(ignoreKey(pattern)));
 }
 
 function hasReadme(destRoot) {
@@ -50,9 +53,10 @@ function writeFile(abs, contents, dryRun) {
 function ensureGitignore(destRoot, dryRun) {
   const rel = ".gitignore";
   const abs = path.join(destRoot, rel);
+  const seed = readGitignoreSeed();
   if (!fs.existsSync(abs)) {
     print("create", rel);
-    writeFile(abs, GITIGNORE, dryRun);
+    writeFile(abs, seed, dryRun);
     return rel;
   }
   let stat;
@@ -66,7 +70,7 @@ function ensureGitignore(destRoot, dryRun) {
     return null;
   }
   const current = fs.readFileSync(abs, "utf8");
-  const missing = missingIgnorePatterns(current);
+  const missing = missingIgnorePatterns(current, seed);
   if (!missing.length) {
     print("skip-same", rel);
     return null;
