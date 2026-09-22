@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 function fail(message) {
   process.stderr.write(`${message}\n`);
@@ -28,6 +29,21 @@ function clean(name, value, required = false) {
   }
   if (/\r|\n|\|/.test(cleaned)) fail(`--${name} cannot contain a line break or |`);
   return cleaned;
+}
+
+function repositoryRoot(...starts) {
+  let marked = "";
+  for (const start of starts) {
+    let current = path.resolve(start);
+    while (true) {
+      if (fs.existsSync(path.join(current, ".git"))) return current;
+      if (!marked && fs.existsSync(path.join(current, ".aiddbot"))) marked = current;
+      const parent = path.dirname(current);
+      if (parent === current) break;
+      current = parent;
+    }
+  }
+  return marked || path.resolve(starts[0]);
 }
 
 function pad(value) {
@@ -58,9 +74,8 @@ const revision = clean("revision", input.revision);
 const harness = clean("harness", input.harness);
 const model = clean("model", input.model);
 
-const folder = path.resolve(".aiddbot");
-const journals = path.join(folder, "journals");
-fs.mkdirSync(folder, { recursive: true });
+const root = repositoryRoot(path.dirname(fileURLToPath(import.meta.url)), process.cwd());
+const journals = path.join(root, ".aiddbot", "journals");
 
 const row = (cells) => cells.join(" ");
 const now = new Date();
