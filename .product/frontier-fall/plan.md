@@ -65,7 +65,8 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 2 · `maintain-skills` (D1, D3)
 
-- [ ] **2.1 Rediseñar `maintain-skills`** y su `assets/skill.template.md` según la tesis: objetivo + invariantes, sin procedimiento; lo mecánico, en scripts; una sola fuente de verdad. Quitar el peso muerto ("older models", reglas que ya impone `adapt.js`). Al terminar, `adapt.js` regenera los adaptadores.
+- [x] **2.1 Rediseñar `maintain-skills`** y su `assets/skill.template.md` según la tesis: objetivo + invariantes, sin procedimiento; lo mecánico, en scripts; una sola fuente de verdad. Quitar el peso muerto ("older models", reglas que ya impone `adapt.js`). Al terminar, `adapt.js` regenera los adaptadores.
+  **Hecho:** la plantilla pasa a ser la única especificación (forma, frontmatter, tipos, recursos, composición, journal) y absorbe `references/aiddbot-kinds.md`, que se borra. El `SKILL.md` queda en objetivo + invariantes: nada que el agente deduzca, que una plantilla especifique o que un script imponga; lo mecánico va a `scripts/`; `npm run adapt` valida el frontmatter y regenera adaptadores. La sección "Editing skills" del `AGENTS.md` de este repo, que duplicaba casi todo, queda en una regla: pasar por `/maintain-skills`.
 - [ ] **2.2 Fuera del overlay** (D3). Excluir `maintain-skills` y su puntero de lo que copian `init` y `update`.
   *Hecho cuando:* un `aiddbot init` no trae `maintain-skills` y editar un skill en este repo es: `/maintain-skills` → `npm run adapt` → commit.
 
