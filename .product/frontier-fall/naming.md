@@ -26,16 +26,17 @@ C  craft-lasting-quality         inspect-quality
   - [x] dejar `scaffold-system`
 
 - **`document-system`** (primitiva) — Set the system documentation from repository evidence.
-  - Nota: tu propuesta `stablish-system` se solapa con "foundation" del orquestador padre. Hace pareja con `document-project` (mismo verbo, dos alcances).
-  - [x] dejar `document-system`
-  - [ ] `stablish-system` (tu propuesta)
-  - [ ] `outline-system`
+  - Nota (revisada, tenías razón): no hacen lo mismo. Este escribe instrucciones (`AGENTS.md`) y el modelo **conceptual** — abstracto, un solo fichero para todo el sistema. Compartir el verbo "document" con `document-project` tapaba esa diferencia. Tu `stablish-system` se solapa con "foundation" del orquestador padre; evito esa raíz.
+  - [ ] dejar `document-system`
+  - [ ] `outline-system` — esboza instrucciones + modelo conceptual
+  - [ ] `frame-system`
 
 - **`document-project`** (primitiva) — Document one project or subdomain folder.
-  - Nota: tu propuesta `guide-project` deja fuera media función — también escribe esquemas (hechos), no solo reglas.
-  - [x] dejar `document-project`
-  - [ ] `guide-project` (tu propuesta)
-  - [ ] `record-project`
+  - Nota (revisada): este escribe reglas de código Y esquemas **físicos** por proyecto (hechos, evidencia) — no es "documentar" en el mismo sentido que el de arriba. Tu `guide-project` seguía sin cubrir los esquemas. Depende de la respuesta a P27 (abajo): si se queda con reglas + esquemas, mejor un verbo de "registrar hechos"; si se queda solo con reglas (tu `rule-project`), un verbo de reglas/guía encaja mejor.
+  - [ ] dejar `document-project` (si conserva reglas + esquemas)
+  - [ ] `profile-project` (si conserva reglas + esquemas)
+  - [ ] `survey-project` (si conserva reglas + esquemas)
+  - [ ] `rule-project` (tu propuesta — solo si los esquemas se mueven fuera, ver P27)
 
 ## B — Build
 
@@ -87,6 +88,22 @@ C  craft-lasting-quality         inspect-quality
 ## Honestidad
 
 Con el ABC entendido y la reserva de A/B/C para los orquestadores, mi revisión no encuentra más choques reales que los cuatro que tú ya habías anotado, más el que tú mismo señalaste en `inspect-quality`. Si tienes en la cabeza otro nombre que no encaja y no está aquí, añade una skill nueva con el mismo formato.
+
+## Una pregunta más grande que el naming
+
+Tu idea de "mover los esquemas a nivel de sistema" no es solo un nombre — cambia quién escribe qué. Hoy:
+- `document-system` escribe el modelo conceptual, `model.schema.md`, uno para todo el sistema.
+- `document-project` escribe, por proyecto, sus reglas **y** sus esquemas físicos, `{project}.db.schema.md` y `{project}.api.schema.md`.
+
+¿Qué te planteas exactamente?
+- **(a)** Que `document-system` pase a escribir también los esquemas físicos de cada proyecto — `document-project` (o su nombre nuevo) se queda solo con las reglas. Encajaría con tu `rule-project`.
+- **(b)** Fusionar el modelo conceptual y los esquemas físicos en un único fichero por proyecto, en vez de un `model.schema.md` aparte.
+- **(c)** Otra cosa que tienes en la cabeza y no he acertado a adivinar.
+
+Si es (a), cambia el enrutado de `architect-system-foundation`: hoy es `document-system` (una vez) → `document-project` (una vez por proyecto); con (a), `document-system` tendría que iterar por proyecto para los esquemas, con lo que la frontera entre los dos skills deja de ser "sistema vs. proyecto" y pasa a ser "conceptos y reglas vs. hechos físicos" — o incluso podría justificar fundir los dos skills en uno.
+
+🟡 **P27.** ¿(a), (b), o algo distinto? Y con cualquiera de las dos: ¿lo resolvemos ya, dentro de esta ronda de naming, o lo aparcamos como un cambio de alcance aparte — la fase 6 del plan solo cubría nombres, no quién hace qué?
+> **R:**
 
 ## Preguntas abiertas
 
