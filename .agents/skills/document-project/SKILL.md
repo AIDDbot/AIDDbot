@@ -27,7 +27,7 @@ For a backend project, always write both schema documents, even before it has ta
 
 Do not create system architecture or separate project architecture files other than the templates from assets.
 
-Execute `record-journal` for the documentation result with `stage: document` and the project name.
+Journal the documentation result, naming the project.
 
 The result is current project/domain rules and the project's evidenced schemas.
 

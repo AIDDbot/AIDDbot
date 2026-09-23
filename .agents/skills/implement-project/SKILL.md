@@ -24,6 +24,6 @@ Use only the command classified as error-level lint in the project rules. Confir
 
 Run that soft lint after each change and fix its errors. Never enumerate or execute commands classified as `Quality`. If no unambiguous error-level lint is configured, record it as unavailable in the journal instead of substituting or constructing a command.
 
-Execute `record-journal` for each high-level coding, testing, linting, and failure event with `stage: build`, the spec ID when there is one, and the project name.
+Journal each high-level coding, testing, linting, and failure event, naming the project.
 
 Commit following the conventional commit `{feat|fix|chore|test|docs:message}`.

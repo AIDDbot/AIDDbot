@@ -24,6 +24,6 @@ When the scope adds, changes, or removes an entity, relation, table, column, or 
 
 If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
 
-Execute `record-journal` for each high-level creation and approval event with `stage: define` and the spec ID.
+Journal each high-level creation and approval event.
 
 Commit as `docs(spec): define delivery`.

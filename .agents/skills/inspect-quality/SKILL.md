@@ -17,7 +17,7 @@ Build a complete replacement for `quality/review.md` following `review.template.
 
 Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review following `TDR.template.md` and `debt.contract.md`, then rewrite the review in one edit. If the initialized register or counters are missing, return the need to execute `document-system`; do not create replacements. Reserve new D IDs from `.aiddbot/counters.yaml`; consolidate or remove entries only when the evidence supports it.
 
-Execute `record-journal` once for the review result with `stage: inspect` and its status.
+Journal the review result once.
 
 The result is current, traceable quality records.
 

@@ -22,7 +22,7 @@ When a project documented earlier no longer exists, delete its rules and schema 
 
 Do not create any non templated files.
 
-Execute `record-journal` for the documentation result with `stage: document`.
+Journal the documentation result.
 
 The result is root project instructions and product high level overview.
 
