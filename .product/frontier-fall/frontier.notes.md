@@ -171,6 +171,28 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 ✅ → D16 · **P21.** ¿Cómo lo resolvemos? Opciones: (a) que `init` siembre directamente `AGENTS.template.md` y desaparezca `AGENTS.seed.md` (queda con placeholders hasta `document-system`, pero con una sola fuente para consumidores); (b) que `adapt.js` compruebe que las tres secciones coinciden y falle la release si no; (c) dejarlo así y confiar en `/maintain-skills`. Propongo (a) + (b) para el `AGENTS.md` de este repo.
 > **R:** sí, todo lo que sea determinista y que reduzca peso de skills es bueno
 
+### H. Tus inquietudes durante el refactor (`fontier.md`, tras la fase 4)
+
+**Mi lectura de las cuatro.** Las tres primeras son un mismo problema. D8 fija una instancia por rol en toda la ejecución, pero cada orquestador sigue pidiendo esfuerzos distintos para el mismo rol: el Architect es `medium` en `architect-system-foundation` y `high` en `build-requested-spec`, y en `craft-lasting-quality` era `low` hasta que lo subí a `high` en la fase 4. Con una sola instancia, manda el esfuerzo del primer lanzamiento y el resto de peticiones se ignoran en silencio. Eso obliga a mantener en `## Delegation` toda la ceremonia de leer `efforts.yaml`, pasar controles nativos y registrar `spawn`/`reuse`, y a que cada orquestador repita roles y esfuerzos.
+
+**Propuesta de fondo (determinista, quita peso).** Asignar el esfuerzo al **rol**, no a la etapa: Architect `high`, Builder `medium`, Craftsman `high`. Así `adapt.js` puede escribir el modelo resuelto directamente en el agente de cada arnés: `model:` en `.claude/agents/architect.md`, y los campos equivalentes en Codex, Cursor y Copilot, todo desde `efforts.yaml` y en la release, como el resto de adaptadores. Lanzar un Architect ya lo lanza con su modelo, sin que nadie lea ni pase nada. Consecuencias:
+- `## Delegation` se queda en dos reglas: una instancia por rol retomada con mensajes, y los subagentes no preguntan al humano. O desaparece y esas dos frases van a los orquestadores.
+- Los orquestadores dejan de nombrar esfuerzos; solo dicen qué rol ejecuta qué skill.
+- El evento `spawn` deja de necesitar `--effort` y `--model` (el modelo es fijo y conocido), o se sustituye más adelante por los hooks (P6).
+- `efforts.yaml` pasa a mapear rol → esfuerzo → modelo por arnés. Encaja con P9: se ajusta en AIDDbot, no en cada consumidor.
+- Riesgo a comprobar en la fase 7: que cada arnés respete el modelo declarado en la definición del agente. Claude Code sí lo hace.
+
+🟡 **P22.** ¿Esfuerzo fijo por rol (Architect `high`, Builder `medium`, Craftsman `high`) escrito por `adapt.js` en los agentes de cada arnés, en lugar de esfuerzo por etapa?
+> **R:**
+
+🟡 **P23.** Si P22 es sí, ¿qué hacemos con `## Delegation`: (a) la reducimos a las dos reglas que quedan, o (b) la eliminamos y cada orquestador lleva esas dos frases (con lo que la plantilla del consumidor y `adapt.js` dejan de sincronizar nada)? Me inclino por (b): la política solo la leen los orquestadores.
+> **R:**
+
+**Sobre PRD y TDR sin plantilla.** Estoy de acuerdo. La plantilla del TDR es una sola línea de cabecera, y el formato de cada entrada ya lo define `debt.contract.md`. La del PRD es una cabecera, un comentario sobre EARS y una línea de ejemplo. Propuesta: borrar las dos y poner en `define-spec` una frase con la forma de la línea (`- **F0001**: …` en EARS, palabras clave en mayúsculas). `init` sigue creando los ficheros vacíos, y como son una sola línea, las semillas de `bin/seeds/` pueden pasar a ser cadenas dentro de `seed.js`.
+
+🟡 **P24.** ¿Quitamos las plantillas de PRD y TDR (y convertimos sus semillas en cadenas dentro de `seed.js`)?
+> **R:**
+
 ## Limpieza local (no requiere decisión)
 - En `.claude/skills/` quedan carpetas sin versionar de skills renombrados: `implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`.
 - ~~Mi memoria sobre la familia "-ify" se refiere a nombres que ya no existen~~ → borrada tras D4.
@@ -182,4 +204,4 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 > **R:** te digo lo que necesitamos, y con eso decide lo que sobra. Actualmente las skills, los hooks y los agentes son distintos para cada arnés soportado (claude, codex, copilot y cursor). Afortunadmanete ya no se necista el CLAUDE.md ;-) Pero necesitamos tener esas adaptaciones... cómo y cuándo hacerlas? lo que tu digas!
 
 ## Orden sugerido
-Pendientes: ninguna.
+🟡 Pendientes: P22, P23, P24 (tus inquietudes de fontier.md).
