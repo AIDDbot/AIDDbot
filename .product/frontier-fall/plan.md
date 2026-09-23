@@ -1,6 +1,6 @@
 # Frontier fall — plan de implementación
 
-Aplica las decisiones D1–D19 de `decisions.md`. Las fases van ordenadas por dependencias: primero los scripts deterministas, porque los skills reescritos se apoyan en ellos; después `maintain-skills`, porque todo cambio de skill pasa por él; y los nombres al final, cuando renombrar sea barato.
+Aplica las decisiones D1–D21 de `decisions.md`. Las fases van ordenadas por dependencias: primero los scripts deterministas, porque los skills reescritos se apoyan en ellos; después `maintain-skills`, porque todo cambio de skill pasa por él; y los nombres al final, cuando renombrar sea barato.
 
 Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas abiertas van en `frontier.notes.md` con 🟡.
 
@@ -99,10 +99,10 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 - [x] **5.2 `README.md` y `docs/`**: solo lo que cambia para un humano (init prepara todo, el scaffold no ejecuta nada, adaptadores por release).
   *Hecho cuando:* los pasos de `docs/getting-started.md` funcionan tal cual en un directorio vacío. **Verificado** en un directorio externo: los siete ficheros que promete "What init adds" existen tal cual, el journal trae su evento génesis, los seis handlers del hook están en `.claude/settings.json`, y `update` no vuelve a sembrar nada. **Hecho, además:** `AIDD.workflow.md` tenía bastante más deriva que el README — la sección de scaffold aún describía `run-system` y el lint básico (D5), y el párrafo de delegación describía el esfuerzo por etapa vía `efforts.yaml` leído en cada spawn (ya D17/D18: esfuerzo fijo por rol, resuelto por `adapt.js` en la release). Reescritas ambas, más el párrafo de formato del journal, igual que en el catálogo (5.1).
 
-## Fase 6 · Nombres (D4; bloqueada hasta tus propuestas en `fontier.md`)
+## Fase 6 · Nombres (D4, D20, D21; propuestas trabajadas en `naming.md`)
 
-- [ ] **6.1 Renombrado en una sola pasada**: carpetas, `name:` en el frontmatter, referencias cruzadas, tabla de etapas de `append.mjs`, catálogo y docs. `adapt.js` regenera los adaptadores, así que el coste es solo el de las fuentes.
-  *Hecho cuando:* `grep` no encuentra ningún nombre antiguo fuera de `.product/done/` y `CHANGELOG.md`, y `adapt --check` no da diferencias.
+- [x] **6.1 Renombrado en una sola pasada**: carpetas, `name:` en el frontmatter, referencias cruzadas, tabla de etapas de `append.mjs`, catálogo y docs. `adapt.js` regenera los adaptadores, así que el coste es solo el de las fuentes.
+  *Hecho cuando:* `grep` no encuentra ningún nombre antiguo fuera de `.product/done/` y `CHANGELOG.md`, y `adapt --check` no da diferencias. **Hecho** (D20): `document-system` → `outline-system`, `document-project` → `rule-project`, `verify-acceptance` → `verify-behavior`, `inspect-quality` → `scan-quality`; el resto se queda, incluidos los tres orquestadores — son el mnemónico A/B/C, con esas letras reservadas para ellos. **De paso** (D21, más que un renombrado): `outline-system` pasa a escribir también los esquemas físicos de cada proyecto, moviendo `db.schema.template.md` y `api.schema.template.md` desde `rule-project/assets/`; `rule-project` se queda solo con las reglas. **Verificado:** `grep` de los cuatro nombres viejos, fuera de `temp/audit/` (ignorado por git) y `CHANGELOG.md`, no encuentra nada; `adapt --check` limpio; `npm test` pasa; `init` en un directorio externo deja las carpetas y plantillas donde tocan, y `append.mjs` acepta los nombres nuevos (con las etapas `outline`/`rule`) y rechaza los viejos con un error que lista los válidos.
 
 ## Fase 7 · Validación y release
 

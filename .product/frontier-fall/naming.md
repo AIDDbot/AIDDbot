@@ -1,6 +1,6 @@
 # Naming — fase 6
 
-Fichero de trabajo para los nombres. Edítalo tú directamente: marca `[x]` la propuesta que prefieras, tacha una opción que no sirva, añade una tuya, añade una skill entera si me dejé algo. Cuando quede una lista estable la paso a `decisions.md` (D20) y de ahí a `plan.md` 6.1.
+**Aplicado** (D20, D21 en `decisions.md`; ejecutado en `plan.md` 6.1): `document-system` → `outline-system`, `document-project` → `rule-project` (ahora solo reglas — los esquemas físicos se mudan a `outline-system`, P27a), `verify-acceptance` → `verify-behavior`, `inspect-quality` → `scan-quality`. Todo lo demás se queda. Sigue editable si sale algo más (P26 abierta).
 
 ## El ABC
 
@@ -28,7 +28,7 @@ C  craft-lasting-quality         inspect-quality
 - **`document-system`** (primitiva) — Set the system documentation from repository evidence.
   - Nota (revisada, tenías razón): no hacen lo mismo. Este escribe instrucciones (`AGENTS.md`) y el modelo **conceptual** — abstracto, un solo fichero para todo el sistema. Compartir el verbo "document" con `document-project` tapaba esa diferencia. Tu `stablish-system` se solapa con "foundation" del orquestador padre; evito esa raíz.
   - [ ] dejar `document-system`
-  - [ ] `outline-system` — esboza instrucciones + modelo conceptual
+  - [x] `outline-system` — esboza instrucciones + modelo conceptual
   - [ ] `frame-system`
 
 - **`document-project`** (primitiva) — Document one project or subdomain folder.
@@ -36,7 +36,7 @@ C  craft-lasting-quality         inspect-quality
   - [ ] dejar `document-project` (si conserva reglas + esquemas)
   - [ ] `profile-project` (si conserva reglas + esquemas)
   - [ ] `survey-project` (si conserva reglas + esquemas)
-  - [ ] `rule-project` (tu propuesta — solo si los esquemas se mueven fuera, ver P27)
+  - [x] `rule-project` (tu propuesta — solo si los esquemas se mueven fuera, ver P27)
 
 ## B — Build
 
@@ -102,8 +102,10 @@ Tu idea de "mover los esquemas a nivel de sistema" no es solo un nombre — camb
 
 Si es (a), cambia el enrutado de `architect-system-foundation`: hoy es `document-system` (una vez) → `document-project` (una vez por proyecto); con (a), `document-system` tendría que iterar por proyecto para los esquemas, con lo que la frontera entre los dos skills deja de ser "sistema vs. proyecto" y pasa a ser "conceptos y reglas vs. hechos físicos" — o incluso podría justificar fundir los dos skills en uno.
 
-🟡 **P27.** ¿(a), (b), o algo distinto? Y con cualquiera de las dos: ¿lo resolvemos ya, dentro de esta ronda de naming, o lo aparcamos como un cambio de alcance aparte — la fase 6 del plan solo cubría nombres, no quién hace qué?
-> **R:**
+✅ **P27.** ¿(a), (b), o algo distinto? Y con cualquiera de las dos: ¿lo resolvemos ya, dentro de esta ronda de naming, o lo aparcamos como un cambio de alcance aparte — la fase 6 del plan solo cubría nombres, no quién hace qué?
+> **R:** (a) - reseulve ahora que lo tienes todo en contexto
+
+**Hecho** (D21): `outline-system` escribe ahora, además de `AGENTS.md` y el modelo conceptual, los esquemas físicos de cada proyecto (`{project}.db.schema.md`, `{project}.api.schema.md`), iterando `{Source_Folders}`. Movidas las plantillas `db.schema.template.md` y `api.schema.template.md` de `rule-project/assets/` a `outline-system/assets/`. `rule-project` se queda solo con `project.rules.template.md`. `architect-system-foundation` sigue enrutando sistema → proyecto, solo cambian los nombres y qué hace cada paso. Verificado en un directorio externo: `init` deja las cuatro plantillas en `outline-system/assets/` y una sola en `rule-project/assets/`; `append.mjs` acepta los nombres nuevos con las etapas `outline`/`rule` y rechaza los viejos con un error que lista los válidos.
 
 ## Preguntas abiertas
 

@@ -71,6 +71,12 @@ Tras D17 solo quedan reglas que únicamente usan los orquestadores: una instanci
 ## D19 ← P24 · PRD y TDR sin plantilla
 Se borran `define-spec/assets/PRD.template.md` e `inspect-quality/assets/TDR.template.md`. La forma de una línea del PRD pasa a una frase de `define-spec`, y la del TDR ya la define `debt.contract.md`. Las semillas de una línea (PRD, TDR, contadores y LICENSE) pasan a ser cadenas dentro de `seed.js`; solo `GITIGNORE.seed` sigue siendo fichero.
 
+## D20 ← naming.md · Nombres de la fase 6
+Aplicados: `document-system` → `outline-system`, `document-project` → `rule-project`, `verify-acceptance` → `verify-behavior`, `inspect-quality` → `scan-quality`. El resto se queda como estaba, incluidos los tres orquestadores (`architect-system-foundation`, `build-requested-spec`, `craft-lasting-quality`): son el mnemónico A/B/C y sus letras quedan reservadas — ninguna primitiva puede empezar por A, B o C.
+
+## D21 ← P27(a) (naming.md) · Los esquemas físicos pasan a `outline-system`
+`outline-system` (antes `document-system`) escribe ahora, además de `AGENTS.md` y el modelo conceptual, los esquemas físicos de cada proyecto (`{project}.db.schema.md`, `{project}.api.schema.md`), iterando `{Source_Folders}`. `rule-project` (antes `document-project`) se queda solo con las reglas de código. La frontera deja de ser "sistema vs. proyecto" y pasa a ser "conceptos y hechos físicos vs. reglas de comportamiento". `architect-system-foundation` sigue enrutando `outline-system → rule-project` por proyecto, sin cambio de forma, solo de nombres y de qué hace cada paso.
+
 ## Aplazadas
 - **P6 · Hooks para el journal:** abierto a que los hooks escriban con el mismo formato, pero hay llamadas difíciles de cubrir con hooks. Se tratará en detalle más adelante.
 - **P9 · `efforts.yaml`:** detalle menor; se irá ajustando conforme salgan modelos.

@@ -13,6 +13,6 @@ Route as the **Architect**. Spawn one **Architect**, plus one **Builder** when a
 
 Decide whether the system is greenfield or brownfield from working code alone, ignoring agent configuration, AIDD product files, harness adapters, documentation, and ignored files. Journal the decision as `verdict`, naming the code that settled it, because a brownfield verdict skips the scaffold and the journal is the only place that decision survives.
 
-For a greenfield system, have the **Builder** execute the `scaffold-system` skill first. Then, in every case, have the **Architect** execute `document-system` and then `document-project` for every project, on a `chore/document` branch from the default branch that is merged back and deleted when done. If any spec is `in-progress`, stop before documenting, because its branch owns the pending changes, and journal `blocked`, red.
+For a greenfield system, have the **Builder** execute the `scaffold-system` skill first. Then, in every case, have the **Architect** execute `outline-system` and then `rule-project` for every project, on a `chore/document` branch from the default branch that is merged back and deleted when done. If any spec is `in-progress`, stop before documenting, because its branch owns the pending changes, and journal `blocked`, red.
 
 The result is a documented system, scaffolded first when it had no code.

@@ -28,10 +28,10 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 | Area | Skills |
 | --- | --- |
-| Context | [`/document-system`](./document-system/SKILL.md), [`/document-project`](./document-project/SKILL.md), [`/scaffold-system`](./scaffold-system/SKILL.md) |
+| Context | [`/outline-system`](./outline-system/SKILL.md), [`/rule-project`](./rule-project/SKILL.md), [`/scaffold-system`](./scaffold-system/SKILL.md) |
 | Capture | [`/define-spec`](./define-spec/SKILL.md) |
 | Build | [`/implement-project`](./implement-project/SKILL.md) |
-| Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/inspect-quality`](./inspect-quality/SKILL.md) |
+| Prove | [`/verify-behavior`](./verify-behavior/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/scan-quality`](./scan-quality/SKILL.md) |
 | Ship | [`/ship-spec`](./ship-spec/SKILL.md) |
 | Record | [`/record-journal`](./record-journal/SKILL.md) |
 | Meta | [`/maintain-skills`](./maintain-skills/SKILL.md) — AIDDbot development only; `aiddbot init` and `update` never install it |
@@ -40,9 +40,9 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 | Entrypoint | Route |
 | --- | --- |
-| `/architect-system-foundation` | No source: `scaffold-system` → `document-system` → `document-project`. Existing source: `document-system` → `document-project`. |
-| `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
-| `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
+| `/architect-system-foundation` | No source: `scaffold-system` → `outline-system` → `rule-project`. Existing source: `outline-system` → `rule-project`. |
+| `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-behavior` → `review-implementation` → `ship-spec` |
+| `/craft-lasting-quality` | `scan-quality` → select debt → `/build-requested-spec` |
 
 Each role runs at a fixed effort — **Architect** `high`, **Builder** `medium`, **Craftsman** `high` — which `npm run adapt` resolves from `.aiddbot/efforts.yaml` into the model of every harness's agent definition. Orchestrators keep one agent per role for a whole run.
 
@@ -52,11 +52,11 @@ Each role runs at a fixed effort — **Architect** `high`, **Builder** `medium`,
 architect-system-foundation:
   greenfield:
     - "Builder: scaffold-system"
-    - "Architect: document-system"
-    - "Architect: document-project per project"
+    - "Architect: outline-system"
+    - "Architect: rule-project per project"
   brownfield:
-    - "Architect: document-system"
-    - "Architect: document-project per project"
+    - "Architect: outline-system"
+    - "Architect: rule-project per project"
 
 build-requested-spec:
   - "Architect: define-spec and obtain approval"
@@ -64,10 +64,10 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
-      evaluation: "verify-acceptance, review-implementation, ship-spec; red reports go back to the Builder"
+      evaluation: "verify-behavior, review-implementation, ship-spec; red reports go back to the Builder"
 
 craft-lasting-quality:
-  - "Craftsman: inspect-quality"
+  - "Craftsman: scan-quality"
   - "Architect: select one coherent group of eligible debt"
   - "build-requested-spec with both agents when eligible debt remains"
   - "return the quality review when no repair is eligible"

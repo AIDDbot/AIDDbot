@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to turn one natural-language request into an approved spec and its proposed PRD edits.
 
-Read the PRD, the TDR, the counters, and the `{Product_Folder}/model/` schemas before defining anything. If the PRD, TDR, or counters is missing, return the need to run `aiddbot init`; if the model schemas are missing, return the need to execute `document-system`. Never invent their contents.
+Read the PRD, the TDR, the counters, and the `{Product_Folder}/model/` schemas before defining anything. If the PRD, TDR, or counters is missing, return the need to run `aiddbot init`; if the model schemas are missing, return the need to execute `outline-system`. Never invent their contents.
 
 Clarify missing product decisions, then define one coherent scope. Create the spec's branch, `{type}/{spec_key}`, before any other write, and reserve the spec ID and any new requirement IDs in `.aiddbot/counters.yaml` on it.
 

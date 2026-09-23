@@ -1,11 +1,11 @@
 ---
-name: inspect-quality
+name: scan-quality
 description: Inspect quality evidence and maintain durable quality records.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
 ---
-# inspect-quality
+# scan-quality
 
 Your goal is to review shipped quality and keep the technical debt register current.
 

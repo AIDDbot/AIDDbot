@@ -19,14 +19,14 @@ const STAGE_BY_SKILL = {
   "build-requested-spec": "deliver",
   "craft-lasting-quality": "craft",
   "scaffold-system": "scaffold",
-  "document-system": "document",
-  "document-project": "document",
+  "outline-system": "outline",
+  "rule-project": "rule",
   "define-spec": "define",
   "implement-project": "build",
-  "verify-acceptance": "verify",
+  "verify-behavior": "verify",
   "review-implementation": "qualify",
   "ship-spec": "ship",
-  "inspect-quality": "inspect",
+  "scan-quality": "scan",
 };
 
 const AGENT_LABELS = { Architect: "Arch", Builder: "Build", Craftsman: "Craft", Direct: "Direct" };

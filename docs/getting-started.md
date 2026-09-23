@@ -13,7 +13,7 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 `init` prepares a complete workspace in one pass, so no skill has to create these as a fallback:
 
 - `.gitignore`, `README.md`, and `LICENSE` — created only when missing, never overwritten.
-- `AGENTS.md` — seeded from `document-system`'s own template; `document-system` fills it in with your project's specifics.
+- `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S, F, T, and D identifiers. It is project state: later `update` never changes it.
 - The empty `PRD.md` and `TDR.md` under `.product/`.
 - The journal's first event, in `.aiddbot/journals/`.

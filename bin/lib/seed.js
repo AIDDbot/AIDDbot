@@ -144,9 +144,9 @@ function ensureLicense(destRoot, dryRun) {
   return rel;
 }
 
-// AGENTS.md starts as document-system's own template, so consumers have one
-// source for it: document-system later fills the placeholders in place.
-const agentsTemplate = path.join(packageRoot, ".agents", "skills", "document-system", "assets", "AGENTS.template.md");
+// AGENTS.md starts as outline-system's own template, so consumers have one
+// source for it: outline-system later fills the placeholders in place.
+const agentsTemplate = path.join(packageRoot, ".agents", "skills", "outline-system", "assets", "AGENTS.template.md");
 
 function ensureAgentSeed(destRoot, dryRun) {
   const rel = "AGENTS.md";
@@ -164,7 +164,7 @@ function ensureCounters(destRoot, dryRun) {
   return ensureFromSeed(destRoot, dryRun, ".aiddbot/counters.yaml");
 }
 
-// {Product_Folder} defaults to .product/, matching AGENTS.template.md; document-system
+// {Product_Folder} defaults to .product/, matching AGENTS.template.md; outline-system
 // may relocate it later, in which case these two files travel with it.
 function ensureProductRecords(destRoot, dryRun) {
   const written = [];

@@ -12,14 +12,14 @@
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | `scaffold-system` → `document-system` → `document-project` | Scaffold, dependencies, documentation, rules, and product records |
-| Existing application source | `document-system` → `document-project` | Documentation, rules, and missing product records |
+| No application source | `scaffold-system` → `outline-system` → `rule-project` | Scaffold, dependencies, documentation, rules, and product records |
+| Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
 Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 
-`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `document-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, the empty `PRD.md` and `TDR.md`, and the journal's first event. No skill creates these as a fallback; a missing one means `init` was skipped. A scaffold leaves `.aiddbot/aiddbot.system.json` as the system index and initializes the root `package.json` with product name, description, author, and version. It installs each project's dependencies and stops there: no lint, tests, or other command. It does not repeat skill routing or commands executed by the models.
+`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, the empty `PRD.md` and `TDR.md`, and the journal's first event. No skill creates these as a fallback; a missing one means `init` was skipped. A scaffold leaves `.aiddbot/aiddbot.system.json` as the system index and initializes the root `package.json` with product name, description, author, and version. It installs each project's dependencies and stops there: no lint, tests, or other command. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -27,7 +27,7 @@ Run `/architect-system-foundation` again whenever the documentation should refle
 | --- | --- | --- |
 | Define | **Architect** | `define-spec`: scope, branch, spec, PRD proposal, schema impact, and approval |
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
-| Prove and ship | **Craftsman** | `verify-acceptance` executes E2E acceptance, then `review-implementation` and `ship-spec` |
+| Prove and ship | **Craftsman** | `verify-behavior` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
 Each role runs at a fixed effort — **Architect** and **Craftsman** `high`, **Builder** `medium` — that `npm run adapt` resolves from `.aiddbot/efforts.yaml` into the model of every harness's agent definition at release time, so spawning a role spawns it with its model already set: nothing is chosen at delegation time. An orchestrator keeps one agent per role for its whole run, continued with messages, and journals each spawn once with its role.
 
@@ -52,7 +52,7 @@ Shipping applies the PRD changes, reconciles the schema documents, updates debt,
 
 `craft-lasting-quality` follows:
 
-`inspect-quality` → select coherent debt → `/build-requested-spec`
+`scan-quality` → select coherent debt → `/build-requested-spec`
 
 Commands are classified by their effective behavior, not their script names. During coding, the Builder runs only error-level lint and affected unit tests; it may author E2E tests but does not execute them. The Craftsman executes acceptance tests afterward. Quality review runs configured warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 

@@ -1,11 +1,11 @@
 ---
-name: verify-acceptance
+name: verify-behavior
 description: Execute acceptance tests for one spec and write a verification report.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
 ---
-# verify-acceptance
+# verify-behavior
 
 Your goal is to prove one spec against its acceptance criteria and record the evidence.
 
