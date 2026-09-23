@@ -9,7 +9,7 @@ user-invocable: true
 
 Turn one natural-language request into an approved spec and its proposed PRD edits.
 
-Read the current PRD, quality TDR, counters, and `{Product_Folder}/model/` schemas. If any initialization document is missing, return the need to execute `document-system`; do not invent its contents. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and determine its spec ID, name, and slug to generate a spec key.
+Read the current PRD, quality TDR, counters, and `{Product_Folder}/model/` schemas. If the PRD, TDR, or counters is missing, return the need to run `aiddbot init`; if the model schemas are missing, return the need to execute `document-system`. Do not invent either's contents. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and determine its spec ID, name, and slug to generate a spec key.
 
 Use them to compose the branch name. `{type}/{spec_key}`. Example: `feat/implement-user-authentication` or `fix/incorrect-tax-calculation`. Create the git branch.
 
