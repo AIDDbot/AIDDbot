@@ -45,15 +45,15 @@ C  craft-lasting-quality         inspect-quality
 
 - **`implement-project`** (primitiva) — Implement supplied spec scope or repair findings.
   - Nota: tu propuesta `implement-spec` — el skill itera por proyecto afectado, no por spec entera; `build-requested-spec` ya es "la spec", este es un paso por proyecto. Alternativa real: `build-project`, mismo patrón que `document-system`/`document-project` (el verbo de la B baja un nivel, con "project" como objeto). Abierto, no lo empujo.
-  - [ ] dejar `implement-project`
+  - [x] dejar `implement-project`
   - [ ] `implement-spec` (tu propuesta)
   - [ ] `build-project`
 
 - **`verify-acceptance`** (primitiva) — Execute acceptance tests for one spec and write a verification report.
   - Nota: tu propuesta `verify-criteria` es más genérica, no más clara.
-  - [x] dejar `verify-acceptance`
+  - [ ] dejar `verify-acceptance`
   - [ ] `verify-criteria` (tu propuesta)
-  - [ ] `verify-behavior`
+  - [x] `verify-behavior`
 
 - **`review-implementation`** (primitiva) — Review technical quality for one spec implementation.
   - Nota: si `implement-project` cambia a `build-project`, este sigue teniendo sentido igual (revisa "la implementación" como sustantivo).
@@ -69,7 +69,10 @@ C  craft-lasting-quality         inspect-quality
   - Es la C. Se queda.
 
 - **`inspect-quality`** (primitiva) — Inspect quality evidence and maintain durable quality records.
-  - [x] dejar `inspect-quality`
+  - Nota: su propio commit ya dice `docs(quality): audit system` — el skill se llama a sí mismo "audit" en la práctica. Evito `review-quality`: chocaría con `review-implementation`, que es otra cosa (revisa el diff de una spec, no el sistema entero).
+  - [ ] dejar `inspect-quality`
+  - [ ] `audit-quality`
+  - [ ] `assess-quality`
 
 ## Sin pipeline propio
 
