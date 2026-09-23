@@ -1,6 +1,6 @@
 # Scratch
-/temp
-/tmp
+temp/
+tmp/
 *.tmp
 *.log
 
