@@ -40,28 +40,28 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 1 · Scripts deterministas
 
-- [ ] **1.1 Journal** (D10). Reescribir `record-journal/scripts/append.mjs`:
+- [x] **1.1 Journal** (D10). Reescribir `record-journal/scripts/append.mjs`:
   - invocación `append.mjs <skill> <event> <status> "<resumen>" [--project] [--agent] [--revision] [--spec]`;
   - `spec` deducido de la rama `{feat|fix|chore}/S{nnnn}-{slug}`; `stage` deducido del skill con una tabla interna;
   - `harness`/`model` por variables de entorno cuando existan, con flags como respaldo;
   - `status` solo `green|amber|red`; `event` libre, obligatorio y recortado;
   - evento `spawn` con `--role`, `--effort` y `--model`;
   - imprime la línea escrita; ante un error, sale con código ≠ 0 y muestra el uso.
-  *Hecho cuando:* una llamada desde una carpeta de proyecto en una rama `feat/S0001-x` escribe la línea completa en el journal raíz con solo 4 argumentos.
-- [ ] **1.2 Adaptadores** (D11). Crear `scripts/adapt.js` a partir de `scripts/adapt.command.md` y borrar este:
+  *Hecho cuando:* una llamada desde una carpeta de proyecto en una rama `feat/S0001-x` escribe la línea completa en el journal raíz con solo 4 argumentos. **Verificado** con la invocación mínima, `spawn`, los tres niveles de estado, y cada camino de error (skill/estado/agente inválido, `spawn` sin flags, argumentos de más/menos). Solo `claude-code` se autodetecta hoy (`CLAUDECODE=1`); los demás arneses quedan para `--harness`.
+- [x] **1.2 Adaptadores** (D11). Crear `scripts/adapt.js` a partir de `scripts/adapt.command.md` y borrar este:
   - punteros de skills solo para Claude Code (antes, comprobar si Claude Code ya lee `.agents/skills/`; si lo hace, no se generan);
   - agentes: 3 roles × 4 arneses;
   - hooks: solo el cableado de `.agents/hooks/index.mjs` por arnés;
   - reglas: ninguna; se retiran `.claude/rules`, `.cursor/rules` y `.github/instructions` de `overlay.js` (`TREES`) y de `.npmignore`;
   - `--check` compara sin escribir; `npm run adapt`; `release.js` lo ejecuta y aborta si hay diferencias.
-  *Hecho cuando:* dos ejecuciones seguidas no cambian nada y `release.js` falla si un adaptador está desfasado.
-- [ ] **1.3 Semilla e init** (D12, D13; depende de 1.1 para la cabecera del journal).
+  *Hecho cuando:* dos ejecuciones seguidas no cambian nada y `release.js` falla si un adaptador está desfasado. **Verificado**, con dos hallazgos: (1) Claude Code sí necesita el puntero — esta misma sesión lo lee desde `.claude/skills/`, no desde `.agents/skills/`; (2) `--check` contra los adaptadores ya commiteados encontró y corrigió una deriva real preexistente (`record-journal`'s pointer le faltaba la línea en blanco que tienen los otros 13).
+- [x] **1.3 Semilla e init** (D12, D13; depende de 1.1 para la cabecera del journal).
   - Mover `.agents/seeds/*` a `bin/seeds/` y quitar `.agents/seeds` de `.npmignore`; borrar `CLAUDE.seed.md` y su uso en `seed.js`.
   - Reunir en `bin/seeds/` toda la semilla: AGENTS, gitignore, README, LICENSE, contadores, efforts, PRD y TDR vacíos.
   - `init` escribe la cabecera inicial del journal con la versión de AIDDbot, reutilizando el formato de `append.mjs`, sin duplicarlo.
   - `{Product_Folder}` por defecto (`.product/`) fijado por `init` y registrado en el AGENTS sembrado; `document-system` puede cambiarlo.
   - Decidir si `efforts.yaml` pasa de overlay (se actualiza en cada `update`) a semilla (se crea una vez). Mi propuesta: sigue en el overlay, porque el mapeo de modelos lo mantiene AIDDbot.
-  *Hecho cuando:* `aiddbot init` en un directorio vacío deja un repo listo para `/architect-system-foundation`, sin que ningún skill tenga que crear registros.
+  *Hecho cuando:* `aiddbot init` en un directorio vacío deja un repo listo para `/architect-system-foundation`, sin que ningún skill tenga que crear registros. **Verificado** en un directorio externo: primer `init` crea los 8 ficheros de semilla y el evento génesis en un commit; el segundo `init` da `skip-same` en todo, incluido el journal (sin génesis duplicada); `update` no siembra nada; `--dry-run` no escribe nada. **Nota:** `document-system`, `define-spec` e `inspect-quality` conservan su lógica y plantillas duplicadas para crear estos registros — siguen funcionando (se limitan a "preservar" lo que `init` ya creó) pero ya no hacen falta; quitarlas es la fase 3.4, vía `/maintain-skills`. **Hallazgo corregido en el camino:** la primera versión de la génesis invocaba la copia canónica de `append.mjs` (la de este propio checkout) contra un directorio externo; como ese script resuelve su raíz subiendo desde su propia ubicación, escribía en el journal de *este* repo en vez del destino — casi cuela 6 líneas de prueba en `.aiddbot/journals/2026-09-23.log` de AIDDbot (ya limpiadas, el fichero no estaba trackeado). Arreglado invocando la copia recién instalada en el destino, después del overlay.
 
 ## Fase 2 · `maintain-skills` (D1, D3)
 
