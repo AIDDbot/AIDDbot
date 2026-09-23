@@ -7,20 +7,16 @@ user-invocable: true
 ---
 # verify-acceptance
 
-Execute acceptance tests for one spec and write a verification report.
+Your goal is to prove one spec against its acceptance criteria and record the evidence.
 
-Do not edit code or write tests. Do not execute unit tests, lint, or quality checks. Run only commands classified as `Acceptance` in the system or project instructions and record the results against the acceptance criteria.
+Run only the commands classified as `Acceptance` in the system or project instructions. Never edit code, tests, or contracts, and never run unit tests, lint, or quality checks.
 
-Read the spec, its proposed PRD edits, and current code. Execute applicable E2E acceptance tests without editing code, tests, or contracts. Write `{Product_Folder}/specs/{spec_key}/verification.md` from the verification template `verification.template.md`. Record the checked revision, command, result, and evidence.
+Let the E2E suite start its own targets so each run gets a fresh database; never reuse an already running server, because it keeps development data. Free a port with `free-port.ps1` on Windows or `free-port.sh` elsewhere only for a listener whose PID and start identity this run captured.
 
-Let the E2E suite start its own targets so each run gets a fresh database; never reuse an already running server, because it keeps the development data. Stop listeners with the ownership-safe Windows `free-port.ps1` or Linux/macOS `free-port.sh` helper only when this run captured its PID and start identity.
+Write `{Product_Folder}/specs/{spec_key}/verification.md` from `verification.template.md`. Its status is `green` only when every applicable test passes. Increment its revision once per evaluation, never for a document edit, and preserve the counter when resuming.
 
-Set `status` to `green` when all tests pass, or `red` when some tests fail and prevent shipping.
+Journal each revision with its status.
 
-Increment `revision` once per evaluation, starting at 1, not for document edits. Record the evaluated code commit and update time; preserve the counter when resuming.
-
-The result is current acceptance evidence.
-
-Journal each verification revision once, naming the revision and status.
+The result is current acceptance evidence for the spec.
 
 Commit as `docs(verification): record acceptance`.

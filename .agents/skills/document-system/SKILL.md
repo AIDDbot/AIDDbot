@@ -7,22 +7,18 @@ user-invocable: true
 ---
 # document-system
 
-Set the system documentation from repository evidence.
+Your goal is to document the system — its root instructions and conceptual model — from repository evidence.
 
-Read the tree and guide files. Do not redesign. Read source code only to find the domain entities for the model.
-Take `{Product_Folder}` and `{Source_Folders}` from an existing `AGENTS.md`; settle them with the human only when they are missing.
-Generate `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it already exists, update only what the repository contradicts and keep human-written content. Keep every template section, above all `## Delegation` and the `.aiddbot/efforts.yaml` path: a section the repository gives no evidence for is copied from the template as written, never dropped or summarized. An `AGENTS.md` that says nothing about efforts and models leaves every later spawn on the harness default.
+Document what exists; never redesign. Read source code only to find domain entities. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`, and settle them with the human only when they are missing.
 
-Document the important repository paths and product records. Do not inventory skills, commands, or the model actions that execute them; the orchestrator skills own that routing.
+Write `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it exists, change only what the repository contradicts and keep human-written content. Keep every template section, above all `## Delegation` and the `.aiddbot/efforts.yaml` path: a section without repository evidence is copied from the template as written, never dropped or summarized, because an `AGENTS.md` silent on efforts leaves every later spawn on the harness default. Record important paths and product records, but never inventory skills, commands, or the actions that run them; the orchestrators own that routing.
 
-Write the conceptual model at `{Product_Folder}/model/model.schema.md` following `model.schema.template.md`, deriving entities and relations from entity definitions, ORM models, or migrations. When no functional code exists yet, draft it from the PRD and human input instead; when neither names an entity, leave the diagram and entity list empty rather than inventing any. When the model already exists and code defines entities, make it match the code: add missing entities and relations, remove those the code no longer has, and keep existing descriptions that still hold. Later specs keep it current between runs.
+Write `{Product_Folder}/model/model.schema.md` from `model.schema.template.md`, deriving entities and relations from entity definitions, ORM models, or migrations. Without functional code, draft it from the PRD and human input, and leave it empty rather than invent an entity neither names. When code defines entities, make the model match it, keeping descriptions that still hold.
 
-When a project documented earlier no longer exists, delete its rules and schema files and its `AGENTS.md` entries.
-
-Do not create any non templated files.
+When a documented project no longer exists, delete its rules and schema files and its `AGENTS.md` entries. Create no file outside these templates.
 
 Journal the documentation result.
 
-The result is root project instructions and product high level overview.
+The result is current root instructions and a conceptual model of the product.
 
-Git commit as `docs(system): document foundation`.
+Commit as `docs(system): document foundation`.

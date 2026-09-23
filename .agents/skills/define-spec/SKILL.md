@@ -7,23 +7,18 @@ user-invocable: true
 ---
 # define-spec
 
-Turn one natural-language request into an approved spec and its proposed PRD edits.
+Your goal is to turn one natural-language request into an approved spec and its proposed PRD edits.
 
-Read the current PRD, quality TDR, counters, and `{Product_Folder}/model/` schemas. If the PRD, TDR, or counters is missing, return the need to run `aiddbot init`; if the model schemas are missing, return the need to execute `document-system`. Do not invent either's contents. Clarify missing product decisions. Define one coherent scope, choose its delivery type (`feat`, `fix`, `refactor`, or `chore`), and determine its spec ID, name, and slug to generate a spec key.
+Read the PRD, the TDR, the counters, and the `{Product_Folder}/model/` schemas before defining anything. If the PRD, TDR, or counters is missing, return the need to run `aiddbot init`; if the model schemas are missing, return the need to execute `document-system`. Never invent their contents.
 
-Use them to compose the branch name. `{type}/{spec_key}`. Example: `feat/implement-user-authentication` or `fix/incorrect-tax-calculation`. Create the git branch.
+Clarify missing product decisions, then define one coherent scope. Create the spec's branch, `{type}/{spec_key}`, before any other write, and reserve the spec ID and any new requirement IDs in `.aiddbot/counters.yaml` on it.
 
-The spec ID and any new requirement IDs, must be reserved in `.aiddbot/counters.yaml` on that branch.
+Write the spec from `spec.template.md` and the PRD edits from `PRD.template.md`. The PRD is the only owner of requirement text: the spec references requirement IDs and records why they change and how acceptance proves it, never their wording. Preserve existing IDs and unrelated requirements, and keep deprecated lines until shipping.
 
-Write the spec following `spec.template.md` and proposed PRD edits following `PRD.template.md` together in the project locations. 
-The PRD is the only owner of requirement text. The spec references requirement IDs as `new`, `changed`, `deprecated`, or `related` and records their reason, delivery impact, and acceptance evidence without copying their normative text. 
-Write each new or changed requirement as one observable EARS line. Keep the EARS keywords `IF`, `WHEN`, `WHILE`, `WHERE`, and `SHALL` in uppercase.
-Preserve existing IDs and unrelated requirements. Keep deprecated PRD lines until shipping.
+Declare in the schema impact every entity, relation, table, column, or endpoint the scope adds, changes, or removes, including each endpoint's success status and every error status with its cause, and cover at least one error scenario in the verification table. Leave the schema documents themselves to shipping.
 
-When the scope adds, changes, or removes an entity, relation, table, column, or endpoint, declare each one in the spec's schema impact against the current schema documents. For every new or changed endpoint, declare its success status and each error status with its cause, and add at least one error scenario to the verification table. Do not edit the schema documents; shipping reconciles them.
+Unless in YOLO mode, present the spec and PRD edits for human approval and wait. Journal the creation and the approval. On approval, set the spec to `in-progress`.
 
-If the user requests YOLO or the active mode is YOLO, consider the proposal approved. Otherwise, present the spec and PRD edits, ask the human for approval, and wait. On approval, set the spec to `in-progress` .
-
-Journal each high-level creation and approval event.
+The result is an approved spec on its own branch, with its proposed PRD edits.
 
 Commit as `docs(spec): define delivery`.

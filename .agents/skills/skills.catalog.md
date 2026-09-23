@@ -13,15 +13,11 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `.aiddbot/efforts.yaml` | Portable delegated-agent effort mapped to native harness controls |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Human-readable append-only process events by local date, always at the repository root, ignored by Git |
 
-`aiddbot init` seeds the counters; `document-system` creates missing records when the CLI was not used. `define-spec` defines one delivery, reserves its IDs, proposes PRD changes, and obtains approval. Requirement text lives only in the PRD.
+`aiddbot init` creates every record above; no skill creates them.
 
 `record-journal` owns journal rendering. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, because the script resolves that root regardless of the calling agent's working directory. Journals are kept out of Git by the root `.gitignore` policy. Each day's initial header records the date and any known harness and model before naming the columns. Each event starts with the current local time, the six-character text status `Info`, `Warn`, or `Error`, and the active agent (`Arch`, `Build`, `Craft`, or `Direct`). Spec and project are six characters, stage and event are eight, revision is three, and spaces are the only column separator; all fixed-width values are trimmed, truncated, and right-padded. The project header is `proj`. The final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical within each daily file.
 
-System and project documentation records important paths, boundaries, and files. `document-system` writes the conceptual model in `model/model.schema.md`, drafted from the PRD and human input when no code exists yet. `document-project` records each project's physical tables in `model/{project}.db.schema.md`, including real column types and required join tables, and its endpoints in `model/{project}.api.schema.md`, both written for every backend project and left empty until evidence exists. It does not duplicate skill routing or executable commands owned by the orchestrators.
-
 Rerunning `/architect-system-foundation` resyncs documentation with the code on a `chore/document` branch, and refuses while a spec is `in-progress`. Code wins for structure, model, and schemas; coding-rules rows promoted by shipping are kept unless their scope disappears, and records of removed projects are deleted.
-
-Schemas follow each delivery: `define-spec` declares the spec's schema impact, `implement-project` builds exactly that shape, `review-implementation` gates the diff against it, and `ship-spec` reconciles the model from the spec and the database and API schemas from the merged code.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
 
@@ -30,8 +26,6 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 - Amber findings and failures still present in a revision-3 red report become technical debt.
 - Stale or incomplete evidence blocks shipping.
 - A third unresolved `red` report ships after its failures are recorded as technical debt.
-
-Commands are classified by effective behavior, not script name. `implement-project` owns `Build`: error-level lint and affected unit tests. It may author E2E tests but never executes them. `verify-acceptance` exclusively owns `Acceptance`, including E2E execution. `/craft-lasting-quality` owns `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
 
 ## Public orchestrators
 
@@ -64,8 +58,6 @@ Commands are classified by effective behavior, not script name. `implement-proje
 Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `setup`, `deliver`, `craft`, `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`. Each orchestrator owns a routing stage — `setup` for `architect-system-foundation`, `deliver` for `build-requested-spec`, `craft` for `craft-lasting-quality` — and journals under its named role before it reads anything, so the day's header, the routing decisions, and the outcome are on the trace even when no stage below writes a line.
 
 Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation. Every spawn is journaled with its role, its requested effort, and the resolved model or native control, and an inherited setting is journaled amber, so a run left on harness defaults is visible in the trace rather than silent.
-
-`scaffold-system` creates no functional code. It writes `.aiddbot/aiddbot.system.json`, initializes root product metadata, and, when safe, root `start`/`test:e2e` delegates backed by `.aiddbot/run-system.mjs`. It sets the front `displayName` and `author` to the system name and product author, and otherwise leaves project files untouched. The E2E suite starts its own targets against a fresh database per run; the runner's `start` stops whole process trees on exit. It finishes with dependency installation and basic lint only. `ship-spec` reconciles known debt without running system-wide quality discovery, promotes durable lessons into applicable project rules, and synchronizes every release to the authoritative root product version and other existing authoritative declarations.
 
 Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
 

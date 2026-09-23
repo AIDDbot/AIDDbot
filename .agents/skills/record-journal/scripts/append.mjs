@@ -122,7 +122,7 @@ function field(value, width = 6) {
 function specFromBranch(root) {
   try {
     const branch = execFileSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
-    const match = /^(?:feat|fix|chore)\/(S\d{4})-/.exec(branch);
+    const match = /^(?:feat|fix|refactor|chore)\/(S\d{4})-/.exec(branch);
     return match ? match[1] : "-";
   } catch {
     return "-";

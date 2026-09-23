@@ -7,17 +7,13 @@ user-invocable: true
 ---
 # inspect-quality
 
-Review shipped quality and maintain its technical debt register.
+Your goal is to review shipped quality and keep the technical debt register current.
 
-Do not edit code or write tests. Do not execute E2E tests or commands classified as `Build` or `Acceptance`. Run the configured commands classified as `Quality`, including warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
+Run only the configured commands classified as `Quality`: warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening. Never edit code, write tests, or run `Build` or `Acceptance` commands. Confirm each command's effective flags and configuration instead of trusting its name, prefer one aggregate command when it subsumes the rest, and use every command and threshold exactly as configured. A missing check is recorded as unavailable or unconfigured, never replaced with a stricter invocation or with the build lint.
 
-Read the current TDR and review before running the quality commands. Confirm their effective flags and referenced configuration rather than trusting script names. Prefer one configured aggregate quality command when it subsumes the individual checks; otherwise run each independent check once. Use configured commands and thresholds exactly as declared; never construct a stricter invocation or substitute the build lint for a missing quality check. Record unavailable or unconfigured checks as such and confirm concrete impact before recording debt.
+Write a complete replacement for `{Product_Folder}/quality/review.md` from `review.template.md`, and only once every check has a recorded result. Then reconcile `{Product_Folder}/quality/TDR.md` with it following `TDR.template.md` and `debt.contract.md`. Record debt only with confirmed concrete impact. If the register or the counters are missing, return the need to run `aiddbot init`.
 
-Build a complete replacement for `quality/review.md` following `review.template.md`. Include passes, failures, unavailable or unconfigured checks, and every open system-review finding. Reconfirm each existing review-backed D entry; when its check is unavailable, retain it as not revalidated with its last confirmation. Do not append previous reviews or replace the current file before all checks have a recorded result.
-
-Reconcile `{Product_Folder}/quality/TDR.md` with the replacement review following `TDR.template.md` and `debt.contract.md`, then rewrite the review in one edit. If the initialized register or counters are missing, return the need to run `aiddbot init`; do not create replacements. Reserve new D IDs from `.aiddbot/counters.yaml`; consolidate or remove entries only when the evidence supports it.
-
-Journal the review result once.
+Journal the review result.
 
 The result is current, traceable quality records.
 

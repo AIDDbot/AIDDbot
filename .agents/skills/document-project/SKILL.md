@@ -7,30 +7,16 @@ user-invocable: true
 ---
 # document-project
 
-Document one project or subdomain folder with its boundary, structure, dependencies, and coding rules.
+Your goal is to document one project or subdomain folder: its boundary, structure, dependencies, coding rules, and evidenced schemas.
 
-Read only decisive source files, folder trees, manifests, and referenced configuration.
+Read only decisive source files, folder trees, manifests, and referenced configuration. Never inventory skills, commands, or the actions that run them, and create no architecture file beyond these templates.
 
-Identify the project/domain by its source folder, responsibility, and configuration. 
+Write `{Agents_Folder}/rules/{project}.rules.md` from `project.rules.template.md`. When it exists, rewrite the code-derived sections to match the code but keep every coding-rules row, because shipping promoted those lessons and code cannot regenerate them; drop a row only when its scope no longer exists.
 
-Document important project paths and files. Do not inventory skills, commands, or the model actions that execute them; the orchestrator skills own that routing.
+When the project owns relational persistence, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`, derived from the real migrations, DDL, ORM schema, or database configuration rather than the conceptual model: every physical table including required join tables, with real column types, keys, nullability, defaults, constraints, indexes, and foreign references. When it exposes endpoints, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`, derived from the real routes, controllers, or OpenAPI document, with each endpoint's success status and the error statuses the code actually returns. A backend project always gets both documents, with empty entries rather than invented ones until evidence exists. Replace a schema document only with what current evidence shows.
 
-Write one rules file named `{Agents_Folder}/rules/{project}.rules.md` following the `project.rules.template.md`. Example: `./agents/rules/front.rules.md` or `./agents/rules/invoicing.rules.md`
+Touch a timestamp only when content changes. List every written rules and schema file under the project decisions in `AGENTS.md`, and journal the result, naming the project.
 
-When the rules file already exists, rewrite the sections derived from code to match it, but keep every coding-rules row: shipping promotes those lessons and code cannot regenerate them. Drop a row only when its scope no longer exists. Update the timestamp only when the content changes.
-
-When repository evidence shows relational persistence owned by this project, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`. Derive it from the real migrations, DDL, ORM schema, or database configuration, rather than from the entity-relationship model. Record every physical table, its real columns and physical types, keys, nullability, defaults, constraints, indexes, and foreign references. Include every required many-to-many join table as a table in its own right. This is documentation, not generated executable SQL.
-
-When the project exposes endpoints to other projects or clients, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`. Derive it from the real route definitions, controllers, or OpenAPI document, recording every endpoint with its method, URL, request, success status and response type, and the error statuses the code actually returns.
-
-For a backend project, always write both schema documents, even before it has tables or endpoints: keep the template headings and leave the entries empty rather than inventing any, so later deliveries only update them. One file per project keeps projects from overwriting each other. Replace an existing schema document only with what the current evidence shows.
-
-Do not create system architecture or separate project architecture files other than the templates from assets.
-
-Journal the documentation result, naming the project.
-
-The result is current project/domain rules and the project's evidenced schemas.
-
-List every written rules and schema file under the project decisions in `AGENTS.md`.
+The result is current rules and evidenced schemas for the project.
 
 Commit as `docs(project): document {project}`.
