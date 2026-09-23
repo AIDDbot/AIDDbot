@@ -96,8 +96,8 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 - [x] **5.1 Catálogo, sincronización mínima.** Quitar lo que ya dicen los scripts o los skills (formato del journal, revisión 3, `run-system`, seeds); su rediseño completo sigue aplazado (P11).
   *Hecho cuando:* el catálogo no describe nada que haya dejado de existir y enruta los skills tal como están. **Hecho:** el párrafo del formato del journal (anchos, `Info/Warn/Error`, relleno) desaparece — ahora solo vive en `append.mjs` — y queda una frase que explica por qué hay un solo journal y apunta al script como fuente del formato. Comprobado por grep: no quedan `efforts.yaml` de consumidor, evento `reuse`, plantillas de PRD/TDR, `run-system` ni `revision 3`; ya habían salido en la 3.5 y la 4.
-- [ ] **5.2 `README.md` y `docs/`**: solo lo que cambia para un humano (init prepara todo, el scaffold no ejecuta nada, adaptadores por release).
-  *Hecho cuando:* los pasos de `docs/getting-started.md` funcionan tal cual en un directorio vacío.
+- [x] **5.2 `README.md` y `docs/`**: solo lo que cambia para un humano (init prepara todo, el scaffold no ejecuta nada, adaptadores por release).
+  *Hecho cuando:* los pasos de `docs/getting-started.md` funcionan tal cual en un directorio vacío. **Verificado** en un directorio externo: los siete ficheros que promete "What init adds" existen tal cual, el journal trae su evento génesis, los seis handlers del hook están en `.claude/settings.json`, y `update` no vuelve a sembrar nada. **Hecho, además:** `AIDD.workflow.md` tenía bastante más deriva que el README — la sección de scaffold aún describía `run-system` y el lint básico (D5), y el párrafo de delegación describía el esfuerzo por etapa vía `efforts.yaml` leído en cada spawn (ya D17/D18: esfuerzo fijo por rol, resuelto por `adapt.js` en la release). Reescritas ambas, más el párrafo de formato del journal, igual que en el catálogo (5.1).
 
 ## Fase 6 · Nombres (D4; bloqueada hasta tus propuestas en `fontier.md`)
 

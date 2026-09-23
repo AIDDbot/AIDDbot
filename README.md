@@ -28,7 +28,7 @@ Specifications pause for approval unless you request YOLO mode.
 
 AIDDbot uses public orchestrator skills and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Its canonical skills live under `.agents/`.
 
-`init` also creates `.aiddbot/counters.yaml` for permanent delivery IDs and installs `.aiddbot/efforts.yaml`, the portable policy for delegated-agent model selection. Later `update` synchronizes managed skills, adapters, and the effort policy; it never changes the project counters.
+`init` also prepares the rest of the workspace — `.aiddbot/counters.yaml` for permanent delivery IDs, the empty `PRD.md` and `TDR.md`, and more — so no skill has to create these as a fallback. Later `update` synchronizes managed skills and adapters, including each agent's model for its role; it never changes project state. See [Getting started](docs/getting-started.md) for the complete list.
 
 ## Documentation
 

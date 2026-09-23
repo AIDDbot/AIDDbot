@@ -10,8 +10,15 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 
 ## What `init` adds
 
+`init` prepares a complete workspace in one pass, so no skill has to create these as a fallback:
+
+- `.gitignore`, `README.md`, and `LICENSE` — created only when missing, never overwritten.
+- `AGENTS.md` — seeded from `document-system`'s own template; `document-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S, F, T, and D identifiers. It is project state: later `update` never changes it.
-- `.aiddbot/efforts.yaml` maps portable delegated-agent effort (`low`, `medium`, or `high`) to each harness's supported model controls. `update` manages this policy together with skills and adapters.
+- The empty `PRD.md` and `TDR.md` under `.product/`.
+- The journal's first event, in `.aiddbot/journals/`.
+
+`update` manages skills and adapters, including each agent's model for its role, but never re-seeds these files.
 
 ## Prepare the repository
 
