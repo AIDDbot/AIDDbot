@@ -112,7 +112,7 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
   - **Journal sin huecos:** génesis → `setup` (start/verdict/spawn Builder/scaffold ×4/`outline` doc/`rule` ×3/done) → `deliver` (start/spawn ×3/`define` create+approve/`build` ×5/`verify`/`qualify`/`ship`/done). 27 líneas, ninguna repetida ni fuera de orden.
   - **Riesgo que queda sin verificar** (ya anotado en el plan): que cada arnés respete de verdad el `model:` de su definición de agente. Esta prueba jugué los tres roles yo mismo dentro de una sola sesión Claude Code, sin invocar el Agent tool con arneses distintos, así que no prueba la resolución de modelo multi-arnés en vivo — solo que las skills y el journal son correctos. Lo dejo anotado, no lo doy por probado.
   - **Nota de entorno, no de AIDDbot:** al reanudar tras un aviso de "límite de uso reseteado", usé `/tmp/...` en una llamada a Write y aterrizó en `C:\tmp\...` en vez de en el repo (el mismo problema de rutas que ya había resuelto antes en esta sesión). No perdí trabajo, lo recuperé copiando los ficheros al sitio correcto; lo cuento porque es un hábito a vigilar, no un fallo del refactor.
-- [ ] **7.2 Release `0.1.0`** (D15) con `release.js` (incluye `adapt --check`) y merge de `refactor/frontier-fall` en `main` (D14).
+- [~] **7.2 Release `0.1.0`** (D15) con `release.js` (incluye `adapt --check`) y merge de `refactor/frontier-fall` en `main` (D14).
   *Hecho cuando:* `npx github:AIDDbot/AIDDbot --version` informa `0.1.0` y un `init` desde el paquete publicado reproduce la prueba 7.1.
 
 ## Fuera de alcance (aplazadas)
