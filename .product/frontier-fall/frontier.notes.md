@@ -193,6 +193,25 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 ✅ → D19 · **P24.** ¿Quitamos las plantillas de PRD y TDR (y convertimos sus semillas en cadenas dentro de `seed.js`)?
 > **R:** sí a todo lo que haga el sistema más simple
 
+### I. Nombres para la fase 6 (tu fontier.md)
+
+He revisado los 14 skills contra tus cuatro propuestas y busqué además cualquier otro choque real (verbo repetido de forma confusa, nombre que no cubre lo que hace el skill). Encontré uno más que tú no habías anotado — `build-requested-spec` — y creo que es el que más lo necesita. Para los otros tres, mi lectura no siempre coincide con la tuya; lo explico en cada fila y dejo "dejar" como una de las tres propuestas cuando creo que el nombre actual ya es el mejor.
+
+| Skill | Problema | Propuesta 1 | Propuesta 2 | Propuesta 3 | Mi favorita |
+| --- | --- | --- | --- | --- | --- |
+| `build-requested-spec` (orq.) | "build" solo cubre la fase de código; el skill define, construye, verifica, revisa y publica | `deliver-requested-spec` | `ship-requested-spec` | `fulfill-requested-spec` | **`deliver-requested-spec`** — es literalmente la descripción de una línea que ya tiene en el catálogo: "Deliver one requested spec" |
+| `implement-project` | libera el verbo "build" al renombrar el orquestador; el área del catálogo que lo agrupa ya se llama "Build" | `build-project` | `code-project` | `implement-project` (dejar) | **`build-project`** — coincide con la fila "Build" del catálogo, que hoy ya usa esa palabra para agruparlo |
+| `document-system` | tu propuesta `stablish-system`: se solapa con "foundation" del orquestador que lo llama (`architect-system-foundation`) — dos nombres evocando "fundar" | `document-system` (dejar) | `outline-system` | `profile-system` | **`document-system` (dejar)** — hace pareja clara con `document-project` (mismo verbo, dos alcances); "establish" pisa el terreno que ya cubre "foundation" |
+| `document-project` | tu propuesta `guide-project`: una "guía" suena a instrucciones para humanos, pero el skill también escribe hechos (esquemas de BD y API), no solo reglas | `document-project` (dejar) | `record-project` | `profile-project` | **`document-project` (dejar)**, por la misma pareja con `document-system` |
+| `verify-acceptance` | tu propuesta `verify-criteria`: es más genérica ("criteria" podría ser cualquier criterio), no más clara que "acceptance" | `verify-acceptance` (dejar) | `verify-behavior` | `run-acceptance` | **`verify-acceptance` (dejar)** — ya nombra exactamente lo que verifica (criterios de aceptación, tests E2E) |
+
+**Efecto en cadena de aceptar la primera fila:** si `build-requested-spec` pasa a `deliver-requested-spec`, la palabra "build" queda libre y `implement-project` → `build-project` deja de chocar con nada. Si solo aceptas la fila 1 y no la 2, no pasa nada — son independientes.
+
+🟡 **P25.** ¿Qué filas aceptas? Indica cada una con el nombre final (el tuyo, uno de los tres, u otro que se te ocurra al verlos así).
+> **R:**
+
+**Sobre tu nota "¿`adapt` está sesgado hacia Claude?"**: no — cubre los cuatro arneses. `syncAgents` escribe en `.claude/agents/`, `.cursor/agents/`, `.codex/agents/` y `.github/agents/` (Copilot) para los tres roles; `syncSkills` sí genera puntero solo para Claude Code porque es el único de los cuatro que no lee `.agents/skills/` directamente — Codex, Cursor y Copilot lo hacen ya, sin adaptador (D11). Si veías algo puntual que parecía sesgado, dime dónde y lo reviso.
+
 ## Limpieza local (no requiere decisión)
 - En `.claude/skills/` quedan carpetas sin versionar de skills renombrados: `implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`.
 - ~~Mi memoria sobre la familia "-ify" se refiere a nombres que ya no existen~~ → borrada tras D4.
@@ -204,4 +223,4 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 > **R:** te digo lo que necesitamos, y con eso decide lo que sobra. Actualmente las skills, los hooks y los agentes son distintos para cada arnés soportado (claude, codex, copilot y cursor). Afortunadmanete ya no se necista el CLAUDE.md ;-) Pero necesitamos tener esas adaptaciones... cómo y cuándo hacerlas? lo que tu digas!
 
 ## Orden sugerido
-Pendientes: ninguna.
+🟡 Pendientes: P25 (nombres de la fase 6).
