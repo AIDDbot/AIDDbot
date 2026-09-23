@@ -85,10 +85,10 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 4 · Orquestadores (vía `/maintain-skills`)
 
-- [~] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
-  *Hecho cuando:* los tres orquestadores describen la misma política, en pocas líneas y sin contradicciones con D8 y D9.
-- [~] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
-  *Hecho cuando:* la regla cabe en un párrafo corto y no se repite en el catálogo.
+- [x] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
+  *Hecho cuando:* los tres orquestadores describen la misma política, en pocas líneas y sin contradicciones con D8 y D9. **Hecho:** cada orquestador dice en una frase “delega como describe `## Delegation`” y solo añade lo suyo: sus roles con su esfuerzo y su enrutado. `craft-lasting-quality` lanza ahora al Architect con esfuerzo `high` (antes `low`), porque con D8 ese mismo agente redactará después la spec de reparación.
+- [x] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
+  *Hecho cuando:* la regla cabe en un párrafo corto y no se repite en el catálogo. **Hecho:** un párrafo en `build-requested-spec`; las “3 rondas” de D7 se expresan como “tercera revisión” para coincidir con la guarda de entrada de `ship-spec`, que la comprueba por su cuenta porque también se invoca suelta. El catálogo pierde los bullets del estado de la spec y del bucle, y el YAML ya no repite el umbral.
 - [x] **4.3 Sección "Delegation" del `AGENTS.md`** de este repo y de `AGENTS.template.md`: alinearla con D8 y con el evento `spawn`.
   *Hecho cuando:* ambos textos coinciden y ninguno contradice a los orquestadores. **Hecho:** la sección pasa a ser la **única** definición de la política (D6, D8, D9): esfuerzo desde `efforts.yaml`, una instancia por rol retomada con mensajes, `spawn`/`reuse` en el journal, los subagentes nunca preguntan al humano, y cada uno detiene solo lo suyo. Idéntica en `AGENTS.md` de este repo, `AGENTS.template.md` y `bin/seeds/AGENTS.seed.md` (tercera copia que el plan no nombraba, ver 🟡 P21).
 

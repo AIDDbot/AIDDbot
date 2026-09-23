@@ -7,18 +7,12 @@ user-invocable: true
 ---
 # craft-lasting-quality
 
-**Craft Lasting Quality**
+Your goal is to reduce existing quality debt through evidence-backed specs.
 
-Your goal is to **reduce existing quality debt** using evidence-backed specifications.
+Route as the **Craftsman** and delegate as the `## Delegation` section of `AGENTS.md` describes, with a `high`-effort **Craftsman** and a `high`-effort **Architect**; the Architect gets `high` because it will also define the repair spec. Journal `start` before inspecting anything, and `done` before returning, with a status matching the outcome.
 
-Journal your own routing as **Craftsman**, and tell every agent, including those reused by `build-requested-spec`, to journal with its active agent role. Before inspecting anything, journal `start` as green.
+Have the **Craftsman** execute the `inspect-quality` skill. Then have the **Architect** select one coherent group of current debt entries and express it as a natural-language repair request with its D IDs and evidence, editing neither code nor documentation. Journal the choice as `select`, naming the D IDs. When no eligible debt remains, journal that as amber and return the quality review.
 
-First, spawn a **Craftsman** agent with `high` effort to execute the `inspect-quality` skill for a system review, and wait for its result.
+Otherwise, execute the `build-requested-spec` skill with that request, handing it both agents so it spawns only the **Builder**.
 
-Next, spawn an **Architect** agent with `low` effort to select one coherent group of current debt entries for repair and express it as a natural-language request with its D IDs and supporting evidence. Do not edit code nor documentation, just express the request.
-
-Journal the outcome of that selection as `select`, naming the chosen D IDs. If no eligible debt remains, journal it amber, saying so, and return the quality review directly.
-
-Otherwise, execute the `build-requested-spec` skill with the natural-language repair request. Reuse these agents to spawn only the missing implementation agent.
-
-Before returning, stop every sub-agent this skill spawned and every terminal or background process it started. Never stop agents or processes supplied by the caller; the caller stops them. Then journal `done` with a status matching the outcome.
+The result is the selected debt repaired and shipped as one spec, or the current quality review when nothing is eligible.

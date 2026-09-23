@@ -17,16 +17,6 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `record-journal` owns journal rendering. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, because the script resolves that root regardless of the calling agent's working directory. Journals are kept out of Git by the root `.gitignore` policy. Each day's initial header records the date and any known harness and model before naming the columns. Each event starts with the current local time, the six-character text status `Info`, `Warn`, or `Error`, and the active agent (`Arch`, `Build`, `Craft`, or `Direct`). Spec and project are six characters, stage and event are eight, revision is three, and spaces are the only column separator; all fixed-width values are trimmed, truncated, and right-padded. The project header is `proj`. The final summary remains one untruncated line. Lines are never rewritten or sorted; their physical order is canonical within each daily file.
 
-Rerunning `/architect-system-foundation` resyncs documentation with the code on a `chore/document` branch, and refuses while a spec is `in-progress`. Code wins for structure, model, and schemas; coding-rules rows promoted by shipping are kept unless their scope disappears, and records of removed projects are deleted.
-
-Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`. Approval starts implementation; current reports govern repair and shipping.
-
-- Verification: `green` enables qualification; `red` returns for repair until revision 3, then qualification records current evidence before delivery.
-- Qualification: `green` or `amber` ships normally; `red` returns for repair until revision 3.
-- Amber findings and failures still present in a revision-3 red report become technical debt.
-- Stale or incomplete evidence blocks shipping.
-- A third unresolved `red` report ships after its failures are recorded as technical debt.
-
 ## Public orchestrators
 
 | Skill | Outcome |
@@ -55,11 +45,9 @@ Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shippe
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
 
-Every orchestrator tells its agents to pass their active role to `record-journal`, and every stage invokes it whenever it produces a high-level event: `setup`, `deliver`, `craft`, `scaffold`, `document`, `define`, `build`, `verify`, `qualify`, `ship`, or `inspect`. Each orchestrator owns a routing stage — `setup` for `architect-system-foundation`, `deliver` for `build-requested-spec`, `craft` for `craft-lasting-quality` — and journals under its named role before it reads anything, so the day's header, the routing decisions, and the outcome are on the trace even when no stage below writes a line.
+Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
 
-Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation. Every spawn is journaled with its role, its requested effort, and the resolved model or native control, and an inherited setting is journaled amber, so a run left on harness defaults is visible in the trace rather than silent.
-
-Orchestrators retain spawned agents for their complete flow. A nested orchestrator reuses compatible agents supplied by its caller and spawns only missing responsibilities.
+Delegation — one agent per role per run, continued with messages, and how each spawn is journaled — is defined once, in the `## Delegation` section of the consumer `AGENTS.md`.
 
 ## Pipeline overview
 
@@ -79,14 +67,11 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
-      verification: "verify-acceptance; red before revision 3 returns directly for repair, otherwise continues to qualification"
-      qualification: "review-implementation only after green verification or verification revision 3; green or amber ships, red before revision 3 returns for repair"
-      delivery: "ship-spec after a passing qualification or either red gate reaches revision 3"
-      repair-loop: "implement-project repairs verification or qualification findings, then restarts at verification; revision-3 failures become debt"
+      evaluation: "verify-acceptance, review-implementation, ship-spec; red reports go back to the Builder"
 
 craft-lasting-quality:
   - "Craftsman: inspect-quality"
   - "Architect: select one coherent group of eligible debt"
-  - "build-requested-spec reusing both agents when eligible debt remains"
+  - "build-requested-spec with both agents when eligible debt remains"
   - "return the quality review when no repair is eligible"
 ```
