@@ -33,10 +33,10 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 0 · Limpieza (sin dependencias)
 
-- [ ] **0.1 Quitar los tests de contenido** (D2). Borrar `scripts/verify-skills-migration.js`, `verify-skills-batch-a.js` y `verify-cli-update.js`, y dejar en `package.json` como mucho un `test` que no lea texto de skills. Decidir si `verify-release.js` sobrevive tal cual o se reduce.
-  *Hecho cuando:* cambiar un `SKILL.md` no rompe ningún test.
-- [ ] **0.2 Borrar borradores** (D11). `scripts/z_architect-drifter.md` y `scripts/z_architect-refactor.md`.
-- [ ] **0.3 Limpieza local.** Carpetas sin versionar de `.claude/skills/` (`implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`).
+- [x] **0.1 Quitar los tests de contenido** (D2). Borrar `scripts/verify-skills-migration.js`, `verify-skills-batch-a.js` y `verify-cli-update.js`, y dejar en `package.json` como mucho un `test` que no lea texto de skills. Decidir si `verify-release.js` sobrevive tal cual o se reduce.
+  *Hecho cuando:* cambiar un `SKILL.md` no rompe ningún test. **Verificado:** `verify-release.js` sobrevive tal cual, solo ejerce `release.js`; se confirmó tocando `define-spec/SKILL.md` y repitiendo `npm test`.
+- [x] **0.2 Borrar borradores** (D11). `scripts/z_architect-drifter.md` y `scripts/z_architect-refactor.md`.
+- [x] **0.3 Limpieza local.** Carpetas sin versionar de `.claude/skills/` (`implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`).
 
 ## Fase 1 · Scripts deterministas
 
