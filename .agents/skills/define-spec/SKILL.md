@@ -13,7 +13,7 @@ Read the PRD, the TDR, the counters, and the `{Product_Folder}/model/` schemas b
 
 Clarify missing product decisions, then define one coherent scope. Create the spec's branch, `{type}/{spec_key}`, before any other write, and reserve the spec ID and any new requirement IDs in `.aiddbot/counters.yaml` on it.
 
-Write the spec from `spec.template.md` and the PRD edits from `PRD.template.md`. The PRD is the only owner of requirement text: the spec references requirement IDs and records why they change and how acceptance proves it, never their wording. Preserve existing IDs and unrelated requirements, and keep deprecated lines until shipping.
+Write the spec from `spec.template.md`. Write each PRD requirement as one line, `- **F0001**: {statement}`, with `T` instead of `F` for a technical requirement and the statement in EARS with its keywords (`IF`, `WHEN`, `WHILE`, `WHERE`, `SHALL`) in uppercase. The PRD is the only owner of requirement text: the spec references requirement IDs and records why they change and how acceptance proves it, never their wording. Preserve existing IDs and unrelated requirements, and keep deprecated lines until shipping.
 
 Declare in the schema impact every entity, relation, table, column, or endpoint the scope adds, changes, or removes, including each endpoint's success status and every error status with its cause, and cover at least one error scenario in the verification table. Leave the schema documents themselves to shipping.
 

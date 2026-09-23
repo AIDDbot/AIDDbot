@@ -71,15 +71,23 @@ function absPath(destRoot, rel) {
   return path.join(destRoot, rel);
 }
 
-/** Create `rel` from `seedFile` only when nothing already occupies that name; never overwrite a human's own file. */
-function ensureFromSeed(destRoot, dryRun, rel, seedFile) {
+// One-line records need no template file (D19).
+const SEEDS = {
+  "LICENSE": "Add your license here (for example, MIT, Apache-2.0, or UNLICENSED).\n",
+  ".aiddbot/counters.yaml": "spec: 0\nfunctional: 0\ntechnical: 0\ndebt: 0\n",
+  ".product/specs/PRD.md": "# Product requirements\n",
+  ".product/quality/TDR.md": "# Technical debt register\n",
+};
+
+/** Create `rel` from its seed only when nothing already occupies that name; never overwrite a human's own file. */
+function ensureFromSeed(destRoot, dryRun, rel) {
   const abs = absPath(destRoot, rel);
   if (fs.existsSync(abs)) {
     print("skip-same", rel);
     return null;
   }
   print("create", rel);
-  writeFile(abs, readSeed(seedFile), dryRun);
+  writeFile(abs, SEEDS[rel], dryRun);
   return rel;
 }
 
@@ -132,7 +140,7 @@ function ensureLicense(destRoot, dryRun) {
     return null;
   }
   print("create", rel);
-  writeFile(absPath(destRoot, rel), readSeed("LICENSE.seed"), dryRun);
+  writeFile(absPath(destRoot, rel), SEEDS.LICENSE, dryRun);
   return rel;
 }
 
@@ -153,16 +161,16 @@ function ensureAgentSeed(destRoot, dryRun) {
 }
 
 function ensureCounters(destRoot, dryRun) {
-  return ensureFromSeed(destRoot, dryRun, ".aiddbot/counters.yaml", "counters.seed.yaml");
+  return ensureFromSeed(destRoot, dryRun, ".aiddbot/counters.yaml");
 }
 
-// {Product_Folder} defaults to .product/, matching AGENTS.seed.md; document-system
+// {Product_Folder} defaults to .product/, matching AGENTS.template.md; document-system
 // may relocate it later, in which case these two files travel with it.
 function ensureProductRecords(destRoot, dryRun) {
   const written = [];
-  const prd = ensureFromSeed(destRoot, dryRun, ".product/specs/PRD.md", "PRD.seed.md");
+  const prd = ensureFromSeed(destRoot, dryRun, ".product/specs/PRD.md");
   if (prd) written.push(prd);
-  const tdr = ensureFromSeed(destRoot, dryRun, ".product/quality/TDR.md", "TDR.seed.md");
+  const tdr = ensureFromSeed(destRoot, dryRun, ".product/quality/TDR.md");
   if (tdr) written.push(tdr);
   return written;
 }
