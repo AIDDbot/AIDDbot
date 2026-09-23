@@ -6,6 +6,8 @@ Fichero de trabajo para los nombres. Edítalo tú directamente: marca `[x]` la p
 
 Los tres orquestadores son el mnemónico: **A**rquitectura, **B**uild, **C**raft (calidad). `build-requested-spec` conserva "build" a propósito — es la B — aunque el skill entrega mucho más que código (define, construye, verifica, revisa, publica). No toco esa palabra en el orquestador.
 
+**Regla que se me había olvidado anotar:** las letras A, B y C quedan reservadas para los tres orquestadores. Ninguna primitiva puede empezar por esas letras — es la misma idea forzada que las tres palabras: una forma más de distinguir a simple vista un orquestador de una primitiva. Ya la aplico abajo; si ves alguna propuesta mía que la rompa, tíramela.
+
 ```
 A  architect-system-foundation   scaffold-system, document-system, document-project
 B  build-requested-spec          define-spec, implement-project, verify-acceptance,
@@ -44,10 +46,9 @@ C  craft-lasting-quality         inspect-quality
   - [x] dejar `define-spec`
 
 - **`implement-project`** (primitiva) — Implement supplied spec scope or repair findings.
-  - Nota: tu propuesta `implement-spec` — el skill itera por proyecto afectado, no por spec entera; `build-requested-spec` ya es "la spec", este es un paso por proyecto. Alternativa real: `build-project`, mismo patrón que `document-system`/`document-project` (el verbo de la B baja un nivel, con "project" como objeto). Abierto, no lo empujo.
+  - Nota: tu propuesta `implement-spec` — el skill itera por proyecto afectado, no por spec entera; `build-requested-spec` ya es "la spec", este es un paso por proyecto. ~~Alternativa `build-project`~~ — inválida, empieza por B (reservada); de todas formas ya la habías descartado.
   - [x] dejar `implement-project`
   - [ ] `implement-spec` (tu propuesta)
-  - [ ] `build-project`
 
 - **`verify-acceptance`** (primitiva) — Execute acceptance tests for one spec and write a verification report.
   - Nota: tu propuesta `verify-criteria` es más genérica, no más clara.
@@ -56,7 +57,6 @@ C  craft-lasting-quality         inspect-quality
   - [x] `verify-behavior`
 
 - **`review-implementation`** (primitiva) — Review technical quality for one spec implementation.
-  - Nota: si `implement-project` cambia a `build-project`, este sigue teniendo sentido igual (revisa "la implementación" como sustantivo).
   - [x] dejar `review-implementation`
 
 - **`ship-spec`** (primitiva) — Integrate and close an evidenced spec.
@@ -69,10 +69,11 @@ C  craft-lasting-quality         inspect-quality
   - Es la C. Se queda.
 
 - **`inspect-quality`** (primitiva) — Inspect quality evidence and maintain durable quality records.
-  - Nota: su propio commit ya dice `docs(quality): audit system` — el skill se llama a sí mismo "audit" en la práctica. Evito `review-quality`: chocaría con `review-implementation`, que es otra cosa (revisa el diff de una spec, no el sistema entero).
+  - Nota: su propio commit ya dice `docs(quality): audit system` — el skill se llama a sí mismo "audit" en la práctica, pero esa palabra empieza por A (reservada). Igual me pasó con `assess-quality`. Evito también `review-quality`: chocaría con `review-implementation`, que es otra cosa (revisa el diff de una spec, no el sistema entero). Alternativas sin pisar A/B/C:
   - [ ] dejar `inspect-quality`
-  - [ ] `audit-quality`
-  - [ ] `assess-quality`
+  - [x] `scan-quality`
+  - [ ] `survey-quality`
+  - [ ] `gauge-quality`
 
 ## Sin pipeline propio
 
@@ -85,12 +86,12 @@ C  craft-lasting-quality         inspect-quality
 
 ## Honestidad
 
-Con el ABC entendido, mi revisión no encuentra más choques reales que los cuatro que tú ya habías anotado. Mi único candidato propio es `implement-project` → `build-project`, y lo dejo como opción, no como recomendación fuerte. Si tienes en la cabeza otro nombre que no encaja y no está aquí, añade una skill nueva con el mismo formato.
+Con el ABC entendido y la reserva de A/B/C para los orquestadores, mi revisión no encuentra más choques reales que los cuatro que tú ya habías anotado, más el que tú mismo señalaste en `inspect-quality`. Si tienes en la cabeza otro nombre que no encaja y no está aquí, añade una skill nueva con el mismo formato.
 
 ## Preguntas abiertas
 
-🟡 **P25.** ¿`implement-project`: se queda, pasa a `build-project`, o algo tuyo?
-> **R:**
+✅ **P25.** ¿`inspect-quality`: alguna de las tres alternativas, o se te ocurre otra que no pise A/B/C?
+> **R:** `scan-quality` (marcado arriba).
 
 🟡 **P26.** ¿Algo más que quieras meter en la lista — algún nombre que te sigue sin encajar y que yo no haya tocado?
 > **R:**
