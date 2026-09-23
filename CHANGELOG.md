@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.1.0 - 2026-09-23
+
+- chore: stop tracking nested audit transcripts, widen temp/tmp ignore (c011e7e)
+- Merge branch 'refactor/frontier-fall' (6bdaacf)
+- docs(product): checkpoint fontier.md draft and mark 7.2 in progress (db6698b)
+- docs(product): mark frontier-fall 7.1 done, a real shipped delivery (b57296e)
+- refactor(skills): rename 4 skills, move physical schemas to outline-system (ec7776c)
+- docs(product): un-collide document-system/document-project verbs, flag the schema-ownership question (7f1f189)
+- docs(product): honor the A/B/C letter reservation for primitives (c4e6185)
+- docs(product): add inspect-quality rename options (15de6e6)
+- docs(product): rewrite naming.md as a checklist, not a table (53440c1)
+- docs(product): move naming work to its own file, cover all 14 skills (8e94fa1)
+- docs(product): propose 3 alternatives for the names that don't fit (9e6a0d4)
+- docs: sync README and docs/ with the frontier-fall refactor (ea3f56e)
+- docs(skills): drop the journal format paragraph from the catalog (db49050)
+- refactor(skills): drop the PRD and TDR templates (0af34de)
+- refactor(skills): fix effort per role, drop the Delegation section (3877354)
+- docs(product): answer the refactor concerns with P22-P24 (94b2554)
+- feat(cli): one source for consumer AGENTS.md, synced by adapt (2f612c5)
+- docs(product): open P21 on the three Delegation copies (9e7e80d)
+- refactor(skills): tighten the three orchestrators (9893535)
+- docs(agents): make Delegation the single delegation policy (758e441)
+- refactor(skills): tighten the eight delivery primitives (9a19051)
+- refactor(skills): stop creating PRD/TDR/counters from skills (862acd6)
+- refactor(skills): tighten /scaffold-system, drop run-system (7b2f78b)
+- refactor(skills): unify record-journal call sites (483dc96)
+- refactor(skills): tighten /record-journal (9540504)
+- feat(cli): keep maintain-skills out of consumer repositories (eac395d)
+- refactor(skills): tighten /maintain-skills (cdd3b93)
+- docs(product): mark frontier-fall phase 1 done (2e5ddbe)
+- feat(cli): make aiddbot init prepare a complete AIDDbot workspace (2331d16)
+- refactor(scripts): replace adapt.command.md with deterministic adapt.js (e6f500b)
+- refactor(scripts): make record-journal/append.mjs deterministic (2795fed)
+- docs(product): mark frontier-fall phase 0 done (01674f4)
+- chore(scripts): remove unfinished command drafts (7a8b276)
+- test(scripts): drop skill-content and CLI-mechanics test scripts (a097cd6)
+- audit (5167b4c)
+- docs(product): add execution guide and done criteria to frontier-fall plan (424f3d2)
+- docs(product): frontier-fall decisions and plan (11c8f9c)
+
+Pending changes included in this release:
+
+```text
+M package.json
+```
+
 ## 0.0.50 - 2026-09-22
 
 - refactor(skills): drop the duplicated efforts path from the seed (29eb763)
