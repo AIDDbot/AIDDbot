@@ -1,0 +1,74 @@
+# Frontier fall — plan de implementación
+
+Aplica las decisiones D1–D15 de `decisions.md`. Las fases van ordenadas por dependencias: primero los scripts deterministas, porque los skills reescritos se apoyan en ellos; después `maintain-skills`, porque todo cambio de skill pasa por él; y los nombres al final, cuando renombrar sea barato.
+
+Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas abiertas van en `frontier.notes.md` con 🟡.
+
+## Fase 0 · Limpieza (sin dependencias)
+
+- [ ] **0.1 Quitar los tests de contenido** (D2). Borrar `scripts/verify-skills-migration.js`, `verify-skills-batch-a.js` y `verify-cli-update.js`, y dejar en `package.json` como mucho un `test` que no lea texto de skills. Decidir si `verify-release.js` sobrevive tal cual o se reduce.
+  *Hecho cuando:* cambiar un `SKILL.md` no rompe ningún test.
+- [ ] **0.2 Borrar borradores** (D11). `scripts/z_architect-drifter.md` y `scripts/z_architect-refactor.md`.
+- [ ] **0.3 Limpieza local.** Carpetas sin versionar de `.claude/skills/` (`implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`).
+
+## Fase 1 · Scripts deterministas
+
+- [ ] **1.1 Journal** (D10). Reescribir `record-journal/scripts/append.mjs`:
+  - invocación `append.mjs <skill> <event> <status> "<resumen>" [--project] [--agent] [--revision] [--spec]`;
+  - `spec` deducido de la rama `{feat|fix|chore}/S{nnnn}-{slug}`; `stage` deducido del skill con una tabla interna;
+  - `harness`/`model` por variables de entorno cuando existan, con flags como respaldo;
+  - `status` solo `green|amber|red`; `event` libre, obligatorio y recortado;
+  - evento `spawn` con `--role`, `--effort` y `--model`;
+  - imprime la línea escrita; ante un error, sale con código ≠ 0 y muestra el uso.
+  *Hecho cuando:* una llamada desde una carpeta de proyecto en una rama `feat/S0001-x` escribe la línea completa en el journal raíz con solo 4 argumentos.
+- [ ] **1.2 Adaptadores** (D11). Crear `scripts/adapt.js` a partir de `scripts/adapt.command.md` y borrar este:
+  - punteros de skills solo para Claude Code (antes, comprobar si Claude Code ya lee `.agents/skills/`; si lo hace, no se generan);
+  - agentes: 3 roles × 4 arneses;
+  - hooks: solo el cableado de `.agents/hooks/index.mjs` por arnés;
+  - reglas: ninguna; se retiran `.claude/rules`, `.cursor/rules` y `.github/instructions` de `overlay.js` (`TREES`) y de `.npmignore`;
+  - `--check` compara sin escribir; `npm run adapt`; `release.js` lo ejecuta y aborta si hay diferencias.
+  *Hecho cuando:* dos ejecuciones seguidas no cambian nada y `release.js` falla si un adaptador está desfasado.
+- [ ] **1.3 Semilla e init** (D12, D13; depende de 1.1 para la cabecera del journal).
+  - Mover `.agents/seeds/*` a `bin/seeds/` y quitar `.agents/seeds` de `.npmignore`; borrar `CLAUDE.seed.md` y su uso en `seed.js`.
+  - Reunir en `bin/seeds/` toda la semilla: AGENTS, gitignore, README, LICENSE, contadores, efforts, PRD y TDR vacíos.
+  - `init` escribe la cabecera inicial del journal con la versión de AIDDbot, reutilizando el formato de `append.mjs`, sin duplicarlo.
+  - `{Product_Folder}` por defecto (`.product/`) fijado por `init` y registrado en el AGENTS sembrado; `document-system` puede cambiarlo.
+  - Decidir si `efforts.yaml` pasa de overlay (se actualiza en cada `update`) a semilla (se crea una vez). Mi propuesta: sigue en el overlay, porque el mapeo de modelos lo mantiene AIDDbot.
+  *Hecho cuando:* `aiddbot init` en un directorio vacío deja un repo listo para `/architect-system-foundation`, sin que ningún skill tenga que crear registros.
+
+## Fase 2 · `maintain-skills` (D1, D3)
+
+- [ ] **2.1 Rediseñar `maintain-skills`** y su `assets/skill.template.md` según la tesis: objetivo + invariantes, sin procedimiento; lo mecánico, en scripts; una sola fuente de verdad. Quitar el peso muerto ("older models", reglas que ya impone `adapt.js`). Al terminar, `adapt.js` regenera los adaptadores.
+- [ ] **2.2 Fuera del overlay** (D3). Excluir `maintain-skills` y su puntero de lo que copian `init` y `update`.
+  *Hecho cuando:* un `aiddbot init` no trae `maintain-skills` y editar un skill en este repo es: `/maintain-skills` → `npm run adapt` → commit.
+
+## Fase 3 · Primitivas (vía `/maintain-skills`)
+
+- [ ] **3.1 `record-journal`** (D10). `SKILL.md` en unas pocas líneas; fuera anchos, alias y cabeceras.
+- [ ] **3.2 Unificar las llamadas al journal** en los 14 skills que lo invocan: cada uno dice *qué* evento anota, con la forma corta, nunca *cómo*.
+- [ ] **3.3 `scaffold-system`** (D5). Reescribirlo como objetivo + invariantes; copiar e instalar sin ejecutar lint, format ni tests. Quitar `assets/run-system.mjs`, los scripts raíz `start`/`test:e2e` y su generación en `materialize.mjs`. Revisar si `verify-acceptance/scripts/free-port.*` sigue haciendo falta sin `run-system`; si no, borrarlo.
+- [ ] **3.4 Registros solo desde `init`** (D13). Quitar de `document-system`, `define-spec` e `inspect-quality` la creación de contadores, PRD y TDR, sus plantillas duplicadas y `initialize-product-docs.mjs`. Si falta un registro, el skill pide ejecutar `aiddbot init`.
+- [ ] **3.5 Repaso del resto de primitivas** con la tesis (`define-spec`, `implement-project`, `verify-acceptance`, `review-implementation`, `ship-spec`, `inspect-quality`, `document-system`, `document-project`): quitar procedimiento que el modelo deduce y reglas duplicadas en el catálogo.
+
+## Fase 4 · Orquestadores (vía `/maintain-skills`)
+
+- [ ] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
+- [ ] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
+- [ ] **4.3 Sección "Delegation" del `AGENTS.md`** de este repo y de `AGENTS.template.md`: alinearla con D8 y con el evento `spawn`.
+
+## Fase 5 · Documentación
+
+- [ ] **5.1 Catálogo, sincronización mínima.** Quitar lo que ya dicen los scripts o los skills (formato del journal, revisión 3, `run-system`, seeds); su rediseño completo sigue aplazado (P11).
+- [ ] **5.2 `README.md` y `docs/`**: solo lo que cambia para un humano (init prepara todo, el scaffold no ejecuta nada, adaptadores por release).
+
+## Fase 6 · Nombres (D4; bloqueada hasta tus propuestas en `fontier.md`)
+
+- [ ] **6.1 Renombrado en una sola pasada**: carpetas, `name:` en el frontmatter, referencias cruzadas, tabla de etapas de `append.mjs`, catálogo y docs. `adapt.js` regenera los adaptadores, así que el coste es solo el de las fuentes.
+
+## Fase 7 · Validación y release
+
+- [ ] **7.1 Prueba real** en un repo temporal: `aiddbot init` → `/architect-system-foundation` → una spec pequeña con `/build-requested-spec`. Revisar el journal: cabecera inicial, un `spawn` por rol, revisiones y cierre.
+- [ ] **7.2 Release `0.1.0`** (D15) con `release.js` (incluye `adapt --check`) y merge de `refactor/frontier-fall` en `main` (D14).
+
+## Fuera de alcance (aplazadas)
+P6 hooks del journal · P9 `efforts.yaml` · P11 rediseño del catálogo · P16 subcomando `show`.
