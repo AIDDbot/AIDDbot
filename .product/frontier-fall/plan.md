@@ -72,8 +72,8 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 3 · Primitivas (vía `/maintain-skills`)
 
-- [ ] **3.1 `record-journal`** (D10). `SKILL.md` en unas pocas líneas; fuera anchos, alias y cabeceras.
-  *Hecho cuando:* el `SKILL.md` no menciona ningún detalle de formato y un agente puede anotar un evento leyendo solo ese fichero.
+- [x] **3.1 `record-journal`** (D10). `SKILL.md` en unas pocas líneas; fuera anchos, alias y cabeceras.
+  *Hecho cuando:* el `SKILL.md` no menciona ningún detalle de formato y un agente puede anotar un evento leyendo solo ese fichero. **Verificado:** el skill pasó de 8 líneas de reglas de formato a 4 líneas de invariantes (invocación, cuándo añadir cada flag, no construir la línea, no editar el journal); `grep` de anchos/padding/Info/Warn/Error no encuentra nada.
 - [ ] **3.2 Unificar las llamadas al journal** en los 14 skills que lo invocan: cada uno dice *qué* evento anota, con la forma corta, nunca *cómo*.
   *Hecho cuando:* `grep` no encuentra en ningún skill flags como `--stage`, `--harness` o `--model`, ni valores de estado distintos de `green|amber|red`.
 - [ ] **3.3 `scaffold-system`** (D5). Reescribirlo como objetivo + invariantes; copiar e instalar sin ejecutar lint, format ni tests. Quitar `assets/run-system.mjs`, los scripts raíz `start`/`test:e2e` y su generación en `materialize.mjs`. Revisar si `verify-acceptance/scripts/free-port.*` sigue haciendo falta sin `run-system`; si no, borrarlo.
