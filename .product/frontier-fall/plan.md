@@ -4,6 +4,33 @@ Aplica las decisiones D1–D15 de `decisions.md`. Las fases van ordenadas por de
 
 Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas abiertas van en `frontier.notes.md` con 🟡.
 
+## Cómo ejecutar
+
+Una sesión por fase, nunca todo el plan de una vez: así un error de criterio no se propaga antes de que el humano lo revise, y ninguna fase llega a compactar contexto. Al final de cada fase, el humano revisa los commits y decide si se sigue.
+
+| Fase | Modelo | Motivo |
+|---|---|---|
+| 0 · Limpieza | Sonnet | Mecánica |
+| 1 · Scripts | Sonnet | Bien especificada y con criterio de "hecho cuando" comprobable |
+| 2 · `maintain-skills` | **Opus** | Marca el estilo de todos los skills siguientes |
+| 3.1–3.4 · Primitivas concretas | Sonnet | Siguen la plantilla nueva y decisiones cerradas |
+| 3.5 · Repaso con la tesis | **Opus** | Hay que decidir qué instrucción deduce el modelo solo y cuál no |
+| 4 · Orquestadores | **Opus** | Semántica de delegación y del bucle de reparación |
+| 5 · Docs | Sonnet | Sincronizar |
+| 6 · Nombres | Sonnet | Renombrado mecánico con nombres ya decididos |
+| 7.1 · Prueba real | Los de `efforts.yaml` | Hay que probar con los modelos que usará un consumidor |
+| 7.2 · Release | Sonnet | Mecánica |
+
+Instrucción de arranque de cada sesión:
+
+```text
+Estás en la rama refactor/frontier-fall. Lee .product/frontier-fall/plan.md y decisions.md.
+Ejecuta solo la fase {N}. Marca cada paso [~] al empezarlo y [x] al cumplir su "hecho cuando".
+Haz un commit por paso. Cambia los skills solo a través de /maintain-skills.
+Si una decisión no cubre un caso, no improvises: anota la duda en frontier.notes.md como 🟡 P{n}
+y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué quedó hecho y qué dudas abriste.
+```
+
 ## Fase 0 · Limpieza (sin dependencias)
 
 - [ ] **0.1 Quitar los tests de contenido** (D2). Borrar `scripts/verify-skills-migration.js`, `verify-skills-batch-a.js` y `verify-cli-update.js`, y dejar en `package.json` como mucho un `test` que no lea texto de skills. Decidir si `verify-release.js` sobrevive tal cual o se reduce.
@@ -45,30 +72,43 @@ Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas
 ## Fase 3 · Primitivas (vía `/maintain-skills`)
 
 - [ ] **3.1 `record-journal`** (D10). `SKILL.md` en unas pocas líneas; fuera anchos, alias y cabeceras.
+  *Hecho cuando:* el `SKILL.md` no menciona ningún detalle de formato y un agente puede anotar un evento leyendo solo ese fichero.
 - [ ] **3.2 Unificar las llamadas al journal** en los 14 skills que lo invocan: cada uno dice *qué* evento anota, con la forma corta, nunca *cómo*.
+  *Hecho cuando:* `grep` no encuentra en ningún skill flags como `--stage`, `--harness` o `--model`, ni valores de estado distintos de `green|amber|red`.
 - [ ] **3.3 `scaffold-system`** (D5). Reescribirlo como objetivo + invariantes; copiar e instalar sin ejecutar lint, format ni tests. Quitar `assets/run-system.mjs`, los scripts raíz `start`/`test:e2e` y su generación en `materialize.mjs`. Revisar si `verify-acceptance/scripts/free-port.*` sigue haciendo falta sin `run-system`; si no, borrarlo.
+  *Hecho cuando:* ninguna referencia a `run-system` sobrevive en `.agents/` y el materializador sigue funcionando con `--list` y con un arquetipo real.
 - [ ] **3.4 Registros solo desde `init`** (D13). Quitar de `document-system`, `define-spec` e `inspect-quality` la creación de contadores, PRD y TDR, sus plantillas duplicadas y `initialize-product-docs.mjs`. Si falta un registro, el skill pide ejecutar `aiddbot init`.
+  *Hecho cuando:* ningún skill contiene plantillas de contadores, PRD o TDR, y ninguno crea esos ficheros.
 - [ ] **3.5 Repaso del resto de primitivas** con la tesis (`define-spec`, `implement-project`, `verify-acceptance`, `review-implementation`, `ship-spec`, `inspect-quality`, `document-system`, `document-project`): quitar procedimiento que el modelo deduce y reglas duplicadas en el catálogo.
+  *Hecho cuando:* cada skill cumple la plantilla nueva y ninguna regla aparece a la vez en un skill y en el catálogo; lo eliminado queda listado en el mensaje de commit.
 
 ## Fase 4 · Orquestadores (vía `/maintain-skills`)
 
 - [ ] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
+  *Hecho cuando:* los tres orquestadores describen la misma política, en pocas líneas y sin contradicciones con D8 y D9.
 - [ ] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
+  *Hecho cuando:* la regla cabe en un párrafo corto y no se repite en el catálogo.
 - [ ] **4.3 Sección "Delegation" del `AGENTS.md`** de este repo y de `AGENTS.template.md`: alinearla con D8 y con el evento `spawn`.
+  *Hecho cuando:* ambos textos coinciden y ninguno contradice a los orquestadores.
 
 ## Fase 5 · Documentación
 
 - [ ] **5.1 Catálogo, sincronización mínima.** Quitar lo que ya dicen los scripts o los skills (formato del journal, revisión 3, `run-system`, seeds); su rediseño completo sigue aplazado (P11).
+  *Hecho cuando:* el catálogo no describe nada que haya dejado de existir y enruta los skills tal como están.
 - [ ] **5.2 `README.md` y `docs/`**: solo lo que cambia para un humano (init prepara todo, el scaffold no ejecuta nada, adaptadores por release).
+  *Hecho cuando:* los pasos de `docs/getting-started.md` funcionan tal cual en un directorio vacío.
 
 ## Fase 6 · Nombres (D4; bloqueada hasta tus propuestas en `fontier.md`)
 
 - [ ] **6.1 Renombrado en una sola pasada**: carpetas, `name:` en el frontmatter, referencias cruzadas, tabla de etapas de `append.mjs`, catálogo y docs. `adapt.js` regenera los adaptadores, así que el coste es solo el de las fuentes.
+  *Hecho cuando:* `grep` no encuentra ningún nombre antiguo fuera de `.product/done/` y `CHANGELOG.md`, y `adapt --check` no da diferencias.
 
 ## Fase 7 · Validación y release
 
 - [ ] **7.1 Prueba real** en un repo temporal: `aiddbot init` → `/architect-system-foundation` → una spec pequeña con `/build-requested-spec`. Revisar el journal: cabecera inicial, un `spawn` por rol, revisiones y cierre.
+  *Hecho cuando:* la spec llega a `shipped` sin intervención salvo la aprobación, y el journal cuenta la historia completa sin huecos. Lo que falle se anota como 🟡 antes de la release.
 - [ ] **7.2 Release `0.1.0`** (D15) con `release.js` (incluye `adapt --check`) y merge de `refactor/frontier-fall` en `main` (D14).
+  *Hecho cuando:* `npx github:AIDDbot/AIDDbot --version` informa `0.1.0` y un `init` desde el paquete publicado reproduce la prueba 7.1.
 
 ## Fuera de alcance (aplazadas)
 P6 hooks del journal · P9 `efforts.yaml` · P11 rediseño del catálogo · P16 subcomando `show`.
