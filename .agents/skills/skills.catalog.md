@@ -51,7 +51,7 @@ Commands are classified by effective behavior, not script name. `implement-proje
 | Prove | [`/verify-acceptance`](./verify-acceptance/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/inspect-quality`](./inspect-quality/SKILL.md) |
 | Ship | [`/ship-spec`](./ship-spec/SKILL.md) |
 | Record | [`/record-journal`](./record-journal/SKILL.md) |
-| Meta | [`/maintain-skills`](./maintain-skills/SKILL.md) |
+| Meta | [`/maintain-skills`](./maintain-skills/SKILL.md) — AIDDbot development only; `aiddbot init` and `update` never install it |
 
 ## Routing
 
