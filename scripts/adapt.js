@@ -224,6 +224,39 @@ function checkThirdPartyHook(file, harness) {
   report.skippedSources.push(`${file}: ${current === null ? "absent, not synthesized" : wired ? "wired to the shared audit source" : "present but not wired to .agents/hooks/index.mjs"}`);
 }
 
+// ---------- shared AGENTS.md sections ----------
+
+// This repository's own AGENTS.md carries sections whose only source is the
+// consumer template, so they are copied, never edited by hand.
+const SHARED_SECTIONS = ["## Delegation"];
+const AGENTS_TEMPLATE = path.join(root, ".agents", "skills", "document-system", "assets", "AGENTS.template.md");
+
+function sectionBody(text, heading) {
+  const start = text.indexOf(`${heading}\n`);
+  if (start < 0) return null;
+  const from = start + heading.length + 1;
+  const next = text.indexOf("\n## ", from);
+  return { from, to: next < 0 ? text.length : next + 1, body: text.slice(from, next < 0 ? text.length : next + 1) };
+}
+
+function syncSharedSections() {
+  const file = path.join(root, "AGENTS.md");
+  const current = read(file)?.replace(/\r\n/g, "\n");
+  const template = read(AGENTS_TEMPLATE)?.replace(/\r\n/g, "\n");
+  if (!current || !template) return;
+  let next = current;
+  for (const heading of SHARED_SECTIONS) {
+    const source = sectionBody(template, heading);
+    const target = sectionBody(next, heading);
+    if (!source || !target) { report.collisions.push(`${rel(file)} (${heading} missing)`); continue; }
+    const isLast = target.to === next.length;
+    next = next.slice(0, target.from) + source.body.trimEnd() + (isLast ? "\n" : "\n\n") + next.slice(target.to);
+  }
+  if (next === current) { report.unchanged.push(rel(file)); return; }
+  if (!check) fs.writeFileSync(file, next, "utf8");
+  report.updated.push(rel(file));
+}
+
 // ---------- run ----------
 
 const skills = loadSkills();
@@ -234,6 +267,7 @@ syncSkills(skills);
 syncAgents(agents);
 syncCodexHooks(hookExists);
 syncClaudeSettings(hookExists);
+syncSharedSections();
 checkThirdPartyHook(".cursor/hooks.json", "cursor");
 checkThirdPartyHook(".github/hooks/ingest.json", "copilot");
 

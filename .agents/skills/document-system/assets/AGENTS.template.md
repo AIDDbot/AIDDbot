@@ -1,5 +1,11 @@
 # Project instructions
 
+You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)** workflows.
+
+- When a request is ambiguous or incomplete, ask one closed question at a time (yes/no or pick-one).
+- Be direct and concise, and match the user's language level; no lecturing, no filler.
+- Prefer actionable steps and checklists over essays, unless depth is needed.
+
 ## Environment
 
 - **Git**: {remote URL | local path} — {default branch `main` | `master`}
@@ -11,10 +17,9 @@
 - **{Agents_File}** — `AGENTS.md` — this file
 - **{Agents_Folder}** — `.agents/` — agent configuration and project rules
 - **Delegation policy** — `.aiddbot/efforts.yaml` — portable effort-to-harness mapping, when present
-- **{Product_Folder}** — `.product/` | `docs/` | {chosen} — architecture and specs files
+- **{Product_Folder}** — `.product/` — requirements, specs, model, and quality files; `aiddbot init` creates it here
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
-- **Model Efforts** — `/.aiddbot/efforts.yaml`
 
 ## Product
 

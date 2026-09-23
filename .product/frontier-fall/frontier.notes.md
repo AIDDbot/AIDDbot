@@ -168,8 +168,8 @@ Resultado esperado: `record-journal/SKILL.md` en ~5 líneas ("ejecuta el script 
 
 La política de delegación es ahora una sola definición, pero vive en tres ficheros con el texto idéntico: el `AGENTS.md` de este repo, `document-system/assets/AGENTS.template.md` y `bin/seeds/AGENTS.seed.md` (lo que escribe `init` antes de que corra `document-system`). Nada las mantiene sincronizadas.
 
-🟡 **P21.** ¿Cómo lo resolvemos? Opciones: (a) que `init` siembre directamente `AGENTS.template.md` y desaparezca `AGENTS.seed.md` (queda con placeholders hasta `document-system`, pero con una sola fuente para consumidores); (b) que `adapt.js` compruebe que las tres secciones coinciden y falle la release si no; (c) dejarlo así y confiar en `/maintain-skills`. Propongo (a) + (b) para el `AGENTS.md` de este repo.
-> **R:**
+✅ → D16 · **P21.** ¿Cómo lo resolvemos? Opciones: (a) que `init` siembre directamente `AGENTS.template.md` y desaparezca `AGENTS.seed.md` (queda con placeholders hasta `document-system`, pero con una sola fuente para consumidores); (b) que `adapt.js` compruebe que las tres secciones coinciden y falle la release si no; (c) dejarlo así y confiar en `/maintain-skills`. Propongo (a) + (b) para el `AGENTS.md` de este repo.
+> **R:** sí, todo lo que sea determinista y que reduzca peso de skills es bueno
 
 ## Limpieza local (no requiere decisión)
 - En `.claude/skills/` quedan carpetas sin versionar de skills renombrados: `implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`.
@@ -182,4 +182,4 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 > **R:** te digo lo que necesitamos, y con eso decide lo que sobra. Actualmente las skills, los hooks y los agentes son distintos para cada arnés soportado (claude, codex, copilot y cursor). Afortunadmanete ya no se necista el CLAUDE.md ;-) Pero necesitamos tener esas adaptaciones... cómo y cuándo hacerlas? lo que tu digas!
 
 ## Orden sugerido
-🟡 Pendientes: P21 (copias de Delegation).
+Pendientes: ninguna.

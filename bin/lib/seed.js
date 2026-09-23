@@ -136,9 +136,20 @@ function ensureLicense(destRoot, dryRun) {
   return rel;
 }
 
+// AGENTS.md starts as document-system's own template, so consumers have one
+// source for it: document-system later fills the placeholders in place.
+const agentsTemplate = path.join(packageRoot, ".agents", "skills", "document-system", "assets", "AGENTS.template.md");
+
 function ensureAgentSeed(destRoot, dryRun) {
-  const written = ensureFromSeed(destRoot, dryRun, "AGENTS.md", "AGENTS.seed.md");
-  return written ? [written] : [];
+  const rel = "AGENTS.md";
+  const abs = absPath(destRoot, rel);
+  if (fs.existsSync(abs)) {
+    print("skip-same", rel);
+    return [];
+  }
+  print("create", rel);
+  writeFile(abs, fs.readFileSync(agentsTemplate, "utf8"), dryRun);
+  return [rel];
 }
 
 function ensureCounters(destRoot, dryRun) {

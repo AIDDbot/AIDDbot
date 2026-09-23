@@ -59,6 +59,9 @@ Se trabaja en `refactor/frontier-fall`, con un commit por paso de `plan.md` y un
 ## D15 ← P20 · Versión `0.1.0`
 Al cerrar la fase 7, la release salta de `0.0.x` a `0.1.0`, que marca la base publicable de otoño.
 
+## D16 ← P21 · Una sola fuente para el `AGENTS.md` de los consumidores
+Se aplican (a) y (b). `AGENTS.template.md` de `document-system` es la única plantilla: absorbe la personalidad que llevaba la semilla y fija `.product/` como `{Product_Folder}`. `init` la siembra tal cual y `bin/seeds/AGENTS.seed.md` desaparece; `document-system` rellena después los marcadores. Es la única excepción a D12: esa plantilla la necesita el skill, así que `seed.js` la lee de su sitio en vez de duplicarla. `adapt.js` copia la sección `## Delegation` de la plantilla al `AGENTS.md` de este repo, y `--check` (y con él la release) falla si difieren. Criterio general: todo lo determinista que quite peso a los skills va a un script.
+
 ## Aplazadas
 - **P6 · Hooks para el journal:** abierto a que los hooks escriban con el mismo formato, pero hay llamadas difíciles de cubrir con hooks. Se tratará en detalle más adelante.
 - **P9 · `efforts.yaml`:** detalle menor; se irá ajustando conforme salgan modelos.
