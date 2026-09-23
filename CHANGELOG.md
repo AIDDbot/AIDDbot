@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 - 2026-09-23
+
+- docs(product): mark frontier-fall 7.2 done, v0.1.0 Equinox published (a1ca619)
+
 ## 0.1.0 - 2026-09-23
 
 - chore: stop tracking nested audit transcripts, widen temp/tmp ignore (c011e7e)
