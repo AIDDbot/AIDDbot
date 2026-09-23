@@ -6,7 +6,7 @@ import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const sourceRoot = path.resolve(here, "../..");
-export const TREES = [".agents/agents", ".agents/hooks", ".agents/rules", ".agents/skills", ".aiddbot/efforts.yaml", ".claude/agents", ".claude/rules", ".claude/settings.json", ".claude/skills", ".cursor/agents", ".cursor/hooks.json", ".cursor/rules", ".codex/agents", ".codex/hooks.json", ".github/agents", ".github/hooks", ".github/instructions"];
+export const TREES = [".agents/agents", ".agents/hooks", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/settings.json", ".claude/skills", ".cursor/agents", ".cursor/hooks.json", ".codex/agents", ".codex/hooks.json", ".github/agents", ".github/hooks"];
 export const ACTION_ORDER = ["create", "update", "remove", "skip-same", "conflict", "overwritten"];
 const WRITE_ACTIONS = new Set(["create", "update", "overwritten"]);
 export const MUTATING_ACTIONS = new Set(["create", "update", "remove", "overwritten"]);
@@ -14,7 +14,9 @@ const CLAUDE_SETTINGS = ".claude/settings.json";
 const CLAUDE_HOOK_ARGS = ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code"];
 
 const sha = (data) => `sha256:${crypto.createHash("sha256").update(data).digest("hex")}`;
-function skip(rel) { return rel === ".claude/agents/runs" || rel.startsWith(".claude/agents/runs/") || rel.split("/").some((p) => p === ".git" || p === "node_modules"); }
+// maintain-skills and its Claude pointer exist only to develop AIDDbot itself (D3), so consumers never receive them.
+const DEV_ONLY = [".agents/skills/maintain-skills", ".claude/skills/maintain-skills"];
+function skip(rel) { return rel === ".claude/agents/runs" || rel.startsWith(".claude/agents/runs/") || DEV_ONLY.some((dir) => rel === dir || rel.startsWith(`${dir}/`)) || rel.split("/").some((p) => p === ".git" || p === "node_modules"); }
 function inside(child, parent) { const rel = path.relative(path.resolve(parent), path.resolve(child)); return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel)); }
 function abs(root, rel) { return path.resolve(root, ...rel.split("/")); }
 function safeFile(root, rel) { const target = abs(root, rel); if (!inside(target, root)) throw new Error(`Unsafe overlay path: ${rel}`); return target; }

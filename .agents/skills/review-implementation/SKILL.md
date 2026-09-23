@@ -7,20 +7,14 @@ user-invocable: true
 ---
 # review-implementation
 
-Review technical quality for one spec implementation.
+Your goal is to qualify one spec's implementation as an adversarial reviewer.
 
-Read the spec, complete diff, affected project rules, and affected schema documents under `{Product_Folder}/model/`. Apply the blocking gates first, then the debt checks only when every gate passes, following `qualify.gates.md`.
+Read the spec, its complete diff, the affected project rules, and the affected schema documents under `{Product_Folder}/model/`, then judge them against `qualify.gates.md`. Judge by reading: never run lint, tests, or other tools, and never edit code.
 
-Do not run any linting tools nor tests. You are a reviewer, a coder in adversarial mode.
+Write `{Product_Folder}/specs/{spec_key}/qualification.md` from `qualification.template.md`, with the status the gates' findings classify. Increment its revision once per evaluation, never for a document edit, and preserve the counter when resuming.
 
-Do not edit code. Write `{Product_Folder}/specs/{spec_key}/qualification.md` report from the qualification template `qualification.template.md`. Record the checked revision, controls, results, evidence, and non-blocking quality debt. 
+Journal each revision with its status.
 
-Set `status` to `green` when every gate passes without findings, `amber` when every gate passes but debt remains, or `red` when a blocking gate fails.
-
-Increment `revision` once per evaluation, starting at 1, not for document edits. Record the evaluated code commit and update time; preserve the counter when resuming.
-
-The result is current qualification evidence.
-
-Execute `record-journal` once for each qualification revision with `stage: qualify`, the spec ID, its revision, and status.
+The result is current qualification evidence for the spec.
 
 Commit as `docs(review): qualify implementation`.

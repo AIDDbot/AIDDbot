@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { commitFiles, ensureGit } from "./lib/git.js";
 import { ACTION_ORDER, refuseOrigin, runOverlay, sourceRoot } from "./lib/overlay.js";
-import { ensureSeedFiles } from "./lib/seed.js";
+import { ensureJournalGenesis, ensureSeedFiles } from "./lib/seed.js";
 
 function help() { process.stderr.write("Usage: npx --allow-git=all github:AIDDbot/AIDDbot [init|update] [--dry-run] [--force]\ninit (the default) initializes Git, seed files, and the overlay. update reconciles only owned overlay files. Existing differing files are preserved unless --force is supplied.\n"); }
 function parse(argv) { const opts = { dryRun: false, force: false }, words = []; for (const arg of argv) { if (arg === "--dry-run") opts.dryRun = true; else if (arg === "--force") opts.force = true; else if (arg.startsWith("-")) return { error: `Unknown flag: ${arg}` }; else words.push(arg); } if (words.length > 1 || (words[0] && !["init", "update"].includes(words[0]))) return { error: `Unknown argument: ${words.join(" ")}` }; return { opts, command: words[0] || "init" }; }
@@ -55,6 +55,10 @@ let seeded = [];
 if (parsed.command === "init") { ensureGit(destRoot, parsed.opts.dryRun); seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun); }
 const result = runOverlay(destRoot, parsed.opts);
 if (result.fatal) process.exit(1);
+// Only after the overlay installs the destination's own append.mjs, so the
+// genesis event's repository-root lookup resolves to destRoot, not to
+// wherever this package's own copy happens to live.
+if (parsed.command === "init") ensureJournalGenesis(destRoot, parsed.opts.dryRun);
 const changed = [...seeded, ...result.written];
 commitFiles(destRoot, changed, parsed.command === "init" ? "chore: add AIDDbot overlay" : "chore: update AIDDbot overlay", parsed.opts.dryRun);
 printFinalSummary({ command: parsed.command, dryRun: parsed.opts.dryRun, force: parsed.opts.force, destRoot, seeded, result });

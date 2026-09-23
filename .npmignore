@@ -11,20 +11,13 @@
 !.agents/hooks/**
 !.agents/rules/
 !.agents/rules/**
-!.agents/seeds/
-!.agents/seeds/**
 !.agents/skills/
 !.agents/skills/**
-
-!.aiddbot/
-!.aiddbot/efforts.yaml
 
 !.claude/
 !.claude/settings.json
 !.claude/agents/
 !.claude/agents/**
-!.claude/rules/
-!.claude/rules/**
 !.claude/skills/
 !.claude/skills/**
 
@@ -32,8 +25,6 @@
 !.cursor/agents/
 !.cursor/agents/**
 !.cursor/hooks.json
-!.cursor/rules/
-!.cursor/rules/**
 
 !.codex/
 !.codex/agents/
@@ -45,5 +36,3 @@
 !.github/agents/**
 !.github/hooks/
 !.github/hooks/**
-!.github/instructions/
-!.github/instructions/**

@@ -36,7 +36,6 @@ const destinationsOf = (options) => selectedTiers(options).map((tier) => options
 const isSafeDestination = (destination) => /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(destination)
   && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(destination);
 const hasContent = (folder) => fs.statSync(folder, { throwIfNoEntry: false })?.isDirectory() && fs.readdirSync(folder).length > 0;
-const exposesAny = (projects, scripts) => projects.some((project) => scripts.some((script) => project.scripts[script]));
 const listCatalog = () => out(TIERS.map((tier) => `--${tier} default: ${CATALOG[tier][0]}; catalog: ${CATALOG[tier].join(", ")}`).join("\n"));
 const spawnNpx = (args, cwd) => (process.platform === "win32"
   ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], { cwd, stdio: "inherit", windowsHide: true })
@@ -130,43 +129,34 @@ function describeProject(workspace, options, tier) {
 
 function buildManifest(workspace, options, systemSlug) {
   const projects = selectedTiers(options).map((tier) => describeProject(workspace, options, tier));
-  const commands = {
-    ...(exposesAny(projects.filter((project) => project.kind !== "e2e"), START_SCRIPTS) ? { start: "node .aiddbot/run-system.mjs start" } : {}),
-    ...(exposesAny(projects.filter((project) => project.kind === "e2e"), E2E_SCRIPTS) ? { "test:e2e": "node .aiddbot/run-system.mjs test:e2e" } : {}),
-  };
-  return { name: options.name, slug: systemSlug, projects, commands };
+  return { name: options.name, slug: systemSlug, projects };
 }
 
-function writeRunner(workspace, manifest, dryRun) {
+function writeManifest(workspace, manifest, dryRun) {
   const manifestPath = path.join(workspace, ".aiddbot", "aiddbot.system.json");
-  const runnerPath = path.join(workspace, ".aiddbot", "run-system.mjs");
-  if (fs.existsSync(manifestPath) || fs.existsSync(runnerPath)) return fail("Refusing to overwrite existing system manifest or runner");
+  if (fs.existsSync(manifestPath)) return fail("Refusing to overwrite existing system manifest");
   if (dryRun) {
-    out("create     .aiddbot/aiddbot.system.json\ncreate     .aiddbot/run-system.mjs");
+    out("create     .aiddbot/aiddbot.system.json");
     return 0;
   }
   fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
   writeJson(manifestPath, manifest);
-  fs.copyFileSync(new URL("../assets/run-system.mjs", import.meta.url), runnerPath);
   return 0;
 }
 
-// Existing root scripts win; only missing delegates are added.
-function applyProductMetadata(packageJson, options, systemSlug, commands) {
+function applyProductMetadata(packageJson, options, systemSlug) {
   Object.assign(packageJson, { name: systemSlug, version: "0.1.0", description: options.name, author: options.author.trim() });
   packageJson.private ??= true;
   packageJson.scripts = objectOr(packageJson.scripts);
-  const delegates = { ...commands, ...(commands["test:e2e"] ? { test: "npm run test:e2e" } : {}) };
-  for (const [key, command] of Object.entries(delegates)) packageJson.scripts[key] ||= command;
   packageJson.aiddbot = { ...objectOr(packageJson.aiddbot), system: ".aiddbot/aiddbot.system.json" };
 }
 
-function writeRootPackage(workspace, options, systemSlug, manifest) {
+function writeRootPackage(workspace, options, systemSlug) {
   const packagePath = path.join(workspace, "package.json");
   const hasPackage = fs.existsSync(packagePath);
   const packageJson = hasPackage ? readJsonOr(packagePath, null) : {};
-  if (!packageJson) return fail("Root package.json is invalid; cannot write product metadata or orchestration scripts");
-  applyProductMetadata(packageJson, options, systemSlug, manifest.commands);
+  if (!packageJson) return fail("Root package.json is invalid; cannot write product metadata");
+  applyProductMetadata(packageJson, options, systemSlug);
   if (options.dryRun) out(`${hasPackage ? "update    " : "create    "} package.json`);
   else writeJson(packagePath, packageJson);
   return 0;
@@ -182,8 +172,8 @@ function materialize(options) {
   }
   const manifest = buildManifest(workspace, options, systemSlug);
   return (options.front && brandFrontProject(workspace, options))
-    || writeRunner(workspace, manifest, options.dryRun)
-    || writeRootPackage(workspace, options, systemSlug, manifest);
+    || writeManifest(workspace, manifest, options.dryRun)
+    || writeRootPackage(workspace, options, systemSlug);
 }
 
 function main(argv) {

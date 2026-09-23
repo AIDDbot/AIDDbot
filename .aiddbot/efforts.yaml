@@ -1,36 +1,25 @@
-# Portable delegation policy. The invoking harness translates a requested
-# low/medium/high effort to its native subagent controls.
-version: 1
-default: medium
-fallback:
-  unknown_harness: inherit
-  unavailable_model: inherit
-  unsupported_reasoning: omit
+# Effort per role, and the model each harness uses for each effort.
+# scripts/adapt.js writes the resolved model into every harness's agent
+# definition at release time; no agent reads this file.
+roles:
+  architect: high
+  builder: medium
+  craftsman: high
 
-harnesses:
-  codex:
-    spawn: "spawn_agent(model, reasoning_effort)"
-    low:    { model: gpt-5.6-luna, reasoning: medium }
-    medium: { model: gpt-5.6-terra, reasoning: medium }
-    high:   { model: gpt-5.6-sol, reasoning: medium }
-
+models:
   claude-code:
-    spawn: "Agent tool with its model parameter"
-    # Claude Code exposes model choice here, not a portable reasoning setting.
-    low:    { model: haiku }
-    medium: { model: sonnet }
-    high:   { model: opus }
-
+    low: haiku
+    medium: sonnet
+    high: opus
+  codex:
+    low: gpt-5.6-luna
+    medium: gpt-5.6-terra
+    high: gpt-5.6-sol
   copilot:
-    spawn: "task tool or a custom agent in .github/agents"
-    # `models` lets Copilot use the first model available on the user's plan.
-    low:    { models: [gpt-5.4-mini], reasoning: medium }
-    medium: { models: [claude-sonnet-4.6, gpt-5.4], reasoning: medium }
-    high:   { models: [claude-opus-4.6, gpt-5.4], reasoning: high }
-
+    low: gpt-5.4-mini
+    medium: claude-sonnet-4.6, gpt-5.4
+    high: claude-opus-4.6, gpt-5.4
   cursor:
-    spawn: "Agent or Custom mode"
-    # Cursor exposes model selection in its UI; catalogue availability is plan-dependent.
-    low:    { mode: Agent, model: Auto }
-    medium: { mode: Agent, model: Auto }
-    high:   { mode: Agent, model: Auto }
+    low: Auto
+    medium: Auto
+    high: Auto

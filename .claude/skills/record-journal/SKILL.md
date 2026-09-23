@@ -6,4 +6,5 @@ metadata:
 user-invocable: true
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/skills/record-journal/SKILL.md instead -->
+
 Read and follow [the canonical record-journal skill](../../../.agents/skills/record-journal/SKILL.md).

@@ -7,21 +7,14 @@ user-invocable: true
 ---
 # build-requested-spec
 
-**Build Requested Spec**
+Your goal is to turn a natural-language request into a shipped spec.
 
-Your goal is to **turn a natural-language request into a shipped spec.**
+Route as the **Architect**. Spawn one **Architect**, one **Builder**, and one **Craftsman** once for the whole run, journaling each as `spawn` with its role, and continue each with messages; spawn a replacement only when the harness cannot continue an agent or its context runs out. Use the agents a calling orchestrator hands you instead of spawning your own. Sub-agents never ask the human: relay their questions and proposals yourself. Journal `start` before routing anything, and `done` before returning, with a status matching the outcome, once you have stopped the agents and processes you started, never your caller's.
 
-Journal your own routing as **Architect** with `stage: deliver`, and tell every agent that executes a stage to journal with its active agent role. Before routing anything, execute `record-journal` with `event: start`, passing the known harness and model so the day's header identifies the session. Record with `event: reuse` every stage agent you take from the caller instead of spawning, because a reused agent carries the caller's effort and model, not the one this skill asks for.
+Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
 
-Reuse an agent supplied by the caller when available. Otherwise, spawn an **Architect** agent with `high` effort to execute the `define-spec` skill using the natural-language request. Wait for the spec to be approved.
+Have the **Builder** execute the `implement-project` skill for each affected production project, from lower to higher levels of abstraction, and then for the E2E project when the spec assigns acceptance-test changes, which it authors without running.
 
-Reuse an implementation agent supplied by the caller when available. Otherwise, spawn a **Builder** agent with `medium` effort to implement the approved spec. Have that agent read the spec, its PRD or TDR edits.
-Then execute the `implement-project` skill for each affected production project sequentially, from lower to higher levels of abstraction. Use that project's rules and scope or the supplied repair findings. Wait for the whole process to complete.
+Have the **Craftsman** execute the `verify-behavior` skill, then `review-implementation` once verification is green, then `ship-spec`. A red report sends its findings to the **Builder** for repair, and verification starts again. A report still red at its third revision is not repaired again: the delivery goes on, qualified if it has not been, and ships with every unresolved failure and finding recorded as technical debt; journal that as `debt`, amber. Only missing or stale evidence stops the delivery; journal it as `blocked`, red.
 
-If the spec assigns _acceptance-test_ creation, update, deletion, or repair, execute `implement-project` for the E2E project with the complete acceptance-test scope. This step authors the tests without executing them. Wait for completion.
-
-Reuse an evaluation agent supplied by the caller when available. Otherwise, spawn a **Craftsman** agent with `high` effort to evaluate and ship the implementation. Have that agent execute `verify-acceptance` first. When verification is `red` before revision 3, send its findings back to the existing implementation agent, apply repairs through `implement-project`, and repeat verification. Do not execute `review-implementation` while that verification is red.
-
-When verification is `green`, execute `review-implementation`. A red qualification before revision 3 returns its findings to the existing implementation agent; after repair, restart at verification. Green or amber qualification ships normally. A verification red at revision 3 proceeds to qualification without repair, then ships with every current unresolved finding as technical debt. A qualification red at revision 3 also ships with its unresolved findings as technical debt. Journal either revision-3 decision with `event: debt` and an amber status, naming what ships unresolved. Missing or stale evidence still stops delivery; journal that stop with `event: blocked` and a red status.
-
-Before returning, stop every sub-agent this skill spawned and every terminal or background process it started. Never stop agents or processes supplied by the caller; the caller stops them. Then close the trace with `record-journal` `event: done`, its status matching the delivered outcome.
+The result is one shipped spec, or the reason it could not ship.

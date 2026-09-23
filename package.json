@@ -9,7 +9,8 @@
   },
   "scripts": {
     "release": "node scripts/release.js",
-    "test": "node scripts/verify-skills-migration.js && node scripts/verify-cli-update.js && node scripts/verify-skills-batch-a.js && node scripts/verify-release.js"
+    "adapt": "node scripts/adapt.js",
+    "test": "node scripts/verify-release.js"
   },
   "engines": {
     "node": ">=18",

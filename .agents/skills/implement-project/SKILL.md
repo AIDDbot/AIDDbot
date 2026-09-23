@@ -7,23 +7,18 @@ user-invocable: true
 ---
 # implement-project
 
-Implement supplied spec scope or repair findings.
+Your goal is to implement one project's share of an approved spec, or repair the findings supplied for it.
 
-## Coding
-Work one project at a time on the owner branch. Follow its rules file, do not weaken assertions, and stop when the default branch is checked out. Respect shared-file and Git-index ownership.
+Work on the spec's branch and stop if the default branch is checked out. Follow the project's rules file, never weaken an assertion, and commit only this project's changes.
 
-Implement the approved plan from the solution section in order. Read the spec's schema impact and this project's schema documents under `{Product_Folder}/model/`; build exactly the declared entity, table, and endpoint shape, including every declared status code. Return client failures with their declared 4xx status through the project's error mechanism; never answer them with a success status and an empty body, or with a 500. When the work needs an undeclared shape change, stop and return it for spec approval instead of making it. For E2E scope, use the spec's requirement IDs and respect their state (new, changed, deprecated, related).
+Build exactly the shape the spec's schema impact declares against this project's schema documents under `{Product_Folder}/model/`, including every declared status code. Return client failures with their declared 4xx status through the project's error mechanism, never as a success with an empty body or as a 500. When the work needs a shape the spec does not declare, stop and return it for approval instead of building it.
 
-## Testing
-For production code write unit tests for the critical section and make them pass. Do not write unit tests for UI-related code.
-When the scope includes E2E tests, write or repair them from the spec and reported evidence, but do not enumerate or execute commands classified as `Acceptance`, including E2E runs. This prohibition also applies while repairing a red verification report: return the code and test changes for a later `verify-acceptance` run. Do not unit-test E2E tests.
-E2E tests run in parallel against one shared database per run. Make each test create the data it needs with unique identifiers, and never depend on test order, pre-existing data, or global counts.
+Write unit tests for the critical production code and make them pass; do not unit-test UI code or E2E tests. When the scope includes E2E tests, write or repair them from the spec's requirement IDs and their state, but never execute them or any other command classified as `Acceptance`, not even while repairing a red verification: `verify-behavior` runs them. Each E2E test creates its own data with unique identifiers and never depends on test order, pre-existing data, or global counts, because the suite runs in parallel against one shared database.
 
-## Linting
-Use only the command classified as error-level lint in the project rules. Confirm from its effective flags and referenced configuration that it reports error-severity diagnostics without denying warnings or enabling complexity, coverage, strict analysis, full-repository checks, or other hardening. The script name alone is not evidence of its severity.
+After each change, run only the project's error-level lint and fix its errors. Confirm from its effective flags and configuration, not its script name, that it adds no warning denial, complexity, coverage, or other hardening; those are `Quality` commands, which you never run. If no unambiguous error-level lint exists, journal it as unavailable, amber, instead of constructing one.
 
-Run that soft lint after each change and fix its errors. Never enumerate or execute commands classified as `Quality`. If no unambiguous error-level lint is configured, record it as unavailable in the journal instead of substituting or constructing a command.
+Journal each coding, testing, linting, and failure milestone, naming the project.
 
-Execute `record-journal` for each high-level coding, testing, linting, and failure event with `stage: build`, the spec ID when there is one, and the project name.
+The result is the project's code and tests for the supplied scope, lint-clean.
 
-Commit following the conventional commit `{feat|fix|chore|test|docs:message}`.
+Commit as a conventional commit: `{feat|fix|refactor|test|chore}({project}): {description}`.
