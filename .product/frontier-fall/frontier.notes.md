@@ -182,16 +182,16 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 - `efforts.yaml` pasa a mapear rol → esfuerzo → modelo por arnés. Encaja con P9: se ajusta en AIDDbot, no en cada consumidor.
 - Riesgo a comprobar en la fase 7: que cada arnés respete el modelo declarado en la definición del agente. Claude Code sí lo hace.
 
-🟡 **P22.** ¿Esfuerzo fijo por rol (Architect `high`, Builder `medium`, Craftsman `high`) escrito por `adapt.js` en los agentes de cada arnés, en lugar de esfuerzo por etapa?
-> **R:**
+✅ → D17 · **P22.** ¿Esfuerzo fijo por rol (Architect `high`, Builder `medium`, Craftsman `high`) escrito por `adapt.js` en los agentes de cada arnés, en lugar de esfuerzo por etapa?
+> **R:** sí a todo lo que haga el sistema más simple
 
-🟡 **P23.** Si P22 es sí, ¿qué hacemos con `## Delegation`: (a) la reducimos a las dos reglas que quedan, o (b) la eliminamos y cada orquestador lleva esas dos frases (con lo que la plantilla del consumidor y `adapt.js` dejan de sincronizar nada)? Me inclino por (b): la política solo la leen los orquestadores.
-> **R:**
+✅ → D18 · **P23.** Si P22 es sí, ¿qué hacemos con `## Delegation`: (a) la reducimos a las dos reglas que quedan, o (b) la eliminamos y cada orquestador lleva esas dos frases (con lo que la plantilla del consumidor y `adapt.js` dejan de sincronizar nada)? Me inclino por (b): la política solo la leen los orquestadores.
+> **R:** sí a todo lo que haga el sistema más simple
 
 **Sobre PRD y TDR sin plantilla.** Estoy de acuerdo. La plantilla del TDR es una sola línea de cabecera, y el formato de cada entrada ya lo define `debt.contract.md`. La del PRD es una cabecera, un comentario sobre EARS y una línea de ejemplo. Propuesta: borrar las dos y poner en `define-spec` una frase con la forma de la línea (`- **F0001**: …` en EARS, palabras clave en mayúsculas). `init` sigue creando los ficheros vacíos, y como son una sola línea, las semillas de `bin/seeds/` pueden pasar a ser cadenas dentro de `seed.js`.
 
-🟡 **P24.** ¿Quitamos las plantillas de PRD y TDR (y convertimos sus semillas en cadenas dentro de `seed.js`)?
-> **R:**
+✅ → D19 · **P24.** ¿Quitamos las plantillas de PRD y TDR (y convertimos sus semillas en cadenas dentro de `seed.js`)?
+> **R:** sí a todo lo que haga el sistema más simple
 
 ## Limpieza local (no requiere decisión)
 - En `.claude/skills/` quedan carpetas sin versionar de skills renombrados: `implement-change`, `implement-spec`, `ship-implementation`, `specify-spec`.
@@ -204,4 +204,4 @@ La política de delegación es ahora una sola definición, pero vive en tres fic
 > **R:** te digo lo que necesitamos, y con eso decide lo que sobra. Actualmente las skills, los hooks y los agentes son distintos para cada arnés soportado (claude, codex, copilot y cursor). Afortunadmanete ya no se necista el CLAUDE.md ;-) Pero necesitamos tener esas adaptaciones... cómo y cuándo hacerlas? lo que tu digas!
 
 ## Orden sugerido
-🟡 Pendientes: P22, P23, P24 (tus inquietudes de fontier.md).
+Pendientes: ninguna.

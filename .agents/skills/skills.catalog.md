@@ -10,7 +10,6 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
 | `.aiddbot/counters.yaml` | Permanent S, F, T, and D IDs, tracked in Git |
-| `.aiddbot/efforts.yaml` | Portable delegated-agent effort mapped to native harness controls |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Human-readable append-only process events by local date, always at the repository root, ignored by Git |
 
 `aiddbot init` creates every record above; no skill creates them.
@@ -45,9 +44,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-acceptance` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `inspect-quality` → select debt → `/build-requested-spec` |
 
-Spawn instructions use the portable effort terms `low`, `medium`, and `high`. Harnesses resolve their compatible model and native setting from [`.aiddbot/efforts.yaml`](../../.aiddbot/efforts.yaml). `medium` is the default; `low` is for bounded evidence processing or mechanical work, while `high` is reserved for ambiguous decisions, diagnosis, and evaluation.
-
-Delegation — one agent per role per run, continued with messages, and how each spawn is journaled — is defined once, in the `## Delegation` section of the consumer `AGENTS.md`.
+Each role runs at a fixed effort — **Architect** `high`, **Builder** `medium`, **Craftsman** `high` — which `npm run adapt` resolves from `.aiddbot/efforts.yaml` into the model of every harness's agent definition. Orchestrators keep one agent per role for a whole run.
 
 ## Pipeline overview
 

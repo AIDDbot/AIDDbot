@@ -16,7 +16,6 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 - **{Agents_File}** — `AGENTS.md` — this file
 - **{Agents_Folder}** — `.agents/` — agent configuration and project rules
-- **Delegation policy** — `.aiddbot/efforts.yaml` — portable effort-to-harness mapping, when present
 - **{Product_Folder}** — `.product/` — requirements, specs, model, and quality files; `aiddbot init` creates it here
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
@@ -60,14 +59,6 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 - Group related changes; keep commits small and focused.
 - Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
 - Branch naming: `{feat|fix|refactor|chore}/S{nnnn}-{slug}`
-
-## Delegation
-
-- Before spawning, read `.aiddbot/efforts.yaml` and pass this harness's native controls for the requested effort (`low`, `medium`, or `high`; `medium` when unstated); never leave the default model when a mapping applies. Inherit the parent's settings only when the harness, model, or control is unavailable.
-- One orchestrator run keeps at most one agent per role — **Architect**, **Builder**, **Craftsman** — and continues it with messages instead of spawning it again. Spawn a replacement only when the harness cannot continue an agent or its context is exhausted. A nested orchestrator uses the agents its caller already has.
-- Journal each spawn as `spawn` with its role, requested effort, and resolved model, amber when a setting was inherited; journal an agent taken over from a caller as `reuse`. Every agent journals under its own role.
-- Sub-agents never ask the human: they return questions and proposals to the main agent, which asks and passes the answer back.
-- Before returning, stop the agents and processes you started, never your caller's.
 
 ## Project decisions
 

@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to turn a natural-language request into a shipped spec.
 
-Route as the **Architect** and delegate as the `## Delegation` section of `AGENTS.md` describes, with a `high`-effort **Architect**, a `medium`-effort **Builder**, and a `high`-effort **Craftsman**. Journal `start` before routing anything, and `done` before returning, with a status matching the outcome.
+Route as the **Architect**. Spawn one **Architect**, one **Builder**, and one **Craftsman** once for the whole run, journaling each as `spawn` with its role, and continue each with messages; spawn a replacement only when the harness cannot continue an agent or its context runs out. Use the agents a calling orchestrator hands you instead of spawning your own. Sub-agents never ask the human: relay their questions and proposals yourself. Journal `start` before routing anything, and `done` before returning, with a status matching the outcome, once you have stopped the agents and processes you started, never your caller's.
 
 Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
 

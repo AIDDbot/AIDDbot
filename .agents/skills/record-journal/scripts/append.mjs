@@ -31,14 +31,13 @@ const STAGE_BY_SKILL = {
 
 const AGENT_LABELS = { Architect: "Arch", Builder: "Build", Craftsman: "Craft", Direct: "Direct" };
 const STATUS_LEVELS = { green: "Info", amber: "Warn", red: "Error" };
-const EFFORTS = ["low", "medium", "high"];
 
 function usage() {
   return [
     `Usage: append.mjs <skill> <event> <status> "<summary>" [flags]`,
     "",
     `  skill    one of: ${Object.keys(STAGE_BY_SKILL).join(", ")}`,
-    `  event    free text, no line breaks or |; "spawn" additionally requires --role, --effort, and --model`,
+    `  event    free text, no line breaks or |; "spawn" additionally requires --role`,
     `  status   green | amber | red`,
     `  summary  free text, quoted`,
     "",
@@ -48,9 +47,8 @@ function usage() {
     "  --project    project or subdomain name",
     "  --revision   revision counter the agent already holds in memory",
     "  --harness    overrides auto-detection (today only claude-code auto-detects)",
-    "  --model      resolved model or native control; required with event spawn",
-    "  --role       role being spawned; required with event spawn",
-    `  --effort     ${EFFORTS.join(" | ")}; required with event spawn`,
+    "  --model      model named in the day header when it is the first event",
+    "  --role       Architect | Builder | Craftsman; required with event spawn",
   ].join("\n");
 }
 
@@ -79,7 +77,7 @@ function parseArgs(argv) {
     index += 2;
   }
   for (const name of Object.keys(flags)) {
-    if (!["agent", "spec", "project", "revision", "harness", "model", "role", "effort"].includes(name)) fail(`Unknown argument: --${name}`);
+    if (!["agent", "spec", "project", "revision", "harness", "model", "role"].includes(name)) fail(`Unknown argument: --${name}`);
   }
   const [skill, event, status, summary] = positional;
   return { skill, event, status, summary, flags };
@@ -156,11 +154,10 @@ let model = clean("model", flags.model);
 
 let finalSummary = cleanSummary;
 if (cleanEvent.toLowerCase() === "spawn") {
+  // Each role's model is fixed in its harness agent definition (npm run adapt), so only the role varies.
   const role = clean("role", flags.role, true);
-  const effort = clean("effort", flags.effort, true).toLowerCase();
-  if (!EFFORTS.includes(effort)) fail(`Invalid --effort: ${flags.effort}\nValid values: ${EFFORTS.join(", ")}`);
-  const spawnModel = clean("model", flags.model, true);
-  finalSummary = `${role} · ${effort} → ${spawnModel} · ${cleanSummary}`;
+  if (!AGENT_LABELS[role] || role === "Direct") fail(`Invalid --role: ${role}\nValid values: Architect, Builder, Craftsman`);
+  finalSummary = `${role} · ${cleanSummary}`;
 }
 
 const root = repositoryRoot(path.dirname(fileURLToPath(import.meta.url)), process.cwd());

@@ -143,15 +143,48 @@ function loadAgents() {
   return valid.sort((a, b) => a.file.localeCompare(b.file));
 }
 
-function syncAgents(agents) {
+// .aiddbot/efforts.yaml: `roles` maps each agent file to an effort, and
+// `models` maps each harness's effort to its model (a comma list means
+// "first available"). Two indentation levels, scalar values only.
+function loadEfforts() {
+  const text = read(path.join(root, ".aiddbot", "efforts.yaml"));
+  const data = { roles: {}, models: {} };
+  if (!text) { report.skippedSources.push(".aiddbot/efforts.yaml: absent, agents keep the harness default model"); return data; }
+  let section = null, harness = null;
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.replace(/#.*$/, "").trimEnd();
+    if (!line.trim()) continue;
+    const m = /^( *)([\w.-]+):\s*(.*)$/.exec(line);
+    if (!m) continue;
+    const [, indent, key, value] = m;
+    if (indent.length === 0) { section = key; harness = null; }
+    else if (section === "roles" && indent.length === 2) data.roles[key] = value;
+    else if (section === "models" && indent.length === 2) { harness = key; data.models[key] = {}; }
+    else if (section === "models" && indent.length === 4 && harness) data.models[harness][key] = value.split(",").map((part) => part.trim()).filter(Boolean);
+  }
+  return data;
+}
+
+function modelsFor(efforts, agent, harness) {
+  const effort = efforts.roles[agent.file];
+  return (effort && efforts.models[harness]?.[effort]) || [];
+}
+
+function syncAgents(agents, efforts) {
+  const one = (agent, harness, fallback) => modelsFor(efforts, agent, harness)[0] ?? fallback;
   syncFlatDir(path.join(root, ".claude", "agents"), new Map(agents.map((agent) => [`${agent.file}.md`,
-    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: inherit\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in @${agent.sourcePath} and follow them for this task.\n`])));
+    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: ${one(agent, "claude-code", "inherit")}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in @${agent.sourcePath} and follow them for this task.\n`])));
   syncFlatDir(path.join(root, ".cursor", "agents"), new Map(agents.map((agent) => [`${agent.file}.md`,
-    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: inherit\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`])));
-  syncFlatDir(path.join(root, ".github", "agents"), new Map(agents.map((agent) => [`${agent.file}.agent.md`,
-    `---\nname: ${agent.name}\ndescription: ${agent.description}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role and instructions defined in [${agent.sourcePath}](../../${agent.sourcePath}) for this task.\n`])));
-  syncFlatDir(path.join(root, ".codex", "agents"), new Map(agents.map((agent) => [`${agent.file}.toml`,
-    `${markerToml(agent.sourcePath)}\nname = "${agent.name}"\ndescription = "${agent.description}"\ndeveloper_instructions = """Adopt the role, expertise, and instructions defined in ${agent.sourcePath} and follow them for this task."""\n`])));
+    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: ${one(agent, "cursor", "inherit")}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`])));
+  syncFlatDir(path.join(root, ".github", "agents"), new Map(agents.map((agent) => {
+    const models = modelsFor(efforts, agent, "copilot");
+    const model = models.length > 1 ? `model: [${models.join(", ")}]\n` : models.length ? `model: ${models[0]}\n` : "";
+    return [`${agent.file}.agent.md`, `---\nname: ${agent.name}\ndescription: ${agent.description}\n${model}---\n${markerMd(agent.sourcePath)}\nAdopt the role and instructions defined in [${agent.sourcePath}](../../${agent.sourcePath}) for this task.\n`];
+  })));
+  syncFlatDir(path.join(root, ".codex", "agents"), new Map(agents.map((agent) => {
+    const model = one(agent, "codex", null);
+    return [`${agent.file}.toml`, `${markerToml(agent.sourcePath)}\nname = "${agent.name}"\ndescription = "${agent.description}"\n${model ? `model = "${model}"\n` : ""}developer_instructions = """Adopt the role, expertise, and instructions defined in ${agent.sourcePath} and follow them for this task."""\n`];
+  })));
 }
 
 // ---------- audit hook ----------
@@ -224,39 +257,6 @@ function checkThirdPartyHook(file, harness) {
   report.skippedSources.push(`${file}: ${current === null ? "absent, not synthesized" : wired ? "wired to the shared audit source" : "present but not wired to .agents/hooks/index.mjs"}`);
 }
 
-// ---------- shared AGENTS.md sections ----------
-
-// This repository's own AGENTS.md carries sections whose only source is the
-// consumer template, so they are copied, never edited by hand.
-const SHARED_SECTIONS = ["## Delegation"];
-const AGENTS_TEMPLATE = path.join(root, ".agents", "skills", "document-system", "assets", "AGENTS.template.md");
-
-function sectionBody(text, heading) {
-  const start = text.indexOf(`${heading}\n`);
-  if (start < 0) return null;
-  const from = start + heading.length + 1;
-  const next = text.indexOf("\n## ", from);
-  return { from, to: next < 0 ? text.length : next + 1, body: text.slice(from, next < 0 ? text.length : next + 1) };
-}
-
-function syncSharedSections() {
-  const file = path.join(root, "AGENTS.md");
-  const current = read(file)?.replace(/\r\n/g, "\n");
-  const template = read(AGENTS_TEMPLATE)?.replace(/\r\n/g, "\n");
-  if (!current || !template) return;
-  let next = current;
-  for (const heading of SHARED_SECTIONS) {
-    const source = sectionBody(template, heading);
-    const target = sectionBody(next, heading);
-    if (!source || !target) { report.collisions.push(`${rel(file)} (${heading} missing)`); continue; }
-    const isLast = target.to === next.length;
-    next = next.slice(0, target.from) + source.body.trimEnd() + (isLast ? "\n" : "\n\n") + next.slice(target.to);
-  }
-  if (next === current) { report.unchanged.push(rel(file)); return; }
-  if (!check) fs.writeFileSync(file, next, "utf8");
-  report.updated.push(rel(file));
-}
-
 // ---------- run ----------
 
 const skills = loadSkills();
@@ -264,10 +264,9 @@ const agents = loadAgents();
 const hookExists = fs.existsSync(path.join(root, ".agents", "hooks", "index.mjs"));
 
 syncSkills(skills);
-syncAgents(agents);
+syncAgents(agents, loadEfforts());
 syncCodexHooks(hookExists);
 syncClaudeSettings(hookExists);
-syncSharedSections();
 checkThirdPartyHook(".cursor/hooks.json", "cursor");
 checkThirdPartyHook(".github/hooks/ingest.json", "copilot");
 
