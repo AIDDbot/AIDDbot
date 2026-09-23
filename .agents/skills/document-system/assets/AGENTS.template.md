@@ -58,11 +58,11 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delegation
 
-- Before spawning any agent, read `.aiddbot/efforts.yaml`.
-- Spawn the role the skill names (**Architect**, **Builder**, or **Craftsman**) as the agent.
-- Map the requested effort (`low`, `medium`, `high`; `medium` when unstated) to the active harness's native controls in that file and pass them explicitly. Never keep the default model when a mapping applies.
-- Inherit the parent's settings only when the harness, model, or control is unavailable.
-- Journal every spawn with `record-journal`, naming the role, the requested effort, and the resolved model or native control. Journal an inherited setting with an amber status naming what was unavailable.
+- Before spawning, read `.aiddbot/efforts.yaml` and pass this harness's native controls for the requested effort (`low`, `medium`, or `high`; `medium` when unstated); never leave the default model when a mapping applies. Inherit the parent's settings only when the harness, model, or control is unavailable.
+- One orchestrator run keeps at most one agent per role — **Architect**, **Builder**, **Craftsman** — and continues it with messages instead of spawning it again. Spawn a replacement only when the harness cannot continue an agent or its context is exhausted. A nested orchestrator uses the agents its caller already has.
+- Journal each spawn as `spawn` with its role, requested effort, and resolved model, amber when a setting was inherited; journal an agent taken over from a caller as `reuse`. Every agent journals under its own role.
+- Sub-agents never ask the human: they return questions and proposals to the main agent, which asks and passes the answer back.
+- Before returning, stop the agents and processes you started, never your caller's.
 
 ## Project decisions
 

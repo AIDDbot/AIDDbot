@@ -85,12 +85,12 @@ y sigue con lo que no dependa de ella. Para al terminar la fase y resume qué qu
 
 ## Fase 4 · Orquestadores (vía `/maintain-skills`)
 
-- [ ] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
+- [~] **4.1 Delegación** (D6, D8, D9) en los tres orquestadores: como mucho una instancia por rol en cada ejecución, retomada con mensajes; se relanza solo si el harness no permite continuarla o se agota su contexto; los orquestadores anidados reutilizan las instancias de quien los llama; la aprobación de la spec pasa por el agente principal. Cada lanzamiento se anota con el evento `spawn`.
   *Hecho cuando:* los tres orquestadores describen la misma política, en pocas líneas y sin contradicciones con D8 y D9.
-- [ ] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
+- [~] **4.2 Bucle de reparación** (D7) en `build-requested-spec`: máximo 3 rondas; lo no resuelto se entrega como deuda técnica; solo la evidencia caducada o ausente bloquea.
   *Hecho cuando:* la regla cabe en un párrafo corto y no se repite en el catálogo.
-- [ ] **4.3 Sección "Delegation" del `AGENTS.md`** de este repo y de `AGENTS.template.md`: alinearla con D8 y con el evento `spawn`.
-  *Hecho cuando:* ambos textos coinciden y ninguno contradice a los orquestadores.
+- [x] **4.3 Sección "Delegation" del `AGENTS.md`** de este repo y de `AGENTS.template.md`: alinearla con D8 y con el evento `spawn`.
+  *Hecho cuando:* ambos textos coinciden y ninguno contradice a los orquestadores. **Hecho:** la sección pasa a ser la **única** definición de la política (D6, D8, D9): esfuerzo desde `efforts.yaml`, una instancia por rol retomada con mensajes, `spawn`/`reuse` en el journal, los subagentes nunca preguntan al humano, y cada uno detiene solo lo suyo. Idéntica en `AGENTS.md` de este repo, `AGENTS.template.md` y `bin/seeds/AGENTS.seed.md` (tercera copia que el plan no nombraba, ver 🟡 P21).
 
 ## Fase 5 · Documentación
 
