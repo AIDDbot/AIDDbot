@@ -18,6 +18,14 @@ function release() {
   if (bumps.length > 1 || !["patch", "minor", "major"].includes(bump)) {
     throw new Error("Expected patch, minor, or major and optional --dry-run.");
   }
+  const adaptScript = path.join(root, "scripts", "adapt.js");
+  if (fs.existsSync(adaptScript) && fs.existsSync(path.join(root, ".agents", "skills"))) {
+    try {
+      execFileSync(process.execPath, [adaptScript, "--check"], { cwd: root, encoding: "utf8", stdio: "pipe" });
+    } catch (error) {
+      throw new Error(`Harness adapters are out of sync with .agents/. Run "npm run adapt" and commit the result before releasing.\n${error.stdout}`);
+    }
+  }
   const packagePath = path.join(root, "package.json");
   const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
   if (!/^\d+\.\d+\.\d+$/.test(pkg.version)) throw new Error(`Unsupported version: ${pkg.version}`);

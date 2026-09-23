@@ -9,6 +9,7 @@
   },
   "scripts": {
     "release": "node scripts/release.js",
+    "adapt": "node scripts/adapt.js",
     "test": "node scripts/verify-release.js"
   },
   "engines": {
