@@ -11,6 +11,10 @@ import { fileURLToPath } from "node:url";
 // Single source of truth for stage names: adding a skill that journals means
 // adding its row here, nowhere else.
 const STAGE_BY_SKILL = {
+  // Not a skill: `aiddbot init` writes exactly one genesis event through
+  // this same script, so the journal's first line never duplicates its
+  // format. See bin/lib/seed.js.
+  init: "init",
   "architect-system-foundation": "setup",
   "build-requested-spec": "deliver",
   "craft-lasting-quality": "craft",
