@@ -137,6 +137,25 @@ function writeManifest(workspace, manifest, dryRun) {
   return 0;
 }
 
+function copyRootDefaults(workspace, dryRun) {
+  for (const { source, destination } of DEFAULTS.rootFiles) {
+    const sourcePath = new URL(`../assets/${source}`, import.meta.url);
+    const destinationPath = path.join(workspace, destination);
+    if (fs.existsSync(destinationPath)) {
+      out(`keep       ${destination}`);
+      continue;
+    }
+    if (dryRun) {
+      out(`create     ${destination}`);
+      continue;
+    }
+    if (!fs.existsSync(sourcePath)) return fail(`Root default asset is missing: ${source}`);
+    fs.copyFileSync(sourcePath, destinationPath, fs.constants.COPYFILE_EXCL);
+    out(`create     ${destination}`);
+  }
+  return 0;
+}
+
 function applyProductMetadata(packageJson, options, systemSlug) {
   Object.assign(packageJson, { name: systemSlug, version: DEFAULTS.package.version, description: options.name });
   for (const [key, value] of Object.entries(DEFAULTS.package.metadata)) packageJson[key] ??= value;
@@ -164,6 +183,8 @@ function materialize(options) {
     const status = runTiged(`AIDDbot/${tier}-${options[tier]}`, path.join(workspace, options[`${tier}Dir`]), workspace, options.dryRun);
     if (status !== 0) return status;
   }
+  const rootDefaultsStatus = copyRootDefaults(workspace, options.dryRun);
+  if (rootDefaultsStatus !== 0) return rootDefaultsStatus;
   const manifest = buildManifest(workspace, options, systemSlug);
   return (options.front && brandFrontProject(workspace, options))
     || writeManifest(workspace, manifest, options.dryRun)

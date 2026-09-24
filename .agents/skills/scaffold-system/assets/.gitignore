@@ -1,0 +1,38 @@
+# Scratch
+temp/
+tmp/
+*.tmp
+logs/
+*.log
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*.key
+*.p12
+*.pfx
+*.p8
+id_rsa
+id_dsa
+id_ecdsa
+id_ed25519
+*.keystore
+*.jks
+credentials.json
+secrets.json
+*.secret
+.netrc
+*.kdbx
+
+# Agent scratch
+/.claude/agents/runs
+
+# Database files (D0001: no SQLite file may be committed at any depth)
+data/
+*.db
+*.db-shm
+*.db-wal

@@ -10,7 +10,7 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 
 ## What `init` adds
 
-`init` prepares a complete workspace in one pass, so no skill has to create these as a fallback:
+`init` prepares a complete workspace in one pass:
 
 - `.gitignore`, `README.md`, and `LICENSE` — created only when missing, never overwritten.
 - `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
@@ -19,6 +19,8 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 - The journal's first event, in `.aiddbot/journals/`.
 
 `update` manages skills and adapters, including each agent's model for its role, but never re-seeds these files.
+
+When `/scaffold-system` runs, it can also create a missing `.gitignore` or `LICENSE` from its bundled defaults. It never overwrites either file.
 
 ## Prepare the repository
 

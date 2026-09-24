@@ -23,5 +23,9 @@
       }
     }
   },
+  "rootFiles": [
+    { "source": ".gitignore", "destination": ".gitignore" },
+    { "source": "LICENSE.md", "destination": "LICENSE" }
+  ],
   "manifest": ".aiddbot/aiddbot.system.json"
 }
