@@ -14,6 +14,11 @@ const CATALOG = {
 const TIERS = Object.keys(CATALOG);
 const START_SCRIPTS = ["start", "dev"];
 const E2E_SCRIPTS = ["test:e2e", "test:acceptance", "test"];
+const PRODUCT_DEFAULTS = {
+  homepage: "https://aiddbot.com",
+  repository: "https://github.com/aiddbot/",
+  author: { name: "Alberto Basalo", url: "https://x.com/albertobasalo" },
+};
 const FLAGS = {
   name: { type: "string" },
   author: { type: "string" },
@@ -145,7 +150,8 @@ function writeManifest(workspace, manifest, dryRun) {
 }
 
 function applyProductMetadata(packageJson, options, systemSlug) {
-  Object.assign(packageJson, { name: systemSlug, version: "0.1.0", description: options.name, author: options.author.trim() });
+  Object.assign(packageJson, { name: systemSlug, version: "0.1.0", description: options.name });
+  for (const [key, value] of Object.entries(PRODUCT_DEFAULTS)) packageJson[key] ??= value;
   packageJson.private ??= true;
   packageJson.scripts = objectOr(packageJson.scripts);
   packageJson.aiddbot = { ...objectOr(packageJson.aiddbot), system: ".aiddbot/aiddbot.system.json" };
