@@ -1,34 +1,51 @@
 # [AIDDbot](https://github.com/AIDDbot/AIDDbot)
 
-Build software you can trust.
+## Build software you can trust.
 
-AIDDbot is a set of Agent Skills for AI-Driven Development. It gives coding agents a shared way to understand a repository, deliver changes from specifications, and maintain technical quality.
+`AIDDbot` is a set of agent skills for **AI-Driven Development**. 
+
+It gives your coding agents a shared way to understand a codebase, develop from requirements, and keep code quality.
 
 ## Start
 
-From your repository root:
+From your greenfield or legacy repository root:
 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then choose the outcome you need:
+Then choose the outcome you need by running the appropriate command 
+
+> [!TIP]
+> Use slash or dollar sign commands to invoke the three flows.
 
 | Need | Command |
 | --- | --- |
 | Prepare or understand a system | `/architect-system-foundation` |
-| Deliver a requested spec | `/build-requested-spec` |
+| Deliver a requested spec | `/build-requested-spec` your requirements |
 | Review quality and repair technical debt | `/craft-lasting-quality` |
 
-The architecture flow documents existing code or scaffolds a new system when no application source exists. The delivery flow turns a natural-language request into an approved specification, implementation, evidence, and release. The quality flow runs the configured quality checks and delivers one selected repair.
+The architecture flow documents existing code or scaffolds a new system when no application source exists. 
+The builder flow turns a natural-language request into an approved specification, implementation, evidence, and release. 
+The craftsman flow runs the configured quality checks and delivers one selected repair.
 
-Specifications pause for approval unless you request YOLO mode.
+> [!IMPORTANT]
+> Specifications pause for approval unless you request YOLO mode.
 
 ## How it is organized
 
-AIDDbot uses public orchestrator skills and focused primitive skills. During a flow it assigns work to **Architect**, **Builder**, and **Craftsman** agents as needed. Its canonical skills live under `.agents/`.
+AIDDbot uses public orchestrator skills and focused primitive skills under `.agents/` folder. 
 
-`init` also prepares the rest of the workspace — `.aiddbot/counters.yaml` for permanent delivery IDs, the empty `PRD.md` and `TDR.md`, and more — so no skill has to create these as a fallback. Later `update` synchronizes managed skills and adapters, including each agent's model for its role; it never changes project state. See [Getting started](docs/getting-started.md) for the complete list.
+Your harness (`Claude Code`, `Codex`, `Copilot` or `Cursor`) will point to that canonical source of truth.
+
+Also defines three agent roles: **Architect**, **Builder**, and **Craftsman** with preconfigured effort levels, adapted to your harness.
+
+There is an `.aiddbot/` folder with configuration files and state. Plus a journal log to track the flow's progress.
+
+> [!NOTE]
+> You can update AIDDbot by running 
+> 
+> `npx --allow-git=all github:AIDDbot/AIDDbot update`
 
 ## Documentation
 
@@ -38,7 +55,11 @@ AIDDbot uses public orchestrator skills and focused primitive skills. During a f
 
 ## Links
 
-- [aiddbot.com](https://aiddbot.com/)
-- [GitHub](https://github.com/AIDDbot/AIDDbot)
-- [Author](https://albertobasalo.dev)
-- [Curso: Spec-Driven Development Inteligente](https://www.udemy.com/course/spec-driven-development-inteligente/?referralCode=D67B0EB2BD294D29A5B7)
+- [The aiddbot.com website](https://aiddbot.com/)
+- [GitHub repository](https://github.com/AIDDbot/AIDDbot)
+- [Author: Alberto Basalo at X/Twitter](https://twitter.com/albertobasalo)
+
+#### Promoción de cursos en español
+- [Mini-Curso. - Spec-Driven Development Inteligente](https://www.udemy.com/course/spec-driven-development-inteligente/?referralCode=D67B0EB2BD294D29A5B7)
+- [Oficial Fundae. - Programación Inteligente: domina el desarrollo asistido con IA](https://www.trainingit.es/producto/programacion-inteligente-ia/)
+- [AI Code Academy](https://aicode.academy/)

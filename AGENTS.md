@@ -1,13 +1,14 @@
 # AIDDbot
 
-This is not a traditional application. There is no application source code to build or test. 
+This is not a traditional application. There is no source code to build or test. 
 
 The deliverable are **agent skills** tailored to implement AI-Driven Development (AIDD) workflows.
 
-## Skills
+## Folder structure
 
-- Folder: `.agents/skills/`
-- Inventory, pipeline, and SDLC coverage: [`.agents/skills/skills.catalog.md`](./.agents/skills/skills.catalog.md) — it summarizes the executable routing owned by orchestrators
+- Deliverables are in : `.agents/`
+- Install and update script: `bin/`
+- Dev utility scripts: `scripts/`
 - Human-oriented docs are in [`docs/`](./docs/)
 - Product development docs are in [`.product/`](.product/)
 

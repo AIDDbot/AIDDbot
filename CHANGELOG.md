@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.2 - 2026-09-24
+
+- refactor(skills): split scaffold materializer (255fe5a)
+- refactor(skills): seed scaffold root defaults (fff4415)
+- refactor(skills): externalize scaffold defaults (f9b0390)
+- refactor(skills): tighten /scaffold-system (cbf6c94)
+
+Pending changes included in this release:
+
+```text
+M .agents/skills/record-journal/scripts/append.mjs
+ M AGENTS.md
+ M README.md
+ M bin/seeds/GITIGNORE.seed
+```
+
 ## 0.1.1 - 2026-09-23
 
 - docs(product): mark frontier-fall 7.2 done, v0.1.0 Equinox published (a1ca619)
