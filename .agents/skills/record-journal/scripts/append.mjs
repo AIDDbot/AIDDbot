@@ -170,14 +170,14 @@ const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate(
 const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 const journal = path.join(journals, `${date}.log`);
 const agentLabel = AGENT_LABELS[agent];
-const trimSummary = finalSummary.padEnd(64).substring(0, 64);
+const trimSummary = finalSummary.padEnd(128).substring(0, 128);
 const line = `${row([field(time, 8), field(STATUS_LEVELS[statusKey]), field(agentLabel), field(spec), field(stage, 8), field(cleanEvent, 8), field(project), field(revision, 3), trimSummary])}\n`;
 
 let prefix = "";
 if (!fs.existsSync(journal) || fs.statSync(journal).size === 0) {
   const runtime = [["Harness", harness], ["Model", model]].filter(([, value]) => value !== "-").map(([name, value]) => `${name} · ${value}`).join(" | ");
   const names = [field("Agent"), field("Spec"), field("Stage", 8), field("Event", 8)];
-  prefix = `# AIDDbot Journal · ${date} ${time}\n${runtime ? `# ${runtime}\n` : ""}\n ${row([field("Time", 8), field("Status"), ...names, field("Proj."), field("Rev", 3), "Summary"])}\n`;
+  prefix = `# AIDDbot Journal · ${date} ${time}\n${runtime ? `# ${runtime}\n` : ""}\n${row([field("Time", 8), field("Status"), ...names, field("Proj."), field("Rev", 3), "Summary"])}\n`;
 }
 
 fs.mkdirSync(journals, { recursive: true });

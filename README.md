@@ -53,6 +53,11 @@ There is an `.aiddbot/` folder with configuration files and state. Plus a journa
 - [AIDD workflow](docs/AIDD.workflow.md)
 - [Skills catalog](.agents/skills/skills.catalog.md)
 
+> [!WARNING]
+> Adapting AIDDbot to your harness may require you to manually set it.
+> 
+> Agents and model/effort pairing may be required to optimize performance.
+
 ## Links
 
 - [The aiddbot.com website](https://aiddbot.com/)
