@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3 - 2026-09-24
+
+- feat: better journals and docs (00742c8)
+
 ## 0.1.2 - 2026-09-24
 
 - refactor(skills): split scaffold materializer (255fe5a)
