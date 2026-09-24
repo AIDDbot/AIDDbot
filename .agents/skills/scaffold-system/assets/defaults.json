@@ -1,0 +1,27 @@
+{
+  "catalog": {
+    "back": ["express"],
+    "front": ["standard"],
+    "e2e": ["playwright"],
+    "cli": ["node"]
+  },
+  "directories": {
+    "back": "back",
+    "front": "front",
+    "e2e": "e2e",
+    "cli": "cli"
+  },
+  "package": {
+    "version": "0.1.0",
+    "private": true,
+    "metadata": {
+      "homepage": "https://aiddbot.com",
+      "repository": "https://github.com/aiddbot/",
+      "author": {
+        "name": "Alberto Basalo",
+        "url": "https://x.com/albertobasalo"
+      }
+    }
+  },
+  "manifest": ".aiddbot/aiddbot.system.json"
+}

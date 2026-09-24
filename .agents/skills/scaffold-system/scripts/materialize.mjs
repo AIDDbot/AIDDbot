@@ -5,20 +5,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 
-const CATALOG = {
-  back: ["express"],
-  front: ["standard"],
-  e2e: ["playwright"],
-  cli: ["node"],
-};
+const DEFAULTS_PATH = new URL("../assets/defaults.json", import.meta.url);
+const DEFAULTS = JSON.parse(fs.readFileSync(DEFAULTS_PATH, "utf8"));
+const CATALOG = DEFAULTS.catalog;
 const TIERS = Object.keys(CATALOG);
-const START_SCRIPTS = ["start", "dev"];
-const E2E_SCRIPTS = ["test:e2e", "test:acceptance", "test"];
-const PRODUCT_DEFAULTS = {
-  homepage: "https://aiddbot.com",
-  repository: "https://github.com/aiddbot/",
-  author: { name: "Alberto Basalo", url: "https://x.com/albertobasalo" },
-};
+const TRACKED_SCRIPTS = ["start", "dev", "test:e2e", "test:acceptance", "test"];
 const FLAGS = {
   name: { type: "string" },
   author: { type: "string" },
@@ -55,10 +46,7 @@ Usage: node .agents/skills/scaffold-system/scripts/materialize.mjs --name NAME [
   --front TECH   default: ${CATALOG.front[0]}; catalog: ${CATALOG.front.join(", ")}
   --e2e TECH     default: ${CATALOG.e2e[0]}; catalog: ${CATALOG.e2e.join(", ")}
   --cli TECH     default: ${CATALOG.cli[0]}; catalog: ${CATALOG.cli.join(", ")}
-  --back-dir DIR Destination folder for --back; default: back
-  --front-dir DIR Destination folder for --front; default: front
-  --e2e-dir DIR  Destination folder for --e2e; default: e2e
-  --cli-dir DIR  Destination folder for --cli; default: cli
+${TIERS.map((tier) => `  --${tier}-dir DIR Destination folder for --${tier}; default: ${DEFAULTS.directories[tier]}`).join("\n")}
   --dry-run      Print the materialization plan only
   --list         Print catalogued defaults and exit
 `);
@@ -81,7 +69,7 @@ const CHECKS = [
 function parse(argv) {
   try {
     const { values } = parseArgs({ args: argv, options: FLAGS, strict: true });
-    const tiers = TIERS.flatMap((tier) => [[tier, values[tier]?.toLowerCase() ?? null], [`${tier}Dir`, values[`${tier}-dir`] ?? tier]]);
+    const tiers = TIERS.flatMap((tier) => [[tier, values[tier]?.toLowerCase() ?? null], [`${tier}Dir`, values[`${tier}-dir`] ?? DEFAULTS.directories[tier]]]);
     return { options: { name: values.name ?? null, author: values.author ?? null, dryRun: Boolean(values["dry-run"]), list: Boolean(values.list), ...Object.fromEntries(tiers) } };
   } catch (error) {
     return { error: error.message };
@@ -128,7 +116,7 @@ function describeProject(workspace, options, tier) {
     kind: tier,
     technology: options[tier],
     directory,
-    scripts: Object.fromEntries([...START_SCRIPTS, ...E2E_SCRIPTS].filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
+    scripts: Object.fromEntries(TRACKED_SCRIPTS.filter((key) => typeof scripts[key] === "string").map((key) => [key, scripts[key]])),
   };
 }
 
@@ -138,10 +126,10 @@ function buildManifest(workspace, options, systemSlug) {
 }
 
 function writeManifest(workspace, manifest, dryRun) {
-  const manifestPath = path.join(workspace, ".aiddbot", "aiddbot.system.json");
+  const manifestPath = path.join(workspace, DEFAULTS.manifest);
   if (fs.existsSync(manifestPath)) return fail("Refusing to overwrite existing system manifest");
   if (dryRun) {
-    out("create     .aiddbot/aiddbot.system.json");
+    out(`create     ${DEFAULTS.manifest}`);
     return 0;
   }
   fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
@@ -150,11 +138,11 @@ function writeManifest(workspace, manifest, dryRun) {
 }
 
 function applyProductMetadata(packageJson, options, systemSlug) {
-  Object.assign(packageJson, { name: systemSlug, version: "0.1.0", description: options.name });
-  for (const [key, value] of Object.entries(PRODUCT_DEFAULTS)) packageJson[key] ??= value;
-  packageJson.private ??= true;
+  Object.assign(packageJson, { name: systemSlug, version: DEFAULTS.package.version, description: options.name });
+  for (const [key, value] of Object.entries(DEFAULTS.package.metadata)) packageJson[key] ??= value;
+  packageJson.private ??= DEFAULTS.package.private;
   packageJson.scripts = objectOr(packageJson.scripts);
-  packageJson.aiddbot = { ...objectOr(packageJson.aiddbot), system: ".aiddbot/aiddbot.system.json" };
+  packageJson.aiddbot = { ...objectOr(packageJson.aiddbot), system: DEFAULTS.manifest };
 }
 
 function writeRootPackage(workspace, options, systemSlug) {
