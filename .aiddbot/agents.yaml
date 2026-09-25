@@ -1,0 +1,54 @@
+# Canonical agent metadata, native adapter destinations, and per-harness settings.
+# scripts/adapt.js combines this table with each prompt in .agents/agents/{id}.md.
+harnesses:
+  claude-code:
+    path: .claude/agents/{id}.md
+  codex:
+    path: .codex/agents/{id}.toml
+  copilot:
+    path: .github/agents/{id}.agent.md
+  cursor:
+    path: .cursor/agents/{id}.md
+agents:
+  architect:
+    name: Architect
+    description: Explore current legacy codebases or design new greenfield solutions
+    claude-code:
+      model: claude-opus-5-5
+      effort: high
+    codex:
+      model: gpt-6-sol
+      effort: medium
+    copilot:
+      models: ["claude-opus-4.6", "gpt-5.4"]
+      effort: high
+    cursor:
+      model: grok-4.7[context=256k,reasoning_effort=medium,fast=false]
+  builder:
+    name: Builder
+    description: Implements specifications, by planning and writing code
+    claude-code:
+      model: claude-opus-5-5
+      effort: low
+    codex:
+      model: gpt-6-luna
+      effort: medium
+    copilot:
+      models: ["claude-sonnet-4.6", "gpt-5.4"]
+      effort: medium
+    cursor:
+      model: grok-4.6[effort=medium,fast=false]
+  craftsman:
+    name: Craftsman
+    description: Quality assurance and verification of specifications.
+    claude-code:
+      model: claude-opus-5-5
+      effort: medium
+    codex:
+      model: gpt-6-luna
+      effort: high
+    copilot:
+      models: ["claude-opus-4.6", "gpt-5.4"]
+      effort: high
+    cursor:
+      model: grok-4.7[context=256k,reasoning_effort=low,fast=false]

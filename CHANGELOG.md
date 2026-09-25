@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.1.4 - 2026-09-25
+
+- Include working tree changes.
+
+Pending changes included in this release:
+
+```text
+M .agents/agents/architect.md
+ M .agents/agents/builder.md
+ M .agents/agents/craftsman.md
+ M .agents/skills/skills.catalog.md
+ D .aiddbot/efforts.yaml
+ M .claude/agents/architect.md
+ M .claude/agents/builder.md
+ M .claude/agents/craftsman.md
+ M .codex/agents/architect.toml
+ M .codex/agents/builder.toml
+ M .codex/agents/craftsman.toml
+ M .cursor/agents/architect.md
+ M .cursor/agents/builder.md
+ M .cursor/agents/craftsman.md
+ M .github/agents/architect.agent.md
+ M .github/agents/builder.agent.md
+ M .github/agents/craftsman.agent.md
+ M README.md
+ M docs/AIDD.workflow.md
+ M docs/getting-started.md
+ M scripts/adapt.js
+ M scripts/release.js
+?? .aiddbot/agents.yaml
+?? docs/agent-customization.md
+```
+
 ## 0.1.3 - 2026-09-24
 
 - feat: better journals and docs (00742c8)

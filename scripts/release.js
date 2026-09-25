@@ -21,9 +21,9 @@ function release() {
   const adaptScript = path.join(root, "scripts", "adapt.js");
   if (fs.existsSync(adaptScript) && fs.existsSync(path.join(root, ".agents", "skills"))) {
     try {
-      execFileSync(process.execPath, [adaptScript, "--check"], { cwd: root, encoding: "utf8", stdio: "pipe" });
+      execFileSync(process.execPath, [adaptScript], { cwd: root, encoding: "utf8", stdio: "pipe" });
     } catch (error) {
-      throw new Error(`Harness adapters are out of sync with .agents/. Run "npm run adapt" and commit the result before releasing.\n${error.stdout}`);
+      throw new Error(`Could not generate harness adapters. Check .agents/ and .aiddbot/agents.yaml, then run "npm run adapt" to inspect the error.\n${error.stdout || error.stderr || error.message}`);
     }
   }
   const packagePath = path.join(root, "package.json");

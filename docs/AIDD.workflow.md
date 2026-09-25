@@ -29,7 +29,7 @@ Run `/architect-system-foundation` again whenever the documentation should refle
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
 | Prove and ship | **Craftsman** | `verify-behavior` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
-Each role runs at a fixed effort — **Architect** and **Craftsman** `high`, **Builder** `medium` — that `npm run adapt` resolves from `.aiddbot/efforts.yaml` into the model of every harness's agent definition at release time, so spawning a role spawns it with its model already set: nothing is chosen at delegation time. An orchestrator keeps one agent per role for its whole run, continued with messages, and journals each spawn once with its role.
+Agent names, descriptions, adapter paths, models, and efforts are configured in `.aiddbot/agents.yaml`; `.agents/agents/{id}.md` contains each canonical prompt. `npm run adapt` combines them to regenerate all harness adapters, and `npm run release` runs the adapter before packaging. An orchestrator keeps one agent per role for its whole run, continued with messages, and journals each spawn once with its role.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 

@@ -44,7 +44,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-behavior` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `scan-quality` → select debt → `/build-requested-spec` |
 
-Each role runs at a fixed effort — **Architect** `high`, **Builder** `medium`, **Craftsman** `high` — which `npm run adapt` resolves from `.aiddbot/efforts.yaml` into the model of every harness's agent definition. Orchestrators keep one agent per role for a whole run.
+Agent names, descriptions, adapter destinations, models, and efforts are configured per harness in `.aiddbot/agents.yaml`; canonical prompts live in `.agents/agents/`. `npm run adapt` generates the harness agent definitions. Orchestrators keep one agent per role for a whole run.
 
 ## Pipeline overview
 

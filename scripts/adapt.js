@@ -1,9 +1,8 @@
 #!/usr/bin/env node
-// Deterministic harness-adapter generator. `.agents/` is the only canonical
-// source; this script renders thin, marked pointers for Claude Code, Cursor,
-// GitHub Copilot, and Codex, and wires the shared audit hook into each
-// harness's own hook config. Run with --check to compare without writing;
-// release.js runs that mode and aborts the release on drift.
+// Deterministic harness-adapter generator. Agent prompts live in `.agents/`;
+// `.aiddbot/agents.yaml` owns their metadata, harness settings, and destinations.
+// This script renders managed adapters and wires the shared audit hook into
+// harness hook configs. Run with --check to compare without writing.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -129,64 +128,129 @@ function syncSkills(skills) {
 
 // ---------- agents ----------
 
-function loadAgents() {
-  const agentsRoot = path.join(root, ".agents", "agents");
-  const valid = [];
-  if (!fs.existsSync(agentsRoot)) return valid;
-  for (const entry of fs.readdirSync(agentsRoot)) {
-    if (!entry.endsWith(".md")) continue;
-    const file = path.join(agentsRoot, entry);
-    const data = parseFrontmatter(read(file)) ?? {};
-    if (!data.name || !data.description) { report.skippedSources.push(`agent ${entry}: missing name or description`); continue; }
-    valid.push({ file: entry.replace(/\.md$/, ""), name: data.name, description: data.description, sourcePath: `.agents/agents/${entry}` });
+const HARNESS_NAMES = ["claude-code", "codex", "copilot", "cursor"];
+
+// The checked-in table uses a small nested YAML subset: mappings, quoted
+// strings, booleans, and JSON-compatible inline arrays.
+function parseAgentTable(text) {
+  const document = {};
+  const stack = [{ indent: -1, node: document }];
+  for (const [index, raw] of text.split(/\r?\n/).entries()) {
+    const line = raw.replace(/\s+#.*$/, "").trimEnd();
+    if (!line.trim() || /^\s*#/.test(line)) continue;
+    const match = /^( *)([\w.-]+):\s*(.*)$/.exec(line);
+    if (!match) throw new Error(`line ${index + 1}: expected a mapping key`);
+    const [, spaces, key, rawValue] = match;
+    const indent = spaces.length;
+    if (indent % 2) throw new Error(`line ${index + 1}: indentation must use pairs of spaces`);
+    while (stack.at(-1).indent >= indent) stack.pop();
+    const parent = stack.at(-1)?.node;
+    if (!parent || typeof parent !== "object" || Array.isArray(parent)) throw new Error(`line ${index + 1}: invalid nesting`);
+    if (Object.hasOwn(parent, key)) throw new Error(`line ${index + 1}: duplicate key ${key}`);
+    if (!rawValue) {
+      const child = {};
+      parent[key] = child;
+      stack.push({ indent, node: child });
+    } else {
+      let value;
+      if (rawValue.startsWith("[") || rawValue.startsWith('"')) value = JSON.parse(rawValue);
+      else if (rawValue.startsWith("'")) value = rawValue.slice(1, -1);
+      else if (rawValue === "true") value = true;
+      else if (rawValue === "false") value = false;
+      else value = rawValue;
+      parent[key] = value;
+    }
   }
-  return valid.sort((a, b) => a.file.localeCompare(b.file));
+  return document;
 }
 
-// .aiddbot/efforts.yaml: `roles` maps each agent file to an effort, and
-// `models` maps each harness's effort to its model (a comma list means
-// "first available"). Two indentation levels, scalar values only.
-function loadEfforts() {
-  const text = read(path.join(root, ".aiddbot", "efforts.yaml"));
-  const data = { roles: {}, models: {} };
-  if (!text) { report.skippedSources.push(".aiddbot/efforts.yaml: absent, agents keep the harness default model"); return data; }
-  let section = null, harness = null;
-  for (const raw of text.split(/\r?\n/)) {
-    const line = raw.replace(/#.*$/, "").trimEnd();
-    if (!line.trim()) continue;
-    const m = /^( *)([\w.-]+):\s*(.*)$/.exec(line);
-    if (!m) continue;
-    const [, indent, key, value] = m;
-    if (indent.length === 0) { section = key; harness = null; }
-    else if (section === "roles" && indent.length === 2) data.roles[key] = value;
-    else if (section === "models" && indent.length === 2) { harness = key; data.models[key] = {}; }
-    else if (section === "models" && indent.length === 4 && harness) data.models[harness][key] = value.split(",").map((part) => part.trim()).filter(Boolean);
+function loadAgentSettings() {
+  let data;
+  try {
+    const text = read(path.join(root, ".aiddbot", "agents.yaml"));
+    if (text === null) throw new Error("file is missing");
+    data = parseAgentTable(text);
+  } catch (error) { throw new Error(`.aiddbot/agents.yaml: ${error.message}`); }
+  const harnesses = data.harnesses;
+  const configured = data.agents;
+  if (!harnesses || typeof harnesses !== "object" || Array.isArray(harnesses)) throw new Error(".aiddbot/agents.yaml: expected a harnesses mapping");
+  if (!configured || typeof configured !== "object" || Array.isArray(configured)) throw new Error(".aiddbot/agents.yaml: expected an agents mapping");
+  for (const harness of HARNESS_NAMES) {
+    const entry = harnesses[harness];
+    if (!entry || typeof entry.path !== "string") throw new Error(`.aiddbot/agents.yaml: missing harness path for ${harness}`);
+    if ((entry.path.match(/\{id\}/g) ?? []).length !== 1) throw new Error(`.aiddbot/agents.yaml: ${harness}.path must contain exactly one {id}`);
+    const sample = entry.path.replace("{id}", "agent-id");
+    if (path.posix.isAbsolute(sample) || path.win32.isAbsolute(sample) || sample.replaceAll("\\", "/").split("/").includes("..")) throw new Error(`.aiddbot/agents.yaml: ${harness}.path must stay inside the repository`);
   }
+  for (const harness of Object.keys(harnesses)) if (!HARNESS_NAMES.includes(harness)) throw new Error(`.aiddbot/agents.yaml: unsupported harness ${harness}`);
+
+  const agentsRoot = path.join(root, ".agents", "agents");
+  const canonicalIds = fs.readdirSync(agentsRoot).filter((entry) => entry.endsWith(".md")).map((entry) => entry.replace(/\.md$/, ""));
+  for (const id of canonicalIds) {
+    const agent = configured[id];
+    if (!agent || typeof agent !== "object" || Array.isArray(agent)) throw new Error(`.aiddbot/agents.yaml: missing agent ${id}`);
+    if (typeof agent.name !== "string" || !agent.name.trim()) throw new Error(`.aiddbot/agents.yaml: ${id}.name is required`);
+    if (typeof agent.description !== "string" || !agent.description.trim() || /[\r\n]/.test(agent.description)) throw new Error(`.aiddbot/agents.yaml: ${id}.description must be a non-empty single line`);
+    for (const harness of HARNESS_NAMES) {
+      const row = agent[harness];
+      if (!row || typeof row !== "object" || Array.isArray(row)) throw new Error(`.aiddbot/agents.yaml: missing ${id}.${harness}`);
+      if (typeof row.model !== "string" && !(harness === "copilot" && Array.isArray(row.models) && row.models.length)) throw new Error(`.aiddbot/agents.yaml: ${id}.${harness} needs model or models`);
+      if (harness !== "cursor" && !row.effort) throw new Error(`.aiddbot/agents.yaml: ${id}.${harness} needs effort`);
+      if (row.effort && !["low", "medium", "high", "xhigh", "max"].includes(row.effort)) throw new Error(`.aiddbot/agents.yaml: invalid effort for ${id}.${harness}`);
+      if (harness === "copilot" && row.models && (!Array.isArray(row.models) || row.models.length === 0 || row.models.some((model) => typeof model !== "string" || !model))) throw new Error(`.aiddbot/agents.yaml: copilot models for ${id} must be non-empty strings`);
+    }
+  }
+  for (const id of Object.keys(configured)) if (!canonicalIds.includes(id)) throw new Error(`.aiddbot/agents.yaml: no canonical .agents/agents/${id}.md prompt exists`);
   return data;
 }
 
-function modelsFor(efforts, agent, harness) {
-  const effort = efforts.roles[agent.file];
-  return (effort && efforts.models[harness]?.[effort]) || [];
+function loadAgents(matrix) {
+  const agentsRoot = path.join(root, ".agents", "agents");
+  return fs.readdirSync(agentsRoot).filter((entry) => entry.endsWith(".md")).map((entry) => {
+    const file = entry.replace(/\.md$/, "");
+    const content = read(path.join(agentsRoot, entry));
+    if (!content?.trim()) throw new Error(`.agents/agents/${entry}: prompt is empty`);
+    if (/^---\r?\n/.test(content)) throw new Error(`.agents/agents/${entry}: remove metadata frontmatter; define name and description in .aiddbot/agents.yaml`);
+    const { name, description } = matrix.agents[file];
+    return { file, name, description, sourcePath: `.agents/agents/${entry}` };
+  }).sort((a, b) => a.file.localeCompare(b.file));
 }
 
-function syncAgents(agents, efforts) {
-  const one = (agent, harness, fallback) => modelsFor(efforts, agent, harness)[0] ?? fallback;
-  syncFlatDir(path.join(root, ".claude", "agents"), new Map(agents.map((agent) => [`${agent.file}.md`,
-    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: ${one(agent, "claude-code", "inherit")}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in @${agent.sourcePath} and follow them for this task.\n`])));
-  syncFlatDir(path.join(root, ".cursor", "agents"), new Map(agents.map((agent) => [`${agent.file}.md`,
-    `---\nname: ${agent.name}\ndescription: ${agent.description}\nmodel: ${one(agent, "cursor", "inherit")}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`])));
-  syncFlatDir(path.join(root, ".github", "agents"), new Map(agents.map((agent) => {
-    const models = modelsFor(efforts, agent, "copilot");
-    const model = models.length > 1 ? `model: [${models.join(", ")}]\n` : models.length ? `model: ${models[0]}\n` : "";
-    return [`${agent.file}.agent.md`, `---\nname: ${agent.name}\ndescription: ${agent.description}\n${model}---\n${markerMd(agent.sourcePath)}\nAdopt the role and instructions defined in [${agent.sourcePath}](../../${agent.sourcePath}) for this task.\n`];
-  })));
-  syncFlatDir(path.join(root, ".codex", "agents"), new Map(agents.map((agent) => {
-    const model = one(agent, "codex", null);
-    return [`${agent.file}.toml`, `${markerToml(agent.sourcePath)}\nname = "${agent.name}"\ndescription = "${agent.description}"\n${model ? `model = "${model}"\n` : ""}developer_instructions = """Adopt the role, expertise, and instructions defined in ${agent.sourcePath} and follow them for this task."""\n`];
-  })));
+function renderAgentAdapter(agent, harness, row) {
+  if (harness === "claude-code") {
+    return `---\nname: ${JSON.stringify(agent.name)}\ndescription: ${JSON.stringify(agent.description)}\nmodel: ${row.model}\neffort: ${row.effort}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in @${agent.sourcePath} and follow them for this task.\n`;
+  }
+  if (harness === "cursor") {
+    return `---\nname: ${JSON.stringify(agent.name)}\ndescription: ${JSON.stringify(agent.description)}\nmodel: ${row.model}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`;
+  }
+  if (harness === "copilot") {
+    const models = row.models ?? [row.model];
+    const config = `models: [${models.map((model) => JSON.stringify(model)).join(", ")}]\nreasoningEffort: ${row.effort}\n`;
+    return `---\nname: ${JSON.stringify(agent.name)}\ndescription: ${JSON.stringify(agent.description)}\n${config}---\n${markerMd(agent.sourcePath)}\nAdopt the role and instructions defined in [${agent.sourcePath}](../../${agent.sourcePath}) for this task.\n`;
+  }
+  if (harness === "codex") {
+    return `${markerToml(agent.sourcePath)}\nname = ${JSON.stringify(agent.name)}\ndescription = ${JSON.stringify(agent.description)}\nmodel = ${JSON.stringify(row.model)}\nmodel_reasoning_effort = ${JSON.stringify(row.effort)}\ndeveloper_instructions = """Adopt the role, expertise, and instructions defined in ${agent.sourcePath} and follow them for this task."""\n`;
+  }
+  throw new Error(`No adapter renderer for ${harness}`);
 }
 
+function syncAgents(agents, matrix) {
+  const desiredByDirectory = new Map();
+  for (const harness of HARNESS_NAMES) {
+    const route = matrix.harnesses[harness].path;
+    for (const agent of agents) {
+      const relative = route.replace("{id}", agent.file).replaceAll("\\", "/");
+      const destination = path.resolve(root, ...relative.split("/"));
+      const directory = path.dirname(destination);
+      if (!desiredByDirectory.has(directory)) desiredByDirectory.set(directory, new Map());
+      const desired = desiredByDirectory.get(directory);
+      const filename = path.basename(destination);
+      if (desired.has(filename)) throw new Error(`.aiddbot/agents.yaml: duplicate adapter destination ${rel(destination)}`);
+      desired.set(filename, renderAgentAdapter(agent, harness, matrix.agents[agent.file][harness]));
+    }
+  }
+  for (const [directory, desired] of desiredByDirectory) syncFlatDir(directory, desired);
+}
 // ---------- audit hook ----------
 
 const CODEX_HOOKS_DESCRIPTION = "managed by /adapt — do not edit here, edit .agents/hooks/index.mjs instead";
@@ -260,11 +324,16 @@ function checkThirdPartyHook(file, harness) {
 // ---------- run ----------
 
 const skills = loadSkills();
-const agents = loadAgents();
+let agentSettings;
+try { agentSettings = loadAgentSettings(); }
+catch (error) { process.stderr.write(`${error.message}\n`); process.exit(1); }
+let agents;
+try { agents = loadAgents(agentSettings); }
+catch (error) { process.stderr.write(`${error.message}\n`); process.exit(1); }
 const hookExists = fs.existsSync(path.join(root, ".agents", "hooks", "index.mjs"));
 
 syncSkills(skills);
-syncAgents(agents, loadEfforts());
+syncAgents(agents, agentSettings);
 syncCodexHooks(hookExists);
 syncClaudeSettings(hookExists);
 checkThirdPartyHook(".cursor/hooks.json", "cursor");

@@ -18,7 +18,9 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 - The empty `PRD.md` and `TDR.md` under `.product/`.
 - The journal's first event, in `.aiddbot/journals/`.
 
-`update` manages skills and adapters, including each agent's model for its role, but never re-seeds these files.
+`update` manages skills and the generated agent adapters, but never re-seeds these files. The agent profiles ship with defaults that you can customize in your harness's native configuration.
+
+You can customize the installed agent profiles and hook configurations in your harness's native files. See [Customize agent profiles and hooks](./agent-customization.md) for file locations, model and effort guidance, and update behavior.
 
 When `/scaffold-system` runs, it can also create a missing `.gitignore` or `LICENSE` from its bundled defaults. It never overwrites either file.
 
@@ -49,4 +51,5 @@ The flow runs the repository's configured quality checks, updates its technical-
 ## Learn more
 
 - [Workflow and delivery rules](./AIDD.workflow.md)
+- [Customize agent profiles and hooks](./agent-customization.md)
 - [Skills catalog](../.agents/skills/skills.catalog.md)

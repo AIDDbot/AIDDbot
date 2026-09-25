@@ -38,7 +38,7 @@ AIDDbot uses public orchestrator skills and focused primitive skills under `.age
 
 Your harness (`Claude Code`, `Codex`, `Copilot` or `Cursor`) will point to that canonical source of truth.
 
-Also defines three agent roles: **Architect**, **Builder**, and **Craftsman** with preconfigured effort levels, adapted to your harness.
+Also defines three agent roles: **Architect**, **Builder**, and **Craftsman**, with profiles adapted to your harness.
 
 There is an `.aiddbot/` folder with configuration files and state. Plus a journal log to track the flow's progress.
 
@@ -50,13 +50,12 @@ There is an `.aiddbot/` folder with configuration files and state. Plus a journa
 ## Documentation
 
 - [Getting started](docs/getting-started.md)
+- [Customize agent profiles and hooks](docs/agent-customization.md)
 - [AIDD workflow](docs/AIDD.workflow.md)
 - [Skills catalog](.agents/skills/skills.catalog.md)
 
 > [!WARNING]
-> Adapting AIDDbot to your harness may require you to manually set it.
-> 
-> Agents and model/effort pairing may be required to optimize performance.
+> Customize models, reasoning effort, and hooks in your harness's native configuration. You can also remove profiles for harnesses you do not use; see the customization guide for how updates handle local changes.
 
 ## Links
 
