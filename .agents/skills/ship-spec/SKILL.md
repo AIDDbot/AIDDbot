@@ -9,11 +9,11 @@ user-invocable: true
 
 Your goal is to integrate one evidenced spec and close it with current product, schema, and debt records.
 
-Ship only on current evidence: green verification with green or amber qualification, or a red report whose revision reached 3. Missing or stale evidence stops the delivery.
+Use the latest journaled verification and qualification events for the spec as the current evaluation status and revision. A green event is valid only when its corresponding report is absent; amber or red requires a matching finding-only report at that revision. Ship only on green verification with green or amber qualification, or after red verification has reached revision 3 and qualification is complete. Missing, mismatched, or stale journal/report evidence stops the delivery.
 
 Apply the spec's PRD edits, removing a `deprecated` requirement only when verification proves its implementation and tests are gone. Apply the spec's conceptual changes to `model.schema.md`, but update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes, never from the spec. Touch a timestamp only when content changes.
 
-Without running quality tools, record in `{Product_Folder}/quality/TDR.md` every qualification finding classified as `debt` and every failure or finding still present in a red report that reached revision 3, each linked to its report, and remove the D entries the evidence proves resolved. Reserve new D IDs from `.aiddbot/counters.yaml` and never reuse one. If the register or the counters are missing, return the need to run `aiddbot init`.
+Without running quality tools, record in `{Product_Folder}/quality/TDR.md` every qualification finding classified as `debt` and every failure or finding still present in a red report that reached revision 3, linking to its report when one exists, and remove the D entries the evidence proves resolved. Reserve new D IDs from `.aiddbot/counters.yaml` and never reuse one. If the register or the counters are missing, return the need to run `aiddbot init`.
 
 Promote each durable, project-specific lesson that no automated check enforces into the coding-rules table of the applicable `{Agents_Folder}/rules/{project}.rules.md`, with its scope and evidence-based reason. Never record a one-off incident, a product requirement, or tool output.
 

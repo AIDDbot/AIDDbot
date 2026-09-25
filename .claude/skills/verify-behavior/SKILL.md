@@ -1,6 +1,6 @@
 ---
 name: verify-behavior
-description: Execute acceptance tests for one spec and write a verification report.
+description: Execute acceptance tests for one spec and record only functional failures.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

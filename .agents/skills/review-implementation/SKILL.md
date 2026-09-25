@@ -7,14 +7,12 @@ user-invocable: true
 ---
 # review-implementation
 
-Your goal is to qualify one spec's implementation as an adversarial reviewer.
+Your goal is to qualify one spec's implementation as an adversarial reviewer and record any findings.
 
 Read the spec, its complete diff, the affected project rules, and the affected schema documents under `{Product_Folder}/model/`, then judge them against `qualify.gates.md`. Judge by reading: never run lint, tests, or other tools, and never edit code.
 
-Write `{Product_Folder}/specs/{spec_key}/qualification.md` from `qualification.template.md`, with the status the gates' findings classify. Increment its revision once per evaluation, never for a document edit, and preserve the counter when resuming.
+Increment the evaluation revision once per run, using the latest journaled revision when resuming. Journal every evaluation with its status and revision. When there are no findings, remove any existing `{Product_Folder}/specs/{spec_key}/qualification.md` and write no report. For `amber` or `red`, write that file from `assets/qualification.template.md` with only failed controls and findings; omit passed controls and general review notes.
 
-Journal each revision with its status.
-
-The result is current qualification evidence for the spec.
+The result is a journaled green evaluation or a finding-only qualification report.
 
 Commit as `docs(review): qualify implementation`.

@@ -7,11 +7,11 @@ updated_at: {DateTime}
 ---
 # S0001-{slug} — qualification
 
-## Controls
+## Failed controls
 
-| Control | Method | Result | Evidence |
-| --- | --- | --- | --- |
-| {blocking gate} | {inspection} | {pass | fail | n/a} | {observed fact or link} |
+| Control | Failure | Evidence |
+| --- | --- | --- |
+| {failed blocking gate or technical criterion} | {Observed violation} | {Observed facts or link} |
 
 ## Findings
 
@@ -22,4 +22,4 @@ updated_at: {DateTime}
 - Evidence: {observed facts}
 - Classification: {blocking | debt}
 
-{Blocking findings require repair. At revision 3, every still-present finding becomes a D entry in the TDR at shipping.}
+{Blocking findings require repair. At revision 3, every still-present finding becomes a D entry in the TDR at shipping. Include only failed controls and findings.}

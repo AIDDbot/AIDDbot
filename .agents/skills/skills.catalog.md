@@ -64,7 +64,7 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
-      evaluation: "verify-behavior, review-implementation, ship-spec; red reports go back to the Builder"
+      evaluation: "verify-behavior, review-implementation, ship-spec; red evaluations and their failure-only reports go back to the Builder"
 
 craft-lasting-quality:
   - "Craftsman: scan-quality"

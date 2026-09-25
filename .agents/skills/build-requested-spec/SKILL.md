@@ -15,6 +15,6 @@ Have the **Architect** execute the `define-spec` skill with the request, and rel
 
 Have the **Builder** execute the `implement-project` skill for each affected production project, from lower to higher levels of abstraction, and then for the E2E project when the spec assigns acceptance-test changes, which it authors without running.
 
-Have the **Craftsman** execute the `verify-behavior` skill, then `review-implementation` once verification is green, then `ship-spec`. A red report sends its findings to the **Builder** for repair, and verification starts again. A report still red at its third revision is not repaired again: the delivery goes on, qualified if it has not been, and ships with every unresolved failure and finding recorded as technical debt; journal that as `debt`, amber. Only missing or stale evidence stops the delivery; journal it as `blocked`, red.
+Have the **Craftsman** execute the `verify-behavior` skill, then `review-implementation` once verification is green, then `ship-spec`. A red journaled evaluation sends its finding-only report to the **Builder** for repair, and verification starts again. A verification still red at its third revision is not repaired again: the delivery goes on, qualified if it has not been, and ships with every unresolved failure and finding recorded as technical debt; journal that as `debt`, amber. Only missing or stale evidence stops the delivery; journal it as `blocked`, red.
 
 The result is one shipped spec, or the reason it could not ship.
