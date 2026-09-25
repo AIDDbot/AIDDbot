@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 - 2026-09-25
+
+- refactor(skills): keep quality review to open issues (cb783a4)
+- refactor(skills): tighten /ship-spec debt cleanup (26ad3b5)
+- refactor(skills): reduce green verification reports (fe9cd3d)
+
 ## 0.1.5 - 2026-09-25
 
 - No new commits.
