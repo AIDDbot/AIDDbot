@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5 - 2026-09-25
+
+- No new commits.
+
 ## 0.1.4 - 2026-09-25
 
 - Include working tree changes.
