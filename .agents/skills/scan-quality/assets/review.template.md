@@ -4,12 +4,6 @@ reviewed_at: {DateTime}
 ---
 # Quality review
 
-## Checks
-
-| Check | Method | Result | Threshold / evidence |
-| --- | --- | --- | --- |
-| {configured check} | {command or configuration inspection} | {pass / fail / not configured / unavailable} | {configured threshold, measured result, evidence, or reason} |
-
 ## Open system-review findings
 
 ### {Dnnnn}
@@ -22,4 +16,4 @@ reviewed_at: {DateTime}
 - Impact: {concrete risk or maintenance cost}
 - Revalidation: {current evidence or unavailable-check reason}
 
-{State that no system-review findings remain when applicable.}
+{Include only unresolved issues with concrete impact. Keep prior issues as not revalidated when their relevant checks are unavailable. Omit passed checks, resolved issues, and checks that do not establish a concrete issue. Leave this section empty when none remain.}
