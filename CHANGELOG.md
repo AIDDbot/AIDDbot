@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.7 - 2026-09-26
+
+- refactor(skills): simplify workflow scripts (c97b29c)
+- refactor(skills): tighten /verify-behavior (0eb5cb0)
+- refactor(skills): tighten /define-spec (cb9c075)
+- refactor(skills): tighten /ship-spec (55219ea)
+
 ## 0.1.6 - 2026-09-25
 
 - refactor(skills): keep quality review to open issues (cb783a4)
