@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8 - 2026-09-26
+
+- refactor(skills): simplify spec snapshots and branching (df3f878)
+
 ## 0.1.7 - 2026-09-26
 
 - refactor(skills): simplify workflow scripts (c97b29c)
