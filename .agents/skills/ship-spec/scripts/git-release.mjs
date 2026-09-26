@@ -45,47 +45,48 @@ function tagForRelease(root, version) {
   return `${prefixes.values().next().value ?? "v"}${version}`;
 }
 
-function main(argv) {
-  const { version, base: requestedBase } = parseArgs(argv);
-  const root = git(SCRIPT_DIR, ["rev-parse", "--show-toplevel"], { quiet: true });
+function resolveTarget(root, requestedBase) {
   const source = git(root, ["branch", "--show-current"], { quiet: true });
   const specMatch = /^(?:feat|fix|refactor|chore)\/(S\d{4})-.+$/.exec(source);
   if (!specMatch) fail(`Current branch is not a spec branch: ${source || "(detached HEAD)"}`);
-
   const branches = git(root, ["branch", "--format=%(refname:short)"], { quiet: true }).split(/\r?\n/);
-  const remoteDefault = git(root, ["symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"], { quiet: true, allowFailure: true });
-  const inferredBase = remoteDefault?.startsWith("origin/") ? remoteDefault.slice("origin/".length)
-    : branches.includes("main") ? "main"
-      : branches.includes("master") ? "master" : null;
-  const base = requestedBase ?? inferredBase;
+  const remote = git(root, ["symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"], { quiet: true, allowFailure: true });
+  const inferred = remote?.startsWith("origin/") ? remote.slice(7) : branches.includes("main") ? "main" : branches.includes("master") ? "master" : null;
+  const base = requestedBase ?? inferred;
   if (!base || !branches.includes(base)) fail(`Could not resolve a local default branch${requestedBase ? ` named ${requestedBase}` : ""}; pass --base <branch>.`);
   if (source === base) fail("The spec branch cannot be the default branch.");
+  return { source, base, specId: specMatch[1] };
+}
 
-  const status = git(root, ["status", "--porcelain"], { quiet: true });
-  if (!status) fail("There are no release changes to commit.");
-  if (git(root, ["diff", "--cached", "--name-only"], { quiet: true })) {
-    fail("The Git index already has staged changes. Unstage them so this script can stage the complete release branch consistently.");
-  }
-
+function checkReleaseState(root, source, version) {
+  if (!git(root, ["status", "--porcelain"], { quiet: true })) fail("There are no release changes to commit.");
+  if (git(root, ["diff", "--cached", "--name-only"], { quiet: true })) fail("The Git index already has staged changes. Unstage them so this script can stage the complete release branch consistently.");
   const tag = tagForRelease(root, version);
-  if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) {
-    fail(`Release tag already exists: ${tag}`);
-  }
+  if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) fail(`Release tag already exists: ${tag}`);
+  return tag;
+}
 
+function commitAndMerge(root, source, base, version) {
   git(root, ["add", "-A"]);
   git(root, ["commit", "-m", `chore(release): ${version}`]);
   git(root, ["switch", base]);
-  try {
-    git(root, ["merge", "--no-ff", "--no-edit", source]);
-  } catch (error) {
+  try { git(root, ["merge", "--no-ff", "--no-edit", source]); }
+  catch (error) {
     git(root, ["merge", "--abort"], { quiet: true, allowFailure: true });
     git(root, ["switch", source], { quiet: true, allowFailure: true });
     throw new Error(`Release commit was created on ${source}, but merge into ${base} failed. The branch was preserved. ${error.message}`);
   }
+}
 
+function main(argv) {
+  const { version, base: requestedBase } = parseArgs(argv);
+  const root = git(SCRIPT_DIR, ["rev-parse", "--show-toplevel"], { quiet: true });
+  const { source, base, specId } = resolveTarget(root, requestedBase);
+  const tag = checkReleaseState(root, source, version);
+  commitAndMerge(root, source, base, version);
   if (tag) git(root, ["tag", "-a", tag, "-m", `Release ${version}`]);
   git(root, ["branch", "-d", source]);
-  process.stdout.write(`Released ${specMatch[1]} ${version} into ${base}${tag ? ` as ${tag}` : ""}; deleted ${source}.\n`);
+  process.stdout.write(`Released ${specId} ${version} into ${base}${tag ? ` as ${tag}` : ""}; deleted ${source}.\n`);
 }
 
 try {
