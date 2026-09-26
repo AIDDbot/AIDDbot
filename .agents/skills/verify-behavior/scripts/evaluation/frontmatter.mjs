@@ -1,8 +1,11 @@
 export function readSpec(text) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(text);
   if (!match) throw new Error("Spec frontmatter is missing.");
-  const fields = Object.fromEntries(["id", "key", "status", "verification_status", "verification_revision"]
-    .map((key) => [key, new RegExp(`^${key}:\\s*([^#\\s]+)`, "m").exec(match[1])?.[1]]));
+  const fields = Object.fromEntries(["id", "key", "status", "updated_at", "last_process"]
+    .map((key) => {
+      const raw = new RegExp(`^${key}:\\s*(.*?)\\s*$`, "m").exec(match[1])?.[1];
+      return [key, raw === "null" ? null : raw?.replace(/^(['"])(.*)\1$/, "$2")];
+    }));
   for (const key of ["id", "key", "status"]) if (!fields[key]) throw new Error(`Spec frontmatter is missing ${key}.`);
   return { fields, frontmatter: match[1], body: text.slice(match[0].length), newline: match[0].includes("\r\n") ? "\r\n" : "\n" };
 }
@@ -12,12 +15,13 @@ export function updateSpec(text, updates) {
   let frontmatter = parsed.frontmatter;
   for (const [key, value] of Object.entries(updates)) {
     const line = new RegExp(`^${key}:.*$`, "m");
+    const scalar = value === null ? "null" : typeof value === "string" ? JSON.stringify(value) : String(value);
     frontmatter = line.test(frontmatter)
-      ? frontmatter.replace(line, `${key}: ${value}`)
-      : `${frontmatter}${parsed.newline}${key}: ${value}`;
+      ? frontmatter.replace(line, `${key}: ${scalar}`)
+      : `${frontmatter}${parsed.newline}${key}: ${scalar}`;
   }
   const result = `---${parsed.newline}${frontmatter}${parsed.newline}---${parsed.newline}${parsed.body}`;
-  return result.replace(/^> last updated:.*$/m, `> last updated: ${updates.verification_at ?? updates.qualification_at}`);
+  return result;
 }
 
 export function updateReport(text, metadata) {

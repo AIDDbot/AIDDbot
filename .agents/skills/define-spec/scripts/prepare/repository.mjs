@@ -24,13 +24,6 @@ export function git(root, args, quiet = false) {
   }
 }
 
-export function defaultBranch(root, branches) {
-  let remote = "";
-  try { remote = git(root, ["symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"], true); } catch { /* Fall through to local names. */ }
-  if (remote.startsWith("origin/")) return remote.slice("origin/".length);
-  return branches.includes("main") ? "main" : branches.includes("master") ? "master" : null;
-}
-
 export function checkRecords(root, options) {
   const product = path.resolve(root, options.product);
   const countersFile = path.join(root, ".aiddbot", "counters.yaml");
@@ -42,12 +35,17 @@ export function checkRecords(root, options) {
   return { product, countersFile };
 }
 
-export function checkBranch(root, base, branch, specDir) {
+export function checkBranch(root, branch, specDir) {
   const branches = git(root, ["branch", "--format=%(refname:short)"], true).split(/\r?\n/);
-  if (!branches.includes(base)) throw new Error(`Unknown base branch: ${base}`);
-  if (git(root, ["branch", "--show-current"], true) !== base) throw new Error(`Switch to the default branch (${base}) before preparing a spec.`);
-  if (git(root, ["status", "--porcelain"], true)) throw new Error("The worktree must be clean before creating a spec branch.");
+  if (!git(root, ["branch", "--show-current"], true)) throw new Error("Cannot prepare a spec from a detached HEAD.");
   const all = git(root, ["branch", "--all", "--format=%(refname:short)"], true).split(/\r?\n/);
   if (branches.includes(branch) || all.some((name) => name.endsWith(`/${branch}`))) throw new Error(`Spec branch already exists: ${branch}`);
   if (fs.existsSync(specDir)) throw new Error(`Spec directory already exists: ${specDir}`);
+}
+
+export function commitPendingChanges(root) {
+  if (!git(root, ["status", "--porcelain", "--untracked-files=all"], true)) return false;
+  git(root, ["add", "-A"]);
+  git(root, ["commit", "-m", "chore: checkpoint before spec"]);
+  return true;
 }

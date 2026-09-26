@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "./args.mjs";
-import { checkBranch, checkRecords, defaultBranch, findRoot, git } from "./repository.mjs";
+import { checkBranch, checkRecords, commitPendingChanges, findRoot, git } from "./repository.mjs";
 import { makeId, parseCounters, reserveCounters, writeCounters, writeSpec } from "./records.mjs";
 
 function identityFor(options, counters) {
@@ -29,11 +29,9 @@ export function prepareSpec(argv) {
   const currentCountersText = fs.readFileSync(records.countersFile, "utf8");
   const counters = parseCounters(currentCountersText);
   const identity = identityFor(options, counters);
-  const branches = git(root, ["branch", "--format=%(refname:short)"], true).split(/\r?\n/);
-  const base = options.base ?? defaultBranch(root, branches);
-  if (!base) throw new Error("Could not resolve local default branch; pass --base <branch>.");
   const specDir = path.join(records.product, "specs", identity.key);
-  checkBranch(root, base, identity.branch, specDir);
+  checkBranch(root, identity.branch, specDir);
+  commitPendingChanges(root);
   git(root, ["switch", "-c", identity.branch]);
   const updatedCounters = reserveCounters(currentCountersText, counters, options, identity.number);
   writeCounters(records.countersFile, updatedCounters);

@@ -5,14 +5,8 @@ key: S0001-{slug}
 type: feat # feat, fix, refactor, chore
 branch: feat/S0001-{slug}
 status: draft # draft, in-progress, verified, qualified, shipped
-verification_status: pending
-verification_revision: 0
-verification_at: -
-verification_commit: -
-qualification_status: pending
-qualification_revision: 0
-qualification_at: -
-qualification_commit: -
+updated_at: "{DateTime}"
+last_process: define
 ---
 # S0001-{slug} — {title}
 
@@ -67,7 +61,3 @@ Requirements refer to the [PRD](../PRD.md). Include only applicable rows.
 ## Technical debt
 
 {List source D IDs when this spec repairs recorded technical debt. Omit this section otherwise.}
-
----
-
-> last updated: {DateTime}

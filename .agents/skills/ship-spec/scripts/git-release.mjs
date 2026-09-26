@@ -60,7 +60,6 @@ function resolveTarget(root, requestedBase) {
 
 function checkReleaseState(root, source, version) {
   if (!git(root, ["status", "--porcelain"], { quiet: true })) fail("There are no release changes to commit.");
-  if (git(root, ["diff", "--cached", "--name-only"], { quiet: true })) fail("The Git index already has staged changes. Unstage them so this script can stage the complete release branch consistently.");
   const tag = tagForRelease(root, version);
   if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) fail(`Release tag already exists: ${tag}`);
   return tag;

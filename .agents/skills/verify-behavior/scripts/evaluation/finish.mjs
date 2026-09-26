@@ -74,13 +74,10 @@ function nextState(kind, status, events) {
 }
 
 function persist(root, spec, kind, input, evaluation, report) {
-  const key = kind;
   const updates = {
     status: nextState(kind, input.status, evaluation.events),
-    [`${key}_status`]: input.status,
-    [`${key}_revision`]: evaluation.revision,
-    [`${key}_at`]: evaluation.time,
-    [`${key}_commit`]: evaluation.commit,
+    updated_at: evaluation.time,
+    last_process: kind === "verification" ? "verify" : "qualify",
   };
   if (input.status === "green") fs.rmSync(path.join(spec.dir, REPORTS[kind]), { force: true });
   else fs.writeFileSync(path.join(spec.dir, REPORTS[kind]), report, "utf8");

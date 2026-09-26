@@ -17,8 +17,8 @@ function main(argv) {
   const verification = latest(events, "verify");
   const qualification = latest(events, "qualify");
   const result = evaluateEvidence(root, spec, verification, qualification,
-    reportEvidence(spec.dir, "verify", verification, spec.signatures.verification),
-    reportEvidence(spec.dir, "qualify", qualification, spec.signatures.qualification));
+    reportEvidence(spec.dir, "verify", verification),
+    reportEvidence(spec.dir, "qualify", qualification));
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   process.exitCode = result.eligible ? 0 : 1;
 }

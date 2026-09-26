@@ -1,5 +1,5 @@
 const TYPES = new Set(["feat", "fix", "refactor", "chore"]);
-const FLAGS = { "--functional": "functional", "--technical": "technical", "--product": "product", "--base": "base" };
+const FLAGS = { "--functional": "functional", "--technical": "technical", "--product": "product" };
 
 export function parseArgs(argv) {
   if (argv.length < 3) throw new Error("Provide the spec type, slug, and title.");
@@ -11,7 +11,7 @@ export function parseArgs(argv) {
 }
 
 function parseFlags(args) {
-  const options = { functional: 0, technical: 0, product: ".product", base: null };
+  const options = { functional: 0, technical: 0, product: ".product" };
   const seen = new Set();
   for (let index = 0; index < args.length; index += 2) assignFlag(args, index, options, seen);
   return options;
