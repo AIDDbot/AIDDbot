@@ -46,7 +46,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delivery documents
 
-- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md` and any non-green `verification.md` or `qualification.md` reports. Green evaluation status and revision live in the process journal. `specs/PRD.md` lists current requirements.
+- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md` and only non-green `verification.md` or `qualification.md` reports. The process journal is the evaluation history; spec frontmatter mirrors the latest verification and qualification status, revision, time, and commit. `specs/PRD.md` lists current requirements.
 - **Counters** — `.aiddbot/counters.yaml` stores the last reserved S, F, T, and D numbers.
 - **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are the local, untracked, append-only logs of process events by date.
 - **Quality** — `{Product_Folder}/quality/TDR.md` indexes open technical debt. `{Product_Folder}/quality/review.md` records detailed system-review evidence.

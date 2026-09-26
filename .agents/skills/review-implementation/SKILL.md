@@ -9,9 +9,9 @@ user-invocable: true
 
 Your goal is to qualify one spec's implementation as an adversarial reviewer and record any findings.
 
-Read the spec, its complete diff, the affected project rules, and the affected schema documents under `{Product_Folder}/model/`, then judge them against `qualify.gates.md`. Judge by reading: never run lint, tests, or other tools, and never edit code.
+Read the spec, its complete diff, the affected project rules, and the affected schema documents under `{Product_Folder}/model/`, then judge them against `qualify.gates.md`. Judge by reading; never run lint, tests, or quality tools, and never edit code.
 
-Increment the evaluation revision once per run, using the latest journaled revision when resuming. Journal every evaluation with its status and revision. When there are no findings, remove any existing `{Product_Folder}/specs/{spec_key}/qualification.md` and write no report. For `amber` or `red`, write that file from `assets/qualification.template.md` with only failed controls and findings; omit passed controls and general review notes.
+For `amber` or `red`, write `{Product_Folder}/specs/{spec_key}/qualification.md` from `assets/qualification.template.md` with only failed controls and findings; omit passed controls and general review notes. Then run `scripts/finalize.mjs <spec-directory> <status> "<summary>"`. The finalizer requires green verification or red verification at revision 3 or later, selects the next qualification revision, synchronizes report metadata, records the latest qualification status, revision, time, and commit in the spec frontmatter, removes any report on `green`, updates the spec state, and journals the evaluation. Do not increment revisions or journal this evaluation separately.
 
 The result is a journaled green evaluation or a finding-only qualification report.
 

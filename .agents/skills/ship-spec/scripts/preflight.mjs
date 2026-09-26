@@ -35,10 +35,31 @@ function readSpec(root, input) {
   const specFile = fs.statSync(specDir).isDirectory() ? path.join(specDir, "spec.md") : specDir;
   if (!fs.existsSync(specFile)) fail(`Spec file not found: ${specFile}`);
   const content = fs.readFileSync(specFile, "utf8");
-  const id = /^id:\s*(S\d{4})\s*$/m.exec(content)?.[1]
+  const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(content)?.[1] ?? "";
+  const id = /^id:\s*(S\d{4})\s*$/m.exec(frontmatter)?.[1]
     ?? /\b(S\d{4})\b/.exec(path.basename(path.dirname(specFile)))?.[1];
   if (!id) fail(`Could not determine spec ID from ${specFile}`);
-  return { id, dir: path.dirname(specFile), file: specFile };
+  const signatures = {};
+  for (const kind of ["verification", "qualification"]) {
+    const status = new RegExp(`^${kind}_status:\\s*(pending|green|amber|red)\\s*$`, "m").exec(frontmatter)?.[1];
+    const revision = new RegExp(`^${kind}_revision:\\s*(\\d+)\\s*$`, "m").exec(frontmatter)?.[1];
+    const at = new RegExp(`^${kind}_at:\\s*(.+?)\\s*$`, "m").exec(frontmatter)?.[1];
+    const commit = new RegExp(`^${kind}_commit:\\s*(.+?)\\s*$`, "m").exec(frontmatter)?.[1];
+    const present = [status, revision, at, commit].filter((value) => value !== undefined).length;
+    signatures[kind] = present === 0 ? null : present === 4 ? { status, revision, at, commit } : { invalid: true };
+  }
+  return { id, dir: path.dirname(specFile), file: specFile, signatures };
+}
+
+function signatureMatches(evaluation, signature) {
+  if (!signature) return { ok: true, reason: "legacy spec without evaluation signature" };
+  if (signature.invalid) return { ok: false, reason: "spec frontmatter evaluation signature is incomplete" };
+  if (signature.status !== evaluation.status || signature.revision !== evaluation.revision) {
+    return { ok: false, reason: `spec signature (${signature.status}/${signature.revision}) does not match journal (${evaluation.status}/${evaluation.revision})` };
+  }
+  if (Number.isNaN(new Date(signature.at).getTime())) return { ok: false, reason: "spec signature has an invalid evaluation timestamp" };
+  if (!/^[\da-f]{40,64}$/i.test(signature.commit)) return { ok: false, reason: "spec signature has no valid evaluated commit" };
+  return { ok: true, reason: "spec signature matches journal" };
 }
 
 function journalFiles(root) {
@@ -57,10 +78,11 @@ function readJournalEvents(root, specId) {
     const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
     for (const line of lines) {
       if (!line || line.startsWith("#")) continue;
+      const rawStatus = line.slice(9, 15).trim().toLowerCase();
       const event = {
         date,
         time: line.slice(0, 8).trim(),
-        status: line.slice(9, 15).trim().toLowerCase(),
+        status: ({ info: "green", warn: "amber", error: "red" })[rawStatus] ?? rawStatus,
         spec: line.slice(23, 29).trim(),
         stage: line.slice(30, 38).trim(),
         name: line.slice(39, 47).trim().toLowerCase(),
@@ -82,7 +104,7 @@ function latest(events, stage) {
   return events.filter((event) => event.stage === stage).at(-1) ?? null;
 }
 
-function reportEvidence(specDir, kind, evaluation) {
+function reportEvidence(specDir, kind, evaluation, signature) {
   const file = path.join(specDir, `${kind === "verify" ? "verification" : "qualification"}.md`);
   if (!evaluation) return { ok: false, file, reason: `No journaled ${kind} evaluation` };
   if (evaluation.status === "green") {
@@ -98,6 +120,12 @@ function reportEvidence(specDir, kind, evaluation) {
   if (reportId !== evaluation.spec || status !== evaluation.status || revision !== evaluation.revision) {
     return { ok: false, file, reason: `Report metadata (${reportId ?? "missing"}/${status ?? "missing"}/${revision ?? "missing"}) does not match journal (${evaluation.spec}/${evaluation.status}/${evaluation.revision})` };
   }
+  if (signature && !signature.invalid && signature.status !== "pending") {
+    const evaluatedCommit = /^evaluated_commit:\s*([\da-f]{40,64})\s*$/mi.exec(report)?.[1];
+    if (evaluatedCommit !== signature.commit) return { ok: false, file, reason: "Report evaluated_commit does not match the spec signature" };
+    const updatedAt = /^updated_at:\s*(.+?)\s*$/mi.exec(report)?.[1];
+    if (updatedAt !== signature.at) return { ok: false, file, reason: "Report updated_at does not match the spec signature" };
+  }
   return { ok: true, file, reason: `report matches ${evaluation.status} revision ${evaluation.revision}` };
 }
 
@@ -109,8 +137,12 @@ function main(argv) {
   const events = readJournalEvents(root, spec.id);
   const verification = latest(events, "verify");
   const qualification = latest(events, "qualify");
-  const verificationEvidence = reportEvidence(spec.dir, "verify", verification);
-  const qualificationEvidence = reportEvidence(spec.dir, "qualify", qualification);
+  const verificationSignature = verification ? signatureMatches(verification, spec.signatures.verification) : { ok: true, reason: "no evaluation yet" };
+  const qualificationSignature = qualification ? signatureMatches(qualification, spec.signatures.qualification) : { ok: true, reason: "no evaluation yet" };
+  const verificationReport = reportEvidence(spec.dir, "verify", verification, spec.signatures.verification);
+  const qualificationReport = reportEvidence(spec.dir, "qualify", qualification, spec.signatures.qualification);
+  const verificationEvidence = verificationSignature.ok ? verificationReport : { ok: false, file: verificationReport.file, reason: verificationSignature.reason };
+  const qualificationEvidence = qualificationSignature.ok ? qualificationReport : { ok: false, file: qualificationReport.file, reason: qualificationSignature.reason };
   const reportsValid = verificationEvidence.ok && qualificationEvidence.ok;
   const eligible = reportsValid && (
     verification.status === "green" && ["green", "amber"].includes(qualification.status)
@@ -121,6 +153,7 @@ function main(argv) {
     specFile: path.relative(root, spec.file),
     verification: verification && { status: verification.status, revision: Number(verification.revision), date: verification.date, time: verification.time },
     qualification: qualification && { status: qualification.status, revision: Number(qualification.revision), date: qualification.date, time: qualification.time },
+    signature: { verification: spec.signatures.verification, qualification: spec.signatures.qualification },
     evidence: { verification: verificationEvidence, qualification: qualificationEvidence },
     eligible,
     blockers: [
