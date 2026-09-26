@@ -17,4 +17,4 @@ Leave every project's own files untouched — its `package.json`, `.env.example`
 
 Install each project's dependencies by following its own documentation, then journal each project's install result or failure. Do not run lint, format, tests, or any other command: a fresh scaffold is proven by installing cleanly, not by passing checks that `implement-project` and `craft-lasting-quality` own.
 
-Commit the scaffold on `chore/scaffold` as `chore(scaffold): add {projects}`, including only this task's changes. Once every selected project is created and installed, merge `chore/scaffold` into the default branch and delete it. If scaffolding is incomplete, report the blocker without merging.
+Once every selected project is created and installed, run `node .agents/skills/scaffold-system/scripts/git-integrate.mjs "chore(scaffold): add {projects}"` from `chore/scaffold`. The script commits remaining scaffold changes, merges the branch into the default branch, and deletes it after a successful merge. If scaffolding is incomplete, report the blocker without running the script.
