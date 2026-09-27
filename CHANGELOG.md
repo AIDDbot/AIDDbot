@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.14 - 2026-09-27
+
+- No new commits.
+
 ## 0.1.13 - 2026-09-27
 
 - docs: mention .aiddbot/config.json in getting-started and the catalog (d0a5ada)
