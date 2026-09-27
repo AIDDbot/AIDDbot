@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.12 - 2026-09-27
+
+- refactor(skills): run classified commands through aidd run (3.3) (24f791b)
+- feat(core): add aidd run for classified project commands (3.2) (8efde14)
+- refactor(skills): tighten /rule-project for command classification (3.1) (d107f15)
+
 ## 0.1.11 - 2026-09-27
 
 - refactor(skills): journal only verdict, select, blocked, and escalate (2.4) (32891cc)
