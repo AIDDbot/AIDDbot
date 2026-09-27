@@ -53,7 +53,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   - la constante `.product/`.
   Entra en el overlay.
   *Hecho cuando:* `aidd --help` lista los grupos y ninguna pieza de `lib/` duplica a otra.
-- [ ] **1.2 `config.json`**: esquema (`projects: { name: { path, commands } }`), siembra desde `bin/lib/seed.js` y `aidd config get|set` con validación.
+- [x] **1.2 `config.json`**: esquema (`projects: { name: { path, commands } }`), siembra desde `bin/lib/seed.js` y `aidd config get|set` con validación.
   *Hecho cuando:* `init` crea un `config.json` válido y `aidd config set` rechaza claves desconocidas.
 - [ ] **1.3 Migrar sin cambiar el comportamiento**, un subcomando por script:
   - `aidd spec new` ← `prepare.mjs`

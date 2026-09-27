@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { CONFIG_FILE, EMPTY_CONFIG, configText } from "../../.agents/aidd/lib/config.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.join(here, "..", "..");
@@ -77,6 +78,7 @@ const SEEDS = {
   ".aiddbot/counters.yaml": "spec: 0\nfunctional: 0\ntechnical: 0\ndebt: 0\n",
   ".product/specs/PRD.md": "# Product requirements\n",
   ".product/quality/TDR.md": "# Technical debt register\n",
+  [CONFIG_FILE]: configText(EMPTY_CONFIG),
 };
 
 /** Create `rel` from its seed only when nothing already occupies that name; never overwrite a human's own file. */
@@ -164,6 +166,11 @@ function ensureCounters(destRoot, dryRun) {
   return ensureFromSeed(destRoot, dryRun, ".aiddbot/counters.yaml");
 }
 
+// The core owns the configuration schema; init only seeds its empty form (D6).
+function ensureConfig(destRoot, dryRun) {
+  return ensureFromSeed(destRoot, dryRun, CONFIG_FILE);
+}
+
 // {Product_Folder} defaults to .product/, matching AGENTS.template.md; outline-system
 // may relocate it later, in which case these two files travel with it.
 function ensureProductRecords(destRoot, dryRun) {
@@ -211,6 +218,8 @@ function ensureSeedFiles(destRoot, dryRun, title) {
   written.push(...ensureAgentSeed(destRoot, dryRun));
   const counters = ensureCounters(destRoot, dryRun);
   if (counters) written.push(counters);
+  const config = ensureConfig(destRoot, dryRun);
+  if (config) written.push(config);
   written.push(...ensureProductRecords(destRoot, dryRun));
   return written;
 }
