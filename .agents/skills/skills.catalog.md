@@ -8,13 +8,13 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | --- | --- |
 | `specs/PRD.md` | Current requirements |
 | `quality/TDR.md` | Open technical debt |
-| `specs/S{nnnn}-{slug}/` | One delivery and its evidence |
+| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md`, its core-written `control.json`, and non-green reports |
 | `.aiddbot/counters.yaml` | Permanent S, F, T, and D IDs, tracked in Git |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Human-readable append-only process events by local date, always at the repository root, ignored by Git |
 
 `aiddbot init` creates every record above; no skill creates them.
 
-Evaluation reports are finding-only: a green verification or qualification has no report file. Spec frontmatter stores only general status, last-change time, and last process; evaluation revisions remain in the process journal for the revision gate.
+Evaluation reports are finding-only: a green verification or qualification has no report file. Each spec's `control.json` holds its process state and is written only by the core (`aidd spec show` summarizes it); evaluation revisions remain in the process journal for the revision gate.
 
 `record-journal` owns journal rendering. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, because `aidd log` (`.agents/aidd/`) resolves that root regardless of the calling agent's working directory; it is the single source for the journal's format. Journals are kept out of Git by the root `.gitignore` policy.
 

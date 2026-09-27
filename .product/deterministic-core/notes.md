@@ -28,3 +28,11 @@ D6 hace de `.product/` una constante del núcleo: `aidd spec new` y `aidd spec c
 ## ℹ️ Nota — 1.3 · Fallo previo en la lectura de evaluaciones
 
 Al probar la migración apareció un fallo que ya tenían los scripts antiguos: el escritor del journal trunca el evento `evaluated` a 8 caracteres (`evaluate`), y los dos lectores (`finalize.mjs` y `preflight.mjs`) comparaban con `evaluated`, así que nunca encontraban una evaluación: la cualificación siempre fallaba con "no journaled verification evidence" y la puerta de entrega nunca era elegible. El lector único de `lib/journal.mjs` compara ahora con la forma truncada. No cambia el formato; la fase 2 retira el lector entero.
+
+## 🟡 P5 — 2.1 · Transiciones legales hacia `shipped`
+
+D8 fija la cadena `draft → in-progress → verified → qualified → shipped`, pero la puerta de entrega vigente también deja entregar con verificación roja en la revisión 3+ y una cualificación completada de cualquier color; en ese camino la spec está en `in-progress` o `verified`, nunca en `qualified`. Para no cambiar el comportamiento, `lib/control.mjs` admite `shipped` desde `in-progress`, `verified` y `qualified`, y deja que `aidd eval gate` decida. Rechaza: cualquier salida de `shipped`, cualquier salto desde `draft` que no sea la aprobación y aprobar algo que no esté en `draft`. Si D8 quiere `shipped` solo desde `qualified`, hay que decidir qué estado deja la vía de la revisión 3 (encaja con 4.0, al confirmar D8).
+
+## 🟡 P6 — 2.1 · Quién pone y quita `blocked`
+
+D2 y D8 ponen en `control.json` un campo `blocked` con motivo que "se limpia al reanudar", pero ni el plan de la fase 2 ni ninguna decisión nombran el comando que lo escribe ni qué es "reanudar". El esquema ya tiene `blocked: null` y `aidd release` lo limpia al entregar; no añadí `aidd spec block|resume` ni hice que `aidd log blocked` escriba estado (el journal no debe decidir nada, D3). Propuesta: `aidd spec block <spec> <motivo>` y `aidd spec resume <spec>`, que además anoten `blocked` en el journal, decididos en 4.0 junto con `escalate`.

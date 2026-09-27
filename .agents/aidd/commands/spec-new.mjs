@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
+import { createControl, writeControl } from "../lib/control.mjs";
 import { countersFile, makeId, parseCounters, setCounters, writeCounters } from "../lib/counters.mjs";
 import { currentBranch, git, isClean, localBranches } from "../lib/git.mjs";
 import { productPath, relative } from "../lib/paths.mjs";
@@ -36,7 +37,6 @@ function checkBranch(root, branch, specDir) {
 function writeSpec(file, spec, identity) {
   const content = fs.readFileSync(TEMPLATE, "utf8").replaceAll("S0001", identity.id).replaceAll("{slug}", spec.slug)
     .replaceAll("{title}", spec.title).replace(/^type: feat/m, `type: ${spec.type}`)
-    .replaceAll("{DateTime}", new Date().toISOString());
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content, "utf8");
 }
@@ -58,9 +58,10 @@ export default function specNew(argv) {
   writeCounters(root, setCounters(countersText, { spec: number, functional: counters.functional + spec.functional, technical: counters.technical + spec.technical }));
   const file = path.join(dir, "spec.md");
   writeSpec(file, spec, { id });
+  writeControl(dir, createControl({ id, key, type: spec.type, branch }));
   const ids = (kind, start, count) => Array.from({ length: count }, (_, index) => makeId(kind, start + index + 1));
   return {
-    branch, spec: id, file: relative(root, file),
+    branch, spec: id, file: relative(root, file), control: relative(root, path.join(dir, "control.json")),
     functional: ids("F", counters.functional, spec.functional),
     technical: ids("T", counters.technical, spec.technical), status: "draft",
   };

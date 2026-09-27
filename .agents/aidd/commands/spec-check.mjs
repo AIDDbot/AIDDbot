@@ -1,17 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, RuleError } from "../lib/cli.mjs";
+import { readControl } from "../lib/control.mjs";
 import { countersFile, parseCounters } from "../lib/counters.mjs";
 import { currentBranch, defaultBranch, git } from "../lib/git.mjs";
 import { productPath, relative } from "../lib/paths.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { readSpecFields, resolveSpecDir, SPEC_TYPES } from "../lib/spec.mjs";
 
-function checkIdentity(spec, branch) {
+function checkIdentity(spec, branch, control) {
   const identity = /^(S\d{4})-([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(spec.key);
   if (!identity || spec.id !== identity[1] || spec.slug !== identity[2]) throw new RuleError("Spec id, slug, and key do not agree.");
   if (!SPEC_TYPES.includes(spec.type) || spec.branch !== `${spec.type}/${spec.key}`) throw new RuleError("Spec type, branch, and key do not agree.");
-  if (!["draft", "in-progress"].includes(spec.status)) throw new RuleError(`Unexpected pre-approval spec status: ${spec.status}`);
+  if (control.id !== spec.id || control.branch !== spec.branch) throw new RuleError("Spec frontmatter does not match control.json.");
+  if (!["draft", "in-progress"].includes(control.status)) throw new RuleError(`Unexpected pre-approval spec status: ${control.status}`);
   if (branch !== spec.branch) throw new RuleError(`Current branch ${branch} does not match spec branch ${spec.branch}.`);
 }
 
@@ -63,14 +65,14 @@ function checkRequirements(current, previous, rows, counters, baseCounters) {
 export default function specCheck(argv) {
   const args = parseArgs(argv, { positional: ["specDir"], flags: { base: "string" } });
   const root = findRoot();
-  const { file: specFile } = resolveSpecDir(root, args.specDir);
+  const { dir: specDir, file: specFile } = resolveSpecDir(root, args.specDir);
   const prdFile = productPath(root, "specs", "PRD.md");
   const counterFile = countersFile(root);
   for (const file of [prdFile, counterFile]) if (!fs.existsSync(file)) throw new RuleError(`Required file is missing: ${relative(root, file)}`);
   const base = defaultBranch(root, args.base ?? null);
   const text = fs.readFileSync(specFile, "utf8");
-  const spec = readSpecFields(specFile, ["id", "slug", "key", "type", "branch", "status"]);
-  checkIdentity(spec, currentBranch(root));
+  const spec = readSpecFields(specFile, ["id", "slug", "key", "type", "branch"]);
+  checkIdentity(spec, currentBranch(root), readControl(specDir));
   const countersBase = parseCounters(git(root, ["show", `${base}:.aiddbot/counters.yaml`], { quiet: true }));
   const countersNow = parseCounters(fs.readFileSync(counterFile, "utf8"));
   const number = Number(spec.id.slice(1));

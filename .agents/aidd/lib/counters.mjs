@@ -1,5 +1,5 @@
 // `.aiddbot/counters.yaml`: the single source of record IDs (D9).
-import fs from "node:fs";
+import { writeAtomic } from "./files.mjs";
 import { aiddbotPath } from "./paths.mjs";
 
 export const COUNTER_KEYS = ["spec", "functional", "technical", "debt"];
@@ -22,10 +22,7 @@ export function setCounters(text, values) {
 }
 
 export function writeCounters(root, text) {
-  const file = countersFile(root);
-  const temporary = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(temporary, text, "utf8");
-  fs.renameSync(temporary, file);
+  writeAtomic(countersFile(root), text);
 }
 
 export function makeId(kind, number) {

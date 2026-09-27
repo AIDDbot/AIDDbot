@@ -69,7 +69,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 
 ## Fase 2 · Control de spec y journal (D2, D3, D5, D8)
 
-- [ ] **2.1 `control.json`**:
+- [x] **2.1 `control.json`**:
   - esquema y escritura atómica;
   - `aidd spec new` lo crea y `aidd spec approve` hace la transición a `in-progress`;
   - `aidd spec show` lo resume para humanos;

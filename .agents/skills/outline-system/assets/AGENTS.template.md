@@ -46,12 +46,12 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delivery documents
 
-- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md` and only non-green `verification.md` or `qualification.md` reports. Spec frontmatter contains the general status, last-change time, and last process only. `specs/PRD.md` lists current requirements.
+- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, its `control.json`, and only non-green `verification.md` or `qualification.md` reports. `control.json` holds the spec state and evaluations; only `node .agents/aidd/aidd.mjs` writes it, and `aidd spec show` summarizes it. `specs/PRD.md` lists current requirements.
 - **Counters** — `.aiddbot/counters.yaml` stores the last reserved S, F, T, and D numbers.
 - **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are the local, untracked, append-only logs of process events by date.
 - **Quality** — `{Product_Folder}/quality/TDR.md` indexes open technical debt. `{Product_Folder}/quality/review.md` records detailed system-review evidence.
 - **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
-- **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`.
+- **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`, changed only by the core, which rejects illegal transitions.
 
 ## Git
 

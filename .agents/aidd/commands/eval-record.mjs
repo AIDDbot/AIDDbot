@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
+import { readControl, transition, writeControl } from "../lib/control.mjs";
 import { requireFields, write } from "../lib/frontmatter.mjs";
 import { git } from "../lib/git.mjs";
 import { appendEvent, latest, readEvaluations } from "../lib/journal.mjs";
@@ -24,10 +25,11 @@ function input(argv) {
 
 function loadSpec(root, specDir) {
   const { dir, file } = resolveSpecDir(root, specDir);
-  const fields = requireFields(fs.readFileSync(file, "utf8"), ["id", "key", "status"], "Spec");
+  const fields = requireFields(fs.readFileSync(file, "utf8"), ["id", "key"], "Spec");
+  const control = readControl(dir);
   if (fields.key !== `${fields.id}-${path.basename(dir).slice(6)}`) throw new RuleError("Spec frontmatter does not match its directory.");
-  if (["draft", "shipped"].includes(fields.status)) throw new RuleError(`Cannot evaluate a spec in ${fields.status} state.`);
-  return { dir, file, id: fields.id, key: fields.key };
+  if (["draft", "shipped"].includes(control.status)) throw new RuleError(`Cannot evaluate a spec in ${control.status} state.`);
+  return { dir, file, id: fields.id, key: fields.key, control };
 }
 
 /** Qualification needs green verification, or red verification at revision 3+ with its current report. */
@@ -72,8 +74,7 @@ export default function evalRecord(argv) {
     report = write(report, { spec: spec.id, status, revision, evaluated_commit: commit, updated_at: time }, { raw: true, strict: true, label: "Finding report" });
     fs.writeFileSync(reportFile, report, "utf8");
   }
-  const updates = { status: nextState(kind, status, events), updated_at: time, last_process: STAGES[kind] };
-  fs.writeFileSync(spec.file, write(fs.readFileSync(spec.file, "utf8"), updates, { label: "Spec" }), "utf8");
+  writeControl(spec.dir, transition(spec.control, nextState(kind, status, events)));
   appendEvent(root, { skill: SKILLS[kind], event: "evaluated", status, summary, agent: "Direct", spec: spec.id, revision: String(revision) });
   return { spec: spec.id, kind, status, revision, evaluated_at: time, evaluated_commit: commit };
 }

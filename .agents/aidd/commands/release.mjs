@@ -1,6 +1,8 @@
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { currentBranch, defaultBranch, git, isClean, mergeInto, SPEC_BRANCH } from "../lib/git.mjs";
+import { readControl, transition, writeControl } from "../lib/control.mjs";
 import { findRoot } from "../lib/root.mjs";
+import { resolveSpecDir } from "../lib/spec.mjs";
 
 const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 
@@ -26,6 +28,11 @@ export default function release(argv) {
   if (isClean(root)) throw new RuleError("There are no release changes to commit.");
   const tag = tagFor(root, version);
   if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) throw new RuleError(`Release tag already exists: ${tag}`);
+  const { dir } = resolveSpecDir(root, spec);
+  const control = transition(readControl(dir), "shipped");
+  control.blocked = null;
+  control.shipped = { version, at: new Date().toISOString() };
+  writeControl(dir, control);
   git(root, ["add", "-A"]);
   git(root, ["commit", "-m", `chore(release): ${version}`]);
   mergeInto(root, source, base, "Release commit");

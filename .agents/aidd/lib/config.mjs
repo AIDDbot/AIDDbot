@@ -2,6 +2,7 @@
 // Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] } } } }
 import fs from "node:fs";
 import path from "node:path";
+import { writeAtomic } from "./files.mjs";
 import { AIDDBOT } from "./paths.mjs";
 
 export const CONFIG_FILE = `${AIDDBOT}/config.json`;
@@ -60,8 +61,5 @@ export function readConfig(root) {
 
 export function writeConfig(root, config) {
   validateConfig(config);
-  const file = path.join(root, ...CONFIG_FILE.split("/"));
-  const temporary = `${file}.${process.pid}.tmp`;
-  fs.writeFileSync(temporary, configText(config), "utf8");
-  fs.renameSync(temporary, file);
+  writeAtomic(path.join(root, ...CONFIG_FILE.split("/")), configText(config));
 }
