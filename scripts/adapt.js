@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 // Deterministic harness-adapter generator. Agent prompts live in `.agents/`;
 // `.aiddbot/agents.yaml` owns their metadata, harness settings, and destinations.
-// This script renders managed adapters and wires the shared audit hook into
-// harness hook configs. Run with --check to compare without writing.
+// This script renders managed adapters. Run with --check to compare without writing.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,8 +11,6 @@ const check = process.argv.includes("--check");
 const MARKER_TEXT = "managed by /adapt";
 const markerMd = (source) => `<!-- managed by /adapt — do not edit here, edit ${source} instead -->`;
 const markerToml = (source) => `# managed by /adapt — do not edit here, edit ${source} instead`;
-const HOOK_EVENTS = ["SessionStart", "SessionEnd", "SubagentStart", "SubagentStop", "UserPromptSubmit", "Stop"];
-
 const report = { created: [], updated: [], unchanged: [], deleted: [], collisions: [], skippedSources: [] };
 const rel = (file) => path.relative(root, file).split(path.sep).join("/");
 
@@ -251,76 +248,6 @@ function syncAgents(agents, matrix) {
   }
   for (const [directory, desired] of desiredByDirectory) syncFlatDir(directory, desired);
 }
-// ---------- audit hook ----------
-
-const CODEX_HOOKS_DESCRIPTION = "managed by /adapt — do not edit here, edit .agents/hooks/index.mjs instead";
-
-function renderCodexHooks() {
-  const events = HOOK_EVENTS.map((event) => `    "${event}": [{ "matcher": "*", "hooks": [{ "type": "command", "command": "node .agents/hooks/index.mjs ingest codex ${event}" }] }]`).join(",\n");
-  return `{\n  "description": "${CODEX_HOOKS_DESCRIPTION}",\n  "hooks": {\n${events}\n  }\n}\n`;
-}
-
-function syncCodexHooks(hookExists) {
-  const file = path.join(root, ".codex", "hooks.json");
-  const current = read(file);
-  const currentlyOwned = current !== null && (() => { try { return JSON.parse(current).description === CODEX_HOOKS_DESCRIPTION; } catch { return false; } })();
-  if (current !== null && !currentlyOwned) { report.collisions.push(rel(file)); return; }
-  if (!hookExists) { if (current !== null) deleteIfStale(file); return; }
-  reconcile(file, renderCodexHooks());
-}
-
-function isOwnedClaudeHandler(handler, event) {
-  return handler?.type === "command" && handler?.command === "node" && Array.isArray(handler?.args)
-    && handler.args[0] === "${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs" && handler.args[1] === "ingest" && handler.args[2] === "claude-code" && handler.args[3] === event;
-}
-
-function ownedClaudeArgs(event) {
-  return ["${CLAUDE_PROJECT_DIR}/.agents/hooks/index.mjs", "ingest", "claude-code", event];
-}
-
-function syncClaudeSettings(hookExists) {
-  const file = path.join(root, ".claude", "settings.json");
-  const current = read(file);
-  let settings;
-  try { settings = current === null ? {} : JSON.parse(current); }
-  catch { report.collisions.push(rel(file)); return; }
-  if (typeof settings.hooks !== "object" || settings.hooks === null || Array.isArray(settings.hooks)) {
-    if (current !== null && settings.hooks !== undefined) { report.collisions.push(rel(file)); return; }
-    settings.hooks = {};
-  }
-  for (const event of HOOK_EVENTS) {
-    const groups = Array.isArray(settings.hooks[event]) ? settings.hooks[event] : [];
-    const matcherless = groups.filter((group) => group && group.matcher === undefined && Array.isArray(group.hooks));
-    const others = groups.filter((group) => !matcherless.includes(group));
-    for (const group of matcherless) group.hooks = group.hooks.filter((handler) => !isOwnedClaudeHandler(handler, event));
-    const target = hookExists ? (matcherless.find((group) => group.hooks.length === 0) ?? matcherless[0] ?? { hooks: [] }) : null;
-    if (hookExists) {
-      if (!matcherless.includes(target)) matcherless.push(target);
-      target.hooks.push({ type: "command", command: "node", args: ownedClaudeArgs(event) });
-    }
-    const kept = matcherless.filter((group) => group.hooks.length > 0);
-    settings.hooks[event] = [...others, ...kept];
-    if (settings.hooks[event].length === 0) delete settings.hooks[event];
-  }
-  // Ownership here is structural (the specific handler shape), never a
-  // marker: JSON cannot carry the "managed by /adapt" comment, and this file
-  // is explicitly a shared settings file, not an owned adapter (see the
-  // source contract). Write straight through instead of going via
-  // reconcile()'s marker-collision gate, which would misfire on every file
-  // that isn't byte-identical yet.
-  const rendered = `${JSON.stringify(settings, null, 2)}\n`;
-  if (current === rendered) { report.unchanged.push(rel(file)); return; }
-  const action = current === null ? "created" : "updated";
-  if (!check) { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, rendered, "utf8"); }
-  report[action].push(rel(file));
-}
-
-function checkThirdPartyHook(file, harness) {
-  const current = read(path.join(root, ...file.split("/")));
-  const wired = current !== null && current.includes(`index.mjs ingest ${harness}`);
-  report.skippedSources.push(`${file}: ${current === null ? "absent, not synthesized" : wired ? "wired to the shared audit source" : "present but not wired to .agents/hooks/index.mjs"}`);
-}
-
 // ---------- run ----------
 
 const skills = loadSkills();
@@ -330,14 +257,9 @@ catch (error) { process.stderr.write(`${error.message}\n`); process.exit(1); }
 let agents;
 try { agents = loadAgents(agentSettings); }
 catch (error) { process.stderr.write(`${error.message}\n`); process.exit(1); }
-const hookExists = fs.existsSync(path.join(root, ".agents", "hooks", "index.mjs"));
 
 syncSkills(skills);
 syncAgents(agents, agentSettings);
-syncCodexHooks(hookExists);
-syncClaudeSettings(hookExists);
-checkThirdPartyHook(".cursor/hooks.json", "cursor");
-checkThirdPartyHook(".github/hooks/ingest.json", "copilot");
 
 const publicSkills = skills.filter((skill) => skill.kind === "orchestrator" || skill.kind === "primitive").length;
 process.stdout.write([

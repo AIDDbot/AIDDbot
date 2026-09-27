@@ -7,15 +7,12 @@
 !.agents/
 !.agents/agents/
 !.agents/agents/**
-!.agents/hooks/
-!.agents/hooks/**
 !.agents/rules/
 !.agents/rules/**
 !.agents/skills/
 !.agents/skills/**
 
 !.claude/
-!.claude/settings.json
 !.claude/agents/
 !.claude/agents/**
 !.claude/skills/
@@ -24,15 +21,11 @@
 !.cursor/
 !.cursor/agents/
 !.cursor/agents/**
-!.cursor/hooks.json
 
 !.codex/
 !.codex/agents/
 !.codex/agents/**
-!.codex/hooks.json
 
 !.github/
 !.github/agents/
 !.github/agents/**
-!.github/hooks/
-!.github/hooks/**

@@ -6,7 +6,7 @@ Install AIDDbot from the root of your repository:
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-The command copies `.agents/` and the supported agent adapters. It also adds the AIDDbot audit handlers to `.claude/settings.json` without replacing unrelated Claude settings or hooks. Review and enable project hooks in Claude Code when prompted. Existing managed files remain unchanged unless you use `--force`.
+The command copies `.agents/` and the supported agent adapters. Existing managed files remain unchanged unless you use `--force`.
 
 ## What `init` adds
 
@@ -20,7 +20,7 @@ The command copies `.agents/` and the supported agent adapters. It also adds the
 
 `update` manages skills and the generated agent adapters, but never re-seeds these files. The agent profiles ship with defaults that you can customize in your harness's native configuration.
 
-You can customize the installed agent profiles and hook configurations in your harness's native files. See [Customize agent profiles and hooks](./agent-customization.md) for file locations, model and effort guidance, and update behavior.
+You can customize the installed agent profiles in your harness's native files. See [Customize agent profiles](./agent-customization.md) for file locations, model and effort guidance, and update behavior.
 
 When `/scaffold-system` runs, it can also create a missing `.gitignore` or `LICENSE` from its bundled defaults. It never overwrites either file.
 
@@ -51,5 +51,5 @@ The flow runs the repository's configured quality checks, updates its technical-
 ## Learn more
 
 - [Workflow and delivery rules](./AIDD.workflow.md)
-- [Customize agent profiles and hooks](./agent-customization.md)
+- [Customize agent profiles](./agent-customization.md)
 - [Skills catalog](../.agents/skills/skills.catalog.md)
