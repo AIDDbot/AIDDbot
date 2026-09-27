@@ -6,7 +6,7 @@ import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const sourceRoot = path.resolve(here, "../..");
-export const TREES = [".agents/agents", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/skills", ".cursor/agents", ".codex/agents", ".github/agents"];
+export const TREES = [".agents/aidd", ".agents/agents", ".agents/rules", ".agents/skills", ".claude/agents", ".claude/skills", ".cursor/agents", ".codex/agents", ".github/agents"];
 export const ACTION_ORDER = ["create", "update", "remove", "skip-same", "conflict", "overwritten"];
 const WRITE_ACTIONS = new Set(["create", "update", "overwritten"]);
 export const MUTATING_ACTIONS = new Set(["create", "update", "remove", "overwritten"]);

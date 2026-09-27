@@ -5,6 +5,8 @@
 !bin/**
 
 !.agents/
+!.agents/aidd/
+!.agents/aidd/**
 !.agents/agents/
 !.agents/agents/**
 !.agents/rules/

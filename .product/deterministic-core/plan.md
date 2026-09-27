@@ -45,7 +45,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 
 ## Fase 1 · Núcleo `aidd` (D1, D6)
 
-- [ ] **1.1 Esqueleto**: `.agents/aidd/aidd.mjs` como despachador, y en `lib/` un solo módulo para cada pieza:
+- [x] **1.1 Esqueleto**: `.agents/aidd/aidd.mjs` como despachador, y en `lib/` un solo módulo para cada pieza:
   - la raíz del repo, con un único criterio: la raíz de git que contiene `.aiddbot/`;
   - git: ejecución, rama actual, rama por defecto, árbol limpio;
   - frontmatter;
