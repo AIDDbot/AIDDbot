@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to create or fix one skill under `.agents/skills/`, together with its `assets/`, `references/`, and `scripts/`. This is the only way a skill changes in this repository.
 
-Write `SKILL.md` from the skill template `skill.template.md`, never from a sibling skill: the template is the spec for shape, frontmatter, kinds, and composition. Keep the skill to its goal, its invariants, and its artifact. Leave out whatever the agent can deduce, whatever a linked template already specifies, and whatever a script already enforces. When a rule is mechanical, such as a format, a path, an ID, or a validation, put it in a script and have the skill run it instead of describing it.
+Write `SKILL.md` from the skill template `skill.template.md`, never from a sibling skill: the template is the spec for shape, frontmatter, kinds, and composition. Keep the skill to its goal, its invariants, and its artifact. Leave out whatever the agent can deduce, whatever a linked template already specifies, and whatever a script already enforces. When a rule is mechanical, such as a format, a path, an ID, or a validation, put it in the core under `.agents/aidd/` as a command of `aidd.mjs`, reusing its `lib/` modules, and have the skill run it instead of describing it; never add new mechanics to a skill's `scripts/` unless only that skill will ever use them.
 
 Keep one source of truth. Routing belongs to the orchestrator that owns it, a record's shape to its template, and consumer-wide conventions such as paths, git rules, and the spec status chain to the consumer `AGENTS.md` template owned by `outline-system`. When a new skill journals, add its stage to the table in `.agents/aidd/lib/journal.mjs`.
 

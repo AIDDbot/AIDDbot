@@ -65,7 +65,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   - `aidd log` ← `append.mjs`, incluida la génesis de `init`
   Se borran los scripts antiguos y se actualizan los skills para llamar al núcleo.
   *Hecho cuando:* en `.agents/skills/*/scripts/` solo queda el materializador; `grep` no encuentra más de un `function git(` ni más de un buscador de raíz; una entrega real llega a `shipped`.
-- [ ] **1.4 Plantilla de skills**: `maintain-skills` admite llamar al núcleo (D1) y dice que la mecánica nueva va al núcleo, no a `scripts/` del skill.
+- [x] **1.4 Plantilla de skills**: `maintain-skills` admite llamar al núcleo (D1) y dice que la mecánica nueva va al núcleo, no a `scripts/` del skill.
 
 ## Fase 2 · Control de spec y journal (D2, D3, D5, D8)
 

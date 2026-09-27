@@ -32,7 +32,9 @@ Every skill is `user-invocable: true` and stays model-invocable, so never set `d
 
 ## Resources
 
-Put output templates in `assets/`, long guides and checklists in `references/`, and deterministic mechanics in `scripts/`. Link them from the skill, only inside its own folder, and never paraphrase them: a template is the spec of its artifact, and a script is the spec of its mechanics.
+Put output templates in `assets/` and long guides and checklists in `references/`. Link them from the skill, only inside its own folder, and never paraphrase them: a template is the spec of its artifact, and a command is the spec of its mechanics.
+
+Deterministic mechanics belong to the core, `node .agents/aidd/aidd.mjs <group> <command>`, which a skill may call besides its own folder. It prints JSON and exits `0` on success, `1` when a rule rejects the operation, and `2` on incorrect usage. Keep a script in the skill's own `scripts/` only when the capability is exclusively that skill's.
 
 ## Composition
 
