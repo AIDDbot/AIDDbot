@@ -34,8 +34,8 @@ const GROUPS = {
     },
   },
   log: {
-    summary: "Append one journal event",
-    commands: { "": { usage: "log <skill> <event> <status> <summary> [--agent|--spec|--project|--revision|--harness|--model|--role <value>]", summary: "Append one journal event", load: () => import("./commands/log.mjs") } },
+    summary: "Journal one judgment of the model",
+    commands: { "": { usage: "log <verdict|select|blocked|escalate> <summary> [--spec <id>] [--project <name>]", summary: "Journal one judgment of the model", load: () => import("./commands/log.mjs") } },
   },
   config: {
     summary: "Read and write .aiddbot/config.json",

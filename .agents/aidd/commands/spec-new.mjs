@@ -6,6 +6,7 @@ import { createControl, writeControl } from "../lib/control.mjs";
 import { countersFile, makeId, parseCounters, setCounters, writeCounters } from "../lib/counters.mjs";
 import { currentBranch, git, isClean, localBranches } from "../lib/git.mjs";
 import { productPath, relative } from "../lib/paths.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { SPEC_TYPES, specsDir } from "../lib/spec.mjs";
 
@@ -59,6 +60,7 @@ export default function specNew(argv) {
   const file = path.join(dir, "spec.md");
   writeSpec(file, spec, { id });
   writeControl(dir, createControl({ id, key, type: spec.type, branch }));
+  noteQuietly(root, { event: "created", spec: id, summary: `${branch} · ${spec.title}` });
   const ids = (kind, start, count) => Array.from({ length: count }, (_, index) => makeId(kind, start + index + 1));
   return {
     branch, spec: id, file: relative(root, file), control: relative(root, path.join(dir, "control.json")),

@@ -78,7 +78,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   *Hecho cuando:* ningún skill pide editar el estado a mano y una transición ilegal sale con código 1.
 - [x] **2.2 Evaluaciones en `control.json`**: `aidd eval record` calcula la revisión, añade la entrada, crea o borra la exigencia de informe y actualiza el estado. Los informes pierden su frontmatter. `aidd eval gate` lee solo `control.json` y la presencia de los informes.
   *Hecho cuando:* `aidd eval gate` da el mismo resultado en un clon nuevo del repo que en el original.
-- [ ] **2.3 Journal narrativo**:
+- [x] **2.3 Journal narrativo**:
   - nuevo formato sin anchos ni truncados;
   - cada comando del núcleo que cambia estado lo anota;
   - se borran el skill `record-journal`, su tabla de etapas y los dos lectores del journal.

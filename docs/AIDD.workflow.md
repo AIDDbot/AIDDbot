@@ -29,7 +29,7 @@ Run `/architect-system-foundation` again whenever the documentation should refle
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes without E2E execution |
 | Prove and ship | **Craftsman** | `verify-behavior` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
-Agent names, descriptions, adapter paths, models, and efforts are configured in `.aiddbot/agents.yaml`; `.agents/agents/{id}.md` contains each canonical prompt. `npm run adapt` combines them to regenerate all harness adapters, and `npm run release` runs the adapter before packaging. An orchestrator keeps one agent per role for its whole run, continued with messages, and journals each spawn once with its role.
+Agent names, descriptions, adapter paths, models, and efforts are configured in `.aiddbot/agents.yaml`; `.agents/agents/{id}.md` contains each canonical prompt. `npm run adapt` combines them to regenerate all harness adapters, and `npm run release` runs the adapter before packaging. An orchestrator keeps one agent per role for its whole run, continued with messages.
 
 Spec state: `draft` → `in-progress` → `verified` → `qualified` → `shipped`.
 
@@ -37,7 +37,7 @@ The PRD owns requirement text. A spec marks each affected requirement as `new`, 
 
 The product schemas live in `model/`: one conceptual `model.schema.md`, plus `{project}.db.schema.md` and `{project}.api.schema.md` for each project with persistence or endpoints. A spec declares every entity, table, or endpoint change as its schema impact; review blocks undeclared shape changes, and shipping updates the schema documents.
 
-Every workflow records high-level events in one human-readable, append-only daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. Agents working inside a project folder still append to that single root journal, so one file holds the whole day's timeline. The foundation run opens that trace before it inspects anything, so the session's harness, the greenfield or brownfield verdict, and the scaffold selection are recorded before the first file is written. Physical line order is canonical within each daily file and is never replaced by timestamp sorting; `record-journal/scripts/append.mjs` is the single source for the line format.
+Every workflow tells its story in one plain-text daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. It is narrative only: no code reads it or decides anything from it, because the process state lives in each spec's `control.json`. Each line holds complete fields separated by ` · ` (time, status, actor, spec, event, summary), with no fixed widths or truncation. The core (`node .agents/aidd/aidd.mjs`) writes an entry for every state change it makes: spec creation and approval, each evaluation, configuration, shipping, and integration. The model adds only its judgments with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt, a `blocked` reason, and an `escalate` triage.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

@@ -1,5 +1,6 @@
 import { parseArgs, UsageError } from "../lib/cli.mjs";
 import { readConfig, writeConfig } from "../lib/config.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 
 function keyPath(key) {
@@ -39,5 +40,6 @@ export function set(argv) {
   const value = parseValue(raw);
   node[parts.at(-1)] = value;
   writeConfig(root, config);
+  noteQuietly(root, { event: "configured", summary: `${key} = ${JSON.stringify(value)}` });
   return { key, value };
 }

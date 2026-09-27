@@ -1,6 +1,7 @@
 import { parseArgs, RuleError } from "../lib/cli.mjs";
 import { readControl, transition, writeControl } from "../lib/control.mjs";
 import { git } from "../lib/git.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
 
@@ -14,6 +15,7 @@ export function approve(argv) {
   const control = transition(current, "in-progress");
   control.approved = { at: new Date().toISOString(), commit: git(root, ["rev-parse", "HEAD"], { quiet: true }) };
   writeControl(dir, control);
+  noteQuietly(root, { event: "approved", spec: control.id, summary: `${control.key} · draft -> in-progress` });
   return { spec: control.id, status: control.status, approved: control.approved };
 }
 

@@ -1,6 +1,7 @@
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { currentBranch, defaultBranch, git, isClean, mergeInto, SPEC_BRANCH } from "../lib/git.mjs";
 import { readControl, transition, writeControl } from "../lib/control.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
 
@@ -38,5 +39,7 @@ export default function release(argv) {
   mergeInto(root, source, base, "Release commit");
   if (tag) git(root, ["tag", "-a", tag, "-m", `Release ${version}`]);
   git(root, ["branch", "-d", source]);
+  noteQuietly(root, { event: "shipped", spec, summary: `${version}${tag ? ` · tag ${tag}` : ""}` });
+  noteQuietly(root, { event: "integrated", spec, summary: `${source} -> ${base}` });
   return { spec, version, base, tag, deleted: source };
 }

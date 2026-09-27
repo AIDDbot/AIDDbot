@@ -46,4 +46,4 @@ Have the **Builder** execute the `implement-project` skill for each affected pro
 
 ## Journal
 
-A skill that journals names only the event and its status, such as "journal `approved` as green". The `record-journal` skill owns the invocation and the line format.
+The core journals every state change it makes on its own. A skill journals only a judgment of the model, with `node .agents/aidd/aidd.mjs log <event> "<summary>"`, and only these events: `verdict` (greenfield or brownfield), `select` (the debt chosen), `blocked` (with its reason), and `escalate` (a triage the human must settle). Never journal starts, ends, spawns, or coding, testing, and linting milestones.

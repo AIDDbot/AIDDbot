@@ -1,5 +1,6 @@
 import { parseArgs, RuleError } from "../lib/cli.mjs";
 import { currentBranch, defaultBranch, git, isClean, mergeInto } from "../lib/git.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 
 /** Commit remaining task changes, merge the current task branch into the default branch, and delete it. */
@@ -20,5 +21,6 @@ export default function integrate(argv) {
   }
   mergeInto(root, source, base, "Commit");
   git(root, ["branch", "-d", source]);
+  noteQuietly(root, { event: "integrated", summary: `${source} -> ${base} · ${message}` });
   return { source, base, committed, deleted: source };
 }

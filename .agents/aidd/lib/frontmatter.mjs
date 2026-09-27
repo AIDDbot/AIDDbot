@@ -35,21 +35,3 @@ export function requireFields(text, keys, label = "Document") {
   for (const key of keys) if (!fields[key]) throw new Error(`${label} frontmatter is missing ${key}.`);
   return fields;
 }
-
-/**
- * Replace or append fields. Strings are written JSON-quoted unless `raw` is set;
- * with `strict`, every key must already exist.
- */
-export function write(text, updates, { raw = false, strict = false, label = "Document" } = {}) {
-  const parts = split(text);
-  if (!parts) throw new Error(`${label} frontmatter is missing.`);
-  let block = parts.block;
-  for (const [key, value] of Object.entries(updates)) {
-    const line = new RegExp(`^${key}:.*$`, "m");
-    const rendered = value === null ? "null" : typeof value === "string" && !raw ? JSON.stringify(value) : String(value);
-    if (line.test(block)) block = block.replace(line, `${key}: ${rendered}`);
-    else if (strict) throw new Error(`${label} frontmatter is missing ${key}.`);
-    else block = `${block}${parts.newline}${key}: ${rendered}`;
-  }
-  return `---${parts.newline}${block}${parts.newline}---${parts.newline}${parts.body}`;
-}

@@ -3,12 +3,10 @@ import path from "node:path";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { EVALUATION_KINDS, EVALUATION_STATUSES, latestEvaluation, readControl, transition, writeControl } from "../lib/control.mjs";
 import { git } from "../lib/git.mjs";
-import { appendEvent } from "../lib/journal.mjs";
+import { noteQuietly } from "../lib/journal.mjs";
 import { REPORTS, reportEvidence, validateFindings } from "../lib/reports.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
-
-const SKILLS = { verification: "verify-behavior", qualification: "review-implementation" };
 
 function input(argv) {
   const args = parseArgs(argv, { positional: ["kind", "specDir", "status", "summary"] });
@@ -70,6 +68,6 @@ export default function evalRecord(argv) {
   const next = nextState(kind, status, control);
   control.evaluations.push(entry);
   writeControl(dir, transition(control, next));
-  appendEvent(root, { skill: SKILLS[kind], event: "evaluated", status, summary, agent: "Direct", spec: control.id, revision: String(revision) });
+  noteQuietly(root, { event: "evaluated", status, spec: control.id, summary: `${kind} revision ${revision} · ${control.status} · ${summary}` });
   return { spec: control.id, ...entry, state: control.status };
 }
