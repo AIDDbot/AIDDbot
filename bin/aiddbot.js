@@ -52,7 +52,7 @@ const destRoot = path.resolve(process.cwd());
 if (refuseOrigin(destRoot, parsed.command)) process.exit(1);
 process.stdout.write(`source     ${sourceRoot}\ndest       ${destRoot}\n`);
 let seeded = [];
-if (parsed.command === "init") { ensureGit(destRoot, parsed.opts.dryRun); seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun); }
+if (parsed.command === "init") { ensureGit(destRoot, parsed.opts.dryRun); seeded = await ensureSeedFiles(destRoot, parsed.opts.dryRun); }
 const result = runOverlay(destRoot, parsed.opts);
 if (result.fatal) process.exit(1);
 // Only after the overlay installs the destination's own core, so the
