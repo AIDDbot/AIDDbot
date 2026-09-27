@@ -54,7 +54,7 @@ Shipping applies the PRD changes, reconciles the schema documents, updates debt,
 
 `scan-quality` → select coherent debt → `/build-requested-spec`
 
-Commands are classified by their effective behavior, not their script names. During coding, the Builder runs only error-level lint and affected unit tests; it may author E2E tests but does not execute them. The Craftsman executes acceptance tests afterward. Quality review runs configured warning denial, complexity, coverage, strict analysis, full-repository checks, and other hardening.
+`rule-project` classifies each project's `lint`, `unit`, `acceptance`, and `quality` commands once, by their real effect and never their script name, and records them in `.aiddbot/config.json`. `aidd run <kind> [--project]` executes the classified command and exits unavailable (never a stricter invocation or the build lint) when nothing is configured. During coding, the Builder runs `lint` and `unit`; it may author E2E tests but never runs `acceptance`. The Craftsman runs `acceptance` in `verify-behavior` and every project's `quality` list in `scan-quality`.
 
 The latest system evidence replaces `quality/review.md`; open debt remains indexed in `quality/TDR.md`.
 
