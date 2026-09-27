@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.13 - 2026-09-27
+
+- docs: mention .aiddbot/config.json in getting-started and the catalog (d0a5ada)
+
 ## 0.1.12 - 2026-09-27
 
 - refactor(skills): run classified commands through aidd run (3.3) (24f791b)
