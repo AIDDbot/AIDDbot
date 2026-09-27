@@ -37,7 +37,11 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   *Hecho cuando:* `grep -ri hook` solo encuentra `.product/` y `CHANGELOG.md`; `adapt --check` limpio; un `init` en un directorio externo no trae hooks.
 - [x] **0.2 Quitar el commit oculto** de `define-spec/scripts/prepare/repository.mjs` (`chore: checkpoint before spec`): con cambios pendientes, el script rechaza la operación y lo dice.
   *Hecho cuando:* preparar una spec con cambios pendientes falla con código ≠ 0 y no crea ningún commit.
-- [ ] **0.3 Línea base** para las métricas de la propuesta: palabras totales de los `SKILL.md`, instrucciones de journal en los skills (hoy 37) y líneas escritas por el modelo en una entrega real. Se anota en este plan.
+- [x] **0.3 Línea base** para las métricas de la propuesta: palabras totales de los `SKILL.md`, instrucciones de journal en los skills (hoy 37) y líneas escritas por el modelo en una entrega real. Se anota en este plan.
+  *Línea base (2026-09-27, tras 0.1/0.2, 14 skills):*
+  - **Palabras en `SKILL.md`:** 3899 en total (`architect-system-foundation` 323, `build-requested-spec` 284, `craft-lasting-quality` 222, `define-spec` 401, `implement-project` 313, `maintain-skills` 272, `outline-system` 358, `record-journal` 139, `review-implementation` 162, `rule-project` 155, `scaffold-system` 427, `scan-quality` 204, `ship-spec` 442, `verify-behavior` 197).
+  - **Instrucciones de journal en los skills:** 37, según el recuento de `d.deterministic-core.proposal.md:22` (`start`, `done`, `spawn` por rol, `verdict`, `select`, `blocked`, `debt`, `select` e instalación por proyecto, y "cada hito de código, test, lint y fallo"). No se recontó a mano en 0.3; ver 🟡 P2 en `notes.md`.
+  - **Líneas escritas por el modelo en una entrega real:** sin artefacto propio que recontar (la prueba real de `frontier-fall` 7.1 corrió en un repo temporal que no se conservó). Se toma como línea base la estimación ya citada en `d.deterministic-core.proposal.md:86`, "roughly 25 model-issued lines per delivery", heredada y no medida de nuevo en esta sesión — ver 🟡 P2 en `notes.md`.
 
 ## Fase 1 · Núcleo `aidd` (D1, D6)
 
