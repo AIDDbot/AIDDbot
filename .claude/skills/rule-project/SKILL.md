@@ -1,6 +1,6 @@
 ---
 name: rule-project
-description: Record one project's coding rules from repository evidence.
+description: Record one project's coding rules and classify its lint, unit, acceptance, and quality commands.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

@@ -88,8 +88,8 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 
 ## Fase 3 · Ejecutor de comandos (D6)
 
-- [ ] **3.1 Esquema de comandos** por proyecto (`lint`, `unit`, `acceptance`, `quality[]`) y regla de clasificación por efecto real, escrita una sola vez en `rule-project`, que la registra con `aidd config`.
-  *Hecho cuando:* `rule-project` sobre los arquetipos reales deja todos sus comandos clasificados.
+- [x] **3.1 Esquema de comandos** por proyecto (`lint`, `unit`, `acceptance`, `quality[]`) y regla de clasificación por efecto real, escrita una sola vez en `rule-project`, que la registra con `aidd config`.
+  *Hecho cuando:* `rule-project` sobre los arquetipos reales deja todos sus comandos clasificados. **Hecho:** el esquema ya existía en `lib/config.mjs` desde la fase 1; `rule-project` clasifica ahora los cuatro tipos por efecto real (nunca por nombre) y los registra con `aidd config set projects.{project} <json>`, sin inventar un tipo sin candidato inequívoco. Se retira "never inventory ... commands" de sus invariantes, porque clasificar estos cuatro tipos es ahora su trabajo.
 - [ ] **3.2 `aidd run <kind> [--project]`**:
   - ejecuta el comando clasificado y devuelve un resumen JSON (comando, código de salida, duración, fallos);
   - en `acceptance`, gestiona los puertos (absorbe `free-port.*`) y usa un reporter estructurado cuando exista (JSON de Playwright);
