@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.9 - 2026-09-27
+
+- docs(product): record phase 0 baseline metrics (8f5fbcc)
+- refactor(skills): tighten /define-spec (07cb5ed)
+- refactor: retire the audit hook bundle (D4) (d235d49)
+- docs(product): plan deterministic core rebuild (c86ee11)
+- docs(product): capture workflow proposals (d23cb8d)
+- refactor(skills): tighten /architect-system-foundation (1386e25)
+
 ## 0.1.8 - 2026-09-26
 
 - refactor(skills): simplify spec snapshots and branching (df3f878)
