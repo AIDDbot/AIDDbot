@@ -43,9 +43,6 @@ export function checkBranch(root, branch, specDir) {
   if (fs.existsSync(specDir)) throw new Error(`Spec directory already exists: ${specDir}`);
 }
 
-export function commitPendingChanges(root) {
-  if (!git(root, ["status", "--porcelain", "--untracked-files=all"], true)) return false;
-  git(root, ["add", "-A"]);
-  git(root, ["commit", "-m", "chore: checkpoint before spec"]);
-  return true;
+export function rejectPendingChanges(root) {
+  if (git(root, ["status", "--porcelain", "--untracked-files=all"], true)) throw new Error("Pending changes on the current branch; commit or stash them before preparing a spec.");
 }

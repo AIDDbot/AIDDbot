@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs } from "./args.mjs";
-import { checkBranch, checkRecords, commitPendingChanges, findRoot, git } from "./repository.mjs";
+import { checkBranch, checkRecords, findRoot, git, rejectPendingChanges } from "./repository.mjs";
 import { makeId, parseCounters, reserveCounters, writeCounters, writeSpec } from "./records.mjs";
 
 function identityFor(options, counters) {
@@ -31,7 +31,7 @@ export function prepareSpec(argv) {
   const identity = identityFor(options, counters);
   const specDir = path.join(records.product, "specs", identity.key);
   checkBranch(root, identity.branch, specDir);
-  commitPendingChanges(root);
+  rejectPendingChanges(root);
   git(root, ["switch", "-c", identity.branch]);
   const updatedCounters = reserveCounters(currentCountersText, counters, options, identity.number);
   writeCounters(records.countersFile, updatedCounters);

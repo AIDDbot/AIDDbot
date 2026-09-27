@@ -35,7 +35,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 
 - [x] **0.1 Retirar los hooks** (D4): `.agents/hooks/`, el cableado de hooks de los cuatro arneses, su generación en `scripts/adapt.js`, `TREES` y `CLAUDE_HOOK_ARGS` en `bin/lib/overlay.js`, `.npmignore` y la documentación.
   *Hecho cuando:* `grep -ri hook` solo encuentra `.product/` y `CHANGELOG.md`; `adapt --check` limpio; un `init` en un directorio externo no trae hooks.
-- [ ] **0.2 Quitar el commit oculto** de `define-spec/scripts/prepare/repository.mjs` (`chore: checkpoint before spec`): con cambios pendientes, el script rechaza la operación y lo dice.
+- [x] **0.2 Quitar el commit oculto** de `define-spec/scripts/prepare/repository.mjs` (`chore: checkpoint before spec`): con cambios pendientes, el script rechaza la operación y lo dice.
   *Hecho cuando:* preparar una spec con cambios pendientes falla con código ≠ 0 y no crea ningún commit.
 - [ ] **0.3 Línea base** para las métricas de la propuesta: palabras totales de los `SKILL.md`, instrucciones de journal en los skills (hoy 37) y líneas escritas por el modelo en una entrega real. Se anota en este plan.
 
