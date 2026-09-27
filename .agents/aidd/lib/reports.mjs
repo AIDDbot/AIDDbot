@@ -1,11 +1,9 @@
-// Finding-only evaluation reports (`verification.md`, `qualification.md`) and
-// how their presence and metadata back the latest journaled evaluation.
+// Finding-only evaluation reports (`verification.md`, `qualification.md`). They carry no
+// metadata: `control.json` records each evaluation and whether it requires its report (D2).
 import fs from "node:fs";
 import path from "node:path";
-import { read } from "./frontmatter.mjs";
 
 export const REPORTS = { verification: "verification.md", qualification: "qualification.md" };
-export const KIND_BY_STAGE = { verify: "verification", qualify: "qualification" };
 
 const PLACEHOLDERS = {
   verification: ["{ID or technical outcome}", "{Test or check}", "{Fail or blocked}", "{Observed output or link}"],
@@ -35,31 +33,21 @@ export function validateFindings(kind, report) {
   }
 }
 
-function metadata(report) {
-  try {
-    const fields = read(report, "Report");
-    return { spec: fields.spec, status: fields.status, revision: fields.revision };
-  } catch {
-    return {};
-  }
-}
-
 /**
- * Whether the report on disk agrees with a journaled evaluation:
- * absent for green, present with matching spec/status/revision otherwise.
+ * Whether the report on disk agrees with the latest recorded evaluation of its kind:
+ * absent when the evaluation requires none, present and filled in when it does.
  */
-export function reportEvidence(specDir, kind, evaluation, specId) {
+export function reportEvidence(specDir, kind, evaluation) {
   const file = path.join(specDir, REPORTS[kind]);
-  const stage = kind === "verification" ? "verify" : "qualify";
-  if (!evaluation) return { ok: false, file, reason: `No journaled ${stage} evaluation` };
-  if (evaluation.status === "green") return fs.existsSync(file)
-    ? { ok: false, file, reason: `Green ${stage} requires the report to be absent` }
-    : { ok: true, file, reason: "green evaluation; report absent" };
-  if (!fs.existsSync(file)) return { ok: false, file, reason: `${evaluation.status} ${stage} requires a finding-only report` };
-  const found = metadata(fs.readFileSync(file, "utf8"));
-  if (found.spec !== specId || found.status !== evaluation.status || found.revision !== evaluation.revision) {
-    const shown = [found.spec, found.status, found.revision].map((value) => value ?? "missing").join("/");
-    return { ok: false, file, reason: `Report metadata (${shown}) does not match journal (${specId}/${evaluation.status}/${evaluation.revision})` };
+  if (!evaluation) return { ok: false, file, reason: `No recorded ${kind}` };
+  if (!evaluation.report) return fs.existsSync(file)
+    ? { ok: false, file, reason: `${evaluation.status} ${kind} requires the report to be absent` }
+    : { ok: true, file, reason: `${evaluation.status} revision ${evaluation.revision}; report absent` };
+  if (!fs.existsSync(file)) return { ok: false, file, reason: `${evaluation.status} ${kind} requires its finding-only report` };
+  try {
+    validateFindings(kind, fs.readFileSync(file, "utf8"));
+  } catch (error) {
+    return { ok: false, file, reason: error.message };
   }
-  return { ok: true, file, reason: `report matches ${evaluation.status} revision ${evaluation.revision}` };
+  return { ok: true, file, reason: `${evaluation.status} revision ${evaluation.revision}; report present` };
 }

@@ -76,7 +76,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   - las transiciones ilegales se rechazan;
   - `spec.md` pierde `status`, `updated_at` y `last_process`.
   *Hecho cuando:* ningún skill pide editar el estado a mano y una transición ilegal sale con código 1.
-- [ ] **2.2 Evaluaciones en `control.json`**: `aidd eval record` calcula la revisión, añade la entrada, crea o borra la exigencia de informe y actualiza el estado. Los informes pierden su frontmatter. `aidd eval gate` lee solo `control.json` y la presencia de los informes.
+- [x] **2.2 Evaluaciones en `control.json`**: `aidd eval record` calcula la revisión, añade la entrada, crea o borra la exigencia de informe y actualiza el estado. Los informes pierden su frontmatter. `aidd eval gate` lee solo `control.json` y la presencia de los informes.
   *Hecho cuando:* `aidd eval gate` da el mismo resultado en un clon nuevo del repo que en el original.
 - [ ] **2.3 Journal narrativo**:
   - nuevo formato sin anchos ni truncados;

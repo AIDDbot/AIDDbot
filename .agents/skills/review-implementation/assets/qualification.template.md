@@ -1,10 +1,3 @@
----
-spec: S0001
-status: red
-revision: 1
-evaluated_commit: {commit}
-updated_at: {DateTime}
----
 # S0001-{slug} — qualification
 
 ## Failed controls

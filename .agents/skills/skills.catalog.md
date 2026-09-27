@@ -14,7 +14,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 `aiddbot init` creates every record above; no skill creates them.
 
-Evaluation reports are finding-only: a green verification or qualification has no report file. Each spec's `control.json` holds its process state and is written only by the core (`aidd spec show` summarizes it); evaluation revisions remain in the process journal for the revision gate.
+Evaluation reports are finding-only: a green verification or qualification has no report file. Each spec's `control.json` holds its process state and is written only by the core (`aidd spec show` summarizes it), including each evaluation's revision, status, commit, and whether it requires a report, so the shipping gate works in a fresh clone.
 
 `record-journal` owns journal rendering. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, because `aidd log` (`.agents/aidd/`) resolves that root regardless of the calling agent's working directory; it is the single source for the journal's format. Journals are kept out of Git by the root `.gitignore` policy.
 

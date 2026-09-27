@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to integrate one evidenced spec and close it with current product, schema, and debt records.
 
-Run `node .agents/aidd/aidd.mjs eval gate` with the spec ID or directory before integrating. It selects the latest journaled verification and qualification events, checks report presence and metadata against their status and revision, and decides whether the evidence permits shipping. Stop on any blocker and inspect each non-green report to confirm it contains only current findings.
+Run `node .agents/aidd/aidd.mjs eval gate` with the spec ID or directory before integrating. It reads the latest verification and qualification in the spec's `control.json`, checks that each required report is present and filled in and each unrequired one absent, and decides whether the evidence permits shipping. Stop on any blocker and inspect each non-green report to confirm it contains only current findings.
 
 Apply the spec's PRD edits, removing a `deprecated` requirement only when verification proves its implementation and tests are gone. Apply the spec's conceptual changes to `model.schema.md`, but update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes, never from the spec. Touch a timestamp only when content changes.
 

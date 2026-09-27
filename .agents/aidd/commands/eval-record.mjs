@@ -1,80 +1,75 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
-import { readControl, transition, writeControl } from "../lib/control.mjs";
-import { requireFields, write } from "../lib/frontmatter.mjs";
+import { EVALUATION_KINDS, EVALUATION_STATUSES, latestEvaluation, readControl, transition, writeControl } from "../lib/control.mjs";
 import { git } from "../lib/git.mjs";
-import { appendEvent, latest, readEvaluations } from "../lib/journal.mjs";
+import { appendEvent } from "../lib/journal.mjs";
 import { REPORTS, reportEvidence, validateFindings } from "../lib/reports.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
 
 const SKILLS = { verification: "verify-behavior", qualification: "review-implementation" };
-const STAGES = { verification: "verify", qualification: "qualify" };
-const STATUSES = ["green", "amber", "red"];
 
 function input(argv) {
   const args = parseArgs(argv, { positional: ["kind", "specDir", "status", "summary"] });
-  if (!Object.hasOwn(SKILLS, args.kind)) throw new UsageError(`Unknown evaluation kind: ${args.kind}`);
+  if (!EVALUATION_KINDS.includes(args.kind)) throw new UsageError(`Unknown evaluation kind: ${args.kind}`);
   const status = args.status.toLowerCase();
   const summary = args.summary.trim();
-  if (!STATUSES.includes(status)) throw new UsageError(`Invalid evaluation status: ${args.status}`);
-  if (!summary || /[\r\n|]/.test(summary)) throw new UsageError("Summary must be one line without |.");
+  if (!EVALUATION_STATUSES.includes(status)) throw new UsageError(`Invalid evaluation status: ${args.status}`);
+  if (!summary || /[\r\n]/.test(summary)) throw new UsageError("Summary must be one non-empty line.");
   return { kind: args.kind, specDir: args.specDir, status, summary };
 }
 
-function loadSpec(root, specDir) {
-  const { dir, file } = resolveSpecDir(root, specDir);
-  const fields = requireFields(fs.readFileSync(file, "utf8"), ["id", "key"], "Spec");
-  const control = readControl(dir);
-  if (fields.key !== `${fields.id}-${path.basename(dir).slice(6)}`) throw new RuleError("Spec frontmatter does not match its directory.");
-  if (["draft", "shipped"].includes(control.status)) throw new RuleError(`Cannot evaluate a spec in ${control.status} state.`);
-  return { dir, file, id: fields.id, key: fields.key, control };
-}
-
 /** Qualification needs green verification, or red verification at revision 3+ with its current report. */
-function checkPriorVerification(spec, verification) {
-  if (!verification) throw new RuleError("Qualification has no journaled verification evidence.");
-  const file = path.join(spec.dir, REPORTS.verification);
+function checkPriorVerification(dir, verification) {
+  if (!verification) throw new RuleError("Qualification has no recorded verification.");
   if (verification.status === "green") {
-    if (fs.existsSync(file)) throw new RuleError("Green verification must have no report before qualification.");
+    if (fs.existsSync(path.join(dir, REPORTS.verification))) throw new RuleError("Green verification must have no report before qualification.");
     return;
   }
-  if (verification.status !== "red" || Number(verification.revision) < 3) throw new RuleError("Qualification requires green verification or red verification at revision 3 or later.");
-  if (!fs.existsSync(file)) throw new RuleError("Red verification at revision 3 or later requires its current findings report.");
-  if (!reportEvidence(spec.dir, "verification", verification, spec.id).ok) throw new RuleError("Verification report does not match the latest red revision 3+ journal event.");
-  validateFindings("verification", fs.readFileSync(file, "utf8"));
+  if (verification.status !== "red" || verification.revision < 3) throw new RuleError("Qualification requires green verification or red verification at revision 3 or later.");
+  const evidence = reportEvidence(dir, "verification", verification);
+  if (!evidence.ok) throw new RuleError(`Red verification at revision 3 or later needs its current report: ${evidence.reason}`);
 }
 
-function nextState(kind, status, events) {
+function nextState(kind, status, control) {
   if (kind === "verification") return status === "green" ? "verified" : "in-progress";
   if (status !== "red") return "qualified";
-  return latest(events, "verify")?.status === "red" ? "in-progress" : "verified";
+  return latestEvaluation(control, "verification")?.status === "red" ? "in-progress" : "verified";
+}
+
+/** Write or remove the report the evaluation requires; true when it requires one. */
+function settleReport(dir, kind, status, key) {
+  const file = path.join(dir, REPORTS[kind]);
+  if (status === "green") {
+    if (fs.existsSync(file) && !fs.statSync(file).isFile()) throw new RuleError(`Report path is not a file: ${file}`);
+    fs.rmSync(file, { force: true });
+    return false;
+  }
+  if (!fs.existsSync(file)) throw new RuleError(`Write the ${status} findings report first: ${file}`);
+  const report = fs.readFileSync(file, "utf8");
+  validateFindings(kind, report);
+  if (report.includes("S0001-{slug}")) fs.writeFileSync(file, report.replaceAll("S0001-{slug}", key), "utf8");
+  return true;
 }
 
 export default function evalRecord(argv) {
   const { kind, specDir, status, summary } = input(argv);
   const root = findRoot();
-  const spec = loadSpec(root, specDir);
-  const events = readEvaluations(root, spec.id);
-  if (kind === "qualification") checkPriorVerification(spec, latest(events, "verify"));
-  const revision = Number(latest(events, STAGES[kind])?.revision ?? 0) + 1;
-  if (revision > 999) throw new RuleError("Evaluation revision exceeds the journal's three-character field.");
-  const commit = git(root, ["rev-parse", "HEAD"], { quiet: true });
-  const time = new Date().toISOString();
-  const reportFile = path.join(spec.dir, REPORTS[kind]);
-  if (status === "green") {
-    if (fs.existsSync(reportFile) && !fs.statSync(reportFile).isFile()) throw new RuleError(`Report path is not a file: ${reportFile}`);
-    fs.rmSync(reportFile, { force: true });
-  } else {
-    if (!fs.existsSync(reportFile)) throw new RuleError(`Write the ${status} findings report first: ${reportFile}`);
-    let report = fs.readFileSync(reportFile, "utf8");
-    validateFindings(kind, report);
-    report = report.replaceAll("S0001-{slug}", spec.key);
-    report = write(report, { spec: spec.id, status, revision, evaluated_commit: commit, updated_at: time }, { raw: true, strict: true, label: "Finding report" });
-    fs.writeFileSync(reportFile, report, "utf8");
-  }
-  writeControl(spec.dir, transition(spec.control, nextState(kind, status, events)));
-  appendEvent(root, { skill: SKILLS[kind], event: "evaluated", status, summary, agent: "Direct", spec: spec.id, revision: String(revision) });
-  return { spec: spec.id, kind, status, revision, evaluated_at: time, evaluated_commit: commit };
+  const { dir } = resolveSpecDir(root, specDir);
+  const control = readControl(dir);
+  if (["draft", "shipped"].includes(control.status)) throw new RuleError(`Cannot evaluate a spec in ${control.status} state.`);
+  if (kind === "qualification") checkPriorVerification(dir, latestEvaluation(control, "verification"));
+  const revision = (latestEvaluation(control, kind)?.revision ?? 0) + 1;
+  const entry = {
+    kind, revision, status,
+    commit: git(root, ["rev-parse", "HEAD"], { quiet: true }),
+    at: new Date().toISOString(),
+    report: settleReport(dir, kind, status, control.key) ? REPORTS[kind] : null,
+  };
+  const next = nextState(kind, status, control);
+  control.evaluations.push(entry);
+  writeControl(dir, transition(control, next));
+  appendEvent(root, { skill: SKILLS[kind], event: "evaluated", status, summary, agent: "Direct", spec: control.id, revision: String(revision) });
+  return { spec: control.id, ...entry, state: control.status };
 }
