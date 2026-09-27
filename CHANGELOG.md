@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.11 - 2026-09-27
+
+- refactor(skills): journal only verdict, select, blocked, and escalate (2.4) (32891cc)
+- refactor(core): narrative journal written by the core; drop /record-journal (2.3) (76f5c01)
+- feat(core): record evaluations in control.json and gate on it alone (2.2) (63662f3)
+- feat(core): control.json per spec with approve, show, and legal transitions (2.1) (ae3fc31)
+
 ## 0.1.10 - 2026-09-27
 
 - fix(core): load the config seed lazily so --version needs no payload (c9e3605)
