@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.10 - 2026-09-27
+
+- fix(core): load the config seed lazily so --version needs no payload (c9e3605)
+- refactor(skills): tighten /maintain-skills for the aidd core (1.4) (eb42c79)
+- refactor(core): migrate skill scripts into aidd (1.3) (b35c465)
+- feat(core): seed .aiddbot/config.json and add aidd config (1.2) (0cc569c)
+- feat(core): add aidd dispatcher and shared lib (1.1) (e0db975)
+
 ## 0.1.9 - 2026-09-27
 
 - docs(product): record phase 0 baseline metrics (8f5fbcc)
