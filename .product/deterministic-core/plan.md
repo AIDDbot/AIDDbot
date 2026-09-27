@@ -83,7 +83,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   - cada comando del núcleo que cambia estado lo anota;
   - se borran el skill `record-journal`, su tabla de etapas y los dos lectores del journal.
   *Hecho cuando:* ningún código lee `.aiddbot/journals/` y `record-journal` ya no existe en `.agents/` ni en los adaptadores.
-- [ ] **2.4 Menos ceremonia** (D5): los skills solo conservan `verdict`, `select`, `blocked` y `escalate`, con `aidd log`.
+- [x] **2.4 Menos ceremonia** (D5): los skills solo conservan `verdict`, `select`, `blocked` y `escalate`, con `aidd log`.
   *Hecho cuando:* `grep` de instrucciones de journal en los skills encuentra solo esos cuatro eventos, y una entrega real tiene como mucho 4 líneas escritas por el modelo.
 
 ## Fase 3 · Ejecutor de comandos (D6)

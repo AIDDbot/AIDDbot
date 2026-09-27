@@ -48,7 +48,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 - **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, its `control.json`, and only non-green `verification.md` or `qualification.md` reports. `control.json` holds the spec state and evaluations; only `node .agents/aidd/aidd.mjs` writes it, and `aidd spec show` summarizes it. `specs/PRD.md` lists current requirements.
 - **Counters** — `.aiddbot/counters.yaml` stores the last reserved S, F, T, and D numbers.
-- **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are the local, untracked, append-only logs of process events by date.
+- **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are local, untracked, plain-text narrative of process events by date: the core writes every state change, the model adds only `verdict`, `select`, `blocked`, and `escalate` with `node .agents/aidd/aidd.mjs log`, and nothing reads them.
 - **Quality** — `{Product_Folder}/quality/TDR.md` indexes open technical debt. `{Product_Folder}/quality/review.md` records detailed system-review evidence.
 - **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
 - **Spec state** — `draft`, `in-progress`, `verified`, `qualified`, or `shipped`, changed only by the core, which rejects illegal transitions.

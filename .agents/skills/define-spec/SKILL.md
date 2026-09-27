@@ -17,7 +17,7 @@ Write the spec from `spec.template.md`. Write each PRD requirement as one line, 
 
 Declare in the schema impact every entity, relation, table, column, or endpoint the scope adds, changes, or removes, including each endpoint's success status and every error status with its cause, and cover at least one error scenario in the verification table. Leave the schema documents themselves to shipping.
 
-Unless in YOLO mode, present the spec and PRD edits for human approval and wait. Journal the creation and the approval. On approval, run `node .agents/aidd/aidd.mjs spec approve <spec-directory>`; never edit the spec state by hand.
+Unless in YOLO mode, present the spec and PRD edits for human approval and wait. On approval, run `node .agents/aidd/aidd.mjs spec approve <spec-directory>`; never edit the spec state by hand.
 
 Before presenting the proposal, run `node .agents/aidd/aidd.mjs spec check <spec-directory>`, adding `--base` when needed. Resolve every reported issue; it checks spec identity and branch, reserved IDs, requirement formatting, EARS keywords on new or changed requirements, PRD change rows, and preservation of deprecated requirements.
 

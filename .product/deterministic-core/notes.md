@@ -31,8 +31,19 @@ Al probar la migración apareció un fallo que ya tenían los scripts antiguos: 
 
 ## 🟡 P5 — 2.1 · Transiciones legales hacia `shipped`
 
-D8 fija la cadena `draft → in-progress → verified → qualified → shipped`, pero la puerta de entrega vigente también deja entregar con verificación roja en la revisión 3+ y una cualificación completada de cualquier color; en ese camino la spec está en `in-progress` o `verified`, nunca en `qualified`. Para no cambiar el comportamiento, `lib/control.mjs` admite `shipped` desde `in-progress`, `verified` y `qualified`, y deja que `aidd eval gate` decida. Rechaza: cualquier salida de `shipped`, cualquier salto desde `draft` que no sea la aprobación y aprobar algo que no esté en `draft`. Si D8 quiere `shipped` solo desde `qualified`, hay que decidir qué estado deja la vía de la revisión 3 (encaja con 4.0, al confirmar D8).
+D8 fija la cadena `draft → in-progress → verified → qualified → shipped`, pero la puerta de entrega vigente también deja entregar con verificación roja en la revisión 3+ y una cualificación completada de cualquier color; en ese camino la spec está en `in-progress` o `verified`, nunca en `qualified`. Para no cambiar el comportamiento, `lib/control.mjs` admite `shipped` desde `in-progress`, `verified` y `qualified`, y deja que `aidd eval gate` decida. Rechaza: cualquier salida de `shipped`, cualquier salto desde `draft` que no sea la aprobación y aprobar algo que no esté en `draft`. Si D8 quiere `shipped` solo desde `qualified`, hay que decidir qué estado deja la vía de la revisión 3 (encaja con 4.0, al confirmar D8). Tampoco hice que `aidd release` ejecute la puerta por su cuenta: `ship-spec` sigue llamando a `aidd eval gate` antes, como en la fase 1; que `release` la exija sería natural en 6.1.
 
 ## 🟡 P6 — 2.1 · Quién pone y quita `blocked`
 
 D2 y D8 ponen en `control.json` un campo `blocked` con motivo que "se limpia al reanudar", pero ni el plan de la fase 2 ni ninguna decisión nombran el comando que lo escribe ni qué es "reanudar". El esquema ya tiene `blocked: null` y `aidd release` lo limpia al entregar; no añadí `aidd spec block|resume` ni hice que `aidd log blocked` escriba estado (el journal no debe decidir nada, D3). Propuesta: `aidd spec block <spec> <motivo>` y `aidd spec resume <spec>`, que además anoten `blocked` en el journal, decididos en 4.0 junto con `escalate`.
+
+## 🟡 P7 — 2.4 · Anotaciones que D5 no cubre
+
+Al dejar solo `verdict`, `select`, `blocked` y `escalate`, cuatro anotaciones de los skills no encajaban en ninguno. No las convertí en estado nuevo:
+
+- **Selección del scaffold** (`scaffold-system`): D5 define `select` como "deuda elegida", pero el skill anotaba también la elección de proyectos y arquetipos como `select`. La conservé como `select` porque es una decisión de criterio y el evento ya existe. Si `select` debe ser solo deuda, hay que decidir si esa traza desaparece (encaja con 7.0, que retira el materializador).
+- **Deuda de una verificación roja en la revisión 3** (`build-requested-spec`, antes `debt` ámbar): D5 dice que la deuda la anota el núcleo, pero aún no hay comando de deuda (fase 5). Quité la línea; entretanto queda el rastro de la evaluación roja que anota `aidd eval record` y la entrada del TDR.
+- **Lint no disponible** (`implement-project`, antes ámbar en el journal): ahora el skill lo informa en su resultado. D6 dice que `aidd run` lo "registra como no disponible (ámbar)"; cómo se registra se decide en la fase 3.
+- **Sin deuda elegible** (`craft-lasting-quality`, antes ámbar): se devuelve la revisión diciéndolo, sin línea de journal.
+
+Aparte, `architect-system-foundation` aún llamaba a `.agents/skills/scaffold-system/scripts/git-integrate.mjs`, borrado en 1.3; lo cambié por `aidd git integrate` al tocar esa línea.

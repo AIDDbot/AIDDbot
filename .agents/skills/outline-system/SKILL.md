@@ -19,8 +19,6 @@ For every project in `{Source_Folders}`: when it owns relational persistence, wr
 
 When a documented project no longer exists, delete its schema files and its `AGENTS.md` entries. Create no file outside these templates.
 
-Journal the documentation result.
-
 The result is current root instructions, the conceptual model, and every project's evidenced physical schemas.
 
 Commit as `docs(system): outline foundation`.

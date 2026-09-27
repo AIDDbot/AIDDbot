@@ -13,7 +13,7 @@ Read only decisive source files, folder trees, manifests, and referenced configu
 
 Write `{Agents_Folder}/rules/{project}.rules.md` from `project.rules.template.md`. When it exists, rewrite the code-derived sections to match the code but keep every coding-rules row, because shipping promoted those lessons and code cannot regenerate them; drop a row only when its scope no longer exists. Touch its timestamp only when content changes.
 
-List the written file under the project decisions in `AGENTS.md`, and journal the result, naming the project.
+List the written file under the project decisions in `AGENTS.md`.
 
 The result is the project's current coding rules.
 

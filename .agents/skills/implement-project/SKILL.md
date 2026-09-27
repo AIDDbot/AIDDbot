@@ -15,9 +15,7 @@ Build exactly the shape the spec's schema impact declares against this project's
 
 Write unit tests for the critical production code and make them pass; do not unit-test UI code or E2E tests. When the scope includes E2E tests, write or repair them from the spec's requirement IDs and their state, but never execute them or any other command classified as `Acceptance`, not even while repairing a red verification: `verify-behavior` runs them. Each E2E test creates its own data with unique identifiers and never depends on test order, pre-existing data, or global counts, because the suite runs in parallel against one shared database.
 
-After each change, run only the project's error-level lint and fix its errors. Confirm from its effective flags and configuration, not its script name, that it adds no warning denial, complexity, coverage, or other hardening; those are `Quality` commands, which you never run. If no unambiguous error-level lint exists, journal it as unavailable, amber, instead of constructing one.
-
-Journal each coding, testing, linting, and failure milestone, naming the project.
+After each change, run only the project's error-level lint and fix its errors. Confirm from its effective flags and configuration, not its script name, that it adds no warning denial, complexity, coverage, or other hardening; those are `Quality` commands, which you never run. If no unambiguous error-level lint exists, report it as unavailable in your result instead of constructing one.
 
 The result is the project's code and tests for the supplied scope, lint-clean.
 

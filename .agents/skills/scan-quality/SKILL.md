@@ -13,8 +13,6 @@ Run only the configured commands classified as `Quality`: warning denial, comple
 
 After evaluating every configured check, replace `{Product_Folder}/quality/review.md` from `assets/review.template.md` with only unresolved system-review issues. Omit passing checks, resolved issues, and standalone unavailable checks. Keep an existing issue as `not revalidated` when its relevant check is unavailable; unavailable evidence does not resolve it. Record a new issue only when current evidence confirms concrete impact. Then reconcile `{Product_Folder}/quality/TDR.md` with the report following `references/debt.contract.md`. If the register or the counters are missing, return the need to run `aiddbot init`.
 
-Journal the review result.
-
 The result is current, traceable quality records.
 
 Commit as `docs(quality): audit system`.
