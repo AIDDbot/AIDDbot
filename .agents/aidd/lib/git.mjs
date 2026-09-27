@@ -41,6 +41,18 @@ export function isClean(root) {
   return git(root, ["status", "--porcelain", "--untracked-files=all"], { quiet: true }) === "";
 }
 
+/** Merge `source` into `base` with a merge commit; on failure, abort and return to `source`. */
+export function mergeInto(root, source, base, what) {
+  git(root, ["switch", base]);
+  try {
+    git(root, ["merge", "--no-ff", "--no-edit", source]);
+  } catch (error) {
+    git(root, ["merge", "--abort"], { quiet: true, allowFailure: true });
+    git(root, ["switch", source], { quiet: true, allowFailure: true });
+    throw new RuleError(`${what} was created on ${source}, but merge into ${base} failed. The branch was preserved. ${error.message}`);
+  }
+}
+
 export const SPEC_BRANCH = /^(?:feat|fix|refactor|chore)\/(S\d{4})-.+$/;
 
 /** The spec ID encoded in the current branch, or null. */

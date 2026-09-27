@@ -55,7 +55,7 @@ let seeded = [];
 if (parsed.command === "init") { ensureGit(destRoot, parsed.opts.dryRun); seeded = ensureSeedFiles(destRoot, parsed.opts.dryRun); }
 const result = runOverlay(destRoot, parsed.opts);
 if (result.fatal) process.exit(1);
-// Only after the overlay installs the destination's own append.mjs, so the
+// Only after the overlay installs the destination's own core, so the
 // genesis event's repository-root lookup resolves to destRoot, not to
 // wherever this package's own copy happens to live.
 if (parsed.command === "init") ensureJournalGenesis(destRoot, parsed.opts.dryRun);

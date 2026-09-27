@@ -55,7 +55,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   *Hecho cuando:* `aidd --help` lista los grupos y ninguna pieza de `lib/` duplica a otra.
 - [x] **1.2 `config.json`**: esquema (`projects: { name: { path, commands } }`), siembra desde `bin/lib/seed.js` y `aidd config get|set` con validación.
   *Hecho cuando:* `init` crea un `config.json` válido y `aidd config set` rechaza claves desconocidas.
-- [ ] **1.3 Migrar sin cambiar el comportamiento**, un subcomando por script:
+- [x] **1.3 Migrar sin cambiar el comportamiento**, un subcomando por script:
   - `aidd spec new` ← `prepare.mjs`
   - `aidd spec check` ← `validate.mjs`
   - `aidd eval record` ← los dos `finalize.mjs`

@@ -184,16 +184,15 @@ function ensureProductRecords(destRoot, dryRun) {
 
 // The journal is born once per repository, not once per day: only the very
 // first `aiddbot init` writes this event, so re-running init or update never
-// re-announces a project that already has history. Spawning append.mjs keeps
-// the day-header and line format in one place instead of duplicating it here.
+// re-announces a project that already has history. Spawning `aidd log` keeps
+// the day-header and line format in the core instead of duplicating it here.
 // Journals are gitignored (the seeded *.log rule) and this call creates a
 // directory, not a trackable file, so its caller never adds it to `git add`.
 //
 // Call this only after the overlay has installed the destination's own copy
-// of .agents/skills/record-journal/scripts/append.mjs: that script finds its
-// repository root by walking up from its own location first, so spawning the
-// AIDDbot package's copy (outside destRoot) would resolve to whatever repo
-// that copy happens to sit under instead of destRoot.
+// of .agents/aidd/aidd.mjs: the core resolves its repository root from its own
+// location, so spawning the AIDDbot package's copy (outside destRoot) would
+// resolve to whatever repo that copy happens to sit under instead of destRoot.
 function ensureJournalGenesis(destRoot, dryRun) {
   const rel = ".aiddbot/journals";
   if (fs.existsSync(path.join(destRoot, rel))) {
@@ -202,9 +201,13 @@ function ensureJournalGenesis(destRoot, dryRun) {
   }
   print("create", rel);
   if (dryRun) return;
-  const appendScript = path.join(destRoot, ".agents", "skills", "record-journal", "scripts", "append.mjs");
-  if (!fs.existsSync(appendScript)) return; // Nothing to spawn if the overlay didn't install it (unexpected, but never fatal to init).
-  execFileSync(process.execPath, [appendScript, "init", "genesis", "green", `AIDDbot v${packageVersion()}`], { cwd: destRoot, stdio: "inherit" });
+  const core = path.join(destRoot, ".agents", "aidd", "aidd.mjs");
+  if (!fs.existsSync(core)) return; // Nothing to spawn if the overlay didn't install it (unexpected, but never fatal to init).
+  try {
+    execFileSync(process.execPath, [core, "log", "init", "genesis", "green", `AIDDbot v${packageVersion()}`], { cwd: destRoot, stdio: ["ignore", "ignore", "inherit"] });
+  } catch {
+    process.stderr.write("Journal genesis failed; continuing without it.\n");
+  }
 }
 
 function ensureSeedFiles(destRoot, dryRun, title) {
