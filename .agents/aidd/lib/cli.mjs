@@ -1,9 +1,11 @@
 // Arguments, JSON output, and the fixed exit codes of the core (D1):
-// 0 success, 1 rejected by a rule, 2 incorrect usage.
-export const EXIT = { ok: 0, rule: 1, usage: 2 };
+// 0 success, 1 rejected by a rule, 2 incorrect usage, 3 nothing configured to run (D6).
+export const EXIT = { ok: 0, rule: 1, usage: 2, unavailable: 3 };
 
 export class UsageError extends Error {}
 export class RuleError extends Error {}
+/** No project has the requested command kind configured; never invented, only reported (D6). */
+export class UnavailableError extends Error {}
 
 /**
  * Parse `argv` against a declared shape.
@@ -46,7 +48,7 @@ export async function run(handler, argv, usage) {
     if (result !== undefined) emit(result.body ?? result);
     return result?.exitCode ?? EXIT.ok;
   } catch (error) {
-    const code = error instanceof UsageError ? EXIT.usage : EXIT.rule;
+    const code = error instanceof UsageError ? EXIT.usage : error instanceof UnavailableError ? EXIT.unavailable : EXIT.rule;
     emit({ ok: false, error: error.message });
     process.stderr.write(`${error.message}\n${code === EXIT.usage && usage ? `Usage: ${usage}\n` : ""}`);
     return code;

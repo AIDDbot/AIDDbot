@@ -1,5 +1,5 @@
 // `.aiddbot/config.json`: versioned, written only by the core (D6).
-// Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] } } } }
+// Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] }, ports?: [] } } }
 import fs from "node:fs";
 import path from "node:path";
 import { writeAtomic } from "./files.mjs";
@@ -10,6 +10,7 @@ export const EMPTY_CONFIG = Object.freeze({ projects: {} });
 
 const PROJECT_NAME = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const COMMAND_KINDS = { lint: "string", unit: "string", acceptance: "string", quality: "list" };
+export const RUN_KINDS = Object.keys(COMMAND_KINDS);
 
 const isObject = (value) => value !== null && typeof value === "object" && !Array.isArray(value);
 const nonEmpty = (value) => typeof value === "string" && value.trim() !== "";
@@ -30,6 +31,12 @@ function validateCommands(commands, where) {
   }
 }
 
+const isPort = (value) => Number.isInteger(value) && value > 0 && value <= 65535;
+
+function validatePorts(ports, where) {
+  if (!Array.isArray(ports) || !ports.every(isPort)) throw new Error(`${where} must be a list of TCP ports (1-65535).`);
+}
+
 /** Throw on the first schema violation; return the value when valid. */
 export function validateConfig(config) {
   if (!isObject(config)) throw new Error("Configuration must be a JSON object.");
@@ -39,12 +46,13 @@ export function validateConfig(config) {
     const where = `projects.${name}`;
     if (!PROJECT_NAME.test(name)) throw new Error(`Project name must be lowercase kebab-case: ${name}`);
     if (!isObject(project)) throw new Error(`${where} must be an object.`);
-    unknownKeys(project, ["path", "commands"], where);
+    unknownKeys(project, ["path", "commands", "ports"], where);
     if (!nonEmpty(project.path) || path.isAbsolute(project.path) || project.path.includes("\\") || project.path.split("/").includes("..")) {
       throw new Error(`${where}.path must be a relative path with forward slashes inside the repository.`);
     }
     if (!isObject(project.commands)) throw new Error(`${where}.commands must be an object.`);
     validateCommands(project.commands, `${where}.commands`);
+    if (Object.hasOwn(project, "ports")) validatePorts(project.ports, `${where}.ports`);
   }
   return config;
 }

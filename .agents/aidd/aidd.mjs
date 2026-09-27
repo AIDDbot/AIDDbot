@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // The AIDDbot core: one dependency-free CLI that keeps the process state (D1).
 // Usage: node .agents/aidd/aidd.mjs <group> [<command>] [arguments]
-// Every command prints JSON on stdout and exits 0 (ok), 1 (rejected by a rule), or 2 (usage).
+// Every command prints JSON on stdout and exits 0 (ok), 1 (rejected by a rule), 2 (usage), or 3 (nothing to run).
 import { EXIT, run } from "./lib/cli.mjs";
 
 // Each command lives in its own module under commands/, loaded only when invoked.
@@ -44,6 +44,10 @@ const GROUPS = {
       set: { usage: "config set <key> <json-value>", summary: "Write one dotted key after validating it", load: () => import("./commands/config.mjs").then((m) => ({ default: m.set })) },
     },
   },
+  run: {
+    summary: "Execute one classified command kind",
+    commands: { "": { usage: "run <lint|unit|acceptance|quality> [--project <name>]", summary: "Run the kind for one project, or every project that has it configured", load: () => import("./commands/run.mjs") } },
+  },
 };
 
 function help(groupName) {
@@ -53,7 +57,7 @@ function help(groupName) {
     lines.push(`${name.padEnd(8)} ${group.summary}`);
     for (const command of Object.values(group.commands)) lines.push(`  ${command.usage}`);
   }
-  lines.push("", "Output is JSON on stdout. Exit codes: 0 ok, 1 rejected by a rule, 2 incorrect usage.");
+  lines.push("", "Output is JSON on stdout. Exit codes: 0 ok, 1 rejected by a rule, 2 incorrect usage, 3 nothing configured to run.");
   return `${lines.join("\n")}\n`;
 }
 
