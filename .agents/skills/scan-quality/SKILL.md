@@ -15,4 +15,4 @@ Read the open debt with `node .agents/aidd/aidd.mjs debt list`, then reconcile i
 
 The result is a current debt register.
 
-Commit as `docs(quality): audit system`.
+The core commits each change as `docs(quality): add|remove {D ID}`.
