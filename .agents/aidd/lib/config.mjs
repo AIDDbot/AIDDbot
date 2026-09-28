@@ -1,5 +1,6 @@
 // `.aiddbot/config.json`: versioned, written only by the core (D6).
 // Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] }, ports?: [], acceptanceReport? } } }
+// Optional `release: { versionFiles: [] }` lists the JSON files that carry the product version (D38).
 // `acceptanceReport` is the project-relative path of the Playwright JSON report of `acceptance` (D27).
 import fs from "node:fs";
 import path from "node:path";
@@ -43,7 +44,15 @@ function validatePorts(ports, where) {
 /** Throw on the first schema violation; return the value when valid. */
 export function validateConfig(config) {
   if (!isObject(config)) throw new Error("Configuration must be a JSON object.");
-  unknownKeys(config, ["projects"], "");
+  unknownKeys(config, ["projects", "release"], "");
+  if (Object.hasOwn(config, "release")) {
+    if (!isObject(config.release)) throw new Error("release must be an object.");
+    unknownKeys(config.release, ["versionFiles"], "release");
+    const files = config.release.versionFiles;
+    if (!Array.isArray(files) || !files.length || !files.every(isInsidePath) || !files.every((file) => file.endsWith(".json"))) {
+      throw new Error("release.versionFiles must be a non-empty list of repository-relative JSON files.");
+    }
+  }
   if (!isObject(config.projects)) throw new Error("projects must be an object.");
   for (const [name, project] of Object.entries(config.projects)) {
     const where = `projects.${name}`;

@@ -20,6 +20,9 @@ export function shippedSpecDirs(root, exceptId = null) {
     .sort();
 }
 
+/** The title in the spec's `# S0042-slug — title` heading, or the fallback. */
+export const specTitle = (text, fallback) => /^# \S+ — (.+)$/m.exec(text)?.[1].trim() ?? fallback;
+
 /** Lowercase kebab-case, the shape of a spec slug and of its domain. */
 export const isSlug = (value) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value ?? "");
 

@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { writeAtomic } from "./files.mjs";
 import { read } from "./frontmatter.mjs";
-import { shippedSpecDirs, specsDir } from "./spec.mjs";
+import { shippedSpecDirs, specsDir, specTitle } from "./spec.mjs";
 
 export const INDEX = "README.md";
 
@@ -13,8 +13,7 @@ function entries(root) {
   return shippedSpecDirs(root).map((dir) => {
     const text = fs.readFileSync(path.join(dir, "spec.md"), "utf8");
     const key = path.basename(dir);
-    const title = /^# \S+ — (.+)$/m.exec(text)?.[1].trim() ?? key;
-    return { id: key.slice(0, 5), key, domain: read(text, "Spec").domain || "unclassified", title };
+    return { id: key.slice(0, 5), key, domain: read(text, "Spec").domain || "unclassified", title: specTitle(text, key) };
   });
 }
 

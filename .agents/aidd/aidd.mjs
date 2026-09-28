@@ -26,8 +26,8 @@ const GROUPS = {
     },
   },
   release: {
-    summary: "Commit, merge, and tag a spec release",
-    commands: { "": { usage: "release <version> [--base <branch>]", summary: "Commit, merge, tag, and delete the spec branch", load: () => import("./commands/release.mjs") } },
+    summary: "Version, commit, merge, and tag a spec release",
+    commands: { "": { usage: "release [--major] [--base <branch>]", summary: "Gate the spec, bump the version from its type, write the changelog, commit, merge, tag, and delete the spec branch", load: () => import("./commands/release.mjs") } },
   },
   git: {
     summary: "Git operations on task branches",
