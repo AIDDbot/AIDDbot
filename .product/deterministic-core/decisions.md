@@ -233,3 +233,6 @@ Lo eligió el humano (2026-09-28).
 - `debt add` y `debt remove` confirman `debt.json` (y `counters.yaml`, en el caso de `add`) como `docs(quality): add|remove {D ID}`.
 - Si git no puede confirmar, el registro se mantiene y la respuesta lleva `committed: false`.
 - `spec new` se rechaza mientras exista otra rama de spec, porque `release` borra la rama al publicar. `spec new` no confirma nada: la spec la confirma `define-spec` una vez redactada. Motivo: los commits manuales de Haiku (`git add -A` con basura, merge anunciado que nunca ocurrió) y la S0002 de Codex, que se creó dentro de S0001.
+
+## D52 · La cualificación nunca bloquea
+Lo eligió el humano (2026-09-28), para reducir el riesgo de que una spec quede bloqueada. La cualificación se registra una vez y nunca vuelve al Builder. El gate solo exige que exista, y su informe cuando no es verde. Al publicar, cada hallazgo se registra como deuda: `high` si su clasificación es `blocking`. La verificación es la única vuelta de reparación, y a partir de la revisión 3 tampoco bloquea. Consecuencia aceptada: un fallo de seguridad o de schema detectado en la revisión se publica como deuda alta en lugar de repararse dentro de la spec.

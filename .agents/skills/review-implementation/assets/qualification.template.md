@@ -15,4 +15,4 @@
 - Evidence: {observed facts}
 - Classification: {blocking | debt}
 
-{Blocking findings require repair. At revision 3, every still-present finding becomes a debt item at shipping. Include only failed controls and findings.}
+{Qualification never blocks: shipping records every finding as a debt item, `high` for a blocking one. Include only failed controls and findings.}
