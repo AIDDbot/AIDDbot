@@ -8,11 +8,13 @@ import { EXIT, run } from "./lib/cli.mjs";
 // A group with a single command uses the empty name.
 const GROUPS = {
   spec: {
-    summary: "Create, check, approve, and show specs",
+    summary: "Create, check, approve, block, resume, and show specs",
     commands: {
-      new: { usage: "spec new <type> <slug> <title> [--functional <n>] [--technical <n>]", summary: "Branch, reserve IDs, and create spec.md and control.json", load: () => import("./commands/spec-new.mjs") },
-      check: { usage: "spec check <spec-directory> [--base <branch>]", summary: "Validate a spec and its PRD edits", load: () => import("./commands/spec-check.mjs") },
-      approve: { usage: "spec approve <spec-id-or-directory>", summary: "Record human approval: draft to in-progress", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.approve })) },
+      new: { usage: "spec new <type> <slug> <title> --domain <domain>", summary: "Branch, reserve the spec ID, and create spec.md and control.json", load: () => import("./commands/spec-new.mjs") },
+      check: { usage: "spec check <spec-directory> [--base <branch>]", summary: "Validate a spec's identity, domain, requirements, and acceptance rows", load: () => import("./commands/spec-check.mjs") },
+      approve: { usage: "spec approve <spec-id-or-directory> [--base <branch>]", summary: "Check the spec and record human approval: draft to in-progress", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.approve })) },
+      block: { usage: "spec block <spec-id-or-directory> <reason>", summary: "Block a spec until a human resolves the reason", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.block })) },
+      resume: { usage: "spec resume <spec-id-or-directory> <resolution> [--base <branch>]", summary: "Check the spec and clear its block", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.resume })) },
       show: { usage: "spec show <spec-id-or-directory> [--json]", summary: "Summarize control.json for humans", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.show })) },
     },
   },
@@ -35,7 +37,7 @@ const GROUPS = {
   },
   log: {
     summary: "Journal one judgment of the model",
-    commands: { "": { usage: "log <verdict|select|blocked|escalate> <summary> [--spec <id>] [--project <name>]", summary: "Journal one judgment of the model", load: () => import("./commands/log.mjs") } },
+    commands: { "": { usage: "log <verdict|select|blocked> <summary> [--spec <id>] [--project <name>]", summary: "Journal one judgment of the model", load: () => import("./commands/log.mjs") } },
   },
   config: {
     summary: "Read and write .aiddbot/config.json",
@@ -43,6 +45,10 @@ const GROUPS = {
       get: { usage: "config get [<key>]", summary: "Read the configuration or one dotted key", load: () => import("./commands/config.mjs").then((m) => ({ default: m.get })) },
       set: { usage: "config set <key> <json-value>", summary: "Write one dotted key after validating it", load: () => import("./commands/config.mjs").then((m) => ({ default: m.set })) },
     },
+  },
+  trace: {
+    summary: "Trace a spec's requirements to its tagged acceptance tests",
+    commands: { "": { usage: "trace [<spec-id-or-directory>]", summary: "Report untested requirements, dangling or replaced tags, and untagged tests; exit 1 when red", load: () => import("./commands/trace.mjs") } },
   },
   run: {
     summary: "Execute one classified command kind",

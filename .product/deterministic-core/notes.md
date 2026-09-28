@@ -29,11 +29,15 @@ D6 hace de `.product/` una constante del núcleo: `aidd spec new` y `aidd spec c
 
 Al probar la migración apareció un fallo que ya tenían los scripts antiguos: el escritor del journal trunca el evento `evaluated` a 8 caracteres (`evaluate`), y los dos lectores (`finalize.mjs` y `preflight.mjs`) comparaban con `evaluated`, así que nunca encontraban una evaluación: la cualificación siempre fallaba con "no journaled verification evidence" y la puerta de entrega nunca era elegible. El lector único de `lib/journal.mjs` compara ahora con la forma truncada. No cambia el formato; la fase 2 retira el lector entero.
 
-## 🟡 P5 — 2.1 · Transiciones legales hacia `shipped`
+## ✅ P5 — 2.1 · Transiciones legales hacia `shipped`
+
+**Resuelta en 4.0 → D24:** `shipped` solo desde `qualified`; la vía de la revisión 3 llega a `qualified` al cerrarse la cualificación, y `aidd release` aplica la puerta por sí mismo.
 
 D8 fija la cadena `draft → in-progress → verified → qualified → shipped`, pero la puerta de entrega vigente también deja entregar con verificación roja en la revisión 3+ y una cualificación completada de cualquier color; en ese camino la spec está en `in-progress` o `verified`, nunca en `qualified`. Para no cambiar el comportamiento, `lib/control.mjs` admite `shipped` desde `in-progress`, `verified` y `qualified`, y deja que `aidd eval gate` decida. Rechaza: cualquier salida de `shipped`, cualquier salto desde `draft` que no sea la aprobación y aprobar algo que no esté en `draft`. Si D8 quiere `shipped` solo desde `qualified`, hay que decidir qué estado deja la vía de la revisión 3 (encaja con 4.0, al confirmar D8). Tampoco hice que `aidd release` ejecute la puerta por su cuenta: `ship-spec` sigue llamando a `aidd eval gate` antes, como en la fase 1; que `release` la exija sería natural en 6.1.
 
-## 🟡 P6 — 2.1 · Quién pone y quita `blocked`
+## ✅ P6 — 2.1 · Quién pone y quita `blocked`
+
+**Resuelta en 4.0 → D23:** se adopta la propuesta: `aidd spec block <spec> <motivo>` y `aidd spec resume <spec> <resolución>`, que anotan el journal; `escalate` deja de ser un evento del modelo.
 
 D2 y D8 ponen en `control.json` un campo `blocked` con motivo que "se limpia al reanudar", pero ni el plan de la fase 2 ni ninguna decisión nombran el comando que lo escribe ni qué es "reanudar". El esquema ya tiene `blocked: null` y `aidd release` lo limpia al entregar; no añadí `aidd spec block|resume` ni hice que `aidd log blocked` escriba estado (el journal no debe decidir nada, D3). Propuesta: `aidd spec block <spec> <motivo>` y `aidd spec resume <spec>`, que además anoten `blocked` en el journal, decididos en 4.0 junto con `escalate`.
 
@@ -47,3 +51,13 @@ Al dejar solo `verdict`, `select`, `blocked` y `escalate`, cuatro anotaciones de
 - **Sin deuda elegible** (`craft-lasting-quality`, antes ámbar): se devuelve la revisión diciéndolo, sin línea de journal.
 
 Aparte, `architect-system-foundation` aún llamaba a `.agents/skills/scaffold-system/scripts/git-integrate.mjs`, borrado en 1.3; lo cambié por `aidd git integrate` al tocar esa línea.
+
+## 🟡 P8 — 4.0 · Fallos inestables frente al invariante «la base está verde»
+
+D21 da por hecho que la rama por defecto está verde salvo la deuda registrada, y por eso atribuye a la rama todo fallo que la deuda no cite. Un test inestable o que depende del entorno (puerto, reloj, datos compartidos) rompe ese supuesto: el triaje lo atribuiría a la rama y el Builder intentaría reparar algo que la spec no tocó. No se decide aquí si `aidd run acceptance` debe repetir los fallos una vez, si hay que confiar en los reintentos del propio framework (`retries` de Playwright) o si se acepta ejecutar la base solo en ese caso. Encaja con 4.4, al construir la asignación de fallos, o con la prueba real de la fase.
+
+> **Avance en 4.4 (sin decidir):** el informe JSON de Playwright ya distingue `flaky` (falla y pasa en el reintento) de `unexpected`. `aidd run acceptance` lista los `flaky` aparte y `verify-behavior` los nombra sin que fallen nada. Pero el arquetipo `e2e-playwright` solo reintenta en CI (`retries: process.env.CI ? 2 : 0`), así que en local un fallo inestable sigue saliendo como `unexpected` y se atribuye a la rama. Opciones: que `rule-project` registre el comando de aceptación con `--retries=1`, que el ejecutor lo añada, o dejarlo así. Pendiente del humano.
+
+## 🟡 P9 — 4.4 · Un fallo `pre-existing` no cuenta contra la spec
+
+D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la verificación con él. Lo interpreté así: un fallo `pre-existing` no entra en `verification.md` y no impide el verde, porque ya está registrado como deuda. Si contara, cada spec quedaría roja hasta la revisión 3 por una deuda ajena, lo que contradice el invariante de D21. El validador de informes no acepta `pre-existing` como disposición y `verify-behavior` lo dice. Conviene confirmarlo o convertirlo en decisión.

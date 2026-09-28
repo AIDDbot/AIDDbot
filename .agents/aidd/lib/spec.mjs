@@ -2,11 +2,26 @@
 import fs from "node:fs";
 import path from "node:path";
 import { productPath } from "./paths.mjs";
+import { CONTROL, readControl } from "./control.mjs";
 import { requireFields } from "./frontmatter.mjs";
 
 export const SPEC_TYPES = ["feat", "fix", "refactor", "chore"];
 
 export const specsDir = (root) => productPath(root, "specs");
+
+/** Directories of every shipped spec but `exceptId`, in ID order. */
+export function shippedSpecDirs(root, exceptId = null) {
+  const specs = specsDir(root);
+  if (!fs.existsSync(specs)) return [];
+  return fs.readdirSync(specs, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && /^S\d{4}-/.test(entry.name) && !entry.name.startsWith(`${exceptId}-`))
+    .map((entry) => path.join(specs, entry.name))
+    .filter((dir) => fs.existsSync(path.join(dir, CONTROL)) && readControl(dir).status === "shipped")
+    .sort();
+}
+
+/** Lowercase kebab-case, the shape of a spec slug and of its domain. */
+export const isSlug = (value) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value ?? "");
 
 /**
  * Resolve a spec ID (`S0001`), a spec directory, or a `spec.md` path to its directory.

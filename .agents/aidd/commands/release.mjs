@@ -1,9 +1,11 @@
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { currentBranch, defaultBranch, git, isClean, mergeInto, SPEC_BRANCH } from "../lib/git.mjs";
 import { readControl, transition, writeControl } from "../lib/control.mjs";
+import { gate } from "../lib/gate.mjs";
 import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
+import { writeIndex } from "../lib/spec-index.mjs";
 
 const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 
@@ -16,7 +18,10 @@ function tagFor(root, version) {
   return `${prefixes.values().next().value ?? "v"}${version}`;
 }
 
-/** Commit the prepared release on the spec branch, merge it into the default branch, tag it, and delete the branch. */
+/**
+ * Apply the shipping gate, mark the spec shipped, regenerate the spec index, commit the prepared release on the spec
+ * branch, merge it into the default branch, tag it, and delete the branch.
+ */
 export default function release(argv) {
   const { version, base: requested } = parseArgs(argv, { positional: ["version"], flags: { base: "string" } });
   if (!SEMVER.test(version)) throw new UsageError(`Invalid semantic version: ${version}`);
@@ -30,10 +35,13 @@ export default function release(argv) {
   const tag = tagFor(root, version);
   if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) throw new RuleError(`Release tag already exists: ${tag}`);
   const { dir } = resolveSpecDir(root, spec);
-  const control = transition(readControl(dir), "shipped");
-  control.blocked = null;
+  const current = readControl(dir);
+  const verdict = gate(root, dir, current);
+  if (!verdict.eligible) throw new RuleError(`${spec} cannot ship: ${verdict.blockers.join(" ")}`);
+  const control = transition(current, "shipped");
   control.shipped = { version, at: new Date().toISOString() };
   writeControl(dir, control);
+  writeIndex(root);
   git(root, ["add", "-A"]);
   git(root, ["commit", "-m", `chore(release): ${version}`]);
   mergeInto(root, source, base, "Release commit");

@@ -1,6 +1,6 @@
 ---
 name: define-spec
-description: Turn one natural-language request into an approved spec and its proposed PRD edits.
+description: Turn one natural-language request into an approved spec.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

@@ -1,13 +1,19 @@
 // Execute one classified command kind for one project or every project that
 // has it configured (D6). Classification itself is rule-project's job, done
 // once and written to config.json; this command only runs what is recorded
-// there, and never invents a command for a kind nothing declared.
+// there, and never invents a command for a kind nothing declared. For `acceptance`
+// it also reads the declared Playwright JSON report and triages each failure (D20–D22).
+import fs from "node:fs";
+import path from "node:path";
+import { outcomes, REPORT_ENV, reportFile, triage } from "../lib/acceptance.mjs";
 import { EXIT, parseArgs, UnavailableError, UsageError } from "../lib/cli.mjs";
 import { readConfig, RUN_KINDS } from "../lib/config.mjs";
 import { execCommand } from "../lib/exec.mjs";
+import { specFromBranch } from "../lib/git.mjs";
+import { relative } from "../lib/paths.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { freeConfiguredPorts } from "../lib/ports.mjs";
-import path from "node:path";
+import { resolveSpecDir } from "../lib/spec.mjs";
 
 function targetProjects(config, requested) {
   if (!requested) return Object.keys(config.projects);
@@ -26,8 +32,35 @@ function runProject(root, config, kind, name) {
   }
   const command = project.commands[kind];
   if (!command) return { project: name, available: false };
-  if (kind === "acceptance") freeConfiguredPorts(project.ports);
-  return { project: name, available: true, ...execCommand(cwd, command) };
+  if (kind !== "acceptance") return { project: name, available: true, ...execCommand(cwd, command) };
+  freeConfiguredPorts(project.ports);
+  if (!project.acceptanceReport) {
+    return { project: name, available: true, ...execCommand(cwd, command), report: null, note: "No acceptanceReport declared: failures cannot be assigned to requirements, so verification cannot be green." };
+  }
+  const file = reportFile(root, project);
+  fs.rmSync(file, { force: true });
+  const result = execCommand(cwd, command, { [REPORT_ENV]: file });
+  if (!fs.existsSync(file)) return { project: name, available: true, ...result, report: { file: relative(root, file), found: false, note: "The run wrote no JSON report; enable Playwright's json reporter." } };
+  const all = outcomes(JSON.parse(fs.readFileSync(file, "utf8")));
+  const spec = branchSpec(root);
+  return {
+    project: name, available: true, ...result,
+    report: {
+      file: relative(root, file), found: true,
+      counts: Object.fromEntries(["expected", "unexpected", "flaky", "skipped"].map((status) => [status, all.filter((entry) => entry.status === status).length])),
+      spec: spec?.id ?? null,
+      failures: triage(root, spec, all.filter((entry) => entry.status === "unexpected")),
+      flaky: all.filter((entry) => entry.status === "flaky").map((entry) => `${relative(root, entry.file)}:${entry.line} ${entry.test}`),
+    },
+  };
+}
+
+/** The spec of the current branch, as triage needs it, or null off a spec branch. */
+function branchSpec(root) {
+  const id = specFromBranch(root);
+  if (!id) return null;
+  const { file } = resolveSpecDir(root, id);
+  return { id, text: fs.readFileSync(file, "utf8") };
 }
 
 export default function run(argv) {
