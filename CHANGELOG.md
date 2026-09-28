@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.17 - 2026-09-28
+
+- Merge branch 'refactor/dc-7-greenfield' (0068d31)
+- refactor(skills): remove /scaffold-system (7.3) (dfeca98)
+- refactor(skills): tighten /architect-system-foundation (7.1) (9a0da49)
+- docs(product): mark create-aiddbot done (7.2) (2ec8ecb)
+- docs(product): settle greenfield decisions D39-D45 (7.0) (7c0d5aa)
+- docs(product): note pending fixes F1-F3 for after phase 7 (5260652)
+
 ## 0.1.16 - 2026-09-28
 
 - Merge branch 'refactor/dc-6-release' (5c1190c)
