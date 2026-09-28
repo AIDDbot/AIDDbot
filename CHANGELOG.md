@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.19 - 2026-09-28
+
+- Merge branch 'fix/dc-fixes' (4871244)
+- fix: seed a root package.json and stop ship-spec on a refused release (F2, F3) (06a4d72)
+- fix(core): cap journal summaries at 128 characters (F1) (f6b4a79)
+
 ## 0.1.18 - 2026-09-28
 
 - Merge branch 'refactor/dc-8-roles-docs' (83c7252)
