@@ -12,14 +12,14 @@
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | `scaffold-system` → `outline-system` → `rule-project` | Scaffold, dependencies, documentation, rules, and product records |
+| No application source | Staged questions → `.product/system.md` → approval | An approved system proposal and its `create-aiddbot` command |
 | Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
-Existing product records are preserved. A completed scaffold is merged from `chore/scaffold`.
+Existing product records are preserved. AIDDbot never scaffolds: the human runs the proposal's `npm create aiddbot` command in a clean working tree, which downloads the archetypes, installs their dependencies, and commits `chore(scaffold)` on the current branch. Rerun `/architect-system-foundation` afterwards to document the new projects.
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 
-`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. Scaffolding can seed `.gitignore` and `LICENSE` from its bundled defaults if either is missing, and leaves existing files untouched. A scaffold leaves `.aiddbot/aiddbot.system.json` as the system index and initializes the root `package.json` with product name, description, author, and version. It installs each project's dependencies and stops there: no lint, tests, or other command. It does not repeat skill routing or commands executed by the models.
+`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 

@@ -31,7 +31,7 @@ Los únicos eventos del modelo son `verdict` (greenfield o brownfield), `select`
 ## D6 ← Q6 · Configuración y comandos en un solo fichero *(delegada)*
 `.aiddbot/config.json` va versionado y lo escribe el núcleo. Contiene los proyectos, cada uno con su ruta y sus comandos clasificados: `lint` (solo de nivel error), `unit`, `acceptance` y `quality` (lista). Además:
 - `init` lo siembra vacío; `outline-system` registra los proyectos; `rule-project` clasifica los comandos de cada uno una sola vez, con `aidd config`.
-- Más adelante, el CLI de scaffold (A) podrá presembrarlo y `rule-project` lo confirmará.
+- ~~Más adelante, el CLI de scaffold (A) podrá presembrarlo y `rule-project` lo confirmará.~~ (ver D43)
 - `aidd run` falla con un código propio si un comando no está clasificado, y el skill lo registra como no disponible (ámbar); nunca se lo inventa.
 - **Derivada:** `.product/` pasa a ser una constante del núcleo y deja de ser configurable, lo que matiza la D13 de frontier-fall. Con beta y solo greenfield, un marcador menos que resolver.
 
@@ -181,3 +181,28 @@ Lo eligió el humano (2026-09-28). `aidd release` ya no recibe la versión: `fea
 
 ## D38 · Ficheros de versión: JSON con `version`, declarados en `config.json`
 Lo eligió el humano (2026-09-28). Por defecto son el `package.json` raíz y, si existe, la raíz de `package-lock.json`. `config.json` puede declarar más en `release.versionFiles`: ficheros JSON acoplados a la versión del producto. Otros ecosistemas, como `pom.xml`, `pyproject.toml` o `Cargo.toml`, quedan fuera mientras solo haya greenfield con Node.
+
+## D39 ← A · La propuesta del sistema es `.product/system.md`
+Lo eligió el humano (2026-09-28). En greenfield, el Architect redacta `.product/system.md`: propósito, usuarios y necesidades, proyectos (tier, arquetipo y carpeta), decisiones técnicas que afectan al scaffold y la línea exacta del CLI. Es un registro con versión que el humano aprueba. Tras el scaffold se conserva, y `outline-system` lo toma como contexto de producto para `AGENTS.md`.
+
+## D40 ← A · El humano ejecuta el CLI de scaffold
+Lo eligió el humano (2026-09-28). AIDDbot no descarga ni materializa nada: la propuesta aprobada termina con el comando, y el humano lo lanza.
+
+## D41 ← A · El CLI hace un solo commit en la rama actual
+Lo eligió el humano (2026-09-28). Si no hay repositorio, hace `git init`. Se niega a trabajar si el árbol tiene cambios sin confirmar. Materializa, instala y confirma un único `chore(scaffold): …` en la rama actual, sin ramas ni merges.
+
+## D42 ← A · `create-aiddbot`, repo propio
+Lo eligió el humano (2026-09-28). Se invoca con `npm create aiddbot` (o `npx create-aiddbot`). Tiene repositorio y versión propios, así que el catálogo de arquetipos evoluciona sin releases de AIDDbot. Sustituye a `scaffold-system` y a su materializador.
+
+## D43 ← A, D6 · Solo `rule-project` escribe los proyectos en `config.json`
+Lo eligió el humano (2026-09-28). Ni el CLI ni la propuesta tocan `config.json`: tras el scaffold, `rule-project` clasifica los comandos reales, igual que en brownfield. Tacha la derivada de D6 («el CLI de scaffold podrá presembrarlo») y las partes «registra en `config.json`» de 7.1 y «presiembra» de 7.2.
+
+## D44 ← A · El Architect consulta el catálogo con `npx create-aiddbot --list`
+Lo eligió el humano (2026-09-28). El catálogo vivo es de solo lectura. Sin red, la propuesta nombra solo los tiers y el CLI aplica sus valores por defecto.
+
+## D45 ← A · Recorrido greenfield: init → propuesta → CLI → documentar
+Lo eligió el humano (2026-09-28).
+1. `aiddbot init`.
+2. `/architect-system-foundation` da el veredicto `greenfield`, pregunta por etapas, escribe `system.md`, pide la aprobación y termina mostrando el comando. No documenta.
+3. El humano ejecuta `npm create aiddbot …`.
+4. `/architect-system-foundation` se ejecuta de nuevo, da el veredicto `brownfield` y ejecuta `outline-system` y `rule-project`.

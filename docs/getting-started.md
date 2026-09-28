@@ -23,15 +23,21 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 
 You can customize the installed agent profiles in your harness's native files. See [Customize agent profiles](./agent-customization.md) for file locations, model and effort guidance, and update behavior.
 
-When `/scaffold-system` runs, it can also create a missing `.gitignore` or `LICENSE` from its bundled defaults. It never overwrites either file.
-
 ## Prepare the repository
 
 ```markdown
 /architect-system-foundation
 ```
 
-For an existing system, this documents its projects and working rules. When no application source exists, it first asks what projects are needed, scaffolds them, installs their required dependencies, and reconciles their main documentation.
+For an existing system, this documents its projects and working rules.
+
+When no application source exists, it asks about the product and its projects in short stages, proposes the system in `.product/system.md`, and, after your approval, gives you the command that scaffolds it:
+
+```bash
+npm create aiddbot -- --name "Astro Bookings" --author "Ada Lovelace" --front standard --back express --e2e playwright
+```
+
+[`create-aiddbot`](https://github.com/AIDDbot/create-aiddbot) downloads the archetypes, installs their dependencies, and commits the scaffold on the current branch. Run `/architect-system-foundation` again to document the new projects and record their commands.
 
 ## Deliver a change
 

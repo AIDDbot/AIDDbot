@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to set the system's shared documentation — root instructions, conceptual model, and every project's physical schemas — from repository evidence.
 
-Document what exists; never redesign. Read source code only to find domain entities and physical shape. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`, and settle them with the human only when they are missing.
+Document what exists; never redesign. Read source code only to find domain entities and physical shape. When `{Product_Folder}/system.md` exists, take the product purpose, users, and needs from it, and let the code win wherever they disagree. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`, and settle them with the human only when they are missing.
 
 Write `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it exists, change only what the repository contradicts and keep human-written content. Keep every template section: one without repository evidence is copied from the template as written, never dropped or summarized. Record important paths and product records, but never inventory skills, commands, or the actions that run them; the orchestrators own that routing.
 
