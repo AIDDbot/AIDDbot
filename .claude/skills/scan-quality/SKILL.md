@@ -1,6 +1,6 @@
 ---
 name: scan-quality
-description: Inspect quality evidence and maintain durable quality records.
+description: Inspect quality evidence and keep the debt register current.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
