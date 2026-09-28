@@ -74,6 +74,6 @@ D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la veri
 
 Anotados por el humano el 2026-09-28, antes de empezar la fase 7. Se corrigen después; el humano guardará informes de las pruebas.
 
-- [ ] **F1 · Journal:** `aidd log` debe truncar el mensaje final a 128 caracteres. Hoy `lib/journal.mjs` no trunca nada por diseño («nothing is ever truncated»).
+- [x] **F1 · Journal:** `aidd log` debe truncar el mensaje final a 128 caracteres. Hecho: el resumen se corta a 128 con `…`; las demás columnas no cambian.
 - [ ] **F2 · PRD / índice de specs con Haiku:** en una prueba con Haiku no se generó el índice de specs (antiguo PRD).
 - [ ] **F3 · CHANGELOG con Haiku:** en la misma prueba tampoco se creó el `CHANGELOG`.
