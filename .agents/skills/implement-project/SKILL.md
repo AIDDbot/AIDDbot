@@ -15,7 +15,7 @@ Build exactly the shape the spec's schema impact declares against this project's
 
 Write unit tests for the critical production code and run `node .agents/aidd/aidd.mjs run unit --project {project}` until they pass; do not unit-test UI code or E2E tests. When the scope includes E2E tests, write or repair them from the spec's requirements: put the global ID of every requirement a test proves in its title, as `@S0042-R03`, and update or remove the tests of any requirement the spec replaces. Every requirement needs at least one test that proves it. You may run `node .agents/aidd/aidd.mjs run acceptance` to check your work; the verification that counts is still `verify-behavior`'s. Each E2E test creates its own data with unique identifiers and never depends on test order, pre-existing data, or global counts, because the suite runs in parallel against one shared database.
 
-After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix every reported error. Never run `quality`: that belongs to `scan-quality`. When either command exits unavailable, report it as such in your result instead of constructing one.
+After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix every reported error. When the spec repairs recorded debt, you may run `node .agents/aidd/aidd.mjs run quality --project {project}` to check that repair; otherwise never run `quality`, which belongs to `scan-quality`. When either command exits unavailable, report it as such in your result instead of constructing one.
 
 The result is the project's code and tests for the supplied scope, lint-clean.
 

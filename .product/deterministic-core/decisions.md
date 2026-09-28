@@ -236,3 +236,9 @@ Lo eligió el humano (2026-09-28).
 
 ## D52 · La cualificación nunca bloquea
 Lo eligió el humano (2026-09-28), para reducir el riesgo de que una spec quede bloqueada. La cualificación se registra una vez y nunca vuelve al Builder. El gate solo exige que exista, y su informe cuando no es verde. Al publicar, cada hallazgo se registra como deuda: `high` si su clasificación es `blocking`. La verificación es la única vuelta de reparación, y a partir de la revisión 3 tampoco bloquea. Consecuencia aceptada: un fallo de seguridad o de schema detectado en la revisión se publica como deuda alta en lugar de repararse dentro de la spec.
+
+## D53 · La cualificación es una revisión experta de lo grueso; quality es endurecimiento ocasional
+Lo eligió el humano (2026-09-28), tras el post-mortem 25 (Codex sol con v0.1.25: las dos specs publicadas en unos 47 minutos).
+- Lo importante es la funcionalidad de la spec. La cualificación busca errores gruesos y fáciles que ningún linter ve: seguridad, integridad de datos, accesibilidad y UX básica, derroche flagrante y reglas del proyecto. No reporta warnings, complejidad ni cobertura, y no cita logs de `.aiddbot/runs/`. Se retiran de `qualify.gates.md` clean code, DRY y el detalle del design system.
+- Los warnings de quality sirven para endurecer el código: una feature puede publicarse con ellos, y `/craft-lasting-quality` los revisa de vez en cuando, nunca tras cada spec. Se descarta que el Builder ejecute quality en cada feature.
+- En una spec de reparación de deuda, el Builder puede ejecutar `run quality --project` para comprobar su arreglo. `ship-spec` quita los D IDs citados salvo que el último run de quality de la spec aún los muestre, y el siguiente escaneo vuelve a registrar lo que quede.
