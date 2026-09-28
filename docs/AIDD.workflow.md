@@ -39,7 +39,7 @@ architect-system-foundation:
     - "Architect: propose .product/system.md and obtain approval"
     - "Human: run its scaffold commands, then rerun"
   brownfield:
-    - "Architect: outline-system"
+    - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
 
 build-requested-spec:
@@ -48,11 +48,11 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
       e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
   - Craftsman:
-      evaluation: "verify-behavior, review-implementation, ship-spec; red evaluations and their failure-only reports go back to the Builder"
+      evaluation: "verify-behavior, review-implementation, ship-spec; red evaluations and their failure-only reports go back to the Builder; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
 craft-lasting-quality:
   - "Craftsman: scan-quality"
-  - "Architect: select one coherent group of eligible debt"
+  - "Architect: select one coherent group of eligible debt; the repair stays within its evidence"
   - "build-requested-spec with both agents when eligible debt remains"
   - "return the debt list summary when no repair is eligible"
 ```
