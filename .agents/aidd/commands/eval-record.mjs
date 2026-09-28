@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
-import { EVALUATION_KINDS, EVALUATION_STATUSES, latestEvaluation, readControl, transition, writeControl } from "../lib/control.mjs";
+import { assertNotBlocked, EVALUATION_KINDS, EVALUATION_STATUSES, latestEvaluation, readControl, transition, writeControl } from "../lib/control.mjs";
 import { readConfig } from "../lib/config.mjs";
+import { shippable } from "../lib/gate.mjs";
 import { git } from "../lib/git.mjs";
 import { noteQuietly } from "../lib/journal.mjs";
 import { REPORTS, reportEvidence, validateFindings } from "../lib/reports.mjs";
@@ -32,10 +33,12 @@ function checkPriorVerification(dir, verification) {
   if (!evidence.ok) throw new RuleError(`Red verification at revision 3 or later needs its current report: ${evidence.reason}`);
 }
 
+/** A verification leads to verified or back to in-progress; a qualification closes on qualified only when shipping is eligible (D24). */
 function nextState(kind, status, control) {
   if (kind === "verification") return status === "green" ? "verified" : "in-progress";
-  if (status !== "red") return "qualified";
-  return latestEvaluation(control, "verification")?.status === "red" ? "in-progress" : "verified";
+  const verification = latestEvaluation(control, "verification");
+  if (shippable(verification, { status })) return "qualified";
+  return verification?.status === "red" ? "in-progress" : "verified";
 }
 
 /** Write or remove the report the evaluation requires; true when it requires one. */
@@ -59,6 +62,7 @@ export default function evalRecord(argv) {
   const { dir } = resolveSpecDir(root, specDir);
   const control = readControl(dir);
   if (["draft", "shipped"].includes(control.status)) throw new RuleError(`Cannot evaluate a spec in ${control.status} state.`);
+  assertNotBlocked(control);
   if (kind === "qualification") checkPriorVerification(dir, latestEvaluation(control, "verification"));
   if (kind === "verification" && status === "green") {
     const traced = trace(root, { id: control.id, text: fs.readFileSync(path.join(dir, "spec.md"), "utf8") });

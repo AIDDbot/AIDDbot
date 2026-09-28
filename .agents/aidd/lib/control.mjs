@@ -10,12 +10,12 @@ export const STATES = ["draft", "in-progress", "verified", "qualified", "shipped
 export const EVALUATION_KINDS = ["verification", "qualification"];
 export const EVALUATION_STATUSES = ["green", "amber", "red"];
 
-// The state chain (D8). A red evaluation sends a spec back to in-progress; shipping is
-// further gated by `aidd eval gate`, which also accepts red verification at revision 3+.
+// The state chain (D8, D24). A red evaluation sends a spec back to in-progress; `qualified`
+// means the qualification is closed and shipping is eligible, so only it reaches `shipped`.
 const TRANSITIONS = {
   draft: ["in-progress"],
-  "in-progress": ["in-progress", "verified", "qualified", "shipped"],
-  verified: ["in-progress", "verified", "qualified", "shipped"],
+  "in-progress": ["in-progress", "verified", "qualified"],
+  verified: ["in-progress", "verified", "qualified"],
   qualified: ["in-progress", "verified", "qualified", "shipped"],
   shipped: [],
 };
@@ -66,6 +66,11 @@ export function transition(control, next) {
   if (!TRANSITIONS[control.status].includes(next)) throw new RuleError(`Illegal spec transition: ${control.status} -> ${next}.`);
   control.status = next;
   return control;
+}
+
+/** Reject any state change while the spec is blocked (D23); `aidd spec resume` clears it. */
+export function assertNotBlocked(control) {
+  if (control.blocked) throw new RuleError(`${control.id} is blocked: ${control.blocked.reason}. Resolve it and run aidd spec resume.`);
 }
 
 /** The latest evaluation of one kind, or null. */

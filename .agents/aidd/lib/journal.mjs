@@ -11,9 +11,10 @@ import { aiddbotPath } from "./paths.mjs";
 
 export const STATUSES = ["green", "amber", "red"];
 
-// The only events a model logs (D5), each with its fixed status. `init` is reserved
-// for the single genesis line `aiddbot init` writes.
-export const MODEL_EVENTS = { verdict: "green", select: "green", blocked: "red", escalate: "amber", init: "green" };
+// The only events a model logs (D5), each with its fixed status. `blocked` is for a block
+// outside any spec; a spec's block and resume are journaled by `aidd spec block|resume` (D23).
+// `init` is reserved for the single genesis line `aiddbot init` writes.
+export const MODEL_EVENTS = { verdict: "green", select: "green", blocked: "red", init: "green" };
 
 const SEPARATOR = " ";
 const pad = (value) => String(value).padStart(2, "0");

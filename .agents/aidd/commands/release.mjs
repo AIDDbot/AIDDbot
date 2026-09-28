@@ -1,6 +1,7 @@
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { currentBranch, defaultBranch, git, isClean, mergeInto, SPEC_BRANCH } from "../lib/git.mjs";
 import { readControl, transition, writeControl } from "../lib/control.mjs";
+import { gate } from "../lib/gate.mjs";
 import { noteQuietly } from "../lib/journal.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
@@ -18,7 +19,7 @@ function tagFor(root, version) {
 }
 
 /**
- * Mark the spec shipped, regenerate the spec index, commit the prepared release on the spec
+ * Apply the shipping gate, mark the spec shipped, regenerate the spec index, commit the prepared release on the spec
  * branch, merge it into the default branch, tag it, and delete the branch.
  */
 export default function release(argv) {
@@ -34,8 +35,10 @@ export default function release(argv) {
   const tag = tagFor(root, version);
   if (tag && git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) throw new RuleError(`Release tag already exists: ${tag}`);
   const { dir } = resolveSpecDir(root, spec);
-  const control = transition(readControl(dir), "shipped");
-  control.blocked = null;
+  const current = readControl(dir);
+  const verdict = gate(root, dir, current);
+  if (!verdict.eligible) throw new RuleError(`${spec} cannot ship: ${verdict.blockers.join(" ")}`);
+  const control = transition(current, "shipped");
   control.shipped = { version, at: new Date().toISOString() };
   writeControl(dir, control);
   writeIndex(root);

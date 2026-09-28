@@ -46,4 +46,4 @@ Have the **Builder** execute the `implement-project` skill for each affected pro
 
 ## Journal
 
-The core journals every state change it makes on its own. A skill journals only a judgment of the model, with `node .agents/aidd/aidd.mjs log <event> "<summary>"`, and only these events: `verdict` (greenfield or brownfield), `select` (the debt chosen), `blocked` (with its reason), and `escalate` (a triage the human must settle). Never journal starts, ends, spawns, or coding, testing, and linting milestones.
+The core journals every state change it makes on its own. A skill journals only a judgment of the model, with `node .agents/aidd/aidd.mjs log <event> "<summary>"`, and only these events: `verdict` (greenfield or brownfield), `select` (the debt chosen), and `blocked` (with its reason) for a block outside any spec. A spec is blocked and resumed with `aidd spec block` and `aidd spec resume`, which journal it themselves. Never journal starts, ends, spawns, or coding, testing, and linting milestones.

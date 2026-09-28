@@ -17,7 +17,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 
 Evaluation reports are finding-only: a green verification or qualification has no report file. Each spec's `control.json` holds its process state and is written only by the core (`aidd spec show` summarizes it), including each evaluation's revision, status, commit, and whether it requires a report, so the shipping gate works in a fresh clone.
 
-The journal is narrative for humans: no code reads it or decides anything from it. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, written by the core (`.agents/aidd/`) for every state change and by `aidd log` for the model's `verdict`, `select`, `blocked`, and `escalate` judgments. Journals are kept out of Git by the root `.gitignore` policy.
+The journal is narrative for humans: no code reads it or decides anything from it. The whole process shares one daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, never one per project, written by the core (`.agents/aidd/`) for every state change and by `aidd log` for the model's `verdict`, `select`, and `blocked` judgments; a spec's block is journaled by `aidd spec block`. Journals are kept out of Git by the root `.gitignore` policy.
 
 ## Public orchestrators
 

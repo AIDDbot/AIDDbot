@@ -14,7 +14,7 @@ function checkIdentity(spec, branch, control) {
   if (!SPEC_TYPES.includes(spec.type) || spec.branch !== `${spec.type}/${spec.key}`) throw new RuleError("Spec type, branch, and key do not agree.");
   if (!isSlug(spec.domain)) throw new RuleError(`Spec domain must be lowercase kebab-case: ${spec.domain}`);
   if (control.id !== spec.id || control.branch !== spec.branch) throw new RuleError("Spec frontmatter does not match control.json.");
-  if (!["draft", "in-progress"].includes(control.status)) throw new RuleError(`Unexpected pre-approval spec status: ${control.status}`);
+  if (control.status === "shipped") throw new RuleError("A shipped spec is closed; define a new spec instead.");
   if (branch !== spec.branch) throw new RuleError(`Current branch ${branch} does not match spec branch ${spec.branch}.`);
 }
 
