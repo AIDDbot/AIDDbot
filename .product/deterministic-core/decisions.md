@@ -175,3 +175,9 @@ Cada ítem guarda título, prioridad, estado, alcance, un hecho observado, su im
 
 ## D36 ← C·Q7 · Sin deuda elegible, el resumen del registro
 Cuando no hay deuda elegible, `craft-lasting-quality` devuelve el resumen de `aidd debt list` (vacío, o solo con ítems que no se pueden reparar) y lo dice.
+
+## D37 · La versión la calcula el núcleo a partir del tipo de spec
+Lo eligió el humano (2026-09-28). `aidd release` ya no recibe la versión: `feat` sube la versión menor, y `fix`, `refactor` y `chore` suben el parche, sobre la versión actual del primer fichero de versión. El modelo solo añade `--major` cuando juzga que la entrega rompe compatibilidad. La entrada del changelog sale del título de la spec, en la sección que corresponde a su tipo.
+
+## D38 · Ficheros de versión: JSON con `version`, declarados en `config.json`
+Lo eligió el humano (2026-09-28). Por defecto son el `package.json` raíz y, si existe, la raíz de `package-lock.json`. `config.json` puede declarar más en `release.versionFiles`: ficheros JSON acoplados a la versión del producto. Otros ecosistemas, como `pom.xml`, `pyproject.toml` o `Cargo.toml`, quedan fuera mientras solo haya greenfield con Node.
