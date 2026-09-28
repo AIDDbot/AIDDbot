@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.15 - 2026-09-28
+
+- Merge branch 'refactor/dc-5-quality-register' (22b30dc)
+- refactor(skills): run quality skills on the debt register (5.2) (94186ca)
+- feat(core): debt register with aidd debt (5.1) (b327a6f)
+- docs(product): decide the quality register (C) (f5a62d6)
+- docs(product): settle P8 and P9 as D28 and D29 (23a24c0)
+- Merge branch 'refactor/dc-4-spec-first' (c49ccd5)
+- feat(core): block and resume specs; ship only from qualified (4.5) (f5d881b)
+- feat(core): triage acceptance failures from the Playwright JSON report (4.4) (0488197)
+- feat(core): trace requirements to tagged acceptance tests (4.3) (793e517)
+- feat(core): replace the PRD with a generated spec index (4.2) (f465a7f)
+- feat(core): local spec requirements and domain (4.1) (9caaca2)
+- docs(product): review spec-first decisions with the human (10a4e23)
+- docs(product): decide spec-first (B) (f3b1adf)
+- docs(product): keep 0.1.x until the end of the deterministic-core plan (5085040)
+- Merge branch 'refactor/dc-journal-columns' (38ceec1)
+- feat(core): align journal columns (4971c42)
+- refactor(skills): tighten /scaffold-system (c050fb4)
+
 ## 0.1.14 - 2026-09-27
 
 - No new commits.
