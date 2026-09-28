@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.22 - 2026-09-28
+
+- Merge branch 'refactor/dc-c1-run-evidence' (56af2da)
+- refactor(skills): tighten /verify-behavior (897c44f)
+- feat(core): keep run evidence and require it for green verification (D47–D49) (b533517)
+
 ## 0.1.21 - 2026-09-28
 
 - Merge branch 'refactor/lean-core' (f47ab44)
