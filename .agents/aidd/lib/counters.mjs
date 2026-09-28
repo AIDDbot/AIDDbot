@@ -1,8 +1,9 @@
-// `.aiddbot/counters.yaml`: the single source of record IDs (D9).
+// `.aiddbot/counters.yaml`: the single source of record IDs (D9). Requirement IDs are
+// local to their spec (D16), so only specs and debt are counted (D25).
 import { writeAtomic } from "./files.mjs";
 import { aiddbotPath } from "./paths.mjs";
 
-export const COUNTER_KEYS = ["spec", "functional", "technical", "debt"];
+export const COUNTER_KEYS = ["spec", "debt"];
 
 export const countersFile = (root) => aiddbotPath(root, "counters.yaml");
 

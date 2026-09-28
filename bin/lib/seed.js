@@ -74,7 +74,7 @@ function absPath(destRoot, rel) {
 // One-line records need no template file (D19).
 const SEEDS = {
   "LICENSE": "Add your license here (for example, MIT, Apache-2.0, or UNLICENSED).\n",
-  ".aiddbot/counters.yaml": "spec: 0\nfunctional: 0\ntechnical: 0\ndebt: 0\n",
+  ".aiddbot/counters.yaml": "spec: 0\ndebt: 0\n",
   ".product/specs/PRD.md": "# Product requirements\n",
   ".product/quality/TDR.md": "# Technical debt register\n",
 };

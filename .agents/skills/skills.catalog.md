@@ -9,7 +9,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `specs/PRD.md` | Current requirements |
 | `quality/TDR.md` | Open technical debt |
 | `specs/S{nnnn}-{slug}/` | One delivery: `spec.md`, its core-written `control.json`, and non-green reports |
-| `.aiddbot/counters.yaml` | Permanent S, F, T, and D IDs, tracked in Git |
+| `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/config.json` | Each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands; core-written, `aidd run` reads it |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Narrative process events by local date, always at the repository root, ignored by Git; nothing reads it |
 

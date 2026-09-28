@@ -8,6 +8,9 @@ export const SPEC_TYPES = ["feat", "fix", "refactor", "chore"];
 
 export const specsDir = (root) => productPath(root, "specs");
 
+/** Lowercase kebab-case, the shape of a spec slug and of its domain. */
+export const isSlug = (value) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value ?? "");
+
 /**
  * Resolve a spec ID (`S0001`), a spec directory, or a `spec.md` path to its directory.
  * Relative paths resolve from the working directory first, then from the repository root.

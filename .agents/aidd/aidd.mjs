@@ -10,9 +10,9 @@ const GROUPS = {
   spec: {
     summary: "Create, check, approve, and show specs",
     commands: {
-      new: { usage: "spec new <type> <slug> <title> [--functional <n>] [--technical <n>]", summary: "Branch, reserve IDs, and create spec.md and control.json", load: () => import("./commands/spec-new.mjs") },
-      check: { usage: "spec check <spec-directory> [--base <branch>]", summary: "Validate a spec and its PRD edits", load: () => import("./commands/spec-check.mjs") },
-      approve: { usage: "spec approve <spec-id-or-directory>", summary: "Record human approval: draft to in-progress", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.approve })) },
+      new: { usage: "spec new <type> <slug> <title> --domain <domain>", summary: "Branch, reserve the spec ID, and create spec.md and control.json", load: () => import("./commands/spec-new.mjs") },
+      check: { usage: "spec check <spec-directory> [--base <branch>]", summary: "Validate a spec's identity, domain, requirements, and acceptance rows", load: () => import("./commands/spec-check.mjs") },
+      approve: { usage: "spec approve <spec-id-or-directory> [--base <branch>]", summary: "Check the spec and record human approval: draft to in-progress", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.approve })) },
       show: { usage: "spec show <spec-id-or-directory> [--json]", summary: "Summarize control.json for humans", load: () => import("./commands/spec-control.mjs").then((m) => ({ default: m.show })) },
     },
   },
