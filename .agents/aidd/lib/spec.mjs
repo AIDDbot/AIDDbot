@@ -6,7 +6,6 @@ import { git, productPath, readJson, RuleError, writeJson } from "./core.mjs";
 export const TYPES = ["feat", "fix", "refactor", "chore"];
 export const KINDS = ["verification", "qualification"];
 export const STATUSES = ["green", "amber", "red"];
-const PASSING = { verification: ["green"], qualification: ["green", "amber"] };
 const LAST_REVISION = 3;
 
 export const specsDir = (root) => productPath(root, "specs");
@@ -42,7 +41,8 @@ export function gate(root, dir, control) {
       blockers.push(`No ${kind} recorded.`);
       continue;
     }
-    if (!PASSING[kind].includes(entry.status) && entry.revision < LAST_REVISION) {
+    // Qualification never blocks: its findings ship as debt.
+    if (kind === "verification" && entry.status !== "green" && entry.revision < LAST_REVISION) {
       blockers.push(`${kind} is ${entry.status} at revision ${entry.revision}; repair and evaluate again.`);
     }
     if (git(root, ["cat-file", "-t", entry.commit ?? "none"], { allowFailure: true }) !== "commit") {

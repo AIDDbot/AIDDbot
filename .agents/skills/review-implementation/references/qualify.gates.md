@@ -61,6 +61,6 @@ When every blocking gate passes, evaluate the remaining applicable checks. A fai
 
 ## Findings
 
-Classify every finding as `blocking` or `debt`. Blocking findings make qualification red and require repair. Debt findings make it amber and become debt items at shipping. With no findings, qualification is green. If red remains at evaluation revision 3, shipping records every still-present finding as a debt item.
+Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping and is never repaired within the spec: shipping records every finding as a debt item, `high` for a blocking one.
 
 Do not record stylistic preference, speculative improvement, or unrelated pre-existing code as a finding.

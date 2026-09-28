@@ -119,6 +119,17 @@ test("the gate blocks red evidence until revision 3 and ships it then", () => {
   assert.equal(aidd(root, "release").code, 0);
 });
 
+test("a red qualification never blocks shipping", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "fix", "auth", "Auth");
+  accept(root, 0, "S0001");
+  aidd(root, "eval", "verification", "green", "ok");
+  write(root, ".product/specs/S0001-auth/qualification.md", "# Findings\n");
+  assert.equal(aidd(root, "eval", "qualification", "red", "missing guard").code, 0);
+  assert.deepEqual(aidd(root, "spec", "show").body.blockers, []);
+  assert.equal(aidd(root, "release").body.version, "0.1.1");
+});
+
 test("the gate rejects evidence written by hand without a real commit", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fake", "Fake");
