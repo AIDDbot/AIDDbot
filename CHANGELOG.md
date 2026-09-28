@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.24 - 2026-09-28
+
+- Merge branch 'refactor/dc-c3-skill-text' (fce7076)
+- refactor(skills): tighten /define-spec, /build-requested-spec, /craft-lasting-quality, /architect-system-foundation (2b4b20f)
+
 ## 0.1.23 - 2026-09-28
 
 - Merge branch 'refactor/dc-c2-core-commits' (34df9d8)
