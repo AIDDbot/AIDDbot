@@ -1,5 +1,6 @@
 // `.aiddbot/config.json`: versioned, written only by the core (D6).
-// Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] }, ports?: [] } } }
+// Schema: { projects: { <name>: { path, commands: { lint, unit, acceptance, quality[] }, ports?: [], acceptanceReport? } } }
+// `acceptanceReport` is the project-relative path of the Playwright JSON report of `acceptance` (D27).
 import fs from "node:fs";
 import path from "node:path";
 import { writeAtomic } from "./files.mjs";
@@ -31,6 +32,8 @@ function validateCommands(commands, where) {
   }
 }
 
+const isInsidePath = (value) => nonEmpty(value) && !path.isAbsolute(value) && !value.includes("\\") && !value.split("/").includes("..");
+
 const isPort = (value) => Number.isInteger(value) && value > 0 && value <= 65535;
 
 function validatePorts(ports, where) {
@@ -46,13 +49,15 @@ export function validateConfig(config) {
     const where = `projects.${name}`;
     if (!PROJECT_NAME.test(name)) throw new Error(`Project name must be lowercase kebab-case: ${name}`);
     if (!isObject(project)) throw new Error(`${where} must be an object.`);
-    unknownKeys(project, ["path", "commands", "ports"], where);
-    if (!nonEmpty(project.path) || path.isAbsolute(project.path) || project.path.includes("\\") || project.path.split("/").includes("..")) {
-      throw new Error(`${where}.path must be a relative path with forward slashes inside the repository.`);
-    }
+    unknownKeys(project, ["path", "commands", "ports", "acceptanceReport"], where);
+    if (!isInsidePath(project.path)) throw new Error(`${where}.path must be a relative path with forward slashes inside the repository.`);
     if (!isObject(project.commands)) throw new Error(`${where}.commands must be an object.`);
     validateCommands(project.commands, `${where}.commands`);
     if (Object.hasOwn(project, "ports")) validatePorts(project.ports, `${where}.ports`);
+    if (Object.hasOwn(project, "acceptanceReport")) {
+      if (!project.commands.acceptance) throw new Error(`${where}.acceptanceReport needs an acceptance command.`);
+      if (!isInsidePath(project.acceptanceReport)) throw new Error(`${where}.acceptanceReport must be a relative path with forward slashes inside the project.`);
+    }
   }
   return config;
 }

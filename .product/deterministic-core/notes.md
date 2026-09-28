@@ -55,3 +55,9 @@ Aparte, `architect-system-foundation` aún llamaba a `.agents/skills/scaffold-sy
 ## 🟡 P8 — 4.0 · Fallos inestables frente al invariante «la base está verde»
 
 D21 da por hecho que la rama por defecto está verde salvo la deuda registrada, y por eso atribuye a la rama todo fallo que la deuda no cite. Un test inestable o que depende del entorno (puerto, reloj, datos compartidos) rompe ese supuesto: el triaje lo atribuiría a la rama y el Builder intentaría reparar algo que la spec no tocó. No se decide aquí si `aidd run acceptance` debe repetir los fallos una vez, si hay que confiar en los reintentos del propio framework (`retries` de Playwright) o si se acepta ejecutar la base solo en ese caso. Encaja con 4.4, al construir la asignación de fallos, o con la prueba real de la fase.
+
+> **Avance en 4.4 (sin decidir):** el informe JSON de Playwright ya distingue `flaky` (falla y pasa en el reintento) de `unexpected`. `aidd run acceptance` lista los `flaky` aparte y `verify-behavior` los nombra sin que fallen nada. Pero el arquetipo `e2e-playwright` solo reintenta en CI (`retries: process.env.CI ? 2 : 0`), así que en local un fallo inestable sigue saliendo como `unexpected` y se atribuye a la rama. Opciones: que `rule-project` registre el comando de aceptación con `--retries=1`, que el ejecutor lo añada, o dejarlo así. Pendiente del humano.
+
+## 🟡 P9 — 4.4 · Un fallo `pre-existing` no cuenta contra la spec
+
+D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la verificación con él. Lo interpreté así: un fallo `pre-existing` no entra en `verification.md` y no impide el verde, porque ya está registrado como deuda. Si contara, cada spec quedaría roja hasta la revisión 3 por una deuda ajena, lo que contradice el invariante de D21. El validador de informes no acepta `pre-existing` como disposición y `verify-behavior` lo dice. Conviene confirmarlo o convertirlo en decisión.

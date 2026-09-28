@@ -2,11 +2,12 @@
 // metadata: `control.json` records each evaluation and whether it requires its report (D2).
 import fs from "node:fs";
 import path from "node:path";
+import { REPORTED } from "./acceptance.mjs";
 
 export const REPORTS = { verification: "verification.md", qualification: "qualification.md" };
 
 const PLACEHOLDERS = {
-  verification: ["{ID or technical outcome}", "{Test or check}", "{Fail or blocked}", "{Observed output or link}"],
+  verification: ["{Requirement IDs or trace problem}", "{Test or check}", "{Fail or blocked}", "{spec, replaced, regression, compatibility, or ambiguous}", "{Observed output or link}"],
   qualification: ["{failed blocking gate or technical criterion}", "{Observed violation}", "{Observed facts or link}", "{short title}", "{paths or projects}", "{gate, technical criterion, or none}", "{blocking | debt}"],
 };
 
@@ -27,7 +28,12 @@ export function validateFindings(kind, report) {
   const remaining = PLACEHOLDERS[kind].find((placeholder) => report.includes(placeholder));
   if (remaining) throw new Error(`Replace report template placeholder: ${remaining}`);
   if (kind === "verification") {
-    if (!tableRows(section(report, "## Failures"), "Requirement / outcome").length) throw new Error("## Failures must contain a finding row.");
+    const rows = tableRows(section(report, "## Failures"), "Requirement / outcome");
+    if (!rows.length) throw new Error("## Failures must contain a finding row.");
+    for (const row of rows) {
+      const disposition = row.trim().replace(/^\||\|$/g, "").split("|").map((cell) => cell.trim())[3] ?? "";
+      if (!REPORTED.includes(disposition)) throw new Error(`Each failure needs a Disposition, one of ${REPORTED.join(", ")}; found "${disposition}" in: ${row}`);
+    }
   } else if (!tableRows(section(report, "## Failed controls"), "| Control |").length && !/^### .+$/m.test(report)) {
     throw new Error("Qualification report must contain a failed control or a finding.");
   }

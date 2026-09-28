@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { EVALUATION_KINDS, EVALUATION_STATUSES, latestEvaluation, readControl, transition, writeControl } from "../lib/control.mjs";
+import { readConfig } from "../lib/config.mjs";
 import { git } from "../lib/git.mjs";
 import { noteQuietly } from "../lib/journal.mjs";
 import { REPORTS, reportEvidence, validateFindings } from "../lib/reports.mjs";
@@ -62,6 +63,8 @@ export default function evalRecord(argv) {
   if (kind === "verification" && status === "green") {
     const traced = trace(root, { id: control.id, text: fs.readFileSync(path.join(dir, "spec.md"), "utf8") });
     if (traced.status === "red") throw new RuleError(`Verification cannot be green while the trace is red (aidd trace ${control.id}): ${traced.problems.join(" ")}`);
+    const unreported = Object.entries(readConfig(root).projects).filter(([, project]) => project.commands.acceptance && !project.acceptanceReport).map(([name]) => name);
+    if (unreported.length) throw new RuleError(`Verification cannot be green without an acceptance report to assign failures; declare acceptanceReport for: ${unreported.join(", ")}`);
   }
   const revision = (latestEvaluation(control, kind)?.revision ?? 0) + 1;
   const entry = {

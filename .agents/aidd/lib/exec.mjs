@@ -8,9 +8,9 @@ function tail(text) {
   return text.length <= MAX_OUTPUT ? text : `… (truncated) …\n${text.slice(-MAX_OUTPUT)}`;
 }
 
-export function execCommand(cwd, command) {
+export function execCommand(cwd, command, env = {}) {
   const start = Date.now();
-  const result = spawnSync(command, { cwd, shell: true, encoding: "utf8", windowsHide: true });
+  const result = spawnSync(command, { cwd, shell: true, encoding: "utf8", windowsHide: true, env: { ...process.env, ...env } });
   const exitCode = result.status ?? (result.signal ? 128 : 1);
   return {
     command, exitCode, ok: exitCode === 0, durationMs: Date.now() - start,
