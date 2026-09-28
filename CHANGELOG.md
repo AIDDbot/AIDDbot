@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.25 - 2026-09-28
+
+- Merge branch 'refactor/dc-c4-quality-never-blocks' (7383069)
+- feat(core): qualification never blocks shipping (D52) (e175ebd)
+
 ## 0.1.24 - 2026-09-28
 
 - Merge branch 'refactor/dc-c3-skill-text' (fce7076)

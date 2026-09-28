@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "codename": "Equinox",
   "private": true,
   "type": "module",
@@ -19,8 +19,8 @@
     "bun": ">=1"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-09-28T16:14:10.552Z",
-  "releaseCommit": "fce7076095e7f51e33d39630a42f7a154f50fa85",
+  "buildTimestamp": "2026-09-28T16:15:43.535Z",
+  "releaseCommit": "7383069736476d49950886814d832229320603dc",
   "devDependencies": {
     "oxlint": "^1.86.0"
   }
