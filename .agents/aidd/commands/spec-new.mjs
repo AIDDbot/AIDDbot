@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs, RuleError, UsageError } from "../lib/cli.mjs";
 import { createControl, writeControl } from "../lib/control.mjs";
+import { debtFile } from "../lib/debt.mjs";
 import { countersFile, makeId, parseCounters, setCounters, writeCounters } from "../lib/counters.mjs";
 import { currentBranch, git, isClean, localBranches } from "../lib/git.mjs";
 import { productPath, relative } from "../lib/paths.mjs";
@@ -24,7 +25,7 @@ function options(argv) {
 function checkRecords(root) {
   const model = productPath(root, "model", "model.schema.md");
   if (!fs.existsSync(model)) throw new RuleError(`Product model schema missing under ${relative(root, path.dirname(model))}; run outline-system first.`);
-  const required = [countersFile(root), productPath(root, "quality", "TDR.md")];
+  const required = [countersFile(root), debtFile(root)];
   const missing = required.filter((file) => !fs.existsSync(file));
   if (missing.length) throw new RuleError(`Required records are missing; run aiddbot init: ${missing.map((file) => relative(root, file)).join(", ")}`);
 }

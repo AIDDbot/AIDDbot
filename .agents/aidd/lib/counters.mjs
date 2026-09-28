@@ -19,7 +19,7 @@ export function parseCounters(text) {
 
 /** Replace the given counters in `text`, keeping every other line untouched. */
 export function setCounters(text, values) {
-  return Object.entries(values).reduce((result, [key, value]) => result.replace(new RegExp(`^${key}:\\s*\\d+\\s*$`, "m"), `${key}: ${value}`), text);
+  return Object.entries(values).reduce((result, [key, value]) => result.replace(new RegExp(`^${key}:[ \\t]*\\d+[ \\t]*$`, "m"), `${key}: ${value}`), text);
 }
 
 export function writeCounters(root, text) {
