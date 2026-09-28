@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to set up the foundation architecture for the system: propose it when no code exists, then document it once it is scaffolded. Rerun it at any time to bring the documentation back in line with the code.
 
-Route as the **Architect**. Spawn one **Architect** once for the whole run and continue it with messages; spawn a replacement only when the harness cannot continue it or its context runs out. Use the agent a calling orchestrator hands you instead of spawning your own. Sub-agents never ask the human: relay their questions and proposals yourself. Before returning, stop the agents and processes you started, never your caller's.
+Route as the **Architect**: spawn one **Architect** for the whole run, or use the one a calling orchestrator hands you; continue it with messages, relay its questions to the human, and stop it only if you started it.
 
 Decide whether the system is greenfield or brownfield from working code alone, ignoring agent configuration, AIDD product files, harness adapters, documentation, and ignored files. Journal it with `node .agents/aidd/aidd.mjs log verdict "<greenfield|brownfield>: <the code that settled it>"`, because the verdict decides whether this run proposes or documents.
 
