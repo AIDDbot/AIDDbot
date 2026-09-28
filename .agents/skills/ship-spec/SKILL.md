@@ -17,8 +17,8 @@ Without running quality tools, reconcile the debt register through `node .agents
 
 Promote each durable, project-specific lesson that no automated check enforces into the coding-rules table of the applicable `{Agents_Folder}/rules/{project}.rules.md`, with its scope and evidence-based reason. Never record a one-off incident, a product requirement, or tool output.
 
-Choose the next semantic version and synchronize it across every authoritative declaration as [release-versioning.md](references/release-versioning.md) describes. Add the release to `CHANGELOG.md` from `CHANGELOG.template.md`. Then run `node .agents/aidd/aidd.mjs release <version>` from the spec branch; pass `--base <branch>` only when the local default branch cannot be inferred. It marks the spec `shipped` in its `control.json`, regenerates the spec index, commits all current changes, merges the spec branch into the default branch regardless of its origin branch, tags the release when the repository has tags, and deletes the source branch only after a successful merge.
+Then run `node .agents/aidd/aidd.mjs release` from the spec branch, adding `--major` only when the delivery breaks compatibility for its users, and `--base <branch>` only when the local default branch cannot be inferred. It enforces the gate, derives the version from the spec type, writes it into the version files and `CHANGELOG.md`, marks the spec `shipped`, regenerates the spec index, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
 
 The result is one shipped spec, listed in the spec index, with current schema and debt records.
 
-The script commits as `chore(release): {version}`.
+The core commits as `chore(release): {version}`.

@@ -10,7 +10,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | `quality/debt.json` | Open technical debt with priority, state, evidence, and source; core-written by `aidd debt`, which regenerates its `TDR.md` view |
 | `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` with its own requirements, its core-written `control.json`, and non-green reports; kept after shipping |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
-| `.aiddbot/config.json` | Each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands; core-written, `aidd run` reads it |
+| `.aiddbot/config.json` | Each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands, plus optional `release.versionFiles`; core-written, read by `aidd run` and `aidd release` |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Narrative process events by local date, always at the repository root, ignored by Git; nothing reads it |
 
 `aiddbot init` creates every record above; no skill creates them.

@@ -132,8 +132,9 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
   - escribe la entrada del changelog a partir del título de la spec;
   - hace commit, integra y etiqueta.
   **Hecho:** D37 y D38, elegidas por el humano. `aidd release [--major]` ya no recibe la versión. Aplica la puerta, lee la versión actual del primer fichero de versión y calcula la siguiente según el tipo de spec (`feat` sube la menor; lo demás, el parche; `--major` a criterio del modelo). La escribe en cada fichero de versión y, en un lockfile, también en su paquete raíz `packages[""]`, conservando la sangría de cada fichero. Añade la entrada al principio de `CHANGELOG.md`, creándolo si no existe (`feat` → Added, `fix` → Fixed, `refactor` y `chore` → Changed), con el título y el enlace de la spec. Después regenera el índice, hace commit, integra, etiqueta siempre (prefijo `v` si aún no hay etiquetas) y borra la rama. Por defecto usa `package.json` y `package-lock.json`, y `config.json` admite `release.versionFiles`. El título de la spec se extrae en un solo sitio, `specTitle` en `lib/spec.mjs`. Verificado en un repo temporal: tres entregas, `feat`, `fix` y `refactor --major`, dan `0.1.0 → 0.2.0 → 0.2.1 → 1.0.0`, con las versiones de las dependencias del lockfile intactas, su sangría conservada, tres etiquetas y el changelog por secciones.
-- [ ] **6.2 `ship-spec` adelgaza**: se borran `release-versioning.md` y `CHANGELOG.template.md`.
+- [x] **6.2 `ship-spec` adelgaza**: se borran `release-versioning.md` y `CHANGELOG.template.md`.
   *Hecho cuando:* `ship-spec` no contiene ningún procedimiento de versionado.
+  **Hecho:** se borran `references/release-versioning.md` y `assets/CHANGELOG.template.md`. El paso de versionado de `ship-spec` queda en una frase: ejecutar `aidd release`, con `--major` solo si rompe compatibilidad, y nunca editar a mano una versión ni el changelog. `docs/AIDD.workflow.md` y el catálogo describen la regla del núcleo y `release.versionFiles`. **Criterio cumplido:** en `ship-spec` solo quedan la llamada a `aidd release` y su bandera `--major`.
 
 ## Fase 7 · Greenfield (A)
 
