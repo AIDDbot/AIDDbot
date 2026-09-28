@@ -7,7 +7,7 @@ Every executable capability is a skill. This catalog lists them and defines thei
 | Record | Purpose |
 | --- | --- |
 | `specs/README.md` | One line per shipped spec, grouped by domain; core-written by `aidd release` |
-| `quality/TDR.md` | Open technical debt |
+| `quality/debt.json` | Open technical debt with priority, state, evidence, and source; core-written by `aidd debt`, which regenerates its `TDR.md` view |
 | `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` with its own requirements, its core-written `control.json`, and non-green reports; kept after shipping |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/config.json` | Each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands; core-written, `aidd run` reads it |
@@ -72,5 +72,5 @@ craft-lasting-quality:
   - "Craftsman: scan-quality"
   - "Architect: select one coherent group of eligible debt"
   - "build-requested-spec with both agents when eligible debt remains"
-  - "return the quality review when no repair is eligible"
+  - "return the debt list summary when no repair is eligible"
 ```

@@ -1,6 +1,6 @@
 ---
 name: scan-quality
-description: Inspect quality evidence and maintain durable quality records.
+description: Inspect quality evidence and keep the debt register current.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true
@@ -11,8 +11,8 @@ Your goal is to review shipped quality and keep the technical debt register curr
 
 Run `node .agents/aidd/aidd.mjs run quality`, across every project unless the human named one. Never edit code, write tests, or run `lint`, `unit`, or `acceptance` yourself. A project without a `quality` command configured is unavailable, never replaced with a stricter invocation or with the build lint.
 
-After evaluating every configured check, replace `{Product_Folder}/quality/review.md` from `assets/review.template.md` with only unresolved system-review issues. Omit passing checks, resolved issues, and standalone unavailable checks. Keep an existing issue as `not revalidated` when its relevant check is unavailable; unavailable evidence does not resolve it. Record a new issue only when current evidence confirms concrete impact. Then reconcile `{Product_Folder}/quality/TDR.md` with the report following `references/debt.contract.md`. If the register or the counters are missing, return the need to run `aiddbot init`.
+Read the open debt with `node .agents/aidd/aidd.mjs debt list`, then reconcile it with the run through `aidd debt` alone; it writes the register and its `TDR.md` view, so never edit either by hand. For an item the run still shows, run `debt update <id> --source quality:<project>` with its current evidence; for one whose check could not run, `debt update <id> --state not-revalidated`, because unavailable evidence never resolves; for one a check that ran no longer shows, `debt resolve <id> --scan <project>`. Add a new item with `debt add` only when current evidence confirms a concrete impact, and keep the same ID when an observation describes an issue already open. A standalone unavailable check is not debt.
 
-The result is current, traceable quality records.
+The result is a current debt register.
 
 Commit as `docs(quality): audit system`.

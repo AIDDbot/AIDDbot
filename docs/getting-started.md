@@ -16,7 +16,7 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 - `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S and D identifiers. It is project state: later `update` never changes it.
 - An empty `.aiddbot/config.json`. `rule-project` fills it in with each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
-- The empty `TDR.md` under `.product/quality/`. There is no PRD: each spec owns its requirements, and shipping lists it in `.product/specs/README.md`.
+- The empty debt register `debt.json` and its `TDR.md` view under `.product/quality/`. There is no PRD: each spec owns its requirements, and shipping lists it in `.product/specs/README.md`.
 - The journal's first event, in `.aiddbot/journals/`.
 
 `update` manages skills and the generated agent adapters, but never re-seeds these files. The agent profiles ship with defaults that you can customize in your harness's native configuration.

@@ -4,7 +4,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { defaultBranch, git } from "./git.mjs";
-import { productPath, relative } from "./paths.mjs";
+import { debtFile, readDebt } from "./debt.mjs";
+import { relative } from "./paths.mjs";
 import { affectedRows, shippedSpecs } from "./requirements.mjs";
 
 // Dispositions a verification report may record, and those left to the model's judgment.
@@ -55,11 +56,10 @@ function changedFiles(root) {
   return new Set(`${tracked}\n${untracked}`.split(/\r?\n/).filter(Boolean));
 }
 
-/** Open debt lines of the TDR, one per item: `- **D0001**: …`. */
+/** Each open debt item with the text that may cite a test: its title, scope, and evidence (D30). */
 function debtLines(root) {
-  const file = productPath(root, "quality", "TDR.md");
-  if (!fs.existsSync(file)) return [];
-  return fs.readFileSync(file, "utf8").split(/\r?\n/).map((line) => /\*\*(D\d{4})\*\*/.exec(line) && { id: /\*\*(D\d{4})\*\*/.exec(line)[1], line }).filter(Boolean);
+  if (!fs.existsSync(debtFile(root))) return [];
+  return readDebt(root).items.map((item) => ({ id: item.id, line: [item.title, item.scope, item.evidence].join(" ") }));
 }
 
 /**

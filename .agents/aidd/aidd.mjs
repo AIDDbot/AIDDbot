@@ -46,6 +46,15 @@ const GROUPS = {
       set: { usage: "config set <key> <json-value>", summary: "Write one dotted key after validating it", load: () => import("./commands/config.mjs").then((m) => ({ default: m.set })) },
     },
   },
+  debt: {
+    summary: "Keep the open technical debt in .product/quality/debt.json",
+    commands: {
+      add: { usage: "debt add --title <t> --priority <high|medium|low> --scope <s> --evidence <e> --impact <i> --source <spec-report|quality:project>", summary: "Register an item with the next D ID", load: () => import("./commands/debt.mjs").then((m) => ({ default: m.add })) },
+      update: { usage: "debt update <id> [--title|--scope|--evidence|--impact <text>] [--priority <p>] [--state <confirmed|not-revalidated>] [--source <s>]", summary: "Change an item; --source records a fresh confirmation", load: () => import("./commands/debt.mjs").then((m) => ({ default: m.update })) },
+      resolve: { usage: "debt resolve <id> (--spec <spec> | --scan <project>)", summary: "Remove an item with a proof the core checks", load: () => import("./commands/debt.mjs").then((m) => ({ default: m.resolve })) },
+      list: { usage: "debt list", summary: "Summarize the open debt, highest priority first", load: () => import("./commands/debt.mjs").then((m) => ({ default: m.list })) },
+    },
+  },
   trace: {
     summary: "Trace a spec's requirements to its tagged acceptance tests",
     commands: { "": { usage: "trace [<spec-id-or-directory>]", summary: "Report untested requirements, dangling or replaced tags, and untagged tests; exit 1 when red", load: () => import("./commands/trace.mjs") } },
