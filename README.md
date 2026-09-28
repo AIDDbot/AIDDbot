@@ -51,8 +51,7 @@ There is an `.aiddbot/` folder with configuration files and state. Plus a journa
 
 - [Getting started](docs/getting-started.md)
 - [Customize agent profiles](docs/agent-customization.md)
-- [AIDD workflow](docs/AIDD.workflow.md)
-- [Skills catalog](.agents/skills/skills.catalog.md)
+- [AIDD workflow, skills, and records](docs/AIDD.workflow.md)
 
 > [!WARNING]
 > Customize models and reasoning effort in your harness's native configuration. You can also remove profiles for harnesses you do not use; see the customization guide for how updates handle local changes.

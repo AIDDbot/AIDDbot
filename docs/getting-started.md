@@ -61,6 +61,5 @@ The flow runs the repository's configured quality checks, updates its technical-
 
 ## Learn more
 
-- [Workflow and delivery rules](./AIDD.workflow.md)
+- [Workflow, skills, and delivery rules](./AIDD.workflow.md)
 - [Customize agent profiles](./agent-customization.md)
-- [Skills catalog](../.agents/skills/skills.catalog.md)
