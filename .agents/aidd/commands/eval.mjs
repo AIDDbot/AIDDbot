@@ -13,7 +13,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   if (control.status === "shipped") throw new RuleError(`${control.id} is already shipped.`);
   const report = path.join(dir, `${kind}.md`);
   if (status !== "green" && !fs.existsSync(report)) {
-    throw new RuleError(`A ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);
+    throw new RuleError(`This ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);
   }
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;
   const commit = git(root, ["rev-parse", "HEAD"]);
