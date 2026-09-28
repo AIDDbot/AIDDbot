@@ -142,8 +142,9 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 - [x] **7.1 Flujo de propuesta** en `architect-system-foundation`: en greenfield, el Architect pregunta por etapas, consulta `npx create-aiddbot --list`, redacta `.product/system.md`, pide la aprobación y termina con el comando del CLI (D39, D40, D44, D45). ~~Y la registra en `config.json` tras la aprobación.~~ (D43)
 - [x] **7.2 CLI de scaffold externo** `create-aiddbot` (repo local `../create-aiddbot`): materializa, instala y hace un commit en la rama actual (D41, D42). ~~Y presiembra `config.json` con proyectos y comandos.~~ (D43)
   Hecho en local (`4e040ed`), con 9 tests y una prueba real de front, back y e2e. Pendiente del humano: crear el repo en GitHub y publicarlo en npm.
-- [ ] **7.3 Fuera `scaffold-system`** y su materializador. `docs/getting-started.md` refleja el nuevo recorrido.
+- [x] **7.3 Fuera `scaffold-system`** y su materializador. `docs/getting-started.md` refleja el nuevo recorrido.
   *Hecho cuando:* un repo nuevo llega a su primera spec sin el materializador de AIDDbot.
+  Comprobado sin agente: `aiddbot init` → `create-aiddbot` (front, back, e2e) → árbol limpio con dos commits. El tramo con agente (propuesta → documentar → primera spec) queda para la prueba end-to-end del humano.
 
 ## Fase 8 · Roles y documentación (D7)
 

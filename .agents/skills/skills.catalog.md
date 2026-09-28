@@ -31,7 +31,7 @@ The journal is narrative for humans: no code reads it or decides anything from i
 
 | Area | Skills |
 | --- | --- |
-| Context | [`/outline-system`](./outline-system/SKILL.md), [`/rule-project`](./rule-project/SKILL.md), [`/scaffold-system`](./scaffold-system/SKILL.md) |
+| Context | [`/outline-system`](./outline-system/SKILL.md), [`/rule-project`](./rule-project/SKILL.md) |
 | Capture | [`/define-spec`](./define-spec/SKILL.md) |
 | Build | [`/implement-project`](./implement-project/SKILL.md) |
 | Prove | [`/verify-behavior`](./verify-behavior/SKILL.md), [`/review-implementation`](./review-implementation/SKILL.md), [`/scan-quality`](./scan-quality/SKILL.md) |
