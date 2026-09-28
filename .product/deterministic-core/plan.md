@@ -1,6 +1,6 @@
 # Deterministic core — plan de implementación
 
-Aplica las decisiones D1–D27 de `decisions.md` y las propuestas A, B y C de `.product/`. Las fases siguen el orden de D10. Cada una deja el sistema funcionando y sale como release *patch* (D11).
+Aplica las decisiones D1–D29 de `decisions.md` y las propuestas A, B y C de `.product/`. Las fases siguen el orden de D10. Cada una deja el sistema funcionando y sale como release *patch* (D11).
 
 Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas nuevas van como 🟡 `P{n}` en `notes.md`.
 

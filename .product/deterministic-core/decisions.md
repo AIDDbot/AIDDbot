@@ -144,3 +144,9 @@ Sustituye a D15. El humano quiere conservar una visión sencilla de lo que hace 
 ## D27 ← B·Q3, D20 · El informe de aceptación es el JSON de Playwright
 Sustituye el formato de D20; el resto de D20 sigue. `acceptanceReport` en `config.json` es la ruta del JSON del reporter de Playwright, que el comando de aceptación genera y `rule-project` registra. Las etiquetas `@S0042-R03` de D18 llegan en el campo de etiquetas de cada test. Se descarta JUnit XML por elección del humano (2026-09-28); el núcleo queda atado a Playwright por ahora, pero el catálogo solo tiene `e2e-playwright` como proyecto de aceptación, y otro framework tendría que traer su propio lector.
 *Implica:* 4.4 (lector del JSON en `lib/exec.mjs`, esquema de `config.json`, `rule-project`); el arquetipo `e2e-playwright` y el CLI externo de 7.2 deben traer el reporter JSON configurado.
+
+## D28 ← P9 · Un fallo `pre-existing` no cuenta contra la spec
+Lo decidió el humano (2026-09-28): «el pasado, pisado». Un fallo que la deuda registrada ya cita (D21) no entra en `verification.md` y no impide el verde. El validador de informes no admite `pre-existing` como disposición.
+
+## D29 ← P8 · Sin reintentos en local
+Lo decidió el humano (2026-09-28). Ni el núcleo ni `rule-project` añaden reintentos al comando de aceptación. Los agentes ya evalúan en modo interactivo, y los reintentos arriesgan bucles y lentitud. Un test inestable en local sale como fallo, y el triaje lo trata como cualquier otro. `aidd run acceptance` sigue listando aparte los `flaky` cuando el propio proyecto reintenta, como en CI.
