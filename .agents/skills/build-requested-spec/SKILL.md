@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to turn a natural-language request into a shipped spec.
 
-Route as the **Architect**. Spawn one **Architect**, one **Builder**, and one **Craftsman** once for the whole run, and continue each with messages; spawn a replacement only when the harness cannot continue an agent or its context runs out. Use the agents a calling orchestrator hands you instead of spawning your own. Sub-agents never ask the human: relay their questions and proposals yourself. Before returning, stop the agents and processes you started, never your caller's.
+Route as the **Architect**: spawn one **Architect**, one **Builder**, and one **Craftsman** for the whole run, or use those a calling orchestrator hands you; continue each with messages, relay their questions to the human, and stop only the agents you started.
 
 Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
 

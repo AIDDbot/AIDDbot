@@ -13,7 +13,7 @@ Write `SKILL.md` from the skill template `skill.template.md`, never from a sibli
 
 Keep one source of truth. Routing belongs to the orchestrator that owns it, a record's shape to its template, and consumer-wide conventions such as paths, git rules, and the spec status chain to the consumer `AGENTS.md` template owned by `outline-system`.
 
-Then run `npm run adapt`. It validates every skill's frontmatter and regenerates the harness adapters; resolve anything it reports as skipped or colliding. Sync [`skills.catalog.md`](../skills.catalog.md) when routing, paths, or records change, and touch `README.md` or `docs/` only when what a human is told changes.
+Then run `npm run adapt`. It validates every skill's frontmatter and regenerates the harness adapters; resolve anything it reports as skipped or colliding. Sync [`docs/AIDD.workflow.md`](../../../docs/AIDD.workflow.md), the single route and record document, when routing, paths, or records change, and touch `README.md` or `docs/` only when what a human is told changes.
 
 The result is a skill an agent can follow without ceremony, with its adapters in sync.
 
