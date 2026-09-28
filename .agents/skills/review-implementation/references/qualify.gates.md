@@ -15,52 +15,36 @@ Evaluate every technical criterion explicitly declared by the spec as another bl
 
 ## Debt checks
 
-When every blocking gate passes, evaluate the remaining applicable checks. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope.
+When every blocking gate passes, look for gross, easy-to-see errors that no linter reports. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope.
 
 ### Security
 
-- [ ] User input is validated and sanitized.
+- [ ] User input is validated before it reaches storage or rendering.
 - [ ] Queries are parameterized without string-built SQL.
 - [ ] No secrets are hardcoded.
 - [ ] Errors do not expose sensitive information.
 
+### Data integrity
+
+- [ ] A failed operation leaves stored data unchanged.
+- [ ] Related writes that must succeed together are atomic.
+
 ### Performance
 
-- [ ] No blocking I/O is added to a hot path.
-- [ ] Queries avoid N+1 access and use indexes where needed.
-- [ ] Large lists are paginated or streamed.
-- [ ] Expensive work is cached when appropriate.
+- [ ] No flagrant waste, such as a query per list item or blocking I/O on a request path.
 
-### Clean code / DRY
+### Accessibility and basic UX
 
-- [ ] Business logic is not duplicated within or beyond the diff.
-- [ ] Names describe their behavior.
-- [ ] Functions have one purpose and avoid deep nesting.
-- [ ] Needless abstractions are simplified.
-- [ ] Comments explain why rather than restating what the code does.
-
-### Accessibility
-
-- [ ] Text and controls meet WCAG AA contrast and do not rely on color alone.
-- [ ] Images have appropriate alternative text.
-- [ ] Form controls have associated labels and linked error descriptions.
-- [ ] Documents declare their language and use native landmarks before ARIA.
-
-### UI and design system
-
+- [ ] Form controls have labels, and errors are visible and linked to their field.
+- [ ] Text and controls keep readable contrast and never rely on color alone.
 - [ ] Changed interfaces handle empty, loading, and error states.
-- [ ] Spacing, typography, radius, and color use the design system.
-- [ ] Repeated markup is shared when it represents the same component.
-- [ ] Layout works at 360, 768, and 1440 pixels.
 
 ### Project rules
 
-- [ ] Each restriction is checked only within its declared scope.
-- [ ] Every finding names the restriction it violates.
-- [ ] Useful automation is suggested when an existing tool can enforce the rule.
+- [ ] Each restriction is checked only within its declared scope, and every finding names the restriction it violates.
 
 ## Findings
 
 Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping and is never repaired within the spec: shipping records every finding as a debt item, `high` for a blocking one.
 
-Do not record stylistic preference, speculative improvement, or unrelated pre-existing code as a finding.
+Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter or quality check reports: warnings, complexity, and coverage belong to `scan-quality`. Cite code, never `.aiddbot/runs/` logs.
