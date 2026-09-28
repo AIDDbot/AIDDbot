@@ -48,7 +48,10 @@ Se mantienen `draft → in-progress → verified → qualified → shipped`, aho
 Núcleo → control y journal → ejecutor de comandos → B → C → release → A → roles y documentación. El ejecutor va antes de B porque simplifica la trazabilidad de los tests de aceptación.
 
 ## D11 ← Q11 · Entregas cortas
-Nada de rama larga como en frontier-fall (D14 de allí). Cada fase va en una rama corta, deja el sistema funcionando, se integra en `main` y sale como release *patch*. B cambia la estructura de los registros y sale como `0.2.0`, sin migración (beta, solo greenfield).
+Nada de rama larga como en frontier-fall (D14 de allí). Cada fase va en una rama corta, deja el sistema funcionando, se integra en `main` y sale como release *patch*. B cambia la estructura de los registros y ~~sale como `0.2.0`~~ (ver D13), sin migración (beta, solo greenfield).
 
 ## D12 · Las preguntas de A, B y C se deciden justo antes de su fase
 Cada una de esas fases arranca con un paso de decisiones que responde las preguntas abiertas de su propuesta, a la luz del núcleo ya construido.
+
+## D13 · Versión 0.1.x hasta el final del plan
+Ninguna fase sube la versión menor: todas, B incluida, salen como release *patch* dentro de `0.1.x`. El salto de versión menor se decide al final del plan, tras la fase 8. Matiza D11: el cambio de estructura de los registros de B sigue sin migración, pero ya no se marca con `0.2.0`.

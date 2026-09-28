@@ -98,7 +98,7 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 - [x] **3.3 Skills sobre el ejecutor**: `implement-project`, `verify-behavior` y `scan-quality` llaman a `aidd run`. Desaparecen de su prosa la clasificación de comandos y los puertos.
   *Hecho cuando:* ningún skill pide al modelo clasificar un comando y `free-port.*` ya no existe. **Hecho:** `implement-project` llama a `aidd run lint`/`run unit` y solo reporta lo no disponible; `verify-behavior` llama a `aidd run acceptance` (sin mención de puertos ni de PID capturado); `scan-quality` llama a `aidd run quality`. Se borran `free-port.ps1`/`.sh` (y con ellos la carpeta `scripts/` de `verify-behavior`). `docs/AIDD.workflow.md` describe la clasificación como trabajo de `rule-project`, una sola vez. **Verificado por grep:** ningún skill de ejecución menciona "classify/classified/effective flags"; `find` no encuentra ningún `free-port*` en el repo.
 
-## Fase 4 · Spec-first (B) → release `0.2.0`
+## Fase 4 · Spec-first (B) → release *patch* (D13)
 
 - [ ] **4.0 Decisiones de B**: responder sus preguntas abiertas (archivo de specs, qué sustituye al PRD, formato `S0042-R03`, etiquetas de test, pruebas sin etiquetar, escalado) y confirmar D8.
 - [ ] **4.1 Plantilla de spec** con requisitos locales y su tabla de aceptación; `aidd spec check` valida IDs, EARS y cobertura declarada.
