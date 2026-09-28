@@ -3,8 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { RuleError } from "./cli.mjs";
-import { CONTROL, readControl } from "./control.mjs";
-import { specsDir } from "./spec.mjs";
+import { shippedSpecDirs } from "./spec.mjs";
 
 export const DECISIONS = ["preserve", "replace"];
 const LOCAL_ID = /^R\d{2}$/;
@@ -65,16 +64,10 @@ export function affectedRows(text) {
 
 /** Every shipped spec but `exceptId`, with its requirements and the prior behavior it replaced. */
 export function shippedSpecs(root, exceptId = null) {
-  const specs = specsDir(root);
-  if (!fs.existsSync(specs)) return [];
-  return fs.readdirSync(specs, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^S\d{4}-/.test(entry.name) && !entry.name.startsWith(`${exceptId}-`))
-    .map((entry) => path.join(specs, entry.name))
-    .filter((dir) => fs.existsSync(path.join(dir, CONTROL)) && readControl(dir).status === "shipped")
-    .map((dir) => {
-      const text = fs.readFileSync(path.join(dir, "spec.md"), "utf8");
-      return { id: path.basename(dir).slice(0, 5), dir, requirements: requirements(text), affected: affectedRows(text) };
-    });
+  return shippedSpecDirs(root, exceptId).map((dir) => {
+    const text = fs.readFileSync(path.join(dir, "spec.md"), "utf8");
+    return { id: path.basename(dir).slice(0, 5), dir, requirements: requirements(text), affected: affectedRows(text) };
+  });
 }
 
 const hasEarsKeywords = (statement) => /\b(?:IF|WHEN|WHILE|WHERE|SHALL)\b/.test(statement) && !/\b(?:if|when|while|where|shall)\b/.test(statement);
