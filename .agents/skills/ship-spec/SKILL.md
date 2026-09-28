@@ -17,7 +17,7 @@ Without running quality tools, reconcile the debt register through `node .agents
 
 Promote each durable, project-specific lesson that no automated check enforces into the coding-rules table of the applicable `{Agents_Folder}/rules/{project}.rules.md`, with its scope and evidence-based reason. Never record a one-off incident, a product requirement, or tool output.
 
-Then run `node .agents/aidd/aidd.mjs release` from the spec branch, adding `--major` only when the delivery breaks compatibility for its users, and `--base <branch>` only when the local default branch cannot be inferred. It enforces the gate, derives the version from the spec type, writes it into the version files and `CHANGELOG.md`, marks the spec `shipped`, regenerates the spec index, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
+Then run `node .agents/aidd/aidd.mjs release` from the spec branch, adding `--major` only when the delivery breaks compatibility for its users, and `--base <branch>` only when the local default branch cannot be inferred. It enforces the gate, derives the version from the spec type, writes it into the version files and `CHANGELOG.md`, marks the spec `shipped`, regenerates the spec index, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself. When it refuses, report its error and stop with the spec unshipped: never merge, tag, or integrate by other means, because only `release` writes the changelog and the spec index.
 
 The result is one shipped spec, listed in the spec index, with current schema and debt records.
 

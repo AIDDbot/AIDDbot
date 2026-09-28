@@ -68,7 +68,7 @@ Existing product records are preserved. AIDDbot never scaffolds: the human runs 
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 
-`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. It does not repeat skill routing or commands executed by the models.
+`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, a root `package.json` at `0.1.0` that carries the product version, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 
@@ -86,7 +86,7 @@ Each spec owns its requirements: `R01`, `R02`, … in EARS, cited elsewhere as `
 
 The product schemas live in `model/`: one conceptual `model.schema.md`, plus `{project}.db.schema.md` and `{project}.api.schema.md` for each project with persistence or endpoints. A spec declares every entity, table, or endpoint change as its schema impact; review blocks undeclared shape changes, and shipping updates the schema documents.
 
-Every workflow tells its story in one plain-text daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. It is narrative only: no code reads it or decides anything from it, because the process state lives in each spec's `control.json`. Each line holds complete fields separated by a space (time, status, actor, spec, event, summary); the short columns are padded to a minimum width so the log reads as a table, and nothing is ever truncated. The core (`node .agents/aidd/aidd.mjs`) writes an entry for every state change it makes: spec creation and approval, a spec's block and resume, each evaluation, configuration, shipping, and integration. The model adds only its judgments with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt, and a `blocked` reason outside any spec.
+Every workflow tells its story in one plain-text daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. It is narrative only: no code reads it or decides anything from it, because the process state lives in each spec's `control.json`. Each line holds complete fields separated by a space (time, status, actor, spec, event, summary); the short columns are padded to a minimum width so the log reads as a table, and the summary is cut at 128 characters. The core (`node .agents/aidd/aidd.mjs`) writes an entry for every state change it makes: spec creation and approval, a spec's block and resume, each evaluation, configuration, shipping, and integration. The model adds only its judgments with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt, and a `blocked` reason outside any spec.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

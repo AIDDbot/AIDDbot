@@ -74,6 +74,8 @@ D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la veri
 
 Anotados por el humano el 2026-09-28, antes de empezar la fase 7. Se corrigen después; el humano guardará informes de las pruebas.
 
-- [ ] **F1 · Journal:** `aidd log` debe truncar el mensaje final a 128 caracteres. Hoy `lib/journal.mjs` no trunca nada por diseño («nothing is ever truncated»).
-- [ ] **F2 · PRD / índice de specs con Haiku:** en una prueba con Haiku no se generó el índice de specs (antiguo PRD).
-- [ ] **F3 · CHANGELOG con Haiku:** en la misma prueba tampoco se creó el `CHANGELOG`.
+- [x] **F1 · Journal:** `aidd log` debe truncar el mensaje final a 128 caracteres. Hecho: el resumen se corta a 128 con `…`; las demás columnas no cambian.
+- [~] **F2 · PRD / índice de specs con Haiku:** en una prueba con Haiku no se generó el índice de specs (antiguo PRD).
+- [~] **F3 · CHANGELOG con Haiku:** en la misma prueba tampoco se creó el `CHANGELOG`.
+
+> **Avance F2 y F3 (sin informes):** los dos ficheros los escribe solo `aidd release`; si faltan ambos, `release` no se ejecutó o falló. Se cierran dos vías probables: (1) `init` siembra un `package.json` raíz en `0.1.0`, sin el cual `release` falla por falta de fichero de versión (lo que pasaría siempre con el scaffold lite de D46); (2) `ship-spec` obliga a parar si `release` rechaza, en vez de integrar por otra vía. Falta confirmar con los informes de la prueba con Haiku.

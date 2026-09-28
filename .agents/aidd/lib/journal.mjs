@@ -1,8 +1,8 @@
 // The daily journal `.aiddbot/journals/YYYY-MM-DD.log`: plain narrative for humans (D3).
 // This module only writes it; no code reads it or decides anything from it.
 // Each line holds complete fields separated by a space. The short columns are padded to a
-// minimum width so the log reads as a table, but nothing is ever truncated: a longer value
-// simply overflows its column. Nobody parses the widths, so overflowing is harmless.
+// minimum width so the log reads as a table; a longer value simply overflows its column.
+// Only the summary is capped, at MAX_SUMMARY characters, so one line stays one glance.
 //   HH:MM:SS <status> <actor> <spec>  <event>      <summary>
 import fs from "node:fs";
 import path from "node:path";
@@ -17,6 +17,8 @@ export const STATUSES = ["green", "amber", "red"];
 export const MODEL_EVENTS = { verdict: "green", select: "green", blocked: "red", init: "green" };
 
 const SEPARATOR = " ";
+export const MAX_SUMMARY = 128;
+const cap = (text) => (text.length <= MAX_SUMMARY ? text : `${text.slice(0, MAX_SUMMARY - 1)}…`);
 const pad = (value) => String(value).padStart(2, "0");
 // Minimum widths of the columns before the summary: time, status, actor, spec, event.
 const WIDTHS = [8, 6, 6, 6, 10];
@@ -41,7 +43,7 @@ export function note(root, { actor = "aidd", event, status = "green", spec, proj
   const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
   const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   const subject = project ? `${field("summary", summary)} (${field("project", project)})` : field("summary", summary);
-  const line = row([time, status, actor, field("spec", spec), field("event", event), subject]);
+  const line = row([time, status, actor, field("spec", spec), field("event", event), cap(subject)]);
   const directory = aiddbotPath(root, "journals");
   const file = path.join(directory, `${date}.log`);
   fs.mkdirSync(directory, { recursive: true });
