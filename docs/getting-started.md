@@ -31,13 +31,17 @@ You can customize the installed agent profiles in your harness's native files. S
 
 For an existing system, this documents its projects and working rules.
 
-When no application source exists, it asks about the product and its projects in short stages, proposes the system in `.product/system.md`, and, after your approval, gives you the command that scaffolds it:
+When no application source exists, it asks about the product and its projects in short stages, proposes the system in `.product/system.md`, and, after your approval, gives you the commands that scaffold it:
 
 ```bash
-npm create aiddbot -- --name "Astro Bookings" --author "Ada Lovelace" --front standard --back express --e2e playwright
+npx tiged AIDDbot/front-standard front
+npx tiged AIDDbot/back-express back
+npx tiged AIDDbot/e2e-playwright e2e
+bun install --cwd front && bun install --cwd back && bun install --cwd e2e
+git add -A && git commit -m "chore(scaffold): add front-standard, back-express, e2e-playwright"
 ```
 
-[`create-aiddbot`](https://github.com/AIDDbot/create-aiddbot) downloads the archetypes, installs their dependencies, and commits the scaffold on the current branch. Run `/architect-system-foundation` again to document the new projects and record their commands.
+Run them from the repository root with a clean working tree. Each archetype needs [Bun](https://bun.com). Run `/architect-system-foundation` again to document the new projects and record their commands.
 
 ## Deliver a change
 

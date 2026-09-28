@@ -46,7 +46,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 ## Delivery documents
 
-- **System proposal** — `{Product_Folder}/system.md` is the approved greenfield proposal: purpose, users, projects, and the scaffold command. It is kept as product context; the code wins where they disagree.
+- **System proposal** — `{Product_Folder}/system.md` is the approved greenfield proposal: purpose, users, projects, and the scaffold commands. It is kept as product context; the code wins where they disagree.
 - **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, its `control.json`, and only non-green `verification.md` or `qualification.md` reports. `control.json` holds the spec state and evaluations; only `node .agents/aidd/aidd.mjs` writes it, and `aidd spec show` summarizes it. Each spec owns its requirements, `R01` locally and `S0042-R03` globally. `specs/README.md` lists every shipped spec by domain; only `aidd release` writes it.
 - **Counters** — `.aiddbot/counters.yaml` stores the last reserved S and D numbers; requirement IDs are local to each spec.
 - **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are local, untracked, plain-text narrative of process events by date: the core writes every state change, the model adds only `verdict`, `select`, and `blocked` (outside a spec) with `node .agents/aidd/aidd.mjs log`, and nothing reads them.
