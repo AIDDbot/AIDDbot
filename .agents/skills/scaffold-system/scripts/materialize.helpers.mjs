@@ -29,7 +29,11 @@ export const destinationsOf = (options) => selectedTiers(options).map((tier) => 
 export const isSafeDestination = (destination) => /^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$/i.test(destination)
   && !/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(destination);
 export const hasContent = (folder) => fs.statSync(folder, { throwIfNoEntry: false })?.isDirectory() && fs.readdirSync(folder).length > 0;
-export const listCatalog = () => out(TIERS.map((tier) => `--${tier} default: ${CATALOG[tier][0]}; catalog: ${CATALOG[tier].join(", ")}`).join("\n"));
+const describe = (tier, tech) => DEFAULTS.descriptions?.[`${tier}-${tech}`] ?? "no description";
+export const listCatalog = () => out(TIERS.map((tier) => [
+  `--${tier} default: ${CATALOG[tier][0]}; catalog: ${CATALOG[tier].join(", ")}`,
+  ...CATALOG[tier].map((tech) => `    ${tech}: ${describe(tier, tech)}`),
+].join("\n")).join("\n"));
 export const spawnNpx = (args, cwd) => (process.platform === "win32"
   ? spawnSync(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", ["npx", ...args].join(" ")], { cwd, stdio: "inherit", windowsHide: true })
   : spawnSync("npx", args, { cwd, stdio: "inherit", windowsHide: true }));
