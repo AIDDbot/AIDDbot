@@ -1,51 +1,56 @@
-// Locating a spec and reading its identity.
+// Specs: their folders, their `control.json`, and the shipping gate.
 import fs from "node:fs";
 import path from "node:path";
-import { productPath } from "./paths.mjs";
-import { CONTROL, readControl } from "./control.mjs";
-import { requireFields } from "./frontmatter.mjs";
+import { git, productPath, readJson, RuleError, writeJson } from "./core.mjs";
 
-export const SPEC_TYPES = ["feat", "fix", "refactor", "chore"];
+export const TYPES = ["feat", "fix", "refactor", "chore"];
+export const KINDS = ["verification", "qualification"];
+export const STATUSES = ["green", "amber", "red"];
+const PASSING = { verification: ["green"], qualification: ["green", "amber"] };
+const LAST_REVISION = 3;
 
 export const specsDir = (root) => productPath(root, "specs");
 
-/** Directories of every shipped spec but `exceptId`, in ID order. */
-export function shippedSpecDirs(root, exceptId = null) {
-  const specs = specsDir(root);
-  if (!fs.existsSync(specs)) return [];
-  return fs.readdirSync(specs, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && /^S\d{4}-/.test(entry.name) && !entry.name.startsWith(`${exceptId}-`))
-    .map((entry) => path.join(specs, entry.name))
-    .filter((dir) => fs.existsSync(path.join(dir, CONTROL)) && readControl(dir).status === "shipped")
-    .sort();
+/** The folder of a spec given as `S0001`, `S0001-slug`, or a path; null when absent. */
+export function findSpec(root, input) {
+  const id = /S\d{4}/.exec(path.basename(input ?? ""))?.[0];
+  if (!id || !fs.existsSync(specsDir(root))) return null;
+  const name = fs.readdirSync(specsDir(root)).find((entry) => entry.startsWith(`${id}-`));
+  return name ? path.join(specsDir(root), name) : null;
 }
 
-/** The title in the spec's `# S0042-slug — title` heading, or the fallback. */
-export const specTitle = (text, fallback) => /^# \S+ — (.+)$/m.exec(text)?.[1].trim() ?? fallback;
+/** The spec of `input`, or of the current spec branch when `input` is omitted. */
+export function requireSpec(root, input) {
+  const branch = git(root, ["branch", "--show-current"]);
+  const dir = findSpec(root, input ?? branch);
+  if (!dir) throw new RuleError(`No spec found for ${input ?? `branch ${branch || "(detached)"}`}.`);
+  return dir;
+}
 
-/** Lowercase kebab-case, the shape of a spec slug and of its domain. */
-export const isSlug = (value) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value ?? "");
+export const readControl = (dir) => readJson(path.join(dir, "control.json"));
+export const writeControl = (dir, control) => writeJson(path.join(dir, "control.json"), control);
 
-/**
- * Resolve a spec ID (`S0001`), a spec directory, or a `spec.md` path to its directory.
- * Relative paths resolve from the working directory first, then from the repository root.
- */
-export function resolveSpecDir(root, input) {
-  const specs = specsDir(root);
-  let target = null;
-  if (/^S\d{4}$/.test(input) && fs.existsSync(specs)) {
-    const match = fs.readdirSync(specs, { withFileTypes: true }).find((entry) => entry.isDirectory() && entry.name.startsWith(`${input}-`));
-    if (match) target = path.join(specs, match.name);
+const latest = (control, kind) => control.evaluations.filter((entry) => entry.kind === kind).at(-1);
+
+/** Why the spec cannot ship yet; an empty list means it can. */
+export function gate(root, dir, control) {
+  if (control.status === "shipped") return [`${control.id} is already shipped.`];
+  const blockers = [];
+  for (const kind of KINDS) {
+    const entry = latest(control, kind);
+    if (!entry) {
+      blockers.push(`No ${kind} recorded.`);
+      continue;
+    }
+    if (!PASSING[kind].includes(entry.status) && entry.revision < LAST_REVISION) {
+      blockers.push(`${kind} is ${entry.status} at revision ${entry.revision}; repair and evaluate again.`);
+    }
+    if (git(root, ["cat-file", "-t", entry.commit ?? "none"], { allowFailure: true }) !== "commit") {
+      blockers.push(`${kind} revision ${entry.revision} names no real commit; record it with aidd eval.`);
+    }
+    if (entry.status !== "green" && !fs.existsSync(path.join(dir, `${kind}.md`))) {
+      blockers.push(`${kind} is ${entry.status} but ${kind}.md is missing.`);
+    }
   }
-  target ??= [path.resolve(input), path.resolve(root, input), path.join(specs, input)].find((candidate) => fs.existsSync(candidate)) ?? path.resolve(root, input);
-  if (!fs.existsSync(target)) throw new Error(`Spec directory not found: ${target}`);
-  const dir = fs.statSync(target).isDirectory() ? target : path.dirname(target);
-  const file = path.join(dir, "spec.md");
-  if (!fs.existsSync(file)) throw new Error(`Spec file not found: ${file}`);
-  return { dir, file };
-}
-
-/** Read the spec's frontmatter, requiring the given fields. */
-export function readSpecFields(file, keys) {
-  return requireFields(fs.readFileSync(file, "utf8"), keys, "Spec");
+  return blockers;
 }

@@ -1,0 +1,186 @@
+// End-to-end tests of the aidd core: each test drives the CLI in a throwaway git repository.
+import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { test } from "node:test";
+import { fileURLToPath } from "node:url";
+
+const CORE = fileURLToPath(new URL("../.agents/aidd/aidd.mjs", import.meta.url));
+
+function git(cwd, ...args) {
+  return execFileSync("git", args, { cwd, encoding: "utf8" }).trim();
+}
+
+function write(root, file, text) {
+  fs.mkdirSync(path.dirname(path.join(root, file)), { recursive: true });
+  fs.writeFileSync(path.join(root, file), text);
+}
+
+function repo() {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aidd-core-"));
+  git(root, "init", "-q", "-b", "main");
+  git(root, "config", "user.email", "test@example.com");
+  git(root, "config", "user.name", "Test");
+  write(root, ".aiddbot/counters.yaml", "spec: 0\ndebt: 0\n");
+  write(root, ".aiddbot/config.json", '{ "projects": {} }\n');
+  write(root, ".product/quality/debt.json", '{ "items": [] }\n');
+  write(root, "package.json", '{ "name": "demo", "version": "0.1.0", "private": true }\n');
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "chore: init");
+  return root;
+}
+
+function aidd(root, ...args) {
+  const result = spawnSync(process.execPath, [CORE, ...args], { cwd: root, encoding: "utf8" });
+  let body = null;
+  try {
+    body = JSON.parse(result.stdout);
+  } catch {
+    body = result.stdout;
+  }
+  return { code: result.status, body };
+}
+
+function readJson(root, file) {
+  return JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
+}
+
+test("a spec goes from new to shipped with version, changelog, index, and tag", () => {
+  const root = repo();
+  const created = aidd(root, "spec", "new", "feat", "user-login", "User login", "--domain", "auth");
+  assert.equal(created.code, 0);
+  assert.equal(created.body.branch, "feat/S0001-user-login");
+  assert.equal(git(root, "branch", "--show-current"), "feat/S0001-user-login");
+  assert.match(fs.readFileSync(path.join(root, created.body.file), "utf8"), /# S0001-user-login — User login/);
+
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "feat(S0001): login");
+  assert.equal(aidd(root, "eval", "verification", "green", "all requirements pass").code, 0);
+  assert.equal(aidd(root, "eval", "qualification", "green", "clean").code, 0);
+
+  const shipped = aidd(root, "release");
+  assert.equal(shipped.code, 0, JSON.stringify(shipped.body));
+  assert.equal(shipped.body.version, "0.2.0");
+  assert.equal(git(root, "branch", "--show-current"), "main");
+  assert.equal(git(root, "tag", "--list", "v0.2.0"), "v0.2.0");
+  assert.equal(readJson(root, "package.json").version, "0.2.0");
+  assert.match(fs.readFileSync(path.join(root, "CHANGELOG.md"), "utf8"), /## \[0\.2\.0\][\s\S]*### Added[\s\S]*User login \(\[S0001\]/);
+  assert.match(fs.readFileSync(path.join(root, ".product/specs/README.md"), "utf8"), /## auth\n\n- \[S0001\]\(S0001-user-login\/spec\.md\) User login/);
+  assert.equal(readJson(root, ".product/specs/S0001-user-login/control.json").status, "shipped");
+  assert.doesNotMatch(git(root, "branch"), /feat\/S0001/);
+});
+
+test("spec new works with pending changes and never needs a clean tree", () => {
+  const root = repo();
+  write(root, "notes.txt", "draft");
+  const created = aidd(root, "spec", "new", "fix", "typo", "Fix typo");
+  assert.equal(created.code, 0);
+  assert.ok(fs.existsSync(path.join(root, "notes.txt")));
+  assert.equal(readJson(root, ".product/specs/S0001-typo/control.json").domain, "general");
+});
+
+test("a non-green evaluation needs its report file", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "search", "Search");
+  const refused = aidd(root, "eval", "verification", "red", "two failures");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /verification\.md/);
+  write(root, ".product/specs/S0001-search/verification.md", "# Failures\n");
+  assert.equal(aidd(root, "eval", "verification", "red", "two failures").code, 0);
+});
+
+test("the gate blocks red evidence until revision 3 and ships it then", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "cart", "Cart");
+  write(root, ".product/specs/S0001-cart/verification.md", "# Failures\n");
+  aidd(root, "eval", "verification", "red", "one failure");
+  assert.equal(aidd(root, "eval", "qualification", "amber", "minor").code, 1);
+  write(root, ".product/specs/S0001-cart/qualification.md", "# Findings\n");
+  aidd(root, "eval", "qualification", "amber", "minor");
+  fs.rmSync(path.join(root, ".product/specs/S0001-cart/qualification.md"));
+  const blocked = aidd(root, "release");
+  assert.equal(blocked.code, 1);
+  assert.match(blocked.body.error, /verification is red at revision 1/);
+  assert.match(blocked.body.error, /qualification\.md is missing/);
+  write(root, ".product/specs/S0001-cart/qualification.md", "# Findings\n");
+  aidd(root, "eval", "verification", "red", "still one");
+  aidd(root, "eval", "verification", "red", "still one");
+  assert.equal(aidd(root, "release").code, 0);
+});
+
+test("the gate rejects evidence written by hand without a real commit", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "fake", "Fake");
+  const file = path.join(root, ".product/specs/S0001-fake/control.json");
+  const control = JSON.parse(fs.readFileSync(file, "utf8"));
+  control.evaluations = ["verification", "qualification"].map((kind) => ({ kind, revision: 1, status: "green" }));
+  fs.writeFileSync(file, JSON.stringify(control));
+  const shown = aidd(root, "spec", "show");
+  assert.equal(shown.body.blockers.length, 2);
+  assert.match(shown.body.blockers[0], /no real commit/);
+  assert.equal(aidd(root, "release").code, 1);
+});
+
+test("a fix bumps the patch and --major the major", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "fix", "crash", "Crash");
+  aidd(root, "eval", "verification", "green", "ok");
+  aidd(root, "eval", "qualification", "green", "ok");
+  assert.equal(aidd(root, "release").body.version, "0.1.1");
+  aidd(root, "spec", "new", "refactor", "api", "API v2");
+  aidd(root, "eval", "verification", "green", "ok");
+  aidd(root, "eval", "qualification", "green", "ok");
+  assert.equal(aidd(root, "release", "--major").body.version, "1.0.0");
+});
+
+test("debt is added with the next D ID, listed by priority, and removed", () => {
+  const root = repo();
+  assert.equal(aidd(root, "debt", "add", "Slow query", "low").body.id, "D0001");
+  const high = aidd(root, "debt", "add", "SQL injection", "high", "search.ts:12");
+  assert.equal(high.body.id, "D0002");
+  assert.equal(high.body.origin, "scan");
+  assert.deepEqual(aidd(root, "debt", "list").body.map((item) => item.id), ["D0002", "D0001"]);
+  assert.equal(aidd(root, "debt", "add", "Oops", "urgent").code, 2);
+  assert.equal(aidd(root, "debt", "remove", "D0002").code, 0);
+  assert.equal(aidd(root, "debt", "remove", "D0002").code, 1);
+  assert.match(fs.readFileSync(path.join(root, ".aiddbot/counters.yaml"), "utf8"), /debt: 2/);
+});
+
+test("config set and get, then run executes the configured commands", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  const project = JSON.stringify({ path: "back", commands: { unit: "node -e \"process.exit(0)\"", quality: ["node -e \"process.exit(3)\""] } });
+  assert.equal(aidd(root, "config", "set", "projects.back", project).code, 0);
+  assert.equal(aidd(root, "config", "get", "projects.back.path").body, "back");
+  assert.equal(aidd(root, "config", "set", "projects.front", "{}").code, 2);
+  const unit = aidd(root, "run", "unit");
+  assert.equal(unit.code, 0);
+  assert.equal(unit.body.runs[0].project, "back");
+  assert.equal(aidd(root, "run", "quality").code, 1);
+  assert.equal(aidd(root, "run", "acceptance").code, 3);
+});
+
+test("integrate commits and merges a task branch; log journals a capped judgment", () => {
+  const root = repo();
+  git(root, "switch", "-q", "-c", "chore/document");
+  write(root, "AGENTS.md", "# Agents\n");
+  const merged = aidd(root, "integrate", "docs(system): document foundation");
+  assert.equal(merged.code, 0);
+  assert.equal(merged.body.committed, true);
+  assert.equal(git(root, "branch", "--show-current"), "main");
+  assert.equal(aidd(root, "log", "verdict", `greenfield: ${"x".repeat(200)}`).code, 0);
+  assert.equal(aidd(root, "log", "started", "nope").code, 2);
+  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"));
+  const lines = fs.readFileSync(path.join(root, ".aiddbot/journals", journal[0]), "utf8").trim().split("\n");
+  assert.match(lines.at(-1), /model +- +verdict +greenfield: x+…$/);
+  assert.ok(lines.at(-1).split(" verdict").pop().trim().length <= 128);
+});
+
+test("commands outside an initialized repository explain what to do", () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), "aidd-bare-"));
+  const result = aidd(root, "debt", "list");
+  assert.equal(result.code, 1);
+  assert.match(result.body.error, /aiddbot init/);
+});
