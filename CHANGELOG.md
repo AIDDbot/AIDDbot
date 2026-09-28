@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.18 - 2026-09-28
+
+- Merge branch 'refactor/dc-8-roles-docs' (83c7252)
+- docs(product): leave the real multi-harness test to the human (8.3, P10) (33e4f5a)
+- docs: merge the skills catalog into AIDD.workflow.md (8.2) (90f11e0)
+- refactor(skills): move role limits and sub-agent rules to role prompts (8.1) (d6b73eb)
+- Merge branch 'refactor/dc-7-scaffold-lite' (759954c)
+- refactor(skills): interim scaffold commands in /architect-system-foundation (668f59f)
+
 ## 0.1.17 - 2026-09-28
 
 - Merge branch 'refactor/dc-7-greenfield' (0068d31)
