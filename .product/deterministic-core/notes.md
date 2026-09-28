@@ -66,6 +66,10 @@ D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la veri
 
 > **Resuelta → D28.**
 
+## 🟡 P10 — 8.3 · Prueba real en cada arnés y métricas
+
+8.3 pide una entrega completa en cada arnés (Claude Code, Codex, Copilot, Cursor) y compararla con la línea base de 0.3 (ver P2, que sigue sin medir). Solo la puede hacer el humano en un repo temporal: greenfield con los comandos de `system.md` (D46) → documentar → `/build-requested-spec`. Conviene medir las líneas de journal escritas por el modelo (objetivo < 5 por entrega), si el gate funciona en un clon limpio y si algún rol viola los límites de su prompt (D7). Los informes que guardes alimentan F1–F3.
+
 ## 🔧 Fixes pendientes (tras la fase 7)
 
 Anotados por el humano el 2026-09-28, antes de empezar la fase 7. Se corrigen después; el humano guardará informes de las pruebas.
