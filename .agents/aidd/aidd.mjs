@@ -44,6 +44,10 @@ const GROUPS = {
       set: { usage: "config set <key> <json-value>", summary: "Write one dotted key after validating it", load: () => import("./commands/config.mjs").then((m) => ({ default: m.set })) },
     },
   },
+  trace: {
+    summary: "Trace a spec's requirements to its tagged acceptance tests",
+    commands: { "": { usage: "trace [<spec-id-or-directory>]", summary: "Report untested requirements, dangling or replaced tags, and untagged tests; exit 1 when red", load: () => import("./commands/trace.mjs") } },
+  },
   run: {
     summary: "Execute one classified command kind",
     commands: { "": { usage: "run <lint|unit|acceptance|quality> [--project <name>]", summary: "Run the kind for one project, or every project that has it configured", load: () => import("./commands/run.mjs") } },

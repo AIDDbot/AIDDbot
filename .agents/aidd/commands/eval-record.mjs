@@ -7,6 +7,7 @@ import { noteQuietly } from "../lib/journal.mjs";
 import { REPORTS, reportEvidence, validateFindings } from "../lib/reports.mjs";
 import { findRoot } from "../lib/root.mjs";
 import { resolveSpecDir } from "../lib/spec.mjs";
+import { trace } from "../lib/trace.mjs";
 
 function input(argv) {
   const args = parseArgs(argv, { positional: ["kind", "specDir", "status", "summary"] });
@@ -58,6 +59,10 @@ export default function evalRecord(argv) {
   const control = readControl(dir);
   if (["draft", "shipped"].includes(control.status)) throw new RuleError(`Cannot evaluate a spec in ${control.status} state.`);
   if (kind === "qualification") checkPriorVerification(dir, latestEvaluation(control, "verification"));
+  if (kind === "verification" && status === "green") {
+    const traced = trace(root, { id: control.id, text: fs.readFileSync(path.join(dir, "spec.md"), "utf8") });
+    if (traced.status === "red") throw new RuleError(`Verification cannot be green while the trace is red (aidd trace ${control.id}): ${traced.problems.join(" ")}`);
+  }
   const revision = (latestEvaluation(control, kind)?.revision ?? 0) + 1;
   const entry = {
     kind, revision, status,
