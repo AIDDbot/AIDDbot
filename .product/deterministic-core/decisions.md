@@ -150,3 +150,28 @@ Lo decidió el humano (2026-09-28): «el pasado, pisado». Un fallo que la deuda
 
 ## D29 ← P8 · Sin reintentos en local
 Lo decidió el humano (2026-09-28). Ni el núcleo ni `rule-project` añaden reintentos al comando de aceptación. Los agentes ya evalúan en modo interactivo, y los reintentos arriesgan bucles y lentitud. Un test inestable en local sale como fallo, y el triaje lo trata como cualquier otro. `aidd run acceptance` sigue listando aparte los `flaky` cuando el propio proyecto reintenta, como en CI.
+
+## D30 ← C·Q1 · Un registro de deuda del núcleo y una vista generada
+`.product/quality/debt.json` va versionado, y solo lo escribe `aidd debt`: es el estado de la deuda abierta, no un historial. `TDR.md` pasa a ser la vista humana, que el núcleo regenera en cada escritura, como el índice de specs (D26). `review.md` desaparece: el escaneo no necesita un informe propio, porque su evidencia queda en los ítems (D34) y el journal registra cuándo ocurrió. Se descartan un Markdown que el núcleo tenga que parsear y mantener los dos ficheros.
+
+## D31 ← C·Q2 · Prioridad `high` / `medium` / `low`
+Cada ítem tiene una prioridad, que asigna el modelo al registrarlo: `high` si rompe comportamiento, seguridad o datos; `medium` si frena o encarece el cambio; `low` en el resto. El núcleo valida el valor y ordena la vista por prioridad.
+
+## D32 ← C·Q2, C·Q4 · Estados `confirmed` y `not-revalidated`; lo resuelto se borra
+Un ítem abierto está `confirmed`, porque la última evidencia lo ve, o `not-revalidated`, porque el check que lo detectaba no pudo ejecutarse: lo no disponible nunca resuelve. Un check no disponible por sí solo no crea ningún ítem. Un ítem resuelto sale del registro; git conserva la historia.
+
+## D33 ← C·Q3 · Resolver exige una prueba que el núcleo comprueba
+`aidd debt resolve` borra un ítem solo con una de dos pruebas:
+- `--spec <S0042>`: la spec cita el D ID en su sección `Technical debt`, su última verificación es verde y está `qualified` o `shipped`;
+- `--scan <project>`: el proyecto tiene `quality` configurado, así que el check pudo ejecutarse; que ya no vea el problema lo juzga el modelo.
+
+Cualquier otro caso se rechaza con código 1.
+
+## D34 ← C·Q6 · La evidencia vive en el ítem, breve y con su fuente
+Cada ítem guarda título, prioridad, estado, alcance, un hecho observado, su impacto y su fuente: el informe de una spec (`S0042-slug/verification.md`) o el check de un escaneo (`quality:back`). Ningún informe aparte guarda la evidencia de la deuda.
+
+## D35 ← C·Q5 · Origen fijo y última confirmación
+`origin` no cambia nunca: es la spec que lo registró o `scan`. `confirmed` guarda la fecha, el commit y la fuente de la última evidencia, y lo actualizan `aidd debt update` y cada escaneo que lo vuelve a ver. Si una spec y un escaneo ven el mismo problema, se conserva el mismo D ID. Se descarta una lista de fuentes, que haría crecer el registro.
+
+## D36 ← C·Q7 · Sin deuda elegible, el resumen del registro
+Cuando no hay deuda elegible, `craft-lasting-quality` devuelve el resumen de `aidd debt list` (vacío, o solo con ítems que no se pueden reparar) y lo dice.

@@ -1,6 +1,6 @@
 # Deterministic core — plan de implementación
 
-Aplica las decisiones D1–D29 de `decisions.md` y las propuestas A, B y C de `.product/`. Las fases siguen el orden de D10. Cada una deja el sistema funcionando y sale como release *patch* (D11).
+Aplica las decisiones D1–D36 de `decisions.md` y las propuestas A, B y C de `.product/`. Las fases siguen el orden de D10. Cada una deja el sistema funcionando y sale como release *patch* (D11).
 
 Estado de cada paso: `[ ]` pendiente · `[~]` en curso · `[x]` hecho. Las dudas nuevas van como 🟡 `P{n}` en `notes.md`.
 
@@ -117,9 +117,10 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 
 ## Fase 5 · Registro de calidad (C)
 
-- [ ] **5.0 Decisiones de C**: un solo registro o dos, escala de prioridad, estados, evidencia mínima, `not revalidated` y resultado sin deuda elegible.
-- [ ] **5.1 Registro y `aidd debt add|update|resolve|list`**, con IDs de los contadores, validación de prioridad y estado, y eliminación al resolver.
-- [ ] **5.2 Skills sobre el registro**: `scan-quality`, `ship-spec` y `craft-lasting-quality`. Se borra `review.md` si 5.0 lo confirma, junto con la mecánica de `debt.contract.md`.
+- [x] **5.0 Decisiones de C**: un solo registro o dos, escala de prioridad, estados, evidencia mínima, `not revalidated` y resultado sin deuda elegible.
+  **Hecho:** D30–D36, todas elegidas por el humano el 2026-09-28 entre opciones recomendadas: `debt.json` del núcleo con `TDR.md` generado y sin `review.md`; prioridad `high`/`medium`/`low`; estados `confirmed`/`not-revalidated`, y lo resuelto se borra; `resolve` exige una spec cualificada que cite el ítem o un escaneo cuyo check pudo ejecutarse; la evidencia va en el ítem con su fuente; origen fijo más última confirmación; sin deuda elegible, el resumen de `aidd debt list`.
+- [ ] **5.1 Registro y `aidd debt add|update|resolve|list`** (D30–D35), con IDs de los contadores, validación de prioridad y estado, comprobación de la prueba al resolver y eliminación, y `TDR.md` regenerado en cada escritura. `init` siembra `debt.json`; `spec new` y el triaje (D21) leen el registro en vez del TDR.
+- [ ] **5.2 Skills sobre el registro**: `scan-quality`, `ship-spec` y `craft-lasting-quality` (D36). Se borran `review.md`, su plantilla y `debt.contract.md` (D30).
   *Hecho cuando:* hay un único fichero de calidad, los ítems resueltos desaparecen y no queda prosa de reconciliación.
 
 ## Fase 6 · Release determinista

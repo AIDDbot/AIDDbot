@@ -1,6 +1,6 @@
 # Craft quality records: review and TDR
 
-Status: discussion to resume; no implementation decision approved.
+Status: decided in `deterministic-core/decisions.md` D30–D36 (2026-09-28).
 
 ## Direction discussed
 
@@ -25,12 +25,19 @@ This would remove the separate review snapshot only if the unified register reta
 ## Open questions
 
 - Does the latest system scan need a report independent of the durable debt entries?
+  > **R:** ✅ → D30 — no; one core-written `debt.json` with a generated `TDR.md`
 - What priority scale and state lifecycle should apply consistently to failures, debt, and code smells?
+  > **R:** ✅ → D31, D32 — high/medium/low; confirmed/not-revalidated; resolved items are removed
 - What evidence is sufficient to mark an item resolved and remove it from the current record?
+  > **R:** ✅ → D33 — a qualified spec citing it with green verification, or a scan whose check could run
 - How should unavailable checks and issues marked `not revalidated` appear in a unified record?
+  > **R:** ✅ → D32
 - How should evidence from shipped specs and full-system scans update the same issue without losing its origin or rationale?
+  > **R:** ✅ → D35 — fixed origin plus last confirmation
 - Should every open debt item have stable detailed evidence in the register, or can it refer to a durable source report?
+  > **R:** ✅ → D34 — short evidence in the item, with its source
 - What does the Craft workflow return when there is no eligible debt if there is no separate review report?
+  > **R:** ✅ → D36 — the `aidd debt list` summary
 
 ## Resume point
 
