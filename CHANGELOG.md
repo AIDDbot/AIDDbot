@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.21 - 2026-09-28
+
+- Merge branch 'refactor/lean-core' (f47ab44)
+- fix(core): clearer message for a missing report; record the rewrite status (672ba99)
+- docs: describe the lean core workflow (L3) (da8d9d8)
+- refactor(skills): move every skill to the lean core (L2) (83f1d60)
+- refactor(core): rewrite the aidd core lean (L1) (5367a31)
+- docs(product): accept E-D11 to E-D15; Haiku is the reference model (6a0cdff)
+- docs(product): post-mortem of the Copilot + Haiku run into the lean core inventory (f5ebf19)
+- docs(product): inventory the core for a lean rewrite (E) (6f229f7)
+
 ## 0.1.20 - 2026-09-28
 
 - No new commits.
