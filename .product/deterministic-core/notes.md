@@ -65,3 +65,11 @@ D21 da por hecho que la rama por defecto está verde salvo la deuda registrada, 
 D21 dice cuándo un fallo es previo (lo cita la deuda) pero no qué hace la verificación con él. Lo interpreté así: un fallo `pre-existing` no entra en `verification.md` y no impide el verde, porque ya está registrado como deuda. Si contara, cada spec quedaría roja hasta la revisión 3 por una deuda ajena, lo que contradice el invariante de D21. El validador de informes no acepta `pre-existing` como disposición y `verify-behavior` lo dice. Conviene confirmarlo o convertirlo en decisión.
 
 > **Resuelta → D28.**
+
+## 🔧 Fixes pendientes (tras la fase 7)
+
+Anotados por el humano el 2026-09-28, antes de empezar la fase 7. Se corrigen después; el humano guardará informes de las pruebas.
+
+- [ ] **F1 · Journal:** `aidd log` debe truncar el mensaje final a 128 caracteres. Hoy `lib/journal.mjs` no trunca nada por diseño («nothing is ever truncated»).
+- [ ] **F2 · PRD / índice de specs con Haiku:** en una prueba con Haiku no se generó el índice de specs (antiguo PRD).
+- [ ] **F3 · CHANGELOG con Haiku:** en la misma prueba tampoco se creó el `CHANGELOG`.
