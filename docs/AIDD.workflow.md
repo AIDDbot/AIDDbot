@@ -68,7 +68,7 @@ Existing product records are preserved. AIDDbot never scaffolds: the human runs 
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 
-`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. It does not repeat skill routing or commands executed by the models.
+`aiddbot init` prepares everything a delivery needs before any skill runs: `.gitignore`, `README.md`, `LICENSE`, a root `package.json` at `0.1.0` that carries the product version, `AGENTS.md` (seeded from `outline-system`'s own template, which later fills it in), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json` with its `TDR.md` view, and the journal's first event. It does not repeat skill routing or commands executed by the models.
 
 ## Change delivery
 

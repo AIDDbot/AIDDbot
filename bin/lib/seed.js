@@ -158,6 +158,21 @@ function ensureAgentSeed(destRoot, dryRun) {
   return [rel];
 }
 
+// `aidd release` reads the product version from the root package.json (D38). Scaffolds put
+// projects in child folders, so without this seed the first release would have no version file.
+function ensureRootPackage(destRoot, dryRun, title = path.basename(destRoot)) {
+  const rel = "package.json";
+  if (fs.existsSync(absPath(destRoot, rel))) {
+    print("skip-same", rel);
+    return null;
+  }
+  const name = title.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "product";
+  print("create", rel);
+  writeFile(absPath(destRoot, rel), `${JSON.stringify({ name, version: "0.1.0", private: true }, null, 2)}
+`, dryRun);
+  return rel;
+}
+
 function ensureCounters(destRoot, dryRun) {
   return ensureFromSeed(destRoot, dryRun, ".aiddbot/counters.yaml");
 }
@@ -216,6 +231,8 @@ async function ensureSeedFiles(destRoot, dryRun, title) {
   const license = ensureLicense(destRoot, dryRun);
   if (license) written.push(license);
   written.push(...ensureAgentSeed(destRoot, dryRun));
+  const rootPackage = ensureRootPackage(destRoot, dryRun, title);
+  if (rootPackage) written.push(rootPackage);
   const counters = ensureCounters(destRoot, dryRun);
   if (counters) written.push(counters);
   const config = await ensureConfig(destRoot, dryRun);

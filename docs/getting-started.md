@@ -13,6 +13,7 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 `init` prepares a complete workspace in one pass:
 
 - `.gitignore`, `README.md`, and `LICENSE` — created only when missing, never overwritten.
+- A root `package.json` at version `0.1.0`, only when missing. `aidd release` bumps its version at each shipped spec.
 - `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S and D identifiers. It is project state: later `update` never changes it.
 - An empty `.aiddbot/config.json`. `rule-project` fills it in with each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
