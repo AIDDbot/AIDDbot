@@ -5,6 +5,12 @@
     "e2e": ["playwright"],
     "cli": ["node"]
   },
+  "descriptions": {
+    "back-express": "backend API with Express",
+    "front-standard": "front web app in plain HTML, CSS and TypeScript: no UI framework (no React), no bundler, no build step",
+    "e2e-playwright": "end-to-end tests with Playwright",
+    "cli-node": "command-line application with Node.js"
+  },
   "directories": {
     "back": "back",
     "front": "front",
