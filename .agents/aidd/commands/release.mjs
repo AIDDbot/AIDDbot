@@ -1,56 +1,102 @@
+// `aidd release [--major]`: ship the current spec branch.
+// `aidd integrate <message>`: commit and merge a non-spec task branch.
 import fs from "node:fs";
-import { parseArgs, RuleError } from "../lib/cli.mjs";
-import { currentBranch, defaultBranch, git, mergeInto, SPEC_BRANCH } from "../lib/git.mjs";
-import { readControl, transition, writeControl } from "../lib/control.mjs";
-import { gate } from "../lib/gate.mjs";
-import { noteQuietly } from "../lib/journal.mjs";
-import { findRoot } from "../lib/root.mjs";
-import { resolveSpecDir, specTitle } from "../lib/spec.mjs";
-import { writeIndex } from "../lib/spec-index.mjs";
-import { currentVersion, nextVersion, writeChangelog, writeVersions } from "../lib/version.mjs";
+import path from "node:path";
+import {
+  currentBranch, defaultBranch, git, journal, mergeAndDelete, readJson, relative, RuleError, UsageError,
+} from "../lib/core.mjs";
+import { findSpec, gate, readControl, specsDir, writeControl } from "../lib/spec.mjs";
 
-/** The tag name for `version`, following the prefix existing tags use, `v` by default. */
-function tagFor(root, version) {
-  const tags = git(root, ["tag", "--list"], { quiet: true }).split(/\r?\n/).filter(Boolean);
-  const prefixes = new Set(tags.filter((tag) => /^v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(tag)).map((tag) => tag.startsWith("v") ? "v" : ""));
-  if (prefixes.size > 1) throw new RuleError("Existing semantic-version tags use mixed prefixes; normalize them before release.");
-  return `${prefixes.values().next().value ?? "v"}${version}`;
+const SEMVER = /^(\d+)\.(\d+)\.(\d+)/;
+const SECTIONS = { feat: "Added", fix: "Fixed", refactor: "Changed", chore: "Changed" };
+
+/** Root `package.json` and its lockfile, plus any `release.versionFiles` in config.json. */
+function versionFiles(root) {
+  const declared = readJson(path.join(root, ".aiddbot", "config.json"), {}).release?.versionFiles ?? [];
+  const files = ["package.json", "package-lock.json", ...declared].filter((file) => fs.existsSync(path.join(root, file)));
+  if (!files.includes("package.json")) throw new RuleError("A root package.json with a version is required; run aiddbot init.");
+  return [...new Set(files)];
 }
 
-/**
- * Apply the shipping gate, compute the next version from the spec type (D37), write it into the
- * version files (D38) and the changelog, mark the spec shipped, regenerate the spec index, commit
- * on the spec branch, merge into the default branch, tag, and delete the branch.
- */
-export default function release(argv) {
-  const { major, base: requested } = parseArgs(argv, { flags: { major: "boolean", base: "string" } });
-  const root = findRoot();
-  const source = currentBranch(root);
-  const spec = SPEC_BRANCH.exec(source)?.[1];
-  if (!spec) throw new RuleError(`Current branch is not a spec branch: ${source || "(detached HEAD)"}`);
-  const base = defaultBranch(root, requested ?? null);
-  if (source === base) throw new RuleError("The spec branch cannot be the default branch.");
-  const { dir, file } = resolveSpecDir(root, spec);
-  const current = readControl(dir);
-  const verdict = gate(root, dir, current);
-  if (!verdict.eligible) throw new RuleError(`${spec} cannot ship: ${verdict.blockers.join(" ")}`);
-  const previous = currentVersion(root);
-  const version = nextVersion(previous, current.type, Boolean(major));
-  const tag = tagFor(root, version);
-  if (git(root, ["rev-parse", "--verify", `refs/tags/${tag}`], { quiet: true, allowFailure: true })) throw new RuleError(`Release tag already exists: ${tag}`);
-  const title = specTitle(fs.readFileSync(file, "utf8"), current.key);
-  const files = writeVersions(root, version);
-  writeChangelog(root, { version, type: current.type, title, id: current.id, key: current.key });
-  const control = transition(current, "shipped");
+function nextVersion(current, type, major) {
+  const match = SEMVER.exec(current ?? "");
+  if (!match) throw new RuleError(`package.json has no semantic version: ${current}`);
+  const [x, y, z] = match.slice(1).map(Number);
+  if (major) return `${x + 1}.0.0`;
+  return type === "feat" ? `${x}.${y + 1}.0` : `${x}.${y}.${z + 1}`;
+}
+
+function writeVersion(root, file, version) {
+  const full = path.join(root, file);
+  const value = readJson(full);
+  value.version = version;
+  if (value.packages?.[""]) value.packages[""].version = version;
+  fs.writeFileSync(full, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+function writeChangelog(root, control, version) {
+  const file = path.join(root, "CHANGELOG.md");
+  const current = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "# Changelog\n";
+  const date = new Date().toISOString().slice(0, 10);
+  const link = `.product/specs/${control.key}/spec.md`;
+  const entry = `## [${version}] - ${date}\n\n### ${SECTIONS[control.type]}\n\n- ${control.title} ([${control.id}](${link}))\n`;
+  const first = current.search(/^## /m);
+  const text = first < 0 ? `${current.trimEnd()}\n\n${entry}` : `${current.slice(0, first)}${entry}\n${current.slice(first)}`;
+  fs.writeFileSync(file, text, "utf8");
+}
+
+/** `.product/specs/README.md`: every shipped spec, grouped by domain. */
+function writeIndex(root) {
+  const byDomain = {};
+  for (const name of fs.readdirSync(specsDir(root)).sort()) {
+    const file = path.join(specsDir(root), name, "control.json");
+    if (!fs.existsSync(file)) continue;
+    const control = readJson(file);
+    if (control.status !== "shipped") continue;
+    (byDomain[control.domain] ??= []).push(`- [${control.id}](${control.key}/spec.md) ${control.title}`);
+  }
+  const lines = ["# Specs", "", "Shipped specs by domain. Generated by `aidd release`; do not edit."];
+  for (const domain of Object.keys(byDomain).sort()) lines.push("", `## ${domain}`, "", ...byDomain[domain]);
+  fs.writeFileSync(path.join(specsDir(root), "README.md"), `${lines.join("\n")}\n`, "utf8");
+}
+
+export function release(root, _args, flags) {
+  const branch = currentBranch(root);
+  const dir = findSpec(root, branch);
+  if (!dir) throw new RuleError(`Run release from a spec branch; current branch is ${branch || "(detached)"}.`);
+  const control = readControl(dir);
+  const blockers = gate(root, dir, control);
+  if (blockers.length) throw new RuleError(`${control.id} cannot ship: ${blockers.join(" ")}`);
+  const files = versionFiles(root);
+  const previous = readJson(path.join(root, "package.json")).version;
+  const version = nextVersion(previous, control.type, flags.major === true);
+  const tag = `v${version}`;
+  if (git(root, ["tag", "--list", tag])) throw new RuleError(`Tag ${tag} already exists.`);
+  for (const file of files) writeVersion(root, file, version);
+  writeChangelog(root, control, version);
+  control.status = "shipped";
   control.shipped = { version, at: new Date().toISOString() };
   writeControl(dir, control);
   writeIndex(root);
   git(root, ["add", "-A"]);
   git(root, ["commit", "-m", `chore(release): ${version}`]);
-  mergeInto(root, source, base, "Release commit");
+  const base = defaultBranch(root);
+  mergeAndDelete(root, branch, base);
   git(root, ["tag", "-a", tag, "-m", `Release ${version}`]);
-  git(root, ["branch", "-d", source]);
-  noteQuietly(root, { event: "shipped", spec, summary: `${previous} -> ${version}, tag ${tag}` });
-  noteQuietly(root, { event: "integrated", spec, summary: `${source} -> ${base}` });
-  return { spec, previous, version, files, changelog: "CHANGELOG.md", base, tag, deleted: source };
+  journal(root, { event: "shipped", spec: control.id, summary: `${previous} -> ${version} on ${base}` });
+  return { spec: control.id, version, tag, base, files, index: relative(root, path.join(specsDir(root), "README.md")) };
+}
+
+export function integrate(root, [message]) {
+  if (!message?.trim()) throw new UsageError('Give a commit message: aidd integrate "docs(system): document foundation".');
+  const branch = currentBranch(root);
+  const base = defaultBranch(root);
+  if (!branch || branch === base) throw new RuleError(`Run integrate from a task branch, not ${branch || "a detached HEAD"}.`);
+  if (findSpec(root, branch)) throw new RuleError("Spec branches ship with aidd release.");
+  git(root, ["add", "-A"]);
+  const committed = git(root, ["diff", "--cached", "--quiet"], { allowFailure: true }) === null;
+  if (committed) git(root, ["commit", "-m", message.trim()]);
+  mergeAndDelete(root, branch, base);
+  journal(root, { event: "integrated", summary: `${branch} -> ${base} · ${message}` });
+  return { branch, base, committed };
 }

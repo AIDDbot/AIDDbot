@@ -58,7 +58,7 @@ if (result.fatal) process.exit(1);
 // Only after the overlay installs the destination's own core, so the
 // genesis event's repository-root lookup resolves to destRoot, not to
 // wherever this package's own copy happens to live.
-if (parsed.command === "init") ensureJournalGenesis(destRoot, parsed.opts.dryRun);
+if (parsed.command === "init") await ensureJournalGenesis(destRoot, parsed.opts.dryRun);
 const changed = [...seeded, ...result.written];
 commitFiles(destRoot, changed, parsed.command === "init" ? "chore: add AIDDbot overlay" : "chore: update AIDDbot overlay", parsed.opts.dryRun);
 printFinalSummary({ command: parsed.command, dryRun: parsed.opts.dryRun, force: parsed.opts.force, destRoot, seeded, result });

@@ -135,4 +135,12 @@ Fuente: `temp/post-mortem-copilot-haiku/`. Hay tres chats: fundación (`a`), S00
 - **Puertos (E-D6):** `rule-project` registró `3000` y `3001`, pero no hay evidencia de conflictos; se mantiene la decisión de quitarlos.
 - **Modelo de referencia:** por ahora las pruebas se hacen con Haiku, y el diseño se valida contra un modelo débil. Si algo funciona con Haiku, funciona con los demás.
 
-**E-D11 a E-D15 aceptadas** por el humano (2026-09-28). E-D14 matiza E-D8: `control.json` se mantiene, pero solo con los estados `in-progress` y `shipped` y con las evaluaciones.
+**E-D11 a E-D15 aceptadas** por el humano (2026-09-28).
+
+## Reescritura hecha (rama `refactor/lean-core`, 2026-09-28)
+
+- **L1 · Núcleo:** 504 líneas y 8 comandos: `spec new|show`, `eval`, `run`, `config`, `debt add|list|remove`, `release`, `integrate` y `log`. Tiene 10 tests de extremo a extremo con repos temporales (`test/core.test.mjs`) y `oxlint` sin avisos; `npm test` ejecuta los dos. `init` siembra los registros nuevos, sin `TDR.md`.
+- **L2 · Skills:** todos usan los comandos nuevos, y cada uno que toca el estado prohíbe en una frase editarlo a mano. El Builder puede ejecutar la aceptación.
+- **L3 · Documentación:** `AIDD.workflow.md` y `getting-started.md` describen el núcleo nuevo.
+- **Matiz de E-D12:** `spec new` no hace commit de nada; crea la rama y deja los cambios pendientes donde estaban. Es aún más simple y cumple lo mismo: ninguna precondición del núcleo lleva a `stash`, `rm` ni `reset`.
+- **Pendiente del humano:** revisar, integrar en `main`, publicar la release y repetir la prueba con Haiku. E-D14 matiza E-D8: `control.json` se mantiene, pero solo con los estados `in-progress` y `shipped` y con las evaluaciones.

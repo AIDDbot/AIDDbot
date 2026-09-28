@@ -11,7 +11,8 @@
   "scripts": {
     "release": "node scripts/release.js",
     "adapt": "node scripts/adapt.js",
-    "test": "node scripts/verify-release.js"
+    "test": "npm run lint && node --test test/core.test.mjs && node scripts/verify-release.js",
+    "lint": "oxlint --deny-warnings .agents/aidd test"
   },
   "engines": {
     "node": ">=18",
@@ -19,5 +20,8 @@
   },
   "license": "MIT",
   "buildTimestamp": "2026-09-28T10:14:53.545Z",
-  "releaseCommit": "557a1d7e88d19d6f10f8739e514618018d2df0e3"
+  "releaseCommit": "557a1d7e88d19d6f10f8739e514618018d2df0e3",
+  "devDependencies": {
+    "oxlint": "^1.86.0"
+  }
 }
