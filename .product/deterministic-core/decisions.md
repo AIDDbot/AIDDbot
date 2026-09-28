@@ -209,3 +209,23 @@ Lo eligió el humano (2026-09-28).
 
 ## D46 ← D42 · Scaffold lite mientras `create-aiddbot` no esté publicado
 Lo eligió el humano (2026-09-28). La sección *Scaffold* de `system.md` lista comandos sueltos por proyecto: `npx tiged AIDDbot/{tier}-{archetype} {folder}`, `bun install --cwd {folder}` y un commit `chore(scaffold)`. El catálogo vive, de forma provisional, en `architect-system-foundation/assets/archetypes.md`. Suspende D44 y el comando `npm create aiddbot` de D45 hasta que el CLI esté publicado; entonces bastará con cambiar la plantilla, el skill y la documentación.
+
+## D47 · `aidd run` guarda el log completo y tiene timeout
+Lo eligió el humano (2026-09-28), tras el post-mortem 21 (Copilot + Haiku y Codex sol-low). Cada ejecución escribe su salida completa en `.aiddbot/runs/{kind}-{project}.log` y devuelve la ruta, el código de salida, la duración y una cola corta. Un timeout configurable evita que un comando colgado bloquee al agente. Motivo: el recorte a 4000 caracteres llevó a Haiku a encadenar `head`/`tail`/`jq` y a Codex a lanzar los comandos a mano para ver el diagnóstico completo.
+
+## D48 · Cada `aidd run` queda en el journal y en la spec activa
+Lo eligió el humano (2026-09-28). `run` registra en el journal el tipo, el proyecto, el commit, el resultado y la duración. En una rama de spec guarda también el último resultado de cada tipo en `control.json`. Motivo: en el post-mortem 21 no se pudo medir si se lanzaron los scripts ni cuánto tardaron.
+
+## D49 ← E-D13 · Sin aceptación correcta en HEAD no hay verificación verde
+Lo eligió el humano (2026-09-28). `eval verification green` se rechaza en tres casos:
+- no hay `run acceptance` registrado en la spec;
+- el código cambió desde ese run (se ignoran `.product/` y `.aiddbot/`);
+- algún requisito `**Rnn**` de `spec.md` no aparece como `@{id}-Rnn` en el código fuente JS/TS de los proyectos con comando de aceptación.
+
+Un run fallido solo admite verde con `--preexisting <D IDs>`, y cada ID tiene que ser deuda abierta registrada antes de `control.created`. Por eso `debt add` guarda ahora `at` como marca ISO completa. Motivo: Haiku registró dos verdes sin tests de la spec, y Codex creó D0009 al vuelo para excluir un fallo.
+
+## D50 · Quality por fases, ejecutadas todas
+Lo eligió el humano (2026-09-28). `rule-project` registra `quality` como lista de fases (warnings, complexity, coverage), no como un agregado encadenado con `&&`, y `run` ejecuta todas aunque falle una. Motivo: en S0002 de Codex, cada escaneo solo mostraba la primera fase que fallaba, y la deuda fue apareciendo por capas (D0003→D0004→D0005).
+
+## D51 · El core hace sus propios commits y no admite specs anidadas
+Lo eligió el humano (2026-09-28). `spec new`, `eval` y `debt` confirman su propio registro con un mensaje fijo. `spec new` se rechaza si otra spec sigue `in-progress`. Motivo: los commits manuales de Haiku (`git add -A` con basura, merge anunciado que nunca ocurrió) y la S0002 de Codex, que se creó dentro de S0001.

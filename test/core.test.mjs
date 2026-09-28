@@ -43,6 +43,14 @@ function aidd(root, ...args) {
   return { code: result.status, body };
 }
 
+/** Configure an e2e project whose acceptance command exits with `code`, tag `specs`' R01, then run it. */
+function accept(root, code = 0, ...specs) {
+  write(root, "e2e/tags.spec.ts", specs.map((id) => `test("@${id}-R01", () => {});\n`).join(""));
+  const project = { path: "e2e", commands: { acceptance: `node -e "process.exit(${code})"` } };
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
+  return aidd(root, "run", "acceptance");
+}
+
 function readJson(root, file) {
   return JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
 }
@@ -57,6 +65,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
 
   git(root, "add", "-A");
   git(root, "commit", "-q", "-m", "feat(S0001): login");
+  accept(root, 0, "S0001");
   assert.equal(aidd(root, "eval", "verification", "green", "all requirements pass").code, 0);
   assert.equal(aidd(root, "eval", "qualification", "green", "clean").code, 0);
 
@@ -126,13 +135,63 @@ test("the gate rejects evidence written by hand without a real commit", () => {
 test("a fix bumps the patch and --major the major", () => {
   const root = repo();
   aidd(root, "spec", "new", "fix", "crash", "Crash");
+  accept(root, 0, "S0001");
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
   assert.equal(aidd(root, "release").body.version, "0.1.1");
   aidd(root, "spec", "new", "refactor", "api", "API v2");
+  accept(root, 0, "S0002");
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
   assert.equal(aidd(root, "release", "--major").body.version, "1.0.0");
+});
+
+test("green verification needs a passing acceptance run at HEAD that tags every requirement", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "fleet", "Fleet");
+  const spec = ".product/specs/S0001-fleet/spec.md";
+  write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run acceptance/);
+  accept(root);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /@S0001-Rnn for R01, R02/);
+  write(root, "e2e/fleet.spec.ts", 'test("lists @S0001-R01", () => {});\ntest("adds @S0001-R02", () => {});\n');
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "test(e2e): fleet");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last acceptance run/);
+  accept(root);
+  const control = readJson(root, ".product/specs/S0001-fleet/control.json");
+  assert.equal(control.runs.acceptance.commit, git(root, "rev-parse", "HEAD"));
+  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
+});
+
+test("a failing acceptance run is green only with debt older than the spec", () => {
+  const root = repo();
+  aidd(root, "debt", "add", "Flaky login test", "medium");
+  aidd(root, "spec", "new", "fix", "crash", "Crash");
+  accept(root, 1, "S0001");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /record red, or name the older debt/);
+  aidd(root, "debt", "add", "Written to dodge the failure", "low");
+  assert.match(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0002").body.error, /D0002 is not open debt recorded before S0001/);
+  assert.equal(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0001").code, 0);
+});
+
+test("run keeps the whole output in a log, journals it, and stops at the timeout", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  const noisy = `node -e "console.log('x'.repeat(5000) + 'END')"`;
+  const hang = `node -e "setTimeout(() => {}, 30000)"`;
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { lint: noisy, unit: hang } }));
+  const lint = aidd(root, "run", "lint");
+  assert.equal(lint.code, 0);
+  assert.equal(lint.body.runs[0].log, ".aiddbot/runs/lint-back.log");
+  assert.ok(lint.body.runs[0].tail.length <= 1500);
+  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/runs/lint-back.log"), "utf8").trim().length, 5003);
+  aidd(root, "config", "set", "run", '{ "timeoutMinutes": 0.02 }');
+  const unit = aidd(root, "run", "unit");
+  assert.equal(unit.code, 1);
+  assert.match(unit.body.runs[0].timedOut, /killed after/);
+  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"))[0];
+  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8"), /green .* run +lint: back ok \d+s/);
 });
 
 test("debt is added with the next D ID, listed by priority, and removed", () => {

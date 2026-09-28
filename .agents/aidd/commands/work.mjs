@@ -1,33 +1,66 @@
 // `aidd run`, `aidd config`, `aidd debt`, and `aidd log`.
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, git, journal, nextId, productPath, readJson, RuleError, UnavailableError, UsageError, writeJson,
+  aiddbotPath, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
+  writeJson,
 } from "../lib/core.mjs";
-import { findSpec } from "../lib/spec.mjs";
+import { findSpec, readControl, writeControl } from "../lib/spec.mjs";
 
 const RUN_KINDS = ["lint", "unit", "acceptance", "quality"];
-const MAX_OUTPUT = 4000;
+const TAIL = 1500;
+const DEFAULT_TIMEOUT_MINUTES = 20;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
-function exec(cwd, command) {
-  const result = spawnSync(command, { cwd, shell: true, encoding: "utf8" });
-  const output = `${result.stdout ?? ""}${result.stderr ?? ""}`.trim();
-  return { command, ok: result.status === 0, exitCode: result.status ?? 1, output: output.slice(-MAX_OUTPUT) };
+/** Run one command with its whole output in `log`, so nothing is lost to a truncated reply. */
+function exec(root, cwd, command, log, minutes) {
+  fs.mkdirSync(path.dirname(log), { recursive: true });
+  const fd = fs.openSync(log, "w");
+  const started = Date.now();
+  let result;
+  try {
+    result = spawnSync(command, { cwd, shell: true, stdio: ["ignore", fd, fd], timeout: minutes * 60_000 });
+  } finally {
+    fs.closeSync(fd);
+  }
+  const entry = { command, ok: result.status === 0, exitCode: result.status ?? 1, seconds: Math.round((Date.now() - started) / 1000) };
+  if (result.error?.code === "ETIMEDOUT") entry.timedOut = `killed after ${minutes} minutes`;
+  return { ...entry, log: relative(root, log), tail: fs.readFileSync(log, "utf8").trim().slice(-TAIL) };
+}
+
+/** Keep the latest run of each kind in the spec of the current branch, as evidence for `eval`. */
+function recordRun(root, kind, ok, names) {
+  const dir = findSpec(root, currentBranch(root));
+  if (!dir) return;
+  const control = readControl(dir);
+  if (control.status === "shipped") return;
+  const commit = git(root, ["rev-parse", "HEAD"]);
+  control.runs = { ...control.runs, [kind]: { commit, ok, projects: names, at: new Date().toISOString() } };
+  writeControl(dir, control);
 }
 
 /** Run one classified command kind for every project that has it, or for `--project`. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
-  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
-  const names = typeof flags.project === "string" ? [flags.project] : Object.keys(projects);
+  const settings = readJson(configFile(root), { projects: {} });
+  const projects = settings.projects ?? {};
+  const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
+  const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
+    .filter((name) => [projects[name]?.commands?.[kind] ?? []].flat().length);
+  if (!names.length) throw new UnavailableError(`No '${kind}' command is configured; rule-project records them.`);
   const runs = [];
   for (const name of names) {
-    const commands = [projects[name]?.commands?.[kind] ?? []].flat();
-    for (const command of commands) runs.push({ project: name, ...exec(path.join(root, projects[name].path), command) });
+    const commands = [projects[name].commands[kind]].flat();
+    commands.forEach((command, index) => {
+      const log = aiddbotPath(root, "runs", `${kind}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+      runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
+    });
   }
-  if (!runs.length) throw new UnavailableError(`No '${kind}' command is configured; rule-project records them.`);
   const ok = runs.every((entry) => entry.ok);
+  const summary = runs.map((entry) => `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`);
+  journal(root, { event: "run", status: ok ? "green" : "red", summary: `${kind}: ${summary.join(", ")}` });
+  recordRun(root, kind, ok, names);
   return { body: { kind, ok, runs }, exitCode: ok ? 0 : 1 };
 }
 
@@ -72,7 +105,7 @@ export function debt(root, [action, ...args]) {
     }
     const spec = findSpec(root, git(root, ["branch", "--show-current"]));
     const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(),
-      origin: spec ? path.basename(spec).slice(0, 5) : "scan", at: new Date().toISOString().slice(0, 10) };
+      origin: spec ? path.basename(spec).slice(0, 5) : "scan", at: new Date().toISOString() };
     register.items.push(item);
     writeJson(debtFile(root), register);
     journal(root, { event: "debt-added", summary: `${item.id} ${priority}: ${item.title}` });

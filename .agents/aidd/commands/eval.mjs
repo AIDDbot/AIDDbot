@@ -1,8 +1,46 @@
-// `aidd eval <kind> <status> <summary> [--spec <id>]`: record one evaluation at HEAD.
+// `aidd eval <kind> <status> <summary> [--spec <id>] [--preexisting <D IDs>]`: record one evaluation at HEAD.
 import fs from "node:fs";
 import path from "node:path";
-import { git, journal, RuleError, UsageError } from "../lib/core.mjs";
+import { aiddbotPath, git, journal, productPath, readJson, RuleError, UsageError } from "../lib/core.mjs";
 import { KINDS, readControl, requireSpec, STATUSES, writeControl } from "../lib/spec.mjs";
+
+const SOURCE = /\.[cm]?[jt]sx?$/;
+const SKIPPED = new Set(["node_modules"]);
+
+function sources(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return SKIPPED.has(entry.name) || entry.name.startsWith(".") ? [] : sources(full);
+    return SOURCE.test(entry.name) ? [full] : [];
+  });
+}
+
+/** Requirements of the spec with no acceptance test titled `@{id}-Rnn` in any acceptance project. */
+function untested(root, dir, id) {
+  const required = [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
+  if (!required.length) return [];
+  const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});
+  const text = projects.filter((project) => project.commands?.acceptance)
+    .flatMap((project) => sources(path.join(root, project.path)))
+    .map((file) => fs.readFileSync(file, "utf8")).join("\n");
+  return required.filter((requirement) => !text.includes(`@${id}-${requirement}`));
+}
+
+/** Why a green verification cannot be recorded now; null when it can. */
+function missingEvidence(root, dir, control, preexisting) {
+  const accepted = control.runs?.acceptance;
+  if (!accepted) return "Run `aidd run acceptance` on this spec branch before recording a green verification.";
+  const changed = git(root, ["diff", "--name-only", accepted.commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot"]);
+  if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run acceptance\` again.`;
+  const missing = untested(root, dir, control.id);
+  if (missing.length) return `No acceptance test titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
+  if (accepted.ok) return null;
+  if (!preexisting.length) return "The last acceptance run failed; record red, or name the older debt behind every failure with --preexisting.";
+  const open = readJson(productPath(root, "quality", "debt.json"), { items: [] }).items;
+  const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));
+  return invalid.length ? `${invalid.join(", ")} is not open debt recorded before ${control.id} was created.` : null;
+}
 
 export default function evaluate(root, [kind, status, summary], flags) {
   if (!KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${KINDS.join(", ")}.`);
@@ -14,6 +52,11 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const report = path.join(dir, `${kind}.md`);
   if (status !== "green" && !fs.existsSync(report)) {
     throw new RuleError(`This ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);
+  }
+  if (kind === "verification" && status === "green") {
+    const preexisting = typeof flags.preexisting === "string" ? flags.preexisting.split(/[\s,]+/).filter(Boolean) : [];
+    const problem = missingEvidence(root, dir, control, preexisting);
+    if (problem) throw new RuleError(problem);
   }
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;
   const commit = git(root, ["rev-parse", "HEAD"]);
