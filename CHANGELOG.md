@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.16 - 2026-09-28
+
+- Merge branch 'refactor/dc-6-release' (5c1190c)
+- refactor(skills): drop the versioning procedure from /ship-spec (6.2) (d3e7ab6)
+- feat(core): compute the release version and changelog (6.1) (6f7313e)
+
 ## 0.1.15 - 2026-09-28
 
 - Merge branch 'refactor/dc-5-quality-register' (22b30dc)
