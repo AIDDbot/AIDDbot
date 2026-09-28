@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.23 - 2026-09-28
+
+- Merge branch 'refactor/dc-c2-core-commits' (34df9d8)
+- refactor(skills): tighten /rule-project, /verify-behavior, /review-implementation, /scan-quality (7c0470e)
+- feat(core): commit records in the core and keep one open spec (D51) (fcf4f7e)
+
 ## 0.1.22 - 2026-09-28
 
 - Merge branch 'refactor/dc-c1-run-evidence' (56af2da)
