@@ -1,6 +1,6 @@
 # Spec-first workflow without a cumulative PRD
 
-Status: discussion to resume; no implementation decision approved.
+Status: questions answered; decisions D14–D25 in `deterministic-core/decisions.md`, implemented in phase 4 of `deterministic-core/plan.md`.
 
 ## Direction discussed
 
@@ -36,15 +36,24 @@ Requirement tags provide traceability during test triage: they identify which sp
 ## Open questions
 
 - Should completed specs remain in the product repository as an archive, or be removed after shipping?
+  > **R:** ✅ → D14 (delegated) — they stay in place
 - What durable product context, if any, should replace the PRD's cumulative requirement list?
+  > **R:** ✅ → D15 (delegated) — no document; a view derived from tagged tests
 - How should tests be selected and grouped for spec verification versus full-suite regression checks?
+  > **R:** ✅ → D20 (delegated) — always the full suite, grouped by tag
 - What evidence should triage use to distinguish a pre-existing failure from a regression introduced on the spec branch?
+  > **R:** ✅ → D21 (delegated) — the branch owns it unless debt records it
 - Should each spec explicitly classify affected existing behaviors as preserve, replace, or undecided?
+  > **R:** ✅ → D17, D22 (delegated) — preserve or replace, no undecided
 - What local requirement-ID format should specs use, and how should test tags map to one or more requirements?
+  > **R:** ✅ → D16, D18 (delegated) — `R01` in the spec, `@S0042-R03` in the test title
 - How should existing untagged E2E tests be classified and tagged over time?
+  > **R:** ✅ → D19 (delegated) — a warning, tagged when a spec touches them
 - How should the workflow record an escalated decision and resume once the human resolves it?
+  > **R:** ✅ → D23 (delegated) — `aidd spec block` and `aidd spec resume`
 - How should requirement IDs, counters, validation scripts, PRD edits, and shipping records change under this model?
+  > **R:** ✅ → D24, D25 (delegated)
 
 ## Resume point
 
-Decide the lifecycle and contents of a spec first. Then define how acceptance tests and full-suite triage relate to that spec, and identify which current product records remain authoritative after shipping.
+Execute phase 4 of `deterministic-core/plan.md` (steps 4.1 onward).
