@@ -92,6 +92,13 @@ export function defaultBranch(root) {
   return found;
 }
 
+/** Commit only `paths` with `message`; the record stands even when git cannot commit it. */
+export function commitPaths(root, paths, message) {
+  git(root, ["add", "-A", "--", ...paths], { allowFailure: true });
+  if (!git(root, ["diff", "--cached", "--name-only", "--", ...paths], { allowFailure: true })) return false;
+  return git(root, ["commit", "-q", "-m", message, "--", ...paths], { allowFailure: true }) !== null;
+}
+
 /** Merge `source` into `base` with a merge commit, then delete `source`. */
 export function mergeAndDelete(root, source, base) {
   git(root, ["switch", base]);

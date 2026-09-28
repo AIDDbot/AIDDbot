@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
+  aiddbotPath, commitPaths, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
   writeJson,
 } from "../lib/core.mjs";
 import { findSpec, readControl, writeControl } from "../lib/spec.mjs";
@@ -109,7 +109,8 @@ export function debt(root, [action, ...args]) {
     register.items.push(item);
     writeJson(debtFile(root), register);
     journal(root, { event: "debt-added", summary: `${item.id} ${priority}: ${item.title}` });
-    return item;
+    const committed = commitPaths(root, [".product/quality/debt.json", ".aiddbot/counters.yaml"], `docs(quality): add ${item.id}`);
+    return { ...item, committed };
   }
   if (action === "remove") {
     const item = register.items.find((entry) => entry.id === args[0]);
@@ -117,7 +118,7 @@ export function debt(root, [action, ...args]) {
     register.items = register.items.filter((entry) => entry !== item);
     writeJson(debtFile(root), register);
     journal(root, { event: "debt-done", summary: `${item.id} ${item.title}` });
-    return { removed: item.id };
+    return { removed: item.id, committed: commitPaths(root, [".product/quality/debt.json"], `docs(quality): remove ${item.id}`) };
   }
   throw new UsageError("Use: aidd debt add|list|remove");
 }

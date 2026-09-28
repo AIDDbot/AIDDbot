@@ -175,6 +175,27 @@ test("a failing acceptance run is green only with debt older than the spec", () 
   assert.equal(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0001").code, 0);
 });
 
+test("eval commits its own record and drops the report once green", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "seats", "Seats");
+  write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
+  assert.equal(aidd(root, "eval", "verification", "red", "one failure").body.committed, true);
+  assert.equal(git(root, "log", "-1", "--format=%s"), "docs(verification): record acceptance");
+  accept(root, 0, "S0001");
+  assert.equal(aidd(root, "eval", "verification", "green", "fixed").code, 0);
+  assert.ok(!fs.existsSync(path.join(root, ".product/specs/S0001-seats/verification.md")));
+  assert.equal(git(root, "status", "--short", "--", ".product"), "");
+});
+
+test("spec new refuses while another spec branch is still open", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "fleet", "Fleet");
+  git(root, "switch", "-q", "main");
+  const refused = aidd(root, "spec", "new", "refactor", "types", "Types");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /feat\/S0001-fleet is still in progress/);
+});
+
 test("run keeps the whole output in a log, journals it, and stops at the timeout", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
@@ -203,6 +224,8 @@ test("debt is added with the next D ID, listed by priority, and removed", () => 
   assert.deepEqual(aidd(root, "debt", "list").body.map((item) => item.id), ["D0002", "D0001"]);
   assert.equal(aidd(root, "debt", "add", "Oops", "urgent").code, 2);
   assert.equal(aidd(root, "debt", "remove", "D0002").code, 0);
+  assert.equal(git(root, "log", "-1", "--format=%s"), "docs(quality): remove D0002");
+  assert.equal(git(root, "status", "--short", "--", ".product", ".aiddbot/counters.yaml"), "");
   assert.equal(aidd(root, "debt", "remove", "D0002").code, 1);
   assert.match(fs.readFileSync(path.join(root, ".aiddbot/counters.yaml"), "utf8"), /debt: 2/);
 });
