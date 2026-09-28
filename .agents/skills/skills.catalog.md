@@ -23,7 +23,7 @@ The journal is narrative for humans: no code reads it or decides anything from i
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](./architect-system-foundation/SKILL.md) | Propose the system in `.product/system.md` when no project source code exists, for the human to scaffold with `create-aiddbot`; otherwise document system architecture; rerun any time to resync documentation with the code |
+| [`/architect-system-foundation`](./architect-system-foundation/SKILL.md) | Propose the system in `.product/system.md` when no project source code exists, with the scaffold commands for the human to run; otherwise document system architecture; rerun any time to resync documentation with the code |
 | [`/build-requested-spec`](./build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](./craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
@@ -42,7 +42,7 @@ The journal is narrative for humans: no code reads it or decides anything from i
 
 | Entrypoint | Route |
 | --- | --- |
-| `/architect-system-foundation` | No source: propose `.product/system.md` and return its `create-aiddbot` command. Existing source: `outline-system` → `rule-project`. |
+| `/architect-system-foundation` | No source: propose `.product/system.md` and return its scaffold commands. Existing source: `outline-system` → `rule-project`. |
 | `/build-requested-spec` | `define-spec` → `implement-project` per project → `verify-behavior` → `review-implementation` → `ship-spec` |
 | `/craft-lasting-quality` | `scan-quality` → select debt → `/build-requested-spec` |
 
@@ -54,7 +54,7 @@ Agent names, descriptions, adapter destinations, models, and efforts are configu
 architect-system-foundation:
   greenfield:
     - "Architect: propose .product/system.md and obtain approval"
-    - "Human: run its create-aiddbot command, then rerun"
+    - "Human: run its scaffold commands, then rerun"
   brownfield:
     - "Architect: outline-system"
     - "Architect: rule-project per project"

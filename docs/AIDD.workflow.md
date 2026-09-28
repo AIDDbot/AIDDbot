@@ -12,10 +12,10 @@
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | Staged questions → `.product/system.md` → approval | An approved system proposal and its `create-aiddbot` command |
+| No application source | Staged questions → `.product/system.md` → approval | An approved system proposal and its scaffold commands |
 | Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
-Existing product records are preserved. AIDDbot never scaffolds: the human runs the proposal's `npm create aiddbot` command in a clean working tree, which downloads the archetypes, installs their dependencies, and commits `chore(scaffold)` on the current branch. Rerun `/architect-system-foundation` afterwards to document the new projects.
+Existing product records are preserved. AIDDbot never scaffolds: the human runs the proposal's scaffold commands in a clean working tree, which download each archetype with `tiged`, install its dependencies with `bun`, and commit `chore(scaffold)` on the current branch. Rerun `/architect-system-foundation` afterwards to document the new projects.
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 

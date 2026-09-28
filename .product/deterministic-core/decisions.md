@@ -206,3 +206,6 @@ Lo eligió el humano (2026-09-28).
 2. `/architect-system-foundation` da el veredicto `greenfield`, pregunta por etapas, escribe `system.md`, pide la aprobación y termina mostrando el comando. No documenta.
 3. El humano ejecuta `npm create aiddbot …`.
 4. `/architect-system-foundation` se ejecuta de nuevo, da el veredicto `brownfield` y ejecuta `outline-system` y `rule-project`.
+
+## D46 ← D42 · Scaffold lite mientras `create-aiddbot` no esté publicado
+Lo eligió el humano (2026-09-28). La sección *Scaffold* de `system.md` lista comandos sueltos por proyecto: `npx tiged AIDDbot/{tier}-{archetype} {folder}`, `bun install --cwd {folder}` y un commit `chore(scaffold)`. El catálogo vive, de forma provisional, en `architect-system-foundation/assets/archetypes.md`. Suspende D44 y el comando `npm create aiddbot` de D45 hasta que el CLI esté publicado; entonces bastará con cambiar la plantilla, el skill y la documentación.

@@ -24,8 +24,12 @@
 
 ## Scaffold
 
+Run from the repository root with a clean working tree:
+
 ```bash
-npm create aiddbot -- --name "{System name}" --author "{product author}" --{tier} {archetype} [--{tier}-dir {folder}]
+npx tiged AIDDbot/{tier}-{archetype} {folder}
+bun install --cwd {folder}
+git add -A && git commit -m "chore(scaffold): add {tier}-{archetype}, ..."
 ```
 
 {Projects outside the catalog: the official generator to run for each, with no functional code.}
