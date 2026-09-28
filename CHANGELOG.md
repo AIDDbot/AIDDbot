@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.26 - 2026-09-28
+
+- Merge branch 'refactor/dc-c5-expert-review' (2d6ed20)
+- refactor(skills): tighten /review-implementation, /implement-project, /ship-spec (D53) (7f8faca)
+
 ## 0.1.25 - 2026-09-28
 
 - Merge branch 'refactor/dc-c4-quality-never-blocks' (7383069)
