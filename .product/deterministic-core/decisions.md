@@ -20,6 +20,8 @@ Se descarta JSONL. El journal sigue siendo un log de texto diario, sin versionar
 - lo escribe `aidd log` y, de forma automática, los comandos del núcleo que cambian estado;
 - desaparecen la tabla de etapas por skill y el skill `record-journal`: el modelo usa `aidd log` directamente.
 
+**Matiz (2026-09-28):** «sin anchos fijos» se lee como «sin anchos que nadie parsee». Las columnas cortas (hora, estado, actor, spec, evento) se rellenan con espacios hasta un mínimo (8, 6, 6, 6 y 10 caracteres) para que el log se lea como tabla, y el separador pasa de ` · ` a un solo espacio, que basta y gana ancho; nunca se trunca: un valor más largo desborda su columna y el resumen, al final, no tiene límite. Lo motivó echar de menos la lectura posicional del formato anterior; el alineado era un efecto del parseo por columnas, no su objetivo, y se puede conservar sin perder información.
+
 ## D4 ← Q4 · Fuera los hooks
 Los hooks son un experimento que se mantiene en otro repo. Se retiran de AIDDbot `.agents/hooks/`, su cableado en `.claude/settings.json`, `.codex/hooks.json`, `.cursor/hooks.json` y `.github/hooks/`, su generación en `adapt.js`, su entrada en `TREES` de `overlay.js` y sus menciones en la documentación. Quien los quiera los instala desde su repo.
 

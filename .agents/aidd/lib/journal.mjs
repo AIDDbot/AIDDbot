@@ -1,7 +1,9 @@
 // The daily journal `.aiddbot/journals/YYYY-MM-DD.log`: plain narrative for humans (D3).
 // This module only writes it; no code reads it or decides anything from it.
-// Each line holds complete fields separated by " · ", with no fixed widths or truncation:
-//   HH:MM:SS · <status> · <actor> · <spec> · <event> · <summary>
+// Each line holds complete fields separated by a space. The short columns are padded to a
+// minimum width so the log reads as a table, but nothing is ever truncated: a longer value
+// simply overflows its column. Nobody parses the widths, so overflowing is harmless.
+//   HH:MM:SS <status> <actor> <spec>  <event>      <summary>
 import fs from "node:fs";
 import path from "node:path";
 import { UsageError } from "./cli.mjs";
@@ -13,8 +15,11 @@ export const STATUSES = ["green", "amber", "red"];
 // for the single genesis line `aiddbot init` writes.
 export const MODEL_EVENTS = { verdict: "green", select: "green", blocked: "red", escalate: "amber", init: "green" };
 
-const SEPARATOR = " · ";
+const SEPARATOR = " ";
 const pad = (value) => String(value).padStart(2, "0");
+// Minimum widths of the columns before the summary: time, status, actor, spec, event.
+const WIDTHS = [8, 6, 6, 6, 10];
+const row = (cells) => [...cells.slice(0, WIDTHS.length).map((cell, index) => cell.padEnd(WIDTHS[index])), ...cells.slice(WIDTHS.length)].join(SEPARATOR);
 
 export const detectHarness = () => (process.env.CLAUDECODE === "1" ? "claude-code" : null);
 
@@ -35,14 +40,14 @@ export function note(root, { actor = "aidd", event, status = "green", spec, proj
   const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
   const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   const subject = project ? `${field("summary", summary)} (${field("project", project)})` : field("summary", summary);
-  const line = [time, status, actor, field("spec", spec), field("event", event), subject].join(SEPARATOR);
+  const line = row([time, status, actor, field("spec", spec), field("event", event), subject]);
   const directory = aiddbotPath(root, "journals");
   const file = path.join(directory, `${date}.log`);
   fs.mkdirSync(directory, { recursive: true });
   let header = "";
   if (!fs.existsSync(file) || fs.statSync(file).size === 0) {
     const harness = detectHarness();
-    header = `# AIDDbot journal${SEPARATOR}${date}${harness ? `${SEPARATOR}${harness}` : ""}\n# time${SEPARATOR}status${SEPARATOR}actor${SEPARATOR}spec${SEPARATOR}event${SEPARATOR}summary\n`;
+    header = `# AIDDbot journal${SEPARATOR}${date}${harness ? `${SEPARATOR}${harness}` : ""}\n${row(["# time", "status", "actor", "spec", "event", "summary"])}\n`;
   }
   fs.appendFileSync(file, `${header}${line}\n`, "utf8");
   return line;
