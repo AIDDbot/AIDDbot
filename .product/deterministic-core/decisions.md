@@ -228,4 +228,8 @@ Un run fallido solo admite verde con `--preexisting <D IDs>`, y cada ID tiene qu
 Lo eligió el humano (2026-09-28). `rule-project` registra `quality` como lista de fases (warnings, complexity, coverage), no como un agregado encadenado con `&&`, y `run` ejecuta todas aunque falle una. Motivo: en S0002 de Codex, cada escaneo solo mostraba la primera fase que fallaba, y la deuda fue apareciendo por capas (D0003→D0004→D0005).
 
 ## D51 · El core hace sus propios commits y no admite specs anidadas
-Lo eligió el humano (2026-09-28). `spec new`, `eval` y `debt` confirman su propio registro con un mensaje fijo. `spec new` se rechaza si otra spec sigue `in-progress`. Motivo: los commits manuales de Haiku (`git add -A` con basura, merge anunciado que nunca ocurrió) y la S0002 de Codex, que se creó dentro de S0001.
+Lo eligió el humano (2026-09-28).
+- `eval` borra el informe cuando el resultado es verde y confirma la carpeta de la spec con el mensaje del skill.
+- `debt add` y `debt remove` confirman `debt.json` (y `counters.yaml`, en el caso de `add`) como `docs(quality): add|remove {D ID}`.
+- Si git no puede confirmar, el registro se mantiene y la respuesta lleva `committed: false`.
+- `spec new` se rechaza mientras exista otra rama de spec, porque `release` borra la rama al publicar. `spec new` no confirma nada: la spec la confirma `define-spec` una vez redactada. Motivo: los commits manuales de Haiku (`git add -A` con basura, merge anunciado que nunca ocurrió) y la S0002 de Codex, que se creó dentro de S0001.

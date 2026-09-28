@@ -1,9 +1,10 @@
 // `aidd eval <kind> <status> <summary> [--spec <id>] [--preexisting <D IDs>]`: record one evaluation at HEAD.
 import fs from "node:fs";
 import path from "node:path";
-import { aiddbotPath, git, journal, productPath, readJson, RuleError, UsageError } from "../lib/core.mjs";
+import { aiddbotPath, commitPaths, git, journal, productPath, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
 import { KINDS, readControl, requireSpec, STATUSES, writeControl } from "../lib/spec.mjs";
 
+const MESSAGES = { verification: "docs(verification): record acceptance", qualification: "docs(review): qualify implementation" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
 const SKIPPED = new Set(["node_modules"]);
 
@@ -62,6 +63,8 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const commit = git(root, ["rev-parse", "HEAD"]);
   control.evaluations.push({ kind, revision, status, commit, at: new Date().toISOString(), summary: summary.trim() });
   writeControl(dir, control);
+  if (status === "green") fs.rmSync(report, { force: true });
   journal(root, { event: "evaluated", spec: control.id, status, summary: `${kind} ${revision}: ${summary}` });
-  return { spec: control.id, kind, revision, status, commit };
+  const committed = commitPaths(root, [relative(root, dir)], MESSAGES[kind]);
+  return { spec: control.id, kind, revision, status, commit, committed };
 }

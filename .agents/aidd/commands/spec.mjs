@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { git, journal, nextId, relative, UsageError } from "../lib/core.mjs";
+import { git, journal, nextId, relative, RuleError, UsageError } from "../lib/core.mjs";
 import { gate, readControl, requireSpec, specsDir, TYPES, writeControl } from "../lib/spec.mjs";
 
 const TEMPLATE = fileURLToPath(new URL("../../skills/define-spec/assets/spec.template.md", import.meta.url));
@@ -12,6 +12,8 @@ function create(root, [type, slug, title], flags) {
   if (!TYPES.includes(type)) throw new UsageError(`Type must be one of: ${TYPES.join(", ")}.`);
   if (!SLUG.test(slug ?? "")) throw new UsageError("Slug must be lowercase kebab-case, like user-login.");
   if (!title?.trim()) throw new UsageError('Give a title: aidd spec new feat user-login "User login".');
+  const open = git(root, ["branch", "--list", "--format=%(refname:short)", ...TYPES.map((kind) => `${kind}/S*`)]);
+  if (open) throw new RuleError(`${open.split("\n")[0]} is still in progress; ship it with aidd release or delete that branch first.`);
   const domain = typeof flags.domain === "string" && SLUG.test(flags.domain) ? flags.domain : "general";
   const id = nextId(root, "S");
   const key = `${id}-${slug}`;

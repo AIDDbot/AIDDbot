@@ -51,9 +51,9 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 - **Counters** — `.aiddbot/counters.yaml` stores the last reserved S and D numbers; requirement IDs are local to each spec.
 - **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are local, untracked, plain-text narrative of process events by date: the core writes every state change, the model adds only `verdict`, `select`, and `blocked` with `node .agents/aidd/aidd.mjs log`, and nothing reads them.
 - **Runs** — `node .agents/aidd/aidd.mjs run <kind>` executes the project's classified command, journals it, and keeps its full output in `.aiddbot/runs/{kind}-{project}.log`; read that log for diagnostics instead of running the tool by hand. On a spec branch it also records the run in `control.json`, and a green verification needs a passing acceptance run with no code change since.
-- **Quality** — `{Product_Folder}/quality/debt.json` holds the open technical debt; only `node .agents/aidd/aidd.mjs debt` writes it, and `aidd debt list` reads it. Each item carries its evidence, origin, and a priority: `high` when it breaks behavior, security, or data; `medium` when it slows or complicates change; `low` otherwise. A resolved item is removed.
+- **Quality** — `{Product_Folder}/quality/debt.json` holds the open technical debt; only `node .agents/aidd/aidd.mjs debt` writes and commits it, and `aidd debt list` reads it. Each item carries its evidence, origin, and a priority: `high` when it breaks behavior, security, or data; `medium` when it slows or complicates change; `low` otherwise. A resolved item is removed.
 - **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
-- **Spec state** — `in-progress` until `aidd release` ships it as `shipped`. It ships when its latest verification is green and its latest qualification green or amber, or either has reached revision 3, each recorded at a real commit with its report when not green.
+- **Spec state** — `in-progress` until `aidd release` ships it as `shipped`; `aidd spec new` refuses while another spec branch is open. It ships when its latest verification is green and its latest qualification green or amber, or either has reached revision 3, each recorded at a real commit with its report when not green.
 
 ## Git
 
