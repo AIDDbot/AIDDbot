@@ -133,4 +133,6 @@ Fuente: `temp/post-mortem-copilot-haiku/`. Hay tres chats: fundación (`a`), S00
 - **E-D15 · El Builder puede ejecutar la aceptación:** quitar esa prohibición de D7. En la práctica le hizo falta, y la verificación que cuenta sigue siendo la del Craftsman.
 - **Se mantienen sin cambios:** release, índice, changelog, journal, `run` y `config set`.
 - **Puertos (E-D6):** `rule-project` registró `3000` y `3001`, pero no hay evidencia de conflictos; se mantiene la decisión de quitarlos.
-- **Pendiente:** repetir la prueba con un modelo fuerte, porque parte de estos fallos puede ser de Haiku y no del diseño.
+- **Modelo de referencia:** por ahora las pruebas se hacen con Haiku, y el diseño se valida contra un modelo débil. Si algo funciona con Haiku, funciona con los demás.
+
+**E-D11 a E-D15 aceptadas** por el humano (2026-09-28). E-D14 matiza E-D8: `control.json` se mantiene, pero solo con los estados `in-progress` y `shipped` y con las evaluaciones.
