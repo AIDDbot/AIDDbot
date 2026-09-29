@@ -37,7 +37,7 @@ Every executable capability is a skill under `.agents/skills/`. Orchestrators ow
 architect-system-foundation:
   greenfield:
     - "Architect: propose .product/system.md and obtain approval"
-    - "Human: run its scaffold commands, then rerun"
+    - "Architect: run its scaffold commands, then continue as brownfield"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
@@ -61,10 +61,10 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | Staged questions → `.product/system.md` → approval | An approved system proposal and its scaffold commands |
+| No application source | Staged questions → `.product/system.md` → approval | An approved proposal, scaffolded, then documented as below |
 | Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
-Existing product records are preserved. AIDDbot never scaffolds: the human runs the proposal's scaffold commands in a clean working tree, which download each archetype with `tiged`, install its dependencies with `bun`, and commit `chore(scaffold)` on the current branch. Rerun `/architect-system-foundation` afterwards to document the new projects.
+Existing product records are preserved. After approval the Architect runs the proposal's scaffold commands in a clean working tree: they download each archetype with `tiged`, install its dependencies with `bun`, and commit `chore(scaffold)` on the current branch. The same run then documents the new projects. A failing command stops the run with nothing partial committed. Working code is never rescaffolded.
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 
@@ -86,7 +86,7 @@ Each spec owns its requirements: `R01`, `R02`, … in EARS, cited elsewhere as `
 
 The product schemas live in `model/`: one conceptual `model.schema.md`, plus `{project}.db.schema.md` and `{project}.api.schema.md` for each project with persistence or endpoints. A spec declares every entity, table, or endpoint change as its schema impact; review blocks undeclared shape changes, and shipping updates the schema documents.
 
-Every workflow tells its story in one plain-text daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. It is narrative only: no code reads it or decides anything from it, because the process state lives in each spec's `control.json`. Each line holds complete fields separated by a space (time, status, actor, spec, event, summary); the short columns are padded to a minimum width so the log reads as a table, and the summary is cut at 128 characters. The core (`node .agents/aidd/aidd.mjs`) writes an entry for every state change it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. The model adds only its judgments with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt, and a `blocked` reason.
+Every workflow tells its story in one plain-text daily journal at the repository root `.aiddbot/journals/YYYY-MM-DD.log`, which stays out of Git. It is narrative only: no code reads it or decides anything from it, because the process state lives in each spec's `control.json`. Each line holds complete fields separated by a space (time, status, actor, spec, event, summary); the short columns are padded to a minimum width so the log reads as a table, and the summary is cut at 128 characters. The core (`node .agents/aidd/aidd.mjs`) writes an entry for every state change it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. The model adds only its judgments with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt, each human `approved` proposal or spec, the `scaffolded` projects, and a `blocked` reason.
 
 | Evidence | Passing state | Scope |
 | --- | --- | --- |

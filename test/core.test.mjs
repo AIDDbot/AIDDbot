@@ -264,11 +264,16 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(merged.body.committed, true);
   assert.equal(git(root, "branch", "--show-current"), "main");
   assert.equal(aidd(root, "log", "verdict", `greenfield: ${"x".repeat(200)}`).code, 0);
+  assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 0);
+  assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
   const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"));
   const lines = fs.readFileSync(path.join(root, ".aiddbot/journals", journal[0]), "utf8").trim().split("\n");
-  assert.match(lines.at(-1), /model +- +verdict +greenfield: x+…$/);
-  assert.ok(lines.at(-1).split(" verdict").pop().trim().length <= 128);
+  const verdict = lines.find((line) => line.includes(" verdict "));
+  assert.match(verdict, /model +- +verdict +greenfield: x+…$/);
+  assert.ok(verdict.split(" verdict").pop().trim().length <= 128);
+  assert.match(lines.at(-2), /green +model +S0001 +approved +S0001 Rocket fleet$/);
+  assert.match(lines.at(-1), /green +model +- +scaffolded +back, front, e2e$/);
 });
 
 test("commands outside an initialized repository explain what to do", () => {

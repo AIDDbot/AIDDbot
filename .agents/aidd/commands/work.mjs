@@ -123,7 +123,7 @@ export function debt(root, [action, ...args]) {
   throw new UsageError("Use: aidd debt add|list|remove");
 }
 
-const MODEL_EVENTS = { verdict: "green", select: "green", blocked: "red" };
+const MODEL_EVENTS = { verdict: "green", select: "green", approved: "green", scaffolded: "green", blocked: "red" };
 
 /** `log <verdict|select|blocked> <summary> [--spec <id>]`: journal one judgment of the model. */
 export function log(root, [event, summary], flags) {
