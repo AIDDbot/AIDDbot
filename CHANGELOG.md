@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.27 - 2026-09-29
+
+- Merge branch 'refactor/flaky-repair-debt' (ce005ec)
+- refactor(skills): tighten /review-implementation, /craft-lasting-quality (efa293b)
+- refactor(skills): tighten /build-requested-spec (3f38436)
+
 ## 0.1.26 - 2026-09-28
 
 - Merge branch 'refactor/dc-c5-expert-review' (2d6ed20)
