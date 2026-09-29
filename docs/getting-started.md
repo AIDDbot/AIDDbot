@@ -22,7 +22,7 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 
 `update` manages skills and the generated agent adapters, but never re-seeds these files. The agent profiles ship with defaults that you can customize in your harness's native configuration.
 
-You can customize the installed agent profiles in your harness's native files. See [Customize agent profiles](./agent-customization.md) for file locations, model and effort guidance, and update behavior.
+You can choose the models and effort of the installed agents in `.aiddbot/agents.local.yaml`. See [Customize agent profiles](./agent-customization.md) for the format, file locations, and update behavior.
 
 ## Prepare the repository
 

@@ -1,54 +1,63 @@
-# Canonical agent metadata, native adapter destinations, and per-harness settings.
-# scripts/adapt.js combines this table with each prompt in .agents/agents/{id}.md.
+# Canonical agent metadata, native adapter destinations, and per-harness model tiers.
+# Each harness defines the same three tiers once (deep, standard, light); each agent picks a tier.
+# A new model means editing one tier line per harness. scripts/adapt.js renders the adapters from this table.
+# Users override any key in .aiddbot/agents.local.yaml (same shape); `aiddbot update` applies it.
 harnesses:
   claude-code:
     path: .claude/agents/{id}.md
+    tiers:
+      deep:
+        model: claude-opus-5-5
+        effort: high
+      standard:
+        model: claude-opus-5-5
+        effort: medium
+      light:
+        model: claude-opus-5-5
+        effort: low
   codex:
     path: .codex/agents/{id}.toml
+    tiers:
+      deep:
+        model: gpt-6-sol
+        effort: medium
+      standard:
+        model: gpt-6-luna
+        effort: high
+      light:
+        model: gpt-6-luna
+        effort: medium
   copilot:
     path: .github/agents/{id}.agent.md
+    tiers:
+      deep:
+        models: ["claude-opus-4.6", "gpt-5.4"]
+        effort: high
+      standard:
+        models: ["claude-opus-4.6", "gpt-5.4"]
+        effort: high
+      light:
+        models: ["claude-sonnet-4.6", "gpt-5.4"]
+        effort: medium
   cursor:
     path: .cursor/agents/{id}.md
+    tiers:
+      deep:
+        model: grok-4.7[context=256k,reasoning_effort=medium,fast=false]
+      standard:
+        model: grok-4.7[context=256k,reasoning_effort=low,fast=false]
+      light:
+        model: grok-4.6[effort=medium,fast=false]
 agents:
   architect:
     name: Architect
     description: Explore current legacy codebases or design new greenfield solutions
-    claude-code:
-      model: claude-opus-5-5
-      effort: high
-    codex:
-      model: gpt-6-sol
-      effort: medium
-    copilot:
-      models: ["claude-opus-4.6", "gpt-5.4"]
-      effort: high
-    cursor:
-      model: grok-4.7[context=256k,reasoning_effort=medium,fast=false]
+    tier: deep
   builder:
     name: Builder
     description: Implements specifications, by planning and writing code
-    claude-code:
-      model: claude-opus-5-5
-      effort: low
-    codex:
-      model: gpt-6-luna
-      effort: medium
-    copilot:
-      models: ["claude-sonnet-4.6", "gpt-5.4"]
-      effort: medium
-    cursor:
-      model: grok-4.6[effort=medium,fast=false]
+    tier: light
   craftsman:
     name: Craftsman
     description: Quality assurance and verification of specifications.
-    claude-code:
-      model: claude-opus-5-5
-      effort: medium
-    codex:
-      model: gpt-6-luna
-      effort: high
-    copilot:
-      models: ["claude-opus-4.6", "gpt-5.4"]
-      effort: high
-    cursor:
-      model: grok-4.7[context=256k,reasoning_effort=low,fast=false]
+    tier: standard

@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { LOCAL_TABLE, loadAgentTable, renderAllAdapters } from "./agents.js";
 import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "./manifest.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -49,7 +50,17 @@ export function refuseOrigin(destRoot, command) {
   return true;
 }
 
-export function sourceInventory(root = sourceRoot) {
+// The user's `.aiddbot/agents.local.yaml` re-renders the agent adapters in memory, so `update` applies it without
+// conflicts: the manifest tracks the rendered content, and the file itself is never owned by the overlay.
+function applyLocalAgents(files, root, destRoot) {
+  const local = path.join(destRoot, ...LOCAL_TABLE.split("/"));
+  if (!fs.existsSync(local) || !fs.lstatSync(local).isFile()) return;
+  let table;
+  try { table = loadAgentTable(root, fs.readFileSync(local, "utf8")); } catch (error) { throw new Error(`${error.message} (defaults merged with ${LOCAL_TABLE})`); }
+  for (const [rel, content] of renderAllAdapters(root, table)) if (files[rel]) files[rel] = { digest: sha(content), content };
+}
+
+export function sourceInventory(root = sourceRoot, destRoot = null) {
   const files = {};
   const walk = (base, rel) => {
     if (skip(rel)) return;
@@ -62,6 +73,7 @@ export function sourceInventory(root = sourceRoot) {
     }
   };
   for (const tree of TREES) walk(path.join(root, ...tree.split("/")), tree);
+  if (destRoot) applyLocalAgents(files, root, destRoot);
   return Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b)));
 }
 
@@ -93,7 +105,7 @@ export function reconcile(destRoot, inventory, oldManifest, force = false) {
     else if (prior && current.digest === prior) { action = "update"; files[file] = next; }
     else if (force) { action = "overwritten"; files[file] = next; }
     else { action = "conflict"; if (prior) files[file] = prior; }
-    rows.push({ action, file, source: inventory[file]?.source });
+    rows.push({ action, file, source: inventory[file]?.source, content: inventory[file]?.content });
   }
   return { rows, manifest: { schemaVersion: 1, packageVersion: "0.0.0", payloadDigest: payloadDigest(inventory), files: Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b))) } };
 }
@@ -105,10 +117,12 @@ function printInventory(rows) {
   return counts;
 }
 function removeEmptyParents(root, target) { for (let dir = path.dirname(target); inside(dir, root) && dir !== path.resolve(root); dir = path.dirname(dir)) { try { fs.rmdirSync(dir); } catch { break; } } }
-function apply(root, plan) { for (const row of plan.rows) { const target = safeFile(root, row.file); if (WRITE_ACTIONS.has(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, target); } } }
+function apply(root, plan) { for (const row of plan.rows) { const target = safeFile(root, row.file); if (WRITE_ACTIONS.has(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); if (row.content !== undefined) fs.writeFileSync(target, row.content, "utf8"); else fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, target); } } }
 
-export function runOverlay(destRoot, { dryRun = false, force = false, inventory = sourceInventory() } = {}) {
+export function runOverlay(destRoot, { dryRun = false, force = false, inventory } = {}) {
   let oldManifest;
+  try { inventory ??= sourceInventory(sourceRoot, destRoot); } catch (error) { process.stderr.write(`${error.message}
+`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
   try { oldManifest = loadManifest(destRoot); } catch (error) { process.stderr.write(`Invalid AIDDbot manifest: ${error.message}\n`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
   const plan = reconcile(destRoot, inventory, oldManifest, force);
   const counts = printInventory(plan.rows);

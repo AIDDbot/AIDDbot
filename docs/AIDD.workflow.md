@@ -78,7 +78,7 @@ Run `/architect-system-foundation` again whenever the documentation should refle
 | Build | **Builder** | `implement-project` for each affected project: code, unit tests, and any required E2E test changes, which it may run to check its work |
 | Prove and ship | **Craftsman** | `verify-behavior` executes E2E acceptance, then `review-implementation` and `ship-spec` |
 
-Agent names, descriptions, adapter paths, models, and efforts are configured in `.aiddbot/agents.yaml`; `.agents/agents/{id}.md` contains each canonical prompt. `npm run adapt` combines them to regenerate all harness adapters, and `npm run release` runs the adapter before packaging. An orchestrator keeps one agent per role for its whole run, continued with messages.
+Agent names, descriptions, adapter paths, and per-harness model tiers (`deep`, `standard`, `light`, each a model and effort) are configured in `.aiddbot/agents.yaml`; a consumer's `.aiddbot/agents.local.yaml` overrides them at `aiddbot update`; `.agents/agents/{id}.md` contains each canonical prompt. `npm run adapt` combines them to regenerate all harness adapters, and `npm run release` runs the adapter before packaging. An orchestrator keeps one agent per role for its whole run, continued with messages.
 
 Spec state: `in-progress` from `aidd spec new` until `aidd release` marks it `shipped`. One spec is open at a time: `aidd spec new` refuses while another spec branch exists. The human approves the spec in the conversation before anything is built, unless YOLO mode is active.
 
