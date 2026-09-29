@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.28 - 2026-09-29
+
+- Merge branch 'feat/scaffold-and-approvals' (0569e41)
+- feat(skills): scaffold on approval and journal approvals (04e42a8)
+- feat(agents): model tiers per harness and a local override applied on update (a10ad2f)
+
 ## 0.1.27 - 2026-09-29
 
 - Merge branch 'refactor/flaky-repair-debt' (ce005ec)
