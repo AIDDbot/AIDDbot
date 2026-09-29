@@ -17,7 +17,7 @@ Write the spec from `spec.template.md`. Its requirements are local to it and are
 
 Declare in the schema impact every entity, relation, table, column, or endpoint the scope adds, changes, or removes, including each endpoint's success status and every error status with its cause, and cover at least one error scenario among the acceptance tests. Leave the schema documents themselves to shipping.
 
-Unless in YOLO mode, present the spec for human approval and wait: nothing is built before the human approves it.
+Unless in YOLO mode, present the spec for human approval and wait: nothing is built before the human approves it. Once it is approved, or in YOLO mode once it is written, journal it with `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>`.
 
 The result is an approved spec on its own branch.
 

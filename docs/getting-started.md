@@ -32,7 +32,7 @@ You can choose the models and effort of the installed agents in `.aiddbot/agents
 
 For an existing system, this documents its projects and working rules.
 
-When no application source exists, it asks about the product and its projects in short stages, proposes the system in `.product/system.md`, and, after your approval, gives you the commands that scaffold it:
+When no application source exists, it asks about the product and its projects in short stages, proposes the system in `.product/system.md`, and, after your approval, scaffolds it by running these commands itself:
 
 ```bash
 npx tiged AIDDbot/front-standard front
@@ -42,7 +42,7 @@ bun install --cwd front && bun install --cwd back && bun install --cwd e2e
 git add -A && git commit -m "chore(scaffold): add front-standard, back-express, e2e-playwright"
 ```
 
-Run them from the repository root with a clean working tree. Each archetype needs [Bun](https://bun.com). Run `/architect-system-foundation` again to document the new projects and record their commands.
+It runs them from the repository root, so the working tree must be clean and [Bun](https://bun.com) installed. It then documents the new projects and records their commands in the same run.
 
 ## Deliver a change
 
