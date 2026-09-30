@@ -64,7 +64,7 @@ craft-lasting-quality:
 | No application source | Staged questions → `.product/system.md` → approval | An approved proposal, scaffolded, then documented as below |
 | Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
-Existing product records are preserved. After approval the Architect runs the proposal's scaffold commands in a clean working tree: they download each archetype with `tiged`, install its dependencies with `bun`, and commit `chore(scaffold)` on the current branch. The same run then documents the new projects. A failing command stops the run with nothing partial committed. Working code is never rescaffolded.
+Existing product records are preserved. After approval the Architect runs the proposal's scaffold commands in a clean working tree: they download each archetype with `tiged`, install its dependencies with `bun`, and commit `chore(scaffold)` on the current branch, one commit per project. The same run then documents the new projects. A failing command stops the run with nothing partial committed. Working code is never rescaffolded.
 
 Run `/architect-system-foundation` again whenever the documentation should reflect the code. It refuses while a spec is `in-progress`, works on `chore/document`, and merges it. It rewrites structure, model, and schemas from the code, keeps the coding rules learned at shipping, and deletes the records of removed projects.
 

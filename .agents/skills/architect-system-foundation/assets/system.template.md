@@ -24,12 +24,12 @@
 
 ## Scaffold
 
-Run from the repository root with a clean working tree:
+Run from the repository root with a clean working tree, repeating the three lines for each project so the journal times each one:
 
 ```bash
 npx tiged AIDDbot/{tier}-{archetype} {folder}
 bun install --cwd {folder}
-node .agents/aidd/aidd.mjs commit "chore(scaffold): add {tier}-{archetype}, ..."
+node .agents/aidd/aidd.mjs commit "chore(scaffold): add {tier}-{archetype}" {folder}
 ```
 
 {Projects outside the catalog: the official generator to run for each, with no functional code.}
