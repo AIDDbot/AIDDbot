@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 - 2026-09-30
+
+- feat(core): orchestrators journal a handoff whenever they send work to another agent (c7f4248)
+- docs: say that Copilot's newest models may fall short of the supported line (2d2f267)
+- docs: models from 2025 and earlier are no longer supported (ef516a2)
+- docs(product): record decisions D54-D60 and set the Oktoberfest codename (f020673)
+- refactor(skills): /outline-system also commits the model before the root instructions (b82dc77)
+- refactor(skills): the scaffold commits each project so the journal times its install (e41a776)
+
 ## 0.1.31 - 2026-09-30
 
 - refactor(skills): spec type by observable change; the Builder owes E2E tests for every requirement (a6bfcb4)

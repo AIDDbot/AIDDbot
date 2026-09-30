@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.1.31",
+  "version": "0.2.0",
   "codename": "Oktoberfest",
   "private": true,
   "type": "module",
@@ -19,8 +19,8 @@
     "bun": ">=1"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-09-30T11:32:23.496Z",
-  "releaseCommit": "a6bfcb4dbf3239c22bc0839d83534a3ed1b91707",
+  "buildTimestamp": "2026-09-30T12:51:32.470Z",
+  "releaseCommit": "c7f424851b66540b63e3b1a423d174f69979e34c",
   "devDependencies": {
     "oxlint": "^1.86.0"
   }
