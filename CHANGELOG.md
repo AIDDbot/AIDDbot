@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.30 - 2026-09-30
+
+- refactor(skills): specs no longer list shipped requirements; regressions are triaged when they fail (787c907)
+- refactor(core): the generated spec index becomes .product/PRD.md (35a122a)
+- refactor(skills): scoped acceptance for the Builder and a shorter spec for fix, refactor and chore (58ef41f)
+
 ## 0.1.29 - 2026-09-30
 
 - test(core): expect the journal level column (bd2af16)
