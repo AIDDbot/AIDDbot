@@ -30,14 +30,6 @@ domain: {domain}
 
 {Omit this section when no entity, table, or endpoint changes; otherwise use the rows of `spec.template.md`.}
 
-## Affected behavior
-
-{Omit this section unless the change replaces a requirement of a shipped spec: list only those, by global ID, as `replace`.}
-
-| Requirement | Decision |
-| --- | --- |
-| S0000-R01 | replace |
-
 ## Verification
 
 {A `fix` needs one acceptance test per requirement. A `refactor` or `chore` without requirements needs none: the full acceptance run and the check that reported the debt are its verification.}
