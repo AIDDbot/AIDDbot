@@ -129,6 +129,14 @@ export function debt(root, [action, ...args]) {
 }
 
 
+/** `commit <message> [<paths>]`: commit the given paths (all by default) and journal it, so the journal shows every milestone. */
+export function commit(root, [message, ...paths]) {
+  if (!message?.trim()) throw new UsageError('Use: aidd commit "<message>" [<path>...]');
+  const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
+  if (committed) journal(root, { event: "committed", summary: message });
+  return { committed, message: message.trim() };
+}
+
 const MODEL_EVENTS = { verdict: "INFO", select: "INFO", approved: "INFO", scaffolded: "INFO", blocked: "ERROR" };
 
 /** `log <verdict|select|blocked> <summary> [--spec <id>]`: journal one judgment of the model. */

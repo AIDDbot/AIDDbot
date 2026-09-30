@@ -21,4 +21,4 @@ Unless in YOLO mode, present the spec for human approval and wait: nothing is bu
 
 The result is an approved spec on its own branch.
 
-Commit as `docs(spec): define delivery`.
+Commit with `node .agents/aidd/aidd.mjs commit "docs(spec): define delivery"`.

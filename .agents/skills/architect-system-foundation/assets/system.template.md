@@ -29,7 +29,7 @@ Run from the repository root with a clean working tree:
 ```bash
 npx tiged AIDDbot/{tier}-{archetype} {folder}
 bun install --cwd {folder}
-git add -A && git commit -m "chore(scaffold): add {tier}-{archetype}, ..."
+node .agents/aidd/aidd.mjs commit "chore(scaffold): add {tier}-{archetype}, ..."
 ```
 
 {Projects outside the catalog: the official generator to run for each, with no functional code.}

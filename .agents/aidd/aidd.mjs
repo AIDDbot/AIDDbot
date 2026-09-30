@@ -4,7 +4,7 @@
 import evaluate from "./commands/eval.mjs";
 import { integrate, release } from "./commands/release.mjs";
 import spec from "./commands/spec.mjs";
-import { config, debt, log, run } from "./commands/work.mjs";
+import { commit, config, debt, log, run } from "./commands/work.mjs";
 import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./lib/core.mjs";
 
 const COMMANDS = {
@@ -13,6 +13,7 @@ const COMMANDS = {
   run: [run, "run <lint|unit|acceptance|quality> [--project <name>] [--spec]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
   debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] | debt list | debt remove <id>'],
+  commit: [commit, 'commit "<message>" [<path>...]'],
   release: [release, "release [--major]"],
   integrate: [integrate, 'integrate "<commit message>"'],
   log: [log, 'log <verdict|select|approved|scaffolded|blocked> "<summary>" [--spec <id>]'],

@@ -191,6 +191,18 @@ test("a scoped acceptance run filters by spec, lists untested requirements, and 
   assert.equal(readJson(root, ".product/specs/S0001-fleet/control.json").runs, undefined);
 });
 
+test("commit records the paths it is given and journals the milestone", () => {
+  const root = repo();
+  write(root, "a/one.txt", "1\n");
+  write(root, "b/two.txt", "2\n");
+  assert.equal(aidd(root, "commit", "feat(a): one", "a").body.committed, true);
+  assert.equal(git(root, "log", "-1", "--format=%s"), "feat(a): one");
+  assert.match(git(root, "status", "--short"), /b\//);
+  assert.equal(aidd(root, "commit", "nothing", "a").body.committed, false);
+  assert.equal(aidd(root, "commit").code, 2);
+  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8"), /committed  INFO  feat\(a\): one/);
+});
+
 test("a failing acceptance run is green only with debt older than the spec", () => {
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");

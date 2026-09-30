@@ -19,4 +19,4 @@ List the written file under the project decisions in `AGENTS.md`.
 
 The result is the project's current coding rules and its classified commands.
 
-Commit as `docs(project): record {project} rules`.
+Commit with `node .agents/aidd/aidd.mjs commit "docs(project): record {project} rules"`.

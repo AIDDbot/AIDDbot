@@ -59,7 +59,7 @@ A system comprises projects, such as a frontend, backend, CLI, or test suite. Ea
 
 - MANDATORY: Preserve work; no secrets; no destructive commands.
 - Group related changes; keep commits small and focused.
-- Conventional commit: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
+- Conventional commit, made with `node .agents/aidd/aidd.mjs commit "<message>" [<path>...]` so the journal records each milestone: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
 - Branch naming: `{feat|fix|refactor|chore}/S{nnnn}-{slug}`
 
 ## Project decisions

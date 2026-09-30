@@ -19,4 +19,4 @@ After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}`
 
 The result is the project's code and tests for the supplied scope, lint-clean.
 
-Commit as a conventional commit: `{feat|fix|refactor|test|chore}({project}): {description}`.
+Commit only this project with `node .agents/aidd/aidd.mjs commit "{feat|fix|refactor|test|chore}({project}): {description}" {project path}`.
