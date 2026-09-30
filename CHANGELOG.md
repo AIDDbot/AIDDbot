@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 - 2026-09-30
+
+- refactor(skills): tighten /implement-project (aa2d77f)
+- Revert "refactor(skills): tighten /rule-project" (cbeadb1)
+- refactor(skills): tighten /rule-project (7b117bf)
+
 ## 0.2.1 - 2026-09-30
 
 - refactor(skills): tighten /build-requested-spec and /craft-lasting-quality (6a91e74)
