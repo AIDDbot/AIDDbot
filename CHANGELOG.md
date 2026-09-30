@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 - 2026-09-30
+
+- refactor(skills): tighten /build-requested-spec and /craft-lasting-quality (6a91e74)
+
 ## 0.2.0 - 2026-09-30
 
 - feat(core): orchestrators journal a handoff whenever they send work to another agent (c7f4248)
