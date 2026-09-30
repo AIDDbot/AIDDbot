@@ -21,4 +21,4 @@ When a documented project no longer exists, delete its schema files and its `AGE
 
 The result is current root instructions, the conceptual model, and every project's evidenced physical schemas.
 
-Commit with `node .agents/aidd/aidd.mjs commit "docs(system): outline foundation"`.
+Commit as you go with `node .agents/aidd/aidd.mjs commit`: `"docs(system): outline {project} schemas" {Product_Folder}/model/{project}.*.schema.md` after each project's schema documents, and `"docs(system): outline foundation"` for `AGENTS.md`, `model.schema.md`, and anything left.
