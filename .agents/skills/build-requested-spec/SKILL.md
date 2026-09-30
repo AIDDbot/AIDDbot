@@ -11,6 +11,8 @@ Your goal is to turn a natural-language request into a shipped spec.
 
 Route as the **Architect**: spawn one **Architect**, one **Builder**, and one **Craftsman** for the whole run, or use those a calling orchestrator hands you; continue each with messages, relay their questions to the human, and stop only the agents you started.
 
+Journal every handoff between agents when you send the work, with `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` (and `--spec <id>` once the spec exists), so the journal times each agent's turn.
+
 Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
 
 Have the **Builder** execute the `implement-project` skill for each affected production project, from lower to higher levels of abstraction, and then for the E2E project whenever the spec has requirements, whether or not its Solution lists E2E work, because every requirement needs its tagged acceptance test.

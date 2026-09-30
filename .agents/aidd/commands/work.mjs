@@ -137,7 +137,7 @@ export function commit(root, [message, ...paths]) {
   return { committed, message: message.trim() };
 }
 
-const MODEL_EVENTS = { verdict: "INFO", select: "INFO", approved: "INFO", scaffolded: "INFO", blocked: "ERROR" };
+const MODEL_EVENTS = { verdict: "INFO", select: "INFO", handoff: "INFO", approved: "INFO", scaffolded: "INFO", blocked: "ERROR" };
 
 /** `log <verdict|select|blocked> <summary> [--spec <id>]`: journal one judgment of the model. */
 export function log(root, [event, summary], flags) {

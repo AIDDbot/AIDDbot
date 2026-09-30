@@ -16,7 +16,7 @@ const COMMANDS = {
   commit: [commit, 'commit "<message>" [<path>...]'],
   release: [release, "release [--major]"],
   integrate: [integrate, 'integrate "<commit message>"'],
-  log: [log, 'log <verdict|select|approved|scaffolded|blocked> "<summary>" [--spec <id>]'],
+  log: [log, 'log <verdict|select|handoff|approved|scaffolded|blocked> "<summary>" [--spec <id>]'],
 };
 
 const HELP = [

@@ -302,6 +302,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(merged.body.committed, true);
   assert.equal(git(root, "branch", "--show-current"), "main");
   assert.equal(aidd(root, "log", "verdict", `greenfield: ${"x".repeat(200)}`).code, 0);
+  assert.equal(aidd(root, "log", "handoff", "builder → craftsman: S0001", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
