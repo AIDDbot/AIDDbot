@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.31 - 2026-09-30
+
+- refactor(skills): spec type by observable change; the Builder owes E2E tests for every requirement (a6bfcb4)
+- refactor(core): the PRD lists shipped features only (f9278c5)
+- refactor(skills): /outline-system commits each project's schemas as it goes (f966611)
+- feat(core): aidd commit journals every skill milestone; the foundation journals its own verdict once (302f710)
+
 ## 0.1.30 - 2026-09-30
 
 - refactor(skills): specs no longer list shipped requirements; regressions are triaged when they fail (787c907)
