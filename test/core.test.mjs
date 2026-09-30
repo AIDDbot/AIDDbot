@@ -272,10 +272,10 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"));
   const lines = fs.readFileSync(path.join(root, ".aiddbot/journals", journal[0]), "utf8").trim().split("\n");
   const verdict = lines.find((line) => line.includes(" verdict "));
-  assert.match(verdict, /model +- +verdict +greenfield: x+…$/);
-  assert.ok(verdict.split(" verdict").pop().trim().length <= 128);
-  assert.match(lines.at(-2), /green +model +S0001 +approved +S0001 Rocket fleet$/);
-  assert.match(lines.at(-1), /green +model +- +scaffolded +back, front, e2e$/);
+  assert.match(verdict, /model +- +verdict +INFO +greenfield: x+…$/);
+  assert.ok(verdict.split(" INFO ").pop().trim().length <= 128);
+  assert.match(lines.at(-2), /model +S0001 +approved +INFO +S0001 Rocket fleet$/);
+  assert.match(lines.at(-1), /model +- +scaffolded +INFO +back, front, e2e$/);
 });
 
 test("commands outside an initialized repository explain what to do", () => {
