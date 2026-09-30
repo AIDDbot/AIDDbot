@@ -132,6 +132,16 @@ test("a red qualification never blocks shipping", () => {
   assert.equal(aidd(root, "release").body.version, "0.1.1");
 });
 
+test("the PRD lists shipped features only", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "fix", "auth", "Auth", "--domain", "auth");
+  accept(root, 0, "S0001");
+  aidd(root, "eval", "verification", "green", "ok");
+  aidd(root, "eval", "qualification", "green", "ok");
+  assert.equal(aidd(root, "release").code, 0);
+  assert.doesNotMatch(fs.readFileSync(path.join(root, ".product/PRD.md"), "utf8"), /S0001/);
+});
+
 test("the gate rejects evidence written by hand without a real commit", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fake", "Fake");
