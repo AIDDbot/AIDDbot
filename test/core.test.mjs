@@ -225,7 +225,7 @@ test("run keeps the whole output in a log, journals it, and stops at the timeout
   assert.equal(unit.code, 1);
   assert.match(unit.body.runs[0].timedOut, /killed after/);
   const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"))[0];
-  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8"), /green .* run +lint: back ok \d+s/);
+  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8"), / run +INFO +lint: back ok \d+s/);
 });
 
 test("debt is added with the next D ID, listed by priority, and removed", () => {

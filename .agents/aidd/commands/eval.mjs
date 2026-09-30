@@ -5,6 +5,7 @@ import { aiddbotPath, commitPaths, git, journal, productPath, readJson, relative
 import { KINDS, readControl, requireSpec, STATUSES, writeControl } from "../lib/spec.mjs";
 
 const MESSAGES = { verification: "docs(verification): record acceptance", qualification: "docs(review): qualify implementation" };
+const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
 const SKIPPED = new Set(["node_modules"]);
 
@@ -64,7 +65,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   control.evaluations.push({ kind, revision, status, commit, at: new Date().toISOString(), summary: summary.trim() });
   writeControl(dir, control);
   if (status === "green") fs.rmSync(report, { force: true });
-  journal(root, { event: "evaluated", spec: control.id, status, summary: `${kind} ${revision}: ${summary}` });
+  journal(root, { event: "evaluated", spec: control.id, level: LEVELS[status], summary: `${kind} ${revision}: ${summary}` });
   const committed = commitPaths(root, [relative(root, dir)], MESSAGES[kind]);
   return { spec: control.id, kind, revision, status, commit, committed };
 }

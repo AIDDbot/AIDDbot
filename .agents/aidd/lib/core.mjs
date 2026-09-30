@@ -116,14 +116,14 @@ const MAX_SUMMARY = 128;
 const pad2 = (value) => String(value).padStart(2, "0");
 
 /** Append one line to today's journal; a journal failure never undoes the command. */
-export function journal(root, { actor = "aidd", event, spec = "-", summary = "", status = "green" }) {
+export function journal(root, { actor = "aidd", event, spec = "-", summary = "", level = "INFO" }) {
   try {
     const now = new Date();
     const date = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
     const time = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
     const text = summary.replace(/\s+/g, " ").trim() || "-";
     const capped = text.length > MAX_SUMMARY ? `${text.slice(0, MAX_SUMMARY - 1)}…` : text;
-    const cells = [time, status.padEnd(6), actor.padEnd(6), spec.padEnd(6), event.padEnd(10), capped];
+    const cells = [time, actor.padEnd(6), spec.padEnd(6), event.padEnd(10), level.padEnd(5), capped];
     const file = aiddbotPath(root, "journals", `${date}.log`);
     fs.mkdirSync(path.dirname(file), { recursive: true });
     const header = fs.existsSync(file) ? "" : `# AIDDbot journal ${date}\n`;

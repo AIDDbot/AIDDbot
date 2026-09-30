@@ -59,7 +59,7 @@ export function run(root, [kind], flags) {
   }
   const ok = runs.every((entry) => entry.ok);
   const summary = runs.map((entry) => `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`);
-  journal(root, { event: "run", status: ok ? "green" : "red", summary: `${kind}: ${summary.join(", ")}` });
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}: ${summary.join(", ")}` });
   recordRun(root, kind, ok, names);
   return { body: { kind, ok, runs }, exitCode: ok ? 0 : 1 };
 }
@@ -123,7 +123,8 @@ export function debt(root, [action, ...args]) {
   throw new UsageError("Use: aidd debt add|list|remove");
 }
 
-const MODEL_EVENTS = { verdict: "green", select: "green", approved: "green", scaffolded: "green", blocked: "red" };
+
+const MODEL_EVENTS = { verdict: "INFO", select: "INFO", approved: "INFO", scaffolded: "INFO", blocked: "ERROR" };
 
 /** `log <verdict|select|blocked> <summary> [--spec <id>]`: journal one judgment of the model. */
 export function log(root, [event, summary], flags) {
@@ -131,6 +132,6 @@ export function log(root, [event, summary], flags) {
     throw new UsageError(`Use: aidd log <${Object.keys(MODEL_EVENTS).join("|")}> "<summary>"`);
   }
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
-  journal(root, { actor: "model", event, spec, status: MODEL_EVENTS[event], summary });
+  journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
   return { event, summary };
 }
