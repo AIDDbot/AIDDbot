@@ -7,6 +7,8 @@ AIDDbot installs agent profiles for Claude Code, Codex, GitHub Copilot, and Curs
 
 ## Choose models and effort
 
+Use models released in 2026 or later: earlier ones are not supported.
+
 Each harness defines three tiers once (`deep`, `standard`, `light`), and each agent uses one: the Architect is `deep`, the Craftsman `standard`, the Builder `light`. To change what AIDDbot installs, create `.aiddbot/agents.local.yaml` in your project. It has the same shape as AIDDbot's own `agents.yaml`, and whatever you write wins over the defaults.
 
 ```yaml
