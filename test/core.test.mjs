@@ -88,6 +88,8 @@ test("spec new works with pending changes and never needs a clean tree", () => {
   assert.equal(created.code, 0);
   assert.ok(fs.existsSync(path.join(root, "notes.txt")));
   assert.equal(readJson(root, ".product/specs/S0001-typo/control.json").domain, "general");
+  assert.equal(git(root, "status", "--short", "--", ".aiddbot/counters.yaml"), "");
+  assert.match(git(root, "log", "-1", "--format=%s"), /reserve S0001/);
 });
 
 test("a non-green evaluation needs its report file", () => {

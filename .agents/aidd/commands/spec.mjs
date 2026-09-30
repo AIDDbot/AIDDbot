@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { git, journal, nextId, relative, RuleError, UsageError } from "../lib/core.mjs";
+import { commitPaths, git, journal, nextId, relative, RuleError, UsageError } from "../lib/core.mjs";
 import { gate, readControl, requireSpec, specsDir, TYPES, writeControl } from "../lib/spec.mjs";
 
 const TEMPLATE = fileURLToPath(new URL("../../skills/define-spec/assets/spec.template.md", import.meta.url));
@@ -30,6 +30,7 @@ function create(root, [type, slug, title], flags) {
     status: "in-progress", created: new Date().toISOString(), evaluations: [], shipped: null,
   };
   writeControl(dir, control);
+  commitPaths(root, [".aiddbot/counters.yaml"], `chore(spec): reserve ${id}`);
   journal(root, { event: "created", spec: id, summary: `${branch} · ${control.title}` });
   return { spec: id, branch, file: relative(root, path.join(dir, "spec.md")) };
 }

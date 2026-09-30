@@ -28,6 +28,7 @@ When every blocking gate passes, look for gross, easy-to-see errors that no lint
 
 - [ ] A failed operation leaves stored data unchanged.
 - [ ] Related writes that must succeed together are atomic.
+- A storage constraint weaker than the spec is a finding only when the changed code lets the invalid value reach storage; one reachable only by writing to storage directly is not.
 
 ### Performance
 
