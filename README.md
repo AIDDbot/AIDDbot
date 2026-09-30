@@ -33,7 +33,7 @@ The craftsman flow runs the configured quality checks and delivers one selected 
 > Specifications pause for approval unless you request YOLO mode.
 
 > [!WARNING]
-> AIDDbot supports models released in 2026 or later. Models from 2025 and earlier are not supported: they tend to skip the commands that keep the process's state and evidence, and write those records by hand.
+> AIDDbot supports models released in 2026 or later. Models from 2025 and earlier are not supported: they tend to skip the commands that keep the process's state and evidence, and write those records by hand. Copilot's profiles use the newest models it offers today, which may fall short of that line: expect weaker results there until it catches up.
 
 ## How it is organized
 
