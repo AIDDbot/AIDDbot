@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.29 - 2026-09-30
+
+- test(core): expect the journal level column (bd2af16)
+- refactor(core): journal lines carry INFO, WARN or ERROR before the summary (2501055)
+- refactor(skills): tighten scope, qualification and scan; core commits the spec counter (216a2a0)
+
 ## 0.1.28 - 2026-09-29
 
 - Merge branch 'feat/scaffold-and-approvals' (0569e41)
