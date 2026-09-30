@@ -9,9 +9,9 @@ user-invocable: true
 
 Your goal is to turn a natural-language request into a shipped spec.
 
-Route as the **Architect**: spawn one **Architect**, one **Builder**, and one **Craftsman** for the whole run, or use those a calling orchestrator hands you; continue each with messages, relay their questions to the human, and stop only the agents you started.
+Route as the **Architect**: spawn one **Architect**, one **Builder**, and one **Craftsman** for the whole run, or use those a calling orchestrator hands you; continue each with messages, relay their questions to the human, and stop only the agents you started. You run this flow yourself and never hand it whole to one agent: an agent you spawn cannot spawn others.
 
-Journal every handoff between agents when you send the work, with `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` (and `--spec <id>` once the spec exists), so the journal times each agent's turn.
+Journal every handoff between agents when you send the work, with `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` (and `--spec <id>` once the spec exists), so the journal times each agent's turn: log it before each of the three steps below, and again before each repair sent back to the **Builder**.
 
 Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
 
