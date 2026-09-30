@@ -151,4 +151,5 @@ Al terminar: prueba real, npm run release -- patch, integración en main. Para y
 - [x] **8.1 Prompts de rol**: `.agents/agents/*.md` recogen los límites de su rol y las reglas de subagente; los orquestadores quedan en una frase de delegación cada uno.
 - [x] **8.2 Un solo documento de rutas**: se funden `skills.catalog.md` y `docs/AIDD.workflow.md` (P11 de frontier-fall).
 - [~] **8.3 Prueba real y métricas**: una entrega completa en cada arnés disponible y comparación con la línea base de 0.3.
+  Progreso (2026-09-30, Codex sol): 63 min con la 0.1.29 y 54 min con la 0.1.30 para las mismas cuatro specs; D54–D60 salen del post-mortem.
   *Hecho cuando:* se cumplen las medidas de éxito de la propuesta D, o lo que falte queda anotado como 🟡.

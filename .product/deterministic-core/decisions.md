@@ -242,3 +242,31 @@ Lo eligió el humano (2026-09-28), tras el post-mortem 25 (Codex sol con v0.1.25
 - Lo importante es la funcionalidad de la spec. La cualificación busca errores gruesos y fáciles que ningún linter ve: seguridad, integridad de datos, accesibilidad y UX básica, derroche flagrante y reglas del proyecto. No reporta warnings, complejidad ni cobertura, y no cita logs de `.aiddbot/runs/`. Se retiran de `qualify.gates.md` clean code, DRY y el detalle del design system.
 - Los warnings de quality sirven para endurecer el código: una feature puede publicarse con ellos, y `/craft-lasting-quality` los revisa de vez en cuando, nunca tras cada spec. Se descarta que el Builder ejecute quality en cada feature.
 - En una spec de reparación de deuda, el Builder puede ejecutar `run quality --project` para comprobar su arreglo. `ship-spec` quita los D IDs citados salvo que el último run de quality de la spec aún los muestre, y el siguiente escaneo vuelve a registrar lo que quede.
+
+## D54 · Acceptance acotada al spec para el Builder
+Lo eligió el humano (2026-09-30), tras el post-mortem 29 (Codex sol con v0.1.29: 63 min, cuatro specs).
+- `aidd run acceptance --spec` añade `--grep @{id}-` al comando, lista los requisitos aún sin test etiquetado y **no** se registra como evidencia en `control.json`: la ejecución completa de `verify-behavior` sigue siendo la que cuenta.
+- El Builder la usa al escribir el E2E y repara fallos en los tests o en producción, con un máximo de tres ciclos; nunca debilita una aserción ni construye comportamiento no declarado. Se retira de `build-requested-spec` el «sin ejecutar», que contradecía E-D15.
+- El Builder escribe los tests E2E siempre que el spec tenga requisitos, aunque el Solution no liste trabajo E2E.
+- Medido en la 0.1.30: 2–6 s por ejecución acotada frente a 15 s; una sola suite completa por verificación.
+
+## D55 · Plantilla corta y tipo de spec por cambio observable
+Lo eligió el humano (2026-09-30).
+- `fix`, `refactor` y `chore` usan `spec.fix.template.md` (Problem con D IDs y evidencia, Requirements opcionales, Solution, Verification, Technical debt), sin user stories, reglas de negocio ni exclusiones. `aidd spec new` elige la plantilla según el tipo.
+- El tipo se elige por lo que ve un observador: `feat` añade comportamiento, `fix` corrige el prometido, `refactor` cambia el código sin cambiar lo observable (una reparación de calidad lo es), `chore` es tooling o documentación. `craft-lasting-quality` marca sus reparaciones como `refactor`, salvo deuda que rompa comportamiento.
+- Motivo: en la 0.1.30 los dos specs de reparación iban como `fix`, exigían requisitos sin sentido y perdieron una revisión de verificación cada uno.
+
+## D56 · El PRD vuelve como vista generada de las features
+Lo eligió el humano (2026-09-30). Matiza D15 y D25: `aidd release` genera `.product/PRD.md` (antes `specs/README.md`) con los specs `feat` entregados por dominio, una línea cada uno. No se escribe a mano. Los `fix`, `refactor` y `chore` enmiendan features ya listadas y no entran. Solo `define-spec` lo lee. Se descarta listar requisitos, porque crecería sin límite.
+
+## D57 · Los specs miran adelante; la regresión se resuelve al fallar
+Lo eligió el humano (2026-09-30). Desaparece `Affected behavior` de las plantillas: un spec no enumera requisitos entregados. Un test etiquetado con otro spec que falla es una regresión que el Builder repara en producción; solo si un requisito del spec nuevo lo contradice es obsoleto, y entonces (con aprobación humana salvo en YOLO) el Architect añade `Replaces: {ID global}` al Problem y el Builder actualiza el test. `verify-behavior` marca esas regresiones en su informe.
+
+## D58 · Toda confirmación de una skill pasa por `aidd commit`
+Lo eligió el humano (2026-09-30). `aidd commit "<mensaje>" [rutas]` confirma y deja una línea `committed` en el journal, de modo que cada hito y su hora quedan trazados sin coste de modelo. `outline-system` confirma cada proyecto, el modelo y la raíz por separado, y el scaffold confirma cada proyecto. El orquestador de la fundación registra él solo el veredicto y la aprobación. Medido en la 0.1.31: la fundación tarda 8:48, con la documentación en el 62 % (los esquemas del back, 2:26).
+
+## D59 · La calidad sigue solo en el proceso de calidad
+Lo eligió el humano (2026-09-30). Reafirma D53: primero que funcione, luego se limpia. El Builder no ejecuta `quality` salvo para comprobar una reparación de deuda. Se descarta ejecutarlo al final de cada spec (coste de convertir cada warning en deuda) y que el Builder lo adelante.
+
+## D60 · Descartado
+Lo eligió el humano (2026-09-30): repartir Builder (código, unit, lint) y Craftsman (E2E y triaje), porque *build es codificar y craft es controlar*; y esquemas, comandos y reglas dentro del arquetipo, porque los arquetipos no son nuestros ni siempre nuevos.

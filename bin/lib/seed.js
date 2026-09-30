@@ -177,7 +177,7 @@ function ensureCounters(destRoot, dryRun) {
 }
 
 // Empty forms of the records only the core writes, through `aidd config` and `aidd debt`.
-// There is no PRD: `aidd release` generates the spec index from shipped specs.
+// The PRD (`.product/PRD.md`) is not seeded: `aidd release` generates it from the shipped `feat` specs.
 function ensureConfig(destRoot, dryRun) {
   SEEDS[".aiddbot/config.json"] = `${JSON.stringify({ projects: {} }, null, 2)}\n`;
   return ensureFromSeed(destRoot, dryRun, ".aiddbot/config.json");
