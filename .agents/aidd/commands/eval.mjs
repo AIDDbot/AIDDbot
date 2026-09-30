@@ -19,7 +19,7 @@ function sources(dir) {
 }
 
 /** Requirements of the spec with no acceptance test titled `@{id}-Rnn` in any acceptance project. */
-function untested(root, dir, id) {
+export function untested(root, dir, id) {
   const required = [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
   if (!required.length) return [];
   const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});

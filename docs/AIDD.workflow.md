@@ -46,7 +46,7 @@ build-requested-spec:
   - "Architect: define-spec and obtain approval"
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
-      e2e-project: "implement-project authors assigned acceptance-test changes without executing them"
+      e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
   - Craftsman:
       evaluation: "verify-behavior, review-implementation, ship-spec; red evaluations and their failure-only reports go back to the Builder; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
@@ -104,7 +104,7 @@ Shipping regenerates the spec index, reconciles the schema documents, updates de
 | `system.md` | The approved greenfield proposal: purpose, users, projects, and scaffold commands; kept as product context |
 | `specs/README.md` | One line per shipped spec, grouped by domain; core-written by `aidd release` |
 | `quality/debt.json` | Open technical debt with priority, evidence, and origin; core-written by `aidd debt`, read with `aidd debt list` |
-| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` with its own requirements, its core-written `control.json`, and non-green reports; kept after shipping |
+| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` (a shorter template for every type but `feat`) with its own requirements, its core-written `control.json`, and non-green reports; kept after shipping |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/config.json` | Each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands, plus optional `release.versionFiles` and `run.timeoutMinutes`; core-written, read by `aidd run` and `aidd release` |
 | `.aiddbot/journals/YYYY-MM-DD.log` | Narrative process events by local date, always at the repository root, ignored by Git; nothing reads it |
@@ -117,6 +117,6 @@ Shipping regenerates the spec index, reconciles the schema documents, updates de
 
 `scan-quality` → select coherent debt → `/build-requested-spec`
 
-`rule-project` classifies each project's `lint`, `unit`, `acceptance`, and `quality` commands once, by their real effect and never their script name, and records them in `.aiddbot/config.json`. `aidd run <kind> [--project]` executes the classified command and exits unavailable (never a stricter invocation or the build lint) when nothing is configured. Each run keeps its full output in `.aiddbot/runs/{kind}-{project}.log`, stops after `run.timeoutMinutes` (20 by default), is journaled, and on a spec branch is recorded as that kind's latest run in `control.json`. During coding, the Builder runs `lint` and `unit`, and may run `acceptance` to check its work, and `quality` only to check a debt repair. Quality warnings harden the code over time: a feature may ship with them, and they are scanned from time to time by `/craft-lasting-quality`, never after every spec. The Craftsman runs `acceptance` in `verify-behavior` and every project's `quality` list in `scan-quality`; each quality check is its own entry, never an aggregate that stops at its first failure, and `run` executes every entry even after one fails.
+`rule-project` classifies each project's `lint`, `unit`, `acceptance`, and `quality` commands once, by their real effect and never their script name, and records them in `.aiddbot/config.json`. `aidd run <kind> [--project]` (acceptance also takes `--spec`) executes the classified command and exits unavailable (never a stricter invocation or the build lint) when nothing is configured. Each run keeps its full output in `.aiddbot/runs/{kind}-{project}.log`, stops after `run.timeoutMinutes` (20 by default), is journaled, and on a spec branch is recorded as that kind's latest run in `control.json`. During coding, the Builder runs `lint` and `unit`, and checks its acceptance tests with `aidd run acceptance --spec`, which runs only the spec's tagged tests, lists requirements still untested, and is never recorded as evidence, and `quality` only to check a debt repair. Quality warnings harden the code over time: a feature may ship with them, and they are scanned from time to time by `/craft-lasting-quality`, never after every spec. The Craftsman runs `acceptance` in `verify-behavior` and every project's `quality` list in `scan-quality`; each quality check is its own entry, never an aggregate that stops at its first failure, and `run` executes every entry even after one fails.
 
 Open debt lives in `quality/debt.json`, which only `aidd debt add|list|remove` touches; each add or remove commits itself. Each item has a priority (`high`, `medium`, `low`), its evidence, and its origin: the spec whose branch added it, or `scan`. A fixed item is removed: by shipping, when the spec cites it and verification is green, or by a scan whose check ran and no longer shows it. There is no separate review report; the journal records when a scan ran.

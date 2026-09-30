@@ -177,6 +177,20 @@ test("green verification needs a passing acceptance run at HEAD that tags every 
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });
 
+test("a scoped acceptance run filters by spec, lists untested requirements, and is never evidence", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "fleet", "Fleet");
+  write(root, ".product/specs/S0001-fleet/spec.md", "- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
+  write(root, "e2e/tags.spec.ts", 'test("@S0001-R01", () => {});\n');
+  write(root, "e2e/ok.js", "");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ path: "e2e", commands: { acceptance: "node ok.js" } }));
+  const scoped = aidd(root, "run", "acceptance", "--spec");
+  assert.equal(scoped.code, 0);
+  assert.deepEqual(scoped.body.untested, ["R02"]);
+  assert.match(scoped.body.runs[0].command, /--grep @S0001-$/);
+  assert.equal(readJson(root, ".product/specs/S0001-fleet/control.json").runs, undefined);
+});
+
 test("a failing acceptance run is green only with debt older than the spec", () => {
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");

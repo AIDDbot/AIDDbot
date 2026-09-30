@@ -6,7 +6,8 @@ import {
   aiddbotPath, commitPaths, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
   writeJson,
 } from "../lib/core.mjs";
-import { findSpec, readControl, writeControl } from "../lib/spec.mjs";
+import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
+import { untested } from "./eval.mjs";
 
 const RUN_KINDS = ["lint", "unit", "acceptance", "quality"];
 const TAIL = 1500;
@@ -40,7 +41,8 @@ function recordRun(root, kind, ok, names) {
   writeControl(dir, control);
 }
 
-/** Run one classified command kind for every project that has it, or for `--project`. */
+/** Run one classified command kind for every project that has it, or for `--project`.
+ *  `--spec` narrows acceptance to the tests of the current spec; that run is a quick check, never evidence. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
   const settings = readJson(configFile(root), { projects: {} });
@@ -49,19 +51,22 @@ export function run(root, [kind], flags) {
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
     .filter((name) => [projects[name]?.commands?.[kind] ?? []].flat().length);
   if (!names.length) throw new UnavailableError(`No '${kind}' command is configured; rule-project records them.`);
+  const scoped = kind === "acceptance" && flags.spec ? requireSpec(root) : null;
+  const id = scoped && path.basename(scoped).slice(0, 5);
   const runs = [];
   for (const name of names) {
-    const commands = [projects[name].commands[kind]].flat();
+    const commands = [projects[name].commands[kind]].flat().map((command) => (id ? `${command} --grep @${id}-` : command));
     commands.forEach((command, index) => {
-      const log = aiddbotPath(root, "runs", `${kind}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+      const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
       runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
     });
   }
   const ok = runs.every((entry) => entry.ok);
   const summary = runs.map((entry) => `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`);
-  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}: ${summary.join(", ")}` });
-  recordRun(root, kind, ok, names);
-  return { body: { kind, ok, runs }, exitCode: ok ? 0 : 1 };
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
+  if (!id) recordRun(root, kind, ok, names);
+  const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs } : { kind, ok, runs };
+  return { body, exitCode: ok ? 0 : 1 };
 }
 
 /** `config get [key]` or `config set <key> <json>`, with dotted keys such as `projects.back`. */
