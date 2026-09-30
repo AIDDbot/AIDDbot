@@ -76,7 +76,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.equal(git(root, "tag", "--list", "v0.2.0"), "v0.2.0");
   assert.equal(readJson(root, "package.json").version, "0.2.0");
   assert.match(fs.readFileSync(path.join(root, "CHANGELOG.md"), "utf8"), /## \[0\.2\.0\][\s\S]*### Added[\s\S]*User login \(\[S0001\]/);
-  assert.match(fs.readFileSync(path.join(root, ".product/specs/README.md"), "utf8"), /## auth\n\n- \[S0001\]\(S0001-user-login\/spec\.md\) User login/);
+  assert.match(fs.readFileSync(path.join(root, ".product/PRD.md"), "utf8"), /## auth\n\n- \[S0001\]\(specs\/S0001-user-login\/spec\.md\) User login/);
   assert.equal(readJson(root, ".product/specs/S0001-user-login/control.json").status, "shipped");
   assert.doesNotMatch(git(root, "branch"), /feat\/S0001/);
 });
