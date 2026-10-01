@@ -2,6 +2,11 @@
   "name": "aiddbot",
   "version": "0.2.2",
   "codename": "Oktoberfest",
+  "author": {
+    "name": "Alberto Basalo",
+    "email": "albertobasalo@aicode.academy",
+    "url": "https://aicode.academy"
+  },
   "private": true,
   "type": "module",
   "description": "Copy AIDDbot skills and harness adapters into the current project.",
