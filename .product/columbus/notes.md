@@ -144,11 +144,11 @@ Consecuencias a decidir:
 
 ## Plan — dudas para dar vueltas (ver `plan.md`)
 
-## 🟡 P14 — ¿Dónde vive la guía de mínimos?
+## ✅ P14 → D15 · ¿Dónde vive la guía de mínimos?
 
 Hoy un skill solo usa recursos de su carpeta (salvo el núcleo). La guía la necesitan `architect-system-foundation`, `rule-project` y `review-implementation`. Propuesta: la guía vive en `architect-system-foundation/assets/` y **se propaga a través del fichero de reglas de cada proyecto**, que `rule-project` ya escribe y que el resto de skills ya leen. Así nadie más necesita leer la guía.
 
-> **R:**
+> **R:** Se cierra con P20: la guía es la propia plantilla de reglas, convertida en patrón oro (D15).
 
 ## 🟡 P15 — ¿Cómo se registra «no aplica» en `config.json`?
 
@@ -173,3 +173,45 @@ Propuesta: solo dejar `e2e-playwright` sin muestras huérfanas (fase 5, opcional
 El catálogo actual (`front-standard`, `back-express`, `e2e-playwright`, `cli-node`) ofrece repos con código. Con D10 la fuente de verdad son las specs. Propuesta: se mantiene como lista de aceleradores opcionales y la fundación entrega igualmente `tooling` y `health` sobre ellos (en un arquetipo conforme, las dos specs se verifican casi sin cambios).
 
 > **R:**
+
+## ✅ P19 → D13, D14 · ¿Cómo se reproduce la funcionalidad de los arquetipos actuales?
+
+Duda del humano: ¿se suponen las funcionalidades o se hace ingeniería inversa de los arquetipos?
+
+Propuesta: **ingeniería inversa de contratos, no de código**. De los repos (`archetypes/`) se extrae solo lo observable: rutas, forma de las respuestas, variables de entorno, formato del log y páginas. Lo que es propio del stack se reformula de forma neutra (argon2 con sus parámetros → «hash de contraseñas resistente según OWASP»). Los tests de `e2e-playwright` (`tests/api/health.spec.ts`, `tests/api/auth.spec.ts`, `tests/e2e/auth/`) ya son criterios de aceptación casi literales.
+
+Inventario (1 oct 2026):
+
+| Área | back-express | front-standard | e2e-playwright |
+| --- | --- | --- | --- |
+| Salud | `GET /api/health` → `{uptime, runs}`; `runs` se guarda en SQLite | página *about* que lo muestra | api y navegación |
+| Log | un fichero por día en `LOG_DIR`, niveles por `LOG_LEVEL`, columnas fijas, una línea por petición con nivel según el status | `create-logger` | — |
+| Errores | siempre `{ "error": "..." }` con su status; errores de dominio → `ApiError` | `is-error-body` | — |
+| Config | `PORT`, `HOST`, `DB_PATH`, `LOG_*`, `CORS_ORIGIN` | `.env` | arranque de back y front con comprobación previa |
+| Auth | register, login (bearer token + fila de sesión), `me`; las rutas añadidas tras el middleware quedan protegidas por defecto | login, register, `auth.store`, vuelta a la última ruta | api y UI |
+| Shell UI | — | router, navegación, 404, `escape-html` | routing y navegación |
+| Muestras | — | home, item-detail | content |
+
+Huecos que ninguna spec cubría: persistencia (la propia `health` cuenta arranques en la BD), contrato de error uniforme, CORS y conexión front↔back, shell del front, arranque desde e2e y el tracer bullet de una CLI. Las muestras (home, item-detail, content) se descartan: son las que acaban como tests huérfanos.
+
+Propuesta de specs:
+
+1. `chore tooling`: sin cambios (D1).
+2. `feat health` como **esqueleto andante**: además de la ruta de salud, config por entorno, log de actividad y errores, contrato de error y persistencia mínima. El tracer bullet ya los atraviesa, así que no añade entregas.
+3. `feat basic-auth`: dentro del sprint, pero opcional. Es lo único que ejercita D3, D4 y D6 entre funcionalidades.
+
+> **R:** La seguridad entra: da campo para mostrar código y probar la arquitectura, y a muchos les vale para empezar. Opcional también.
+
+## ✅ P20 → D15 · Las plantillas de spec y de reglas como patrón oro
+
+Idea del humano: el análisis de arquitectura para greenfield también debe repercutir en las reglas de brownfield. Las plantillas de spec y de reglas son nuestro patrón oro: las reglas se rellenan según la tecnología y según sea greenfield o brownfield; las specs, según el negocio.
+
+Matices propuestos:
+
+1. **Spec = qué, reglas = cómo.** La spec lleva negocio y contratos; Solution, en conceptos de D1–D6 (D14). Las reglas traducen esos conceptos a carpetas y herramientas, y llevan las ranuras y las reglas por defecto de D12. Excepción: las specs de arquetipo traen el contenido fijo y solo se rellenan los roles.
+2. **Greenfield prescribe, brownfield mide.** En greenfield las reglas imponen el patrón oro traducido a la tecnología. En brownfield describen lo que hay (no pueden mentir sobre el código) y anotan las desviaciones del patrón oro, que pasan al registro de deuda. El código nuevo sigue la convención local si es coherente, y el patrón oro donde no la hay. Es la misma plantilla con dos formas de rellenarla; Columbus solo hace la de greenfield.
+3. **La plantilla actual de reglas está lejos del patrón oro.** Deja elegir `Layer | Feature | Hybrid` (D2 lo cierra) y le faltan la correspondencia de los conceptos de D2–D6 con las carpetas, las ranuras de D1, las reglas por defecto de D12 y una sección de desviaciones.
+
+Consecuencia para P14: si la plantilla de reglas incorpora el patrón oro, la guía de mínimos es esa plantilla más una tabla de implementaciones por ecosistema.
+
+> **R:** Ok. Cierra P14 con esto.

@@ -76,9 +76,9 @@ Los arquetipos pasan a ser **specs agnósticas de la tecnología** que la fundac
 - `feat health`: el esqueleto andante de D2 y D6 (`core`, manifiesto, `shared`, funcionalidad `health` con sus tres capas, test de humo y test de aceptación del contrato de salud). Fija el contrato: ruta, forma de la respuesta y variables de entorno.
 - Coste asumido: dos entregas completas por greenfield. La variación entre ejecuciones se contiene con contratos fijos en las specs.
 
-## D11 ← P12 · Basic auth, opcional y fuera de este sprint
+## ~~D11 ← P12 · Basic auth, opcional y fuera de este sprint~~
 
-La spec de arquetipo `feat basic-auth` será opcional (solo sistemas con usuarios) y no entra en Columbus: fija decisiones de seguridad que no conviene imponer.
+~~La spec de arquetipo `feat basic-auth` será opcional (solo sistemas con usuarios) y no entra en Columbus: fija decisiones de seguridad que no conviene imponer.~~ Sustituida por D13.
 
 ## D12 ← P13 · Primero que funcione, luego que esté bien
 
@@ -90,3 +90,32 @@ Durante una entrega **solo bloquea lo que demuestra la funcionalidad**: el `lint
 - **Resumen de D1 bajo D12:** todas las ranuras obligatorias **existen** desde la fundación, pero en una entrega solo bloquean `lint` (errores, tipos y fronteras) y la aceptación e2e. `unit` existe y no bloquea.
 - **`format` es cosmético:** no bloquea ni se comprueba. `ship-spec` ejecuta su autofix justo antes de integrar y versiona el resultado junto a la entrega.
 - Lo que no mide ninguna herramienta (el significado de los nombres) lo observa `review-implementation` y, si procede, lo anota como deuda.
+
+## D13 ← P19 · Basic auth entra en Columbus, opcional y deducida de los actores
+
+Sustituye a D11. La spec de arquetipo `feat basic-auth` se escribe y se prueba en este sprint: es la única que ejercita las reglas entre funcionalidades (D3, D4, D6) y sirve como punto de partida para muchos sistemas.
+
+- **Opcional sin preguntar:** la fundación la incluye si el sistema tiene usuarios, deducido de su documentación (actores, `model.schema.md`). Solo pregunta si no está claro.
+- **Decisiones mínimas, neutras y seguras:** registro, login y usuario actual; token opaco con sesión en servidor (revocable); hash de contraseñas resistente según OWASP; las rutas nuevas quedan protegidas por defecto; sin más rol que `user`.
+- Otra funcionalidad obtiene el usuario de la sesión solo por el artefacto público de auth (D3). El middleware de sesión vive en `shared` sin negocio (D4) y `core` lo conecta por inyección (D6).
+- **Recorte si falta tiempo:** primero cae la prueba de auth en el greenfield que no es JS (fase 6), nunca la spec.
+
+## D14 ← P19 · Las specs de arquetipo se sacan de los arquetipos por sus contratos
+
+- **Origen:** ingeniería inversa de contratos (rutas, formas, variables de entorno, formato del log, páginas), nunca del código. Lo propio del stack se reformula de forma neutra. Los tests de `e2e-playwright` sirven de base para los requisitos `@S{nnnn}-R{nn}`.
+- **`feat health` es el esqueleto andante completo:** además de D2 y D6 fija la config por entorno (`PORT`, conexión a BD, origen permitido entre front y back), el log de actividad y errores (fichero diario, niveles, una línea por petición con nivel según el status), el contrato de error uniforme (`{ "error": "..." }` con su status) y la persistencia mínima (la cuenta de arranques). En el front, el shell: navegación, 404 y una página que muestra la salud. En e2e, el arranque de los proyectos con comprobación previa.
+- **Sin muestras:** home, item-detail y content no se reproducen.
+- **Comprobación:** un arquetipo conforme debe pasar las specs casi sin cambios.
+- **Agnósticas de la tecnología, también en Solution.** Prueba: cada frase debe ser igual de cierta en Go que en TypeScript.
+  - **Requisitos:** contratos concretos y observables (rutas, forma de las respuestas, contrato de error, nombres de variables de entorno, comportamiento ante un token ausente). No son tecnología: es lo que hace encajar proyectos hechos por separado y limita la variación entre ejecuciones (D10).
+  - **Solution:** solo conceptos de D1–D6 (ranuras, `core`, manifiesto, funcionalidad con `entrada` → `lógica` → `persistencia`, `shared`, artefacto público, inyección). Nunca lenguajes, frameworks, librerías, ORMs ni ficheros con extensión. Una subsección por **rol** (servidor API, cliente web, suite e2e, CLI): la fundación solo sustituye el rol por el nombre del proyecto y quita los roles que no existen.
+  - **Schema impact:** entidades y campos, nunca tipos SQL ni motor de BD.
+  - **La tecnología vive fuera de la spec:** en el fichero de reglas de cada proyecto (`rule-project`) y en sus ranuras de `config.json`. La misma spec instanciada en dos stacks queda idéntica.
+
+## D15 ← P20, P14 · Las plantillas de spec y de reglas son el patrón oro
+
+- **Spec = qué; reglas = cómo.** La plantilla de spec se rellena según el **negocio** (requisitos con contratos; Solution en conceptos, D14). La plantilla de reglas de proyecto se rellena según la **tecnología** y según sea **greenfield o brownfield**. Lo técnico nunca entra en la spec.
+- **La plantilla de reglas incorpora el patrón oro:** la forma fija de D2–D6 con una tabla de correspondencia concepto → carpeta del proyecto (sin elegir patrón), las ranuras de D1 o «no aplica» con motivo, las reglas por defecto de D12 con sus umbrales adaptados al ecosistema y una sección de **desviaciones**.
+- **Greenfield prescribe:** las reglas imponen el patrón oro y solo lo traducen a la tecnología. La sección de desviaciones queda vacía.
+- **Brownfield mide:** las reglas describen lo que hay y anotan las desviaciones del patrón oro, que pasan al registro de deuda (`scan-quality` → `craft-lasting-quality`). El código nuevo sigue la convención local si es coherente, y el patrón oro donde no la hay. En Columbus solo se implementa el relleno de greenfield; el de brownfield queda para otro sprint.
+- **La guía de mínimos es la plantilla de reglas** (cierra P14): vive en `rule-project/assets/` junto a una tabla de implementaciones habituales por ecosistema, que orienta y nunca obliga. Se propaga a través del fichero de reglas de cada proyecto, que ya leen `implement-project`, `review-implementation` y el resto. Ningún otro skill lee la guía.
