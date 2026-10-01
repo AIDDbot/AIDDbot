@@ -1,5 +1,8 @@
 # [AIDDbot](https://github.com/AIDDbot/AIDDbot)
 
+[![version](https://img.shields.io/github/package-json/v/AIDDbot/AIDDbot?color=blue)](https://github.com/AIDDbot/AIDDbot/tags)
+[![codename](https://img.shields.io/github/package-json/codename/AIDDbot/AIDDbot?label=codename&color=orange)](https://github.com/AIDDbot/AIDDbot/tags)
+
 ## Build software you can trust.
 
 `AIDDbot` is a set of agent skills for **AI-Driven Development**. 
