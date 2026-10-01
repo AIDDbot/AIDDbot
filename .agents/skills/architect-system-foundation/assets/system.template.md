@@ -28,7 +28,7 @@ Run from the repository root with a clean working tree, repeating the three line
 
 ```bash
 npx tiged AIDDbot/{tier}-{archetype} {folder}
-bun install --cwd {folder}
+npm install --prefix {folder}
 node .agents/aidd/aidd.mjs commit "chore(scaffold): add {tier}-{archetype}" {folder}
 ```
 

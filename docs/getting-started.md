@@ -38,11 +38,11 @@ When no application source exists, it asks about the product and its projects in
 npx tiged AIDDbot/front-standard front
 npx tiged AIDDbot/back-express back
 npx tiged AIDDbot/e2e-playwright e2e
-bun install --cwd front && bun install --cwd back && bun install --cwd e2e
+npm install --prefix front && npm install --prefix back && npm install --prefix e2e
 git add -A && git commit -m "chore(scaffold): add front-standard, back-express, e2e-playwright"
 ```
 
-It runs them from the repository root, so the working tree must be clean and [Bun](https://bun.com) installed. It then documents the new projects and records their commands in the same run.
+It runs them from the repository root, so the working tree must be clean and Node.js with npm installed. It then documents the new projects and records their commands in the same run.
 
 ## Deliver a change
 

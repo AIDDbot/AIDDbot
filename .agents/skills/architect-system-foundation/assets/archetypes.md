@@ -1,6 +1,6 @@
 # Archetypes
 
-Interim catalog until `create-aiddbot` is published. Each archetype `{tier}-{archetype}` is the GitHub repository `AIDDbot/{tier}-{archetype}`, installed with `bun`.
+Interim catalog until `create-aiddbot` is published. Each archetype `{tier}-{archetype}` is the GitHub repository `AIDDbot/{tier}-{archetype}`, installed with `npm`.
 
 | Tier | Archetype | Default folder | Stack |
 | --- | --- | --- | --- |
