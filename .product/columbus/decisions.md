@@ -262,6 +262,7 @@ En `codex-2`, TypeScript 7 rompió dependency-cruiser y `@typescript-eslint/pars
 
 - **TypeScript 7 obligatorio.** Nunca se fija una mayor anterior; si una herramienta no lo soporta, se sustituye. Excepción al freno de D30.
 - **Familia oxc:** oxlint para `lint` (con tipos), fronteras (`no-restricted-imports` con `overrides` por carpeta) y `quality`; oxfmt para `format`.
+- **Sin `tsc`:** oxlint con `typeAware` y `typeCheck` (`oxlint-tsgolint`) informa los errores de tipos de TypeScript 7; `quality` es una segunda configuración de oxlint que extiende la primera con complejidad y tamaño. Referencia: el arquetipo `back-express`.
 - **Tests nativos:** `node --test` para `unit`; Node ejecuta TypeScript directamente. Sin Vitest ni Jest.
 - **Sin herramientas que usen la API en JavaScript de TypeScript** (dependency-cruiser, `@typescript-eslint/parser`).
 - **Vue:** los `.ts` se comprueban con TypeScript 7; los `.vue` quedan sin comprobación de tipos hasta que `vue-tsc` soporte la 7, y el hueco se escribe en las reglas de tecnología.
