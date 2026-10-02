@@ -46,7 +46,8 @@ When something fails, the operator must see what happened, and every client must
 
 ### back-api
 
-- `shared/logic` holds the logger: one line per event, columns `time source LEVEL message`, written to the daily file and to the console (`WARN` and `ERROR` to standard error). A failing file write is reported once and never stops the request. The logger writes without blocking the request: it queues lines and appends them asynchronously, and it flushes the queue before the process exits.
+- `shared/logic` holds the logger policy: one line per event, columns `time source LEVEL message`, and the level filter.
+- `shared/data` writes the lines to the daily file and to the console (`WARN` and `ERROR` to standard error). It writes without blocking the request: it queues lines, appends them asynchronously, and flushes the queue before the process exits. A failing file write is reported once and never stops the request.
 - Settings, read by `core` (see `configuration`): `LOG_DIR` (default `./logs`), `LOG_LEVEL` (`debug`, `info`, `warn`, `error`; default `info`).
 - `shared/presentation` holds the request logger and the error handler; `core` registers both. The error handler is the only place that turns an error into a response: an expected error carries its status and message; anything else becomes 500 `{ "error": "Internal server error" }` and is logged at `ERROR` with its cause.
 - `shared/logic` defines the one expected-error shape (status and message) that features raise.
