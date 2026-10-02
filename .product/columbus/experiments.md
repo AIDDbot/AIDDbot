@@ -1,13 +1,13 @@
 # Columbus — experimentos
 
-Guion y prompts para cada prueba de la fase 6. Cada prueba deja su carpeta en `temp/post-mortem/columbus/{prueba}/` (por ejemplo `codex-2`, `claude-1`, `codex-go-1`): ahí se leen el diario, las specs, los `AGENTS.md`, `config.json` y la transcripción. Su resumen va a `notes.md`.
+Guion y prompts para cada prueba de la fase 6. Cada prueba se ejecuta en `C:/code/aidd/experiments/columbus/{prueba}/` (por ejemplo `codex-2`, `claude-1`, `codex-go-1`): ahí se leen el diario, las specs, los `AGENTS.md`, `config.json` y la transcripción. Su resumen va a `notes.md`.
 
 ## 0 · Preparar
 
 En una carpeta vacía, fuera de este repo, instalar **desde la copia local** (el `main` local va por delante de `origin`):
 
 ```bash
-mkdir C:/code/aidd/columbus-{prueba} && cd C:/code/aidd/columbus-{prueba}
+mkdir C:/code/aidd/experiments/columbus/{prueba} && cd C:/code/aidd/experiments/columbus/{prueba}
 node C:/code/aidd/AIDDbot/bin/aiddbot.js init
 ```
 
@@ -86,7 +86,7 @@ El diff no toca tooling, `config.json` ni el arranque; solo registra la funciona
 
 ## 5 · Entregar
 
-Copiar a `temp/post-mortem/columbus/{prueba}/`:
+Nada que copiar si la prueba se ejecutó en `C:/code/aidd/experiments/columbus/{prueba}/`. Si no, copiar ahí:
 
 - `.aiddbot/` (diario, `config.json`, `runs/`), `.product/`, `AGENTS.md` raíz y el `AGENTS.md` de cada proyecto.
 - La transcripción de la sesión del arnés.
