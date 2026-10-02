@@ -79,7 +79,7 @@ The project has one entry point and three folders. Each feature has three layers
 
 ### Variations by project type
 
-<!-- [Blueprint] Principle 7. Each `n/a` has its reason. -->
+<!-- [Blueprint] Principle 7. Each `n/a` has its reason. [Project] Keep only the column of this project type, and remove the other columns. -->
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
@@ -136,7 +136,9 @@ This table is the index of the helpers in `shared`. Read it before you write a c
 | `parseInteger(value, min, max)` | Returns an integer in the range. Otherwise, raises an expected error. | `{shared_folder}/logic/{numbers_file}` |
 | `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/logic/{text_file}` |
 | `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/logic/{types_file}` |
-| {environment primitive} | {see the variations below} | {path} |
+| {environment primitive} | {the row of this project type in the table below} | {path} |
+
+<!-- [Project] Move the row of this project type to the table above, and remove this table. -->
 
 | Project type | Environment primitive | Contract |
 | --- | --- | --- |
