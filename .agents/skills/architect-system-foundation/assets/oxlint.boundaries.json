@@ -1,0 +1,203 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "overrides": [
+    {
+      "files": ["src/main.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["./features/**", "./shared/**"],
+                "message": "main uses core only."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/core/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../features/**", "!../features/manifest.ts", "../main.ts"],
+                "message": "core uses the manifest and shared only. It never uses a feature directly."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/manifest.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["./*/*/**", "../core/**", "../main.ts"],
+                "message": "The manifest uses only the facade (index.ts) of each feature."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/*/index.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../core/**", "../../main.ts", "../manifest.ts"],
+                "message": "A facade never uses core, main or the manifest. It gets dependencies by injection."
+              },
+              {
+                "group": ["../*/*/**"],
+                "message": "A feature uses a different feature only through its facade (index.ts)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/*/presentation/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../../core/**", "../../../main.ts", "../../manifest.ts"],
+                "message": "Features never use core, main or the manifest. They get configuration by injection."
+              },
+              {
+                "group": ["../../*/*/**"],
+                "message": "A feature uses a different feature only through its facade (index.ts)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/*/logic/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../../core/**", "../../../main.ts", "../../manifest.ts"],
+                "message": "Features never use core, main or the manifest. They get configuration by injection."
+              },
+              {
+                "group": ["../../*/*/**"],
+                "message": "A feature uses a different feature only through its facade (index.ts)."
+              },
+              {
+                "group": ["../presentation/**"],
+                "message": "logic never uses presentation. The direction is presentation → logic → data."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/features/*/data/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../../core/**", "../../../main.ts", "../../manifest.ts"],
+                "message": "Features never use core, main or the manifest. They get configuration by injection."
+              },
+              {
+                "group": ["../../*/*/**"],
+                "message": "A feature uses a different feature only through its facade (index.ts)."
+              },
+              {
+                "group": ["../presentation/**", "../logic/**"],
+                "message": "data never uses presentation or logic. The direction is presentation → logic → data."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/presentation/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../core/**", "../../features/**", "../../main.ts"],
+                "message": "shared uses nothing of the application: no core, features or main."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/logic/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../core/**", "../../features/**", "../../main.ts"],
+                "message": "shared uses nothing of the application: no core, features or main."
+              },
+              {
+                "group": ["../presentation/**"],
+                "message": "logic never uses presentation. The direction is presentation → logic → data."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/shared/data/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../core/**", "../../features/**", "../../main.ts"],
+                "message": "shared uses nothing of the application: no core, features or main."
+              },
+              {
+                "group": ["../presentation/**", "../logic/**"],
+                "message": "data never uses presentation or logic. The direction is presentation → logic → data."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.spec.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": "off"
+      }
+    }
+  ]
+}

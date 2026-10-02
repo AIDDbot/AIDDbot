@@ -11,6 +11,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 - Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
 - For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
+- For layer boundaries, merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It maps the Blueprint architecture with `src/main.ts`, `src/core/`, `src/features/{feature}/{presentation,logic,data}/`, the facade `index.ts`, the manifest `manifest.ts`, and `src/shared/{presentation,logic,data}/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
 - Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
 - In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
