@@ -34,7 +34,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | 1 | ✅ Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
 | 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | ✅ Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
-| 4 | Skills | Skills | 6–8 oct |
+| 4 | ✅ Skills | Skills | 6–8 oct |
 | 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct (opcional) |
 | 6 | Prueba en greenfield real | Prueba | 9 oct |
 | 7 | Release Columbus | Mecánica | 12 oct |
@@ -86,6 +86,8 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 **Hecho cuando:** `aidd run format` funciona, `config set` acepta «no aplica» con motivo y las pruebas del núcleo pasan.
 
 ### 4 · Skills
+
+✅ Hecho el 2 oct. `architect-system-foundation` sigue el camino greenfield entero en `chore/foundation` y después entrega las specs fundacionales; `define-spec` acepta una spec fundacional como petición; `system.template.md` lleva el tipo de proyecto y los arquetipos creados al vuelo; el resto según la tabla. `docs/AIDD.workflow.md` y `docs/getting-started.md` al día.
 
 | Skill | Cambio | Origen |
 | --- | --- | --- |

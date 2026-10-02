@@ -16,7 +16,7 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 - A root `package.json` at version `0.1.0`, only when missing. `aidd release` bumps its version at each shipped spec.
 - `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S and D identifiers. It is project state: later `update` never changes it.
-- An empty `.aiddbot/config.json`. `rule-project` fills it in with each project's path and its classified `lint`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
+- An empty `.aiddbot/config.json`. The foundation fills it in with each project's path and its `lint`, `format`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
 - The empty debt register `.product/quality/debt.json`. The PRD `.product/PRD.md` is generated: each spec owns its requirements, and shipping lists it there.
 - The journal's first event, in `.aiddbot/journals/`.
 
@@ -39,10 +39,9 @@ npx tiged AIDDbot/front-standard front
 npx tiged AIDDbot/back-express back
 npx tiged AIDDbot/e2e-playwright e2e
 npm install --prefix front && npm install --prefix back && npm install --prefix e2e
-git add -A && git commit -m "chore(scaffold): add front-standard, back-express, e2e-playwright"
 ```
 
-It runs them from the repository root, so the working tree must be clean and Node.js with npm installed. It then documents the new projects and records their commands in the same run.
+It runs them from the repository root, so the working tree must be clean and Node.js with npm installed. It gives each project its own `AGENTS.md` with all its technical data, records its commands, and documents the system. Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `health`, and `basic-auth` when the system has users), so the system starts green before your first feature.
 
 ## Deliver a change
 

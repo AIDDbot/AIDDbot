@@ -14,22 +14,26 @@
 
 ## Projects
 
-| Project | Folder | Archetype | Responsibility |
-| --- | --- | --- | --- |
-| {front \| back \| e2e \| cli} | `{folder}/` | `{tier}-{archetype}` \| {technology outside the catalog} | {one-line responsibility} |
+| Project | Type | Folder | Archetype | Responsibility |
+| --- | --- | --- | --- | --- |
+| {project} | {back-api \| front-web \| cli \| e2e} | `{folder}/` | `{archetype}` \| on demand: {technology} | {one-line responsibility} |
 
 ## Technical decisions
 
 - {Only choices that shape the scaffold or the first specs: persistence, integration, deployment target, constraints. None when the archetypes decide it.}
+- Basic authentication: {yes, the system has users \| no}.
 
 ## Scaffold
 
-Run from the repository root with a clean working tree, repeating the three lines for each project so the journal times each one:
+Run from the repository root with a clean working tree, for each project:
 
 ```bash
-npx tiged AIDDbot/{tier}-{archetype} {folder}
+npx tiged AIDDbot/{archetype} {folder}
 npm install --prefix {folder}
-node .agents/aidd/aidd.mjs commit "chore(scaffold): add {tier}-{archetype}" {folder}
 ```
 
-{Projects outside the catalog: the official generator to run for each, with no functional code.}
+{Projects with an archetype made on demand: the official generator and dependency install to run for each, with no functional code.}
+
+## Archetypes made on demand
+
+{For each project whose archetype is made on demand: `project.AGENTS.template.md` filled for the chosen technology, which the scaffold writes to `{folder}/AGENTS.md`. Omit this section when every project uses a catalog archetype.}
