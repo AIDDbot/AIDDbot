@@ -22,7 +22,7 @@ Elegir un prompt. En Claude Code se invoca `/architect-system-foundation`; en Co
 ### A · JS/TS sin negocio (base)
 
 ```text
-/architect-system-foundation YOLO. Sistema de prueba sin funcionalidad de negocio: solo la fundación. Propósito: validar el scaffold. Usuarios: un operador genérico, así que incluye basic-auth. Proyectos: back-api con Hono, front-web con Vue, e2e con Playwright. Gestor npm; lint con oxlint y format con oxfmt. Rechazo los arquetipos del catálogo: créalos al vuelo para esas tecnologías.
+/architect-system-foundation YOLO. Sistema de prueba sin funcionalidad de negocio: solo la fundación. Propósito: validar el scaffold. Usuarios: un operador genérico, así que incluye basic-auth. Proyectos: back-api con Hono, front-web con Vue, e2e con Playwright. Rechazo los arquetipos del catálogo: créalos al vuelo para esas tecnologías.
 ```
 
 ### B · Go sin front (agnosticismo)
