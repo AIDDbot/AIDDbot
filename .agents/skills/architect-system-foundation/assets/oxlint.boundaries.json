@@ -41,7 +41,7 @@
           {
             "patterns": [
               {
-                "group": ["./*/*/**", "../core/**", "../main.ts"],
+                "group": ["./*/presentation/**", "./*/logic/**", "./*/data/**", "../core/**", "../main.ts"],
                 "message": "The manifest uses only the facade (index.ts) of each feature."
               }
             ]
@@ -61,7 +61,7 @@
                 "message": "A facade never uses core, main or the manifest. It gets dependencies by injection."
               },
               {
-                "group": ["../*/*/**"],
+                "group": ["../*/presentation/**", "../*/logic/**", "../*/data/**"],
                 "message": "A feature uses a different feature only through its facade (index.ts)."
               }
             ]
@@ -81,7 +81,7 @@
                 "message": "Features never use core, main or the manifest. They get configuration by injection."
               },
               {
-                "group": ["../../*/*/**"],
+                "group": ["../../*/presentation/**", "../../*/logic/**", "../../*/data/**"],
                 "message": "A feature uses a different feature only through its facade (index.ts)."
               }
             ]
@@ -101,7 +101,7 @@
                 "message": "Features never use core, main or the manifest. They get configuration by injection."
               },
               {
-                "group": ["../../*/*/**"],
+                "group": ["../../*/presentation/**", "../../*/logic/**", "../../*/data/**"],
                 "message": "A feature uses a different feature only through its facade (index.ts)."
               },
               {
@@ -125,7 +125,7 @@
                 "message": "Features never use core, main or the manifest. They get configuration by injection."
               },
               {
-                "group": ["../../*/*/**"],
+                "group": ["../../*/presentation/**", "../../*/logic/**", "../../*/data/**"],
                 "message": "A feature uses a different feature only through its facade (index.ts)."
               },
               {
