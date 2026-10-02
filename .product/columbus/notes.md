@@ -156,21 +156,21 @@ Propuesta: la ranura existe con un objeto en lugar de un comando: `"unit": {"na"
 
 > **R:**
 
-## 🟡 P16 — ¿Cómo entrega la fundación las specs de arquetipo?
+## 🟡 P16 — ¿Cómo entrega la fundación las specs fundacionales?
 
-Opciones: (a) `architect-system-foundation` llama a `build-requested-spec` una vez por spec, con el flujo completo; (b) un camino corto que implementa y verifica sin revisión. Propuesta: (a), porque es lo que da el «nace en verde» con las mismas puertas. Coste asumido en D10.
+Opciones: (a) `architect-system-foundation` llama a `build-requested-spec` una vez por spec, con el flujo completo; (b) un camino corto que implementa y verifica sin revisión. Propuesta: (a), porque es lo que da el «nace en verde» con las mismas puertas. Coste asumido en D16: hasta cuatro entregas (D17). Con un arquetipo conforme, cada una se verifica casi sin cambios.
 
 > **R:**
 
 ## 🟡 P17 — ¿Qué entra de los repos de arquetipo en este sprint?
 
-Propuesta: solo dejar `e2e-playwright` sin muestras huérfanas (fase 5, opcional). El manifiesto de muestras (D8) y la fabricación en serie (D10) pasan al siguiente sprint.
+Propuesta (revisada con D16–D19): en la fase 5, opcional, cada repo recibe su `AGENTS.md` desde la plantilla del Blueprint y pierde sus muestras. Sin muestras, el manifiesto de muestras de D8 deja de hacer falta. La fabricación en serie pasa al siguiente sprint. Si la fase 5 no llega, la fundación trata el arquetipo como uno creado al vuelo (principio 6).
 
 > **R:**
 
 ## 🟡 P18 — ¿Qué pasa con `archetypes.md`?
 
-El catálogo actual (`front-standard`, `back-express`, `e2e-playwright`, `cli-node`) ofrece repos con código. Con D10 la fuente de verdad son las specs. Propuesta: se mantiene como lista de aceleradores opcionales y la fundación entrega igualmente `tooling` y `health` sobre ellos (en un arquetipo conforme, las dos specs se verifican casi sin cambios).
+El catálogo actual (`front-standard`, `back-express`, `e2e-playwright`, `cli-node`) ofrece repos con código. Con D16 la fuente de verdad es el Blueprint. Propuesta (revisada): se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5), cada uno con su tecnología y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17).
 
 > **R:**
 

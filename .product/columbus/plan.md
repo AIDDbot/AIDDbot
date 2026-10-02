@@ -1,7 +1,7 @@
 # Columbus — un greenfield que nace en verde
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
-> Borrador: se le darán unas vueltas antes de implantar. Las decisiones están en `decisions.md` (D1–D15); las dudas del plan, en `notes.md` (P14–P20).
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D19) y las dudas del plan en `notes.md` (P15–P18).
 
 ## Problema
 
@@ -9,18 +9,20 @@ En un greenfield sin arquetipo (post-mortem 0.2.2, resumido en `notes.md`) nada 
 
 ## Objetivo
 
-Que cualquier greenfield, **sea cual sea la tecnología**, nazca con:
+Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archetype-Blueprint** (principios 7–9, D16):
 
-1. **Ranuras de tooling** garantizadas (D1): `lint` (con tipos y fronteras), `format` (autofix), `unit`, `start` y `quality`, o «no aplica» con motivo.
-2. **Una arquitectura con forma fija** (D2–D6): `core`, funcionalidades y `shared`; `entrada` → `lógica` → `persistencia` dentro de cada funcionalidad; artefacto público por funcionalidad; `core` solo ve un manifiesto de registro.
-3. **El sistema en verde** al cerrar la fundación (D7), entregado a través de **specs de arquetipo** agnósticas (D10, D14): `tooling`, `health` y, si hay usuarios, `basic-auth` (D13).
-4. **Primero que funcione, luego que esté bien** (D12): en una entrega solo bloquean `lint` y la aceptación; el resto es endurecimiento posterior.
+1. **Una solución de proyectos tipados** (principios 3–6): cada proyecto es `back-api`, `front-web`, `cli` o `e2e`, y se crea desde un arquetipo del catálogo o desde uno creado al vuelo.
+2. **Un `AGENTS.md` por proyecto** con su parte técnica (principio 11, D19): arquitectura con forma fija (D2–D6), estructura de carpetas, reglas generales (D12) y ranuras de tooling (D1). En greenfield no se explora nada.
+3. **Cuatro specs fundacionales** con su parte funcional (principio 9, D17, D18): `configuration` → `monitoring` → `health` → `basic-auth` (opcional, D13). Son contratos agnósticos que también alimentan las pruebas de `e2e` (principio 10).
+4. **El sistema en verde** al cerrar la fundación (D7).
+5. **Primero que funcione, luego que esté bien** (D12): en una entrega solo bloquean `lint` (con fronteras) y la aceptación.
 
 ## Fuera de alcance
 
+- Brownfield y legacy: `rule-project` queda congelada (D19).
 - `master` frente a `main` (hecho 8).
-- Migración de repos existentes: beta, solo greenfield.
-- Rehacer los repos de arquetipo (D8) salvo lo imprescindible (fase 5).
+- Que el builder de `e2e` lea las páginas para sacar selectores.
+- Fabricar arquetipos en serie y rehacer sus repos más allá de la fase 5.
 
 ## Fases
 
@@ -28,36 +30,47 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 
 | Fase | Contenido | Tipo | Fechas orientativas |
 | --- | --- | --- | --- |
-| 0 | Dar vueltas al plan y cerrar P15–P18 | Diálogo | 1–2 oct |
-| 1 | Plantilla de reglas como patrón oro | Redacción | 2–3 oct |
-| 2 | Specs de arquetipo `tooling`, `health` y `basic-auth` | Redacción | 4–5 oct |
+| 0 | Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
+| 1 | Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
+| 2 | Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | Skills | Skills | 6–8 oct |
-| 5 | Arquetipos propios | Fuera del repo | 8 oct (opcional) |
+| 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct (opcional) |
 | 6 | Prueba en greenfield real | Prueba | 9 oct |
 | 7 | Release Columbus | Mecánica | 12 oct |
 
-### 0 · Dar vueltas al plan
+### 0 · Principios y decisiones
 
-Revisar este plan con el humano y resolver P15–P18 (P14, P19 y P20 ya cerradas).
+Hecho hasta ahora: `principles.md` (principios 1–11) y `decisions.md` alineado (D16–D19 sustituyen a D10, D14 y D15). Falta resolver P15–P18 con el humano.
 
-**Hecho cuando:** no queda ningún 🟡 en `notes.md` y el plan refleja las respuestas.
+**Hecho cuando:** no queda ningún 🟡 en `notes.md` y este plan refleja las respuestas.
 
-### 1 · Plantilla de reglas como patrón oro
+### 1 · Blueprint técnico: plantilla `AGENTS.md` de proyecto
 
-La guía de mínimos es la propia plantilla de reglas (D15). `project.rules.template.md` vive en `rule-project/assets/` junto a una tabla de «implementaciones habituales» por ecosistema (JS/TS, Go, Rust, PHP, Python, Java/Kotlin) para `lint`, tipos, `format`, `unit`, lint de fronteras y umbrales de `quality`. La tabla orienta; nunca obliga a una herramienta. La plantilla sustituye «Pattern: Layer | Feature | Hybrid» por la correspondencia concepto → carpeta de D2–D6, y añade las ranuras de D1, las reglas por defecto de D12 y la sección de desviaciones (vacía en greenfield). Se toca con `/maintain-skills`.
+`project.AGENTS.template.md` en `architect-system-foundation/assets/` (D19), con:
 
-**Hecho cuando:** la plantilla y la tabla existen en `rule-project/assets/`, la plantilla no nombra ninguna tecnología, cabe en una lectura y cada regla cita su decisión.
+- Las siete secciones del principio 11: propósito y frontera, tecnología, tooling, arquitectura, estructura de carpetas, coding rules y conexiones. Cada sección indica qué nivel la rellena (Blueprint, arquetipo o proyecto).
+- La arquitectura fija de D2–D6, con la correspondencia concepto → carpeta por rellenar.
+- Las ranuras de D1, o «no aplica» con motivo.
+- Las reglas generales de D12, con umbrales que el arquetipo adapta.
+- La **tabla de variaciones** por tipo de proyecto (principio 7), incluida la forma propia de `e2e`.
 
-### 2 · Specs de arquetipo `tooling`, `health` y `basic-auth`
+Al lado va una **tabla de implementaciones habituales** por ecosistema (JS/TS, Go, Rust, PHP, Python, Java/Kotlin) para `lint`, tipos, `format`, `unit`, lint de fronteras y `quality`. Orienta y nunca obliga.
 
-Tres plantillas de spec, sacadas de los arquetipos actuales por sus contratos (D14),, con el formato de `define-spec`, que la fundación instancia como las primeras specs del sistema (D10):
+Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apuntar a `.agents/rules/` y apunta a `{project}/AGENTS.md`.
 
-- **`chore tooling`:** ranuras de D1 por proyecto, incluido el lint de fronteras (D5) y las reglas por defecto en contexto (D12). Evidencia: `aidd run lint` y `unit` en verde y `format` ejecutado.
-- **`feat health`:** esqueleto andante de D2–D6 por proyecto ejecutable, con **contrato fijo**: ruta de salud, forma de la respuesta, `PORT` y variables de conexión entre proyectos. Incluye config por entorno, log de actividad y errores, contrato de error uniforme y persistencia mínima (D14). Un test de humo sobre la `lógica` de `health` y tests de aceptación `@S{nnnn}-R{nn}` del contrato.
-- **`feat basic-auth`** (opcional, D13): registro, login, usuario actual, sesión revocable y rutas protegidas por defecto. Se entrega si el sistema tiene usuarios.
+**Hecho cuando:** la plantilla no nombra ninguna tecnología, cabe en una lectura, cada sección cita su principio o decisión y rellenarla para Go y para TypeScript solo cambia los huecos.
 
-**Hecho cuando:** las tres plantillas no nombran ninguna herramienta, framework ni lenguaje, ni siquiera en Solution o Schema impact; Solution va por roles y conceptos de D1–D6; y sus requisitos son contratos verificables en cualquier stack (D14).
+### 2 · Blueprint funcional: plantilla de spec y specs fundacionales
+
+- **Plantilla de spec** de `define-spec`: nueva sección con las **URLs y APIs esperadas**, para que `e2e` genere sus pruebas básicas (principio 10, D18).
+- **Cuatro plantillas de spec fundacional** (D17), sacadas por sus contratos de los arquetipos de `C:/code/aidd/archetypes` (D18):
+  - **`configuration`:** arranque en `core` y config por entorno (`PORT`, conexión a BD, origen permitido entre front y back; en `e2e`, las URLs bajo prueba).
+  - **`monitoring`:** log de actividad y errores, y contrato de error uniforme.
+  - **`health`:** tracer bullet por `entrada` → `lógica` → `persistencia` que responde estado, número de arranque persistido y tiempo en marcha. Deja el manifiesto (D6) y el test de humo. En front, shell, 404 y página de salud. En `e2e`, la comprobación previa del arranque.
+  - **`basic-auth`:** opcional (D13).
+
+**Hecho cuando:** las cuatro plantillas no nombran ninguna herramienta, framework ni lenguaje, ni siquiera en Solution o Schema impact; Solution va por roles y conceptos de D1–D6; cada una declara sus URLs y APIs; y sus requisitos son contratos verificables en cualquier stack.
 
 ### 3 · Núcleo
 
@@ -68,31 +81,39 @@ Tres plantillas de spec, sacadas de los arquetipos actuales por sus contratos (D
 
 ### 4 · Skills
 
-| Skill | Cambio | Decisiones |
+| Skill | Cambio | Origen |
 | --- | --- | --- |
-| `architect-system-foundation` | Instanciar y entregar las specs `tooling` y `health`, y `basic-auth` si el sistema tiene usuarios; reformar plantillas ajenas; retirar muestras huérfanas antes del commit del scaffold; cerrar solo en verde. Revisar el papel de `archetypes.md` (P18). | D7, D9, D10, D13 |
-| `rule-project` | Registrar todas las ranuras y **fallar** si falta una sin motivo, en lugar de «nunca inventar una clase ausente». Rellenar la plantilla de patrón oro según la tecnología: correspondencia concepto → carpeta, ranuras y reglas por defecto adaptadas al ecosistema (solo el relleno de greenfield). | D1, D2–D6, D12, D15 |
-| `implement-project` | Seguir la arquitectura del fichero de reglas; que el lint de fronteras forme parte del `lint` que bloquea. | D2–D6, D12 |
-| `review-implementation` | Comprobar fronteras donde no haya lint; observar el significado de los nombres y anotarlo como deuda, sin bloquear. | D5, D12 |
-| `ship-spec` | Ejecutar `aidd run format` (autofix) antes de integrar y versionar el resultado. | D12 |
+| `architect-system-foundation` | Clasificar rápido greenfield/brownfield. Proponer la solución como proyectos tipados y ofrecer los arquetipos de cada tipo. Si el humano los rechaza, rellenar la plantilla del Blueprint para la tecnología elegida antes del scaffold. Copiar el `AGENTS.md` del arquetipo a cada proyecto con los datos del sistema, y el puntero para los arneses que no lo leen. Registrar las ranuras desde ese `AGENTS.md` (puerta de D1). Entregar las specs fundacionales en orden (P16). Reformar plantillas ajenas, retirar muestras huérfanas antes del commit del scaffold y cerrar solo en verde. En greenfield, `outline-system` sí y `rule-project` no. | Principios 2–6, 11; D1, D7, D9, D13, D16, D17, D19 |
+| `outline-system` | El `AGENTS.md` raíz solo lleva datos de todo el sistema y apunta al `AGENTS.md` de cada proyecto. | Principio 11, D19 |
+| `define-spec` | Sección de URLs y APIs esperadas en la plantilla de spec (fase 2). | Principio 10, D18 |
+| `implement-project` | Seguir el `AGENTS.md` del proyecto en lugar del fichero de reglas. El lint de fronteras forma parte del `lint` que bloquea. En `e2e`, generar pruebas básicas desde las URLs y APIs de la spec. | Principios 10, 11; D2–D6, D12 |
+| `review-implementation` | Leer el `AGENTS.md` del proyecto. Comprobar fronteras donde no haya lint y anotar como deuda el significado de los nombres, sin bloquear. | D5, D12, D19 |
+| `ship-spec` | Promover las lecciones a las coding rules del `AGENTS.md` del proyecto. Ejecutar `aidd run format` (autofix) antes de integrar y versionar el resultado. | D12, D19 |
 | `scan-quality` | Que los umbrales de complejidad lleguen por `quality`. | D12 |
+| `rule-project` | Sin cambios: congelada hasta brownfield. | D19 |
 
-**Hecho cuando:** los skills citados reflejan sus decisiones, `npm run adapt` está al día y la documentación de `docs/` que les afecta también.
+**Hecho cuando:** los skills citados reflejan sus principios y decisiones, ningún skill de greenfield lee `.agents/rules/`, `npm run adapt` está al día y la documentación de `docs/` que les afecta también.
 
 ### 5 · Arquetipos propios (opcional, fuera del repo)
 
-Lo mínimo para que 0.2.2 no se repita con `e2e-playwright`: declarar sus muestras y compañeros (D8) o dejarlo sin muestras. El resto de D8 y la fabricación en serie de arquetipos (D10) pasan al siguiente sprint (P17).
+En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):
 
-**Hecho cuando:** mezclar `e2e-playwright` con proyectos desde cero no deja tests de muestra rojos.
+- Un `AGENTS.md` en cada uno, relleno desde la plantilla de la fase 1 (D8, D19).
+- Sin muestras (home, item-detail, content), para que 0.2.2 no se repita (D18).
+
+Si no da tiempo, la fundación trata el arquetipo como uno creado al vuelo y rellena ella la plantilla (principio 6).
+
+**Hecho cuando:** cada repo tiene su `AGENTS.md` conforme y mezclar `e2e-playwright` con proyectos desde cero no deja tests de muestra rojos.
 
 ### 6 · Prueba en greenfield real
 
-Repetir el guion del post-mortem (Hono + Vue + Playwright con Vite+, flota de cohetes, `craft-lasting-quality`) en modo YOLO, y un segundo greenfield fuera de JS (p. ej. Go) para comprobar que la plantilla de reglas es agnóstica.
+Repetir el guion del post-mortem (Hono + Vue + Playwright con Vite+, flota de cohetes, `craft-lasting-quality`) en modo YOLO, y un segundo greenfield fuera de JS (p. ej. Go) para comprobar que el Blueprint es agnóstico. Al menos uno de los dos usa un arquetipo creado al vuelo.
 
 **Hecho cuando**, en los dos:
 
-- La fundación cierra en verde: `tooling` y `health` entregadas, y `basic-auth` en el greenfield con usuarios (en el que no es JS, solo si hay tiempo; D13).
-- Cada proyecto tiene sus ranuras en `config.json`, o «no aplica» con motivo.
+- Cada proyecto tiene su `AGENTS.md` completo y sus ranuras en `config.json`, o «no aplica» con motivo. El agente no explora el código para empezar.
+- La fundación cierra en verde: `configuration`, `monitoring` y `health` entregadas, y `basic-auth` en el greenfield con usuarios (en el que no es JS, solo si hay tiempo; D13).
+- `e2e` tiene pruebas básicas de las URLs y APIs que declaran las specs.
 - El código sigue `core` / funcionalidades / `shared` y el lint detecta una violación de capas introducida a propósito.
 - La spec de negocio se entrega sin tocar tooling ni contrato de arranque.
 
