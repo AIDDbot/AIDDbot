@@ -202,3 +202,8 @@ Enmienda D2, D3, D4 y D6, donde quedan tachadas las formas antiguas.
   - `logic`: neutral; ni `domain` (pesa a DDD) ni `service` (choca con frameworks).
   - `data`: todo lo que la app lee o escribe fuera de sí: BD, API remota, ficheros. Sustituye a `persistencia`, que mentía en el front y en e2e.
 - Descartada `inbound` → `logic` → `outbound`: más exacta, pero se lee peor y los modelos varían más al interpretarla.
+
+## D25 ← Fase 6 (prueba con Vite+) · Interactivo pregunta mucho; YOLO sigue como puede
+
+- **Interactivo:** antes de fijar un arquetipo o una tecnología, la fundación pregunta por cada elección abierta (lenguaje y runtime, framework, gestor de paquetes, persistencia y herramienta de cada ranura), una pregunta cerrada cada vez, ofreciendo primero el arquetipo del catálogo o la opción habitual de `ecosystems.md`. Nunca supone una tecnología.
+- **YOLO:** no pregunta nada. Toma lo que diga la petición y la opción habitual para el resto. Si una herramienta elegida no se instala o no arranca, vuelve a la habitual de su ecosistema y anota el cambio en `system.md` y en el `AGENTS.md` del proyecto.
