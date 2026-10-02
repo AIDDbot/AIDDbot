@@ -276,3 +276,10 @@ Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `s
 ## D34 ← D31 · STE en todas las specs fundacionales y en la plantilla de fix
 
 `codex-2` y `codex-3` salieron con `AGENTS.md` y specs claros y sin dudas de interpretación, aunque la mejora no se puede atribuir solo a STE. Se extiende el piloto de D31 a `monitoring`, `health`, `basic-auth` y `spec.fix.template.md`, con los mismos contratos, requisitos y tablas. Los `SKILL.md` siguen fuera.
+
+## D35 ← Prueba `claude-4` · Puertos sin escribir, mínimos de seguridad que bloquean, nada fuera de la spec
+
+- **Puertos en `configuration`:** los tests nunca escriben puertos ni URLs. R01, R03, R05 y R09 arrancan su propia instancia en un puerto libre con un primitivo de `e2e/shared/data`. R02 y R04 usan la instancia de la suite, que arranca sin `PORT` cuando `{PROJECT}_PORT` no está definido; los valores por defecto se escriben una sola vez en `e2e/core`. La tabla de Verification ya no escribe puertos.
+- **Seguridad:** la puerta bloqueante de `review-implementation` también exige los mínimos que citan la spec o el `AGENTS.md` (como el coste OWASP); un valor por defecto de la librería solo vale si los cumple. `basic-auth` pide los parámetros de coste explícitos, no menores que el mínimo OWASP y guardados con cada hash.
+- **Nada fuera de la spec:** `implement-project` no añade validaciones, límites ni valores por defecto propios (el `minlength=8` de `claude-4`).
+- **Carga bajo demanda:** en el Blueprint, una funcionalidad que el manifiesto carga bajo demanda no tiene ningún otro import; si también actúa al arrancar, el manifiesto le da una entrada de arranque que la carga bajo demanda.
