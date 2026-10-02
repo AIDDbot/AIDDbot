@@ -95,3 +95,4 @@ Copiar a `temp/post-mortem/columbus/{prueba}/`:
 | Prueba | Arnés | Prompt | Versión | Resultado |
 | --- | --- | --- | --- | --- |
 | `codex-1` | Codex | A (con Vite+) | `8bf7915` | S0001–S0002 shipped; S0003 a medias por tokens |
+| `codex-2` | Codex (Sol 6.1 light) | A | D25–D31 | Cuatro specs shipped en 54 min, verde, sin intervención; 3 deudas |

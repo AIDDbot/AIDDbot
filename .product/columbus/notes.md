@@ -55,6 +55,40 @@ Fuente: `temp/post-mortem/columbus/codex-1/` (diario, specs, `AGENTS.md`, `confi
 11. **Observar:** la plantilla se leyó cortada una vez; ninguna lección pasó a «Project rules» pese a candidatas (7 y 8).
 
 
+## Evidencia: fase 6, prueba `codex-2` (Hono + Vue + Playwright, sin negocio, Codex con Sol 6.1 light, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-2/`. Versión con D25–D31 (antes de D32–D33). Sin intervención humana. Terminó en verde: `lint`, `unit` y `acceptance` (26 tests) tras las cuatro specs.
+
+| Paso | `codex-1` | `codex-2` |
+| --- | --- | --- |
+| Propuesta | 9 min | 2 min |
+| Scaffold (3 proyectos, 9 commits) | 31 min | 12 min |
+| S0001 `configuration` | 36 min | 9 min |
+| S0002 `monitoring` | 15 min | 7 min |
+| S0003 `health` | sin terminar | 6 min |
+| S0004 `basic-auth` | — | 11 min |
+| Total | — | 54 min |
+
+Cambian a la vez plantillas, specs y modelo: la mejora no se atribuye a una sola causa.
+
+### Funcionó
+
+- Tres commits por proyecto en el scaffold; reparto Architect/Builder (D30).
+- **Canario de fronteras en los tres proyectos** (D30) y **freno de versiones**: TypeScript 7 rompía dependency-cruiser (0 módulos analizados); se fijó la 6 con motivo escrito. Origen de D32.
+- Vue reformado según D27: `core/App.vue`, manifiesto con la tabla del router, muestras retiradas.
+- D29: el índice de primitivos creció con cada spec (15 entradas en back); la revisión anotó «conditions lack named predicates» como deuda `low`.
+- `ship-spec` promovió la primera regla de proyecto (orden de middleware de Hono, S0004).
+- Todas las verificaciones green a la primera revisión.
+
+### Hechos y acción
+
+1. **`pnpm-workspace.yaml` del generador de Hono en un proyecto npm** → la reforma retira ficheros de otros gestores.
+2. **TypeScript 7 incompatible con dependency-cruiser y `@typescript-eslint/parser`** → D32 (TS 7 obligatorio, oxc, `node --test`) y referencia de fronteras con oxlint probada (D33).
+3. **`npm run acceptance` sin `--` otra vez** (segunda prueba) → el núcleo inserta `--` en scripts de npm.
+4. **Log síncrono otra vez** (D0002, igual que en `codex-1`) → la spec `monitoring` pide escritura sin bloqueo y pone el escritor en `shared/data`.
+5. **Deuda registrada:** D0001 predicados sin nombre (`low`), D0002 log síncrono (`medium`), D0003 error de email duplicado sin enlazar a su campo (`low`).
+6. **Observar:** las tablas de variaciones (por tipo y de primitivos de entorno) se copian enteras a cada proyecto, con filas de `cli` y `e2e` que no aplican; un commit de README dentro de la rama de S0004; `features/feature/index.ts` literal en `front-web/AGENTS.md`.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
