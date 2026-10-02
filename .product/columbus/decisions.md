@@ -226,3 +226,7 @@ Un framework con scaffolding y convenios propios no se fuerza ni se copia: se tr
 - **Scaffold:** se usa el generador oficial del framework y se reforma antes del commit del scaffold (D9). Las carpetas por capa técnica que trae (en Vue, `components/`, `views/`, `stores/`) pasan a `shared` como primitivos o a funcionalidades.
 - **Angular** casi encaja tal cual: su guía de estilo ya es `core` / `features` / `shared`; el inyector de Angular hace la inyección de D6 y `app.routes.ts` con rutas *lazy* es el manifiesto.
 - **Fuera de Columbus:** los frameworks que mezclan back y front con enrutado por ficheros (Nuxt, Next, SvelteKit). Rompen la frontera entre proyectos tipados y D6.
+
+## D28 ← D19 · `.agents/rules/` queda deprecada
+
+El `AGENTS.md` de cada proyecto sustituye a `.agents/rules/{project}.rules.md` en todos los arneses: Copilot, Cursor y Codex lo leen en subcarpetas, y Claude Code lo carga desde el `CLAUDE.md` con `@AGENTS.md` que deja la fundación. El instalador deja de tratar `.agents/rules/` como árbol propio y ningún adaptador lo genera. Solo `rule-project`, congelada para brownfield, sigue escribiendo ahí hasta que se rehaga (D19).
