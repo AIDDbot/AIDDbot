@@ -83,7 +83,7 @@ Each project must start in the same way in each environment. Its settings must b
 
 - For each project under test, `core` reads these settings. `{PROJECT}` is the project name in upper case.
   - `{PROJECT}_DIRECTORY`: the project folder, to start the project. Default: its source folder, relative to the e2e project (for example, `../back`).
-  - `{PROJECT}_PORT`: the project port, to use or start the project. Default: 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`.
+  - `{PROJECT}_PORT`: the project port, to use or start the project. Default: 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`. Write these defaults one time, in `core`. If `{PROJECT}_PORT` is not set, the suite starts the project without `PORT`, so the project uses its own default.
   - `{PROJECT}_START`: the start command. Default: the `start` slot in the `AGENTS.md` of that project. The foundation writes it in the example environment file.
   - `E2E_STARTUP_TIMEOUT_MS`: the maximum time to wait for a project that the suite starts. Default 15000.
 - The suite reports an invalid value. It never uses the default in its place.
@@ -95,9 +95,12 @@ Each project must start in the same way in each environment. Its settings must b
   - If a setting is invalid, or a project does not answer in time, the suite stops before the first test. The message contains the variable or the project, and the cause.
   - Each acceptance run does these steps. `review-implementation` checks them. No test checks them.
 
-### Acceptance of startup failures
+### Acceptance tests that start a project
 
-- The acceptance test of R05 starts the project process directly with `PORT=abc`. It reads the exit code and the output. It does not use a browser or a running system.
+- Tests never write a port or a URL. They get the base URLs from `core`, and a free port from `shared/data`.
+- `shared/data` has a primitive that starts one project in its folder with its start command and an environment that the test gives. It returns the output, the exit code and the base URL, and it stops the project after the test. Add it to the shared primitives of the `e2e` project.
+- The tests of R01, R03, R05 and R09 start their own instance with that primitive, on a free port. They do not use a browser.
+- The tests of R02 and R04 use the instance that the suite started without `PORT`. They check that its base URL has the default port of `core` and that it answers.
 
 ### All projects
 
@@ -113,12 +116,12 @@ Each project must start in the same way in each environment. Its settings must b
 
 | Requirement | Acceptance test |
 | --- | --- |
-| R01 | Start the `back-api` with `PORT=3101`. Send an HTTP request to that port. A response comes back. |
-| R02 | Start the `back-api` without `PORT`. Send an HTTP request to port 3000. A response comes back. |
-| R03 | Start the `front-web` with `PORT=4101`. `GET /` on that port answers 200 with a document. |
-| R04 | Start the `front-web` without `PORT`. `GET /` on port 4000 answers 200 with a document. |
+| R01 | Start the `back-api` with `PORT` set to a free port. Send an HTTP request to that port. A response comes back. |
+| R02 | The suite started the `back-api` without `PORT`. Its base URL has port 3000. A request to it gets a response. |
+| R03 | Start the `front-web` with `PORT` set to a free port. `GET /` on that port answers 200 with a document. |
+| R04 | The suite started the `front-web` without `PORT`. Its base URL has port 4000. `GET /` answers 200 with a document. |
 | R05 | Start each project with `PORT=abc`. It stops with a non-zero exit code. Its output contains `PORT`. |
 | R06 | Send a request to the `back-api` with an `Origin` that `CORS_ORIGIN` contains. `Access-Control-Allow-Origin` is equal to that origin. |
 | R07 | With `CORS_ORIGIN` not set, send a request. `Access-Control-Allow-Origin` is `*`. |
 | R08 | Run the `cli` with `--version`. It shows a version and stops with exit code 0. |
-| R09 | Start the `front-web` with `API_BASE_URL=http://localhost:3101`. `GET /runtime-config.json` answers 200 with `apiBaseUrl` equal to that URL. |
+| R09 | Start the `front-web` on a free port with an `API_BASE_URL` that the test makes. `GET /runtime-config.json` answers 200 with `apiBaseUrl` equal to that URL. |

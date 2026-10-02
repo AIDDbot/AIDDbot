@@ -75,6 +75,7 @@ The project has one entry point and three folders. Each feature has three layers
 
 - **Facade**: each feature has one entry file. This file contains only the registration for the manifest and the types that other features need. The registration gets the dependencies that `core` makes (configuration, connections) by injection.
 - **Manifest**: one file in the features folder. It lists the registration of each feature explicitly. Do not use automatic discovery: no folder scans and no global decorators.
+- If the manifest loads a feature on demand (for example, a page), no other import of that feature is permitted. A second, direct import puts the feature back in the first load. If a feature must also operate at startup, the manifest gives a startup entry that loads it on demand.
 - If no applicable boundary linter exists, keep these rules here. Then `review-implementation` checks them.
 
 ### Variations by project type
