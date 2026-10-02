@@ -21,6 +21,40 @@ Fuente: `temp/post-mortem/0.2.2/claude/` (`.aiddbot/` incluye la transcripción 
 
 Los puntos 1–5 son lo que una guía de mínimos sí puede fijar sin conocer la tecnología: **(a)** qué comandos de lint/test/typecheck debe tener cada proyecto antes de la primera spec, **(b)** un gestor de paquetes y un workspace raíz coherentes con `system.md`, **(c)** el contrato de arranque/salud/puertos entre proyectos, **(d)** una separación de capas mínima con dirección de dependencias, **(e)** que `system.md` refleje el código real. Los puntos 6–8 son de arquetipos/flujo y probablemente fuera de alcance.
 
+## Evidencia: fase 6, prueba `codex-1` (Hono + Vue + Playwright, sin negocio, Codex, YOLO)
+
+Fuente: `temp/post-mortem/columbus/codex-1/` (diario, specs, `AGENTS.md`, `config.json` y transcripción de Codex). Instalada la versión de la fase 4 (`8bf7915`). Se paró por falta de tokens con S0003 `health` a medio hacer (back y front listos, falta e2e).
+
+| Paso | Tiempo | Resultado |
+| --- | --- | --- |
+| Propuesta | 9 min | Aprobada en YOLO |
+| Scaffold, `outline-system`, integración | 31 min | Verde tras intervención humana (Vite+) |
+| S0001 `configuration` | 36 min | Shipped; verificación y revisión green a la primera; 10/10 requisitos |
+| S0002 `monitoring` | 15 min | Shipped; revisión amber → D0001 (log síncrono) |
+| S0003 `health` | — | Sin terminar |
+
+### Funcionó
+
+- Los `AGENTS.md` de proyecto salieron completos y útiles: siete secciones, reglas de tecnología con criterio, conexiones con todas las variables.
+- «No aplica» bien usado (`acceptance` de back y front, `unit` y `start` de e2e).
+- Arquitectura respetada: el agente movió el acceso a ficheros del logger a `shared/data` por las capas.
+- Cada spec cuesta menos que la anterior: el coste de arquetipo se concentra en la primera.
+
+### Hechos y acción
+
+1. **Comando de Vite+ inválido en la propuesta** y parada en `blocked` → D25.
+2. **Pocos commits en el scaffold** → tres commits por proyecto, uno tras otro.
+3. **`runs` de `control.json` se pisaban** entre proyectos → por clase y proyecto.
+4. **IDs de decisión (D3, D6) en el `AGENTS.md`** del sistema, donde D es deuda → fuera del texto.
+5. **TypeScript 7 rompe `vue-tsc`** → `upgrade` fija la mayor anterior con motivo (D30).
+6. **El lint de fronteras daba verde analizando 0 módulos**, con falsos positivos `main → core` y `logic → data` → canario obligatorio en la fundación (D30).
+7. **`.gitignore` con `data/` ocultaba la capa `data`** → patrones anclados a la raíz (D30).
+8. **npm se tragaba el `--grep` del núcleo** → el contrato de `acceptance` acepta los argumentos extra (D30).
+9. **El Architect delegó la reforma del scaffold en el Builder** → se acepta: reformar y montar tooling es código (D30).
+10. **R09–R11 de `configuration`** pasaron, pero el metatesting del arnés e2e costó 17 min → resultado técnico, no requisitos; igual R10 de `health`.
+11. **Observar:** la plantilla se leyó cortada una vez; ninguna lección pasó a «Project rules» pese a candidatas (7 y 8).
+
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
