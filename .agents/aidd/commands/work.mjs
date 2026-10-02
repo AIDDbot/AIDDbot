@@ -51,6 +51,12 @@ function slotsOf(parts, value) {
   return [];
 }
 
+/** Append core arguments to a classified command; an npm script needs `--` before them, or npm takes them as its own. */
+function withArguments(command, args) {
+  const npmScript = /^npm\s+(run|run-script|test|start)\b/.test(command) && !/\s--(\s|$)/.test(command);
+  return `${command}${npmScript ? " --" : ""} ${args}`;
+}
+
 /** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval`. */
 function recordRun(root, kind, runs) {
   const dir = findSpec(root, currentBranch(root));
@@ -90,7 +96,7 @@ export function run(root, [kind], flags) {
       runs.push({ project: name, ok: true, na: slot.na });
       continue;
     }
-    const commands = [projects[name].commands[kind]].flat().map((command) => (id ? `${command} --grep @${id}-` : command));
+    const commands = [projects[name].commands[kind]].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
     commands.forEach((command, index) => {
       const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
       runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });

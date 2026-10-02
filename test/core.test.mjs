@@ -199,6 +199,10 @@ test("a scoped acceptance run filters by spec, lists untested requirements, and 
   assert.deepEqual(scoped.body.untested, ["R02"]);
   assert.match(scoped.body.runs[0].command, /--grep @S0001-$/);
   assert.equal(readJson(root, ".product/specs/S0001-fleet/control.json").runs, undefined);
+  aidd(root, "config", "set", "projects.e2e.commands.acceptance", '"npm run acceptance"');
+  assert.equal(aidd(root, "run", "acceptance", "--spec").body.runs[0].command, "npm run acceptance -- --grep @S0001-");
+  aidd(root, "config", "set", "projects.e2e.commands.acceptance", '"npm run acceptance --"');
+  assert.equal(aidd(root, "run", "acceptance", "--spec").body.runs[0].command, "npm run acceptance -- --grep @S0001-");
 });
 
 test("commit records the paths it is given and journals the milestone", () => {
