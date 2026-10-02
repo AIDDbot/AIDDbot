@@ -96,3 +96,4 @@ Nada que copiar si la prueba se ejecutó en `C:/code/aidd/experiments/columbus/{
 | --- | --- | --- | --- | --- |
 | `codex-1` | Codex | A (con Vite+) | `8bf7915` | S0001–S0002 shipped; S0003 a medias por tokens |
 | `codex-2` | Codex (Sol 6.1 light) | A | D25–D31 | Cuatro specs shipped en 54 min, verde, sin intervención; 3 deudas |
+| `codex-3` | Codex | A sin herramientas | D25–D33 | Cuatro specs shipped en 36 min, sin intervención; stack D32; 2 deudas high; intentó reparar D0002 por su cuenta |

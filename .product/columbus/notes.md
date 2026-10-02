@@ -90,6 +90,37 @@ Cambian a la vez plantillas, specs y modelo: la mejora no se atribuye a una sola
 6. **De la transcripción:** el agente comprobó a mano que el análisis de fronteras leyera los imports de los `.vue`; la referencia de oxlint solo cubría `*.ts` → globs `.vue` añadidos y probados. Un error del arnés («Selected model is at capacity») no rompió la ejecución.
 7. **Observar:** las tablas de variaciones (por tipo y de primitivos de entorno) se copian enteras a cada proyecto, con filas de `cli` y `e2e` que no aplican; un commit de README dentro de la rama de S0004; `features/feature/index.ts` literal en `front-web/AGENTS.md`.
 
+## Evidencia: fase 6, prueba `codex-3` (Hono + Vue + Playwright, stack de D32, Codex, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `--` en el núcleo y `monitoring` corregida. Prompt A sin herramientas: el agente eligió solo TypeScript 7, oxlint con `oxlint-tsgolint`, oxfmt y `node --test`. Sin intervención humana.
+
+| Paso | `codex-1` | `codex-2` | `codex-3` |
+| --- | --- | --- | --- |
+| Propuesta | 9 min | 2 min | 2 min |
+| Scaffold, outline, integración | 31 min | 12 min | 8 min |
+| `configuration` | 36 min | 9 min | 6 min |
+| `monitoring` | 15 min | 7 min | 4 min |
+| `health` | — | 6 min | 4 min |
+| `basic-auth` | — | 11 min | 8 min |
+| Total | sin terminar | 54 min | 36 min |
+
+### Funcionó
+
+- D32 completo sin pedirlo: sin `tsc`, sin Vitest, sin dependency-cruiser; fronteras con 11 `overrides` de oxlint; hueco de `vue-tsc` escrito en las reglas de tecnología del front.
+- Canario en los tres proyectos con la referencia de oxlint («main uses core only»).
+- `monitoring` sin la deuda del log síncrono: escritor asíncrono en `shared/data`, como pide ahora la spec.
+- `--grep` de spec funcionando con el `--` del núcleo.
+- Verificaciones green a la primera en las cuatro specs; 31 tests de aceptación.
+
+### Hechos y acción
+
+1. **La propuesta fijó el puerto 5173 y `DATABASE_PATH`**, contra los contratos de `configuration`; los `AGENTS.md` y el código se corrigieron al reformar, `system.md` quedó desfasado → la propuesta lee antes las specs fundacionales y respeta sus contratos.
+2. **`pnpm-workspace.yaml` otra vez**, con la regla ya en el skill → `aidd config set` rechaza un proyecto con ficheros de dos gestores.
+3. **Revisión roja en S0001**: el front sirvió `/runtime-config.json` y la spec decía «sin endpoints» → la spec declara `GET /runtime-config.json` (R09, URLs, impacto de esquema). Deuda D0001 `high`.
+4. **Bug funcional que los tests no vieron**: Vue reutiliza la página entre `/register` y `/login` y el formulario envía la operación anterior. Lo encontró la revisión → D0002 `high`. La spec `basic-auth` no tiene requisito para el cambio de página sin recarga.
+5. **El orquestador empezó a reparar D0002 por su cuenta** tras entregar la última spec, en lugar de cerrar con `lint`, `unit` y `acceptance`. La reparación de deuda es de `craft-lasting-quality`.
+6. **Observar:** un commit `docs(system): correct archetype code fences` por el apéndice de `system.md`, que duplica los `AGENTS.md` creados al vuelo.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
