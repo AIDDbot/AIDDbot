@@ -41,26 +41,32 @@ Each slot is a capability, not a tool. A slot that does not apply says `n/a` and
 
 ## 4 · Architecture
 
-<!-- [Blueprint] Fixed shape, not a named pattern. D2–D6, D12. The archetype only maps it to folders in section 5. -->
+<!-- [Blueprint] Fixed shape, not a named pattern. D2–D6, D12, D24. The archetype only maps it to folders in section 5. -->
 
-Three folders, and layers inside each feature:
+An entry point, three folders, and layers inside each feature:
 
 | Concept | Contains |
 | --- | --- |
-| `core` | Startup: composition root, configuration, server or entry point, router. |
+| `main` | The minimal entry point that the ecosystem requires. It only starts `core`. |
+| `core` | Composition root: configuration, server or shell, router, and the dependencies it creates. |
 | features | One subfolder per feature: endpoints, pages, or commands. One **manifest** aggregates their registrations. |
 | `shared` | Helpers and DRY code, never business. Organized by the same layers as a feature. |
 
 **Between folders** (blocks delivery through `lint`):
 
-- `core` → manifest and `shared`. `core` imports only the manifest, never a feature.
-- feature → `shared`, and other features only through their public artifact.
+- `main` → `core` only.
+- `core` → manifest and `shared`, never a feature directly.
+- feature → `shared`, and other features only through their facade.
 - `shared` → nothing of the application.
-- Nothing imports `core`.
+- Only `main` imports `core`. Features and `shared` get configuration by injection. Tests may start `core`.
 
-**Inside a feature and inside `shared`**: `input` → `logic` → `persistence`, never backwards.
+**Inside a feature and inside `shared`**: `presentation` → `logic` → `data`, never backwards.
 
-- **Public artifact** (D3): each feature exposes one entry file with the minimum, including types for typed languages. It exports only its registration, which receives the dependencies that `core` creates (configuration, connections) by injection (D6).
+- `presentation`: input and output with the caller (route, page, command, test).
+- `logic`: rules and decisions, with no knowledge of how data is stored or fetched.
+- `data`: everything the project reads or writes outside itself: database, remote API, files.
+
+- **Facade** (D3): each feature exposes one entry file with the minimum: its registration for the manifest and the types that other features need. The registration receives the dependencies that `core` creates (configuration, connections) by injection (D6).
 - **Manifest** (D6): one file in the features folder lists every feature registration explicitly. No auto-discovery: no folder scans, no global decorators.
 - Where no reasonable boundary linter exists, these rules stay written here and `review-implementation` checks them (D5).
 
@@ -70,11 +76,12 @@ Three folders, and layers inside each feature:
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
-| `core` | server, configuration, router | app shell, configuration, router | entry point, argument parser, configuration | runner configuration, project startup check |
+| `main` | process entry | browser entry | executable entry | n/a — the test runner is the entry |
+| `core` | server, configuration, router | app shell, configuration, router | argument parser, configuration | runner configuration, project startup check |
 | features | endpoints | pages | commands | tests, one subfolder per spec domain |
-| `input` | route / controller | page / component | command | test |
+| `presentation` | route / controller | page / component | command | test |
 | `logic` | service | store / use case | service | n/a — tests hold no business logic |
-| `persistence` | repository | API client | repository / file system | page objects and API clients |
+| `data` | repository | API client | repository / file system | page objects and API clients |
 | `shared` | middleware, validation, DB and HTTP clients | base UI components, utilities, HTTP client | output formatting, utilities | fixtures and helpers |
 | manifest | route registry | page router | command registry | n/a — the runner discovers tests by convention |
 | `unit` | yes | yes | yes | n/a — no own logic; acceptance is its product |
@@ -87,17 +94,19 @@ Three folders, and layers inside each feature:
 
 | Concept | Path |
 | --- | --- |
+| `main` | `{source_root}/{main_file}` |
 | `core` | `{source_root}/{core_folder}/` |
 | features | `{source_root}/{features_folder}/` |
 | manifest | `{source_root}/{features_folder}/{manifest_file}` |
-| feature public artifact | `{source_root}/{features_folder}/{feature}/{entry_file}` |
-| `input` / `logic` / `persistence` | `{feature}/{input_name}`, `{feature}/{logic_name}`, `{feature}/{persistence_name}` |
+| feature facade | `{source_root}/{features_folder}/{feature}/{facade_file}` |
+| `presentation` / `logic` / `data` | `{feature}/{presentation_name}`, `{feature}/{logic_name}`, `{feature}/{data_name}` |
 | `shared` | `{source_root}/{shared_folder}/` |
 | unit tests | `{unit_test_location}` |
 
 ```text
 {source_root}/
-├── {core_folder}/        # startup
+├── {main_file}           # entry point, starts core
+├── {core_folder}/        # composition root
 ├── {features_folder}/    # one folder per feature + manifest
 │   └── health/           # tracer bullet from the foundation specs
 └── {shared_folder}/      # helpers by layer, no business

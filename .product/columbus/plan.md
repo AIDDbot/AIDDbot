@@ -1,7 +1,7 @@
 # Columbus — un greenfield que nace en verde
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D23) y las dudas, todas cerradas, en `notes.md`.
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D24) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 
@@ -69,7 +69,7 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 - **Cuatro plantillas de spec fundacional** (D17), sacadas por sus contratos de los arquetipos de `C:/code/aidd/archetypes` (D18):
   - **`configuration`:** arranque en `core` y config por entorno (`PORT`, conexión a BD, origen permitido entre front y back; en `e2e`, las URLs bajo prueba).
   - **`monitoring`:** log de actividad y errores, y contrato de error uniforme.
-  - **`health`:** tracer bullet por `entrada` → `lógica` → `persistencia` que responde estado, número de arranque persistido y tiempo en marcha. Deja el manifiesto (D6) y el test de humo. En front, shell, 404 y página de salud. En `e2e`, la comprobación previa del arranque.
+  - **`health`:** tracer bullet por `presentation` → `logic` → `data` que responde estado, número de arranque persistido y tiempo en marcha. Deja el manifiesto (D6) y el test de humo. En front, shell, 404 y página de salud. En `e2e`, la comprobación previa del arranque.
   - **`basic-auth`:** opcional (D13).
 
 **Hecho cuando:** las cuatro plantillas no nombran ninguna herramienta, framework ni lenguaje, ni siquiera en Solution o Schema impact; Solution va por roles y conceptos de D1–D6; cada una declara sus URLs y APIs; y sus requisitos son contratos verificables en cualquier stack.

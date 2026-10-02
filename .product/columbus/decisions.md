@@ -27,7 +27,7 @@ Se impone una **forma**, no un patrón con nombre (hexagonal, clean…): cada mo
 
 | Carpeta | Contiene | Nombres típicos |
 | --- | --- | --- |
-| `core` | Arranque de la app: raíz de composición, configuración, servidor, router. Nadie más la usa. | `core`, `app`, `cmd/` (Go), `main.rs` (Rust) |
+| `core` | ~~Arranque de la app: raíz de composición, configuración, servidor, router. Nadie más la usa.~~ Raíz de composición: configuración, servidor o shell, router, dependencias. Solo la usa `main` (D24). | `core`, `app` |
 | funcionalidades | Una subcarpeta por funcionalidad: endpoints, páginas o comandos de CLI. | `api`, `routes`, `pages`, `commands`, `features` |
 | `shared` | Lo que cualquiera de las anteriores puede usar. | `shared`, `lib`, `pkg`, `common` |
 
@@ -35,19 +35,19 @@ Se impone una **forma**, no un patrón con nombre (hexagonal, clean…): cada mo
 - `core` → funcionalidades y `shared`.
 - Funcionalidades → `shared`.
 - `shared` → nada de la app.
-- Nadie importa `core`.
+- ~~Nadie importa `core`.~~ Solo `main` importa `core` (D24).
 
-**Regla fina, dentro de cada funcionalidad:** `entrada` → `lógica` → `persistencia`, nunca al revés. Los nombres se ajustan a la tecnología: en back, `routes`/`controller` → `service` → `repository`; en front, `page`/`component` → `store`/`use-case` → `api client`; en una CLI, `command` → `service` → `repository`/`fs`.
+**Regla fina, dentro de cada funcionalidad:** ~~`entrada` → `lógica` → `persistencia`~~ `presentation` → `logic` → `data` (D24), nunca al revés. Los nombres se ajustan a la tecnología: en back, `routes`/`controller` → `service` → `repository`; en front, `page`/`component` → `store`/`use-case` → `api client`; en una CLI, `command` → `service` → `repository`/`fs`.
 
-- **Scaffolding:** ~~la fundación crea las tres carpetas y la funcionalidad de ejemplo `health` con sus tres capas.~~ Las tres carpetas y `health` llegan con el arquetipo o con las specs fundacionales (D17). Esa funcionalidad cubre a la vez la ruta de salud de `start` (D1), el test de humo de `unit` (D1), que prueba su `lógica`, y el patrón que copiará la primera spec.
+- **Scaffolding:** ~~la fundación crea las tres carpetas y la funcionalidad de ejemplo `health` con sus tres capas.~~ Las tres carpetas y `health` llegan con el arquetipo o con las specs fundacionales (D17). Esa funcionalidad cubre a la vez la ruta de salud de `start` (D1), el test de humo de `unit` (D1), que prueba su ~~`lógica`~~ `logic`, y el patrón que copiará la primera spec.
 
-## D3 ← P4 · Una funcionalidad usa otra solo por su artefacto público
+## D3 ← P4 · Una funcionalidad usa otra solo por su ~~artefacto público~~ fachada (D24)
 
-Cada funcionalidad expone un **artefacto público** (`index`, `mod`, paquete…) con lo imprescindible, incluidos los tipos e interfaces si el lenguaje es tipado. Otra funcionalidad solo puede importar ese artefacto, nunca sus capas internas.
+Cada funcionalidad expone un ~~**artefacto público**~~ **fachada** (`facade`, D24) (`index`, `mod`, paquete…) con lo imprescindible, incluidos los tipos e interfaces si el lenguaje es tipado. Otra funcionalidad solo puede importar ese artefacto, nunca sus capas internas.
 
 ## D4 ← P5 · `shared` sin negocio y organizado por capas
 
-`shared` contiene ayudas y código DRY, nunca negocio. Para que no se convierta en un cajón de sastre, se organiza con las mismas capas que las funcionalidades (p. ej. `shared/entrada`: middlewares y componentes UI base; `shared/lógica`: validación y utilidades sin dominio; `shared/persistencia`: clientes de BD y HTTP) y respeta la misma regla fina.
+`shared` contiene ayudas y código DRY, nunca negocio. Para que no se convierta en un cajón de sastre, se organiza con las mismas capas que las funcionalidades (p. ej. `shared/presentation`: middlewares y componentes UI base; `shared/logic`: validación y utilidades sin dominio; `shared/data`: clientes de BD y HTTP; D24) y respeta la misma regla fina.
 
 ## D5 ← P6 · Fronteras con lint, con sentido común
 
@@ -56,7 +56,7 @@ El lint de fronteras se implementa lo mejor posible en cada ecosistema (JS/TS `e
 ## D6 ← P7 · `core` accede a las funcionalidades solo por un manifiesto de registro
 
 - La carpeta de funcionalidades tiene un único **manifiesto** (`routes/index`, `pages/router`, `commands/index`…) que agrega el registro de cada funcionalidad. `core` importa **solo ese fichero**.
-- El artefacto público de cada funcionalidad (D3) exporta **solo su registro** (`registerRockets(app, deps)`, una lista de rutas). `core` le pasa las dependencias que crea (config, conexión a BD) y no toca servicios ni repositorios.
+- ~~El artefacto público de cada funcionalidad (D3) exporta **solo su registro**~~ La fachada de cada funcionalidad (D3, D24) exporta **su registro** y los tipos mínimos que usan otras funcionalidades (`registerRockets(app, deps)`, una lista de rutas). `core` le pasa las dependencias que crea (config, conexión a BD) y no toca servicios ni repositorios.
 - Nada de autodescubrimiento mágico (escaneo de carpetas, decoradores globales). El lint de fronteras (D5) comprueba que `core` solo importa el manifiesto.
 
 ## D7 ← P8 · El sistema nace en verde
@@ -102,7 +102,7 @@ Sustituye a D11. La spec de arquetipo `feat basic-auth` se escribe y se prueba e
 
 - **Opcional sin preguntar:** la fundación la incluye si el sistema tiene usuarios, deducido de su documentación (actores, `model.schema.md`). Solo pregunta si no está claro.
 - **Decisiones mínimas, neutras y seguras:** registro, login y usuario actual; token opaco con sesión en servidor (revocable); hash de contraseñas resistente según OWASP; las rutas nuevas quedan protegidas por defecto; sin más rol que `user`.
-- Otra funcionalidad obtiene el usuario de la sesión solo por el artefacto público de auth (D3). El middleware de sesión vive en `shared` sin negocio (D4) y `core` lo conecta por inyección (D6).
+- Otra funcionalidad obtiene el usuario de la sesión solo por la fachada de auth (D24) (D3). El middleware de sesión vive en `shared` sin negocio (D4) y `core` lo conecta por inyección (D6).
 - **Recorte si falta tiempo:** primero cae la prueba de auth en el greenfield que no es JS (fase 6), nunca la spec.
 
 ## ~~D14 ← P19 · Las specs de arquetipo se sacan de los arquetipos por sus contratos~~
@@ -146,7 +146,7 @@ Sustituye la parte de D14 que hacía de `health` el esqueleto completo. Cada spe
 
 1. **`configuration`:** el arranque en `core` y la configuración por entorno: `PORT`, conexión a BD, origen permitido entre front y back. En e2e, las URLs de los proyectos bajo prueba.
 2. **`monitoring`:** log de actividad y errores (fichero diario, niveles, una línea por petición con nivel según el status) y el contrato de error uniforme (`{ "error": "..." }` con su status).
-3. **`health`:** un **tracer bullet** que atraviesa `entrada` → `lógica` → `persistencia` con una funcionalidad mínima, para asegurar que todas las capas funcionan aunque no entre auth. Responde algo como «estoy vivo, es mi arranque número 3 y llevo 2 s en marcha»: estado, cuenta de arranques persistida y tiempo en marcha. Deja el manifiesto (D6) y el test de humo de `unit`. En front, el shell, el 404 y una página que muestra la salud. En e2e, la comprobación previa de que los proyectos arrancan.
+3. **`health`:** un **tracer bullet** que atraviesa `presentation` → `logic` → `data` (D24) con una funcionalidad mínima, para asegurar que todas las capas funcionan aunque no entre auth. Responde algo como «estoy vivo, es mi arranque número 3 y llevo 2 s en marcha»: estado, cuenta de arranques persistida y tiempo en marcha. Deja el manifiesto (D6) y el test de humo de `unit`. En front, el shell, el 404 y una página que muestra la salud. En e2e, la comprobación previa de que los proyectos arrancan.
 4. **`basic-auth`:** opcional, según D13.
 
 ## D18 ← Principio 10, D14 · Las specs fundacionales son contratos agnósticos
@@ -189,3 +189,16 @@ En la fase 5, opcional, cada repo de arquetipo recibe su `AGENTS.md` desde la pl
 ## D23 ← P18 · `archetypes.md` es el catálogo por tipo de proyecto
 
 `archetypes.md` se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5). Cada fila da la tecnología del arquetipo y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17, D21).
+
+## D24 ← D2, D3, D4, D6 · `main` arranca `core`; nombres de fachada y capas
+
+Enmienda D2, D3, D4 y D6, donde quedan tachadas las formas antiguas.
+
+- **`main`:** el punto de entrada mínimo que exige el ecosistema (`main.go`, `main.rs`, `index.ts`, `__main__.py`). Solo llama a `core`. Es el único que importa `core`; funcionalidades y `shared` nunca lo hacen y reciben la configuración por inyección (D6). Los tests quedan fuera de la regla: un test de humo puede arrancar `core`.
+- **`core`:** la raíz de composición (configuración, servidor o shell, router, dependencias). Usa el manifiesto y `shared`.
+- **Fachada (`facade`):** el artefacto público de cada funcionalidad (D3). Exporta su registro para el manifiesto (D6) y los tipos mínimos que usan otras funcionalidades. Ni `api` (choca con el back), ni `port` (choca con `PORT` y con hexagonal), ni `contract` (el Blueprint ya lo usa). El fichero lo pone el ecosistema: `index`, `mod.rs`, paquete, `__init__.py`.
+- **Capas:** `presentation` → `logic` → `data`.
+  - `presentation`: entrada y salida hacia quien llama (controlador, página, comando, test). Sustituye a `entrada`, que solo decía la mitad.
+  - `logic`: neutral; ni `domain` (pesa a DDD) ni `service` (choca con frameworks).
+  - `data`: todo lo que la app lee o escribe fuera de sí: BD, API remota, ficheros. Sustituye a `persistencia`, que mentía en el front y en e2e.
+- Descartada `inbound` → `logic` → `outbound`: más exacta, pero se lee peor y los modelos varían más al interpretarla.
