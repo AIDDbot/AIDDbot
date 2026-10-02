@@ -91,18 +91,20 @@ An entry point, three folders, and layers inside each feature:
 
 ## 5 · Folder structure
 
-<!-- [Archetype] Map every concept of section 4 to a real folder or file. [Project] adds features as specs ship. -->
+<!-- [Archetype] Map every concept of section 4 to a real folder or file, and to the framework mechanism that realizes it. [Project] adds features as specs ship. D27. -->
 
-| Concept | Path |
-| --- | --- |
-| `main` | `{source_root}/{main_file}` |
-| `core` | `{source_root}/{core_folder}/` |
-| features | `{source_root}/{features_folder}/` |
-| manifest | `{source_root}/{features_folder}/{manifest_file}` |
-| feature facade | `{source_root}/{features_folder}/{feature}/{facade_file}` |
-| `presentation` / `logic` / `data` | `{feature}/{presentation_name}`, `{feature}/{logic_name}`, `{feature}/{data_name}` |
-| `shared` | `{source_root}/{shared_folder}/` |
-| unit tests | `{unit_test_location}` |
+The framework mechanism column says how the framework realizes each concept (its injector, router, store, or file convention); `—` when plain code does it.
+
+| Concept | Path | Framework mechanism |
+| --- | --- | --- |
+| `main` | `{source_root}/{main_file}` | {mechanism} |
+| `core` | `{source_root}/{core_folder}/` | {mechanism} |
+| features | `{source_root}/{features_folder}/` | {mechanism} |
+| manifest | `{source_root}/{features_folder}/{manifest_file}` | {mechanism} |
+| feature facade | `{source_root}/{features_folder}/{feature}/{facade_file}` | {mechanism} |
+| `presentation` / `logic` / `data` | `{feature}/{presentation_name}`, `{feature}/{logic_name}`, `{feature}/{data_name}` | {mechanism} |
+| `shared` | `{source_root}/{shared_folder}/` | {mechanism} |
+| unit tests | `{unit_test_location}` | {mechanism} |
 
 ```text
 {source_root}/
@@ -128,8 +130,9 @@ An entry point, three folders, and layers inside each feature:
 
 ### Technology rules
 
-<!-- [Archetype] Rules of the stack that the general rules do not cover. -->
+<!-- [Archetype] Rules of the stack that the general rules do not cover. D27. -->
 
+- A mechanism the framework imposes (dependency injection, routing, state, file naming, CLI generators) replaces the Blueprint's, with its reason here; the direction of dependencies never changes.
 - {rule — reason}
 
 ### Project rules

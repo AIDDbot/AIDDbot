@@ -216,3 +216,13 @@ Los modelos escriben versiones de memoria y su memoria se queda atrás.
 - **Corrección:** nueva ranura `upgrade`, que sube todas las dependencias a su última versión, mayores incluidas, y refresca el lockfile. No bloquea. `aidd run upgrade` no se registra como evidencia, igual que `format`.
 - **Quién la ejecuta:** la fundación, una vez tras el scaffold y antes de la puerta de ranuras; y `craft-lasting-quality` cuando el humano lo pide, como un `chore` que repara lo que rompa. Nunca `ship-spec` en cada entrega: mezclaría dependencias con funcionalidad.
 - **Ecosistema JS/TS vivo:** `ecosystems.md` da los comandos de añadir y subir para npm, pnpm, Yarn, Bun y Deno, además de los demás ecosistemas. Se usa siempre el gestor del proyecto, nunca un segundo.
+
+## D27 ← Fase 6 (Vue y Angular) · Forma del Blueprint, mecánica del framework
+
+Un framework con scaffolding y convenios propios no se fuerza ni se copia: se traduce.
+
+- **Fija el Blueprint, no se negocia:** los conceptos (`main`, `core`, manifiesto, funcionalidades, fachada, `shared`, `presentation` → `logic` → `data`), la dirección de las dependencias (lint de fronteras) y organizar por funcionalidad, no por capa técnica.
+- **Pone el framework:** nombres y sufijos de ficheros, inyección, enrutado, estado y generadores del CLI. El `AGENTS.md` del proyecto anota en la sección 5 qué mecanismo materializa cada concepto (columna «Framework mechanism») y, en las reglas de tecnología, el motivo de cada mecanismo impuesto. La dirección de las dependencias nunca cambia.
+- **Scaffold:** se usa el generador oficial del framework y se reforma antes del commit del scaffold (D9). Las carpetas por capa técnica que trae (en Vue, `components/`, `views/`, `stores/`) pasan a `shared` como primitivos o a funcionalidades.
+- **Angular** casi encaja tal cual: su guía de estilo ya es `core` / `features` / `shared`; el inyector de Angular hace la inyección de D6 y `app.routes.ts` con rutas *lazy* es el manifiesto.
+- **Fuera de Columbus:** los frameworks que mezclan back y front con enrutado por ficheros (Nuxt, Next, SvelteKit). Rompen la frontera entre proyectos tipados y D6.

@@ -1,7 +1,7 @@
 # Columbus — un greenfield que nace en verde
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D26) y las dudas, todas cerradas, en `notes.md`.
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D27) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 
@@ -23,6 +23,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 - `master` frente a `main` (hecho 8).
 - Que el builder de `e2e` lea las páginas para sacar selectores.
 - Fabricar arquetipos en serie y rehacer sus repos más allá de la fase 5.
+- Frameworks que mezclan back y front con enrutado por ficheros (Nuxt, Next, SvelteKit; D27).
 
 ## Fases
 
