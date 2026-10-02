@@ -41,6 +41,7 @@ Each project must start in the same way in each environment. Its settings must b
 - **R06**: WHEN a request to the `back-api` has an `Origin` header that `CORS_ORIGIN` contains, the `back-api` SHALL answer with `Access-Control-Allow-Origin` set to that origin.
 - **R07**: WHILE `CORS_ORIGIN` is not set, the `back-api` SHALL answer each request with `Access-Control-Allow-Origin: *`.
 - **R08**: WHEN the `cli` runs with `--version`, it SHALL show its version and stop with exit code 0.
+- **R09**: WHEN the `front-web` starts with `API_BASE_URL` set, `GET /runtime-config.json` SHALL answer 200 with `{ "apiBaseUrl": "<that URL>" }`.
 
 ## Expected URLs and APIs
 
@@ -49,6 +50,7 @@ Each project must start in the same way in each environment. Its settings must b
 | api | back-api | any path on `PORT` | An HTTP response with the CORS header | R01, R02, R06, R07 |
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
 | command | cli | `--version` | The version. Exit code 0. | R08 |
+| api | front-web | `GET /runtime-config.json` | 200 `{ "apiBaseUrl": "..." }` | R09 |
 
 ## Solution
 
@@ -69,7 +71,8 @@ Each project must start in the same way in each environment. Its settings must b
 
 - `main` starts `core`.
 - `core` reads `PORT` (default 4000) and `API_BASE_URL` (default `http://localhost:3000`).
-- `core` sends `API_BASE_URL` to the browser. Only the shared HTTP client in `shared/data` uses it.
+- `core` serves `GET /runtime-config.json` with the value of `API_BASE_URL`. The browser gets the setting at runtime, so the front needs no build for each environment.
+- The shared HTTP client in `shared/data` reads `/runtime-config.json` one time when the application starts. Only this client uses `API_BASE_URL`.
 
 ### cli
 
@@ -102,7 +105,9 @@ Each project must start in the same way in each environment. Its settings must b
 
 ## Schema impact
 
-No entity, table or endpoint changes.
+| Schema | Element | Change | Description |
+| --- | --- | --- | --- |
+| front-web.api | `GET /runtime-config.json` | new | 200 `{ "apiBaseUrl": "..." }`. No error status. |
 
 ## Verification
 
@@ -116,3 +121,4 @@ No entity, table or endpoint changes.
 | R06 | Send a request to the `back-api` with an `Origin` that `CORS_ORIGIN` contains. `Access-Control-Allow-Origin` is equal to that origin. |
 | R07 | With `CORS_ORIGIN` not set, send a request. `Access-Control-Allow-Origin` is `*`. |
 | R08 | Run the `cli` with `--version`. It shows a version and stops with exit code 0. |
+| R09 | Start the `front-web` with `API_BASE_URL=http://localhost:3101`. `GET /runtime-config.json` answers 200 with `apiBaseUrl` equal to that URL. |

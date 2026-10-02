@@ -34,6 +34,18 @@ function exec(root, cwd, command, log, minutes) {
 /** A slot that does not apply holds `{"na": "<reason>"}` instead of a command. */
 const isNa = (slot) => typeof slot?.na === "string";
 
+const MANAGER_FILES = {
+  npm: ["package-lock.json", "npm-shrinkwrap.json"],
+  pnpm: ["pnpm-lock.yaml", "pnpm-workspace.yaml"],
+  yarn: ["yarn.lock", ".yarnrc.yml"],
+  bun: ["bun.lock", "bun.lockb"],
+};
+
+/** The package managers whose lockfiles or workspace files sit in a project folder; generators leave strays. */
+function packageManagers(dir) {
+  return Object.keys(MANAGER_FILES).filter((name) => MANAGER_FILES[name].some((file) => fs.existsSync(path.join(dir, file))));
+}
+
 /** A slot is a command, a list of commands, or a "not applicable" with its reason. */
 function validSlot(slot) {
   const command = (value) => typeof value === "string" && value.trim() !== "";
@@ -127,6 +139,12 @@ export function config(root, [action, key, value]) {
   }
   if (parts[0] === "projects" && parts.length === 2 && (typeof parsed?.path !== "string" || path.isAbsolute(parsed.path))) {
     throw new UsageError('A project needs a relative "path" and a "commands" object.');
+  }
+  if (parts[0] === "projects" && parts.length === 2) {
+    const managers = packageManagers(path.join(root, parsed.path));
+    if (managers.length > 1) {
+      throw new RuleError(`${parsed.path} has files of ${managers.join(" and ")}; keep only the package manager of its AGENTS.md and remove the files of the others.`);
+    }
   }
   const invalid = slotsOf(parts, parsed).find(([, slot]) => !validSlot(slot));
   if (invalid) {

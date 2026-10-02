@@ -297,6 +297,17 @@ test("config set and get, then run executes the configured commands", () => {
   assert.equal(aidd(root, "run", "acceptance").code, 3);
 });
 
+test("config set refuses a project with files of two package managers", () => {
+  const root = repo();
+  write(root, "back/package-lock.json", "{}\n");
+  write(root, "back/pnpm-workspace.yaml", "packages: []\n");
+  const project = JSON.stringify({ path: "back", commands: { lint: "npm run lint" } });
+  const refused = aidd(root, "config", "set", "projects.back", project);
+  assert.equal(refused.code, 1);
+  fs.rmSync(path.join(root, "back/pnpm-workspace.yaml"));
+  assert.equal(aidd(root, "config", "set", "projects.back", project).code, 0);
+});
+
 test("a spec keeps the latest run of each kind per project", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
