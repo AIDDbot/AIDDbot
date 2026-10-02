@@ -31,13 +31,15 @@ export function untested(root, dir, id) {
 
 /** Why a green verification cannot be recorded now; null when it can. */
 function missingEvidence(root, dir, control, preexisting) {
-  const accepted = control.runs?.acceptance;
-  if (!accepted) return "Run `aidd run acceptance` on this spec branch before recording a green verification.";
-  const changed = git(root, ["diff", "--name-only", accepted.commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot"]);
-  if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run acceptance\` again.`;
+  const accepted = Object.values(control.runs?.acceptance ?? {});
+  if (!accepted.length) return "Run `aidd run acceptance` on this spec branch before recording a green verification.";
+  for (const { commit } of accepted) {
+    const changed = git(root, ["diff", "--name-only", commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot"]);
+    if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run acceptance\` again.`;
+  }
   const missing = untested(root, dir, control.id);
   if (missing.length) return `No acceptance test titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
-  if (accepted.ok) return null;
+  if (accepted.every((entry) => entry.ok)) return null;
   if (!preexisting.length) return "The last acceptance run failed; record red, or name the older debt behind every failure with --preexisting.";
   const open = readJson(productPath(root, "quality", "debt.json"), { items: [] }).items;
   const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));

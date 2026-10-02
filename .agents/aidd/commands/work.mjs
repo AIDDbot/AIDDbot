@@ -51,14 +51,21 @@ function slotsOf(parts, value) {
   return [];
 }
 
-/** Keep the latest run of each kind in the spec of the current branch, as evidence for `eval`. */
-function recordRun(root, kind, ok, names) {
+/** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval`. */
+function recordRun(root, kind, runs) {
   const dir = findSpec(root, currentBranch(root));
   if (!dir) return;
   const control = readControl(dir);
   if (control.status === "shipped") return;
   const commit = git(root, ["rev-parse", "HEAD"]);
-  control.runs = { ...control.runs, [kind]: { commit, ok, projects: names, at: new Date().toISOString() } };
+  const at = new Date().toISOString();
+  const byProject = { ...control.runs?.[kind] };
+  for (const name of new Set(runs.map((entry) => entry.project))) {
+    const own = runs.filter((entry) => entry.project === name);
+    const na = own.find((entry) => entry.na !== undefined)?.na;
+    byProject[name] = { commit, ok: own.every((entry) => entry.ok), at, ...(na !== undefined && { na }) };
+  }
+  control.runs = { ...control.runs, [kind]: byProject };
   writeControl(dir, control);
 }
 
@@ -93,7 +100,7 @@ export function run(root, [kind], flags) {
   const summary = runs.map((entry) => (entry.na !== undefined ? `${entry.project} n/a: ${entry.na}`
     : `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`));
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
-  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, ok, names);
+  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs } : { kind, ok, runs };
   return { body, exitCode: ok ? 0 : 1 };
 }

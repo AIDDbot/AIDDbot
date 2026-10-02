@@ -183,7 +183,7 @@ test("green verification needs a passing acceptance run at HEAD that tags every 
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last acceptance run/);
   accept(root);
   const control = readJson(root, ".product/specs/S0001-fleet/control.json");
-  assert.equal(control.runs.acceptance.commit, git(root, "rev-parse", "HEAD"));
+  assert.equal(control.runs.acceptance.e2e.commit, git(root, "rev-parse", "HEAD"));
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });
 
@@ -291,6 +291,21 @@ test("config set and get, then run executes the configured commands", () => {
   assert.equal(unit.body.runs[0].project, "back");
   assert.equal(aidd(root, "run", "quality").code, 1);
   assert.equal(aidd(root, "run", "acceptance").code, 3);
+});
+
+test("a spec keeps the latest run of each kind per project", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  fs.mkdirSync(path.join(root, "front"));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { lint: "node -e \"process.exit(0)\"" } }));
+  aidd(root, "config", "set", "projects.front", JSON.stringify({ path: "front", commands: { lint: "node -e \"process.exit(1)\"" } }));
+  aidd(root, "spec", "new", "feat", "fleet", "Fleet");
+  aidd(root, "run", "lint", "--project", "back");
+  aidd(root, "run", "lint", "--project", "front");
+  const lint = readJson(root, ".product/specs/S0001-fleet/control.json").runs.lint;
+  assert.deepEqual(Object.keys(lint).sort(), ["back", "front"]);
+  assert.equal(lint.back.ok, true);
+  assert.equal(lint.front.ok, false);
 });
 
 test("a slot that does not apply needs its reason, and run reports it as ok; format is never evidence", () => {
