@@ -10,7 +10,7 @@ domain: {domain}
 
 ## Problem
 
-{Requested behavior and scope.}
+{The requested behavior and its scope. Write short sentences, with one statement in each sentence.}
 
 ### User Stories
 
@@ -18,50 +18,49 @@ domain: {domain}
 
 ### Business rules
 
-{List rules in natural-language RuleSpeak: subject + must / must not +
-**constraint**, followed by any applicable condition.}
+{One rule for each line, in RuleSpeak: subject + must / must not + **constraint**, then the condition if there is one.}
 
 ### Out of context
 
-{Explicit exclusions from this spec.}
+{What this spec does not include.}
 
 ## Requirements
 
-{One line per behavior an acceptance test can prove, numbered R01, R02, … without gaps, in EARS with uppercase keywords. A `feat` or `fix` has at least one; a `refactor` or `chore` may have none. A technical outcome no acceptance test can prove belongs in Solution.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `feat` or a `fix` has one or more requirements. A `refactor` or a `chore` can have none. If no acceptance test can prove a technical result, put it in Solution.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 
 ## Expected URLs and APIs
 
-{Every page, endpoint, or command the system must supply after this spec, so the `e2e` project derives its basic tests. Omit this section when the scope adds or changes none.}
+{Each page, endpoint or command that the system must supply after this spec. The `e2e` project makes its basic tests from this table. If the scope adds or changes none, remove this section.}
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
 | page | {project} | `{/path}` | {What the page shows} | R01 |
-| api | {project} | `{METHOD /path}` | {Success status and body shape; each error status} | R01 |
+| api | {project} | `{METHOD /path}` | {Success status and body shape. Each error status.} | R01 |
 | command | {project} | `{command args}` | {Output and exit code} | R01 |
 
 ## Solution
 
-{One subsection per affected project.}
+{One subsection for each project that changes.}
 
 ### {project}
 
-{Proposed changes, affected components, and interactions, including any technical outcome the qualification must check.}
+{The changes, the components that change, and how they interact. Include each technical result that the qualification must check.}
 
 ## Schema impact
 
-{Omit this section when no entity, table, or endpoint changes.}
+{If no entity, table or endpoint changes, remove this section.}
 
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
 | model | {Entity or relation} | {new/changed/deprecated} | {Conceptual change} |
 | {project}.db | {table.column} | {new/changed/deprecated} | {Physical change and migration} |
-| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change; success status; each error status and when} |
+| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change. Success status. Each error status and its cause.} |
 
 ## Verification
 
-{At least one acceptance test per requirement.}
+{One or more acceptance tests for each requirement.}
 
 | Requirement | Acceptance test |
 | --- | --- |
@@ -69,4 +68,4 @@ domain: {domain}
 
 ## Technical debt
 
-{List source D IDs when this spec repairs recorded technical debt. Omit this section otherwise.}
+{The D IDs of the recorded technical debt that this spec repairs. If the spec repairs no debt, remove this section.}

@@ -1,31 +1,35 @@
 <!--
 Foundation spec 1 of 4 (Columbus principle 9; D17, D18).
+Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat configuration "Configuration" --domain foundation
-Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name; delete the rows,
-requirements, and Solution subsections of roles the system lacks, then renumber without gaps.
-Technology lives in each project's AGENTS.md, never here.
+Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name.
+Remove the rows, requirements and Solution subsections of the roles that the system does not have. Then number the requirements again, with no gaps.
+The technology is in the AGENTS.md of each project, never here.
 -->
 # {id}-configuration — Configuration
 
 ## Problem
 
-Every project must start the same way in every environment, with its settings outside the code, so that projects built apart fit together.
+Each project must start in the same way in each environment. Its settings must be outside the code. Then projects that different teams make can operate together.
 
 ### User Stories
 
-- As an operator, I want **to set each project's settings through environment variables** so that one build runs in any environment.
-- As a developer, I want **a wrong setting to stop the project at startup** so that I never debug a half-configured system.
+- As an operator, I want **to set the settings of each project with environment variables** so that one build operates in each environment.
+- As a developer, I want **an incorrect setting to stop the project when it starts** so that I never examine a system with an incomplete configuration.
 
 ### Business rules
 
-- Every setting must come from an environment variable, with a documented default.
+- Each setting must come from an environment variable and must have a documented default.
 - A project must not start with an invalid setting.
-- A `front-web` project must reach the `back-api` only through its configured base URL.
-- The `e2e` suite must know, for each project under test, its directory, its port, and its start command, so it can reuse a running project or start it.
+- A `front-web` project must connect to the `back-api` only through its configured base URL.
+- For each project under test, the `e2e` suite must know the folder, the port and the start command. Then it can use a project that runs, or start it.
 
 ### Out of context
 
-- Logging and error format (`monitoring`), health status (`health`), secrets management, and configuration files beyond an optional local `.env`.
+- The log and the error format (`monitoring`).
+- The health status (`health`).
+- The management of secrets.
+- Configuration files, other than an optional local `.env` file.
 
 ## Requirements
 
@@ -33,69 +37,82 @@ Every project must start the same way in every environment, with its settings ou
 - **R02**: WHEN the `back-api` starts without `PORT`, it SHALL accept HTTP connections on port 3000.
 - **R03**: WHEN the `front-web` starts with `PORT` set, it SHALL serve its application at `/` on that port.
 - **R04**: WHEN the `front-web` starts without `PORT`, it SHALL serve its application at `/` on port 4000.
-- **R05**: WHEN a project starts with `PORT` that is not an integer from 1 to 65535, it SHALL exit with a non-zero code and a message that names `PORT`.
-- **R06**: WHEN a request to the `back-api` carries an `Origin` header listed in `CORS_ORIGIN`, the `back-api` SHALL answer with `Access-Control-Allow-Origin` set to that origin.
-- **R07**: WHILE `CORS_ORIGIN` is unset, the `back-api` SHALL answer every request with `Access-Control-Allow-Origin: *`.
-- **R08**: WHEN the `cli` runs with `--version`, it SHALL print its version and exit with code 0.
+- **R05**: WHEN a project starts with a `PORT` that is not an integer from 1 to 65535, it SHALL stop with a non-zero exit code and a message that contains `PORT`.
+- **R06**: WHEN a request to the `back-api` has an `Origin` header that `CORS_ORIGIN` contains, the `back-api` SHALL answer with `Access-Control-Allow-Origin` set to that origin.
+- **R07**: WHILE `CORS_ORIGIN` is not set, the `back-api` SHALL answer each request with `Access-Control-Allow-Origin: *`.
+- **R08**: WHEN the `cli` runs with `--version`, it SHALL show its version and stop with exit code 0.
 
 ## Expected URLs and APIs
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
-| api | back-api | any path on `PORT` | An HTTP response, with the CORS header | R01, R02, R06, R07 |
+| api | back-api | any path on `PORT` | An HTTP response with the CORS header | R01, R02, R06, R07 |
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
-| command | cli | `--version` | The version; exit code 0 | R08 |
+| command | cli | `--version` | The version. Exit code 0. | R08 |
 
 ## Solution
 
 ### back-api
 
-- `core` reads settings with the `readSetting` and `parseInteger` shared primitives (see the project's `AGENTS.md`), creating them if missing.
-- `main` starts `core`; `core` reads and validates every setting once, before it opens the port, and injects them into the features and `shared` that need them.
-- Settings: `PORT` (default 3000), `HOST` (default: all interfaces), `DATABASE_URL` (connection to the database; a local default for development), `CORS_ORIGIN` (comma-separated origins; default `*`).
-- `core` opens the database connection from `DATABASE_URL` and hands it to `shared/data`.
-- Relative paths in settings resolve from the project folder, never from the working directory.
+- `main` starts `core`.
+- `core` reads and validates each setting one time, before it opens the port. It uses the shared primitives `readSetting` and `parseInteger` (see the `AGENTS.md` of the project). If they do not exist, `core` adds them.
+- `core` gives the settings by injection to the features and to `shared` that need them.
+- Settings:
+  - `PORT`: default 3000.
+  - `HOST`: default all interfaces.
+  - `DATABASE_URL`: the connection to the database. A local default for development.
+  - `CORS_ORIGIN`: origins, with commas between them. Default `*`.
+- `core` opens the database connection from `DATABASE_URL` and gives it to `shared/data`.
+- A relative path in a setting starts at the project folder, never at the working directory.
 
 ### front-web
 
-- `main` starts `core`; `core` reads `PORT` (default 4000) and `API_BASE_URL` (default `http://localhost:3000`).
-- `API_BASE_URL` reaches the browser through `core`; the shared HTTP client in `shared/data` is the only code that uses it.
+- `main` starts `core`.
+- `core` reads `PORT` (default 4000) and `API_BASE_URL` (default `http://localhost:3000`).
+- `core` sends `API_BASE_URL` to the browser. Only the shared HTTP client in `shared/data` uses it.
 
 ### cli
 
-- `main` starts `core`, which parses arguments and reads settings from the environment, with flags overriding them.
+- `main` starts `core`.
+- `core` reads the arguments and the environment settings. An argument has priority over the setting.
 
 ### e2e
 
-- `core` reads, for each project under test (`{PROJECT}` is its name in upper case):
-  - `{PROJECT}_DIRECTORY`: its physical folder, to start it; default its source folder relative to the e2e project (for example `../back`).
-  - `{PROJECT}_PORT`: its port, to reuse or start it; default 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`.
-  - `{PROJECT}_START`: its start command; default the `start` slot of that project's `AGENTS.md`, written in the example environment file at the foundation.
-  - `E2E_STARTUP_TIMEOUT_MS`: how long to wait for a started project; default 15000.
-- An invalid value is reported, never replaced by its default.
-- A project counts as answering when its port returns any HTTP response; `health` later narrows this to its health address.
-- Startup and teardown live in `core`, before and after the run; tests only read the base URLs.
-- Technical outcome, not acceptance requirements: the suite reuses a project that already answers on its port and starts no second instance; otherwise it starts the project in its directory with its start command and `PORT`, waits until it answers, and stops it after the run; an invalid setting or a project that does not answer in time stops the run before any test, naming the variable or the project and the cause. Every acceptance run exercises this, and `review-implementation` checks it; no test asserts it.
+- For each project under test, `core` reads these settings. `{PROJECT}` is the project name in upper case.
+  - `{PROJECT}_DIRECTORY`: the project folder, to start the project. Default: its source folder, relative to the e2e project (for example, `../back`).
+  - `{PROJECT}_PORT`: the project port, to use or start the project. Default: 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`.
+  - `{PROJECT}_START`: the start command. Default: the `start` slot in the `AGENTS.md` of that project. The foundation writes it in the example environment file.
+  - `E2E_STARTUP_TIMEOUT_MS`: the maximum time to wait for a project that the suite starts. Default 15000.
+- The suite reports an invalid value. It never uses the default in its place.
+- A project answers when its port returns an HTTP response. Later, `health` changes this check to the health address.
+- `core` starts the projects before the run and stops them after the run. Tests only read the base URLs.
+- This technical result is not an acceptance requirement:
+  - If a project answers on its port, the suite uses it and does not start a second instance.
+  - If a project does not answer, the suite starts it in its folder with its start command and `PORT`. The suite waits until the project answers. After the run, the suite stops it.
+  - If a setting is invalid, or a project does not answer in time, the suite stops before the first test. The message contains the variable or the project, and the cause.
+  - Each acceptance run does these steps. `review-implementation` checks them. No test checks them.
 
+### Acceptance of startup failures
 
+- The acceptance test of R05 starts the project process directly with `PORT=abc`. It reads the exit code and the output. It does not use a browser or a running system.
 
 ### All projects
 
-- Each project ships an example environment file that lists every variable with its default.
+- Each project has an example environment file. This file lists each variable and its default.
 
 ## Schema impact
 
-Omitted: no entity, table, or endpoint changes.
+No entity, table or endpoint changes.
 
 ## Verification
 
 | Requirement | Acceptance test |
 | --- | --- |
-| R01 | Start the `back-api` with `PORT=3101`; an HTTP request to that port gets a response. |
-| R02 | Start the `back-api` without `PORT`; an HTTP request to port 3000 gets a response. |
-| R03 | Start the `front-web` with `PORT=4101`; `GET /` on that port answers 200 with a document. |
-| R04 | Start the `front-web` without `PORT`; `GET /` on port 4000 answers 200 with a document. |
-| R05 | Start each project with `PORT=abc`; it exits non-zero and its output names `PORT`. |
-| R06 | Request the `back-api` with an `Origin` listed in `CORS_ORIGIN`; `Access-Control-Allow-Origin` equals it. |
-| R07 | With `CORS_ORIGIN` unset, any request gets `Access-Control-Allow-Origin: *`. |
-| R08 | Run the `cli` with `--version`; it prints a version and exits 0. |
+| R01 | Start the `back-api` with `PORT=3101`. Send an HTTP request to that port. A response comes back. |
+| R02 | Start the `back-api` without `PORT`. Send an HTTP request to port 3000. A response comes back. |
+| R03 | Start the `front-web` with `PORT=4101`. `GET /` on that port answers 200 with a document. |
+| R04 | Start the `front-web` without `PORT`. `GET /` on port 4000 answers 200 with a document. |
+| R05 | Start each project with `PORT=abc`. It stops with a non-zero exit code. Its output contains `PORT`. |
+| R06 | Send a request to the `back-api` with an `Origin` that `CORS_ORIGIN` contains. `Access-Control-Allow-Origin` is equal to that origin. |
+| R07 | With `CORS_ORIGIN` not set, send a request. `Access-Control-Allow-Origin` is `*`. |
+| R08 | Run the `cli` with `--version`. It shows a version and stops with exit code 0. |

@@ -246,3 +246,12 @@ Los agentes repiten comprobaciones (número, entero, rango) porque no ven lo que
 - **Ignorados anclados:** los patrones para datos en ejecución van anclados a la raíz del proyecto (`/data/`), para no ocultar la capa `data` (D24).
 - **`acceptance` acepta argumentos extra:** el comando registrado deja pasar lo que añade el núcleo (`--grep @S0001-`); con npm, `npm run acceptance --`.
 - **Reparto en la fundación:** el Architect ejecuta el scaffold y escribe el `AGENTS.md`; el Builder reforma el código y monta el tooling, y sigue como Builder de las specs fundacionales.
+
+## D31 ← Principios en ASD-STE100 · Piloto de STE en las plantillas
+
+Las plantillas son instrucciones para modelos: STE reduce la ambigüedad igual que con un lector no nativo.
+
+- **Piloto:** `project.AGENTS.template.md`, `spec.template.md` de `define-spec` y la spec fundacional `configuration`, reescritas en STE. Mismos marcadores, tablas y contratos; solo cambia la prosa: frases cortas, una afirmación por frase, voz activa, imperativo en las instrucciones, una palabra para cada concepto.
+- **Lo que escriben los agentes:** una regla de estilo en la plantilla del `AGENTS.md` raíz (`outline-system`). En otros idiomas se aplican las mismas reglas, no el diccionario.
+- **Sin cambio:** los requisitos ya son EARS, un lenguaje controlado compatible. Los nombres técnicos se permiten.
+- **Fuera del piloto:** las otras tres specs fundacionales, la plantilla de fix y los `SKILL.md`. Se extiende si la siguiente prueba muestra `AGENTS.md` y specs más claros que los de `codex-1`.

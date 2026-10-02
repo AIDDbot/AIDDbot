@@ -1,19 +1,24 @@
 <!--
-Archetype-Blueprint: technical part of one project (Columbus principles 7, 8, 11; D16, D19).
-Three levels fill this file; each fills the empty fields of the level before it and never changes the structure:
-  [Blueprint] fixed here, no technology · [Archetype] AGENTS.md of the archetype repository · [Project] {project}/AGENTS.md in the system.
-Keep the sections, their order, and their headings. Delete these comments only at the project level.
-Implementation hints per ecosystem: ecosystems.md (guidance, never mandatory).
+Archetype-Blueprint: the technical part of one project (Columbus principles 7, 8, 11; D16, D19).
+Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
+Three levels fill this file. Each level fills the empty fields of the level before it. No level changes the structure.
+  [Blueprint] This file. No technology.
+  [Archetype] The AGENTS.md of the archetype repository.
+  [Project] {project}/AGENTS.md in the system.
+Keep the sections, their order and their headings. Remove these comments only at the project level.
+For implementation examples by ecosystem, see ecosystems.md. They are guidance, not rules.
 -->
 # {Project_Name} — {project_type}
 
-`{project_type}` is one of `back-api`, `front-web`, `cli`, `e2e`. Read this file before any change in `{source_root}/`. It is complete: do not explore the code to learn the technical setup.
+The project type is `{project_type}`. The permitted project types are `back-api`, `front-web`, `cli` and `e2e`.
+
+Read this file before you change `{source_root}/`. This file has all of the technical data. Do not explore the code to learn the technical setup.
 
 ## 1 · Purpose and boundary
 
 <!-- [Project] Principle 11. -->
 
-{Why this project exists, what it owns, and what it never does.}
+{Why the project exists. What it owns. What it never does.}
 
 ## 2 · Technology
 
@@ -22,78 +27,78 @@ Implementation hints per ecosystem: ecosystems.md (guidance, never mandatory).
 - **Language**: {language and version}
 - **Runtime / framework**: {runtime and framework}
 - **Main dependencies**: {library — role}
-- **Package manager**: {one only}
+- **Package manager**: {one package manager only}
 
 ## 3 · Tooling
 
-<!-- [Archetype] commands and tools · [Project] registers them with `aidd config set`. D1, D12, D20, D26. -->
+<!-- [Archetype] Commands and tools. [Project] Records them with `aidd config set`. D1, D12, D20, D26. -->
 
-Each slot is a capability, not a tool. A slot that does not apply says `n/a` and its reason; an empty slot is an error.
+Each slot is a capability, not a tool. If a slot does not apply, write `n/a` and the reason. An empty slot is an error.
 
 | Slot | Contract | Blocks delivery | Command | Tool |
 | --- | --- | --- | --- | --- |
-| `lint` | Exits non-zero on errors. Includes the strongest type check of the ecosystem and the layer-boundary check. | Yes | `{command}` | {tool} |
-| `format` | Rewrites files in place with the canonical formatter. Run before integration; never checked. | No | `{command}` | {tool} |
-| `upgrade` | Raises every dependency to its latest release, majors included, and refreshes the lockfile. A major that breaks another tool stays pinned, with its reason in the technology rules. Run at the foundation and on request; never per delivery. | No | `{command}` | {tool} |
-| `unit` | Runs at least one real test; the foundation leaves a smoke test of `health` logic. | No | `{command}` | {tool} |
-| `start` | Starts without a prior build, reads `PORT`, answers on the health route. | No | `{command}` | {tool} |
-| `acceptance` | Runs the acceptance tests tagged `@S{nnnn}-R{nn}`, and passes on the extra arguments the core appends (such as `--grep @S0001-`). | Yes | `{command}` | {tool} |
-| `quality` | Reports complexity and warnings against the general rule thresholds. Feeds the debt register. | No | `{command}` | {tool} |
+| `lint` | Exits with a non-zero code if it finds an error. Includes the strongest type check of the ecosystem. Includes the layer-boundary check. | Yes | `{command}` | {tool} |
+| `format` | Rewrites the files with the standard formatter of the ecosystem. Runs before integration. Nothing checks its result. | No | `{command}` | {tool} |
+| `upgrade` | Changes each dependency to its latest release, major releases included. Updates the lockfile. If a new major release breaks a different tool, keep the last compatible major release and write the reason in the technology rules. Runs at the foundation and when a person asks. Never runs for each delivery. | No | `{command}` | {tool} |
+| `unit` | Runs one or more real tests. The foundation adds a smoke test of the `health` logic. | No | `{command}` | {tool} |
+| `start` | Starts the project without a build. Reads `PORT`. Answers on the health route. | No | `{command}` | {tool} |
+| `acceptance` | Runs the acceptance tests that have the tag `@S{nnnn}-R{nn}`. Sends to the test tool the arguments that the core adds (for example, `--grep @S0001-`). | Yes | `{command}` | {tool} |
+| `quality` | Reports complexity and warnings against the thresholds of the general rules. Its findings go to the debt register. | No | `{command}` | {tool} |
 
 ## 4 · Architecture
 
-<!-- [Blueprint] Fixed shape, not a named pattern. D2–D6, D12, D24. The archetype only maps it to folders in section 5. -->
+<!-- [Blueprint] A fixed shape, not a named pattern. D2–D6, D12, D24. The archetype only maps it to folders in section 5. -->
 
-An entry point, three folders, and layers inside each feature:
+The project has one entry point and three folders. Each feature has three layers.
 
-| Concept | Contains |
+| Concept | Contents |
 | --- | --- |
-| `main` | The minimal entry point that the ecosystem requires. It only starts `core`. |
-| `core` | Composition root: configuration, server or shell, router, and the dependencies it creates. |
-| features | One subfolder per feature: endpoints, pages, or commands. One **manifest** aggregates their registrations. |
-| `shared` | Helpers and DRY code, never business. Organized by the same layers as a feature. |
+| `main` | The smallest entry point that the ecosystem requires. It only starts `core`. |
+| `core` | The composition root: configuration, server or shell, router, and the dependencies that it makes. |
+| features | One subfolder for each feature: endpoints, pages or commands. One **manifest** lists the registration of each feature. |
+| `shared` | Helpers and code that more than one feature uses. It contains no business rules. It has the same layers as a feature. |
 
-**Between folders** (blocks delivery through `lint`):
+**Dependencies between folders.** The `lint` slot checks these rules. A violation blocks the delivery.
 
-- `main` → `core` only.
-- `core` → manifest and `shared`, never a feature directly.
-- feature → `shared`, and other features only through their facade.
-- `shared` → nothing of the application.
-- Only `main` imports `core`. Features and `shared` get configuration by injection. Tests may start `core`.
+- `main` uses `core` only.
+- `core` uses the manifest and `shared`. It never uses a feature directly.
+- A feature uses `shared`. It uses a different feature only through the facade of that feature.
+- `shared` uses nothing of the application.
+- Only `main` uses `core`. Features and `shared` get their configuration by injection. Tests can start `core`.
 
-**Inside a feature and inside `shared`**: `presentation` → `logic` → `data`, never backwards.
+**Dependencies inside a feature and inside `shared`.** The direction is `presentation` → `logic` → `data`. Never use the opposite direction.
 
-- `presentation`: input and output with the caller (route, page, command, test).
-- `logic`: rules and decisions, with no knowledge of how data is stored or fetched.
-- `data`: everything the project reads or writes outside itself: database, remote API, files.
+- `presentation`: the input from the caller and the output to the caller (route, page, command, test).
+- `logic`: rules and decisions. It does not know how the data is stored or found.
+- `data`: all that the project reads or writes outside itself: database, remote API, files.
 
-- **Facade**: each feature exposes one entry file with the minimum: its registration for the manifest and the types that other features need. The registration receives the dependencies that `core` creates (configuration, connections) by injection.
-- **Manifest**: one file in the features folder lists every feature registration explicitly. No auto-discovery: no folder scans, no global decorators.
-- Where no reasonable boundary linter exists, these rules stay written here and `review-implementation` checks them.
+- **Facade**: each feature has one entry file. This file contains only the registration for the manifest and the types that other features need. The registration gets the dependencies that `core` makes (configuration, connections) by injection.
+- **Manifest**: one file in the features folder. It lists the registration of each feature explicitly. Do not use automatic discovery: no folder scans and no global decorators.
+- If no applicable boundary linter exists, keep these rules here. Then `review-implementation` checks them.
 
 ### Variations by project type
 
-<!-- [Blueprint] Principle 7. `n/a` always carries its reason. -->
+<!-- [Blueprint] Principle 7. Each `n/a` has its reason. -->
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
 | `main` | process entry | browser entry | executable entry | n/a — the test runner is the entry |
-| `core` | server, configuration, router | app shell, configuration, router | argument parser, configuration | runner configuration, project startup check |
-| features | endpoints | pages | commands | tests, one subfolder per spec domain |
+| `core` | server, configuration, router | application shell, configuration, router | argument parser, configuration | runner configuration, startup check of the projects |
+| features | endpoints | pages | commands | tests, one subfolder for each spec domain |
 | `presentation` | route / controller | page / component | command | test |
-| `logic` | service | store / use case | service | n/a — tests hold no business logic |
+| `logic` | service | store / use case | service | n/a — tests contain no business logic |
 | `data` | repository | API client | repository / file system | page objects and API clients |
-| `shared` | middleware, validation, DB and HTTP clients | base UI components, utilities, HTTP client | output formatting, utilities | fixtures and helpers |
-| manifest | route registry | page router | command registry | n/a — the runner discovers tests by convention |
-| `unit` | yes | yes | yes | n/a — no own logic; acceptance is its product |
-| `start` | yes | yes | n/a — runs per invocation, no server | n/a — starts the projects under test |
-| `acceptance` | through `e2e` | through `e2e` | own tests or through `e2e` | yes — it runs the suite |
+| `shared` | middleware, validation, database and HTTP clients | base UI components, utilities, HTTP client | output format, utilities | fixtures and helpers |
+| manifest | route registry | page router | command registry | n/a — the runner finds tests by convention |
+| `unit` | yes | yes | yes | n/a — no logic of its own; acceptance is its product |
+| `start` | yes | yes | n/a — runs for each invocation; no server | n/a — it starts the projects under test |
+| `acceptance` | through `e2e` | through `e2e` | its own tests or through `e2e` | yes — it runs the suite |
 
 ## 5 · Folder structure
 
-<!-- [Archetype] Map every concept of section 4 to a real folder or file, and to the framework mechanism that realizes it. [Project] adds features as specs ship. D27. -->
+<!-- [Archetype] Map each concept of section 4 to a real folder or file, and to the framework mechanism for it. [Project] Adds features when specs ship. D27. -->
 
-The framework mechanism column says how the framework realizes each concept (its injector, router, store, or file convention); `—` when plain code does it.
+The column "Framework mechanism" tells how the framework makes each concept real (its injector, router, store or file convention). Write `—` if plain code does it.
 
 | Concept | Path | Framework mechanism |
 | --- | --- | --- |
@@ -108,54 +113,58 @@ The framework mechanism column says how the framework realizes each concept (its
 
 ```text
 {source_root}/
-├── {main_file}           # entry point, starts core
+├── {main_file}           # entry point; starts core
 ├── {core_folder}/        # composition root
-├── {features_folder}/    # one folder per feature + manifest
+├── {features_folder}/    # one folder for each feature, and the manifest
 │   └── health/           # tracer bullet from the foundation specs
-└── {shared_folder}/      # helpers by layer, no business
+└── {shared_folder}/      # helpers by layer; no business rules
 ```
 
 ### Shared primitives
 
-<!-- [Blueprint] seed and naming convention · [Archetype] paths and idiomatic names · [Project] `ship-spec` adds each new primitive. D29. -->
+<!-- [Blueprint] Seed and naming convention. [Archetype] Paths and idiomatic names. [Project] `ship-spec` adds each new primitive. D29. -->
 
-The index of reusable helpers in `shared`. Read it before writing any check or conversion, and add a helper here when it is used in two places. One file per topic, named by the topic; one function per contract, named by what it returns or asserts. A failing check raises the expected error of `monitoring`.
+This table is the index of the helpers in `shared`. Read it before you write a check or a conversion. If two places use the same helper, move the helper to `shared` and add it here.
+
+- Put one topic in each file. Use the topic as the file name.
+- Write one function for each contract. Use what the function returns or checks as its name.
+- If a check fails, raise the expected error of `monitoring`.
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
-| `parseInteger(value, min, max)` | An integer within the range, or an expected error | `{shared_folder}/logic/{numbers_file}` |
-| `requireText(value, field)` | Trimmed, non-empty text, or an expected error naming the field | `{shared_folder}/logic/{text_file}` |
-| `isRecord(value)` | Whether the value is a key-value object; the base of every type guard | `{shared_folder}/logic/{types_file}` |
+| `parseInteger(value, min, max)` | Returns an integer in the range. Otherwise, raises an expected error. | `{shared_folder}/logic/{numbers_file}` |
+| `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/logic/{text_file}` |
+| `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/logic/{types_file}` |
 | {environment primitive} | {see the variations below} | {path} |
 
 | Project type | Environment primitive | Contract |
 | --- | --- | --- |
-| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/logic/{settings_file}` | An environment variable parsed, or its fallback; an invalid value stops the startup |
-| `front-web` | `escapeHtml(text)` in `{shared_folder}/presentation/{html_file}` | Text safe to insert in a page |
-| `cli` | `fail(message)` in `{shared_folder}/presentation/{output_file}` | `error: <message>` to standard error and exit code 1 |
-| `e2e` | `uniqueValue(prefix)` in `{shared_folder}/{test_data_file}` | A value no other test run repeats |
+| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/logic/{settings_file}` | Returns the parsed environment variable, or its fallback. An invalid value stops the startup. |
+| `front-web` | `escapeHtml(text)` in `{shared_folder}/presentation/{html_file}` | Returns text that is safe to put in a page. |
+| `cli` | `fail(message)` in `{shared_folder}/presentation/{output_file}` | Writes `error: <message>` to standard error. Exits with code 1. |
+| `e2e` | `uniqueValue(prefix)` in `{shared_folder}/{test_data_file}` | Returns a value that no other test run uses. |
 
 ## 6 · Coding rules
 
 ### General rules
 
-<!-- [Blueprint] Technology-neutral guidance with default thresholds; the archetype may adapt the numbers. Thresholds are measured by `quality` and never block. D12. -->
+<!-- [Blueprint] Technology-neutral guidance with default thresholds. The archetype can change the numbers. The `quality` slot measures them. They never block. D12. -->
 
-- Names are idiomatic for the language and use the domain vocabulary.
-- Functions stay simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Files ≤ {300} lines.
-- A condition with more than one logical operator becomes a predicate named in the domain vocabulary.
-- Before writing a check or a conversion, look for it in the shared primitives; move it there once two places use it.
-- Errors are never silenced. The project handles them in one way only.
-- Configuration comes from the environment, never from literals in code.
-- Ignore patterns for runtime data are anchored to the project root (`/data/`, not `data/`), so they never hide a `data` layer folder.
-- Dependencies are added with the package manager's add command, which resolves the latest release; a version is never written by hand or from memory.
-- First make it work, then make it right: only `lint` (errors, types, boundaries) and acceptance block a delivery.
+- Use names that are idiomatic for the language. Use the words of the domain.
+- Keep functions simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Keep files ≤ {300} lines.
+- If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
+- Before you write a check or a conversion, look for it in the shared primitives.
+- Do not hide errors. Use one method only to handle errors in the project.
+- Get configuration from the environment. Do not put configuration values in the code.
+- Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
+- Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
+- First make it work. Then make it correct. In a delivery, only `lint` (errors, types, boundaries) and acceptance block.
 
 ### Technology rules
 
 <!-- [Archetype] Rules of the stack that the general rules do not cover. D27. -->
 
-- A mechanism the framework imposes (dependency injection, routing, state, file naming, CLI generators) replaces the Blueprint's, with its reason here; the direction of dependencies never changes.
+- If the framework sets a mechanism (dependency injection, routing, state, file names, CLI generators), use that mechanism and write the reason here. The direction of the dependencies never changes.
 - {rule — reason}
 
 ### Project rules
