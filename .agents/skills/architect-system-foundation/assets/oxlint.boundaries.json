@@ -24,7 +24,8 @@
     },
     {
       "files": [
-        "src/core/*.ts"
+        "src/core/*.ts",
+        "src/core/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -100,7 +101,8 @@
     },
     {
       "files": [
-        "src/features/*/presentation/*.ts"
+        "src/features/*/presentation/*.ts",
+        "src/features/*/presentation/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -130,7 +132,8 @@
     },
     {
       "files": [
-        "src/features/*/logic/*.ts"
+        "src/features/*/logic/*.ts",
+        "src/features/*/logic/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -166,7 +169,8 @@
     },
     {
       "files": [
-        "src/features/*/data/*.ts"
+        "src/features/*/data/*.ts",
+        "src/features/*/data/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -203,7 +207,8 @@
     },
     {
       "files": [
-        "src/shared/presentation/*.ts"
+        "src/shared/presentation/*.ts",
+        "src/shared/presentation/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -225,7 +230,8 @@
     },
     {
       "files": [
-        "src/shared/logic/*.ts"
+        "src/shared/logic/*.ts",
+        "src/shared/logic/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -254,7 +260,8 @@
     },
     {
       "files": [
-        "src/shared/data/*.ts"
+        "src/shared/data/*.ts",
+        "src/shared/data/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
