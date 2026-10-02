@@ -15,7 +15,7 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 ## Paths
 
 - **{Agents_File}** — `AGENTS.md` — this file
-- **{Agents_Folder}** — `.agents/` — agent configuration and project rules
+- **{Agents_Folder}** — `.agents/` — agent configuration
 - **{Product_Folder}** — `.product/` — requirements, specs, model, and quality files; `aiddbot init` creates it here
 - **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
@@ -36,11 +36,11 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 ## System
 
-A system comprises projects, such as a frontend, backend, CLI, or test suite. Each project has its own source folder, configuration, and tooling. Modules organize code within a project.
+A system comprises projects, each of one type: `back-api`, `front-web`, `cli`, or `e2e`. Each project has its own source folder, and its `AGENTS.md` there holds all its technical data: technology, tooling, architecture, folders, coding rules, and connections. This file keeps only system-wide facts.
 
-| Project | Source path | Responsibility | Rules |
-| --- | --- | --- | --- |
-| {project} | `{source_root}/` | {one-line responsibility} | `.agents/rules/{project}.rules.md` |
+| Project | Type | Source path | Responsibility | Instructions |
+| --- | --- | --- | --- | --- |
+| {project} | {project_type} | `{source_root}/` | {one-line responsibility} | `{source_root}/AGENTS.md` |
 
 {Only necessary cross-project facts and important paths. Do not list skills or commands.}
 

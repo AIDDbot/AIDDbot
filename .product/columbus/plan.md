@@ -31,7 +31,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | Fase | Contenido | Tipo | Fechas orientativas |
 | --- | --- | --- | --- |
 | 0 | ✅ Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
-| 1 | Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
+| 1 | ✅ Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
 | 2 | Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | Skills | Skills | 6–8 oct |
@@ -46,6 +46,8 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 **Hecho cuando:** no queda ningún 🟡 en `notes.md` y este plan refleja las respuestas.
 
 ### 1 · Blueprint técnico: plantilla `AGENTS.md` de proyecto
+
+✅ Hecho el 2 oct: `project.AGENTS.template.md` y `ecosystems.md` en `architect-system-foundation/assets/`; la plantilla raíz de `outline-system` apunta a `{source_root}/AGENTS.md` y añade el tipo de proyecto. Los skills que aún leen `.agents/rules/` cambian en la fase 4.
 
 `project.AGENTS.template.md` en `architect-system-foundation/assets/` (D19), con:
 
