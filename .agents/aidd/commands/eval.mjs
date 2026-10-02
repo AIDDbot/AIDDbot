@@ -18,7 +18,7 @@ function sources(dir) {
   });
 }
 
-/** Requirements of the spec with no acceptance test titled `@{id}-Rnn` in any acceptance project. */
+/** Requirements of the spec with no acceptance test tagged or titled `@{id}-Rnn` in any acceptance project. */
 export function untested(root, dir, id) {
   const required = [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
   if (!required.length) return [];
@@ -38,7 +38,7 @@ function missingEvidence(root, dir, control, preexisting) {
     if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run acceptance\` again.`;
   }
   const missing = untested(root, dir, control.id);
-  if (missing.length) return `No acceptance test titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
+  if (missing.length) return `No acceptance test tagged or titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
   if (accepted.every((entry) => entry.ok)) return null;
   if (!preexisting.length) return "The last acceptance run failed; record red, or name the older debt behind every failure with --preexisting.";
   const open = readJson(productPath(root, "quality", "debt.json"), { items: [] }).items;

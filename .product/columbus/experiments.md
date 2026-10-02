@@ -37,6 +37,19 @@ Elegir un prompt. En Claude Code se invoca `/architect-system-foundation`; en Co
 /architect-system-foundation YOLO. Sistema de prueba sin funcionalidad de negocio: solo la fundación. Propósito: validar el scaffold con un framework con convenios propios. Usuarios: un operador genérico, así que incluye basic-auth. Proyectos: back-api con Hono, front-web con Angular, e2e con Playwright. Rechazo los arquetipos del catálogo: créalos al vuelo.
 ```
 
+### F · Sin framework, con la tecnología de los arquetipos propios
+
+```text
+usa la skill $architect-system-foundation en modo YOLO. Para:
+Sistema de prueba sin funcionalidad de negocio: solo la fundación.
+Propósito: validar el scaffold.
+Usuarios: un operador genérico, así que incluye basic-auth.
+Proyectos: back-api con Node y Express; front-web con HTML, CSS y TypeScript modernos sin framework, servido con Vite; e2e con Playwright.
+Rechazo los arquetipos del catálogo: créalos al vuelo para esas tecnologías.
+```
+
+Sin framework que guíe, el router y los componentes los construye el agente desde el Blueprint. Comparar el resultado con `back-express` y `front-standard` sin que los copie: material para la fase 5. Vigilar: router y componentes sobredimensionados; `start` sin build (`vite`).
+
 ### D · Interactivo (D25)
 
 ```text
