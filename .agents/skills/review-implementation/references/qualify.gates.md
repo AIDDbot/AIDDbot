@@ -6,7 +6,7 @@ Inspect the complete diff. Judge changed code by project convention, not persona
 
 Evaluate every applicable blocking gate first. Mark one `n/a` only when its category cannot apply to the changed scope and state why. Missing evidence for an applicable gate is a failure.
 
-- **Security** — Authentication and authorization protect every changed action and resource that requires them.
+- **Security** — Authentication and authorization protect every changed action and resource that requires them, and every security minimum that the spec or the project's `AGENTS.md` cites (such as an OWASP cost parameter) holds in the code. A library default is evidence only when its value meets that minimum.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
 - **Project rules** — The changed scope violates no explicit restriction in its project's `AGENTS.md`, including any layer boundary it keeps as a written rule.
 - **Schema impact** — Every entity, table, column, and endpoint change in the diff is declared in the spec's schema impact, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
