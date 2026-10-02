@@ -67,9 +67,9 @@ An entry point, three folders, and layers inside each feature:
 - `logic`: rules and decisions, with no knowledge of how data is stored or fetched.
 - `data`: everything the project reads or writes outside itself: database, remote API, files.
 
-- **Facade** (D3): each feature exposes one entry file with the minimum: its registration for the manifest and the types that other features need. The registration receives the dependencies that `core` creates (configuration, connections) by injection (D6).
-- **Manifest** (D6): one file in the features folder lists every feature registration explicitly. No auto-discovery: no folder scans, no global decorators.
-- Where no reasonable boundary linter exists, these rules stay written here and `review-implementation` checks them (D5).
+- **Facade**: each feature exposes one entry file with the minimum: its registration for the manifest and the types that other features need. The registration receives the dependencies that `core` creates (configuration, connections) by injection.
+- **Manifest**: one file in the features folder lists every feature registration explicitly. No auto-discovery: no folder scans, no global decorators.
+- Where no reasonable boundary linter exists, these rules stay written here and `review-implementation` checks them.
 
 ### Variations by project type
 
