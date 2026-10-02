@@ -16,7 +16,7 @@ The command copies `.agents/` and the supported agent adapters. Existing managed
 - A root `package.json` at version `0.1.0`, only when missing. `aidd release` bumps its version at each shipped spec.
 - `AGENTS.md` — seeded from `outline-system`'s own template; `outline-system` fills it in with your project's specifics.
 - `.aiddbot/counters.yaml` starts the permanent S and D identifiers. It is project state: later `update` never changes it.
-- An empty `.aiddbot/config.json`. The foundation fills it in with each project's path and its `lint`, `format`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
+- An empty `.aiddbot/config.json`. The foundation fills it in with each project's path and its `lint`, `format`, `upgrade`, `unit`, `acceptance`, and `quality` commands, which `aidd run` later executes.
 - The empty debt register `.product/quality/debt.json`. The PRD `.product/PRD.md` is generated: each spec owns its requirements, and shipping lists it there.
 - The journal's first event, in `.aiddbot/journals/`.
 

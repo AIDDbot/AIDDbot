@@ -207,3 +207,12 @@ Enmienda D2, D3, D4 y D6, donde quedan tachadas las formas antiguas.
 
 - **Interactivo:** antes de fijar un arquetipo o una tecnología, la fundación pregunta por cada elección abierta (lenguaje y runtime, framework, gestor de paquetes, persistencia y herramienta de cada ranura), una pregunta cerrada cada vez, ofreciendo primero el arquetipo del catálogo o la opción habitual de `ecosystems.md`. Nunca supone una tecnología.
 - **YOLO:** no pregunta nada. Toma lo que diga la petición y la opción habitual para el resto. Si una herramienta elegida no se instala o no arranca, vuelve a la habitual de su ecosistema y anota el cambio en `system.md` y en el `AGENTS.md` del proyecto.
+
+## D26 ← Fase 6 (versiones antiguas) · Dependencias por el gestor y ranura `upgrade`
+
+Los modelos escriben versiones de memoria y su memoria se queda atrás.
+
+- **Prevención:** regla general del Blueprint: una dependencia se añade con el comando del gestor de paquetes (`npm install`, `bun add`, `go get`, `cargo add`…), que resuelve la última versión. Nunca se escribe una versión a mano.
+- **Corrección:** nueva ranura `upgrade`, que sube todas las dependencias a su última versión, mayores incluidas, y refresca el lockfile. No bloquea. `aidd run upgrade` no se registra como evidencia, igual que `format`.
+- **Quién la ejecuta:** la fundación, una vez tras el scaffold y antes de la puerta de ranuras; y `craft-lasting-quality` cuando el humano lo pide, como un `chore` que repara lo que rompa. Nunca `ship-spec` en cada entrega: mezclaría dependencias con funcionalidad.
+- **Ecosistema JS/TS vivo:** `ecosystems.md` da los comandos de añadir y subir para npm, pnpm, Yarn, Bun y Deno, además de los demás ecosistemas. Se usa siempre el gestor del proyecto, nunca un segundo.

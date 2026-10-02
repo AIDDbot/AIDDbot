@@ -9,8 +9,8 @@ import {
 import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
 import { untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "format", "unit", "acceptance", "quality"];
-const NOT_EVIDENCE = new Set(["format"]);
+const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"];
+const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const configFile = (root) => aiddbotPath(root, "config.json");

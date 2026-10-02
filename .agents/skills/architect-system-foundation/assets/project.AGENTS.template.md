@@ -26,7 +26,7 @@ Implementation hints per ecosystem: ecosystems.md (guidance, never mandatory).
 
 ## 3 · Tooling
 
-<!-- [Archetype] commands and tools · [Project] registers them with `aidd config set`. D1, D12, D20. -->
+<!-- [Archetype] commands and tools · [Project] registers them with `aidd config set`. D1, D12, D20, D26. -->
 
 Each slot is a capability, not a tool. A slot that does not apply says `n/a` and its reason; an empty slot is an error.
 
@@ -34,6 +34,7 @@ Each slot is a capability, not a tool. A slot that does not apply says `n/a` and
 | --- | --- | --- | --- | --- |
 | `lint` | Exits non-zero on errors. Includes the strongest type check of the ecosystem and the layer-boundary check. | Yes | `{command}` | {tool} |
 | `format` | Rewrites files in place with the canonical formatter. Run before integration; never checked. | No | `{command}` | {tool} |
+| `upgrade` | Raises every dependency to its latest release, majors included, and refreshes the lockfile. Run at the foundation and on request; never per delivery. | No | `{command}` | {tool} |
 | `unit` | Runs at least one real test; the foundation leaves a smoke test of `health` logic. | No | `{command}` | {tool} |
 | `start` | Starts without a prior build, reads `PORT`, answers on the health route. | No | `{command}` | {tool} |
 | `acceptance` | Runs the acceptance tests tagged `@S{nnnn}-R{nn}`. | Yes | `{command}` | {tool} |
@@ -122,6 +123,7 @@ An entry point, three folders, and layers inside each feature:
 - Functions stay simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Files ≤ {300} lines.
 - Errors are never silenced. The project handles them in one way only.
 - Configuration comes from the environment, never from literals in code.
+- Dependencies are added with the package manager's add command, which resolves the latest release; a version is never written by hand or from memory.
 - First make it work, then make it right: only `lint` (errors, types, boundaries) and acceptance block a delivery.
 
 ### Technology rules

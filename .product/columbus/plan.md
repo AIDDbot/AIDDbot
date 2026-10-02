@@ -1,7 +1,7 @@
 # Columbus — un greenfield que nace en verde
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D25) y las dudas, todas cerradas, en `notes.md`.
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D26) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 

@@ -307,6 +307,9 @@ test("a slot that does not apply needs its reason, and run reports it as ok; for
   aidd(root, "spec", "new", "feat", "rockets", "Rockets");
   assert.equal(aidd(root, "run", "format").code, 0);
   assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.format, undefined);
+  aidd(root, "config", "set", "projects.e2e.commands.upgrade", JSON.stringify("node -e \"process.exit(0)\""));
+  assert.equal(aidd(root, "run", "upgrade").code, 0);
+  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.upgrade, undefined);
   assert.equal(aidd(root, "run", "lint").code, 3);
 });
 
