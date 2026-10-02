@@ -1,7 +1,7 @@
 # Columbus — un greenfield que nace en verde
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D19) y las dudas del plan en `notes.md` (P15–P18).
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D23) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 
@@ -30,7 +30,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 
 | Fase | Contenido | Tipo | Fechas orientativas |
 | --- | --- | --- | --- |
-| 0 | Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
+| 0 | ✅ Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
 | 1 | Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
 | 2 | Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
@@ -41,7 +41,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 
 ### 0 · Principios y decisiones
 
-Hecho hasta ahora: `principles.md` (principios 1–11) y `decisions.md` alineado (D16–D19 sustituyen a D10, D14 y D15). Falta resolver P15–P18 con el humano.
+✅ Hecho el 2 oct: `principles.md` (principios 1–11), `decisions.md` alineado (D16–D19 sustituyen a D10, D14 y D15) y P15–P18 cerradas con D20–D23.
 
 **Hecho cuando:** no queda ningún 🟡 en `notes.md` y este plan refleja las respuestas.
 
@@ -75,7 +75,7 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 ### 3 · Núcleo
 
 - Nueva clase de ejecución `format` en `aidd run` (hoy `RUN_KINDS` = `lint`, `unit`, `acceptance`, `quality`).
-- Forma de registrar «no aplica» con motivo en `config.json` (P15).
+- Registrar «no aplica» con motivo en `config.json` como `{"na": "<motivo>"}` (D20).
 
 **Hecho cuando:** `aidd run format` funciona, `config set` acepta «no aplica» con motivo y las pruebas del núcleo pasan.
 
@@ -83,7 +83,7 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 
 | Skill | Cambio | Origen |
 | --- | --- | --- |
-| `architect-system-foundation` | Clasificar rápido greenfield/brownfield. Proponer la solución como proyectos tipados y ofrecer los arquetipos de cada tipo. Si el humano los rechaza, rellenar la plantilla del Blueprint para la tecnología elegida antes del scaffold. Copiar el `AGENTS.md` del arquetipo a cada proyecto con los datos del sistema, y el puntero para los arneses que no lo leen. Registrar las ranuras desde ese `AGENTS.md` (puerta de D1). Entregar las specs fundacionales en orden (P16). Reformar plantillas ajenas, retirar muestras huérfanas antes del commit del scaffold y cerrar solo en verde. En greenfield, `outline-system` sí y `rule-project` no. | Principios 2–6, 11; D1, D7, D9, D13, D16, D17, D19 |
+| `architect-system-foundation` | Clasificar rápido greenfield/brownfield. Proponer la solución como proyectos tipados y ofrecer los arquetipos de cada tipo. Si el humano los rechaza, rellenar la plantilla del Blueprint para la tecnología elegida antes del scaffold. Copiar el `AGENTS.md` del arquetipo a cada proyecto con los datos del sistema, y el puntero para los arneses que no lo leen. Registrar las ranuras desde ese `AGENTS.md` (puerta de D1). Entregar las specs fundacionales en orden, cada una con `build-requested-spec` (D21). Ofrecer los arquetipos desde `archetypes.md` por tipo de proyecto (D23). Reformar plantillas ajenas, retirar muestras huérfanas antes del commit del scaffold y cerrar solo en verde. En greenfield, `outline-system` sí y `rule-project` no. | Principios 2–6, 11; D1, D7, D9, D13, D16, D17, D19, D21, D23 |
 | `outline-system` | El `AGENTS.md` raíz solo lleva datos de todo el sistema y apunta al `AGENTS.md` de cada proyecto. | Principio 11, D19 |
 | `define-spec` | Sección de URLs y APIs esperadas en la plantilla de spec (fase 2). | Principio 10, D18 |
 | `implement-project` | Seguir el `AGENTS.md` del proyecto en lugar del fichero de reglas. El lint de fronteras forma parte del `lint` que bloquea. En `e2e`, generar pruebas básicas desde las URLs y APIs de la spec. | Principios 10, 11; D2–D6, D12 |
@@ -99,7 +99,7 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):
 
 - Un `AGENTS.md` en cada uno, relleno desde la plantilla de la fase 1 (D8, D19).
-- Sin muestras (home, item-detail, content), para que 0.2.2 no se repita (D18).
+- Sin muestras (home, item-detail, content), para que 0.2.2 no se repita (D18, D22).
 
 Si no da tiempo, la fundación trata el arquetipo como uno creado al vuelo y rellena ella la plantilla (principio 6).
 

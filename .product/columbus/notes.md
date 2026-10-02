@@ -150,29 +150,29 @@ Hoy un skill solo usa recursos de su carpeta (salvo el núcleo). La guía la nec
 
 > **R:** Se cierra con P20: la guía es la propia plantilla de reglas, convertida en patrón oro (D15).
 
-## 🟡 P15 — ¿Cómo se registra «no aplica» en `config.json`?
+## ✅ P15 → D20 · ¿Cómo se registra «no aplica» en `config.json`?
 
 Propuesta: la ranura existe con un objeto en lugar de un comando: `"unit": {"na": "e2e no tiene lógica propia"}`. `aidd run unit` responde «no aplica: <motivo>» y sale con 0; una ranura ausente sigue siendo un error.
 
-> **R:**
+> **R:** Aceptada la propuesta (D20).
 
-## 🟡 P16 — ¿Cómo entrega la fundación las specs fundacionales?
+## ✅ P16 → D21 · ¿Cómo entrega la fundación las specs fundacionales?
 
 Opciones: (a) `architect-system-foundation` llama a `build-requested-spec` una vez por spec, con el flujo completo; (b) un camino corto que implementa y verifica sin revisión. Propuesta: (a), porque es lo que da el «nace en verde» con las mismas puertas. Coste asumido en D16: hasta cuatro entregas (D17). Con un arquetipo conforme, cada una se verifica casi sin cambios.
 
-> **R:**
+> **R:** Aceptada la propuesta (D21).
 
-## 🟡 P17 — ¿Qué entra de los repos de arquetipo en este sprint?
+## ✅ P17 → D22 · ¿Qué entra de los repos de arquetipo en este sprint?
 
 Propuesta (revisada con D16–D19): en la fase 5, opcional, cada repo recibe su `AGENTS.md` desde la plantilla del Blueprint y pierde sus muestras. Sin muestras, el manifiesto de muestras de D8 deja de hacer falta. La fabricación en serie pasa al siguiente sprint. Si la fase 5 no llega, la fundación trata el arquetipo como uno creado al vuelo (principio 6).
 
-> **R:**
+> **R:** Aceptada la propuesta (D22).
 
-## 🟡 P18 — ¿Qué pasa con `archetypes.md`?
+## ✅ P18 → D23 · ¿Qué pasa con `archetypes.md`?
 
 El catálogo actual (`front-standard`, `back-express`, `e2e-playwright`, `cli-node`) ofrece repos con código. Con D16 la fuente de verdad es el Blueprint. Propuesta (revisada): se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5), cada uno con su tecnología y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17).
 
-> **R:**
+> **R:** Aceptada la propuesta (D23).
 
 ## ✅ P19 → D13, D14 · ¿Cómo se reproduce la funcionalidad de los arquetipos actuales?
 

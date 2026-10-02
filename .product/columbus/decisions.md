@@ -65,7 +65,7 @@ Al cerrar la fundación pasan todas las ranuras de D1 y toda la suite de aceptac
 
 ## D8 ← P9, P3 · Los arquetipos propios declaran sus muestras y siguen el núcleo
 
-Cada arquetipo de AIDDbot declara en un manifiesto sus rutas de muestra y los arquetipos compañeros que requiere, y sigue las convenciones del núcleo (etiquetas `@S{nnnn}-R{nn}`, D1, D2). Los arquetipos viven en **repos aparte**: el trabajo sobre ellos queda fuera de este repo. Cada arquetipo lleva su `AGENTS.md`, relleno desde la plantilla del Blueprint (D19). Cierra P3: los hechos 6 y 7 entran por aquí; el 8 (`master`/`main`) queda fuera de Columbus.
+Cada arquetipo de AIDDbot ~~declara en un manifiesto sus rutas de muestra y los arquetipos compañeros que requiere,~~ no trae muestras (D22), y sigue las convenciones del núcleo (etiquetas `@S{nnnn}-R{nn}`, D1, D2). Los arquetipos viven en **repos aparte**: el trabajo sobre ellos queda fuera de este repo. Cada arquetipo lleva su `AGENTS.md`, relleno desde la plantilla del Blueprint (D19). Cierra P3: los hechos 6 y 7 entran por aquí; el 8 (`master`/`main`) queda fuera de Columbus.
 
 ## D9 ← P10 · Las plantillas ajenas se reforman a D1 y D2
 
@@ -173,3 +173,19 @@ Sustituye a D15.
 - **Sustituye a `.agents/rules/{project}.rules.md`.** El `AGENTS.md` raíz solo lleva datos de todo el sistema y apunta al de cada proyecto. Lo leen `implement-project`, `review-implementation` y el resto.
 - **Greenfield prescribe:** la fundación copia el `AGENTS.md` del arquetipo, añade los datos del sistema y registra las ranuras en la config de `aidd`. No usa `rule-project`.
 - **Brownfield, fuera de Columbus:** `rule-project` queda congelada. Cuando llegue legacy, producirá el mismo `AGENTS.md` midiendo lo que hay y anotando las desviaciones como deuda.
+
+## D20 ← P15 · «No aplica» se registra como un objeto con motivo
+
+En `config.json`, una ranura que no aplica guarda un objeto en lugar de un comando: `"unit": {"na": "e2e no tiene lógica propia"}`. `aidd run unit` responde «no aplica: <motivo>» y sale con 0. Una ranura ausente sigue siendo un error.
+
+## D21 ← P16 · La fundación entrega cada spec fundacional con el flujo completo
+
+`architect-system-foundation` llama a `build-requested-spec` una vez por spec fundacional, en el orden de D17. Pasan las mismas puertas que cualquier spec: es lo que da el «nace en verde» (D7). Coste asumido en D16. Con un arquetipo conforme, cada spec se verifica casi sin cambios.
+
+## D22 ← P17 · Los repos de arquetipo: su `AGENTS.md` y sin muestras
+
+En la fase 5, opcional, cada repo de arquetipo recibe su `AGENTS.md` desde la plantilla del Blueprint (D19) y pierde sus muestras (D18). Sin muestras, el manifiesto de muestras de D8 deja de hacer falta. La fabricación en serie pasa al siguiente sprint. Si la fase 5 no llega, la fundación trata el arquetipo como uno creado al vuelo (principio 6).
+
+## D23 ← P18 · `archetypes.md` es el catálogo por tipo de proyecto
+
+`archetypes.md` se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5). Cada fila da la tecnología del arquetipo y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17, D21).
