@@ -37,9 +37,6 @@ Every project must start the same way in every environment, with its settings ou
 - **R06**: WHEN a request to the `back-api` carries an `Origin` header listed in `CORS_ORIGIN`, the `back-api` SHALL answer with `Access-Control-Allow-Origin` set to that origin.
 - **R07**: WHILE `CORS_ORIGIN` is unset, the `back-api` SHALL answer every request with `Access-Control-Allow-Origin: *`.
 - **R08**: WHEN the `cli` runs with `--version`, it SHALL print its version and exit with code 0.
-- **R09**: WHEN a project under test already answers on its configured port, the `e2e` suite SHALL use it and start no other instance.
-- **R10**: WHEN a project under test does not answer on its configured port, the `e2e` suite SHALL start it in its configured directory with its start command and that `PORT`, wait until it answers, and stop it after the run.
-- **R11**: IF an `e2e` setting is invalid, or a project it started does not answer within the startup timeout, THEN the suite SHALL stop before any test and name the variable or the project, and the cause.
 
 ## Expected URLs and APIs
 
@@ -48,7 +45,6 @@ Every project must start the same way in every environment, with its settings ou
 | api | back-api | any path on `PORT` | An HTTP response, with the CORS header | R01, R02, R06, R07 |
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
 | command | cli | `--version` | The version; exit code 0 | R08 |
-| command | e2e | its `acceptance` command | Reuses or starts each project under test, or stops before any test with the cause | R09, R10, R11 |
 
 ## Solution
 
@@ -79,6 +75,9 @@ Every project must start the same way in every environment, with its settings ou
 - An invalid value is reported, never replaced by its default.
 - A project counts as answering when its port returns any HTTP response; `health` later narrows this to its health address.
 - Startup and teardown live in `core`, before and after the run; tests only read the base URLs.
+- Technical outcome, not acceptance requirements: the suite reuses a project that already answers on its port and starts no second instance; otherwise it starts the project in its directory with its start command and `PORT`, waits until it answers, and stops it after the run; an invalid setting or a project that does not answer in time stops the run before any test, naming the variable or the project and the cause. Every acceptance run exercises this, and `review-implementation` checks it; no test asserts it.
+
+
 
 ### All projects
 
@@ -100,6 +99,3 @@ Omitted: no entity, table, or endpoint changes.
 | R06 | Request the `back-api` with an `Origin` listed in `CORS_ORIGIN`; `Access-Control-Allow-Origin` equals it. |
 | R07 | With `CORS_ORIGIN` unset, any request gets `Access-Control-Allow-Origin: *`. |
 | R08 | Run the `cli` with `--version`; it prints a version and exits 0. |
-| R09 | Start the `back-api` by hand on its port, run the suite; no second instance starts and the hand-started one keeps running after the run. |
-| R10 | With nothing on the ports, run the suite; it starts each project, the tests reach them, and the ports are free after the run. |
-| R11 | Run the suite with `BACK_PORT=abc`, and with a `BACK_DIRECTORY` that holds no project; each run stops before any test and names the variable or the project. |
