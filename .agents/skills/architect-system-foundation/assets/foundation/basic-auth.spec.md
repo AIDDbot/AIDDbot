@@ -41,6 +41,7 @@ A system with users needs a minimal, safe way to know who calls it, before any f
 - **R09**: WHEN a user submits valid credentials on the login page, the `front-web` SHALL show the user's name in the navigation; on wrong credentials it SHALL show the error and allow a retry.
 - **R10**: WHILE a user is signed in, the `front-web` SHALL keep the session after a page reload.
 - **R11**: WHEN a user submits a form twice quickly, the `front-web` SHALL send one request.
+- **R12**: WHEN a user moves between `/register` and `/login` without a page reload, the form SHALL submit the operation of the page that it shows.
 
 ## Expected URLs and APIs
 
@@ -49,8 +50,8 @@ A system with users needs a minimal, safe way to know who calls it, before any f
 | api | back-api | `POST /api/auth/register` | 201 public user; 400 invalid input; 409 duplicate email | R01, R02, R03 |
 | api | back-api | `POST /api/auth/login` | 200 `{ token, user }`; 400 invalid input; 401 invalid credentials | R04, R05 |
 | api | back-api | `GET /api/auth/me` | 200 public user; 401 without a valid session | R06, R07 |
-| page | front-web | `/register` | Form with email, name, password; no role field | R08, R11 |
-| page | front-web | `/login` | Form with email and password | R09, R10, R11 |
+| page | front-web | `/register` | Form with email, name, password; no role field | R08, R11, R12 |
+| page | front-web | `/login` | Form with email and password | R09, R10, R11, R12 |
 
 ## Solution
 
@@ -98,3 +99,4 @@ A system with users needs a minimal, safe way to know who calls it, before any f
 | R09 | Log in through the page; the navigation shows the name. Use a wrong password; the error is shown and a retry works. |
 | R10 | Log in, reload the page; the navigation still shows the name. |
 | R11 | Double-click submit on register and on login; one request each. |
+| R12 | Open `/register`, follow the link to `/login` without a reload, and submit valid credentials: a login request is sent. Then follow the link back to `/register` and submit a new account: a register request is sent. |
