@@ -32,7 +32,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | --- | --- | --- | --- |
 | 0 | ✅ Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
 | 1 | ✅ Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
-| 2 | Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
+| 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | Skills | Skills | 6–8 oct |
 | 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct (opcional) |
@@ -64,6 +64,8 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 **Hecho cuando:** la plantilla no nombra ninguna tecnología, cabe en una lectura, cada sección cita su principio o decisión y rellenarla para Go y para TypeScript solo cambia los huecos.
 
 ### 2 · Blueprint funcional: plantilla de spec y specs fundacionales
+
+✅ Hecho el 2 oct: sección «Expected URLs and APIs» en `spec.template.md` de `define-spec`; las cuatro specs en `architect-system-foundation/assets/foundation/`, sacadas de los contratos de `back-express`, `front-standard` y `e2e-playwright`. Cambios frente al arquetipo: `health` añade `status: "ok"`, la página de salud pasa de `/about` a `/health`, la BD se configura con `DATABASE_URL` en lugar de `DB_PATH` y un `PORT` inválido detiene el arranque en lugar de recortarse.
 
 - **Plantilla de spec** de `define-spec`: nueva sección con las **URLs y APIs esperadas**, para que `e2e` genere sus pruebas básicas (principio 10, D18).
 - **Cuatro plantillas de spec fundacional** (D17), sacadas por sus contratos de los arquetipos de `C:/code/aidd/archetypes` (D18):

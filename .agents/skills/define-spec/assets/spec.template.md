@@ -31,6 +31,16 @@ domain: {domain}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 
+## Expected URLs and APIs
+
+{Every page, endpoint, or command the system must supply after this spec, so the `e2e` project derives its basic tests. Omit this section when the scope adds or changes none.}
+
+| Kind | Project | Address | Expected answer | Requirements |
+| --- | --- | --- | --- | --- |
+| page | {project} | `{/path}` | {What the page shows} | R01 |
+| api | {project} | `{METHOD /path}` | {Success status and body shape; each error status} | R01 |
+| command | {project} | `{command args}` | {Output and exit code} | R01 |
+
 ## Solution
 
 {One subsection per affected project.}
