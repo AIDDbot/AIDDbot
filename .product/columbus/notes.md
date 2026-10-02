@@ -92,7 +92,7 @@ Cambian a la vez plantillas, specs y modelo: la mejora no se atribuye a una sola
 
 ## Evidencia: fase 6, prueba `codex-3` (Hono + Vue + Playwright, stack de D32, Codex, YOLO)
 
-Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `--` en el núcleo y `monitoring` corregida. Prompt A sin herramientas: el agente eligió solo TypeScript 7, oxlint con `oxlint-tsgolint`, oxfmt y `node --test`. Sin intervención humana.
+Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `--` en el núcleo y `monitoring` corregida. El prompt aún nombraba npm, oxlint y oxfmt; el agente eligió solo TypeScript 7, `oxlint-tsgolint` y `node --test`, y dejó fuera `tsc`, Vitest y dependency-cruiser. Sin intervención humana.
 
 | Paso | `codex-1` | `codex-2` | `codex-3` |
 | --- | --- | --- | --- |
@@ -102,7 +102,7 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `-
 | `monitoring` | 15 min | 7 min | 4 min |
 | `health` | — | 6 min | 4 min |
 | `basic-auth` | — | 11 min | 8 min |
-| Total | sin terminar | 54 min | 36 min |
+| Total | sin terminar | 54 min | 36 min (41 con la reparación S0005 y el cierre) |
 
 ### Funcionó
 
@@ -114,11 +114,11 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `-
 
 ### Hechos y acción
 
-1. **La propuesta fijó el puerto 5173 y `DATABASE_PATH`**, contra los contratos de `configuration`; los `AGENTS.md` y el código se corrigieron al reformar, `system.md` quedó desfasado → la propuesta lee antes las specs fundacionales y respeta sus contratos.
+1. **El borrador de la propuesta tenía el puerto 5173 y `DATABASE_PATH`**; el agente lo alineó con los contratos de `configuration` antes del commit. Se añade igualmente la regla de leer las specs fundacionales antes de proponer.
 2. **`pnpm-workspace.yaml` otra vez**, con la regla ya en el skill → `aidd config set` rechaza un proyecto con ficheros de dos gestores.
 3. **Revisión roja en S0001**: el front sirvió `/runtime-config.json` y la spec decía «sin endpoints» → la spec declara `GET /runtime-config.json` (R09, URLs, impacto de esquema). Deuda D0001 `high`.
 4. **Bug funcional que los tests no vieron**: Vue reutiliza la página entre `/register` y `/login` y el formulario envía la operación anterior. Lo encontró la revisión → D0002 `high`. La spec `basic-auth` no tiene requisito para el cambio de página sin recarga.
-5. **El orquestador empezó a reparar D0002 por su cuenta** tras entregar la última spec, en lugar de cerrar con `lint`, `unit` y `acceptance`. La reparación de deuda es de `craft-lasting-quality`.
+5. **El orquestador reparó D0002 por su cuenta** tras entregar la última spec: S0005 `fix` en 3 min, revisión green, D0002 retirada y regla promovida al `AGENTS.md` del front. Después cerró con `lint`, `unit` y `acceptance` en verde (33 tests). Salió bien, pero no lo pide el skill: la reparación de deuda es de `craft-lasting-quality`.
 6. **Observar:** un commit `docs(system): correct archetype code fences` por el apéndice de `system.md`, que duplica los `AGENTS.md` creados al vuelo.
 
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
