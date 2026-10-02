@@ -54,6 +54,7 @@ Every project must start the same way in every environment, with its settings ou
 
 ### back-api
 
+- `core` reads settings with the `readSetting` and `parseInteger` shared primitives (see the project's `AGENTS.md`), creating them if missing.
 - `main` starts `core`; `core` reads and validates every setting once, before it opens the port, and injects them into the features and `shared` that need them.
 - Settings: `PORT` (default 3000), `HOST` (default: all interfaces), `DATABASE_URL` (connection to the database; a local default for development), `CORS_ORIGIN` (comma-separated origins; default `*`).
 - `core` opens the database connection from `DATABASE_URL` and hands it to `shared/data`.

@@ -115,6 +115,26 @@ The framework mechanism column says how the framework realizes each concept (its
 └── {shared_folder}/      # helpers by layer, no business
 ```
 
+### Shared primitives
+
+<!-- [Blueprint] seed and naming convention · [Archetype] paths and idiomatic names · [Project] `ship-spec` adds each new primitive. D29. -->
+
+The index of reusable helpers in `shared`. Read it before writing any check or conversion, and add a helper here when it is used in two places. One file per topic, named by the topic; one function per contract, named by what it returns or asserts. A failing check raises the expected error of `monitoring`.
+
+| Primitive | Contract | Path |
+| --- | --- | --- |
+| `parseInteger(value, min, max)` | An integer within the range, or an expected error | `{shared_folder}/logic/{numbers_file}` |
+| `requireText(value, field)` | Trimmed, non-empty text, or an expected error naming the field | `{shared_folder}/logic/{text_file}` |
+| `isRecord(value)` | Whether the value is a key-value object; the base of every type guard | `{shared_folder}/logic/{types_file}` |
+| {environment primitive} | {see the variations below} | {path} |
+
+| Project type | Environment primitive | Contract |
+| --- | --- | --- |
+| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/logic/{settings_file}` | An environment variable parsed, or its fallback; an invalid value stops the startup |
+| `front-web` | `escapeHtml(text)` in `{shared_folder}/presentation/{html_file}` | Text safe to insert in a page |
+| `cli` | `fail(message)` in `{shared_folder}/presentation/{output_file}` | `error: <message>` to standard error and exit code 1 |
+| `e2e` | `uniqueValue(prefix)` in `{shared_folder}/{test_data_file}` | A value no other test run repeats |
+
 ## 6 · Coding rules
 
 ### General rules
@@ -123,6 +143,8 @@ The framework mechanism column says how the framework realizes each concept (its
 
 - Names are idiomatic for the language and use the domain vocabulary.
 - Functions stay simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Files ≤ {300} lines.
+- A condition with more than one logical operator becomes a predicate named in the domain vocabulary.
+- Before writing a check or a conversion, look for it in the shared primitives; move it there once two places use it.
 - Errors are never silenced. The project handles them in one way only.
 - Configuration comes from the environment, never from literals in code.
 - Dependencies are added with the package manager's add command, which resolves the latest release; a version is never written by hand or from memory.

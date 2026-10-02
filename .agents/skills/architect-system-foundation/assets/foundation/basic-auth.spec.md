@@ -56,6 +56,7 @@ A system with users needs a minimal, safe way to know who calls it, before any f
 
 ### back-api
 
+- Input checks use the `requireText` shared primitive; email normalization becomes a new shared primitive in `logic`, added to the project's `AGENTS.md`.
 - Feature `auth`: `presentation` has the three routes; `logic` validates input, normalizes the email to lower case, hashes and verifies passwords with a slow, salted algorithm that OWASP recommends, and creates sessions; `data` stores users and sessions.
 - The token is random and opaque; the session lives in the database, so it can be revoked.
 - On an unknown email, `logic` still runs one password verification, so both failures take the same time.

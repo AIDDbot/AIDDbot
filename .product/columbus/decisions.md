@@ -230,3 +230,11 @@ Un framework con scaffolding y convenios propios no se fuerza ni se copia: se tr
 ## D28 ← D19 · `.agents/rules/` queda deprecada
 
 El `AGENTS.md` de cada proyecto sustituye a `.agents/rules/{project}.rules.md` en todos los arneses: Copilot, Cursor y Codex lo leen en subcarpetas, y Claude Code lo carga desde el `CLAUDE.md` con `@AGENTS.md` que deja la fundación. El instalador deja de tratar `.agents/rules/` como árbol propio y ningún adaptador lo genera. Solo `rule-project`, congelada para brownfield, sigue escribiendo ahí hasta que se rehaga (D19).
+
+## D29 ← Fase 6 (validaciones repetidas) · Primitivos compartidos: semilla pequeña que crece
+
+Los agentes repiten comprobaciones (número, entero, rango) porque no ven lo que ya existe, y encadenan condiciones sin nombre. No es una spec: no hay comportamiento observable. Es parte técnica del Blueprint.
+
+- **Reglas generales:** una condición con más de un operador lógico se extrae a un predicado con nombre del dominio; antes de escribir una comprobación se busca en los primitivos, y lo que se usa en dos sitios se mueve a `shared`.
+- **Índice en el `AGENTS.md`:** subsección «Shared primitives» de la sección 5, con contrato y ruta de cada primitivo. La semilla es mínima y fija la convención (un fichero por tema, una función por contrato, el error esperado de `monitoring`): `parseInteger` (números), `requireText` (texto), `isRecord` (tipos) y uno por entorno: `readSetting` (back), `escapeHtml` (front), `fail` (cli), `uniqueValue` (e2e).
+- **Crece con las specs:** las fundacionales estrenan la semilla (`configuration`, `basic-auth`) y `ship-spec` añade al índice cada primitivo nuevo. `review-implementation` anota como deuda, sin bloquear, una condición compuesta sin nombre o una comprobación que duplica un primitivo.
