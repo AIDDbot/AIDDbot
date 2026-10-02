@@ -33,7 +33,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | 0 | ✅ Principios, decisiones y cerrar P15–P18 | Diálogo | 2 oct |
 | 1 | ✅ Blueprint técnico: plantilla `AGENTS.md` de proyecto | Redacción | 3 oct |
 | 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
-| 3 | Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
+| 3 | ✅ Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | Skills | Skills | 6–8 oct |
 | 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct (opcional) |
 | 6 | Prueba en greenfield real | Prueba | 9 oct |
@@ -77,6 +77,8 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 **Hecho cuando:** las cuatro plantillas no nombran ninguna herramienta, framework ni lenguaje, ni siquiera en Solution o Schema impact; Solution va por roles y conceptos de D1–D6; cada una declara sus URLs y APIs; y sus requisitos son contratos verificables en cualquier stack.
 
 ### 3 · Núcleo
+
+✅ Hecho el 2 oct: `aidd run format` (nunca se registra como evidencia) y ranuras `{"na": "<motivo>"}` validadas en `config set`; `aidd run` las informa como superadas. Prueba nueva en `test/core.test.mjs`; `docs/AIDD.workflow.md` al día.
 
 - Nueva clase de ejecución `format` en `aidd run` (hoy `RUN_KINDS` = `lint`, `unit`, `acceptance`, `quality`).
 - Registrar «no aplica» con motivo en `config.json` como `{"na": "<motivo>"}` (D20).

@@ -23,7 +23,7 @@ export function untested(root, dir, id) {
   const required = [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
   if (!required.length) return [];
   const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});
-  const text = projects.filter((project) => project.commands?.acceptance)
+  const text = projects.filter((project) => project.commands?.acceptance && typeof project.commands.acceptance.na !== "string")
     .flatMap((project) => sources(path.join(root, project.path)))
     .map((file) => fs.readFileSync(file, "utf8")).join("\n");
   return required.filter((requirement) => !text.includes(`@${id}-${requirement}`));

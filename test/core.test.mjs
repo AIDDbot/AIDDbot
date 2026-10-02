@@ -293,6 +293,23 @@ test("config set and get, then run executes the configured commands", () => {
   assert.equal(aidd(root, "run", "acceptance").code, 3);
 });
 
+test("a slot that does not apply needs its reason, and run reports it as ok; format is never evidence", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "e2e"));
+  const project = { path: "e2e", commands: { unit: { na: "no own logic" }, format: "node -e \"process.exit(0)\"" } };
+  assert.equal(aidd(root, "config", "set", "projects.e2e", JSON.stringify(project)).code, 0);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", '{ "na": "" }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", '{ "skip": true }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", "[]").code, 2);
+  const unit = aidd(root, "run", "unit");
+  assert.equal(unit.code, 0);
+  assert.deepEqual(unit.body.runs, [{ project: "e2e", ok: true, na: "no own logic" }]);
+  aidd(root, "spec", "new", "feat", "rockets", "Rockets");
+  assert.equal(aidd(root, "run", "format").code, 0);
+  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.format, undefined);
+  assert.equal(aidd(root, "run", "lint").code, 3);
+});
+
 test("integrate commits and merges a task branch; log journals a capped judgment", () => {
   const root = repo();
   git(root, "switch", "-q", "-c", "chore/document");

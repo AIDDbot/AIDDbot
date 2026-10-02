@@ -10,7 +10,7 @@ import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./
 const COMMANDS = {
   spec: [spec, "spec new <type> <slug> <title> [--domain <d>] | spec show [<id>]"],
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>] [--preexisting <D IDs>]"],
-  run: [run, "run <lint|unit|acceptance|quality> [--project <name>] [--spec]"],
+  run: [run, "run <lint|format|unit|acceptance|quality> [--project <name>] [--spec]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
   debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] | debt list | debt remove <id>'],
   commit: [commit, 'commit "<message>" [<path>...]'],

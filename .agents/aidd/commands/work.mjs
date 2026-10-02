@@ -9,7 +9,8 @@ import {
 import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
 import { untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "unit", "acceptance", "quality"];
+const RUN_KINDS = ["lint", "format", "unit", "acceptance", "quality"];
+const NOT_EVIDENCE = new Set(["format"]);
 const TAIL = 1500;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const configFile = (root) => aiddbotPath(root, "config.json");
@@ -28,6 +29,26 @@ function exec(root, cwd, command, log, minutes) {
   const entry = { command, ok: result.status === 0, exitCode: result.status ?? 1, seconds: Math.round((Date.now() - started) / 1000) };
   if (result.error?.code === "ETIMEDOUT") entry.timedOut = `killed after ${minutes} minutes`;
   return { ...entry, log: relative(root, log), tail: fs.readFileSync(log, "utf8").trim().slice(-TAIL) };
+}
+
+/** A slot that does not apply holds `{"na": "<reason>"}` instead of a command. */
+const isNa = (slot) => typeof slot?.na === "string";
+
+/** A slot is a command, a list of commands, or a "not applicable" with its reason. */
+function validSlot(slot) {
+  const command = (value) => typeof value === "string" && value.trim() !== "";
+  if (Array.isArray(slot)) return slot.length > 0 && slot.every(command);
+  if (slot && typeof slot === "object") return Object.keys(slot).length === 1 && isNa(slot) && slot.na.trim() !== "";
+  return command(slot);
+}
+
+/** The slots that `value` sets at `parts` (`projects.<p>`, `projects.<p>.commands`, or one slot). */
+function slotsOf(parts, value) {
+  if (parts[0] !== "projects") return [];
+  if (parts.length === 2) return Object.entries(value?.commands ?? {});
+  if (parts.length === 3 && parts[2] === "commands") return Object.entries(value ?? {});
+  if (parts.length === 4 && parts[2] === "commands") return [[parts[3], value]];
+  return [];
 }
 
 /** Keep the latest run of each kind in the spec of the current branch, as evidence for `eval`. */
@@ -49,12 +70,19 @@ export function run(root, [kind], flags) {
   const projects = settings.projects ?? {};
   const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
-    .filter((name) => [projects[name]?.commands?.[kind] ?? []].flat().length);
-  if (!names.length) throw new UnavailableError(`No '${kind}' command is configured; rule-project records them.`);
+    .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length);
+  if (!names.length) {
+    throw new UnavailableError(`No '${kind}' command is configured; the foundation records each project's slots from its AGENTS.md.`);
+  }
   const scoped = kind === "acceptance" && flags.spec ? requireSpec(root) : null;
   const id = scoped && path.basename(scoped).slice(0, 5);
   const runs = [];
   for (const name of names) {
+    const slot = projects[name].commands[kind];
+    if (isNa(slot)) {
+      runs.push({ project: name, ok: true, na: slot.na });
+      continue;
+    }
     const commands = [projects[name].commands[kind]].flat().map((command) => (id ? `${command} --grep @${id}-` : command));
     commands.forEach((command, index) => {
       const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
@@ -62,9 +90,10 @@ export function run(root, [kind], flags) {
     });
   }
   const ok = runs.every((entry) => entry.ok);
-  const summary = runs.map((entry) => `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`);
+  const summary = runs.map((entry) => (entry.na !== undefined ? `${entry.project} n/a: ${entry.na}`
+    : `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`));
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
-  if (!id) recordRun(root, kind, ok, names);
+  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, ok, names);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs } : { kind, ok, runs };
   return { body, exitCode: ok ? 0 : 1 };
 }
@@ -85,6 +114,10 @@ export function config(root, [action, key, value]) {
   }
   if (parts[0] === "projects" && parts.length === 2 && (typeof parsed?.path !== "string" || path.isAbsolute(parsed.path))) {
     throw new UsageError('A project needs a relative "path" and a "commands" object.');
+  }
+  const invalid = slotsOf(parts, parsed).find(([, slot]) => !validSlot(slot));
+  if (invalid) {
+    throw new UsageError(`Slot '${invalid[0]}' must be a command, a list of commands, or {"na": "<reason>"}.`);
   }
   let node = current;
   for (const part of parts.slice(0, -1)) node = node[part] ??= {};
