@@ -2,9 +2,20 @@
 
 Guidance to fill the Tooling section of [`project.AGENTS.template.md`](./project.AGENTS.template.md). It never obliges: the archetype chooses the best tool for its stack, and any tool that meets the slot contract is valid.
 
+## JS / TS: the required stack
+
+JS / TS is the exception: AIDDbot sets its stack.
+
+- Use TypeScript 7. Never pin an older major. If a tool does not support TypeScript 7, replace the tool. Do not keep the old TypeScript.
+- Use the oxc family: oxlint for `lint`, layer boundaries, and `quality`; oxfmt for `format`.
+- Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
+- Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
+- In a Vue project, type-check the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
+- Vite+ is not yet in the stack.
+
 | Ecosystem | `lint` | Types (inside `lint`) | `format` | `unit` | Boundaries (inside `lint`) | `quality` |
 | --- | --- | --- | --- | --- | --- | --- |
-| JS / TS | ESLint, Biome, oxlint | `tsc --noEmit` | Prettier, `biome format --write`, oxfmt | Vitest, `node --test`, Jest | `eslint-plugin-boundaries`, dependency-cruiser | ESLint complexity rules, SonarJS |
+| JS / TS | oxlint (type-aware) | `tsc --noEmit` with TypeScript 7 | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder | oxlint complexity and size rules |
 | Go | `go vet`, golangci-lint | compiler | `gofmt -w` | `go test` | `internal/` + depguard | gocyclo, gocognit |
 | Rust | `cargo clippy` | compiler | `cargo fmt` | `cargo test` | module visibility | `clippy::cognitive_complexity` |
 | PHP | PHP_CodeSniffer | PHPStan, Psalm | `php-cs-fixer fix` | PHPUnit, Pest | Deptrac | PHPMD |

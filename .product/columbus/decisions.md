@@ -255,3 +255,15 @@ Las plantillas son instrucciones para modelos: STE reduce la ambigüedad igual q
 - **Lo que escriben los agentes:** una regla de estilo en la plantilla del `AGENTS.md` raíz (`outline-system`). En otros idiomas se aplican las mismas reglas, no el diccionario.
 - **Sin cambio:** los requisitos ya son EARS, un lenguaje controlado compatible. Los nombres técnicos se permiten.
 - **Fuera del piloto:** las otras tres specs fundacionales, la plantilla de fix y los `SKILL.md`. Se extiende si la siguiente prueba muestra `AGENTS.md` y specs más claros que los de `codex-1`.
+
+## D32 ← Prueba `codex-2` (TypeScript 7) · En JS/TS, AIDDbot fija el stack
+
+En `codex-2`, TypeScript 7 rompió dependency-cruiser y `@typescript-eslint/parser` (usan la API en JavaScript de TypeScript, que la 7 nativa ya no ofrece) y el freno de D30 fijó la 6. Para JS/TS se decide al revés: el lenguaje manda y se cambian las herramientas.
+
+- **TypeScript 7 obligatorio.** Nunca se fija una mayor anterior; si una herramienta no lo soporta, se sustituye. Excepción al freno de D30.
+- **Familia oxc:** oxlint para `lint` (con tipos), fronteras (`no-restricted-imports` con `overrides` por carpeta) y `quality`; oxfmt para `format`.
+- **Tests nativos:** `node --test` para `unit`; Node ejecuta TypeScript directamente. Sin Vitest ni Jest.
+- **Sin herramientas que usen la API en JavaScript de TypeScript** (dependency-cruiser, `@typescript-eslint/parser`).
+- **Vue:** los `.ts` se comprueban con TypeScript 7; los `.vue` quedan sin comprobación de tipos hasta que `vue-tsc` soporte la 7, y el hueco se escribe en las reglas de tecnología.
+- **Vite+:** fuera por ahora; entra cuando sea más conocido.
+- El canario de D30 sigue siendo la prueba de que las fronteras con oxlint detectan de verdad.
