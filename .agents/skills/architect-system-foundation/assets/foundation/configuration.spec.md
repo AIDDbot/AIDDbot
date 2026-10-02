@@ -21,6 +21,7 @@ Every project must start the same way in every environment, with its settings ou
 - Every setting must come from an environment variable, with a documented default.
 - A project must not start with an invalid setting.
 - A `front-web` project must reach the `back-api` only through its configured base URL.
+- The `e2e` suite must know, for each project under test, its directory, its port, and its start command, so it can reuse a running project or start it.
 
 ### Out of context
 
@@ -36,6 +37,9 @@ Every project must start the same way in every environment, with its settings ou
 - **R06**: WHEN a request to the `back-api` carries an `Origin` header listed in `CORS_ORIGIN`, the `back-api` SHALL answer with `Access-Control-Allow-Origin` set to that origin.
 - **R07**: WHILE `CORS_ORIGIN` is unset, the `back-api` SHALL answer every request with `Access-Control-Allow-Origin: *`.
 - **R08**: WHEN the `cli` runs with `--version`, it SHALL print its version and exit with code 0.
+- **R09**: WHEN a project under test already answers on its configured port, the `e2e` suite SHALL use it and start no other instance.
+- **R10**: WHEN a project under test does not answer on its configured port, the `e2e` suite SHALL start it in its configured directory with its start command and that `PORT`, wait until it answers, and stop it after the run.
+- **R11**: IF an `e2e` setting is invalid, or a project it started does not answer within the startup timeout, THEN the suite SHALL stop before any test and name the variable or the project, and the cause.
 
 ## Expected URLs and APIs
 
@@ -44,6 +48,7 @@ Every project must start the same way in every environment, with its settings ou
 | api | back-api | any path on `PORT` | An HTTP response, with the CORS header | R01, R02, R06, R07 |
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
 | command | cli | `--version` | The version; exit code 0 | R08 |
+| command | e2e | its `acceptance` command | Reuses or starts each project under test, or stops before any test with the cause | R09, R10, R11 |
 
 ## Solution
 
@@ -65,7 +70,14 @@ Every project must start the same way in every environment, with its settings ou
 
 ### e2e
 
-- The base URL of each project under test comes from `{PROJECT}_URL` (for example `BACK_URL`, `FRONT_URL`), with defaults `http://localhost:3000` and `http://localhost:4000`.
+- `core` reads, for each project under test (`{PROJECT}` is its name in upper case):
+  - `{PROJECT}_DIRECTORY`: its physical folder, to start it; default its source folder relative to the e2e project (for example `../back`).
+  - `{PROJECT}_PORT`: its port, to reuse or start it; default 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`.
+  - `{PROJECT}_START`: its start command; default the `start` slot of that project's `AGENTS.md`, written in the example environment file at the foundation.
+  - `E2E_STARTUP_TIMEOUT_MS`: how long to wait for a started project; default 15000.
+- An invalid value is reported, never replaced by its default.
+- A project counts as answering when its port returns any HTTP response; `health` later narrows this to its health address.
+- Startup and teardown live in `core`, before and after the run; tests only read the base URLs.
 
 ### All projects
 
@@ -87,3 +99,6 @@ Omitted: no entity, table, or endpoint changes.
 | R06 | Request the `back-api` with an `Origin` listed in `CORS_ORIGIN`; `Access-Control-Allow-Origin` equals it. |
 | R07 | With `CORS_ORIGIN` unset, any request gets `Access-Control-Allow-Origin: *`. |
 | R08 | Run the `cli` with `--version`; it prints a version and exits 0. |
+| R09 | Start the `back-api` by hand on its port, run the suite; no second instance starts and the hand-started one keeps running after the run. |
+| R10 | With nothing on the ports, run the suite; it starts each project, the tests reach them, and the ports are free after the run. |
+| R11 | Run the suite with `BACK_PORT=abc`, and with a `BACK_DIRECTORY` that holds no project; each run stops before any test and names the variable or the project. |
