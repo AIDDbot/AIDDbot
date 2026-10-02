@@ -45,10 +45,11 @@ Sistema de prueba sin funcionalidad de negocio: solo la fundación.
 Propósito: validar el scaffold.
 Usuarios: un operador genérico, así que incluye basic-auth.
 Proyectos: back-api con Node y Express; front-web con HTML, CSS y TypeScript modernos sin framework, servido con Vite; e2e con Playwright.
+En el front, usa solo la plataforma web Baseline: custom elements y <template> para componentes, Navigation API y URLPattern para el router, validación nativa de formularios, fetch con AbortController, CSS con custom properties y nesting, y módulos ES con import dinámico por página.
 Rechazo los arquetipos del catálogo: créalos al vuelo para esas tecnologías.
 ```
 
-Sin framework que guíe, el router y los componentes los construye el agente desde el Blueprint. Comparar el resultado con `back-express` y `front-standard` sin que los copie: material para la fase 5. Vigilar: router y componentes sobredimensionados; `start` sin build (`vite`).
+Sin framework que guíe, el router y los componentes los construye el agente desde el Blueprint. Comparar el resultado con `back-express` y `front-standard` sin que los copie: material para la fase 5. Vigilar: router y componentes sobredimensionados; `start` sin build (`vite`); dónde coloca cada pieza (componentes en `presentation`, router como manifiesto, `fetch` en `data`). La Navigation API basta para Chromium; para un arquetipo real, añadir History API si hace falta compatibilidad.
 
 ### D · Interactivo (D25)
 
