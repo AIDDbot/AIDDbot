@@ -272,3 +272,7 @@ En `codex-2`, TypeScript 7 rompió dependency-cruiser y `@typescript-eslint/pars
 ## D33 ← D4, D29 · Los primitivos de `shared/logic` los usa cualquier capa
 
 Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `shared/logic`, mientras que la capa `data` de una funcionalidad sí podía. Enmienda D4: `shared/logic` contiene primitivos que no dependen de nada (ni de `shared/presentation` ni de `shared/data`) y cualquier capa los puede usar. La dirección `presentation` → `logic` → `data` sigue para el resto de `shared` y dentro de las funcionalidades.
+
+## D34 ← D31 · STE en todas las specs fundacionales y en la plantilla de fix
+
+`codex-2` y `codex-3` salieron con `AGENTS.md` y specs claros y sin dudas de interpretación, aunque la mejora no se puede atribuir solo a STE. Se extiende el piloto de D31 a `monitoring`, `health`, `basic-auth` y `spec.fix.template.md`, con los mismos contratos, requisitos y tablas. Los `SKILL.md` siguen fuera.

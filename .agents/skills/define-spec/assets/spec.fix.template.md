@@ -10,29 +10,29 @@ domain: {domain}
 
 ## Problem
 
-{What is wrong and its evidence, citing the source D IDs and the shipped requirement it breaks, if any.}
+{What is incorrect and its evidence. Give the source D IDs and the shipped requirement that it breaks, if there is one. Write short sentences, with one statement in each sentence.}
 
 ## Requirements
 
-{One line per behavior an acceptance test can prove, numbered R01, R02, … without gaps, in EARS with uppercase keywords. A `fix` has at least one; a `refactor` or `chore` may have none: delete this section then.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements. A `refactor` or a `chore` can have none: then remove this section.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 
 ## Solution
 
-{One subsection per affected project, and what it changes.}
+{One subsection for each project that changes, and what changes.}
 
 ### {project}
 
-{Proposed change, bounded by the evidence in Problem.}
+{The change. Keep it inside the evidence of the Problem.}
 
 ## Schema impact
 
-{Omit this section when no entity, table, or endpoint changes; otherwise use the rows of `spec.template.md`.}
+{If no entity, table or endpoint changes, remove this section. Otherwise, use the rows of `spec.template.md`.}
 
 ## Verification
 
-{A `fix` needs one acceptance test per requirement. A `refactor` or `chore` without requirements needs none: the full acceptance run and the check that reported the debt are its verification.}
+{A `fix` needs one acceptance test for each requirement. A `refactor` or a `chore` without requirements needs none: the full acceptance run and the check that reported the debt are its verification.}
 
 | Requirement | Acceptance test |
 | --- | --- |
@@ -40,4 +40,4 @@ domain: {domain}
 
 ## Technical debt
 
-{One line per repaired D ID: `- D0000 — title`. Omit this section when no debt is repaired.}
+{One line for each repaired D ID: `- D0000 — title`. If the spec repairs no debt, remove this section.}
