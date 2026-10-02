@@ -121,6 +121,37 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-3/`. Versión con D25–D33, `-
 5. **El orquestador reparó D0002 por su cuenta** tras entregar la última spec: S0005 `fix` en 3 min, revisión green, D0002 retirada y regla promovida al `AGENTS.md` del front. Después cerró con `lint`, `unit` y `acceptance` en verde (33 tests). Salió bien, pero no lo pide el skill: la reparación de deuda es de `craft-lasting-quality`.
 6. **Observar:** un commit `docs(system): correct archetype code fences` por el apéndice de `system.md`, que duplica los `AGENTS.md` creados al vuelo.
 
+## Evidencia: fase 6, prueba `claude-4` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/claude-4/`. Versión `0e52fad` (STE en las specs fundacionales). Réplica de los arquetipos propios (`back-express`, `front-standard`, `e2e-playwright`) sin copiarlos. Sin intervención humana (solo un `stop` antes del prompt real).
+
+| Paso | `codex-3` | `claude-4` |
+| --- | --- | --- |
+| Propuesta | 2 min | 9 min (probó los tres comandos de scaffold en el scratchpad) |
+| Scaffold, outline, integración | 8 min | 12 min |
+| `configuration` | 6 min | 7 min |
+| `monitoring` | 4 min | 5 min |
+| `health` | 4 min | 5 min |
+| `basic-auth` | 8 min | 8 min |
+| Total | 36 min | 47 min, verde, sin reparaciones |
+
+### Funcionó
+
+- Comprobado a mano: `run lint` y `run acceptance` en verde (34 tests). Canario: `features/health/data` importando `core/settings.ts` → `no-restricted-imports` con el mensaje de la regla.
+- Stack D32 sin `tsc` ni build: Node 26 con type stripping, `node:sqlite`, Express 5; `start` del front es `vite`.
+- Front con la plataforma Baseline, sin sobredimensionar: router de 38 líneas (Navigation API + `URLPattern`) sobre el manifiesto de páginas con `import()` por página; páginas y shell como custom elements con `<template>`; `fetch` en `data` con `AbortSignal.any` (señal de navegación + timeout); validación nativa con `setCustomValidity`. Total sin tests: 2438 líneas en los tres proyectos, del orden de los arquetipos actuales (~2700).
+- Manifiesto del back con `access: public | protected` y el guard aplicado por `core`: protegido por defecto, como `back-express`.
+- Verificaciones green a la primera en las cuatro specs. No reparó deuda por su cuenta (al contrario que `codex-3`): recomendó `/craft-lasting-quality`.
+
+### Hechos y acción
+
+1. **Tercera revisión roja en S0001 seguida** (`codex-3`: endpoint no declarado; ahora puertos y URLs escritos en los tests de `configuration`, contra `e2e/AGENTS.md`) → D0001 `high`. Los tests de puertos por defecto (R02, R04) chocan con la instancia de la suite. El helper de puerto libre y de arranque con entorno propio llegó después (`docs(e2e): index the shared process and probe helpers`). Acción a decidir: que el Blueprint de `e2e` traiga ese primitivo desde el scaffold, o que `configuration` no pruebe los puertos por defecto.
+2. **Seguridad en verde con una deuda de seguridad `high`**: la spec pide un hash «que OWASP recomienda» y el Builder usó `scrypt` con los valores por defecto (N=2^14 < 2^17) → D0003. La revisión pasó la puerta de seguridad y lo anotó como deuda. Incoherente: incumplir un mínimo que la spec cita debería fallar la puerta.
+3. **El Builder inventó un requisito**: `minlength="8"` en el registro, que ni la spec ni la api piden → D0004. El orquestador lo vio y pidió al Craftsman que lo juzgara. Principio a reforzar en `implement-project`: nada de reglas de negocio fuera de la spec.
+4. **Import dinámico roto para `auth`**: `web/src/features/manifest.ts` importa `./auth/index.ts` de forma estática (`restoreSession`) y además con `import()`; Vite deja el módulo en el chunk principal. Ni lint ni la revisión lo vieron.
+5. **Contratos frente a los arquetipos** (vienen de nuestras specs, no del agente): `GET /api/health` añade `status`; `DATABASE_URL` en lugar de `DB_PATH`. A alinear en la fase 5.
+6. **Observar:** `system.md` de 626 líneas, con los tres `AGENTS.md` duplicados como apéndice (igual que `codex-3`); rama por defecto `master`; `upgrade` con `npx -y npm-check-updates@latest` porque la instalación global de la máquina estaba rota.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
