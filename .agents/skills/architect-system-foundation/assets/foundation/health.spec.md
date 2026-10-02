@@ -37,7 +37,6 @@ Before any business feature, every layer of every project must be proven to work
 - **R07**: WHEN a user opens an unknown path directly, the `front-web` SHALL show a not-found page with the requested path and a link to `/`.
 - **R08**: WHEN a user follows a navigation link, the `front-web` SHALL change the page without a full document reload.
 - **R09**: WHEN the `cli` runs `health`, it SHALL print the status, the runs, and exit with code 0.
-- **R10**: IF a project under test does not answer its health address, THEN the `e2e` suite SHALL stop before any test and name that project.
 
 ## Expected URLs and APIs
 
@@ -69,7 +68,7 @@ Before any business feature, every layer of every project must be proven to work
 
 ### e2e
 
-- A preflight, before any test, probes each project's health address (`GET /api/health` for the `back-api`, `/` for the `front-web`) and stops the run with the name of the project that does not answer.
+- Technical outcome, not an acceptance requirement: a preflight, before any test, probes each project's health address (`GET /api/health` for the `back-api`, `/` for the `front-web`) and stops the run with the name of the project that does not answer. Every acceptance run exercises it; no test asserts it.
 - Page objects for the shell, `/health`, and the not-found page live in the e2e `data` layer.
 
 ## Schema impact
@@ -93,4 +92,3 @@ Before any business feature, every layer of every project must be proven to work
 | R07 | Open `/no-such-page` directly; the not-found page shows `/no-such-page` and a link to `/`. |
 | R08 | Mark the document, follow the link to `/health`, then back to `/`; the mark survives. |
 | R09 | Run the `cli` with `health`; it prints status and runs and exits 0. |
-| R10 | Run the suite with a project down; it stops before any test and names the project. |
