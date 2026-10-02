@@ -71,6 +71,7 @@ The project has one entry point and three folders. Each feature has three layers
 - `presentation`: the input from the caller and the output to the caller (route, page, command, test).
 - `logic`: rules and decisions. It does not know how the data is stored or found.
 - `data`: all that the project reads or writes outside itself: database, remote API, files.
+- Exception: each layer can use the primitives of `shared/logic`. These primitives depend on nothing.
 
 - **Facade**: each feature has one entry file. This file contains only the registration for the manifest and the types that other features need. The registration gets the dependencies that `core` makes (configuration, connections) by injection.
 - **Manifest**: one file in the features folder. It lists the registration of each feature explicitly. Do not use automatic discovery: no folder scans and no global decorators.

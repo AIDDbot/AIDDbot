@@ -2,7 +2,7 @@
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
 > Los prompts y el guion de cada prueba están en `experiments.md`.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D32) y las dudas, todas cerradas, en `notes.md`.
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D33) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 

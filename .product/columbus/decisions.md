@@ -268,3 +268,7 @@ En `codex-2`, TypeScript 7 rompió dependency-cruiser y `@typescript-eslint/pars
 - **Vue:** los `.ts` se comprueban con TypeScript 7; los `.vue` quedan sin comprobación de tipos hasta que `vue-tsc` soporte la 7, y el hueco se escribe en las reglas de tecnología.
 - **Vite+:** fuera por ahora; entra cuando sea más conocido.
 - El canario de D30 sigue siendo la prueba de que las fronteras con oxlint detectan de verdad.
+
+## D33 ← D4, D29 · Los primitivos de `shared/logic` los usa cualquier capa
+
+Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `shared/logic`, mientras que la capa `data` de una funcionalidad sí podía. Enmienda D4: `shared/logic` contiene primitivos que no dependen de nada (ni de `shared/presentation` ni de `shared/data`) y cualquier capa los puede usar. La dirección `presentation` → `logic` → `data` sigue para el resto de `shared` y dentro de las funcionalidades.
