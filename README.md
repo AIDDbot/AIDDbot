@@ -28,7 +28,7 @@ Then choose the outcome you need by running the appropriate command
 | Deliver a requested spec | `/build-requested-spec` your requirements |
 | Review quality and repair technical debt | `/craft-lasting-quality` |
 
-The architecture flow documents existing code, or proposes and scaffolds a new system when no application source exists. 
+The architecture flow documents existing code, or proposes, scaffolds, and delivers the foundation of a new system, so it starts green. 
 The builder flow turns a natural-language request into an approved specification, implementation, evidence, and release. 
 The craftsman flow runs the configured quality checks and delivers one selected repair.
 
