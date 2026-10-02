@@ -87,7 +87,8 @@ Cambian a la vez plantillas, specs y modelo: la mejora no se atribuye a una sola
 3. **`npm run acceptance` sin `--` otra vez** (segunda prueba) → el núcleo inserta `--` en scripts de npm.
 4. **Log síncrono otra vez** (D0002, igual que en `codex-1`) → la spec `monitoring` pide escritura sin bloqueo y pone el escritor en `shared/data`.
 5. **Deuda registrada:** D0001 predicados sin nombre (`low`), D0002 log síncrono (`medium`), D0003 error de email duplicado sin enlazar a su campo (`low`).
-6. **Observar:** las tablas de variaciones (por tipo y de primitivos de entorno) se copian enteras a cada proyecto, con filas de `cli` y `e2e` que no aplican; un commit de README dentro de la rama de S0004; `features/feature/index.ts` literal en `front-web/AGENTS.md`.
+6. **De la transcripción:** el agente comprobó a mano que el análisis de fronteras leyera los imports de los `.vue`; la referencia de oxlint solo cubría `*.ts` → globs `.vue` añadidos y probados. Un error del arnés («Selected model is at capacity») no rompió la ejecución.
+7. **Observar:** las tablas de variaciones (por tipo y de primitivos de entorno) se copian enteras a cada proyecto, con filas de `cli` y `e2e` que no aplican; un commit de README dentro de la rama de S0004; `features/feature/index.ts` literal en `front-web/AGENTS.md`.
 
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
