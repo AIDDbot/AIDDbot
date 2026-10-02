@@ -34,10 +34,10 @@ Each slot is a capability, not a tool. A slot that does not apply says `n/a` and
 | --- | --- | --- | --- | --- |
 | `lint` | Exits non-zero on errors. Includes the strongest type check of the ecosystem and the layer-boundary check. | Yes | `{command}` | {tool} |
 | `format` | Rewrites files in place with the canonical formatter. Run before integration; never checked. | No | `{command}` | {tool} |
-| `upgrade` | Raises every dependency to its latest release, majors included, and refreshes the lockfile. Run at the foundation and on request; never per delivery. | No | `{command}` | {tool} |
+| `upgrade` | Raises every dependency to its latest release, majors included, and refreshes the lockfile. A major that breaks another tool stays pinned, with its reason in the technology rules. Run at the foundation and on request; never per delivery. | No | `{command}` | {tool} |
 | `unit` | Runs at least one real test; the foundation leaves a smoke test of `health` logic. | No | `{command}` | {tool} |
 | `start` | Starts without a prior build, reads `PORT`, answers on the health route. | No | `{command}` | {tool} |
-| `acceptance` | Runs the acceptance tests tagged `@S{nnnn}-R{nn}`. | Yes | `{command}` | {tool} |
+| `acceptance` | Runs the acceptance tests tagged `@S{nnnn}-R{nn}`, and passes on the extra arguments the core appends (such as `--grep @S0001-`). | Yes | `{command}` | {tool} |
 | `quality` | Reports complexity and warnings against the general rule thresholds. Feeds the debt register. | No | `{command}` | {tool} |
 
 ## 4 · Architecture
@@ -147,6 +147,7 @@ The index of reusable helpers in `shared`. Read it before writing any check or c
 - Before writing a check or a conversion, look for it in the shared primitives; move it there once two places use it.
 - Errors are never silenced. The project handles them in one way only.
 - Configuration comes from the environment, never from literals in code.
+- Ignore patterns for runtime data are anchored to the project root (`/data/`, not `data/`), so they never hide a `data` layer folder.
 - Dependencies are added with the package manager's add command, which resolves the latest release; a version is never written by hand or from memory.
 - First make it work, then make it right: only `lint` (errors, types, boundaries) and acceptance block a delivery.
 

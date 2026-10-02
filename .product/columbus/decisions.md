@@ -238,3 +238,11 @@ Los agentes repiten comprobaciones (número, entero, rango) porque no ven lo que
 - **Reglas generales:** una condición con más de un operador lógico se extrae a un predicado con nombre del dominio; antes de escribir una comprobación se busca en los primitivos, y lo que se usa en dos sitios se mueve a `shared`.
 - **Índice en el `AGENTS.md`:** subsección «Shared primitives» de la sección 5, con contrato y ruta de cada primitivo. La semilla es mínima y fija la convención (un fichero por tema, una función por contrato, el error esperado de `monitoring`): `parseInteger` (números), `requireText` (texto), `isRecord` (tipos) y uno por entorno: `readSetting` (back), `escapeHtml` (front), `fail` (cli), `uniqueValue` (e2e).
 - **Crece con las specs:** las fundacionales estrenan la semilla (`configuration`, `basic-auth`) y `ship-spec` añade al índice cada primitivo nuevo. `review-implementation` anota como deuda, sin bloquear, una condición compuesta sin nombre o una comprobación que duplica un primitivo.
+
+## D30 ← Post-mortem `codex-1` · El tooling se demuestra, no se supone
+
+- **Canario de fronteras:** la fundación demuestra el lint de fronteras de cada proyecto: añade un import prohibido, comprueba que `lint` falla y lo quita. Un lint de fronteras que no falla no está hecho (en `codex-1` daba verde analizando 0 módulos).
+- **`upgrade` con freno:** si una mayor nueva rompe otra herramienta del stack (TypeScript 7 frente a `vue-tsc`), se queda la última compatible y el motivo va a las reglas de tecnología del `AGENTS.md`. Matiza D26.
+- **Ignorados anclados:** los patrones para datos en ejecución van anclados a la raíz del proyecto (`/data/`), para no ocultar la capa `data` (D24).
+- **`acceptance` acepta argumentos extra:** el comando registrado deja pasar lo que añade el núcleo (`--grep @S0001-`); con npm, `npm run acceptance --`.
+- **Reparto en la fundación:** el Architect ejecuta el scaffold y escribe el `AGENTS.md`; el Builder reforma el código y monta el tooling, y sigue como Builder de las specs fundacionales.
