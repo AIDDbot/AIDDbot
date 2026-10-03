@@ -371,13 +371,24 @@ Evidencia: `architect-system-foundation` es el skill más grande (49 líneas fre
 > - AIDDbot adelgaza: la construcción al vuelo, `ecosystems.md`, `oxlint.boundaries.json` y el stack de D32 pasan al Builder. `architect-system-foundation` se queda en elegir o delegar, y fundar.
 > - El Blueprint (plantilla `AGENTS.md` de proyecto, specs fundacionales, contrato de fronteras como concepto) tiene un solo dueño: AIDDbot, que se lo pasa al Builder como entrada. La dependencia va en un solo sentido.
 >
+> **Banco de pruebas (3 oct):** un arquetipo suelto no demuestra nada, porque las specs fundacionales son contratos entre proyectos. Por ejemplo, la página `/health` del front necesita `/api/health` del back, y `basic-auth` cruza los tres proyectos. Un front en Angular puede pasar `lint` y `unit` y no cumplir el contrato. Por eso el Archetype Builder nunca construye un arquetipo para Archetype Base solo: lo construye dentro de un banco con:
+>
+> - el arquetipo nuevo;
+> - los arquetipos de referencia de Archetype Base para los otros tipos;
+> - una **suite de conformidad**: los tests e2e de las cuatro specs fundacionales, fija y versionada con el Blueprint.
+>
+> Todos los arquetipos se miden contra los mismos tests; un `e2e` nuevo se valida contra el back y el front de referencia. En el repo de un usuario no hace falta: la fundación construye todos los proyectos a la vez y la `e2e` del sistema hace de banco.
+>
+> **Inclinación por el mono repo:** el banco favorece un único repo para Archetype Base, porque reúne el arquetipo nuevo, los de referencia y la suite. Así una sola ejecución lo valida todo, el catálogo declara una sola versión del Blueprint, un cambio en la suite o en el Blueprint muestra a la vez qué arquetipos rompe, y el tema de marca (P22), `oxlint.boundaries.json` y el stack de D32 viven en un solo sitio. Quien solo quiera un arquetipo copia su subcarpeta (`npx degit AIDDbot/archetype-base/archetypes/{arquetipo}` o un sparse checkout), y AIDDbot puede hacerlo por el usuario.
+>
 > Idea para más adelante: una pieza parecida para analizar brownfields legacy.
 
 Queda abierto:
 
 - Cómo llega el Builder al repo del usuario: lo instala `aiddbot init` o AIDDbot lo trae cuando hace falta.
 - Cómo se versiona el Blueprint entre AIDDbot y el Builder.
-- La forma de la biblioteca: un mono repo o un conjunto de repos.
+- La forma de la biblioteca: inclinación por el mono repo (ver arriba). Falta confirmarlo y decidir si los arquetipos se versionan juntos o cada uno con su etiqueta (`back-express@1.2`).
+- Quién es el dueño de la suite de conformidad: es la forma ejecutable de las specs fundacionales (Blueprint, AIDDbot), pero está escrita en Playwright. Propuesta: vive en Archetype Base junto al `e2e` de referencia y declara qué versión del Blueprint cumple.
 
 ## ✅ P22 · ¿Qué capa visual usa el `front-web`?
 
