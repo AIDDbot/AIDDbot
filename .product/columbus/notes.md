@@ -220,6 +220,44 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D36�
 5. **`guardedRouter` sobredimensionado:** reemplaza los métodos del `Router` de Express con `Reflect` (~50 líneas). Un flag `public` por ruta en el manifiesto bastaría. Material para la fase 5 y el Archetype Builder.
 6. **Observar:** el último commit («Implement feature X…») es la transcripción pegada, no del agente; el límite de uso de Claude Pro paró la sesión 27 min.
 
+## Evidencia: fase 6, prueba `codex-6` (Express + front sin framework con Vite + Playwright, prompt F, Codex con `gpt-6.1-sol`, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-session-*.md`). Versión `aca391f` (D36–D38), la misma que `claude-6`. Hornada 2. Intervenciones humanas: un `continúa` tras quedarse sin tokens al empezar S0004 (parada de 81 min, de 15:11 a 16:32, descontada abajo), un `$craft-lasting-quality` hecho a propósito para comparar sin deuda, y la aprobación de su spec (se lanzó sin YOLO, así que preguntar era lo correcto).
+
+| Paso | `claude-6` | `codex-6` |
+| --- | --- | --- |
+| Propuesta, scaffold, outline, integración | 20 min | 18 min |
+| `configuration` | 9 min | 11 min |
+| `monitoring` | 5 min | 10 min |
+| `health` | 7 min | 9 min |
+| `basic-auth` | 10 min | ~19 min (sin la parada) |
+| Fundación | 52 min | ~69 min |
+| Calidad | 2 pasadas, ~14 min | 1 pasada (S0005 `refactor`), ~10 min |
+| **Hasta quedar sin deuda** | **~66 min** | **~79 min** |
+| Deuda al cerrar la fundación | 2 `high` (+2 `medium` de puertos) | 3 `low` |
+| Deuda final | D0007 `low` | ninguna |
+| Código sin tests (back/front/e2e) | 819 / 826 / 633 ≈ 2280 | 599 / 587 / 693 ≈ 1880 |
+| `system.md` | 621 líneas | 82 líneas |
+
+### Funcionó
+
+- Comprobado a mano en `master` (v0.5.1): `run lint` y `run unit` en verde; `run acceptance` 102 pasan en 26,6 s (34 tests × Chromium, Firefox y WebKit). Canario: `features/health/health.repository.ts` importando `core/configuration.ts` → `no-restricted-imports` con el mismo mensaje que `claude-6`.
+- **Mejor a la primera:** ninguna calificación roja; S0001, S0002 y S0004 en ámbar, cada una con una deuda `low` del mismo tipo (condición compuesta sin predicado con nombre). Una sola pasada de calidad las reparó todas en una spec `refactor`.
+- **Comprueba antes de cada commit:** el diario muestra `format → lint → unit → quality → commit` por proyecto. Ningún commit rojo.
+- **Guard simple y pegado a la ruta:** `registerProtected((path) => protectedRouter.route(path).all(guard))`. Una línea frente a los ~50 de `guardedRouter` en `claude-6`; ninguna evasión.
+- **`system.md` de 82 líneas** que enlaza los `AGENTS.md` en lugar de copiarlos.
+- D37: SQL en `.sql` (también el esquema, en un fichero por tabla). D38 en back y front: capas por sufijo, sin carpetas de capa. Seguridad: scrypt `N=2^15`, `r=8`, `p=3` (variante OWASP), `timingSafeEqual`.
+- El código más pequeño de todas las pruebas (~1880 líneas sin tests).
+
+### Hechos y acción
+
+1. **Comprobar antes del commit, en el núcleo.** Codex lo hace y Claude no (`30ccecb` en `claude-6`). Acción: `aidd commit` rechaza el commit de un proyecto si su último `lint` no está en verde con el árbol actual. Mecánico → núcleo, no texto en `implement-project`.
+2. **Patrón del guard en el Blueprint:** el manifiesto separa el registro público del protegido y cada ruta protegida lleva su guard. Así ningún agente inventa un router envoltorio.
+3. **`system.md` enlaza los `AGENTS.md`** (confirma la acción 4 de `claude-6`).
+4. **Nombres de e2e de D38 no cumplidos:** `auth-api.spec.ts`, `configuration.spec.ts` en lugar de `*.api.spec.ts` / `*.web.spec.ts`; quedan `.gitkeep` sueltos. Nadie lo comprueba. Acción: regla de nombres en el lint del e2e o chequeo del núcleo.
+5. **Shadow DOM** en el shell y el formulario de auth: el CSS global (Pico, P22) no entra. Acción: el Blueprint del `front-web` pide light DOM salvo que el arquetipo diga otra cosa.
+6. **Tres navegadores:** prueba que el front Baseline funciona en los tres motores, a cambio de ~17 s por ejecución. **Decisión del humano: por ahora solo Chromium.** Acción: el Blueprint del e2e lo fija.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
