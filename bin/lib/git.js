@@ -17,7 +17,9 @@ function ensureGit(destRoot, dryRun) {
     return true;
   }
   fs.mkdirSync(destRoot, { recursive: true });
-  const result = runGit(destRoot, ["init"]);
+  // Keep the user's init.defaultBranch; without one, start on main.
+  const branch = gitConfig(destRoot, "init.defaultBranch") ? [] : ["--initial-branch=main"];
+  const result = runGit(destRoot, ["init", ...branch]);
   if (result.status !== 0) {
     process.stderr.write("git init failed; continuing without a repo.\n");
     if (result.stderr) process.stderr.write(result.stderr);
