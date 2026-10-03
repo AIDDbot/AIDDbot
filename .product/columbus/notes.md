@@ -381,6 +381,17 @@ Evidencia: `architect-system-foundation` es el skill más grande (49 líneas fre
 >
 > **Inclinación por el mono repo:** el banco favorece un único repo para Archetype Base, porque reúne el arquetipo nuevo, los de referencia y la suite. Así una sola ejecución lo valida todo, el catálogo declara una sola versión del Blueprint, un cambio en la suite o en el Blueprint muestra a la vez qué arquetipos rompe, y el tema de marca (P22), `oxlint.boundaries.json` y el stack de D32 viven en un solo sitio. Quien solo quiera un arquetipo copia su subcarpeta (`npx degit AIDDbot/archetype-base/archetypes/{arquetipo}` o un sparse checkout), y AIDDbot puede hacerlo por el usuario.
 >
+> **Método de construcción: ATDD desde la suite (3 oct).** En Archetype Base, el Builder trabaja de fuera hacia dentro. La suite de conformidad es la especificación ejecutable del Blueprint, y `e2e` con Playwright es fijo.
+>
+> 1. **Suite primero, en rojo:** tests de las cuatro specs fundacionales, sacados solo de sus requisitos y de «Expected URLs and APIs».
+> 2. **Back contra los tests de API:** `back-api` hasta que los tests HTTP de la suite pasan; no necesita front.
+> 3. **Front contra los tests de UI:** con el back de referencia ya en verde.
+> 4. **Terminado cuando su parte de la suite está en verde;** después, pases de crafting hasta cero deuda.
+>
+> Condición crítica: la suite no depende de ninguna tecnología. Los tests de UI usan solo roles y nombres accesibles (`getByRole`, `getByLabel`), nunca clases ni `data-testid`, y los puertos y URLs vienen del entorno (D35). Por eso las specs fundacionales tienen que fijar qué ve el usuario en cada página (roles y nombres accesibles), además de las URLs. Es un contrato nuevo del Blueprint, y da la vuelta al «fuera de alcance» del plan: los selectores salen de la spec, no de las páginas.
+>
+> Riesgo: que la suite quede ajustada a la primera implementación. Antes de congelarla, tiene que pasar sin retoques con dos implementaciones distintas, por ejemplo el front sin framework de `claude-4` o `codex-5` y `front-standard`. Material de partida: los e2e de `claude-4` y `codex-5`, y los de `e2e-playwright` sin muestras.
+>
 > Idea para más adelante: una pieza parecida para analizar brownfields legacy.
 
 Queda abierto:
