@@ -217,6 +217,37 @@ test("commit records the paths it is given and journals the milestone", () => {
   assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8"), /committed  INFO  feat\(a\): one/);
 });
 
+test("commit needs a passing lint on the same files of each project it changes", () => {
+  const root = repo();
+  const lint = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({
+    path: "back",
+    commands: { lint: `node -e "process.exit(${code})"`, format: "node -e \"require('fs').writeFileSync('style.ts', 'x')\"" },
+  }));
+  write(root, "back/one.ts", "1\n");
+  lint(0);
+  const refused = aidd(root, "commit", "feat(back): one", "back");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /back \(never linted\)/);
+
+  aidd(root, "run", "lint", "--project", "back");
+  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
+
+  write(root, "back/two.ts", "2\n");
+  assert.match(aidd(root, "commit", "feat(back): two", "back").body.error, /changed since its last lint/);
+  lint(1);
+  aidd(root, "run", "lint", "--project", "back");
+  assert.match(aidd(root, "commit", "feat(back): two", "back").body.error, /its last lint failed/);
+
+  lint(0);
+  aidd(root, "run", "lint", "--project", "back");
+  aidd(root, "run", "format", "--project", "back");
+  assert.equal(aidd(root, "commit", "feat(back): two", "back").body.committed, true, "a format of clean files keeps the lint valid");
+
+  write(root, "back/AGENTS.md", "# back\n");
+  write(root, "docs/notes.txt", "outside every project\n");
+  assert.equal(aidd(root, "commit", "docs(back): rules").body.committed, true, "documents and files outside projects need no lint");
+});
+
 test("a failing acceptance run is green only with debt older than the spec", () => {
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");

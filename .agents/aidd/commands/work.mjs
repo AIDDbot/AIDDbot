@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   aiddbotPath, commitPaths, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
-  writeJson,
+  workingTree, writeJson,
 } from "../lib/core.mjs";
 import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
 import { untested } from "./eval.mjs";
@@ -87,6 +87,47 @@ function recordRun(root, kind, runs) {
   writeControl(dir, control);
 }
 
+/** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
+const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
+
+/** Remember each lint result with the files it saw; a format of clean files keeps that lint valid, because format is cosmetic. */
+function rememberLint(root, kind, projects, runs, before) {
+  const file = lintStateFile(root);
+  const state = readJson(file, {});
+  for (const name of new Set(runs.filter((entry) => entry.na === undefined).map((entry) => entry.project))) {
+    const tree = workingTree(root, projects[name].path);
+    if (kind === "lint") state[name] = { tree, ok: runs.every((entry) => entry.project !== name || entry.ok) };
+    else if (state[name]?.ok && state[name].tree === before[name]) state[name].tree = tree;
+  }
+  writeJson(file, state);
+}
+
+/** The files that a commit of `paths` would take: changed since HEAD, or new and not ignored. */
+function changedFiles(root, paths) {
+  const list = (args) => (git(root, [...args, "--", ...paths], { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
+  return [...list(["diff", "HEAD", "--name-only", "--no-renames"]), ...list(["ls-files", "--others", "--exclude-standard"])];
+}
+
+/** A commit that changes the code of a project needs the last lint of that project to have passed on the same files. */
+function requireLint(root, paths) {
+  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
+  const code = changedFiles(root, paths).filter((file) => !/^\.(aiddbot|product)\//.test(file) && !file.endsWith(".md"));
+  const state = readJson(lintStateFile(root), {});
+  const stale = [];
+  for (const [name, project] of Object.entries(projects)) {
+    const slot = project.commands?.lint;
+    if (!slot || isNa(slot)) continue;
+    const prefix = project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`;
+    if (!code.some((file) => file.startsWith(prefix))) continue;
+    const last = state[name];
+    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
+    stale.push(`${name} (${!last ? "never linted" : last.ok ? "changed since its last lint" : "its last lint failed"})`);
+  }
+  if (stale.length) {
+    throw new RuleError(`Lint before you commit: ${stale.join(", ")}. Run \`aidd run lint --project <name>\`, fix every error, then commit.`);
+  }
+}
+
 /** Run one classified command kind for every project that has it, or for `--project`.
  *  `--spec` narrows acceptance to the tests of the current spec; that run is a quick check, never evidence. */
 export function run(root, [kind], flags) {
@@ -102,6 +143,8 @@ export function run(root, [kind], flags) {
   const scoped = kind === "acceptance" && flags.spec ? requireSpec(root) : null;
   const id = scoped && path.basename(scoped).slice(0, 5);
   const runs = [];
+  const tracksLint = !id && (kind === "lint" || kind === "format");
+  const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
   for (const name of names) {
     const slot = projects[name].commands[kind];
     if (isNa(slot)) {
@@ -119,6 +162,7 @@ export function run(root, [kind], flags) {
     : `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`));
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
   if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
+  if (tracksLint) rememberLint(root, kind, projects, runs, before);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs } : { kind, ok, runs };
   return { body, exitCode: ok ? 0 : 1 };
 }
@@ -196,6 +240,7 @@ export function debt(root, [action, ...args]) {
 /** `commit <message> [<paths>]`: commit the given paths (all by default) and journal it, so the journal shows every milestone. */
 export function commit(root, [message, ...paths]) {
   if (!message?.trim()) throw new UsageError('Use: aidd commit "<message>" [<path>...]');
+  requireLint(root, paths.length ? paths : ["."]);
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });
   return { committed, message: message.trim() };
