@@ -346,3 +346,39 @@ Matices propuestos:
 Consecuencia para P14: si la plantilla de reglas incorpora el patrón oro, la guía de mínimos es esa plantilla más una tabla de implementaciones por ecosistema.
 
 > **R:** Ok. Cierra P14 con esto.
+
+## Después de Columbus — dudas abiertas (3 oct)
+
+## 🟡 P21 · ¿Sacamos la construcción de arquetipos a un repo aparte?
+
+Evidencia: `architect-system-foundation` es el skill más grande (49 líneas frente a unas 22 de media, más unas 1.000 líneas de assets, 300 de ellas solo en `oxlint.boundaries.json`) y acumula más de 15 commits de «tighten» en tres días. Mezcla dos trabajos con ritmos distintos: **fundar un sistema** (proyectos tipados, `AGENTS.md` por proyecto, specs fundacionales, cierre en verde), que es el núcleo agnóstico de AIDDbot, y **fabricar arquetipos** (stack de D32, fronteras de oxlint, capa visual, versiones), que es opinable, depende de la tecnología y cambia con cada release de una herramienta.
+
+Propuesta de reparto:
+
+| AIDDbot | Repo de arquetipos (nombre por decidir) |
+| --- | --- |
+| Blueprint: plantilla `AGENTS.md` de proyecto, las cuatro specs fundacionales y el contrato de fronteras como concepto | Biblioteca de arquetipos: `back-express`, `front-standard`, `e2e-playwright`, `cli-node` |
+| La fundación pide los arquetipos al repo de arquetipos | Construcción al vuelo cuando falta un arquetipo para la tecnología elegida |
+| | Stack JS/TS, `oxlint.boundaries.json`, `ecosystems.md` y capa visual (P22) |
+| | Se construye *con* AIDDbot: fundación y specs sobre un repo vacío, más su capa propia |
+
+Riesgo: que el contrato quede en dos sitios y se desincronice. El Blueprint tiene un solo dueño (AIDDbot), y el repo de arquetipos usa una versión concreta.
+
+> **R:** Sí, lo separamos. El repo asume la biblioteca de arquetipos y la construcción al vuelo cuando falta uno, así que el greenfield va por esa vía. El nombre está por decidir; debe llevar las iniciales a-b, que también son parte de la marca. Se hace en el periodo de refactor posterior a la release 0.2.x, con el informe de `comparison.md` delante. Idea para más adelante: un repo parecido para analizar brownfields legacy.
+>
+> **Requisito crítico:** el constructor incluye uno o varios pases de crafting (`/craft-lasting-quality`) antes de publicar un arquetipo. El arquetipo sale limpio y sin deuda, porque sirve para crear apps: la deuda de un arquetipo se copia en cada app que nace de él. Puerta propuesta: registro de deuda vacío (`debt.json`), `quality` en verde y la comparativa de `comparison.md` sin defectos abiertos.
+
+Queda abierto:
+
+- El nombre del repo.
+- Cómo usa AIDDbot el repo de arquetipos: dependencia instalada, consulta a GitHub o skill propio.
+- Qué queda en `architect-system-foundation` cuando se va la construcción al vuelo.
+- Dónde viven `ecosystems.md` y `oxlint.boundaries.json`: son de JS/TS y opinables, así que apuntan al repo de arquetipos.
+
+## 🟡 P22 · ¿Qué capa visual usa el `front-web`?
+
+El humano quiere el mismo CSS en todos los fronts: Pico CSS (minimalista, pocas clases) con sus colores y su tipografía de marca personal. `front-standard` ya lo tiene (`styles/vendor/pico.min.css`, `fonts.css`, `colors.css` con tokens `--ab-*`, `theme.css`, `custom.css`), pero el front construido al vuelo en los experimentos inventa su propio CSS.
+
+Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo adopte. AIDDbot solo dice que el `front-web` toma su capa visual (CSS base, tokens y fuentes) del arquetipo o de un design system declarado. Pico con la marca vive en el repo de arquetipos (P21) y lo aplica también la construcción al vuelo.
+
+> **R:**
