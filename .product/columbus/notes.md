@@ -353,13 +353,13 @@ Consecuencia para P14: si la plantilla de reglas incorpora el patrón oro, la gu
 
 Evidencia: `architect-system-foundation` es el skill más grande (49 líneas frente a unas 22 de media, más unas 1.000 líneas de assets, 300 de ellas solo en `oxlint.boundaries.json`) y acumula más de 15 commits de «tighten» en tres días. Mezcla dos trabajos con ritmos distintos: **fundar un sistema** (proyectos tipados, `AGENTS.md` por proyecto, specs fundacionales, cierre en verde), que es el núcleo agnóstico de AIDDbot, y **construir arquetipos** (stack de D32, fronteras de oxlint, capa visual, versiones), que es opinable, depende de la tecnología y cambia con cada release de una herramienta.
 
-> **R:** Sí, se separa en tres piezas. Los nombres están por decidir; deben llevar las iniciales a-b, que también son parte de la marca. Se hace en el periodo de refactor posterior a la release 0.2.x, con el informe de `comparison.md` delante.
+> **R:** Sí, se separa en tres piezas. Los nombres llevan las iniciales a-b, que también son parte de la marca: **Archetype Blueprint** (el contrato, ya en uso), **Archetype Builder** (el constructor) y **Archetype Base** (la biblioteca). Los repos viven en la organización `AIDDbot` de GitHub (`AIDDbot/archetype-builder`, `AIDDbot/archetype-base`). Se hace en el periodo de refactor posterior a la release 0.2.x, con el informe de `comparison.md` delante.
 >
 > | Pieza | Quién la usa | Qué hace |
 > | --- | --- | --- |
-> | **AIDDbot** | Cualquiera | Funda el sistema. Ofrece la biblioteca de arquetipos; si no vale ninguno, invoca al Archetype-Builder **en el repo del usuario**. Después sigue igual: `AGENTS.md` por proyecto, ranuras y specs fundacionales. |
-> | **Archetype-Builder** | Cualquiera (a través de AIDDbot) y el humano directamente | Construye un arquetipo al vuelo con el grado de refinamiento que se pida. |
-> | **Biblioteca de arquetipos** | Cualquiera la lee; la alimenta el humano | Arquetipos ya hechos. Puede ser distinta del Builder. |
+> | **AIDDbot** | Cualquiera | Funda el sistema. Ofrece la biblioteca de arquetipos; si no vale ninguno, invoca al Archetype Builder **en el repo del usuario**. Después sigue igual: `AGENTS.md` por proyecto, ranuras y specs fundacionales. |
+> | **Archetype Builder** | Cualquiera (a través de AIDDbot) y el humano directamente | Construye un arquetipo al vuelo con el grado de refinamiento que se pida. |
+> | **Archetype Base** (biblioteca) | Cualquiera la lee; la alimenta el humano | Arquetipos ya hechos. Puede ser distinta del Builder. |
 >
 > Grados de refinamiento del Builder:
 >
@@ -375,7 +375,6 @@ Evidencia: `architect-system-foundation` es el skill más grande (49 líneas fre
 
 Queda abierto:
 
-- Los nombres, con las iniciales a-b.
 - Cómo llega el Builder al repo del usuario: lo instala `aiddbot init` o AIDDbot lo trae cuando hace falta.
 - Cómo se versiona el Blueprint entre AIDDbot y el Builder.
 - La forma de la biblioteca: un mono repo o un conjunto de repos.
@@ -384,7 +383,7 @@ Queda abierto:
 
 El humano quiere el mismo CSS en todos los fronts: Pico CSS (minimalista, pocas clases) con sus colores y su tipografía de marca personal. `front-standard` ya lo tiene (`styles/vendor/pico.min.css`, `fonts.css`, `colors.css` con tokens `--ab-*`, `theme.css`, `custom.css`), pero el front construido al vuelo en los experimentos inventa su propio CSS.
 
-Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo adopte. AIDDbot solo dice que el `front-web` toma su capa visual (CSS base, tokens y fuentes) del arquetipo o de un design system declarado. Pico con la marca vive fuera de AIDDbot (P21): la aplican el Archetype-Builder y los arquetipos de la biblioteca.
+Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo adopte. AIDDbot solo dice que el `front-web` toma su capa visual (CSS base, tokens y fuentes) del arquetipo o de un design system declarado. Pico con la marca vive fuera de AIDDbot (P21): la aplican el Archetype Builder y los arquetipos de Archetype Base.
 
 > **R:** Opción C: Pico neutro más una capa de tema aparte.
 >

@@ -31,7 +31,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 
 - **Fase 5 en duda:** antes de tocar los repos de arquetipos, comparar lo que generan los experimentos con `back-express`, `front-standard` y `e2e-playwright`. Si los experimentos igualan o superan a los arquetipos, quizá no merezca la pena mantenerlos.
 - **Fase 7:** primero, una release intermedia de parche (0.2.x); después, un tiempo de refactor y limpieza del propio AIDDbot antes de la 0.3.0.
-- **Arquetipos fuera de AIDDbot (P21):** tres piezas con nombres a-b por decidir. AIDDbot funda y ofrece una biblioteca de arquetipos; si no vale ninguno, invoca al Archetype-Builder en el repo del usuario. El Builder construye al vuelo con refinamiento básico o máximo; la biblioteca solo admite arquetipos de refinamiento máximo (crafting y cero deuda). AIDDbot conserva el Blueprint. Se hace en el periodo de refactor.
+- **Arquetipos fuera de AIDDbot (P21):** tres piezas: AIDDbot, Archetype Builder y Archetype Base (repos en la organización `AIDDbot`). AIDDbot funda y ofrece la biblioteca Archetype Base; si no vale ningún arquetipo, invoca al Archetype Builder en el repo del usuario. El Builder construye al vuelo con refinamiento básico o máximo; la biblioteca solo admite arquetipos de refinamiento máximo (crafting y cero deuda). AIDDbot conserva el Blueprint. Se hace en el periodo de refactor.
 - **Capa visual del front (P22):** Pico neutro más un tema de marca intercambiable, en el Builder y la biblioteca; fuera de AIDDbot.
 
 ## Fases
