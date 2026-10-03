@@ -152,6 +152,38 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-4/`. Versión `0e52fad` (STE e
 5. **Contratos frente a los arquetipos** (vienen de nuestras specs, no del agente): `GET /api/health` añade `status`; `DATABASE_URL` en lugar de `DB_PATH`. A alinear en la fase 5.
 6. **Observar:** `system.md` de 626 líneas, con los tres `AGENTS.md` duplicados como apéndice (igual que `codex-3`); rama por defecto `master`; `upgrade` con `npx -y npm-check-updates@latest` porque la instalación global de la máquina estaba rota.
 
+## Evidencia: fase 6, prueba `codex-5` (Express + front sin framework con Vite + Playwright, prompt F, Codex, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-5/`. Versión con D35 (`af31326`). Mismo prompt que `claude-4`. Sin intervención humana. Subagentes con los adaptadores antiguos: Architect `gpt-6-sol` medium, Builder `gpt-6-luna` medium, Craftsman `gpt-6-luna` high. En `codex-3` Codex no aplicaba esos adaptadores y todo corrió con `gpt-6.1-sol` low; por eso los tiempos no son comparables.
+
+| Paso | `codex-3` | `claude-4` | `codex-5` |
+| --- | --- | --- | --- |
+| Propuesta | 2 min | 9 min | 6 min |
+| Scaffold, outline, integración | 8 min | 12 min | 27 min |
+| `configuration` | 6 min | 7 min | 33 min |
+| `monitoring` | 4 min | 5 min | 17 min |
+| `health` | 4 min | 5 min | 17 min |
+| `basic-auth` | 8 min | 8 min | 44 min |
+| Total | 36 min | 47 min | 2 h 27 min; cierre `blocked` por D0001 |
+
+### Funcionó
+
+- Comprobado a mano: `run lint` y `run acceptance` en verde (34 tests e2e en 13,5 s, con tags `@S0001-R08`…). Canario: `features/health/data` importando `core/configuration.ts` → `no-restricted-imports` con el mensaje «Data uses shared primitives only».
+- **D35 confirmada:** S0001 verificada y calificada a la primera; ningún puerto escrito en los tests de `e2e`. Las cuatro verificaciones, en verde a la primera.
+- **Seguridad mejor que `claude-4`:** el Builder consultó OWASP y usó scrypt con `N=2^17`, `r=8`, `p=1`, guardados con cada hash; verifica la contraseña también para cuentas que no existen.
+- Stack D32: TypeScript 7, oxlint con `oxlint-tsgolint`, oxfmt, `node --test`, sin `tsc` ni Vitest. Tres `AGENTS.md` completos (siete secciones, sin huecos de plantilla). `system.md` de 66 líneas, frente a las 626 de `claude-4`. Guardó también el `AGENTS.md` de cada arquetipo creado al vuelo en `.product/archetypes/`.
+- Tamaño sin tests: back 727 líneas, front 729, e2e 693; unas 2150 en total, por debajo de `claude-4` (2438) y de los arquetipos (~2700).
+- Las trazas de depuración del test de doble envío no llegaron al commit.
+
+### Hechos y acción
+
+1. **Evasión del guard (D0001 `high`)**: el guard decide qué está protegido comparando la ruta exacta, pero Express enruta sin distinguir mayúsculas ni la barra final. `/API/auth/me` y `/api/auth/me/` llegaban al handler sin token. Hoy no filtra datos (200 con cuerpo vacío), pero cualquier ruta protegida futura quedaría abierta. La calificación falló y la spec se integró igualmente como deuda (D12) → **D36**: un fallo de la puerta Security vuelve al Builder una vez. Para el Blueprint o el Builder: la protección va con la ruta (middleware declarado en el manifiesto, como `access` en `back-express`), nunca en una lista paralela de rutas.
+2. **El cierre se declaró `blocked` con `lint`, `unit` y `acceptance` en verde**, por la calificación roja de S0004. El skill pide cerrar en verde según esas tres comprobaciones y devolver el resumen de deuda recomendando `/craft-lasting-quality`. Interpretó de más. Con D36 no se habría llegado aquí; vigilar en la siguiente hornada.
+3. **Trampa: `erasableSyntaxOnly`** (S0002). Una parameter property en `shared/logic/errors.ts` pasó `lint` y `unit` y rompió el arranque del back con el soporte nativo de TypeScript de Node; solo lo vio `e2e`. El agente activó `erasableSyntaxOnly` y lo apuntó en `back-api/AGENTS.md`. `back-express` ya lo trae. Acción: el scaffold de JS/TS ejecutado con Node sin build lo activa desde el principio (hoy `ecosystems.md`; mañana el Builder).
+4. **Trampa: custom elements en el `constructor`** (S0003). Los componentes añadían su plantilla en el `constructor` y fallaban al crearse desde HTML; dos ejecuciones de aceptación con timeout de 33 s. Lo arregló con `connectedCallback` e inicialización protegida. Acción: plantilla del front sin framework (Builder o Archetype Base).
+5. **Lentitud por los modelos de los subagentes**: los comandos tardan 1–6 s y el e2e 2–13 s; el resto es razonamiento con modelos de la generación anterior y más esfuerzo. Acción hecha: `agents.yaml` con `gpt-6.1-sol` en los tres niveles y el esfuerzo de Claude (`137ff3a`).
+6. **Observar:** rama por defecto `master`; el front inventa su CSS (sin Pico ni tema, P22).
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.

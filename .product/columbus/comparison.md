@@ -69,6 +69,7 @@ Comprueba en los dos lados las que ya han aparecido en experimentos. Si un lado 
 
 - **`erasableSyntaxOnly`** activado en el back que Node ejecuta sin build. Sin él, las parameter properties pasan `lint` y `unit` y rompen el arranque (`codex-5`, S0002).
 - **Custom elements** que añaden su contenido en `connectedCallback` y no en el `constructor` (`codex-5`, S0003).
+- **Guard por lista de rutas:** el guard compara la ruta exacta mientras el router acepta mayúsculas y barra final, así que `/API/...` se salta la autenticación (`codex-5`, S0004). La protección debe ir con la ruta.
 - **Puertos escritos a mano** en los tests de `e2e` (`claude-4`, D35).
 - **Import dinámico roto:** una página cargada con `import()` que también se importa de forma estática (`claude-4`).
 - **Reglas de negocio** que ninguna spec pide, por ejemplo `minlength` en el registro (`claude-4`).

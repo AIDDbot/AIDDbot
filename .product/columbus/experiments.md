@@ -112,3 +112,4 @@ Nada que copiar si la prueba se ejecutó en `C:/code/aidd/experiments/columbus/{
 | `codex-2` | Codex (Sol 6.1 light) | A | D25–D31 | Cuatro specs shipped en 54 min, verde, sin intervención; 3 deudas |
 | `codex-3` | Codex | A sin herramientas | D25–D33 | Cuatro specs en 36 min, sin intervención; stack D32; reparó D0002 por su cuenta (S0005, v0.5.1); cierre verde a los 41 min |
 | `claude-4` | Claude Code (Opus 5.5) | F | `0e52fad` | Cuatro specs en 47 min, sin intervención ni reparaciones; 34 tests verdes; canario OK; 6 deudas (3 `high`) |
+| `codex-5` | Codex (subagentes `gpt-6-sol`/`gpt-6-luna`) | F | `af31326` | Cuatro specs en 2 h 27 min, sin intervención; verificaciones a la primera; 34 tests verdes; canario OK; S0004 calificada en rojo por evasión del guard (D0001 `high`, D36); cierre `blocked` |
