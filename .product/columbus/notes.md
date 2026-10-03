@@ -375,10 +375,15 @@ Queda abierto:
 - Qué queda en `architect-system-foundation` cuando se va la construcción al vuelo.
 - Dónde viven `ecosystems.md` y `oxlint.boundaries.json`: son de JS/TS y opinables, así que apuntan al repo de arquetipos.
 
-## 🟡 P22 · ¿Qué capa visual usa el `front-web`?
+## ✅ P22 · ¿Qué capa visual usa el `front-web`?
 
 El humano quiere el mismo CSS en todos los fronts: Pico CSS (minimalista, pocas clases) con sus colores y su tipografía de marca personal. `front-standard` ya lo tiene (`styles/vendor/pico.min.css`, `fonts.css`, `colors.css` con tokens `--ab-*`, `theme.css`, `custom.css`), pero el front construido al vuelo en los experimentos inventa su propio CSS.
 
 Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo adopte. AIDDbot solo dice que el `front-web` toma su capa visual (CSS base, tokens y fuentes) del arquetipo o de un design system declarado. Pico con la marca vive en el repo de arquetipos (P21) y lo aplica también la construcción al vuelo.
 
-> **R:**
+> **R:** Opción C: Pico neutro más una capa de tema aparte.
+>
+> - El arquetipo de front trae Pico y una sola hoja de tokens con valores neutros, mapeados a las variables de Pico (`--pico-primary`, fuentes, radio) en lugar de tokens `--ab-*` paralelos.
+> - La marca es un tema intercambiable (colores, fuentes y logo) que vive en el repo de arquetipos y que la construcción al vuelo aplica por defecto. Cambiar de marca es sustituir un fichero de tokens.
+> - Los efectos de `custom.css` (mallas, brillos, degradados) quedan fuera de la base; si se quieren, entran en el tema como algo opcional.
+> - Fuentes: Roboto, Audiowide y Anonymous Pro vienen de Google Fonts con licencia OFL y se pueden redistribuir en un repo público. La OFL pide incluir su licencia junto a los ficheros: hoy `styles/vendor/fonts/` no la lleva.

@@ -32,7 +32,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 - **Fase 5 en duda:** antes de tocar los repos de arquetipos, comparar lo que generan los experimentos con `back-express`, `front-standard` y `e2e-playwright`. Si los experimentos igualan o superan a los arquetipos, quizá no merezca la pena mantenerlos.
 - **Fase 7:** primero, una release intermedia de parche (0.2.x); después, un tiempo de refactor y limpieza del propio AIDDbot antes de la 0.3.0.
 - **Repo de arquetipos aparte (P21):** decidido separarlo, con un nombre con las iniciales a-b por decidir. Asume la biblioteca de arquetipos y la construcción al vuelo cuando falta uno; AIDDbot conserva el Blueprint. Cada arquetipo pasa por uno o varios pases de crafting y se publica sin deuda. Se hace en el periodo de refactor.
-- **Capa visual del front (P22, abierta):** Pico CSS con la marca personal, fuera de AIDDbot.
+- **Capa visual del front (P22):** Pico neutro más un tema de marca intercambiable en el repo de arquetipos; fuera de AIDDbot.
 
 ## Fases
 
