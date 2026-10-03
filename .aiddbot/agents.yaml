@@ -19,14 +19,14 @@ harnesses:
     path: .codex/agents/{id}.toml
     tiers:
       deep:
-        model: gpt-6-sol
-        effort: medium
-      standard:
-        model: gpt-6-luna
+        model: gpt-6.1-sol
         effort: high
-      light:
-        model: gpt-6-luna
+      standard:
+        model: gpt-6.1-sol
         effort: medium
+      light:
+        model: gpt-6.1-sol
+        effort: low
   copilot:
     path: .github/agents/{id}.agent.md
     tiers:

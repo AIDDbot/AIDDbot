@@ -1,6 +1,6 @@
 # managed by /adapt — do not edit here, edit .agents/agents/architect.md instead
 name = "Architect"
 description = "Explore current legacy codebases or design new greenfield solutions"
-model = "gpt-6-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
 developer_instructions = """Adopt the role, expertise, and instructions defined in .agents/agents/architect.md and follow them for this task."""
