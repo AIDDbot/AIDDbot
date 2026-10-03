@@ -25,6 +25,12 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 - Que el builder de `e2e` lea las páginas para sacar selectores.
 - Fabricar arquetipos en serie y rehacer sus repos más allá de la fase 5.
 - Frameworks que mezclan back y front con enrutado por ficheros (Nuxt, Next, SvelteKit; D27).
+- Otros lenguajes (Go, prompt B): aplazados el 3 oct; seguimos afinando JS/TS.
+
+## Rumbo (3 oct)
+
+- **Fase 5 en duda:** antes de tocar los repos de arquetipos, comparar lo que generan los experimentos con `back-express`, `front-standard` y `e2e-playwright`. Si los experimentos igualan o superan a los arquetipos, quizá no merezca la pena mantenerlos.
+- **Fase 7:** primero, una release intermedia de parche (0.2.x); después, un tiempo de refactor y limpieza del propio AIDDbot antes de la 0.3.0.
 
 ## Fases
 
@@ -37,9 +43,9 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | ✅ Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | ✅ Skills | Skills | 6–8 oct |
-| 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct (opcional) |
-| 6 | Prueba en greenfield real | Prueba | 9 oct |
-| 7 | Release Columbus | Mecánica | 12 oct |
+| 5 | Arquetipos propios: su `AGENTS.md` y sin muestras (en duda; ver Rumbo) | Fuera del repo | 8 oct (opcional) |
+| 6 | Prueba en greenfield real (solo JS/TS) | Prueba | 9 oct |
+| 7 | Release intermedia 0.2.x; luego refactor y limpieza | Mecánica | 12 oct |
 
 ### 0 · Principios y decisiones
 
