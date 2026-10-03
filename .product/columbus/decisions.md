@@ -283,3 +283,11 @@ Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `s
 - **Seguridad:** la puerta bloqueante de `review-implementation` también exige los mínimos que citan la spec o el `AGENTS.md` (como el coste OWASP); un valor por defecto de la librería solo vale si los cumple. `basic-auth` pide los parámetros de coste explícitos, no menores que el mínimo OWASP y guardados con cada hash.
 - **Nada fuera de la spec:** `implement-project` no añade validaciones, límites ni valores por defecto propios (el `minlength=8` de `claude-4`).
 - **Carga bajo demanda:** en el Blueprint, una funcionalidad que el manifiesto carga bajo demanda no tiene ningún otro import; si también actúa al arrancar, el manifiesto le da una entrada de arranque que la carga bajo demanda.
+
+## D36 ← Prueba `codex-5` · La seguridad se repara antes de integrar
+
+La calificación de S0004 en `codex-5` falló por una evasión del guard (`/API/auth/me` y `/api/auth/me/` llegaban al handler sin token) y, como manda D12, la spec se integró con la deuda D0001 `high`. Un agujero de autenticación conocido no debe integrarse.
+
+- **Excepción a D12:** un fallo de la puerta Security de `review-implementation` vuelve al Builder **una vez**; después se repiten la verificación y la calificación, y lo que siga encontrando la segunda calificación se integra como deuda.
+- El resto de hallazgos de la calificación sigue como hasta ahora: nunca se reparan dentro de la spec y se integran como deuda.
+- Lo aplica `build-requested-spec`; el núcleo no cambia, porque ya admite varias revisiones de la calificación y su puerta de integración no depende de ella.

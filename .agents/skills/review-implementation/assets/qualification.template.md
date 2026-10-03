@@ -15,4 +15,4 @@
 - Evidence: {observed facts}
 - Classification: {blocking | debt}
 
-{Qualification never blocks: shipping records every finding as a debt item, `high` for a blocking one. Include only failed controls and findings.}
+{Only a failed Security gate goes back to the Builder, once; shipping records every other finding as a debt item, `high` for a blocking one. Include only failed controls and findings.}
