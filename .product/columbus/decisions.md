@@ -291,3 +291,10 @@ La calificación de S0004 en `codex-5` falló por una evasión del guard (`/API/
 - **Excepción a D12:** un fallo de la puerta Security de `review-implementation` vuelve al Builder **una vez**; después se repiten la verificación y la calificación, y lo que siga encontrando la segunda calificación se integra como deuda.
 - El resto de hallazgos de la calificación sigue como hasta ahora: nunca se reparan dentro de la spec y se integran como deuda.
 - Lo aplica `build-requested-spec`; el núcleo no cambia, porque ya admite varias revisiones de la calificación y su puerta de integración no depende de ella.
+
+## D37 ← Prueba `codex-5` (revisión del humano) · Log en texto y sentencias de datos en ficheros
+
+En `codex-5`, el back escribe el log en JSON y el SQL va como literal dentro de cada función, con el `CREATE TABLE` dentro del repositorio. La spec `monitoring` pedía texto plano solo en Solution, y R01 solo enumeraba los campos: un JSON cumplía R01.
+
+- **Log en texto:** `monitoring` sube el formato a requisito. R01 pide una línea de texto con las columnas `time source LEVEL message`, separadas por espacios; una regla de negocio dice que la línea no es JSON, y el test de R01 falla con una línea JSON.
+- **Sentencias de datos en ficheros:** regla general de la plantilla del `AGENTS.md` de proyecto. Si el almacén tiene un lenguaje de consulta (como SQL), cada sentencia va en su propio fichero con la extensión de ese lenguaje (como `.sql`), en la carpeta `data` que la usa y con un nombre del dominio. El código carga el fichero por nombre una sola vez y nunca escribe sentencias en el código. La definición del esquema (tablas y migraciones) va en ficheros en un solo sitio de `data`. Como regla general, no bloquea (D12).

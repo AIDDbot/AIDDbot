@@ -160,6 +160,7 @@ This table is the index of the helpers in `shared`. Read it before you write a c
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.
 - Get configuration from the environment. Do not put configuration values in the code.
+- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), in the `data` folder that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location in `data`.
 - Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
 - First make it work. Then make it correct. In a delivery, only `lint` (errors, types, boundaries) and acceptance block.
