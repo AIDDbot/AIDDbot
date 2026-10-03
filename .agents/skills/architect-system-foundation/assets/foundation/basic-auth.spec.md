@@ -68,7 +68,7 @@ A system with users must know who sends each request, before a feature needs thi
 - The token is random and opaque. The session is in the database, so it can be revoked.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
 - The session guard is a presentation file in `shared`. It contains no business rules. It reads the bearer token and asks a session resolver. `core` gives the resolver by injection from the `auth` facade.
-- `core` puts the session guard after the public routes. Thus each new route is protected.
+- The manifest marks each registration as public or protected. A registration is protected unless it says that it is public. `core` puts the session guard on each route of a protected registration, never on a path prefix or on a separate list of paths. Thus each new route is protected, and a path that no feature registers still gets the 404 of the error handler.
 - Other features get the current user only through the `auth` facade.
 
 ### front-web

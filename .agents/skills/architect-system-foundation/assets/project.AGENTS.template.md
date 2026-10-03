@@ -98,7 +98,9 @@ The project has one entry point and three folders. The suffix of a file name tel
 | `start` | yes | yes | n/a — runs for each invocation; no server | n/a — it starts the projects under test |
 | `acceptance` | through `e2e` | through `e2e` | its own tests or through `e2e` | yes — it runs the suite |
 
-**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders.
+**The `front-web` project.** Components put their content in the page (light DOM). Thus the global style sheet, form submission and label links reach them. Use an encapsulated tree (such as Shadow DOM) only if the archetype says so.
+
+**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders. The suite runs in one browser engine (Chromium), unless the system asks for more.
 
 ## 5 · Folder structure
 

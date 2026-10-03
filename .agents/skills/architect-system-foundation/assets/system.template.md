@@ -36,4 +36,4 @@ npm install --prefix {folder}
 
 ## Archetypes made on demand
 
-{For each project whose archetype is made on demand: `project.AGENTS.template.md` filled for the chosen technology, which the scaffold writes to `{folder}/AGENTS.md`. Omit this section when every project uses a catalog archetype.}
+{For each project whose archetype is made on demand: one link to `.product/archetypes/{project}.AGENTS.md`, the `project.AGENTS.template.md` filled for the chosen technology, which the scaffold copies to `{folder}/AGENTS.md`. Never copy its content here. Omit this section when every project uses a catalog archetype.}
