@@ -40,7 +40,7 @@ Contrato que vale para los dos lados: las specs de `{experimento}/.agents/skills
 ### No penaliza a ninguno de los dos lados
 
 - **Muestras:** los arquetipos traen funcionalidad de muestra (`home`, `item-detail`, `content`…). Se excluyen de tamaño y calidad y se listan aparte.
-- **Contratos nuevos:** `health` con `status: "ok"`, página `/health`, `DATABASE_URL` y `PORT` inválido que detiene el arranque. Si el arquetipo no los cumple, se anota como «arquetipo desfasado»: es una tarea de alineación, no una razón para que el arquetipo pierda.
+- **Contratos nuevos:** `health` con `status: "ok"`, página `/about` (estado de health dentro), `DATABASE_URL` y `PORT` inválido que detiene el arranque. Si el arquetipo no los cumple, se anota como «arquetipo desfasado»: es una tarea de alineación, no una razón para que el arquetipo pierda.
 - **Mecanismo:** `front-standard` sirve el front con Express y la hornada con Vite. Se compara el resultado, no el mecanismo.
 - **Capa visual:** la hornada no tiene tema de marca (P22). No cuenta.
 
