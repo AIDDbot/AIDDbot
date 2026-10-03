@@ -481,3 +481,17 @@ Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo
 > - La marca es un tema intercambiable (colores, fuentes y logo) que vive en el repo de arquetipos y que la construcción al vuelo aplica por defecto. Cambiar de marca es sustituir un fichero de tokens.
 > - Los efectos de `custom.css` (mallas, brillos, degradados) quedan fuera de la base; si se quieren, entran en el tema como algo opcional.
 > - Fuentes: Roboto, Audiowide y Anonymous Pro vienen de Google Fonts con licencia OFL y se pueden redistribuir en un repo público. La OFL pide incluir su licencia junto a los ficheros: hoy `styles/vendor/fonts/` no la lleva.
+
+## ✅ P23 · ¿Cómo se agrupan `shared` y las features cuando crecen?
+
+Evidencia: en `claude-6`, `back/src/shared` tiene 22 ficheros planos tras solo cuatro specs. El Blueprint dice qué va en `shared`, pero no cómo se ordena; las carpetas por capa están prohibidas (D38) y las carpetas por tipo (`utils/`, `helpers/`) son el cajón de sastre.
+
+Propuesta: agrupar `shared` por tema técnico; agrupar las features por el dominio de sus specs cuando sean muchas; y un aviso de tamaño de carpeta en el núcleo que alimente la deuda.
+
+> **R:** Sí, con estos ajustes:
+>
+> - **`shared` por tema técnico.** Regla en STE: *Group the files of `shared` in folders by technical concern. Name each folder with a noun for its concern. Never use `utils`, `helpers`, `common` or `misc`. Primitives stay at the root of `shared`.* Ejemplo en `back`: `http/` (middlewares), `logging/`, `database/`; primitivas (`numbers`, `text`, `types`, `errors`…) en la raíz.
+> - **Sin regla de «un solo usuario → a la feature».** Al empezar se crean utilidades por si acaso y como ejemplo de cómo hacerlo; esa regla las expulsaría.
+> - **Features por dominio, también en `e2e`.** Con muchas features: `features/{domain}/{feature}`, con el `domain` que ya llevan las specs. La regla de la facade sube un nivel: entre dominios, solo por la facade. Al principio la lista plana se lee mejor.
+> - **Aviso de tamaño como regla de craftsmanship.** No es de oxlint (mira ficheros, no carpetas): chequeo del núcleo sobre el sistema de ficheros, agnóstico de la tecnología. `WARN` si una carpeta de `shared` o `features` tiene más de N entradas directas (N = 12 por defecto, en `config.json`). No bloquea: `scan-quality` lo registra como deuda y `/craft-lasting-quality` lo resuelve con una spec `refactor` que agrupa.
+> - **Cuándo:** periodo de refactor, después de la 0.2.3; probarlo en una hornada.
