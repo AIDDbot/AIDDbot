@@ -150,7 +150,7 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-4/`. Versión `0e52fad` (STE e
 3. **El Builder inventó un requisito**: `minlength="8"` en el registro, que ni la spec ni la api piden → D0004. El orquestador lo vio y pidió al Craftsman que lo juzgara. Principio a reforzar en `implement-project`: nada de reglas de negocio fuera de la spec.
 4. **Import dinámico roto para `auth`**: `web/src/features/manifest.ts` importa `./auth/index.ts` de forma estática (`restoreSession`) y además con `import()`; Vite deja el módulo en el chunk principal. Ni lint ni la revisión lo vieron.
 5. **Contratos frente a los arquetipos** (vienen de nuestras specs, no del agente): `GET /api/health` añade `status`; `DATABASE_URL` en lugar de `DB_PATH`. A alinear en la fase 5.
-6. **Observar:** `system.md` de 626 líneas, con los tres `AGENTS.md` duplicados como apéndice (igual que `codex-3`); rama por defecto `master`; `upgrade` con `npx -y npm-check-updates@latest` porque la instalación global de la máquina estaba rota.
+6. **Observar:** `system.md` de 626 líneas, con los tres `AGENTS.md` duplicados como apéndice (igual que `codex-3`); `upgrade` con `npx -y npm-check-updates@latest` porque la instalación global de la máquina estaba rota.
 
 ## Evidencia: fase 6, prueba `codex-5` (Express + front sin framework con Vite + Playwright, prompt F, Codex, YOLO)
 
@@ -182,7 +182,43 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-5/`. Versión con D35 (`af31326
 3. **Trampa: `erasableSyntaxOnly`** (S0002). Una parameter property en `shared/logic/errors.ts` pasó `lint` y `unit` y rompió el arranque del back con el soporte nativo de TypeScript de Node; solo lo vio `e2e`. El agente activó `erasableSyntaxOnly` y lo apuntó en `back-api/AGENTS.md`. `back-express` ya lo trae. Acción: el scaffold de JS/TS ejecutado con Node sin build lo activa desde el principio (hoy `ecosystems.md`; mañana el Builder).
 4. **Trampa: custom elements en el `constructor`** (S0003). Los componentes añadían su plantilla en el `constructor` y fallaban al crearse desde HTML; dos ejecuciones de aceptación con timeout de 33 s. Lo arregló con `connectedCallback` e inicialización protegida. Acción: plantilla del front sin framework (Builder o Archetype Base).
 5. **Lentitud por los modelos de los subagentes**: los comandos tardan 1–6 s y el e2e 2–13 s; el resto es razonamiento con modelos de la generación anterior y más esfuerzo. Acción hecha: `agents.yaml` con `gpt-6.1-sol` en los tres niveles y el esfuerzo de Claude (`137ff3a`).
-6. **Observar:** rama por defecto `master`; el front inventa su CSS (sin Pico ni tema, P22).
+6. **Observar:** el front inventa su CSS (sin Pico ni tema, P22).
+
+## Evidencia: fase 6, prueba `claude-6` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D36–D38). Hornada 2, en paralelo con `codex-6`. Intervenciones humanas: puertos 3006/4006 para no chocar con `codex-6` (fallo del humano al lanzar las dos a la vez, no del agente) y dos `/craft-lasting-quality` hechos a propósito, para comparar al final dos soluciones sin deuda.
+
+| Paso | `claude-4` | `codex-5` | `claude-6` |
+| --- | --- | --- | --- |
+| Propuesta | 9 min | 6 min | 8 min |
+| Scaffold, outline, integración | 12 min | 27 min | 12 min |
+| `configuration` | 7 min | 33 min | 9 min (parada por los puertos) |
+| `monitoring` | 5 min | 17 min | 5 min |
+| `health` | 5 min | 17 min | 7 min |
+| `basic-auth` | 8 min | 44 min | 10 min |
+| Fundación | 47 min | 2 h 27 min; `blocked` | 52 min; verde |
+| Calidad 1 (S0005, `fix`) | — | — | 9 min |
+| Calidad 2 (S0006, `refactor`) | — | — | ~5 min (más 27 min parada por el límite de uso de Claude Pro) |
+
+### Funcionó
+
+- Comprobado a mano en `master` (v0.5.2): `run lint` y `run unit` en verde; `run acceptance` 35 pasan y 2 se saltan (S0001-R02/R04, puertos por defecto) en 9,8 s. Canario: `features/health/health.repository.ts` importando `core/settings.ts` → `no-restricted-imports` con «Features never use core, main or the manifest. They get configuration by injection».
+- **D36 bien aplicada:** S0004 calificada en rojo, pero con Security en verde, así que no volvió al Builder; los dos fallos se registraron como deuda `high`. Seguridad al nivel de `codex-5`: scrypt `N=2^17`, `r=8`, `p=1` guardado con el hash, `timingSafeEqual`, verificación falsa para emails desconocidos, tokens `randomBytes(32)`.
+- **Cierre correcto:** verde con la deuda listada y recomendación de `/craft-lasting-quality` (en `codex-5` declaró `blocked`).
+- **D37:** logs en texto plano (`time source LEVEL message`, con test que lo comprueba); SQL en ficheros `.sql` junto a los repositorios.
+- **D38:** capas por sufijo (`.routes`, `.service`, `.repository`, `.middleware`, `.client`, `.store`, `.page`), sin carpetas de capa; e2e con `core/`, `features/{f}/*.api.spec|*.web.spec` y `shared/` con `page-objects/` y `test-data/`.
+- **Guard:** el Architect dejó escrito desde la spec que el guard protege solo las rutas registradas. El primer guard iba en el prefijo y fallaba cerrado (401 en vez de 404), nunca abierto como en `codex-5`. S0005 lo llevó a cada ruta; S0006 hizo que el router de una funcionalidad no pública falle cerrado (`use`, `route`, `param` y rutas sin path dan error al arrancar).
+- **Ciclo de deuda autónomo:** cada pasada eligió un grupo coherente y lo resolvió con una spec acotada (S0005 `fix` para D0003–D0004 `high`; S0006 `refactor` para D0005–D0006). El segundo `scan-quality` explicó bien por qué un lint limpio no prueba una reparación. Deuda final: D0007 `low` (nombre de un test), más D0001–D0002 de los puertos, que no cuentan.
+- Tamaño sin tests: back 819 líneas, front 826, e2e 633; unas 2280 en total, entre `codex-5` (2150) y `claude-4` (2438). 37 tests e2e.
+
+### Hechos y acción
+
+1. **Lint no se comprueba en el HEAD que se publica.** En S0006 el Builder hizo commit antes de leer el lint (`30ccecb`, TS2339) y lo reparó después (`531c2a7`). `control.json` registra lint y unit en el commit roto; el Craftsman no los repite porque `verify-behavior` lo prohíbe; el orquestador los ejecutó a mano tras el merge. Acción: `ship-spec` (o el core) exige `lint` y `unit` en verde en el HEAD de la rama antes de integrar.
+2. **El Builder no aplicó reglas que ya existían:** `setCustomValidity()` para errores del servidor (`front/AGENTS.md`) y el 404 de rutas no registradas (texto de la spec). Ambas dieron la calificación roja de S0004. Acción: `implement-project` repasa las reglas de proyecto y las frases de la spec antes de entregar.
+3. **Instrucción equivocada del orquestador** en S0001: un origen no listado recibía `*` en CORS. La revisión del Craftsman lo detectó y se corrigió antes de publicar. El sistema se defendió; vigilar los traspasos del orquestador.
+4. **`system.md` de 621 líneas** con los tres `AGENTS.md` copiados como apéndice, igual que `claude-4` (626) y `codex-3`; `codex-5` dejó 66. Acción: `architect-system-foundation` enlaza los `AGENTS.md` y no los copia.
+5. **`guardedRouter` sobredimensionado:** reemplaza los métodos del `Router` de Express con `Reflect` (~50 líneas). Un flag `public` por ruta en el manifiesto bastaría. Material para la fase 5 y el Archetype Builder.
+6. **Observar:** el último commit («Implement feature X…») es la transcripción pegada, no del agente; el límite de uso de Claude Pro paró la sesión 27 min.
 
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
