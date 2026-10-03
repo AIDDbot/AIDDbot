@@ -24,7 +24,8 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 ### One architecture, enforced
 
 - `main` starts `core`; `core` registers the features through one manifest; features talk to each other only through a facade; `shared` holds helpers and no business rules.
-- Inside each feature and in `shared`: `presentation` → `logic` → `data`. The primitives of `shared/logic` are usable from every layer.
+- Inside each feature and in `shared`: `presentation` → `logic` → `data`, given by the file suffix (`.routes`, `.service`, `.repository`…), with no layer folders. A `shared` file with no layer suffix is a primitive that every layer can use.
+- The `e2e` project has its own shape: tests by feature (`.api.spec`, `.web.spec`), `shared` with `page-objects/`, `test-data/`, fixtures and the project startup, and `core` for the suite life cycle.
 - Boundary violations fail `lint` from day one. The foundation proves the boundary check with a forbidden import before it commits the tooling.
 - Frameworks keep their own mechanisms (router, injector, store); the project's `AGENTS.md` maps them to the concepts.
 

@@ -11,7 +11,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 - Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
 - For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
-- For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It maps the Blueprint architecture with `src/main.ts`, `src/core/`, `src/features/{feature}/{presentation,logic,data}/`, the facade `index.ts`, the manifest `manifest.ts`, and `src/shared/{presentation,logic,data}/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
+- For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It maps the Blueprint architecture with `src/main.ts`, `src/core/`, one flat folder `src/features/{feature}/` with the facade `index.ts`, the manifest `manifest.ts`, and a flat `src/shared/`. The layer comes from the file suffix (`.routes`, `.middleware`, `.page`, `.component`, `.command`; `.service`, `.store`; `.repository`, `.client`), so the rules do not depend on the folder depth. A file in `shared` with no layer suffix is a primitive. For the `e2e` project, use [`oxlint.boundaries.e2e.json`](./oxlint.boundaries.e2e.json): `core`, `features/{feature}/` and `shared/`. Change the paths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
 - Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
 - In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
@@ -19,7 +19,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 
 | Ecosystem | `lint` | Types (inside `lint`) | `format` | `unit` | Boundaries (inside `lint`) | `quality` |
 | --- | --- | --- | --- | --- | --- | --- |
-| JS / TS | oxlint with `typeAware` and `typeCheck` (`oxlint-tsgolint`) | inside oxlint (`typeCheck`); no `tsc` | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder | oxlint with a second config that extends the first and adds complexity and size rules |
+| JS / TS | oxlint with `typeAware` and `typeCheck` (`oxlint-tsgolint`) | inside oxlint (`typeCheck`); no `tsc` | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder and file suffix | oxlint with a second config that extends the first and adds complexity and size rules |
 | Go | `go vet`, golangci-lint | compiler | `gofmt -w` | `go test` | `internal/` + depguard | gocyclo, gocognit |
 | Rust | `cargo clippy` | compiler | `cargo fmt` | `cargo test` | module visibility | `clippy::cognitive_complexity` |
 | PHP | PHP_CodeSniffer | PHPStan, Psalm | `php-cs-fixer fix` | PHPUnit, Pest | Deptrac | PHPMD |

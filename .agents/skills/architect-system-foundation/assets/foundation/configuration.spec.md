@@ -64,7 +64,7 @@ Each project must start in the same way in each environment. Its settings must b
   - `HOST`: default all interfaces.
   - `DATABASE_URL`: the connection to the database. A local default for development.
   - `CORS_ORIGIN`: origins, with commas between them. Default `*`.
-- `core` opens the database connection from `DATABASE_URL` and gives it to `shared/data`.
+- `core` opens the database connection from `DATABASE_URL` and gives it to a data file in `shared`.
 - A relative path in a setting starts at the project folder, never at the working directory.
 
 ### front-web
@@ -72,7 +72,7 @@ Each project must start in the same way in each environment. Its settings must b
 - `main` starts `core`.
 - `core` reads `PORT` (default 4000) and `API_BASE_URL` (default `http://localhost:3000`).
 - `core` serves `GET /runtime-config.json` with the value of `API_BASE_URL`. The browser gets the setting at runtime, so the front needs no build for each environment.
-- The shared HTTP client in `shared/data` reads `/runtime-config.json` one time when the application starts. Only this client uses `API_BASE_URL`.
+- The shared HTTP client, a data file in `shared`, reads `/runtime-config.json` one time when the application starts. Only this client uses `API_BASE_URL`.
 
 ### cli
 
@@ -88,7 +88,7 @@ Each project must start in the same way in each environment. Its settings must b
   - `E2E_STARTUP_TIMEOUT_MS`: the maximum time to wait for a project that the suite starts. Default 15000.
 - The suite reports an invalid value. It never uses the default in its place.
 - A project answers when its port returns an HTTP response. Later, `health` changes this check to the health address.
-- `core` starts the projects before the run and stops them after the run. Tests only read the base URLs.
+- `core` starts the projects before the run and stops them after the run. It gives the base URLs to the tests through the Playwright configuration (base URL and environment). Tests never use `core`: they read the base URLs through the fixtures in `shared`.
 - This technical result is not an acceptance requirement:
   - If a project answers on its port, the suite uses it and does not start a second instance.
   - If a project does not answer, the suite starts it in its folder with its start command and `PORT`. The suite waits until the project answers. After the run, the suite stops it.
@@ -97,8 +97,8 @@ Each project must start in the same way in each environment. Its settings must b
 
 ### Acceptance tests that start a project
 
-- Tests never write a port or a URL. They get the base URLs from `core`, and a free port from `shared/data`.
-- `shared/data` has a primitive that starts one project in its folder with its start command and an environment that the test gives. It returns the output, the exit code and the base URL, and it stops the project after the test. Add it to the shared primitives of the `e2e` project.
+- Tests never write a port or a URL. They get the base URLs from the fixtures, and a free port from `shared`.
+- `shared` has a helper that starts one project in its folder with its start command and an environment that the test gives. It returns the output, the exit code and the base URL, and it stops the project after the test. Add it to the shared primitives of the `e2e` project. `core` also uses it to start the projects of the suite.
 - The tests of R01, R03, R05 and R09 start their own instance with that primitive, on a free port. They do not use a browser.
 - The tests of R02 and R04 use the instance that the suite started without `PORT`. They check that its base URL has the default port of `core` and that it answers.
 

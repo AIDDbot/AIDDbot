@@ -43,7 +43,7 @@ npx tiged AIDDbot/e2e-playwright e2e
 After your approval, it runs the scaffold from the repository root, so the working tree must be clean and Node.js with npm installed. Then, one project at a time:
 
 - It gives each project its own `AGENTS.md` with all its technical data: technology, tooling, architecture, folders, coding rules, and connections. Your agents read it instead of exploring the code.
-- It reshapes the code into one architecture: `main` starts `core`; `core` registers the features through a manifest; each feature has `presentation`, `logic`, and `data` layers; `shared` holds helpers. Lint enforces these boundaries from day one, and the foundation proves it with a forbidden import.
+- It reshapes the code into one architecture: `main` starts `core`; `core` registers the features through a manifest; each feature is one flat folder whose file suffixes (such as `.routes`, `.service`, `.repository`) give the `presentation`, `logic`, and `data` layers; `shared` holds helpers. The `e2e` project keeps its tests by feature, with page objects and test data in `shared`. Lint enforces these boundaries from day one, and the foundation proves it with a forbidden import.
 - It installs and records the tooling slots: `lint`, `format`, `upgrade`, `unit`, `acceptance`, and `quality`, or "not applicable" with a reason.
 
 Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `health`, and `basic-auth` when the system has users), so the system starts green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt, and the native Node.js test runner.

@@ -49,24 +49,24 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 
 ### back-api
 
-- `shared/logic` contains the logger policy:
+- A logic file in `shared` contains the logger policy:
   - One line for each event, with the columns `time source LEVEL message`.
   - The level filter.
-- `shared/data` writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.
+- A data file in `shared` writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.
   - It does not block the request. It puts the lines in a queue, adds them to the file asynchronously, and writes all lines in the queue before the process stops.
   - If a file write fails, it reports the failure one time. The request continues.
 - `core` reads these settings (see `configuration`):
   - `LOG_DIR`: default `./logs`.
   - `LOG_LEVEL`: `debug`, `info`, `warn` or `error`. Default `info`.
-- `shared/presentation` contains the request logger and the error handler. `core` registers them.
+- Presentation files in `shared` contain the request logger and the error handler. `core` registers them.
 - The error handler is the only code that changes an error into a response:
   - An expected error has its status and its message.
   - All other errors become 500 `{ "error": "Internal server error" }`. The handler logs them at `ERROR` with their cause.
-- `shared/logic` defines the one shape of an expected error (status and message). Features raise this shape.
+- A primitive in `shared` defines the one shape of an expected error (status and message). Features raise this shape.
 
 ### front-web
 
-- `shared/data` contains the only HTTP client. It changes each non-2xx `{ "error": "..." }` answer into the shape of an expected error. Pages show the message and never a raw failure.
+- A data file in `shared` contains the only HTTP client. It changes each non-2xx `{ "error": "..." }` answer into the shape of an expected error. Pages show the message and never a raw failure.
 
 ### cli
 

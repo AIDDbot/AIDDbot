@@ -1,0 +1,73 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "overrides": [
+    {
+      "files": [
+        "core/*.ts"
+      ],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "../features/**"
+                ],
+                "message": "core never uses a test. It can use shared."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "features/*/*.ts"
+      ],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "../../core/**"
+                ],
+                "message": "Tests never use core. They get URLs from the fixtures or from the baseURL of Playwright."
+              },
+              {
+                "group": [
+                  "../*/*"
+                ],
+                "message": "A test never uses a different feature. Move what both use to shared."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "shared/*.ts",
+        "shared/*/*.ts"
+      ],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "**/core/**",
+                  "**/features/**"
+                ],
+                "message": "shared uses no core and no test."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

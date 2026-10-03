@@ -60,14 +60,14 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### back-api
 
-- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive in `logic`. Add it to the `AGENTS.md` of the project.
+- The input checks use the shared primitive `requireText`. Email normalization becomes a new primitive in `shared`. Add it to the `AGENTS.md` of the project.
 - Feature `auth`:
   - `presentation` has the three routes.
   - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.
   - `data` stores users and sessions.
 - The token is random and opaque. The session is in the database, so it can be revoked.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
-- The session guard is in `shared/presentation`. It contains no business rules. It reads the bearer token and asks a session resolver. `core` gives the resolver by injection from the `auth` facade.
+- The session guard is a presentation file in `shared`. It contains no business rules. It reads the bearer token and asks a session resolver. `core` gives the resolver by injection from the `auth` facade.
 - `core` puts the session guard after the public routes. Thus each new route is protected.
 - Other features get the current user only through the `auth` facade.
 
@@ -82,7 +82,7 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### e2e
 
-- An API client and page objects for register and login are in the e2e `data` layer.
+- An API client for register and login is in the e2e `shared` folder. The page objects for register and login are in `shared/page-objects/`.
 - Each run uses unique test emails. Thus the suite can run again on the same database.
 
 ## Schema impact

@@ -82,7 +82,7 @@ Before the first business feature, each layer of each project must operate with 
 ### e2e
 
 - This technical result is not an acceptance requirement: before the first test, a preflight checks the health address of each project (`GET /api/health` for the `back-api`, `/` for the `front-web`). If a project does not answer, the preflight stops the run and shows the project name. Each acceptance run does this step. No test checks it.
-- The page objects for the shell, `/health` and the not-found page are in the e2e `data` layer.
+- The page objects for the shell, `/health` and the not-found page are in `shared/page-objects/` of the e2e project.
 
 ## Schema impact
 
