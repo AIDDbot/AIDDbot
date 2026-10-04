@@ -30,7 +30,7 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 
 ## Requirements
 
-- **R01**: WHEN the `back-api` completes a request, it SHALL add one plain-text line to `{LOG_DIR}/{yyyy-mm-dd}.log` with the columns `time source LEVEL message`, separated by spaces. The message SHALL contain the method, path, status and duration in milliseconds.
+- **R01**: WHEN the `back-api` completes a request, it SHALL add one plain-text line to `{LOG_DIR}/{yyyy-mm-dd}.log` with the columns `time source LEVEL message`, separated by spaces. The `time` SHALL be the local time of day `HH:MM:SS.mmm`, with no date. The message SHALL contain the method, path, status and duration in milliseconds.
 - **R02**: WHEN a request completes, the `back-api` SHALL log it at level `ERROR` if the status is 500 or more, at `WARN` if the status is from 400 to 499, and at `INFO` for other statuses.
 - **R03**: WHILE `LOG_LEVEL` is set, the `back-api` SHALL write no line below that level.
 - **R04**: WHEN a request goes to an API path that does not exist, the `back-api` SHALL answer 404 with `{ "error": "Not found" }`.
@@ -51,6 +51,7 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 
 - The logger is in `core`. Its policy:
   - One line for each event, with the columns `time source LEVEL message`.
+  - The `time` has no date, because the file name gives the date.
   - The level filter.
 - The logger writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.
   - It does not block the request. It puts the lines in a queue, adds them to the file asynchronously, and writes all lines in the queue before the process stops.
@@ -86,7 +87,7 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 
 | Requirement | Acceptance test |
 | --- | --- |
-| R01 | Send a request to a path. The log file of the day gets one line that starts with the time, the source and the level, and that contains the method, path, status and duration. A JSON line fails the test. |
+| R01 | Send a request to a path. The log file of the day gets one line that starts with the time of day (`HH:MM:SS.mmm`, no date), the source and the level, and that contains the method, path, status and duration. A JSON line fails the test. |
 | R02 | Send a request to an unknown path. Its log line has the level `WARN`. |
 | R03 | Start with `LOG_LEVEL=warn`. A successful request makes no line. |
 | R04 | `GET /api/does-not-exist` answers 404 with `{ "error": "Not found" }`. |
