@@ -34,7 +34,7 @@ A system with users must know who sends each request, before a feature needs thi
 ## Requirements
 
 - **R01**: WHEN a visitor registers with a new email, a name and a password, the `back-api` SHALL answer 201 with the public user `{ id, email, name, role: "user", createdAt }`.
-- **R02**: IF the email, name or password is missing or is not a non-empty string, THEN the `back-api` SHALL answer 400 and make no user.
+- **R02**: IF the email, name or password is missing or is not a non-empty string, THEN the `back-api` SHALL answer 400 with one `fields` entry for each incorrect field, and make no user.
 - **R03**: IF the email is already registered, in upper case or lower case, THEN the `back-api` SHALL answer 409 and keep the first account without changes.
 - **R04**: WHEN a user logs in with valid credentials, the `back-api` SHALL answer 200 with `{ token, user }`. The `token` is a non-empty opaque string.
 - **R05**: IF the password is incorrect or the email is unknown, THEN the `back-api` SHALL answer 401 with the same body `{ "error": "Invalid credentials" }`.
@@ -45,15 +45,16 @@ A system with users must know who sends each request, before a feature needs thi
 - **R10**: WHILE a user is logged in, the `front-web` SHALL keep the session after a reload of the page.
 - **R11**: WHEN a user sends a form two times quickly, the `front-web` SHALL send one request.
 - **R12**: WHEN a user moves between `/register` and `/login` without a reload of the page, the form SHALL send the operation of the page that it shows.
+- **R13**: IF the `back-api` answers the register form with `fields`, THEN the `front-web` SHALL show each message next to its field.
 
 ## Expected URLs and APIs
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
-| api | back-api | `POST /api/auth/register` | 201 public user. 400 invalid input. 409 email already registered. | R01, R02, R03 |
+| api | back-api | `POST /api/auth/register` | 201 public user. 400 invalid input with `fields`. 409 email already registered. | R01, R02, R03 |
 | api | back-api | `POST /api/auth/login` | 200 `{ token, user }`. 400 invalid input. 401 invalid credentials. | R04, R05 |
 | api | back-api | `GET /api/auth/me` | 200 public user. 401 without a valid session. | R06, R07 |
-| page | front-web | `/register` | Form with email, name and password. No role field. | R08, R11, R12 |
+| page | front-web | `/register` | Form with email, name and password. No role field. | R08, R11, R12, R13 |
 | page | front-web | `/login` | Form with email and password | R09, R10, R11, R12 |
 
 ## Solution
@@ -64,7 +65,7 @@ A system with users must know who sends each request, before a feature needs thi
 - Feature `auth`:
   - `presentation` has the three routes.
   - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.
-  - `data` stores users and sessions.
+  - `data` stores users and sessions. Their tables come in a migration of the feature (see `configuration`).
 - The token is random and opaque. The session is in the database, so it can be revoked.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
 - The session guard is in `core`. It contains no business rules. It reads the bearer token and asks a session resolver. `createApp()` in `main` gets the resolver from the `auth` facade and gives it to `core`.
@@ -92,7 +93,7 @@ A system with users must know who sends each request, before a feature needs thi
 | model | User | new | `id`, `email` (unique, lower case), `name`, `role` (`user`), `passwordHash`, `createdAt`. |
 | model | Session | new | `token`, `userId` → User, `createdAt`. |
 | back-api.db | `users.*`, `sessions.*` | new | The fields of User and Session. `users.email` is unique. |
-| back-api.api | `POST /api/auth/register` | new | 201 public user. 400 invalid input. 409 email already registered. |
+| back-api.api | `POST /api/auth/register` | new | 201 public user. 400 invalid input with `fields`. 409 email already registered. |
 | back-api.api | `POST /api/auth/login` | new | 200 `{ token, user }`. 400 invalid input. 401 invalid credentials. |
 | back-api.api | `GET /api/auth/me` | new | 200 public user. 401 missing or invalid session. |
 
@@ -101,7 +102,7 @@ A system with users must know who sends each request, before a feature needs thi
 | Requirement | Acceptance test |
 | --- | --- |
 | R01 | Register a unique email. The answer is 201 with the public user, the role `user`, and no password field. |
-| R02 | Register without a name, and with an empty password. Both answers are 400. A login with those values fails. |
+| R02 | Register without a name, and with an empty password. Both answers are 400, and `fields` names the incorrect field. A login with those values fails. |
 | R03 | Register the same email in upper case. The answer is 409. The first password still logs in. |
 | R04 | Log in with valid credentials. The answer is 200 with a non-empty token and the user. |
 | R05 | Log in with an incorrect password, and with an unknown email. Both answers are 401 with the same body. |
@@ -112,3 +113,4 @@ A system with users must know who sends each request, before a feature needs thi
 | R10 | Log in and reload the page. The menu still shows the name. |
 | R11 | Click the submit button two times quickly on register and on login. Each form sends one request. |
 | R12 | Open `/register`. Follow the link to `/login` without a reload and send valid credentials: the page sends a login request. Follow the link to `/register` and send a new account: the page sends a register request. |
+| R13 | On `/register`, send a name that has only spaces. The page shows the message of the server next to the name field. |

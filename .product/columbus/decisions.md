@@ -347,3 +347,12 @@ En `codex-5`, la forma de app daba al `e2e` page objects en `data` y tests en `p
 
 - **Criterio de `shared`:** lo genérico y sin dominio (tipo, comprobación, conversión, utilidad, ayuda de test) va a `shared` aunque hoy lo use una sola parte. Lo que lleva reglas o palabras de negocio se queda en su funcionalidad; si otra lo necesita, se expone por la fachada (D3), nunca se mueve a `shared`. Enmienda D4 y D39.
 - **`parseInteger(value, field, min, max)`:** el error nombra el campo y el rango, como `requireText(value, field)`. `configuration` pide usarlo en cada proyecto para sus ajustes enteros.
+
+## D44 ← D17, prueba `codex-8` · Atributos de calidad dentro de las specs fundacionales
+
+Antes de abrir specs nuevas, los atributos de calidad que cruzan todas las funcionalidades (las «-ilities») entran en la spec fundacional que ya es dueña de la capacidad. Siguen siendo cinco specs (D17, D38).
+
+- **`configuration` (mantenibilidad, fiabilidad):** el esquema tiene versión. Migraciones numeradas en una sola carpeta; `core` las aplica al arrancar, una transacción cada una, y anota cada versión. Con una versión desconocida, el back no arranca (R10, R11). Ninguna funcionalidad crea tablas fuera de una migración. Parada ordenada con la señal de parada, revisada por `review-implementation` y sin test de aceptación, porque la señal cambia con el sistema operativo.
+- **`monitoring` (observabilidad, consistencia, seguridad):** `X-Request-Id` recibido o generado, en la respuesta y en la línea del log (R07, R08). Error de entrada con `fields` en el tipo de error de `shared`. Cabeceras de seguridad (`nosniff`, `DENY`, `no-referrer`; R09) y límite del cuerpo `BODY_LIMIT_KB` con 413 (R10). El límite de peticiones queda fuera.
+- **`basic-auth`:** el 400 del registro trae `fields` (R02) y el formulario muestra cada mensaje junto a su campo (R13).
+- **`health`:** su tabla llega como la primera migración.

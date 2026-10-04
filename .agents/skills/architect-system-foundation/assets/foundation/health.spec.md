@@ -53,7 +53,7 @@ Before the first business feature, each layer of each project must operate with 
 - Feature `health` with three layers:
   - `presentation` answers the route.
   - `logic` makes the status from the run count and the process uptime.
-  - `data` records one run at startup and counts the runs.
+  - `data` records one run at startup and counts the runs. Its table comes in the first migration of the feature (see `configuration`).
 - The `health` facade exports only its registration. The manifest lists it. `createApp()` in `main` registers the manifest. The feature gets the database connection by the access method of the `AGENTS.md` of the project.
 - The `unit` smoke test checks the `health` logic with a fake `data` layer.
 

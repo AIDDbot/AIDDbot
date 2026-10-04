@@ -23,6 +23,8 @@ Each project must start in the same way in each environment. Its settings must b
 - A project must not start with an invalid setting.
 - A `front-web` project must connect to the `back-api` only through its configured base URL.
 - For each project under test, the `e2e` suite must know the folder, the port and the start command. Then it can use a project that runs, or start it.
+- The database schema must have a version. A project must not start with a schema that is newer than its code.
+- A project must stop cleanly: it must not lose a request in progress or a log line.
 
 ### Out of context
 
@@ -42,6 +44,8 @@ Each project must start in the same way in each environment. Its settings must b
 - **R07**: WHILE `CORS_ORIGIN` is not set, the `back-api` SHALL answer each request with `Access-Control-Allow-Origin: *`.
 - **R08**: WHEN the `cli` runs with `--version`, it SHALL show its version and stop with exit code 0.
 - **R09**: WHEN the `front-web` starts with `API_BASE_URL` set, `GET /runtime-config.json` SHALL answer 200 with `{ "apiBaseUrl": "<that URL>" }`.
+- **R10**: WHEN the `back-api` starts, it SHALL apply each migration that the database does not have, in order, and record the version of each one.
+- **R11**: IF the database has a schema version that the `back-api` does not know, THEN the `back-api` SHALL stop with a non-zero exit code and a message that contains that version.
 
 ## Expected URLs and APIs
 
@@ -51,6 +55,7 @@ Each project must start in the same way in each environment. Its settings must b
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
 | command | cli | `--version` | The version. Exit code 0. | R08 |
 | api | front-web | `GET /runtime-config.json` | 200 `{ "apiBaseUrl": "..." }` | R09 |
+| process | back-api | start on a database | Applies the missing migrations, or stops on an unknown version | R10, R11 |
 
 ## Solution
 
@@ -65,6 +70,13 @@ Each project must start in the same way in each environment. Its settings must b
   - `DATABASE_URL`: the connection to the database. A local default for development.
   - `CORS_ORIGIN`: origins, with commas between them. Default `*`.
 - `core` opens the database connection from `DATABASE_URL`. Features get it by the same access method.
+- Migrations:
+  - Each change of the schema is one migration file, with an ordered number and a name (`0001-{name}`). All migrations are in one folder. A feature adds its migrations to that folder.
+  - `core` contains the migration runner. Before it opens the port, the runner applies each missing migration in order, each one in one transaction, and records its version and time in a table of applied versions.
+  - The code never changes the schema in a different location: no table creation in a feature.
+- Clean stop. This technical result is not an acceptance requirement, because a stop signal is not the same on each operating system. `review-implementation` checks it:
+  - When the process gets a stop signal, `core` accepts no new connection, lets the requests in progress complete, writes all queued log lines, closes the database, and stops with exit code 0.
+  - If the requests do not complete in a short time, `core` stops them and stops with a non-zero exit code.
 - A relative path in a setting starts at the project folder, never at the working directory.
 
 ### front-web
@@ -112,6 +124,7 @@ Each project must start in the same way in each environment. Its settings must b
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
 | front-web.api | `GET /runtime-config.json` | new | 200 `{ "apiBaseUrl": "..." }`. No error status. |
+| back-api.db | table of applied versions | new | `version`, `appliedAt`. One row for each applied migration. |
 
 ## Verification
 
@@ -126,3 +139,5 @@ Each project must start in the same way in each environment. Its settings must b
 | R07 | With `CORS_ORIGIN` not set, send a request. `Access-Control-Allow-Origin` is `*`. |
 | R08 | Run the `cli` with `--version`. It shows a version and stops with exit code 0. |
 | R09 | Start the `front-web` on a free port with an `API_BASE_URL` that the test makes. `GET /runtime-config.json` answers 200 with `apiBaseUrl` equal to that URL. |
+| R10 | Start the `back-api` on a new temporary database. It answers, and the table of applied versions has one row for each migration. Stop it and start it again on the same database. It answers, and no version has two rows. |
+| R11 | In a temporary database, record a version that no migration has. Start the `back-api` on it. It stops with a non-zero exit code. Its output contains that version. |
