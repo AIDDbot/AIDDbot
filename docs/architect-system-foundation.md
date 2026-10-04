@@ -1,6 +1,6 @@
 # Foundation Project Dependency Architecture
 
-This document gives the structure of each project in a new system. Each project has four parts: composition, platform services, features and shared elements. The examples use TypeScript. The rules apply to all technologies.
+This document gives the structure of each project in a new system. For the coding rules and limits, see [`coding-rules.md`](./coding-rules.md). Each project has four parts: composition, platform services, features and shared elements. The examples use TypeScript. The rules apply to all technologies.
 
 ## Contents
 
