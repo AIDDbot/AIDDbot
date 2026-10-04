@@ -1,0 +1,73 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": [
+    "./.oxlintrc.json"
+  ],
+  "rules": {
+    "eslint/complexity": [
+      "warn",
+      {
+        "max": 10
+      }
+    ],
+    "eslint/max-lines-per-function": [
+      "warn",
+      {
+        "max": 40,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "eslint/max-depth": [
+      "warn",
+      {
+        "max": 3
+      }
+    ],
+    "eslint/max-params": [
+      "warn",
+      {
+        "max": 4
+      }
+    ],
+    "eslint/max-lines": [
+      "warn",
+      {
+        "max": 300,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.spec.ts"
+      ],
+      "rules": {
+        "eslint/max-lines-per-function": "off",
+        "eslint/max-statements": [
+          "warn",
+          {
+            "max": 30
+          }
+        ],
+        "eslint/max-depth": [
+          "warn",
+          {
+            "max": 5
+          }
+        ],
+        "eslint/max-lines": [
+          "warn",
+          {
+            "max": 600,
+            "skipBlankLines": true,
+            "skipComments": true
+          }
+        ]
+      }
+    }
+  ]
+}

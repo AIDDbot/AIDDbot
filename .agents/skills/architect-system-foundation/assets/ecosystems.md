@@ -9,7 +9,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 - Use TypeScript 7. Never pin an older major. If a tool does not support TypeScript 7, replace the tool. Do not keep the old TypeScript.
 - Use the oxc family: oxlint for `lint`, layer boundaries, and `quality`; oxfmt for `format`.
 - Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
-- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules. Add an override with the test thresholds of the general rules for `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, all files use the test thresholds.
+- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules. Start from [`oxlint.complexity.json`](./oxlint.complexity.json). Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, set the `files` of that override to all files.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
 - For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
