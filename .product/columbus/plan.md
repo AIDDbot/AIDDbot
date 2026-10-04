@@ -38,7 +38,7 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | ✅ Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | ✅ Skills | Skills | 6–8 oct |
-| 4b | Blueprint v2: `main` compone, `shared` por tipo, spec `layout` | Skills | 5–7 oct |
+| 4b | ✅ Blueprint v2: `main` compone, `shared` por tipo, spec `layout` | Skills | 5–7 oct |
 | 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct |
 | 6 | Prueba en greenfield real, solo JS/TS (D36) | Prueba | 9 oct |
 | 7 | Release Columbus | Mecánica | 12 oct |
@@ -107,6 +107,8 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 **Hecho cuando:** los skills citados reflejan sus principios y decisiones, ningún skill de greenfield lee `.agents/rules/`, `npm run adapt` está al día y la documentación de `docs/` que les afecta también.
 
 ### 4b · Blueprint v2
+
+✅ Hecho el 4 oct (`cde8b48`). La referencia de oxlint se probó con oxlint 1.86: nueve imports prohibidos fallan y ningún permitido. Además, umbrales de complejidad relajados en los tests y en todo `e2e`.
 
 Aplica D37–D39 con `/maintain-skills`. La guía para humanos es `docs/architect-system-foundation.md`.
 
