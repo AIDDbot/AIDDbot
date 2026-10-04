@@ -51,6 +51,8 @@ The archetype can change these numbers. The `quality` slot measures them.
 These rules apply to all technologies.
 
 - Use names that are idiomatic for the language. Use the words of the domain.
+- Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
+- If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.

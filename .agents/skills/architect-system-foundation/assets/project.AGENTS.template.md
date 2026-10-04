@@ -174,6 +174,8 @@ This table is the index of the elements in `shared`. Read it before you write a 
 - Use names that are idiomatic for the language. Use the words of the domain.
 - Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {4} parameters. Keep files ≤ {128} lines.
 - Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
+- Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
+- If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.
