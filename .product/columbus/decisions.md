@@ -290,7 +290,7 @@ Go (experimento B) y Angular (C) no entran en Columbus. La fase 6 se cierra solo
 
 ## D37 ← `front-standard` · El estilo del arquetipo web entra tal cual
 
-Pico CSS copiado en el repo, las fuentes alojadas en el proyecto (Roboto, Audiowide, Anonymous Pro), `theme.css`, `colors.css` con los tokens `--ab-*` y el cambio de tema claro/oscuro de `front-standard` entran en Columbus sin cambios. Quien adopte AIDDbot los cambia en su proyecto. La spec `layout` no los nombra (D18): van en la parte de tecnología del `AGENTS.md` del arquetipo y en `ecosystems.md`.
+Pico CSS ~~copiado en el repo~~ como dependencia (D46), las fuentes ~~alojadas en el proyecto~~ como dependencias (D46) (Roboto, Audiowide, Anonymous Pro), `theme.css`, `colors.css` con los tokens `--ab-*` y el cambio de tema claro/oscuro de `front-standard` entran en Columbus sin cambios. Quien adopte AIDDbot los cambia en su proyecto. La spec `layout` no los nombra (D18): van en la parte de tecnología del `AGENTS.md` del arquetipo y en `ecosystems.md`.
 
 ## D38 ← D17, D37 · Spec fundacional `layout`, antes de `health`
 
@@ -364,3 +364,11 @@ En `codex-8`, la calificación de S0005 falló en Security: el guard solo proteg
 - Cada registro del manifiesto dice si es público; si no lo dice, es protegido. Una funcionalidad puede tener un registro público y uno protegido.
 - `main` pasa a `core` las rutas con su marca (D39), y `core` pone el guard en cada ruta de un registro protegido, nunca por prefijo ni por una lista aparte. Una ruta que nadie registra sigue dando el 404.
 - Un test `unit` registra una funcionalidad sin marca y comprueba el 401 sin token.
+
+## D46 ← Prueba `codex-8` · Pico y las fuentes como dependencias
+
+En `codex-8`, «Pico copiado en el proyecto» dejó `@picocss/pico` y `@fontsource/*` instalados sin usar y una copia de 2.486 líneas en `src/styles/pico.css`, que `upgrade` no actualiza y que infla el tamaño del front. Lo que importa es que la aplicación funcione sin conexión (`layout`), y el bundler lo consigue desde `node_modules`.
+
+- Pico y las tres fuentes se añaden con el gestor de paquetes y se importan desde el fichero de entrada. Nunca se copian sus ficheros.
+- `theme.css`, `colors.css` (`--ab-*`) y `custom.css` siguen siendo ficheros del proyecto, importados después de Pico.
+- Sin excepción para un front sin bundler: el arquetipo web siempre tiene uno.
