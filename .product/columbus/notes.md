@@ -258,6 +258,36 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-s
 5. **Shadow DOM** en el shell y el formulario de auth: el CSS global (Pico, P22) no entra. Acción: el Blueprint del `front-web` pide light DOM salvo que el arquetipo diga otra cosa.
 6. **Tres navegadores:** prueba que el front Baseline funciona en los tres motores, a cambio de ~17 s por ejecución. **Decisión del humano: por ahora solo Chromium.** Acción: el Blueprint del e2e lo fija.
 
+## Evidencia: fase 6, pruebas `claude-7` y `codex-7` (Express + front sin framework con Vite + Playwright, prompt F, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/claude-7/` y `codex-7/`, 3 oct por la tarde. Versión con D40–D42 originales (capas por sufijo, antes de D39; `codex-7` en `953a9da`). Hornada 3. Intervenciones humanas: en `codex-7`, pedir la reparación tras el `blocked` (una hora después) y la pasada de calidad; en `claude-7`, la pasada de calidad, que se quedó a medias (S0005 sin commits del Builder).
+
+| Paso | `claude-7` | `codex-7` |
+| --- | --- | --- |
+| Propuesta | 9 min | 5 min |
+| Scaffold, outline, integración | 15 min | 9 min |
+| `configuration` / `monitoring` / `health` / `basic-auth` | 8 / 8 / 8 / 10 min | 8 / 6 / 6 / 11 min |
+| Fundación | 60 min, verde | 45 min, **`blocked`** (`database is locked`) |
+| Reparación y calidad | S0005 (D0001–D0002) sin terminar | S0005 aislamiento, 8 min; S0006 predicados, 6 min; v0.5.2 |
+| Deuda abierta | 2 `medium` y 1 `low` de spec, 5 `low` de tamaño de tests | D0005, D0006 `medium` |
+| Código sin tests (back/front/e2e) | 809 / 703 / 508 ≈ 2020 | 515 / 424 / 426 ≈ 1370 |
+| Ficheros planos en `back/src/shared` | 21 | 15 |
+
+### Funcionó
+
+- **D40:** ninguna evasión del guard; `basic-auth` con Security en verde en las dos.
+- **D41:** SQL en ficheros `.sql`, también el esquema; log en texto `time source LEVEL message`.
+- **D42 (`e2e`):** las dos usan `features/{f}/*.api.spec.ts` y `*.web.spec.ts`, la acción 4 de `codex-6` ya se cumple.
+- **`codex-7` bloquea bien:** la comprobación final falla, registra la causa, no repara por su cuenta. La reparación no usa reintentos ni un solo worker: cada instancia de test tiene su propia base de datos temporal.
+- `codex-7` tiene el código más pequeño de todas las pruebas (~1370 líneas sin tests).
+
+### Hechos y acción
+
+1. **Base de datos compartida entre instancias de test.** Los tests de `configuration` y `monitoring` arrancan su propia instancia sin `DATABASE_URL`, y todas usan la SQLite por defecto. En paralelo, a veces `database is locked`. `codex-7` lo vio en la comprobación final (intermitente: S0004 había pasado en verde). `claude-7` lo tapó en código de producción: `fix(back): wait for SQLite locks of parallel instances` (busy timeout de 5 s). Acción (hecha, `2ce54c8`): la spec `configuration` pide una base de datos temporal por instancia de test y prohíbe tapar el problema con reintentos o un solo worker.
+2. **La fecha sobra en cada línea del log:** `2026-10-03T17:04:27.356Z back-api WARN …`, porque el nombre del fichero ya da la fecha. Acción (hecha, `68d188b`): `monitoring` pide la hora local `HH:MM:SS.mmm` sin fecha.
+3. **`shared` como cajón de sastre:** 15 y 21 ficheros planos en `back/src/shared` tras cuatro specs. Confirma D39 (`shared` por tipo), que se prueba en `codex-8`.
+4. **`claude-7` registra como deuda el tamaño de los `describe` de los tests** (D0005–D0009 `low`). Ruido: un `describe` es la suite. Acción pendiente: comprobar que `oxlint.complexity.json` (D39) excluye los bloques de suite en tests.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
