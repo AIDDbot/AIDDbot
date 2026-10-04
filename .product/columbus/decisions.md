@@ -45,7 +45,7 @@ Se impone una **forma**, no un patrón con nombre (hexagonal, clean…): cada mo
 
 Cada funcionalidad expone un ~~**artefacto público**~~ **fachada** (`facade`, D24) (`index`, `mod`, paquete…) con lo imprescindible, incluidos los tipos e interfaces si el lenguaje es tipado. Otra funcionalidad solo puede importar ese artefacto, nunca sus capas internas.
 
-## D4 ← P5 · `shared` sin negocio y organizado por capas
+## D4 ← P5 · `shared` sin negocio y ~~organizado por capas~~ organizado por tipo (D39)
 
 `shared` contiene ayudas y código DRY, nunca negocio. Para que no se convierta en un cajón de sastre, se organiza con las mismas capas que las funcionalidades (p. ej. `shared/presentation`: middlewares y componentes UI base; `shared/logic`: validación y utilidades sin dominio; `shared/data`: clientes de BD y HTTP; D24) y respeta la misma regla fina.
 
@@ -53,7 +53,7 @@ Cada funcionalidad expone un ~~**artefacto público**~~ **fachada** (`facade`, D
 
 El lint de fronteras se implementa lo mejor posible en cada ecosistema (JS/TS `eslint-plugin-boundaries`/`dependency-cruiser`; Go `internal/` + `depguard`; Rust visibilidad de módulos; PHP Deptrac; Python import-linter; Java/Kotlin ArchUnit). Sin herramienta razonable, la regla queda escrita ~~en el fichero de reglas~~ en el `AGENTS.md` del proyecto (D19) y la comprueba `review-implementation`. ~~e2e queda fuera de D2: conserva su forma propia (tests, páginas, clientes, fixtures).~~ En e2e, la tabla de variaciones del Blueprint da su forma propia (tests, páginas, clientes, fixtures) con su motivo (principio 7).
 
-## D6 ← P7 · `core` accede a las funcionalidades solo por un manifiesto de registro
+## D6 ← P7 · ~~`core`~~ `main` accede a las funcionalidades solo por un manifiesto de registro (D39)
 
 - La carpeta de funcionalidades tiene un único **manifiesto** (`routes/index`, `pages/router`, `commands/index`…) que agrega el registro de cada funcionalidad. `core` importa **solo ese fichero**.
 - ~~El artefacto público de cada funcionalidad (D3) exporta **solo su registro**~~ La fachada de cada funcionalidad (D3, D24) exporta **su registro** y los tipos mínimos que usan otras funcionalidades (`registerRockets(app, deps)`, una lista de rutas). `core` le pasa las dependencias que crea (config, conexión a BD) y no toca servicios ni repositorios.
@@ -140,7 +140,7 @@ Sustituye a D10.
 - **Sin spec `chore tooling`:** el tooling es parte técnica. Llega con el arquetipo y, si falta algo, la puerta de D1 lo instala.
 - Coste asumido: hasta cuatro entregas por greenfield. La variación entre ejecuciones se contiene con contratos fijos (D18).
 
-## D17 ← Principio 9 · Cuatro specs fundacionales, independientes y en orden
+## D17 ← Principio 9 · ~~Cuatro~~ Cinco specs fundacionales (D38), independientes y en orden
 
 Sustituye la parte de D14 que hacía de `health` el esqueleto completo. Cada spec tiene su propia vida y dificultad. Se entregan en este orden:
 
@@ -190,7 +190,7 @@ En la fase 5, opcional, cada repo de arquetipo recibe su `AGENTS.md` desde la pl
 
 `archetypes.md` se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5). Cada fila da la tecnología del arquetipo y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17, D21).
 
-## D24 ← D2, D3, D4, D6 · `main` arranca `core`; nombres de fachada y capas
+## D24 ← D2, D3, D4, D6 · ~~`main` arranca `core`~~ `main` compone (D39); nombres de fachada y capas
 
 Enmienda D2, D3, D4 y D6, donde quedan tachadas las formas antiguas.
 
@@ -283,3 +283,39 @@ Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `s
 - **Seguridad:** la puerta bloqueante de `review-implementation` también exige los mínimos que citan la spec o el `AGENTS.md` (como el coste OWASP); un valor por defecto de la librería solo vale si los cumple. `basic-auth` pide los parámetros de coste explícitos, no menores que el mínimo OWASP y guardados con cada hash.
 - **Nada fuera de la spec:** `implement-project` no añade validaciones, límites ni valores por defecto propios (el `minlength=8` de `claude-4`).
 - **Carga bajo demanda:** en el Blueprint, una funcionalidad que el manifiesto carga bajo demanda no tiene ningún otro import; si también actúa al arrancar, el manifiesto le da una entrada de arranque que la carga bajo demanda.
+
+## D36 ← Fase 6 · Los experimentos fuera de JS/TS pasan al siguiente sprint
+
+Go (experimento B) y Angular (C) no entran en Columbus. La fase 6 se cierra solo con JS/TS. El criterio de Blueprint agnóstico se comprueba en el siguiente sprint; mientras tanto, las plantillas y las specs siguen sin nombrar tecnologías.
+
+## D37 ← `front-standard` · El estilo del arquetipo web entra tal cual
+
+Pico CSS copiado en el repo, las fuentes alojadas en el proyecto (Roboto, Audiowide, Anonymous Pro), `theme.css`, `colors.css` con los tokens `--ab-*` y el cambio de tema claro/oscuro de `front-standard` entran en Columbus sin cambios. Quien adopte AIDDbot los cambia en su proyecto. La spec `layout` no los nombra (D18): van en la parte de tecnología del `AGENTS.md` del arquetipo y en `ecosystems.md`.
+
+## D38 ← D17, D37 · Spec fundacional `layout`, antes de `health`
+
+Nueva spec fundacional, solo para `front-web` («no aplica» si el sistema no tiene front). Orden: `configuration` → `monitoring` → `layout` → `health` → `basic-auth`.
+
+- **`layout`:** shell con el título, menú construido con los enlaces que registra cada funcionalidad en el manifiesto, marca de la página actual, página 404 y una página de inicio. Tema claro u oscuro según la preferencia del sistema, con un botón que guarda la elección del usuario. Base visual de HTML semántico sobre una hoja de estilos sin clases, con tokens de tipografía y color.
+- **`health`** pierde la shell, el menú y la 404: solo registra su página y su enlace.
+- **`basic-auth`** añade entrar y salir al menú.
+
+## D39 ← `docs/architect-system-foundation.md` · `main` es la raíz de composición
+
+La guía para humanos de la arquitectura es `docs/architect-system-foundation.md`. Enmienda D2, D4, D6, D24, D29 y D33.
+
+**Reglas fijas** (las comprueba el lint de fronteras en cualquier stack):
+
+1. `main` es la raíz de composición: el único que conoce todas las funcionalidades, y solo a través del manifiesto. Exporta `createApp()`; el fichero de entrada solo la llama, para que los tests arranquen la app sin abrir un puerto.
+2. `core` nunca usa una funcionalidad ni el manifiesto. Recibe datos de `main` (rutas, enlaces del menú, comandos). `core` pasa de raíz de composición a servicios de plataforma: configuración, logger, conexiones, servidor o shell, router, tema.
+3. Una funcionalidad usa otra solo por su fachada (D3).
+4. `shared` no usa nada de la aplicación.
+5. `core` no contiene negocio.
+
+**Libre por arquetipo** (se escribe en las reglas de tecnología de su `AGENTS.md`): cómo llega una funcionalidad a los servicios de `core`. Por **inyección** (`main` se los da al registrarla, o el inyector del framework) o por **import directo** de la superficie pública de `core`, nunca de sus otros ficheros. Las dos opciones cumplen las reglas fijas; como `core` no importa funcionalidades, no hay ciclos.
+
+**`shared` por tipo** (`types`, `primitives`, `validation`, `utils`), con dependencias internas libres. Sustituye las capas de D4 y la excepción de D33. Contra el cajón de sastre: solo lo que usan dos o más partes, nada de negocio, cada elemento en el índice de primitivos (D29) y, si una carpeta pasa de unos 10 ficheros, se divide por tema (`quality` lo anota como deuda; no bloquea). Lo que importan `core` y las funcionalidades, como el tipo de error de la aplicación, va en `shared`.
+
+**Las funcionalidades conservan** `presentation` → `logic` → `data` (D24) y la fachada (D3).
+
+**Nombres:** `app.compose.ts` y el patrón `negocio.rol.ts` (`users.controller.ts`, `money.value.ts`) son la convención de JS/TS: van a `ecosystems.md` y al `AGENTS.md` de los arquetipos JS/TS, no al Blueprint, que mantiene «un tema por fichero». La fachada se llama `users.api.ts` en JS/TS; el concepto sigue siendo `facade` (D24).
