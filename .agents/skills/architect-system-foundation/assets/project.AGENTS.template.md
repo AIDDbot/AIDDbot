@@ -56,7 +56,7 @@ The project has one composition root and three folders. Each feature has three l
 | `main` | The composition root. It exports `createApp()`. This function makes the services of `core`, gets the features from the manifest and connects them. The entry file only calls `createApp()` and starts the process. |
 | `core` | The platform services: configuration, logger, connections, server or shell, router. It contains no business rules. |
 | features | One subfolder for each feature: endpoints, pages or commands. One **manifest** lists the registration of each feature. |
-| `shared` | The elements that two or more parts use, in folders by type: types, primitives, validation, utilities. It contains no business rules. |
+| `shared` | Generic elements with no domain, in folders by type: types, primitives, validation, utilities. It contains no business rules. |
 
 **Fixed rules.** The `lint` slot checks these rules. A violation blocks the delivery.
 
@@ -82,7 +82,8 @@ Tests start the application with `createApp()`. They do not open a port.
 
 **`shared`.** Its internal dependencies are free.
 
-- Put an element in `shared` only when two or more parts use it.
+- Put a generic element with no domain in `shared` (a type, a check, a conversion, a utility, a test helper), also when only one part uses it now.
+- Keep an element with business rules or domain words in its feature. When a second feature needs it, expose it through the facade. Never move it to `shared`.
 - Put an element in `shared` when `core` and the features both use it. An example is the error type of the application.
 - If a folder has more than approximately {16} files, divide it by topic. The `quality` slot records this as debt.
 
@@ -153,7 +154,7 @@ This table is the index of the elements in `shared`. Read it before you write a 
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
-| `parseInteger(value, min, max)` | Returns an integer in the range. Otherwise, raises an expected error. | `{shared_folder}/{validation_folder}/{numbers_file}` |
+| `parseInteger(value, field, min, max)` | Returns an integer in the range. Otherwise, raises an expected error with the field name and the range. | `{shared_folder}/{validation_folder}/{numbers_file}` |
 | `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/{validation_folder}/{text_file}` |
 | `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/{types_folder}/{types_file}` |
 | {environment primitive} | {the row of this project type in the table below} | {path} |

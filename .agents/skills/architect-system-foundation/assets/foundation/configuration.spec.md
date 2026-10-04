@@ -57,7 +57,7 @@ Each project must start in the same way in each environment. Its settings must b
 ### back-api
 
 - `createApp()` in `main` makes `core`.
-- `core` reads and validates each setting one time, before it opens the port. It uses the shared primitives `readSetting` and `parseInteger` (see the `AGENTS.md` of the project). If they do not exist, `core` adds them.
+- `core` reads and validates each setting one time, before it opens the port. It uses the shared primitives `readSetting` and `parseInteger` (see the `AGENTS.md` of the project). If they do not exist, `core` adds them. `parseInteger` gets the name of the variable as its field, so its error names the variable. Each project uses it for its integer settings and never writes its own check.
 - Features get the settings by the access method of the `AGENTS.md` of the project: injection or the public file of `core`. `shared` never reads the settings.
 - Settings:
   - `PORT`: default 3000.

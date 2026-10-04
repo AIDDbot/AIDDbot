@@ -127,9 +127,10 @@ The public API is the only file that the manifest or a different feature can imp
 
 ## Shared
 
-`shared` contains the elements that more than one part of the project uses. Its folders divide these elements by type. Its internal dependencies are free, because it contains only primitives.
+`shared` contains the generic elements of the project: they have no domain. Its folders divide these elements by type. Its internal dependencies are free, because it contains only primitives.
 
-- Put an element in `shared` only when two or more parts use it.
+- Put a generic element with no domain in `shared` (a type, a check, a conversion, a utility, a test helper), also when only one part uses it now.
+- Keep an element with business rules or domain words in its feature. When a second feature needs it, expose it through the facade. Never move it to `shared`.
 - Do not put business rules in `shared`.
 - Put an element in `shared` when `core` and the features both import it. An example is the error type of the application.
 - Add each element to the index of shared primitives in the `AGENTS.md` of the project.

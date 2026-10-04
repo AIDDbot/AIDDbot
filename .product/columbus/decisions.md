@@ -340,3 +340,10 @@ En `codex-5`, el back escribe el log en JSON y el SQL va como literal dentro de 
 En `codex-5`, la forma de app daba al `e2e` page objects en `data` y tests en `presentation`, peor que el arquetipo `e2e-playwright`. (La otra mitad de la propuesta original, capas por sufijo y `shared` plano, la sustituye D39.)
 
 - **`e2e` con forma propia:** sin capas, sin manifiesto y sin `main`. `features/{funcionalidad}/` con los tests de API (`.api.spec`) y de navegador (`.web.spec`); `shared` con `page-objects/` y `test-data/` como únicas subcarpetas, y en su raíz los fixtures, los clientes de API y el arranque de proyectos; `core` con el ciclo de vida de la suite (setup y teardown globales, comprobación previa, ajustes). Reglas: `core` → `shared`; los tests → `shared`, nunca `core` ni otra funcionalidad (las URLs les llegan por los fixtures o el `baseURL`); `shared` no usa ni `core` ni tests. Lo que invoca un test va en `shared`; lo que solo usa el runner, en `core`. Asset `oxlint.boundaries.e2e.json`.
+
+## D43 ← Prueba `codex-8` (revisión del humano) · `shared` por naturaleza, no por número de usuarios
+
+«Solo en `shared` si lo usan dos o más partes» chocaba con el propio Blueprint: los primitivos sembrados (D29), la normalización del email de `basic-auth` y los page objects de `e2e` (D42) van a `shared` desde el primer uso. Además, en `codex-8` la deuda D0001 (validación de enteros repetida en los tres proyectos) venía de `parseInteger(value, min, max)`: su error no nombraba la variable, y `configuration` lo exige.
+
+- **Criterio de `shared`:** lo genérico y sin dominio (tipo, comprobación, conversión, utilidad, ayuda de test) va a `shared` aunque hoy lo use una sola parte. Lo que lleva reglas o palabras de negocio se queda en su funcionalidad; si otra lo necesita, se expone por la fachada (D3), nunca se mueve a `shared`. Enmienda D4 y D39.
+- **`parseInteger(value, field, min, max)`:** el error nombra el campo y el rango, como `requireText(value, field)`. `configuration` pide usarlo en cada proyecto para sus ajustes enteros.
