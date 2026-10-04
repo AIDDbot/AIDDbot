@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, commitPaths, currentBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
+  aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
   workingTree, writeJson,
 } from "../lib/core.mjs";
 import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
@@ -13,6 +13,9 @@ const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"]
 const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
 const DEFAULT_TIMEOUT_MINUTES = 20;
+const DEFAULT_FOLDER_ENTRIES = 12;
+const GROUPED_FOLDERS = new Set(["shared", "features"]);
+const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** Run one command with its whole output in `log`, so nothing is lost to a truncated reply. */
@@ -87,6 +90,26 @@ function recordRun(root, kind, runs) {
   writeControl(dir, control);
 }
 
+/** Each folder of a `shared` or `features` tree, the tree included, with more direct entries than `limit`. Technology-free: it reads the file system only. */
+function crowdedFolders(root, project, start, limit) {
+  const found = [];
+  const walk = (dir, grouped) => {
+    let entries;
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    if (grouped && entries.length > limit) found.push({ project, folder: relative(root, dir), entries: entries.length, limit });
+    for (const entry of entries) {
+      if (!entry.isDirectory() || entry.name.startsWith(".") || SKIPPED_FOLDERS.has(entry.name)) continue;
+      walk(path.join(dir, entry.name), grouped || GROUPED_FOLDERS.has(entry.name));
+    }
+  };
+  walk(start, false);
+  return found.sort((a, b) => a.folder.localeCompare(b.folder));
+}
+
 /** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
 const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
 
@@ -158,12 +181,18 @@ export function run(root, [kind], flags) {
     });
   }
   const ok = runs.every((entry) => entry.ok);
+  const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
+  const folders = kind === "quality" ? names.flatMap((name) => crowdedFolders(root, name, path.join(root, projects[name].path), limit)) : [];
   const summary = runs.map((entry) => (entry.na !== undefined ? `${entry.project} n/a: ${entry.na}`
     : `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`));
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
+  if (folders.length) {
+    journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
+  }
   if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
   if (tracksLint) rememberLint(root, kind, projects, runs, before);
-  const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs } : { kind, ok, runs };
+  const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
+    : { kind, ok, runs, ...(kind === "quality" && { folders }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 
@@ -237,9 +266,14 @@ export function debt(root, [action, ...args]) {
 }
 
 
-/** `commit <message> [<paths>]`: commit the given paths (all by default) and journal it, so the journal shows every milestone. */
+/** `commit <message> [<paths>]`: commit the given paths (all by default) and journal it, so the journal shows every milestone.
+ *  Never on the default branch: only `release` and `integrate` write there. */
 export function commit(root, [message, ...paths]) {
   if (!message?.trim()) throw new UsageError('Use: aidd commit "<message>" [<path>...]');
+  const branch = currentBranch(root);
+  if (branch === defaultBranch(root)) {
+    throw new RuleError(`Never commit on ${branch}: only \`aidd release\` and \`aidd integrate\` write there. Commit on the spec or task branch.`);
+  }
   requireLint(root, paths.length ? paths : ["."]);
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });

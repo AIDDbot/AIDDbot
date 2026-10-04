@@ -209,6 +209,10 @@ test("commit records the paths it is given and journals the milestone", () => {
   const root = repo();
   write(root, "a/one.txt", "1\n");
   write(root, "b/two.txt", "2\n");
+  const refused = aidd(root, "commit", "feat(a): one", "a");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /Never commit on main/);
+  git(root, "switch", "-q", "-c", "chore/task");
   assert.equal(aidd(root, "commit", "feat(a): one", "a").body.committed, true);
   assert.equal(git(root, "log", "-1", "--format=%s"), "feat(a): one");
   assert.match(git(root, "status", "--short"), /b\//);
@@ -219,6 +223,7 @@ test("commit records the paths it is given and journals the milestone", () => {
 
 test("commit needs a passing lint on the same files of each project it changes", () => {
   const root = repo();
+  git(root, "switch", "-q", "-c", "chore/task");
   const lint = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({
     path: "back",
     commands: { lint: `node -e "process.exit(${code})"`, format: "node -e \"require('fs').writeFileSync('style.ts', 'x')\"" },
@@ -326,6 +331,20 @@ test("config set and get, then run executes the configured commands", () => {
   assert.equal(unit.body.runs[0].project, "back");
   assert.equal(aidd(root, "run", "quality").code, 1);
   assert.equal(aidd(root, "run", "acceptance").code, 3);
+});
+
+test("a quality run reports each shared or features folder over the size limit, and it never fails the run", () => {
+  const root = repo();
+  for (let index = 0; index < 13; index++) write(root, `back/src/shared/file${index}.ts`, "");
+  for (let index = 0; index < 4; index++) write(root, `back/src/features/auth/file${index}.ts`, "");
+  for (let index = 0; index < 20; index++) write(root, `back/src/core/file${index}.ts`, "");
+  for (let index = 0; index < 20; index++) write(root, `back/node_modules/shared/file${index}.ts`, "");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { quality: "node -e \"process.exit(0)\"" } }));
+  const scan = aidd(root, "run", "quality");
+  assert.equal(scan.code, 0);
+  assert.deepEqual(scan.body.folders, [{ project: "back", folder: "back/src/shared", entries: 13, limit: 12 }]);
+  aidd(root, "config", "set", "quality", '{"folderEntries":3}');
+  assert.deepEqual(aidd(root, "run", "quality").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
 });
 
 test("config set refuses a project with files of two package managers", () => {
