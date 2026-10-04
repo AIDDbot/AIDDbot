@@ -35,12 +35,12 @@ The archetype can change these numbers. The `quality` slot measures them.
 
 | Limit | Code | Tests | oxlint rule |
 | --- | --- | --- | --- |
-| Cyclomatic complexity of a function | 10 | 10 | `eslint/complexity` |
-| Size of a function | 40 lines | 30 statements | `eslint/max-lines-per-function`, `eslint/max-statements` |
-| Nesting depth | 3 | 5 | `eslint/max-depth` |
+| Cyclomatic complexity of a function | 8 | 8 | `eslint/complexity` |
+| Size of a function | 32 lines | 64 statements | `eslint/max-lines-per-function`, `eslint/max-statements` |
+| Nesting depth | 2 | 4 | `eslint/max-depth` |
 | Parameters of a function | 4 | 4 | `eslint/max-params` |
-| Lines in a file | 300 | 600 | `eslint/max-lines` |
-| Files in a `shared` folder | approximately 10 | — | no rule; the agent records it as debt |
+| Lines in a file | 128 | 256 | `eslint/max-lines` |
+| Files in a `shared` folder | approximately 16 | — | no rule; the agent records it as debt |
 
 - The line counts do not include blank lines and comments.
 - **Tests** are the files `*.test.ts` and `*.spec.ts`. In an `e2e` project, all files use the test limits.

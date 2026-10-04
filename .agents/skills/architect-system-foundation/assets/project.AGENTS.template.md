@@ -84,7 +84,7 @@ Tests start the application with `createApp()`. They do not open a port.
 
 - Put an element in `shared` only when two or more parts use it.
 - Put an element in `shared` when `core` and the features both use it. An example is the error type of the application.
-- If a folder has more than approximately {10} files, divide it by topic. The `quality` slot records this as debt.
+- If a folder has more than approximately {16} files, divide it by topic. The `quality` slot records this as debt.
 
 **Facade and manifest.**
 
@@ -172,8 +172,8 @@ This table is the index of the elements in `shared`. Read it before you write a 
 <!-- [Blueprint] Technology-neutral guidance with default thresholds. The archetype can change the numbers. The `quality` slot measures them. They never block. D12. -->
 
 - Use names that are idiomatic for the language. Use the words of the domain.
-- Keep functions simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Keep files ≤ {300} lines.
-- Tests have relaxed thresholds: ≤ {30} statements for each function, nesting ≤ {5}, files ≤ {600} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
+- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {4} parameters. Keep files ≤ {128} lines.
+- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.

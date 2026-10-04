@@ -133,7 +133,7 @@ The public API is the only file that the manifest or a different feature can imp
 - Do not put business rules in `shared`.
 - Put an element in `shared` when `core` and the features both import it. An example is the error type of the application.
 - Add each element to the index of shared primitives in the `AGENTS.md` of the project.
-- If a folder has more than approximately 10 files, divide it by topic. The `quality` slot records this as debt. It does not stop the delivery.
+- If a folder has more than approximately 16 files, divide it by topic. The `quality` slot records this as debt. It does not stop the delivery.
 
 ## Variations by project type
 
