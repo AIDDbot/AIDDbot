@@ -17,6 +17,16 @@ JS / TS is the exception: AIDDbot sets its stack.
 - In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
 - Vite+ is not yet in the stack.
 
+Scaffold commands, tested without a terminal (the input is closed). Run them from the repository root. Each one writes only its folder and asks nothing:
+
+| Project | Command | Notes |
+| --- | --- | --- |
+| `back-api` | `mkdir back && (cd back && npm init -y --init-type=module)` | Writes only `package.json`. Add an ignore file with `/node_modules/` before the first commit. |
+| `front-web` | `npm create vite@latest front -- --template vanilla-ts --no-interactive --no-immediate` | Installs nothing; run `npm install` in the folder. |
+| `e2e` | `npm init playwright@latest e2e -- --quiet --browser=chromium --lang=TypeScript --no-examples --no-browsers` | Installs its dependencies, but no browser: run `npx playwright install chromium` in the folder. |
+
+Use these commands as they are. Test a different generator in a temporary folder before you write it in the proposal.
+
 | Ecosystem | `lint` | Types (inside `lint`) | `format` | `unit` | Boundaries (inside `lint`) | `quality` |
 | --- | --- | --- | --- | --- | --- | --- |
 | JS / TS | oxlint with `typeAware` and `typeCheck` (`oxlint-tsgolint`) | inside oxlint (`typeCheck`); no `tsc` | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder and file role | oxlint with a second config that extends the first and adds complexity and size rules |
