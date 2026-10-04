@@ -131,6 +131,26 @@ Aplica D37–D39 con `/maintain-skills`. La guía para humanos es `docs/architec
 
 **Hecho cuando:** ninguna plantilla ni spec contradice el doc de arquitectura, la referencia de oxlint detecta el canario nuevo, `layout` declara sus URLs y no nombra ninguna herramienta, y `npm run adapt` está al día.
 
+### 4c · Plan de fixes (0.2.4)
+
+✅ F1–F4 hechos el 4 oct. F1 además mueve el commit de la propuesta a `chore/foundation`, porque antes se hacía en la rama por defecto.
+
+La 0.2.3 está en `CHANGELOG.md`. Recoge lo pendiente de `codex-8`, P23 y la lista del 3 oct, más lo que salga de `claude-9`. Se prueba con `codex-9`, lanzado cuando cierre `claude-9` (para que no compitan por los puertos).
+
+Ya hecho, revisado el 4 oct: `aidd commit` exige el último `lint` en verde sobre el árbol actual (`requireLint`); guard por marca de cada registro (D45); `system.md` enlaza el `AGENTS.md` del proyecto, nunca lo copia; `implement-project` relee las reglas y la spec antes de devolver; `e2e` solo con Chromium; umbrales relajados en los tests (4b).
+
+| # | Pieza | Cambio | Origen |
+| --- | --- | --- | --- |
+| F1 | Núcleo (`aidd commit`) | Rechaza el commit en la rama por defecto: allí solo escriben `release` e `integrate`. El error dice que se abra una rama de spec. | `codex-8`, acción 4 (`7aa3c73` tras `v0.6.0`) |
+| F2 | `project.AGENTS.template.md`, guía de arquitectura | `shared` por tema técnico (P23): carpetas con un sustantivo de su tema, nunca `utils`, `helpers`, `common` ni `misc`; primitivas en la raíz. Hoy la plantilla dice «utilities» y `codex-8` creó `shared/utils/`. Compatible con D43. | P23 |
+| F3 | Núcleo (`scan-quality`) | Aviso de tamaño de carpeta, agnóstico de la tecnología: `WARN` si una carpeta de `shared` o `features` tiene más de N entradas directas (N = 12, en `config.json`). No bloquea; entra como deuda y `/craft-lasting-quality` lo resuelve agrupando. | P23 |
+| F4 | `ecosystems.md` / `layout` | El `front-web` usa light DOM (sin Shadow DOM) salvo que el arquetipo diga otra cosa, para que Pico y el tema lleguen a los componentes. | Lista del 3 oct |
+| F5 | Pendiente | Lo que salga de `claude-9`. Ya visto: S0005 calificada en rojo por el guard por prefijo (criterio de D45) con Security en verde, y publicada con D0012 `high`, porque solo un rojo de Security vuelve al Builder. Decidir si un criterio técnico fallido de una spec fundacional vuelve una vez al Builder, y si caducidad y tokens hasheados (D0013) son mínimos de `basic-auth`. | `claude-9` |
+
+Fuera de este plan: modelos de Copilot y Cursor (Rumbo), e2e por dominio (P23, cuando haya muchas features).
+
+**Hecho cuando:** F1–F4 aplicados con `/maintain-skills`, `npm run adapt` al día y `codex-9` cierra en verde sin `utils/` en `shared` ni commits en la rama por defecto fuera de `release` e `integrate`.
+
 ### 5 · Arquetipos propios (fuera del repo)
 
 En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):

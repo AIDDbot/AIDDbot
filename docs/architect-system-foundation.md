@@ -47,7 +47,7 @@ flowchart TB
     CORE[core<br/>Platform services]
     MANIFEST[features manifest<br/>List of features]
     FEATURES[features<br/>Business capabilities]
-    SHARED[shared<br/>Types, primitives, validation, and utilities]
+    SHARED[shared<br/>Primitives, and folders by technical concern]
 
     MAIN --> CORE
     MAIN --> MANIFEST
@@ -127,7 +127,7 @@ The public API is the only file that the manifest or a different feature can imp
 
 ## Shared
 
-`shared` contains the generic elements of the project: they have no domain. Its folders divide these elements by type. Its internal dependencies are free, because it contains only primitives.
+`shared` contains the generic elements of the project: they have no domain. Primitives (types, checks, conversions) are at its root. Its folders divide the other elements by technical concern, and each folder name is a noun for its concern, such as `http` or `database`. Never use `utils`, `helpers`, `common`, or `misc`. Its internal dependencies are free, because it contains only primitives.
 
 - Put a generic element with no domain in `shared` (a type, a check, a conversion, a utility, a test helper), also when only one part uses it now.
 - Keep an element with business rules or domain words in its feature. When a second feature needs it, expose it through the facade. Never move it to `shared`.
@@ -158,20 +158,15 @@ src/
 │   ├── app.config.ts
 │   ├── app.logger.ts
 │   └── app.server.ts
-├── shared/                         # Shared elements, by type
-│   ├── types/
-│   │   ├── app-error.type.ts       # Error type for core and features
-│   │   ├── result.type.ts          # Shared type
-│   │   └── page.type.ts            # Shared pagination type
-│   ├── primitives/
-│   │   ├── money.value.ts          # Shared primitive
-│   │   └── email.value.ts          # Shared primitive
-│   ├── validation/
-│   │   ├── value.validation.ts     # Shared validation
-│   │   └── schema.validation.ts    # Schema validation
-│   └── utils/
-│       ├── date.util.ts            # Shared utility
-│       └── string.util.ts          # Shared utility
+├── shared/                         # Primitives at the root, other elements by concern
+│   ├── app-error.type.ts           # Error type for core and features
+│   ├── page.type.ts                # Shared pagination type
+│   ├── email.value.ts              # Shared primitive
+│   ├── text.validation.ts          # Shared check
+│   ├── http/
+│   │   └── body.middleware.ts      # Technical concern: HTTP
+│   └── database/
+│       └── sql.loader.ts           # Technical concern: data access
 └── features/
     ├── features.manifest.ts        # Registration of each feature
     └── users/

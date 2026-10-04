@@ -56,7 +56,7 @@ The project has one composition root and three folders. Each feature has three l
 | `main` | The composition root. It exports `createApp()`. This function makes the services of `core`, gets the features from the manifest and connects them. The entry file only calls `createApp()` and starts the process. |
 | `core` | The platform services: configuration, logger, connections, server or shell, router. It contains no business rules. |
 | features | One subfolder for each feature: endpoints, pages or commands. One **manifest** lists the registration of each feature. |
-| `shared` | Generic elements with no domain, in folders by type: types, primitives, validation, utilities. It contains no business rules. |
+| `shared` | Generic elements with no domain. Primitives (types, checks, conversions) are at its root. Other elements are in folders by technical concern, each named with a noun for its concern (`http`, `database`). Never `utils`, `helpers`, `common`, or `misc`. It contains no business rules. |
 
 **Fixed rules.** The `lint` slot checks these rules. A violation blocks the delivery.
 
@@ -108,7 +108,7 @@ Tests start the application with `createApp()`. They do not open a port.
 | `presentation` | route / controller | page / component | command | n/a — no layers |
 | `logic` | service | store / use case | service | n/a — tests contain no business logic |
 | `data` | repository | API client | repository / file system | n/a — no layers |
-| `shared` | types, validation, utilities | types, base UI components, utilities | types, output format, utilities | `page-objects/` and `test-data/`; fixtures, API clients and the project startup at the root of `shared` |
+| `shared` | primitives; concerns such as `http`, `database` | primitives; concerns such as `components` | primitives; concerns such as `output` | `page-objects/` and `test-data/`; fixtures, API clients and the project startup at the root of `shared` |
 | manifest | route registry | page and menu registry | command registry | n/a — the runner finds tests by convention |
 | `unit` | yes | yes | yes | n/a — no logic of its own; acceptance is its product |
 | `start` | yes | yes | n/a — runs for each invocation; no server | n/a — it starts the projects under test |
@@ -139,7 +139,7 @@ The column "Framework mechanism" tells how the framework makes each concept real
 ├── {core_folder}/        # platform services; no business rules
 ├── {features_folder}/    # one folder for each feature, and the manifest
 │   └── health/           # tracer bullet from the foundation specs
-└── {shared_folder}/      # shared elements by type; no business rules
+└── {shared_folder}/      # primitives at the root, other elements by technical concern; no business rules
 ```
 
 ### Shared primitives
@@ -163,9 +163,9 @@ This table is the index of the elements in `shared`. Read it before you write a 
 
 | Project type | Environment primitive | Contract |
 | --- | --- | --- |
-| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/{utilities_folder}/{settings_file}` | Returns the parsed environment variable, or its fallback. An invalid value stops the startup. |
-| `front-web` | `escapeHtml(text)` in `{shared_folder}/{utilities_folder}/{html_file}` | Returns text that is safe to put in a page. |
-| `cli` | `fail(message)` in `{shared_folder}/{utilities_folder}/{output_file}` | Writes `error: <message>` to standard error. Exits with code 1. |
+| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/{settings_file}` | Returns the parsed environment variable, or its fallback. An invalid value stops the startup. |
+| `front-web` | `escapeHtml(text)` in `{shared_folder}/{html_file}` | Returns text that is safe to put in a page. |
+| `cli` | `fail(message)` in `{shared_folder}/{output_file}` | Writes `error: <message>` to standard error. Exits with code 1. |
 | `e2e` | `uniqueValue(prefix)` in `{shared_folder}/test-data/{test_data_file}` | Returns a value that no other test run uses. |
 
 ## 6 · Coding rules

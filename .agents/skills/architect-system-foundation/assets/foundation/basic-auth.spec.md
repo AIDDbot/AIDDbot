@@ -61,7 +61,7 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### back-api
 
-- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive in the validation folder. Add it to the `AGENTS.md` of the project.
+- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive at the root of `shared`. Add it to the `AGENTS.md` of the project.
 - Feature `auth`:
   - `presentation` has the three routes.
   - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.

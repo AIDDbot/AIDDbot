@@ -23,7 +23,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 ### One architecture, enforced
 
-- `main` is the composition root: its `createApp()` makes the platform services of `core`, gets the features from one manifest, and connects them. `core` never uses a feature. Features talk to each other only through a facade. `shared` is grouped by type and holds no business rules.
+- `main` is the composition root: its `createApp()` makes the platform services of `core`, gets the features from one manifest, and connects them. `core` never uses a feature. Features talk to each other only through a facade. `shared` keeps primitives at its root and groups the rest by technical concern (never `utils` or `helpers`); it holds no business rules. A `quality` run warns about a `shared` or `features` folder with more than 12 entries, and `scan-quality` records it as debt.
 - Each archetype selects how features reach `core`: injection or the public file of `core`.
 - Inside each feature: `presentation` → `logic` → `data`. In JS/TS the file role tells the layer (`users.controller.ts`, `users.service.ts`, `users.repository.ts`).
 - The `e2e` project has its own shape: tests by feature (`.api.spec`, `.web.spec`), `shared` with `page-objects/`, `test-data/`, fixtures and the project startup, and `core` for the suite life cycle.
@@ -36,6 +36,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 - `configuration`, `monitoring`, `layout` (with a web front), `health`, and the optional `basic-auth` are technology-agnostic specs that the foundation delivers with the normal spec flow.
 - Each spec lists its expected URLs and APIs, and the `e2e` project derives its basic tests from them.
 - `layout` gives the web front its shell: title, menu from the manifest, not-found page, and a light/dark theme that follows the system and remembers your choice.
+- Web components render in the light DOM, so the theme reaches every element.
 - The web front starts with the `front-standard` look: Pico CSS, self-hosted fonts, and color tokens. Change them in your project.
 
 ### Tooling slots
@@ -56,6 +57,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 - Acceptance tests may carry the requirement ID as a tag (Playwright `{ tag: "@S0001-R01" }`) instead of in the title.
 - `control.json` keeps the latest run of each kind per project.
+- `aidd commit` refuses the default branch: only `aidd release` and `aidd integrate` write there. The system proposal is committed on `chore/foundation`.
 - The core puts `--` before its arguments for npm scripts, so `--grep` reaches the test runner.
 - Templates are written in ASD-STE100 Simplified Technical English, and agents write records in the same style.
 
