@@ -9,9 +9,9 @@ JS / TS is the exception: AIDDbot sets its stack.
 - Use TypeScript 7. Never pin an older major. If a tool does not support TypeScript 7, replace the tool. Do not keep the old TypeScript.
 - Use the oxc family: oxlint for `lint`, layer boundaries, and `quality`; oxfmt for `format`.
 - Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
-- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules.
+- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules. Add an override with the test thresholds of the general rules for `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, all files use the test thresholds.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
-- For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It maps the Blueprint architecture with `src/main.ts`, `src/core/`, `src/features/{feature}/{presentation,logic,data}/`, the facade `index.ts`, the manifest `manifest.ts`, and `src/shared/{presentation,logic,data}/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
+- For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
 - Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
 - In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
@@ -19,12 +19,41 @@ JS / TS is the exception: AIDDbot sets its stack.
 
 | Ecosystem | `lint` | Types (inside `lint`) | `format` | `unit` | Boundaries (inside `lint`) | `quality` |
 | --- | --- | --- | --- | --- | --- | --- |
-| JS / TS | oxlint with `typeAware` and `typeCheck` (`oxlint-tsgolint`) | inside oxlint (`typeCheck`); no `tsc` | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder | oxlint with a second config that extends the first and adds complexity and size rules |
+| JS / TS | oxlint with `typeAware` and `typeCheck` (`oxlint-tsgolint`) | inside oxlint (`typeCheck`); no `tsc` | oxfmt | `node --test` | oxlint `no-restricted-imports` with `overrides` per folder and file role | oxlint with a second config that extends the first and adds complexity and size rules |
 | Go | `go vet`, golangci-lint | compiler | `gofmt -w` | `go test` | `internal/` + depguard | gocyclo, gocognit |
 | Rust | `cargo clippy` | compiler | `cargo fmt` | `cargo test` | module visibility | `clippy::cognitive_complexity` |
 | PHP | PHP_CodeSniffer | PHPStan, Psalm | `php-cs-fixer fix` | PHPUnit, Pest | Deptrac | PHPMD |
 | Python | Ruff | mypy, pyright | `ruff format` | pytest | import-linter | radon, Ruff `C901` |
 | Java / Kotlin | Checkstyle, detekt | compiler | google-java-format, ktlint | JUnit | ArchUnit | PMD, detekt complexity |
+
+### JS / TS file names
+
+Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary reference uses these names.
+
+| Concept | File |
+| --- | --- |
+| `main` | `src/app.main.ts` (entry) and `src/app.compose.ts` (`createApp()`) |
+| `core` | `src/core/app.{service}.ts`, for example `app.config.ts`, `app.logger.ts`, `app.server.ts` |
+| public file of `core` | `src/core/core.api.ts`, only with direct import |
+| manifest | `src/features/features.manifest.ts` |
+| facade | `src/features/{feature}/{feature}.api.ts` |
+| `presentation` | `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
+| `logic` | `*.service.ts`, `*.policy.ts`, `*.store.ts` |
+| `data` | `*.repository.ts`, `*.client.ts` |
+| types of a feature, no layer | `*.type.ts` |
+| `shared` | `src/shared/{types,primitives,validation,utils}/{topic}.{role}.ts` |
+
+The concept is still the facade. Only the JS / TS file has the name `api`.
+
+## `front-web`: the visual base
+
+The `front-standard` archetype sets the visual base. An archetype made on demand copies it. The person who adopts AIDDbot changes it in the project.
+
+- Pico CSS, copied into the project. No CDN, thus the application operates offline.
+- Self-hosted fonts: Roboto for the text, Audiowide for the headings, Anonymous Pro for code.
+- `theme.css` (typography and spacing on top of Pico), `colors.css` (the `--ab-*` color tokens for the light and dark themes) and `custom.css` (components).
+- The theme is in the `data-theme` attribute of the document. The first value comes from `prefers-color-scheme`. The user selection stays in `localStorage`.
+- Source: the `src/app/styles/` folder of [`AIDDbot/front-standard`](https://github.com/AIDDbot/front-standard).
 
 ## Dependencies: add and upgrade
 

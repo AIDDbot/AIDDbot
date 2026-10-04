@@ -1,5 +1,5 @@
 <!--
-Foundation spec 4 of 4. Optional (Columbus principle 9; D3, D4, D6, D13, D17, D18). It needs `configuration`, `monitoring` and `health`.
+Foundation spec 5 of 5. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
 Include it only if the system has users (actors, model.schema.md). Ask only if this is not clear.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat basic-auth "Basic authentication" --domain foundation
@@ -41,7 +41,7 @@ A system with users must know who sends each request, before a feature needs thi
 - **R06**: WHEN a request has `Authorization: Bearer <token>` of a valid session, `GET /api/auth/me` SHALL answer 200 with the public user.
 - **R07**: IF a request to a protected route has no token or an invalid token, THEN the `back-api` SHALL answer 401 with the uniform error body.
 - **R08**: WHEN a visitor sends the register form, the `front-web` SHALL confirm the registration. IF the email is already registered, THEN it SHALL show the error and let the visitor try again.
-- **R09**: WHEN a user sends valid credentials on the login page, the `front-web` SHALL show the name of the user in the navigation. IF the credentials are incorrect, THEN it SHALL show the error and let the user try again.
+- **R09**: WHEN a user sends valid credentials on the login page, the `front-web` SHALL show the name of the user in the menu. IF the credentials are incorrect, THEN it SHALL show the error and let the user try again.
 - **R10**: WHILE a user is logged in, the `front-web` SHALL keep the session after a reload of the page.
 - **R11**: WHEN a user sends a form two times quickly, the `front-web` SHALL send one request.
 - **R12**: WHEN a user moves between `/register` and `/login` without a reload of the page, the form SHALL send the operation of the page that it shows.
@@ -60,14 +60,14 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### back-api
 
-- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive in `logic`. Add it to the `AGENTS.md` of the project.
+- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive in the validation folder. Add it to the `AGENTS.md` of the project.
 - Feature `auth`:
   - `presentation` has the three routes.
   - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.
   - `data` stores users and sessions.
 - The token is random and opaque. The session is in the database, so it can be revoked.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
-- The session guard is in `shared/presentation`. It contains no business rules. It reads the bearer token and asks a session resolver. `core` gives the resolver by injection from the `auth` facade.
+- The session guard is in `core`. It contains no business rules. It reads the bearer token and asks a session resolver. `createApp()` in `main` gets the resolver from the `auth` facade and gives it to `core`.
 - `core` puts the session guard after the public routes. Thus each new route is protected.
 - Other features get the current user only through the `auth` facade.
 
@@ -76,9 +76,9 @@ A system with users must know who sends each request, before a feature needs thi
 - Feature `auth`:
   - `presentation` has the register page and the login page.
   - `logic` keeps the session state. It disables a form while the form sends.
-  - `data` calls the three endpoints through the shared HTTP client.
-- The token stays in the browser storage. The shared HTTP client sends it as a bearer token.
-- When the user is logged in, the navigation shows the name of the user.
+  - `data` calls the three endpoints through the HTTP client of `core`.
+- The token stays in the browser storage. The HTTP client of `core` sends it as a bearer token.
+- The `auth` facade registers the menu links `Login` and `Register`. When the user is logged in, the menu shows the name of the user in the place of these links.
 
 ### e2e
 
@@ -108,7 +108,7 @@ A system with users must know who sends each request, before a feature needs thi
 | R06 | Call `GET /api/auth/me` with the login token. The answer is 200 with the same user. |
 | R07 | Call `GET /api/auth/me` without a token, and with a fake token. Both answers are 401 with `{ "error": ... }`. |
 | R08 | Register through the page. The page shows success. Register the same email again. The page shows the error, and a new try operates. |
-| R09 | Log in through the page. The navigation shows the name. Use an incorrect password. The page shows the error, and a new try operates. |
-| R10 | Log in and reload the page. The navigation still shows the name. |
+| R09 | Log in through the page. The menu shows the name. Use an incorrect password. The page shows the error, and a new try operates. |
+| R10 | Log in and reload the page. The menu still shows the name. |
 | R11 | Click the submit button two times quickly on register and on login. Each form sends one request. |
 | R12 | Open `/register`. Follow the link to `/login` without a reload and send valid credentials: the page sends a login request. Follow the link to `/register` and send a new account: the page sends a register request. |

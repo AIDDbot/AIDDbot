@@ -1,5 +1,5 @@
 <!--
-Foundation spec 2 of 4 (Columbus principle 9; D17, D18). It needs `configuration`.
+Foundation spec 2 of 5 (Columbus principle 9; D17, D18, D39). It needs `configuration`.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat monitoring "Monitoring" --domain foundation
 Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name.
@@ -48,28 +48,28 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 
 ### back-api
 
-- `shared/logic` contains the logger policy:
+- The logger is in `core`. Its policy:
   - One line for each event, with the columns `time source LEVEL message`.
   - The level filter.
-- `shared/data` writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.
+- The logger writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.
   - It does not block the request. It puts the lines in a queue, adds them to the file asynchronously, and writes all lines in the queue before the process stops.
   - If a file write fails, it reports the failure one time. The request continues.
 - `core` reads these settings (see `configuration`):
   - `LOG_DIR`: default `./logs`.
   - `LOG_LEVEL`: `debug`, `info`, `warn` or `error`. Default `info`.
-- `shared/presentation` contains the request logger and the error handler. `core` registers them.
+- `core` contains the request logger and the error handler, and registers them.
 - The error handler is the only code that changes an error into a response:
   - An expected error has its status and its message.
   - All other errors become 500 `{ "error": "Internal server error" }`. The handler logs them at `ERROR` with their cause.
-- `shared/logic` defines the one shape of an expected error (status and message). Features raise this shape.
+- `shared` defines the one type of an expected error (status and message). Features and `core` use this type.
 
 ### front-web
 
-- `shared/data` contains the only HTTP client. It changes each non-2xx `{ "error": "..." }` answer into the shape of an expected error. Pages show the message and never a raw failure.
+- `core` contains the only HTTP client. It changes each non-2xx `{ "error": "..." }` answer into the shape of an expected error. Pages show the message and never a raw failure.
 
 ### cli
 
-- `core` catches each failure at the top level. It writes `error: <message>` and sets the exit code. Features raise the shape of an expected error.
+- `core` catches each failure at the top level. It writes `error: <message>` and sets the exit code. Features raise the expected error type of `shared`.
 
 ### e2e
 
