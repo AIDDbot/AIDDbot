@@ -75,7 +75,7 @@ node .agents/aidd/aidd.mjs run acceptance
 git log --oneline --graph
 ```
 
-- **Canario:** en `back`, hacer que `features/health/data` importe algo de `core`; `run lint` **debe fallar**. Deshacer.
+- **Canario (D39, regla fija 2):** en `back`, hacer que un fichero de `core` importe la fachada de `health` o el manifiesto; `run lint` **debe fallar**. Deshacer. (Que una funcionalidad importe el fichero público de `core` está permitido si el arquetipo eligió import directo; no sirve como canario.)
 - `system.md` coincide con lo instalado (tecnologías y cambios de YOLO).
 - Tres commits por proyecto en el scaffold (`generate`, `shape to blueprint`, `register tooling`).
 - Specs `configuration`, `monitoring`, `health` y `basic-auth` en `shipped`.
