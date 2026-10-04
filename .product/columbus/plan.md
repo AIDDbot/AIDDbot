@@ -2,7 +2,7 @@
 
 > Sprint tras Oktoberfest (v0.2.x). Objetivo: **salir a navegar el 12 de octubre de 2026**.
 > Los prompts y el guion de cada prueba están en `experiments.md`.
-> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D34) y las dudas, todas cerradas, en `notes.md`.
+> Los principios de `principles.md` mandan; las decisiones están en `decisions.md` (D1–D39) y las dudas, todas cerradas, en `notes.md`.
 
 ## Problema
 
@@ -14,7 +14,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 
 1. **Una solución de proyectos tipados** (principios 3–6): cada proyecto es `back-api`, `front-web`, `cli` o `e2e`, y se crea desde un arquetipo del catálogo o desde uno creado al vuelo.
 2. **Un `AGENTS.md` por proyecto** con su parte técnica (principio 11, D19): arquitectura con forma fija (D2–D6), estructura de carpetas, reglas generales (D12) y ranuras de tooling (D1). En greenfield no se explora nada.
-3. **Cuatro specs fundacionales** con su parte funcional (principio 9, D17, D18): `configuration` → `monitoring` → `health` → `basic-auth` (opcional, D13). Son contratos agnósticos que también alimentan las pruebas de `e2e` (principio 10).
+3. **Cinco specs fundacionales** con su parte funcional (principio 9, D17, D18, D38): `configuration` → `monitoring` → `layout` (solo `front-web`) → `health` → `basic-auth` (opcional, D13). Son contratos agnósticos que también alimentan las pruebas de `e2e` (principio 10).
 4. **El sistema en verde** al cerrar la fundación (D7).
 5. **Primero que funcione, luego que esté bien** (D12): en una entrega solo bloquean `lint` (con fronteras) y la aceptación.
 
@@ -24,6 +24,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 - `master` frente a `main` (hecho 8).
 - Que el builder de `e2e` lea las páginas para sacar selectores.
 - Fabricar arquetipos en serie y rehacer sus repos más allá de la fase 5.
+- Greenfield fuera de JS/TS (Go, Angular; D36).
 - Frameworks que mezclan back y front con enrutado por ficheros (Nuxt, Next, SvelteKit; D27).
 - Otros lenguajes (Go, prompt B): aplazados el 3 oct; seguimos afinando JS/TS.
 
@@ -46,9 +47,10 @@ Cada fase se cierra con un commit y sus dudas se anotan en `notes.md`. Los skill
 | 2 | ✅ Blueprint funcional: plantilla de spec y cuatro specs fundacionales | Redacción | 4–5 oct |
 | 3 | ✅ Núcleo: `format` y «no aplica» | Mecánica | 6 oct |
 | 4 | ✅ Skills | Skills | 6–8 oct |
-| 5 | Arquetipos propios: su `AGENTS.md` y sin muestras (en duda; ver Rumbo) | Fuera del repo | 8 oct (opcional) |
-| 6 | Prueba en greenfield real (solo JS/TS) | Prueba | 9 oct |
-| 7 | Release intermedia 0.2.x; luego refactor y limpieza | Mecánica | 12 oct |
+| 4b | ✅ Blueprint v2: `main` compone, `shared` por tipo, spec `layout` | Skills | 5–7 oct |
+| 5 | Arquetipos propios: su `AGENTS.md` y sin muestras | Fuera del repo | 8 oct |
+| 6 | Prueba en greenfield real, solo JS/TS (D36) | Prueba | 9 oct |
+| 7 | Release Columbus | Mecánica | 12 oct |
 
 ### 0 · Principios y decisiones
 
@@ -113,12 +115,29 @@ Además, la plantilla raíz `AGENTS.template.md` de `outline-system` deja de apu
 
 **Hecho cuando:** los skills citados reflejan sus principios y decisiones, ningún skill de greenfield lee `.agents/rules/`, `npm run adapt` está al día y la documentación de `docs/` que les afecta también.
 
-### 5 · Arquetipos propios (opcional, fuera del repo)
+### 4b · Blueprint v2
+
+✅ Hecho el 4 oct (`cde8b48`). La referencia de oxlint se probó con oxlint 1.86: nueve imports prohibidos fallan y ningún permitido. Además, umbrales de complejidad relajados en los tests y en todo `e2e`.
+
+Aplica D37–D39 con `/maintain-skills`. La guía para humanos es `docs/architect-system-foundation.md`.
+
+| Pieza | Cambio | Origen |
+| --- | --- | --- |
+| `project.AGENTS.template.md` | Secciones 4 y 5: `main` compone con `createApp()`, `core` como servicios de plataforma, las cinco reglas fijas, la forma de llegar a `core` libre por arquetipo y `shared` por tipo. Tabla de variaciones y primitivos de entorno al día. | D39 |
+| `ecosystems.md` | Convención JS/TS: `app.compose.ts`, `negocio.rol.ts`, fachada `{feature}.api.ts`. Pico, fuentes y colores para `front-web`. | D37, D39 |
+| Referencia de fronteras de oxlint | Reglas fijas de D39 y canario nuevo (`core` importa una funcionalidad). | D39 |
+| Specs fundacionales | Solution de `configuration`, `monitoring` y `health` con la nueva composición; `health` sin shell. Spec nueva `layout` en STE. | D38, D39 |
+| `architect-system-foundation` | Entrega las cinco specs en orden; `layout` solo con `front-web`. | D38 |
+
+**Hecho cuando:** ninguna plantilla ni spec contradice el doc de arquitectura, la referencia de oxlint detecta el canario nuevo, `layout` declara sus URLs y no nombra ninguna herramienta, y `npm run adapt` está al día.
+
+### 5 · Arquetipos propios (fuera del repo)
 
 En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):
 
 - Un `AGENTS.md` en cada uno, relleno desde la plantilla de la fase 1 (D8, D19).
 - Sin muestras (home, item-detail, content), para que 0.2.2 no se repita (D18, D22).
+- Estructura según `docs/architect-system-foundation.md` (D39); `front-standard` conserva su estilo (D37).
 
 Si no da tiempo, la fundación trata el arquetipo como uno creado al vuelo y rellena ella la plantilla (principio 6).
 
@@ -126,12 +145,12 @@ Si no da tiempo, la fundación trata el arquetipo como uno creado al vuelo y rel
 
 ### 6 · Prueba en greenfield real
 
-Repetir el guion del post-mortem (Hono + Vue + Playwright con Vite+, flota de cohetes, `craft-lasting-quality`) en modo YOLO, y un segundo greenfield fuera de JS (p. ej. Go) para comprobar que el Blueprint es agnóstico. Al menos uno de los dos usa un arquetipo creado al vuelo.
+Repetir el guion del post-mortem (Hono + Vue + Playwright, flota de cohetes, `craft-lasting-quality`) en modo YOLO, y el experimento F con el Blueprint v2. Uno usa un arquetipo creado al vuelo. El greenfield fuera de JS/TS pasa al siguiente sprint (D36).
 
 **Hecho cuando**, en los dos:
 
 - Cada proyecto tiene su `AGENTS.md` completo y sus ranuras en `config.json`, o «no aplica» con motivo. El agente no explora el código para empezar.
-- La fundación cierra en verde: `configuration`, `monitoring` y `health` entregadas, y `basic-auth` en el greenfield con usuarios (en el que no es JS, solo si hay tiempo; D13).
+- La fundación cierra en verde: `configuration`, `monitoring`, `layout` y `health` entregadas, y `basic-auth` en el greenfield con usuarios (D13).
 - `e2e` tiene pruebas básicas de las URLs y APIs que declaran las specs.
 - El código sigue `core` / funcionalidades / `shared` y el lint detecta una violación de capas introducida a propósito.
 - La spec de negocio se entrega sin tocar tooling ni contrato de arranque.

@@ -22,23 +22,24 @@ Then, from the repository root in a clean working tree, work on a `chore/foundat
 1. `chore(scaffold): generate {project}`: the output of its scaffold command, untouched.
 2. `refactor({project}): shape to blueprint`:
    - `{source_root}/AGENTS.md` is the archetype's `AGENTS.md` (or the one made on demand) with the system data filled in: purpose and boundary, connections, ports, and variables. It keeps the template's structure, and a `CLAUDE.md` next to it contains only `@AGENTS.md`, for harnesses that do not read `AGENTS.md`.
-   - A third-party template (`npm create`, `ng new`, `cargo new`) comes from the framework's official generator and is reorganized into the architecture of that `AGENTS.md`: `main`, `core`, features with their manifest, and `shared`. Keep the framework's own mechanisms (injector, router, store, file naming) and map them to the concepts; move its folders organized by technical layer (such as `components/`, `views/`, `stores/`) into `shared` as primitives or into features, and give each file its layer suffix.
+   - A third-party template (`npm create`, `ng new`, `cargo new`) comes from the framework's official generator and is reorganized into the architecture of that `AGENTS.md`: `main` with `createApp()`, `core`, features with their manifest, and `shared`. Keep the framework's own mechanisms (injector, router, store, file naming) and map them to the concepts; move its folders organized by technical layer (such as `components/`, `views/`, `stores/`) into `shared` as primitives or into features.
    - Every archetype sample that cannot work end to end in this system is removed; the branch keeps it recoverable.
    - Only the package manager of that `AGENTS.md` remains: remove the workspace files, lockfiles, and settings of any other package manager that the generator left (such as `pnpm-workspace.yaml`, `yarn.lock`, or `bun.lock` in an npm project).
 3. `chore({project}): register tooling`:
    - Its dependencies are current: run its `upgrade` command once, because models remember old releases. When a new major breaks another tool of the stack, keep the last compatible major and write the pin and its reason in the technology rules of that `AGENTS.md`. A major that [`ecosystems.md`](./assets/ecosystems.md) requires is never pinned: replace the tool that breaks.
-   - Its ignore file never hides source: patterns for runtime data are anchored to the project root, so no source folder is ignored.
+   - Its ignore file never hides source: patterns for runtime data are anchored to the project root, so no `data` layer folder is ignored.
    - Every tooling slot of that `AGENTS.md` works. When a mandatory slot (`lint`, `unit`, and `start` for runnable projects) is missing, install the usual tool of the stack and record it in that `AGENTS.md` first. Register every slot with `node .agents/aidd/aidd.mjs config set projects.{project} '{"path":"{source_root}","commands":{...}}'`, with `{"na":"<reason>"}` for each slot that does not apply, and commit `.aiddbot/config.json` with the project. Its `lint` and `unit` pass before the commit.
    - The boundary check is proven, because a misconfigured one passes while checking nothing: add an import that the architecture forbids, confirm that `lint` fails on it, then remove it. A boundary check that does not fail is not done.
 
 Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"` once every project is committed. Never run `rule-project` in greenfield. Have the **Architect** execute `outline-system`, then run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`. When a scaffold command fails, ask the human interactively, or in YOLO mode fall back as above; only when no fallback works, stop, journal `node .agents/aidd/aidd.mjs log blocked "<reason>"`, commit nothing partial, and return the failure. Never scaffold when working code already exists; when a committed proposal already exists and no code does, run its commands, changing the proposal only when the human asks.
 
-Then deliver the foundation specs in this order, one at a time, by executing `build-requested-spec` with the request "Deliver the foundation spec `{spec}` from `.agents/skills/architect-system-foundation/assets/foundation/{spec}.spec.md`", handing it this **Architect**, the same **Builder**, and one **Craftsman** you spawn for all four:
+Then deliver the foundation specs in this order, one at a time, by executing `build-requested-spec` with the request "Deliver the foundation spec `{spec}` from `.agents/skills/architect-system-foundation/assets/foundation/{spec}.spec.md`", handing it this **Architect**, the same **Builder**, and one **Craftsman** you spawn for all of them:
 
 1. [`configuration`](./assets/foundation/configuration.spec.md)
 2. [`monitoring`](./assets/foundation/monitoring.spec.md)
-3. [`health`](./assets/foundation/health.spec.md)
-4. [`basic-auth`](./assets/foundation/basic-auth.spec.md), only when the system has users according to its proposal or model; ask the human only when that is unclear.
+3. [`layout`](./assets/foundation/layout.spec.md), only when the system has a `front-web`.
+4. [`health`](./assets/foundation/health.spec.md)
+5. [`basic-auth`](./assets/foundation/basic-auth.spec.md), only when the system has users according to its proposal or model; ask the human only when that is unclear.
 
 The foundation closes only green: after the last spec ships, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`; when any fails, journal it as `blocked` and return it. Never start a repair or any spec beyond the foundation specs, even for `high` debt: return the debt summary from `node .agents/aidd/aidd.mjs debt list`, and recommend `craft-lasting-quality` when any item is `high`.
 

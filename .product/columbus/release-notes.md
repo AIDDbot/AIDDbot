@@ -23,16 +23,20 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 ### One architecture, enforced
 
-- `main` starts `core`; `core` registers the features through one manifest; features talk to each other only through a facade; `shared` holds helpers and no business rules.
-- Inside each feature and in `shared`: `presentation` → `logic` → `data`, given by the file suffix (`.routes`, `.service`, `.repository`…), with no layer folders. A `shared` file with no layer suffix is a primitive that every layer can use.
+- `main` is the composition root: its `createApp()` makes the platform services of `core`, gets the features from one manifest, and connects them. `core` never uses a feature. Features talk to each other only through a facade. `shared` is grouped by type and holds no business rules.
+- Each archetype selects how features reach `core`: injection or the public file of `core`.
+- Inside each feature: `presentation` → `logic` → `data`. In JS/TS the file role tells the layer (`users.controller.ts`, `users.service.ts`, `users.repository.ts`).
 - The `e2e` project has its own shape: tests by feature (`.api.spec`, `.web.spec`), `shared` with `page-objects/`, `test-data/`, fixtures and the project startup, and `core` for the suite life cycle.
+- The guide for humans is `docs/architect-system-foundation.md`.
 - Boundary violations fail `lint` from day one. The foundation proves the boundary check with a forbidden import before it commits the tooling.
 - Frameworks keep their own mechanisms (router, injector, store); the project's `AGENTS.md` maps them to the concepts.
 
-### Four foundation specs
+### Five foundation specs
 
-- `configuration`, `monitoring`, `health`, and the optional `basic-auth` are technology-agnostic specs that the foundation delivers with the normal spec flow.
+- `configuration`, `monitoring`, `layout` (with a web front), `health`, and the optional `basic-auth` are technology-agnostic specs that the foundation delivers with the normal spec flow.
 - Each spec lists its expected URLs and APIs, and the `e2e` project derives its basic tests from them.
+- `layout` gives the web front its shell: title, menu from the manifest, not-found page, and a light/dark theme that follows the system and remembers your choice.
+- The web front starts with the `front-standard` look: Pico CSS, self-hosted fonts, and color tokens. Change them in your project.
 
 ### Tooling slots
 
@@ -45,6 +49,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 - TypeScript 7, oxlint with type checking (`oxlint-tsgolint`), oxfmt, and `node --test`. No `tsc` step, no Vitest, no dependency-cruiser.
 - A tested oxlint boundary configuration for the architecture, for `.ts` and `.vue` files.
+- Tests, and every file of the `e2e` project, have relaxed size and nesting thresholds.
 - Vue `.vue` files have no type check until `vue-tsc` supports TypeScript 7; the project's `AGENTS.md` records the gap.
 
 ### Specs and evidence

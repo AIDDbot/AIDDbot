@@ -47,35 +47,50 @@ Each slot is a capability, not a tool. If a slot does not apply, write `n/a` and
 
 ## 4 · Architecture
 
-<!-- [Blueprint] A fixed shape, not a named pattern. D2–D6, D12, D24, D38. The archetype only maps it to folders in section 5. -->
+<!-- [Blueprint] A fixed shape, not a named pattern. D2–D6, D12, D24, D39. Human guide: docs/architect-system-foundation.md. The archetype only maps it to folders in section 5. -->
 
-The project has one entry point and three folders. The suffix of a file name tells the layer of the file. There are no layer folders.
+The project has one composition root and three folders. Each feature has three layers.
 
 | Concept | Contents |
 | --- | --- |
-| `main` | The smallest entry point that the ecosystem requires. It only starts `core`. |
-| `core` | The composition root: configuration, server or shell, router, and the dependencies that it makes. |
-| features | One flat folder for each feature: endpoints, pages or commands. One **manifest** lists the registration of each feature. |
-| `shared` | Helpers and code that more than one feature uses. It contains no business rules. Its files use the same layer suffixes as a feature. |
+| `main` | The composition root. It exports `createApp()`. This function makes the services of `core`, gets the features from the manifest and connects them. The entry file only calls `createApp()` and starts the process. |
+| `core` | The platform services: configuration, logger, connections, server or shell, router. It contains no business rules. |
+| features | One subfolder for each feature: endpoints, pages or commands. One **manifest** lists the registration of each feature. |
+| `shared` | The elements that two or more parts use, in folders by type: types, primitives, validation, utilities. It contains no business rules. |
 
-**Dependencies between folders.** The `lint` slot checks these rules. A violation blocks the delivery.
+**Fixed rules.** The `lint` slot checks these rules. A violation blocks the delivery.
 
-- `main` uses `core` only.
-- `core` uses the manifest and `shared`. It never uses a feature directly.
-- A feature uses `shared`. It uses a different feature only through the facade of that feature.
-- `shared` uses nothing of the application.
-- Only `main` uses `core`. Features and `shared` get their configuration by injection. Tests can start `core`.
+1. `main` is the only part that knows all of the features. It gets them only through the manifest.
+2. `core` never uses a feature or the manifest. `main` gives data to `core`: routes, menu links, commands.
+3. A feature uses a different feature only through the facade of that feature.
+4. `shared` uses no part of the application.
+5. `core` contains no business rules.
 
-**Layers.** The suffix of the file name tells the layer (see the variations by project type). The direction is `presentation` → `logic` → `data`. Never use the opposite direction.
+**Access to `core`.** The archetype selects one method and writes it in the technology rules:
 
-- `presentation`: the input from the caller and the output to the caller (route, page, component, command).
+- **Injection**: `main` gives the services of `core` to each feature when it registers the feature. Or the injector of the framework gives them.
+- **Direct import**: a feature imports the public file of `core`. It never imports a different file of `core`.
+
+Tests start the application with `createApp()`. They do not open a port.
+
+**Dependencies inside a feature.** The direction is `presentation` → `logic` → `data`. Never use the opposite direction.
+
+- `presentation`: the input from the caller and the output to the caller (route, page, command).
 - `logic`: rules and decisions. It does not know how the data is stored or found.
 - `data`: all that the project reads or writes outside itself: database, remote API, files.
-- Each file of a feature has a layer suffix. Exceptions: the facade, and the type files (suffix `types`) that all layers can use.
-- In `shared`, a file with no layer suffix is a **primitive**. A primitive depends on nothing of the application. Each layer can use it.
-- Do not make a subfolder for a layer. A feature is one flat folder. If a feature has too many files, divide it into two features.
+- The types of a feature have no layer. Each layer of the feature can use them.
 
-- **Facade**: each feature has one entry file. This file contains only the registration for the manifest and the types that other features need. The registration gets the dependencies that `core` makes (configuration, connections) by injection.
+**`shared`.** Its internal dependencies are free.
+
+- Put an element in `shared` only when two or more parts use it.
+- Put an element in `shared` when `core` and the features both use it. An example is the error type of the application.
+- If a folder has more than approximately {16} files, divide it by topic. The `quality` slot records this as debt.
+
+**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders. The suite runs in one browser engine (Chromium), unless the system asks for more.
+
+**Facade and manifest.**
+
+- **Facade**: each feature has one public file. This file contains only the registration for the manifest and the types that other features need. The registration gets the services of `core` by the access method of the archetype.
 - **Manifest**: one file in the features folder. It lists the registration of each feature explicitly. Do not use automatic discovery: no folder scans and no global decorators.
 - If the manifest loads a feature on demand (for example, a page), no other import of that feature is permitted. A second, direct import puts the feature back in the first load. If a feature must also operate at startup, the manifest gives a startup entry that loads it on demand.
 - If no applicable boundary linter exists, keep these rules here. Then `review-implementation` checks them.
@@ -86,21 +101,17 @@ The project has one entry point and three folders. The suffix of a file name tel
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
-| `main` | process entry | browser entry | executable entry | n/a — the test runner is the entry |
-| `core` | server, configuration, router | application shell, configuration, router | argument parser, configuration | the life cycle of the suite: global setup and teardown, startup check of the projects, settings. No test uses it. |
+| `main` | `createApp()` and the process entry | `createApp()` and the browser entry | `createApp()` and the executable entry | n/a — the test runner is the entry |
+| `core` | server, configuration, logger, connections, error handler | shell, layout, router, theme, configuration | argument parser, configuration, output | the life cycle of the suite: global setup and teardown, startup check of the projects, settings. No test uses it. |
 | features | endpoints | pages | commands | tests: one folder for each feature of the system, with its API tests (`.api.spec`) and browser tests (`.web.spec`) |
-| `presentation` suffixes | `.routes`, `.middleware` | `.page`, `.component` | `.command` | n/a — no layers |
-| `logic` suffixes | `.service` | `.service`, `.store` | `.service` | n/a — tests contain no business logic |
-| `data` suffixes | `.repository` (stored data), `.client` (other systems and files) | `.client` | `.repository`, `.client` | n/a — no layers |
-| `shared` | middleware, validation, database and HTTP clients | base UI components, utilities, HTTP client | output format, utilities | `page-objects/` and `test-data/`; fixtures, API clients and the project startup at the root of `shared` |
-| manifest | route registry | page router | command registry | n/a — the runner finds tests by convention |
+| `presentation` | route / controller | page / component | command | n/a — no layers |
+| `logic` | service | store / use case | service | n/a — tests contain no business logic |
+| `data` | repository | API client | repository / file system | n/a — no layers |
+| `shared` | types, validation, utilities | types, base UI components, utilities | types, output format, utilities | `page-objects/` and `test-data/`; fixtures, API clients and the project startup at the root of `shared` |
+| manifest | route registry | page and menu registry | command registry | n/a — the runner finds tests by convention |
 | `unit` | yes | yes | yes | n/a — no logic of its own; acceptance is its product |
 | `start` | yes | yes | n/a — runs for each invocation; no server | n/a — it starts the projects under test |
 | `acceptance` | through `e2e` | through `e2e` | its own tests or through `e2e` | yes — it runs the suite |
-
-**The `front-web` project.** Components put their content in the page (light DOM). Thus the global style sheet, form submission and label links reach them. Use an encapsulated tree (such as Shadow DOM) only if the archetype says so.
-
-**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders. The suite runs in one browser engine (Chromium), unless the system asks for more.
 
 ## 5 · Folder structure
 
@@ -110,29 +121,31 @@ The column "Framework mechanism" tells how the framework makes each concept real
 
 | Concept | Path | Framework mechanism |
 | --- | --- | --- |
-| `main` | `{source_root}/{main_file}` | {mechanism} |
+| `main` | `{source_root}/{main_file}`, `{source_root}/{compose_file}` | {mechanism} |
 | `core` | `{source_root}/{core_folder}/` | {mechanism} |
+| public file of `core` | `{source_root}/{core_folder}/{core_public_file}`, or `n/a` with injection | {mechanism} |
 | features | `{source_root}/{features_folder}/` | {mechanism} |
 | manifest | `{source_root}/{features_folder}/{manifest_file}` | {mechanism} |
 | feature facade | `{source_root}/{features_folder}/{feature}/{facade_file}` | {mechanism} |
-| layer suffixes | `{presentation_suffixes}` / `{logic_suffixes}` / `{data_suffixes}` | {mechanism} |
-| `shared` | `{source_root}/{shared_folder}/` | {mechanism} |
+| `presentation` / `logic` / `data` | `{feature}/{presentation_files}`, `{feature}/{logic_files}`, `{feature}/{data_files}` | {mechanism} |
+| `shared` | `{source_root}/{shared_folder}/{type_folder}/` | {mechanism} |
 | unit tests | `{unit_test_location}` | {mechanism} |
 
 ```text
 {source_root}/
-├── {main_file}           # entry point; starts core
-├── {core_folder}/        # composition root
+├── {main_file}           # entry: calls createApp() and starts
+├── {compose_file}        # createApp(): composition root
+├── {core_folder}/        # platform services; no business rules
 ├── {features_folder}/    # one folder for each feature, and the manifest
-│   └── health/           # tracer bullet from the foundation specs; one flat folder
-└── {shared_folder}/      # helpers and primitives; layer by suffix; no business rules
+│   └── health/           # tracer bullet from the foundation specs
+└── {shared_folder}/      # shared elements by type; no business rules
 ```
 
 ### Shared primitives
 
 <!-- [Blueprint] Seed and naming convention. [Archetype] Paths and idiomatic names. [Project] `ship-spec` adds each new primitive. D29. -->
 
-This table is the index of the helpers in `shared`. Read it before you write a check or a conversion. If two places use the same helper, move the helper to `shared` and add it here.
+This table is the index of the elements in `shared`. Read it before you write a check or a conversion. If two places use the same element, move it to `shared` and add it here.
 
 - Put one topic in each file. Use the topic as the file name.
 - Write one function for each contract. Use what the function returns or checks as its name.
@@ -140,18 +153,18 @@ This table is the index of the helpers in `shared`. Read it before you write a c
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
-| `parseInteger(value, min, max)` | Returns an integer in the range. Otherwise, raises an expected error. | `{shared_folder}/{numbers_file}` |
-| `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/{text_file}` |
-| `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/{types_file}` |
+| `parseInteger(value, min, max)` | Returns an integer in the range. Otherwise, raises an expected error. | `{shared_folder}/{validation_folder}/{numbers_file}` |
+| `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/{validation_folder}/{text_file}` |
+| `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/{types_folder}/{types_file}` |
 | {environment primitive} | {the row of this project type in the table below} | {path} |
 
 <!-- [Project] Move the row of this project type to the table above, and remove this table. -->
 
 | Project type | Environment primitive | Contract |
 | --- | --- | --- |
-| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/{settings_file}` | Returns the parsed environment variable, or its fallback. An invalid value stops the startup. |
-| `front-web` | `escapeHtml(text)` in `{shared_folder}/{html_file}` | Returns text that is safe to put in a page. |
-| `cli` | `fail(message)` in `{shared_folder}/{output_file}` | Writes `error: <message>` to standard error. Exits with code 1. |
+| `back-api` | `readSetting(name, fallback, parse)` in `{shared_folder}/{utilities_folder}/{settings_file}` | Returns the parsed environment variable, or its fallback. An invalid value stops the startup. |
+| `front-web` | `escapeHtml(text)` in `{shared_folder}/{utilities_folder}/{html_file}` | Returns text that is safe to put in a page. |
+| `cli` | `fail(message)` in `{shared_folder}/{utilities_folder}/{output_file}` | Writes `error: <message>` to standard error. Exits with code 1. |
 | `e2e` | `uniqueValue(prefix)` in `{shared_folder}/test-data/{test_data_file}` | Returns a value that no other test run uses. |
 
 ## 6 · Coding rules
@@ -161,13 +174,17 @@ This table is the index of the helpers in `shared`. Read it before you write a c
 <!-- [Blueprint] Technology-neutral guidance with default thresholds. The archetype can change the numbers. The `quality` slot measures them. They never block. D12. -->
 
 - Use names that are idiomatic for the language. Use the words of the domain.
-- Keep functions simple: cyclomatic complexity ≤ {10}, ≤ {40} lines, nesting ≤ {3}, ≤ {4} parameters. Keep files ≤ {300} lines.
+- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {4} parameters. Keep files ≤ {128} lines.
+- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
+- Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
+- If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.
+- Catch errors only at the edges: the error handler of `core`, and the `data` layer when it changes an external failure into the expected error. A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function that does the work.
 - Get configuration from the environment. Do not put configuration values in the code.
-- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the data file that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location in `shared`.
-- Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a source folder.
+- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the `data` file that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location.
+- Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
 - First make it work. Then make it correct. In a delivery, only `lint` (errors, types, boundaries) and acceptance block.
 

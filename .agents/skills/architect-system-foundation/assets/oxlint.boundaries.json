@@ -3,7 +3,7 @@
   "overrides": [
     {
       "files": [
-        "src/main.ts"
+        "src/app.*.ts"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -13,9 +13,9 @@
               {
                 "group": [
                   "./features/**",
-                  "./shared/**"
+                  "!./features/features.manifest.ts"
                 ],
-                "message": "main uses core only."
+                "message": "main uses the features only through the manifest."
               }
             ]
           }
@@ -35,10 +35,9 @@
               {
                 "group": [
                   "../features/**",
-                  "!../features/manifest.ts",
-                  "../main.ts"
+                  "../app.*.ts"
                 ],
-                "message": "core uses the manifest and shared only. It never uses a feature directly."
+                "message": "core never uses a feature, the manifest or main. main gives data to core."
               }
             ]
           }
@@ -47,7 +46,7 @@
     },
     {
       "files": [
-        "src/features/manifest.ts"
+        "src/features/features.manifest.ts"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -56,12 +55,13 @@
             "patterns": [
               {
                 "group": [
-                  "./*/*",
-                  "!./*/index.ts",
+                  "./*/*.ts",
+                  "./*/*.vue",
+                  "!./*/*.api.ts",
                   "../core/**",
-                  "../main.ts"
+                  "../app.*.ts"
                 ],
-                "message": "The manifest uses only the facade (index.ts) of each feature."
+                "message": "The manifest uses only the facade ({feature}.api.ts) of each feature."
               }
             ]
           }
@@ -81,17 +81,19 @@
               {
                 "group": [
                   "../../core/**",
-                  "../../main.ts",
-                  "../manifest.ts"
+                  "!../../core/core.api.ts",
+                  "../../app.*.ts",
+                  "../features.manifest.ts"
                 ],
-                "message": "Features never use core, main or the manifest. They get configuration by injection."
+                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
               },
               {
                 "group": [
-                  "../*/*",
-                  "!../*/index.ts"
+                  "../*/*.ts",
+                  "../*/*.vue",
+                  "!../*/*.api.ts"
                 ],
-                "message": "A feature uses a different feature only through its facade (index.ts)."
+                "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
               }
             ]
           }
@@ -102,6 +104,8 @@
       "files": [
         "src/features/*/*.service.ts",
         "src/features/*/*.service.vue",
+        "src/features/*/*.policy.ts",
+        "src/features/*/*.policy.vue",
         "src/features/*/*.store.ts",
         "src/features/*/*.store.vue"
       ],
@@ -113,29 +117,35 @@
               {
                 "group": [
                   "../../core/**",
-                  "../../main.ts",
-                  "../manifest.ts"
+                  "!../../core/core.api.ts",
+                  "../../app.*.ts",
+                  "../features.manifest.ts"
                 ],
-                "message": "Features never use core, main or the manifest. They get configuration by injection."
+                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
               },
               {
                 "group": [
-                  "../*/*",
-                  "!../*/index.ts"
+                  "../*/*.ts",
+                  "../*/*.vue",
+                  "!../*/*.api.ts"
                 ],
-                "message": "A feature uses a different feature only through its facade (index.ts)."
+                "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
               },
               {
                 "group": [
-                  "*.routes.ts",
-                  "*.middleware.ts",
-                  "*.page.ts",
-                  "*.page.vue",
-                  "*.component.ts",
-                  "*.component.vue",
-                  "*.command.ts"
+                  "./*.controller.ts",
+                  "./*.controller.vue",
+                  "./*.request.ts",
+                  "./*.request.vue",
+                  "./*.command.ts",
+                  "./*.command.vue",
+                  "./*.page.ts",
+                  "./*.page.vue",
+                  "./*.component.ts",
+                  "./*.component.vue",
+                  "./*.api.ts"
                 ],
-                "message": "Logic never uses presentation (.routes, .middleware, .page, .component, .command). The direction is presentation → logic → data."
+                "message": "logic never uses presentation or the facade. The direction is presentation → logic → data."
               }
             ]
           }
@@ -157,36 +167,41 @@
               {
                 "group": [
                   "../../core/**",
-                  "../../main.ts",
-                  "../manifest.ts"
+                  "!../../core/core.api.ts",
+                  "../../app.*.ts",
+                  "../features.manifest.ts"
                 ],
-                "message": "Features never use core, main or the manifest. They get configuration by injection."
+                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
               },
               {
                 "group": [
-                  "../*/*",
-                  "!../*/index.ts"
+                  "../*/*.ts",
+                  "../*/*.vue",
+                  "!../*/*.api.ts"
                 ],
-                "message": "A feature uses a different feature only through its facade (index.ts)."
+                "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
               },
               {
                 "group": [
-                  "*.routes.ts",
-                  "*.middleware.ts",
-                  "*.page.ts",
-                  "*.page.vue",
-                  "*.component.ts",
-                  "*.component.vue",
-                  "*.command.ts"
+                  "./*.controller.ts",
+                  "./*.controller.vue",
+                  "./*.request.ts",
+                  "./*.request.vue",
+                  "./*.command.ts",
+                  "./*.command.vue",
+                  "./*.page.ts",
+                  "./*.page.vue",
+                  "./*.component.ts",
+                  "./*.component.vue",
+                  "./*.service.ts",
+                  "./*.service.vue",
+                  "./*.policy.ts",
+                  "./*.policy.vue",
+                  "./*.store.ts",
+                  "./*.store.vue",
+                  "./*.api.ts"
                 ],
-                "message": "Data never uses presentation (.routes, .middleware, .page, .component, .command). The direction is presentation → logic → data."
-              },
-              {
-                "group": [
-                  "*.service.ts",
-                  "*.store.ts"
-                ],
-                "message": "Data never uses logic (.service, .store). The direction is presentation → logic → data."
+                "message": "data never uses presentation, logic or the facade. The direction is presentation → logic → data."
               }
             ]
           }
@@ -196,7 +211,9 @@
     {
       "files": [
         "src/shared/*.ts",
-        "src/shared/*.vue"
+        "src/shared/*.vue",
+        "src/shared/*/*.ts",
+        "src/shared/*/*.vue"
       ],
       "rules": {
         "eslint/no-restricted-imports": [
@@ -207,25 +224,12 @@
                 "group": [
                   "../core/**",
                   "../features/**",
-                  "../main.ts"
+                  "../app.*.ts",
+                  "../../core/**",
+                  "../../features/**",
+                  "../../app.*.ts"
                 ],
-                "message": "shared uses nothing of the application: no core, features or main."
-              },
-              {
-                "group": [
-                  "*.routes.ts",
-                  "*.middleware.ts",
-                  "*.page.ts",
-                  "*.page.vue",
-                  "*.component.ts",
-                  "*.component.vue",
-                  "*.command.ts",
-                  "*.service.ts",
-                  "*.store.ts",
-                  "*.repository.ts",
-                  "*.client.ts"
-                ],
-                "message": "A shared primitive (a file with no layer suffix) depends on nothing. All layers can use it."
+                "message": "shared uses no part of the application: no core, features or main."
               }
             ]
           }
@@ -234,142 +238,8 @@
     },
     {
       "files": [
-        "src/shared/*.types.ts",
-        "src/shared/*.types.vue"
-      ],
-      "rules": {
-        "eslint/no-restricted-imports": [
-          "error",
-          {
-            "patterns": [
-              {
-                "group": [
-                  "../core/**",
-                  "../features/**",
-                  "../main.ts"
-                ],
-                "message": "shared uses nothing of the application: no core, features or main."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": [
-        "src/shared/*.routes.ts",
-        "src/shared/*.routes.vue",
-        "src/shared/*.middleware.ts",
-        "src/shared/*.middleware.vue",
-        "src/shared/*.page.ts",
-        "src/shared/*.page.vue",
-        "src/shared/*.component.ts",
-        "src/shared/*.component.vue",
-        "src/shared/*.command.ts",
-        "src/shared/*.command.vue"
-      ],
-      "rules": {
-        "eslint/no-restricted-imports": [
-          "error",
-          {
-            "patterns": [
-              {
-                "group": [
-                  "../core/**",
-                  "../features/**",
-                  "../main.ts"
-                ],
-                "message": "shared uses nothing of the application: no core, features or main."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": [
-        "src/shared/*.service.ts",
-        "src/shared/*.service.vue",
-        "src/shared/*.store.ts",
-        "src/shared/*.store.vue"
-      ],
-      "rules": {
-        "eslint/no-restricted-imports": [
-          "error",
-          {
-            "patterns": [
-              {
-                "group": [
-                  "../core/**",
-                  "../features/**",
-                  "../main.ts"
-                ],
-                "message": "shared uses nothing of the application: no core, features or main."
-              },
-              {
-                "group": [
-                  "*.routes.ts",
-                  "*.middleware.ts",
-                  "*.page.ts",
-                  "*.page.vue",
-                  "*.component.ts",
-                  "*.component.vue",
-                  "*.command.ts"
-                ],
-                "message": "Logic never uses presentation (.routes, .middleware, .page, .component, .command). The direction is presentation → logic → data."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": [
-        "src/shared/*.repository.ts",
-        "src/shared/*.repository.vue",
-        "src/shared/*.client.ts",
-        "src/shared/*.client.vue"
-      ],
-      "rules": {
-        "eslint/no-restricted-imports": [
-          "error",
-          {
-            "patterns": [
-              {
-                "group": [
-                  "../core/**",
-                  "../features/**",
-                  "../main.ts"
-                ],
-                "message": "shared uses nothing of the application: no core, features or main."
-              },
-              {
-                "group": [
-                  "*.routes.ts",
-                  "*.middleware.ts",
-                  "*.page.ts",
-                  "*.page.vue",
-                  "*.component.ts",
-                  "*.component.vue",
-                  "*.command.ts"
-                ],
-                "message": "Data never uses presentation (.routes, .middleware, .page, .component, .command). The direction is presentation → logic → data."
-              },
-              {
-                "group": [
-                  "*.service.ts",
-                  "*.store.ts"
-                ],
-                "message": "Data never uses logic (.service, .store). The direction is presentation → logic → data."
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": [
-        "**/*.test.ts"
+        "**/*.test.ts",
+        "**/*.spec.ts"
       ],
       "rules": {
         "eslint/no-restricted-imports": "off"

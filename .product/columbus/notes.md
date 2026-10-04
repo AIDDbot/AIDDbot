@@ -177,8 +177,8 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-5/`. Versión con D35 (`af31326
 
 ### Hechos y acción
 
-1. **Evasión del guard (D0001 `high`)**: el guard decide qué está protegido comparando la ruta exacta, pero Express enruta sin distinguir mayúsculas ni la barra final. `/API/auth/me` y `/api/auth/me/` llegaban al handler sin token. Hoy no filtra datos (200 con cuerpo vacío), pero cualquier ruta protegida futura quedaría abierta. La calificación falló y la spec se integró igualmente como deuda (D12) → **D36**: un fallo de la puerta Security vuelve al Builder una vez. Para el Blueprint o el Builder: la protección va con la ruta (middleware declarado en el manifiesto, como `access` en `back-express`), nunca en una lista paralela de rutas.
-2. **El cierre se declaró `blocked` con `lint`, `unit` y `acceptance` en verde**, por la calificación roja de S0004. El skill pide cerrar en verde según esas tres comprobaciones y devolver el resumen de deuda recomendando `/craft-lasting-quality`. Interpretó de más. Con D36 no se habría llegado aquí; vigilar en la siguiente hornada.
+1. **Evasión del guard (D0001 `high`)**: el guard decide qué está protegido comparando la ruta exacta, pero Express enruta sin distinguir mayúsculas ni la barra final. `/API/auth/me` y `/api/auth/me/` llegaban al handler sin token. Hoy no filtra datos (200 con cuerpo vacío), pero cualquier ruta protegida futura quedaría abierta. La calificación falló y la spec se integró igualmente como deuda (D12) → **D40**: un fallo de la puerta Security vuelve al Builder una vez. Para el Blueprint o el Builder: la protección va con la ruta (middleware declarado en el manifiesto, como `access` en `back-express`), nunca en una lista paralela de rutas.
+2. **El cierre se declaró `blocked` con `lint`, `unit` y `acceptance` en verde**, por la calificación roja de S0004. El skill pide cerrar en verde según esas tres comprobaciones y devolver el resumen de deuda recomendando `/craft-lasting-quality`. Interpretó de más. Con D40 no se habría llegado aquí; vigilar en la siguiente hornada.
 3. **Trampa: `erasableSyntaxOnly`** (S0002). Una parameter property en `shared/logic/errors.ts` pasó `lint` y `unit` y rompió el arranque del back con el soporte nativo de TypeScript de Node; solo lo vio `e2e`. El agente activó `erasableSyntaxOnly` y lo apuntó en `back-api/AGENTS.md`. `back-express` ya lo trae. Acción: el scaffold de JS/TS ejecutado con Node sin build lo activa desde el principio (hoy `ecosystems.md`; mañana el Builder).
 4. **Trampa: custom elements en el `constructor`** (S0003). Los componentes añadían su plantilla en el `constructor` y fallaban al crearse desde HTML; dos ejecuciones de aceptación con timeout de 33 s. Lo arregló con `connectedCallback` e inicialización protegida. Acción: plantilla del front sin framework (Builder o Archetype Base).
 5. **Lentitud por los modelos de los subagentes**: los comandos tardan 1–6 s y el e2e 2–13 s; el resto es razonamiento con modelos de la generación anterior y más esfuerzo. Acción hecha: `agents.yaml` con `gpt-6.1-sol` en los tres niveles y el esfuerzo de Claude (`137ff3a`).
@@ -186,7 +186,7 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-5/`. Versión con D35 (`af31326
 
 ## Evidencia: fase 6, prueba `claude-6` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
 
-Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D36–D38). Hornada 2, en paralelo con `codex-6`. Intervenciones humanas: puertos 3006/4006 para no chocar con `codex-6` (fallo del humano al lanzar las dos a la vez, no del agente) y dos `/craft-lasting-quality` hechos a propósito, para comparar al final dos soluciones sin deuda.
+Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D40–D42). Hornada 2, en paralelo con `codex-6`. Intervenciones humanas: puertos 3006/4006 para no chocar con `codex-6` (fallo del humano al lanzar las dos a la vez, no del agente) y dos `/craft-lasting-quality` hechos a propósito, para comparar al final dos soluciones sin deuda.
 
 | Paso | `claude-4` | `codex-5` | `claude-6` |
 | --- | --- | --- | --- |
@@ -203,10 +203,10 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D36�
 ### Funcionó
 
 - Comprobado a mano en `master` (v0.5.2): `run lint` y `run unit` en verde; `run acceptance` 35 pasan y 2 se saltan (S0001-R02/R04, puertos por defecto) en 9,8 s. Canario: `features/health/health.repository.ts` importando `core/settings.ts` → `no-restricted-imports` con «Features never use core, main or the manifest. They get configuration by injection».
-- **D36 bien aplicada:** S0004 calificada en rojo, pero con Security en verde, así que no volvió al Builder; los dos fallos se registraron como deuda `high`. Seguridad al nivel de `codex-5`: scrypt `N=2^17`, `r=8`, `p=1` guardado con el hash, `timingSafeEqual`, verificación falsa para emails desconocidos, tokens `randomBytes(32)`.
+- **D40 bien aplicada:** S0004 calificada en rojo, pero con Security en verde, así que no volvió al Builder; los dos fallos se registraron como deuda `high`. Seguridad al nivel de `codex-5`: scrypt `N=2^17`, `r=8`, `p=1` guardado con el hash, `timingSafeEqual`, verificación falsa para emails desconocidos, tokens `randomBytes(32)`.
 - **Cierre correcto:** verde con la deuda listada y recomendación de `/craft-lasting-quality` (en `codex-5` declaró `blocked`).
-- **D37:** logs en texto plano (`time source LEVEL message`, con test que lo comprueba); SQL en ficheros `.sql` junto a los repositorios.
-- **D38:** capas por sufijo (`.routes`, `.service`, `.repository`, `.middleware`, `.client`, `.store`, `.page`), sin carpetas de capa; e2e con `core/`, `features/{f}/*.api.spec|*.web.spec` y `shared/` con `page-objects/` y `test-data/`.
+- **D41:** logs en texto plano (`time source LEVEL message`, con test que lo comprueba); SQL en ficheros `.sql` junto a los repositorios.
+- **D42** (versión original; las capas por sufijo las sustituye D39): capas por sufijo (`.routes`, `.service`, `.repository`, `.middleware`, `.client`, `.store`, `.page`), sin carpetas de capa; e2e con `core/`, `features/{f}/*.api.spec|*.web.spec` y `shared/` con `page-objects/` y `test-data/`.
 - **Guard:** el Architect dejó escrito desde la spec que el guard protege solo las rutas registradas. El primer guard iba en el prefijo y fallaba cerrado (401 en vez de 404), nunca abierto como en `codex-5`. S0005 lo llevó a cada ruta; S0006 hizo que el router de una funcionalidad no pública falle cerrado (`use`, `route`, `param` y rutas sin path dan error al arrancar).
 - **Ciclo de deuda autónomo:** cada pasada eligió un grupo coherente y lo resolvió con una spec acotada (S0005 `fix` para D0003–D0004 `high`; S0006 `refactor` para D0005–D0006). El segundo `scan-quality` explicó bien por qué un lint limpio no prueba una reparación. Deuda final: D0007 `low` (nombre de un test), más D0001–D0002 de los puertos, que no cuentan.
 - Tamaño sin tests: back 819 líneas, front 826, e2e 633; unas 2280 en total, entre `codex-5` (2150) y `claude-4` (2438). 37 tests e2e.
@@ -222,7 +222,7 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-6/`. Versión `aca391f` (D36�
 
 ## Evidencia: fase 6, prueba `codex-6` (Express + front sin framework con Vite + Playwright, prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
-Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-session-*.md`). Versión `aca391f` (D36–D38), la misma que `claude-6`. Hornada 2. Intervenciones humanas: un `continúa` tras quedarse sin tokens al empezar S0004 (parada de 81 min, de 15:11 a 16:32, descontada abajo), un `$craft-lasting-quality` hecho a propósito para comparar sin deuda, y la aprobación de su spec (se lanzó sin YOLO, así que preguntar era lo correcto).
+Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-session-*.md`). Versión `aca391f` (D40–D42), la misma que `claude-6`. Hornada 2. Intervenciones humanas: un `continúa` tras quedarse sin tokens al empezar S0004 (parada de 81 min, de 15:11 a 16:32, descontada abajo), un `$craft-lasting-quality` hecho a propósito para comparar sin deuda, y la aprobación de su spec (se lanzó sin YOLO, así que preguntar era lo correcto).
 
 | Paso | `claude-6` | `codex-6` |
 | --- | --- | --- |
@@ -246,7 +246,7 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-s
 - **Comprueba antes de cada commit:** el diario muestra `format → lint → unit → quality → commit` por proyecto. Ningún commit rojo.
 - **Guard simple y pegado a la ruta:** `registerProtected((path) => protectedRouter.route(path).all(guard))`. Una línea frente a los ~50 de `guardedRouter` en `claude-6`; ninguna evasión.
 - **`system.md` de 82 líneas** que enlaza los `AGENTS.md` en lugar de copiarlos.
-- D37: SQL en `.sql` (también el esquema, en un fichero por tabla). D38 en back y front: capas por sufijo, sin carpetas de capa. Seguridad: scrypt `N=2^15`, `r=8`, `p=3` (variante OWASP), `timingSafeEqual`.
+- D41: SQL en `.sql` (también el esquema, en un fichero por tabla). D42 original en back y front (sustituido por D39): capas por sufijo, sin carpetas de capa. Seguridad: scrypt `N=2^15`, `r=8`, `p=3` (variante OWASP), `timingSafeEqual`.
 - El código más pequeño de todas las pruebas (~1880 líneas sin tests).
 
 ### Hechos y acción
@@ -254,7 +254,7 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-6/` (transcripción en `codex-s
 1. **Comprobar antes del commit, en el núcleo.** Codex lo hace y Claude no (`30ccecb` en `claude-6`). Acción: `aidd commit` rechaza el commit de un proyecto si su último `lint` no está en verde con el árbol actual. Mecánico → núcleo, no texto en `implement-project`.
 2. **Patrón del guard en el Blueprint:** el manifiesto separa el registro público del protegido y cada ruta protegida lleva su guard. Así ningún agente inventa un router envoltorio.
 3. **`system.md` enlaza los `AGENTS.md`** (confirma la acción 4 de `claude-6`).
-4. **Nombres de e2e de D38 no cumplidos:** `auth-api.spec.ts`, `configuration.spec.ts` en lugar de `*.api.spec.ts` / `*.web.spec.ts`; quedan `.gitkeep` sueltos. Nadie lo comprueba. Acción: regla de nombres en el lint del e2e o chequeo del núcleo.
+4. **Nombres de e2e de D42 no cumplidos:** `auth-api.spec.ts`, `configuration.spec.ts` en lugar de `*.api.spec.ts` / `*.web.spec.ts`; quedan `.gitkeep` sueltos. Nadie lo comprueba. Acción: regla de nombres en el lint del e2e o chequeo del núcleo.
 5. **Shadow DOM** en el shell y el formulario de auth: el CSS global (Pico, P22) no entra. Acción: el Blueprint del `front-web` pide light DOM salvo que el arquetipo diga otra cosa.
 6. **Tres navegadores:** prueba que el front Baseline funciona en los tres motores, a cambio de ~17 s por ejecución. **Decisión del humano: por ahora solo Chromium.** Acción: el Blueprint del e2e lo fija.
 
@@ -522,7 +522,7 @@ Propuesta: la marca no entra en AIDDbot, que es genérico para cualquiera que lo
 
 ## ✅ P23 · ¿Cómo se agrupan `shared` y las features cuando crecen?
 
-Evidencia: en `claude-6`, `back/src/shared` tiene 22 ficheros planos tras solo cuatro specs. El Blueprint dice qué va en `shared`, pero no cómo se ordena; las carpetas por capa están prohibidas (D38) y las carpetas por tipo (`utils/`, `helpers/`) son el cajón de sastre.
+Evidencia: en `claude-6`, `back/src/shared` tiene 22 ficheros planos tras solo cuatro specs. El Blueprint dice qué va en `shared`, pero no cómo se ordena; las carpetas por capa estaban prohibidas (D42 original, sustituido por D39) y las carpetas por tipo (`utils/`, `helpers/`) son el cajón de sastre.
 
 Propuesta: agrupar `shared` por tema técnico; agrupar las features por el dominio de sus specs cuando sean muchas; y un aviso de tamaño de carpeta en el núcleo que alimente la deuda.
 

@@ -45,7 +45,7 @@ Se impone una **forma**, no un patrón con nombre (hexagonal, clean…): cada mo
 
 Cada funcionalidad expone un ~~**artefacto público**~~ **fachada** (`facade`, D24) (`index`, `mod`, paquete…) con lo imprescindible, incluidos los tipos e interfaces si el lenguaje es tipado. Otra funcionalidad solo puede importar ese artefacto, nunca sus capas internas.
 
-## D4 ← P5 · `shared` sin negocio y organizado por capas
+## D4 ← P5 · `shared` sin negocio y ~~organizado por capas~~ organizado por tipo (D39)
 
 `shared` contiene ayudas y código DRY, nunca negocio. Para que no se convierta en un cajón de sastre, se organiza con las mismas capas que las funcionalidades (p. ej. `shared/presentation`: middlewares y componentes UI base; `shared/logic`: validación y utilidades sin dominio; `shared/data`: clientes de BD y HTTP; D24) y respeta la misma regla fina.
 
@@ -53,7 +53,7 @@ Cada funcionalidad expone un ~~**artefacto público**~~ **fachada** (`facade`, D
 
 El lint de fronteras se implementa lo mejor posible en cada ecosistema (JS/TS `eslint-plugin-boundaries`/`dependency-cruiser`; Go `internal/` + `depguard`; Rust visibilidad de módulos; PHP Deptrac; Python import-linter; Java/Kotlin ArchUnit). Sin herramienta razonable, la regla queda escrita ~~en el fichero de reglas~~ en el `AGENTS.md` del proyecto (D19) y la comprueba `review-implementation`. ~~e2e queda fuera de D2: conserva su forma propia (tests, páginas, clientes, fixtures).~~ En e2e, la tabla de variaciones del Blueprint da su forma propia (tests, páginas, clientes, fixtures) con su motivo (principio 7).
 
-## D6 ← P7 · `core` accede a las funcionalidades solo por un manifiesto de registro
+## D6 ← P7 · ~~`core`~~ `main` accede a las funcionalidades solo por un manifiesto de registro (D39)
 
 - La carpeta de funcionalidades tiene un único **manifiesto** (`routes/index`, `pages/router`, `commands/index`…) que agrega el registro de cada funcionalidad. `core` importa **solo ese fichero**.
 - ~~El artefacto público de cada funcionalidad (D3) exporta **solo su registro**~~ La fachada de cada funcionalidad (D3, D24) exporta **su registro** y los tipos mínimos que usan otras funcionalidades (`registerRockets(app, deps)`, una lista de rutas). `core` le pasa las dependencias que crea (config, conexión a BD) y no toca servicios ni repositorios.
@@ -140,7 +140,7 @@ Sustituye a D10.
 - **Sin spec `chore tooling`:** el tooling es parte técnica. Llega con el arquetipo y, si falta algo, la puerta de D1 lo instala.
 - Coste asumido: hasta cuatro entregas por greenfield. La variación entre ejecuciones se contiene con contratos fijos (D18).
 
-## D17 ← Principio 9 · Cuatro specs fundacionales, independientes y en orden
+## D17 ← Principio 9 · ~~Cuatro~~ Cinco specs fundacionales (D38), independientes y en orden
 
 Sustituye la parte de D14 que hacía de `health` el esqueleto completo. Cada spec tiene su propia vida y dificultad. Se entregan en este orden:
 
@@ -190,7 +190,7 @@ En la fase 5, opcional, cada repo de arquetipo recibe su `AGENTS.md` desde la pl
 
 `archetypes.md` se mantiene como catálogo de arquetipos **por tipo de proyecto** (`back-api`, `front-web`, `cli`, `e2e`; principios 4 y 5). Cada fila da la tecnología del arquetipo y la ruta de su `AGENTS.md`. La fundación entrega igualmente las specs fundacionales sobre ellos (D17, D21).
 
-## D24 ← D2, D3, D4, D6 · `main` arranca `core`; nombres de fachada y capas
+## D24 ← D2, D3, D4, D6 · ~~`main` arranca `core`~~ `main` compone (D39); nombres de fachada y capas
 
 Enmienda D2, D3, D4 y D6, donde quedan tachadas las formas antiguas.
 
@@ -284,7 +284,43 @@ Probando las fronteras con oxlint, `shared/data` no podía usar `isRecord` de `s
 - **Nada fuera de la spec:** `implement-project` no añade validaciones, límites ni valores por defecto propios (el `minlength=8` de `claude-4`).
 - **Carga bajo demanda:** en el Blueprint, una funcionalidad que el manifiesto carga bajo demanda no tiene ningún otro import; si también actúa al arrancar, el manifiesto le da una entrada de arranque que la carga bajo demanda.
 
-## D36 ← Prueba `codex-5` · La seguridad se repara antes de integrar
+## D36 ← Fase 6 · Los experimentos fuera de JS/TS pasan al siguiente sprint
+
+Go (experimento B) y Angular (C) no entran en Columbus. La fase 6 se cierra solo con JS/TS. El criterio de Blueprint agnóstico se comprueba en el siguiente sprint; mientras tanto, las plantillas y las specs siguen sin nombrar tecnologías.
+
+## D37 ← `front-standard` · El estilo del arquetipo web entra tal cual
+
+Pico CSS copiado en el repo, las fuentes alojadas en el proyecto (Roboto, Audiowide, Anonymous Pro), `theme.css`, `colors.css` con los tokens `--ab-*` y el cambio de tema claro/oscuro de `front-standard` entran en Columbus sin cambios. Quien adopte AIDDbot los cambia en su proyecto. La spec `layout` no los nombra (D18): van en la parte de tecnología del `AGENTS.md` del arquetipo y en `ecosystems.md`.
+
+## D38 ← D17, D37 · Spec fundacional `layout`, antes de `health`
+
+Nueva spec fundacional, solo para `front-web` («no aplica» si el sistema no tiene front). Orden: `configuration` → `monitoring` → `layout` → `health` → `basic-auth`.
+
+- **`layout`:** shell con el título, menú construido con los enlaces que registra cada funcionalidad en el manifiesto, marca de la página actual, página 404 y una página de inicio. Tema claro u oscuro según la preferencia del sistema, con un botón que guarda la elección del usuario. Base visual de HTML semántico sobre una hoja de estilos sin clases, con tokens de tipografía y color.
+- **`health`** pierde la shell, el menú y la 404: solo registra su página y su enlace.
+- **`basic-auth`** añade entrar y salir al menú.
+
+## D39 ← `docs/architect-system-foundation.md` · `main` es la raíz de composición
+
+La guía para humanos de la arquitectura es `docs/architect-system-foundation.md`. Enmienda D2, D4, D6, D24, D29 y D33.
+
+**Reglas fijas** (las comprueba el lint de fronteras en cualquier stack):
+
+1. `main` es la raíz de composición: el único que conoce todas las funcionalidades, y solo a través del manifiesto. Exporta `createApp()`; el fichero de entrada solo la llama, para que los tests arranquen la app sin abrir un puerto.
+2. `core` nunca usa una funcionalidad ni el manifiesto. Recibe datos de `main` (rutas, enlaces del menú, comandos). `core` pasa de raíz de composición a servicios de plataforma: configuración, logger, conexiones, servidor o shell, router, tema.
+3. Una funcionalidad usa otra solo por su fachada (D3).
+4. `shared` no usa nada de la aplicación.
+5. `core` no contiene negocio.
+
+**Libre por arquetipo** (se escribe en las reglas de tecnología de su `AGENTS.md`): cómo llega una funcionalidad a los servicios de `core`. Por **inyección** (`main` se los da al registrarla, o el inyector del framework) o por **import directo** de la superficie pública de `core`, nunca de sus otros ficheros. Las dos opciones cumplen las reglas fijas; como `core` no importa funcionalidades, no hay ciclos.
+
+**`shared` por tipo** (`types`, `primitives`, `validation`, `utils`), con dependencias internas libres. Sustituye las capas de D4 y la excepción de D33. Contra el cajón de sastre: solo lo que usan dos o más partes, nada de negocio, cada elemento en el índice de primitivos (D29) y, si una carpeta pasa de unos 10 ficheros, se divide por tema (`quality` lo anota como deuda; no bloquea). Lo que importan `core` y las funcionalidades, como el tipo de error de la aplicación, va en `shared`.
+
+**Las funcionalidades conservan** `presentation` → `logic` → `data` (D24) y la fachada (D3).
+
+**Nombres:** `app.compose.ts` y el patrón `negocio.rol.ts` (`users.controller.ts`, `money.value.ts`) son la convención de JS/TS: van a `ecosystems.md` y al `AGENTS.md` de los arquetipos JS/TS, no al Blueprint, que mantiene «un tema por fichero». La fachada se llama `users.api.ts` en JS/TS; el concepto sigue siendo `facade` (D24).
+
+## D40 ← Prueba `codex-5` · La seguridad se repara antes de integrar
 
 La calificación de S0004 en `codex-5` falló por una evasión del guard (`/API/auth/me` y `/api/auth/me/` llegaban al handler sin token) y, como manda D12, la spec se integró con la deuda D0001 `high`. Un agujero de autenticación conocido no debe integrarse.
 
@@ -292,19 +328,15 @@ La calificación de S0004 en `codex-5` falló por una evasión del guard (`/API/
 - El resto de hallazgos de la calificación sigue como hasta ahora: nunca se reparan dentro de la spec y se integran como deuda.
 - Lo aplica `build-requested-spec`; el núcleo no cambia, porque ya admite varias revisiones de la calificación y su puerta de integración no depende de ella.
 
-## D37 ← Prueba `codex-5` (revisión del humano) · Log en texto y sentencias de datos en ficheros
+## D41 ← Prueba `codex-5` (revisión del humano) · Log en texto y sentencias de datos en ficheros
 
 En `codex-5`, el back escribe el log en JSON y el SQL va como literal dentro de cada función, con el `CREATE TABLE` dentro del repositorio. La spec `monitoring` pedía texto plano solo en Solution, y R01 solo enumeraba los campos: un JSON cumplía R01.
 
 - **Log en texto:** `monitoring` sube el formato a requisito. R01 pide una línea de texto con las columnas `time source LEVEL message`, separadas por espacios; una regla de negocio dice que la línea no es JSON, y el test de R01 falla con una línea JSON.
 - **Sentencias de datos en ficheros:** regla general de la plantilla del `AGENTS.md` de proyecto. Si el almacén tiene un lenguaje de consulta (como SQL), cada sentencia va en su propio fichero con la extensión de ese lenguaje (como `.sql`), en la carpeta `data` que la usa y con un nombre del dominio. El código carga el fichero por nombre una sola vez y nunca escribe sentencias en el código. La definición del esquema (tablas y migraciones) va en ficheros en un solo sitio de `data`. Como regla general, no bloquea (D12).
 
-## D38 ← Prueba `codex-5` (revisión del humano) · Sin carpetas de capa; `e2e` con forma propia
+## D42 ← Prueba `codex-5` (revisión del humano) · `e2e` con forma propia
 
-En `codex-5` hay 21 carpetas de capa entre back y front, y 15 tienen un solo fichero. Las reglas de fronteras dependían de la profundidad (`../../../core/**`). En `e2e`, la forma de app daba page objects en `data` y tests en `presentation`, peor que el arquetipo `e2e-playwright`.
+En `codex-5`, la forma de app daba al `e2e` page objects en `data` y tests en `presentation`, peor que el arquetipo `e2e-playwright`. (La otra mitad de la propuesta original, capas por sufijo y `shared` plano, la sustituye D39.)
 
-- **La capa la da el sufijo del fichero, no una carpeta.** Cada funcionalidad es una carpeta plana. Sufijos: `presentation` `.routes`, `.middleware`, `.page`, `.component`, `.command`; `logic` `.service`, `.store`; `data` `.repository` (datos guardados), `.client` (otros sistemas y ficheros). Sin sufijo solo van la fachada `index.ts` y los ficheros `.types`. Si una funcionalidad tiene demasiados ficheros, se divide en dos.
-- **`shared` plano:** usa los mismos sufijos; un fichero sin sufijo de capa es un **primitivo**, que no depende de nada y que cualquier capa puede usar. Sustituye a los «primitivos de `shared/logic`» de D33.
-- **Fronteras por sufijo:** `oxlint.boundaries.json` se reescribe con patrones de sufijo (Node exige importar con `.ts`, así que el sufijo siempre aparece en el import). Ya no dependen de la profundidad. Probado en el scratchpad: 15 imports prohibidos fallan y los permitidos pasan.
-- **`e2e` con forma propia:** sin capas, sin manifiesto y sin `main`. `features/{funcionalidad}/` con los tests de API (`.api.spec`) y de navegador (`.web.spec`); `shared` con `page-objects/` y `test-data/` como únicas subcarpetas, y en su raíz los fixtures, los clientes de API y el arranque de proyectos; `core` con el ciclo de vida de la suite (setup y teardown globales, comprobación previa, ajustes). Reglas: `core` → `shared`; los tests → `shared`, nunca `core` ni otra funcionalidad (las URLs les llegan por los fixtures o el `baseURL`); `shared` no usa ni `core` ni tests. Lo que invoca un test va en `shared`; lo que solo usa el runner, en `core`. Nuevo asset `oxlint.boundaries.e2e.json`.
-- Las specs fundacionales hablan de «un fichero de datos en `shared`» en lugar de `shared/data`. Se valida en la hornada 2, canario incluido.
+- **`e2e` con forma propia:** sin capas, sin manifiesto y sin `main`. `features/{funcionalidad}/` con los tests de API (`.api.spec`) y de navegador (`.web.spec`); `shared` con `page-objects/` y `test-data/` como únicas subcarpetas, y en su raíz los fixtures, los clientes de API y el arranque de proyectos; `core` con el ciclo de vida de la suite (setup y teardown globales, comprobación previa, ajustes). Reglas: `core` → `shared`; los tests → `shared`, nunca `core` ni otra funcionalidad (las URLs les llegan por los fixtures o el `baseURL`); `shared` no usa ni `core` ni tests. Lo que invoca un test va en `shared`; lo que solo usa el runner, en `core`. Asset `oxlint.boundaries.e2e.json`.
