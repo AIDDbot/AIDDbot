@@ -179,6 +179,7 @@ This table is the index of the elements in `shared`. Read it before you write a 
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
 - Before you write a check or a conversion, look for it in the shared primitives.
 - Do not hide errors. Use one method only to handle errors in the project.
+- Catch errors only at the edges: the error handler of `core`, and the `data` layer when it changes an external failure into the expected error. A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function that does the work.
 - Get configuration from the environment. Do not put configuration values in the code.
 - Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
