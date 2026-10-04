@@ -59,7 +59,7 @@ When a failure occurs, the operator must see what occurred. Each client must rea
 ### back-api
 
 - The logger is in `core`. Its policy:
-  - One line for each event, with the columns `time source LEVEL message`. The message of a request line starts with the request identifier.
+  - One line for each event, with the columns `time source LEVEL message`. The message of a request line starts with the request identifier. A message with line breaks, such as a stack trace, stays on that one line: the logger replaces each line break with ` | `.
   - The `time` has no date, because the file name gives the date.
   - The level filter.
 - The logger writes the lines to the daily file and to the console. `WARN` and `ERROR` go to standard error.

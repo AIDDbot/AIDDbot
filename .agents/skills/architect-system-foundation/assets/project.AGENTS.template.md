@@ -129,7 +129,7 @@ The column "Framework mechanism" tells how the framework makes each concept real
 | manifest | `{source_root}/{features_folder}/{manifest_file}` | {mechanism} |
 | feature facade | `{source_root}/{features_folder}/{feature}/{facade_file}` | {mechanism} |
 | `presentation` / `logic` / `data` | `{feature}/{presentation_files}`, `{feature}/{logic_files}`, `{feature}/{data_files}` | {mechanism} |
-| `shared` | `{source_root}/{shared_folder}/{type_folder}/` | {mechanism} |
+| `shared` | `{source_root}/{shared_folder}/` (primitives), `{source_root}/{shared_folder}/{concern_folder}/` | {mechanism} |
 | unit tests | `{unit_test_location}` | {mechanism} |
 
 ```text
@@ -154,9 +154,9 @@ This table is the index of the elements in `shared`. Read it before you write a 
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
-| `parseInteger(value, field, min, max)` | Returns an integer in the range. Otherwise, raises an expected error with the field name and the range. | `{shared_folder}/{validation_folder}/{numbers_file}` |
-| `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/{validation_folder}/{text_file}` |
-| `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/{types_folder}/{types_file}` |
+| `parseInteger(value, field, min, max)` | Returns an integer in the range. Otherwise, raises an expected error with the field name and the range. | `{shared_folder}/{numbers_file}` |
+| `requireText(value, field)` | Returns the text without spaces at the ends. If the text is empty, raises an expected error with the field name. | `{shared_folder}/{text_file}` |
+| `isRecord(value)` | Tells if the value is a key-value object. All other type guards use it. | `{shared_folder}/{types_file}` |
 | {environment primitive} | {the row of this project type in the table below} | {path} |
 
 <!-- [Project] Move the row of this project type to the table above, and remove this table. -->

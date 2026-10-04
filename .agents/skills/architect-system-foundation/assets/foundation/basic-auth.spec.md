@@ -1,5 +1,5 @@
 <!--
-Foundation spec 5 of 5. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
+Foundation spec 5 of 5. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
 Include it only if the system has users (actors, model.schema.md). Ask only if this is not clear.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat basic-auth "Basic authentication" --domain foundation
@@ -66,12 +66,13 @@ A system with users must know who sends each request, before a feature needs thi
   - `presentation` has the three routes.
   - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.
   - `data` stores users and sessions. Their tables come in a migration of the feature (see `configuration`).
-- The token is random and opaque. The session is in the database, so it can be revoked.
+- The token is random and opaque. The session is in the database, so it can be revoked. The database stores only a hash of the token (such as SHA-256), never the token.
+- A session expires `SESSION_TTL_HOURS` after its creation: an integer setting of `configuration`, from 1 to 720, with the default 24. The session resolver treats an expired session as an invalid token.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
 - The session guard is in `core`. It contains no business rules. It reads the bearer token and asks a session resolver. `createApp()` in `main` gets the resolver from the `auth` facade and gives it to `core`.
 - Each registration in the manifest tells if it is public. A registration is protected unless it says that it is public. A feature can have one public and one protected registration. `health`, register and login are public; `GET /api/auth/me` is protected.
-- `main` gives `core` the routes of each registration with this mark. `core` puts the session guard on each route of a protected registration, never on a path prefix or on a separate list of paths. Thus each new route is protected, and a path that no feature registers still gets the 404 of the error handler.
-- A `unit` test registers a test feature with no public mark and checks that its route answers 401 without a token.
+- `main` gives `core` each registration with this mark. `core` mounts the public registrations first, then each protected registration behind the session guard on its own base path. Never write a separate list of paths, and never change the router of the framework to add the guard. Thus each new route is protected. A path under the base path of a protected registration answers 401 without a valid session, so an anonymous client cannot find which routes exist. Each other unknown path gets the 404 of the error handler.
+- `unit` tests: a test feature with no public mark answers 401 without a token; an expired session answers 401; the stored session has no token in clear text.
 - Other features get the current user only through the `auth` facade.
 
 ### front-web
@@ -93,7 +94,7 @@ A system with users must know who sends each request, before a feature needs thi
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
 | model | User | new | `id`, `email` (unique, lower case), `name`, `role` (`user`), `passwordHash`, `createdAt`. |
-| model | Session | new | `token`, `userId` → User, `createdAt`. |
+| model | Session | new | `tokenHash`, `userId` → User, `createdAt`, `expiresAt`. |
 | back-api.db | `users.*`, `sessions.*` | new | The fields of User and Session. `users.email` is unique. |
 | back-api.api | `POST /api/auth/register` | new | 201 public user. 400 invalid input with `fields`. 409 email already registered. |
 | back-api.api | `POST /api/auth/login` | new | 200 `{ token, user }`. 400 invalid input. 401 invalid credentials. |

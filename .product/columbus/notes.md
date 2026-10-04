@@ -324,6 +324,36 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-8/` (transcripción en `codex-s
 4. **Commit en `master` después del release:** `docs(auth): join shared primitive table rows` (`7aa3c73`) se hizo tras la etiqueta `v0.6.0`, fuera de una rama de spec. Es solo documentación, pero salta el flujo. Acción pendiente: que `ship-spec` o el núcleo impidan commits en la rama por defecto después de `release`, salvo `integrate`.
 5. Dos predicados sin nombre (D0002, D0003): la deuda habitual de Codex, que una pasada de calidad cierra.
 
+## Evidencia: fase 6, prueba `claude-9` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/claude-9/`. Versión `d625c4e`: D43–D46, sin los comandos de scaffold probados (`027cde8`) ni F1–F4. Hornada 5. Parada por tokens entre S0004 y S0005 (14:03–15:59); el humano relanzó la sesión.
+
+| Paso | `claude-9` | `codex-8` |
+| --- | --- | --- |
+| Propuesta, scaffold, outline, integración | 21 min | ~14 min |
+| `configuration` / `monitoring` / `layout` / `health` | 11 / 6 / 6 / 5 min | 8 / 5 / 5 / 7,5 min |
+| `basic-auth` | 9 min (calificación roja, sin reparación) | 16 min (Security roja, reparada) |
+| **Fundación** | **58 min de trabajo, verde** | 57 min, verde |
+| Deuda al cerrar la fundación | 12 (3 `high` antes del craft) | 4 `medium` |
+| Código sin tests (back/front/e2e) | 820 / 923 / 583 ≈ 2330 | ≈ 1370 |
+| Tests de aceptación | 46 (51 tras S0006) | 31 |
+
+### Funcionó
+
+- **Todas las verificaciones verdes a la primera** (11 → 19 → 27 → 33 → 46). Sin `database is locked`: D44 (base de datos por instancia y migraciones numeradas en `core`) lo resuelve. Tres migraciones: `schema-versions`, `runs`, `auth`.
+- **D37 y D46:** Pico y las fuentes desde npm; `theme.css`, `colors.css`, `custom.css` en el proyecto. Componentes con `<template>` y sin `attachShadow`: light DOM sin pedirlo.
+- **D45 en la calificación:** el Craftsman separó bien Security (en verde: el prefijo protege más, no menos) del criterio técnico de la spec.
+- **Sentencias en `.sql`** junto a su `data` (D37), también las de `core`.
+
+### Hechos y acción
+
+1. **Guard por prefijo publicado con deuda `high`.** El Builder montó `server.use(basePath, guard, router)` pese a «nunca por prefijo»; solo un rojo de Security vuelve al Builder, así que se publicó como D0012. El craft (S0006) lo «arregló» parcheando los métodos del router de Express (`createGuardedRouter`), que falla abierto con `route()` y `use()` (D0017 `high`) y con un `Router()` propio de la funcionalidad (D0018). La regla de D45 empuja a una solución frágil. Acción (hecha, D47): guard en el base path de cada registro protegido; bajo ese base path, 401 sin sesión.
+2. **Sesiones sin caducidad y tokens en claro** (D0013, Security como deuda). S0006 los resolvió en minutos con SHA-256 y `SESSION_TTL_HOURS`. Acción (hecha, D47): mínimos de `basic-auth`.
+3. **Traza de error en varias líneas** (D0007). Acción (hecha, D47): `monitoring` une los saltos de línea con ` | `.
+4. **`shared/utils/`** en `back`: la versión es anterior a F2. Se comprueba en `codex-9`.
+5. **Código ~70 % mayor que `codex-8`**, sobre todo el front (923 líneas). Ruido habitual de Claude frente a Codex; no hay acción.
+6. **Aprobación en el craft:** sin YOLO, `define-spec` esperó 12 min a la aprobación del humano. No es fallo del agente.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.

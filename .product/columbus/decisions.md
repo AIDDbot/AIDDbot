@@ -372,3 +372,12 @@ En `codex-8`, «Pico copiado en el proyecto» dejó `@picocss/pico` y `@fontsour
 - Pico y las tres fuentes se añaden con el gestor de paquetes y se importan desde el fichero de entrada. Nunca se copian sus ficheros.
 - `theme.css`, `colors.css` (`--ab-*`) y `custom.css` siguen siendo ficheros del proyecto, importados después de Pico.
 - Sin excepción para un front sin bundler: el arquetipo web siempre tiene uno.
+
+## D47 ← Prueba `claude-9` · Guard en el base path del registro, sesiones con hash y caducidad
+
+En `claude-9`, «el guard en cada ruta, nunca por prefijo» (D45) no se cumplió en la primera implementación y, en el craft, llevó a parchear el router de Express, que falla abierto (D0017 `high`). La marca por registro de D45 ya da la protección por defecto; el prefijo del propio registro no la debilita.
+
+- **Guard:** `core` monta primero los registros públicos y después cada registro protegido detrás del guard, en su propio base path. Nunca una lista aparte de rutas ni cambios en el router del framework. Bajo el base path de un registro protegido, una ruta desconocida responde 401 sin sesión válida: un cliente anónimo no descubre qué rutas existen. Fuera, el 404 del manejador de errores. Sustituye esa frase de D45.
+- **Sesiones:** la base de datos guarda solo el hash del token (como SHA-256). La sesión caduca a las `SESSION_TTL_HOURS` (1–720, 24 por defecto), un ajuste de `configuration`; una sesión caducada es un token inválido. Tests `unit` de la caducidad y de que no hay token en claro.
+- **Log:** un mensaje con saltos de línea, como una traza, sigue en su única línea; el logger cambia cada salto por ` | `.
+- **Flujo sin cambios:** un criterio técnico fallido sigue publicándose como deuda (D12); solo Security vuelve al Builder (D36, D40).

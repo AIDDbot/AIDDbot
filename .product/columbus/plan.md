@@ -145,7 +145,7 @@ Ya hecho, revisado el 4 oct: `aidd commit` exige el último `lint` en verde sobr
 | F2 | `project.AGENTS.template.md`, guía de arquitectura | `shared` por tema técnico (P23): carpetas con un sustantivo de su tema, nunca `utils`, `helpers`, `common` ni `misc`; primitivas en la raíz. Hoy la plantilla dice «utilities» y `codex-8` creó `shared/utils/`. Compatible con D43. | P23 |
 | F3 | Núcleo (`scan-quality`) | Aviso de tamaño de carpeta, agnóstico de la tecnología: `WARN` si una carpeta de `shared` o `features` tiene más de N entradas directas (N = 12, en `config.json`). No bloquea; entra como deuda y `/craft-lasting-quality` lo resuelve agrupando. | P23 |
 | F4 | `ecosystems.md` / `layout` | El `front-web` usa light DOM (sin Shadow DOM) salvo que el arquetipo diga otra cosa, para que Pico y el tema lleguen a los componentes. | Lista del 3 oct |
-| F5 | Pendiente | Lo que salga de `claude-9`. Ya visto: S0005 calificada en rojo por el guard por prefijo (criterio de D45) con Security en verde, y publicada con D0012 `high`, porque solo un rojo de Security vuelve al Builder. Decidir si un criterio técnico fallido de una spec fundacional vuelve una vez al Builder, y si caducidad y tokens hasheados (D0013) son mínimos de `basic-auth`. | `claude-9` |
+| F5 | Specs fundacionales | ✅ D47: guard en el base path de cada registro protegido (401 bajo él sin sesión), tokens con hash y caducidad `SESSION_TTL_HOURS`, log de una línea también con trazas. El flujo no cambia: solo Security vuelve al Builder. | `claude-9` |
 
 Fuera de este plan: modelos de Copilot y Cursor (Rumbo), e2e por dominio (P23, cuando haya muchas features).
 

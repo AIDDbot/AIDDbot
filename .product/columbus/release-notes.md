@@ -35,6 +35,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 - `configuration`, `monitoring`, `layout` (with a web front), `health`, and the optional `basic-auth` are technology-agnostic specs that the foundation delivers with the normal spec flow.
 - Each spec lists its expected URLs and APIs, and the `e2e` project derives its basic tests from them.
+- `basic-auth` protects each new route by default, stores only a hash of each session token, and expires sessions after `SESSION_TTL_HOURS`.
 - `layout` gives the web front its shell: title, menu from the manifest, not-found page, and a light/dark theme that follows the system and remembers your choice.
 - Web components render in the light DOM, so the theme reaches every element.
 - The web front starts with the `front-standard` look: Pico CSS, self-hosted fonts, and color tokens. Change them in your project.
