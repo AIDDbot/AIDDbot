@@ -356,3 +356,11 @@ Antes de abrir specs nuevas, los atributos de calidad que cruzan todas las funci
 - **`monitoring` (observabilidad, consistencia, seguridad):** `X-Request-Id` recibido o generado, en la respuesta y en la línea del log (R07, R08). Error de entrada con `fields` en el tipo de error de `shared`. Cabeceras de seguridad (`nosniff`, `DENY`, `no-referrer`; R09) y límite del cuerpo `BODY_LIMIT_KB` con 413 (R10). El límite de peticiones queda fuera.
 - **`basic-auth`:** el 400 del registro trae `fields` (R02) y el formulario muestra cada mensaje junto a su campo (R13).
 - **`health`:** su tabla llega como la primera migración.
+
+## D45 ← Prueba `codex-8` · Rutas protegidas por defecto, por la marca de cada registro
+
+En `codex-8`, la calificación de S0005 falló en Security: el guard solo protegía `GET /api/auth/me`, y una funcionalidad nueva quedaba abierta. La spec decía «`core` pone el guard después de las rutas públicas», sin decir cómo se distingue lo público. La redacción precisa, que salió de la acción 2 de `codex-6`, se perdió en el merge del 4 oct.
+
+- Cada registro del manifiesto dice si es público; si no lo dice, es protegido. Una funcionalidad puede tener un registro público y uno protegido.
+- `main` pasa a `core` las rutas con su marca (D39), y `core` pone el guard en cada ruta de un registro protegido, nunca por prefijo ni por una lista aparte. Una ruta que nadie registra sigue dando el 404.
+- Un test `unit` registra una funcionalidad sin marca y comprueba el 401 sin token.

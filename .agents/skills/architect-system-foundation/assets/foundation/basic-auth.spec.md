@@ -69,7 +69,9 @@ A system with users must know who sends each request, before a feature needs thi
 - The token is random and opaque. The session is in the database, so it can be revoked.
 - If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
 - The session guard is in `core`. It contains no business rules. It reads the bearer token and asks a session resolver. `createApp()` in `main` gets the resolver from the `auth` facade and gives it to `core`.
-- `core` puts the session guard after the public routes. Thus each new route is protected.
+- Each registration in the manifest tells if it is public. A registration is protected unless it says that it is public. A feature can have one public and one protected registration. `health`, register and login are public; `GET /api/auth/me` is protected.
+- `main` gives `core` the routes of each registration with this mark. `core` puts the session guard on each route of a protected registration, never on a path prefix or on a separate list of paths. Thus each new route is protected, and a path that no feature registers still gets the 404 of the error handler.
+- A `unit` test registers a test feature with no public mark and checks that its route answers 401 without a token.
 - Other features get the current user only through the `auth` facade.
 
 ### front-web
