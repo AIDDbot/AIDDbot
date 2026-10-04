@@ -381,3 +381,12 @@ En `claude-9`, «el guard en cada ruta, nunca por prefijo» (D45) no se cumplió
 - **Sesiones:** la base de datos guarda solo el hash del token (como SHA-256). La sesión caduca a las `SESSION_TTL_HOURS` (1–720, 24 por defecto), un ajuste de `configuration`; una sesión caducada es un token inválido. Tests `unit` de la caducidad y de que no hay token en claro.
 - **Log:** un mensaje con saltos de línea, como una traza, sigue en su única línea; el logger cambia cada salto por ` | `.
 - **Flujo sin cambios:** un criterio técnico fallido sigue publicándose como deuda (D12); solo Security vuelve al Builder (D36, D40).
+
+## D48 ← Prueba `codex-9` · Las reglas generales nunca bloquean, también en la calificación
+
+En `codex-9`, dos calificaciones salieron rojas por reglas generales (SQL en el código de los tests, una función con `try`/`catch` y más sentencias) y se publicaron como deuda `high`. D12 ya decía que no bloquean, pero solo en un comentario de la plantilla que desaparece al rellenarla.
+
+- La sección de reglas generales del `AGENTS.md` de proyecto dice, en texto visible: *These rules never block a delivery. A violation is debt.*
+- La puerta **Project rules** de `qualify.gates.md` trata la violación de una regla general como hallazgo `debt`, nunca `blocking`.
+- La regla de sentencias en ficheros es para el código de producción: los tests pueden escribir sentencias en el código (`e2e` necesita una versión de esquema desconocida para R10 y R11 de `configuration`).
+- `configuration`: el helper que arranca un proyecto nunca toma `DATABASE_URL` del entorno del runner; sin la del test, crea una base de datos temporal.

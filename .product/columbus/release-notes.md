@@ -58,6 +58,7 @@ Draft for the release of 2026-10-12. Text for adopters; the commit list goes to 
 
 - Acceptance tests may carry the requirement ID as a tag (Playwright `{ tag: "@S0001-R01" }`) instead of in the title.
 - `control.json` keeps the latest run of each kind per project.
+- General coding rules never block, also in qualification: a violation is debt, never a blocking finding.
 - `aidd commit` refuses the default branch: only `aidd release` and `aidd integrate` write there. The system proposal is committed on `chore/foundation`.
 - The core puts `--` before its arguments for npm scripts, so `--grep` reaches the test runner.
 - Templates are written in ASD-STE100 Simplified Technical English, and agents write records in the same style.

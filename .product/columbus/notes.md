@@ -324,6 +324,34 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-8/` (transcripción en `codex-s
 4. **Commit en `master` después del release:** `docs(auth): join shared primitive table rows` (`7aa3c73`) se hizo tras la etiqueta `v0.6.0`, fuera de una rama de spec. Es solo documentación, pero salta el flujo. Acción pendiente: que `ship-spec` o el núcleo impidan commits en la rama por defecto después de `release`, salvo `integrate`.
 5. Dos predicados sin nombre (D0002, D0003): la deuda habitual de Codex, que una pasada de calidad cierra.
 
+## Evidencia: fase 6, prueba `codex-9` (Express + front sin framework con Vite + Playwright, prompt F, Codex con `gpt-6.1-sol`, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-9/`. Versión `a14862b`: F1–F4 (plan 4c) y D47. Hornada 5, después de `claude-9` (sin puertos compartidos). **Sin intervención humana.**
+
+| Paso | `codex-9` | `codex-8` |
+| --- | --- | --- |
+| Propuesta, scaffold, integración | ~17 min | ~14 min |
+| `configuration` / `monitoring` / `layout` / `health` | 10 / 7 / 6 / 6 min | 8 / 5 / 5 / 7,5 min |
+| `basic-auth` | 16 min, verde y verde | 16 min (Security roja, reparada) |
+| **Fundación** | **~64 min, verde** | 57 min, verde |
+| Deuda | 3 `high` (de calificación) | 4 `medium` |
+| Código sin tests (back/front/e2e) | 559 / 550 / 452 ≈ 1560 | ≈ 1370 |
+| Tests de aceptación | 44 | 31 |
+
+### Funcionó
+
+- **D47 a la primera:** `core` monta los registros públicos y después `app.use(basePath, sessionGuard, router)` para cada protegido; scrypt con mínimos OWASP, verificación ficticia con email desconocido, digest del token y caducidad. La calificación de S0005 sale en verde por primera vez en Columbus.
+- **F1:** la propuesta se commitea en `chore/foundation`; `master` solo tiene el overlay y los merges.
+- **F2:** `shared` plano con primitivas en la raíz (`numbers.parse.ts`, `email.normalize.ts`, `types.check.ts`…), sin `utils/` ni carpetas por tipo.
+- **D44:** todas las verificaciones verdes a la primera y sin `database is locked`.
+- Los comandos de scaffold probados (`027cde8`) se usaron tal cual: los tres proyectos en 6 minutos.
+
+### Hechos y acción
+
+1. **Reglas generales calificadas como `blocking`** (D0001 SQL en código de tests, D0003 `try`/`catch` con más sentencias): se publican como deuda `high` sin romper nada. Causa: «nunca bloquean» (D12) solo estaba en un comentario de la plantilla, que desaparece al rellenarla. `claude-9` tuvo el mismo SQL en `e2e` (D0003). Acción (hecha, D48).
+2. **`e2e` hereda `DATABASE_URL` del runner** (D0002): `startProject` mezcla `process.env` y solo crea una BD temporal si queda vacía. Incumple D44. Acción (hecha, D48): la spec dice que el helper nunca la toma del entorno.
+3. **Un poco más lenta que `codex-8`** (~7 min), sobre todo en el scaffold y en las dos primeras specs, con commits `fix(` del Builder antes de verificar. A cambio, `basic-auth` hace más en el mismo tiempo y sin reparación.
+
 ## Evidencia: fase 6, prueba `claude-9` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/claude-9/`. Versión `d625c4e`: D43–D46, sin los comandos de scaffold probados (`027cde8`) ni F1–F4. Hornada 5. Parada por tokens entre S0004 y S0005 (14:03–15:59); el humano relanzó la sesión.

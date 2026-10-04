@@ -112,7 +112,7 @@ Each project must start in the same way in each environment. Its settings must b
 - Tests never write a port or a URL. They get the base URLs from the fixtures, and a free port from `shared`.
 - `shared` has a helper that starts one project in its folder with its start command and an environment that the test gives. It returns the output, the exit code and the base URL, and it stops the project after the test. Add it to the shared primitives of the `e2e` project. `core` also uses it to start the projects of the suite.
 - The tests of R01, R03, R05 and R09 start their own instance with that helper, on a free port. They do not use a browser.
-- Each instance that a test starts has its own data. If the test does not give `DATABASE_URL`, the helper gives a new temporary database, and it deletes that database after the instance stops. Tests run in parallel, so two instances never share a database. Do not use retries or one worker to hide a shared database.
+- Each instance that a test starts has its own data. If the test does not give `DATABASE_URL`, the helper gives a new temporary database, also when the environment of the runner has a `DATABASE_URL`: the helper never takes it from that environment, and it deletes that database after the instance stops. Tests run in parallel, so two instances never share a database. Do not use retries or one worker to hide a shared database.
 - The tests of R02 and R04 use the instance that the suite started without `PORT`. They check that its base URL has the default port of `core` and that it answers.
 
 ### All projects

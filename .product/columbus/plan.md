@@ -133,7 +133,7 @@ Aplica D37–D39 con `/maintain-skills`. La guía para humanos es `docs/architec
 
 ### 4c · Plan de fixes (0.2.4)
 
-✅ F1–F4 hechos el 4 oct. F1 además mueve el commit de la propuesta a `chore/foundation`, porque antes se hacía en la rama por defecto.
+✅ F1–F6 hechos el 4 oct; `codex-9` validó F1–F5 en verde y dio F6. Release 0.2.4. F1 además mueve el commit de la propuesta a `chore/foundation`, porque antes se hacía en la rama por defecto.
 
 La 0.2.3 está en `CHANGELOG.md`. Recoge lo pendiente de `codex-8`, P23 y la lista del 3 oct, más lo que salga de `claude-9`. Se prueba con `codex-9`, lanzado cuando cierre `claude-9` (para que no compitan por los puertos).
 
@@ -146,6 +146,7 @@ Ya hecho, revisado el 4 oct: `aidd commit` exige el último `lint` en verde sobr
 | F3 | Núcleo (`scan-quality`) | Aviso de tamaño de carpeta, agnóstico de la tecnología: `WARN` si una carpeta de `shared` o `features` tiene más de N entradas directas (N = 12, en `config.json`). No bloquea; entra como deuda y `/craft-lasting-quality` lo resuelve agrupando. | P23 |
 | F4 | `ecosystems.md` / `layout` | El `front-web` usa light DOM (sin Shadow DOM) salvo que el arquetipo diga otra cosa, para que Pico y el tema lleguen a los componentes. | Lista del 3 oct |
 | F5 | Specs fundacionales | ✅ D47: guard en el base path de cada registro protegido (401 bajo él sin sesión), tokens con hash y caducidad `SESSION_TTL_HOURS`, log de una línea también con trazas. El flujo no cambia: solo Security vuelve al Builder. | `claude-9` |
+| F6 | Plantilla, `qualify.gates.md`, `configuration` | ✅ D48: las reglas generales nunca bloquean (texto visible y puerta Project rules); tests libres de la regla de `.sql`; el helper de `e2e` no hereda `DATABASE_URL`. | `codex-9` |
 
 Fuera de este plan: modelos de Copilot y Cursor (Rumbo), e2e por dominio (P23, cuando haya muchas features).
 

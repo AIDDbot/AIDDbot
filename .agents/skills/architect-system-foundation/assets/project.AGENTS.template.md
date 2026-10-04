@@ -172,7 +172,9 @@ This table is the index of the elements in `shared`. Read it before you write a 
 
 ### General rules
 
-<!-- [Blueprint] Technology-neutral guidance with default thresholds. The archetype can change the numbers. The `quality` slot measures them. They never block. D12. -->
+<!-- [Blueprint] Technology-neutral guidance with default thresholds. The archetype can change the numbers. The `quality` slot measures them. Keep the next sentence. D12. -->
+
+These rules never block a delivery. A violation is debt.
 
 - Use names that are idiomatic for the language. Use the words of the domain.
 - Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {4} parameters. Keep files ≤ {128} lines.
@@ -184,7 +186,7 @@ This table is the index of the elements in `shared`. Read it before you write a 
 - Do not hide errors. Use one method only to handle errors in the project.
 - Catch errors only at the edges: the error handler of `core`, and the `data` layer when it changes an external failure into the expected error. A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function that does the work.
 - Get configuration from the environment. Do not put configuration values in the code.
-- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the `data` file that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location.
+- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the `data` file that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location. Tests can write statements in code.
 - Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
 - First make it work. Then make it correct. In a delivery, only `lint` (errors, types, boundaries) and acceptance block.
