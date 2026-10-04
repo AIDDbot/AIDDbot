@@ -288,6 +288,42 @@ Fuente: `C:/code/aidd/experiments/columbus/claude-7/` y `codex-7/`, 3 oct por la
 3. **`shared` como cajón de sastre:** 15 y 21 ficheros planos en `back/src/shared` tras cuatro specs. Confirma D39 (`shared` por tipo), que se prueba en `codex-8`.
 4. **`claude-7` registra como deuda el tamaño de los `describe` de los tests** (D0005–D0009 `low`). Ruido: un `describe` es la suite. Acción pendiente: comprobar que `oxlint.complexity.json` (D39) excluye los bloques de suite en tests.
 
+## Evidencia: fase 6, prueba `codex-8` (Express + front sin framework con Vite + Playwright, prompt F, Codex con `gpt-6.1-sol`, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-8/` (transcripción en `codex-session-*.md`). Versión `651f442` (merge del 4 oct: D39 Blueprint v2, `layout`, tema de D37, D40–D42) más `68d188b` (hora del log sin fecha). Sin D43, D44 ni D45, ni la base de datos por instancia de test. Hornada 4. **Sin intervención humana**: un solo prompt.
+
+| Paso | `codex-8` | `codex-7` |
+| --- | --- | --- |
+| Propuesta (con tres arquetipos a medida en `.product/archetypes/`) | 5 min 39 s | 4 min 56 s |
+| Scaffold, outline, integración | 8 min | 9 min |
+| `configuration` / `monitoring` | 8 / 5 min | 8 / 6 min |
+| `layout` (nueva, D38) | 5 min | — |
+| `health` | 7,5 min (una verificación roja) | 6 min |
+| `basic-auth` | 16 min (una calificación roja de Security) | 11 min |
+| **Fundación** | **57 min, verde** | 45 min, `blocked` |
+| Deuda | 4 `medium` | 3 `medium` al cerrar |
+| Código sin tests (back/front/e2e) | 494 / 529 (sin Pico) / 347 ≈ 1370 | 515 / 424 / 426 ≈ 1370 |
+| Ficheros en `back/src/shared` | 7, en `types/`, `utils/`, `validation/` | 15 planos |
+| Tests | 16 `unit`, 31 de aceptación | 37 de aceptación |
+
+### Funcionó
+
+- Comprobado a mano en `master` (v0.6.0): `lint`, `unit` y `acceptance` en verde. **Canario de D39:** `core/app.config.ts` importando la fachada de `health` → `no-restricted-imports` con «core never uses a feature, the manifest or main». Deshecho.
+- **D39 tal cual:** `app.main.ts` solo llama a `createApp()` de `app.compose.ts`; `core` con los servicios de plataforma (config, logger, CORS, base de datos, errores, peticiones, shell, router, tema) y su fichero público `core.api.ts`; `shared` por tipo y pequeño. El cajón de sastre de `codex-7` y `claude-7` desaparece.
+- **`layout` y D37 a la primera:** Pico copiado en `src/styles/`, fuentes Roboto, Audiowide y Anonymous Pro en `public/fonts/`, `theme.css`, `colors.css` con `--ab-*`, `custom.css`; tema según el sistema y elección guardada.
+- **Log sin fecha** (`12:35:52.032 http WARN GET / 404 8ms`), recogido de `68d188b`.
+- **D42 (`e2e`):** `features/{f}/*.api.spec.ts` y `*.web.spec.ts`, `shared/page-objects/` y `shared/test-data/`.
+- **D40:** la calificación de Security volvió al Builder una vez y la reparación separa en el manifiesto `publicFeatures` de `features` (protegidas por defecto), con test `unit`. Es lo que pide D45 sin tenerlo.
+- El hueco entre veredicto y propuesta sigue en ~5 min con tres arquetipos a medida: escribirlos en paralelo no compensa.
+
+### Hechos y acción
+
+1. **`database is locked` por tercera prueba seguida.** El Craftsman lo vio como regresión de `monitoring` al verificar `health`; el Builder lo tapó en producción con `new DatabaseSync(path, { timeout: 15000 })`, como `claude-7`. Acción (hecha, `2ce54c8` y D44): base de datos temporal por instancia de test y migraciones en `configuration`.
+2. **Guard opcional ruta a ruta** en la primera implementación de `basic-auth`: la redacción «`core` pone el guard después de las rutas públicas» era ambigua (la precisa se perdió en el merge del 4 oct). Acción (hecha, D45).
+3. **Validaciones repetidas** (D0001 enteros, D0004 texto): `parseInteger` no nombraba el campo y la spec pide el nombre de la variable en el error. Acción (hecha, D43): `parseInteger(value, field, min, max)` y `shared` por naturaleza.
+4. **Commit en `master` después del release:** `docs(auth): join shared primitive table rows` (`7aa3c73`) se hizo tras la etiqueta `v0.6.0`, fuera de una rama de spec. Es solo documentación, pero salta el flujo. Acción pendiente: que `ship-spec` o el núcleo impidan commits en la rama por defecto después de `release`, salvo `integrate`.
+5. Dos predicados sin nombre (D0002, D0003): la deuda habitual de Codex, que una pasada de calidad cierra.
+
 ## ✅ P1 → D1 · ¿Dónde se aplica la guía?
 
 ¿La guía es (a) un documento del overlay que lee `architect-system-foundation`, (b) una puerta en `rule-project` (no se aceptan proyectos sin lint/unit/typecheck), o (c) ambas? Mi propuesta: guía como fuente única + `rule-project` la comprueba.
