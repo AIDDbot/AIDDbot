@@ -152,6 +152,26 @@ Fuera de este plan: modelos de Copilot y Cursor (Rumbo), e2e por dominio (P23, c
 
 **Hecho cuando:** F1–F4 aplicados con `/maintain-skills`, `npm run adapt` al día y `codex-9` cierra en verde sin `utils/` en `shared` ni commits en la rama por defecto fuera de `release` e `integrate`.
 
+### 4d · Plan 0.2.5 (5 oct)
+
+La comparación de la hornada 5 se cancela: `codex-9` dejó cambios de sobra para otra versión. La 0.2.5 lleva a la fundación las specs extra de `codex-9` (S0009, S0011–S0013) y los arreglos de `notes.md` (puntos 1–18). Fuente: `C:/code/aidd/experiments/columbus/codex-9/.product/specs/`.
+
+Ya hecho: límites alineados en plantilla, oxlint, núcleo y docs (3 parámetros, 16 statements en código y 64 en tests, 16 entradas por carpeta, funcionalidad plana); value objects contra la *primitive obsession*; `docs/architect-system-foundation.md` y `docs/coding-rules.md` separados y sin solape (`247c620`, `4568ae1`).
+
+| # | Pieza | Cambio | Origen |
+| --- | --- | --- | --- |
+| G1 | `monitoring` | Log de petición sin identificador; mensaje de arranque con una URL usable (back y front); en el front, un mensaje de consola por navegación, cambio de tema y envío de formulario, sin valores privados. El logger de `shared` no lleva palabras de dominio: la funcionalidad le da el nombre de la acción. | S0009; notas 9 y 13 |
+| G2 | `layout` | Identidad de la aplicación (nombre y descripción, de `system.md`) en un solo sitio: título del documento, cabecera del shell y home. La home es un dashboard: cabecera y rejilla de tarjetas que cada fachada registra (import diferido) y el manifiesto lista; la home las recibe en su registro y no conoce funcionalidades. Contrato de páginas tipado: servicios comunes obligatorios, parámetros de ruta como argumento propio, sin opcionales ni `!`. | S0011, S0013; notas 8, 11 |
+| G3 | `health`, `basic-auth` | Tarjeta de cada una: estado, ejecuciones y uptime con enlace a `/health`; «Hello, {name}» con sesión, enlaces a entrar y registrarse sin ella. | S0011 |
+| G4 | Spec nueva `account` (6, opcional, necesita `basic-auth`) | `GET /api/users/:id` solo para el propio usuario (otro id, 404, sin capa `data`); logout que revoca solo la sesión actual (204); una sola marca de acceso por registro de página y de menú (`everyone`, `anonymous`, `session`) que decide el menú, el guard y la vuelta; guard del front a `/login` con `returnTo` validado (mismo origen y ruta registrada); página `/users/:id`. | S0012, S0013; nota 12 |
+| G5 | Plantilla y `docs/coding-rules.md` | D49: sentencias como constantes en el fichero de `data`; solo las migraciones en ficheros. | D49 |
+| G6 | Plantilla (`e2e`) | `shared` de `e2e` sigue la regla general: carpetas por tema técnico (`database`, `http`) además de `page-objects/` y `test-data/`. Quita la contradicción. | Nota 7 |
+| G7 | Núcleo (`run quality`) | `WARN` por cada subcarpeta dentro de una funcionalidad: el lint de capas no la ve (globs de un nivel). | Nota 6 |
+| G8 | Núcleo (`run`) | ✅ La línea del diario omite los proyectos `n/a` y añade la línea resumen de la herramienta (`e2e ok 46s (100 passed (46.5s))`, `e2e exit 1 3s (1 failed)`). Descartado repetir la aceptación de la spec: no habría visto el intermitente de S0005, que estaba fuera de la spec. Opcional: avisar en el diario cuando la aceptación pasa sobre el mismo árbol en que acaba de fallar. | Nota 18; humano |
+| G9 | Núcleo | Worktrees del arnés: decidir si el núcleo los rechaza o escribe el diario en la carpeta principal. Puede pasar a 0.3.0. | Nota 15 |
+
+**Hecho cuando:** G1–G8 aplicados con `/maintain-skills`, `npm test` y `npm run adapt` al día, y una prueba nueva (`codex-10`, prompt F) cierra las seis specs en verde. Después, `npm run release -- patch`, etiqueta `v0.2.5` a mano y push de la etiqueta.
+
 ### 5 · Arquetipos propios (fuera del repo)
 
 En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):
