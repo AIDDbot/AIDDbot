@@ -50,7 +50,7 @@ Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary r
 | `presentation` | `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
 | `logic` | `*.service.ts`, `*.policy.ts`, `*.store.ts` |
 | `data` | `*.repository.ts`, `*.client.ts` |
-| types of a feature, no layer | `*.type.ts` |
+| types of a feature, no layer | `*.type.ts`; value objects in `*.value.ts` |
 | `shared` | primitives in `src/shared/{topic}.{role}.ts`; other elements in `src/shared/{concern}/{topic}.{role}.ts` |
 
 The concept is still the facade. Only the JS / TS file has the name `api`.

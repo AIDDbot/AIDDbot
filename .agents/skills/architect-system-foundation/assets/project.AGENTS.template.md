@@ -179,8 +179,8 @@ These rules never block a delivery. A violation is debt.
 - Use names that are idiomatic for the language. Use the words of the domain.
 - Give each domain concept its own type. Do not use a bare `string` or `number` for it (no primitive obsession). A value with rules (an email, an amount, an identifier) is a **value object**: it cannot change, it checks its value when it is created, and two value objects with the same value are equal. Create it at the edge, where the input enters, and use it everywhere after that. It checks only the rules that the spec states. A generic value object goes in `shared`; a value object with domain words goes in the types of its feature.
 - When a function needs more than three values, give it one typed object.
-- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {3} parameters. Keep files ≤ {128} lines.
-- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, ≤ {4} parameters, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
+- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {16} statements, nesting ≤ {2}, ≤ {3} parameters. Keep files ≤ {128} lines.
+- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, ≤ {4} parameters, files ≤ {256} lines. A suite contains its tests: each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
 - Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
 - If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.

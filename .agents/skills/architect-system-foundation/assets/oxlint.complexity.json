@@ -10,12 +10,10 @@
         "max": 8
       }
     ],
-    "eslint/max-lines-per-function": [
+    "eslint/max-statements": [
       "warn",
       {
-        "max": 32,
-        "skipBlankLines": true,
-        "skipComments": true
+        "max": 16
       }
     ],
     "eslint/max-depth": [
@@ -46,7 +44,6 @@
         "**/*.spec.ts"
       ],
       "rules": {
-        "eslint/max-lines-per-function": "off",
         "eslint/max-statements": [
           "warn",
           {
