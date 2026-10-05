@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.6 - 2026-10-05
+
+- docs(columbus): record codex-11, which validates 0.2.6 (7ecef57)
+- feat(core): journal the plan of each implementation before its first edit (7eea22a)
+- fix(skills): copy the theme files with a system copy command (570d91d)
+- fix(skills): parameters, value objects and boundary tooling in the Blueprint (3ef703e)
+- fix(skills): e2e fixtures and suite stop in /architect-system-foundation (11aacf8)
+- feat(skills): ship the brand theme in /architect-system-foundation (75a4f29)
+- fix(skills): explain the double-click test of basic-auth R11 (433c87e)
+- Merge branch 'refactor/short-agents-md' (94070fe)
+- refactor(skills): shorten specs in /define-spec and the foundation specs (ac970c8)
+- refactor(skills): move the Blueprint to the root AGENTS.md and shorten project AGENTS.md (dfd0699)
+
 ## 0.2.5 - 2026-10-05
 
 - docs(columbus): record cursor-10, which validates 0.2.5 (4a21524)
