@@ -412,3 +412,13 @@ En `cursor-10`, cada `AGENTS.md` de proyecto tenía unas 2750 palabras y cerca d
 - Las explicaciones para quien rellena la plantilla van en comentarios, que desaparecen en el proyecto.
 - Cambia el principio 11. El `AGENTS.md` de un repo de arquetipo enlaza al Blueprint publicado (P21).
 - Objetivo: al menos un 40 % menos de palabras en el `AGENTS.md` de proyecto. Ninguna regla se pierde.
+
+## D51 ← D50 (humano) · Specs más cortas: sin tabla de Verification y un solo contrato de API
+
+En las seis specs fundacionales (~9800 palabras), la tabla de Verification casi igualaba a los requisitos y la mayoría de filas los repetían; las filas `api` de Schema impact repetían la tabla de URLs; Solution narraba lo que el Blueprint ya decide.
+
+- La plantilla de `define-spec` cambia la tabla de Verification por «Test notes», opcional: solo la técnica de prueba que no es obvia (marca en el documento, API bloqueada, viewport, consola, reinicio). Cada requisito sigue con al menos un test con su etiqueta.
+- `Expected URLs and APIs` es el único contrato de API, con estados y errores. Schema impact queda con `model` y `db`. `implement-project` y la puerta Schema impact leen los endpoints de la tabla de URLs.
+- Solution: bullets cortos, solo con las decisiones que el Blueprint, el `AGENTS.md` del proyecto y los requisitos no toman. Lo aprendido con fallos (D44, D45, D47) se queda.
+- Reglas de negocio solo si ningún requisito las dice.
+- Resultado en las fundacionales: 10 217 → 6908 palabras (−32 %), con los requisitos intactos.

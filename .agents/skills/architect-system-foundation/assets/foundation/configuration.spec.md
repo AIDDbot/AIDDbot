@@ -1,5 +1,5 @@
 <!--
-Foundation spec 1 of 6 (Columbus principle 9; D17, D18, D39).
+Foundation spec 1 of 6 (Columbus principle 9; D17, D18, D39, D44, D48, D51).
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat configuration "Configuration" --domain foundation
 Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name.
@@ -10,28 +10,22 @@ The technology is in the AGENTS.md of each project, never here.
 
 ## Problem
 
-Each project must start in the same way in each environment. Its settings must be outside the code. Then projects that different teams make can operate together.
+Each project must start in the same way in each environment, with its settings outside the code.
 
 ### User Stories
 
-- As an operator, I want **to set the settings of each project with environment variables** so that one build operates in each environment.
+- As an operator, I want **to set each project with environment variables** so that one build operates in each environment.
 - As a developer, I want **an incorrect setting to stop the project when it starts** so that I never examine a system with an incomplete configuration.
 
 ### Business rules
 
-- Each setting must come from an environment variable and must have a documented default.
-- A project must not start with an invalid setting.
-- A `front-web` project must connect to the `back-api` only through its configured base URL.
-- For each project under test, the `e2e` suite must know the folder, the port and the start command. Then it can use a project that runs, or start it.
-- The database schema must have a version. A project must not start with a schema that is newer than its code.
+- Each setting must have a documented default.
 - A project must stop cleanly: it must not lose a request in progress or a log line.
 
 ### Out of context
 
-- The log and the error format (`monitoring`).
-- The health status (`health`).
-- The management of secrets.
-- Configuration files, other than an optional local `.env` file.
+- The log and the error format (`monitoring`), the health status (`health`).
+- The management of secrets. Configuration files, other than an optional local `.env` file.
 
 ## Requirements
 
@@ -53,91 +47,52 @@ Each project must start in the same way in each environment. Its settings must b
 | --- | --- | --- | --- | --- |
 | api | back-api | any path on `PORT` | An HTTP response with the CORS header | R01, R02, R06, R07 |
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
+| api | front-web | `GET /runtime-config.json` | 200 `{ "apiBaseUrl": "..." }`. No error status. | R09 |
 | command | cli | `--version` | The version. Exit code 0. | R08 |
-| api | front-web | `GET /runtime-config.json` | 200 `{ "apiBaseUrl": "..." }` | R09 |
 | process | back-api | start on a database | Applies the missing migrations, or stops on an unknown version | R10, R11 |
 
 ## Solution
 
 ### back-api
 
-- `createApp()` in `main` makes `core`.
-- `core` reads and validates each setting one time, before it opens the port. It uses the shared primitives `readSetting` and `parseInteger` (see the `AGENTS.md` of the project). If they do not exist, `core` adds them. `parseInteger` gets the name of the variable as its field, so its error names the variable. Each project uses it for its integer settings and never writes its own check.
-- Features get the settings by the access method of the `AGENTS.md` of the project: injection or the public file of `core`. `shared` never reads the settings.
-- Settings:
-  - `PORT`: default 3000.
-  - `HOST`: default all interfaces.
-  - `DATABASE_URL`: the connection to the database. A local default for development.
-  - `CORS_ORIGIN`: origins, with commas between them. Default `*`.
-- `core` opens the database connection from `DATABASE_URL`. Features get it by the same access method.
-- Migrations:
-  - Each change of the schema is one migration file, with an ordered number and a name (`0001-{name}`). All migrations are in one folder. A feature adds its migrations to that folder.
-  - `core` contains the migration runner. Before it opens the port, the runner applies each missing migration in order, each one in one transaction, and records its version and time in a table of applied versions.
-  - The code never changes the schema in a different location: no table creation in a feature.
-- Clean stop. This technical result is not an acceptance requirement, because a stop signal is not the same on each operating system. `review-implementation` checks it:
-  - When the process gets a stop signal, `core` accepts no new connection, lets the requests in progress complete, writes all queued log lines, closes the database, and stops with exit code 0.
-  - If the requests do not complete in a short time, `core` stops them and stops with a non-zero exit code.
+- Settings: `PORT` (3000), `HOST` (all interfaces), `DATABASE_URL` (a local default), `CORS_ORIGIN` (comma list, `*`).
+- `core` reads and checks each setting one time, before it opens the port, with the shared primitives `readSetting` and `parseInteger`. It adds them when they do not exist. `parseInteger` gets the variable name as its field, so its error names the variable. No project writes its own integer check. `shared` never reads settings.
 - A relative path in a setting starts at the project folder, never at the working directory.
+- `core` opens the database from `DATABASE_URL`. Features get it by the access method of the project.
+- Migrations: one numbered file for each schema change (`0001-{name}`), all in one folder; a feature adds its own there. The runner of `core` applies each missing one before the port opens, each in one transaction, and records its version and time. No feature creates a table.
+- Clean stop, checked by `review-implementation` (a stop signal is not the same on each operating system): on a stop signal, no new connection, the requests in progress complete, the queued log lines are written, the database closes, exit code 0. After a short timeout: stop them, non-zero exit code.
 
 ### front-web
 
-- `createApp()` in `main` makes `core`.
-- `core` reads `PORT` (default 4000) and `API_BASE_URL` (default `http://localhost:3000`).
-- `core` serves `GET /runtime-config.json` with the value of `API_BASE_URL`. The browser gets the setting at runtime, so the front needs no build for each environment.
-- The HTTP client of `core` reads `/runtime-config.json` one time when the application starts. Only this client uses `API_BASE_URL`.
+- `PORT` (4000), `API_BASE_URL` (`http://localhost:3000`).
+- `core` serves `GET /runtime-config.json`. The HTTP client of `core` reads it one time at startup and is the only user of `API_BASE_URL`. No build for each environment.
 
 ### cli
 
-- `createApp()` in `main` makes `core`.
-- `core` reads the arguments and the environment settings. An argument has priority over the setting.
+- `core` reads the arguments and the environment. An argument has priority.
 
 ### e2e
 
-- For each project under test, `core` reads these settings. `{PROJECT}` is the project name in upper case.
-  - `{PROJECT}_DIRECTORY`: the project folder, to start the project. Default: its source folder, relative to the e2e project (for example, `../back`).
-  - `{PROJECT}_PORT`: the project port, to use or start the project. Default: 3000 for the `back-api`, 4000 for the `front-web`. The base URL is `http://localhost:{PORT}`. Write these defaults one time, in `core`. If `{PROJECT}_PORT` is not set, the suite starts the project without `PORT`, so the project uses its own default.
-  - `{PROJECT}_START`: the start command. Default: the `start` slot in the `AGENTS.md` of that project. The foundation writes it in the example environment file.
-  - `E2E_STARTUP_TIMEOUT_MS`: the maximum time to wait for a project that the suite starts. Default 15000.
-- The suite reports an invalid value. It never uses the default in its place.
-- A project answers when its port returns an HTTP response. Later, `health` changes this check to the health address.
-- `core` starts the projects before the run and stops them after the run. It gives the base URLs to the tests through the runner configuration (base URL and environment). Tests never use `core`: they read the base URLs through the fixtures in `shared`.
-- This technical result is not an acceptance requirement:
-  - If a project answers on its port, the suite uses it and does not start a second instance.
-  - If a project does not answer, the suite starts it in its folder with its start command and `PORT`. The suite waits until the project answers. After the run, the suite stops it.
-  - If a setting is invalid, or a project does not answer in time, the suite stops before the first test. The message contains the variable or the project, and the cause.
-  - Each acceptance run does these steps. `review-implementation` checks them. No test checks them.
-
-### Acceptance tests that start a project
-
-- Tests never write a port or a URL. They get the base URLs from the fixtures, and a free port from `shared`.
-- `shared` has a helper that starts one project in its folder with its start command and an environment that the test gives. It returns the output, the exit code and the base URL, and it stops the project after the test. Add it to the shared primitives of the `e2e` project. `core` also uses it to start the projects of the suite.
-- The tests of R01, R03, R05 and R09 start their own instance with that helper, on a free port. They do not use a browser.
-- Each instance that a test starts has its own data. If the test does not give `DATABASE_URL`, the helper gives a new temporary database, also when the environment of the runner has a `DATABASE_URL`: the helper never takes it from that environment, and it deletes that database after the instance stops. Tests run in parallel, so two instances never share a database. Do not use retries or one worker to hide a shared database.
-- The tests of R02 and R04 use the instance that the suite started without `PORT`. They check that its base URL has the default port of `core` and that it answers.
+- For each project under test (`{PROJECT}` in upper case), `core` reads `{PROJECT}_DIRECTORY` (default: its source folder, such as `../back`), `{PROJECT}_PORT` (3000 back, 4000 front, written one time in `core`), `{PROJECT}_START` (default: its `start` slot) and `E2E_STARTUP_TIMEOUT_MS` (15000). An invalid value stops the suite; it never falls back to the default.
+- Without `{PROJECT}_PORT`, the suite starts the project without `PORT`, so the project uses its own default.
+- Checked by `review-implementation`, not by a test: a project that answers on its port is used, never started a second time; otherwise the suite starts it, waits, and stops it after the run; an invalid setting or a timeout stops the suite before the first test, with the variable or the project and the cause.
+- `core` gives the base URLs to the tests through the runner configuration. Tests read them through the fixtures in `shared`, never write a port or a URL, and get a free port from `shared`.
+- A helper in `shared` (a shared primitive) starts one project with an environment that the test gives, and returns its output, exit code, base URL and stop operation. `core` uses it too.
+- Each instance that a test starts has its own temporary database when the test gives no `DATABASE_URL`. The helper never takes `DATABASE_URL` from the environment of the runner, and deletes the database after the stop. No retries and no single worker to hide a shared database.
 
 ### All projects
 
-- Each project has an example environment file. This file lists each variable and its default.
+- An example environment file lists each variable and its default.
 
 ## Schema impact
 
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
-| front-web.api | `GET /runtime-config.json` | new | 200 `{ "apiBaseUrl": "..." }`. No error status. |
 | back-api.db | table of applied versions | new | `version`, `appliedAt`. One row for each applied migration. |
 
-## Verification
+## Test notes
 
-| Requirement | Acceptance test |
-| --- | --- |
-| R01 | Start the `back-api` with `PORT` set to a free port. Send an HTTP request to that port. A response comes back. |
-| R02 | The suite started the `back-api` without `PORT`. Its base URL has port 3000. A request to it gets a response. |
-| R03 | Start the `front-web` with `PORT` set to a free port. `GET /` on that port answers 200 with a document. |
-| R04 | The suite started the `front-web` without `PORT`. Its base URL has port 4000. `GET /` answers 200 with a document. |
-| R05 | Start each project with `PORT=abc`. It stops with a non-zero exit code. Its output contains `PORT`. |
-| R06 | Send a request to the `back-api` with an `Origin` that `CORS_ORIGIN` contains. `Access-Control-Allow-Origin` is equal to that origin. |
-| R07 | With `CORS_ORIGIN` not set, send a request. `Access-Control-Allow-Origin` is `*`. |
-| R08 | Run the `cli` with `--version`. It shows a version and stops with exit code 0. |
-| R09 | Start the `front-web` on a free port with an `API_BASE_URL` that the test makes. `GET /runtime-config.json` answers 200 with `apiBaseUrl` equal to that URL. |
-| R10 | Start the `back-api` on a new temporary database. It answers, and the table of applied versions has one row for each migration. Stop it and start it again on the same database. It answers, and no version has two rows. |
-| R11 | In a temporary database, record a version that no migration has. Start the `back-api` on it. It stops with a non-zero exit code. Its output contains that version. |
+- **R01, R03, R05, R09**: start an own instance with the helper, on a free port, with no browser.
+- **R02, R04**: use the instance that the suite started without `PORT`; its base URL has the default port.
+- **R10**: start on a new temporary database, stop, start again on it: no version has two rows.
+- **R11**: record an unknown version in a temporary database before the start.

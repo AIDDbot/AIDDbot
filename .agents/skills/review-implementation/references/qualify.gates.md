@@ -9,7 +9,7 @@ Evaluate every applicable blocking gate first. Mark one `n/a` only when its cate
 - **Security** — Authentication and authorization protect every changed action and resource that requires them, and every security minimum that the spec or the project's `AGENTS.md` cites (such as an OWASP cost parameter) holds in the code. A library default is evidence only when its value meets that minimum.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
 - **Project rules** — The changed scope violates no explicit restriction in its project's `AGENTS.md` or in the Blueprint of the root `AGENTS.md`, including any layer boundary kept as a written rule. A violation of a general coding rule, which never blocks, is a `debt` finding.
-- **Schema impact** — Every entity, table, column, and endpoint change in the diff is declared in the spec's schema impact, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
+- **Schema impact** — Every entity, table, and column change in the diff is declared in the spec's schema impact, every endpoint change in its `Expected URLs and APIs`, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
 
 Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
 

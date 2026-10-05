@@ -1,5 +1,5 @@
 <!--
-Foundation spec 5 of 6. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
+Foundation spec 5 of 6. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47, D51). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
 Include it only if the system has users (actors, model.schema.md). Ask only if this is not clear.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat basic-auth "Basic authentication" --domain foundation
@@ -19,18 +19,14 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### Business rules
 
-- One email must have only one account. Upper case and lower case letters are the same.
 - A password must never be stored or returned in a form that a person can read.
-- A failed login must not show if the email exists.
 - Each API route must have a valid session, but health, register and login are public.
 - Each user has the role `user`. A client cannot select a different role.
 
 ### Out of context
 
-- Logout and the account page (`account`).
-- Password reset and email verification.
-- Other roles and external identity providers.
-- Rate limits.
+- Logout and the account page (`account`). Password reset and email verification.
+- Other roles, external identity providers, rate limits.
 
 ## Requirements
 
@@ -65,35 +61,25 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### back-api
 
-- The input checks use the shared primitive `requireText`. Email normalization becomes a new shared primitive at the root of `shared`. Add it to the `AGENTS.md` of the project.
-- Feature `auth`:
-  - `presentation` has the three routes.
-  - `logic` validates the input and changes the email to lower case. It hashes and verifies passwords with a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, are not less than the OWASP minimum, and are stored with each hash. It makes sessions.
-  - `data` stores users and sessions. Their tables come in a migration of the feature (see `configuration`).
-- The token is random and opaque. The session is in the database, so it can be revoked. The database stores only a hash of the token (such as SHA-256), never the token.
-- A session expires `SESSION_TTL_HOURS` after its creation: an integer setting of `configuration`, from 1 to 720, with the default 24. The session resolver treats an expired session as an invalid token.
-- If the email is unknown, `logic` still does one password verification. Thus the two failures take the same time.
-- The session guard is in `core`. It contains no business rules. It reads the bearer token and asks a session resolver. `createApp()` in `main` gets the resolver from the `auth` facade and gives it to `core`.
-- Each registration in the manifest tells if it is public. A registration is protected unless it says that it is public. A feature can have one public and one protected registration. `health`, register and login are public; `GET /api/auth/me` is protected.
-- `main` gives `core` each registration with this mark. `core` mounts the public registrations first, then each protected registration behind the session guard on its own base path. Never write a separate list of paths, and never change the router of the framework to add the guard. Thus each new route is protected. A path under the base path of a protected registration answers 401 without a valid session, so an anonymous client cannot find which routes exist. Each other unknown path gets the 404 of the error handler.
+- Input checks use the shared primitive `requireText`. Email normalization (lower case) is a new primitive at the root of `shared`; add it to the `AGENTS.md` of the project.
+- Passwords: a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, not less than the OWASP minimum, and stored with each hash. With an unknown email, `logic` still does one verification, so the two failures take the same time.
+- Sessions: a random, opaque token. The database stores only a hash of the token (such as SHA-256), never the token, so a session can be revoked. A session expires `SESSION_TTL_HOURS` after its creation (a setting of `configuration`: integer 1–720, default 24); the resolver treats an expired session as an invalid token.
+- The session guard is in `core`, with no business rules: it reads the bearer token and asks a session resolver that `main` gets from the `auth` facade.
+- Each registration in the manifest tells if it is public; it is protected unless it says so. A feature can have one public and one protected registration. `health`, register and login are public; `GET /api/auth/me` is protected.
+- `core` mounts the public registrations first, then each protected registration behind the session guard on its own base path. Never write a separate list of paths, and never change the router of the framework to add the guard. A path under the base path of a protected registration answers 401 without a valid session; each other unknown path gets the 404 of the error handler.
 - `unit` tests: a test feature with no public mark answers 401 without a token; an expired session answers 401; the stored session has no token in clear text.
 - Other features get the current user only through the `auth` facade.
 
 ### front-web
 
-- Feature `auth`:
-  - `presentation` has the register page and the login page.
-  - `logic` keeps the session state. It disables a form while the form sends.
-  - `data` calls the three endpoints through the HTTP client of `core`.
-- The token stays in the browser storage. The HTTP client of `core` sends it as a bearer token.
-- The `auth` facade registers the menu links `Login` and `Register`. When the user is logged in, the menu shows the name of the user in the place of these links.
-- The `auth` facade exports the card registration of the home page (see `layout`). The card follows the session state.
-- The form gives the name of its operation (`register` or `login`) to the console logger of `core`. It never gives a field value.
+- `logic` keeps the session state and disables a form while it sends. The token stays in the browser storage; the HTTP client of `core` sends it as a bearer token.
+- The facade registers the menu links `Login` and `Register` (the name of the user in their place with a session) and the card of the home page (see `layout`).
+- The form gives the name of its operation (`register` or `login`) to the console logger of `core`, never a field value.
 
 ### e2e
 
-- An API client for register and login is at the root of the e2e `shared` folder. The page objects for register and login are in `shared/page-objects/`.
-- Each run uses unique test emails. Thus the suite can run again on the same database.
+- An API client for register and login is in `shared`. The page objects of register and login are in `shared/page-objects/`.
+- Each run uses unique test emails, so the suite can run again on the same database.
 
 ## Schema impact
 
@@ -102,26 +88,12 @@ A system with users must know who sends each request, before a feature needs thi
 | model | User | new | `id`, `email` (unique, lower case), `name`, `role` (`user`), `passwordHash`, `createdAt`. |
 | model | Session | new | `tokenHash`, `userId` → User, `createdAt`, `expiresAt`. |
 | back-api.db | `users.*`, `sessions.*` | new | The fields of User and Session. `users.email` is unique. |
-| back-api.api | `POST /api/auth/register` | new | 201 public user. 400 invalid input with `fields`. 409 email already registered. |
-| back-api.api | `POST /api/auth/login` | new | 200 `{ token, user }`. 400 invalid input. 401 invalid credentials. |
-| back-api.api | `GET /api/auth/me` | new | 200 public user. 401 missing or invalid session. |
 
-## Verification
+## Test notes
 
-| Requirement | Acceptance test |
-| --- | --- |
-| R01 | Register a unique email. The answer is 201 with the public user, the role `user`, and no password field. |
-| R02 | Register without a name, and with an empty password. Both answers are 400, and `fields` names the incorrect field. A login with those values fails. |
-| R03 | Register the same email in upper case. The answer is 409. The first password still logs in. |
-| R04 | Log in with valid credentials. The answer is 200 with a non-empty token and the user. |
-| R05 | Log in with an incorrect password, and with an unknown email. Both answers are 401 with the same body. |
-| R06 | Call `GET /api/auth/me` with the login token. The answer is 200 with the same user. |
-| R07 | Call `GET /api/auth/me` without a token, and with a fake token. Both answers are 401 with `{ "error": ... }`. |
-| R08 | Register through the page. The page shows success. Register the same email again. The page shows the error, and a new try operates. |
-| R09 | Log in through the page. The menu shows the name. Use an incorrect password. The page shows the error, and a new try operates. |
-| R10 | Log in and reload the page. The menu still shows the name. |
-| R11 | Click the submit button two times quickly on register and on login. Each form sends one request. |
-| R12 | Open `/register`. Follow the link to `/login` without a reload and send valid credentials: the page sends a login request. Follow the link to `/register` and send a new account: the page sends a register request. |
-| R13 | On `/register`, send a name that has only spaces. The page shows the message of the server next to the name field. |
-| R14 | Open `/` with no session. The auth card has the links to `/login` and `/register`. Log in and open `/`. The card shows `Hello, {name}`. Reload. The card still shows it. |
-| R15 | Send the login form with valid credentials. The console has one line with `login` before the answer. No console line contains the email or the password. Do the same with the register form. |
+- **R02**: a login with the rejected values also fails.
+- **R03**: after the 409, the first password still logs in.
+- **R11**: click the submit button two times in one script step; count the requests.
+- **R12**: follow the links without a reload, then send each form and check which request it sends.
+- **R13**: send a name that has only spaces.
+- **R15**: read the browser console; no line contains the email or the password.
