@@ -93,7 +93,7 @@ A system with users must know who sends each request, before a feature needs thi
 
 - **R02**: a login with the rejected values also fails.
 - **R03**: after the 409, the first password still logs in.
-- **R11**: click the submit button two times in one script step; count the requests.
+- **R11**: give the two clicks inside one browser step, such as two `click()` calls of the button in one page script. The click of a test tool waits until the button is enabled again, so two tool clicks send two requests and the test fails with a correct application. Count the requests.
 - **R12**: follow the links without a reload, then send each form and check which request it sends.
 - **R13**: send a name that has only spaces.
 - **R15**: read the browser console; no line contains the email or the password.
