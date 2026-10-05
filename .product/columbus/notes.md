@@ -402,7 +402,7 @@ Fuente: `C:/code/aidd/experiments/columbus/cursor-10/`. Candidata 0.2.5 desde la
 4. **D0001 `high`** (calificación de `configuration`): el timeout de la suite no nombra el proyecto y deja el proceso vivo. Criterio de la Solution, bien visto.
 5. **D0002 `high`, falso fallo de S0005-R11:** el test hace `Promise.all([submit.click(), submit.click()])`; `click()` de Playwright espera a que el botón esté habilitado, así que el segundo clic envía de nuevo cuando acaba el primero (409). La aplicación es correcta. El Builder dio tres vueltas al código de la aplicación. Intermitente: pasó en la aceptación final. Acción (0.2.6): la nota de prueba de R11 dice cómo dar dos clics en un solo paso del navegador. S0006 también rompió una vez S0005-R12 (el enlace de registro en la página de login), el mismo test que en `codex-9` (D0014): la zona entre el menú por acceso y los formularios de `auth` es frágil en dos arneses.
 
-## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO; en curso)
+## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D52) desde la copia local.
 
@@ -415,6 +415,11 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D5
    - El manejador de errores de Express exige 4 parámetros: el Blueprint deja fuera del límite un callback con la firma del framework.
    - `*.value.ts` se usó para funciones (`numbers.value.ts`) y no hubo ningún value object: `value` solo para value objects, las primitivas con su verbo (`numbers.parse.ts`), y `basic-auth` siembra el value object `Email`.
    - Codex escribió su propio comprobador de fronteras (`tools/boundaries.mjs`, 62 líneas) para la funcionalidad plana. Bueno, pero no repetible: `ecosystems.md` prohíbe los comprobadores propios; bastan los overrides y el aviso del núcleo.
+
+5. **Resultado (valida la 0.2.6):** seis specs y cierre en verde a las 16:32 (lint, unit 9 + 6, 90 tests de aceptación), **deuda cero en el registro**, primera vez en Columbus. ~1 h 42 min desde el `init` (14:50), con unos 6 min de bloqueo ajeno. Specs en 9–18 min. Solo `monitoring` tuvo un rojo (Security: la traza unida con ` | ` guardaba la cabecera del error y podía filtrar secretos), reparado en 2 min. `account` no rompió los formularios de `auth` (al contrario que en `cursor-10`). Tema de marca copiado byte a byte. Sin `.sql` fuera de las migraciones, sin subcarpetas, sin `services.x!`.
+6. **`quality` sin escanear tiene 6 avisos:** 3 ya arreglados en las fuentes (`parseInteger` de 4 parámetros en back y front, el manejador de Express) y 3 de complejidad (9, 10 y 12) en el envío del formulario de `auth` y en el arranque y la parada de procesos de `e2e`. La fundación no escanea, así que el registro dice cero; una pasada de `scan-quality` los registraría.
+7. **Los `AGENTS.md` crecen con las specs:** back 703 → 849, front 773 → 876, e2e 778 → 1205 palabras al cerrar (primitivas y reglas de proyecto que añade `ship-spec`). Siguen muy por debajo de las ~2750 de `cursor-10`. Vigilar que `ship-spec` escriba telegráfico.
+8. **Pausas sin rastro:** 4–6 min de lectura antes del primer commit del Builder en `layout` y `basic-auth`. Acción (hecha, `7eea22a`): evento `plan` antes de la primera edición.
 
 ## Evidencia: fase 6, prueba `claude-9` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
 
