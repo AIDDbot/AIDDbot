@@ -174,6 +174,19 @@ Ya hecho: límites alineados en plantilla, oxlint, núcleo y docs (3 parámetros
 
 **Hecho cuando:** G1–G8 aplicados con `/maintain-skills`, `npm test` y `npm run adapt` al día, y una prueba nueva (`codex-10`, prompt F) cierra las seis specs en verde. Después, `npm run release -- patch`, etiqueta `v0.2.5` a mano y push de la etiqueta.
 
+### 4e · Plan 0.2.6: `AGENTS.md` más cortos (5 oct)
+
+En `cursor-10`, cada `AGENTS.md` de proyecto tiene unas 2750 palabras y cerca de la mitad se repite igual en los tres (arquitectura ~790, reglas generales ~530). Cada agente lo carga en cada sesión (notas de `cursor-10`, punto 2). Va justo después de la 0.2.5.
+
+| # | Pieza | Cambio |
+| --- | --- | --- |
+| H1 | `project.AGENTS.template.md`, `AGENTS.template.md` de `outline-system` | Decir lo mismo con menos texto: mismos contratos, mismas secciones, ninguna regla perdida (diff de reglas). Objetivo: al menos un 40 % menos de palabras. |
+| H2 | Las dos plantillas, principio 11, `architect-system-foundation`, `docs/` | Pendiente de P: el Blueprint común (conceptos de arquitectura, reglas de fronteras, reglas generales) va una sola vez en el `AGENTS.md` raíz; el de proyecto queda con su variación de tipo, tecnología, tooling, carpetas, primitivas, conexiones y reglas de proyecto. |
+
+**P · ¿H2 en la 0.2.6?** Los arneses cargan siempre el `AGENTS.md` raíz (Codex concatena raíz → carpeta). Cambia el principio 11: el `AGENTS.md` de proyecto deja de estar completo solo, y el de un repo de arquetipo enlazaría al Blueprint publicado (P21). Propuesta: sí, con el principio 11 reescrito («el raíz lleva el Blueprint; el de proyecto, solo sus niveles de arquetipo y proyecto»).
+
+**Hecho cuando:** H1 (y H2 si se aprueba) aplicados con `/maintain-skills`, y una prueba nueva cierra la fundación en verde con `AGENTS.md` de proyecto más cortos.
+
 ### 5 · Arquetipos propios (fuera del repo)
 
 En los repos de `C:/code/aidd/archetypes` (`back-express`, `front-standard`, `cli-node`, `e2e-playwright`):
