@@ -1,5 +1,5 @@
 <!--
-Foundation spec 5 of 5. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
+Foundation spec 5 of 6. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
 Include it only if the system has users (actors, model.schema.md). Ask only if this is not clear.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat basic-auth "Basic authentication" --domain foundation
@@ -27,7 +27,8 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### Out of context
 
-- Logout, password reset and email verification.
+- Logout and the account page (`account`).
+- Password reset and email verification.
 - Other roles and external identity providers.
 - Rate limits.
 
@@ -46,6 +47,8 @@ A system with users must know who sends each request, before a feature needs thi
 - **R11**: WHEN a user sends a form two times quickly, the `front-web` SHALL send one request.
 - **R12**: WHEN a user moves between `/register` and `/login` without a reload of the page, the form SHALL send the operation of the page that it shows.
 - **R13**: IF the `back-api` answers the register form with `fields`, THEN the `front-web` SHALL show each message next to its field.
+- **R14**: WHILE a user is logged in, the home page SHALL show an auth card with `Hello, {name}`. WHILE no user is logged in, the auth card SHALL show links to `/login` and `/register`.
+- **R15**: WHEN a user sends the register form or the login form and the browser accepts its fields, the `front-web` SHALL write one console line with the name of the operation, before the answer comes. The line SHALL not contain a form value, a password or a token.
 
 ## Expected URLs and APIs
 
@@ -54,8 +57,9 @@ A system with users must know who sends each request, before a feature needs thi
 | api | back-api | `POST /api/auth/register` | 201 public user. 400 invalid input with `fields`. 409 email already registered. | R01, R02, R03 |
 | api | back-api | `POST /api/auth/login` | 200 `{ token, user }`. 400 invalid input. 401 invalid credentials. | R04, R05 |
 | api | back-api | `GET /api/auth/me` | 200 public user. 401 without a valid session. | R06, R07 |
-| page | front-web | `/register` | Form with email, name and password. No role field. | R08, R11, R12, R13 |
-| page | front-web | `/login` | Form with email and password | R09, R10, R11, R12 |
+| page | front-web | `/register` | Form with email, name and password. No role field. | R08, R11, R12, R13, R15 |
+| page | front-web | `/login` | Form with email and password | R09, R10, R11, R12, R15 |
+| page | front-web | `/` | Auth card: `Hello, {name}`, or links to `/login` and `/register` | R14 |
 
 ## Solution
 
@@ -83,6 +87,8 @@ A system with users must know who sends each request, before a feature needs thi
   - `data` calls the three endpoints through the HTTP client of `core`.
 - The token stays in the browser storage. The HTTP client of `core` sends it as a bearer token.
 - The `auth` facade registers the menu links `Login` and `Register`. When the user is logged in, the menu shows the name of the user in the place of these links.
+- The `auth` facade exports the card registration of the home page (see `layout`). The card follows the session state.
+- The form gives the name of its operation (`register` or `login`) to the console logger of `core`. It never gives a field value.
 
 ### e2e
 
@@ -117,3 +123,5 @@ A system with users must know who sends each request, before a feature needs thi
 | R11 | Click the submit button two times quickly on register and on login. Each form sends one request. |
 | R12 | Open `/register`. Follow the link to `/login` without a reload and send valid credentials: the page sends a login request. Follow the link to `/register` and send a new account: the page sends a register request. |
 | R13 | On `/register`, send a name that has only spaces. The page shows the message of the server next to the name field. |
+| R14 | Open `/` with no session. The auth card has the links to `/login` and `/register`. Log in and open `/`. The card shows `Hello, {name}`. Reload. The card still shows it. |
+| R15 | Send the login form with valid credentials. The console has one line with `login` before the answer. No console line contains the email or the password. Do the same with the register form. |

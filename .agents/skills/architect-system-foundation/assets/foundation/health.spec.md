@@ -1,5 +1,5 @@
 <!--
-Foundation spec 4 of 5 (Columbus principle 9; D2, D6, D17, D18, D38, D39). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
+Foundation spec 4 of 6 (Columbus principle 9; D2, D6, D17, D18, D38, D39). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
 The tracer bullet: one small feature through presentation → logic → data in each project.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat health "Health status" --domain foundation
@@ -37,6 +37,10 @@ Before the first business feature, each layer of each project must operate with 
 - **R05**: IF the `back-api` does not answer, THEN the `/health` page SHALL show `Health unavailable` and keep the menu.
 - **R06**: WHILE the `front-web` shows a page, the menu SHALL contain a link to `/health`.
 - **R07**: WHEN the `cli` runs `health`, it SHALL show the status and the runs, and stop with exit code 0.
+- **R08**: WHEN a user opens `/`, the home page SHALL show a health card with the status, the runs, the uptime in seconds and a link to `/health`.
+- **R09**: IF the `back-api` does not answer, THEN the health card SHALL show `Health unavailable` and keep its link, the other cards and the menu.
+- **R10**: WHEN a user follows the link of the health card, the `front-web` SHALL show `/health` without a full reload of the document.
+- **R11**: WHEN a user opens `/` on a screen 375 CSS pixels wide, the home page SHALL have no horizontal scroll.
 
 ## Expected URLs and APIs
 
@@ -44,6 +48,7 @@ Before the first business feature, each layer of each project must operate with 
 | --- | --- | --- | --- | --- |
 | api | back-api | `GET /api/health` | 200 `{ "status": "ok", "runs": int, "uptime": seconds }` | R01, R02, R03 |
 | page | front-web | `/health` | Status, runs and uptime, or `Health unavailable` | R04, R05, R06 |
+| page | front-web | `/` | Health card: status, runs, uptime and a link to `/health`, or `Health unavailable` | R08, R09, R10, R11 |
 | command | cli | `health` | Status and runs. Exit code 0. | R07 |
 
 ## Solution
@@ -64,6 +69,7 @@ Before the first business feature, each layer of each project must operate with 
   - `logic` keeps the state of the page: loading, loaded or unavailable.
   - `data` calls `GET /api/health` through the HTTP client of `core`.
 - The `health` facade registers the page `/health` and its menu link `Health`. The manifest lists it.
+- The `health` facade also exports the card registration of the home page (see `layout`). The card is in `presentation`. It uses the same `logic` and `data` as the page.
 
 ### cli
 
@@ -76,6 +82,7 @@ Before the first business feature, each layer of each project must operate with 
 
 - This technical result is not an acceptance requirement: before the first test, a preflight checks the health address of each project (`GET /api/health` for the `back-api`, `/` for the `front-web`). If a project does not answer, the preflight stops the run and shows the project name. Each acceptance run does this step. No test checks it.
 - The page object for `/health` is in `shared/page-objects/` of the e2e project. It uses the page object of the shell from `layout`.
+- The tests of the health card use the page object of the home page from `layout`.
 
 ## Schema impact
 
@@ -96,3 +103,7 @@ Before the first business feature, each layer of each project must operate with 
 | R05 | Block `/api/health` and open `/health`. `Health unavailable` and the menu are visible. |
 | R06 | Open `/`. The menu has a link to `/health`. Follow it. The health page is visible. |
 | R07 | Run the `cli` with `health`. It shows the status and runs, and stops with exit code 0. |
+| R08 | Open `/`. The health card shows the status, the runs, the uptime in seconds and a link to `/health`. |
+| R09 | Block `/api/health` and open `/`. The health card shows `Health unavailable` and its link. The menu is visible. |
+| R10 | Open `/`. Put a mark on the document. Follow the link of the health card. The health page is visible and the mark is still there. |
+| R11 | Open `/` with a viewport 375 CSS pixels wide. The width of the document is not more than the width of the viewport. |

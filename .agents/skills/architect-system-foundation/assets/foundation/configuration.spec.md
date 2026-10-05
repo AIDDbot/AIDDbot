@@ -1,5 +1,5 @@
 <!--
-Foundation spec 1 of 5 (Columbus principle 9; D17, D18, D39).
+Foundation spec 1 of 6 (Columbus principle 9; D17, D18, D39).
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat configuration "Configuration" --domain foundation
 Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name.

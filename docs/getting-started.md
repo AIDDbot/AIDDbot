@@ -46,7 +46,7 @@ After your approval, it runs the scaffold from the repository root, so the worki
 - It reshapes the code into one architecture: `main` composes `core` and the features through a manifest; each feature has `presentation`, `logic`, and `data` layers; `shared` holds primitives and folders by technical concern (see [`architect-system-foundation.md`](./architect-system-foundation.md)). The `e2e` project keeps its tests by feature, with page objects and test data in `shared`. Lint enforces these boundaries from day one, and the foundation proves it with a forbidden import.
 - It installs and records the tooling slots: `lint`, `format`, `upgrade`, `unit`, `acceptance`, and `quality`, or "not applicable" with a reason.
 
-Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `layout` when the system has a web front, `health`, and `basic-auth` when the system has users), so the system starts green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt, and the native Node.js test runner.
+Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `layout` when the system has a web front, `health`, `basic-auth` when the system has users, and `account` with `basic-auth`), so the system starts green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt, and the native Node.js test runner.
 
 ## Deliver a change
 

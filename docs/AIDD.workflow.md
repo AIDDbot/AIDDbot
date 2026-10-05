@@ -39,7 +39,7 @@ architect-system-foundation:
     - "Architect: propose .product/system.md as typed projects, with an archetype per project or one made on demand, and obtain approval"
     - "Architect: on chore/foundation, scaffold each project with its AGENTS.md, registered slots, and no orphan samples"
     - "Architect: outline-system, then integrate (never rule-project)"
-    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users"
+    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth"
     - "close only when lint, unit, and acceptance pass"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
@@ -64,7 +64,7 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application source | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, and optional `basic-auth` shipped |
+| No application source | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, and optional `basic-auth` and `account` shipped |
 | Existing application source | `outline-system` → `rule-project` | Documentation, rules, and missing product records |
 
 Existing product records are preserved. A greenfield system is a solution of typed projects (`back-api`, `front-web`, `cli`, `e2e`). Each project takes an archetype of its type from the catalog, or one the Architect makes on demand by filling the Archetype-Blueprint (`project.AGENTS.template.md`) for the chosen technology, kept as `.product/archetypes/{project}.AGENTS.md` and linked, never copied, from `system.md`. After approval the Architect works on `chore/foundation`, one project at a time, with three commits each: the untouched scaffold (`chore(scaffold): generate`), the Blueprint shape (`refactor: shape to blueprint`), and the tooling (`chore: register tooling`). In the shape, `{project}/AGENTS.md` holds its technology, tooling, architecture (`main` composes `core` and the features through a manifest, `shared` by technical concern; `presentation` → `logic` → `data`; see [`architect-system-foundation.md`](./architect-system-foundation.md)), folders, and coding rules, and a `CLAUDE.md` points to it. The Architect reorganizes third-party templates, removes orphan samples, installs any missing mandatory slot, and registers every slot in `.aiddbot/config.json`. After `outline-system` the branch is integrated, and the technology-agnostic foundation specs are delivered one by one with `build-requested-spec`. A failing command stops the run with nothing partial committed. Working code is never rescaffolded.
