@@ -58,6 +58,7 @@ The archetype can change these numbers.
 | Entries in a folder of `shared` or of a feature | 16 | — | the `quality` run of the core |
 
 - The line counts of a file do not include blank lines and comments.
+- A callback whose signature the framework sets (such as an error middleware) is outside the parameter limit.
 - **Tests** are the files `*.test.ts` and `*.spec.ts`. In an `e2e` project, all files use the test limits.
 - **Statements, not lines, for a function.** A nested function has its own count. Thus a suite counts each test as one statement, and a long data value (an object, a template) is one statement.
 - **A full folder.** Divide a full `shared` folder by topic. Divide a full feature into two features. Never add subfolders in a feature (see [Inside a feature](./architect-system-foundation.md#inside-a-feature)).

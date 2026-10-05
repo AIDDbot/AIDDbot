@@ -103,7 +103,7 @@ The index of `shared`. Read it before you write a check or a conversion.
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
-| `parseInteger(value, field, min, max)` | Integer in the range, or an expected error with the field and the range. | `{shared_folder}/{numbers_file}` |
+| `parseInteger(value, field, range)` | Integer in `range` (`{ min, max }`), or an expected error with the field and the range. | `{shared_folder}/{numbers_file}` |
 | `requireText(value, field)` | Text without end spaces, or an expected error with the field. | `{shared_folder}/{text_file}` |
 | `isRecord(value)` | True for a key-value object. Other type guards use it. | `{shared_folder}/{types_file}` |
 | {environment primitive} | {contract} | {path} |

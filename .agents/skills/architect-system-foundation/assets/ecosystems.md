@@ -12,6 +12,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 - For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules. Start from [`oxlint.complexity.json`](./oxlint.complexity.json). Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, set the `files` of that override to all files, and turn off `no-empty-pattern` for the fixtures file: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
 - For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below. For the `e2e` project, use [`oxlint.boundaries.e2e.json`](./oxlint.boundaries.e2e.json) instead: `core`, `features/{feature}/` and `shared/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
+- Do not write an own boundary checker: the overrides above check the imports, and the `quality` run of the core reports a subfolder in a feature.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
 - Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
 - In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
@@ -50,8 +51,8 @@ Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary r
 | `presentation` | `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
 | `logic` | `*.service.ts`, `*.policy.ts`, `*.store.ts` |
 | `data` | `*.repository.ts`, `*.client.ts` |
-| types of a feature, no layer | `*.type.ts`; value objects in `*.value.ts` |
-| `shared` | primitives in `src/shared/{topic}.{role}.ts`; other elements in `src/shared/{concern}/{topic}.{role}.ts` |
+| types of a feature, no layer | `*.type.ts`; value objects in `*.value.ts` (only value objects) |
+| `shared` | primitives in `src/shared/{topic}.{role}.ts`, with the role of a function as a verb (`numbers.parse.ts`, `text.check.ts`) and `value` only for a value object (`email.value.ts`); other elements in `src/shared/{concern}/{topic}.{role}.ts` |
 
 The concept is still the facade. Only the JS / TS file has the name `api`.
 

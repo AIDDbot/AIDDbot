@@ -61,7 +61,7 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### back-api
 
-- Input checks use the shared primitive `requireText`. Email normalization (lower case) is a new primitive at the root of `shared`; add it to the `AGENTS.md` of the project.
+- Input checks use the shared primitive `requireText`. `Email` is a new value object at the root of `shared`: it makes the email lower case and checks only what the requirements state. Register and login make it at the edge, and `logic` and `data` use it, never a bare string. Add it to the `AGENTS.md` of the project.
 - Passwords: a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, not less than the OWASP minimum, and stored with each hash. With an unknown email, `logic` still does one verification, so the two failures take the same time.
 - Sessions: a random, opaque token. The database stores only a hash of the token (such as SHA-256), never the token, so a session can be revoked. A session expires `SESSION_TTL_HOURS` after its creation (a setting of `configuration`: integer 1–720, default 24); the resolver treats an expired session as an invalid token.
 - The session guard is in `core`, with no business rules: it reads the bearer token and asks a session resolver that `main` gets from the `auth` facade.

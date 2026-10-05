@@ -410,6 +410,12 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D5
 2. **Bloqueo por un proceso huérfano de `cursor-10`:** S0001-R04 (front en el puerto 4000 por defecto) no se pudo verificar porque el front de «Scaffold Probe» (`cursor-10`) seguía vivo desde su aceptación final (pid 29488, 14:42). Es D0001 de `cursor-10` («la suite deja el proceso vivo») en la práctica. El Craftsman se bloqueó bien; el humano mató el proceso y relanzó. Las pruebas en serie en la misma máquina necesitan que la suite pare lo que arranca.
 3. **`no-empty-pattern` en las fixtures de Playwright otra vez** (como D0009 de `codex-9`). Acción (hecha): `ecosystems.md` desactiva la regla para el fichero de fixtures y prohíbe la dependencia falsa. Para el punto 2, `configuration` pide que la suite pare lo que arranca también tras un fallo o un timeout.
 
+4. **Revisión a mitad (tras `monitoring`, humano y Claude):** el Blueprint en la raíz se cumple aunque no esté en el `AGENTS.md` del proyecto (funcionalidades planas, un solo manejador de errores, rutas relativas a la carpeta del proyecto). Tres fallos nuestros, arreglados en las fuentes:
+   - `parseInteger(value, field, min, max)` de la plantilla (D43) tenía 4 parámetros con el límite nuevo de 3: pasa a `parseInteger(value, field, range)`.
+   - El manejador de errores de Express exige 4 parámetros: el Blueprint deja fuera del límite un callback con la firma del framework.
+   - `*.value.ts` se usó para funciones (`numbers.value.ts`) y no hubo ningún value object: `value` solo para value objects, las primitivas con su verbo (`numbers.parse.ts`), y `basic-auth` siembra el value object `Email`.
+   - Codex escribió su propio comprobador de fronteras (`tools/boundaries.mjs`, 62 líneas) para la funcionalidad plana. Bueno, pero no repetible: `ecosystems.md` prohíbe los comprobadores propios; bastan los overrides y el aviso del núcleo.
+
 ## Evidencia: fase 6, prueba `claude-9` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/claude-9/`. Versión `d625c4e`: D43–D46, sin los comandos de scaffold probados (`027cde8`) ni F1–F4. Hornada 5. Parada por tokens entre S0004 y S0005 (14:03–15:59); el humano relanzó la sesión.

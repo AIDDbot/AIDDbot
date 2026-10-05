@@ -106,6 +106,7 @@ These rules never block a delivery. A violation is debt. First make it work, the
 | Entries in a `shared` or feature folder | 16 | — |
 
 - A full `shared` folder: divide it by technical concern. A full feature: divide it into two features.
+- A callback whose signature the framework sets (such as an error middleware) is outside the parameter limit.
 - Names: idiomatic for the language, words of the domain.
 - Types: one type for each domain concept, never a bare `string` or `number`. A value with rules is a value object: it cannot change, it checks its value when it is made, and it is equal by value. Make it at the edge. It checks only what the spec states. Generic: `shared`. Domain words: the types of its feature.
 - More than three values: one typed object.
