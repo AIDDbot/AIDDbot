@@ -10,7 +10,7 @@ domain: {domain}
 
 ## Problem
 
-{The requested behavior and its scope. Write short sentences, with one statement in each sentence.}
+{The requested behavior and its scope, in a few short sentences.}
 
 ### User Stories
 
@@ -18,7 +18,7 @@ domain: {domain}
 
 ### Business rules
 
-{One rule for each line, in RuleSpeak: subject + must / must not + **constraint**, then the condition if there is one.}
+{Only the rules that no requirement states, one for each line, in RuleSpeak: subject + must / must not + **constraint**. If none, remove this subsection.}
 
 ### Out of context
 
@@ -32,39 +32,36 @@ domain: {domain}
 
 ## Expected URLs and APIs
 
-{Each page, endpoint or command that the system must supply after this spec. The `e2e` project makes its basic tests from this table. If the scope adds or changes none, remove this section.}
+{Each page, endpoint or command that the system must supply after this spec. It is the API contract of the spec, and the `e2e` project makes its basic tests from it. If the scope adds or changes none, remove this section.}
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
 | page | {project} | `{/path}` | {What the page shows} | R01 |
-| api | {project} | `{METHOD /path}` | {Success status and body shape. Each error status.} | R01 |
+| api | {project} | `{METHOD /path}` | {Success status and body. Each error status and its cause.} | R01 |
 | command | {project} | `{command args}` | {Output and exit code} | R01 |
 
 ## Solution
 
-{One subsection for each project that changes.}
+{Short bullets, by project. Only the decisions that the Blueprint, the project `AGENTS.md` and the requirements do not make: placement that is not obvious, connections between features, security parameters, constraints, and each technical result that the qualification must check. Do not describe what each layer does.}
 
 ### {project}
 
-{The changes, the components that change, and how they interact. Include each technical result that the qualification must check.}
+- {decision}
 
 ## Schema impact
 
-{If no entity, table or endpoint changes, remove this section.}
+{Entities, relations, tables and columns. Endpoints are in Expected URLs and APIs. If none changes, remove this section.}
 
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
 | model | {Entity or relation} | {new/changed/deprecated} | {Conceptual change} |
 | {project}.db | {table.column} | {new/changed/deprecated} | {Physical change and migration} |
-| {project}.api | {METHOD /url} | {new/changed/deprecated} | {Contract change. Success status. Each error status and its cause.} |
 
-## Verification
+## Test notes
 
-{One or more acceptance tests for each requirement.}
+{Only for a requirement whose acceptance test needs a technique that is not obvious, such as a mark on the document, a blocked API, a viewport size or a restart. Each requirement has at least one acceptance test with its tag `@S0001-R01`. If no note is necessary, remove this section.}
 
-| Requirement | Acceptance test |
-| --- | --- |
-| R01 | {Scenario and expected result} |
+- **R01**: {technique}
 
 ## Technical debt
 

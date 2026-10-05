@@ -4,7 +4,7 @@ This document gives the rules for the code of each new project: what blocks a de
 
 > **Sources.** The foundation copies these rules into the `AGENTS.md` of each project. If you change a rule here, change it in its source file too, with `/maintain-skills`.
 >
-> - Rules and limits: [`project.AGENTS.template.md`](../.agents/skills/architect-system-foundation/assets/project.AGENTS.template.md), section 6.
+> - Rules and limits: the Blueprint section of the root [`AGENTS.template.md`](../.agents/skills/outline-system/assets/AGENTS.template.md). A project changes a limit only in the technology rules of its `AGENTS.md`.
 > - JS / TS limits: [`oxlint.complexity.json`](../.agents/skills/architect-system-foundation/assets/oxlint.complexity.json).
 > - Folder entries: the `quality` run of the core, [`work.mjs`](../.agents/aidd/commands/work.mjs).
 

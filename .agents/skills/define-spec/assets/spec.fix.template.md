@@ -20,23 +20,19 @@ domain: {domain}
 
 ## Solution
 
-{One subsection for each project that changes, and what changes.}
+{Short bullets, by project: the change, inside the evidence of the Problem.}
 
 ### {project}
 
-{The change. Keep it inside the evidence of the Problem.}
+- {change}
 
 ## Schema impact
 
-{If no entity, table or endpoint changes, remove this section. Otherwise, use the rows of `spec.template.md`.}
+{If no entity, table, column or endpoint changes, remove this section. Otherwise, use the rows of `spec.template.md`, and give a changed endpoint with its statuses.}
 
-## Verification
+## Test notes
 
-{A `fix` needs one acceptance test for each requirement. A `refactor` or a `chore` without requirements needs none: the full acceptance run and the check that reported the debt are its verification.}
-
-| Requirement | Acceptance test |
-| --- | --- |
-| R01 | {Scenario and expected result} |
+{A `fix` has one acceptance test for each requirement, with its tag. A `refactor` or a `chore` without requirements has none: the full acceptance run and the check that reported the debt are its verification. Write a note only for a technique that is not obvious; otherwise remove this section.}
 
 ## Technical debt
 

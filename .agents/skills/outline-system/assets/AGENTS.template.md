@@ -37,13 +37,86 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 ## System
 
-A system comprises projects, each of one type: `back-api`, `front-web`, `cli`, or `e2e`. Each project has its own source folder, and its `AGENTS.md` there holds all its technical data: technology, tooling, architecture, folders, coding rules, and connections. This file keeps only system-wide facts.
+A system comprises projects, each of one type: `back-api`, `front-web`, `cli`, or `e2e`. Each project has its own source folder, and its `AGENTS.md` there holds its own technical data: technology, tooling, its type of architecture, folders, its rules, and connections. This file keeps only system-wide facts.
 
 | Project | Type | Source path | Responsibility | Instructions |
 | --- | --- | --- | --- | --- |
 | {project} | {project_type} | `{source_root}/` | {one-line responsibility} | `{source_root}/AGENTS.md` |
 
 {Only necessary cross-project facts and important paths. Do not list skills or commands.}
+
+## Blueprint
+
+<!-- Only when `.product/system.md` exists (a system that `architect-system-foundation` made). Otherwise remove this section. Copy it as written. D50. -->
+
+All projects obey these rules. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup.
+
+### Parts
+
+| Part | Is | Never |
+| --- | --- | --- |
+| `main` | Composition root. `createApp()` makes the services of `core`, gets the features from the manifest, and connects them. The entry file only calls `createApp()` and starts. | — |
+| `core` | Platform services: configuration, logger, connections, server or shell, router, error handler. | Business rules. Imports of a feature or of the manifest. |
+| manifest | One file that lists the registration of each feature. | Automatic discovery: folder scans, global decorators. |
+| feature | One flat folder. The file role tells its layer. Its facade is its only public file: registration and public types. | Subfolders. Imports of a different feature, except its facade. |
+| `shared` | Generic elements, also when one part uses them now, and what `core` and the features both use (such as the error type). Primitives at the root, other elements in folders by technical concern (`http`, `database`). | Domain words, business rules, imports of the application. Folders `utils`, `helpers`, `common`, `misc`. |
+
+### Boundaries
+
+`lint` checks them. A violation blocks the delivery.
+
+1. Only `main` knows all features, and only through the manifest.
+2. `core` never uses a feature or the manifest. `main` gives it routes, menu links and commands.
+3. A feature uses a different feature only through its facade.
+4. `shared` uses no part of the application.
+5. `core` has no business rules.
+6. In a feature: `presentation` → `logic` → `data`. Types have no layer.
+7. A feature gets `core` by one method that the archetype selects: injection, or the public file of `core`.
+
+- A feature that the manifest loads on demand has no other import.
+- Tests start the application with `createApp()`, without a port.
+- With no boundary linter, the project `AGENTS.md` keeps these rules, and `review-implementation` checks them.
+
+### Layers
+
+- `presentation`: input from and output to the caller (route, page, command).
+- `logic`: rules and decisions. It does not know how data is stored.
+- `data`: all that the project reads or writes outside itself (database, remote API, files).
+
+### `e2e`
+
+- No layers, no manifest, no `main`. The test runner is the entry.
+- `core`: the life cycle of the suite (setup, teardown, startup check of the projects, settings). No test uses it.
+- Features: one folder for each feature of the system, with `.api.spec` and `.web.spec` tests.
+- `shared`: primitives, `page-objects/`, `test-data/`, and folders by technical concern. A helper that a test calls goes here; a helper that only the runner uses goes in `core`.
+- Tests use `shared`, never `core`, never a different feature. `shared` uses no `core` and no test.
+- One browser engine (Chromium), unless the system asks for more.
+
+### General rules
+
+These rules never block a delivery. A violation is debt. First make it work, then make it correct: only `lint` and acceptance block.
+
+| Limit | Code | Tests (all `e2e` files) |
+| --- | --- | --- |
+| Cyclomatic complexity of a function | 8 | 8 |
+| Statements in a function (a nested function counts apart) | 16 | 64 |
+| Nesting depth | 2 | 4 |
+| Parameters of a function | 3 | 4 |
+| Lines in a file | 128 | 256 |
+| Entries in a `shared` or feature folder | 16 | — |
+
+- A full `shared` folder: divide it by technical concern. A full feature: divide it into two features.
+- Names: idiomatic for the language, words of the domain.
+- Types: one type for each domain concept, never a bare `string` or `number`. A value with rules is a value object: it cannot change, it checks its value when it is made, and it is equal by value. Make it at the edge. It checks only what the spec states. Generic: `shared`. Domain words: the types of its feature.
+- More than three values: one typed object.
+- Early returns: incorrect cases first, then a main path with no `else`.
+- A long or deep block: a function with a domain name. More than one logical operator: a predicate with a domain name.
+- A check or a conversion: look in the shared primitives first.
+- Errors: never hide them, and use one method in the project. Catch only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error. A function with `try`/`catch` has only the `try`/`catch`.
+- Configuration: from the environment, never in code.
+- Query statements (such as SQL): named constants at the top of the `data` file that uses them, never in a function, never shared between features. Schema and migrations: numbered files (such as `.sql`) in one location. Tests can write statements in code.
+- Ignore patterns for runtime data: anchored to the project root (`/data/`).
+- A dependency: only with the add command of the package manager, never a version from memory.
 
 ## Delivery documents
 

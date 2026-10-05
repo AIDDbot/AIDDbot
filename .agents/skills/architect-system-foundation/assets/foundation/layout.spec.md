@@ -1,5 +1,5 @@
 <!--
-Foundation spec 3 of 6. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39). It needs `configuration` and `monitoring`.
+Foundation spec 3 of 6. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39, D51). It needs `configuration` and `monitoring`.
 The shell of the `front-web`: application identity, menu, theme, home dashboard, not-found page, page contract and the visual base.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat layout "Application layout" --domain foundation
@@ -11,7 +11,7 @@ The technology and the visual base (style sheet, fonts, colors) are in the AGENT
 
 ## Problem
 
-Each page of the `front-web` must have the same frame. The user must always see where they are and how to go to a different page. The application must show its pages in the theme that the user selects. The home page must show the state of the application at a glance, and each later feature must add to it without a change to the home page.
+Each page of the `front-web` must have the same frame, in the theme that the user selects. The home page must show the state of the application at a glance, and each later feature must add to it without a change to the home page.
 
 ### User Stories
 
@@ -19,22 +19,17 @@ Each page of the `front-web` must have the same frame. The user must always see 
 - As a user, I want **a clear page for an unknown address** so that I never see an empty screen.
 - As a user, I want **a light or a dark theme** so that I can read the application easily.
 - As a user, I want **a home page with one card for each part of the application** so that I see its state at a glance.
-- As an owner, I want **the name and the description of the application in one location** so that I change them one time for the full application.
+- As an owner, I want **the name and the description of the application in one location** so that I change them one time.
 
 ### Business rules
 
-- Each page must show the application name and the menu.
-- The name and the description of the application come from `system.md`. The application keeps them in one location only.
+- The name and the description of the application come from `system.md`, and the application keeps them in one location only.
 - The home page knows no feature. Each feature adds its own cards.
-- An unknown address must show a not-found page, never an error.
-- The theme must agree with the preference of the system until the user selects a theme.
-- The theme that the user selects must stay after a reload.
 
 ### Out of context
 
 - The pages and the cards of the features (`health`, `basic-auth` and business specs).
-- The translation of the application.
-- A theme other than light and dark.
+- Translation. A theme other than light and dark.
 
 ## Requirements
 
@@ -54,65 +49,32 @@ Each page of the `front-web` must have the same frame. The user must always see 
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
-| page | front-web | `/` | Shell header with the name, menu, theme control, and the home header with the name, the description and the card grid | R01, R02, R03, R04, R06, R07, R08, R09, R10, R11 |
-| page | front-web | `/{unknown}` | Not-found page with the path and a link to `/` | R05 |
+| page | front-web | `/` | Shell header with the name, menu, theme control; home header with the name and the description, and the card grid | R01–R04, R06–R11 |
+| page | front-web | `/{unknown}` | Not-found page with the path and a link to `/` | R05, R09 |
 
 ## Solution
 
 ### front-web
 
-- The application identity (name and description) is in `core`, in one file, with the values of `system.md`. The title of the document, the shell header and the home page get it from there.
-- `core` contains the shell:
-  - A header with the application name, the menu and the theme control.
-  - A main area for the current page.
-  - The router and the not-found page.
-- The server answers each unknown path with the shell. Thus direct links to pages operate.
-- `createApp()` in `main` gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to the router and to the menu of `core`. `core` never imports a page.
-- The page contract:
-  - Each page gets the same services of `core` (such as the HTTP client, the logger and the navigation). All of them are required: no optional service, and no assertion that a value is present.
+- Identity: one file in `core` with the name and the description of `system.md`. The document title, the shell header and the home page read it.
+- Shell in `core`: header (name, menu, theme control), main area, router, not-found page. The server answers each unknown path with the shell, so direct links operate.
+- `main` gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to `core`, and the cards to the `home` registration. `core` never imports a page.
+- Page contract:
+  - Each page gets the same services of `core` (such as the HTTP client, the logger and the navigation), all required: no optional service and no assertion that a value is present.
   - The router reads the path parameters of a route (such as `/users/:id`) and gives them to the page as a separate, typed argument.
   - A page that needs other data gets it from its own registration.
-- Feature `home`:
-  - `presentation` is the page `/`: a header with the application name and description, and a grid of cards. On a narrow screen, the cards are in one column.
-  - A card registration has a function that loads the card when the home page shows it. Each feature facade exports its card registrations. The manifest lists them. `main` gives them to the `home` registration.
-  - The `home` facade registers the page `/` and its menu link `Home`. The manifest lists it.
-- The console logger of `core` (see `monitoring`) gets the navigation from the router, after the page shows, and the theme from the theme control.
+- Feature `home`: page `/` and its menu link `Home`. Header and card grid; one column on a narrow screen. A card registration loads the card when the home page shows it; each facade exports its own.
 - The menu marks the current link with the accessible attribute for the current page.
-- The theme:
-  - The theme is an attribute on the root element of the document.
-  - The first value comes from the color preference of the system.
-  - The theme control changes the value and keeps it in the browser storage. The stored value has priority over the preference of the system.
-  - The theme is set before the first paint. Thus the page does not change color when it opens.
-- The visual base:
-  - Pages use semantic HTML elements. A style sheet with no classes gives them their style.
-  - The fonts and the color tokens of the two themes are in the project. The application operates offline.
-  - The `AGENTS.md` of the project tells the style sheet, the fonts and the color tokens.
+- Theme: an attribute on the root element, first from the color preference of the system, then from the browser storage after a selection. It is set before the first paint.
+- Visual base: semantic HTML and a style sheet with no classes. Fonts and color tokens of the two themes in the project, so it operates offline. The `AGENTS.md` of the project names them.
+- The console logger of `core` (see `monitoring`) gets the navigation from the router after the page shows, and the theme from the theme control.
 
 ### e2e
 
-- The page object of the shell is in `shared/page-objects/` of the e2e project. It has the title, the menu, the current link and the theme control. The page objects of the features use it.
-- The page object of the not-found page is in `shared/page-objects/` of the e2e project.
-- The page object of the home page is in `shared/page-objects/` of the e2e project. It has the header and the cards. The tests of the cards of the features use it.
-- The tests of R06 set the color preference of the browser. They do not set it in the operating system.
+- Page objects in `shared/page-objects/`: the shell (title, menu, current link, theme control), the not-found page, and the home page (header and cards). The page objects of the features use them.
 
-## Schema impact
+## Test notes
 
-| Schema | Element | Change | Description |
-| --- | --- | --- | --- |
-| — | — | — | No change. |
-
-## Verification
-
-| Requirement | Acceptance test |
-| --- | --- |
-| R01 | Open `/`. The shell header shows the application name. The menu, the home header with the name and the description, and the card grid are visible. |
-| R02 | Open `/`. The menu has a link to `/`. |
-| R03 | Open `/`. The link to `/` has the mark of the current page. |
-| R04 | Open `/no-such-page` directly. Put a mark on the document. Follow the menu link to `/`. The home page is visible and the mark is still there. |
-| R05 | Open `/no-such-page` directly. The not-found page shows `/no-such-page` and a link to `/`. |
-| R06 | Set the browser color preference to dark. Open `/`. The theme is dark. Set it to light. Open `/` in a new context. The theme is light. |
-| R07 | Open `/`. Read the theme. Select the theme control. The theme is the other theme. |
-| R08 | Select the theme control. Reload the page. The theme is the one that the user selected. |
-| R09 | Open `/` and `/no-such-page`. The title of the document is the application name on each page. |
-| R10 | Open `/`. The console has one line with `/`. Follow a menu link. The console has one line with the new path. |
-| R11 | Select the theme control. The console has one line with the selected theme. |
+- **R04**: open `/no-such-page`, put a mark on the document, follow the menu link to `/`: the mark is still there.
+- **R06**: set the color preference of the browser, not of the operating system, and use a new context for each preference.
+- **R10, R11**: read the browser console.

@@ -111,7 +111,7 @@ The file comes from three levels. Each level fills the empty fields of the level
 
 | Level | File | Content |
 | --- | --- | --- |
-| Archetype-Blueprint | `project.AGENTS.template.md` | Sections with contracts, the table of variations and the general coding rules. No technology. |
+| Archetype-Blueprint | The Blueprint section of the root `AGENTS.md`, and `project.AGENTS.template.md` | Parts, boundary rules, layers and general coding rules, one time for the system. The project template has the sections, the contracts of the slots and the table of variations. No technology. |
 | Archetype | `AGENTS.md` in the archetype repository | Technology, tools, commands, folder map and technology rules. |
 | Project | `{project}/AGENTS.md` in the system | A copy of the archetype file, with the system data. It gets new rules when a specification ships. |
 
@@ -129,6 +129,7 @@ Obey these rules:
 
 - The project `AGENTS.md` replaces `.agents/rules/{project}.rules.md`.
 - The root `AGENTS.md` contains only data for all of the system. It refers to each project `AGENTS.md`.
+- In a system that the foundation made, the root `AGENTS.md` also contains the Archetype-Blueprint one time: parts, boundary rules, layers and general coding rules. The project `AGENTS.md` does not copy it. It contains only the data of its archetype and project levels, in short lists and tables (D50).
 - In greenfield, the agent does not explore the project. The project `AGENTS.md` gives all of the technical data.
 - If the architect makes a new archetype (principle 6), the architect fills the template before the scaffold.
 - In greenfield, the foundation copies the archetype `AGENTS.md` and adds the system data. It also records the tooling commands in the `aidd` configuration. It does not use `rule-project`.
