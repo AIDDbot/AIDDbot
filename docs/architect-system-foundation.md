@@ -4,7 +4,8 @@ This document gives the parts of each project in a new system, the dependencies 
 
 > **Sources.** The foundation copies this architecture into the `AGENTS.md` of each project. If you change a rule here, change it in its source file too, with `/maintain-skills`.
 >
-> - Parts and rules: [`project.AGENTS.template.md`](../.agents/skills/architect-system-foundation/assets/project.AGENTS.template.md), sections 4 and 5.
+> - Parts, boundaries, layers and `e2e`: the Blueprint section of the root [`AGENTS.template.md`](../.agents/skills/outline-system/assets/AGENTS.template.md), one time for the system.
+> - Variations by project type and folders: [`project.AGENTS.template.md`](../.agents/skills/architect-system-foundation/assets/project.AGENTS.template.md), sections 4 and 5.
 > - JS / TS boundaries: [`oxlint.boundaries.json`](../.agents/skills/architect-system-foundation/assets/oxlint.boundaries.json).
 > - JS / TS file names: [`ecosystems.md`](../.agents/skills/architect-system-foundation/assets/ecosystems.md).
 

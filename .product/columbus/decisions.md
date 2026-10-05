@@ -402,3 +402,13 @@ En `codex-9`, la regla de D41 (una sentencia, un fichero) dejó 25 ficheros `.sq
 - Se descarta un fichero por repositorio con bloques con nombre (estilo yesql): necesita un parser y una convención por arquetipo y lenguaje; la constante existe en todos.
 - La regla cabe en una línea y se puede comprobar: las sentencias solo viven en ficheros de `data` o en las migraciones. Como regla general, no bloquea (D12, D48).
 - Cambia la regla de `project.AGENTS.template.md` (sustituye la parte de sentencias de D41). Ninguna spec fundacional la cita.
+
+## D50 ← Prueba `cursor-10` (humano) · `AGENTS.md` cortos: el Blueprint una vez en la raíz
+
+En `cursor-10`, cada `AGENTS.md` de proyecto tenía unas 2750 palabras y cerca de la mitad se repetía igual en los tres (arquitectura ~790, reglas generales ~530). Cada agente carga ese texto en cada sesión.
+
+- El Blueprint común (partes, fronteras, capas, `e2e`, reglas generales y límites) va **una sola vez** en el `AGENTS.md` raíz, en la sección «Blueprint» de la plantilla de `outline-system`. Solo en un sistema fundado por `architect-system-foundation` (existe `.product/system.md`); en brownfield no va.
+- El `AGENTS.md` de proyecto queda con lo suyo, en estilo telegráfico: propósito, tecnología, tooling, la variación de su tipo, carpetas, primitivas, reglas de tecnología y de proyecto, límites que cambie el arquetipo, y lo que necesita y aporta (conexiones).
+- Las explicaciones para quien rellena la plantilla van en comentarios, que desaparecen en el proyecto.
+- Cambia el principio 11. El `AGENTS.md` de un repo de arquetipo enlaza al Blueprint publicado (P21).
+- Objetivo: al menos un 40 % menos de palabras en el `AGENTS.md` de proyecto. Ninguna regla se pierde.

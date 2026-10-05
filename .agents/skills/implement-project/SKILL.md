@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to implement one project's share of an approved spec, or repair the findings supplied for it.
 
-Work on the spec's branch and stop if the default branch is checked out. Follow the project's `{source_root}/AGENTS.md`, which gives all its technical data, so never explore the code to learn the setup: put code in the folder and layer it names and import only what its architecture allows. Never weaken an assertion, and commit only this project's changes.
+Work on the spec's branch and stop if the default branch is checked out. Follow the Blueprint of the root `AGENTS.md`, when it has one, and the project's `{source_root}/AGENTS.md`: together they give all the technical data, so never explore the code to learn the setup: put code in the folder and layer it names and import only what its architecture allows. Never weaken an assertion, and commit only this project's changes.
 
 Build exactly the shape the spec's schema impact declares against this project's schema documents under `{Product_Folder}/model/`, including every declared status code. Return client failures with their declared 4xx status through the project's error mechanism, never as a success with an empty body or as a 500. When the work needs a shape the spec does not declare, stop and return it for approval instead of building it. Build only the rules the spec states: never add a validation, a limit, or a default of your own, such as a minimum password length, so that every project enforces the same rule.
 
@@ -19,7 +19,7 @@ When the spec asks to upgrade dependencies, run `node .agents/aidd/aidd.mjs run 
 
 After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix every reported error, layer-boundary violations included: they block like any other lint error. When the spec repairs recorded debt, you may run `node .agents/aidd/aidd.mjs run quality --project {project}` to check that repair; otherwise never run `quality`, which belongs to `scan-quality`. When either command exits unavailable, report it as such in your result instead of constructing one.
 
-Before you return, read again the project rules and the technology rules of that `AGENTS.md`, and each sentence of the spec for this project, and check your diff against each one: a rule you already have and did not apply fails qualification.
+Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the general rules of the Blueprint, and each sentence of the spec for this project, and check your diff against each one: a rule you already have and did not apply fails qualification.
 
 The result is the project's code and tests for the supplied scope, lint-clean.
 

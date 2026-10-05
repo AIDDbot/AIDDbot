@@ -1,6 +1,6 @@
 # Archetypes
 
-Catalog of archetypes by project type. Each archetype is the GitHub repository `AIDDbot/{archetype}`, and its `AGENTS.md` at the repository root is the technical part of its projects. When that file is missing, treat the archetype as one made on demand: fill `project.AGENTS.template.md` for its technology.
+Catalog of archetypes by project type. Each archetype is the GitHub repository `AIDDbot/{archetype}`, and its `AGENTS.md` at the repository root is the technical part of its projects, together with the Blueprint of the root `AGENTS.md`. When that file is missing, treat the archetype as one made on demand: fill `project.AGENTS.template.md` for its technology.
 
 | Project type | Archetype | Default folder | Technology | `AGENTS.md` |
 | --- | --- | --- | --- | --- |
