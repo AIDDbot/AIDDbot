@@ -402,6 +402,14 @@ Fuente: `C:/code/aidd/experiments/columbus/cursor-10/`. Candidata 0.2.5 desde la
 4. **D0001 `high`** (calificación de `configuration`): el timeout de la suite no nombra el proyecto y deja el proceso vivo. Criterio de la Solution, bien visto.
 5. **D0002 `high`, falso fallo de S0005-R11:** el test hace `Promise.all([submit.click(), submit.click()])`; `click()` de Playwright espera a que el botón esté habilitado, así que el segundo clic envía de nuevo cuando acaba el primero (409). La aplicación es correcta. El Builder dio tres vueltas al código de la aplicación. Intermitente: pasó en la aceptación final. Acción (0.2.6): la nota de prueba de R11 dice cómo dar dos clics en un solo paso del navegador. S0006 también rompió una vez S0005-R12 (el enlace de registro en la página de login), el mismo test que en `codex-9` (D0014): la zona entre el menú por acceso y los formularios de `auth` es frágil en dos arneses.
 
+## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO; en curso)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D52) desde la copia local.
+
+1. **`AGENTS.md` de proyecto:** back 703, front 773 y e2e 778 palabras, más 891 del Blueprint en la raíz, una vez. Total ~3150 frente a ~8320 en `cursor-10` (−62 %).
+2. **Bloqueo por un proceso huérfano de `cursor-10`:** S0001-R04 (front en el puerto 4000 por defecto) no se pudo verificar porque el front de «Scaffold Probe» (`cursor-10`) seguía vivo desde su aceptación final (pid 29488, 14:42). Es D0001 de `cursor-10` («la suite deja el proceso vivo») en la práctica. El Craftsman se bloqueó bien; el humano mató el proceso y relanzó. Las pruebas en serie en la misma máquina necesitan que la suite pare lo que arranca.
+3. **`no-empty-pattern` en las fixtures de Playwright otra vez** (como D0009 de `codex-9`). Acción (hecha): `ecosystems.md` desactiva la regla para el fichero de fixtures y prohíbe la dependencia falsa. Para el punto 2, `configuration` pide que la suite pare lo que arranca también tras un fallo o un timeout.
+
 ## Evidencia: fase 6, prueba `claude-9` (Express + front sin framework con Vite + Playwright, prompt F, Claude Code con Opus 5.5, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/claude-9/`. Versión `d625c4e`: D43–D46, sin los comandos de scaffold probados (`027cde8`) ni F1–F4. Hornada 5. Parada por tokens entre S0004 y S0005 (14:03–15:59); el humano relanzó la sesión.
