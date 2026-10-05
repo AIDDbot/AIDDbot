@@ -114,6 +114,7 @@ These rules never block a delivery. A violation is debt. First make it work, the
 - A long or deep block: a function with a domain name. More than one logical operator: a predicate with a domain name.
 - A check or a conversion: look in the shared primitives first.
 - Errors: never hide them, and use one method in the project. Catch only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error. A function with `try`/`catch` has only the `try`/`catch`.
+- Checks, limits and default values: only what the spec states.
 - Configuration: from the environment, never in code.
 - Query statements (such as SQL): named constants at the top of the `data` file that uses them, never in a function, never shared between features. Schema and migrations: numbered files (such as `.sql`) in one location. Tests can write statements in code.
 - Ignore patterns for runtime data: anchored to the project root (`/data/`).

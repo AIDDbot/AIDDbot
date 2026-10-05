@@ -70,6 +70,7 @@ flowchart LR
 - Catch errors only in the error handler of `core`, and in `data` to change an external failure into the expected error.
 - A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function.
 - Do not hide errors. Use one method to handle errors in the project.
+- Do not add a check, a limit or a default value that the spec does not state.
 
 ### Functions
 
