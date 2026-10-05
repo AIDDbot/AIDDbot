@@ -5,52 +5,52 @@
 
 ## Build software you can trust.
 
-`AIDDbot` is a set of agent skills for **AI-Driven Development**. 
+`AIDDbot` is a set of agent skills for **AI-Driven Development**.
 
-It gives your coding agents a shared way to understand a codebase, develop from requirements, and keep code quality.
+With these skills, your coding agents use one method to understand a codebase, to develop from requirements, and to keep the quality of the code.
 
 ## Start
 
-From your greenfield or legacy repository root:
+In the root folder of your repository, new or existing, run this command:
 
 ```bash
 npx --allow-git=all github:AIDDbot/AIDDbot init
 ```
 
-Then choose the outcome you need by running the appropriate command 
+Then run the command for the result that you need.
 
 > [!TIP]
-> Use slash or dollar sign commands to invoke the three flows.
+> Start each of the three flows with a slash command or a dollar command.
 
 | Need | Command |
 | --- | --- |
 | Prepare or understand a system | `/architect-system-foundation` |
-| Deliver a requested spec | `/build-requested-spec` your requirements |
+| Deliver a requested spec | `/build-requested-spec` and your requirements |
 | Review quality and repair technical debt | `/craft-lasting-quality` |
 
-The architecture flow documents existing code, or proposes, scaffolds, and delivers the foundation of a new system, so it starts green. 
-The builder flow turns a natural-language request into an approved specification, implementation, evidence, and release. 
-The craftsman flow runs the configured quality checks and delivers one selected repair.
+- The architecture flow documents existing code. For a new system, it proposes the system, makes the projects, and delivers their foundation. Thus the system starts green.
+- The builder flow changes a request in natural language into an approved specification, then into code, evidence and a release.
+- The craftsman flow runs the quality checks of the projects and delivers one selected repair.
 
 > [!IMPORTANT]
-> Specifications pause for approval unless you request YOLO mode.
+> Each specification stops for your approval. To skip the approval, ask for YOLO mode.
 
 > [!WARNING]
-> AIDDbot supports models released in 2026 or later. Models from 2025 and earlier are not supported: they tend to skip the commands that keep the process's state and evidence, and write those records by hand. Copilot's profiles use the newest models it offers today, which may fall short of that line: expect weaker results there until it catches up.
+> AIDDbot supports models from 2026 or later. It does not support models from 2025 or earlier: they often skip the commands that keep the state and the evidence of the process, and they write these records by hand. The Copilot profiles use the newest models that Copilot gives today. These models can be older than 2026, so the results in Copilot can be weaker.
 
 ## How it is organized
 
-AIDDbot uses public orchestrator skills and focused primitive skills under `.agents/` folder. 
+AIDDbot has public orchestrator skills and focused primitive skills in the `.agents/` folder.
 
-Your harness (`Claude Code`, `Codex`, `Copilot` or `Cursor`) will point to that canonical source of truth.
+Your harness (`Claude Code`, `Codex`, `Copilot` or `Cursor`) refers to that folder, the one source of truth.
 
-Also defines three agent roles: **Architect**, **Builder**, and **Craftsman**, with profiles adapted to your harness.
+AIDDbot also defines three agent roles: **Architect**, **Builder** and **Craftsman**. Each harness gets profiles for them in its own format.
 
-There is an `.aiddbot/` folder with configuration files and state. Plus a journal log to track the flow's progress.
+The `.aiddbot/` folder contains the configuration and the state. A daily journal records the progress of each flow.
 
 > [!NOTE]
-> You can update AIDDbot by running 
-> 
+> To update AIDDbot, run this command:
+>
 > `npx --allow-git=all github:AIDDbot/AIDDbot update`
 
 ## Documentation
@@ -62,7 +62,7 @@ There is an `.aiddbot/` folder with configuration files and state. Plus a journa
 - [Coding rules and limits](docs/coding-rules.md)
 
 > [!WARNING]
-> Customize models and reasoning effort in `.aiddbot/agents.local.yaml`; updates keep it. You can also remove profiles for harnesses you do not use; see the customization guide for how updates handle local changes.
+> Set the models and the reasoning effort in `.aiddbot/agents.local.yaml`. An update keeps this file. You can also remove the profiles of the harnesses that you do not use. The customization guide tells how an update operates on local changes.
 
 ## Links
 

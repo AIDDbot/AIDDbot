@@ -1,15 +1,15 @@
 # Customize agent profiles
 
-AIDDbot installs agent profiles for Claude Code, Codex, GitHub Copilot, and Cursor. You can edit these files in the format your preferred harness supports, choose models and reasoning effort available to your account, or remove the profiles for harnesses you do not use.
+AIDDbot installs agent profiles for Claude Code, Codex, GitHub Copilot and Cursor. You can edit these files in the format of your harness. You can select the models and the reasoning effort that your account gives. You can remove the profiles of the harnesses that you do not use.
 
 > [!WARNING]
-> Some harnesses also scan directories used by other harnesses or shared by the Agent Skills standard. For example, GitHub Copilot CLI discovers project agents in both `.github/agents/` and `.claude/agents/`; when IDs match at the same level, `.github/agents/` takes precedence. It also discovers project skills from `.github/skills/`, `.agents/skills/`, and `.claude/skills/`, with the first matching skill location taking precedence. So an agent or skill may come from a directory you did not expect. Check every directory your harness scans before adding another copy. See the [Copilot CLI locations and precedence](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents-reference).
+> Some harnesses also read the folders of other harnesses, or the folders of the Agent Skills standard. For example, GitHub Copilot CLI finds project agents in `.github/agents/` and in `.claude/agents/`. When two agents have the same ID at the same level, `.github/agents/` has priority. It also finds project skills in `.github/skills/`, `.agents/skills/` and `.claude/skills/`, and the first location that has the skill has priority. Thus an agent or a skill can come from a folder that you do not expect. Before you add one more copy, examine each folder that your harness reads. See the [Copilot CLI locations and precedence](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents-reference).
 
-## Choose models and effort
+## Select models and effort
 
-Use models released in 2026 or later: earlier ones are not supported.
+Use models from 2026 or later. AIDDbot does not support older models.
 
-Each harness defines three tiers once (`deep`, `standard`, `light`), and each agent uses one: the Architect is `deep`, the Craftsman `standard`, the Builder `light`. To change what AIDDbot installs, create `.aiddbot/agents.local.yaml` in your project. It has the same shape as AIDDbot's own `agents.yaml`, and whatever you write wins over the defaults.
+Each harness defines three tiers one time: `deep`, `standard` and `light`. Each agent uses one tier: the Architect uses `deep`, the Craftsman uses `standard` and the Builder uses `light`. To change what AIDDbot installs, make `.aiddbot/agents.local.yaml` in your project. It has the same shape as the `agents.yaml` of AIDDbot. Each value in it has priority over the default.
 
 ```yaml
 # Run the Builder on the standard tier in every harness
@@ -25,11 +25,15 @@ harnesses:
         model: claude-sonnet-5-5
 ```
 
-A single agent can also override one harness: `agents.builder.codex.effort: high`. Efforts are `low`, `medium`, `high`, `xhigh`, or `max`; use only models and levels your account offers. Run `npx --allow-git=all github:AIDDbot/AIDDbot update` to apply the file. `update` regenerates the profiles from your overrides, so nothing conflicts and the file itself is never touched. Delete it to go back to the defaults. If your account does not offer a default model of a harness, set its tiers to a model you have; in Cursor, `model: inherit` uses the model of the main session. An unknown tier or invalid effort stops the update with a message before anything is written.
+One agent can also change one harness: `agents.builder.codex.effort: high`. The effort levels are `low`, `medium`, `high`, `xhigh` and `max`. Use only the models and the levels that your account gives.
+
+To apply the file, run `npx --allow-git=all github:AIDDbot/AIDDbot update`. `update` makes the profiles again from your values. Thus no conflict occurs, and `update` never changes your file. To go back to the defaults, delete the file. An unknown tier or an incorrect effort stops the update with a message, before it writes a file.
+
+If your account does not give a default model of a harness, set its tiers to a model that you have. In Cursor, `model: inherit` uses the model of the main session.
 
 ## Agent profiles
 
-You can still edit the native agent profile files directly:
+You can also edit the native agent profile files:
 
 | Harness | Agent profile location |
 | --- | --- |
@@ -38,4 +42,7 @@ You can still edit the native agent profile files directly:
 | GitHub Copilot | `.github/agents/*.agent.md` |
 | Cursor | `.cursor/agents/*.md` |
 
-Prefer `agents.local.yaml` for models and effort: `aiddbot update` preserves a locally edited managed profile and reports a conflict unless you pass `--force`, and it restores any managed profile that you deleted, so remove unused profiles after the last update; a later update will recreate them.
+For models and effort, use `agents.local.yaml`:
+
+- `aiddbot update` keeps a managed profile that you edited, and reports a conflict, unless you use `--force`.
+- `aiddbot update` makes a managed profile again if you deleted it. Thus remove the profiles that you do not use after the last update. A later update makes them again.
