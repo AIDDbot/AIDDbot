@@ -55,26 +55,26 @@ All projects obey these rules. A project `AGENTS.md` gives only its own data and
 
 | Part | Is | Never |
 | --- | --- | --- |
-| `main` | Composition root. `createApp()` makes the services of `core`, gets the features from the manifest, and connects them. The entry file only calls `createApp()` and starts. | — |
+| `main` | Composition root. It makes the services of `core`, gets the features from the manifest, and connects them. The entry only starts it. The archetype gives its files. | — |
 | `core` | Platform services: configuration, logger, connections, server or shell, router, error handler. | Business rules. Imports of a feature or of the manifest. |
-| manifest | One file that lists the registration of each feature. | Automatic discovery: folder scans, global decorators. |
+| manifest | The one place that registers each feature by name: a file, an array, or the import list of a module. | Automatic discovery: folder scans, global decorators, file-based routers. |
 | feature | One flat folder. The file role tells its layer. Its facade is its only public file: registration and public types. | Subfolders. Imports of a different feature, except its facade. |
 | `shared` | Generic elements, also when one part uses them now, and what `core` and the features both use (such as the error type). Primitives at the root, other elements in folders by technical concern (`http`, `database`). | Domain words, business rules, imports of the application. Folders `utils`, `helpers`, `common`, `misc`. |
 
 ### Boundaries
 
-`lint` checks them. A violation blocks the delivery.
+`lint` checks the imports. `review-implementation` checks rule 5. A violation blocks the delivery.
 
 1. Only `main` knows all features, and only through the manifest.
 2. `core` never uses a feature or the manifest. `main` gives it routes, menu links and commands.
 3. A feature uses a different feature only through its facade.
 4. `shared` uses no part of the application.
 5. `core` has no business rules.
-6. In a feature: `presentation` → `logic` → `data`. Types have no layer.
+6. In a feature: `presentation` → `logic` → `data`. Types have no layer. Each layer can use types and `shared`.
 7. A feature gets `core` by one method that the archetype selects: injection, or the public file of `core`.
 
 - A feature that the manifest loads on demand has no other import.
-- Tests start the application with `createApp()`, without a port.
+- Tests start the application through `main`, without a port.
 - With no boundary linter, the project `AGENTS.md` keeps these rules, and `review-implementation` checks them.
 
 ### Layers

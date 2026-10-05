@@ -54,14 +54,14 @@ Contracts:
 
 <!--
 [Blueprint] The variations by project type. [Project] Keep only the column of this project type, and remove the other columns. Each n/a has its reason. Principle 7, D39.
-[Archetype] Write the method to get `core`: injection (main or the framework injector gives the services at registration) or direct import (only the public file of core).
+[Archetype] Write the method to get `core`: injection (main or the framework injector gives the services at registration) or direct import (only the public file of core). Section 5 gives where `main`, the manifest and the facade are.
 -->
 
 **Access to `core`**: {injection | direct import of `{core_public_file}`}
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
-| `main` | `createApp()` and the process entry | `createApp()` and the browser entry | `createApp()` and the executable entry | n/a: the test runner is the entry |
+| `main` | composition root and the process entry | composition root and the browser entry | composition root and the executable entry | n/a: the test runner is the entry |
 | `core` | server, configuration, logger, connections, error handler | shell, layout, router, theme, configuration | argument parser, configuration, output | life cycle of the suite |
 | features | endpoints | pages | commands | tests, one folder for each feature of the system |
 | `presentation` | route / controller | page / component | command | n/a: no layers |
@@ -87,8 +87,8 @@ Contracts:
 
 ```text
 {source_root}/
-├── {main_file}           # entry: createApp() and start
-├── {compose_file}        # createApp()
+├── {main_file}           # entry: starts the composition root
+├── {compose_file}        # composition root
 ├── {core_folder}/        # platform services
 ├── {features_folder}/    # one flat folder for each feature, and the manifest
 │   └── health/

@@ -56,6 +56,17 @@ Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary r
 
 The concept is still the facade. Only the JS / TS file has the name `api`.
 
+### Roles by framework
+
+The roles stay the same. The framework gives their place and the access to `core`. Write them in sections 4 and 5 of the project `AGENTS.md`.
+
+| Role | Express | NestJS | Angular |
+| --- | --- | --- | --- |
+| `main` | `app.compose.ts` exports `createApp()` | `main.ts` and `AppModule` | `main.ts` and `app.config.ts` |
+| manifest | `features.manifest.ts` | the `imports` of `AppModule` | `app.routes.ts` (`loadComponent`, `loadChildren`) |
+| access to `core` | direct import of `core.api.ts` | injection | injection with `inject()` |
+| facade | `{feature}.api.ts` | the feature module and its `exports` | `{feature}.routes.ts` and its public types |
+
 ## `front-web`: the visual base
 
 The `front-standard` archetype sets the visual base. An archetype made on demand copies it. The person who adopts AIDDbot changes it in the project.
