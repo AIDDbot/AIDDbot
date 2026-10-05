@@ -51,14 +51,13 @@ flowchart LR
     FACADE --> PRES[presentation]
     PRES --> LOGIC[logic]
     LOGIC --> DATA[data]
-    LOGIC --> BFACADE[facade of feature B]
 ```
 
 - `facade` contains the registration and the public types. It is the only file that the manifest or a different feature can import.
 - `presentation` contains the input and the output: route, page or command. It depends on `logic`.
-- `logic` contains the rules and the decisions. It depends on `data` and on the facades of other features.
+- `logic` contains the rules and the decisions. It depends on `data`.
 - `data` reads and writes outside the project: database, remote API, files. It does not depend on other layers.
-- `types` contains the types and the value objects. They have no layer. All layers can use `types` and `shared`.
+- `types` contains the types and the value objects. They have no layer. All layers can use `types`, `shared` and the facades of other features.
 
 ## Shared
 
