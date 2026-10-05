@@ -58,6 +58,8 @@ There is an `.aiddbot/` folder with configuration files and state. Plus a journa
 - [Getting started](docs/getting-started.md)
 - [Customize agent profiles](docs/agent-customization.md)
 - [AIDD workflow, skills, and records](docs/AIDD.workflow.md)
+- [Project architecture](docs/architect-system-foundation.md)
+- [Coding rules and limits](docs/coding-rules.md)
 
 > [!WARNING]
 > Customize models and reasoning effort in `.aiddbot/agents.local.yaml`; updates keep it. You can also remove profiles for harnesses you do not use; see the customization guide for how updates handle local changes.

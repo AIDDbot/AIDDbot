@@ -25,7 +25,7 @@ harnesses:
         model: claude-sonnet-5-5
 ```
 
-A single agent can also override one harness: `agents.builder.codex.effort: high`. Efforts are `low`, `medium`, `high`, `xhigh`, or `max`; use only models and levels your account offers. Run `npx --allow-git=all github:AIDDbot/AIDDbot update` to apply the file. `update` regenerates the profiles from your overrides, so nothing conflicts and the file itself is never touched. Delete it to go back to the defaults. An unknown tier or invalid effort stops the update with a message before anything is written.
+A single agent can also override one harness: `agents.builder.codex.effort: high`. Efforts are `low`, `medium`, `high`, `xhigh`, or `max`; use only models and levels your account offers. Run `npx --allow-git=all github:AIDDbot/AIDDbot update` to apply the file. `update` regenerates the profiles from your overrides, so nothing conflicts and the file itself is never touched. Delete it to go back to the defaults. If your account does not offer a default model of a harness, set its tiers to a model you have; in Cursor, `model: inherit` uses the model of the main session. An unknown tier or invalid effort stops the update with a message before anything is written.
 
 ## Agent profiles
 

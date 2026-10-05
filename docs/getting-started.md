@@ -42,11 +42,13 @@ npx tiged AIDDbot/e2e-playwright e2e
 
 After your approval, it runs the scaffold from the repository root, so the working tree must be clean and Node.js with npm installed. Then, one project at a time:
 
-- It gives each project its own `AGENTS.md` with all its technical data: technology, tooling, architecture, folders, coding rules, and connections. Your agents read it instead of exploring the code.
+- It writes the architecture and the general coding rules one time, in the Blueprint section of the root `AGENTS.md`, and gives each project a short `AGENTS.md` with only its own data: technology, tooling, folders, shared primitives, its rules, and connections. Your agents read them instead of exploring the code.
 - It reshapes the code into one architecture: `main` composes `core` and the features through a manifest; each feature has `presentation`, `logic`, and `data` layers; `shared` holds primitives and folders by technical concern (see [`architect-system-foundation.md`](./architect-system-foundation.md)). The `e2e` project keeps its tests by feature, with page objects and test data in `shared`. Lint enforces these boundaries from day one, and the foundation proves it with a forbidden import.
 - It installs and records the tooling slots: `lint`, `format`, `upgrade`, `unit`, `acceptance`, and `quality`, or "not applicable" with a reason.
 
-Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `layout` when the system has a web front, `health`, `basic-auth` when the system has users, and `account` with `basic-auth`), so the system starts green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt, and the native Node.js test runner.
+Then it delivers the foundation specs one by one (`configuration`, `monitoring`, `layout` when the system has a web front, `health`, `basic-auth` when the system has users, and `account` with `basic-auth`), so the system starts green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt, and the native Node.js test runner. A web front starts with Pico CSS, its fonts, and the AIDDbot theme in `colors.css`, `theme.css`, and `custom.css`: change the colors there.
+
+Follow the progress in `.aiddbot/journals/`: each handoff, plan, run with its result, commit, evaluation, and release is one line.
 
 ## Deliver a change
 
