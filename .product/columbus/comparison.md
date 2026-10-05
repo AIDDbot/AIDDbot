@@ -14,7 +14,8 @@ Lee AIDDbot/.product/columbus/comparison.md y compara la hornada {n} con los arq
 
 | Hornada | Experimentos | Prompt | Notas |
 | --- | --- | --- | --- |
-| 1 | `claude-4`, `codex-5` | F (Express + front sin framework con Vite + Playwright) | Resúmenes en `notes.md` |
+| 1 | `claude-4`, `codex-5` | F (Express + front sin framework con Vite + Playwright) | Resúmenes en `notes.md`. Sin ejecutar |
+| 5 | `codex-9` | F | Estado final en `master`, tras S0011 (home con tarjetas) y S0012 (cuenta). Un solo experimento: no hay que elegir |
 
 Cada experimento está en `C:/code/aidd/experiments/columbus/{experimento}`. Los experimentos de una hornada se comparan entre sí solo para elegir el mejor de cada tipo de proyecto. Ese es el que se enfrenta al arquetipo.
 
@@ -35,12 +36,14 @@ Cada experimento está en `C:/code/aidd/experiments/columbus/{experimento}`. Los
 | `C:/code/aidd/archetypes/front-standard` | `front-web` |
 | `C:/code/aidd/archetypes/e2e-playwright` | `e2e` |
 
-Contrato que vale para los dos lados: las specs de `{experimento}/.agents/skills/architect-system-foundation/assets/foundation/` y la plantilla `project.AGENTS.template.md` de la misma carpeta.
+Contrato que vale para los dos lados: las cinco specs fundacionales (`configuration`, `monitoring`, `layout`, `health`, `basic-auth`) de `{experimento}/.agents/skills/architect-system-foundation/assets/foundation/` y la plantilla `project.AGENTS.template.md` de la misma carpeta.
+
+Antes de empezar, anota el commit de `master` del experimento y comprueba que `git status` está limpio, salvo la transcripción `codex-session-*.md`.
 
 ### No penaliza a ninguno de los dos lados
 
-- **Muestras:** los arquetipos traen funcionalidad de muestra (`home`, `item-detail`, `content`…). Se excluyen de tamaño y calidad y se listan aparte.
-- **Contratos nuevos:** `health` con `status: "ok"`, página `/about` (estado de health dentro), `DATABASE_URL` y `PORT` inválido que detiene el arranque. Si el arquetipo no los cumple, se anota como «arquetipo desfasado»: es una tarea de alineación, no una razón para que el arquetipo pierda.
+- **Muestras:** los arquetipos traen funcionalidad de muestra (`home`, `item-detail`, `content`…). Las specs del experimento fuera del contrato (desde S0006: calidad, observabilidad, home con tarjetas, cuenta) también cuentan como muestra en tamaño. Se listan aparte. Sí cuentan en fronteras y en las trampas: un mecanismo nuevo que rompe una frontera es Peor.
+- **Contratos nuevos:** `health` con `status: "ok"`, página `/health`, `layout` (shell, menú, not-found, tema), `DATABASE_URL` y `PORT` inválido que detiene el arranque. Si el arquetipo no los cumple, se anota como «arquetipo desfasado»: es una tarea de alineación, no una razón para que el arquetipo pierda.
 - **Mecanismo:** `front-standard` sirve el front con Express y la hornada con Vite. Se compara el resultado, no el mecanismo.
 - **Capa visual:** la hornada no tiene tema de marca (P22). No cuenta.
 
@@ -51,7 +54,9 @@ Por pareja y criterio, el veredicto es **Mejor**, **Igual** o **Peor** (la horna
 ### Puertas (la hornada no puede ser peor en ninguna)
 
 1. **Contrato fundacional.** Cada requisito de `configuration`, `monitoring`, `health` y `basic-auth`: cumple, parcial o no cumple. Cada URL y API de «Expected URLs and APIs» responde como se declara.
-2. **Fronteras.** `main` → `core` → manifiesto → funcionalidades por fachada; `shared` sin negocio; capas `presentation` → `logic` → `data`. **Canario:** en cada proyecto con capas, añade en `{feature}/data` un import de `core`, ejecuta `lint`, anota si falla y deshaz con `git checkout -- <fichero>`.
+2. **Fronteras.** Las cinco reglas fijas de D39 (`main` solo conoce el manifiesto; `core` no usa funcionalidades ni el manifiesto; entre funcionalidades solo por fachada; `shared` no usa la aplicación; `core` sin negocio) y las capas `presentation` → `logic` → `data` **dentro de cada funcionalidad**, que es lo que más importa. **Canarios**, en cada proyecto con capas; ejecuta `lint`, anota si falla y deshaz con `git checkout -- <fichero>`:
+   - Un fichero de `core` importa la fachada de una funcionalidad.
+   - Un fichero de `logic` importa uno de `presentation` de la misma funcionalidad. Repítelo en **cada** funcionalidad que tenga subcarpetas: en `codex-9`, `back/src/features/auth/` (S0010) quedó fuera de los globs del lint.
 3. **Verde.** `lint`, `unit` y la aceptación pasan. Anota cuántos tests hay y cuánto tardan.
 4. **Seguridad.** Hash de contraseñas con parámetros de OWASP vigentes, sin hash ni secretos en las respuestas, verificación con tiempo constante, CORS acotado y cabeceras básicas.
 
@@ -73,6 +78,11 @@ Comprueba en los dos lados las que ya han aparecido en experimentos. Si un lado 
 - **Puertos escritos a mano** en los tests de `e2e` (`claude-4`, D35).
 - **Import dinámico roto:** una página cargada con `import()` que también se importa de forma estática (`claude-4`).
 - **Reglas de negocio** que ninguna spec pide, por ejemplo `minlength` en el registro (`claude-4`).
+- **`database is locked` tapado con un busy timeout** en producción en lugar de aislar la BD de cada instancia de test (`codex-8`, `claude-7`).
+- **Guard por prefijo o router parcheado** en lugar del guard en el base path de cada registro protegido (`claude-9`, D47).
+- **Subcarpetas dentro de una funcionalidad** que salen de los globs de un nivel del lint de capas (`codex-9`, S0010).
+- **`.gitignore` con `data/` sin anclar**, que oculta las carpetas de la capa `data` (`codex-9`, S0010).
+- **Reglas o estructuras con excepciones** para una sola funcionalidad en `AGENTS.md` (`codex-9`, S0010): lo contrario de repetible.
 
 ## Regla de decisión
 
@@ -93,6 +103,7 @@ Escríbelo en `C:/code/aidd/AIDDbot/.product/columbus/comparison.{n}.md`, donde 
 3. **Detalle por criterio**, con sus evidencias.
 4. **Para la siguiente hornada:** lo que tiene el arquetipo y le falta a la hornada, y las trampas nuevas. Es la lista que hay que llevar al Blueprint o al Archetype Builder.
 5. **Para Archetype Base:** lo que tiene la hornada y le falta al arquetipo.
-6. **Sin comprobar:** lo que no se pudo verificar y por qué.
+6. **¿Sustituye tal cual?** Por pareja: sí, no, o sí tras una lista corta de cambios (deuda abierta, excepciones, muestras que retirar). La biblioteca exige cero deuda (P21).
+7. **Sin comprobar:** lo que no se pudo verificar y por qué.
 
 No commitees el informe: lo revisamos antes.

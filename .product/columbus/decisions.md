@@ -390,3 +390,15 @@ En `codex-9`, dos calificaciones salieron rojas por reglas generales (SQL en el 
 - La puerta **Project rules** de `qualify.gates.md` trata la violación de una regla general como hallazgo `debt`, nunca `blocking`.
 - La regla de sentencias en ficheros es para el código de producción: los tests pueden escribir sentencias en el código (`e2e` necesita una versión de esquema desconocida para R10 y R11 de `configuration`).
 - `configuration`: el helper que arranca un proyecto nunca toma `DATABASE_URL` del entorno del runner; sin la del test, crea una base de datos temporal.
+
+## D49 ← D41, prueba `codex-9` · Sentencias como constantes en el fichero de `data`; solo las migraciones en ficheros
+
+En `codex-9`, la regla de D41 (una sentencia, un fichero) dejó 25 ficheros `.sql` con 46 líneas en total. Llenó las carpetas: 7 de las 14 entradas de `auth` (D0004, que llevó a las subcarpetas por capa de S0010 y sacó `auth` del lint) y los ficheros de inspección de `e2e/shared` (D0005). El remedio costó más que el problema de `codex-5` (SQL suelto en cada función y el `CREATE TABLE` en el repositorio).
+
+- **Sentencias de la aplicación:** constantes con nombre al principio del fichero de `data` que las usa, nunca dentro de una función ni en otra capa. Una funcionalidad tiene su SQL en un solo sitio.
+- **Esquema y migraciones:** ficheros con la extensión del lenguaje (como `.sql`), numerados y en un solo sitio. Son los únicos ficheros de sentencias.
+- **Nunca se comparten** entre funcionalidades: otra funcionalidad pide los datos por la fachada.
+- `e2e` sigue la misma regla: las sentencias de inspección son constantes en su fichero.
+- Se descarta un fichero por repositorio con bloques con nombre (estilo yesql): necesita un parser y una convención por arquetipo y lenguaje; la constante existe en todos.
+- La regla cabe en una línea y se puede comprobar: las sentencias solo viven en ficheros de `data` o en las migraciones. Como regla general, no bloquea (D12, D48).
+- Cambia la regla de `project.AGENTS.template.md` (sustituye la parte de sentencias de D41). Ninguna spec fundacional la cita.
