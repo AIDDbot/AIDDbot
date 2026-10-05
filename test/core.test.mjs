@@ -304,6 +304,24 @@ test("run keeps the whole output in a log, journals it, and stops at the timeout
   assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8"), / run +INFO +lint: back ok \d+s/);
 });
 
+test("run journals the last output line of each project and leaves out n/a projects", () => {
+  const root = repo();
+  for (const name of ["back", "e2e"]) fs.mkdirSync(path.join(root, name));
+  const tool = `node -e "console.log('npm notice run tool'); console.log('3 passed (2s)'); console.log('npm notice done')"`;
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { acceptance: { na: "e2e owns acceptance" } } }));
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ path: "e2e", commands: { acceptance: tool } }));
+  assert.equal(aidd(root, "run", "acceptance").code, 0);
+  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"))[0];
+  const line = fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8").split("\n").find((entry) => entry.includes("acceptance:"));
+  assert.match(line, /acceptance: e2e ok \d+s \(3 passed \(2s\)\)$/);
+  assert.doesNotMatch(line, /n\/a/);
+  const failing = `node -e "console.log('1 failed'); console.log('99 passed (5s)'); process.exit(1)"`;
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ path: "e2e", commands: { acceptance: failing } }));
+  assert.equal(aidd(root, "run", "acceptance").code, 1);
+  const last = fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8").trim().split("\n").at(-1);
+  assert.match(last, /acceptance: e2e exit 1 \d+s \(1 failed\)$/);
+});
+
 test("debt is added with the next D ID, listed by priority, and removed", () => {
   const root = repo();
   assert.equal(aidd(root, "debt", "add", "Slow query", "low").body.id, "D0001");

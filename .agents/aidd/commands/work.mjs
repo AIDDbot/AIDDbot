@@ -12,11 +12,27 @@ import { untested } from "./eval.mjs";
 const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"];
 const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
+const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
 const configFile = (root) => aiddbotPath(root, "config.json");
+
+/** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
+function summaryLine(tail = "", ok = true) {
+  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !/^(npm (notice|warn)|> )/.test(line));
+  const telling = ok ? /\bpass/i : /\b(fail|error)/i;
+  const line = lines.findLast((entry) => telling.test(entry)) ?? lines.at(-1) ?? "";
+  return line.length > SUMMARY_LINE ? `${line.slice(0, SUMMARY_LINE - 1)}…` : line;
+}
+
+/** One project of a run for the journal: status, time and the summary line of its output. */
+function runSummary(entry) {
+  const status = `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`;
+  const line = summaryLine(entry.tail, entry.ok);
+  return line ? `${status} (${line})` : status;
+}
 
 /** Run one command with its whole output in `log`, so nothing is lost to a truncated reply. */
 function exec(root, cwd, command, log, minutes) {
@@ -183,9 +199,8 @@ export function run(root, [kind], flags) {
   const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
   const folders = kind === "quality" ? names.flatMap((name) => crowdedFolders(root, name, path.join(root, projects[name].path), limit)) : [];
-  const summary = runs.map((entry) => (entry.na !== undefined ? `${entry.project} n/a: ${entry.na}`
-    : `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`));
-  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ")}` });
+  const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
     journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
   }
