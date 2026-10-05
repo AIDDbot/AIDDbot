@@ -1,52 +1,30 @@
 # Coding Rules and Limits
 
-This document gives the rules for the code of each new project: what blocks a delivery, the limits and the general rules. For the parts of a project, the boundary rules and the file names, see [`architect-system-foundation.md`](./architect-system-foundation.md).
+This document gives the rules for the code of each new project: what blocks a delivery, the limits, and the general rules. See [`architect-system-foundation.md`](./architect-system-foundation.md) for the parts of a project and the dependencies.
 
-> **Sources.** The foundation copies these rules into the `AGENTS.md` of each project. If you change a rule here, change it in its source file too, with `/maintain-skills`.
+> **Sources.** If you change a rule here, also change its source file. Use `/maintain-skills`. The source files are:
 >
-> - Rules and limits: the Blueprint section of the root [`AGENTS.template.md`](../.agents/skills/outline-system/assets/AGENTS.template.md). A project changes a limit only in the technology rules of its `AGENTS.md`.
-> - JS / TS limits: [`oxlint.complexity.json`](../.agents/skills/architect-system-foundation/assets/oxlint.complexity.json).
-> - Folder entries: the `quality` run of the core, [`work.mjs`](../.agents/aidd/commands/work.mjs).
-
-## Contents
-
-- [What blocks a delivery](#what-blocks-a-delivery)
-- [Limits](#limits)
-- [General rules](#general-rules)
+> - The Blueprint section of [`AGENTS.template.md`](../.agents/skills/outline-system/assets/AGENTS.template.md).
+> - [`oxlint.complexity.json`](../.agents/skills/architect-system-foundation/assets/oxlint.complexity.json) for the JS / TS limits.
+> - [`work.mjs`](../.agents/aidd/commands/work.mjs) for the folder entries.
 
 ## What blocks a delivery
 
-First make it work. Then make it correct. Only `lint` and `acceptance` block a delivery. The findings of `quality` go to the debt register, and a later pass repairs them.
-
-```mermaid
-flowchart LR
-    CODE[Code of the spec]
-    LINT{lint<br/>errors, types, boundaries}
-    ACC{acceptance<br/>tests of the spec}
-    SHIP[Delivery]
-    QUALITY[quality<br/>limits and general rules]
-    DEBT[(Debt register)]
-
-    CODE --> LINT
-    LINT -- pass --> ACC
-    LINT -- fail --> CODE
-    ACC -- pass --> SHIP
-    ACC -- fail --> CODE
-    CODE -.-> QUALITY
-    QUALITY -.-> DEBT
-```
+First make it work. Then make it correct.
 
 | Check | Slot | Blocks the delivery |
 | --- | --- | --- |
-| Errors, types and boundary rules | `lint` | Yes |
+| Errors, types and imports | `lint` | Yes |
 | Acceptance tests of the spec | `acceptance` | Yes |
 | Unit tests | `unit` | No |
 | Limits and general rules | `quality` and the review | No. A violation is debt. |
-| Format | `format` | No. It runs before integration and changes the files. |
+| Format | `format` | No. It runs before integration. |
+
+The findings of `quality` go to the debt register. A later pass repairs them.
 
 ## Limits
 
-The archetype can change these numbers.
+The archetype can change these numbers in the technology rules of its `AGENTS.md`.
 
 | Limit | Code | Tests | Measured by |
 | --- | --- | --- | --- |
@@ -57,21 +35,21 @@ The archetype can change these numbers.
 | Lines in a file | 128 | 256 | `eslint/max-lines` |
 | Entries in a folder of `shared` or of a feature | 16 | — | the `quality` run of the core |
 
-- The line counts of a file do not include blank lines and comments.
-- A callback whose signature the framework sets (such as an error middleware) is outside the parameter limit.
-- **Tests** are the files `*.test.ts` and `*.spec.ts`. In an `e2e` project, all files use the test limits.
-- **Statements, not lines, for a function.** A nested function has its own count. Thus a suite counts each test as one statement, and a long data value (an object, a template) is one statement.
-- **A full folder.** Divide a full `shared` folder by topic. Divide a full feature into two features. Never add subfolders in a feature (see [Inside a feature](./architect-system-foundation.md#inside-a-feature)).
+- Tests are the `*.test.ts` and `*.spec.ts` files. In an `e2e` project, all files use the test limits.
+- Blank lines and comments do not count as lines.
+- A nested function has its own statement count. Thus a long data value is one statement.
+- A callback with a signature that the framework sets is outside the parameter limit.
+- Divide a full `shared` folder by technical concern. Divide a full feature into two features.
 
 ## General rules
 
-These rules apply to all technologies. A violation is debt. It does not block the delivery.
+These rules apply to all technologies. A violation is debt.
 
 ### Names and types
 
 - Use names that are idiomatic for the language. Use the words of the domain.
-- Give each domain concept its own type. Do not use a bare `string` or `number` for it (no primitive obsession).
-- A value with rules (an email, an amount, an identifier) is a **value object**. It cannot change. It checks its value when it is created. Two value objects with the same value are equal.
+- Give each domain concept its own type. Do not use a bare `string` or `number` for it.
+- A value with rules is a **value object**: an email, an amount, an identifier. It cannot change. It checks its value when you make it. Two value objects with the same value are equal.
 - A value object checks only the rules that the spec states.
 - Put a generic value object in `shared`. Put a value object with domain words in the types of its feature.
 
@@ -81,36 +59,30 @@ The input enters at an edge. Make the value objects and catch the errors only at
 
 ```mermaid
 flowchart LR
-    IN([Input:<br/>request, form, command])
-    PRES[presentation<br/>makes value objects<br/>or rejects the input]
-    LOGIC[logic<br/>uses only value objects<br/>no try/catch]
-    DATA[data<br/>changes an external failure<br/>into the expected error]
-    EXT[(Database or<br/>external service)]
-    HANDLER[error handler of core<br/>one answer for each error]
-
-    IN --> PRES --> LOGIC --> DATA --> EXT
-    PRES -. expected error .-> HANDLER
+    IN([Input]) --> PRES[presentation<br/>makes value objects]
+    PRES --> LOGIC[logic<br/>no try/catch]
+    LOGIC --> DATA[data<br/>changes external failures]
+    DATA --> EXT[(External)]
+    PRES -. expected error .-> HANDLER[error handler of core]
     DATA -. expected error .-> HANDLER
 ```
 
-- Catch errors only at the edges: the error handler of `core`, and the `data` layer when it changes an external failure into the expected error.
-- A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function that does the work.
-- Do not hide errors. Use one method only to handle errors in the project.
-- Do not add a check, a limit or a default value that the spec does not state.
+- Catch errors only in the error handler of `core`, and in `data` to change an external failure into the expected error.
+- A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function.
+- Do not hide errors. Use one method to handle errors in the project.
 
 ### Functions
 
-- Use early returns. Check the incorrect cases first, and return or raise an error. Then the main path has no `else` and no nesting.
-- If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
-- If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
+- Use early returns. Check the incorrect cases first. Then the main path has no `else`.
+- Move a long or deep block to a function. Give the function a name from the domain.
+- Move a condition with more than one logical operator to a predicate. Give the predicate a name from the domain.
 - If a function needs more than three values, give it one typed object.
 - Before you write a check or a conversion, look for it in the shared primitives.
 
 ### Data, configuration and dependencies
 
-- If the store has a query language (such as SQL), write each statement as a named constant at the top of the `data` file that uses it. Never write a statement in a function or in a different layer. Never share a statement between features.
-- Keep the schema definition (tables and migrations) in numbered files with the extension of that language (such as `.sql`), in one location. These are the only statement files.
-- Tests can write statements in code.
-- Get configuration from the environment. Do not put configuration values in the code.
-- Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
-- Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
+- Write each query statement (such as SQL) as a named constant. Put it at the top of the `data` file that uses it. Do not share a statement between features. Tests can write statements in code.
+- Keep the schema and the migrations in numbered files (such as `.sql`) in one location.
+- Get the configuration from the environment. Do not put configuration values in the code.
+- Anchor the ignore patterns for runtime data to the project root: `/data/`, not `data/`. Then they cannot hide a `data` folder.
+- Add a dependency only with the add command of the package manager. Do not write a version by hand.
