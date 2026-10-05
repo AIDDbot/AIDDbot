@@ -1,5 +1,5 @@
 <!--
-Foundation spec 6 of 6. Optional (Columbus principle 9; D39, D45, D47, D51; plan 0.2.5 G4). It needs `basic-auth` and, with a `front-web`, `layout`.
+Foundation spec 6 of 7. Optional (Columbus principle 9; D39, D45, D47, D51; plan 0.2.5 G4). It needs `basic-auth` and, with a `front-web`, `layout`.
 Include it only when the system includes `basic-auth`.
 The account of the user, logout, a menu by access, a page guard and a route with a path parameter.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
@@ -34,7 +34,7 @@ A user with a session must see their account and end the session. Each page and 
 - **R02**: IF a valid session requests `GET /api/users/:id` with a different identifier, THEN the `back-api` SHALL answer 404 with `{ "error": "Not found" }`, for an identifier that exists and for one that does not exist.
 - **R03**: IF a request to `GET /api/users/:id` or `POST /api/auth/logout` has no valid session, THEN the `back-api` SHALL answer 401 with the uniform error body.
 - **R04**: WHEN a valid session sends `POST /api/auth/logout`, the `back-api` SHALL answer 204 with no body and make that token invalid. The other sessions of the user SHALL stay valid.
-- **R05**: WHEN a user with a session opens `/users/{id}` with their own identifier, the `front-web` SHALL show their name, email and creation date.
+- **R05**: WHEN a user with a session opens `/users/{id}` with their own identifier, the `front-web` SHALL show their name, their email and their creation date as a date that a person reads (such as `5 Oct 2026, 16:40`).
 - **R06**: IF the account API answers 404, THEN the account page SHALL show `Account not found` and keep the menu.
 - **R07**: WHILE no user is logged in, the menu SHALL show the links for `everyone` and for `anonymous`, such as `Login` and `Register`, and SHALL not show the account link or `Logout`.
 - **R08**: WHILE a user is logged in, the menu SHALL show the name of the user as a link to their account and a `Logout` control, and SHALL not show the links for `anonymous`.
@@ -65,7 +65,7 @@ A user with a session must see their account and end the session. Each page and 
 - `core` gets the session state and the login path from the `auth` facade through `main`; it never imports `auth`.
 - After a login, `core` accepts the target only if it starts with one `/`, is on the same origin, and is a registered page; otherwise `/`.
 - A change of the session state updates the menu and the cards. It never shows the current page again, so that a form keeps what the user typed.
-- Feature `users`: page `/users/:id` with `id` as a typed path parameter (see `layout`), mark `session`, no menu link. `logic` keeps the state: loading, loaded, not found or unavailable.
+- Feature `users`: page `/users/:id` with `id` as a typed path parameter (see `layout`), mark `session`, no menu link. `logic` keeps the state: loading, loaded, not found or unavailable. The page shows the creation date with the shared primitive `formatDate`.
 - The `auth` facade gives the session menu entries: the name of the user, as a link to `/users/{id}`, and `Logout`. Logout gives its action name to the console logger of `core`.
 
 ### e2e

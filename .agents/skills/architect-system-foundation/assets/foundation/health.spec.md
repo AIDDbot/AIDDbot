@@ -1,5 +1,5 @@
 <!--
-Foundation spec 4 of 6 (Columbus principle 9; D2, D6, D17, D18, D38, D39, D51). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
+Foundation spec 4 of 7 (Columbus principle 9; D2, D6, D17, D18, D38, D39, D51). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
 The tracer bullet: one small feature through presentation → logic → data in each project.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat health "Health status" --domain foundation
@@ -30,11 +30,11 @@ Before the first business feature, each layer of each project must operate with 
 - **R01**: WHEN a client requests `GET /api/health`, the `back-api` SHALL answer 200 with `{ "status": "ok", "runs": <integer ≥ 1>, "uptime": <seconds > 0> }`.
 - **R02**: WHEN the `back-api` restarts, the `runs` value SHALL be greater than before the restart.
 - **R03**: WHILE the `back-api` runs, each `uptime` value SHALL be greater than the value before it.
-- **R04**: WHEN a user opens `/health`, the `front-web` SHALL show the status, runs and uptime from the `back-api`.
+- **R04**: WHEN a user opens `/health`, the `front-web` SHALL show the status, the runs and the uptime from the `back-api`, with the uptime as a duration that a person reads (such as `1 h 2 min`).
 - **R05**: IF the `back-api` does not answer, THEN the `/health` page SHALL show `Health unavailable` and keep the menu.
 - **R06**: WHILE the `front-web` shows a page, the menu SHALL contain a link to `/health`.
 - **R07**: WHEN the `cli` runs `health`, it SHALL show the status and the runs, and stop with exit code 0.
-- **R08**: WHEN a user opens `/`, the home page SHALL show a health card with the status, the runs, the uptime in seconds and a link to `/health`.
+- **R08**: WHEN a user opens `/`, the home page SHALL show a health card with the status, the runs, the uptime as a duration that a person reads, and a link to `/health`.
 - **R09**: IF the `back-api` does not answer, THEN the health card SHALL show `Health unavailable` and keep its link, the other cards and the menu.
 - **R10**: WHEN a user follows the link of the health card, the `front-web` SHALL show `/health` without a full reload of the document.
 - **R11**: WHEN a user opens `/` on a screen 375 CSS pixels wide, the home page SHALL have no horizontal scroll.
@@ -59,6 +59,7 @@ Before the first business feature, each layer of each project must operate with 
 ### front-web
 
 - `logic` keeps the state of the page: loading, loaded or unavailable. `data` calls `GET /api/health` through the HTTP client of `core`.
+- The page and the card show the uptime with the shared primitive `formatDuration`.
 - The facade registers the page `/health`, its menu link `Health` and the card of the home page (see `layout`). The card uses the same `logic` and `data` as the page.
 
 ### cli
@@ -83,3 +84,4 @@ Before the first business feature, each layer of each project must operate with 
 - **R05, R09**: block `/api/health` in the browser.
 - **R10**: put a mark on the document before the link; the mark is still there.
 - **R11**: the width of the document is not more than the width of the viewport.
+- **R04, R08**: check the shape of the duration (such as a number and a unit), never an exact value.

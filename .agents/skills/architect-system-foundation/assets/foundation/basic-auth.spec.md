@@ -1,5 +1,5 @@
 <!--
-Foundation spec 5 of 6. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47, D51). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
+Foundation spec 5 of 7. Optional (Columbus principle 9; D3, D6, D13, D17, D18, D39, D45, D47, D51). It needs `configuration`, `monitoring`, `health` and, with a `front-web`, `layout`.
 Include it only if the system has users (actors, model.schema.md). Ask only if this is not clear.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat basic-auth "Basic authentication" --domain foundation

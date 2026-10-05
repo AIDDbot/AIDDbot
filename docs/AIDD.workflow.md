@@ -39,7 +39,7 @@ architect-system-foundation:
     - "Architect: propose .product/system.md as typed projects, with an archetype per project or one made on demand, and obtain approval"
     - "Architect: on chore/foundation, scaffold each project with its AGENTS.md, registered slots, and no orphan samples"
     - "Architect: outline-system, then integrate (never rule-project)"
-    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth"
+    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth, about when the system has a front-web"
     - "close only when lint, unit, and acceptance pass"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
@@ -64,7 +64,7 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, and the optional `basic-auth` and `account` shipped |
+| No application code | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, the optional `basic-auth` and `account`, and `about` (with a `front-web`) shipped |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.

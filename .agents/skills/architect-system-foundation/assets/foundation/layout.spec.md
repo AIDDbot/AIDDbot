@@ -1,5 +1,5 @@
 <!--
-Foundation spec 3 of 6. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39, D51). It needs `configuration` and `monitoring`.
+Foundation spec 3 of 7. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39, D51). It needs `configuration` and `monitoring`.
 The shell of the `front-web`: application identity, menu, theme, home dashboard, not-found page, page contract and the visual base.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat layout "Application layout" --domain foundation
@@ -44,19 +44,20 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 - **R09**: WHILE the `front-web` shows a page, the title of the document SHALL be the application name.
 - **R10**: WHEN the `front-web` shows a page after the first load or after a navigation, it SHALL write one console line with the path of that page.
 - **R11**: WHEN a user changes the theme, the `front-web` SHALL write one console line with the selected theme.
+- **R12**: WHEN a user opens `/`, the home header SHALL show the version of the application.
 
 ## Expected URLs and APIs
 
 | Kind | Project | Address | Expected answer | Requirements |
 | --- | --- | --- | --- | --- |
-| page | front-web | `/` | Shell header with the name, menu, theme control; home header with the name and the description, and the card grid | R01–R04, R06–R11 |
+| page | front-web | `/` | Shell header with the name, menu, theme control; home header with the name, the description, the version, and the card grid | R01–R04, R06–R12 |
 | page | front-web | `/{unknown}` | Not-found page with the path and a link to `/` | R05, R09 |
 
 ## Solution
 
 ### front-web
 
-- Identity: one file in `core` with the name and the description of `system.md`. The document title, the shell header and the home page read it.
+- Identity: one file in `core` with the name and the description of `system.md`, and the version of the root `package.json`, which `aidd release` writes; it never copies the version by hand. The document title, the shell header and the home page read it.
 - Shell in `core`: header (name, menu, theme control), main area, router, not-found page. The server answers each unknown path with the shell, so direct links operate.
 - `main` gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to `core`, and the cards to the `home` registration. `core` never imports a page.
 - Page contract:
@@ -78,3 +79,4 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 - **R04**: open `/no-such-page`, put a mark on the document, follow the menu link to `/`: the mark is still there.
 - **R06**: set the color preference of the browser, not of the operating system, and use a new context for each preference.
 - **R10, R11**: read the browser console.
+- **R12**: the version is the version of the root `package.json`.

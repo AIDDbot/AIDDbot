@@ -430,3 +430,11 @@ En `cursor-10`, el front usó Pico y las tres fuentes, pero inventó los valores
 - `colors.css`, `theme.css` y `custom.css` de `front-standard` son un asset de `architect-system-foundation` (`assets/theme/`). El front los copia tal cual, después de Pico. Nunca inventa colores.
 - No añade texto a las sesiones: solo se lee al copiarlo.
 - Pasa a Archetype Base cuando exista.
+
+## D53 ← Humano, tras `codex-11` · Página `about`, versión en la home y fechas legibles
+
+La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin decisión. La home del dashboard ya muestra el nombre, la descripción y la salud; faltaba la versión, y faltaba un escaparate del autor para cuando el sistema sirva de arquetipo.
+
+- `layout`: la identidad de `core` lleva también la versión del `package.json` raíz (la escribe `aidd release`); la cabecera de la home la muestra.
+- Spec fundacional nueva `about` (7, solo con `front-web`): nombre, descripción, versión, autor con el enlace a su web (`rel="noopener noreferrer"`), y un resumen de la tecnología de cada proyecto hecho en la fundación desde `system.md` y los `AGENTS.md`. Sin autor en la petición: `AIDDbot` y `https://aiddbot.com`. `system.md` gana el campo Website.
+- Fechas y duraciones legibles con las API `Intl` (Baseline, sin dependencias): primitivas `formatDate` y `formatDuration` del `front-web`; el uptime de `health` (página y tarjeta) y la fecha de alta de `account` las usan. Los tests comprueban la forma, no el valor.

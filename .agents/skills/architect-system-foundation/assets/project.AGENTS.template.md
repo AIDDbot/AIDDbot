@@ -111,7 +111,7 @@ The index of `shared`. Read it before you write a check or a conversion.
 <!--
 [Project] Write the environment primitive of this project type in the row above, and remove this list.
 - back-api: readSetting(name, fallback, parse) — the parsed environment variable or its fallback; an invalid value stops the startup.
-- front-web: escapeHtml(text) — text that is safe in a page.
+- front-web: escapeHtml(text) — text that is safe in a page; formatDate(value) — a date and time that a person reads, in the language of the browser (Intl.DateTimeFormat); formatDuration(seconds) — a duration that a person reads, such as `1 h 2 min` (Intl.DurationFormat).
 - cli: fail(message) — writes `error: <message>` to standard error and exits with code 1.
 - e2e: uniqueValue(prefix), in test-data/ — a value that no other test run uses.
 -->

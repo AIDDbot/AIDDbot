@@ -1,6 +1,8 @@
 # {System name}
 
-> Author: {product author} · approved: {YYYY-MM-DD}
+> Author: {product author} · Website: {author website} · approved: {YYYY-MM-DD}
+
+<!-- With no author in the request: `AIDDbot` and `https://aiddbot.com`. The `about` page shows them. -->
 
 ## Purpose
 
