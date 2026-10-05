@@ -435,6 +435,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(aidd(root, "log", "verdict", `greenfield: ${"x".repeat(200)}`).code, 0);
   assert.equal(aidd(root, "log", "handoff", "builder → craftsman: S0001", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 0);
+  assert.equal(aidd(root, "log", "plan", "back: rockets repository and route", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
   const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"));
@@ -442,7 +443,8 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   const verdict = lines.find((line) => line.includes(" verdict "));
   assert.match(verdict, /model +- +verdict +INFO +greenfield: x+…$/);
   assert.ok(verdict.split(" INFO ").pop().trim().length <= 128);
-  assert.match(lines.at(-2), /model +S0001 +approved +INFO +S0001 Rocket fleet$/);
+  assert.match(lines.at(-3), /model +S0001 +approved +INFO +S0001 Rocket fleet$/);
+  assert.match(lines.at(-2), /model +S0001 +plan +INFO +back: rockets repository and route$/);
   assert.match(lines.at(-1), /model +- +scaffolded +INFO +back, front, e2e$/);
 });
 
