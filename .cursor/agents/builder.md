@@ -1,6 +1,6 @@
 ---
-name: "Builder"
-description: "Implements specifications, by planning and writing code"
+name: Builder
+description: Implements specifications, by planning and writing code
 model: grok-4.6[effort=medium,fast=false]
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/builder.md instead -->

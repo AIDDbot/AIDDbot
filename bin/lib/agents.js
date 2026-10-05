@@ -118,12 +118,17 @@ export function loadAgents(root, table) {
   });
 }
 
+/** A YAML scalar without quotes when it is safe, because Cursor keeps the quotes as part of the value. */
+function yamlScalar(text) {
+  return /^[A-Za-z][\w .,()/-]*$/.test(text) ? text : JSON.stringify(text);
+}
+
 export function renderAgentAdapter(agent, harness, row) {
   if (harness === "claude-code") {
     return `---\nname: ${JSON.stringify(agent.name)}\ndescription: ${JSON.stringify(agent.description)}\nmodel: ${row.model}\neffort: ${row.effort}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in @${agent.sourcePath} and follow them for this task.\n`;
   }
   if (harness === "cursor") {
-    return `---\nname: ${JSON.stringify(agent.name)}\ndescription: ${JSON.stringify(agent.description)}\nmodel: ${row.model}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`;
+    return `---\nname: ${yamlScalar(agent.name)}\ndescription: ${yamlScalar(agent.description)}\nmodel: ${row.model}\n---\n${markerMd(agent.sourcePath)}\nAdopt the role, expertise, and instructions defined in \`${agent.sourcePath}\` and follow them for this task.\n`;
   }
   if (harness === "copilot") {
     const models = row.models ?? [row.model];

@@ -1,6 +1,6 @@
 ---
-name: "Craftsman"
-description: "Quality assurance and verification of specifications."
+name: Craftsman
+description: Quality assurance and verification of specifications.
 model: grok-4.7[context=256k,reasoning_effort=low,fast=false]
 ---
 <!-- managed by /adapt — do not edit here, edit .agents/agents/craftsman.md instead -->
