@@ -13,7 +13,7 @@ const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"]
 const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
 const DEFAULT_TIMEOUT_MINUTES = 20;
-const DEFAULT_FOLDER_ENTRIES = 12;
+const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
 const configFile = (root) => aiddbotPath(root, "config.json");

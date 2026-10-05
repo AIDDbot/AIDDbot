@@ -27,7 +27,7 @@
     "eslint/max-params": [
       "warn",
       {
-        "max": 4
+        "max": 3
       }
     ],
     "eslint/max-lines": [
@@ -54,6 +54,12 @@
           }
         ],
         "eslint/max-depth": [
+          "warn",
+          {
+            "max": 4
+          }
+        ],
+        "eslint/max-params": [
           "warn",
           {
             "max": 4

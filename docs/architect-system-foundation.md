@@ -20,14 +20,14 @@ This diagram shows the usual projects and their main connections.
 ```mermaid
 flowchart LR
     USER[User]
+    CLI[cli<br/>Operations and automation]
     FRONT[front-web<br/>Web application]
     BACK[back-api<br/>API and business logic]
-    CLI[cli<br/>Operations and automation]
     E2E[e2e<br/>End-to-end tests]
     DATA[(Persistence)]
 
-    USER --> FRONT
     USER --> CLI
+    USER --> FRONT
     FRONT --> BACK
     CLI --> BACK
     BACK --> DATA
@@ -134,7 +134,7 @@ The public API is the only file that the manifest or a different feature can imp
 - Do not put business rules in `shared`.
 - Put an element in `shared` when `core` and the features both import it. An example is the error type of the application.
 - Add each element to the index of shared primitives in the `AGENTS.md` of the project.
-- If a folder has more than approximately 16 files, divide it by topic. The `quality` slot records this as debt. It does not stop the delivery.
+- If a folder of `shared` has more than 16 entries, divide it by topic. If a feature folder has more than 16 entries, divide the feature: never add subfolders in a feature. The `quality` slot records this as debt. It does not stop the delivery.
 
 ## Variations by project type
 

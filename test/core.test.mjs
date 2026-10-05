@@ -335,14 +335,14 @@ test("config set and get, then run executes the configured commands", () => {
 
 test("a quality run reports each shared or features folder over the size limit, and it never fails the run", () => {
   const root = repo();
-  for (let index = 0; index < 13; index++) write(root, `back/src/shared/file${index}.ts`, "");
+  for (let index = 0; index < 17; index++) write(root, `back/src/shared/file${index}.ts`, "");
   for (let index = 0; index < 4; index++) write(root, `back/src/features/auth/file${index}.ts`, "");
   for (let index = 0; index < 20; index++) write(root, `back/src/core/file${index}.ts`, "");
   for (let index = 0; index < 20; index++) write(root, `back/node_modules/shared/file${index}.ts`, "");
   aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { quality: "node -e \"process.exit(0)\"" } }));
   const scan = aidd(root, "run", "quality");
   assert.equal(scan.code, 0);
-  assert.deepEqual(scan.body.folders, [{ project: "back", folder: "back/src/shared", entries: 13, limit: 12 }]);
+  assert.deepEqual(scan.body.folders, [{ project: "back", folder: "back/src/shared", entries: 17, limit: 16 }]);
   aidd(root, "config", "set", "quality", '{"folderEntries":3}');
   assert.deepEqual(aidd(root, "run", "quality").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
 });

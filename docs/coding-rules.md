@@ -38,9 +38,9 @@ The archetype can change these numbers. The `quality` slot measures them.
 | Cyclomatic complexity of a function | 8 | 8 | `eslint/complexity` |
 | Size of a function | 32 lines | 64 statements | `eslint/max-lines-per-function`, `eslint/max-statements` |
 | Nesting depth | 2 | 4 | `eslint/max-depth` |
-| Parameters of a function | 4 | 4 | `eslint/max-params` |
+| Parameters of a function | 3 | 4 | `eslint/max-params` |
 | Lines in a file | 128 | 256 | `eslint/max-lines` |
-| Files in a `shared` folder | approximately 16 | — | no rule; the agent records it as debt |
+| Entries in a folder of `shared` or of a feature | 16 | — | no oxlint rule; the `quality` slot of the core reports it |
 
 - The line counts do not include blank lines and comments.
 - **Tests** are the files `*.test.ts` and `*.spec.ts`. In an `e2e` project, all files use the test limits.
@@ -51,6 +51,8 @@ The archetype can change these numbers. The `quality` slot measures them.
 These rules apply to all technologies.
 
 - Use names that are idiomatic for the language. Use the words of the domain.
+- Give each domain concept its own type. Do not use a bare `string` or `number` for it (no primitive obsession). A value with rules (an email, an amount, an identifier) is a **value object**: it cannot change, it checks its value when it is created, and two value objects with the same value are equal. Create it at the edge, where the input enters, and use it everywhere after that. It checks only the rules that the spec states. A generic value object goes in `shared`; a value object with domain words goes in the types of its feature.
+- When a function needs more than three values, give it one typed object.
 - Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
 - If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.

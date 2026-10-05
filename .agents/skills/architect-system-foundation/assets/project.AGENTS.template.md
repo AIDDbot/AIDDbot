@@ -85,7 +85,7 @@ Tests start the application with `createApp()`. They do not open a port.
 - Put a generic element with no domain in `shared` (a type, a check, a conversion, a utility, a test helper), also when only one part uses it now.
 - Keep an element with business rules or domain words in its feature. When a second feature needs it, expose it through the facade. Never move it to `shared`.
 - Put an element in `shared` when `core` and the features both use it. An example is the error type of the application.
-- If a folder has more than approximately {16} files, divide it by topic. The `quality` slot records this as debt.
+- If a folder of `shared` has more than {16} entries, divide it by topic. If a feature folder has more than {16} entries, divide the feature: never add subfolders in a feature. The `quality` slot records this as debt.
 
 **The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders. The suite runs in one browser engine (Chromium), unless the system asks for more.
 
@@ -177,8 +177,10 @@ This table is the index of the elements in `shared`. Read it before you write a 
 These rules never block a delivery. A violation is debt.
 
 - Use names that are idiomatic for the language. Use the words of the domain.
-- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {4} parameters. Keep files ≤ {128} lines.
-- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
+- Give each domain concept its own type. Do not use a bare `string` or `number` for it (no primitive obsession). A value with rules (an email, an amount, an identifier) is a **value object**: it cannot change, it checks its value when it is created, and two value objects with the same value are equal. Create it at the edge, where the input enters, and use it everywhere after that. It checks only the rules that the spec states. A generic value object goes in `shared`; a value object with domain words goes in the types of its feature.
+- When a function needs more than three values, give it one typed object.
+- Keep functions simple: cyclomatic complexity ≤ {8}, ≤ {32} lines, nesting ≤ {2}, ≤ {3} parameters. Keep files ≤ {128} lines.
+- Tests have relaxed thresholds: ≤ {64} statements for each function, nesting ≤ {4}, ≤ {4} parameters, files ≤ {256} lines. Do not count the lines of a test function: a suite contains its tests, and each test is one statement of the suite. In an `e2e` project, all files use these thresholds.
 - Use early returns. Check the incorrect cases first and return or raise an error. Then the main path has no `else` and no nesting.
 - If a block is longer than a few lines or nests more than the limit, move it to a function. Give the function a name from the domain.
 - If a condition has more than one logical operator, move it to a predicate. Give the predicate a name from the domain.
