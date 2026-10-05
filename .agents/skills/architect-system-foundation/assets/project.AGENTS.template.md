@@ -87,7 +87,7 @@ Tests start the application with `createApp()`. They do not open a port.
 - Put an element in `shared` when `core` and the features both use it. An example is the error type of the application.
 - If a folder of `shared` has more than {16} entries, divide it by topic. If a feature folder has more than {16} entries, divide the feature: never add subfolders in a feature. The `quality` slot records this as debt.
 
-**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. In `shared`, only `page-objects/` and `test-data/` are subfolders. The suite runs in one browser engine (Chromium), unless the system asks for more.
+**The `e2e` project.** It has no layers, no manifest and no `main`. `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. If a test calls a helper, the helper goes in `shared`. If only the runner uses it, it goes in `core`. `shared` has `page-objects/` and `test-data/`. Other elements follow the rule of `shared`: primitives at its root, other elements in folders by technical concern (such as `database`). The suite runs in one browser engine (Chromium), unless the system asks for more.
 
 **Facade and manifest.**
 
@@ -108,7 +108,7 @@ Tests start the application with `createApp()`. They do not open a port.
 | `presentation` | route / controller | page / component | command | n/a — no layers |
 | `logic` | service | store / use case | service | n/a — tests contain no business logic |
 | `data` | repository | API client | repository / file system | n/a — no layers |
-| `shared` | primitives; concerns such as `http`, `database` | primitives; concerns such as `components` | primitives; concerns such as `output` | `page-objects/` and `test-data/`; fixtures, API clients and the project startup at the root of `shared` |
+| `shared` | primitives; concerns such as `http`, `database` | primitives; concerns such as `components` | primitives; concerns such as `output` | primitives; `page-objects/`, `test-data/`; concerns such as `database`, `projects` |
 | manifest | route registry | page and menu registry | command registry | n/a — the runner finds tests by convention |
 | `unit` | yes | yes | yes | n/a — no logic of its own; acceptance is its product |
 | `start` | yes | yes | n/a — runs for each invocation; no server | n/a — it starts the projects under test |
@@ -188,7 +188,7 @@ These rules never block a delivery. A violation is debt.
 - Do not hide errors. Use one method only to handle errors in the project.
 - Catch errors only at the edges: the error handler of `core`, and the `data` layer when it changes an external failure into the expected error. A function with `try`/`catch` contains only the `try`/`catch`. The `try` block calls a different function that does the work.
 - Get configuration from the environment. Do not put configuration values in the code.
-- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the `data` file that uses it. Give the file a name from the domain. The code loads the file by name one time and does not write statements in code. Keep the schema definition (tables and migrations) in files in one location. Tests can write statements in code.
+- If the store has a query language (such as SQL), write each statement as a named constant at the top of the `data` file that uses it. Never write a statement in a function or in a different layer, and never share a statement between features. Keep the schema definition (tables and migrations) in numbered files with the extension of that language (such as `.sql`), in one location. These are the only statement files. Tests can write statements in code.
 - Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.
 - First make it work. Then make it correct. In a delivery, only `lint` (errors, types, boundaries) and acceptance block.

@@ -107,7 +107,9 @@ flowchart LR
 
 ### Data, configuration and dependencies
 
-- If the store has a query language (such as SQL), put each statement in its own file with the extension of that language (such as `.sql`), next to the `data` file that uses it. Give the file a name from the domain. The code loads the file by name one time. Keep the schema definition (tables and migrations) in files in one location. Tests can write statements in code.
+- If the store has a query language (such as SQL), write each statement as a named constant at the top of the `data` file that uses it. Never write a statement in a function or in a different layer. Never share a statement between features.
+- Keep the schema definition (tables and migrations) in numbered files with the extension of that language (such as `.sql`), in one location. These are the only statement files.
+- Tests can write statements in code.
 - Get configuration from the environment. Do not put configuration values in the code.
 - Anchor the ignore patterns for runtime data to the project root (`/data/`, not `data/`). Then they cannot hide a `data` layer folder.
 - Add a dependency only with the add command of the package manager. That command gets the latest release. Do not write a version by hand or from memory.

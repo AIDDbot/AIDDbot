@@ -156,7 +156,7 @@ shared/
 | features | endpoints | pages | commands | tests, one folder for each spec domain |
 | layers | `presentation`, `logic`, `data` | `presentation`, `logic`, `data` | `presentation`, `logic`, `data` | no layers |
 
-In the `e2e` project, `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test.
+In the `e2e` project, `core` uses `shared`. Tests use `shared`, never `core` and never a different feature. `shared` uses no `core` and no test. `shared` has `page-objects/` and `test-data/`, and folders by technical concern as in the other projects.
 
 ## Files
 

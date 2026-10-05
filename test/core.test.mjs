@@ -365,6 +365,19 @@ test("a quality run reports each shared or features folder over the size limit, 
   assert.deepEqual(aidd(root, "run", "quality").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
 });
 
+test("a quality run reports each subfolder inside a feature, and only there", () => {
+  const root = repo();
+  write(root, "back/src/features/auth/auth.api.ts", "");
+  write(root, "back/src/features/auth/logic/auth.service.ts", "");
+  write(root, "back/src/features/auth/logic/deep/more.ts", "");
+  write(root, "back/src/shared/http/body.middleware.ts", "");
+  write(root, "back/src/core/migrations/001-init.sql", "");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { quality: "node -e \"process.exit(0)\"" } }));
+  const scan = aidd(root, "run", "quality");
+  assert.equal(scan.code, 0);
+  assert.deepEqual(scan.body.subfolders, [{ project: "back", folder: "back/src/features/auth/logic" }]);
+});
+
 test("config set refuses a project with files of two package managers", () => {
   const root = repo();
   write(root, "back/package-lock.json", "{}\n");

@@ -106,24 +106,31 @@ function recordRun(root, kind, runs) {
   writeControl(dir, control);
 }
 
-/** Each folder of a `shared` or `features` tree, the tree included, with more direct entries than `limit`. Technology-free: it reads the file system only. */
-function crowdedFolders(root, project, start, limit) {
-  const found = [];
-  const walk = (dir, grouped) => {
+/**
+ * The folder findings of one project. `crowded`: each folder of a `shared` or `features` tree, the tree included, with more direct entries than `limit`.
+ * `subfolders`: each folder inside a feature folder, because a feature is one flat folder and the layer lint sees only its top. Technology-free: it reads the file system only.
+ */
+function folderFindings(root, project, start, limit) {
+  const crowded = [];
+  const subfolders = [];
+  const walk = (dir, grouped, featureDepth) => {
     let entries;
     try {
       entries = fs.readdirSync(dir, { withFileTypes: true });
     } catch {
       return;
     }
-    if (grouped && entries.length > limit) found.push({ project, folder: relative(root, dir), entries: entries.length, limit });
+    if (grouped && entries.length > limit) crowded.push({ project, folder: relative(root, dir), entries: entries.length, limit });
+    if (featureDepth === 3) subfolders.push({ project, folder: relative(root, dir) });
     for (const entry of entries) {
       if (!entry.isDirectory() || entry.name.startsWith(".") || SKIPPED_FOLDERS.has(entry.name)) continue;
-      walk(path.join(dir, entry.name), grouped || GROUPED_FOLDERS.has(entry.name));
+      const depth = entry.name === "features" && featureDepth === 0 ? 1 : featureDepth && featureDepth + 1;
+      walk(path.join(dir, entry.name), grouped || GROUPED_FOLDERS.has(entry.name), depth);
     }
   };
-  walk(start, false);
-  return found.sort((a, b) => a.folder.localeCompare(b.folder));
+  walk(start, false, 0);
+  const byFolder = (a, b) => a.folder.localeCompare(b.folder);
+  return { crowded: crowded.sort(byFolder), subfolders: subfolders.sort(byFolder) };
 }
 
 /** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
@@ -198,16 +205,21 @@ export function run(root, [kind], flags) {
   }
   const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
-  const folders = kind === "quality" ? names.flatMap((name) => crowdedFolders(root, name, path.join(root, projects[name].path), limit)) : [];
+  const findings = kind === "quality" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
+  const folders = findings.flatMap((entry) => entry.crowded);
+  const subfolders = findings.flatMap((entry) => entry.subfolders);
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
     journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
   }
+  if (subfolders.length) {
+    journal(root, { event: "run", level: "WARN", summary: `subfolders in features: ${subfolders.map((entry) => entry.folder).join(", ")}` });
+  }
   if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
   if (tracksLint) rememberLint(root, kind, projects, runs, before);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, runs, ...(kind === "quality" && { folders }) };
+    : { kind, ok, runs, ...(kind === "quality" && { folders, subfolders }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 
