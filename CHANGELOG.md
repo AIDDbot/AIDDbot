@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.5 - 2026-10-05
+
+- docs(columbus): record cursor-10, which validates 0.2.5 (4a21524)
+- docs(columbus): plan 0.2.6 shorter AGENTS.md (b3bc9a2)
+- docs(columbus): start cursor-10 notes (5911efd)
+- fix(agents): write Cursor adapter names without quotes (7a1c8f1)
+- docs(columbus): mark 0.2.5 plan done and prepare codex-10 (47e4e13)
+- feat(skills): bring codex-9 specs into the foundation of /architect-system-foundation (54afe9c)
+- refactor(skills): tighten /architect-system-foundation and /scan-quality (492bb58)
+- docs(columbus): plan 0.2.5 (5867840)
+- feat(core): journal each run with the tool's summary line (7bfa6c9)
+- docs(columbus): record codex-9 lessons, D49 and batch 5 comparison guide (b1b3503)
+- refactor(skills): tighten /architect-system-foundation (4568ae1)
+- refactor(skills): tighten /architect-system-foundation (247c620)
+
 ## 0.2.4 - 2026-10-04
 
 - refactor(skills): tighten /review-implementation (0398fd3)

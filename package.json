@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "codename": "Oktoberfest",
   "author": {
     "name": "Alberto Basalo",
@@ -23,8 +23,8 @@
     "node": ">=18"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-10-04T15:46:46.793Z",
-  "releaseCommit": "0398fd3cf40c038e1652ff35967a48e731807fce",
+  "buildTimestamp": "2026-10-05T12:42:52.724Z",
+  "releaseCommit": "4a215248c799c81ae5102c3915c4d86d3bc78e80",
   "devDependencies": {
     "oxlint": "^1.86.0"
   }
