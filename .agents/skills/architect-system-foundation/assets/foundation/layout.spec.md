@@ -66,7 +66,7 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 - Feature `home`: page `/` and its menu link `Home`. Header and card grid; one column on a narrow screen. A card registration loads the card when the home page shows it; each facade exports its own.
 - The menu marks the current link with the accessible attribute for the current page.
 - Theme: an attribute on the root element, first from the color preference of the system, then from the browser storage after a selection. It is set before the first paint.
-- Visual base: semantic HTML and a style sheet with no classes. Fonts and color tokens of the two themes in the project, so it operates offline. The `AGENTS.md` of the project names them.
+- Visual base: semantic HTML on the style sheet of the archetype, with the brand theme files copied as they are (fonts, the color tokens of the two themes mapped to the style sheet). It operates offline. The `AGENTS.md` of the project names the files.
 - The console logger of `core` (see `monitoring`) gets the navigation from the router after the page shows, and the theme from the theme control.
 
 ### e2e

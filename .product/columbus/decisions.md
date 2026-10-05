@@ -422,3 +422,11 @@ En las seis specs fundacionales (~9800 palabras), la tabla de Verification casi 
 - Solution: bullets cortos, solo con las decisiones que el Blueprint, el `AGENTS.md` del proyecto y los requisitos no toman. Lo aprendido con fallos (D44, D45, D47) se queda.
 - Reglas de negocio solo si ningún requisito las dice.
 - Resultado en las fundacionales: 10 217 → 6908 palabras (−32 %), con los requisitos intactos.
+
+## D52 ← P22, prueba `cursor-10` (humano) · El tema de marca entra en la fundación hasta que exista Archetype Base
+
+En `cursor-10`, el front usó Pico y las tres fuentes, pero inventó los valores de los tokens `--ab-*` (grises piedra y naranja) y no los conectó con las variables de Pico. P22 dejaba la marca fuera de AIDDbot, para los arquetipos de refinamiento máximo de Archetype Base, que aún no existe.
+
+- `colors.css`, `theme.css` y `custom.css` de `front-standard` son un asset de `architect-system-foundation` (`assets/theme/`). El front los copia tal cual, después de Pico. Nunca inventa colores.
+- No añade texto a las sesiones: solo se lee al copiarlo.
+- Pasa a Archetype Base cuando exista.

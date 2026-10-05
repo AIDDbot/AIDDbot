@@ -1,0 +1,77 @@
+/* custom.css - 2026 Refresh
+  Components & Effects
+*/
+
+.logo {
+  font-family: var(--pico-font-family-sans-serif);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-style: normal;
+  background: var(--ab-gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px var(--ab-glow-strong));
+}
+
+.container,
+article {
+  background: var(--ab-glass) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--ab-glass-border);
+  border-radius: var(--pico-border-radius);
+  padding: var(--ab-container-padding) !important;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+  margin-left: 0rem !important;
+  margin-right: 0rem !important;
+  max-width: 100%;
+  /* Override PicoCSS breakpoint-based max-width */
+}
+
+/* Hover effect for a "tactile" tech feel */
+article:hover {
+  transform: translateY(-2px);
+  border-color: var(--ab-glow-medium);
+  box-shadow: 0 0 30px var(--ab-glow-soft);
+}
+
+.color,
+.colored-headers h2,
+.colored-headers h3,
+.colored-headers h4 {
+  background: var(--pico-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.primary {
+  color: var(--pico-primary);
+  font-weight: 600;
+}
+
+.secondary {
+  background: var(--ab-gradient-secondary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1rem;
+}
+
+#hero > main {
+  margin-left: 0;
+  padding-left: 0;
+  padding-inline: 0;
+}

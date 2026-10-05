@@ -1,0 +1,178 @@
+/* Modern CSS Reset and Global Styles */
+
+:root {
+  --pico-font-family-sans-serif: "Audiowide", "Roboto", sans-serif;
+  --pico-font-family-emoji: "Roboto", sans-serif;
+  --pico-font-family-serif: "Roboto", serif;
+  --pico-font-family: "Roboto", system-ui, sans-serif;
+  --pico-font-family-monospace: "Anonymous Pro", monospace;
+  --pico-border-radius: 0.5rem;
+  --pico-line-height: 1.6;
+  --pico-typography-spacing-vertical: 1rem;
+  --ab-body-gutter: clamp(0.5rem, 1.2vw, 1rem);
+  --ab-page-gutter: clamp(0.5rem, 2vw, 1.5rem);
+  --ab-section-gutter: clamp(0.5rem, 1.8vw, 1.25rem);
+  --ab-section-block-space: clamp(0.75rem, 1.8vw, 1.5rem);
+  --ab-main-max-width: 64rem;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--pico-font-family);
+  font-size: clamp(0.9rem, 0.84rem + 0.35vw, 1rem);
+  background-image: var(--ab-mesh-bg);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: var(--ab-body-gutter);
+}
+
+/* Tactile Grain Overlay (2026 Trend) */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 9999;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--pico-font-family-sans-serif);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* Custom Selection Glow */
+::selection {
+  background: var(--ab-selection-bg);
+  color: var(--ab-selection-color);
+}
+
+main {
+  max-width: min(100%, var(--ab-main-max-width));
+  margin-inline: auto;
+  padding-inline: var(--ab-page-gutter);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--pico-font-family-sans-serif);
+}
+
+h1 {
+  --pico-font-size: clamp(1.85rem, 1.45rem + 2vw, 3rem);
+  --pico-line-height: 1.5;
+  --pico-typography-spacing-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  --pico-font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem);
+  --pico-line-height: 1.5;
+  --pico-typography-spacing-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  --pico-font-size: clamp(1.05rem, 0.95rem + 0.45vw, 1.3rem);
+  --pico-line-height: 1.5;
+  --pico-typography-spacing-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  --pico-font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
+  --pico-line-height: 1.5;
+  --pico-typography-spacing-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+article,
+section {
+  padding-left: var(--ab-section-gutter);
+  padding-right: var(--ab-section-gutter);
+  padding-top: var(--ab-section-block-space);
+  padding-bottom: var(--ab-section-block-space);
+}
+
+@media (min-width: 768px) {
+  .grid:has(> section:nth-child(3)) > section :is(h2, h3, h4) {
+    font-size: clamp(1rem, 0.9rem + 0.35vw, 1.15rem);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+}
+
+article > footer,
+article > header {
+  background-color: var(--pico-background-color);
+}
+
+header {
+  margin-bottom: 1rem;
+}
+
+#theme-toggle .light,
+#theme-toggle .dark {
+  display: none;
+}
+
+#theme-toggle {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  line-height: inherit;
+}
+
+html[data-theme="light"] #theme-toggle .dark {
+  display: inline;
+}
+
+html[data-theme="dark"] #theme-toggle .light {
+  display: inline;
+}
+
+code {
+  font-size: 1rem;
+}
+
+pre code {
+  font-size: 1rem;
+}
+
+mark {
+  color: var(--pico-secondary);
+  background-color: var(--pico-primary);
+}
+
+kbd {
+  background-color: transparent;
+  color: var(--pico-color);
+  border-left: 1px solid var(--pico-primary);
+  padding: 0.2rem 0.5rem;
+  font-weight: bold;
+}
+
+a:focus-visible,
+[role="button"]:focus-visible,
+button:focus-visible,
+#theme-toggle:focus-visible {
+  outline: 2px solid var(--pico-primary);
+  outline-offset: 2px;
+}

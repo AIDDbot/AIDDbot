@@ -60,10 +60,10 @@ The concept is still the facade. Only the JS / TS file has the name `api`.
 The `front-standard` archetype sets the visual base. An archetype made on demand copies it. The person who adopts AIDDbot changes it in the project.
 
 - Pico CSS and the fonts are dependencies, added with the package manager: `@picocss/pico`, and `@fontsource/roboto` for the text, `@fontsource/audiowide` for the headings, `@fontsource/anonymous-pro` for code. The entry file imports them, and the bundler serves them from the project. No CDN, thus the application operates offline. Never copy their files into the project: the `upgrade` slot keeps them current.
-- `theme.css` (typography and spacing on top of Pico), `colors.css` (the `--ab-*` color tokens for the light and dark themes) and `custom.css` (components) are files of the project, imported after Pico.
+- Copy [`theme/theme.css`](./theme/theme.css) (typography and spacing on top of Pico), [`theme/colors.css`](./theme/colors.css) (the `--ab-*` brand tokens for the light and dark themes, mapped to the `--pico-*` variables) and [`theme/custom.css`](./theme/custom.css) (components) into the project as they are, and import them after Pico. Never invent other colors: the owner changes the values only in these files.
 - Components render in the light DOM: no Shadow DOM, so Pico, the theme and the tokens reach every element. Use Shadow DOM only when the archetype says so.
 - The theme is in the `data-theme` attribute of the document. The first value comes from `prefers-color-scheme`. The user selection stays in `localStorage`.
-- Source: the `src/app/styles/` folder of [`AIDDbot/front-standard`](https://github.com/AIDDbot/front-standard).
+- Source of the three files: the `src/app/styles/` folder of [`AIDDbot/front-standard`](https://github.com/AIDDbot/front-standard). They move to Archetype Base when it exists (P21, P22).
 
 ## Dependencies: add and upgrade
 
