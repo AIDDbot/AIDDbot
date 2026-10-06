@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.8 - 2026-10-06
+
+- refactor(skills): tighten the Blueprint after codex-12 (c255ef3)
+- docs(product): summarize the codex-12 experiment (3d0495b)
+- docs(product): prepare the codex-12 experiment for v0.2.7 (589ccef)
+
 ## 0.2.7 - 2026-10-06
 
 - refactor(skills): apply the lean principles to the Blueprint and foundation (55725d7)
