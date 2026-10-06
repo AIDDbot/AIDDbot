@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.7 - 2026-10-06
+
+- refactor(skills): apply the lean principles to the Blueprint and foundation (55725d7)
+- docs: close open points in the principles and add security (01940ca)
+- docs: add lean technology-free principles in docs/principles (432a3eb)
+- refactor(skills): tighten /outline-system with the spec-only checks rule (5b89add)
+- docs: shorten the coding rules and align them with the Blueprint (22e7485)
+- docs: let all feature layers use the facades of other features (dea916b)
+- refactor(skills): tighten /architect-system-foundation and /outline-system (f7e877c)
+- feat(skills): add the about page and readable dates to the foundation (6dec7c0)
+- docs: write the public docs in ASD-STE100 (8f78e6f)
+- docs: bring the user docs in line with 0.2.6 (b9aa0cb)
+
 ## 0.2.6 - 2026-10-05
 
 - docs(columbus): record codex-11, which validates 0.2.6 (7ecef57)
