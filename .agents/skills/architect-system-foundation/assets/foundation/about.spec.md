@@ -1,5 +1,5 @@
 <!--
-Foundation spec 7 of 7. Only for a system with a `front-web` (Columbus principle 9; D53). It needs `layout`.
+Foundation spec 7 of 8. Only for a system with a `front-web` (Columbus principle 9; D53). It needs `layout`.
 The page that tells what the application is, who made it, and with which technology.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat about "About page" --domain foundation

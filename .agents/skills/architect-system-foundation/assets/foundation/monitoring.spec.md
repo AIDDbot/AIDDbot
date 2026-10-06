@@ -1,5 +1,5 @@
 <!--
-Foundation spec 2 of 7 (Columbus principle 9; D17, D18, D39, D51). It needs `configuration`.
+Foundation spec 2 of 8 (Columbus principle 9; D17, D18, D39, D51). It needs `configuration`.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat monitoring "Monitoring" --domain foundation
 Instance: replace each role (`back-api`, `front-web`, `cli`, `e2e`) with the project name.

@@ -42,6 +42,7 @@ Then deliver the foundation specs in this order, one at a time, by executing `bu
 5. [`basic-auth`](./assets/foundation/basic-auth.spec.md), only when the system has users according to its proposal or model; ask the human only when that is unclear.
 6. [`account`](./assets/foundation/account.spec.md), only with `basic-auth`.
 7. [`about`](./assets/foundation/about.spec.md), only when the system has a `front-web`.
+8. [`record-views`](./assets/foundation/record-views.spec.md), only when the system has a `front-web`.
 
 The foundation closes only green: after the last spec ships, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`; when any fails, journal it as `blocked` and return it. Never start a repair or any spec beyond the foundation specs, even for `high` debt: return the debt summary from `node .agents/aidd/aidd.mjs debt list`, and recommend `craft-lasting-quality` when any item is `high`.
 

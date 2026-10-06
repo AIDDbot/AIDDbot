@@ -1,5 +1,5 @@
 <!--
-Foundation spec 6 of 7. Optional (Columbus principle 9; D39, D45, D47, D51; plan 0.2.5 G4). It needs `basic-auth` and, with a `front-web`, `layout`.
+Foundation spec 6 of 8. Optional (Columbus principle 9; D39, D45, D47, D51; plan 0.2.5 G4). It needs `basic-auth` and, with a `front-web`, `layout`.
 Include it only when the system includes `basic-auth`.
 The account of the user, logout, a menu by access, a page guard and a route with a path parameter.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.

@@ -1,5 +1,5 @@
 <!--
-Foundation spec 3 of 7. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39, D51). It needs `configuration` and `monitoring`.
+Foundation spec 3 of 8. Only for a system with a `front-web` (Columbus principle 9; D17, D18, D37, D38, D39, D51). It needs `configuration` and `monitoring`.
 The shell of the `front-web`: application identity, menu, theme, home dashboard, not-found page, page contract and the visual base.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat layout "Application layout" --domain foundation

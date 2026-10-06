@@ -1,5 +1,5 @@
 <!--
-Foundation spec 4 of 7 (Columbus principle 9; D2, D6, D17, D18, D38, D39, D51). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
+Foundation spec 4 of 8 (Columbus principle 9; D2, D6, D17, D18, D38, D39, D51). It needs `configuration`, `monitoring` and, with a `front-web`, `layout`.
 The tracer bullet: one small feature through presentation → logic → data in each project.
 Written in ASD-STE100 Simplified Technical English. Technical names are not dictionary words.
 Create: aidd spec new feat health "Health status" --domain foundation
