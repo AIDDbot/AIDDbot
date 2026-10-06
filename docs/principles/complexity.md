@@ -15,7 +15,7 @@ The archetype can change these numbers.
 | Lines in a file | 128 | 256 |
 | Entries in a folder | 16 | — |
 
-- If necessary, disable the parameter limit for one function with a lint comment.
+- A callback whose signature the framework sets is outside the parameter limit. Disable the limit for it with a lint comment.
 - A folder over the limit has more than one concern. Divide it by concern.
 
 ## Functions

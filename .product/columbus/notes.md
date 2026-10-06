@@ -421,7 +421,7 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-12/`. v0.2.7 (`1688307`): princ
 3. **Velocidad ×2, pero no por un Blueprint más corto:** el Blueprint creció (891 → 960 palabras, con system, REST, seguridad y tests). Causas probables: reglas más claras y menos vueltas (solo Security devuelve al Builder). Una sola ejecución: falta repetir.
 4. **La deuda sube (0 → 5):** D0001/D0002 `high` (limpieza de procesos de e2e y parada del back), D0004 `high` (componente de `health` sin custom element), D0003 y D0005 `medium`. Comparar tras `/craft-lasting-quality` hasta deuda cero.
 5. **`quality` sin escanear:** `max-params` 3–4 solo en middlewares de Express y el manejador de errores de `core` (firma del framework), sin comentario de excepción; complejidad 9 en `readSettings`; 4 `no-empty-pattern` en las fixtures de Playwright otra vez.
-6. **Fallos nuestros, por arreglar:** (a) «An enum for a closed set» choca con `erasableSyntaxOnly` de TS: decir «a closed type (an enum or a union of literals)». (b) El rol `*.card.ts` del front no está en la lista de `presentation` de `oxlint.boundaries.json`. (c) Restos del ejemplo de Vite en `front/src/assets/`.
+6. **Fallos nuestros (arreglados en 0.2.8, más la excepción de parámetros para callbacks del framework, que generó D0009–D0011):** (a) «An enum for a closed set» choca con `erasableSyntaxOnly` de TS: decir «a closed type (an enum or a union of literals)». (b) El rol `*.card.ts` del front no está en la lista de `presentation` de `oxlint.boundaries.json`. (c) Restos del ejemplo de Vite en `front/src/assets/`.
 
 ## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 

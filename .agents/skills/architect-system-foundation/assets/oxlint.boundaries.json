@@ -146,7 +146,9 @@
                   "./*.page.ts",
                   "./*.page.vue",
                   "./*.component.ts",
-                  "./*.component.vue"
+                  "./*.component.vue",
+                  "./*.card.ts",
+                  "./*.card.vue"
                 ],
                 "message": "The facade never uses presentation. The direction is facade → logic → data."
               }
@@ -199,6 +201,8 @@
                   "./*.page.vue",
                   "./*.component.ts",
                   "./*.component.vue",
+                  "./*.card.ts",
+                  "./*.card.vue",
                   "./*.api.ts"
                 ],
                 "message": "logic never uses presentation or the facade. The direction is presentation → logic → data."
@@ -250,6 +254,8 @@
                   "./*.page.vue",
                   "./*.component.ts",
                   "./*.component.vue",
+                  "./*.card.ts",
+                  "./*.card.vue",
                   "./*.service.ts",
                   "./*.service.vue",
                   "./*.policy.ts",

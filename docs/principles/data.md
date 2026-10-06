@@ -5,7 +5,7 @@
 - Use the strictest typed form of the language and its strictest type check.
 - Give each domain concept its own type. Do not use a bare string or number for it.
 - Use a value object for a value with rules. Examples: an email, an amount, an identifier.
-- Use an enum for a closed set of values.
+- Use a closed type for a closed set of values: an enum or a union of literals.
 - Make larger types from smaller types. Use composition, not inheritance.
 - Put a generic type in `shared`. Put a type with domain words in the types of its feature.
 

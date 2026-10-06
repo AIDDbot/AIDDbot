@@ -46,7 +46,7 @@ Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary r
 | composition | `src/app.main.ts` (entry), `src/app.compose.ts` (`createApp()`) and `src/features/features.manifest.ts` |
 | `core` | `src/core/app.{service}.ts`, for example `app.config.ts`, `app.logger.ts`, `app.server.ts` |
 | facade | `src/features/{feature}/{feature}.api.ts`, only when other features use it |
-| `presentation` | `*.routes.ts` (the registration that the manifest imports), `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
+| `presentation` | `*.routes.ts` (the registration that the manifest imports), `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts`, `*.card.ts` (or `.vue`) |
 | `logic` | `*.service.ts`, `*.policy.ts`, `*.store.ts` |
 | `data` | `*.repository.ts`, `*.client.ts` |
 | types of a feature, no layer | `*.type.ts`; value objects in `*.value.ts` (only value objects) |
