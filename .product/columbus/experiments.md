@@ -75,11 +75,13 @@ node .agents/aidd/aidd.mjs run acceptance
 git log --oneline --graph
 ```
 
-- **Canario (D39, regla fija 2):** en `back`, hacer que un fichero de `core` importe la fachada de `health` o el manifiesto; `run lint` **debe fallar**. Deshacer. (Que una funcionalidad importe el fichero público de `core` está permitido si el arquetipo eligió import directo; no sirve como canario.)
+- **Canario (desde 0.2.7):** en `back`, hacer que un fichero de `health` importe cualquier fichero de `core`; `run lint` **debe fallar**. Deshacer. Igual con el manifiesto importando la fachada (`*.api.ts`) de una funcionalidad.
 - `system.md` coincide con lo instalado (tecnologías y cambios de YOLO).
 - Tres commits por proyecto en el scaffold (`generate`, `shape to blueprint`, `register tooling`).
 - Specs `configuration`, `monitoring`, `layout`, `health`, `basic-auth` y `account` en `shipped`.
 - **Desde 0.2.5 (`codex-10`):** `run quality` sin `subfolders in features`; ningún `.sql` fuera de las migraciones; la identidad en un solo fichero (título, cabecera y home); las tarjetas de `health` y `auth` llegan por la fachada y la home no conoce funcionalidades; el contrato de páginas sin servicios opcionales ni `!`; una sola marca de acceso por página y enlace; `/users/{otro id}` da 404; las líneas de consola del front sin valores privados; la línea de diario de cada `run` con el resumen de la herramienta.
+
+- **Desde 0.2.7 (`codex-12`, principios):** ninguna funcionalidad importa `core` (ni `core.api.ts`); logger, cliente HTTP y base de datos llegan por contratos en `shared` que da la composición; el manifiesto importa solo el registro (`*.routes.ts`) de cada funcionalidad; `health` sin fachada; la identidad en `shared`; `run quality` con `max-params` 2 (cuántas excepciones por comentario y si están justificadas); el Blueprint del `AGENTS.md` raíz copiado tal cual.
 
 ## 3 · Negocio (solo si la fundación sale limpia)
 
@@ -123,3 +125,4 @@ Nada que copiar si la prueba se ejecutó en `C:/code/aidd/experiments/columbus/{
 | `codex-9` | Codex (`gpt-6.1-sol`) | F | `a14862b` (F1–F4, D47) | Cinco specs en ~64 min, verde, sin intervención; todas las verificaciones verdes a la primera; `basic-auth` calificada en verde a la primera con D47 (guard en el base path, digest de tokens, caducidad); rojos de calificación en S0001 y S0002 por reglas generales y por el aislamiento de la BD de `e2e`; 3 deudas `high`; `shared` plano con primitivas en la raíz y sin `utils/`; `master` solo con merges; 44 tests de aceptación; ~1560 líneas; calidad S0006–S0008 hasta v0.6.3 cerró las tres `high` y dejó dos `medium` de carpetas largas |
 | `cursor-10` | Cursor (Grok) | F | candidata 0.2.5 (G1–G8, D49) | Seis specs en ~2 h 05 min, cierre verde (73 tests); subagentes tras deducir las comillas del nombre (`7a1c8f1`); `layout`, `health`, `basic-auth` verdes a la primera; D0001 `high` (timeout de la suite) y D0002 `high` (test de doble clic mal hecho); valida la 0.2.5 |
 | `codex-11` | Codex (`gpt-6.1-sol`) | F | candidata 0.2.6 (D50–D52) | Seis specs en ~1 h 42 min, cierre verde (90 tests), **deuda cero**; `AGENTS.md` de proyecto −62 %; un rojo de Security reparado; tema copiado byte a byte; bloqueo ajeno por un proceso huérfano de `cursor-10`; 6 avisos de `quality` sin escanear (3 ya arreglados en las fuentes); valida la 0.2.6 |
+| `codex-12` | Codex (`gpt-6.1-sol`) | F | v0.2.7 (`1688307`) | En curso |
