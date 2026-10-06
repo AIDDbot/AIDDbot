@@ -32,11 +32,3 @@ flowchart LR
 ### Composition
 
 - The entry point composes the project. It starts `core` and registers each feature by name, in one explicit list. It is the only part that knows `core` and `features`. It gives the features the services of `core` through the contracts of `shared`.
-
-## Unit tests
-
-- A unit test proves one business rule, without external systems.
-- If possible, put the unit tests next to the code that they test.
-- A unit test is fast. It does not depend on a different test. It gives the same result each time.
-- Test the rules of the business, not the framework.
-- Also test the elements of `shared` and the services of `core`.

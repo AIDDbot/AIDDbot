@@ -45,7 +45,7 @@ Contracts:
 | `lint` | Yes | `{command}` | {tool} |
 | `format` | No | `{command}` | {tool} |
 | `upgrade` | No | `{command}` | {tool} |
-| `unit` | No | `{command}` | {tool} |
+| `unit` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
 | `acceptance` | Yes | `{command}` | {tool} |
 | `quality` | No | `{command}` | {tool} |

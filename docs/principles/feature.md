@@ -19,9 +19,3 @@ flowchart LR
 - `data` reads and writes outside the project: database, remote API, files. It does not depend on other layers.
 - `types` holds the types and the value objects. It is not a layer.
 - All layers can use `types`, `shared` and the facades of other features.
-
-## Tests
-
-- Unit tests prove `logic`. Each business rule has at least one test.
-- A unit test replaces `data` with a simple fake. It does not use a real external system.
-- The acceptance tests prove `presentation` and `data`. They do not need unit tests.
