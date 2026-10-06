@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.9 - 2026-10-06
+
+- fix(core): refuse release and integrate of code changed since its last lint (93792e4)
+- docs(product): add S0019, S0020 and the format gap to the codex-12 summary (64e0ed4)
+- fix(skills): keep record styles out of the copied theme files (c7dc5ae)
+- feat(skills): add the record table to the record-views foundation spec (f6df627)
+- feat(skills): add the record-views foundation spec (63bb02d)
+- refactor(skills): state the hidden side of session states in the foundation specs (f96ade2)
+- docs(product): add the codex-12 craft pass to its summary (b709cc6)
+- refactor(skills): let a failing unit test block and gather the test principles (624f8bd)
+
 ## 0.2.8 - 2026-10-06
 
 - refactor(skills): tighten the Blueprint after codex-12 (c255ef3)
