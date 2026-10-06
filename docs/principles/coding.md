@@ -17,6 +17,7 @@
 
 - Catch errors only at the edges: the error handler of `core`, and `data` to change an external failure into an expected error.
 - Do not hide errors.
+- Make value objects at the edges. Inside, trust the types.
 
 ## Scope
 

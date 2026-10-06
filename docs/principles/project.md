@@ -1,7 +1,6 @@
 # Project
 
 - A project is a unit of code that you deploy alone.
-- It belongs to one tier of the system.
 - It starts from an archetype.
 - It has one kind: `back-api`, `front-web`, `cli` or `e2e`.
 

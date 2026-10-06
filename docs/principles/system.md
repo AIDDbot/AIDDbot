@@ -30,6 +30,13 @@ flowchart LR
 - Every error has one body: `{ "error": "<message>" }`. An input error adds `fields`: `{ "<field>": "<message>" }`.
 - An error never shows internal details: no stack, no SQL, no paths.
 
+## Security
+
+- Keep secrets out of the code and out of the repository.
+- Store a password only as a salted hash.
+- Check each input at the edge.
+- A security finding blocks the delivery.
+
 ## E2E tests
 
 - An e2e test proves one requirement of a spec, through the public interfaces of the projects. Its name contains the identifier of that requirement.

@@ -15,5 +15,5 @@ Each project gives one command for each check. The archetype selects the tool.
 | `format` | Formats the code. | No |
 
 - A check that does not block makes debt. A later pass repairs it.
-- The review finds what a tool cannot find. Its findings are also debt.
+- The review finds what a tool cannot find. Its findings are also debt, except a security finding. A security finding blocks the delivery.
 

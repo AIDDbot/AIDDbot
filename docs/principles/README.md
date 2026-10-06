@@ -4,7 +4,7 @@ These principles drive the technical design of each system. They have no technol
 
 Read them from the largest scope to the smallest:
 
-1. [System](./system.md): the projects, the REST API and the e2e tests.
+1. [System](./system.md): the projects, the REST API, the security and the e2e tests.
 2. [Project](./project.md): the archetype, the containers, the composition and the unit tests.
 3. [Feature](./feature.md): the layers and their tests.
 4. [Data](./data.md): the types, the shared utilities and the schemas.
