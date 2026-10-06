@@ -107,7 +107,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 
 - Each skill commit goes through `aidd commit`, which writes it as `committed`. Thus the journal shows each milestone and its time.
 - An orchestrator writes a `handoff` line each time that it sends work to a different agent.
-- `aidd commit` refuses a commit that changes the code of a project, unless the last `aidd run lint` of that project passed on the same files. Documents (`.md`), `.product/` and `.aiddbot/` need no lint. A format of clean files keeps the lint valid.
+- `aidd commit`, `aidd release` and `aidd integrate` refuse code of a project that changed since the last passing `aidd run lint` of that project. Documents (`.md`), `.product/` and `.aiddbot/` need no lint. A format that rewrites code needs a new lint.
 - The journal is only a story. No code reads it or makes a decision from it: the process state is in the `control.json` of each spec.
 - Each line has complete fields with a space between them: time, actor, spec, event, level and summary. The level is `INFO`, `WARN` for a failed run or an amber evaluation, or `ERROR` for a red evaluation or a `blocked` reason. The short columns have a minimum width, so the log reads as a table. The summary stops at 128 characters.
 - The core (`node .agents/aidd/aidd.mjs`) writes an entry for each state change that it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. A run line shows only the projects that apply, each with its result and the summary line of its tool (such as `100 passed` or `1 failed`).

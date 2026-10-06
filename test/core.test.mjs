@@ -253,6 +253,24 @@ test("commit needs a passing lint on the same files of each project it changes",
   assert.equal(aidd(root, "commit", "docs(back): rules").body.committed, true, "documents and files outside projects need no lint");
 });
 
+test("release and integrate refuse project code that changed since its last lint", () => {
+  const root = repo();
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
+  aidd(root, "spec", "new", "feat", "styled", "Styled", "--domain", "ui");
+  write(root, "back/one.ts", "1\n");
+  aidd(root, "run", "lint", "--project", "back");
+  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
+  accept(root, 0, "S0001");
+  aidd(root, "eval", "verification", "green", "ok");
+  aidd(root, "eval", "qualification", "green", "ok");
+  write(root, "back/one.ts", "1;\n");
+  const refused = aidd(root, "release");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /back \(changed since its last lint\)/);
+  aidd(root, "run", "lint", "--project", "back");
+  assert.equal(aidd(root, "release").code, 0, "a formatted file ships once its lint passes again");
+});
+
 test("a failing acceptance run is green only with debt older than the spec", () => {
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");

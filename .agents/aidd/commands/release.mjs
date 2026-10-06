@@ -6,6 +6,7 @@ import {
   currentBranch, defaultBranch, git, journal, mergeAndDelete, productPath, readJson, relative, RuleError, UsageError,
 } from "../lib/core.mjs";
 import { findSpec, gate, readControl, specsDir, writeControl } from "../lib/spec.mjs";
+import { requireLint } from "./work.mjs";
 
 const SEMVER = /^(\d+)\.(\d+)\.(\d+)/;
 const SECTIONS = { feat: "Added", fix: "Fixed", refactor: "Changed", chore: "Changed" };
@@ -67,6 +68,7 @@ export function release(root, _args, flags) {
   const control = readControl(dir);
   const blockers = gate(root, dir, control);
   if (blockers.length) throw new RuleError(`${control.id} cannot ship: ${blockers.join(" ")}`);
+  requireLint(root, ["."]);
   const files = versionFiles(root);
   const previous = readJson(path.join(root, "package.json")).version;
   const version = nextVersion(previous, control.type, flags.major === true);
@@ -93,6 +95,7 @@ export function integrate(root, [message]) {
   const base = defaultBranch(root);
   if (!branch || branch === base) throw new RuleError(`Run integrate from a task branch, not ${branch || "a detached HEAD"}.`);
   if (findSpec(root, branch)) throw new RuleError("Spec branches ship with aidd release.");
+  requireLint(root, ["."]);
   git(root, ["add", "-A"]);
   const committed = git(root, ["diff", "--cached", "--quiet"], { allowFailure: true }) === null;
   if (committed) git(root, ["commit", "-m", message.trim()]);

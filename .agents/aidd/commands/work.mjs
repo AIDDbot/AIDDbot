@@ -155,7 +155,7 @@ function changedFiles(root, paths) {
 }
 
 /** A commit that changes the code of a project needs the last lint of that project to have passed on the same files. */
-function requireLint(root, paths) {
+export function requireLint(root, paths) {
   const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
   const code = changedFiles(root, paths).filter((file) => !/^\.(aiddbot|product)\//.test(file) && !file.endsWith(".md"));
   const state = readJson(lintStateFile(root), {});
