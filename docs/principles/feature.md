@@ -13,7 +13,7 @@ flowchart LR
     LOGIC --> DATA[data]
 ```
 
-- `presentation` holds the input and the output: routes, pages or commands. It has no business rules. It depends on `logic`. Only the composition imports it.
+- `presentation` holds the input, the output and the registration of the feature: routes, pages or commands. It has no business rules. It depends on `logic`. Only the composition imports it.
 - `facade` gives the public functions and types of the feature to other features. It depends on `logic`. Only other features import it. A feature that gives nothing to other features has no facade.
 - `logic` holds the business rules and the decisions. It depends on `data`.
 - `data` reads and writes outside the project: database, remote API, files. It does not depend on other layers.

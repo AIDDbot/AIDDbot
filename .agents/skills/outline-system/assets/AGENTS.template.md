@@ -49,76 +49,60 @@ A system comprises projects, each of one type: `back-api`, `front-web`, `cli`, o
 
 <!-- Only when `.product/system.md` exists (a system that `architect-system-foundation` made). Otherwise remove this section. Copy it as written. D50. -->
 
-All projects obey these rules. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup.
+All projects obey these principles. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup. First make it work, then make it correct: only `lint`, acceptance and a security finding block a delivery. Any other violation is debt.
 
-### Parts
+### System
 
-| Part | Is | Never |
+- `back-api` owns the data. Only it connects to persistence. `front-web` and `cli` get data only through `back-api`.
+- REST API: paths start with `/api`; a resource is a plural noun. JSON bodies, ISO 8601 dates, `Authorization: Bearer <token>`. Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500. Every error has the body `{ "error": "<message>" }`; an input error adds `fields`. An error never shows a stack, SQL or a path.
+- Security: no secrets in the code or the repository; a password only as a salted hash; check each input at the edge.
+
+### Containers
+
+| Container | Is | Never |
 | --- | --- | --- |
-| `main` | Composition root. It makes the services of `core`, gets the features from the manifest, and connects them. The entry only starts it. The archetype gives its files. | — |
-| `core` | Platform services: configuration, logger, connections, server or shell, router, error handler. | Business rules. Imports of a feature or of the manifest. |
-| manifest | The one place that registers each feature by name: a file, an array, or the import list of a module. | Automatic discovery: folder scans, global decorators, file-based routers. |
-| feature | One flat folder. The file role tells its layer. Its facade is its only public file: registration and public types. | Subfolders. Imports of a different feature, except its facade. |
-| `shared` | Generic elements, also when one part uses them now, and what `core` and the features both use (such as the error type). Primitives at the root, other elements in folders by technical concern (`http`, `database`). | Domain words, business rules, imports of the application. Folders `utils`, `helpers`, `common`, `misc`. |
-
-### Boundaries
-
-`lint` checks the imports. `review-implementation` checks rule 5. A violation blocks the delivery.
-
-1. Only `main` knows all features, and only through the manifest.
-2. `core` never uses a feature or the manifest. `main` gives it routes, menu links and commands.
-3. A feature uses a different feature only through its facade.
-4. `shared` uses no part of the application.
-5. `core` has no business rules.
-6. In a feature: `presentation` → `logic` → `data`. Types have no layer. Each layer can use types and `shared`.
-7. A feature gets `core` by one method that the archetype selects: injection, or the public file of `core`.
-
-- A feature that the manifest loads on demand has no other import.
-- Tests start the application through `main`, without a port.
-- With no boundary linter, the project `AGENTS.md` keeps these rules, and `review-implementation` checks them.
+| `core` | The platform that the framework or the entry calls one time at startup: server or shell, router, connections, error handler, global styles. | Business rules. Imports of a feature. |
+| `shared` | Generic elements with no domain, and the contracts of the services that features need (such as the logger, the HTTP client or the error type). Primitives at the root, other elements in folders by technical concern (`http`, `database`). | Domain words. Imports of `core` or of a feature. Folders `utils`, `helpers`, `common`, `misc`. |
+| feature | One flat folder for one unit of business value. The role in each file name tells its layer. | Subfolders. Imports of `core`. Imports of a different feature, except its facade. |
+| composition | The entry. It starts `core`, registers each feature by name in one explicit list (the manifest), and gives the features the services of `core` through the contracts of `shared`. The only part that knows `core` and the features. | Automatic discovery: folder scans, global decorators, file-based routers. |
 
 ### Layers
 
-- `presentation`: input from and output to the caller (route, page, command).
+- composition → `presentation` → `logic` → `data`. A different feature → `facade` → `logic`.
+- `presentation`: input, output and the registration of the feature (route, page, command). No business rules. Only the composition imports it.
+- `facade`: the public functions and types for other features. Only other features import it. A feature that gives nothing has no facade.
 - `logic`: rules and decisions. It does not know how data is stored.
 - `data`: all that the project reads or writes outside itself (database, remote API, files).
+- Types are not a layer. Each layer can use types, `shared` and the facades of other features.
+- `lint` checks the imports. With no boundary linter, `review-implementation` checks them.
+- A feature that the manifest loads on demand has no other import. Tests start the application through the composition, without a port.
 
-### `e2e`
+### Tests
 
-- No layers, no manifest, no `main`. The test runner is the entry.
-- `core`: the life cycle of the suite (setup, teardown, startup check of the projects, settings). No test uses it.
-- Features: one folder for each feature of the system, with `.api.spec` and `.web.spec` tests.
-- `shared`: primitives, `page-objects/`, `test-data/`, and folders by technical concern. A helper that a test calls goes here; a helper that only the runner uses goes in `core`.
-- Tests use `shared`, never `core`, never a different feature. `shared` uses no `core` and no test.
-- One browser engine (Chromium), unless the system asks for more.
+- Unit tests prove `logic`, at least one for each business rule, with a fake `data`. They also prove `shared` and `core`. They are fast and independent.
+- An acceptance test proves one requirement. Its name contains the identifier of that requirement.
+- `e2e` has no layers, no manifest and no composition; the runner is the entry. `core` is the life cycle of the suite (setup, teardown, startup check of the projects). Features: one folder for each feature of the system, with `.api.spec` and `.web.spec` tests. `shared`: primitives, `page-objects/`, `test-data/`.
+- An e2e test uses only the API and the screens. It never uses `core` or a different feature. Each test makes its own data with unique values. One browser engine (Chromium), unless the system asks for more.
 
-### General rules
-
-These rules never block a delivery. A violation is debt. First make it work, then make it correct: only `lint` and acceptance block.
+### Code
 
 | Limit | Code | Tests (all `e2e` files) |
 | --- | --- | --- |
 | Cyclomatic complexity of a function | 8 | 8 |
-| Statements in a function (a nested function counts apart) | 16 | 64 |
+| Statements in a function | 16 | 64 |
 | Nesting depth | 2 | 4 |
-| Parameters of a function | 3 | 4 |
+| Parameters of a function | 2 | 4 |
 | Lines in a file | 128 | 256 |
-| Entries in a `shared` or feature folder | 16 | — |
+| Entries in a folder | 16 | — |
 
-- A full `shared` folder: divide it by technical concern. A full feature: divide it into two features.
-- A callback whose signature the framework sets (such as an error middleware) is outside the parameter limit.
-- Names: idiomatic for the language, words of the domain.
-- Types: one type for each domain concept, never a bare `string` or `number`. A value with rules is a value object: it cannot change, it checks its value when it is made, and it is equal by value. Make it at the edge. It checks only what the spec states. Generic: `shared`. Domain words: the types of its feature.
-- More than three values: one typed object.
-- Early returns: incorrect cases first, then a main path with no `else`.
-- A long or deep block: a function with a domain name. More than one logical operator: a predicate with a domain name.
-- A check or a conversion: look in the shared primitives first.
-- Errors: never hide them, and use one method in the project. Catch only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error. A function with `try`/`catch` has only the `try`/`catch`.
-- Checks, limits and default values: only what the spec states.
-- Configuration: from the environment, never in code.
-- Query statements (such as SQL): named constants at the top of the `data` file that uses them, never in a function, never shared between features. Schema and migrations: numbered files (such as `.sql`) in one location. Tests can write statements in code.
-- Ignore patterns for runtime data: anchored to the project root (`/data/`).
-- A dependency: only with the add command of the package manager, never a version from memory.
+- If necessary, disable the parameter limit for one function with a lint comment. A folder over the limit has more than one concern: divide it by concern.
+- Strictest typed form of the language and its strictest type check. One type for each domain concept, never a bare string or number. A value object for a value with rules, made at the edge; it checks only what the spec states. An enum for a closed set. Composition, not inheritance. Generic types in `shared`, domain types in their feature.
+- DRY: `shared` has one function to check, convert or format each common type. Look there before you write one.
+- Names: idiomatic, words of the domain. A function is a verb. A boolean is a question (`isActive`, `canEdit`). No negative names, no abbreviations except standard ones.
+- Early returns; no `else` on the main path. A long or deep block: a function with a domain name. More than one logical operator: a named variable or predicate. More than two values: one typed object.
+- Errors: never hide them. Catch only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error.
+- Configuration from the environment. Query statements as named constants in the `data` file that uses them. Migrations as numbered files. A dependency only with the package manager.
+- No check, limit or default value that the spec does not state.
 
 ## Delivery documents
 

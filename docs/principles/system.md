@@ -26,7 +26,7 @@ flowchart LR
 - Methods: `GET` reads, `POST` creates or does an action, `PUT` replaces, `PATCH` changes part, `DELETE` removes.
 - Bodies are JSON. Dates are ISO 8601 strings.
 - A protected request sends `Authorization: Bearer <token>`.
-- Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 500.
+- Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500.
 - Every error has one body: `{ "error": "<message>" }`. An input error adds `fields`: `{ "<field>": "<message>" }`.
 - An error never shows internal details: no stack, no SQL, no paths.
 

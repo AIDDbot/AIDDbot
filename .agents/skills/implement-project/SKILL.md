@@ -19,7 +19,7 @@ When the spec asks to upgrade dependencies, run `node .agents/aidd/aidd.mjs run 
 
 After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix every reported error, layer-boundary violations included: they block like any other lint error. When the spec repairs recorded debt, you may run `node .agents/aidd/aidd.mjs run quality --project {project}` to check that repair; otherwise never run `quality`, which belongs to `scan-quality`. When either command exits unavailable, report it as such in your result instead of constructing one.
 
-Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the general rules of the Blueprint, and each sentence of the spec for this project, and check your diff against each one: a rule you already have and did not apply fails qualification.
+Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the code rules of the Blueprint, and each sentence of the spec for this project, and check your diff against each one: a rule you already have and did not apply fails qualification.
 
 The result is the project's code and tests for the supplied scope, lint-clean.
 

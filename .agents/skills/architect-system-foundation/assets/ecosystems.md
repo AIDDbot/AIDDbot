@@ -9,7 +9,7 @@ JS / TS is the exception: AIDDbot sets its stack.
 - Use TypeScript 7. Never pin an older major. If a tool does not support TypeScript 7, replace the tool. Do not keep the old TypeScript.
 - Use the oxc family: oxlint for `lint`, layer boundaries, and `quality`; oxfmt for `format`.
 - Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
-- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size rules of the general rules. Start from [`oxlint.complexity.json`](./oxlint.complexity.json). Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, set the `files` of that override to all files, and turn off `no-empty-pattern` for the fixtures file: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
+- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size limits of the Blueprint. Start from [`oxlint.complexity.json`](./oxlint.complexity.json). Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, set the `files` of that override to all files, and turn off `no-empty-pattern` for the fixtures file: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
 - Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
 - For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below. For the `e2e` project, use [`oxlint.boundaries.e2e.json`](./oxlint.boundaries.e2e.json) instead: `core`, `features/{feature}/` and `shared/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
 - Do not write an own boundary checker: the overrides above check the imports, and the `quality` run of the core reports a subfolder in a feature.
@@ -43,29 +43,28 @@ Use the pattern `{business}.{role}.ts`. The role tells the layer. The boundary r
 
 | Concept | File |
 | --- | --- |
-| `main` | `src/app.main.ts` (entry) and `src/app.compose.ts` (`createApp()`) |
+| composition | `src/app.main.ts` (entry), `src/app.compose.ts` (`createApp()`) and `src/features/features.manifest.ts` |
 | `core` | `src/core/app.{service}.ts`, for example `app.config.ts`, `app.logger.ts`, `app.server.ts` |
-| public file of `core` | `src/core/core.api.ts`, only with direct import |
-| manifest | `src/features/features.manifest.ts` |
-| facade | `src/features/{feature}/{feature}.api.ts` |
-| `presentation` | `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
+| facade | `src/features/{feature}/{feature}.api.ts`, only when other features use it |
+| `presentation` | `*.routes.ts` (the registration that the manifest imports), `*.controller.ts`, `*.request.ts`, `*.command.ts`, `*.page.ts`, `*.component.ts` (or `.vue`) |
 | `logic` | `*.service.ts`, `*.policy.ts`, `*.store.ts` |
 | `data` | `*.repository.ts`, `*.client.ts` |
 | types of a feature, no layer | `*.type.ts`; value objects in `*.value.ts` (only value objects) |
-| `shared` | primitives in `src/shared/{topic}.{role}.ts`, with the role of a function as a verb (`numbers.parse.ts`, `text.check.ts`) and `value` only for a value object (`email.value.ts`); other elements in `src/shared/{concern}/{topic}.{role}.ts` |
+| `shared` | primitives in `src/shared/{topic}.{role}.ts`, with the role of a function as a verb (`numbers.parse.ts`, `text.check.ts`) and `value` only for a value object (`email.value.ts`); other elements in `src/shared/{concern}/{topic}.{role}.ts`; the contracts of the services of `core` in `src/shared/{concern}/{topic}.contract.ts` |
 
 The concept is still the facade. Only the JS / TS file has the name `api`.
 
 ### Roles by framework
 
-The roles stay the same. The framework gives their place and the access to `core`. Write them in sections 4 and 5 of the project `AGENTS.md`.
+The roles stay the same. The framework gives their place and how the composition gives the services of `core`. Write them in sections 4 and 5 of the project `AGENTS.md`.
 
 | Role | Express | NestJS | Angular |
 | --- | --- | --- | --- |
-| `main` | `app.compose.ts` exports `createApp()` | `main.ts` and `AppModule` | `main.ts` and `app.config.ts` |
+| composition | `app.compose.ts` exports `createApp()` | `main.ts` and `AppModule` | `main.ts` and `app.config.ts` |
 | manifest | `features.manifest.ts` | the `imports` of `AppModule` | `app.routes.ts` (`loadComponent`, `loadChildren`) |
-| access to `core` | direct import of `core.api.ts` | injection | injection with `inject()` |
-| facade | `{feature}.api.ts` | the feature module and its `exports` | `{feature}.routes.ts` and its public types |
+| services of `core` | arguments of each registration | injection, with tokens in `shared` | `inject()`, with `InjectionToken` in `shared` and providers in `app.config.ts` |
+| registration | `{feature}.routes.ts` | the feature module | `{feature}.routes.ts` |
+| facade | `{feature}.api.ts` | the `exports` of the feature module | `{feature}.api.ts` |
 
 ## `front-web`: the visual base
 

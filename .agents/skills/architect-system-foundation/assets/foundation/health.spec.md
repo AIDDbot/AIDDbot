@@ -53,14 +53,14 @@ Before the first business feature, each layer of each project must operate with 
 ### back-api
 
 - `data` records one run at startup and counts the runs; its table comes in the first migration of the feature (see `configuration`).
-- The facade exports only the registration. The feature gets the database by the access method of the project.
+- No facade: no other feature uses `health`. The feature gets the database from the composition (see `configuration`).
 - The `unit` smoke test checks the `logic` with a fake `data` layer.
 
 ### front-web
 
-- `logic` keeps the state of the page: loading, loaded or unavailable. `data` calls `GET /api/health` through the HTTP client of `core`.
+- `logic` keeps the state of the page: loading, loaded or unavailable. `data` calls `GET /api/health` through the HTTP client.
 - The page and the card show the uptime with the shared primitive `formatDuration`.
-- The facade registers the page `/health`, its menu link `Health` and the card of the home page (see `layout`). The card uses the same `logic` and `data` as the page.
+- The registration adds the page `/health`, its menu link `Health` and the card of the home page (see `layout`). The card uses the same `logic` and `data` as the page.
 
 ### cli
 

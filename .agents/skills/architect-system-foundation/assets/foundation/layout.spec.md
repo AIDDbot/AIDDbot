@@ -57,18 +57,18 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 
 ### front-web
 
-- Identity: one file in `core` with the name and the description of `system.md`, and the version of the root `package.json`, which `aidd release` writes; it never copies the version by hand. The document title, the shell header and the home page read it.
+- Identity: one file in `shared` with the name and the description of `system.md`, and the version of the root `package.json`, which `aidd release` writes; it never copies the version by hand. The document title, the shell header and the home page read it.
 - Shell in `core`: header (name, menu, theme control), main area, router, not-found page. The server answers each unknown path with the shell, so direct links operate.
-- `main` gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to `core`, and the cards to the `home` registration. `core` never imports a page.
+- The composition gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to `core`, and the cards to the `home` registration. `core` never imports a page.
 - Page contract:
-  - Each page gets the same services of `core` (such as the HTTP client, the logger and the navigation), all required: no optional service and no assertion that a value is present.
+  - Each page gets the same services (the HTTP client, the logger and the navigation) from the composition, all required: no optional service and no assertion that a value is present. `core` implements them; their contracts are in `shared`; a page never imports `core`.
   - The router reads the path parameters of a route (such as `/users/:id`) and gives them to the page as a separate, typed argument.
   - A page that needs other data gets it from its own registration.
-- Feature `home`: page `/` and its menu link `Home`. Header and card grid; one column on a narrow screen. A card registration loads the card when the home page shows it; each facade exports its own.
+- Feature `home`: page `/` and its menu link `Home`. Header and card grid; one column on a narrow screen. A card registration loads the card when the home page shows it; each registration gives its own.
 - The menu marks the current link with the accessible attribute for the current page.
 - Theme: an attribute on the root element, first from the color preference of the system, then from the browser storage after a selection. It is set before the first paint.
 - Visual base: semantic HTML on the style sheet of the archetype, with the brand theme files copied as they are (fonts, the color tokens of the two themes mapped to the style sheet). It operates offline. The `AGENTS.md` of the project names the files.
-- The console logger of `core` (see `monitoring`) gets the navigation from the router after the page shows, and the theme from the theme control.
+- The console logger (see `monitoring`) gets the navigation from the router after the page shows, and the theme from the theme control.
 
 ### e2e
 

@@ -1,6 +1,6 @@
 <!--
 Archetype-Blueprint: the technical data of one project (Columbus principles 7, 8, 11; D16, D19, D50).
-The Blueprint (parts, boundaries, layers, e2e, general rules and limits) is in the root AGENTS.md, one time for the system. Never copy it here.
+The Blueprint (system, containers, layers, tests, code rules and limits) is in the root AGENTS.md, one time for the system. Never copy it here.
 Three levels fill this file: [Blueprint] this file, [Archetype] the AGENTS.md of the archetype repository, [Project] {project}/AGENTS.md. No level changes the structure.
 Keep the sections, their order and their headings. Write short lists and tables, not prose. Remove these comments at the project level.
 For implementation examples by ecosystem, see ecosystems.md. They are guidance, not rules.
@@ -54,21 +54,20 @@ Contracts:
 
 <!--
 [Blueprint] The variations by project type. [Project] Keep only the column of this project type, and remove the other columns. Each n/a has its reason. Principle 7, D39.
-[Archetype] Write the method to get `core`: injection (main or the framework injector gives the services at registration) or direct import (only the public file of core). Section 5 gives where `main`, the manifest and the facade are.
+[Archetype] Write how the composition gives the services of `core` to the features: by the framework injector, or as arguments of the registration. The contracts are in `shared`; a feature never imports `core`. Section 5 gives where the composition, the manifest and the facade are.
 -->
 
-**Access to `core`**: {injection | direct import of `{core_public_file}`}
+**Services of `core`**: {framework injector | registration arguments}, contracts in `{shared_folder}/{contracts_location}`
 
 | Item | `back-api` | `front-web` | `cli` | `e2e` |
 | --- | --- | --- | --- | --- |
-| `main` | composition root and the process entry | composition root and the browser entry | composition root and the executable entry | n/a: the test runner is the entry |
+| composition | process entry and manifest | browser entry and manifest | executable entry and manifest | n/a: the test runner is the entry |
 | `core` | server, configuration, logger, connections, error handler | shell, layout, router, theme, configuration | argument parser, configuration, output | life cycle of the suite |
 | features | endpoints | pages | commands | tests, one folder for each feature of the system |
-| `presentation` | route / controller | page / component | command | n/a: no layers |
+| `presentation` | route / controller and its registration | page / component and its registration | command and its registration | n/a: no layers |
 | `logic` | service | store / use case | service | n/a: no layers |
 | `data` | repository | API client | repository / file system | n/a: no layers |
 | `shared` concerns | `http`, `database` | `components` | `output` | `page-objects/`, `test-data/`, `database`, `projects` |
-| manifest | route registry | page and menu registry | command registry | n/a: the runner finds tests by name |
 | `unit` / `start` / `acceptance` | yes / yes / through `e2e` | yes / yes / through `e2e` | yes / n/a: no server / own tests or `e2e` | n/a / n/a: it starts the projects / yes |
 
 ## 5 · Folder structure
@@ -77,9 +76,9 @@ Contracts:
 
 | Concept | Path | Framework mechanism |
 | --- | --- | --- |
-| `main` | `{source_root}/{main_file}`, `{source_root}/{compose_file}` | {mechanism} |
+| composition | `{source_root}/{main_file}`, `{source_root}/{compose_file}`, `{manifest_file}` | {mechanism} |
 | `core` | `{source_root}/{core_folder}/` | {mechanism} |
-| features, manifest | `{source_root}/{features_folder}/`, `{manifest_file}` | {mechanism} |
+| features | `{source_root}/{features_folder}/` | {mechanism} |
 | facade | `{feature}/{facade_file}` | {mechanism} |
 | `presentation` / `logic` / `data` / types | `{presentation_files}` / `{logic_files}` / `{data_files}` / `{type_files}` | {mechanism} |
 | `shared` | `{source_root}/{shared_folder}/`, `{shared_folder}/{concern_folder}/` | {mechanism} |
@@ -87,12 +86,12 @@ Contracts:
 
 ```text
 {source_root}/
-├── {main_file}           # entry: starts the composition root
-├── {compose_file}        # composition root
-├── {core_folder}/        # platform services
+├── {main_file}           # entry: starts the composition
+├── {compose_file}        # composition: starts core, registers the features
+├── {core_folder}/        # platform, called one time at startup
 ├── {features_folder}/    # one flat folder for each feature, and the manifest
 │   └── health/
-└── {shared_folder}/      # primitives at the root, folders by technical concern
+└── {shared_folder}/      # primitives and service contracts at the root, folders by technical concern
 ```
 
 ### Shared primitives
@@ -118,7 +117,7 @@ The index of `shared`. Read it before you write a check or a conversion.
 
 ## 6 · Coding rules
 
-<!-- The general rules and limits are in the Blueprint of the root AGENTS.md. -->
+<!-- The code rules and limits are in the Blueprint of the root AGENTS.md. -->
 
 ### Technology rules
 

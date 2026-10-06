@@ -14,3 +14,5 @@ Read them from the largest scope to the smallest:
 8. [Verification](./verification.md): the checks and what blocks a delivery.
 
 See the [Glossary](./glossary.md) for the terms.
+
+> **Sources.** Agents read these principles from the Blueprint section of [`AGENTS.template.md`](../../.agents/skills/outline-system/assets/AGENTS.template.md). The archetype data is in [`project.AGENTS.template.md`](../../.agents/skills/architect-system-foundation/assets/project.AGENTS.template.md) and [`ecosystems.md`](../../.agents/skills/architect-system-foundation/assets/ecosystems.md). If you change a principle, change its source with `/maintain-skills`.

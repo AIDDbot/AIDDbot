@@ -59,7 +59,7 @@ When a failure occurs, the operator must see what occurred, and each client must
 
 ### back-api
 
-- The logger is in `core`: one line for each event; line breaks in a message (such as a stack trace) become ` | `; `WARN` and `ERROR` go to standard error.
+- The logger is in `core`, with its contract in `shared`: one line for each event; line breaks in a message (such as a stack trace) become ` | `; `WARN` and `ERROR` go to standard error.
 - It never blocks a request: a queue, asynchronous file writes, all queued lines written before the process stops. A failed write is reported one time; the request continues.
 - Settings (see `configuration`): `LOG_DIR` (`./logs`), `LOG_LEVEL` (`debug`, `info`, `warn`, `error`; `info`), `BODY_LIMIT_KB` (100).
 - A received `X-Request-Id` stays only if it is a short text of letters, digits and `-`; otherwise a new one.
@@ -70,8 +70,8 @@ When a failure occurs, the operator must see what occurred, and each client must
 ### front-web
 
 - The listening line comes only after the server confirms that it listens.
-- The console logger of the browser is in `core`: one short plain-text line for each user action, with the action name and its path or value. A feature gives the action name; the logger has no words of a feature and never gets a form value, a password or a token. `layout` and the features add the actions.
-- The only HTTP client is in `core`. It changes each non-2xx `{ "error": ... }` answer into the expected error, with its `fields`. Pages show the message, never a raw failure; a form shows each field message next to its field.
+- The console logger of the browser is in `core`, with its contract in `shared`: one short plain-text line for each user action, with the action name and its path or value. A feature gives the action name; the logger has no words of a feature and never gets a form value, a password or a token. `layout` and the features add the actions.
+- The only HTTP client is in `core`, with its contract in `shared`. It changes each non-2xx `{ "error": ... }` answer into the expected error, with its `fields`. Pages show the message, never a raw failure; a form shows each field message next to its field.
 
 ### cli
 

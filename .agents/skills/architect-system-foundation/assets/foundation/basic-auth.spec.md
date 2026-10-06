@@ -64,7 +64,7 @@ A system with users must know who sends each request, before a feature needs thi
 - Input checks use the shared primitive `requireText`. `Email` is a new value object at the root of `shared`: it makes the email lower case and checks only what the requirements state. Register and login make it at the edge, and `logic` and `data` use it, never a bare string. Add it to the `AGENTS.md` of the project.
 - Passwords: a slow, salted algorithm that OWASP recommends. Its cost parameters are explicit in the code, not less than the OWASP minimum, and stored with each hash. With an unknown email, `logic` still does one verification, so the two failures take the same time.
 - Sessions: a random, opaque token. The database stores only a hash of the token (such as SHA-256), never the token, so a session can be revoked. A session expires `SESSION_TTL_HOURS` after its creation (a setting of `configuration`: integer 1–720, default 24); the resolver treats an expired session as an invalid token.
-- The session guard is in `core`, with no business rules: it reads the bearer token and asks a session resolver that `main` gets from the `auth` facade.
+- The session guard is in `core`, with no business rules: it reads the bearer token and asks a session resolver that the composition gets from the `auth` registration.
 - Each registration in the manifest tells if it is public; it is protected unless it says so. A feature can have one public and one protected registration. `health`, register and login are public; `GET /api/auth/me` is protected.
 - `core` mounts the public registrations first, then each protected registration behind the session guard on its own base path. Never write a separate list of paths, and never change the router of the framework to add the guard. A path under the base path of a protected registration answers 401 without a valid session; each other unknown path gets the 404 of the error handler.
 - `unit` tests: a test feature with no public mark answers 401 without a token; an expired session answers 401; the stored session has no token in clear text.
@@ -72,9 +72,9 @@ A system with users must know who sends each request, before a feature needs thi
 
 ### front-web
 
-- `logic` keeps the session state and disables a form while it sends. The token stays in the browser storage; the HTTP client of `core` sends it as a bearer token.
-- The facade registers the menu links `Login` and `Register` (the name of the user in their place with a session) and the card of the home page (see `layout`).
-- The form gives the name of its operation (`register` or `login`) to the console logger of `core`, never a field value.
+- `logic` keeps the session state and disables a form while it sends. The token stays in the browser storage; the HTTP client sends it as a bearer token.
+- The registration adds the menu links `Login` and `Register` (the name of the user in their place with a session) and the card of the home page (see `layout`).
+- The form gives the name of its operation (`register` or `login`) to the console logger, never a field value.
 
 ### e2e
 

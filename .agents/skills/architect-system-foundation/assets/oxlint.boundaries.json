@@ -37,7 +37,7 @@
                   "../features/**",
                   "../app.*.ts"
                 ],
-                "message": "core never uses a feature, the manifest or main. main gives data to core."
+                "message": "core never uses a feature, the manifest or main. The composition connects them."
               }
             ]
           }
@@ -55,13 +55,22 @@
             "patterns": [
               {
                 "group": [
-                  "./*/*.ts",
-                  "./*/*.vue",
-                  "!./*/*.api.ts",
                   "../core/**",
-                  "../app.*.ts"
+                  "../app.*.ts",
+                  "./*/*.api.ts",
+                  "./*/*.api.vue",
+                  "./*/*.service.ts",
+                  "./*/*.service.vue",
+                  "./*/*.policy.ts",
+                  "./*/*.policy.vue",
+                  "./*/*.store.ts",
+                  "./*/*.store.vue",
+                  "./*/*.repository.ts",
+                  "./*/*.repository.vue",
+                  "./*/*.client.ts",
+                  "./*/*.client.vue"
                 ],
-                "message": "The manifest uses only the facade ({feature}.api.ts) of each feature."
+                "message": "The manifest uses only the presentation (the registration) of each feature."
               }
             ]
           }
@@ -81,11 +90,10 @@
               {
                 "group": [
                   "../../core/**",
-                  "!../../core/core.api.ts",
                   "../../app.*.ts",
                   "../features.manifest.ts"
                 ],
-                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
+                "message": "A feature never uses core, main or the manifest. The composition gives it the services of core through the contracts of shared."
               },
               {
                 "group": [
@@ -94,6 +102,53 @@
                   "!../*/*.api.ts"
                 ],
                 "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "src/features/*/*.api.ts"
+      ],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "../../core/**",
+                  "../../app.*.ts",
+                  "../features.manifest.ts"
+                ],
+                "message": "A feature never uses core, main or the manifest. The composition gives it the services of core through the contracts of shared."
+              },
+              {
+                "group": [
+                  "../*/*.ts",
+                  "../*/*.vue",
+                  "!../*/*.api.ts"
+                ],
+                "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
+              },
+              {
+                "group": [
+                  "./*.routes.ts",
+                  "./*.routes.vue",
+                  "./*.controller.ts",
+                  "./*.controller.vue",
+                  "./*.request.ts",
+                  "./*.request.vue",
+                  "./*.command.ts",
+                  "./*.command.vue",
+                  "./*.page.ts",
+                  "./*.page.vue",
+                  "./*.component.ts",
+                  "./*.component.vue"
+                ],
+                "message": "The facade never uses presentation. The direction is facade → logic → data."
               }
             ]
           }
@@ -117,11 +172,10 @@
               {
                 "group": [
                   "../../core/**",
-                  "!../../core/core.api.ts",
                   "../../app.*.ts",
                   "../features.manifest.ts"
                 ],
-                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
+                "message": "A feature never uses core, main or the manifest. The composition gives it the services of core through the contracts of shared."
               },
               {
                 "group": [
@@ -133,6 +187,8 @@
               },
               {
                 "group": [
+                  "./*.routes.ts",
+                  "./*.routes.vue",
                   "./*.controller.ts",
                   "./*.controller.vue",
                   "./*.request.ts",
@@ -167,11 +223,10 @@
               {
                 "group": [
                   "../../core/**",
-                  "!../../core/core.api.ts",
                   "../../app.*.ts",
                   "../features.manifest.ts"
                 ],
-                "message": "A feature uses only the public file of core (core.api.ts), or gets the services by injection. It never uses main or the manifest."
+                "message": "A feature never uses core, main or the manifest. The composition gives it the services of core through the contracts of shared."
               },
               {
                 "group": [
@@ -183,6 +238,8 @@
               },
               {
                 "group": [
+                  "./*.routes.ts",
+                  "./*.routes.vue",
                   "./*.controller.ts",
                   "./*.controller.vue",
                   "./*.request.ts",

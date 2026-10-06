@@ -62,11 +62,11 @@ A user with a session must see their account and end the session. Each page and 
 ### front-web
 
 - One access mark on each page registration and menu link; no other mark tells the access. The menu of `core` shows a link only for its mark and the session state. The router of `core` shows a `session` page only with a session; otherwise it goes to the login page with the target in the query parameter `returnTo`. An `anonymous` page is never a return target.
-- `core` gets the session state and the login path from the `auth` facade through `main`; it never imports `auth`.
+- `core` gets the session state and the login path from the `auth` registration through the composition; it never imports `auth`.
 - After a login, `core` accepts the target only if it starts with one `/`, is on the same origin, and is a registered page; otherwise `/`.
 - A change of the session state updates the menu and the cards. It never shows the current page again, so that a form keeps what the user typed.
 - Feature `users`: page `/users/:id` with `id` as a typed path parameter (see `layout`), mark `session`, no menu link. `logic` keeps the state: loading, loaded, not found or unavailable. The page shows the creation date with the shared primitive `formatDate`.
-- The `auth` facade gives the session menu entries: the name of the user, as a link to `/users/{id}`, and `Logout`. Logout gives its action name to the console logger of `core`.
+- The `auth` registration gives the session menu entries: the name of the user, as a link to `/users/{id}`, and `Logout`. Logout gives its action name to the console logger.
 
 ### e2e
 

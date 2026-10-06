@@ -58,14 +58,14 @@ Each project must start in the same way in each environment, with its settings o
 - Settings: `PORT` (3000), `HOST` (all interfaces), `DATABASE_URL` (a local default), `CORS_ORIGIN` (comma list, `*`).
 - `core` reads and checks each setting one time, before it opens the port, with the shared primitives `readSetting` and `parseInteger`. It adds them when they do not exist. `parseInteger` gets the variable name as its field, so its error names the variable. No project writes its own integer check. `shared` never reads settings.
 - A relative path in a setting starts at the project folder, never at the working directory.
-- `core` opens the database from `DATABASE_URL`. Features get it by the access method of the project.
+- `core` opens the database from `DATABASE_URL`. The composition gives it to the features through its contract in `shared`.
 - Migrations: one numbered file for each schema change (`0001-{name}`), all in one folder; a feature adds its own there. The runner of `core` applies each missing one before the port opens, each in one transaction, and records its version and time. No feature creates a table.
 - Clean stop, checked by `review-implementation` (a stop signal is not the same on each operating system): on a stop signal, no new connection, the requests in progress complete, the queued log lines are written, the database closes, exit code 0. After a short timeout: stop them, non-zero exit code.
 
 ### front-web
 
 - `PORT` (4000), `API_BASE_URL` (`http://localhost:3000`).
-- `core` serves `GET /runtime-config.json`. The HTTP client of `core` reads it one time at startup and is the only user of `API_BASE_URL`. No build for each environment.
+- `core` serves `GET /runtime-config.json`. The HTTP client reads it one time at startup and is the only user of `API_BASE_URL`. No build for each environment.
 
 ### cli
 

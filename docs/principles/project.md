@@ -22,7 +22,7 @@ flowchart LR
     FEATURES[features] --> SHARED
 ```
 
-- `shared` holds generic elements with no domain. It depends on nothing.
+- `shared` holds generic elements with no domain, and the contracts of the services that features need. It depends on nothing.
 - `core` is a special feature. The framework or the entry file calls it one time at startup. It has no business rules. It depends only on `shared`.
   - Examples: Express middlewares, Angular root services, global web styles.
 - `features` holds the business. Each feature is a unit of business value. It depends only on `shared`. It uses a different feature only through the facade of that feature.
@@ -31,7 +31,7 @@ flowchart LR
 
 ### Composition
 
-- The entry point composes the project. It starts `core` and registers each feature by name, in one explicit list. It is the only part that knows `core` and `features`.
+- The entry point composes the project. It starts `core` and registers each feature by name, in one explicit list. It is the only part that knows `core` and `features`. It gives the features the services of `core` through the contracts of `shared`.
 
 ## Unit tests
 
