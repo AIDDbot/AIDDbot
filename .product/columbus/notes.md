@@ -402,6 +402,27 @@ Fuente: `C:/code/aidd/experiments/columbus/cursor-10/`. Candidata 0.2.5 desde la
 4. **D0001 `high`** (calificación de `configuration`): el timeout de la suite no nombra el proyecto y deja el proceso vivo. Criterio de la Solution, bien visto.
 5. **D0002 `high`, falso fallo de S0005-R11:** el test hace `Promise.all([submit.click(), submit.click()])`; `click()` de Playwright espera a que el botón esté habilitado, así que el segundo clic envía de nuevo cuando acaba el primero (409). La aplicación es correcta. El Builder dio tres vueltas al código de la aplicación. Intermitente: pasó en la aceptación final. Acción (0.2.6): la nota de prueba de R11 dice cómo dar dos clics en un solo paso del navegador. S0006 también rompió una vez S0005-R12 (el enlace de registro en la página de login), el mismo test que en `codex-9` (D0014): la zona entre el menú por acceso y los formularios de `auth` es frágil en dos arneses.
 
+## Evidencia: fase 6, prueba `codex-12` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-12/`. v0.2.7 (`1688307`): principios de `docs/principles/` en el Blueprint; `core` y features no se importan; contratos en `shared`; registro en `presentation`; facade solo para otras features; `max-params` 2.
+
+| Paso | `codex-11` (0.2.6) | `codex-12` (0.2.7) |
+| --- | --- | --- |
+| Propuesta, scaffold, outline, integración | 16,5 min | 11 min |
+| `configuration` / `monitoring` / `layout` / `health` | 17,7 / 10,5 / 10,8 / 9 min | 5,6 / 5 / 3,4 / 4,4 min |
+| `basic-auth` / `account` / `about` | 19,5 / 12,5 / — min | 9 / 6 / 2,6 min |
+| **Fundación** | **~1 h 42 min, verde** | **~50 min, verde** |
+| Deuda al cerrar | 0 | 5 (3 `high`, 2 `medium`) |
+| Tests | unit 15, aceptación 90 (3 navegadores) | unit 13, aceptación 52 |
+| Palabras: Blueprint / back / front / e2e | 891 / 849 / 916 / 1205 | 960 / 841 / 902 / 958 |
+
+1. **El modelo nuevo se aplica sin fricción.** Blueprint copiado byte a byte. Ninguna funcionalidad importa `core`; contratos en `shared` (`logger.type.ts`, `http.type.ts`, `page.type.ts`, `identity.ts`) e implementación en `core`. El manifiesto importa solo `*.routes.ts`; el resolver de sesión llega a `core` por la composición. `health` sin facade; `users.service.ts` usa solo `auth.api.ts`. Canario (feature → `core`) falla con el mensaje nuevo.
+2. **Todas las verificaciones verdes a la primera** (8 → 17 → 22 → 28 → 41 → 50 → 52).
+3. **Velocidad ×2, pero no por un Blueprint más corto:** el Blueprint creció (891 → 960 palabras, con system, REST, seguridad y tests). Causas probables: reglas más claras y menos vueltas (solo Security devuelve al Builder). Una sola ejecución: falta repetir.
+4. **La deuda sube (0 → 5):** D0001/D0002 `high` (limpieza de procesos de e2e y parada del back), D0004 `high` (componente de `health` sin custom element), D0003 y D0005 `medium`. Comparar tras `/craft-lasting-quality` hasta deuda cero.
+5. **`quality` sin escanear:** `max-params` 3–4 solo en middlewares de Express y el manejador de errores de `core` (firma del framework), sin comentario de excepción; complejidad 9 en `readSettings`; 4 `no-empty-pattern` en las fixtures de Playwright otra vez.
+6. **Fallos nuestros, por arreglar:** (a) «An enum for a closed set» choca con `erasableSyntaxOnly` de TS: decir «a closed type (an enum or a union of literals)». (b) El rol `*.card.ts` del front no está en la lista de `presentation` de `oxlint.boundaries.json`. (c) Restos del ejemplo de Vite en `front/src/assets/`.
+
 ## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D52) desde la copia local.
