@@ -26,7 +26,7 @@ domain: {domain}
 
 ## Requirements
 
-{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `feat` or a `fix` has one or more requirements. A `refactor` or a `chore` can have none. If no acceptance test can prove a technical result, put it in Solution.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A WHILE requirement states what shows and what does not show. A `feat` or a `fix` has one or more requirements. A `refactor` or a `chore` can have none. If no acceptance test can prove a technical result, put it in Solution.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 

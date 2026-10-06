@@ -43,6 +43,7 @@ A user with a session must see their account and end the session. Each page and 
 - **R11**: IF the kept target is not a page of the application on the same origin, THEN the `front-web` SHALL show `/` after the login.
 - **R12**: WHEN a user selects `Logout` and the `back-api` answers 204 or 401, the `front-web` SHALL remove the token and the user, show `/` and show the menu for no session.
 - **R13**: IF the logout fails because the `back-api` does not answer or answers 500, THEN the `front-web` SHALL show an error, keep the session, and let the user try again.
+- **R14**: WHILE a user is logged in, the greeting of the auth card on the home page SHALL be a link to their account.
 ## Expected URLs and APIs
 
 | Kind | Project | Address | Expected answer | Requirements |
@@ -50,6 +51,7 @@ A user with a session must see their account and end the session. Each page and 
 | api | back-api | `GET /api/users/:id` | 200 `{ name, email, createdAt }` for the own user. 404 `{ "error": "Not found" }` for a different identifier. 401 without a valid session. | R01, R02, R03 |
 | api | back-api | `POST /api/auth/logout` | 204 with no body; the token becomes invalid. 401 without a valid session. | R03, R04 |
 | page | front-web | `/users/{id}` | Name, email and creation date, or `Account not found`. With no session, `/login` and then back. | R05, R06, R09, R10, R11 |
+| page | front-web | `/` | With a session, the greeting of the auth card links to `/users/{id}` | R14 |
 | page | front-web | any page | Menu by access mark: `Login` and `Register` with no session; the name and `Logout` with a session | R07, R08, R12, R13 |
 
 ## Solution
@@ -66,7 +68,7 @@ A user with a session must see their account and end the session. Each page and 
 - After a login, `core` accepts the target only if it starts with one `/`, is on the same origin, and is a registered page; otherwise `/`.
 - A change of the session state updates the menu and the cards. It never shows the current page again, so that a form keeps what the user typed.
 - Feature `users`: page `/users/:id` with `id` as a typed path parameter (see `layout`), mark `session`, no menu link. `logic` keeps the state: loading, loaded, not found or unavailable. The page shows the creation date with the shared primitive `formatDate`.
-- The `auth` registration gives the session menu entries: the name of the user, as a link to `/users/{id}`, and `Logout`. Logout gives its action name to the console logger.
+- The `auth` registration gives the session menu entries: the name of the user, as a link to `/users/{id}`, and `Logout`. Logout gives its action name to the console logger. The greeting of the `auth` card becomes a link to `/users/{id}`.
 
 ### e2e
 

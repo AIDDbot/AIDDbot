@@ -43,7 +43,7 @@ A system with users must know who sends each request, before a feature needs thi
 - **R11**: WHEN a user sends a form two times quickly, the `front-web` SHALL send one request.
 - **R12**: WHEN a user moves between `/register` and `/login` without a reload of the page, the form SHALL send the operation of the page that it shows.
 - **R13**: IF the `back-api` answers the register form with `fields`, THEN the `front-web` SHALL show each message next to its field.
-- **R14**: WHILE a user is logged in, the home page SHALL show an auth card with `Hello, {name}`. WHILE no user is logged in, the auth card SHALL show links to `/login` and `/register`.
+- **R14**: WHILE a user is logged in, the home page SHALL show an auth card with `Hello, {name}` and SHALL not show the links to `/login` and `/register`. WHILE no user is logged in, the auth card SHALL show links to `/login` and `/register`.
 - **R15**: WHEN a user sends the register form or the login form and the browser accepts its fields, the `front-web` SHALL write one console line with the name of the operation, before the answer comes. The line SHALL not contain a form value, a password or a token.
 
 ## Expected URLs and APIs
@@ -55,7 +55,7 @@ A system with users must know who sends each request, before a feature needs thi
 | api | back-api | `GET /api/auth/me` | 200 public user. 401 without a valid session. | R06, R07 |
 | page | front-web | `/register` | Form with email, name and password. No role field. | R08, R11, R12, R13, R15 |
 | page | front-web | `/login` | Form with email and password | R09, R10, R11, R12, R15 |
-| page | front-web | `/` | Auth card: `Hello, {name}`, or links to `/login` and `/register` | R14 |
+| page | front-web | `/` | Auth card: `Hello, {name}` and no links, or links to `/login` and `/register` | R14 |
 
 ## Solution
 
