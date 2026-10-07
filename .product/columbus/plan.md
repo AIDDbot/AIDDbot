@@ -226,7 +226,7 @@ D54: Archetype Base nace de `codex-12` y la fundación lo ofrece. Objetivo: adel
 | J3 | Blueprint de `codex-12` (puntos 12, 13, 15, 17): identidad en el `package.json` raíz, la parada de la suite se prueba con un test unitario, una sola tabla de primitivas en `ship-spec`, configuración de `format` en cada proyecto | ✅ `631d89a`, `02366b8` |
 | J4 | Notas de release al día | ✅ `3230a45` |
 | J5 | Modelos: un solo modelo por arnés; Copilot `claude-opus-5.5` y Cursor `grok-4.7`, niveles por esfuerzo (high, medium, low) | ✅ |
-| J6 | Prueba E (`experiments.md`) con la 0.3.0 candidata | Pendiente: la lanza el humano |
+| J6 | Prueba E (`experiments.md`) con la 0.3.0 candidata | ✅ `codex-13`: ~20 min, verde; D0001 arreglada en Base `v0.2.1` |
 | J7 | `npm run release -- minor`, nombre en clave Columbus, etiqueta `v0.3.0` a mano | Tras J6 |
 
 Fuera de la 0.3.0: G9 (worktrees), tests intermitentes (nota 18 de `codex-9`), Archetype Builder y el resto de P21.

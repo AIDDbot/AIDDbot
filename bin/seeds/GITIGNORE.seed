@@ -3,7 +3,7 @@ temp/
 tmp/
 *.tmp
 *.log
-data/
+/data/
 
 # Secrets and credentials
 .env
