@@ -402,6 +402,26 @@ Fuente: `C:/code/aidd/experiments/columbus/cursor-10/`. Candidata 0.2.5 desde la
 4. **D0001 `high`** (calificación de `configuration`): el timeout de la suite no nombra el proyecto y deja el proceso vivo. Criterio de la Solution, bien visto.
 5. **D0002 `high`, falso fallo de S0005-R11:** el test hace `Promise.all([submit.click(), submit.click()])`; `click()` de Playwright espera a que el botón esté habilitado, así que el segundo clic envía de nuevo cuando acaba el primero (409). La aplicación es correcta. El Builder dio tres vueltas al código de la aplicación. Intermitente: pasó en la aceptación final. Acción (0.2.6): la nota de prueba de R11 dice cómo dar dos clics en un solo paso del navegador. S0006 también rompió una vez S0005-R12 (el enlace de registro en la página de login), el mismo test que en `codex-9` (D0014): la zona entre el menú por acceso y los formularios de `auth` es frágil en dos arneses.
 
+## Evidencia: fase 6, prueba `codex-13` (prompt E, Codex con `gpt-6.1-sol`, YOLO) · valida Archetype Base
+
+Fuente: `C:/code/aidd/experiments/columbus/codex-13/` (transcripción `codex-session-01a115d6-….md`). AIDDbot candidato 0.3.0 desde la copia local (`1d8e350` + `be65d64`), Archetype Base `v0.2.0`.
+
+| Paso | `codex-12` (0.2.7, al vuelo) | `codex-13` (Base) |
+| --- | --- | --- |
+| Propuesta | ~2,5 min (dentro de 11 min con scaffold) | 2,5 min (12:07:56 → 12:10:27) |
+| Scaffold, outline, integración | ~8,5 min | 5 min (→ 12:15:18) |
+| Ocho specs fundacionales | ~39 min (siete specs) | 11,5 min, ~1,5 min cada una (→ 12:27:00) |
+| **Fundación** | **~50 min, 5 deudas** | **~20 min, 1 deuda `medium`** |
+| Tests | unit 13, aceptación 52 | unit 27, aceptación 69 |
+
+1. **El flujo de Base se cumple tal cual.** Propuesta con los tres arquetipos en `v0.2.0` y las carpetas fijas; `foundation/` copiada a `.product/archetypes/foundation/`; `degit` y `npm ci` sin `upgrade`; canario de fronteras rojo en los tres proyectos (`boundary-probe.ts`, deshecho); identidad en el `package.json` raíz (`displayName` «Archetype Base Validation»), que `about` y `layout` muestran y sus tests leen.
+2. **El código es idéntico a Base:** `diff -r` de `back/`, `front/` y `e2e/` contra Base solo muestra los tres `AGENTS.md` (datos del sistema en «Owns»).
+3. **Entrega por verificación:** cada spec recibe el ID de su instancia (S0001–S0008), `define delivery`, una ejecución de aceptación (69 verdes), verificación, revisión y release. Ningún handoff al Builder en la entrega. Todas las verificaciones verdes a la primera.
+4. **D0001 `medium`, deuda real de Base:** la revisión de S0008 vio que `record-views` declara un pie con enlace o acción para la tarjeta **y** el detalle, y el detalle no lo tenía. Arreglado en Base `v0.2.1` (`a9ba713`): el detalle y su vista de fallo llevan enlaces, con el constructor del pie compartido; sin enlaces, sin pie. AIDDbot fija ahora `v0.2.1`. Lección: la revisión independiente encuentra lo que la verificación y el autor no ven; la puerta de la biblioteca necesita también una revisión contra las specs.
+5. **Fallo nuestro en la semilla:** `aiddbot init` dejaba `data/` sin anclar en el `.gitignore` raíz, y la regla del scaffold obligó al agente a corregirlo (`chore(tooling): anchor runtime data ignore`). Arreglado en `bin/seeds/GITIGNORE.seed` y en Base: `/data/`.
+6. **Subagentes:** el diario registra los handoffs (Builder en el registro de tooling, Craftsman en la entrega), pero la verificación y la calificación se registran segundos después de la aceptación. La transcripción no muestra llamadas a subagentes. Sin comprobar si Codex los usó.
+7. **Valida la 0.3.0.** Falta la release (J7).
+
 ## Evidencia: fase 6, prueba `codex-12` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/codex-12/`. v0.2.7 (`1688307`): principios de `docs/principles/` en el Blueprint; `core` y features no se importan; contratos en `shared`; registro en `presentation`; facade solo para otras features; `max-params` 2.
