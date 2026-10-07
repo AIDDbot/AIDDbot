@@ -428,6 +428,26 @@ Fuente: `C:/code/aidd/experiments/columbus/codex-12/`. v0.2.7 (`1688307`): princ
 10. **S0019 y S0020, terminadas por Claude Code** (Codex sin tokens). S0019: el test e2e rellenaba `Name` en el login; arreglado, verde. S0020 `record-views` (nueva foundation 8): 10 requisitos verdes a la primera, 76 tests; tres componentes en `shared/components` (card, detail, table) y `records.css`; los tests de S0004, S0005, S0006, S0007 y S0019 siguieron el marcado nuevo. Review ámbar: la spec decía `custom.css`, pero la regla del proyecto deja los ficheros del tema sin cambios (arreglado en la fuente, `c7dc5ae`; D0020 `low`).
 11. **Fallo del núcleo:** `ship-spec` formatea después del último `lint`; el commit `style: format` lo rechaza el guard de lint y `aidd release` mete los ficheros formateados en su commit sin pasar `lint`. Sin daño aquí (solo formato, todo verde después), pero el guard queda burlado. Acción pendiente: formatear antes del último `lint`, o que `release` rechace un árbol con código sin lint.
 
+### Preparación para arquetipo (S0021–S0023, 6 oct, 13:08–13:19)
+
+Tres specs `foundation` en ~11 min, todas verdes a la primera; 0.10.0 → 0.10.3. Objetivo explícito de S0022: «The projects will become archetypes, so they must start with no warning and no unused file».
+
+| Spec | Tipo | Cambio | Resultado |
+| --- | --- | --- | --- |
+| S0021 `e2e-harness` | refactor | Quita los tests de aceptación del propio arnés (S0008 `process-shutdown`, S0009 `owned-descendants`) y sus fixtures y scripts; conserva la limpieza de procesos y su test unitario; parte `setup` y `startProject` en pasos con nombre; apaga `no-empty-pattern` en `shared/fixtures.ts`. | Cierra D0016–D0020. 76 → 68 tests de aceptación (~18 s) |
+| S0022 `archetype-cleanup` | chore | `back`: resolver de sesión ligado (`unbound-method`). `front`: valor de formulario como texto solo si es string (`no-base-to-string`); fuera `src/assets/` y `public/` de la muestra de Vite; una sola tabla de primitivas en `AGENTS.md`, sin las dos filas de ficheros inexistentes. | `quality` sin ningún aviso en los tres proyectos |
+| S0023 `identity-source` | refactor | La identidad (`displayName`, `description`, `author`, `homepage`, `version`) sale del `package.json` raíz; `front/src/shared/identity.ts` la lee con el valor por defecto `AIDDbot` / `https://aiddbot.com`; `e2e/shared/system.identity.ts` da la identidad esperada a los tests de `layout` y `about`. | Sin texto del sistema en código ni en tests |
+
+Estado final (`e4a5012`): `debt.json` vacío, `quality` sin avisos, unit 15 + 9 + 3, aceptación 68. Es el primer experimento que cumple la puerta de biblioteca de P21 (cero deuda, `quality` en verde), con el tema de marca de D52.
+
+12. **Identidad en el `package.json` raíz (S0023):** mejor que lo que piden `layout` y `about` (nombre y descripción de `system.md` copiados a `shared`; solo la versión del `package.json`). Con la identidad en campos estándar de npm, un proyecto se vuelve arquetipo sin editar código ni tests. Candidato al Blueprint: `layout` y `about` leen los cinco campos del `package.json` raíz; `system.md` lo rellena la fundación; los tests de `e2e` leen la identidad esperada del mismo sitio.
+13. **Los tests del arnés no son aceptación (S0021):** S0008 y S0009 probaban la limpieza de procesos de la propia suite con tests de aceptación lentos y fixtures propias. La limpieza es tooling de `e2e`: test unitario, nunca un requisito de spec. Revisar que `configuration` («la suite para lo que arranca») no empuje a escribirlos como aceptación.
+14. **`quality` sin avisos como puerta de arquetipo (S0022):** los avisos de tipos (`unbound-method`, `no-base-to-string`) no son límites y no entran al registro (punto 9), así que «deuda cero» no basta. La puerta de Archetype Base tiene que ser `debt.json` vacío **y** `quality` sin ningún aviso.
+15. **Deriva del `AGENTS.md` de proyecto:** el del front tenía cuatro tablas de primitivas y dos filas de ficheros que no existían. Lo escribe `ship-spec` spec a spec (ver punto 7 de `codex-11`). Acción: `ship-spec` mantiene una sola tabla y solo con exports que existen.
+16. **Ya arreglado en 0.2.8 (la prueba usa 0.2.7):** restos de Vite (punto 6c) y `no-empty-pattern` en las fixtures (`ecosystems.md`). No es una recaída.
+17. **`format` del back sin configuración:** el diario dice `oxfmt` «No config found, using defaults» en `back`; `front` sí tiene `.oxfmtrc.json`. Queda un `back/.oxfmtrc.json` sin commitear (y un `package.json` raíz con otro `displayName`, prueba manual de S0023). Acción: la fundación crea la configuración de `format` en cada proyecto, igual que la de `lint`.
+18. **Proceso:** S0022 y S0023 no tienen commit `define delivery` (la spec entra con el código), y la verificación y la calificación se registran en el mismo segundo. Aceptable para un `chore` o un `refactor` sin requisitos, pero no hay revisión independiente.
+
 ## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
 Fuente: `C:/code/aidd/experiments/columbus/codex-11/`. Candidata 0.2.6 (D50–D52) desde la copia local.
