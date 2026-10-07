@@ -10,8 +10,13 @@ user-invocable: true
 Your goal is to set up the foundation architecture for the system. When no code exists, propose it, scaffold it, and deliver it green. When code exists, document it. You can run this skill again at any time to align the documentation with the code.
 
 ```text
-verdict ─┬─ greenfield ─► propose ─► approve ─► scaffold each project ─► outline-system ─► integrate ─► foundation specs ─► green check
-         └─ brownfield ─► outline-system ─► rule-project for each project ─► integrate
+verdict
+├── greenfield
+│   ├── propose    approved system.md
+│   ├── scaffold   each project, then outline-system and integrate
+│   └── deliver    foundation specs, then green check
+└── brownfield
+    └── outline-system, rule-project, integrate
 ```
 
 ## Roles
