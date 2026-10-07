@@ -225,7 +225,7 @@ D54: Archetype Base nace de `codex-12` y la fundación lo ofrece. Objetivo: adel
 | J2 | `architect-system-foundation`: Base como primera oferta (back + front + e2e con usuarios, los tres o ninguno); scaffold copia con `degit` en la etiqueta y sin `upgrade`; deliver verifica, revisa y entrega cada instancia, el Builder solo repara un rojo | ✅ `631d89a` |
 | J3 | Blueprint de `codex-12` (puntos 12, 13, 15, 17): identidad en el `package.json` raíz, la parada de la suite se prueba con un test unitario, una sola tabla de primitivas en `ship-spec`, configuración de `format` en cada proyecto | ✅ `631d89a`, `02366b8` |
 | J4 | Notas de release al día | ✅ `3230a45` |
-| J5 | Modelos de Copilot y Cursor: un solo modelo por arnés, el más reciente | Pendiente: decide el humano qué modelo |
+| J5 | Modelos: un solo modelo por arnés; Copilot `claude-opus-5.5` y Cursor `grok-4.7`, niveles por esfuerzo (high, medium, low) | ✅ |
 | J6 | Prueba E (`experiments.md`) con la 0.3.0 candidata | Pendiente: la lanza el humano |
 | J7 | `npm run release -- minor`, nombre en clave Columbus, etiqueta `v0.3.0` a mano | Tras J6 |
 

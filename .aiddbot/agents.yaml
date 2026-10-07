@@ -31,23 +31,23 @@ harnesses:
     path: .github/agents/{id}.agent.md
     tiers:
       deep:
-        models: ["claude-opus-4.6", "gpt-5.4"]
+        models: ["claude-opus-5.5"]
         effort: high
       standard:
-        models: ["claude-opus-4.6", "gpt-5.4"]
-        effort: high
-      light:
-        models: ["claude-sonnet-4.6", "gpt-5.4"]
+        models: ["claude-opus-5.5"]
         effort: medium
+      light:
+        models: ["claude-opus-5.5"]
+        effort: low
   cursor:
     path: .cursor/agents/{id}.md
     tiers:
       deep:
-        model: grok-4.7[context=256k,reasoning_effort=medium,fast=false]
+        model: grok-4.7[context=256k,reasoning_effort=high,fast=false]
       standard:
-        model: grok-4.7[context=256k,reasoning_effort=low,fast=false]
+        model: grok-4.7[context=256k,reasoning_effort=medium,fast=false]
       light:
-        model: grok-4.6[effort=medium,fast=false]
+        model: grok-4.7[context=256k,reasoning_effort=low,fast=false]
 agents:
   architect:
     name: Architect
