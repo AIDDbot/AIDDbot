@@ -2,6 +2,10 @@
 
 A skill is a goal, the invariants a capable agent would otherwise miss, and the artifact it leaves behind. Write it as short instructional prose addressed to the agent. Express conditions, loops, and returns in sentences; never as pseudocode, and never as a numbered procedure the agent could work out on its own.
 
+The reader is a frontier model. Give it the goal, the rules, and the reasons. Do not micro-manage steps that it can deduce.
+
+Write in ASD-STE100: short sentences, one idea in each sentence, active voice, and approved words. Technical names are allowed. Use a list, a table, or a small text diagram when it shows the structure better than prose. Ordered steps, a set of events, or a set of conditions are examples.
+
 ```md
 ---
 name: {slug, identical to its folder}
@@ -46,4 +50,16 @@ Have the **Builder** execute the `implement-project` skill for each affected pro
 
 ## Journal
 
-The core journals every state change it makes on its own. A skill journals only a judgment of the model, with `node .agents/aidd/aidd.mjs log <event> "<summary>"`, and only these events: `verdict` (greenfield or brownfield), `select` (the debt chosen), and `blocked` (with its reason). Never journal starts, ends, spawns, or coding, testing, and linting milestones.
+The core journals every state change it makes on its own. A skill journals only a judgment of the model, with `node .agents/aidd/aidd.mjs log <event> "<summary>" [--spec <id>]`, and only these events:
+
+| Event | When |
+| --- | --- |
+| `verdict` | greenfield or brownfield |
+| `select` | the debt or the archetype chosen |
+| `handoff` | an orchestrator sends work to a different agent: `<from> → <to>: <what>` |
+| `approved` | the human approves a proposal or a spec, or YOLO mode accepts it |
+| `plan` | the plan of an implementation, before its first edit |
+| `scaffolded` | the scaffolded projects |
+| `blocked` | with its reason |
+
+Never journal starts, ends, spawns, or coding, testing, and linting milestones.
