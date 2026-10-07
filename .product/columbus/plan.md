@@ -214,3 +214,21 @@ Repetir el guion del post-mortem (Hono + Vue + Playwright, flota de cohetes, `cr
 ### 7 · Release Columbus
 
 Versión, `CHANGELOG.md` y notas de release con los cambios visibles para quien adopta AIDDbot.
+
+### 4f · Plan 0.3.0: Archetype Base (7 oct)
+
+D54: Archetype Base nace de `codex-12` y la fundación lo ofrece. Objetivo: adelantar la release de la 0.3.0 todo lo posible.
+
+| # | Pieza | Estado |
+| --- | --- | --- |
+| J1 | `AIDDbot/archetype-base` v0.2.0: instancias de las specs fundacionales en `foundation/` (S0001–S0008, en el orden de `deliver.md`), tags de los tests alineados, `account` R14, identidad del `package.json` raíz | ✅ `8484e88` |
+| J2 | `architect-system-foundation`: Base como primera oferta (back + front + e2e con usuarios, los tres o ninguno); scaffold copia con `degit` en la etiqueta y sin `upgrade`; deliver verifica, revisa y entrega cada instancia, el Builder solo repara un rojo | ✅ `631d89a` |
+| J3 | Blueprint de `codex-12` (puntos 12, 13, 15, 17): identidad en el `package.json` raíz, la parada de la suite se prueba con un test unitario, una sola tabla de primitivas en `ship-spec`, configuración de `format` en cada proyecto | ✅ `631d89a`, `02366b8` |
+| J4 | Notas de release al día | ✅ `3230a45` |
+| J5 | Modelos de Copilot y Cursor: un solo modelo por arnés, el más reciente | Pendiente: decide el humano qué modelo |
+| J6 | Prueba E (`experiments.md`) con la 0.3.0 candidata | Pendiente: la lanza el humano |
+| J7 | `npm run release -- minor`, nombre en clave Columbus, etiqueta `v0.3.0` a mano | Tras J6 |
+
+Fuera de la 0.3.0: G9 (worktrees), tests intermitentes (nota 18 de `codex-9`), Archetype Builder y el resto de P21.
+
+**Hecho cuando:** la prueba E cierra en verde con las ocho specs verificadas sin Builder, y la release está etiquetada.

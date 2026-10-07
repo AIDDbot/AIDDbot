@@ -59,11 +59,17 @@ Sin framework que guíe, el router y los componentes los construye el agente des
 
 Sin YOLO: debe preguntar por propósito, usuarios, proyectos y cada elección técnica abierta, una pregunta cerrada cada vez, ofreciendo primero el arquetipo o la opción habitual. Anotar cuántas preguntas hace y si alguna sobra.
 
-### E · Catálogo (arquetipos propios, tras la fase 5)
+### E · Archetype Base (D54, valida la 0.3.0)
 
 ```text
-/architect-system-foundation YOLO. Sistema de prueba sin funcionalidad de negocio: solo la fundación. Usuarios: un operador genérico, así que incluye basic-auth. Proyectos: back-api, front-web y e2e con los arquetipos del catálogo.
+usa la skill $architect-system-foundation en modo YOLO. Para:
+Sistema de prueba sin funcionalidad de negocio: solo la fundación.
+Propósito: validar Archetype Base.
+Usuarios: un operador genérico, así que incluye basic-auth.
+Proyectos: back-api, front-web y e2e con los arquetipos del catálogo.
 ```
+
+Vigilar: copia los tres proyectos y `foundation/` en la etiqueta fijada, sin `upgrade` ni cambios de código; la identidad del sistema en el `package.json` raíz; cada spec recibe el ID de su instancia (S0001–S0008) y solo pasa por verificación, revisión y ship, sin Builder; cierre en verde con 69 tests y deuda cero. Comparar el tiempo con `codex-12` (~50 min).
 
 ## 2 · Comprobar a mano
 
