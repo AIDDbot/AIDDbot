@@ -30,7 +30,7 @@ Que cualquier greenfield, **sea cual sea la tecnología**, nazca de un **Archety
 
 ## Rumbo (3 oct)
 
-- **Fase 5 sustituida (7 oct, D54):** Archetype Base nace de `codex-12` (`AIDDbot/archetype-base` v0.1.0). Los repos de `archetypes/` se archivan.
+- **Fase 5 sustituida (7 oct, D54):** Archetype Base nace de `codex-12` (`AIDDbot/archetype-base` v0.1.0). `back-express`, `front-standard` y `e2e-playwright`, archivados.
 - **Fase 7:** primero, una release intermedia de parche (0.2.x); después, un tiempo de refactor y limpieza del propio AIDDbot antes de la 0.3.0.
 - **Últimos modelos (para la 0.2.x):** `.aiddbot/agents.yaml` fija en Codex `gpt-6-sol`/`gpt-6-luna` y en Copilot `claude-opus-4.6`/`gpt-5.4`. Desde `codex-5`, Codex aplica esos modelos a los subagentes, y la fundación pasó de 36 min (`codex-3`, todo con `gpt-6.1-sol` low) a más de 2 h. Regla: un solo modelo por arnés, el más reciente, y los niveles solo cambian el esfuerzo, como en Claude (`deep` high, `standard` medium, `light` low). ✅ Codex: `gpt-6.1-sol` en los tres niveles. Pendientes: Copilot y Cursor.
 - **Arquetipos fuera de AIDDbot (P21):** tres piezas: AIDDbot, Archetype Builder y Archetype Base (repos en la organización `AIDDbot`). AIDDbot funda y ofrece la biblioteca Archetype Base; si no vale ningún arquetipo, invoca al Archetype Builder en el repo del usuario. El Builder construye al vuelo con refinamiento básico o máximo; la biblioteca solo admite arquetipos de refinamiento máximo (crafting y cero deuda). AIDDbot conserva el Blueprint. Se hace en el periodo de refactor.
