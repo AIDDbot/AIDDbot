@@ -32,12 +32,12 @@ To select the models and the effort of the agents, use `.aiddbot/agents.local.ya
 
 For an existing system, this command documents the projects and their rules.
 
-When the repository has no application code, the command asks about the product and its projects, one stage at a time. Then it proposes the system in `.product/system.md`. The system is a set of typed projects: `back-api`, `front-web`, `cli` or `e2e`. Each project uses an archetype of its type from the catalog. Or the Architect makes an archetype for the technology that you select. With the archetypes of the catalog, the scaffold runs these commands:
+When the repository has no application code, the command asks about the product and its projects, one stage at a time. Then it proposes the system in `.product/system.md`. The system is a set of typed projects: `back-api`, `front-web`, `cli` or `e2e`. Each project uses an archetype of its type from the catalog. Or the Architect makes an archetype for the technology that you select. For a system with a back-end API, a web front end, an e2e suite and users, the first offer is [Archetype Base](https://github.com/AIDDbot/archetype-base): three archetypes that already implement all the foundation specs and their tests. The scaffold copies them:
 
 ```bash
-npx tiged AIDDbot/front-standard front
-npx tiged AIDDbot/back-express back
-npx tiged AIDDbot/e2e-playwright e2e
+npx degit AIDDbot/archetype-base/back#v0.2.0 back
+npx degit AIDDbot/archetype-base/front#v0.2.0 front
+npx degit AIDDbot/archetype-base/e2e#v0.2.0 e2e
 ```
 
 After your approval, the scaffold runs from the root folder of the repository. Thus the working tree must be clean, and Node.js with npm must be installed. Then, for each project, one at a time:
@@ -46,7 +46,7 @@ After your approval, the scaffold runs from the root folder of the repository. T
 - It changes the code into one architecture. The composition connects `core` and the features through a manifest. Each feature has the layers `presentation`, `logic` and `data`. `shared` has primitives, the contracts of the services, and folders by technical concern (see the [principles](./principles/README.md)). The `e2e` project has its tests by feature, with page objects and test data in `shared`. From the first day, `lint` makes these boundaries mandatory. The foundation proves it with a forbidden import.
 - It installs and records the tooling slots: `lint`, `format`, `upgrade`, `unit`, `acceptance` and `quality`. A slot that does not apply gets the reason.
 
-Then it delivers the foundation specs, one at a time: `configuration`, `monitoring`, `layout` (only with a web front), `health`, `basic-auth` (only with users), `account` (only with `basic-auth`), `about` and `record-views` (both only with a web front). `record-views` gives every card and detail page one look. Thus the system is green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt and the native Node.js test runner. A web front starts with Pico CSS, its fonts and the AIDDbot theme in `colors.css`, `theme.css` and `custom.css`. Change the colors in these files.
+Then it delivers the foundation specs, one at a time. With Archetype Base, the code and the tests exist, so each spec is only verified, reviewed and shipped: `configuration`, `monitoring`, `layout` (only with a web front), `health`, `basic-auth` (only with users), `account` (only with `basic-auth`), `about` and `record-views` (both only with a web front). `record-views` gives every card and detail page one look. Thus the system is green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt and the native Node.js test runner. A web front starts with Pico CSS, its fonts and the AIDDbot theme in `colors.css`, `theme.css` and `custom.css`. Change the colors in these files.
 
 To see the progress, read `.aiddbot/journals/`. Each handoff, plan, run with its result, commit, evaluation and release is one line.
 

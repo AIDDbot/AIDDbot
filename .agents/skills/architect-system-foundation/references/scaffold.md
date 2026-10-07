@@ -10,6 +10,14 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 | 2 | `refactor({project}): shape to blueprint` | The project has the shape of its `AGENTS.md`. |
 | 3 | `chore({project}): register tooling` | All tooling slots operate and are registered. |
 
+## Archetype Base
+
+The three archetypes of Archetype Base are already in the shape of the Blueprint, with their tooling and their tests. The steps stay, with these changes:
+
+- Step 1: copy each folder at the tag of `assets/archetypes.md`. Before the first project, copy `foundation/` of the same tag to `.product/archetypes/foundation/` and commit it as `chore(scaffold): copy foundation specs`. Deliver uses these spec instances.
+- Step 2: change only the system data in each `AGENTS.md`. Never move, rename or remove code: each file and each test belongs to a foundation spec.
+- Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives.
+
 ## Step 2: shape to blueprint
 
 - `{source_root}/AGENTS.md` is the `AGENTS.md` of the archetype (or the one made on demand), with the system data: purpose and boundary, connections, ports, and variables. It keeps the structure of the template. Put a `CLAUDE.md` next to it that contains only `@AGENTS.md`, for harnesses that do not read `AGENTS.md`.
@@ -24,6 +32,7 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 - Run the `upgrade` command one time, because models remember old releases.
   - If a new major breaks a different tool of the stack, keep the last compatible major. Write the pin and its reason in the technology rules of that `AGENTS.md`.
   - Never pin a major that `assets/ecosystems.md` requires. Replace the tool that breaks.
+- Each project has the configuration file of its `format` tool, also when the defaults are enough, so that the tool never runs without configuration.
 - The ignore file never hides source. Anchor runtime data patterns to the project root, so that no `data` layer folder is ignored.
 - Each tooling slot of that `AGENTS.md` operates. If a mandatory slot is missing (`lint`, `unit`, and `start` for runnable projects), install the usual tool of the stack and write it in that `AGENTS.md` first.
 - Register the slots, then commit `.aiddbot/config.json` with the project:
@@ -40,6 +49,7 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 
 ## After all projects
 
+- The root `package.json` holds the identity of the system: `displayName` (the system name), `description` (one sentence of the purpose), `author` and `homepage` from `.product/system.md`. `aidd release` writes its `version`. The `front-web` and the `e2e` tests read the identity from this file. Commit it as `chore(scaffold): set the system identity`.
 - Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"`.
 - Never run `rule-project` in greenfield.
 - The **Architect** executes `outline-system`.

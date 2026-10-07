@@ -23,7 +23,7 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 
 ### Business rules
 
-- The name and the description of the application come from `system.md`, and the application keeps them in one location only.
+- The identity of the application (name, description, author, website and version) comes from the root `package.json`, and the application keeps it in one location only.
 - The home page knows no feature. Each feature adds its own cards.
 
 ### Out of context
@@ -57,7 +57,7 @@ Each page of the `front-web` must have the same frame, in the theme that the use
 
 ### front-web
 
-- Identity: one file in `shared` with the name and the description of `system.md`, and the version of the root `package.json`, which `aidd release` writes; it never copies the version by hand. The document title, the shell header and the home page read it.
+- Identity: one file in `shared` reads `displayName` (or `name`), `description`, `author`, `homepage` and `version` from the root `package.json`. The foundation writes the first four from `system.md`; `aidd release` writes the version. Nothing copies them by hand. The document title, the shell header and the home page read that file. The e2e tests read the expected identity from the same `package.json`, never from fixed text.
 - Shell in `core`: header (name, menu, theme control), main area, router, not-found page. The server answers each unknown path with the shell, so direct links operate.
 - The composition gets the pages, the menu links and the cards from the manifest. It gives the pages and the menu links to `core`, and the cards to the `home` registration. `core` never imports a page.
 - Page contract:

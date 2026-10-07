@@ -39,7 +39,7 @@ A person who opens the application must see what it is, its version, who made it
 
 ### front-web
 
-- The identity in `shared` (see `layout`) also has the author and the website, from `system.md`. A request with no author gets `AIDDbot` and `https://aiddbot.com`.
+- The identity in `shared` (see `layout`) also has the author and the website, from `author` and `homepage` of the root `package.json`. With no author: `AIDDbot` and `https://aiddbot.com`.
 - The technology summary is a constant of the `about` feature, made at the foundation from `.product/system.md` and the `AGENTS.md` of each project: project, type, and its language, framework, main libraries and test tools. No request at runtime.
 - Feature `about`: page `/about`, menu link `About`, access mark `everyone` when the system has `account`. No `logic` or `data` layer.
 - The website link has `target="_blank"` and `rel="noopener noreferrer"`.

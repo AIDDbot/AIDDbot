@@ -7,6 +7,7 @@ The **Architect** writes `.product/system.md` from `assets/system.template.md`. 
   1. Purpose, users, and needs.
   2. Projects.
   3. For each project, one archetype of its type from `assets/archetypes.md`, as written.
+- Archetype Base is the first offer when the system fits it: one `back-api`, one `front-web`, one `e2e`, and users. Its three archetypes go together, or none of them goes. Its projects keep the folder names `back`, `front` and `e2e`. If the request asks for a different technology for one of them, use no Archetype Base archetype.
 - Do not ask what the request, `README.md`, or an existing proposal already answers.
 - Interactive mode: never assume a technology. Before you settle an archetype or a technology, ask about each open choice: language and runtime, framework, package manager, persistence, and the tool of each tooling slot. Offer the catalog archetype or the usual option of `assets/ecosystems.md` first.
 - YOLO mode: never ask. Use the choices of the request and the usual option for all other choices.

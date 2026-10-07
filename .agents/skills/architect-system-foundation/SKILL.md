@@ -42,6 +42,8 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 
 Never scaffold when working code exists.
 
+When the projects come from Archetype Base (`assets/archetypes.md`), the code and the tests of the foundation specs come with them. The scaffold copies them and the delivery verifies them; never build again what an archetype ships.
+
 ## Brownfield
 
 - If a spec is `in-progress`, stop before you document, because its branch owns the pending changes. Journal `blocked`.
