@@ -446,7 +446,14 @@ Estado final (`e4a5012`): `debt.json` vacío, `quality` sin avisos, unit 15 + 9 
 15. **Deriva del `AGENTS.md` de proyecto:** el del front tenía cuatro tablas de primitivas y dos filas de ficheros que no existían. Lo escribe `ship-spec` spec a spec (ver punto 7 de `codex-11`). Acción: `ship-spec` mantiene una sola tabla y solo con exports que existen.
 16. **Ya arreglado en 0.2.8 (la prueba usa 0.2.7):** restos de Vite (punto 6c) y `no-empty-pattern` en las fixtures (`ecosystems.md`). No es una recaída.
 17. **`format` del back sin configuración:** el diario dice `oxfmt` «No config found, using defaults» en `back`; `front` sí tiene `.oxfmtrc.json`. Queda un `back/.oxfmtrc.json` sin commitear (y un `package.json` raíz con otro `displayName`, prueba manual de S0023). Acción: la fundación crea la configuración de `format` en cada proyecto, igual que la de `lint`.
-18. **Proceso:** S0022 y S0023 no tienen commit `define delivery` (la spec entra con el código), y la verificación y la calificación se registran en el mismo segundo. Aceptable para un `chore` o un `refactor` sin requisitos, pero no hay revisión independiente.
+18. **Revisión frente a 0.2.8–0.2.9 (7 oct), antes de usarlo como semilla de Archetype Base.** Ya cumple: `no-empty-pattern` apagado en `e2e/.oxlintrc.json`, sin restos de Vite, excepciones de `max-params` con la firma del framework (3, con razón), `record-views` en `records.css` sin tocar el tema, tarjeta de auth sin enlaces de login con sesión (`basic-auth` R14). Le falta:
+    - **`*.card.ts` fuera de las fronteras:** `front/.oxlint.boundaries.json` no lo lista (arreglo de 0.2.8). Un `*.store.ts` que importe `health.card.ts` pasa el `lint`. Copiar el bloque de `oxlint.boundaries.json` y probarlo con un canario.
+    - **`unit` no bloquea:** la fila `unit` de los tres `AGENTS.md` de proyecto dice `No`; desde 0.2.9 es `Yes`.
+    - **Blueprint del `AGENTS.md` raíz desfasado** en tres frases: `unit` entre lo que bloquea; la excepción de `max-params` para callbacks del framework; «a closed type: an enum or a union of literals»; y «a business rule without a unit test is debt». Copiarlo de nuevo, tal cual, de `outline-system/assets/AGENTS.template.md`.
+    - **`account` R14:** el saludo de la tarjeta tiene que ser el enlace a `/users/{id}`; `codex-12` deja el saludo como texto y añade un enlace `Profile` aparte (`auth.card.ts`). Ajustar la tarjeta y su test.
+    - **`format` de `back`** sin configuración (punto 17).
+    - Los cambios del núcleo (`aidd release` e `integrate` rechazan código sin lint) no afectan al arquetipo: Archetype Base no lleva `.aiddbot/`.
+19. **Proceso:** S0022 y S0023 no tienen commit `define delivery` (la spec entra con el código), y la verificación y la calificación se registran en el mismo segundo. Aceptable para un `chore` o un `refactor` sin requisitos, pero no hay revisión independiente.
 
 ## Evidencia: fase 6, prueba `codex-11` (prompt F, Codex con `gpt-6.1-sol`, YOLO)
 
