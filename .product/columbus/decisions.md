@@ -438,3 +438,17 @@ La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin d
 - `layout`: la identidad de `core` lleva también la versión del `package.json` raíz (la escribe `aidd release`); la cabecera de la home la muestra.
 - Spec fundacional nueva `about` (7, solo con `front-web`): nombre, descripción, versión, autor con el enlace a su web (`rel="noopener noreferrer"`), y un resumen de la tecnología de cada proyecto hecho en la fundación desde `system.md` y los `AGENTS.md`. Sin autor en la petición: `AIDDbot` y `https://aiddbot.com`. `system.md` gana el campo Website.
 - Fechas y duraciones legibles con las API `Intl` (Baseline, sin dependencias): primitivas `formatDate` y `formatDuration` del `front-web`; el uptime de `health` (página y tarjeta) y la fecha de alta de `account` las usan. Los tests comprueban la forma, no el valor.
+
+## D54 ← P21, prueba `codex-12` (humano, 7 oct) · Archetype Base nace de `codex-12`
+
+`codex-12` cerró con deuda cero, `quality` sin avisos y el contrato fundacional completo (ocho specs), que a los repos de `C:/code/aidd/archetypes` les falta. La comparación de `comparison.md` no se ejecuta.
+
+- **Semilla:** `codex-12` v0.10.4 (`efe3399`), tras S0024, que lo alinea con el Blueprint de v0.2.9 (notas de `codex-12`, puntos 12–19). Repo `AIDDbot/archetype-base`, `v0.1.0` (`dde28e7`).
+- **Forma:** mono repo, una sola versión. Los proyectos `back/`, `front/` y `e2e/` están en la raíz, como en un sistema. Un arquetipo se copia con `npx degit AIDDbot/archetype-base/{proyecto}`.
+- **Suite de conformidad:** es el `e2e` de Archetype Base. AIDDbot conserva las specs fundacionales en texto.
+- **Blueprint:** el `AGENTS.md` raíz lo lleva copiado tal cual desde `outline-system/assets/AGENTS.template.md`, con su versión de AIDDbot. Se cambia en AIDDbot y se vuelve a copiar.
+- **Puerta de la biblioteca:** `lint`, `unit` y `quality` sin avisos en cada proyecto, aceptación completa en verde, deuda cero y canario de fronteras rojo.
+- **Identidad:** en el `package.json` raíz (`displayName`, `description`, `author`, `homepage`, `version`); el front y la suite la leen de ahí (S0023 de `codex-12`).
+- Sin `.product/`, `.aiddbot/`, `.agents/` ni adaptadores de arneses: Archetype Base no es un sistema de AIDDbot.
+- `back-express`, `front-standard` y `e2e-playwright` se archivan. `cli-node` queda fuera hasta que un experimento haga un CLI. El nombre del front en la biblioteca queda abierto (la carpeta es `front/`).
+- Pendiente para la 0.3.0: que `architect-system-foundation` ofrezca Archetype Base, el tema de marca de D52 pasa a la biblioteca, y los cambios al Blueprint de los puntos 12, 15 y 17 de `codex-12`. Siguen abiertos de P21: cómo llega el Archetype Builder al repo del usuario y cómo se versiona el Blueprint entre las piezas.
