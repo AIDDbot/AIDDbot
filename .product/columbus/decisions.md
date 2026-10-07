@@ -452,3 +452,11 @@ La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin d
 - Sin `.product/`, `.aiddbot/`, `.agents/` ni adaptadores de arneses: Archetype Base no es un sistema de AIDDbot.
 - `back-express`, `front-standard` y `e2e-playwright`, archivados en GitHub el 7 oct. `cli-node` sigue activo hasta que un CLI entre en Archetype Base; entonces se archiva. El nombre del front en la biblioteca queda abierto (la carpeta es `front/`).
 - Pendiente para la 0.3.0: que `architect-system-foundation` ofrezca Archetype Base, el tema de marca de D52 pasa a la biblioteca, y los cambios al Blueprint de los puntos 12, 15 y 17 de `codex-12`. Siguen abiertos de P21: cómo llega el Archetype Builder al repo del usuario y cómo se versiona el Blueprint entre las piezas.
+
+## D55 ← P21 (humano, 7 oct) · Archetype Base sigue las versiones de AIDDbot
+
+- Mayor, menor y nombre en clave de Archetype Base son los de la release de AIDDbot cuyo Blueprint cumple: Base `v0.3.0` Columbus cumple AIDDbot 0.3.0. Base solo los cambia cuando esa release copia su Blueprint en Base.
+- Los parches son independientes: una corrección que no cambia el Blueprint es un parche de Base o de AIDDbot, sin el otro.
+- Cada release de AIDDbot fija en `archetypes.md` la etiqueta exacta de Base que validó. Nunca se mueve una etiqueta publicada.
+- Cierra el punto de P21 «cómo se versiona el Blueprint entre AIDDbot y Base». Sigue abierto para el Archetype Builder.
+- Base `v0.3.0` (`0996012`) tiene el código de `v0.2.2`; AIDDbot la fija desde el primer parche 0.3.x.
