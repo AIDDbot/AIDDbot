@@ -9,14 +9,47 @@ user-invocable: true
 
 Your goal is to turn a natural-language request into a shipped spec.
 
-Route as the **Architect**: spawn one **Architect**, one **Builder**, and one **Craftsman** for the whole run, or use those a calling orchestrator hands you; continue each with messages, relay their questions to the human, and stop only the agents you started. You run this flow yourself and never hand it whole to one agent: an agent you spawn cannot spawn others.
+```text
+1. Architect   define-spec            human approval
+2. Builder     implement-project      each project, then e2e
+3. Craftsman   verify-behavior        red: repair loop
+               review-implementation  findings ship as debt
+               ship-spec
+```
 
-Journal every handoff between agents when you send the work, with `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` (and `--spec <id>` once the spec exists), so the journal times each agent's turn: log it before each of the three steps below, and again before each repair sent back to the **Builder**.
+## Roles
 
-Have the **Architect** execute the `define-spec` skill with the request, and relay its proposal to the human; nothing is built before approval.
+- Route as the **Architect**. Spawn one **Architect**, one **Builder**, and one **Craftsman** for the full run, or use the ones that a calling orchestrator gives you. Continue each one with messages. Relay their questions to the human. Stop only the agents that you started.
+- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents.
+- Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each of the three steps and before each repair that you send to the **Builder**. Add `--spec <id>` when the spec exists. Thus the journal times the turn of each agent.
 
-Have the **Builder** execute the `implement-project` skill for each affected production project, from lower to higher levels of abstraction, and then for the E2E project whenever the spec has requirements, whether or not its Solution lists E2E work, because every requirement needs its tagged acceptance test.
+## 1. Define
 
-Have the **Craftsman** execute the `verify-behavior` skill, then `review-implementation` once verification is green, then `ship-spec`. A red verification sends its finding-only report to the **Builder** for repair, and verification starts again. When the Builder changes nothing because it cannot reproduce a failure, have it record that failure with `node .agents/aidd/aidd.mjs debt add` and its evidence before verification starts again, so a green retry never hides it. A failing test tagged with another spec is a regression the Builder repairs in production. Only when a requirement of this spec contradicts it is the old requirement obsolete: unless in YOLO mode, relay that product change to the human first, then have the **Architect** add `Replaces: {global ID}` to the spec's Problem and the Builder update that test. Qualification is never sent back for repair and its findings ship as debt, except a failed Security gate: send that report to the **Builder** once for repair, then verification and qualification run again, and whatever the second qualification still finds ships as debt. A verification still red at its third revision is not repaired again: the delivery goes on, qualified if it has not been, and ships with every unresolved failure and finding recorded as technical debt. Only a product question from verification, or acceptance that cannot run at all, stops the delivery; a failing or missing test is a failure that counts toward revision 3, never missing evidence. Relay the question to the human; once answered, have the **Architect** write the answer into the spec, as a requirement, then continue from the Builder's repair and verification.
+The **Architect** executes `define-spec` with the request. Relay its proposal to the human. Nothing is built before approval.
 
-The result is one shipped spec, or the reason it could not ship.
+## 2. Implement
+
+The **Builder** executes `implement-project`:
+
+- For each affected production project, from lower to higher levels of abstraction.
+- Then for the E2E project, when the spec has requirements. Do this also when its Solution lists no E2E work, because each requirement needs its tagged acceptance test.
+
+## 3. Verify, qualify, and ship
+
+The **Craftsman** executes `verify-behavior`. When verification is green, it executes `review-implementation` (the qualification), then `ship-spec`.
+
+| Event | Action |
+| --- | --- |
+| Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
+| The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` before verification starts again. Thus a green retry never hides it. |
+| A test tagged with a different spec fails | It is a regression. The **Builder** repairs the production code. |
+| A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test. |
+| Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship with each unresolved failure and finding recorded as debt. |
+| Qualification has findings | Never send them back for repair. They ship as debt. |
+| The Security gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |
+| Verification asks a product question | Stop. Relay the question to the human. When it is answered, the **Architect** writes the answer into the spec as a requirement. Then continue from the repair of the **Builder** and verification. |
+| Acceptance cannot run at all | Stop the delivery. |
+
+Only a product question or acceptance that cannot run stops the delivery. A failing or missing test is a failure that counts toward the third revision. It is never missing evidence.
+
+The result is one shipped spec, or the reason why it could not ship.
