@@ -4,21 +4,40 @@ Guidance to fill the Tooling section of [`project.AGENTS.template.md`](./project
 
 ## JS / TS: the required stack
 
-JS / TS is the exception: AIDDbot sets its stack.
+JS / TS is the exception: AIDDbot sets its stack. Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
+
+**TypeScript and tools**
 
 - Use TypeScript 7. Never pin an older major. If a tool does not support TypeScript 7, replace the tool. Do not keep the old TypeScript.
 - Use the oxc family: oxlint for `lint`, layer boundaries, and `quality`; oxfmt for `format`.
-- Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
-- For `quality`, use a second oxlint configuration that extends the first and adds the complexity and size limits of the Blueprint. Start from [`oxlint.complexity.json`](./oxlint.complexity.json). Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`. In an `e2e` project, set the `files` of that override to all files, and turn off `no-empty-pattern` for the fixtures file in the `lint` configuration, which the `quality` one extends: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
-- Reference: the `back-express` archetype (`.oxlintrc.json`, `.oxlintrc.complexity.json`).
-- For layer boundaries (`.ts` and `.vue` files), merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below. For the `e2e` project, use [`oxlint.boundaries.e2e.json`](./oxlint.boundaries.e2e.json) instead: `core`, `features/{feature}/` and `shared/`. Change the paths and depths if the folder map of the project is different. A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
-- Do not write an own boundary checker: the overrides above check the imports, and the `quality` run of the core reports a subfolder in a feature.
 - Use the native Node.js test runner (`node --test`) for `unit`. Node.js runs TypeScript directly.
 - Do not add a tool that needs the JavaScript API of TypeScript (for example, dependency-cruiser or `@typescript-eslint/parser`).
-- In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
 - Vite+ is not yet in the stack.
 
-Scaffold commands, tested without a terminal (the input is closed). Run them from the repository root. Each one writes only its folder and asks nothing:
+**Type check (inside `lint`)**
+
+- Set `"options": { "typeAware": true, "typeCheck": true }` in the oxlint configuration and add `oxlint-tsgolint`. Then oxlint reports the type errors of TypeScript 7. Do not run `tsc` as a separate step.
+- In a Vue project, oxlint type-checks the `.ts` files with TypeScript 7. Until `vue-tsc` supports TypeScript 7, the `.vue` files have no type check: write this gap in the technology rules.
+
+**Layer boundaries (inside `lint`)**
+
+- For `.ts` and `.vue` files, merge the `overrides` of [`oxlint.boundaries.json`](./oxlint.boundaries.json) into the oxlint configuration. It uses the file names of the JS / TS convention below.
+- For the `e2e` project, use [`oxlint.boundaries.e2e.json`](./oxlint.boundaries.e2e.json) instead: `core`, `features/{feature}/` and `shared/`.
+- Change the paths and depths if the folder map of the project is different.
+- A later override replaces the rule; it does not merge it. Thus each override repeats all of its groups.
+- Do not write an own boundary checker: the overrides above check the imports, and the `quality` run of the core reports a subfolder in a feature.
+
+**Quality**
+
+- Use a second oxlint configuration that extends the first and adds the complexity and size limits of the Blueprint. Start from [`oxlint.complexity.json`](./oxlint.complexity.json).
+- Its override gives the test thresholds to `**/*.test.ts` and `**/*.spec.ts`.
+- In an `e2e` project:
+  - Set the `files` of that override to all files.
+  - Turn off `no-empty-pattern` for the fixtures file in the `lint` configuration, which the `quality` one extends: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
+
+**Scaffold commands**
+
+These commands were tested without a terminal (the input is closed). Run them from the repository root. Each one writes only its folder and asks nothing:
 
 | Project | Command | Notes |
 | --- | --- | --- |
