@@ -3,8 +3,8 @@
 ## Types
 
 - Use the strictest typed form of the language and its strictest type check.
-- Give each domain concept its own type. Do not use a bare string or number for it.
-- Use a value object for a value with rules. Examples: an email, an amount, an identifier.
+- Avoid primitive obsession. Use a value object for a value with rules or DTOS. Examples: an email, an amount, an identifier, credentials.
+- Give each domain concept its own type. Do not use a bare objects or arrays for it.
 - Use a closed type for a closed set of values: an enum or a union of literals.
 - Make larger types from smaller types. Use composition, not inheritance.
 - Put a generic type in `shared`. Put a type with domain words in the types of its feature.
@@ -24,3 +24,7 @@ The system has one data model. Three schemas show it:
 - The API schema shows the bodies of the REST API. It does not copy the tables.
 
 When the data model changes, update each schema that the change touches.
+
+---
+
+← [Feature](./feature.md) · [Principles](./README.md) · [Coding](./coding.md) →

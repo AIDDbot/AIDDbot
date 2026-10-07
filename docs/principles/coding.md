@@ -25,3 +25,7 @@
 - Write each query as a named constant in the `data` file that uses it.
 - Add a dependency only with the package manager.
 - Do not add a check, a limit or a default value that the spec does not state.
+
+---
+
+← [Data](./data.md) · [Principles](./README.md) · [Complexity](./complexity.md) →

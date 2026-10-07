@@ -6,10 +6,8 @@ A feature is one flat folder. It has layers. The role in each file name shows it
 
 ```mermaid
 flowchart LR
-    COMP[composition] --> PRES[presentation]
-    OTHER[other feature] --> FACADE[facade]
-    PRES --> LOGIC[logic]
-    FACADE --> LOGIC
+    PRES[presentation] --> LOGIC[logic]
+    FACADE[facade] --> LOGIC
     LOGIC --> DATA[data]
 ```
 
@@ -19,3 +17,7 @@ flowchart LR
 - `data` reads and writes outside the project: database, remote API, files. It does not depend on other layers.
 - `types` holds the types and the value objects. It is not a layer.
 - All layers can use `types`, `shared` and the facades of other features.
+
+---
+
+← [Project](./project.md) · [Principles](./README.md) · [Data](./data.md) →

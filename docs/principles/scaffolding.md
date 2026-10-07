@@ -28,3 +28,7 @@ src/
 ```
 
 Other languages follow their own style guides, such as `users_service.py` in Python or `UsersService.cs` in C#.
+
+---
+
+← [Complexity](./complexity.md) · [Principles](./README.md) · [Verification](./verification.md) →

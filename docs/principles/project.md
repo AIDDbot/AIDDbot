@@ -32,3 +32,7 @@ flowchart LR
 ### Composition
 
 - The entry point composes the project. It starts `core` and registers each feature by name, in one explicit list. It is the only part that knows `core` and `features`. It gives the features the services of `core` through the contracts of `shared`.
+
+---
+
+← [System](./system.md) · [Principles](./README.md) · [Feature](./feature.md) →

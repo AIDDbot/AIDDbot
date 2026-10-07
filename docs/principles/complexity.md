@@ -13,7 +13,7 @@ The archetype can change these numbers.
 | Nesting depth | 2 | 4 |
 | Parameters of a function | 2 | 4 |
 | Lines in a file | 128 | 256 |
-| Entries in a folder | 16 | — |
+| Entries in a folder | 16 | 16 |
 
 - A callback whose signature the framework sets is outside the parameter limit. Disable the limit for it with a lint comment.
 - A folder over the limit has more than one concern. Divide it by concern.
@@ -23,3 +23,7 @@ The archetype can change these numbers.
 - Use early returns. The main path has no `else`.
 - Move a long or deep block to a function with a domain name.
 - If a function needs more than two values, give it one typed object.
+
+---
+
+← [Coding](./coding.md) · [Principles](./README.md) · [Scaffolding](./scaffolding.md) →

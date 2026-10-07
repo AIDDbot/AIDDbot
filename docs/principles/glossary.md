@@ -20,3 +20,7 @@ These are the terms of the principles. Standard terms, such as value object, DRY
 | Check | A command that verifies a project: `lint`, `acceptance`, `unit`, `quality` or `format`. |
 | Debt | A finding that does not block a delivery. A later craft pass repairs it. |
 | Craft pass | A pass that repairs debt and does not change the behavior. |
+
+---
+
+← [Verification](./verification.md) · [Principles](./README.md)

@@ -24,3 +24,7 @@ Each project gives one command for each check. The archetype selects the tool.
 - A business rule without a unit test is debt.
 - An acceptance test proves one requirement of a spec. Its name contains the identifier of that requirement. It also proves `presentation` and `data`.
 - The `e2e` project starts the other projects and checks that they answer. Its tests use only the API and the screens, never the database or the code of other projects. Each feature of the system has one folder of tests.
+
+---
+
+← [Scaffolding](./scaffolding.md) · [Principles](./README.md) · [Glossary](./glossary.md) →

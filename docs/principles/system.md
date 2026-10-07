@@ -36,3 +36,7 @@ flowchart LR
 - Store a password only as a salted hash.
 - Check each input at the edge.
 - A security finding blocks the delivery.
+
+---
+
+← [Principles](./README.md) · [Project](./project.md) →
