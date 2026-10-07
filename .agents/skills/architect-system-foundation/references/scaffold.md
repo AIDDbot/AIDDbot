@@ -40,7 +40,7 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 
 ## After all projects
 
-- Journal `scaffolded`.
+- Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"`.
 - Never run `rule-project` in greenfield.
 - The **Architect** executes `outline-system`.
 - Run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`.

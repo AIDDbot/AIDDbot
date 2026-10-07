@@ -14,24 +14,16 @@ verdict ─┬─ greenfield ─► propose ─► approve ─► scaffold each 
          └─ brownfield ─► outline-system ─► rule-project for each project ─► integrate
 ```
 
-## Roles and journal
+## Roles
 
 - Route as the **Architect**. Spawn one **Architect** for the full run, or use the one that a calling orchestrator gives you. Continue it with messages. Relay its questions to the human. Stop it only if you started it.
 - Spawn the **Builder** at the first scaffold. Spawn one **Craftsman** for all the foundation specs. Use the same **Builder** for all of them.
-- Journal with `node .agents/aidd/aidd.mjs log <event> "<summary>"`. Never journal an event of "you" through the **Architect**.
-
-| Event | Who | When | Summary |
-| --- | --- | --- | --- |
-| `handoff` | you | each time you send work to an agent | `<from> → <to>: <what>` |
-| `verdict` | you, one time | before the first path step | `<greenfield\|brownfield>: <the code that settled it>` |
-| `select` | **Architect**, one time for each project | when the archetype or the technologies are settled, before an archetype on demand is made | `{project}: <archetype, or on demand: technologies>` |
-| `approved` | you, one time | when the human approves, or in YOLO mode | `system proposal` |
-| `scaffolded` | you | when all projects are committed | `<the scaffolded projects>` |
-| `blocked` | you | when you stop | `<reason>` |
+- Each time you send work to an agent, journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"`.
+- You journal `verdict`, `approved`, `scaffolded`, and `blocked` yourself, never through the **Architect**.
 
 ## Verdict
 
-Decide quickly, from working code only. Ignore agent configuration, AIDD product files, harness adapters, documentation, and ignored files. Code exists → brownfield. No code → greenfield.
+Decide quickly, from working code only. Ignore agent configuration, AIDD product files, harness adapters, documentation, and ignored files. Code exists → brownfield. No code → greenfield. Journal it one time with `node .agents/aidd/aidd.mjs log verdict "<greenfield|brownfield>: <the code that settled it>"`.
 
 ## Greenfield
 
