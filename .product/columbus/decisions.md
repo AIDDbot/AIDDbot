@@ -450,5 +450,5 @@ La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin d
 - **Puerta de la biblioteca:** `lint`, `unit` y `quality` sin avisos en cada proyecto, aceptación completa en verde, deuda cero y canario de fronteras rojo.
 - **Identidad:** en el `package.json` raíz (`displayName`, `description`, `author`, `homepage`, `version`); el front y la suite la leen de ahí (S0023 de `codex-12`).
 - Sin `.product/`, `.aiddbot/`, `.agents/` ni adaptadores de arneses: Archetype Base no es un sistema de AIDDbot.
-- `back-express`, `front-standard` y `e2e-playwright`, archivados en GitHub el 7 oct. `cli-node` queda fuera hasta que un experimento haga un CLI. El nombre del front en la biblioteca queda abierto (la carpeta es `front/`).
+- `back-express`, `front-standard` y `e2e-playwright`, archivados en GitHub el 7 oct. `cli-node` sigue activo hasta que un CLI entre en Archetype Base; entonces se archiva. El nombre del front en la biblioteca queda abierto (la carpeta es `front/`).
 - Pendiente para la 0.3.0: que `architect-system-foundation` ofrezca Archetype Base, el tema de marca de D52 pasa a la biblioteca, y los cambios al Blueprint de los puntos 12, 15 y 17 de `codex-12`. Siguen abiertos de P21: cómo llega el Archetype Builder al repo del usuario y cómo se versiona el Blueprint entre las piezas.
