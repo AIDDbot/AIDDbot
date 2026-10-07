@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.3.0 - 2026-10-07
+
+- chore: set the Columbus codename (0153e5b)
+- refactor(skills): tighten /architect-system-foundation (93e0973)
+- docs(product): summarize the codex-13 validation of Archetype Base (94879ac)
+- chore(skills): pin Archetype Base v0.2.1 and anchor the data ignore (cbba3b5)
+- chore(agents): one model per harness for Copilot and Cursor (be65d64)
+- docs(product): plan the 0.3.0 delivery with Archetype Base (1d8e350)
+- docs(product): bring the Columbus release notes up to Archetype Base (3230a45)
+- refactor(skills): tighten /ship-spec (02366b8)
+- refactor(skills): tighten /architect-system-foundation (631d89a)
+- docs(product): archive cli-node once a CLI enters Archetype Base (694b535)
+- docs(product): mark the replaced archetype repos as archived (df72a8c)
+- docs(product): record D54, Archetype Base seeded from codex-12 (ed1439b)
+- docs(product): review codex-12 against the v0.2.8 and v0.2.9 Blueprint (3821e8e)
+- docs(product): summarize the codex-12 archetype preparation (S0021–S0023) (7e158ad)
+- refactor(skills): fix formatting in upgrade request section (f2cf74c)
+- refactor(skills): tighten /craft-lasting-quality (fc69e2a)
+- refactor(skills): tighten /build-requested-spec (19ec45a)
+- refactor(skills): tighten /architect-system-foundation (61b2af1)
+- refactor(skills): tighten /architect-system-foundation (a850904)
+- refactor(skills): tighten /architect-system-foundation (563c593)
+- refactor(skills): tighten /maintain-skills (8e23a2d)
+- refactor(skills): tighten /architect-system-foundation (9e4694a)
+- docs(principles): update various principle documents with new links and content adjustments (a8038aa)
+
 ## 0.2.9 - 2026-10-06
 
 - fix(core): refuse release and integrate of code changed since its last lint (93792e4)
