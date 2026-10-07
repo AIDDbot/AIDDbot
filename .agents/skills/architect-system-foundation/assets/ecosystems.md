@@ -35,6 +35,13 @@ JS / TS is the exception: AIDDbot sets its stack. Reference: `back/` of Archetyp
   - Set the `files` of that override to all files.
   - Turn off `no-empty-pattern` for the fixtures file in the `lint` configuration, which the `quality` one extends: Playwright fixtures with no dependency take `({}, use)`. Never add a false dependency to avoid the rule.
 
+**Script names**
+
+- Use the standard npm names, which run without `run`: `test` runs the tests of the project, and `start` runs it.
+- In a `back-api`, a `front-web` or a `cli`, `test` is the `unit` slot.
+- In an `e2e` project, `test` is the `acceptance` slot, headless. `start` opens the interactive UI of the runner, for a human only: the `start` slot stays not applicable, and an agent never runs it. `unit` runs the unit tests of its `core`.
+- The other slots keep their names: `lint`, `format`, `upgrade`, `quality`.
+
 **Scaffold commands**
 
 These commands were tested without a terminal (the input is closed). Run them from the repository root. Each one writes only its folder and asks nothing:

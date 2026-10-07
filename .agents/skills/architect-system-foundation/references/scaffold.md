@@ -38,7 +38,7 @@ The three archetypes of Archetype Base are already in the shape of the Blueprint
 - Register the slots, then commit `.aiddbot/config.json` with the project:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"path":"{source_root}","commands":{"lint":"npm run lint","unit":["npm run unit"],"acceptance":{"na":"e2e owns acceptance"}}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"path":"{source_root}","commands":{"lint":"npm run lint","unit":"npm test","acceptance":{"na":"e2e owns acceptance"}}}'
   ```
 
   - Each of `lint`, `format`, `upgrade`, `unit`, `acceptance`, and `quality` is a command, a list of commands, or `{"na":"<reason>"}`.

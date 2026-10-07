@@ -58,6 +58,7 @@ For the most common system, a back-end API, a web front end, an e2e suite and us
 
 - New run kinds: `aidd run format` (autofix before shipping) and `aidd run upgrade` (latest releases). Neither is recorded as evidence.
 - A slot that does not apply holds `{"na": "<reason>"}`; `aidd run` reports it and passes.
+- Standard npm script names: `npm test` runs the unit tests (the acceptance suite in an `e2e` project) and `npm start` runs the project (the interactive test UI in `e2e`, for humans only).
 - Dependencies are added with the package manager's add command, never by writing a version.
 - `aidd config set` refuses a project with files of two package managers.
 
