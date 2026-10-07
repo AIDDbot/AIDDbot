@@ -10,10 +10,10 @@ user-invocable: true
 Your goal is to reduce existing quality debt through evidence-backed specs.
 
 ```text
-upgrade request ──────────────────────────────────┐
-1. Craftsman   scan-quality          debt register │
-2. Architect   select                repair request│
-3. you         build-requested-spec  shipped spec ◄┘
+upgrade request ────────────────────────────────────┐
+1. Craftsman   scan-quality          debt register  │
+2. Architect   select                repair request │
+3. you         build-requested-spec  shipped spec  ◄┘
 ```
 
 ## Roles
