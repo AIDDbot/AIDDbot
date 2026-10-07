@@ -36,7 +36,9 @@ Every skill is `user-invocable: true` and stays model-invocable, so never set `d
 
 ## Resources
 
-Put output templates in `assets/` and long guides and checklists in `references/`. Link them from the skill, only inside its own folder, and never paraphrase them: a template is the spec of its artifact, and a command is the spec of its mechanics.
+Put output templates in `assets/` and long guides and checklists in `references/`. Refer to them only inside the skill's own folder, and never paraphrase them: a template is the spec of its artifact, and a command is the spec of its mechanics.
+
+Write the path of a reference in backticks, never as a link, and tell the agent when to read it, so that it loads only on request. Move a phase or a branch of the route to a reference when it makes `SKILL.md` long; keep the goal, the route, and the invariants of all paths in `SKILL.md`.
 
 Deterministic mechanics belong to the core, `node .agents/aidd/aidd.mjs <command>`, which a skill may call besides its own folder. It prints JSON and exits `0` on success, `1` when a rule rejects the operation, `2` on incorrect usage, and `3` when nothing is configured for what was asked. Keep a script in the skill's own `scripts/` only when the capability is exclusively that skill's. Keep the core small: it stores state and never validates what a model can judge.
 
