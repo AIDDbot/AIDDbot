@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2 - 2026-10-08
+
+- feat(core): one aidd run at a time, and a RUNNING log until it ends (D57) (94cfbdf)
+- test(core): split the core tests by topic so they run in parallel (625ceec)
+
 ## 0.3.1 - 2026-10-08
 
 - test(core): cover spec IDs after the archetype foundation specs (457e6bd)
