@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept, readJson } from "./helpers.mjs";
+import { git, write, repo, aidd, accept, readJson, approve } from "./helpers.mjs";
 
 test("a spec goes from new to shipped with version, changelog, index, and tag", () => {
   const root = repo();
@@ -12,6 +12,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.equal(created.body.branch, "feat/S0001-user-login");
   assert.equal(git(root, "branch", "--show-current"), "feat/S0001-user-login");
   assert.match(fs.readFileSync(path.join(root, created.body.file), "utf8"), /# S0001-user-login — User login/);
+  approve(root);
 
   git(root, "add", "-A");
   git(root, "commit", "-q", "-m", "feat(S0001): login");
@@ -53,6 +54,7 @@ test("spec new skips the IDs of the archetype foundation specs", () => {
 test("a non-green evaluation needs its report file", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "search", "Search");
+  approve(root);
   const refused = aidd(root, "eval", "verification", "red", "two failures");
   assert.equal(refused.code, 1);
   assert.match(refused.body.error, /verification\.md/);
@@ -63,6 +65,7 @@ test("a non-green evaluation needs its report file", () => {
 test("the PRD lists shipped features only", () => {
   const root = repo();
   aidd(root, "spec", "new", "fix", "auth", "Auth", "--domain", "auth");
+  approve(root);
   accept(root, 0, "S0001");
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
@@ -73,11 +76,13 @@ test("the PRD lists shipped features only", () => {
 test("a fix bumps the patch and --major the major", () => {
   const root = repo();
   aidd(root, "spec", "new", "fix", "crash", "Crash");
+  approve(root);
   accept(root, 0, "S0001");
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
   assert.equal(aidd(root, "release").body.version, "0.1.1");
   aidd(root, "spec", "new", "refactor", "api", "API v2");
+  approve(root, "S0002");
   accept(root, 0, "S0002");
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
@@ -103,4 +108,18 @@ test("log approved commits the spec definition after the approval", () => {
   assert.equal(git(root, "log", "-1", "--format=%s"), "docs(spec): define delivery");
   const journal = fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8");
   assert.ok(journal.indexOf(" approved ") < journal.indexOf("committed  INFO  docs(spec): define delivery"));
+});
+
+test("an unapproved spec takes no commit, no evaluation, and no release", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "offers", "Offers");
+  write(root, "notes.md", "draft\n");
+  const commit = aidd(root, "commit", "feat(back): offers", "notes.md");
+  assert.equal(commit.code, 1);
+  assert.match(commit.body.error, /S0001 is not approved[\s\S]*aidd log approved "Offers" --spec S0001/);
+  assert.equal(aidd(root, "eval", "verification", "red", "early").code, 1);
+  assert.match(aidd(root, "spec", "show").body.blockers[0], /not approved/);
+  assert.equal(approve(root).code, 0);
+  assert.equal(aidd(root, "commit", "feat(back): offers", "notes.md").code, 0);
+  assert.doesNotMatch(aidd(root, "spec", "show").body.blockers.join(" "), /not approved/);
 });

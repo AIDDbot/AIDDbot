@@ -52,3 +52,8 @@ export function accept(root, code = 0, ...specs) {
 export function readJson(root, file) {
   return JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
 }
+
+/** Approve spec `id` as the human or YOLO mode would: this commits its definition. */
+export function approve(root, id = "S0001") {
+  return aidd(root, "log", "approved", `${id} approved`, "--spec", id);
+}

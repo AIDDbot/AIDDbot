@@ -3,11 +3,12 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept, readJson } from "./helpers.mjs";
+import { git, write, repo, aidd, accept, readJson, approve } from "./helpers.mjs";
 
 test("the gate blocks red evidence until revision 3 and ships it then", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "cart", "Cart");
+  approve(root);
   write(root, ".product/specs/S0001-cart/verification.md", "# Failures\n");
   aidd(root, "eval", "verification", "red", "one failure");
   assert.equal(aidd(root, "eval", "qualification", "amber", "minor").code, 1);
@@ -27,6 +28,7 @@ test("the gate blocks red evidence until revision 3 and ships it then", () => {
 test("a red qualification never blocks shipping", () => {
   const root = repo();
   aidd(root, "spec", "new", "fix", "auth", "Auth");
+  approve(root);
   accept(root, 0, "S0001");
   aidd(root, "eval", "verification", "green", "ok");
   write(root, ".product/specs/S0001-auth/qualification.md", "# Findings\n");
@@ -38,6 +40,7 @@ test("a red qualification never blocks shipping", () => {
 test("the gate rejects evidence written by hand without a real commit", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fake", "Fake");
+  approve(root);
   const file = path.join(root, ".product/specs/S0001-fake/control.json");
   const control = JSON.parse(fs.readFileSync(file, "utf8"));
   control.evaluations = ["verification", "qualification"].map((kind) => ({ kind, revision: 1, status: "green" }));
@@ -51,6 +54,7 @@ test("the gate rejects evidence written by hand without a real commit", () => {
 test("green verification needs a passing acceptance run at HEAD that tags every requirement", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
+  approve(root);
   const spec = ".product/specs/S0001-fleet/spec.md";
   write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run acceptance/);
@@ -70,6 +74,7 @@ test("a failing acceptance run is green only with debt older than the spec", () 
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");
   aidd(root, "spec", "new", "fix", "crash", "Crash");
+  approve(root);
   accept(root, 1, "S0001");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /record red, or name the older debt/);
   aidd(root, "debt", "add", "Written to dodge the failure", "low");
@@ -80,6 +85,7 @@ test("a failing acceptance run is green only with debt older than the spec", () 
 test("eval commits its own record and drops the report once green", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "seats", "Seats");
+  approve(root);
   write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
   assert.equal(aidd(root, "eval", "verification", "red", "one failure").body.committed, true);
   assert.equal(git(root, "log", "-1", "--format=%s"), "docs(verification): record acceptance");
@@ -95,6 +101,7 @@ test("green verification needs a passing unit run at HEAD in each project with u
   const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { unit: `node -e "process.exit(${code})"` } }));
   unit(0);
   aidd(root, "spec", "new", "feat", "cart", "Cart");
+  approve(root);
   accept(root, 0, "S0001");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /back has no unit run/);
   unit(1);

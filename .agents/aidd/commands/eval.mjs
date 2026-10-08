@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, commitPaths, git, journal, productPath, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
-import { KINDS, readControl, requireSpec, STATUSES, writeControl } from "../lib/spec.mjs";
+import { isApproved, KINDS, readControl, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const MESSAGES = { verification: "docs(verification): record acceptance", qualification: "docs(review): qualify implementation" };
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
@@ -18,9 +18,13 @@ function sources(dir) {
   });
 }
 
+/** The requirement IDs (R01, R02, …) that the spec lists. */
+export const requirements = (dir) =>
+  [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
+
 /** Requirements of the spec with no acceptance test tagged or titled `@{id}-Rnn` in any acceptance project. */
 export function untested(root, dir, id) {
-  const required = [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
+  const required = requirements(dir);
   if (!required.length) return [];
   const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});
   const text = projects.filter((project) => project.commands?.acceptance && typeof project.commands.acceptance.na !== "string")
@@ -73,6 +77,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const dir = requireSpec(root, typeof flags.spec === "string" ? flags.spec : undefined);
   const control = readControl(dir);
   if (control.status === "shipped") throw new RuleError(`${control.id} is already shipped.`);
+  if (!isApproved(root, dir)) throw new RuleError(unapproved(control));
   const report = path.join(dir, `${kind}.md`);
   if (status !== "green" && !fs.existsSync(report)) {
     throw new RuleError(`This ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);

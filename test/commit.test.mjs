@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept } from "./helpers.mjs";
+import { git, write, repo, aidd, accept, approve } from "./helpers.mjs";
 
 test("commit records the paths it is given and journals the milestone", () => {
   const root = repo();
@@ -58,6 +58,7 @@ test("release and integrate refuse project code that changed since its last lint
   const root = repo();
   aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
   aidd(root, "spec", "new", "feat", "styled", "Styled", "--domain", "ui");
+  approve(root);
   write(root, "back/one.ts", "1\n");
   aidd(root, "run", "lint", "--project", "back");
   assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);

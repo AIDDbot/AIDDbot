@@ -29,7 +29,7 @@ function main([name, ...argv]) {
   const entry = COMMANDS[name];
   if (!entry) {
     process.stdout.write(`${HELP}\n`);
-    return name && name !== "help" ? 2 : 0;
+    return name && !["help", "--help", "-h"].includes(name) ? 2 : 0;
   }
   try {
     const { args, flags } = parseArgs(argv);

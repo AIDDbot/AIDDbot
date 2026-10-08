@@ -7,6 +7,7 @@ export const TYPES = ["feat", "fix", "refactor", "chore"];
 export const KINDS = ["verification", "qualification"];
 export const STATUSES = ["green", "amber", "red"];
 const LAST_REVISION = 3;
+export const SPEC_DEFINED = "docs(spec): define delivery";
 
 export const specsDir = (root) => productPath(root, "specs");
 
@@ -29,12 +30,22 @@ export function requireSpec(root, input) {
 export const readControl = (dir) => readJson(path.join(dir, "control.json"));
 export const writeControl = (dir, control) => writeJson(path.join(dir, "control.json"), control);
 
+/** Whether `log approved` committed the definition of the spec: no code, evidence, or release comes before its approval. */
+export function isApproved(root, dir) {
+  const subjects = git(root, ["log", "--format=%s", "--", path.relative(root, dir)], { allowFailure: true }) ?? "";
+  return subjects.split(/\r?\n/).includes(SPEC_DEFINED);
+}
+
+/** The rule that an unapproved spec breaks, with the command that repairs it. */
+export const unapproved = (control) =>
+  `${control.id} is not approved: its definition is not committed. When the human approves it, or in YOLO mode, run \`aidd log approved "${control.title}" --spec ${control.id}\` first.`;
+
 const latest = (control, kind) => control.evaluations.filter((entry) => entry.kind === kind).at(-1);
 
 /** Why the spec cannot ship yet; an empty list means it can. */
 export function gate(root, dir, control) {
   if (control.status === "shipped") return [`${control.id} is already shipped.`];
-  const blockers = [];
+  const blockers = isApproved(root, dir) ? [] : [unapproved(control)];
   for (const kind of KINDS) {
     const entry = latest(control, kind);
     if (!entry) {

@@ -6,8 +6,8 @@ import {
   aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
   workingTree, writeJson,
 } from "../lib/core.mjs";
-import { findSpec, readControl, requireSpec, writeControl } from "../lib/spec.mjs";
-import { untested } from "./eval.mjs";
+import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
+import { requirements, untested } from "./eval.mjs";
 
 const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"];
 const NOT_EVIDENCE = new Set(["format", "upgrade"]);
@@ -15,7 +15,6 @@ const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const RUNNING = "RUNNING";
-const SPEC_DEFINED = "docs(spec): define delivery";
 const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
@@ -278,6 +277,11 @@ export function run(root, [kind], flags) {
   }
   const scoped = kind === "acceptance" && flags.spec ? requireSpec(root) : null;
   const id = scoped && path.basename(scoped).slice(0, 5);
+  // A spec without requirements (a refactor or a chore) has no tagged test: the full run of verify-behavior checks it.
+  if (id && !requirements(scoped).length) {
+    const na = `${id} has no requirements, so no test has its tag; the full acceptance run of verify-behavior checks it.`;
+    return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
+  }
   const runs = [];
   const tracksLint = !id && (kind === "lint" || kind === "format");
   const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
@@ -402,6 +406,8 @@ export function commit(root, [message, ...paths]) {
   if (branch === defaultBranch(root)) {
     throw new RuleError(`Never commit on ${branch}: only \`aidd release\` and \`aidd integrate\` write there. Commit on the spec or task branch.`);
   }
+  const spec = findSpec(root, branch);
+  if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(spec)));
   requireLint(root, paths.length ? paths : ["."]);
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });

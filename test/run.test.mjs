@@ -202,3 +202,20 @@ test("a quality run reports each block of logic lines that two places repeat, fo
   aidd(root, "config", "set", "quality", '{"duplicateLines":5}');
   assert.equal(aidd(root, "run", "quality").body.duplicates[0].locations.length, 3);
 });
+
+test("a scoped acceptance run of a spec without requirements runs nothing and is not applicable", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "refactor", "input", "Input");
+  write(root, ".product/specs/S0001-input/spec.md", "# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ path: "e2e", commands: { acceptance: 'node -e "process.exit(1)"' } }));
+  const scoped = aidd(root, "run", "acceptance", "--spec");
+  assert.equal(scoped.code, 0);
+  assert.match(scoped.body.na, /no requirements/);
+  assert.deepEqual(scoped.body.runs, []);
+});
+
+test("help prints the usage and exits 0", () => {
+  const root = repo();
+  for (const flag of ["help", "--help", "-h"]) assert.equal(aidd(root, flag).code, 0);
+  assert.equal(aidd(root, "nonsense").code, 2);
+});
