@@ -19,13 +19,16 @@ Your goal is to turn a natural-language request into a shipped spec.
 
 ## Roles
 
-- Route as the **Architect**. Spawn one **Architect**, one **Builder**, and one **Craftsman** for the full run, or use the ones that a calling orchestrator gives you. Continue each one with messages. Relay their questions to the human. Stop only the agents that you started.
-- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents.
+- Route as the **Architect**. Use the **Architect**, the **Builder**, and the **Craftsman** that a calling orchestrator gives you. Otherwise, spawn each one when its first step starts, with a fresh context: never fork or copy your conversation into it. The handoff gives the task, the spec ID, and each human decision that no file holds yet.
+- Continue an agent with messages only in this run, and only where the harness permits it. Otherwise, spawn a new one for the next step: the files hold all that it needs. Relay their questions to the human. When the run ends, also after a failure, stop each agent that you started.
+- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. Never read the skill of a step that you hand off: the agent that executes it loads it.
 - Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each of the three steps and before each repair that you send to the **Builder**. Add `--spec <id>` when the spec exists. Thus the journal times the turn of each agent.
 
 ## 1. Define
 
 The **Architect** executes `define-spec` with the request. Relay its proposal to the human. Nothing is built before approval.
+
+The human answers you, not the **Architect**. When the human approves the spec, journal `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>` yourself, before the **Builder** starts. In YOLO mode, or when a calling orchestrator approved the request in advance, ask nothing and journal it as soon as the spec is written. That command commits the spec. Until then, the core refuses each other commit, evaluation, and release of the spec.
 
 ## 2. Implement
 
@@ -45,7 +48,7 @@ Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send sc
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
 | The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` before verification starts again. Thus a green retry never hides it. |
 | A test tagged with a different spec fails | It is a regression. The **Builder** repairs the production code. |
-| A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test. |
+| A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test and tags it with the requirement of this spec that replaces the old one. |
 | Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship with each unresolved failure and finding recorded as debt. |
 | Qualification has findings | Never send them back for repair. They ship as debt. |
 | The Security gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |

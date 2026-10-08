@@ -22,7 +22,8 @@ verdict
 ## Roles
 
 - Route as the **Architect**. Spawn one **Architect** for the full run, or use the one that a calling orchestrator gives you. Continue it with messages. Relay its questions to the human. Stop it only if you started it.
-- Spawn the **Builder** at the first scaffold, and use it for all the foundation specs. Spawn one **Craftsman** for all of them, never with Archetype Base.
+- Spawn the **Builder** at the first scaffold, and use it for all the foundation specs. Spawn one **Craftsman** for all of them, at the first verification, never with Archetype Base.
+- Spawn each agent with a fresh context: never fork or copy your conversation into it. The handoff gives the task and each human decision that no file holds yet. Never read the skill of a step that you hand off. When the run ends, also after a failure, stop each agent that you started.
 - Each time you send work to an agent, journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"`.
 - You journal `verdict`, `approved`, `scaffolded`, and `blocked` yourself, never through the **Architect**.
 

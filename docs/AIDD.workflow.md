@@ -56,8 +56,9 @@ build-requested-spec:
 craft-lasting-quality:
   - "Craftsman: scan-quality"
   - "Architect: select one coherent group of eligible debt; the repair stays within its evidence"
-  - "build-requested-spec with both agents when eligible debt remains"
-  - "return the debt list summary when no repair is eligible"
+  - "build-requested-spec with both agents when eligible debt remains; the repair is approved in advance"
+  - "scan again and repeat while eligible debt remains, at most 5 specs, and stop at a spec that ships an unresolved failure"
+  - "return the debt list summary at the end"
 ```
 
 ## Foundation
@@ -93,9 +94,9 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 | Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes, which it can run to check its work |
 | Prove and ship | **Craftsman** | `verify-behavior` runs the E2E acceptance, then `review-implementation` and `ship-spec` |
 
-`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator keeps one agent for each role for its full run, and continues it with messages.
+`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair.
 
-Spec state: `in-progress` from `aidd spec new` until `aidd release` marks it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active.
+Spec state: `in-progress` from `aidd spec new` until `aidd release` marks it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active or the spec repairs recorded debt. The agent that gets the approval, usually the orchestrator, journals `approved`, which commits the spec. Until then, `aidd commit`, `aidd eval` and `aidd release` refuse the spec.
 
 Each spec owns its requirements: `R01`, `R02`, … in EARS. Other records cite them as `S0042-R03`. Each requirement has at least one acceptance test. A spec looks forward and never lists shipped requirements. A failed test with the tag of a different spec is a regression, until a requirement of the new spec contradicts it. Shipped specs stay in their folders. `aidd release` writes `.product/PRD.md`: one line for each shipped `feat` spec, by domain. Fixes, refactors and chores change features and do not get a line. The PRD is the product view. Nobody writes it by hand.
 
@@ -161,14 +162,14 @@ The core writes that version into the root `package.json`, the root of its lockf
 
 `craft-lasting-quality` follows this route:
 
-`scan-quality` → select coherent debt → `/build-requested-spec`
+`scan-quality` → select coherent debt → `/build-requested-spec`, again while eligible debt remains (at most 5 specs in one run)
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` classifies the `lint`, `unit`, `acceptance` and `quality` commands of each project one time, by their real effect and never by their script name, and records them in `.aiddbot/config.json`.
 
 - `aidd run <kind> [--project]` (and `--spec` for acceptance) runs the classified command. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `format` changes the files in place. `upgrade` increases the dependencies to their latest releases. Neither is evidence.
 - Each run keeps its full output in `.aiddbot/runs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, `control.json` records it as the latest run of that kind for each project.
-- During coding, the Builder runs `lint` and `unit`. It checks its acceptance tests with `aidd run acceptance --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. It runs `quality` only to check a debt repair.
+- During coding, the Builder runs `lint` and `unit`. It checks its acceptance tests with `aidd run acceptance --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. For a spec without requirements, it runs nothing and reports n/a. It runs `quality` only to check a debt repair.
 - Quality warnings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
 - The Craftsman runs `unit` and then `acceptance` in `verify-behavior`, and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
 - A `quality` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).

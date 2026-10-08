@@ -54,6 +54,7 @@ The three archetypes of Archetype Base are already in the shape of the Blueprint
 - Never run `rule-project` in greenfield.
 - The **Architect** executes `outline-system`. With Archetype Base, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetypes: change only the system name in the title of `model.schema.md`.
 - Run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`.
+- Never run acceptance in this phase: the close of `references/deliver.md` is the only acceptance run of the foundation.
 
 ## Failures and reruns
 

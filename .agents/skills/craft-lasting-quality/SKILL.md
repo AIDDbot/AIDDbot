@@ -14,17 +14,18 @@ upgrade request ─────────────────────�
 1. Craftsman   scan-quality          debt register  │
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
+   repeat 1–3 while eligible debt remains, at most 5 specs
 ```
 
 ## Roles
 
-- Route as the **Craftsman**. Spawn one **Craftsman** and one **Architect** for the full run, or use the ones that a calling orchestrator gives you. Continue each one with messages. Relay their questions to the human. Stop only the agents that you started.
-- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. A single **Craftsman** would then scan, specify, code, and ship alone.
+- Route as the **Craftsman**. Use the **Craftsman** and the **Architect** that a calling orchestrator gives you. Otherwise, spawn each one for one repair, when its first step starts, with a fresh context: never fork or copy your conversation into it. Thus no repair inherits the context of the one before. Relay their questions to the human. When a repair ends, also after a failure, stop each agent that you started for it.
+- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. A single **Craftsman** would then scan, specify, code, and ship alone. Never read the skill of a step that you hand off.
 - Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before the scan, before the selection, and before the handover to `build-requested-spec`.
 
 ## Upgrade request
 
-When the human asks to upgrade dependencies, skip the scan and the selection. The request is a `chore` that upgrades the named projects, or all projects, and repairs all that the upgrade breaks. Go to step 3.
+When the human asks to upgrade dependencies, skip the scan and the selection. The request is a `chore` that upgrades the named projects, or all projects, and repairs all that the upgrade breaks. Go to step 3, and stop after that one spec.
 
 ## 1. Scan
 
@@ -45,6 +46,8 @@ When no eligible debt remains, stop. Return the summary of `debt list`, and say 
 
 ## 3. Build
 
-Execute `build-requested-spec` with the request. Give it the **Craftsman** and the **Architect**, so that it spawns only the **Builder**.
+Execute `build-requested-spec` with the request, approved in advance: a repair of recorded debt needs no human approval, so nobody asks and the approval is journaled as soon as the spec is written. Give it the **Craftsman** and the **Architect**, so that it spawns only the **Builder**.
 
-The result is the selected debt repaired and shipped as one spec, or the debt summary when no debt is eligible.
+Then start again from the scan, because each repair changes the evidence. Stop when no eligible debt remains, after five shipped specs, or when a spec ships with an unresolved failure. A human request that names the debt or asks for one repair gets only one.
+
+The result is each selected debt group repaired and shipped as one spec, and the debt summary of `debt list` at the end.
