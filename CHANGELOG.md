@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.6 - 2026-10-08
+
+- chore(skills): pin Archetype Base v0.3.6, and record D62 (88db113)
+- refactor(skills): deliver the foundation specs also when no features are asked (9f49386)
+- fix(core): never commit installed dependencies (83f83f5)
+- refactor(skills): keep commit messages as the skills write them (1333eea)
+- refactor(skills): offer Archetype Base first, and let agents write their records (373404f)
+
 ## 0.3.5 - 2026-10-08
 
 - chore(skills): pin Archetype Base v0.3.5, and record D61 (9f7402e)
