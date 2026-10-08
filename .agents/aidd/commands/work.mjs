@@ -19,6 +19,12 @@ const SPEC_DEFINED = "docs(spec): define delivery";
 const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
+const DEFAULT_DUPLICATE_LINES = 6;
+const MAX_DUPLICATES = 20;
+const CODE_FILE = /\.(c|m)?[jt]sx?$|\.(css|scss|html|vue|svelte|py|go|rs|java|kt|cs|php|rb|sql|sh|ps1)$/;
+const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
+const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
+const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
@@ -163,6 +169,60 @@ function folderFindings(root, project, start, limit) {
   return { crowded: crowded.sort(byFolder), subfolders: subfolders.sort(byFolder) };
 }
 
+/** The lines that carry logic: no blank, bracket-only, comment, or import line, and spaces collapsed. */
+function logicLines(text) {
+  return text.split(/\r?\n/).flatMap((raw, index) => {
+    const line = raw.trim().replace(/\s+/g, " ");
+    if (TRIVIAL_LINE.test(line) || COMMENT_LINE.test(line) || IMPORT_LINE.test(line)) return [];
+    return [{ line, number: index + 1 }];
+  });
+}
+
+/** The source files of a project, outside dependency, build, and hidden folders. */
+function sourceFiles(dir) {
+  let entries;
+  try {
+    entries = fs.readdirSync(dir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+  return entries.flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return entry.name.startsWith(".") || SKIPPED_FOLDERS.has(entry.name) ? [] : sourceFiles(full);
+    return CODE_FILE.test(entry.name) ? [full] : [];
+  });
+}
+
+/**
+ * The blocks of `size` or more logic lines that appear in two or more places of a project: each is a candidate for one `shared` function (DRY).
+ * Technology-free: it compares normalized lines only, and it reports the largest blocks first.
+ */
+function duplicateFindings(root, project, start, size) {
+  const files = sourceFiles(start).map((file) => ({ file: relative(root, file), lines: logicLines(fs.readFileSync(file, "utf8")) }));
+  const places = new Map();
+  for (const [fileIndex, { lines }] of files.entries()) {
+    for (let index = 0; index + size <= lines.length; index++) {
+      const key = lines.slice(index, index + size).map((entry) => entry.line).join("\n");
+      places.set(key, [...(places.get(key) ?? []), { fileIndex, index }]);
+    }
+  }
+  const repeated = new Set();
+  for (const list of places.values()) if (list.length > 1) for (const place of list) repeated.add(`${place.fileIndex}:${place.index}`);
+  const isRepeated = (fileIndex, index) => repeated.has(`${fileIndex}:${index}`);
+  const blocks = [];
+  for (const list of places.values()) {
+    if (list.length < 2 || list.some((place) => isRepeated(place.fileIndex, place.index - 1))) continue;
+    const locations = list.map(({ fileIndex, index }) => {
+      let end = index;
+      while (isRepeated(fileIndex, end + 1)) end++;
+      const { file, lines } = files[fileIndex];
+      return { file, from: lines[index].number, to: lines[end + size - 1].number, length: end - index + size };
+    });
+    blocks.push({ project, lines: Math.min(...locations.map((entry) => entry.length)), locations: locations.map(({ file, from, to }) => ({ file, from, to })) });
+  }
+  return blocks.sort((a, b) => b.lines - a.lines).slice(0, MAX_DUPLICATES);
+}
+
 /** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
 const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
 
@@ -243,6 +303,8 @@ export function run(root, [kind], flags) {
   const findings = kind === "quality" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
   const folders = findings.flatMap((entry) => entry.crowded);
   const subfolders = findings.flatMap((entry) => entry.subfolders);
+  const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
+  const duplicates = kind === "quality" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
@@ -251,10 +313,14 @@ export function run(root, [kind], flags) {
   if (subfolders.length) {
     journal(root, { event: "run", level: "WARN", summary: `subfolders in features: ${subfolders.map((entry) => entry.folder).join(", ")}` });
   }
+  if (duplicates.length) {
+    const where = duplicates.slice(0, 3).map((entry) => `${entry.locations[0].file}:${entry.locations[0].from} (${entry.lines} lines, ${entry.locations.length} places)`);
+    journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
+  }
   if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
   if (tracksLint) rememberLint(root, kind, projects, runs, before);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, runs, ...(kind === "quality" && { folders, subfolders }) };
+    : { kind, ok, runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 

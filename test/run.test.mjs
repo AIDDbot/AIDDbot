@@ -186,3 +186,19 @@ test("a slot that does not apply needs its reason, and run reports it as ok; for
   assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.upgrade, undefined);
   assert.equal(aidd(root, "run", "lint").code, 3);
 });
+
+test("a quality run reports each block of logic lines that two places repeat, for DRY", () => {
+  const root = repo();
+  const block = ["const total = items.length;", "if (total === 0) return [];", "const first = items[0];", "const last = items[total - 1];", "const middle = items.slice(1, -1);", "return [first, ...middle, last];"];
+  write(root, "back/src/features/a/a.service.ts", ['import { x } from "./x.ts";', "export function a(items) {", ...block, "}", ""].join("\n"));
+  write(root, "back/src/features/b/b.service.ts", ['import { y } from "./y.ts";', "// another feature", "export function b(items) {", "", ...block.map((line) => `    ${line}`), "}", ""].join("\n"));
+  write(root, "back/src/shared/short.ts", block.slice(0, 5).join("\n"));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { quality: 'node -e "process.exit(0)"' } }));
+  const scan = aidd(root, "run", "quality");
+  assert.equal(scan.code, 0, "duplication is debt, never a failed run");
+  assert.equal(scan.body.duplicates.length, 1);
+  assert.deepEqual(scan.body.duplicates[0].locations.map((entry) => `${entry.file}:${entry.from}-${entry.to}`),
+    ["back/src/features/a/a.service.ts:3-8", "back/src/features/b/b.service.ts:5-10"]);
+  aidd(root, "config", "set", "quality", '{"duplicateLines":5}');
+  assert.equal(aidd(root, "run", "quality").body.duplicates[0].locations.length, 3);
+});

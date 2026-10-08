@@ -88,3 +88,19 @@ test("eval commits its own record and drops the report once green", () => {
   assert.ok(!fs.existsSync(path.join(root, ".product/specs/S0001-seats/verification.md")));
   assert.equal(git(root, "status", "--short", "--", ".product"), "");
 });
+
+test("green verification needs a passing unit run at HEAD in each project with unit tests", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { unit: `node -e "process.exit(${code})"` } }));
+  unit(0);
+  aidd(root, "spec", "new", "feat", "cart", "Cart");
+  accept(root, 0, "S0001");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /back has no unit run/);
+  unit(1);
+  aidd(root, "run", "unit");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /unit run of back failed\. A failing unit test blocks/);
+  unit(0);
+  aidd(root, "run", "unit");
+  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
+});
