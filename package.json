@@ -16,7 +16,7 @@
   "scripts": {
     "release": "node scripts/release.js",
     "adapt": "node scripts/adapt.js",
-    "test": "npm run lint && node --test test/core.test.mjs && node scripts/verify-release.js",
+    "test": "npm run lint && node --test test/*.test.mjs scripts/verify-release.js",
     "lint": "oxlint --deny-warnings .agents/aidd test"
   },
   "engines": {

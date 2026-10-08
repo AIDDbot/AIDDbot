@@ -15,3 +15,8 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 ## Editing skills
 
 - Create or fix skills only through [`/maintain-skills`](./.agents/skills/maintain-skills/SKILL.md) — never edit a skill ad hoc. It owns how a skill is written, which docs follow a change, and `npm run adapt`, which regenerates the harness adapters.
+
+## Releasing
+
+- Release with `npm run release -- patch|minor|major`, then tag `v{version}` and push the tag.
+- Run `npm test` first only when `.agents/aidd/`, `bin/`, `scripts/`, or `test/` changed since the last tag. A change to skills or docs needs only `npm run adapt`.
