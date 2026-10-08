@@ -103,3 +103,18 @@ test("commands outside an initialized repository explain what to do", () => {
   assert.equal(result.code, 1);
   assert.match(result.body.error, /aiddbot init/);
 });
+
+test("commit refuses installed dependencies, and lets them leave the index", () => {
+  const root = repo();
+  git(root, "switch", "-q", "-c", "chore/foundation");
+  write(root, "back/node_modules/lib/index.js", "export {};\n");
+  write(root, "back/package.json", "{}\n");
+  const refused = aidd(root, "commit", "chore(back): register tooling", "back");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /Installed dependencies are never committed \(back\/node_modules\/lib\/index\.js\)/);
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "chore: slipped in");
+  git(root, "rm", "-r", "-q", "--cached", "back/node_modules");
+  write(root, "back/.gitignore", "/node_modules/\n");
+  assert.equal(aidd(root, "commit", "chore(back): exclude installed dependencies", "back").code, 0);
+});

@@ -24,6 +24,7 @@ const CODE_FILE = /\.(c|m)?[jt]sx?$|\.(css|scss|html|vue|svelte|py|go|rs|java|kt
 const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
+const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
@@ -237,10 +238,11 @@ function rememberLint(root, kind, projects, runs, before) {
   writeJson(file, state);
 }
 
-/** The files that a commit of `paths` would take: changed since HEAD, or new and not ignored. */
-function changedFiles(root, paths) {
+/** The files that a commit of `paths` would take: changed since HEAD (only added or modified, with `kept`), or new and not ignored. */
+function changedFiles(root, paths, kept = false) {
   const list = (args) => (git(root, [...args, "--", ...paths], { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
-  return [...list(["diff", "HEAD", "--name-only", "--no-renames"]), ...list(["ls-files", "--others", "--exclude-standard"])];
+  const diff = ["diff", "HEAD", "--name-only", "--no-renames", ...(kept ? ["--diff-filter=AM"] : [])];
+  return [...list(diff), ...list(["ls-files", "--others", "--exclude-standard"])];
 }
 
 /** A commit that changes the code of a project needs the last lint of that project to have passed on the same files. */
@@ -408,6 +410,10 @@ export function commit(root, [message, ...paths]) {
   }
   const spec = findSpec(root, branch);
   if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(spec)));
+  const installed = changedFiles(root, paths.length ? paths : ["."], true).find((file) => INSTALLED.test(file));
+  if (installed) {
+    throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);
+  }
   requireLint(root, paths.length ? paths : ["."]);
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });

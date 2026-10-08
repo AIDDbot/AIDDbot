@@ -5,6 +5,11 @@ tmp/
 *.log
 /data/
 
+# Installed dependencies
+node_modules/
+.venv/
+__pycache__/
+
 # Secrets and credentials
 .env
 .env.*
