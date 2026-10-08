@@ -1,5 +1,9 @@
 # Scaffolding
 
+Software architecture, based on classic three layer architecture. Presentation, logic and data are in separate layers. Each layer has one role and depends only on the layer below. 
+
+> Out of scope: clean architecture, hexagonal architecture, ports and adapters, onion architecture, CQRS, event sourcing.
+
 ## Names
 
 - A file name has the business word and the role. The role shows the layer.

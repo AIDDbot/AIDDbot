@@ -1,5 +1,9 @@
 # System
 
+System architecture, based on classic three tier architecture. The system is a set of projects that communicate through REST APIs. Each project has one kind: front-end, back-end, CLI, or e2e tests.
+
+> Out of scope: microservices, event-driven architecture, message queues, pub/sub, GraphQL, gRPC, WebSockets.
+
 A system is a set of projects. Each project has one kind.
 
 ```mermaid
