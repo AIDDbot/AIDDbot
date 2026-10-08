@@ -32,7 +32,7 @@ The three archetypes of Archetype Base are already in the shape of the Blueprint
 - Run the `upgrade` command one time, because models remember old releases.
   - If a new major breaks a different tool of the stack, keep the last compatible major. Write the pin and its reason in the technology rules of that `AGENTS.md`.
   - Never pin a major that `assets/ecosystems.md` requires. Replace the tool that breaks.
-- Each project has the configuration file of its `format` tool, also when the defaults are enough, so that the tool never runs without configuration.
+- Each project has the configuration file of its `format` tool, also when the defaults are enough, so that the tool never runs without configuration. It leaves Markdown out, so that the tables of each `AGENTS.md` stay compact.
 - The ignore file never hides source. Anchor runtime data patterns to the project root, so that no `data` layer folder is ignored.
 - Each tooling slot of that `AGENTS.md` operates. If a mandatory slot is missing (`lint`, `unit`, and `start` for runnable projects), install the usual tool of the stack and write it in that `AGENTS.md` first.
 - Register the slots, then commit `.aiddbot/config.json` with the project:

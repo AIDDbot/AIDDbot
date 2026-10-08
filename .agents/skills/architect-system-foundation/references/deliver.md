@@ -1,6 +1,8 @@
 # Greenfield: deliver the foundation specs
 
-When the projects come from Archetype Base, read the section [With Archetype Base](#with-archetype-base). Otherwise, deliver these specs one at a time, in this order. For each one, execute `build-requested-spec` with the request "Deliver the foundation spec `{spec}` from `.agents/skills/architect-system-foundation/assets/foundation/{spec}.spec.md`". Give it this **Architect**, the same **Builder**, and the **Craftsman**.
+When the projects come from Archetype Base, read the section [With Archetype Base](#with-archetype-base). Otherwise, deliver these specs one at a time, in this order. For each one, execute `build-requested-spec` with the request "Deliver the foundation spec `{spec}` from `.agents/skills/architect-system-foundation/assets/foundation/{spec}.spec.md`". Give it this **Architect**, the same **Builder**, and the **Craftsman**. Each request is approved in advance, because the foundation spec is the contract.
+
+The foundation specs are no business feature. Deliver them also when the human asks for no features yet: without them, the system has no settings, logs, layout, health check, or accounts, and its close proves nothing.
 
 | # | Spec | Condition |
 | --- | --- | --- |
