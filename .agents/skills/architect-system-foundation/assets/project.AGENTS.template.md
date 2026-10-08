@@ -28,7 +28,7 @@ Obey the Blueprint of the root `AGENTS.md`. This file gives only the data of thi
 ## 3 · Tooling
 
 <!--
-[Archetype] Commands and tools. [Project] Records them with `aidd config set`. D1, D12, D20, D26.
+[Archetype] Commands and tools. [Project] Records them with `aidd config set`, and leaves out each row that the Common stack of the root AGENTS.md gives. D1, D12, D20, D26.
 Each slot is a capability, not a tool. A slot that does not apply is `n/a` with its reason. An empty slot is an error.
 Contracts:
 - lint: non-zero exit on an error; includes the strongest type check of the ecosystem and the boundary check.
@@ -96,9 +96,9 @@ Contracts:
 
 ### Shared primitives
 
-<!-- [Blueprint] Seed: one topic for each file, one function for each contract, named by what it returns or checks; a failed check raises the expected error of `monitoring`. [Archetype] Paths and idiomatic names. [Project] `ship-spec` adds each new primitive. D29. -->
+<!-- [Blueprint] Seed: one topic for each file, one function for each contract, named by what it returns or checks; a failed check raises the expected error of `monitoring`. [Archetype] Paths and idiomatic names. [Project] `ship-spec` adds each new primitive that two or more features use. A helper of one feature (such as its page object or its test data) follows the naming convention below and gets no row. A helper of the life cycle of `core` gets no row. D29. -->
 
-The index of `shared`. Read it before you write a check or a conversion.
+The index of `shared`. Read it before you write a check or a conversion. Helpers of one feature follow `{shared_folder}/{feature_helper_pattern}` and have no row.
 
 | Primitive | Contract | Path |
 | --- | --- | --- |
@@ -121,7 +121,7 @@ The index of `shared`. Read it before you write a check or a conversion.
 
 ### Technology rules
 
-<!-- [Archetype] Rules of the stack that the Blueprint does not cover. A framework mechanism (injection, routing, state, file names, generators) is used as is, with its reason; the direction of dependencies never changes. Write here each limit that the archetype changes. D27. -->
+<!-- [Archetype] Rules of the stack that the Blueprint does not cover. [Project] Leave out each rule that the Common stack of the root AGENTS.md gives. A framework mechanism (injection, routing, state, file names, generators) is used as is, with its reason; the direction of dependencies never changes. Write here each limit that the archetype changes. D27. -->
 
 - {rule — reason}
 

@@ -38,13 +38,21 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 ## System
 
-A system comprises projects, each of one type: `back-api`, `front-web`, `cli`, or `e2e`. Each project has its own source folder, and its `AGENTS.md` there holds its own technical data: technology, tooling, its type of architecture, folders, its rules, and connections. This file keeps only system-wide facts.
+Each project has one type and its own `AGENTS.md` with its technical data. This file keeps only system-wide facts.
 
-| Project | Type | Source path | Responsibility | Instructions |
-| --- | --- | --- | --- | --- |
-| {project} | {project_type} | `{source_root}/` | {one-line responsibility} | `{source_root}/AGENTS.md` |
+| Project | Type | Source path | Instructions |
+| --- | --- | --- | --- |
+| {project} | {project_type} | `{source_root}/` | `{source_root}/AGENTS.md` |
 
-{Only necessary cross-project facts and important paths. Do not list skills or commands.}
+{Only cross-project facts that no other section gives. Do not list skills or commands.}
+
+## Common stack
+
+<!-- Only when two or more projects share technology. Each tooling slot and each technology rule that is the same in those projects is here one time, and never in their AGENTS.md. Otherwise remove this section. -->
+
+- **Projects**: {the projects that share this stack}
+- **Tooling**: {each shared slot: `slot` `command` — tool}
+- {each shared technology rule}
 
 ## Blueprint
 
@@ -107,14 +115,14 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 
 ## Delivery documents
 
-- **System proposal** — `{Product_Folder}/system.md` is the approved greenfield proposal: purpose, users, projects, and the scaffold commands. It is kept as product context; the code wins where they disagree.
-- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/` holds `spec.md`, its `control.json`, and only non-green `verification.md` or `qualification.md` reports. `control.json` holds the spec state and evaluations; only `node .agents/aidd/aidd.mjs` writes it, never a hand edit, and `aidd spec show` lists what still blocks shipping. Each spec owns its requirements, `R01` locally and `S0042-R03` globally. `{Product_Folder}/PRD.md` lists every shipped spec by domain; only `aidd release` writes it.
-- **Counters** — `.aiddbot/counters.yaml` stores the last reserved S and D numbers; requirement IDs are local to each spec.
-- **Journals** — `.aiddbot/journals/YYYY-MM-DD.log` files at the repository root, never inside a project folder, are local, untracked, plain-text narrative of process events by date: the core writes every state change, the model adds only its judgments (`verdict`, `select`, `handoff`, `approved`, `plan`, `scaffolded`, `blocked`) with `node .agents/aidd/aidd.mjs log`, and nothing reads them.
-- **Runs** — `node .agents/aidd/aidd.mjs run <kind>` executes the project's classified command, journals it, and keeps its full output in `.aiddbot/runs/{kind}-{project}.log`; read that log for diagnostics instead of running the tool by hand. Only one run operates at a time: `aidd run` refuses another while one is alive, and until a run ends, the first line of its log says `RUNNING`. On a spec branch it also records the run in `control.json`, and a green verification needs a passing acceptance run with no code change since.
-- **Quality** — `{Product_Folder}/quality/debt.json` holds the open technical debt; only `node .agents/aidd/aidd.mjs debt` writes and commits it, and `aidd debt list` reads it. Each item carries its evidence, origin, and a priority: `high` when it breaks behavior, security, or data; `medium` when it slows or complicates change; `low` otherwise. A resolved item is removed.
-- **Keys** — use stable lowercase kebab-case slugs. IDs are never reused.
-- **Spec state** — `in-progress` until `aidd release` ships it as `shipped`; `aidd spec new` refuses while another spec branch is open. It ships when its latest verification is green or has reached revision 3 and a qualification of any status is recorded, each recorded at a real commit with its report when not green.
+Only `node .agents/aidd/aidd.mjs` writes these records: never edit them by hand. When a command refuses, fix what its error names and run it again.
+
+- **System proposal** — `{Product_Folder}/system.md`: the approved greenfield proposal. The code wins where they disagree.
+- **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/`: `spec.md`, `control.json`, and a `verification.md` or `qualification.md` only when not green. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists what blocks shipping. `{Product_Folder}/PRD.md` lists the shipped specs. `.aiddbot/counters.yaml` keeps the last S and D numbers; an ID is never used again. Slugs are lowercase kebab-case.
+- **Spec state** — `in-progress` until `aidd release` ships it; one spec branch at a time. It ships when its verification is green or at revision 3, with a qualification of any status.
+- **Runs** — `aidd run <kind>` keeps the full output in `.aiddbot/runs/{kind}-{project}.log`: read it instead of running the tool by hand. One run at a time; a log that starts with `RUNNING` is no result yet.
+- **Debt** — `{Product_Folder}/quality/debt.json`, through `aidd debt`. Priority: `high` breaks behavior, security, or data; `medium` slows change; `low` otherwise.
+- **Journals** — `.aiddbot/journals/`: a story for humans. Add only your judgments with `aidd log`; nothing reads them.
 
 ## Git
 
