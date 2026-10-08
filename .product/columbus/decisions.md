@@ -517,3 +517,14 @@ En `0.3.4`, el root aprobó S0009, S0010 y S0011 en la conversación, pero no re
 - **Foundation:** un arquetipo aceptado fija sus herramientas (sin preguntar runtime, gestor y linter uno a uno); `system.md` lleva la fecha de aprobación; el cierre es la única aceptación.
 - **Detalles:** `run acceptance --spec` de una spec sin requisitos no ejecuta nada y responde n/a; `help`, `--help` y `-h` salen con 0; un test sustituido lleva la etiqueta de su nuevo requisito; una dirección sin cuerpo no declara errores de cuerpo; todos los registros de un sistema en un idioma.
 - **Base `v0.3.5`:** `runProject` y `withTemporaryDirectory` en `e2e/shared/projects/` quitan los bloques repetidos de arranque (deuda D0007 y D0008 del sistema de prueba); `readAuthInput` y `mountForm` dejan margen bajo los límites del Blueprint (D0002, D0005, D0006).
+
+## D62 ← Prueba `0.3.5` con Codex (humano, 8 oct) · Base primero, la foundation no es una feature, y nada de dependencias en git
+
+La prueba confirmó D61: subagentes con `fork_turns: "none"`, creados cuando hacen falta, y el root sin leer skills. Pero con «b, pero ahora no hagas features» el Architect descartó Archetype Base («incluye código funcional que el usuario excluyó»), preguntó TypeScript y Express uno a uno, hizo scaffold bajo demanda, saltó las 8 specs de la foundation y cerró en rojo. Además, la plantilla de `AGENTS.md` prohibía a los agentes escribir `system.md`, y la semilla de `.gitignore` no excluía `node_modules`: se commitearon 1523 archivos.
+
+- **`propose.md`:** Base se ofrece justo después de los proyectos, en una pregunta cerrada, también en YOLO. Base no trae features de negocio: «sin features todavía» encaja.
+- **`deliver.md`:** las specs de la foundation no son features y van aprobadas de antemano; se entregan también cuando el humano no pide features.
+- **Plantilla `AGENTS.md`:** los agentes escriben `system.md`, `spec.md` y los informes; el núcleo, el resto. La regla de un idioma no traduce los mensajes de commit.
+- **Núcleo y semilla:** `.gitignore` ignora `node_modules/`, `.venv/` y `__pycache__/`; `aidd commit` rechaza añadir archivos ahí, pero deja sacarlos del índice.
+- **Base `v0.3.6`:** `oxfmt` no formatea Markdown, y las tablas de los `AGENTS.md` quedan compactas: `front` pasa de 11,8k a 6,0k bytes (la mitad era relleno de una fila larga).
+- **Abierto:** el root empezó una spec de negocio con el cierre de la foundation en `blocked`.

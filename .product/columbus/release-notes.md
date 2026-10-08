@@ -1,3 +1,14 @@
+# AIDDbot 0.3.6
+
+This release pins Archetype Base `v0.3.6`.
+
+- The proposal offers Archetype Base first, in one question, also in YOLO mode. Archetype Base has no business feature, so "no features yet" still fits it.
+- The foundation specs are delivered also when you ask for no features yet: they are the contract of the system, not features.
+- Agents may write the proposal and the specs again: the `AGENTS.md` rule now reserves to the core only its own records.
+- Installed dependencies never reach git: the seed `.gitignore` ignores them, and `aidd commit` refuses them.
+- Commit messages stay as the skills write them, in any language of the system.
+- Archetype Base `v0.3.6` keeps its `AGENTS.md` tables compact: the front file is half as long.
+
 # AIDDbot 0.3.5
 
 This release pins Archetype Base `v0.3.5`.
