@@ -506,3 +506,14 @@ En `0.3.2`, el raíz no repetía nada de los proyectos (D50), pero los proyectos
 - Los `AGENTS.md` se escriben en inglés, como sus plantillas.
 - Base `v0.3.4`: un solo índice por proyecto, sin filas repetidas; el de `e2e` pasa de 25 a 10 filas (1173 → 861 palabras).
 
+
+## D61 ← Prueba `0.3.4` con Codex (humano, 8 oct) · la aprobación la hace cumplir el núcleo, y los agentes nacen limpios
+
+En `0.3.4`, el root aprobó S0009, S0010 y S0011 en la conversación, pero no registró `approved`: S0009 commiteó su spec después del código, y S0010 y S0011 la colaron en `docs(verification)`. `release` las publicó igual. El root, además, creó cada subagente con `fork_turns: "all"` (copia de toda su conversación), los reutilizó en tres ejecuciones sin `close_agent`, y leyó las skills de los primitivos antes de cada relevo.
+
+- **Núcleo:** `aidd commit`, `eval` y `release` rechazan una spec sin `docs(spec): define delivery`; `spec show` lo lista como bloqueo. La aprobación la registra quien la recibe: el orquestador, no el Architect.
+- **Agentes:** cada uno nace cuando empieza su primer paso, con contexto nuevo, nunca con fork; se continúa solo dentro de la misma ejecución y si el harness lo permite (Copilot no); se detiene al acabar, también tras un fallo. El orquestador no lee las skills de los pasos que delega.
+- **`craft-lasting-quality`:** la reparación de deuda registrada va aprobada de antemano, y el ciclo escaneo → selección → spec se repite mientras quede deuda elegible, hasta 5 specs, con agentes nuevos en cada reparación.
+- **Foundation:** un arquetipo aceptado fija sus herramientas (sin preguntar runtime, gestor y linter uno a uno); `system.md` lleva la fecha de aprobación; el cierre es la única aceptación.
+- **Detalles:** `run acceptance --spec` de una spec sin requisitos no ejecuta nada y responde n/a; `help`, `--help` y `-h` salen con 0; un test sustituido lleva la etiqueta de su nuevo requisito; una dirección sin cuerpo no declara errores de cuerpo; todos los registros de un sistema en un idioma.
+- **Base `v0.3.5`:** `runProject` y `withTemporaryDirectory` en `e2e/shared/projects/` quitan los bloques repetidos de arranque (deuda D0007 y D0008 del sistema de prueba); `readAuthInput` y `mountForm` dejan margen bajo los límites del Blueprint (D0002, D0005, D0006).

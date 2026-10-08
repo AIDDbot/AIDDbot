@@ -1,3 +1,14 @@
+# AIDDbot 0.3.5
+
+This release pins Archetype Base `v0.3.5`.
+
+- A spec must be approved before any work on it. `aidd commit`, `aidd eval` and `aidd release` refuse a spec until its approval commits it. The orchestrator records your approval, because you give it to the orchestrator.
+- Sub-agents start with a fresh context, never with a copy of the conversation. They start when their first step starts, and they stop when the run ends.
+- `/craft-lasting-quality` repairs debt without asking you, and it continues while eligible debt remains, up to five specs in one run.
+- With Archetype Base, the proposal asks fewer questions: the archetype settles its own tools. The foundation runs its acceptance suite one time.
+- A refactor no longer fails its scoped acceptance check because it has no tagged tests.
+- Archetype Base `v0.3.5` shares the start of an isolated API in the e2e suite, and its auth code has room under the complexity limits, so your first features do not start as debt.
+
 # AIDDbot 0.3.4
 
 This release pins Archetype Base `v0.3.4`.
