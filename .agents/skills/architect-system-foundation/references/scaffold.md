@@ -1,6 +1,6 @@
 # Greenfield: scaffold
 
-Work from the repository root, on `chore/foundation`, in a clean working tree. Complete one project before you start the next. Commit each step with `node .agents/aidd/aidd.mjs commit "<message>" {folder}`, so that each step can be reviewed and reverted alone.
+Work from the repository root, on `chore/foundation`, in a clean working tree. Without Archetype Base, complete one project before you start the next. Commit each step with `node .agents/aidd/aidd.mjs commit "<message>" {folder}`, so that each step can be reviewed and reverted alone.
 
 The **Architect** runs the scaffold command and writes the project `AGENTS.md`. The **Builder** changes the code and sets up the tooling.
 
@@ -12,7 +12,7 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 
 ## Archetype Base
 
-The three archetypes of Archetype Base are already in the shape of the Blueprint, with their tooling and their tests. The steps stay, with these changes:
+The three archetypes of Archetype Base are already in the shape of the Blueprint, with their tooling and their tests. Do each step for the three projects at once, not one project after the other: the **Architect** does steps 1 and 2 for the three, then the **Builder** does step 3 for the three, in one handoff each. Keep one commit for each step and project. The steps stay, with these changes:
 
 - Step 1: copy each folder at the tag of `assets/archetypes.md`. Before the first project, copy `foundation/` of the same tag to `.product/archetypes/foundation/` and `model/` to `.product/model/`, and commit them as `chore(scaffold): copy foundation specs and model`. The spec instances are the contract of the system, and the schema documents describe the code of the archetypes.
 - Step 2: change only the system data in each `AGENTS.md`. Never move, rename or remove code: each file and each test belongs to a foundation spec.

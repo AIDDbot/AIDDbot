@@ -14,6 +14,7 @@ const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
+const RUNNING = "RUNNING";
 const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
@@ -34,20 +35,48 @@ function runSummary(entry) {
   return line ? `${status} (${line})` : status;
 }
 
-/** Run one command with its whole output in `log`, so nothing is lost to a truncated reply. */
+/** Run one command with its whole output in `log`, so nothing is lost to a truncated reply.
+ *  Until the command ends, the first line of the log says that it is no result yet. */
 function exec(root, cwd, command, log, minutes) {
   fs.mkdirSync(path.dirname(log), { recursive: true });
   const fd = fs.openSync(log, "w");
   const started = Date.now();
   let result;
   try {
+    fs.writeSync(fd, `${RUNNING} since ${new Date(started).toISOString()}: ${command}. This log is no result until this line is gone.\n`);
     result = spawnSync(command, { cwd, shell: true, stdio: ["ignore", fd, fd], timeout: minutes * 60_000 });
   } finally {
     fs.closeSync(fd);
   }
+  const output = fs.readFileSync(log, "utf8").replace(/^.*\n/, "");
+  fs.writeFileSync(log, output);
   const entry = { command, ok: result.status === 0, exitCode: result.status ?? 1, seconds: Math.round((Date.now() - started) / 1000) };
   if (result.error?.code === "ETIMEDOUT") entry.timedOut = `killed after ${minutes} minutes`;
-  return { ...entry, log: relative(root, log), tail: fs.readFileSync(log, "utf8").trim().slice(-TAIL) };
+  return { ...entry, log: relative(root, log), tail: output.trim().slice(-TAIL) };
+}
+
+/** The lock of the run in progress, kept in the git folder because it is local state, never history. */
+const runLockFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-run.lock"]));
+
+/** Whether the process `pid` is still alive. */
+function alive(pid) {
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    return error.code === "EPERM";
+  }
+}
+
+/** Take the run lock, or refuse while another run is alive: two runs share ports, databases, and logs, and both fail. A dead run leaves no lock. */
+function lockRun(root, kind) {
+  const file = runLockFile(root);
+  const held = readJson(file, null);
+  if (held && held.pid !== process.pid && alive(held.pid)) {
+    throw new RuleError(`'${held.kind}' is still running since ${held.started} (pid ${held.pid}). Wait until it ends: its result goes to the journal and to .aiddbot/runs/. Never start it again, and never judge its log before it ends.`);
+  }
+  writeJson(file, { pid: process.pid, kind, started: new Date().toISOString() });
+  return () => fs.rmSync(file, { force: true });
 }
 
 /** A slot that does not apply holds `{"na": "<reason>"}` instead of a command. */
@@ -191,17 +220,22 @@ export function run(root, [kind], flags) {
   const runs = [];
   const tracksLint = !id && (kind === "lint" || kind === "format");
   const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
-  for (const name of names) {
-    const slot = projects[name].commands[kind];
-    if (isNa(slot)) {
-      runs.push({ project: name, ok: true, na: slot.na });
-      continue;
+  const unlock = lockRun(root, kind);
+  try {
+    for (const name of names) {
+      const slot = projects[name].commands[kind];
+      if (isNa(slot)) {
+        runs.push({ project: name, ok: true, na: slot.na });
+        continue;
+      }
+      const commands = [projects[name].commands[kind]].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
+      commands.forEach((command, index) => {
+        const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+        runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
+      });
     }
-    const commands = [projects[name].commands[kind]].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
-    commands.forEach((command, index) => {
-      const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
-      runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
-    });
+  } finally {
+    unlock();
   }
   const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;

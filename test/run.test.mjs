@@ -23,6 +23,31 @@ test("a scoped acceptance run filters by spec, lists untested requirements, and 
   assert.equal(aidd(root, "run", "acceptance", "--spec").body.runs[0].command, "npm run acceptance -- --grep @S0001-");
 });
 
+test("run refuses while another run is alive, and a dead run leaves no lock", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { unit: 'node -e "process.exit(0)"' } }));
+  const lock = path.resolve(root, git(root, "rev-parse", "--git-path", "aidd-run.lock"));
+  fs.writeFileSync(lock, JSON.stringify({ pid: process.ppid, kind: "acceptance", started: "2026-10-08T14:36:01Z" }));
+  const refused = aidd(root, "run", "unit");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /'acceptance' is still running since 2026-10-08T14:36:01Z .*Never start it again/);
+  fs.writeFileSync(lock, JSON.stringify({ pid: 999999, kind: "acceptance", started: "2026-10-08T14:36:01Z" }));
+  assert.equal(aidd(root, "run", "unit").code, 0);
+  assert.ok(!fs.existsSync(lock));
+});
+
+test("a log says RUNNING until its command ends", () => {
+  const root = repo();
+  fs.mkdirSync(path.join(root, "back"));
+  const peek = `node -e "console.log(require('fs').readFileSync('../.aiddbot/runs/unit-back.log', 'utf8').split('\\n')[0])"`;
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { unit: peek } }));
+  const unit = aidd(root, "run", "unit");
+  assert.match(unit.body.runs[0].tail, /^RUNNING since .*no result until this line is gone/);
+  const log = fs.readFileSync(path.join(root, ".aiddbot/runs/unit-back.log"), "utf8");
+  assert.equal(log.match(/RUNNING/g).length, 1, "the header is gone, and only the output of the command keeps its copy");
+});
+
 test("run keeps the whole output in a log, journals it, and stops at the timeout", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));

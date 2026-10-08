@@ -1,3 +1,9 @@
+# AIDDbot 0.3.2
+
+- `aidd run` never starts while another run is alive. Two acceptance runs share ports and a database, and both fail: this made the foundation close red in our tests. The second run now stops at once and tells the agent to wait.
+- Until a run ends, its log starts with a `RUNNING` line, so nobody reads a partial log as a result.
+- With Archetype Base, the scaffold copies the three projects at once and registers their tooling at once: fewer handoffs, about three minutes less.
+
 # AIDDbot 0.3.1
 
 With Archetype Base, the foundation no longer delivers again what the archetypes ship (D56).

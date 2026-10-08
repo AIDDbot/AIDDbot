@@ -472,3 +472,13 @@ En `columbus`, la fundación copió, verificó, revisó y publicó una a una las
 - **Esquemas en Base:** `model/` de Base (`v0.3.1`) se copia a `.product/model/`. Con Base, `outline-system` solo escribe el `AGENTS.md` raíz y el nombre del sistema en el título de `model.schema.md`. La puerta de Base exige que `model/` describa su código.
 - Sin Base, D21 sigue igual.
 - Con el cambio, tres arreglos de la auditoría de `columbus`: la ruta `references/qualify.gates.md` en `review-implementation`, el ejemplo completo de `config set` en `scaffold.md` (el Builder leyó `work.mjs` para encontrar las claves) y la hora real en los esquemas de `outline-system` (un commit corrigió una hora estimada).
+
+## D57 ← Pruebas `0.3.0` y `0.3.1` (humano, 8 oct) · Una sola ejecución a la vez, y andamiaje de Base por lotes
+
+En las dos pruebas, el cierre salió rojo sin defecto en el código. Codex devuelve el control de `exec_command` a los 30 s aunque el proceso siga vivo: el agente creyó que la aceptación no había corrido, lanzó otra, y las dos suites se pisaron (`auth` y `account` en rojo, 140 s cada una en vez de 70). Después juzgó el log a medias y registró `blocked`.
+
+- **Núcleo:** `aidd run` toma un bloqueo (`aidd-run.lock` en la carpeta de git, como el estado del lint) y rechaza otra ejecución mientras su proceso viva, con un mensaje que dice esperar y no juzgar el log. Un proceso muerto no deja bloqueo.
+- **Log:** hasta que el comando acaba, la primera línea del log dice `RUNNING`; el núcleo la quita al terminar.
+- **`deliver.md`:** el cierre ejecuta `lint`, `unit` y `acceptance` de uno en uno y espera el JSON de la aceptación.
+- **Andamiaje de Base por lotes:** el **Architect** hace los pasos 1 y 2 de los tres proyectos y el **Builder** el paso 3 de los tres, con un relevo cada uno. En `0.3.1` fueron 6 relevos y ~6 min. Se mantiene un commit por paso y proyecto.
+

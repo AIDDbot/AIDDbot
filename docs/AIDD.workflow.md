@@ -71,7 +71,7 @@ The foundation keeps the product records that exist.
 
 A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. Each project uses an archetype of its type from the catalog. For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. Or the Architect makes an archetype for the selected technology: it fills the Archetype-Blueprint (`project.AGENTS.template.md`), keeps it as `.product/archetypes/{project}.AGENTS.md`, and links it from `system.md`, never copies it.
 
-After the approval, the Architect works on `chore/foundation`, one project at a time, with three commits for each project:
+After the approval, the Architect works on `chore/foundation`, one project at a time (with Archetype Base, each step for the three projects at once), with three commits for each project:
 
 1. The scaffold, with no change (`chore(scaffold): generate`).
 2. The shape of the Blueprint (`refactor: shape to blueprint`).
@@ -122,6 +122,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 
 Verification runs before qualification. `aidd eval` records each evaluation with its status, revision and current commit in the `control.json` of the spec. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits the record.
 
+- `aidd run` refuses to start while another run is alive, because two runs share ports, databases and logs. Until a run ends, the first line of its log says `RUNNING`: the log is no result yet.
 - A green verification needs a passing last `aidd run acceptance` of the spec, with no code change after it, and an acceptance test with the tag or title `@S0042-R03` for each requirement. A failed run is green only with `--preexisting <D IDs>`, which names open debt recorded before the spec.
 - Green evaluations leave no report. Amber and red evaluations leave a report with only the failures and findings.
 - A red verification returns for repair and runs again, without qualification, until revision 3.
