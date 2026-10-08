@@ -38,8 +38,8 @@ architect-system-foundation:
   greenfield:
     - "Architect: propose .product/system.md as typed projects, with an archetype per project or one made on demand, and obtain approval"
     - "Architect: on chore/foundation, scaffold each project with its AGENTS.md, registered slots, and no orphan samples"
-    - "Architect: outline-system, then integrate (never rule-project)"
-    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth, about and record-views when the system has a front-web; with Archetype Base, the Craftsman verifies, reviews and ships each copied spec instance instead"
+    - "Architect: outline-system, then integrate (never rule-project); with Archetype Base, only the root AGENTS.md, because the schema documents are copied"
+    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth, about and record-views when the system has a front-web; with Archetype Base, none: the copied spec instances stay as the contract, and the close proves them"
     - "close only when lint, unit, and acceptance pass"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
@@ -69,7 +69,7 @@ craft-lasting-quality:
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. Each project uses an archetype of its type from the catalog. For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, and with the spec instances in `foundation/`. Or the Architect makes an archetype for the selected technology: it fills the Archetype-Blueprint (`project.AGENTS.template.md`), keeps it as `.product/archetypes/{project}.AGENTS.md`, and links it from `system.md`, never copies it.
+A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. Each project uses an archetype of its type from the catalog. For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. Or the Architect makes an archetype for the selected technology: it fills the Archetype-Blueprint (`project.AGENTS.template.md`), keeps it as `.product/archetypes/{project}.AGENTS.md`, and links it from `system.md`, never copies it.
 
 After the approval, the Architect works on `chore/foundation`, one project at a time, with three commits for each project:
 
@@ -79,7 +79,7 @@ After the approval, the Architect works on `chore/foundation`, one project at a 
 
 In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data` (see the [principles](./principles/README.md)).
 
-The Architect reorganizes the templates of other generators, removes the samples that cannot operate, installs each missing mandatory slot, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. Then `build-requested-spec` delivers the foundation specs, which have no technology, one at a time. With Archetype Base, each spec instance is copied, verified, reviewed and shipped; the Builder only repairs a red verification. A failed command stops the run, with no partial commit. The foundation never makes working code again.
+The Architect reorganizes the templates of other generators, removes the samples that cannot operate, installs each missing mandatory slot, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. Then `build-requested-spec` delivers the foundation specs, which have no technology, one at a time. With Archetype Base, no spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of Archetype Base, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
 Run `/architect-system-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 

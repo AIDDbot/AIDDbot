@@ -68,12 +68,23 @@ export function writeJson(file, value) {
 }
 
 /** Reserve the next `S` or `D` number in `.aiddbot/counters.yaml` and return its ID. */
+/** The numbers of the `S####-` names in `dir` and its subfolders. */
+function specNumbers(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { recursive: true })
+    .map((name) => /(?:^|[\\/])S(\d{4})-/.exec(name)?.[1])
+    .filter(Boolean)
+    .map(Number);
+}
+
 export function nextId(root, kind) {
   const file = aiddbotPath(root, "counters.yaml");
   const key = kind === "S" ? "spec" : "debt";
   const text = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "spec: 0\ndebt: 0\n";
   const pattern = new RegExp(`^${key}:\\s*(\\d+)\\s*$`, "m");
-  const number = Number(pattern.exec(text)?.[1] ?? 0) + 1;
+  // Spec IDs also skip the ones already in use, such as the archetype foundation specs, so test tags never collide.
+  const taken = kind === "S" ? [productPath(root, "specs"), productPath(root, "archetypes")].flatMap(specNumbers) : [];
+  const number = Math.max(Number(pattern.exec(text)?.[1] ?? 0), ...taken) + 1;
   const line = `${key}: ${number}`;
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const updated = pattern.test(text) ? text.replace(pattern, line) : `${text.trimEnd()}\n${line}\n`;

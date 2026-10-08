@@ -2,7 +2,7 @@
 
 The **Architect** writes `.product/system.md` from `assets/system.template.md`. The system is a solution of typed projects: `back-api`, `front-web`, `cli`, or `e2e`.
 
-- Read the foundation specs in `assets/foundation/` first. The proposal and each `AGENTS.md` keep their contracts (ports, variable names, routes). Never set other values for them.
+- The proposal and each `AGENTS.md` keep the contracts of the foundation specs (ports, variable names, routes). Never set other values for them. Archetype Base already keeps them: read the specs in `assets/foundation/` only when a project uses no Archetype Base archetype.
 - Ask in short stages, one closed question at a time:
   1. Purpose, users, and needs.
   2. Projects.

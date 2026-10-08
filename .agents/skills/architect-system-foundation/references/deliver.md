@@ -15,17 +15,16 @@ When the projects come from Archetype Base, read the section [With Archetype Bas
 
 ## With Archetype Base
 
-The code and the tagged tests of each spec are already in the system, so each spec is verified and recorded, not built. Deliver the eight specs of `.product/archetypes/foundation/` in the order of their IDs, one at a time, with this **Architect**, the same **Builder** and the **Craftsman**:
+The code, the tagged tests, and the review of each spec came with the archetypes, and the library gate of Archetype Base passed them. The instances in `.product/archetypes/foundation/` are the contract of the system. Never create, verify, review, or ship them as specs: go to [the close](#the-close), without the **Craftsman**.
 
-- The **Architect** creates the spec with `node .agents/aidd/aidd.mjs spec new feat {slug} "{title}" --domain foundation`, with the slug and the title of the instance. If the core gives an ID that is not the ID of the instance, stop and journal `blocked`: the test tags would name the wrong spec.
-- The **Architect** replaces the body of the new `spec.md` with the instance, as written, and keeps the frontmatter of the core. Journal `approved` for the spec, and commit `docs(spec): define delivery`. No human approval: the instance is part of the approved proposal.
-- The **Craftsman** executes `verify-behavior`, then `review-implementation`, then `ship-spec`.
-- A red verification goes to the **Builder**, who executes `implement-project` to repair it. The repair and debt rules of `build-requested-spec` apply.
+- The close is the only evidence. A red close is a defect of the environment or of Archetype Base: never repair it in the system. Journal `blocked` and return the failure.
+- The system keeps the version of its root `package.json`. The first business spec releases the next one.
+- The core gives the first business spec the ID after the instances, so the test tags never collide.
 
 ## The close
 
 The foundation closes only green:
 
-- After the last spec ships, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`. If one fails, journal `blocked` and return the failure.
+- After the last spec ships, or after the scaffold with Archetype Base, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`. If one fails, journal `blocked` and return the failure.
 - Never start a repair or a spec that is not a foundation spec, also for `high` debt.
 - Return the debt summary of `node .agents/aidd/aidd.mjs debt list`. Recommend `craft-lasting-quality` if an item is `high`.

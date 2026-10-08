@@ -34,7 +34,7 @@ Run from the repository root with a clean working tree, for each project:
 npm install --prefix {folder}
 ```
 
-{With Archetype Base, also copy its spec instances: `npx degit AIDDbot/archetype-base/foundation#{tag} .product/archetypes/foundation`.}
+{With Archetype Base, also copy its spec instances and its schema documents: `npx degit AIDDbot/archetype-base/foundation#{tag} .product/archetypes/foundation` and `npx degit AIDDbot/archetype-base/model#{tag} .product/model`.}
 
 {Projects with an archetype made on demand: the official generator and dependency install to run for each, with no functional code.}
 

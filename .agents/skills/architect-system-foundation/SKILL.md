@@ -22,7 +22,7 @@ verdict
 ## Roles
 
 - Route as the **Architect**. Spawn one **Architect** for the full run, or use the one that a calling orchestrator gives you. Continue it with messages. Relay its questions to the human. Stop it only if you started it.
-- Spawn the **Builder** at the first scaffold. Spawn one **Craftsman** for all the foundation specs. Use the same **Builder** for all of them.
+- Spawn the **Builder** at the first scaffold, and use it for all the foundation specs. Spawn one **Craftsman** for all of them, never with Archetype Base.
 - Each time you send work to an agent, journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"`.
 - You journal `verdict`, `approved`, `scaffolded`, and `blocked` yourself, never through the **Architect**.
 
@@ -38,11 +38,11 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 | --- | --- | --- |
 | Propose | `references/propose.md` | An approved `.product/system.md`, committed on `chore/foundation`. |
 | Scaffold | `references/scaffold.md` | Each project scaffolded, shaped, and with its tooling registered; the system outlined and integrated. |
-| Deliver | `references/deliver.md` | The foundation specs shipped, and the system green. |
+| Deliver | `references/deliver.md` | The foundation specs shipped, or proved by the close with Archetype Base, and the system green. |
 
 Never scaffold when working code exists.
 
-When the projects come from Archetype Base (`assets/archetypes.md`), the code and the tests of the foundation specs come with them. The scaffold copies them and the delivery verifies them; never build again what an archetype ships.
+When the projects come from Archetype Base (`assets/archetypes.md`), the code, the tests, the spec instances, and the schema documents of the foundation come with them. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships.
 
 ## Brownfield
 
@@ -51,4 +51,4 @@ When the projects come from Archetype Base (`assets/archetypes.md`), the code an
 - Create the `chore/document` branch from the default branch. There, the **Architect** executes `outline-system`, then `rule-project` for each project.
 - When all documentation and project rules are complete, run `node .agents/aidd/aidd.mjs integrate "docs(system): document foundation"` from `chore/document`. It commits the remaining changes, merges the branch into the default branch, and deletes the branch after a successful merge.
 
-The result is a scaffolded system that ships its foundation specs green, a documented brownfield system, or the reason why this was not possible.
+The result is a scaffolded system that closes its foundation green, a documented brownfield system, or the reason why this was not possible.
