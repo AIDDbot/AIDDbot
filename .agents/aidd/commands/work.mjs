@@ -15,6 +15,7 @@ const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const RUNNING = "RUNNING";
+const SPEC_DEFINED = "docs(spec): define delivery";
 const DEFAULT_FOLDER_ENTRIES = 16;
 const GROUPED_FOLDERS = new Set(["shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
@@ -350,5 +351,8 @@ export function log(root, [event, summary], flags) {
   }
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
   journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
+  // An approved spec is committed here, so its definition never lands before its approval.
+  const dir = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
+  if (dir) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, dir)]) };
   return { event, summary };
 }

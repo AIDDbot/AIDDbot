@@ -92,3 +92,15 @@ test("spec new refuses while another spec branch is still open", () => {
   assert.equal(refused.code, 1);
   assert.match(refused.body.error, /feat\/S0001-fleet is still in progress/);
 });
+
+test("log approved commits the spec definition after the approval", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "offers", "Offers");
+  write(root, ".product/specs/S0001-offers/spec.md", "# S0001-offers — Offers\n\n- **R01**: WHEN an offer is sent...\n");
+  const approved = aidd(root, "log", "approved", "Offers", "--spec", "S0001");
+  assert.equal(approved.code, 0, JSON.stringify(approved.body));
+  assert.equal(approved.body.committed, true);
+  assert.equal(git(root, "log", "-1", "--format=%s"), "docs(spec): define delivery");
+  const journal = fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8");
+  assert.ok(journal.indexOf(" approved ") < journal.indexOf("committed  INFO  docs(spec): define delivery"));
+});
