@@ -180,7 +180,7 @@ En `config.json`, una ranura que no aplica guarda un objeto en lugar de un coman
 
 ## D21 ← P16 · La fundación entrega cada spec fundacional con el flujo completo
 
-`architect-system-foundation` llama a `build-requested-spec` una vez por spec fundacional, en el orden de D17. Pasan las mismas puertas que cualquier spec: es lo que da el «nace en verde» (D7). Coste asumido en D16. Con un arquetipo conforme, cada spec se verifica casi sin cambios.
+`architect-system-foundation` llama a `build-requested-spec` una vez por spec fundacional, en el orden de D17. Pasan las mismas puertas que cualquier spec: es lo que da el «nace en verde» (D7). Coste asumido en D16. Con un arquetipo conforme, cada spec se verifica casi sin cambios. Con Archetype Base, D56.
 
 ## D22 ← P17 · Los repos de arquetipo: su `AGENTS.md` y sin muestras
 
@@ -460,3 +460,15 @@ La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin d
 - Cada release de AIDDbot fija en `archetypes.md` la etiqueta exacta de Base que validó. Nunca se mueve una etiqueta publicada.
 - Cierra el punto de P21 «cómo se versiona el Blueprint entre AIDDbot y Base». Sigue abierto para el Archetype Builder.
 - Base `v0.3.0` (`0996012`) tiene el código de `v0.2.2`; AIDDbot la fija desde el primer parche 0.3.x.
+
+## D56 ← P24 (humano, 8 oct) · Con Archetype Base, la fundación no entrega specs: un cierre verde las prueba
+
+En `columbus`, la fundación copió, verificó, revisó y publicó una a una las ocho instancias de Base: ~4 min y ~7 commits por spec, nueve aceptaciones completas, la versión en `v0.9.0` y una revisión de un diff sin código. Base ya trae el código, los tests etiquetados y la revisión de su puerta (D54).
+
+- **Sin specs de fundación.** Las instancias se quedan en `.product/archetypes/foundation/` como contrato. Sin `spec new`, `eval` ni `release` por spec, y sin **Craftsman**.
+- **Una evidencia: el cierre** (`run lint`, `run unit`, `run acceptance`). Un rojo es del entorno o de Base: `blocked`, y se arregla en Base, nunca en el sistema.
+- **Sin release.** El sistema queda en la `0.1.0`; la primera spec de negocio da la `0.2.0`.
+- **IDs:** `nextId` del núcleo salta los `S####` que ya existen en `.product/specs/` y `.product/archetypes/`. La primera spec de negocio es S0009.
+- **Esquemas en Base:** `model/` de Base (`v0.3.1`) se copia a `.product/model/`. Con Base, `outline-system` solo escribe el `AGENTS.md` raíz y el nombre del sistema en el título de `model.schema.md`. La puerta de Base exige que `model/` describa su código.
+- Sin Base, D21 sigue igual.
+- Con el cambio, tres arreglos de la auditoría de `columbus`: la ruta `references/qualify.gates.md` en `review-implementation`, el ejemplo completo de `config set` en `scaffold.md` (el Builder leyó `work.mjs` para encontrar las claves) y la hora real en los esquemas de `outline-system` (un commit corrigió una hora estimada).

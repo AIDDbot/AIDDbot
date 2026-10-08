@@ -799,3 +799,28 @@ Propuesta: agrupar `shared` por tema técnico; agrupar las features por el domin
 > - **Features por dominio, también en `e2e`.** Con muchas features: `features/{domain}/{feature}`, con el `domain` que ya llevan las specs. La regla de la facade sube un nivel: entre dominios, solo por la facade. Al principio la lista plana se lee mejor.
 > - **Aviso de tamaño como regla de craftsmanship.** No es de oxlint (mira ficheros, no carpetas): chequeo del núcleo sobre el sistema de ficheros, agnóstico de la tecnología. `WARN` si una carpeta de `shared` o `features` tiene más de N entradas directas (N = 12 por defecto, en `config.json`). No bloquea: `scan-quality` lo registra como deuda y `/craft-lasting-quality` lo resuelve con una spec `refactor` que agrupa.
 > - **Cuándo:** periodo de refactor, después de la 0.2.3; probarlo en una hornada.
+
+## ✅ P24 → D56 · ¿Qué rehace la fundación cuando el sistema viene de Archetype Base?
+
+Evidencia: `columbus` (Codex, AIDDbot 0.3.0, Base `v0.3.0`, 8 oct). Hasta S0001 entregada: 21 min y ~9,5 M tokens de entrada. Base trae el código, los tests etiquetados `S0001-R01`…, el `AGENTS.md` de cada proyecto y las ocho instancias de spec. Aun así, la fundación rehace tres cosas:
+
+- **Las ocho specs, una a una (D21, J2).** Por spec: reservar el ID, copiar el cuerpo tal cual (la copia de S0001 es idéntica a la instancia), una aceptación completa (69 tests, 70 s), una revisión, `format`, `release` y merge. Son ~4 min y ~7 commits por spec: ~32 min, ~56 commits, nueve aceptaciones con la del cierre y la versión en `v0.9.0` antes de la primera funcionalidad. Cada aceptación ya prueba las ocho specs.
+- **La revisión no tiene código que revisar.** El diff de S0001 solo trae `spec.md` y `control.json`; el código entró con el scaffold. Aun así registró *"Complete diff reviewed… transactional migrations… satisfy"*: una garantía falsa. La puerta de la biblioteca de Base (D54) ya revisa ese código una vez, con deuda cero y `quality` sin avisos.
+- **Los esquemas del modelo.** `outline-system` lee el código de Base y escribe `back.api`, `back.db`, `front.api` y `model`: el mismo resultado en cada sistema, salvo el nombre del producto. ~2 min del Architect y un commit de corrección.
+
+Lo único nuevo en cada sistema: la identidad, el entorno (git, SO, shell) y la prueba de que funciona en esa máquina.
+
+Propuesta (lo más sencillo con más impacto). Solo con Archetype Base; sin Base, D21 sigue igual:
+
+- **Las specs de Base no entran como specs del sistema.** Se quedan como contrato en `.product/archetypes/foundation/`, donde ya las copia el scaffold. No hay `spec new`, `eval` ni `release` por spec, y no se lanza el **Craftsman**.
+- **Una sola evidencia: el cierre de `deliver.md`.** `run lint`, `run unit` y `run acceptance` una vez, sobre el sistema integrado. Verde: la fundación cierra. Rojo: `blocked` con el fallo. Base ya pasó su puerta, así que un rojo es del entorno o un defecto de Base, y se arregla en Base (como D0001 de `codex-13`), nunca en el sistema.
+- **Sin release en la fundación.** El sistema queda en la `0.1.0` del `package.json` raíz; la primera spec de negocio da la `0.2.0`.
+- **IDs sin choque, en el núcleo.** `nextId` toma el mayor entre `counters.yaml` y los IDs `S####` de `.product/specs/` y `.product/archetypes/`. La primera spec de negocio es S0009, sin regla nueva en ningún skill. Son unas cinco líneas en `core.mjs`.
+- **Base trae los esquemas.** `foundation/model/*.schema.md`, hechos una vez con `outline-system` sobre Base y revisados en su puerta. El scaffold los copia a `.product/model/` con el mismo `degit` de las specs. Con Base, `outline-system` solo rellena el `AGENTS.md` raíz (sistema y entorno). `ship-spec` los mantiene después, como siempre.
+- Sin filtrado: Base ya es «los tres proyectos o ninguno» (J2), así que las ocho specs siempre aplican.
+
+Coste: `deliver.md` (la sección «With Archetype Base» queda en el cierre), `scaffold.md` (copiar el modelo, `outline-system` reducido), `propose.md` (con Base, leer solo los títulos de las instancias), `nextId` en `core.mjs` y una release de parche de Base con `foundation/model/`. Impacto estimado en `columbus`: de ~55 a ~20 min y sin Craftsman.
+
+Se descarta: un comando `aidd spec import` que crea las ocho specs como entregadas (código nuevo en el núcleo y una evidencia por spec que nadie consulta); y que Base traiga `.product/specs/` cerradas (contradice D54: Base no es un sistema de AIDDbot).
+
+> **R:** Aceptada la propuesta (D56).
