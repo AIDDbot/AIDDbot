@@ -232,3 +232,17 @@ D54: Archetype Base nace de `codex-12` y la fundación lo ofrece. Objetivo: adel
 Fuera de la 0.3.0: G9 (worktrees), tests intermitentes (nota 18 de `codex-9`), Archetype Builder y el resto de P21.
 
 **Hecho cuando:** la prueba E cierra en verde con las ocho specs verificadas sin Builder, y la release está etiquetada.
+
+### 4g · Parche 0.3.3: pendientes de la prueba `0.3.2` (8 oct)
+
+Notas de la ejecución de Codex en `C:\code\temp\0.3.2`, en directo. Fundación: de la propuesta aprobada al cierre verde en ~5,5 min, una sola aceptación (69 en 37 s).
+
+| # | Observación | Propuesta | Estado |
+| --- | --- | --- | --- |
+| K1 | D58: AIDDbot y Base en la misma versión. | Publicar Base `v0.3.3` (sin cambios de código), fijarla en `archetypes.md` y `getting-started.md`, y después AIDDbot 0.3.3. `release.js` ya lo exige. | pendiente |
+| K2 | Con el andamiaje por lotes, el Builder vació `projects` (`config set projects '{}'`) y registró cada proyecto otra vez, para que cada commit `register tooling` llevara solo su parte de `config.json`. | Con Base, un solo commit `chore(scaffold): register tooling` para los tres proyectos y `config.json`. | pendiente |
+| K3 | S0009: el commit `docs(spec): define delivery` (17:46:24) va antes del `approved` (17:47:17), en YOLO. | Revisar el orden en `define-spec` y `build-requested-spec`. Si es mecánico: que el núcleo rechace ese commit sin un `approved` de la spec en el journal. | investigar |
+| K4 | 4 min entre el relevo «define S0009» (17:41) y `spec new` (17:45). | Ver en la sesión del Architect qué leyó; acotar las lecturas de `define-spec`. | investigar |
+| K5 | La primera aceptación acotada de S0009 tardó 75 s y la siguiente 12 s, con los mismos tests. | Ver si es el arranque en frío de Chromium o de los servidores; si es el arranque, nada que hacer en AIDDbot. | investigar |
+| K6 | Codex lanza los subagentes con `fork_turns: "all"`: heredan toda la conversación de la raíz y releen los `SKILL.md` que ya tienen. | Ver si el adaptador de Codex o el `AGENTS.md` pueden pedir un subagente sin el historial. | investigar |
+| K7 | La raíz espera a los subagentes con `wait_agent` de 10–30 s; muchas esperas vencen (17 de 40 en `0.3.0`). Cada una es un turno de ~30 K tokens, casi todos en caché. | Medir en `0.3.2`; si sigue, una espera más larga o una línea en el orquestador. | investigar |
