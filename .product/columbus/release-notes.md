@@ -1,3 +1,13 @@
+# AIDDbot 0.3.3
+
+AIDDbot and Archetype Base now share one version: this release pins Archetype Base `v0.3.3`.
+
+- Approving a spec commits it. The definition never lands before your approval, and its commit message is always `docs(spec): define delivery`.
+- Within a spec, only shipping updates the schema documents in `.product/model/`, so the review always compares against the system before the spec.
+- The review finds each file through the project `AGENTS.md` instead of guessing names.
+- With Archetype Base, the tooling of the three projects lands in one commit.
+- Agents wait for sub-agents and long commands with the longest timeout of their tool: fewer turns and fewer tokens.
+
 # AIDDbot 0.3.2
 
 - `aidd run` never starts while another run is alive. Two acceptance runs share ports and a database, and both fail: this made the foundation close red in our tests. The second run now stops at once and tells the agent to wait.
