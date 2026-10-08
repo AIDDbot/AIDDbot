@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.5 - 2026-10-08
+
+- chore(skills): pin Archetype Base v0.3.5, and record D61 (9f7402e)
+- refactor(skills): fresh agents, root approval, and a quality loop (3b7b7f9)
+- feat(core): refuse work on a spec before its approval (a89072e)
+
 ## 0.3.4 - 2026-10-08
 
 - chore(skills): pin Archetype Base v0.3.4, and record D59 and D60 (a4f15db)
