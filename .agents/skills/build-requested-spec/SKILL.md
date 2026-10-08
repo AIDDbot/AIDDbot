@@ -38,6 +38,8 @@ The **Builder** executes `implement-project`:
 
 The **Craftsman** executes `verify-behavior`. When verification is green, it executes `review-implementation` (the qualification), then `ship-spec`.
 
+Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send schema work to another agent, and never run `outline-system`, because the review reads the schema documents as they were before the spec.
+
 | Event | Action |
 | --- | --- |
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |

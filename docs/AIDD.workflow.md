@@ -75,7 +75,7 @@ After the approval, the Architect works on `chore/foundation`, one project at a 
 
 1. The scaffold, with no change (`chore(scaffold): generate`).
 2. The shape of the Blueprint (`refactor: shape to blueprint`).
-3. The tooling (`chore: register tooling`).
+3. The tooling (`chore: register tooling`; with Archetype Base, one `chore(scaffold): register tooling` for the three projects).
 
 In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data` (see the [principles](./principles/README.md)).
 
@@ -111,7 +111,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 - The journal is only a story. No code reads it or makes a decision from it: the process state is in the `control.json` of each spec.
 - Each line has complete fields with a space between them: time, actor, spec, event, level and summary. The level is `INFO`, `WARN` for a failed run or an amber evaluation, or `ERROR` for a red evaluation or a `blocked` reason. The short columns have a minimum width, so the log reads as a table. The summary stops at 128 characters.
 - The core (`node .agents/aidd/aidd.mjs`) writes an entry for each state change that it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. A run line shows only the projects that apply, each with its result and the summary line of its tool (such as `100 passed` or `1 failed`).
-- The model adds only its judgments, with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt or the archetype of each project, each human `approved` proposal or spec, the `plan` of each implementation before its first edit, the `scaffolded` projects, and a `blocked` reason.
+- The model adds only its judgments, with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt or the archetype of each project, each human `approved` proposal or spec (an approved spec is committed by that same command, so its definition never lands before its approval), the `plan` of each implementation before its first edit, the `scaffolded` projects, and a `blocked` reason.
 
 ### Evidence
 

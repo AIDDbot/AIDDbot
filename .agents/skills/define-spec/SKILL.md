@@ -17,8 +17,8 @@ Write the spec from `spec.template.md`, or from the shorter `spec.fix.template.m
 
 List in `Expected URLs and APIs` every page, endpoint, or command the scope adds or changes, with each endpoint's success status and every error status with its cause, because it is the API contract and the `e2e` project derives its basic tests from it. Declare in the schema impact every entity, relation, table, or column the scope adds, changes, or removes, and cover at least one error scenario among the requirements. Keep Solution to the decisions the Blueprint, the project `AGENTS.md`, and the requirements leave open. Leave the schema documents themselves to shipping.
 
-Unless in YOLO mode, present the spec for human approval and wait: nothing is built before the human approves it. Once it is approved, or in YOLO mode once it is written, journal it with `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>`.
+Unless in YOLO mode, present the spec for human approval and wait: nothing is built before the human approves it. Once it is approved, or in YOLO mode once it is written, journal it with `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>`. Never commit the spec yourself: that command commits it, so the definition never lands before its approval.
 
 The result is an approved spec on its own branch.
 
-Commit with `node .agents/aidd/aidd.mjs commit "docs(spec): define delivery"`.
+The core commits as `docs(spec): define delivery`.
