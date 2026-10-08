@@ -116,7 +116,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 
 ## Delivery documents
 
-Only `node .agents/aidd/aidd.mjs` writes these records: never edit them by hand. When a command refuses, fix what its error names and run it again.
+Agents write `system.md`, `spec.md` and the reports from their templates. Only `node .agents/aidd/aidd.mjs` writes `control.json`, `counters.yaml`, `debt.json`, the runs and the journals: never edit them by hand. When a command refuses, fix what its error names and run it again.
 
 - **System proposal** — `{Product_Folder}/system.md`: the approved greenfield proposal. The code wins where they disagree.
 - **Specs** — `{Product_Folder}/specs/S{nnnn}-{slug}/`: `spec.md`, `control.json`, and a `verification.md` or `qualification.md` only when not green. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists what blocks shipping. `{Product_Folder}/PRD.md` lists the shipped specs. `.aiddbot/counters.yaml` keeps the last S and D numbers; an ID is never used again. Slugs are lowercase kebab-case.
