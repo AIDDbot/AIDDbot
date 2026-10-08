@@ -59,6 +59,7 @@ The `.aiddbot/` folder contains the configuration and the state. A daily journal
 - [Customize agent profiles](docs/agent-customization.md)
 - [AIDD workflow, skills, and records](docs/AIDD.workflow.md)
 - [Principles of the architecture and the code](docs/principles/README.md)
+- [Engineering principles of the development](docs/engineering/README.md)
 
 > [!WARNING]
 > Set the models and the reasoning effort in `.aiddbot/agents.local.yaml`. An update keeps this file. You can also remove the profiles of the harnesses that you do not use. The customization guide tells how an update operates on local changes.
