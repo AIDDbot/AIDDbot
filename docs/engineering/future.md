@@ -14,10 +14,10 @@ flowchart LR
 Debt comes from two sources:
 
 - **Development.** A finding that does not block a delivery becomes debt. Examples: a review finding, or a failure at revision 3 of a [feature](./features.md#verification). Its origin is the spec.
-- **Scan.** The `quality` check searches for CRAP in the code. Its origin is `scan`.
+- **Scan.** The `quality` check measures the code. Its origin is `scan`.
   - Complexity over the [limits](../principles/complexity.md#limits).
-  - Business rules without a unit test.
-  - General faults, such as duplicated code.
+  - Folders with too many entries, and subfolders in a feature.
+  - Duplicated blocks of code (DRY): the repair moves each block to one function.
 
 Record each debt with its priority, its evidence and its origin. Do not hide it. Scan from time to time, not after each spec.
 
@@ -31,7 +31,8 @@ Record each debt with its priority, its evidence and its origin. Do not hide it.
 3. Make a repair spec for the group.
 4. Send the spec through the normal [features](./features.md) flow.
 
-- A repair is a [craft pass](../principles/glossary.md). It does not change the behavior.
+- A repair is a [craft pass](../principles/glossary.md). It keeps the behavior, except a `fix` for debt that breaks it.
+- An upgrade of the dependencies skips the scan: it is a `chore` that repairs all that the upgrade breaks.
 - A repaired item goes away from the debt.
 
 Skill: [`/craft-lasting-quality`](../../.agents/skills/craft-lasting-quality/SKILL.md).

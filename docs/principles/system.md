@@ -1,10 +1,10 @@
 # System
 
-System architecture, based on classic three tier architecture. The system is a set of projects that communicate through REST APIs. Each project has one kind: front-end, back-end, CLI, or e2e tests.
+The system architecture is a classic three-tier architecture. The projects of the system communicate through REST APIs.
 
 > Out of scope: microservices, event-driven architecture, message queues, pub/sub, GraphQL, gRPC, WebSockets.
 
-A system is a set of projects. Each project has one kind.
+A system is a set of projects. Each project has one type.
 
 ```mermaid
 flowchart LR
@@ -24,7 +24,7 @@ flowchart LR
 
 ## REST API
 
-`back-api` talks to its dependants through one REST API.
+`back-api` gives one REST API to the other projects.
 
 - Paths start with `/api`. A resource is a plural noun: `/api/users`, `/api/users/:id`.
 - Methods: `GET` reads, `POST` creates or does an action, `PUT` replaces, `PATCH` changes part, `DELETE` removes.
@@ -39,7 +39,7 @@ flowchart LR
 - Keep secrets out of the code and out of the repository.
 - Store a password only as a salted hash.
 - Check each input at the edge.
-- A security finding blocks the delivery.
+- A security finding gets one repair before the delivery. If the second review still finds it, it ships as `high` debt.
 
 ---
 

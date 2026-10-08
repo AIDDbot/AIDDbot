@@ -1,6 +1,6 @@
 # Scaffolding
 
-Software architecture, based on classic three layer architecture. Presentation, logic and data are in separate layers. Each layer has one role and depends only on the layer below. 
+The software architecture is a classic three-layer architecture. Presentation, logic and data are in separate layers. Each layer has one role and depends only on the layer below.
 
 > Out of scope: clean architecture, hexagonal architecture, ports and adapters, onion architecture, CQRS, event sourcing.
 
@@ -18,7 +18,8 @@ The archetype gives the real names.
 
 ```text
 src/
-├── {app}.main.ts          # entry point: composition
+├── {app}.main.ts          # entry point: starts the composition
+├── {app}.compose.ts       # composition: core and the list of features
 ├── core/
 ├── shared/
 │   └── {concern}/

@@ -2,11 +2,11 @@
 
 - A project is a unit of code that you deploy alone.
 - It starts from an archetype.
-- It has one kind: `back-api`, `front-web`, `cli` or `e2e`.
+- It has one type: `back-api`, `front-web`, `cli` or `e2e`.
 
 ## Archetype
 
-An archetype is a base project of one kind, with one technology.
+An archetype is a base project of one type, with one technology.
 
 - It sets the language, the framework and the dependencies.
 - It gives the basic foundation of the framework.
