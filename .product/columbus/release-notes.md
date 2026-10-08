@@ -1,3 +1,12 @@
+# AIDDbot 0.3.4
+
+This release pins Archetype Base `v0.3.4`.
+
+- A failing unit test now blocks a delivery: a green verification needs a passing `unit` run at the current commit.
+- The quality scan finds duplicated blocks of code in any language and records each one as debt, with a DRY repair.
+- Shorter `AGENTS.md` files. Projects that share technology keep their common tooling and rules one time, in the Common stack of the root `AGENTS.md`. The index of shared helpers lists only what two or more features use, so it does not grow with each feature.
+- The principles and the engineering docs now match the process: one repair for a security finding, the full acceptance suite, and the Archetype Base foundation.
+
 # AIDDbot 0.3.3
 
 AIDDbot and Archetype Base now share one version: this release pins Archetype Base `v0.3.3`.

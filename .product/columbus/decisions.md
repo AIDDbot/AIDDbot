@@ -489,3 +489,20 @@ Enmienda D55: la versión completa, parche incluido, es la misma. Desde la `0.3.
 - Cada release de AIDDbot publica antes Base con su número, aunque Base no cambie, y la fija en `archetypes.md` y en `docs/getting-started.md`.
 - `scripts/release.js` se niega a publicar si `archetypes.md` fija otra etiqueta de Base.
 - Base salta de `v0.3.1` a `v0.3.3`; no hay `v0.3.2` de Base.
+
+## D59 ← Revisión de `docs/` (humano, 8 oct) · `unit` bloquea, y `quality` ayuda a DRY
+
+- `eval verification green` exige un `run unit` en verde en el commit actual en cada proyecto con `unit`; `verify-behavior` ejecuta `unit` y después `acceptance`.
+- `run quality` lista en `duplicates` cada bloque de `quality.duplicateLines` (6) o más líneas de lógica que dos sitios del proyecto repiten, sin depender de la tecnología. `scan-quality` registra cada uno como deuda `medium`; su reparación lo lleva a una función de `shared` o de la `logic` de su feature.
+- Seguridad: una reparación, y después deuda `high`. Los docs y el Blueprint ya no dicen «bloquea».
+
+## D60 ← Prueba `0.3.2` (humano, 8 oct) · `AGENTS.md` más cortos: Common stack e índices de lo compartido
+
+En `0.3.2`, el raíz no repetía nada de los proyectos (D50), pero los proyectos se repetían entre sí: el 53 % de `back` y el 42 % de `front` estaba en otro proyecto. El índice de primitivas de `e2e` crecía una fila por feature (428 palabras).
+
+- El raíz tiene una sección opcional **Common stack**: `outline-system` pone ahí una vez cada ranura y regla de tecnología que los proyectos repiten, y las quita de ellos.
+- El índice de primitivas lista solo lo que usan dos o más features. Un helper de una feature (su page object, sus datos) sigue una convención de nombre y no tiene fila.
+- «Delivery documents» deja lo que necesita un agente; el núcleo hace cumplir el resto. La tabla de «System» pierde la columna que repite el propósito de cada proyecto.
+- Los `AGENTS.md` se escriben en inglés, como sus plantillas.
+- Base `v0.3.4`: un solo índice por proyecto, sin filas repetidas; el de `e2e` pasa de 25 a 10 filas (1173 → 861 palabras).
+
