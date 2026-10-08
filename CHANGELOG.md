@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.3 - 2026-10-08
+
+- chore(skills): pin Archetype Base v0.3.3 (D58) (2a857b8)
+- docs(product): close the 0.3.3 patch items (79d2be7)
+- refactor(skills): tighten the spec flow and the Base scaffold (00f00ba)
+- feat(core): log approved commits the spec definition (K3) (ccaf745)
+- docs(product): pin the cause of K12 from the exported session (e53ef2e)
+- docs(product): note the token budget of the 0.3.2 run (3c4508e)
+- docs(product): add the S0010 notes to the 0.3.3 patch (21b3a7b)
+- docs(product): add the S0009 notes to the 0.3.3 patch (e112ca8)
+- docs(product): start the 0.3.3 patch notes from the 0.3.2 run (33b7e97)
+- chore(release): AIDDbot and Archetype Base share one version (D58) (740a428)
+
 ## 0.3.2 - 2026-10-08
 
 - feat(core): one aidd run at a time, and a RUNNING log until it ends (D57) (94cfbdf)
