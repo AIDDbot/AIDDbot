@@ -76,7 +76,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.equal(git(root, "tag", "--list", "v0.2.0"), "v0.2.0");
   assert.equal(readJson(root, "package.json").version, "0.2.0");
   assert.match(fs.readFileSync(path.join(root, "CHANGELOG.md"), "utf8"), /## \[0\.2\.0\][\s\S]*### Added[\s\S]*User login \(\[S0001\]/);
-  assert.match(fs.readFileSync(path.join(root, ".product/PRD.md"), "utf8"), /## auth\n\n- \[S0001\]\(specs\/S0001-user-login\/spec\.md\) User login/);
+  assert.match(fs.readFileSync(path.join(root, ".product/PRD.md"), "utf8"), /## auth\r?\n\r?\n- \[S0001\]\(specs\/S0001-user-login\/spec\.md\) User login/);
   assert.equal(readJson(root, ".product/specs/S0001-user-login/control.json").status, "shipped");
   assert.doesNotMatch(git(root, "branch"), /feat\/S0001/);
 });
@@ -90,6 +90,14 @@ test("spec new works with pending changes and never needs a clean tree", () => {
   assert.equal(readJson(root, ".product/specs/S0001-typo/control.json").domain, "general");
   assert.equal(git(root, "status", "--short", "--", ".aiddbot/counters.yaml"), "");
   assert.match(git(root, "log", "-1", "--format=%s"), /reserve S0001/);
+});
+
+test("spec new skips the IDs of the archetype foundation specs", () => {
+  const root = repo();
+  write(root, ".product/archetypes/foundation/S0008-record-views.spec.md", "# S0008-record-views\n");
+  const created = aidd(root, "spec", "new", "feat", "catalog", "Catalog");
+  assert.equal(created.code, 0, JSON.stringify(created.body));
+  assert.equal(created.body.branch, "feat/S0009-catalog");
 });
 
 test("a non-green evaluation needs its report file", () => {

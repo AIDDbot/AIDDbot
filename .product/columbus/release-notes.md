@@ -1,3 +1,12 @@
+# AIDDbot 0.3.1
+
+With Archetype Base, the foundation no longer delivers again what the archetypes ship (D56).
+
+- The eight foundation specs stay in `.product/archetypes/foundation/` as the contract of the system. No spec branch, no review and no release for each of them, and no Craftsman.
+- The schema documents come from Archetype Base `v0.3.1` (`model/`), so `outline-system` writes only the root `AGENTS.md`.
+- One green run of `lint`, `unit` and `acceptance` closes the foundation. The system stays at `0.1.0`, and your first feature is `S0009`.
+- Fixes: `/review-implementation` names the path of its gates, the scaffold registers every tooling slot without reading the core, and schema timestamps come from the clock.
+
 # AIDDbot 0.3.0 — Columbus
 
 Draft for the release of 2026-10-12. Text for adopters; the commit list goes to `CHANGELOG.md` through `npm run release`.
