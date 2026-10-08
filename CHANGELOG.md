@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.1 - 2026-10-08
+
+- test(core): cover spec IDs after the archetype foundation specs (457e6bd)
+- refactor(skills): tighten /review-implementation and /outline-system (86afe4b)
+- refactor(skills): tighten /architect-system-foundation for Archetype Base (D56) (281166c)
+- docs(product): record D56, one green close proves the Archetype Base foundation (d8a2c8e)
+- docs(engineering): add the principles of the development (e88073e)
+- docs: principles out of scope (54d5e56)
+- chore(skills): pin Archetype Base v0.3.0 Columbus (D55) (597b543)
+- docs(product): mark the 0.3.0 Columbus release in the plan (5813d54)
+
 ## 0.3.0 - 2026-10-07
 
 - chore: set the Columbus codename (0153e5b)

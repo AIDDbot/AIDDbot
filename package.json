@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "codename": "Columbus",
   "author": {
     "name": "Alberto Basalo",
@@ -23,8 +23,8 @@
     "node": ">=18"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-10-07T11:32:17.623Z",
-  "releaseCommit": "0153e5b55f38dc85bd40dc80d60b70a6a0ecdb81",
+  "buildTimestamp": "2026-10-08T14:17:08.083Z",
+  "releaseCommit": "457e6bdd6a83b86fb0044227e08c71004d1da13c",
   "devDependencies": {
     "oxlint": "^1.86.0"
   }
