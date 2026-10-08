@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.4 - 2026-10-08
+
+- chore(skills): pin Archetype Base v0.3.4, and record D59 and D60 (a4f15db)
+- refactor(skills): shorter AGENTS.md files with a Common stack and a lean index (8d1fbd3)
+- docs: align the principles and the engineering docs with the process (fb96452)
+- refactor(skills): align the Blueprint with the delivery rules (e155ac3)
+- feat(core): unit blocks a green verification, and quality finds duplicated blocks (6bc4a02)
+
 ## 0.3.3 - 2026-10-08
 
 - chore(skills): pin Archetype Base v0.3.3 (D58) (2a857b8)
