@@ -456,7 +456,7 @@ La página About de `9f15455` (3 oct) se perdió al entrar `layout` (D38), sin d
 ## D55 ← P21 (humano, 7 oct) · Archetype Base sigue las versiones de AIDDbot
 
 - Mayor, menor y nombre en clave de Archetype Base son los de la release de AIDDbot cuyo Blueprint cumple: Base `v0.3.0` Columbus cumple AIDDbot 0.3.0. Base solo los cambia cuando esa release copia su Blueprint en Base.
-- Los parches son independientes: una corrección que no cambia el Blueprint es un parche de Base o de AIDDbot, sin el otro.
+- ~~Los parches son independientes: una corrección que no cambia el Blueprint es un parche de Base o de AIDDbot, sin el otro.~~ Misma versión completa (D58).
 - Cada release de AIDDbot fija en `archetypes.md` la etiqueta exacta de Base que validó. Nunca se mueve una etiqueta publicada.
 - Cierra el punto de P21 «cómo se versiona el Blueprint entre AIDDbot y Base». Sigue abierto para el Archetype Builder.
 - Base `v0.3.0` (`0996012`) tiene el código de `v0.2.2`; AIDDbot la fija desde el primer parche 0.3.x.
@@ -482,3 +482,10 @@ En las dos pruebas, el cierre salió rojo sin defecto en el código. Codex devue
 - **`deliver.md`:** el cierre ejecuta `lint`, `unit` y `acceptance` de uno en uno y espera el JSON de la aceptación.
 - **Andamiaje de Base por lotes:** el **Architect** hace los pasos 1 y 2 de los tres proyectos y el **Builder** el paso 3 de los tres, con un relevo cada uno. En `0.3.1` fueron 6 relevos y ~6 min. Se mantiene un commit por paso y proyecto.
 
+## D58 ← D55 (humano, 8 oct) · AIDDbot y Archetype Base, siempre en la misma versión
+
+Enmienda D55: la versión completa, parche incluido, es la misma. Desde la `0.3.3`.
+
+- Cada release de AIDDbot publica antes Base con su número, aunque Base no cambie, y la fija en `archetypes.md` y en `docs/getting-started.md`.
+- `scripts/release.js` se niega a publicar si `archetypes.md` fija otra etiqueta de Base.
+- Base salta de `v0.3.1` a `v0.3.3`; no hay `v0.3.2` de Base.

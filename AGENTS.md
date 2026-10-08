@@ -18,5 +18,6 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 
 ## Releasing
 
+- AIDDbot and Archetype Base share one version (D58). First release `AIDDbot/archetype-base` at the next version (bump its root `package.json`, commit `chore(release): {version}`, tag, push), then pin that tag in `architect-system-foundation/assets/archetypes.md` and `docs/getting-started.md`. `npm run release` refuses another pin.
 - Release with `npm run release -- patch|minor|major`, then tag `v{version}` and push the tag.
 - Run `npm test` first only when `.agents/aidd/`, `bin/`, `scripts/`, or `test/` changed since the last tag. A change to skills or docs needs only `npm run adapt`.
