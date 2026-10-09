@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.7 - 2026-10-09
+
+- chore(skills): pin Archetype Base v0.3.7, and record D63 (b2ee19b)
+- refactor(skills): wait long for agents, and stop after a red foundation (62154b4)
+- refactor(skills): tighten /outline-system (1847b37)
+- refactor(skills): the foundation close journals nothing (aea485a)
+- refactor(skills): journal the approval of a YOLO proposal too (c2d955a)
+
 ## 0.3.6 - 2026-10-08
 
 - chore(skills): pin Archetype Base v0.3.6, and record D62 (88db113)
