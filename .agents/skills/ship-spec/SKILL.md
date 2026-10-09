@@ -7,18 +7,34 @@ user-invocable: true
 ---
 # ship-spec
 
-Your goal is to integrate one evidenced spec and close it with current schema and debt records.
+Your goal is to integrate one evidenced spec, and to close it with current schema and debt records.
 
-Run `node .agents/aidd/aidd.mjs spec show` from the spec branch and stop on any listed blocker. Inspect each non-green report to confirm it contains only current findings.
+Run `node .agents/aidd/aidd.mjs spec show` from the spec branch. If it lists a blocker, stop. Make sure that each report that is not green contains only current findings.
 
-Apply the spec's conceptual changes to `model.schema.md`, but update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes, never from the spec. Touch a timestamp only when content changes.
+## Schemas
 
-Without running quality tools, reconcile the debt register through `node .agents/aidd/aidd.mjs debt` alone. Remove with `debt remove <id>` each D ID the spec's `Technical debt` section cites once verification is green, unless the spec's latest quality run still shows it; the next scan records again whatever remains. Then add every finding of a non-green qualification, `high` when it is classified `blocking`, and every failure or finding still present in a red report that reached revision 3, with `debt add "<title>" <high|medium|low> "<evidence>"`, unless an open item already describes it. Priority is `high` when it breaks behavior, security, or data; `medium` when it slows or complicates change; `low` otherwise. Never edit `control.json`, `debt.json`, or anything under `.aiddbot/` by hand: when a command refuses, fix what its error names and run it again.
+Apply the conceptual changes of the spec to `model.schema.md`. Update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes, never from the spec. Change a timestamp only when the content changes.
 
-Promote each durable, project-specific lesson that no automated check enforces into the project-rules table of the applicable `{source_root}/AGENTS.md`, as one short row with its scope and evidence-based reason, so the file stays short. Never record a one-off incident, a product requirement, or tool output. Keep one shared-primitives table in that `AGENTS.md`: add each helper the spec created in `shared` that two or more features use, with its contract and path, and remove each row whose export no longer exists. A helper of one feature, such as its page object, follows the naming convention of that table and gets no row, so the index does not grow with each feature.
+## Debt
 
-Then run `node .agents/aidd/aidd.mjs run format`, then `node .agents/aidd/aidd.mjs run lint` because the core accepts no code changed since its last lint, and commit whatever format rewrote with `node .agents/aidd/aidd.mjs commit "style: format"`; it is cosmetic, so a failing or unavailable format never stops shipping. Then run `node .agents/aidd/aidd.mjs release` from the spec branch, adding `--major` only when the delivery breaks compatibility for its users. It enforces the gate, derives the version from the spec type, writes it into the version files and `CHANGELOG.md`, marks the spec `shipped`, regenerates the spec index, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself. When it refuses, report its error and stop with the spec unshipped: never merge, tag, or integrate by other means, because only `release` writes the changelog and the spec index.
+Change the debt register only with `node .agents/aidd/aidd.mjs debt`, and never run a quality tool.
 
-The result is one shipped spec, listed in the spec index, with current schema and debt records.
+- When the verification is green, remove with `debt remove <id>` each D ID that the `Technical debt` section of the spec gives, unless the latest quality run of the spec still shows it. The next scan records again what remains.
+- Add with `debt add "<title>" <high|medium|low> "<evidence>"` each finding of a qualification that is not green, `high` when it is `blocking`. Also add each failure or finding that remains in a red report at revision 3. Skip each one that an open item already describes.
+
+## Project AGENTS.md
+
+- Promote each durable lesson of one project that no automatic check enforces to the project-rules table of its `{source_root}/AGENTS.md`: one short row, with its scope and a reason from the evidence. Never record a single incident, a product requirement, or tool output.
+- Keep one shared-primitives table there. Add each helper that the spec made in `shared` and that two or more features use, with its contract and path. Remove each row whose export no longer exists. A helper of one feature, such as its page object, follows the name convention of that table and gets no row.
+
+## Release
+
+Run `node .agents/aidd/aidd.mjs run format`, then `node .agents/aidd/aidd.mjs run lint`: the core accepts no code that changed after its last lint. Commit what the format changed with `node .agents/aidd/aidd.mjs commit "style: format"`. The format is cosmetic: when it fails or is unavailable, continue.
+
+Then run `node .agents/aidd/aidd.mjs release` from the spec branch. Add `--major` only when the delivery breaks compatibility for its users. The command checks the gate, sets the version from the spec type, and writes it to the version files and to `CHANGELOG.md`. It marks the spec `shipped`, makes the spec index again, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
+
+When `release` refuses, report its error and stop with the spec not shipped. Never merge, tag, or integrate in a different way: only `release` writes the changelog and the spec index.
+
+The result is one shipped spec, in the spec index, with current schema and debt records.
 
 The core commits as `chore(release): {version}`.
