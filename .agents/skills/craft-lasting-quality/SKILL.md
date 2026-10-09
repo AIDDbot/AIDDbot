@@ -14,7 +14,7 @@ upgrade request ─────────────────────�
 1. Craftsman   scan-quality          debt register  │
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
-   repeat 1–3 while eligible debt remains, at most 5 specs
+   repeat 1–3 while high debt remains, at most 5 specs
 ```
 
 ## Roles
@@ -49,6 +49,6 @@ When no eligible debt remains, stop. Return the summary of `debt list`, and say 
 
 Execute `build-requested-spec` with the request, approved in advance: a repair of recorded debt needs no human approval, so nobody asks and the approval is journaled as soon as the spec is written. Give it the **Craftsman** and the **Architect**, so that it spawns only the **Builder**.
 
-Then start again from the scan, because each repair changes the evidence. Stop when no eligible debt remains, after five shipped specs, or when a spec ships with an unresolved failure. A human request that names the debt or asks for one repair gets only one.
+Then start again from the scan, because each repair changes the evidence, but only while eligible `high` debt remains. Stop after five shipped specs, or when a spec ships with an unresolved failure. A human request that names the debt or asks for one repair gets only one.
 
 The result is each selected debt group repaired and shipped as one spec, and the debt summary of `debt list` at the end.
