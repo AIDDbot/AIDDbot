@@ -7,13 +7,19 @@ user-invocable: true
 ---
 # scan-quality
 
-Your goal is to review shipped quality and keep the technical debt register current.
+Your goal is to review the shipped quality and keep the technical debt register current.
 
-Run `node .agents/aidd/aidd.mjs run quality`, across every project unless the human named one. Never edit code, write tests, or run `lint`, `unit`, or `acceptance` yourself. The limits of the Blueprint in the root `AGENTS.md`, and those that a project's technology rules change, reach you only through its `quality` command; never measure code yourself. A project without a `quality` command configured is unavailable, never replaced with a stricter invocation or with the build lint.
+Run `node .agents/aidd/aidd.mjs run quality` for all projects, unless the human named one. Never edit code, write tests, or run `lint`, `unit`, or `acceptance`. The limits of the Blueprint, and the limits that the technology rules of a project change, come to you only through its `quality` command: never measure code yourself. A project without a `quality` command is unavailable. Never replace that command with a stricter invocation or with the build lint.
 
-Read the open debt with `node .agents/aidd/aidd.mjs debt list`, then reconcile it with the run through `aidd debt` alone. Remove with `debt remove <id>` only an item whose check ran and no longer shows it; a check that could not run never removes anything. Add a new item with `debt add "<title>" <high|medium|low> "<evidence>"` only when current evidence confirms a concrete impact and no open item already describes it. Record one item per finding or per file and rule, never one per project or per gate ("backend quality fails"), so each can be repaired on its own. Priority is `high` when it breaks behavior, security, or data; `medium` when it slows or complicates change; `low` otherwise. A standalone unavailable check is not debt. Each entry of `folders` in the run result is a `shared` or `features` folder with too many direct entries, and each entry of `subfolders` is a folder inside a feature: record each as `medium` debt. The repair of a `shared` folder groups its files in folders by technical concern; the repair of a feature divides it into features, because a feature is one flat folder. Each entry of `duplicates` is a block of code that two or more places repeat: record one `medium` item for each block, with all its places as evidence (DRY). Its repair moves the block to one function, in `shared` when it has no domain words or in the `logic` of its feature when it has, and calls that function from each place. Never edit `control.json`, `debt.json`, or anything under `.aiddbot/` by hand: when a command refuses, fix what its error names and run it again.
+Read the open debt with `node .agents/aidd/aidd.mjs debt list`. Then make it agree with the run, only through `node .agents/aidd/aidd.mjs debt`:
 
-Quality never blocks shipping, so never ask the human whether it should.
+- Remove with `debt remove <id>` only an item whose check ran and no longer shows it. A check that could not run removes nothing.
+- Add with `debt add "<title>" <high|medium|low> "<evidence>"` only when current evidence shows a concrete impact and no open item describes it already.
+- Record one item for each finding, or for each file and rule. Never record one item for a project or a gate, such as "backend quality fails": each item must be possible to repair alone.
+- An unavailable check alone is not debt.
+- When the run result has `folders`, `subfolders`, or `duplicates`, read `references/structure-findings.md`.
+
+Quality never blocks shipping. Never ask the human if it must.
 
 The result is a current debt register.
 
