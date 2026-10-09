@@ -7,18 +7,21 @@ user-invocable: true
 ---
 # outline-system
 
-Your goal is to set the system's shared documentation — root instructions, conceptual model, and every project's physical schemas — from repository evidence.
+Your goal is to set the shared documentation of the system from repository evidence: the root `AGENTS.md`, the conceptual model, and the physical schemas of each project.
 
-Document what exists; never redesign. Read source code only to find domain entities and physical shape. When `{Product_Folder}/system.md` exists, take the product purpose, users, and needs from it, and let the code win wherever they disagree. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`, and settle them with the human only when they are missing.
+Document what exists; never redesign. Read the source code only to find the domain entities and the physical shape. When `{Product_Folder}/system.md` exists, take the purpose, the users, and the needs of the product from it; where it and the code disagree, the code wins. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`. Ask the human only when they are missing.
 
-Write `AGENTS.md` from `AGENTS.template.md`, filled with findings and human input. When it exists, change only what the repository contradicts and keep human-written content. Keep every template section: one without repository evidence is copied from the template as written, never dropped or summarized. Keep it to system-wide facts: list each project with its type and point to its `{source_root}/AGENTS.md`, which owns the project's technology, tooling, architecture, and coding rules; never copy them here. Two sections are exceptions. Keep the Blueprint as written when `.product/system.md` exists, and remove it otherwise. The Common stack: when two or more projects share technology, write it with each tooling slot and technology rule that their `{source_root}/AGENTS.md` files repeat, and remove those lines from each of them; otherwise remove the section. Record important paths and product records, but never inventory skills, commands, or the actions that run them; the orchestrators own that routing. Write every `AGENTS.md` in English, the language of its template, and never add a note that repeats a different section.
+| Document | Template | Rules |
+| --- | --- | --- |
+| `AGENTS.md` | `AGENTS.template.md` | `references/agents-md.md` |
+| `{Product_Folder}/model/model.schema.md` | `model.schema.template.md` | `references/schemas.md` |
+| `{Product_Folder}/model/{project}.db.schema.md` | `db.schema.template.md` | `references/schemas.md` |
+| `{Product_Folder}/model/{project}.api.schema.md` | `api.schema.template.md` | `references/schemas.md` |
 
-Write `{Product_Folder}/model/model.schema.md` from `model.schema.template.md`, deriving entities and relations from entity definitions, ORM models, or migrations. Without functional code, draft it from the shipped specs and human input, and leave it empty rather than invent an entity neither names. When code defines entities, make the model match it, keeping descriptions that still hold.
+Read the rules of a document before you write it. When the caller asks only for some documents, write only those. Create no file outside these templates.
 
-For every project in `{Source_Folders}`: when it owns relational persistence, write `{Product_Folder}/model/{project}.db.schema.md` from `db.schema.template.md`, derived from the real migrations, DDL, ORM schema, or database configuration rather than the conceptual model — every physical table including required join tables, with real column types, keys, nullability, defaults, constraints, indexes, and foreign references. When it exposes endpoints, write `{Product_Folder}/model/{project}.api.schema.md` from `api.schema.template.md`, derived from the real routes, controllers, or OpenAPI document, with each endpoint's success status and the error statuses the code actually returns. A backend project always gets both documents, with empty entries rather than invented ones until evidence exists. Replace a schema document only with what current evidence shows, and touch its timestamp only when content changes. Read each timestamp from the clock when you write the document; never estimate it.
+When a documented project no longer exists, delete its schema documents and its entries in `AGENTS.md`.
 
-When a documented project no longer exists, delete its schema files and its `AGENTS.md` entries. Create no file outside these templates.
+The result is a current root `AGENTS.md`, the conceptual model, and the evidenced physical schemas of each project.
 
-The result is current root instructions, the conceptual model, and every project's evidenced physical schemas.
-
-Commit as you go with `node .agents/aidd/aidd.mjs commit "<message>" <paths>`, right after each of these is written, so the journal times them: `docs(system): outline {project} schemas` for that project's schema documents, `docs(system): outline model` for `model.schema.md`, and `docs(system): outline foundation` for `AGENTS.md` and anything left.
+Commit each document right after you write it, with `node .agents/aidd/aidd.mjs commit "<message>" <paths>`, so that the journal times it: `docs(system): outline {project} schemas` for the schema documents of that project, `docs(system): outline model` for `model.schema.md`, and `docs(system): outline foundation` for `AGENTS.md` and all that remains.
