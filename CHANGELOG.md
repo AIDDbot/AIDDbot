@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.9 - 2026-10-09
+
+- chore(skills): pin Archetype Base v0.3.9, and record D65 (f0d8117)
+- refactor(skills): tighten /define-spec and /implement-project (ba5dca9)
+- refactor(skills): no layer skips the next one (7b2fe1e)
+- refactor(skills): tighten /craft-lasting-quality (1e2c568)
+- refactor(skills): tighten /architect-system-foundation (b010f4a)
+
 ## 0.3.8 - 2026-10-09
 
 - chore(skills): pin Archetype Base v0.3.8, and record D64 (679edc6)
