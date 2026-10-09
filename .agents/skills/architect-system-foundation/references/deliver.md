@@ -30,3 +30,4 @@ The foundation closes only green:
 - After the last spec ships, or after the scaffold with Archetype Base, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`, one at a time. Acceptance takes minutes: wait for its JSON result. If one fails, journal `blocked` and return the failure.
 - Never start a repair or a spec that is not a foundation spec, also for `high` debt.
 - Return the debt summary of `node .agents/aidd/aidd.mjs debt list`. Recommend `craft-lasting-quality` if an item is `high`.
+- Journal nothing for the close: the core journals each run. A result is never a `plan` or a `handoff`.
