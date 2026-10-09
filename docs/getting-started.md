@@ -35,9 +35,9 @@ For an existing system, this command documents the projects and their rules.
 When the repository has no application code, the command asks about the product and its projects, one stage at a time. Then it proposes the system in `.product/system.md`. The system is a set of typed projects: `back-api`, `front-web`, `cli` or `e2e`. Each project uses an archetype of its type from the catalog. Or the Architect makes an archetype for the technology that you select. For a system with a back-end API, a web front end, an e2e suite and users, the first offer is [Archetype Base](https://github.com/AIDDbot/archetype-base): three archetypes that already implement all the foundation specs and their tests. The scaffold copies them:
 
 ```bash
-npx degit AIDDbot/archetype-base/back#v0.3.8 back
-npx degit AIDDbot/archetype-base/front#v0.3.8 front
-npx degit AIDDbot/archetype-base/e2e#v0.3.8 e2e
+npx degit AIDDbot/archetype-base/back#v0.3.9 back
+npx degit AIDDbot/archetype-base/front#v0.3.9 front
+npx degit AIDDbot/archetype-base/e2e#v0.3.9 e2e
 ```
 
 After your approval, the scaffold runs from the root folder of the repository. Thus the working tree must be clean, and Node.js with npm must be installed. Then, for each project, one at a time:

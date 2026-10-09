@@ -1,3 +1,13 @@
+# AIDDbot 0.3.9
+
+This release pins Archetype Base `v0.3.9`.
+
+- The menu of Archetype Base wraps on a narrow screen, also when your features add links.
+- The layer lint forbids a skip from presentation or the facade to data, and the Blueprint says so.
+- Archetype Base gives a shared form (`createRecordForm`) and a shared input reader (`readFields`), so each new feature describes its fields instead of writing its own.
+- The quality loop repeats only while high debt remains, at most 5 specs.
+- In YOLO mode, a spec leaves out what you did not ask for. A quality repair that you can see is a fix with a requirement.
+
 # AIDDbot 0.3.8
 
 This release pins Archetype Base `v0.3.8`.

@@ -549,3 +549,15 @@ Las tres orquestaciones de usuario funcionaron bien en STE. Los modelos frontera
 - **`rule-project`:** escribe `{source_root}/AGENTS.md` con las mismas secciones que greenfield, y no `.agents/rules/{project}.rules.md` con frontmatter de arnés. Migra un fichero antiguo. Registra también `format`, `upgrade` y `start`. El `CLAUDE.md` con `@AGENTS.md` se queda hasta que Claude Code lea los `AGENTS.md` anidados.
 - **Abierto a propósito:** en brownfield, `outline-system` va antes que `rule-project`, así que la primera pasada no tiene Common stack. Solo hay duplicación; se cambia el orden si una ejecución real lo pide.
 - **Base `v0.3.8`:** el código, los tests y la interfaz en inglés; el README sin una versión fija.
+
+## D65 ← Prueba `0.3.8` con Codex (humano, 9 oct) · Base sin defectos que copiar, y el bucle de calidad solo para deuda alta
+
+Astro-Bookings: fundación con Base en 10,7 min, flota y lanzamientos publicados, 11 specs sin bloqueos. Los tests suman el 15 % del tiempo; el resto es razonamiento. Codex se congeló 22 min a la vez en todas sus sesiones: es del entorno, no de las skills.
+
+- **Base copiado por el Builder:** el menú no saltaba de línea (cada sistema se rompía en móvil con su primer enlace), y tres vistas de Base llamaban a su client sin pasar por logic. Arreglado: layout R13, lint que prohíbe saltar capa (solo la registración crea `data`) y la frase en el Blueprint.
+- **Base sin primitivas de escritura:** la flota y los lanzamientos repitieron la misma deuda (parser complejo, errores sin su campo, página larga, sin carga). Ahora `readFields` en el back y `createRecordForm` en el front, con `auth` sobre ellas.
+- **`craft-lasting-quality`:** repite el bucle solo mientras queda deuda `high`, como mucho 5 specs. La primera pasada gastó 5 specs en deuda media.
+- **`define-spec`:** en YOLO, lo que la petición no nombra se queda fuera; una reparación que cambia lo que ve un observador es un `fix` con requisito, no un `refactor`.
+- **`implement-project`:** el Builder nunca lanza la aceptación completa.
+- **Solo observación (arnés):** esperas de 60 s del root e `interrupt_agent` en vez de `close_agent`. Las mejoras de skill son solo las que sirven a todos los arneses.
+- **Base `v0.3.9`.**
