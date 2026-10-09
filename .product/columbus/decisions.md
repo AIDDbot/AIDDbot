@@ -539,3 +539,13 @@ La foundation con Base cerró en verde con una sola ejecución de aceptación (6
 - **Idioma:** código, tests y textos de la interfaz en un idioma, inglés por defecto; los arquetipos no tienen traducciones. Los registros siguen en el idioma del humano.
 - **Cerrado sin cambio:** una cualificación verde ya queda en el diario como `evaluated` con su resumen. Una spec publicada no se marca cuando otra reemplaza un requisito suyo: AIDDbot es spec-first, no spec-anchored; la verdad es el código.
 - **Base `v0.3.7`:** solo la versión; el Blueprint no cambia.
+
+## D64 ← Revisión (humano, 9 oct) · todas las primitivas en STE, y las reglas de brownfield en el AGENTS.md del proyecto
+
+Las tres orquestaciones de usuario funcionaron bien en STE. Los modelos frontera necesitan objetivos e invariantes, no micromanagement.
+
+- **Primitivas en STE:** las ocho. Se quedan el objetivo y cada «nunca» que salió de una ejecución real. Se quita lo que dicen las plantillas o el `AGENTS.md` del consumidor (no editar registros a mano, prioridades de deuda). Lo que el agente carga siempre baja un 23 %.
+- **Referencias bajo demanda:** `implement-project/acceptance-tests.md` (con tests E2E), `define-spec/foundation-spec.md` (con una spec de fundación), `outline-system/agents-md.md` y `schemas.md` (con Base solo se lee el primero), `scan-quality/structure-findings.md` (con `folders`, `subfolders` o `duplicates`).
+- **`rule-project`:** escribe `{source_root}/AGENTS.md` con las mismas secciones que greenfield, y no `.agents/rules/{project}.rules.md` con frontmatter de arnés. Migra un fichero antiguo. Registra también `format`, `upgrade` y `start`. El `CLAUDE.md` con `@AGENTS.md` se queda hasta que Claude Code lea los `AGENTS.md` anidados.
+- **Abierto a propósito:** en brownfield, `outline-system` va antes que `rule-project`, así que la primera pasada no tiene Common stack. Solo hay duplicación; se cambia el orden si una ejecución real lo pide.
+- **Base `v0.3.8`:** el código, los tests y la interfaz en inglés; el README sin una versión fija.

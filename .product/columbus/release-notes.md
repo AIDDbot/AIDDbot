@@ -1,3 +1,12 @@
+# AIDDbot 0.3.8
+
+This release pins Archetype Base `v0.3.8`.
+
+- All skills are now in Simplified Technical English. Each one keeps its goal and its rules, and loads the details of a special case only when that case occurs.
+- An existing project gets its own `AGENTS.md`, with the same sections as a new project. The old `.agents/rules/` files are moved into it.
+- For an existing project, AIDDbot also records the format, upgrade and start commands.
+- Archetype Base `v0.3.8` states that its code, tests and user interface are in English.
+
 # AIDDbot 0.3.7
 
 This release pins Archetype Base `v0.3.7`.
