@@ -7,20 +7,31 @@ user-invocable: true
 ---
 # implement-project
 
-Your goal is to implement one project's share of an approved spec, or repair the findings supplied for it.
+Your goal is to implement the share of one project in an approved spec, or to repair the findings that you get for it.
 
-Work on the spec's branch and stop if the default branch is checked out. Follow the Blueprint of the root `AGENTS.md`, when it has one, and the project's `{source_root}/AGENTS.md`: together they give all the technical data, so never explore the code to learn the setup: put code in the folder and layer it names and import only what its architecture allows. Never weaken an assertion, and commit only this project's changes. As soon as you know what you will change, before the first edit, journal it once with `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`, so the human sees the work start.
+Work on the spec branch. If the default branch is checked out, stop. The Blueprint of the root `AGENTS.md`, when it exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
 
-Build exactly the shape the spec's schema impact and its `Expected URLs and APIs` declare against this project's schema documents under `{Product_Folder}/model/`, including every declared status code. Return client failures with their declared 4xx status through the project's error mechanism, never as a success with an empty body or as a 500. When the work needs a shape the spec does not declare, stop and return it for approval instead of building it. Build only the rules the spec states: never add a validation, a limit, or a default of your own, such as a minimum password length, so that every project enforces the same rule.
+Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`.
 
-Write unit tests for the critical production code and run `node .agents/aidd/aidd.mjs run unit --project {project}` until they pass; do not unit-test UI code or E2E tests. When the scope includes E2E tests, write or repair them from the spec's requirements, and give every page, endpoint, and command in its `Expected URLs and APIs` at least one basic test of the expected answer: put the global ID of every requirement a test proves on the test, as `@S0042-R03`: as a test tag when the framework has tags (Playwright: `test("title", { tag: "@S0042-R03" }, …)`), otherwise in its title; the core filters by it with `--grep`. Do this in addition to any tag or naming convention of the project's `AGENTS.md`, never in place of it, and never edit a test tagged with another spec, which is a regression check, unless a requirement of this spec contradicts it: then update that test, tag it with the requirement of this spec that replaces the old one, and name both in your result. Every requirement needs at least one test that proves it. Check them with `node .agents/aidd/aidd.mjs run acceptance --spec`, which runs only this spec's tests, lists requirements still without one, runs nothing for a spec without requirements, and is never evidence; the full run that counts is `verify-behavior`'s. Repair a failure it shows in the tests or in production code, at most three run-and-repair cycles, then return what still fails. Repair never weakens an assertion or builds behavior the spec does not declare. Each E2E test creates its own data with unique identifiers and never depends on test order, pre-existing data, or global counts, because the suite runs in parallel against one shared database.
+## Build
 
-When the spec asks to upgrade dependencies, run `node .agents/aidd/aidd.mjs run upgrade --project {project}` first, then repair what breaks. Add any dependency with the package manager's add command, never by writing a version.
+- Build exactly the shape that the spec declares in its schema impact and in its `Expected URLs and APIs`, with each status code, against the schema documents of the project under `{Product_Folder}/model/`.
+- Return a client failure with its declared 4xx status, through the error mechanism of the project. Never return it as a success with an empty body, or as a 500.
+- If the work needs a shape that the spec does not declare, stop and return it for approval.
+- Build only the rules that the spec states. Never add a validation, a limit, or a default of your own, such as a minimum password length: all projects must apply the same rule.
+- When the spec asks for an upgrade, run `node .agents/aidd/aidd.mjs run upgrade --project {project}` first, then repair what breaks. Add a dependency with the add command of the package manager; never write a version by hand.
 
-After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix every reported error, layer-boundary violations included: they block like any other lint error. When the spec repairs recorded debt, you may run `node .agents/aidd/aidd.mjs run quality --project {project}` to check that repair; otherwise never run `quality`, which belongs to `scan-quality`. When either command exits unavailable, report it as such in your result instead of constructing one.
+## Check
 
-Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the code rules of the Blueprint, and each sentence of the spec for this project, and check your diff against each one: a rule you already have and did not apply fails qualification.
+- Write unit tests for the critical production code, not for UI code or E2E tests. Run `node .agents/aidd/aidd.mjs run unit --project {project}` until they pass.
+- When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
+- After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix each error. A layer-boundary error blocks like all other errors.
+- Run `node .agents/aidd/aidd.mjs run quality --project {project}` only to check a repair of recorded debt. Otherwise `quality` belongs to `scan-quality`.
+- If a command is unavailable, say so in your result. Never make a replacement command.
+- Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
-The result is the project's code and tests for the supplied scope, lint-clean.
+Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the code rules of the Blueprint, and each sentence of the spec for this project. Check your diff against each one: a rule that you had and did not apply fails the qualification.
+
+The result is the code and the tests of the project for the given scope, with no lint errors.
 
 Commit only this project with `node .agents/aidd/aidd.mjs commit "{feat|fix|refactor|test|chore}({project}): {description}" {project path}`.
