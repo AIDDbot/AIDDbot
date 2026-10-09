@@ -79,7 +79,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 
 ### Layers
 
-- composition → `presentation` → `logic` → `data`. A different feature → `facade` → `logic`.
+- composition → `presentation` → `logic` → `data`. A different feature → `facade` → `logic`. A layer never skips the next one: only the registration creates `data` and gives it to `logic`.
 - `presentation`: input, output and the registration of the feature (route, page, command). No business rules. Only the composition imports it.
 - `facade`: the public functions and types for other features. Only other features import it. A feature that gives nothing has no facade.
 - `logic`: rules and decisions. It does not know how data is stored.

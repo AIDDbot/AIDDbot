@@ -110,6 +110,56 @@
     },
     {
       "files": [
+        "src/features/*/*.controller.ts",
+        "src/features/*/*.controller.vue",
+        "src/features/*/*.request.ts",
+        "src/features/*/*.request.vue",
+        "src/features/*/*.command.ts",
+        "src/features/*/*.command.vue",
+        "src/features/*/*.page.ts",
+        "src/features/*/*.page.vue",
+        "src/features/*/*.component.ts",
+        "src/features/*/*.component.vue",
+        "src/features/*/*.card.ts",
+        "src/features/*/*.card.vue"
+      ],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "../../core/**",
+                  "../../app.*.ts",
+                  "../features.manifest.ts"
+                ],
+                "message": "A feature never uses core, main or the manifest. The composition gives it the services of core through the contracts of shared."
+              },
+              {
+                "group": [
+                  "../*/*.ts",
+                  "../*/*.vue",
+                  "!../*/*.api.ts"
+                ],
+                "message": "A feature uses a different feature only through its facade ({feature}.api.ts)."
+              },
+              {
+                "group": [
+                  "./*.repository.ts",
+                  "./*.repository.vue",
+                  "./*.client.ts",
+                  "./*.client.vue"
+                ],
+                "message": "presentation never uses data: only the registration (routes) creates it for logic. The direction is presentation → logic → data."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": [
         "src/features/*/*.api.ts"
       ],
       "rules": {
@@ -148,9 +198,13 @@
                   "./*.component.ts",
                   "./*.component.vue",
                   "./*.card.ts",
-                  "./*.card.vue"
+                  "./*.card.vue",
+                  "./*.repository.ts",
+                  "./*.repository.vue",
+                  "./*.client.ts",
+                  "./*.client.vue"
                 ],
-                "message": "The facade never uses presentation. The direction is facade → logic → data."
+                "message": "The facade never uses presentation or data. The direction is facade → logic → data."
               }
             ]
           }
