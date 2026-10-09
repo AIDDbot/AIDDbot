@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.8 - 2026-10-09
+
+- chore(skills): pin Archetype Base v0.3.8, and record D64 (679edc6)
+- refactor(skills): tighten /rule-project (0985f46)
+- refactor(skills): tighten /rule-project (be32cab)
+- refactor(skills): tighten /review-implementation (d07ccda)
+- refactor(skills): tighten /verify-behavior (f12270d)
+- refactor(skills): tighten /scan-quality (c86ffab)
+- refactor(skills): tighten /ship-spec (e74161b)
+- refactor(skills): tighten /outline-system (3f69128)
+- refactor(skills): tighten /define-spec (2a0e5a5)
+- refactor(skills): tighten /implement-project (7d60790)
+
 ## 0.3.7 - 2026-10-09
 
 - chore(skills): pin Archetype Base v0.3.7, and record D63 (b2ee19b)
