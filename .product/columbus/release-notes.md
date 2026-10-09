@@ -1,3 +1,12 @@
+# AIDDbot 0.3.7
+
+This release pins Archetype Base `v0.3.7`.
+
+- The journal keeps only judgments. A result or a summary is never journaled: the agent returns it. A YOLO proposal also journals its approval.
+- Orchestrators wait for their agents with the longest timeout of the tool.
+- A red foundation close stops the run, and no business spec starts on top of it.
+- Code, tests and the user interface use one language, English unless you ask for another. Records stay in your language.
+
 # AIDDbot 0.3.6
 
 This release pins Archetype Base `v0.3.6`.

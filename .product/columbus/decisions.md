@@ -528,3 +528,14 @@ La prueba confirmó D61: subagentes con `fork_turns: "none"`, creados cuando hac
 - **Núcleo y semilla:** `.gitignore` ignora `node_modules/`, `.venv/` y `__pycache__/`; `aidd commit` rechaza añadir archivos ahí, pero deja sacarlos del índice.
 - **Base `v0.3.6`:** `oxfmt` no formatea Markdown, y las tablas de los `AGENTS.md` quedan compactas: `front` pasa de 11,8k a 6,0k bytes (la mitad era relleno de una fila larga).
 - **Abierto:** el root empezó una spec de negocio con el cierre de la foundation en `blocked`.
+
+## D63 ← Prueba `0.3.6` con Codex (humano, 9 oct) · el diario solo guarda juicios, y el código habla un idioma
+
+La foundation con Base cerró en verde con una sola ejecución de aceptación (69 tests). Pero el root registró su resumen final como `plan`, el Builder registró su resultado como `handoff`, y el root esperó a un agente con 10 s. La regla de un idioma puso en español los nombres de los tests.
+
+- **Diario:** una propuesta YOLO también registra `approved`; el cierre de la foundation no registra nada; la plantilla `AGENTS.md` dice que un resultado o un resumen nunca va al diario: se devuelve al llamador.
+- **Espera:** cada orquestador espera a un agente con el timeout más largo que permite la herramienta.
+- **Foundation en rojo:** regla, no guarda del núcleo (menos estricta). Un cierre en rojo para la ejecución; `build-requested-spec` no empieza ninguna spec sobre él.
+- **Idioma:** código, tests y textos de la interfaz en un idioma, inglés por defecto; los arquetipos no tienen traducciones. Los registros siguen en el idioma del humano.
+- **Cerrado sin cambio:** una cualificación verde ya queda en el diario como `evaluated` con su resumen. Una spec publicada no se marca cuando otra reemplaza un requisito suyo: AIDDbot es spec-first, no spec-anchored; la verdad es el código.
+- **Base `v0.3.7`:** solo la versión; el Blueprint no cambia.
