@@ -21,6 +21,7 @@ upgrade request ─────────────────────�
 
 - Route as the **Craftsman**. Use the **Craftsman** and the **Architect** that a calling orchestrator gives you. Otherwise, spawn each one for one repair, when its first step starts, with a fresh context: never fork or copy your conversation into it. Thus no repair inherits the context of the one before. Relay their questions to the human. When a repair ends, also after a failure, stop each agent that you started for it.
 - Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. A single **Craftsman** would then scan, specify, code, and ship alone. Never read the skill of a step that you hand off.
+- Wait for an agent with the longest timeout that the tool allows: each wait that ends early costs one more turn.
 - Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before the scan, before the selection, and before the handover to `build-requested-spec`.
 
 ## Upgrade request

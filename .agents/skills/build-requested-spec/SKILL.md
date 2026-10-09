@@ -22,9 +22,12 @@ Your goal is to turn a natural-language request into a shipped spec.
 - Route as the **Architect**. Use the **Architect**, the **Builder**, and the **Craftsman** that a calling orchestrator gives you. Otherwise, spawn each one when its first step starts, with a fresh context: never fork or copy your conversation into it. The handoff gives the task, the spec ID, and each human decision that no file holds yet.
 - Continue an agent with messages only in this run, and only where the harness permits it. Otherwise, spawn a new one for the next step: the files hold all that it needs. Relay their questions to the human. When the run ends, also after a failure, stop each agent that you started.
 - Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. Never read the skill of a step that you hand off: the agent that executes it loads it.
+- Wait for an agent with the longest timeout that the tool allows: each wait that ends early costs one more turn.
 - Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each of the three steps and before each repair that you send to the **Builder**. Add `--spec <id>` when the spec exists. Thus the journal times the turn of each agent.
 
 ## 1. Define
+
+Start no spec on a greenfield system whose foundation close is red and not repaired: return that failure to the human, also when the human asked for features.
 
 The **Architect** executes `define-spec` with the request. Relay its proposal to the human. Nothing is built before approval.
 
