@@ -1,6 +1,6 @@
 ---
 name: rule-project
-description: Record one project's coding rules and classify its lint, unit, acceptance, and quality commands.
+description: Write one existing project's AGENTS.md and classify its commands.
 metadata:
   aiddbot-kind: primitive
 user-invocable: true

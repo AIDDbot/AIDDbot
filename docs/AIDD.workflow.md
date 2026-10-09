@@ -164,7 +164,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 
 `scan-quality` → select coherent debt → `/build-requested-spec`, again while eligible debt remains (at most 5 specs in one run)
 
-In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` classifies the `lint`, `unit`, `acceptance` and `quality` commands of each project one time, by their real effect and never by their script name, and records them in `.aiddbot/config.json`.
+In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
 - `aidd run <kind> [--project]` (and `--spec` for acceptance) runs the classified command. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `format` changes the files in place. `upgrade` increases the dependencies to their latest releases. Neither is evidence.
