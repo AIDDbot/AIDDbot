@@ -17,9 +17,9 @@ When the request gives a foundation spec file, read `references/foundation-spec.
 
 Ask about the missing product decisions. Then define one coherent scope: what the request asks, and nothing more.
 
-- No field, operation, or screen that the request does not name, such as a name, an edit, or a get-by-id. When one seems necessary, ask the human.
+- No field, operation, or screen that the request does not name, such as a name, an edit, or a get-by-id. When one seems necessary, ask the human. In YOLO mode, leave it out and offer it as a later spec.
 - No migration of data that the system does not have yet, no change of the approved stack, no repair of debt that the request does not name, and no instructions on how other agents work. Offer all else as a later spec.
-- The type comes from what an observer sees. `feat` adds behavior. `fix` corrects a behavior that a requirement promised. `refactor` changes the code but not the behavior; a quality repair is a `refactor`. `chore` is tooling or documentation.
+- The type comes from what an observer sees. `feat` adds behavior. `fix` corrects a behavior that a requirement promised. `refactor` changes the code but not the behavior; a quality repair is a `refactor`, unless it changes what an observer sees, such as an accessibility or a loading state: then it is a `fix` with a requirement. `chore` is tooling or documentation.
 - The domain is a short kebab-case product area. Use an area of the index again when it fits, so that each area has one name.
 
 When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain <domain>`. It creates the spec branch, the spec ID, `control.json`, and `spec.md` from the correct template.
