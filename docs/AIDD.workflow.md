@@ -1,5 +1,7 @@
 # AIDD workflow
 
+This is the reference of the process. For an overview, read [How it works](./how-it-works.md).
+
 ## Entrypoints
 
 | Need | Command |
@@ -46,6 +48,7 @@ architect-system-foundation:
     - "Architect: rule-project per project"
 
 build-requested-spec:
+  - "refuse to start on a greenfield system whose foundation close is red"
   - "Architect: define-spec and obtain approval"
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction"
@@ -56,7 +59,7 @@ build-requested-spec:
 craft-lasting-quality:
   - "Craftsman: scan-quality"
   - "Architect: select one coherent group of eligible debt; the repair stays within its evidence"
-  - "build-requested-spec with both agents when eligible debt remains; the repair is approved in advance"
+  - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
   - "scan again and repeat while high debt remains, at most 5 specs, and stop at a spec that ships an unresolved failure"
   - "return the debt list summary at the end"
 ```
@@ -65,7 +68,7 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, the optional `basic-auth` and `account`, and `about` (with a `front-web`) shipped |
+| No application code | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, the optional `basic-auth` and `account`, `about` and `record-views` (with a `front-web`) shipped |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.
@@ -78,7 +81,7 @@ After the approval, the Architect works on `chore/foundation`, one project at a 
 2. The shape of the Blueprint (`refactor: shape to blueprint`).
 3. The tooling (`chore: register tooling`; with Archetype Base, one `chore(scaffold): register tooling` for the three projects).
 
-In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. When projects share technology, `outline-system` moves the tooling and technology rules that they repeat to the Common stack of the root `AGENTS.md`, one time. The primitives index lists only the helpers that two or more features use; a helper of one feature follows a naming convention and has no row. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data` (see the [principles](./principles/README.md)).
+In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. When projects share technology, `outline-system` moves the tooling and technology rules that they repeat to the Common stack of the root `AGENTS.md`, one time. The primitives index lists only the helpers that two or more features use; a helper of one feature follows a naming convention and has no row. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
 
 The Architect reorganizes the templates of other generators, removes the samples that cannot operate, installs each missing mandatory slot, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. Then `build-requested-spec` delivers the foundation specs, which have no technology, one at a time. With Archetype Base, no spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of Archetype Base, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
@@ -96,11 +99,11 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 
 `.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair.
 
-Spec state: `in-progress` from `aidd spec new` until `aidd release` marks it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active or the spec repairs recorded debt. The agent that gets the approval, usually the orchestrator, journals `approved`, which commits the spec. Until then, `aidd commit`, `aidd eval` and `aidd release` refuse the spec.
+Spec state: `in-progress` from `aidd spec new` until `aidd release` marks it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active or the spec repairs recorded debt. In YOLO mode, the spec contains only what the request names. A repair that changes what an observer sees is a `fix` with a requirement, not a `refactor`. The agent that gets the approval, usually the orchestrator, journals `approved`, which commits the spec. Until then, `aidd commit`, `aidd eval` and `aidd release` refuse the spec.
 
 Each spec owns its requirements: `R01`, `R02`, … in EARS. Other records cite them as `S0042-R03`. Each requirement has at least one acceptance test. A spec looks forward and never lists shipped requirements. A failed test with the tag of a different spec is a regression, until a requirement of the new spec contradicts it. Shipped specs stay in their folders. `aidd release` writes `.product/PRD.md`: one line for each shipped `feat` spec, by domain. Fixes, refactors and chores change features and do not get a line. The PRD is the product view. Nobody writes it by hand.
 
-The product schemas are in `model/`: one conceptual `model.schema.md`, and `{project}.db.schema.md` and `{project}.api.schema.md` for each project with persistence or endpoints. A spec declares each change of an entity, a table or a column as its schema impact, and each endpoint with its statuses in its `Expected URLs and APIs`. The review blocks a shape change that the spec does not declare. Shipping updates the schema documents.
+The product schemas are in `.product/model/`: one conceptual `model.schema.md`, and `{project}.db.schema.md` and `{project}.api.schema.md` for each project with persistence or endpoints. A spec declares each change of an entity, a table or a column as its schema impact, and each endpoint with its statuses in its `Expected URLs and APIs`. The review blocks a shape change that the spec does not declare. Shipping updates the schema documents.
 
 ### Journal
 
@@ -158,6 +161,10 @@ The core writes that version into the root `package.json`, the root of its lockf
 
 `aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. An evaluation report has only findings: a green verification or qualification has no report file. The `control.json` of each spec has its title, domain, state, and the revision, status and commit of each evaluation. Only the core writes it, never a hand edit, so the shipping gate operates in a new clone.
 
+## Language
+
+The records of the system, journal summaries included, use the language of the human, as `.product/system.md` uses it. Commit messages, template headings and technical names stay as they are written. The code, the tests and the texts of the user interface use English, unless the human asks for a different language.
+
 ## Quality review
 
 `craft-lasting-quality` follows this route:
@@ -169,7 +176,7 @@ In greenfield, `architect-system-foundation` registers the slots of each project
 - `aidd run <kind> [--project]` (and `--spec` for acceptance) runs the classified command. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `format` changes the files in place. `upgrade` increases the dependencies to their latest releases. Neither is evidence.
 - Each run keeps its full output in `.aiddbot/runs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, `control.json` records it as the latest run of that kind for each project.
-- During coding, the Builder runs `lint` and `unit`. It checks its acceptance tests with `aidd run acceptance --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. For a spec without requirements, it runs nothing and reports n/a. It runs `quality` only to check a debt repair.
+- During coding, the Builder runs `lint` and `unit`. It checks its acceptance tests with `aidd run acceptance --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. The Builder never runs the full acceptance suite. For a spec without requirements, it runs nothing and reports n/a. It runs `quality` only to check a debt repair.
 - Quality warnings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
 - The Craftsman runs `unit` and then `acceptance` in `verify-behavior`, and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
 - A `quality` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).

@@ -16,6 +16,7 @@ flowchart LR
 - `logic` holds the business rules and the decisions. It depends on `data`.
 - `data` reads and writes outside the project: database, remote API, files. It does not depend on other layers.
 - `types` holds the types and the value objects. It is not a layer.
+- A layer never skips the next one: `presentation` never calls `data`. Only the registration creates `data` and gives it to `logic`.
 - All layers can use `types`, `shared` and the facades of other features.
 
 ---

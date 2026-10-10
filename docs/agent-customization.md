@@ -27,7 +27,7 @@ harnesses:
 
 One agent can also change one harness: `agents.builder.codex.effort: high`. The effort levels are `low`, `medium`, `high`, `xhigh` and `max`. Use only the models and the levels that your account gives.
 
-To apply the file, run `npx --allow-git=all github:AIDDbot/AIDDbot update`. `update` makes the profiles again from your values. Thus no conflict occurs, and `update` never changes your file. To go back to the defaults, delete the file. An unknown tier or an incorrect effort stops the update with a message, before it writes a file.
+To apply the file, run `npx github:AIDDbot/AIDDbot update`. `update` makes the profiles again from your values. Thus no conflict occurs, and `update` never changes your file. To go back to the defaults, delete the file. An unknown tier or an incorrect effort stops the update with a message, before it writes a file.
 
 If your account does not give a default model of a harness, set its tiers to a model that you have. In Cursor, `model: inherit` uses the model of the main session.
 

@@ -17,7 +17,7 @@ The Architect turns one request into one spec.
 - A spec has requirements in EARS: `R01`, `R02`, … Other records cite them as `S0042-R03`.
 - A spec looks forward. It does not list shipped requirements.
 - A spec declares each change to the [schemas](../principles/data.md#schemas) and each endpoint.
-- The human approves the spec before the code starts. In YOLO mode, the spec is approved when it is written. The approval commits the spec.
+- The human approves the spec before the code starts. In YOLO mode, the spec is approved when it is written, and it contains only what the request names. The approval commits the spec.
 
 ## Coding
 
@@ -28,6 +28,7 @@ The Builder implements the spec in each project that changes.
 - Write the code and its unit tests. Write the necessary acceptance tests in the `e2e` project.
 - Each requirement has at least one acceptance test with its identifier.
 - Run `lint` and `unit` during the work. A commit needs a green `lint` on the same files.
+- Check the acceptance tests of the spec only. Never run the full acceptance suite: that is the work of the Craftsman.
 
 ## Verification
 

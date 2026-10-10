@@ -1,72 +1,70 @@
 # Getting started
 
-In the root folder of your repository, run this command:
+This guide takes you through your first session. To understand the process, read [How it works](./how-it-works.md).
+
+## 1. Install
+
+You need:
+
+- Node.js 18 or later, and Git.
+- A coding agent: Claude Code, Codex, GitHub Copilot or Cursor.
+- A model from 2026 or later. Older models often skip the commands that keep the evidence.
+
+In the root folder of your repository, run:
 
 ```bash
-npx --allow-git=all github:AIDDbot/AIDDbot init
+npx github:AIDDbot/AIDDbot init
 ```
 
-The command copies `.agents/` and the adapters of the supported harnesses. It does not change a managed file that exists, unless you use `--force`.
+`init` adds the skills and the agent profiles, and commits them. If the folder is not a Git repository, it makes one. It never writes over a file that exists. To see the changes first, add `--dry-run`.
 
-## What `init` adds
+## 2. Prepare the system
 
-`init` prepares the full workspace in one step:
+Open your coding agent in the same folder. Run:
 
-- `.gitignore`, `README.md` and `LICENSE`. It makes each file only if it does not exist. It never writes over a file.
-- A root `package.json` at version `0.1.0`, only if it does not exist. `aidd release` increases the version for each shipped spec.
-- `AGENTS.md`, from the template of `outline-system`. Later, `outline-system` writes the data of your project in it.
-- `.aiddbot/counters.yaml`, with the permanent S and D identifiers. It is project state: `update` never changes it.
-- An empty `.aiddbot/config.json`. The foundation adds the path of each project and its commands: `lint`, `format`, `upgrade`, `unit`, `acceptance` and `quality`. `aidd run` executes these commands.
-- The empty debt register `.product/quality/debt.json`. The core makes the PRD `.product/PRD.md`: each spec has its requirements, and each shipped spec gets one line in the PRD.
-- The first event of the journal, in `.aiddbot/journals/`.
-
-`update` manages the skills and the agent adapters. It never makes these files again. The agent profiles have default values. You can change them in the configuration of your harness.
-
-To select the models and the effort of the agents, use `.aiddbot/agents.local.yaml`. For the format, the file locations and the update behavior, see [Customize agent profiles](./agent-customization.md).
-
-## Prepare the repository
-
-```markdown
+```text
 /architect-system-foundation
 ```
 
-For an existing system, this command documents the projects and their rules.
+In Codex, start each command with `$` instead of `/`.
 
-When the repository has no application code, the command asks about the product and its projects, one stage at a time. Then it proposes the system in `.product/system.md`. The system is a set of typed projects: `back-api`, `front-web`, `cli` or `e2e`. Each project uses an archetype of its type from the catalog. Or the Architect makes an archetype for the technology that you select. For a system with a back-end API, a web front end, an e2e suite and users, the first offer is [Archetype Base](https://github.com/AIDDbot/archetype-base): three archetypes that already implement all the foundation specs and their tests. The scaffold copies them:
+- **Brownfield** (existing or legacy code): the agent documents your code. It does not change it.
+- **Greenfield** (an empty repository): the agent asks about your product, and proposes a system. Approve it. Then the agent makes the projects and their foundation, and stops when all the tests pass.
 
-```bash
-npx degit AIDDbot/archetype-base/back#v0.3.9 back
-npx degit AIDDbot/archetype-base/front#v0.3.9 front
-npx degit AIDDbot/archetype-base/e2e#v0.3.9 e2e
-```
+For a web system with an API and users, the first offer is [Archetype Base v0.3.9](https://github.com/AIDDbot/archetype-base/tree/v0.3.9). It already has the foundation and its tests.
 
-After your approval, the scaffold runs from the root folder of the repository. Thus the working tree must be clean, and Node.js with npm must be installed. Then, for each project, one at a time:
+## 3. Deliver a change
 
-- It writes the architecture and the general coding rules one time, in the Blueprint section of the root `AGENTS.md`. Each project gets a short `AGENTS.md` with only its own data: technology, tooling, folders, shared primitives, its rules and its connections. Your agents read these files. They do not explore the code.
-- It changes the code into one architecture. The composition connects `core` and the features through a manifest. Each feature has the layers `presentation`, `logic` and `data`. `shared` has primitives, the contracts of the services, and folders by technical concern (see the [principles](./principles/README.md)). The `e2e` project has its tests by feature, with page objects and test data in `shared`. From the first day, `lint` makes these boundaries mandatory. The foundation proves it with a forbidden import.
-- It installs and records the tooling slots: `lint`, `format`, `upgrade`, `unit`, `acceptance` and `quality`. A slot that does not apply gets the reason.
+Write your request in natural language:
 
-Then it delivers the foundation specs, one at a time. With Archetype Base, the code, the tests, the specs and the schema documents exist, so nothing is delivered again: one green run of `lint`, `unit` and `acceptance` proves them all, and your first feature gets the next spec ID. The foundation specs are `configuration`, `monitoring`, `layout` (only with a web front), `health`, `basic-auth` (only with users), `account` (only with `basic-auth`), `about` and `record-views` (both only with a web front). `record-views` gives every card and detail page one look. Thus the system is green before your first feature. In JS/TS, it uses TypeScript 7, oxlint, oxfmt and the native Node.js test runner. A web front starts with Pico CSS, its fonts and the AIDDbot theme in `colors.css`, `theme.css` and `custom.css`. Change the colors in these files.
-
-To see the progress, read `.aiddbot/journals/`. Each handoff, plan, run with its result, commit, evaluation and release is one line.
-
-## Deliver a change
-
-```markdown
+```text
 /build-requested-spec riders can rate a trip from 1 to 5 stars
 ```
 
-The flow defines one small specification and asks for approval. Then it writes the code, verifies the acceptance behavior, reviews the changed code and ships the change. To skip the approval, add `YOLO`.
+The agent shows a spec with its requirements. Read it, and approve it or ask for changes. Then the agents write the code, test it, and ship it as a new version.
 
-## Review quality
+> [!TIP]
+> To skip the approval, add `YOLO` to the request.
 
-```markdown
+## 4. Repair debt
+
+From time to time, run:
+
+```text
 /craft-lasting-quality
 ```
 
-The flow runs the quality checks of the repository and updates the technical debt records. When the register has debt that it can repair, it delivers one coherent repair.
+The agents scan the quality of the code, record the debt, and repair the most important part. To upgrade the dependencies, ask for it: `/craft-lasting-quality upgrade the dependencies`.
 
-## Learn more
+## 5. Update AIDDbot
 
-- [Workflow, skills, and delivery rules](./AIDD.workflow.md)
-- [Customize agent profiles](./agent-customization.md)
+```bash
+npx github:AIDDbot/AIDDbot update
+```
+
+`update` replaces the skills and the agent profiles. It keeps your project files and your records. To select the models and the effort of the agents, see [Customize agent profiles](./agent-customization.md).
+
+## Next
+
+- [How it works](./how-it-works.md): the agents, the flows and where to look.
+- [Customize agent profiles](./agent-customization.md).
