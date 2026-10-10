@@ -5,7 +5,7 @@ import { commitFiles, ensureGit } from "./lib/git.js";
 import { ACTION_ORDER, refuseOrigin, runOverlay, sourceRoot } from "./lib/overlay.js";
 import { ensureJournalGenesis, ensureSeedFiles } from "./lib/seed.js";
 
-function help() { process.stderr.write("Usage: npx --allow-git=all github:AIDDbot/AIDDbot [init|update] [--dry-run] [--force]\ninit (the default) initializes Git, seed files, and the overlay. update reconciles only owned overlay files. Existing differing files are preserved unless --force is supplied.\n"); }
+function help() { process.stderr.write("Usage: npx github:AIDDbot/AIDDbot [init|update] [--dry-run] [--force]\ninit (the default) initializes Git, seed files, and the overlay. update reconciles only owned overlay files. Existing differing files are preserved unless --force is supplied.\n"); }
 function parse(argv) { const opts = { dryRun: false, force: false }, words = []; for (const arg of argv) { if (arg === "--dry-run") opts.dryRun = true; else if (arg === "--force") opts.force = true; else if (arg.startsWith("-")) return { error: `Unknown flag: ${arg}` }; else words.push(arg); } if (words.length > 1 || (words[0] && !["init", "update"].includes(words[0]))) return { error: `Unknown argument: ${words.join(" ")}` }; return { opts, command: words[0] || "init" }; }
 function countActions(rows) {
   const counts = Object.fromEntries(ACTION_ORDER.map((action) => [action, 0]));
