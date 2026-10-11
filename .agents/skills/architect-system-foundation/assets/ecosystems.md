@@ -49,8 +49,9 @@ These commands were tested without a terminal (the input is closed). Run them fr
 | Project | Command | Notes |
 | --- | --- | --- |
 | `back-api` | `mkdir back && (cd back && npm init -y --init-type=module)` | Writes only `package.json`. Add an ignore file with `/node_modules/` before the first commit. |
+| `cli` | `mkdir cli && (cd cli && npm init -y --init-type=module)` | Writes only `package.json`. Add `bin` and an ignore file with `/node_modules/` before the first commit. |
 | `front-web` | `npm create vite@latest front -- --template vanilla-ts --no-interactive --no-immediate` | Installs nothing; run `npm install` in the folder. |
-| `e2e` | `npm init playwright@latest e2e -- --quiet --browser=chromium --lang=TypeScript --no-examples --no-browsers` | Installs its dependencies, but no browser: run `npx playwright install chromium` in the folder. |
+| `e2e` | `npm init playwright@latest e2e -- --quiet --browser=chromium --lang=TypeScript --no-examples --no-browsers` | Installs its dependencies, but no browser: run `npx playwright install chromium` in the folder only when the system has a `front-web`. |
 
 Use these commands as they are. Test a different generator in a temporary folder before you write it in the proposal.
 

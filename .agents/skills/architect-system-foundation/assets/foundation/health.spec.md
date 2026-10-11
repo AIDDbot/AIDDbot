@@ -64,11 +64,11 @@ Before the first business feature, each layer of each project must operate with 
 
 ### cli
 
-- `data` records one run for each invocation in the store of the cli, and counts the runs.
+- A local cli: `data` records one run for each invocation in its store, and counts the runs. A cli in a system with a `back-api`: `data` calls `GET /api/health` and shows its status and runs.
 
 ### e2e
 
-- A preflight, not a test: before the first test, it checks `GET /api/health` of the `back-api` and `/` of the `front-web`. A project that does not answer stops the run, with its name.
+- A preflight, not a test: before the first test, it checks `GET /api/health` of the `back-api` and `/` of the `front-web`. A project that does not answer stops the run, with its name. A `cli` has no preflight.
 - The page object of `/health` uses the shell page object; the card tests use the home page object (see `layout`).
 
 ## Schema impact
@@ -77,6 +77,7 @@ Before the first business feature, each layer of each project must operate with 
 | --- | --- | --- | --- |
 | model | Run | new | One startup of the `back-api`: `startedAt` (date-time). |
 | back-api.db | `runs.id`, `runs.started_at` | new | One row for each startup. |
+| cli store | runs | new | Only a local cli: one record for each invocation. |
 
 ## Test notes
 
@@ -84,4 +85,5 @@ Before the first business feature, each layer of each project must operate with 
 - **R05, R09**: block `/api/health` in the browser.
 - **R10**: put a mark on the document before the link; the mark is still there.
 - **R11**: the width of the document is not more than the width of the viewport.
+- **R07**: run `health` two times on one temporary store; the second run shows more runs.
 - **R04, R08**: check the shape of the duration (such as a number and a unit), never an exact value.

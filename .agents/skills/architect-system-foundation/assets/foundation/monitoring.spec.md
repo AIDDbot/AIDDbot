@@ -76,6 +76,7 @@ When a failure occurs, the operator must see what occurred, and each client must
 ### cli
 
 - `core` catches each failure at the top level. Features raise the expected error of `shared`.
+- The result of a command goes to standard output; errors go to standard error. An unexpected failure shows a short message, never a stack trace.
 
 ### e2e
 

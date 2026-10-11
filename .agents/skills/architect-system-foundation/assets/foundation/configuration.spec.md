@@ -70,14 +70,17 @@ Each project must start in the same way in each environment, with its settings o
 ### cli
 
 - `core` reads the arguments and the environment. An argument has priority.
+- In a system with no `back-api`, the cli is local and owns its store: no port, no server. Each invocation does one command and stops.
+- Settings of a local cli: `DATABASE_URL` (a local default) for its store. `core` checks it one time, before the command, with `readSetting`. When the store is a database, it uses migrations as the `back-api` does.
 
 ### e2e
 
-- For each project under test (`{PROJECT}` in upper case), `core` reads `{PROJECT}_DIRECTORY` (default: its source folder, such as `../back`), `{PROJECT}_PORT` (3000 back, 4000 front, written one time in `core`), `{PROJECT}_START` (default: its `start` slot) and `E2E_STARTUP_TIMEOUT_MS` (15000). An invalid value stops the suite; it never falls back to the default.
+- For each project under test (`{PROJECT}` in upper case), `core` reads `{PROJECT}_DIRECTORY` (default: its source folder, such as `../back`), `{PROJECT}_PORT` (3000 back, 4000 front, written one time in `core`), `{PROJECT}_START` (default: its `start` slot) and `E2E_STARTUP_TIMEOUT_MS` (15000). A `cli` has only `CLI_DIRECTORY` and `CLI_START`. An invalid value stops the suite; it never falls back to the default.
 - Without `{PROJECT}_PORT`, the suite starts the project without `PORT`, so the project uses its own default.
 - Checked by `review-implementation`, not by a test: a project that answers on its port is used, never started a second time; otherwise the suite starts it, waits, and stops it after the run, also after a failure or a timeout, so that no process of the suite stays alive; an invalid setting or a timeout stops the suite before the first test, with the variable or the project and the cause. A unit test of `core` can prove the stop; never an acceptance test, because the suite is tooling, not a requirement.
+- The suite never starts a `cli` for the run. Each test runs it with the helper below.
 - `core` gives the base URLs to the tests through the runner configuration. Tests read them through the fixtures in `shared`, never write a port or a URL, and get a free port from `shared`.
-- A helper in `shared` (a shared primitive) starts one project with an environment that the test gives, and returns its output, exit code, base URL and stop operation. `core` uses it too.
+- A helper in `shared` (a shared primitive) starts one project with an environment that the test gives, and returns its output, exit code, base URL and stop operation. `core` uses it too. For a `cli`, the test also gives the arguments; the helper waits until the cli stops, and returns its standard output, standard error and exit code, with no base URL. Tests use only the test runner, with no browser.
 - Each instance that a test starts has its own temporary database when the test gives no `DATABASE_URL`. The helper never takes `DATABASE_URL` from the environment of the runner, and deletes the database after the stop. No retries and no single worker to hide a shared database.
 
 ### All projects
@@ -96,3 +99,4 @@ Each project must start in the same way in each environment, with its settings o
 - **R02, R04**: use the instance that the suite started without `PORT`; its base URL has the default port.
 - **R10**: start on a new temporary database, stop, start again on it: no version has two rows.
 - **R11**: record an unknown version in a temporary database before the start.
+- **R08**: run the cli with the helper; check the shape of the version, never an exact value.

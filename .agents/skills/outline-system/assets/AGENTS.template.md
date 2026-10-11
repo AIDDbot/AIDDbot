@@ -64,7 +64,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 
 ### System
 
-- `back-api` owns the data. Only it connects to persistence. `front-web` and `cli` get data only through `back-api`.
+- `back-api` owns the data. Only it connects to persistence. `front-web` and `cli` get data only through `back-api`. Exception: a `cli` in a system with no `back-api` owns its local store.
 - REST API: paths start with `/api`; a resource is a plural noun. JSON bodies, ISO 8601 dates, `Authorization: Bearer <token>`. Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500. Every error has the body `{ "error": "<message>" }`; an input error adds `fields`. An error never shows a stack, SQL or a path.
 - Security: no secrets in the code or the repository; a password only as a salted hash; check each input at the edge.
 

@@ -16,10 +16,6 @@ Catalog of archetypes by project type.
 - `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0008-record-views`). The code implements each one, and each acceptance test has the tag of its requirement. `model/` holds the schema documents of the code.
 - Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.10 {target}`.
 
-## Single archetypes
+## Other projects
 
-| Project type | Archetype | Folder | Technology |
-| --- | --- | --- | --- |
-| `cli` | `cli-node` | `cli/` | Command-line application with Node.js. It has no `AGENTS.md`: treat it as an archetype made on demand and fill `project.AGENTS.template.md` for its technology. |
-
-- Copy command: `npx degit AIDDbot/{archetype} {folder}`.
+A `cli`, and each project that Archetype Base does not fit, uses an archetype made on demand.

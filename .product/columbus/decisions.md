@@ -571,3 +571,11 @@ Columbus: S0009 flota, S0010 y S0012 reparaciones, S0011 lanzamientos; 98 de ace
 - **Pasos de formulario repetidos en e2e (D0007, D0014):** page object compartido `recordForm(scope)`, que `authPage` reutiliza.
 - **Test de migraciones:** ya no fija el número, y una migración de feature no lo rompe.
 - **Base `v0.3.10`.**
+
+## D67 ← Arquetipo CLI (humano, 11 oct) · Un CLI local, con su e2e en Playwright, en su propio repo
+
+- **Repo nuevo `AIDDbot/archetype-cli`:** `cli/` y `e2e/` van juntos, como Base, con `foundation/` y `model/`. Misma versión que AIDDbot y Base mientras dure la beta (D58). La semilla sale de una prueba con Codex, como Base salió de `codex-12` (D54).
+- **CLI local:** excepción al principio de datos: un `cli` en un sistema sin `back-api` es dueño de su almacén local (`DATABASE_URL`). Con `back-api`, sigue obteniendo los datos solo por él.
+- **Fundación del CLI:** `configuration`, `monitoring` y `health`; sin `basic-auth` ni `account` (sin usuarios), y sin `layout`, `about` ni `record-views` (solo `front-web`).
+- **e2e en Playwright, sin navegador:** cada test ejecuta el CLI con el helper compartido (argumentos y entorno; salida, error y exit code) y su almacén temporal. Sin puerto, sin preflight y sin arranque global.
+- **Catálogo:** sale la fila de `cli-node`; hasta que exista `archetype-cli`, un `cli` usa un arquetipo bajo demanda. `cli-node` se archiva en GitHub cuando `archetype-cli` entre en el catálogo.
