@@ -20,7 +20,7 @@ flowchart LR
 
 - `back-api` owns the data. Only it connects to persistence.
 - `front-web` and `cli` serve the user. They get data only through `back-api`.
-- Exception: a `cli` in a system with no `back-api` owns its local store.
+- Exception: an application in a system with no `back-api`, such as a `cli`, a desktop or a mobile application, owns its local data.
 - `e2e` tests the flows across projects. It is not part of the product.
 - The same principles apply to all projects. An archetype adds the technology.
 
