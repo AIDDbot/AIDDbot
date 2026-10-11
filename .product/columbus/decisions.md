@@ -561,3 +561,13 @@ Astro-Bookings: fundación con Base en 10,7 min, flota y lanzamientos publicados
 - **`implement-project`:** el Builder nunca lanza la aceptación completa.
 - **Solo observación (arnés):** esperas de 60 s del root e `interrupt_agent` en vez de `close_agent`. Las mejoras de skill son solo las que sirven a todos los arneses.
 - **Base `v0.3.9`.**
+
+## D66 ← Prueba de Columbus con Codex (humano, 11 oct) · Reglas en Base, no páginas de ejemplo
+
+Columbus: S0009 flota, S0010 y S0012 reparaciones, S0011 lanzamientos; 98 de aceptación en verde. La deuda por feature no bajó (3 y luego 4). La limpieza (S0013) reparó D0004, D0006 y D0007 con arreglos locales, sin patrón compartido.
+
+- **Páginas largas y anidadas (D0003, D0006):** regla en el `AGENTS.md` del front: `mount` solo compone pasos con nombre, uno por formulario, tabla o tarjeta. El humano prefiere reglas a una página de ejemplo, porque una regla se adapta a varios casos.
+- **Ids repetidos de `createRecordForm` (D0005):** ids únicos por formulario; las búsquedas usan `[data-result]` y `[data-field]`.
+- **Pasos de formulario repetidos en e2e (D0007, D0014):** page object compartido `recordForm(scope)`, que `authPage` reutiliza.
+- **Test de migraciones:** ya no fija el número, y una migración de feature no lo rompe.
+- **Base `v0.3.10`.**

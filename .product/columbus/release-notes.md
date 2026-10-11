@@ -1,3 +1,12 @@
+# AIDDbot 0.3.10
+
+This release pins Archetype Base `v0.3.10`.
+
+- The front `AGENTS.md` of Archetype Base says that `mount` only composes named steps. Each form, table or card of a page gets its own step, so pages stay under the complexity limits.
+- `createRecordForm` gives unique ids to each form, so a page can have many forms.
+- The e2e suite has a shared `recordForm` page object, so features do not repeat form steps.
+- The migration test of Archetype Base does not count the migrations, so a new feature migration does not break it.
+
 # AIDDbot 0.3.9
 
 This release pins Archetype Base `v0.3.9`.
