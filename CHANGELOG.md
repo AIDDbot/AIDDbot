@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.10 - 2026-10-11
+
+- chore(skills): pin Archetype Base v0.3.10, and record D66 (ea45673)
+- docs: progressive onboarding, how-it-works and core pages (95c56db)
+- fix(core): drop the --allow-git flag from the install help (e1fd967)
+
 ## 0.3.9 - 2026-10-09
 
 - chore(skills): pin Archetype Base v0.3.9, and record D65 (f0d8117)
