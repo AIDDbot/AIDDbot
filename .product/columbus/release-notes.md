@@ -1,3 +1,12 @@
+# AIDDbot 0.3.11
+
+This release pins Archetype Base `v0.3.11` and Archetype CLI `v0.3.11`.
+
+- Archetype CLI is a new library: a local command-line application in TypeScript with SQLite, and its Playwright acceptance suite with no browser. AIDDbot offers it first for a local cli with no users.
+- An application in a system with no back-end API, such as a cli, owns its local data.
+- The acceptance suite runs a cli in each test with its arguments and a temporary database. A cli has no port and no preflight.
+- The migration requirements of the configuration spec apply to each project with a database, also a local cli.
+
 # AIDDbot 0.3.10
 
 This release pins Archetype Base `v0.3.10`.

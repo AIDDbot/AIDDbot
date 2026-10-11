@@ -2,15 +2,16 @@
 
 The **Architect** writes `.product/system.md` from `assets/system.template.md`. The system is a solution of typed projects: `back-api`, `front-web`, `cli`, or `e2e`.
 
-- The proposal and each `AGENTS.md` keep the contracts of the foundation specs (ports, variable names, routes). Never set other values for them. Archetype Base already keeps them: read the specs in `assets/foundation/` only when a project uses no Archetype Base archetype.
+- The proposal and each `AGENTS.md` keep the contracts of the foundation specs (ports, variable names, routes). Never set other values for them. A library already keeps them: read the specs in `assets/foundation/` only when a project uses no library archetype.
 - Ask in short stages, one closed question at a time:
   1. Purpose, users, and needs.
   2. Projects.
   3. For each project, one archetype of its type from `assets/archetypes.md`, as written.
 - Archetype Base is the first offer when the system fits it: one `back-api`, one `front-web`, one `e2e`, and users. Its three archetypes go together, or none of them goes. Its projects keep the folder names `back`, `front` and `e2e`. If the request asks for a different technology for one of them, use no Archetype Base archetype. Archetype Base has no business feature: it carries only the foundation (configuration, monitoring, layout, health, accounts, about, record views). A request for no features yet still fits it.
+- Archetype CLI is the first offer when the system is one local `cli` (no `back-api`) and one `e2e`, without users. Its two archetypes go together, or none of them goes, in the folders `cli` and `e2e`. The same rules apply: a different technology means no Archetype CLI archetype, and a request for no features yet still fits it.
 - Do not ask what the request, `README.md`, or an existing proposal already answers.
-- Interactive mode: never assume a technology. When the system fits Archetype Base, offer it right after the projects, as one closed question that names its technologies. When the human accepts an archetype, ask nothing more about its technologies or tools. Only for a project with no accepted archetype, ask about each open choice: language and runtime, framework, package manager, persistence, and the tool of each tooling slot. Offer the usual option of `assets/ecosystems.md` first.
-- YOLO mode: never ask. Use the choices of the request, Archetype Base when the system fits it, and the usual option for all other choices.
+- Interactive mode: never assume a technology. When the system fits a library, offer it right after the projects, as one closed question that names its technologies. When the human accepts an archetype, ask nothing more about its technologies or tools. Only for a project with no accepted archetype, ask about each open choice: language and runtime, framework, package manager, persistence, and the tool of each tooling slot. Offer the usual option of `assets/ecosystems.md` first.
+- YOLO mode: never ask. Use the choices of the request, a library when the system fits it, and the usual option for all other choices.
 - When the archetype or the technologies of a project are settled, and before an archetype on demand is made, the **Architect** journals `node .agents/aidd/aidd.mjs log select "{project}: <archetype, or on demand: technologies>"`, one time for each project.
 - Archetype on demand: when the catalog has no archetype of a type, or the human refuses all of them, fill `assets/project.AGENTS.template.md` for the technology that the human selects, with `assets/ecosystems.md` as guidance. Do this in the proposal, before the scaffold.
 

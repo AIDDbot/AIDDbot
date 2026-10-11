@@ -1,10 +1,10 @@
 # Archetypes
 
-Catalog of archetypes by project type.
+Catalog of archetypes by project type. A **library** is one repository of archetypes that pass one acceptance suite together, with the instances of their foundation specs and their schema documents. Each library has the version of AIDDbot.
 
 ## Archetype Base
 
-`AIDDbot/archetype-base`, tag `v0.3.10`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `back-api`, one `front-web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other rows or an archetype made on demand.
+`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `back-api`, one `front-web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other rows or an archetype made on demand.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
@@ -14,8 +14,21 @@ Catalog of archetypes by project type.
 
 - Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed: the e2e suite, the boundary configuration and the spec instances use them.
 - `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0008-record-views`). The code implements each one, and each acceptance test has the tag of its requirement. `model/` holds the schema documents of the code.
-- Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.10 {target}`.
+- Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.11 {target}`.
+
+## Archetype CLI
+
+`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `back-api`) and one `e2e`, and with no users. For any other system, use an archetype made on demand.
+
+| Project type | Archetype | Folder | Technology |
+| --- | --- | --- | --- |
+| `cli` | `archetype-cli/cli` | `cli/` | Framework-free TypeScript 7 on Node.js, local SQLite (`node:sqlite`) |
+| `e2e` | `archetype-cli/e2e` | `e2e/` | Playwright Test, no browser |
+
+- Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed.
+- `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0003-health`). `model/` holds the schema documents of the code.
+- Copy command: `npx degit AIDDbot/archetype-cli/{folder}#v0.3.11 {target}`.
 
 ## Other projects
 
-A `cli`, and each project that Archetype Base does not fit, uses an archetype made on demand.
+Each project that no library fits uses an archetype made on demand.

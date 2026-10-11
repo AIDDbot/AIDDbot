@@ -579,3 +579,14 @@ Columbus: S0009 flota, S0010 y S0012 reparaciones, S0011 lanzamientos; 98 de ace
 - **Fundación del CLI:** `configuration`, `monitoring` y `health`; sin `basic-auth` ni `account` (sin usuarios), y sin `layout`, `about` ni `record-views` (solo `front-web`).
 - **e2e en Playwright, sin navegador:** cada test ejecuta el CLI con el helper compartido (argumentos y entorno; salida, error y exit code) y su almacén temporal. Sin puerto, sin preflight y sin arranque global.
 - **Catálogo:** sale la fila de `cli-node`; hasta que exista `archetype-cli`, un `cli` usa un arquetipo bajo demanda. `cli-node` se archiva en GitHub cuando `archetype-cli` entre en el catálogo.
+
+## D68 ← Prueba `archetype-cli` con Codex (humano, 11 oct) · Archetype CLI entra en el catálogo como segunda biblioteca
+
+Codex fundó un `cli` local con su `e2e` en 25 min: S0001–S0003 a la primera, sin deuda, 4 pruebas de aceptación. La semilla es un solo commit en `AIDDbot/archetype-cli`, como Base salió de `codex-12` (D54).
+
+- **Biblioteca:** un repo de arquetipos que pasan juntos una suite de aceptación, con sus instancias de specs y sus esquemas. Base y CLI lo son; la skill dice «una biblioteca» donde antes decía Archetype Base. Con una biblioteca, la fundación no se entrega: un cierre verde la prueba (D56).
+- **Primera oferta:** Archetype CLI para un `cli` local sin `back-api`, un `e2e` y sin usuarios.
+- **Migraciones del CLI:** R10 y R11 de `configuration` valen para cada proyecto con base de datos; en la instancia del CLI son R02 y R03, con sus pruebas. Solo las pruebas de migraciones abren la base de datos.
+- **e2e:** el Blueprint nombra las pruebas `.cli.spec` y los comandos.
+- **Versiones:** cada biblioteca tiene la versión de AIDDbot; `release.js` comprueba todos los pins. `cli-node` se archiva.
+- **Base y CLI `v0.3.11`.**

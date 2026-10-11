@@ -1,6 +1,6 @@
 # Greenfield: scaffold
 
-Work from the repository root, on `chore/foundation`, in a clean working tree. Without Archetype Base, complete one project before you start the next. Commit each step with `node .agents/aidd/aidd.mjs commit "<message>" {folder}`, so that each step can be reviewed and reverted alone.
+Work from the repository root, on `chore/foundation`, in a clean working tree. Without a library, complete one project before you start the next. Commit each step with `node .agents/aidd/aidd.mjs commit "<message>" {folder}`, so that each step can be reviewed and reverted alone.
 
 The **Architect** runs the scaffold command and writes the project `AGENTS.md`. The **Builder** changes the code and sets up the tooling.
 
@@ -10,13 +10,13 @@ The **Architect** runs the scaffold command and writes the project `AGENTS.md`. 
 | 2 | `refactor({project}): shape to blueprint` | The project has the shape of its `AGENTS.md`. |
 | 3 | `chore({project}): register tooling` | All tooling slots operate and are registered. |
 
-## Archetype Base
+## Library
 
-The three archetypes of Archetype Base are already in the shape of the Blueprint, with their tooling and their tests. Do each step for the three projects at once, not one project after the other: the **Architect** does steps 1 and 2 for the three, then the **Builder** does step 3 for the three, in one handoff each. Steps 1 and 2 keep one commit for each project. The steps stay, with these changes:
+The archetypes of a library are already in the shape of the Blueprint, with their tooling and their tests. Do each step for all its projects at once, not one project after the other: the **Architect** does steps 1 and 2 for all of them, then the **Builder** does step 3 for all of them, in one handoff each. Steps 1 and 2 keep one commit for each project. The steps stay, with these changes:
 
 - Step 1: copy each folder at the tag of `assets/archetypes.md`. Before the first project, copy `foundation/` of the same tag to `.product/archetypes/foundation/` and `model/` to `.product/model/`, and commit them as `chore(scaffold): copy foundation specs and model`. The spec instances are the contract of the system, and the schema documents describe the code of the archetypes.
 - Step 2: change only the system data in each `AGENTS.md`. Never move, rename or remove code: each file and each test belongs to a foundation spec.
-- Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives. Commit the three projects and `.aiddbot/config.json` one time, as `chore(scaffold): register tooling`.
+- Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives. Commit its projects and `.aiddbot/config.json` one time, as `chore(scaffold): register tooling`.
 
 ## Step 2: shape to blueprint
 
@@ -52,7 +52,7 @@ The three archetypes of Archetype Base are already in the shape of the Blueprint
 - The root `package.json` holds the identity of the system: `displayName` (the system name), `description` (one sentence of the purpose), `author` and `homepage` from `.product/system.md`. `aidd release` writes its `version`. The `front-web` and the `e2e` tests read the identity from this file. Commit it as `chore(scaffold): set the system identity`.
 - Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"`.
 - Never run `rule-project` in greenfield.
-- The **Architect** executes `outline-system`. With Archetype Base, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetypes: change only the system name in the title of `model.schema.md`.
+- The **Architect** executes `outline-system`. With a library, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetypes: change only the system name in the title of `model.schema.md`.
 - Run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`.
 - Never run acceptance in this phase: the close of `references/deliver.md` is the only acceptance run of the foundation.
 

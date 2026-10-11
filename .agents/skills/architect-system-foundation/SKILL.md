@@ -22,7 +22,7 @@ verdict
 ## Roles
 
 - Route as the **Architect**. Spawn one **Architect** for the full run, or use the one that a calling orchestrator gives you. Continue it with messages. Relay its questions to the human. Stop it only if you started it.
-- Spawn the **Builder** at the first scaffold, and use it for all the foundation specs. Spawn one **Craftsman** for all of them, at the first verification, never with Archetype Base.
+- Spawn the **Builder** at the first scaffold, and use it for all the foundation specs. Spawn one **Craftsman** for all of them, at the first verification, never with a library.
 - Spawn each agent with a fresh context: never fork or copy your conversation into it. The handoff gives the task and each human decision that no file holds yet. Never read the skill of a step that you hand off. When the run ends, also after a failure, stop each agent that you started.
 - Wait for an agent with the longest timeout that the tool allows: each wait that ends early costs one more turn.
 - Each time you send work to an agent, journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"`.
@@ -40,11 +40,11 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 | --- | --- | --- |
 | Propose | `references/propose.md` | An approved `.product/system.md`, committed on `chore/foundation`. |
 | Scaffold | `references/scaffold.md` | Each project scaffolded, shaped, and with its tooling registered; the system outlined and integrated. |
-| Deliver | `references/deliver.md` | The foundation specs shipped, or proved by the close with Archetype Base, and the system green. |
+| Deliver | `references/deliver.md` | The foundation specs shipped, or proved by the close with a library, and the system green. |
 
 Never scaffold when working code exists.
 
-When the projects come from Archetype Base (`assets/archetypes.md`), the code, the tests, the spec instances, and the schema documents of the foundation come with them. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships.
+When the projects come from a library of `assets/archetypes.md` (Archetype Base or Archetype CLI), the code, the tests, the spec instances, and the schema documents of the foundation come with them. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships.
 
 ## Brownfield
 

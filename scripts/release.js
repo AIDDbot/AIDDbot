@@ -34,11 +34,13 @@ function release() {
   parts[index]++;
   parts.fill(0, index + 1);
   const version = parts.join(".");
-  // Archetype Base has the same version as AIDDbot (D58): it is released first, then pinned here.
+  // Each library (Archetype Base, Archetype CLI) has the same version as AIDDbot (D58): it is released first, then pinned here.
   const catalog = path.join(root, ".agents", "skills", "architect-system-foundation", "assets", "archetypes.md");
-  const pinned = fs.existsSync(catalog) && /archetype-base`, tag `(v[\d.]+)`/.exec(fs.readFileSync(catalog, "utf8"))?.[1];
-  if (pinned && pinned !== `v${version}`) {
-    throw new Error(`Archetype Base is pinned at ${pinned}. Release Archetype Base v${version} first, pin it in archetypes.md and docs, then release AIDDbot.`);
+  const pins = fs.existsSync(catalog) ? fs.readFileSync(catalog, "utf8").matchAll(/AIDDbot\/(archetype-[\w-]+)`, tag `(v[\d.]+)`/g) : [];
+  for (const [, library, pinned] of pins) {
+    if (pinned !== `v${version}`) {
+      throw new Error(`${library} is pinned at ${pinned}. Release ${library} v${version} first, pin it in archetypes.md and docs, then release AIDDbot.`);
+    }
   }
   const timestamp = new Date().toISOString();
   const head = git("rev-parse", "HEAD");
