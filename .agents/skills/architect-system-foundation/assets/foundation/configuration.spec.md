@@ -38,8 +38,8 @@ Each project must start in the same way in each environment, with its settings o
 - **R07**: WHILE `CORS_ORIGIN` is not set, the `back-api` SHALL answer each request with `Access-Control-Allow-Origin: *`.
 - **R08**: WHEN the `cli` runs with `--version`, it SHALL show its version and stop with exit code 0.
 - **R09**: WHEN the `front-web` starts with `API_BASE_URL` set, `GET /runtime-config.json` SHALL answer 200 with `{ "apiBaseUrl": "<that URL>" }`.
-- **R10**: WHEN the `back-api` starts, it SHALL apply each migration that the database does not have, in order, and record the version of each one.
-- **R11**: IF the database has a schema version that the `back-api` does not know, THEN the `back-api` SHALL stop with a non-zero exit code and a message that contains that version.
+- **R10**: WHEN a project with a database (the `back-api`, or a local `cli`) starts, it SHALL apply each migration that the database does not have, in order, and record the version of each one.
+- **R11**: IF the database has a schema version that the project does not know, THEN the project SHALL stop with a non-zero exit code and a message that contains that version.
 
 ## Expected URLs and APIs
 
@@ -49,7 +49,7 @@ Each project must start in the same way in each environment, with its settings o
 | page | front-web | `/` on `PORT` | The application document | R03, R04 |
 | api | front-web | `GET /runtime-config.json` | 200 `{ "apiBaseUrl": "..." }`. No error status. | R09 |
 | command | cli | `--version` | The version. Exit code 0. | R08 |
-| process | back-api | start on a database | Applies the missing migrations, or stops on an unknown version | R10, R11 |
+| process | back-api, cli | start on a database | Applies the missing migrations, or stops on an unknown version | R10, R11 |
 
 ## Solution
 
@@ -71,7 +71,7 @@ Each project must start in the same way in each environment, with its settings o
 
 - `core` reads the arguments and the environment. An argument has priority.
 - In a system with no `back-api`, the cli is local and owns its store: no port, no server. Each invocation does one command and stops.
-- Settings of a local cli: `DATABASE_URL` (a local default) for its store. `core` checks it one time, before the command, with `readSetting`. When the store is a database, it uses migrations as the `back-api` does.
+- Settings of a local cli: `DATABASE_URL` (a local default) for its store. `core` checks it one time, before the command, with `readSetting`. When the store is a database, it uses migrations as the `back-api` does: the runner of `core` applies them before the command (R10, R11).
 
 ### e2e
 
@@ -91,7 +91,7 @@ Each project must start in the same way in each environment, with its settings o
 
 | Schema | Element | Change | Description |
 | --- | --- | --- | --- |
-| back-api.db | table of applied versions | new | `version`, `appliedAt`. One row for each applied migration. |
+| back-api.db, cli store | table of applied versions | new | `version`, `appliedAt`. One row for each applied migration. |
 
 ## Test notes
 
