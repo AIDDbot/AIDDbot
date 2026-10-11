@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.11 - 2026-10-11
+
+- chore(skills): add Archetype CLI as a library, pin v0.3.11, and record D68 (2072f33)
+- refactor(skills): tighten /outline-system for cli acceptance tests (3756348)
+- refactor(skills): tighten /architect-system-foundation migrations for a local cli (e563089)
+- refactor(skills): tighten /outline-system for applications with local data (0b0c685)
+- refactor(skills): tighten /architect-system-foundation for a local cli (74e88f6)
+
 ## 0.3.10 - 2026-10-11
 
 - chore(skills): pin Archetype Base v0.3.10, and record D66 (ea45673)
