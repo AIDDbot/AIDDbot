@@ -164,6 +164,7 @@ Una spec es de fundación si cumple las dos condiciones:
 
 - Una biblioteca sale con deuda cero. Después de cada spec de fundación, el procedimiento del Builder ejecuta `craft-lasting-quality` una vez, igual que un usuario. Si queda deuda, para y avisa: nunca empieza la spec siguiente con deuda abierta.
 - En un sistema de usuario, `craft-lasting-quality` repara por prioridad: `high`, luego `medium`, luego `low`. Para después de 5 specs en una ejecución, para no ser infinito.
+- Un ciclo de `craft` escanea al principio y al final, nunca entre dos reparaciones. El Architect descarta una deuda que una reparación anterior ya quitó.
 
 ## D20 ← revisión del Builder contra ingeniería y principios (2026-10-13)
 
