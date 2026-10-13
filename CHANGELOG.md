@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.13 - 2026-10-13
+
+- docs: libraries only, and the Archetype Builder (642dfd8)
+- refactor(skills): tighten /architect-system-foundation to offer only libraries (D5) (96fde8b)
+- refactor(skills): tighten /define-spec with a generic spec file (D10) (bc2784e)
+- docs(product): Builder inventory, D10 and D11, phases 1 and 2 done (2d93147)
+
 ## 0.3.12 - 2026-10-13
 
 - chore(release): libraries share major.minor, patches are independent (D6) (e04c47f)
