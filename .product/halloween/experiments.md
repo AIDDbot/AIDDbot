@@ -104,7 +104,8 @@ git add -A; git commit -m "chore: Archetype Builder procedure and blueprint"
 ### 1 · Megaprompt (el mismo para empezar y para retomar)
 
 ```text
-Modo YOLO, sin preguntas. Construye la biblioteca Archetype CLI siguiendo `builder/procedure.md`, pasos 1 a 4. No hagas el paso 5 (el seed). AIDDbot ya está instalado.
+Modo YOLO, sin preguntas. Todo en inglés ASD-STE100.
+Construye la biblioteca Archetype CLI siguiendo `builder/procedure.md`, pasos 1 a 4. No hagas el paso 5 (el seed). AIDDbot ya está instalado.
 
 La biblioteca: una aplicación de línea de comandos local, sin usuarios.
 Proyectos: `cli` (tipo cli) y `e2e` (tipo e2e), en TypeScript sobre Node, con las herramientas de `builder/blueprint/ecosystems.md`.
