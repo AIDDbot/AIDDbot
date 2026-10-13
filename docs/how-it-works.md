@@ -65,7 +65,7 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 1. The Craftsman runs the `quality` checks: complexity, large folders and duplicated code. Each problem becomes debt with a priority: `high`, `medium` or `low`.
 2. The Architect selects one coherent group of debt.
 3. `/build-requested-spec` repairs it. The repair needs no approval: the debt is already recorded.
-4. The loop repeats while `high` debt remains, for at most five specs.
+4. The loop repeats while debt remains, the highest priority first, for at most five specs.
 
 A feature can ship with quality warnings. Scan from time to time, not after each spec.
 

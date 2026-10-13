@@ -158,3 +158,14 @@ Una spec es de fundación si cumple las dos condiciones:
 - Cada proyecto de `.aiddbot/config.json` tiene `type` (`api`, `web`, `cli`, `e2e`). El core deduce la evidencia del tipo: el `test` de un `e2e` es aceptación; los demás, unitaria.
 - `aidd run test` ejecuta el `e2e` al final. `--spec` ejecuta solo el `e2e`, filtrado a la spec.
 - Toda la aceptación va por el `e2e`; un `cli` ya no tiene «tests propios».
+
+## D19 ← conversación (2026-10-13) · Deuda: cero en una biblioteca; por prioridad en un sistema
+
+- Una biblioteca sale con deuda cero. El procedimiento del Builder repite `craft-lasting-quality` hasta que no queda deuda.
+- En un sistema de usuario, `craft-lasting-quality` repara por prioridad: `high`, luego `medium`, luego `low`. Para después de 5 specs en una ejecución, para no ser infinito.
+
+## D20 ← revisión del Builder contra ingeniería y principios (2026-10-13)
+
+- Una biblioteca se construye como un sistema de trabajo en otro repo (por ejemplo, `experiments/`), y se copia después al repo de la biblioteca (seed). Así, las releases de cada spec no crean etiquetas en la biblioteca (D6), y después del scaffold `outline-system` escribe el modelo.
+- `foundation.md` ya no habla de arquetipos bajo demanda (D5). La primera spec de negocio va después de la última instancia.
+- Principios: la configuración viene de fuera del código (entorno o fichero); el esquema relacional es de cada proyecto que tiene datos; un recurso singleton es un nombre en singular.

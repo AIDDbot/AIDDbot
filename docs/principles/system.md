@@ -28,7 +28,7 @@ flowchart LR
 
 `api` gives one REST API to the other projects.
 
-- Paths start with `/api`. A resource is a plural noun: `/api/users`, `/api/users/:id`.
+- Paths start with `/api`. A resource is a plural noun: `/api/users`, `/api/users/:id`. A singleton resource is a singular noun: `/api/health`.
 - Methods: `GET` reads, `POST` creates or does an action, `PUT` replaces, `PATCH` changes part, `DELETE` removes.
 - Bodies are JSON. Dates are ISO 8601 strings.
 - A protected request sends `Authorization: Bearer <token>`.

@@ -65,7 +65,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 ### System
 
 - `api` owns the data. Only it connects to persistence. `web` and `cli` get data only through `api`. Exception: an application in a system with no `api`, such as a `cli`, a desktop or a mobile application, owns its local data.
-- REST API: paths start with `/api`; a resource is a plural noun. JSON bodies, ISO 8601 dates, `Authorization: Bearer <token>`. Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500. Every error has the body `{ "error": "<message>" }`; an input error adds `fields`. An error never shows a stack, SQL or a path.
+- REST API: paths start with `/api`; a resource is a plural noun; a singleton resource is a singular noun, such as `/api/health`. JSON bodies, ISO 8601 dates, `Authorization: Bearer <token>`. Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500. Every error has the body `{ "error": "<message>" }`; an input error adds `fields`. An error never shows a stack, SQL or a path.
 - Security: no secrets in the code or the repository; a password only as a salted hash; check each input at the edge.
 
 ### Containers
@@ -112,7 +112,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 - Names: idiomatic, words of the domain. A function is a verb. A boolean is a question (`isActive`, `canEdit`). No negative names, no abbreviations except standard ones.
 - Early returns; no `else` on the main path. A long or deep block: a function with a domain name. More than one logical operator: a named variable or predicate. More than two values: one typed object.
 - Errors: never hide them. Catch only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error.
-- Configuration from the environment. Query statements as named constants in the `data` file that uses them. Migrations as numbered files. A dependency only with the package manager.
+- Configuration from outside the code. Query statements as named constants in the `data` file that uses them. Migrations as numbered files. A dependency only with the package manager.
 - No check, limit or default value that the spec does not state.
 
 ## Delivery documents

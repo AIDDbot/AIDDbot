@@ -21,7 +21,7 @@
 
 ## Scope
 
-- Get the configuration from the environment. Do not write configuration values in the code.
+- Get the configuration from outside the code: the environment, or a configuration file. Do not write configuration values in the code.
 - Write each query as a named constant in the `data` file that uses it.
 - Add a dependency only with the package manager.
 - Do not add a check, a limit or a default value that the spec does not state.
