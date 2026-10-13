@@ -27,7 +27,7 @@ Record each debt with its priority, its evidence and its origin. Do not hide it.
    - `high`: it breaks the behavior, the security or the data.
    - `medium`: it makes a change slow or difficult.
    - `low`: all other debt.
-2. Select one coherent group of related items.
+2. Select the debt of one type in one group: `fix` for each item that breaks the behavior, `refactor` for all others.
 3. Make a repair spec for the group.
 4. Send the spec through the normal [features](./features.md) flow. The repair needs no approval: the debt is already recorded.
 5. Repeat from step 2 while debt remains, `high` first, then `medium`, then `low`, for at most five specs in one run. Do not scan between two repairs: skip an item that an earlier repair removed.

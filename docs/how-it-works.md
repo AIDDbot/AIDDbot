@@ -63,7 +63,7 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 `/craft-lasting-quality` keeps the code easy to change.
 
 1. The Craftsman runs the `quality` checks: complexity, large folders and duplicated code. Each problem becomes debt with a priority: `high`, `medium` or `low`.
-2. The Architect selects one coherent group of debt.
+2. The Architect selects the debt of one type in one group: `fix` when it breaks the behavior, `refactor` for all others.
 3. `/build-requested-spec` repairs it. The repair needs no approval: the debt is already recorded.
 4. The loop repeats steps 2 and 3 while debt remains, the highest priority first, for at most five specs.
 5. The Craftsman scans again at the end, so that the debt list is current.

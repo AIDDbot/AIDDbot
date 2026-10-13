@@ -35,10 +35,10 @@ The **Craftsman** executes `scan-quality` one time. Its debt register is the lis
 
 ## 2. Select
 
-The **Architect** reads `node .agents/aidd/aidd.mjs debt list` and selects one coherent group of items, highest priority first. It writes the group as a natural-language repair request:
+The **Architect** reads `node .agents/aidd/aidd.mjs debt list` and selects one group: each eligible item of one type, in all projects. The `fix` group holds each item that breaks behavior, and the `refactor` group holds all others. It selects first the group that holds the item of the highest priority. Each spec costs a full delivery, so never divide a group into more specs. It writes the group as a natural-language repair request:
 
 - With the D IDs and their evidence. Before it selects an item, it checks in the current code that the item still exists, because an earlier repair of this run can remove it. It never selects an item that no longer exists.
-- Marked `refactor`, or `fix` when the debt breaks behavior.
+- Marked with the type of the group.
 - The **Architect** edits no code and no documentation.
 - The evidence limits the repair. A quality finding that a later check shows stays for the next scan. Never add it to the scope.
 

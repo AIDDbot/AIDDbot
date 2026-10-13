@@ -171,3 +171,9 @@ Una spec es de fundación si cumple las dos condiciones:
 - Una biblioteca se construye como un sistema de trabajo en otro repo (por ejemplo, `experiments/`), y se copia después al repo de la biblioteca (seed). Así, las releases de cada spec no crean etiquetas en la biblioteca (D6), y después del scaffold `outline-system` escribe el modelo.
 - `foundation.md` ya no habla de arquetipos bajo demanda (D5). La primera spec de negocio va después de la última instancia.
 - Principios: la configuración viene de fuera del código (entorno o fichero); el esquema relacional es de cada proyecto que tiene datos; un recurso singleton es un nombre en singular.
+
+## D21 ← cli-2 (2026-10-13) · `craft`: un grupo por tipo
+
+- El Architect de `craft-lasting-quality` agrupa la deuda por tipo, no por afinidad: un grupo `fix` con cada deuda que rompe el comportamiento, y un grupo `refactor` con todas las demás, en todos los proyectos. Empieza por el grupo que tiene la deuda de más prioridad. Cada spec cuesta una entrega completa (definir, implementar, verificar, revisar, publicar, con agentes nuevos), y en cli-2 una reparación costaba de 3 a 7 minutos, casi todo fijo: monitoring necesitó 3 specs, con grupos por tipo serían 2.
+- El scan final se queda (D19). En un sistema de usuario, `craft` se ejecuta de vez en cuando, no después de cada spec como en un arquetipo; sin el scan final, el registro no mostraría la deuda que deja la última reparación hasta el `craft` siguiente.
+- La verificación de un `refactor` se queda. El Craftsman ya verifica, revisa y publica en un turno, y la suite completa corre una vez: en S0010, la verificación costó 20 s.
