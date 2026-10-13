@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.16 - 2026-10-13
+
+- docs(product): D19 crafts after each foundation spec (a49387d)
+- refactor(skills): tighten /craft-lasting-quality to repair all debt by priority (Halloween D19, D20) (b3c1e49)
+
 ## 0.3.15 - 2026-10-13
 
 - chore: pin Archetype Base and Archetype CLI v0.3.12 (2bfa9e7)
