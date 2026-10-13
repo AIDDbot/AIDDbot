@@ -158,6 +158,7 @@ Una spec es de fundación si cumple las dos condiciones:
 - Cada proyecto de `.aiddbot/config.json` tiene `type` (`api`, `web`, `cli`, `e2e`). El core deduce la evidencia del tipo: el `test` de un `e2e` es aceptación; los demás, unitaria.
 - `aidd run test` ejecuta el `e2e` al final. `--spec` ejecuta solo el `e2e`, filtrado a la spec.
 - Toda la aceptación va por el `e2e`; un `cli` ya no tiene «tests propios».
+- `start` ejecuta el proyecto en todos los tipos: en `api` y `web` arranca el servidor; en `cli` ejecuta una invocación con sus argumentos (el `e2e` lo usa como `CLI_START`); en `e2e` abre la interfaz, solo para un humano. Nunca «n/a».
 
 ## D19 ← conversación (2026-10-13) · Deuda: cero en una biblioteca; por prioridad en un sistema
 
