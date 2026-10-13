@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.15 - 2026-10-13
+
+- chore: pin Archetype Base and Archetype CLI v0.3.12 (2bfa9e7)
+- feat(core): one test slot, with the project type in the config (Halloween D18) (f26f02c)
+
 ## 0.3.14 - 2026-10-13
 
 - refactor(skills): name the project types api, web, cli and e2e (Halloween D17) (9f01e6e)
