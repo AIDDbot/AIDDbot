@@ -1,0 +1,7 @@
+- he perdido el control sobre el core
+- la constucción de arquetipos tienen demasiado peso en aissbot
+- el https://github.com/AIDDbot/archetype-cli necesit amas funcionalidad fundacional (versión, ayuda y configuración)
+- el arquetipo (para eso está) ofrece herramientas de calidad y metodología de conrtrol funcional
+- ¿se pod´ria usar el arquetipo con el core y builder?
+- ¿tiene sentido extar core y/o archetype builder a su propio repo basado en el arquetipo CLI?
+- ¿se pueden mantener dentro de este repo de AIDDDbot, pero con las ventajas del arquetipo?
