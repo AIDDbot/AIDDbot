@@ -14,7 +14,8 @@ flowchart LR
 The Architect turns one request into one spec.
 
 - A spec has a type: `feat`, `fix`, `refactor` or `chore`.
-- A spec has requirements in EARS: `R01`, `R02`, … Other records cite them as `S0042-R03`.
+- A spec has three parts: the problem (user stories, business rules, what is out of context), the solution (a short list of what to do in each project), and the verification (the requirements and the expected URLs and APIs).
+- Its requirements are in EARS: `R01`, `R02`, … Other records cite them as `S0042-R03`.
 - A spec looks forward. It does not list shipped requirements.
 - A spec declares each change to the [schemas](../principles/data.md#schemas) and each endpoint.
 - The human approves the spec before the code starts. In YOLO mode, the spec is approved when it is written, and it contains only what the request names. The approval commits the spec.

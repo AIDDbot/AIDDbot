@@ -12,27 +12,25 @@ domain: {domain}
 
 {What is incorrect and its evidence. Give the source D IDs and the shipped requirement that it breaks, if there is one. Write short sentences, with one statement in each sentence.}
 
-## Requirements
-
-{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements. A `refactor` or a `chore` can have none: then remove this section.}
-
-- **R01**: WHEN {trigger}, the {system} SHALL {response}.
-
 ## Solution
 
-{Short bullets, by project: the change, inside the evidence of the Problem.}
+{A short list, by project, of the change, inside the evidence of the Problem.}
 
 ### {project}
 
 - {change}
 
-## Schema impact
+### Schema impact
 
-{If no entity, table, column or endpoint changes, remove this section. Otherwise, use the rows of `spec.template.md`, and give a changed endpoint with its statuses.}
+{If no entity, table, column or endpoint changes, remove this subsection. Otherwise, use the rows of `spec.template.md`, and give a changed endpoint with its statuses.}
 
-## Test notes
+## Verification
 
-{A `fix` has one acceptance test for each requirement, with its tag. A `refactor` or a `chore` without requirements has none: the full acceptance run and the check that reported the debt are its verification. Write a note only for a technique that is not obvious; otherwise remove this section.}
+### Requirements
+
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements, each with one acceptance test with its tag; add `Test: {technique}` only for a technique that is not obvious. A `refactor` or a `chore` can have none: then write instead that the full acceptance run and the check that reported the debt are its verification.}
+
+- **R01**: WHEN {trigger}, the {system} SHALL {response}.
 
 ## Technical debt
 
