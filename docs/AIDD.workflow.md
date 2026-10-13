@@ -59,8 +59,8 @@ craft-lasting-quality:
   - "Craftsman: scan-quality"
   - "Architect: select one coherent group of eligible debt; the repair stays within its evidence"
   - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
-  - "scan again and repeat while debt remains, highest priority first, at most 5 specs, and stop at a spec that ships an unresolved failure"
-  - "return the debt list summary at the end"
+  - "repeat the selection and the repair while debt remains, highest priority first, at most 5 specs, and stop at a spec that ships an unresolved failure; no scan between two repairs"
+  - "Craftsman: scan-quality again, then return the debt list summary"
 ```
 
 ## Foundation
@@ -168,7 +168,7 @@ The records of the system, journal summaries included, use the language of the h
 
 `craft-lasting-quality` follows this route:
 
-`scan-quality` → select coherent debt → `/build-requested-spec`, again while debt remains, highest priority first (at most 5 specs in one run)
+`scan-quality` → select coherent debt → `/build-requested-spec`, again from the selection while debt remains, highest priority first (at most 5 specs in one run) → `scan-quality`
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 

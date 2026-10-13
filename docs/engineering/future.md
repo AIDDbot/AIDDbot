@@ -30,7 +30,8 @@ Record each debt with its priority, its evidence and its origin. Do not hide it.
 2. Select one coherent group of related items.
 3. Make a repair spec for the group.
 4. Send the spec through the normal [features](./features.md) flow. The repair needs no approval: the debt is already recorded.
-5. Scan again. Repeat while debt remains, `high` first, then `medium`, then `low`, for at most five specs in one run.
+5. Repeat from step 2 while debt remains, `high` first, then `medium`, then `low`, for at most five specs in one run. Do not scan between two repairs: skip an item that an earlier repair removed.
+6. Scan again at the end, so that the register shows the code after the last repair.
 
 - A repair is a [craft pass](../principles/glossary.md). It keeps the behavior, except a `fix` for debt that breaks it.
 - An upgrade of the dependencies skips the scan: it is a `chore` that repairs all that the upgrade breaks.
