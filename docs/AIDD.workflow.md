@@ -18,7 +18,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md`, make the projects and deliver the foundation. With code: document the architecture. Run it again at any time to align the documentation with the code. |
+| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from a library of archetypes, copy the projects and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 
@@ -38,10 +38,9 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 ```yaml
 architect-system-foundation:
   greenfield:
-    - "Architect: propose .product/system.md as typed projects, with an archetype per project or one made on demand, and obtain approval"
-    - "Architect: on chore/foundation, scaffold each project with its AGENTS.md, registered slots, and no orphan samples"
-    - "Architect: outline-system, then integrate (never rule-project); with Archetype Base, only the root AGENTS.md, because the schema documents are copied"
-    - "build-requested-spec per foundation spec: configuration, monitoring, layout when the system has a front-web, health, basic-auth when the system has users, account with basic-auth, about and record-views when the system has a front-web; with Archetype Base, none: the copied spec instances stay as the contract, and the close proves them"
+    - "Architect: propose .product/system.md as typed projects from one library, and obtain approval; when no library fits, stop"
+    - "Architect: on chore/foundation, copy each project of the library with its spec instances and schema documents; Builder: register the slots"
+    - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
     - "close only when lint, unit, and acceptance pass"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
@@ -68,22 +67,22 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → scaffold → `outline-system` → foundation specs | A green system: each project with its `AGENTS.md`, and `configuration`, `monitoring`, `layout` (with a `front-web`), `health`, the optional `basic-auth` and `account`, `about` and `record-views` (with a `front-web`) shipped |
+| No application code | Staged questions → `.product/system.md` → approval → copy of the library → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the library (its spec instances, code and tests) proved by the close |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. Each project uses an archetype of its type from the catalog. For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form. Or the Architect makes an archetype for the selected technology: it fills the Archetype-Blueprint (`project.AGENTS.template.md`), keeps it as `.product/archetypes/{project}.AGENTS.md`, and links it from `system.md`, never copies it.
+A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. The projects come from one library of the catalog. AIDDbot offers only libraries: when no library fits, the foundation stops and makes no archetype. Libraries are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
 
-After the approval, the Architect works on `chore/foundation`, one project at a time (with Archetype Base, each step for the three projects at once), with three commits for each project:
+After the approval, the Architect works on `chore/foundation`, each step for all the projects of the library at once:
 
 1. The scaffold, with no change (`chore(scaffold): generate`).
-2. The shape of the Blueprint (`refactor: shape to blueprint`).
-3. The tooling (`chore: register tooling`; with Archetype Base, one `chore(scaffold): register tooling` for the three projects).
+2. The system data in each `AGENTS.md` (`refactor: shape to blueprint`).
+3. The tooling, one `chore(scaffold): register tooling` for all the projects.
 
 In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. When projects share technology, `outline-system` moves the tooling and technology rules that they repeat to the Common stack of the root `AGENTS.md`, one time. The primitives index lists only the helpers that two or more features use; a helper of one feature follows a naming convention and has no row. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
 
-The Architect reorganizes the templates of other generators, removes the samples that cannot operate, installs each missing mandatory slot, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. Then `build-requested-spec` delivers the foundation specs, which have no technology, one at a time. With Archetype Base, no spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of Archetype Base, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
+The Builder installs with `npm ci` and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of the library, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
 Run `/architect-system-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 

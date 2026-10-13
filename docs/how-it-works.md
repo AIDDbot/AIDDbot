@@ -35,7 +35,7 @@ flowchart LR
 `/architect-system-foundation` first decides the route. A repository with application code is **brownfield**, also when it is legacy code. A repository without application code is **greenfield**.
 
 - **Brownfield.** The Architect reads the code and writes the documentation: the `AGENTS.md` of the system and of each project, the schemas, and the commands of each project. It does not change the code or run the tests.
-- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `back-api`, `front-web`, `cli` and `e2e`. Each project starts from an archetype. After your approval, it makes the projects and delivers the foundation specs. The foundation ends only when `lint`, `unit` and `acceptance` pass.
+- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `back-api`, `front-web`, `cli` and `e2e`. The projects come from a library of archetypes, such as Archetype Base or Archetype CLI, that already has the foundation and its tests. If no library fits your system, the Architect tells you and stops. After your approval, it copies the projects. The foundation ends only when `lint`, `unit` and `acceptance` pass.
 
 After the first run, each system is the same: a documented system with its rules. Thus `/build-requested-spec` and `/craft-lasting-quality` operate the same way on greenfield and brownfield code. Run the command again when the documentation must agree with the code.
 

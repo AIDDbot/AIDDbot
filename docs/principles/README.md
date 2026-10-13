@@ -17,4 +17,4 @@ See the [Glossary](./glossary.md) for the terms.
 
 The [engineering principles](../engineering/README.md) drive the management of the development.
 
-> **Sources.** Agents read these principles from the Blueprint section of [`AGENTS.template.md`](../../.agents/skills/outline-system/assets/AGENTS.template.md). The archetype data is in [`project.AGENTS.template.md`](../../.agents/skills/architect-system-foundation/assets/project.AGENTS.template.md) and [`ecosystems.md`](../../.agents/skills/architect-system-foundation/assets/ecosystems.md). If you change a principle, change its source with `/maintain-skills`.
+> **Sources.** Agents read these principles from the Blueprint section of [`AGENTS.template.md`](../../.agents/skills/outline-system/assets/AGENTS.template.md). The archetype data is in the [Archetype Builder](https://github.com/AIDDbot/archetype-builder) (`blueprint/project.AGENTS.template.md` and `blueprint/ecosystems.md`). If you change a principle, change its source with `/maintain-skills`.
