@@ -29,6 +29,7 @@ When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.
 Fill `spec.md` as its template says. The template does not say these rules:
 
 - Each requirement gets its acceptance test in this spec; never defer it to another spec. Cover at least one error scenario.
+- Each behavior in `Solution` that an acceptance test can prove, such as a log line, an exit code, or a message, gets its requirement. Only a result that no acceptance test can prove stays in `Solution` alone.
 - Never list shipped requirements: a spec looks forward. A shipped requirement that it contradicts shows as a failing regression test, and `build-requested-spec` triages it.
 - In `Expected URLs and APIs`, list only the errors that the address can cause. A request with no body gets no invalid-JSON or body-size error.
 - Leave the schema documents to shipping.

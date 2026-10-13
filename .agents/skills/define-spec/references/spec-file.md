@@ -6,4 +6,5 @@ A spec file that the request gives is the contract. It needs no scope decisions.
 - Write `spec.md` from that file, not from the template.
 - Replace each role (`api`, `web`, `cli`, `e2e`) with the project of that type. Delete what belongs to a role that the system does not have.
 - Renumber the requirements without gaps, and renumber each reference to them.
+- Add after the last requirement each requirement that the rules of `Content` ask for, with its acceptance test.
 - Change no contract that the file fixes.
