@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.14 - 2026-10-13
+
+- refactor(skills): name the project types api, web, cli and e2e (Halloween D17) (9f01e6e)
+- refactor(skills): tighten /define-spec with the problem, solution and verification trio (2a61b0d)
+- docs(product): foundation for any archetype, D12-D15 (d9117f4)
+
 ## 0.3.13 - 2026-10-13
 
 - docs: libraries only, and the Archetype Builder (642dfd8)
