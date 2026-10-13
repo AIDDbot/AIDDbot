@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.17 - 2026-10-13
+
+- chore: pin Archetype CLI v0.3.13 (d1b20da)
+
 ## 0.3.16 - 2026-10-13
 
 - docs(product): D19 crafts after each foundation spec (a49387d)
