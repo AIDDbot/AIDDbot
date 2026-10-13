@@ -13,12 +13,14 @@ Es también la primera prueba real de AIDDbot v0.3.17: el trío de la spec, los 
 ### 0 · Preparar (PowerShell)
 
 ```powershell
-Remove-Item -Recurse -Force C:\codeidd\experiments\halloween\cli-1
-New-Item -ItemType Directory C:\codeidd\experiments\halloween\cli-1 | Out-Null
-Set-Location C:\codeidd\experiments\halloween\cli-1
-node C:\codeidd\AIDDbotiniddbot.js init
+Remove-Item -Recurse -Force C:\code\aidd\experiments\halloween\cli-1
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-1 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-1
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init
 New-Item -ItemType Directory builder | Out-Null
-Copy-Item C:\codeiddrchetype-builder\procedure.md builderCopy-Item -Recurse C:\codeiddrchetype-builderlueprint buildergit add -A; git commit -m "chore: Archetype Builder procedure and blueprint"
+Copy-Item C:\code\aidd\archetype-builder\procedure.md builder\
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint builder\
+git add -A; git commit -m "chore: Archetype Builder procedure and blueprint"
 ```
 
 `builder/` lleva el procedimiento y el Blueprint dentro del sistema: el agente no lee fuera de su carpeta, y la prueba queda fija aunque el Builder cambie.
