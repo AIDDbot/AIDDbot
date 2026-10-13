@@ -78,3 +78,17 @@ Solo para el tipo `cli`. Es el equivalente de `layout` en `front-web`: la forma 
 - **El core (fase 5) llega después**, en patches 0.4.x. Su repo nace con AIDDbot v0.4.0 y Archetype CLI v0.4.x (D2).
 - Es un patch porque el contrato hacia las skills no cambia (D2).
 - **Motivo:** el core depende de las fases 3 y 4. Esperarlo pone en riesgo la fecha del 31 de octubre.
+
+## D10 ← P10 (inventario) · El Builder fabrica arquetipos con AIDDbot tal cual
+
+- El Builder no tiene skills propias. Usa AIDDbot como cualquier sistema.
+- Cada spec genérica se entrega como una petición normal: «entrega la spec de este fichero».
+- `define-spec` conserva `references/foundation-spec.md`, con un nombre genérico: «spec desde un fichero dado». No sabe nada de arquetipos.
+- El scaffold de un arquetipo nuevo (generador oficial, forma del Blueprint, tooling, prueba de fronteras) va al `procedure.md` del Builder, no a AIDDbot.
+- Cuando el humano haga otra biblioteca, decide si el Builder necesita una herramienta real.
+
+## D11 ← P11 (inventario) · La marca es la del autor, por ahora
+
+- El tema sale de AIDDbot al Builder. Base lo sigue trayendo en `front/`.
+- Por ahora, la marca es la del autor de AIDDbot.
+- Más adelante: cómo facilitar que un usuario cambie la marca.

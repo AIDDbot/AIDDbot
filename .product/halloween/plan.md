@@ -1,7 +1,7 @@
 # Halloween — el arquetipo también para nosotros
 
 > Sprint tras Columbus (v0.3.x). Versión **0.4.x**, codename **Halloween**. Objetivo: **31 de octubre de 2026** (o antes).
-> Borrador a partir de `ideas.md`. Las dudas van como 🟡 `P{n}` con `> **R:**` para responder en el fichero; las decisiones están en `decisions.md` (D1–D9).
+> Borrador a partir de `ideas.md`. Las dudas van como 🟡 `P{n}` con `> **R:**` para responder en el fichero; las decisiones están en `decisions.md` (D1–D11).
 
 ## Contexto (datos a 2026-10-13, v0.3.11)
 
@@ -47,7 +47,7 @@ Cada fase va en una rama corta y termina con un patch publicado, como en Columbu
 
 Dudas P1–P8 cerradas; decisiones D1–D8 en `decisions.md`.
 
-### Fase 1 · Versiones independientes (D6) — AIDDbot
+### Fase 1 · Versiones independientes (D6) — AIDDbot ✅ v0.3.12
 
 Primero, porque las fases siguientes publican patches en varios repos.
 
@@ -57,7 +57,7 @@ Primero, porque las fases siguientes publican patches en varios repos.
 
 **Hecho cuando:** AIDDbot publica un patch sin publicar antes Base ni CLI.
 
-### Fase 2 · El Archetype Builder sale de AIDDbot (D4, D5) — AIDDbot + repo nuevo
+### Fase 2 · El Archetype Builder sale de AIDDbot (D4, D5, D10, D11) — AIDDbot + repo nuevo ✅ (inventario en `builder-inventory.md`; skill 2131 → 199 líneas)
 
 - **Inventario:** cada fichero de `architect-system-foundation` (y de otras skills, como `define-spec/references/foundation-spec.md`) se clasifica como «lo usa la fundación con biblioteca» o «solo sirve para fabricar un arquetipo».
 - **Repo `AIDDbot/archetype-builder`:** recibe tal cual lo que solo sirve para fabricar: specs de fundación genéricas, `ecosystems.md`, tema, configuraciones de oxlint, plantilla `project.AGENTS.template.md`. En esta fase no tiene herramienta: solo los activos y un `README.md`. La herramienta llega cuando el humano la necesite para una biblioteca nueva.
