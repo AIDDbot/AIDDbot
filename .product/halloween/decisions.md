@@ -154,7 +154,7 @@ Una spec es de fundación si cumple las dos condiciones:
 ## D18 ← conversación (2026-10-13) · La ranura `test`; el tipo en la config del proyecto
 
 - Las ranuras son `lint`, `format`, `upgrade`, `test`, `start` y `quality`. El nombre de la ranura es el del script de npm.
-- En `api`, `web` y `cli`, `test` ejecuta los tests unitarios. En `e2e`, `test` ejecuta la suite de aceptación en modo headless, y `start` abre la interfaz interactiva, solo para un humano.
+- En `api`, `web` y `cli`, `test` ejecuta los tests unitarios. En `e2e`, `test` ejecuta solo la suite de aceptación en modo headless (`playwright test --pass-with-no-tests`): un `e2e` no tiene tests unitarios, porque cada ejecución prueba su `core`. `start` abre la interfaz interactiva, solo para un humano.
 - Cada proyecto de `.aiddbot/config.json` tiene `type` (`api`, `web`, `cli`, `e2e`). El core deduce la evidencia del tipo: el `test` de un `e2e` es aceptación; los demás, unitaria.
 - `aidd run test` ejecuta el `e2e` al final. `--spec` ejecuta solo el `e2e`, filtrado a la spec.
 - Toda la aceptación va por el `e2e`; un `cli` ya no tiene «tests propios».

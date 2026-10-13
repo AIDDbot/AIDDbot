@@ -23,6 +23,7 @@ Each project gives one command for each check. The archetype selects the tool.
 - A unit test proves one business rule of `logic`, with a fake `data` and no external system. Also test `shared` and `core`, not the framework. If possible, put it next to the code.
 - A business rule without a unit test is debt. No check measures it yet.
 - An acceptance test proves one requirement of a spec. Its name contains the identifier of that requirement. It also proves `presentation` and `data`.
+- The `e2e` project has no unit tests: each run of the suite proves its `core`.
 - The `e2e` project starts the other projects and checks that they answer. Its tests use only the API, the screens and the commands, never the database or the code of other projects. Only the migration tests open the database. Each feature of the system has one folder of tests.
 
 ---
