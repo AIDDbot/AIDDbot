@@ -18,7 +18,7 @@
 
 | Project | Type | Folder | Archetype | Responsibility |
 | --- | --- | --- | --- | --- |
-| {project} | {back-api \| front-web \| cli \| e2e} | `{folder}/` | `{archetype}` \| on demand: {technology} | {one-line responsibility} |
+| {project} | {back-api \| front-web \| cli \| e2e} | `{folder}/` | `{library}/{folder}` | {one-line responsibility} |
 
 ## Technical decisions
 
@@ -27,17 +27,12 @@
 
 ## Scaffold
 
-Run from the repository root with a clean working tree, for each project:
+Run from the repository root with a clean working tree, for each project of the library:
 
 ```bash
 {the copy command of the archetype in archetypes.md}
 npm install --prefix {folder}
 ```
 
-{With a library, also copy its spec instances and its schema documents: `npx degit AIDDbot/{library}/foundation#{tag} .product/archetypes/foundation` and `npx degit AIDDbot/{library}/model#{tag} .product/model`.}
+{Also copy the spec instances and the schema documents of the library: `npx degit AIDDbot/{library}/foundation#{tag} .product/archetypes/foundation` and `npx degit AIDDbot/{library}/model#{tag} .product/model`.}
 
-{Projects with an archetype made on demand: the official generator and dependency install to run for each, with no functional code.}
-
-## Archetypes made on demand
-
-{For each project whose archetype is made on demand: one link to `.product/archetypes/{project}.AGENTS.md`, the `project.AGENTS.template.md` filled for the chosen technology, which the scaffold copies to `{folder}/AGENTS.md`. Never copy its content here. Omit this section when every project uses a catalog archetype.}

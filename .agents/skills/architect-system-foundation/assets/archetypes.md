@@ -4,7 +4,7 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 ## Archetype Base
 
-`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `back-api`, one `front-web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other rows or an archetype made on demand.
+`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `back-api`, one `front-web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
@@ -18,7 +18,7 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `back-api`) and one `e2e`, and with no users. For any other system, use an archetype made on demand.
+`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `back-api`) and one `e2e`, and with no users. For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
@@ -29,6 +29,6 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 - `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0003-health`). `model/` holds the schema documents of the code.
 - Copy command: `npx degit AIDDbot/archetype-cli/{folder}#v0.3.11 {target}`.
 
-## Other projects
+## No library fits
 
-Each project that no library fits uses an archetype made on demand.
+AIDDbot makes no archetype. Stop, and tell the human which libraries exist.
