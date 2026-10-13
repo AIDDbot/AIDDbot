@@ -1,6 +1,6 @@
 # Halloween — experimentos
 
-Guion y prompts de la fase 3.2. La prueba se ejecuta en `C:/code/aidd/experiments/halloween/cli-1/`: ahí se leen el diario, las specs, los `AGENTS.md`, `config.json` y la transcripción. Su resumen (3.3) va a `notes.md`.
+Guion y prompts de la fase 3.2. La prueba se ejecuta en `C:/code/aidd/experiments/cli-1/`: ahí se leen el diario, las specs, los `AGENTS.md`, `config.json` y la transcripción. Su resumen (3.3) va a `notes.md`.
 
 ## cli-1 · Archetype CLI a las 7 capacidades
 
@@ -9,7 +9,7 @@ Un sistema de trabajo (D20) que parte de Archetype CLI v0.3.13 y recibe las spec
 ### 0 · Preparar
 
 ```bash
-mkdir -p C:/code/aidd/experiments/halloween/cli-1 && cd C:/code/aidd/experiments/halloween/cli-1
+mkdir -p C:/code/aidd/experiments/cli-1 && cd C:/code/aidd/experiments/cli-1
 node C:/code/aidd/AIDDbot/bin/aiddbot.js init
 mkdir foundation-0.4
 cp C:/code/aidd/archetype-builder/blueprint/foundation/{configuration,monitoring,shell,about,health,presentation}.spec.md foundation-0.4/
@@ -23,10 +23,12 @@ Las specs se copian dentro del sistema porque el agente no lee fuera de su carpe
 ```text
 usa la skill $architect-system-foundation en modo YOLO. Para:
 Sistema de prueba sin funcionalidad de negocio: solo la fundación.
-Propósito: llevar Archetype CLI a las 7 capacidades de fundación.
+Propósito: un sistema de trabajo que parte de Archetype CLI tal como está en el catálogo.
 Usuarios: un operador local, sin cuentas.
 Proyectos: cli y e2e con Archetype CLI del catálogo.
 ```
+
+No nombrar las 7 capacidades en el propósito: el agente las lee como requisito de la fundación y para, porque la biblioteca solo trae 3 (D5). Ocurrió en el primer intento.
 
 Vigilar:
 
