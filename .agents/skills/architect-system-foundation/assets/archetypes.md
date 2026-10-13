@@ -4,7 +4,7 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 ## Archetype Base
 
-`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `api`, one `web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
+`AIDDbot/archetype-base`, tag `v0.3.12`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `api`, one `web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
@@ -14,11 +14,11 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 - Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed: the e2e suite, the boundary configuration and the spec instances use them.
 - `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0008-record-views`). The code implements each one, and each acceptance test has the tag of its requirement. `model/` holds the schema documents of the code.
-- Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.11 {target}`.
+- Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.12 {target}`.
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `api`) and one `e2e`, and with no users. For any other system, use the other library.
+`AIDDbot/archetype-cli`, tag `v0.3.12`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `api`) and one `e2e`, and with no users. For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
@@ -27,7 +27,7 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 - Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed.
 - `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0003-health`). `model/` holds the schema documents of the code.
-- Copy command: `npx degit AIDDbot/archetype-cli/{folder}#v0.3.11 {target}`.
+- Copy command: `npx degit AIDDbot/archetype-cli/{folder}#v0.3.12 {target}`.
 
 ## No library fits
 
