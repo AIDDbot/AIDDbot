@@ -1,7 +1,7 @@
 # Halloween — el arquetipo también para nosotros
 
 > Sprint tras Columbus (v0.3.x). Versión **0.4.x**, codename **Halloween**. Objetivo: **31 de octubre de 2026** (o antes).
-> Borrador a partir de `ideas.md`. Las dudas van como 🟡 `P{n}` con `> **R:**` para responder en el fichero; las decisiones están en `decisions.md` (D1–D11).
+> Borrador a partir de `ideas.md`. Las dudas van como 🟡 `P{n}` con `> **R:**` para responder en el fichero; las decisiones están en `decisions.md` (D1–D15).
 
 ## Contexto (datos a 2026-10-13, v0.3.11)
 
@@ -66,13 +66,13 @@ Primero, porque las fases siguientes publican patches en varios repos.
 
 **Hecho cuando:** ninguna skill de AIDDbot nombra un arquetipo bajo demanda. Medida: líneas de `architect-system-foundation` antes y después (hoy 2131).
 
-### Fase 3 · Archetype CLI 0.4 (D7, D8) — Builder + `archetype-cli`
+### Fase 3 · Archetype CLI 0.4 (D7, D8, D12–D15) — Builder + `archetype-cli`
 
-- **Specs genéricas en el Builder:** `usage` nueva (ayuda, códigos de salida, `--json`), y `configuration` con el fichero JSON y `config get|set` para el `cli`.
-- **Instancias en `archetype-cli`:** `foundation/S0004-usage` y `configuration` actualizada, con su código y sus pruebas de aceptación con etiqueta. Puerta de biblioteca en verde, cero deuda.
+- **Modelo genérico en el Builder (D12, D13, D15):** las 7 specs (`configuration`, `monitoring`, `shell`, `about`, `health`, `users`, `presentation`), cada una con su variación por tipo, y el documento de variaciones por tipo (specs, ranuras, capas). Las 8 specs actuales quedan como referencia de Base hasta 0.5 (D14).
+- **Instancias en `archetype-cli`:** `configuration` (con el fichero JSON y `config get|set`, D8), `monitoring`, `shell` (ayuda, códigos de salida, `--json`, D7), `about` (`--version`), `health` y `presentation` (tabla, registro, formulario en texto). Sin `users`. Con su código y sus pruebas de aceptación con etiqueta. Puerta de biblioteca en verde, cero deuda.
 - **Release:** `archetype-cli` v0.4.0 Halloween. AIDDbot fija la etiqueta en el catálogo.
 
-**Hecho cuando:** un `cli` recién fundado responde a `--help`, `--version`, `--json` y `config get|set`, con la suite de aceptación en verde.
+**Hecho cuando:** un `cli` recién fundado responde a `--help`, `--version`, `--json` y `config get|set`, muestra listas y registros con las primitivas de `presentation`, y pasa la suite de aceptación.
 
 ### Fase 4 · Prueba real y release 0.4.0 Halloween
 

@@ -92,3 +92,47 @@ Solo para el tipo `cli`. Es el equivalente de `layout` en `front-web`: la forma 
 - El tema sale de AIDDbot al Builder. Base lo sigue trayendo en `front/`.
 - Por ahora, la marca es la del autor de AIDDbot.
 - Más adelante: cómo facilitar que un usuario cambie la marca.
+
+## D12 ← P12 (`foundation-matrix.md`) · Criterio de una spec de fundación
+
+Una spec es de fundación si cumple las dos condiciones:
+
+1. Todo sistema la necesita antes de la primera feature de negocio.
+2. Sin ella, cada feature lo resolvería a su manera.
+
+- Cada spec tiene una variación para cada tipo (`back-api`, `front-web`, `cli`, `e2e`), o un «no aplica» con motivo. Nunca por omisión.
+- Solo una propiedad del sistema hace opcional una spec, nunca el tipo. Hoy hay una: el sistema tiene usuarios.
+
+## D13 ← P13, P16 (`foundation-matrix.md`) · Siete capacidades, en orden de dentro afuera
+
+| # | Spec | Pregunta | Sustituye a |
+| --- | --- | --- | --- |
+| 1 | `configuration` | ¿Cómo arranca? | — (pierde `--version`) |
+| 2 | `monitoring` | ¿Cómo se observa? | — |
+| 3 | `shell` | ¿Cómo se usa? | `layout` (front-web), `usage` (cli, D7) |
+| 4 | `about` | ¿Qué es? | `about` (solo front-web), `--version` |
+| 5 | `health` | ¿Atraviesa todas las capas? | — |
+| 6 | `users` (opcional) | ¿Quién la usa? | `basic-auth`, `account` |
+| 7 | `presentation` | ¿Cómo muestra y recoge los datos? | `record-views`, `readFields`, `createRecordForm`, `recordForm` |
+
+- `presentation` tiene cinco primitivas: lista, registro, formulario, estados y valores. Una feature nunca escribe su propio marcado o formato de tabla, registro o formulario: compone estas primitivas.
+- `users` no aplica a un `cli` local: no tiene usuarios (Columbus D67).
+- La variación de cada tipo está en la tabla de `foundation-matrix.md`.
+- **Cambia D7:** `usage` es la variación `cli` de `shell`. La versión pasa de `configuration` R08 a `about`.
+
+## D14 ← P14 (`foundation-matrix.md`) · Archetype CLI primero; Base en 0.5
+
+- El modelo genérico (las 7 specs, D12, D13) se escribe en el Builder en la fase 3.
+- Archetype CLI nace con él en 0.4.
+- Archetype Base mantiene sus 8 specs actuales hasta 0.5.
+
+## D15 ← P15 (`foundation-matrix.md`) · Tres niveles para specs, tooling y reglas
+
+| Nivel | Specs | Tooling | Reglas | Dónde |
+| --- | --- | --- | --- | --- |
+| Genérico | las 7 capacidades | las ranuras y su criterio | el Blueprint | AIDDbot y Builder |
+| Por tipo | la fila de cada tipo | qué ranuras aplican, y por qué | capas y carpetas | Builder: un documento de variaciones por tipo |
+| Por tecnología | la instancia en `foundation/` | comando y herramienta | reglas de tecnología | cada biblioteca |
+
+- Cada nivel solo añade; nunca repite el anterior.
+- El documento de variaciones por tipo sustituye a la tabla de la sección 4 de `project.AGENTS.template.md`.
