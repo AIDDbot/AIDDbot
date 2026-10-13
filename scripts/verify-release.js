@@ -58,6 +58,15 @@ try {
   const invalid = spawnSync(process.execPath, ["scripts/release.js", "invalid"], { cwd: root });
   assert.equal(invalid.status, 1);
   assert.equal(fs.readFileSync(path.join(root, "package.json"), "utf8"), original);
+  // A pinned library must share major.minor with the next version; its patch is free.
+  const catalog = path.join(root, ".agents/skills/architect-system-foundation/assets/archetypes.md");
+  fs.mkdirSync(path.dirname(catalog), { recursive: true });
+  fs.writeFileSync(catalog, "`AIDDbot/archetype-base`, tag `v1.2.0`.\n");
+  assert.match(release("--dry-run"), /1\.2\.3 -> 1\.2\.4/);
+  const otherSeries = spawnSync(process.execPath, ["scripts/release.js", "minor", "--dry-run"], { cwd: root, encoding: "utf8" });
+  assert.equal(otherSeries.status, 1);
+  assert.match(otherSeries.stderr, /archetype-base is pinned at v1\.2\.0\. Release archetype-base v1\.3\.x first/);
+  fs.rmSync(path.join(root, ".agents"), { recursive: true });
   assert.match(run(process.execPath, ["bin/aiddbot.js", "--version"]), /v1\.2\.3.*unreleased/);
   release();
   assert.equal(pkg().version, "1.2.4");
