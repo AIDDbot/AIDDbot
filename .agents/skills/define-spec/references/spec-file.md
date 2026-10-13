@@ -1,6 +1,6 @@
-# Foundation spec
+# Spec file
 
-A foundation spec file is the contract. It needs no scope decisions.
+A spec file that the request gives is the contract. It needs no scope decisions.
 
 - Take its type, slug, title, and domain from its header, and run `spec new` with them.
 - Write `spec.md` from that file, not from the template.
