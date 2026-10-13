@@ -18,7 +18,7 @@
 
 | Project | Type | Folder | Archetype | Responsibility |
 | --- | --- | --- | --- | --- |
-| {project} | {back-api \| front-web \| cli \| e2e} | `{folder}/` | `{library}/{folder}` | {one-line responsibility} |
+| {project} | {api \| web \| cli \| e2e} | `{folder}/` | `{library}/{folder}` | {one-line responsibility} |
 
 ## Technical decisions
 

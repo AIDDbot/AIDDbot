@@ -5,3 +5,4 @@
 - ¿se pod´ria usar el arquetipo con el core y builder?
 - ¿tiene sentido extar core y/o archetype builder a su propio repo basado en el arquetipo CLI?
 - ¿se pueden mantener dentro de este repo de AIDDDbot, pero con las ventajas del arquetipo?
+- Bun prepara su propio lint, format y control de tipos (compatibles con oxc). Tenerlo en cuenta para una biblioteca Bun (D16).

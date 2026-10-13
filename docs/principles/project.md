@@ -2,7 +2,7 @@
 
 - A project is a unit of code that you deploy alone.
 - It starts from an archetype.
-- It has one type: `back-api`, `front-web`, `cli` or `e2e`.
+- It has one type: `api`, `web`, `cli` or `e2e`.
 
 ## Archetype
 

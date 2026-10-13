@@ -72,7 +72,7 @@ craft-lasting-quality:
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `back-api`, `front-web`, `cli` and `e2e`. The projects come from one library of the catalog. AIDDbot offers only libraries: when no library fits, the foundation stops and makes no archetype. Libraries are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `back-api`, one `front-web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
+A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one library of the catalog. AIDDbot offers only libraries: when no library fits, the foundation stops and makes no archetype. Libraries are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
 
 After the approval, the Architect works on `chore/foundation`, each step for all the projects of the library at once:
 

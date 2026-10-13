@@ -24,7 +24,7 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 
 ## After all projects
 
-- The root `package.json` holds the identity of the system: `displayName` (the system name), `description` (one sentence of the purpose), `author` and `homepage` from `.product/system.md`. `aidd release` writes its `version`. The `front-web` and the `e2e` tests read the identity from this file. Commit it as `chore(scaffold): set the system identity`.
+- The root `package.json` holds the identity of the system: `displayName` (the system name), `description` (one sentence of the purpose), `author` and `homepage` from `.product/system.md`. `aidd release` writes its `version`. The `web` and the `e2e` tests read the identity from this file. Commit it as `chore(scaffold): set the system identity`.
 - Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"`.
 - Never run `rule-project` in greenfield.
 - The **Architect** executes `outline-system`, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetypes: change only the system name in the title of `model.schema.md`.

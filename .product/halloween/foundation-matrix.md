@@ -107,3 +107,9 @@ Recomendación: **a**, con el modelo genérico ya escrito en el Builder. CLI nac
 
 ✅ **P15 → D15. ¿Un documento de variaciones por tipo en el Builder** (specs, ranuras y capas de cada tipo), que sustituye a la tabla de la sección 4 de la plantilla?
 > **R:** Sí. Un documento de variaciones por tipo en el Builder, con las specs, las ranuras y las capas de cada tipo.
+
+✅ **P17 → D16. ¿Node y Bun por separado?** Propuesta: un nivel de lenguaje común (TS7, oxc) y una fila por plataforma.
+> **R:** Aplazado. Bun prepara su propio lint, format y control de tipos, así que la frontera entre lenguaje y plataforma no está clara. Por ahora, nada con Bun.
+
+✅ **P18 → D17. ¿`api` y `web` en vez de `back-api` y `front-web`?**
+> **R:** Sí: `api`, `web`, `cli` y `e2e`.

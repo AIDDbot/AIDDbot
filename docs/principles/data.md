@@ -20,7 +20,7 @@
 The system has one data model. Three schemas show it:
 
 - The entity-relationship schema shows the entities and their relations. It has no technology.
-- The relational schema shows the tables of `back-api`. Numbered migration files keep it.
+- The relational schema shows the tables of `api`. Numbered migration files keep it.
 - The API schema shows the bodies of the REST API. It does not copy the tables.
 
 When the data model changes, update each schema that the change touches. In a spec, only shipping updates them: the review compares the code with the schemas before the spec.

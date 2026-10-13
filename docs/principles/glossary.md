@@ -6,7 +6,7 @@ These are the terms of the principles. Standard terms, such as value object, DRY
 | --- | --- |
 | System | The technical realization of a solution. A set of projects. |
 | Project | A unit of code that you deploy alone. |
-| Type | The function of a project: `back-api`, `front-web`, `cli` or `e2e`. |
+| Type | The function of a project: `api`, `web`, `cli` or `e2e`. |
 | Archetype | A base project of one type, with one technology. |
 | Container | A main part of a project: `core`, `shared` or `features`. |
 | `core` | The container that the framework or the entry point calls one time at startup. |

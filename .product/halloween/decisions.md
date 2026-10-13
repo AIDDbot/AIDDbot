@@ -136,3 +136,17 @@ Una spec es de fundación si cumple las dos condiciones:
 
 - Cada nivel solo añade; nunca repite el anterior.
 - El documento de variaciones por tipo sustituye a la tabla de la sección 4 de `project.AGENTS.template.md`.
+
+## D16 ← P17 (`foundation-matrix.md`) · La plataforma, aplazada; Node explícito
+
+- No hay un nivel nuevo de plataforma. `ecosystems.md` dice «JS / TS on Node».
+- Bun prepara su propio lint, format y control de tipos. Con la primera biblioteca Bun se decide qué es común y qué es de la plataforma, con comandos probados.
+- AIDDbot y el core siguen solo con Node y npm.
+- Queda abierto el nombre de una biblioteca con su plataforma (por ejemplo, `cli-node`).
+
+## D17 ← P18 (`foundation-matrix.md`) · Los tipos de proyecto son `api`, `web`, `cli` y `e2e`
+
+- Cada tipo nombra la interfaz que da el proyecto, no su posición. Sustituye a `back-api` y `front-web`.
+- Builder (las 7 specs, `project-types.md`) y AIDDbot (skills y docs) cambian ya.
+- Archetype Base cambia sus etiquetas y sus carpetas `back/` y `front/` en 0.5, con D14. `foundation-0.3/` no cambia.
+- El fichero de fachada `{feature}.api.ts` no cambia por ahora.

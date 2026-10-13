@@ -9,24 +9,24 @@ A system is a set of projects. Each project has one type.
 ```mermaid
 flowchart LR
     USER[User] --> CLI[cli]
-    USER --> FRONT[front-web]
-    FRONT --> BACK[back-api]
-    CLI -. optional .-> BACK
-    BACK --> DATA[(Persistence)]
-    E2E[e2e] --> FRONT
-    E2E --> BACK
+    USER --> WEB[web]
+    WEB --> API[api]
+    CLI -. optional .-> API
+    API --> DATA[(Persistence)]
+    E2E[e2e] --> WEB
+    E2E --> API
     E2E --> CLI
 ```
 
-- `back-api` owns the data. Only it connects to persistence.
-- `front-web` and `cli` serve the user. They get data only through `back-api`.
-- Exception: an application in a system with no `back-api`, such as a `cli`, a desktop or a mobile application, owns its local data.
+- `api` owns the data. Only it connects to persistence.
+- `web` and `cli` serve the user. They get data only through `api`.
+- Exception: an application in a system with no `api`, such as a `cli`, a desktop or a mobile application, owns its local data.
 - `e2e` tests the flows across projects. It is not part of the product.
 - The same principles apply to all projects. An archetype adds the technology.
 
 ## REST API
 
-`back-api` gives one REST API to the other projects.
+`api` gives one REST API to the other projects.
 
 - Paths start with `/api`. A resource is a plural noun: `/api/users`, `/api/users/:id`.
 - Methods: `GET` reads, `POST` creates or does an action, `PUT` replaces, `PATCH` changes part, `DELETE` removes.

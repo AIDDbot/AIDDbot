@@ -4,12 +4,12 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 ## Archetype Base
 
-`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `back-api`, one `front-web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
+`AIDDbot/archetype-base`, tag `v0.3.11`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `api`, one `web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
-| `back-api` | `archetype-base/back` | `back/` | Express, framework-free TypeScript 7, SQLite |
-| `front-web` | `archetype-base/front` | `front/` | Framework-free TypeScript 7 with Vite, web components, Pico CSS with the brand theme |
+| `api` | `archetype-base/back` | `back/` | Express, framework-free TypeScript 7, SQLite |
+| `web` | `archetype-base/front` | `front/` | Framework-free TypeScript 7 with Vite, web components, Pico CSS with the brand theme |
 | `e2e` | `archetype-base/e2e` | `e2e/` | Playwright |
 
 - Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed: the e2e suite, the boundary configuration and the spec instances use them.
@@ -18,7 +18,7 @@ Catalog of archetypes by project type. A **library** is one repository of archet
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `back-api`) and one `e2e`, and with no users. For any other system, use the other library.
+`AIDDbot/archetype-cli`, tag `v0.3.11`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `api`) and one `e2e`, and with no users. For any other system, use the other library.
 
 | Project type | Archetype | Folder | Technology |
 | --- | --- | --- | --- |
