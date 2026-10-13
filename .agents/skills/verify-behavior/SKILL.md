@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to evaluate one spec against its unit and acceptance tests, and to record each failure.
 
-Run `node .agents/aidd/aidd.mjs run unit`, then `node .agents/aidd/aidd.mjs run acceptance`, from the spec branch, one at a time. Never edit code, tests, or contracts. Never run `lint`, `quality`, or a test tool yourself.
+Run `node .agents/aidd/aidd.mjs run test` from the spec branch. It runs the unit tests of each project first, then the acceptance suite of the `e2e` project. Never edit code, tests, or contracts. Never run `lint`, `quality`, or a test tool yourself.
 
 - A failing unit test blocks the delivery like a failing acceptance test. The core refuses a green verification without a passing unit run at the current commit.
 - A requirement without an acceptance test that has its global ID, as a tag or in its title, is a failure.

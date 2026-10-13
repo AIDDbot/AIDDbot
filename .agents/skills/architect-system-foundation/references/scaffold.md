@@ -15,12 +15,13 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 - Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit the projects and `.aiddbot/config.json`:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"path":"{source_root}","commands":{"lint":"npm run lint","format":"npm run format","upgrade":"npm run upgrade","unit":"npm test","start":"npm start","acceptance":{"na":"e2e owns acceptance"},"quality":"npm run quality"}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"lint":"npm run lint","format":"npm run format","upgrade":"npm run upgrade","test":"npm test","start":"npm start","quality":"npm run quality"}}'
   ```
 
-  - Each of `lint`, `format`, `upgrade`, `unit`, `start`, `acceptance`, and `quality` is a command, a list of commands, or `{"na":"<reason>"}`.
+  - `type` is the type of the project in `.product/system.md`: `api`, `web`, `cli` or `e2e`.
+  - Each of `lint`, `format`, `upgrade`, `test`, `start`, and `quality` is a command, a list of commands, or `{"na":"<reason>"}`. The `test` of the `e2e` project is the acceptance suite.
   - Each command runs in `{source_root}`.
-  - For a scoped run, the core adds `--grep @S{nnnn}-` to the `acceptance` command (after `--` for an npm script).
+  - For a scoped run, the core adds `--grep @S{nnnn}-` to the `test` command of the `e2e` project (after `--` for an npm script).
 
 ## After all projects
 
@@ -29,7 +30,7 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 - Never run `rule-project` in greenfield.
 - The **Architect** executes `outline-system`, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetypes: change only the system name in the title of `model.schema.md`.
 - Run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`.
-- Never run acceptance in this phase: the close of `references/close.md` is the only acceptance run of the foundation.
+- Never run `test` in this phase: the close of `references/close.md` is the only test run of the foundation.
 
 ## Failures and reruns
 

@@ -23,7 +23,7 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 ## Check
 
-- Write unit tests for the critical production code, not for UI code or E2E tests. Run `node .agents/aidd/aidd.mjs run unit --project {project}` until they pass.
+- Write unit tests for the critical production code, not for UI code or E2E tests. Run `node .agents/aidd/aidd.mjs run test --project {project}` until they pass.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
 - After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix each error. A layer-boundary error blocks like all other errors.
 - Run `node .agents/aidd/aidd.mjs run quality --project {project}` only to check a repair of recorded debt. Otherwise `quality` belongs to `scan-quality`.

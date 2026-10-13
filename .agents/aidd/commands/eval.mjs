@@ -22,12 +22,12 @@ function sources(dir) {
 export const requirements = (dir) =>
   [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
 
-/** Requirements of the spec with no acceptance test tagged or titled `@{id}-Rnn` in any acceptance project. */
+/** Requirements of the spec with no acceptance test tagged or titled `@{id}-Rnn` in any `e2e` project. */
 export function untested(root, dir, id) {
   const required = requirements(dir);
   if (!required.length) return [];
   const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});
-  const text = projects.filter((project) => project.commands?.acceptance && typeof project.commands.acceptance.na !== "string")
+  const text = projects.filter((project) => project.type === "e2e" && project.commands?.test && typeof project.commands.test.na !== "string")
     .flatMap((project) => sources(path.join(root, project.path)))
     .map((file) => fs.readFileSync(file, "utf8")).join("\n");
   return required.filter((requirement) => !text.includes(`@${id}-${requirement}`));
@@ -36,17 +36,17 @@ export function untested(root, dir, id) {
 /** Code changes since `commit`, records left out; empty when none. */
 const changedSince = (root, commit) => git(root, ["diff", "--name-only", commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot"]);
 
-/** Why the unit tests do not prove this commit: each project with a `unit` command needs a passing run with no code change since. */
+/** Why the unit tests do not prove this commit: each project that is not `e2e` and has a `test` command needs a passing run with no code change since. */
 function missingUnit(root, control) {
   const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
   for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.unit;
-    if (!slot || typeof slot.na === "string") continue;
+    const slot = project.commands?.test;
+    if (project.type === "e2e" || !slot || typeof slot.na === "string") continue;
     const last = control.runs?.unit?.[name];
-    if (!last) return `Run \`aidd run unit\` on this spec branch before recording a green verification: ${name} has no unit run.`;
+    if (!last) return `Run \`aidd run test\` on this spec branch before recording a green verification: ${name} has no unit run.`;
     if (!last.ok) return `The last unit run of ${name} failed. A failing unit test blocks the delivery: record red.`;
     const changed = changedSince(root, last.commit);
-    if (changed) return `Code changed since the last unit run of ${name} (${changed.split("\n")[0]}…); run \`aidd run unit\` again.`;
+    if (changed) return `Code changed since the last unit run of ${name} (${changed.split("\n")[0]}…); run \`aidd run test\` again.`;
   }
   return null;
 }
@@ -56,10 +56,10 @@ function missingEvidence(root, dir, control, preexisting) {
   const unit = missingUnit(root, control);
   if (unit) return unit;
   const accepted = Object.values(control.runs?.acceptance ?? {});
-  if (!accepted.length) return "Run `aidd run acceptance` on this spec branch before recording a green verification.";
+  if (!accepted.length) return "Run `aidd run test` on this spec branch before recording a green verification: no e2e project has an acceptance run.";
   for (const { commit } of accepted) {
     const changed = changedSince(root, commit);
-    if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run acceptance\` again.`;
+    if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run test\` again.`;
   }
   const missing = untested(root, dir, control.id);
   if (missing.length) return `No acceptance test tagged or titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;

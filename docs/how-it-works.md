@@ -35,7 +35,7 @@ flowchart LR
 `/architect-system-foundation` first decides the route. A repository with application code is **brownfield**, also when it is legacy code. A repository without application code is **greenfield**.
 
 - **Brownfield.** The Architect reads the code and writes the documentation: the `AGENTS.md` of the system and of each project, the schemas, and the commands of each project. It does not change the code or run the tests.
-- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `api`, `web`, `cli` and `e2e`. The projects come from a library of archetypes, such as Archetype Base or Archetype CLI, that already has the foundation and its tests. If no library fits your system, the Architect tells you and stops. After your approval, it copies the projects. The foundation ends only when `lint`, `unit` and `acceptance` pass.
+- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `api`, `web`, `cli` and `e2e`. The projects come from a library of archetypes, such as Archetype Base or Archetype CLI, that already has the foundation and its tests. If no library fits your system, the Architect tells you and stops. After your approval, it copies the projects. The foundation ends only when `lint` and `test` pass.
 
 After the first run, each system is the same: a documented system with its rules. Thus `/build-requested-spec` and `/craft-lasting-quality` operate the same way on greenfield and brownfield code. Run the command again when the documentation must agree with the code.
 
@@ -52,7 +52,7 @@ flowchart LR
 
 1. The Architect writes one spec on its own branch, and stops for your approval.
 2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time.
-3. The Craftsman runs `unit` and the full acceptance suite. A red result goes back to the Builder. At the third revision, the failures become debt and the spec continues.
+3. The Craftsman runs `test`: the unit tests and the full acceptance suite. A red result goes back to the Builder. At the third revision, the failures become debt and the spec continues.
 4. The Craftsman reviews the code for security, data integrity and accessibility. A finding becomes debt.
 5. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
 

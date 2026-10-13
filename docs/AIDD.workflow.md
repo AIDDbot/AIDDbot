@@ -41,7 +41,7 @@ architect-system-foundation:
     - "Architect: propose .product/system.md as typed projects from one library, and obtain approval; when no library fits, stop"
     - "Architect: on chore/foundation, copy each project of the library with its spec instances and schema documents; Builder: register the slots"
     - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
-    - "close only when lint, unit, and acceptance pass"
+    - "close only when lint and test pass"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
@@ -126,7 +126,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 Verification runs before qualification. `aidd eval` records each evaluation with its status, revision and current commit in the `control.json` of the spec. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits the record.
 
 - `aidd run` refuses to start while another run is alive, because two runs share ports, databases and logs. Until a run ends, the first line of its log says `RUNNING`: the log is no result yet.
-- A green verification needs a passing last `aidd run unit` in each project with unit tests, and a passing last `aidd run acceptance` of the spec, both with no code change after them, and an acceptance test with the tag or title `@S0042-R03` for each requirement. A failed run is green only with `--preexisting <D IDs>`, which names open debt recorded before the spec.
+- A green verification needs a passing last unit run in each project with unit tests, and a passing last acceptance run of the `e2e` project, both from `aidd run test`, both with no code change after them, and an acceptance test with the tag or title `@S0042-R03` for each requirement. A failed run is green only with `--preexisting <D IDs>`, which names open debt recorded before the spec.
 - Green evaluations leave no report. Amber and red evaluations leave a report with only the failures and findings.
 - A red verification returns for repair and runs again, without qualification, until revision 3.
 - If the Builder cannot reproduce a failure and does not change it, the failure becomes debt before verification runs again. Thus a green retry never hides it.
@@ -155,7 +155,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 | `quality/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
 | `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` (a shorter template for each type but `feat`) with its requirements, its `control.json` that the core writes, and the non-green reports. It stays after shipping. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
-| `.aiddbot/config.json` | The path of each project and its classified commands `lint`, `format`, `upgrade`, `unit`, `acceptance` and `quality` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
+| `.aiddbot/config.json` | The type, the path of each project and its classified commands `lint`, `format`, `upgrade`, `test`, `start` and `quality` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
 | `.aiddbot/journals/YYYY-MM-DD.log` | The story of the process by local date, always at the repository root, ignored by Git. Nothing reads it. |
 
 `aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. An evaluation report has only findings: a green verification or qualification has no report file. The `control.json` of each spec has its title, domain, state, and the revision, status and commit of each evaluation. Only the core writes it, never a hand edit, so the shipping gate operates in a new clone.
@@ -172,12 +172,12 @@ The records of the system, journal summaries included, use the language of the h
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
-- `aidd run <kind> [--project]` (and `--spec` for acceptance) runs the classified command. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
+- `aidd run <kind> [--project]` (and `--spec` for the tests of the spec in `e2e`) runs the classified command. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `format` changes the files in place. `upgrade` increases the dependencies to their latest releases. Neither is evidence.
 - Each run keeps its full output in `.aiddbot/runs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, `control.json` records it as the latest run of that kind for each project.
-- During coding, the Builder runs `lint` and `unit`. It checks its acceptance tests with `aidd run acceptance --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. The Builder never runs the full acceptance suite. For a spec without requirements, it runs nothing and reports n/a. It runs `quality` only to check a debt repair.
+- During coding, the Builder runs `lint` and `test --project`. It checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec, lists the requirements that have no test, and is never evidence. The Builder never runs the full acceptance suite. For a spec without requirements, it runs nothing and reports n/a. It runs `quality` only to check a debt repair.
 - Quality warnings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
-- The Craftsman runs `unit` and then `acceptance` in `verify-behavior`, and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
+- The Craftsman runs `test` in `verify-behavior`: the unit tests first, then the acceptance suite, and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
 - A `quality` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
 
 Open debt is in `quality/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority (`high`, `medium` or `low`), its evidence and its origin: the spec whose branch added it, or `scan`. A fixed item goes away: at shipping, when the spec cites it and verification is green, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.

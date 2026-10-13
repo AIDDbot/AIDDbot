@@ -10,7 +10,7 @@ The code, the tagged tests, and the review of each foundation spec came with the
 
 The foundation closes only green:
 
-- After the scaffold, run `node .agents/aidd/aidd.mjs run lint`, `run unit`, and `run acceptance`, one at a time. Acceptance takes minutes: wait for its JSON result. If one fails, journal `blocked` and return the failure.
+- After the scaffold, run `node .agents/aidd/aidd.mjs run lint`, then `run test`. `run test` runs the `e2e` project last, and its acceptance takes minutes: wait for its JSON result. If one fails, journal `blocked` and return the failure.
 - Never start a repair or a business spec. After a red close, the run stops: also when the human asked for features.
 - Return the debt summary of `node .agents/aidd/aidd.mjs debt list`. Recommend `craft-lasting-quality` if an item is `high`.
 - Journal nothing for the close: the core journals each run. A result is never a `plan` or a `handoff`.

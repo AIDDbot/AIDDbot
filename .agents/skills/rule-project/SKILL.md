@@ -13,22 +13,21 @@ Read only the decisive source files, the folder trees, the manifests, and the co
 
 ## Commands
 
-Classify the real commands of the project by their effect, never by their script name:
+Set the type of the project by the interface that it gives: `api`, `web`, `cli`, or `e2e` for the project of the end-to-end tests. Then classify its real commands by their effect, never by their script name:
 
 | Slot | Effect |
 | --- | --- |
 | `lint` | Only checks of error level. |
 | `format` | Rewrites the files with the formatter. |
 | `upgrade` | Updates the dependencies and the lockfile. |
-| `unit` | Fast tests, with no server or browser. |
-| `start` | Starts the project. |
-| `acceptance` | End-to-end behavior that starts the system. |
+| `test` | In an `e2e` project: the end-to-end tests that start the system, headless. In other projects: fast tests, with no server or browser. |
+| `start` | Starts the project. In an `e2e` project: the interactive UI of the test runner, for a human only. |
 | `quality` | Each warning-denial, complexity, coverage, or other hardening check, as its own command. Never one aggregate that stops at its first failure: one scan must show each failing check. |
 
-Register `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `quality` is always a list:
+Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `quality` is always a list:
 
 ```json
-{"path":"back","commands":{"lint":"npm run lint","unit":"npm test","quality":["npm run quality:warnings","npm run quality:coverage"]}}
+{"type":"api","path":"back","commands":{"lint":"npm run lint","test":"npm test","quality":["npm run quality:warnings","npm run quality:coverage"]}}
 ```
 
 ## AGENTS.md

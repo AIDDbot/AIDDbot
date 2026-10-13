@@ -57,7 +57,7 @@ test("green verification needs a passing acceptance run at HEAD that tags every 
   approve(root);
   const spec = ".product/specs/S0001-fleet/spec.md";
   write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run acceptance/);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run test/);
   accept(root);
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /@S0001-Rnn for R01, R02/);
   write(root, "e2e/fleet.spec.ts", 'test("lists @S0001-R01", () => {});\ntest("adds @S0001-R02", () => {});\n');
@@ -98,16 +98,16 @@ test("eval commits its own record and drops the report once green", () => {
 test("green verification needs a passing unit run at HEAD in each project with unit tests", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
-  const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { unit: `node -e "process.exit(${code})"` } }));
+  const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: `node -e "process.exit(${code})"` } }));
   unit(0);
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
   accept(root, 0, "S0001");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /back has no unit run/);
   unit(1);
-  aidd(root, "run", "unit");
+  aidd(root, "run", "test");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /unit run of back failed\. A failing unit test blocks/);
   unit(0);
-  aidd(root, "run", "unit");
+  aidd(root, "run", "test");
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });

@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to review the shipped quality and keep the technical debt register current.
 
-Run `node .agents/aidd/aidd.mjs run quality` for all projects, unless the human named one. Never edit code, write tests, or run `lint`, `unit`, or `acceptance`. The limits of the Blueprint, and the limits that the technology rules of a project change, come to you only through its `quality` command: never measure code yourself. A project without a `quality` command is unavailable. Never replace that command with a stricter invocation or with the build lint.
+Run `node .agents/aidd/aidd.mjs run quality` for all projects, unless the human named one. Never edit code, write tests, or run `lint` or `test`. The limits of the Blueprint, and the limits that the technology rules of a project change, come to you only through its `quality` command: never measure code yourself. A project without a `quality` command is unavailable. Never replace that command with a stricter invocation or with the build lint.
 
 Read the open debt with `node .agents/aidd/aidd.mjs debt list`. Then make it agree with the run, only through `node .agents/aidd/aidd.mjs debt`:
 

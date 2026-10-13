@@ -28,9 +28,8 @@ This file gives the data of this project. Do not explore the code to learn the s
 | `lint` | Yes | `{command}` | {tool} |
 | `format` | No | `{command}` | {tool} |
 | `upgrade` | No | `{command}` | {tool} |
-| `unit` | Yes | `{command}` | {tool} |
+| `test` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
-| `acceptance` | Yes | `{command}` | {tool} |
 | `quality` | No | `{command}` | {tool} |
 
 ## 4 · Architecture

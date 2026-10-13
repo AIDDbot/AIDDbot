@@ -9,7 +9,8 @@ import {
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
 import { requirements, untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "format", "upgrade", "unit", "acceptance", "quality"];
+const RUN_KINDS = ["lint", "format", "upgrade", "test", "quality"];
+const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
 const NOT_EVIDENCE = new Set(["format", "upgrade"]);
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
@@ -124,21 +125,24 @@ function withArguments(command, args) {
   return `${command}${npmScript ? " --" : ""} ${args}`;
 }
 
+/** The evidence that a run of `kind` gives for a project: the `test` of an `e2e` is acceptance, any other `test` is unit. */
+const evidenceOf = (kind, project) => (kind !== "test" ? kind : project?.type === "e2e" ? "acceptance" : "unit");
+
 /** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval`. */
-function recordRun(root, kind, runs) {
+function recordRun(root, kind, runs, projects) {
   const dir = findSpec(root, currentBranch(root));
   if (!dir) return;
   const control = readControl(dir);
   if (control.status === "shipped") return;
   const commit = git(root, ["rev-parse", "HEAD"]);
   const at = new Date().toISOString();
-  const byProject = { ...control.runs?.[kind] };
+  control.runs = { ...control.runs };
   for (const name of new Set(runs.map((entry) => entry.project))) {
     const own = runs.filter((entry) => entry.project === name);
     const na = own.find((entry) => entry.na !== undefined)?.na;
-    byProject[name] = { commit, ok: own.every((entry) => entry.ok), at, ...(na !== undefined && { na }) };
+    const evidence = evidenceOf(kind, projects[name]);
+    control.runs[evidence] = { ...control.runs[evidence], [name]: { commit, ok: own.every((entry) => entry.ok), at, ...(na !== undefined && { na }) } };
   }
-  control.runs = { ...control.runs, [kind]: byProject };
   writeControl(dir, control);
 }
 
@@ -265,23 +269,26 @@ export function requireLint(root, paths) {
   }
 }
 
-/** Run one classified command kind for every project that has it, or for `--project`.
- *  `--spec` narrows acceptance to the tests of the current spec; that run is a quick check, never evidence. */
+/** Run one classified command kind for every project that has it, or for `--project`. `test` runs the `e2e` projects last.
+ *  `--spec` narrows `test` to the `e2e` tests of the current spec; that run is a quick check, never evidence. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
   const settings = readJson(configFile(root), { projects: {} });
   const projects = settings.projects ?? {};
   const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
+  const scoped = kind === "test" && flags.spec ? requireSpec(root) : null;
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
-    .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length);
+    .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length)
+    .filter((name) => !scoped || projects[name].type === "e2e")
+    .sort((a, b) => (kind === "test") * ((projects[a].type === "e2e") - (projects[b].type === "e2e")));
   if (!names.length) {
-    throw new UnavailableError(`No '${kind}' command is configured; the foundation records each project's slots from its AGENTS.md.`);
+    const what = scoped ? "No 'e2e' project has a 'test' command" : `No '${kind}' command is configured`;
+    throw new UnavailableError(`${what}; the foundation records each project's type and slots from its AGENTS.md.`);
   }
-  const scoped = kind === "acceptance" && flags.spec ? requireSpec(root) : null;
   const id = scoped && path.basename(scoped).slice(0, 5);
   // A spec without requirements (a refactor or a chore) has no tagged test: the full run of verify-behavior checks it.
   if (id && !requirements(scoped).length) {
-    const na = `${id} has no requirements, so no test has its tag; the full acceptance run of verify-behavior checks it.`;
+    const na = `${id} has no requirements, so no test has its tag; the full test run of verify-behavior checks it.`;
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
@@ -323,7 +330,7 @@ export function run(root, [kind], flags) {
     const where = duplicates.slice(0, 3).map((entry) => `${entry.locations[0].file}:${entry.locations[0].from} (${entry.lines} lines, ${entry.locations.length} places)`);
     journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
   }
-  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs);
+  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects);
   if (tracksLint) rememberLint(root, kind, projects, runs, before);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
     : { kind, ok, runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
@@ -342,10 +349,14 @@ export function config(root, [action, key, value]) {
   try {
     parsed = JSON.parse(value);
   } catch {
-    throw new UsageError(`Value must be JSON, for example '{"path":"back","commands":{"unit":"npm test"}}'.`);
+    throw new UsageError(`Value must be JSON, for example '{"type":"api","path":"api","commands":{"test":"npm test"}}'.`);
   }
   if (parts[0] === "projects" && parts.length === 2 && (typeof parsed?.path !== "string" || path.isAbsolute(parsed.path))) {
-    throw new UsageError('A project needs a relative "path" and a "commands" object.');
+    throw new UsageError('A project needs a "type", a relative "path" and a "commands" object.');
+  }
+  const type = parts.length === 2 ? parsed?.type : parts.length === 3 && parts[2] === "type" ? parsed : undefined;
+  if (parts[0] === "projects" && (parts.length === 2 || parts[2] === "type") && !PROJECT_TYPES.includes(type)) {
+    throw new UsageError(`A project type must be one of: ${PROJECT_TYPES.join(", ")}.`);
   }
   if (parts[0] === "projects" && parts.length === 2) {
     const managers = packageManagers(path.join(root, parsed.path));

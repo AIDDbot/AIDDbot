@@ -28,14 +28,14 @@ The Builder implements the spec in each project that changes.
 - Write a plan before the first edit.
 - Write the code and its unit tests. Write the necessary acceptance tests in the `e2e` project.
 - Each requirement has at least one acceptance test with its identifier.
-- Run `lint` and `unit` during the work. A commit needs a green `lint` on the same files.
+- Run `lint` and `test` of the project during the work. A commit needs a green `lint` on the same files.
 - Check the acceptance tests of the spec only. Never run the full acceptance suite: that is the work of the Craftsman.
 
 ## Verification
 
 The Craftsman proves the work. It is a different agent from the Builder.
 
-- First verify the behavior: run `unit`, then the full acceptance suite. Only one run operates at a time.
+- First verify the behavior: run `test`, which runs the unit tests and then the full acceptance suite. Only one run operates at a time.
 - Then review the implementation. A failure of security, accessibility, the project rules (such as the layer boundaries) or the schema impact makes the review red. Data integrity, performance and names are debt checks.
 - A red verification goes back to the Builder. Stop only for a product question or for acceptance tests that cannot run.
 - At revision 3, a red verification does not block. Its failures become debt.

@@ -26,6 +26,7 @@ test("commit needs a passing lint on the same files of each project it changes",
   const root = repo();
   git(root, "switch", "-q", "-c", "chore/task");
   const lint = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({
+    type: "api",
     path: "back",
     commands: { lint: `node -e "process.exit(${code})"`, format: "node -e \"require('fs').writeFileSync('style.ts', 'x')\"" },
   }));
@@ -56,7 +57,7 @@ test("commit needs a passing lint on the same files of each project it changes",
 
 test("release and integrate refuse project code that changed since its last lint", () => {
   const root = repo();
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
   aidd(root, "spec", "new", "feat", "styled", "Styled", "--domain", "ui");
   approve(root);
   write(root, "back/one.ts", "1\n");

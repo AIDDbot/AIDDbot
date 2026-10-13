@@ -44,9 +44,9 @@ export function aidd(root, ...args) {
 /** Configure an e2e project whose acceptance command exits with `code`, tag `specs`' R01, then run it. */
 export function accept(root, code = 0, ...specs) {
   write(root, "e2e/tags.spec.ts", specs.map((id) => `test("@${id}-R01", () => {});\n`).join(""));
-  const project = { path: "e2e", commands: { acceptance: `node -e "process.exit(${code})"` } };
+  const project = { type: "e2e", path: "e2e", commands: { test: `node -e "process.exit(${code})"` } };
   aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
-  return aidd(root, "run", "acceptance");
+  return aidd(root, "run", "test", "--project", "e2e");
 }
 
 export function readJson(root, file) {

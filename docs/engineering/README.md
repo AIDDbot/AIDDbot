@@ -18,15 +18,15 @@ flowchart LR
     FUNC[Functional] --> spec[Spec<br/>requirements]
     rules --> CODE[Code<br/>with unit tests]
     spec --> CODE
-    CODE --> techCheck[lint, unit<br/>quality]
-    CODE --> specCheck[acceptance<br/>e2e]
+    CODE --> techCheck[lint, test<br/>quality]
+    CODE --> specCheck[test<br/>of e2e]
 ```
 
 | Step | Technical | Functional |
 | --- | --- | --- |
 | Documentation | The rules: the Blueprint of the root `AGENTS.md` and the `AGENTS.md` of each project. The [foundation](./foundation.md) writes them from the [principles](../principles/README.md). | The [spec](./features.md#definition), with its requirements in EARS. |
 | Code | The [code](./features.md#coding) obeys the rules. | The [code](./features.md#coding) and its unit tests implement the spec. |
-| Verification | `lint` and `unit` block. `quality` measures complexity, folder size and duplicated code; it never blocks. | The full acceptance suite, in the `e2e` project. It blocks. |
+| Verification | `lint` and `test` block. `quality` measures complexity, folder size and duplicated code; it never blocks. | The full acceptance suite: `test` of the `e2e` project. It blocks. |
 
 A finding that does not block becomes debt. The [future](./future.md) pays it.
 

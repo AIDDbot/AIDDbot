@@ -150,3 +150,11 @@ Una spec es de fundación si cumple las dos condiciones:
 - Builder (las 7 specs, `project-types.md`) y AIDDbot (skills y docs) cambian ya.
 - Archetype Base cambia sus etiquetas y sus carpetas `back/` y `front/` en 0.5, con D14. `foundation-0.3/` no cambia.
 - El fichero de fachada `{feature}.api.ts` no cambia por ahora.
+
+## D18 ← conversación (2026-10-13) · La ranura `test`; el tipo en la config del proyecto
+
+- Las ranuras son `lint`, `format`, `upgrade`, `test`, `start` y `quality`. El nombre de la ranura es el del script de npm.
+- En `api`, `web` y `cli`, `test` ejecuta los tests unitarios. En `e2e`, `test` ejecuta la suite de aceptación en modo headless, y `start` abre la interfaz interactiva, solo para un humano.
+- Cada proyecto de `.aiddbot/config.json` tiene `type` (`api`, `web`, `cli`, `e2e`). El core deduce la evidencia del tipo: el `test` de un `e2e` es aceptación; los demás, unitaria.
+- `aidd run test` ejecuta el `e2e` al final. `--spec` ejecuta solo el `e2e`, filtrado a la spec.
+- Toda la aceptación va por el `e2e`; un `cli` ya no tiene «tests propios».

@@ -37,7 +37,7 @@ The core refuses a step when a rule is not true. It stops with an error message 
 | A commit on the main branch | Never: only `release` and `integrate` write there. |
 | A commit of installed dependencies, such as `node_modules/` | Never. |
 | A second run of a test command | The first run ends. Two runs share ports and databases. |
-| A green verification | `unit` and `acceptance` pass on the current code, and each requirement has an acceptance test. |
+| A green verification | The unit tests and the acceptance suite (`test`) pass on the current code, and each requirement has an acceptance test. |
 | A non-green evaluation | Its report of findings exists. |
 | A release | The spec has all its evidence. |
 
@@ -63,7 +63,7 @@ The agents write only the texts: `system.md`, each `spec.md`, the reports of fin
 | Command | Purpose |
 | --- | --- |
 | `spec new` · `spec show` | Open a spec on its branch. Show the state and the blockers of a spec. |
-| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `unit`, `acceptance` or `quality`. |
+| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test` or `quality`. `test` runs the `e2e` project last; its run is the acceptance evidence. |
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
