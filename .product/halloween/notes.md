@@ -39,3 +39,9 @@ Tras cada `craft`, `debt list` quedó vacío: la apuesta de D19 (un `craft` por 
 - Una regla de `lint` añadida a mitad de una spec bloquea el ship, que no puede reparar código; el Craftsman la devolvió al Builder (correcto, pero lento).
 - Un megaprompt que lo hace todo agota los tokens de una sesión de Codex: el prompt debe ser reanudable.
 - Los principios dicen «una condición tiene un operador lógico como mucho», pero ninguna herramienta lo comprueba; queda en la revisión, que no lo vio.
+
+## cli-2 · Archetype CLI desde cero, con lo aprendido en cli-1 (2026-10-13, en curso)
+
+### Pendiente (AIDDbot)
+
+- La suite `e2e` rompe la caja negra (S0008, en `master` desde 0.4.1). `e2e/shared/projects/registered-cli.ts` copia `cli/src`, escribe un punto de entrada que importa `app.compose.ts` y `core/app.platform.ts`, registra un comando falso `sample` y lo ejecuta con `node`, sin pasar por `CLI_START`. La causa: D0007 (opciones declaradas de un comando) no se ve desde fuera, porque ningún comando de la fundación declara opciones; se juntó con D0006 en un `fix` y se probó desde `e2e`. Debió ser un `refactor` con tests unitarios en `cli`. La revisión lo dio por bueno, 1 s después de la verificación. No está claro qué hacer: `lint` no ve una copia de ficheros; quizá `define-spec` (un requisito solo para lo que muestra un comando público) y una regla de la revisión (un test de `e2e` no toca el código de otro proyecto).
