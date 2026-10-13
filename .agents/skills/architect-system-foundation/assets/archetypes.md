@@ -1,6 +1,6 @@
 # Archetypes
 
-Catalog of archetypes by project type. A **library** is one repository of archetypes that pass one acceptance suite together, with the instances of their foundation specs and their schema documents. Each library has the version of AIDDbot.
+Catalog of archetypes by project type. A **library** is one repository of archetypes that pass one acceptance suite together, with the instances of their foundation specs and their schema documents. Each library has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
 
 ## Archetype Base
 
