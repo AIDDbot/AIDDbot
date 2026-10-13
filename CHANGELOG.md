@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.12 - 2026-10-13
+
+- chore(release): libraries share major.minor, patches are independent (D6) (e04c47f)
+- refactor(skills): tighten /architect-system-foundation for independent library patches (D6) (29e6bf9)
+- docs(product): plan the Halloween sprint (51ee5a9)
+
 ## 0.3.11 - 2026-10-11
 
 - chore(skills): add Archetype CLI as a library, pin v0.3.11, and record D68 (2072f33)
