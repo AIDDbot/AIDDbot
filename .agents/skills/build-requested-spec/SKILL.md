@@ -40,7 +40,7 @@ The human answers you, not the **Architect**. When the human approves the spec, 
 The **Builder** executes `implement-project`:
 
 - For each affected production project, from lower to higher levels of abstraction.
-- Then for the E2E project, when the spec has requirements. Do this also when its Solution lists no E2E work, because each requirement needs its tagged acceptance test.
+- Then for the E2E project, when the spec has requirements or its Solution has E2E work. Do this also when its Solution lists no E2E work, because each requirement needs its tagged acceptance test.
 
 ## 3. Verify, qualify, and ship
 

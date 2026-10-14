@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to set the shared documentation of the system from repository evidence: the root `AGENTS.md`, the conceptual model, and the physical schemas of each project.
 
-Document what exists; never redesign. Read the source code only to find the domain entities and the physical shape. When `{Product_Folder}/system.md` exists, take the purpose, the users, and the needs of the product from it; where it and the code disagree, the code wins. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`. Ask the human only when they are missing.
+Document what exists; never redesign. Read the source code only to find the domain entities and the physical shape. When `{Product_Folder}/system.md` exists, take the purpose, the users, and the needs of the product from it; where it and the code disagree, the code wins. Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`. Ask the human only when they are missing. When no project exists yet, write the root `AGENTS.md` and the conceptual model from `system.md`, with no project rows and no physical schemas: the spec that adds a project adds them when it ships.
 
 | Document | Template | Rules |
 | --- | --- | --- |
