@@ -271,4 +271,10 @@ Recorrido del código final (`cli/src`, `e2e`; 2353 líneas). Cada hallazgo, con
 - **El error de uso cita el `usage` declarado.** Ya hay deriva: `health.routes.ts:38` dice `Usage: health [runs]` y el comando declara `health [runs [--limit <n>] [--offset <n>]]`. `config.command.ts:23` lo duplica.
 - **Un default, en un sitio.** `health.routes.ts:24,27`: `20` dos veces.
 - **La ejecución de `core` es un pipeline desde el scaffold:** parsear, ejecutar, renderizar, informar. La complejidad volvió 4 veces al mismo pegamento (D0002 y D0005 en la invocación de `e2e`, D0004 en el parser, D0006 en la ejecución).
-- **`presentation` antes, no la última.** Llegó al final y cambió la salida de `config list` que ya existía: la regresión de S0009. Con las primitivas de presentación junto a `shell`, cada feature nace con su vista y los tests leen con `readTable` y `readRecord`.
+- ~~**`presentation` antes, no la última.**~~ Se queda la última: su spec lo decide así (cambia las vistas de las demás, con `Replaces:`), y la regresión de S0009 costó 1 min. Llegó al final y cambió la salida de `config list` que ya existía: la regresión de S0009. Con las primitivas de presentación junto a `shell`, cada feature nace con su vista y los tests leen con `readTable` y `readRecord`.
+
+### Aplicado (2026-10-14)
+
+- **Builder `9ec2a12`:** el scaffold crea las 11 primitivas semilla de `shared` (`checks`, `text`, `numbers`, `dates`, `errors`) con sus tests unitarios; `shell` cli: opción como dato, la ayuda desde las definiciones, un solo parseo, un pipeline en `core`, el error de uso cita el `usage` declarado.
+- **AIDDbot `e4322bc`:** vía rápida para cada grupo `refactor` con origen `scan` (`quality` y `harden`), con la herramienta que lo encontró como puerta; un bug o un arreglo sin efecto vuelve como `fix`; el Builder commitea como `refactor`. Blueprint raíz: una fuente para cada definición.
+- **Pendiente al sembrar archetype-cli 0.4 desde cli-6:** el bug de `quote()` en `e2e/shared/projects/cli.ts:72`, y las primitivas y reglas de arriba.
