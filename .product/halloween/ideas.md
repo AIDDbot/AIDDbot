@@ -6,3 +6,5 @@
 - ¿tiene sentido extar core y/o archetype builder a su propio repo basado en el arquetipo CLI?
 - ¿se pueden mantener dentro de este repo de AIDDDbot, pero con las ventajas del arquetipo?
 - Bun prepara su propio lint, format y control de tipos (compatibles con oxc). Tenerlo en cuenta para una biblioteca Bun (D16).
+- No todos los requisitos ni arreglos son iguales: más de tres vías (rápida, refactor, fix corto, feature, contrato), deducidas de datos comprobables (qué demuestra que está hecho, qué criterio hace falta), nunca del humor del agente. Decidir con los costes de cli-6.
+- La deuda de complejidad y duplicados (origen `scan` de `quality`) también por la vía rápida.

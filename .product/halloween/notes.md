@@ -208,7 +208,7 @@ Después, en serie.
 - El punto ciego de `--changed`: un cambio en un fichero de configuración da `lint --changed: n/a`. La regresión lo cubre.
 - Sin nueva revisión tras una reparación de la regresión.
 
-## cli-6 · Archetype CLI desde su manifiesto, con `$build-ordered-specs` (2026-10-14, en curso)
+## cli-6 · Archetype CLI desde su manifiesto, con `$build-ordered-specs` (2026-10-14, completa)
 
 ### Cambios durante la ejecución (no afectan a cli-6)
 
@@ -218,6 +218,35 @@ Después, en serie.
 
 - **Sin primitivas de comprobación en `shared`.** La plantilla del `AGENTS.md` de proyecto nombra `parseInteger`, `requireText` e `isRecord`, pero ninguna spec las crea. En cli-6, la tabla «Shared primitives» de `cli/AGENTS.md` está vacía y hay checks escritos a mano (`src/core/app.config.ts:31` es un `isRecord`; `src/core/app.settings.ts:9`, un texto no vacío). → El scaffold crea un set fijo de una docena de funciones auxiliares en 3 o 4 ficheros de `shared` (nulos y vacíos, tipos, texto, números), cada una con su fila en la tabla. Es especulación aceptada: cuesta poco, y evita que cada feature escriba los suyos.
 - **La complejidad vuelve.** D0005 repite D0002 (`e2e/shared/projects/cli.ts`, reparada en S0004): el Builder de S0005 volvió a pasar el límite. Ni su puerta ni la revisión miden `quality`; solo el scan del craft. Descartado medir `quality` en cada spec (usuario): una spec tiene que funcionar y no ser horrible, nada más; la complejidad es del craft.
+
+### Lo que salió
+
+Completa en una sola sesión de Codex: 7 specs del Blueprint (sin `users`) y 3 reparaciones, de 21:44 a 23:06 (82 min). Versión final 0.7.1, cero deuda, `builder/` sin cambios. Lint, 29 tests unitarios, 38 de aceptación, quality y harden en verde.
+
+| Spec | Versión | Entrega | Reparación tras la spec |
+| --- | ---: | ---: | --- |
+| S0001 scaffold | 0.1.1 | 7m 55s | — |
+| S0002 configuration | 0.2.0 | 11m 57s | D0001 harden, vía rápida, 59s |
+| S0003 monitoring | 0.3.0 | 11m 01s | D0002–D0003 quality, S0004, 2m 57s |
+| S0005 shell | 0.4.0 | 7m 44s | D0004–D0005 quality, S0006, 3m 01s |
+| S0007 about | 0.5.0 | 5m 38s | — |
+| S0008 health | 0.6.0 | 5m 29s | — |
+| S0009 presentation | 0.7.0 | 10m 52s | D0006 quality, S0010, 2m 42s; D0007 harden, vía rápida, 1m 31s |
+
+### Lista de vigilancia
+
+- **S0001 `chore`:** sin paradas, 0.1.1, `outline-system` con el `AGENTS.md` raíz y los schemas. Más de tres commits por proyecto (`format scaffold`, `register scaffold projects`): ruido, no fallo.
+- **`$build-ordered-specs`:** orden de `project-types.md`, sin `users`, un craft tras cada spec, deuda cero antes de la siguiente, craft de cierre con scan y harden vacíos, tabla final.
+- **YOLO:** cero paradas.
+- **Vía rápida:** D0001 y D0007, ~1 min cada una. El commit sale `chore({project})`, no `refactor({project})` como pide `craft-lasting-quality`.
+- **Puerta `Requirements`:** no se activó. Las reparaciones de verificación (S0002, S0003) y la regresión de S0009 se repararon dentro de la spec.
+- **Regresión de S0009:** dos tests de config afirmaban el formato de `config list` que presentation sustituye. Triaje, reparación en 1 min, verificación 3. Es la lección de cli-3 (listas cerradas), ahora barata.
+- **Una sesión:** sí. cli-5 hizo 11 specs; cli-6, 10 entregas con menos coste por reparación.
+
+### Para la próxima
+
+- **Más vías, deducidas de datos** (en `ideas.md`).
+- **Complejidad por la vía rápida:** la deuda con origen `scan` (quality y harden) se repara sin spec; la puerta vuelve a ejecutar la herramienta que la encontró. S0004, S0006 y S0010 eran de este tipo.
 
 ### Al cerrar · Revisión preventiva del código
 
