@@ -14,7 +14,7 @@ Run `node .agents/aidd/aidd.mjs run quality` for all projects, unless the human 
 Read the open debt with `node .agents/aidd/aidd.mjs debt list`. Then make it agree with the run, only through `node .agents/aidd/aidd.mjs debt`:
 
 - Remove with `debt remove <id>` only an item whose check ran and no longer shows it. A check that could not run removes nothing.
-- Add with `debt add "<title>" <high|medium|low> "<evidence>"` only when current evidence shows a concrete impact and no open item describes it already.
+- Add with `debt add "<title>" medium "<evidence>"` only when current evidence shows a concrete impact and no open item describes it already. A scan finding is always `medium`: `high` and `low` come from the review of a spec.
 - Record one item for each finding, or for each file and rule. Never record one item for a project or a gate, such as "backend quality fails": each item must be possible to repair alone.
 - An unavailable check alone is not debt.
 - When the run result has `folders`, `subfolders`, or `duplicates`, read `references/structure-findings.md`.

@@ -23,9 +23,11 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 ## Check
 
-- Write unit tests for the critical production code, not for UI code or E2E tests. Run `node .agents/aidd/aidd.mjs run test --project {project}` until they pass.
+Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `lint` or `test`: the regression of `ship-spec` runs them.
+
+- Write unit tests for the critical production code, not for UI code or E2E tests. Put each test beside its module. Run `node .agents/aidd/aidd.mjs run test --changed --project {project}` until they pass.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
-- After each change, run `node .agents/aidd/aidd.mjs run lint --project {project}` and fix each error. A layer-boundary error blocks like all other errors.
+- After each change, run `node .agents/aidd/aidd.mjs run lint --changed --project {project}` and fix each error. A layer-boundary error blocks like all other errors.
 - Run `node .agents/aidd/aidd.mjs run quality --project {project}` only to check a repair of recorded debt. Otherwise `quality` belongs to `scan-quality`.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.

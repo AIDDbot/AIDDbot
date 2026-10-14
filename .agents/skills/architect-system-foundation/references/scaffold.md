@@ -15,11 +15,12 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 - Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit the projects and `.aiddbot/config.json`:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"lint":"npm run lint","format":"npm run format","upgrade":"npm run upgrade","test":"npm test","start":"npm start","quality":"npm run quality"}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"lint":"npm run lint","lint:files":"npm run lint:files","format":"npm run format","upgrade":"npm run upgrade","test":"npm test","test:files":"npm run test:files","start":"npm start","quality":"npm run quality"}}'
   ```
 
   - `type` is the type of the project in `.product/system.md`: `api`, `web`, `cli` or `e2e`.
   - Each of `lint`, `format`, `upgrade`, `test`, `start`, and `quality` is a command, a list of commands, or `{"na":"<reason>"}`. The `test` of the `e2e` project is the acceptance suite.
+  - `lint:files` and `test:files` take the changed files as arguments, for the Builder. Register each one that the `AGENTS.md` gives. Without one, `run --changed` runs the full slot. An `e2e` project has no `test:files`.
   - Each command runs in `{source_root}`.
   - For a scoped run, the core adds `--grep @S{nnnn}-` to the `test` command of the `e2e` project (after `--` for an npm script).
 

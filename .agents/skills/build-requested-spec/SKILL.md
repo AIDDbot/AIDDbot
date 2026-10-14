@@ -11,11 +11,13 @@ Your goal is to turn a natural-language request into a shipped spec.
 
 ```text
 1. Architect   define-spec            human approval
-2. Builder     implement-project      each project, then e2e
-3. Craftsman   verify-behavior        red: repair loop
-               review-implementation  findings ship as debt
-               ship-spec
+2. Builder     implement-project      each project, then e2e     changed files only
+3. Craftsman   verify-behavior        red: repair loop           tests of the spec
+               review-implementation  findings ship as debt      reading only
+               ship-spec              red: triage, repair loop   full lint and test
 ```
+
+Each step tests only its own surface. The full system is tested one time, in `ship-spec`.
 
 ## Roles
 
@@ -49,10 +51,11 @@ Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send sc
 | Event | Action |
 | --- | --- |
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
+| The regression of `ship-spec` is red | It recorded a red verification with a triage. Send each row to its owner: a row of the **Builder** for repair, a row of the human as in the rows below. Then verify again and ship again. Qualify again only after a repair of a failed Security gate. |
 | The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` before verification starts again. Thus a green retry never hides it. |
 | A test tagged with a different spec fails | It is a regression. The **Builder** repairs the production code. |
 | A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test and tags it with the requirement of this spec that replaces the old one. |
-| Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship with each unresolved failure and finding recorded as debt. |
+| Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship with each unresolved failure, failure of the regression, and finding recorded as debt. |
 | Qualification has findings | Never send them back for repair. They ship as debt. |
 | The Security gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |
 | Verification asks a product question | Stop. Relay the question to the human. When it is answered, the **Architect** writes the answer into the spec as a requirement. Then continue from the repair of the **Builder** and verification. |

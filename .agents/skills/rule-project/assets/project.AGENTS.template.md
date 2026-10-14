@@ -26,9 +26,11 @@ This file gives the data of this project. Do not explore the code to learn the s
 | Slot | Blocks | Command | Tool |
 | --- | --- | --- | --- |
 | `lint` | Yes | `{command}` | {tool} |
+| `lint:files` | Yes | `{command}` | {tool} |
 | `format` | No | `{command}` | {tool} |
 | `upgrade` | No | `{command}` | {tool} |
 | `test` | Yes | `{command}` | {tool} |
+| `test:files` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
 | `quality` | No | `{command}` | {tool} |
 

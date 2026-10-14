@@ -28,7 +28,7 @@ domain: {domain}
 
 ### Requirements
 
-{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements, each with one acceptance test with its tag; add `Test: {technique}` only for a technique that is not obvious. A `refactor` or a `chore` can have none: then write instead that the full acceptance run and the check that reported the debt are its verification.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements, each with one acceptance test with its tag; add `Test: {technique}` only for a technique that is not obvious. A `refactor` or a `chore` can have none: then write instead that the regression of the release and the check that reported the debt are its verification.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 

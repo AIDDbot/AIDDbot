@@ -18,16 +18,18 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 | Slot | Effect |
 | --- | --- |
 | `lint` | Only checks of error level. |
+| `lint:files` | The same `lint`, on the files that the core gives as arguments. |
 | `format` | Rewrites the files with the formatter. |
 | `upgrade` | Updates the dependencies and the lockfile. |
 | `test` | In an `e2e` project: the end-to-end tests that start the system, headless. In other projects: fast tests, with no server or browser. |
+| `test:files` | The fast tests of the test files that the core gives as arguments. Never in an `e2e` project. |
 | `start` | Starts the project. In an `e2e` project: the interactive UI of the test runner, for a human only. |
 | `quality` | Each warning-denial, complexity, coverage, or other hardening check, as its own command. Never one aggregate that stops at its first failure: one scan must show each failing check. |
 
 Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `quality` is always a list:
 
 ```json
-{"type":"api","path":"back","commands":{"lint":"npm run lint","test":"npm test","quality":["npm run quality:warnings","npm run quality:coverage"]}}
+{"type":"api","path":"back","commands":{"lint":"npm run lint","lint:files":"npm run lint:files","test":"npm test","test:files":"npm run test:files","quality":["npm run quality:warnings","npm run quality:coverage"]}}
 ```
 
 ## AGENTS.md
