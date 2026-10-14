@@ -217,3 +217,8 @@ Después, en serie.
 ### Huecos del Blueprint
 
 - **Sin primitivas de comprobación en `shared`.** La plantilla del `AGENTS.md` de proyecto nombra `parseInteger`, `requireText` e `isRecord`, pero ninguna spec las crea. En cli-6, la tabla «Shared primitives» de `cli/AGENTS.md` está vacía y hay checks escritos a mano (`src/core/app.config.ts:31` es un `isRecord`; `src/core/app.settings.ts:9`, un texto no vacío). → El scaffold crea un set fijo de una docena de funciones auxiliares en 3 o 4 ficheros de `shared` (nulos y vacíos, tipos, texto, números), cada una con su fila en la tabla. Es especulación aceptada: cuesta poco, y evita que cada feature escriba los suyos.
+- **La complejidad vuelve.** D0005 repite D0002 (`e2e/shared/projects/cli.ts`, reparada en S0004): el Builder de S0005 volvió a pasar el límite. Ni su puerta ni la revisión miden `quality`; solo el scan del craft. → Candidato: la revisión de cada spec ejecuta `quality` sobre los ficheros cambiados.
+
+### Al cerrar · Revisión preventiva del código
+
+Recorrer el código final de cli-6. Buscar oportunidades de mejora preventiva: lo que el proceso detectó por su cuenta (deuda, triajes, reparaciones repetidas) y lo que se ve repetido o complejo a mano. Cada hallazgo, a una regla del Blueprint o a una primitiva de `shared` con evidencia, no a una suposición. Así el set de `shared` sale del código, con menos especulación.
