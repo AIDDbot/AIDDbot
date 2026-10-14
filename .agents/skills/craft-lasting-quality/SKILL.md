@@ -14,7 +14,7 @@ upgrade request ─────────────────────�
 1. Craftsman   scan-quality          medium debt    │  only with no open medium debt
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
-   or Builder  quick repair          integrated       only a group of hardening items
+   or Builder  quick repair          integrated       only a group of items with origin scan
    repeat 2–3 while debt remains, highest priority first, at most 5 specs
    Craftsman   scan-quality, harden  low debt          once, when no high or medium debt remains
 ```
@@ -55,11 +55,12 @@ Before each selection, harden when no `high` or `medium` item remains and this r
 
 ## Quick repair
 
-An item of hardening is a warning of one rule: its repair is mechanical and changes no behavior. A full spec costs more than the repair. Thus, when the selected group holds only items of hardening, take this route instead of step 3:
+An item with origin `scan` is a finding of a tool (`quality` or `harden`): the same tool proves its repair, and the repair changes no behavior. A full spec costs more than the repair. Thus, when the selected group is `refactor` and holds only items with origin `scan`, take this route instead of step 3:
 
 - Create the task branch `chore/{D ID}-{slug}` from the default branch.
-- The **Builder** executes `implement-project` for each project of the evidence, with the evidence as its scope.
-- Run `node .agents/aidd/aidd.mjs run harden`, `run lint` and `run test` for those projects. When one fails and the **Builder** cannot repair it, keep the item: the next selection gives it a spec.
+- The **Builder** executes `implement-project` for each project of the evidence, with the evidence as its scope. It commits as `refactor({project}): {what the repair does}`.
+- Run the tool that found each item (`node .agents/aidd/aidd.mjs run quality` or `run harden`), then `run lint` and `run test` for those projects. When one fails and the **Builder** cannot repair it, keep the item: the next selection gives it a spec.
+- When the finding shows a bug, or the repair leaves code with no effect (such as a replacement of a value with the same value), the behavior is wrong: stop the route, keep the item as `fix`, and the next selection gives it a spec.
 - Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the repair does}"`.
 
 A quick repair has no review and no release, and it does not count as one of the five specs.

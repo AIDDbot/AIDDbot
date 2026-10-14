@@ -62,7 +62,7 @@ craft-lasting-quality:
   - "Craftsman: scan-quality to harden, once, when no high or medium debt remains; it records low debt, one item for each rule"
   - "Architect: select the eligible debt of one type, `fix` or `refactor`, in one group; the repair stays within its evidence"
   - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
-  - "a group of hardening items only: quick repair, with no spec; Builder: implement-project on a chore task branch, then full harden, lint and test, debt remove and integrate"
+  - "a refactor group of scan items only (quality or harden): quick repair, with no spec; Builder: implement-project on a chore task branch, then the tool that found them, full lint and test, debt remove and integrate; a bug or a no-effect repair goes back as fix"
   - "repeat the selection and the repair while debt remains, highest priority first, at most 5 specs, and stop at a spec that ships an unresolved failure; no scan between two repairs and no scan at the end"
   - "return the debt list summary"
 
