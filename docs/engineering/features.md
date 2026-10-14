@@ -6,8 +6,12 @@ Deliver one spec at a time. Only one spec is open at a time. Each spec has its o
 flowchart LR
     Q[Request] --> S[Spec] --> C[Code] --> V{Verify}
     V -->|red| C
-    V -->|green| SH[Ship]
+    V -->|green| RV[Review] --> RG{Regression}
+    RG -->|red: triage| C
+    RG -->|green| SH[Ship]
 ```
+
+Each step tests only its own surface: fewer tests, and each failure near its cause. The full system is tested one time, before the release.
 
 ## Definition
 
@@ -28,19 +32,20 @@ The Builder implements the spec in each project that changes.
 - Write a plan before the first edit.
 - Write the code and its unit tests. Write the necessary acceptance tests in the `e2e` project.
 - Each requirement has at least one acceptance test with its identifier.
-- Run `lint` and `test` of the project during the work. A commit needs a green `lint` on the same files.
-- Check the acceptance tests of the spec only. Never run the full acceptance suite: that is the work of the Craftsman.
+- Run `lint` and the unit tests of the changed files during the work. A commit needs a green `lint` on the same files.
+- Check the acceptance tests of the spec only. Never run the full suites: that is the work of the Craftsman.
 
 ## Verification
 
 The Craftsman proves the work. It is a different agent from the Builder.
 
-- First verify the behavior: run `test`, which runs the unit tests and then the full acceptance suite. Only one run operates at a time.
+- First verify the behavior: run the acceptance tests of the spec. Only one run operates at a time.
 - Then review the implementation. A failure of security, accessibility, the project rules (such as the layer boundaries) or the schema impact makes the review red. Data integrity, performance and names are debt checks.
 - A red verification goes back to the Builder. Stop only for a product question or for acceptance tests that cannot run.
-- At revision 3, a red verification does not block. Its failures become debt.
-- A review finding does not block. It becomes debt. A security finding gets one repair.
-- Ship the spec when the verification is green, or at revision 3. Shipping formats the code, updates the schemas, and releases the next version: a `feat` adds a minor version, any other type a patch, and a breaking change a major version.
+- A review finding does not block. It becomes debt: `high` when it blocks, `low` for the others. A security finding gets one repair.
+- Before the release, run the regression: the full `lint`, all the unit tests and the full acceptance suite. A failure goes to triage. Find its cause and its owner: the code of the spec or the test goes to the Builder, a contradiction with a shipped requirement or a product question goes to the human. The repair stays in the spec, and the failure counts as a red verification.
+- At revision 3, a red verification does not block. Its failures become `high` debt.
+- Ship the spec when the verification and the regression are green, or at revision 3. Shipping formats the code, updates the schemas, and releases the next version: a `feat` adds a minor version, any other type a patch, and a breaking change a major version.
 
 Skill: [`/build-requested-spec`](../../.agents/skills/build-requested-spec/SKILL.md).
 

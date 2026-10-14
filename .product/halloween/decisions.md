@@ -177,3 +177,35 @@ Una spec es de fundación si cumple las dos condiciones:
 - El Architect de `craft-lasting-quality` agrupa la deuda por tipo, no por afinidad: un grupo `fix` con cada deuda que rompe el comportamiento, y un grupo `refactor` con todas las demás, en todos los proyectos. Empieza por el grupo que tiene la deuda de más prioridad. Cada spec cuesta una entrega completa (definir, implementar, verificar, revisar, publicar, con agentes nuevos), y en cli-2 una reparación costaba de 3 a 7 minutos, casi todo fijo: monitoring necesitó 3 specs, con grupos por tipo serían 2.
 - El scan final se queda (D19). En un sistema de usuario, `craft` se ejecuta de vez en cuando, no después de cada spec como en un arquetipo; sin el scan final, el registro no mostraría la deuda que deja la última reparación hasta el `craft` siguiente.
 - La verificación de un `refactor` se queda. El Craftsman ya verifica, revisa y publica en un turno, y la suite completa corre una vez: en S0010, la verificación costó 20 s.
+
+## D22 ← P19, P20 (`gates.md`) · Cada paso prueba solo lo suyo; el Builder, los cambios
+
+- Los roles no cambian: el Builder implementa; el Craftsman verifica, revisa, publica y escanea.
+- El Builder ejecuta `lint` y `test` solo sobre los ficheros que cambia la rama. El core los calcula con git: el diff contra el `merge-base` con la rama por defecto, más lo no commiteado y lo nuevo, sin los borrados.
+- Dos ranuras nuevas, con el nombre de su script npm (D18): `lint:files` y `test:files`. Reciben los ficheros como argumentos. Cada biblioteca las declara en su tooling (D15).
+- `aidd run lint --changed` y `aidd run test --changed`. Para `test`, los tests cambiados y el test vecino de cada fuente cambiada (`x.ts` → `x.test.ts`). Un proyecto sin la ranura `:files` ejecuta su ranura completa.
+- La regla de commit acepta también un lint `--changed` que pasó sobre el contenido actual de cada fichero de código del commit.
+- `aidd release` exige un lint completo que pasó sobre el árbol actual de cada proyecto: lo que no ve un lint por ficheros (un borrado, una firma cambiada) se ve al publicar.
+
+## D23 ← P21 · La verificación ejecuta solo el E2E de la spec
+
+- `verify-behavior` ejecuta `aidd run test --spec`: los tests con la etiqueta `@{spec}-`. Ese run es la evidencia de la verificación.
+- El verde exige un run de la spec que pasa, sin cambios de código después, y un test por requisito. Ya no exige el unit.
+- Una spec sin requisitos (`refactor`, `chore`) no tiene tests etiquetados: su verificación es verde sin run. La regresión de `ship-spec` la prueba.
+- `--preexisting` pasa de `eval` a `release`.
+
+## D24 ← P22, P23 · La regresión completa, al publicar; un fallo va a triaje
+
+- `ship-spec` ejecuta `aidd run lint` y `aidd run test` completos: unit de cada proyecto y toda la suite `e2e`. `aidd release` exige los dos en verde sobre el código actual.
+- Si la regresión falla, `ship-spec` no publica. El Craftsman hace el triaje de cada fallo en `verification.md`: su causa, su dueño y su propuesta de arreglo (el código de la spec, el test de `e2e`, un requisito de otra spec, o una decisión del humano), y graba la verificación en rojo. Cuenta como una revisión más y usa el bucle de reparación de siempre.
+- El arreglo se implementa dentro de la misma spec, nunca como una spec nueva: así la regresión nunca llega a la rama por defecto.
+- Un fallo que explica deuda abierta anterior a la spec no bloquea: `release --preexisting <D IDs>`. En la revisión 3 en rojo, se publica con cada fallo como deuda `high`.
+- La prioridad de la deuda dice su origen: `high`, lo que rompe (un hallazgo `blocking` de la revisión, un fallo sin reparar); `low`, un hallazgo `debt` de la revisión; `medium`, el scan de calidad. Por ahora, la prioridad solo ordena las reparaciones; quizá un día bloquee.
+
+## D25 ← P24 · Un scan como mucho por `craft`, al inicio, y solo sin deuda `medium`
+
+- **Cambia D19 y D21:** sin scan final.
+- Al inicio de `craft`: si hay deuda `medium` abierta, no escanea; si no, `scan-quality` una vez. El scan apunta solo deuda `medium`.
+- Después, las reparaciones por grupos de tipo (D21), por prioridad, como mucho 5 specs.
+- La deuda que deja una reparación la apunta su propia revisión. La de calidad, el scan del `craft` siguiente.
+- Una biblioteca termina con un `craft` cuyo scan no apunta nada y con el registro vacío (D19).

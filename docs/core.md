@@ -33,13 +33,13 @@ The core refuses a step when a rule is not true. It stops with an error message 
 | --- | --- |
 | A commit, an evaluation or a release of a spec | The human approves the spec. |
 | A new spec | The open spec ships. Only one spec is open at a time. |
-| A commit of changed code | `lint` passes on that code. |
+| A commit of changed code | `lint` passes on that code: the full `lint` of its project, or `lint --changed` on each changed file. |
 | A commit on the main branch | Never: only `release` and `integrate` write there. |
 | A commit of installed dependencies, such as `node_modules/` | Never. |
 | A second run of a test command | The first run ends. Two runs share ports and databases. |
-| A green verification | The unit tests and the acceptance suite (`test`) pass on the current code, and each requirement has an acceptance test. |
+| A green verification | The acceptance tests of the spec (`test --spec`) pass on the current code, and each requirement has an acceptance test. |
 | A non-green evaluation | Its report of findings exists. |
-| A release | The spec has all its evidence. |
+| A release | The spec has all its evidence, and the regression passes on the current code: the full `lint` of each project, and the full `test`, with the unit tests and the full acceptance suite. |
 
 ## What it owns
 
@@ -63,11 +63,11 @@ The agents write only the texts: `system.md`, each `spec.md`, the reports of fin
 | Command | Purpose |
 | --- | --- |
 | `spec new` · `spec show` | Open a spec on its branch. Show the state and the blockers of a spec. |
-| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test` or `quality`. `test` runs the `e2e` project last; its run is the acceptance evidence. |
+| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test` or `quality`. `test` runs the `e2e` project last. `--changed` runs `lint` or `test` only on the files that the branch changes. `--spec` runs only the acceptance tests of the spec: the evidence of the verification. The full `lint` and `test` are the evidence of the release. |
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
-| `release` | Ship the open spec: version, changelog, PRD, merge and tag. |
+| `release` | Ship the open spec: version, changelog, PRD, merge and tag. `--preexisting <D IDs>` names older debt that explains each failure of the regression. |
 | `integrate` | Merge a branch that is not a spec, such as `chore/foundation`. |
 | `log` | Add a judgment of an agent to the journal. |
 | `config get` · `set` | Read or write `.aiddbot/config.json`. |

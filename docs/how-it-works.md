@@ -5,7 +5,8 @@ This page gives the model of AIDDbot. For the first session, read [Getting start
 ## The idea
 
 - **Spec first.** Each change starts as a small spec with numbered requirements. You approve it before the code starts.
-- **Evidence, not trust.** Each requirement has an acceptance test. A spec ships only when its tests pass, or with its failures recorded as debt.
+- **Evidence, not trust.** Each requirement has an acceptance test. A spec ships only when its tests and the full regression pass, or with its failures recorded as debt.
+- **Small surface first.** Each step tests only what it changed: the Builder its files, the verification the tests of the spec. The full system is tested one time, before the release.
 - **The code is the truth.** A shipped spec is a record of the change. It is never written again.
 - **Models judge, code checks.** The models do the non-deterministic work: design, specs, code and review. A deterministic program, the core, runs the tests, records the results and enforces the rules. It is more reliable, faster and cheaper than a model for that work.
 
@@ -15,7 +16,7 @@ This page gives the model of AIDDbot. For the first session, read [Getting start
 | --- | --- |
 | **Architect** | Designs the system, writes the specs, and selects the debt to repair. |
 | **Builder** | Writes the code and the tests. |
-| **Craftsman** | Runs the tests, reviews the code, ships the spec, and scans the quality. |
+| **Craftsman** | Verifies the spec, reviews the code, runs the regression, ships the spec, and scans the quality. |
 
 Each agent starts with a fresh context, and it reads only the skill of its step. The Craftsman is never the Builder: a different agent checks the work.
 
@@ -47,14 +48,17 @@ After the first run, each system is the same: a documented system with its rules
 flowchart LR
     R[Request] --> S[Spec] --> OK{Approval} --> C[Code] --> V{Verify}
     V -->|red| C
-    V -->|green| Q[Review] --> SH[Ship]
+    V -->|green| Q[Review] --> RG{Regression}
+    RG -->|red: triage| C
+    RG -->|green| SH[Ship]
 ```
 
 1. The Architect writes one spec on its own branch, and stops for your approval.
-2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time.
-3. The Craftsman runs `test`: the unit tests and the full acceptance suite. A red result goes back to the Builder. At the third revision, the failures become debt and the spec continues.
-4. The Craftsman reviews the code for security, data integrity and accessibility. A finding becomes debt.
-5. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
+2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time. It lints and tests only the files that it changes.
+3. The Craftsman runs the acceptance tests of the spec. A red result goes back to the Builder.
+4. The Craftsman reviews the code for security, data integrity and accessibility. A finding becomes debt: `high` when it blocks, `low` for the others.
+5. Before the release, the Craftsman runs the full `lint` and the full regression: all the unit tests and the full acceptance suite. A failure goes to triage: the Craftsman finds its cause and its owner, and the repair stays in the spec. At the third revision, the failures become debt and the spec continues.
+6. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
 
 Only one spec is open at a time. With `YOLO` in the request, the spec is approved when it is written, and it contains only what the request names.
 
@@ -62,13 +66,12 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 
 `/craft-lasting-quality` keeps the code easy to change.
 
-1. The Craftsman runs the `quality` checks: complexity, large folders and duplicated code. Each problem becomes debt with a priority: `high`, `medium` or `low`.
+1. When no `medium` debt is open, the Craftsman runs the `quality` checks: complexity, large folders and duplicated code. Each problem becomes `medium` debt. Open `medium` debt skips the scan, because the scan would find it again.
 2. The Architect selects the debt of one type in one group: `fix` when it breaks the behavior, `refactor` for all others.
 3. `/build-requested-spec` repairs it. The repair needs no approval: the debt is already recorded.
 4. The loop repeats steps 2 and 3 while debt remains, the highest priority first, for at most five specs.
-5. The Craftsman scans again at the end, so that the debt list is current.
 
-A feature can ship with quality warnings. Scan from time to time, not after each spec.
+The debt comes from two places. The review of each spec adds `high` and `low` debt. The scan adds `medium` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
 
 ## The core guards the process
 
