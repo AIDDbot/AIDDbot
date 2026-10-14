@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.3.19 - 2026-10-14
+
+- chore(skills): pin archetype-base v0.3.14 (b5e0a53)
+- docs(product): cli-6 review applied (1d47d57)
+- refactor(skills): tighten /craft-lasting-quality: quick repair for each scan item, a no-effect repair is a fix; one source for each definition (Halloween cli-6) (e4322bc)
+- docs(product): cli-6 preventive code review (7736d44)
+- docs(product): cli-6 results; routes and quick quality repairs as ideas (48b837d)
+- docs(product): no quality gate per spec (81b9a3d)
+- docs(product): cli-6 complexity regression and closing code review (cd01ce2)
+- docs(product): cli-6 notes: lint autofix, shared check primitives gap (f79be74)
+- refactor(skills): tighten /ship-spec and /rule-project: lint applies safe fixes, format runs last (a743865)
+- docs(product): cli-6 Builder commit (9acd259)
+- docs(product): cli-5 results and repairs; cli-6 watch list (4df76c4)
+- refactor(skills): Requirements gate in the review, test repairs as refactor, e2e starts projects only by start (Halloween cli-5) (0014de2)
+- refactor(skills): tighten /craft-lasting-quality with a quick repair for hardening items (Halloween cli-5) (8d63865)
+- docs(product): path to archetypes in series (68a8cee)
+- docs(product): cli-6 expected scaffold version (01f751c)
+- docs(product): cli-6 plan, build-ordered-specs from the manifest (a7c4c86)
+- feat(skills): add /build-ordered-specs; define-spec on a system with no project (Halloween cli-6) (9e3bf31)
+- docs(product): cli-6 megaprompt, tools from the scaffold spec (653abae)
+- docs(product): cli-6 megaprompt follows the whole procedure (a0ae395)
+- docs(product): cli-6 megaprompt, YOLO decides, no final lint (54ea8f8)
+- docs(product): cli-6 megaprompt in one session, rules from the procedure (88d7a29)
+- docs(product): cli-6 megaprompt, specs from the procedure (654c6f4)
+- refactor(skills): a chore spec can scaffold a project (Halloween cli-6) (5a4117b)
+- docs(product): cli-4 stops, cli-5 megaprompt, one-line prompt and chore scaffold proposals (564b60b)
+- docs(product): cli-3 lessons and cli-4 plan, one Codex session per step (1488e26)
+- chore: pin Archetype Base v0.3.13 (harden slot, lint errors only) (637870d)
+- docs: harden slot, low debt per rule at the end of craft (Halloween D26) (4a87af3)
+- refactor(skills): harden as the final polish of craft; lint reports errors only (D26) (d767ac1)
+- feat(core): harden run kind, never evidence (Halloween D26) (31515ce)
+
 ## 0.3.18 - 2026-10-14
 
 - docs(product): cli-3 plan and gates implemented (9ab4fb7)
