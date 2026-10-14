@@ -186,7 +186,7 @@ test("a spec keeps the latest run of each kind per project", () => {
   assert.equal(lint.front.ok, false);
 });
 
-test("a slot that does not apply needs its reason, and run reports it as ok; format is never evidence", () => {
+test("a slot that does not apply needs its reason, and run reports it as ok; format, upgrade and harden are never evidence", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "e2e"));
   const project = { type: "e2e", path: "e2e", commands: { test: { na: "no own logic" }, format: "node -e \"process.exit(0)\"" } };
@@ -203,6 +203,10 @@ test("a slot that does not apply needs its reason, and run reports it as ok; for
   aidd(root, "config", "set", "projects.e2e.commands.upgrade", JSON.stringify("node -e \"process.exit(0)\""));
   assert.equal(aidd(root, "run", "upgrade").code, 0);
   assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.upgrade, undefined);
+  aidd(root, "config", "set", "projects.e2e.commands.harden", JSON.stringify("node -e \"process.exit(1)\""));
+  assert.equal(aidd(root, "run", "harden").code, 1);
+  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.harden, undefined);
+  assert.equal(aidd(root, "run", "harden", "--changed").code, 2);
   assert.equal(aidd(root, "run", "lint").code, 3);
 });
 

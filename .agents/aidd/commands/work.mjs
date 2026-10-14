@@ -9,9 +9,9 @@ import {
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
 import { requirements, untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "format", "upgrade", "test", "quality"];
+const RUN_KINDS = ["lint", "format", "upgrade", "test", "quality", "harden"];
 const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
-const NOT_EVIDENCE = new Set(["format", "upgrade"]);
+const NOT_EVIDENCE = new Set(["format", "upgrade", "harden"]);
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
