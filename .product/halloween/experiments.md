@@ -240,7 +240,7 @@ Si la sesión se queda sin tokens, se lanza otra vez el mismo comando.
 
 ## cli-6 · Archetype CLI desde su manifiesto, con `$build-ordered-specs`
 
-Todo sale de specs. El scaffold es la spec 0 (`chore`), el manifiesto es `.product/system.md`, y un orquestador de AIDDbot entrega la lista: cada spec con su `craft`, deuda cero antes de la siguiente, y el `craft` de cierre. Una sola sesión: si no sale de una, se sigue recortando. AIDDbot (`0014de2`) y el Builder (`093b452`) en `main` local, sin publicar, con las reparaciones de cli-5 (`notes.md`).
+Todo sale de specs. El scaffold es la spec 0 (`chore`), el manifiesto es `.product/system.md`, y un orquestador de AIDDbot entrega la lista: cada spec con su `craft`, deuda cero antes de la siguiente, y el `craft` de cierre. Una sola sesión: si no sale de una, se sigue recortando. AIDDbot (`0014de2`) y el Builder (`9ec32c5`) en `main` local, sin publicar, con las reparaciones de cli-5 (`notes.md`).
 
 ### 0 · Preparar (PowerShell)
 
