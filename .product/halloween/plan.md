@@ -177,3 +177,13 @@ En un repo propio (por ejemplo `AIDDbot/aidd-core`, nombre A-B pendiente) todo e
 
 ✅ **P9 → D9. ¿El core entra en 0.4.0 o en un patch 0.4.x?** El repo del core nace con un AIDDbot publicado (D2), y su fundación necesita Archetype CLI con `usage` (fase 3). Recomendación: publicar 0.4.0 Halloween con las fases 1–4, y hacer el core (fase 5) después, en patches 0.4.x. El contrato hacia las skills no cambia (D2), así que es un patch. Alternativa: retrasar 0.4.0 hasta tener el core, con el riesgo de no llegar al 31 de octubre.
 > **R:** Se publica 0.4.0 Halloween con las fases 1–4. El core (fase 5) llega después, en patches 0.4.x.
+
+✅ **P25 → D26 · Hardening: los warnings y las reglas estrictas, fuera de `lint` (cli-3).** En cli-3, los warnings de `lint` no bloquean y nadie los recoge: `no-empty-pattern` en los fixtures de Playwright pasó el Builder, la regresión, la revisión y el scan. Además, cada `lint` los repite en la salida: ruido y tokens. `.oxlint.quality.json` hereda de `.oxlintrc.json`, así que `quality` también los imprime, mezclados con los límites de calidad.
+> **Propuesta (a decidir):**
+> - `lint` y `lint:files` informan solo de errores (en oxlint, `--quiet`). Sin ruido para el Builder ni para la regresión.
+> - Slot nuevo `harden`, **genérico desde el principio** e independiente de la herramienta: cada arquetipo decide qué ejecuta. Hoy, los warnings de `lint`; después, reglas más estrictas (lint con tipos, TS estricto, auditoría de dependencias).
+> - `quality` sigue igual (límites y duplicados → `medium`), pero sin los warnings de `lint`.
+> - `craft` ejecuta `harden` solo como acabado final: sin deuda abierta y sin hallazgo `medium` del scan.
+> - Resultado: deuda `low`, un item por regla con todos sus casos, reparado en una sola spec `refactor`. Una falsa alarma se repara desactivando la regla en la configuración del proyecto (por ejemplo, un override para `e2e`), no en el código.
+> **Coste:** el core registra el `run harden` (como `quality`); cada biblioteca lo declara en su `AGENTS.md` y su `package.json`, y pone `--quiet` en `lint`; `craft-lasting-quality` y `scan-quality` (o una primitiva `harden-quality`) añaden la regla del acabado final.
+> **Pendiente:** si `quality` deja de heredar de `.oxlintrc.json` o solo apaga sus warnings; si la `low` de `harden` se distingue de la `low` de la revisión solo por la evidencia o necesita su propio orden; el nombre del slot.

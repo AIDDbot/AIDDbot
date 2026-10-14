@@ -209,3 +209,13 @@ Una spec es de fundación si cumple las dos condiciones:
 - Después, las reparaciones por grupos de tipo (D21), por prioridad, como mucho 5 specs.
 - La deuda que deja una reparación la apunta su propia revisión. La de calidad, el scan del `craft` siguiente.
 - Una biblioteca termina con un `craft` cuyo scan no apunta nada y con el registro vacío (D19).
+
+## D26 ← P25 (cli-3, 2026-10-14) · `harden`: los warnings y las reglas estrictas, al final de `craft`
+
+- `lint` y `lint:files` informan solo de errores (en oxlint, `--quiet`): sin ruido ni tokens en cada build. El Builder y la regresión no cambian.
+- Ranura nueva `harden`, genérica desde el principio: cada arquetipo decide qué ejecuta. Hoy, los warnings del linter; después, reglas más estrictas. No es evidencia y nunca bloquea.
+- `quality` sigue con los límites y los duplicados (deuda `medium`), sin los warnings de `lint`.
+- `craft` ejecuta `scan-quality` en modo `harden` una vez por ejecución, solo cuando no queda deuda `high` ni `medium`, antes de la selección. Apunta deuda `low` con origen `scan`, un item por regla con todos sus sitios; una sola reparación los arregla todos.
+- Una falsa alarma (como `no-empty-pattern` en los fixtures de Playwright) se repara desactivando la regla en la configuración del proyecto, nunca con un comentario en cada sitio.
+- La `low` de `harden` se distingue de la de la revisión por su origen (`scan` frente al ID de la spec). Sin cambio en el core para eso.
+- Pendiente en el Builder y en las bibliotecas: `--quiet` en `lint`, el script `harden`, y `quality` sin los warnings de `lint`.

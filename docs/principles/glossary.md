@@ -17,7 +17,7 @@ These are the terms of the principles. Standard terms, such as value object, DRY
 | Role | The part of a file name that shows its layer, such as `service`. |
 | Concern | One technical subject of `shared`, such as `http` or `database`. |
 | Edge | A place where input enters or output leaves: `presentation` and `data`. |
-| Check | A command that verifies a project: `lint`, `test`, `quality` or `format`. Each check is a tooling slot of the project. `lint:files` and `test:files` run `lint` and the unit tests on given files only. The slots also hold `upgrade` and `start`. The `test` of an `e2e` project is the acceptance suite. |
+| Check | A command that verifies a project: `lint`, `test`, `quality`, `harden` or `format`. Each check is a tooling slot of the project. `lint:files` and `test:files` run `lint` and the unit tests on given files only. The slots also hold `upgrade` and `start`. The `test` of an `e2e` project is the acceptance suite. |
 | Debt | A finding that does not block a delivery. A later craft pass repairs it. |
 | Craft pass | A pass that repairs debt. It keeps the behavior, except a `fix` for debt that breaks it. |
 

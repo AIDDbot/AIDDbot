@@ -70,8 +70,9 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 2. The Architect selects the debt of one type in one group: `fix` when it breaks the behavior, `refactor` for all others.
 3. `/build-requested-spec` repairs it. The repair needs no approval: the debt is already recorded.
 4. The loop repeats steps 2 and 3 while debt remains, the highest priority first, for at most five specs.
+5. When no `high` or `medium` debt remains, the Craftsman runs `harden` one time: the final polish, such as the warnings of the linter. Each rule becomes one `low` item, and the loop repairs it.
 
-The debt comes from two places. The review of each spec adds `high` and `low` debt. The scan adds `medium` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
+The debt comes from two places. The review of each spec adds `high` and `low` debt. The scan adds `medium` debt, and `harden` adds `low` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
 
 ## The core guards the process
 

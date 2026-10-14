@@ -8,12 +8,14 @@ Each project gives one command for each check. The archetype selects the tool.
 
 | Check | What it does | Blocks the delivery |
 | --- | --- | --- |
-| `lint` | Finds errors, type errors and incorrect imports between containers and between layers. `lint:files` does the same for the given files only. | Yes |
+| `lint` | Finds errors, type errors and incorrect imports between containers and between layers. It reports only errors, never warnings. `lint:files` does the same for the given files only. | Yes |
 | `test` | Runs the tests of the project. In an `e2e` project, it runs the full acceptance suite: the tests of the spec and of every shipped requirement. In other projects, it runs the unit tests. `test:files` runs the given test files only. | Yes |
 | `quality` | Measures the code against the limits. | No |
+| `harden` | Polishes code that works: the warnings of the linter, and stricter rules. | No |
 | `format` | Formats the code. | No |
 
 - A check that does not block makes debt. A later pass repairs it. `quality` also finds duplicated blocks of code (DRY).
+- `harden` runs last, only when no `high` or `medium` debt remains. Its findings are `low` debt, one item for each rule. A false alarm is disabled in the configuration of the project, never in each place.
 - During the build, `lint` and the unit tests run only on the changed files, and the verification runs only the acceptance tests of the spec. Thus each failure is near its cause.
 - The full `lint` and the `test` of each project must pass at the commit that ships: the regression. The core refuses a release without them.
 - The review finds what a tool cannot find. Its findings are also debt. A security finding gets one repair first.

@@ -63,7 +63,7 @@ The agents write only the texts: `system.md`, each `spec.md`, the reports of fin
 | Command | Purpose |
 | --- | --- |
 | `spec new` · `spec show` | Open a spec on its branch. Show the state and the blockers of a spec. |
-| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test` or `quality`. `test` runs the `e2e` project last. `--changed` runs `lint` or `test` only on the files that the branch changes. `--spec` runs only the acceptance tests of the spec: the evidence of the verification. The full `lint` and `test` are the evidence of the release. |
+| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test`, `quality` or `harden`. `test` runs the `e2e` project last. `--changed` runs `lint` or `test` only on the files that the branch changes. `--spec` runs only the acceptance tests of the spec: the evidence of the verification. The full `lint` and `test` are the evidence of the release. |
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
