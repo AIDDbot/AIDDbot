@@ -17,9 +17,9 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 
 | Slot | Effect |
 | --- | --- |
-| `lint` | Only checks of error level. It reports only errors, never warnings: they are noise for each build. |
+| `lint` | Only checks of error level, with the safe fixes of the linter applied, such as `--fix`; never its suggestions or dangerous fixes. It reports only errors, never warnings: they are noise for each build. |
 | `lint:files` | The same `lint`, on the files that the core gives as arguments. |
-| `format` | Rewrites the files with the formatter. |
+| `format` | Rewrites the files with the formatter, with its write flag explicit, such as `--write`. |
 | `upgrade` | Updates the dependencies and the lockfile. |
 | `test` | In an `e2e` project: the end-to-end tests that start the system, headless. In other projects: fast tests, with no server or browser. |
 | `test:files` | The fast tests of the test files that the core gives as arguments. Never in an `e2e` project. |

@@ -25,8 +25,8 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 
 Up to now, each step tested only its own surface. Now test the full system one time:
 
-1. Run `node .agents/aidd/aidd.mjs run format`. The format is cosmetic: when it fails or is unavailable, continue.
-2. Run `node .agents/aidd/aidd.mjs run lint` for all projects. When it passes, commit what the format changed with `node .agents/aidd/aidd.mjs commit "style: format"`.
+1. Run `node .agents/aidd/aidd.mjs run lint` for all projects. It applies the safe fixes of the linter.
+2. When the lint passes, run `node .agents/aidd/aidd.mjs run format`, always last: a fix can change the layout. The format is cosmetic: when it fails or is unavailable, continue. Commit what the lint and the format changed with `node .agents/aidd/aidd.mjs commit "style: lint fixes and format"`.
 3. Run `node .agents/aidd/aidd.mjs run test`: all the unit tests, then the full acceptance suite. Run it also when the lint fails.
 
 Never repair code or tests yourself.

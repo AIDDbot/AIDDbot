@@ -174,8 +174,8 @@ Shipping:
 1. Makes the spec index again and aligns the schema documents with the code.
 2. Updates the debt.
 3. Adds each reusable lesson that prevents an error to the project-rules table of the applicable `{project}/AGENTS.md`, as one short row.
-4. Runs `aidd run format` and commits its changes.
-5. Runs the full `aidd run lint` and `aidd run test`: the regression. A failure goes to triage, and the spec does not ship.
+4. Runs the full `aidd run lint`, which applies the safe fixes of the linter, then `aidd run format` last, and commits their changes.
+5. Runs the full `aidd run test`. With the lint, it is the regression: a failure goes to triage, and the spec does not ship.
 6. Runs `aidd release`. It enforces the gate and gets the version from the spec type: `feat` increases the minor version; `fix`, `refactor` and `chore` increase the patch version. The model adds `--major` only for a breaking change.
 
 The core writes that version into the root `package.json`, the root of its lockfile, and each file in `release.versionFiles` of `.aiddbot/config.json`. It adds the `CHANGELOG.md` entry from the spec title, commits, merges the branch and adds the tag. It never changes the versions of dependencies, tools, schemas, APIs or migrations.
