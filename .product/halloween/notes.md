@@ -174,3 +174,36 @@ Antes de producir en serie:
 3. **Otros ecosistemas.** `ecosystems.md` fija solo JS / TS sobre Node. Go, Python u otro necesitan su bloque: herramientas, comandos de scaffold, persistencia.
 
 Después, en serie.
+
+## cli-5 · Archetype CLI con el megaprompt y el Blueprint sin huecos (2026-10-14, sin terminar)
+
+`experiments/halloween/cli-5`, una sesión de Codex de 1 h 40 min (16:03–17:40). Se quedó sin tokens en el ship de S0011, la segunda reparación de `about`. Llegó a 4 de las 6 specs de fundación (cli-3: 5, con el mismo tiempo).
+
+| Spec | Versión | Tiempo | Reparaciones de `craft` |
+| --- | --- | --- | --- |
+| scaffold | integrado | 9 min | — |
+| S0001 configuration | 0.2.0 | 11 min | S0002 scan + revisión (4 min), S0003 harden (4 min) |
+| S0004 monitoring | 0.3.0 | 12 min | S0005 la deuda falsa del almacén (7 min) |
+| S0006 shell | 0.4.0 | 12 min, 1 triaje | S0007 scan (5 min), S0008 `fix` de la revisión (6 min) |
+| S0009 about | 0.5.0 | 6 min | S0010 scan (4 min), S0011 harden (sin ship) |
+
+### Lo que funcionó
+
+- Cero paradas de `define-spec`: los defaults y las reglas de validación del Blueprint bastaron.
+- `node:sqlite` en `cli/AGENTS.md` desde el scaffold. D26 en el scaffold.
+- El Builder solo con `--changed` y `--spec`. Cero regresiones por listas cerradas.
+- Un solo triaje (S0006): 7 tests con una causa, reparada en 3 min.
+
+### Lo que salió mal, y su reparación (para cli-6)
+
+- **Tokens: 7 de 11 specs son reparaciones.** Dos (S0003, S0011) por un aviso de una línea, a precio de spec. → Vía rápida para la deuda de `harden` en `craft-lasting-quality`: sin spec, rama `chore/`, `harden`, `lint` y `test` completos, `integrate` (AIDDbot `8d63865`).
+- **Deuda falsa D0005 (`high`).** La revisión leyó al pie de la letra «cada invocación, su almacén», contra requisitos que comparten el almacén. Costó S0005, con 3 requisitos sobre el helper de tests. → Blueprint: un almacén por test (`70d1589`); `define-spec`: una reparación de código de tests es `refactor` sin requisitos (`0014de2`).
+- **Un fallo de requisito como deuda `low`** (D0006: el log mostraba argumentos, contra S0004-R01). Costó S0008. → Puerta bloqueante `Requirements` en la revisión: una reparación dentro de la spec, como Security (`0014de2`).
+- **Caja negra rota** en monitoring: un preload inyecta el fallo inesperado y arranca `src/app.main.ts` sin `CLI_START`. La revisión no lo vio. → Blueprint: un test unitario de `core` prueba el fallo inesperado (`913eb28`); la plantilla del `AGENTS.md` raíz: `e2e` arranca cada proyecto solo con su comando `start` (`0014de2`).
+- **El triaje de S0006**: la copia del proyecto `cli` en los tests no llevaba el `package.json` raíz. → Blueprint (`093b452`).
+- **Avisos de `harden` del Blueprint** (`no-floating-promises`, `no-empty-pattern`). → Blueprint (`f615746`).
+
+### Sigue abierto
+
+- El punto ciego de `--changed`: un cambio en un fichero de configuración da `lint --changed: n/a`. La regresión lo cubre.
+- Sin nueva revisión tras una reparación de la regresión.
