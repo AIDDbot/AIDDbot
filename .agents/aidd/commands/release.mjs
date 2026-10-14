@@ -1,4 +1,4 @@
-// `aidd release [--major]`: ship the current spec branch.
+// `aidd release [--major] [--preexisting <D IDs>]`: ship the current spec branch after its regression.
 // `aidd integrate <message>`: commit and merge a non-spec task branch.
 import fs from "node:fs";
 import path from "node:path";
@@ -6,7 +6,8 @@ import {
   currentBranch, defaultBranch, git, journal, mergeAndDelete, productPath, readJson, relative, RuleError, UsageError,
 } from "../lib/core.mjs";
 import { findSpec, gate, readControl, specsDir, writeControl } from "../lib/spec.mjs";
-import { requireLint } from "./work.mjs";
+import { regression } from "./eval.mjs";
+import { requireFullLint, requireLint } from "./work.mjs";
 
 const SEMVER = /^(\d+)\.(\d+)\.(\d+)/;
 const SECTIONS = { feat: "Added", fix: "Fixed", refactor: "Changed", chore: "Changed" };
@@ -68,7 +69,10 @@ export function release(root, _args, flags) {
   const control = readControl(dir);
   const blockers = gate(root, dir, control);
   if (blockers.length) throw new RuleError(`${control.id} cannot ship: ${blockers.join(" ")}`);
-  requireLint(root, ["."]);
+  requireFullLint(root);
+  const preexisting = typeof flags.preexisting === "string" ? flags.preexisting.split(/[\s,]+/).filter(Boolean) : [];
+  const failed = regression(root, control, preexisting);
+  if (failed) throw new RuleError(`${control.id} cannot ship: ${failed}`);
   const files = versionFiles(root);
   const previous = readJson(path.join(root, "package.json")).version;
   const version = nextVersion(previous, control.type, flags.major === true);

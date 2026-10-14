@@ -41,11 +41,14 @@ export function aidd(root, ...args) {
   return { code: result.status, body };
 }
 
-/** Configure an e2e project whose acceptance command exits with `code`, tag `specs`' R01, then run it. */
+/** Configure an e2e project whose acceptance command exits with `code`, tag `specs`' R01, and run its tests:
+ *  the tests of the spec (the evidence of the verification), then the full suite (the regression of the release). */
 export function accept(root, code = 0, ...specs) {
   write(root, "e2e/tags.spec.ts", specs.map((id) => `test("@${id}-R01", () => {});\n`).join(""));
-  const project = { type: "e2e", path: "e2e", commands: { test: `node -e "process.exit(${code})"` } };
+  write(root, "e2e/suite.js", `process.exit(${code});\n`);
+  const project = { type: "e2e", path: "e2e", commands: { test: "node suite.js" } };
   aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
+  if (specs.length) aidd(root, "run", "test", "--spec");
   return aidd(root, "run", "test", "--project", "e2e");
 }
 

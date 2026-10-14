@@ -51,35 +51,44 @@ test("the gate rejects evidence written by hand without a real commit", () => {
   assert.equal(aidd(root, "release").code, 1);
 });
 
-test("green verification needs a passing acceptance run at HEAD that tags every requirement", () => {
+test("green verification needs a passing run of the tests of the spec at HEAD that tags every requirement", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   approve(root);
   const spec = ".product/specs/S0001-fleet/spec.md";
   write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run test/);
-  accept(root);
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /@S0001-Rnn for R01, R02/);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run test --spec/);
+  accept(root, 0, "S0001");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /@S0001-Rnn for R02/);
   write(root, "e2e/fleet.spec.ts", 'test("lists @S0001-R01", () => {});\ntest("adds @S0001-R02", () => {});\n');
   git(root, "add", "-A");
   git(root, "commit", "-q", "-m", "test(e2e): fleet");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last acceptance run/);
-  accept(root);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last run of the acceptance tests of the spec/);
+  aidd(root, "run", "test", "--spec");
   const control = readJson(root, ".product/specs/S0001-fleet/control.json");
-  assert.equal(control.runs.acceptance.e2e.commit, git(root, "rev-parse", "HEAD"));
+  assert.equal(control.runs.spec.e2e.commit, git(root, "rev-parse", "HEAD"));
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });
 
-test("a failing acceptance run is green only with debt older than the spec", () => {
+test("a failing run of the tests of the spec is red, and older debt never excuses it", () => {
   const root = repo();
   aidd(root, "debt", "add", "Flaky login test", "medium");
   aidd(root, "spec", "new", "fix", "crash", "Crash");
   approve(root);
   accept(root, 1, "S0001");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /record red, or name the older debt/);
-  aidd(root, "debt", "add", "Written to dodge the failure", "low");
-  assert.match(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0002").body.error, /D0002 is not open debt recorded before S0001/);
-  assert.equal(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0001").code, 0);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /acceptance tests of the spec failed; record red/);
+  assert.equal(aidd(root, "eval", "verification", "green", "ok", "--preexisting", "D0001").code, 2);
+});
+
+test("a spec without requirements is verified green with no run, and the regression proves it", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "refactor", "input", "Input");
+  write(root, ".product/specs/S0001-input/spec.md", "# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  approve(root);
+  assert.equal(aidd(root, "eval", "verification", "green", "no requirements").code, 0);
+  aidd(root, "eval", "qualification", "green", "ok");
+  accept(root, 0);
+  assert.equal(aidd(root, "release").code, 0);
 });
 
 test("eval commits its own record and drops the report once green", () => {
@@ -95,19 +104,35 @@ test("eval commits its own record and drops the report once green", () => {
   assert.equal(git(root, "status", "--short", "--", ".product"), "");
 });
 
-test("green verification needs a passing unit run at HEAD in each project with unit tests", () => {
+test("release needs a passing full unit and acceptance run at HEAD; a failure ships only with older debt or at revision 3", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
   const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: `node -e "process.exit(${code})"` } }));
   unit(0);
+  aidd(root, "debt", "add", "Flaky login test", "medium");
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
   accept(root, 0, "S0001");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /back has no unit run/);
+  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0, "the verification needs no unit run");
+  aidd(root, "eval", "qualification", "green", "ok");
+  assert.match(aidd(root, "release").body.error, /back has no unit run/);
   unit(1);
   aidd(root, "run", "test");
-  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /unit run of back failed\. A failing unit test blocks/);
-  unit(0);
-  aidd(root, "run", "test");
-  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
+  assert.match(aidd(root, "release").body.error, /regression failed in back\. Triage each failure into verification\.md/);
+  aidd(root, "debt", "add", "Written to dodge the failure", "low");
+  assert.match(aidd(root, "release", "--preexisting", "D0002").body.error, /D0002 is not open debt recorded before S0001/);
+  assert.equal(aidd(root, "release", "--preexisting", "D0001").code, 0);
+});
+
+test("a failed regression ships after a red verification at revision 3", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "seats", "Seats");
+  approve(root);
+  accept(root, 1, "S0001");
+  write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
+  for (const summary of ["one", "two"]) aidd(root, "eval", "verification", "red", summary);
+  assert.match(aidd(root, "release").body.error, /verification is red at revision 2/);
+  aidd(root, "eval", "verification", "red", "three");
+  aidd(root, "eval", "qualification", "green", "ok");
+  assert.equal(aidd(root, "release").code, 0);
 });

@@ -6,7 +6,7 @@ import { git, productPath, readJson, RuleError, writeJson } from "./core.mjs";
 export const TYPES = ["feat", "fix", "refactor", "chore"];
 export const KINDS = ["verification", "qualification"];
 export const STATUSES = ["green", "amber", "red"];
-const LAST_REVISION = 3;
+export const LAST_REVISION = 3;
 export const SPEC_DEFINED = "docs(spec): define delivery";
 
 export const specsDir = (root) => productPath(root, "specs");

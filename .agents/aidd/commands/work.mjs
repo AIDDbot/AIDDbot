@@ -26,6 +26,7 @@ const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
+const TEST_FILE = /\.test\.[^./]+$/;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
@@ -125,11 +126,11 @@ function withArguments(command, args) {
   return `${command}${npmScript ? " --" : ""} ${args}`;
 }
 
-/** The evidence that a run of `kind` gives for a project: the `test` of an `e2e` is acceptance, any other `test` is unit. */
-const evidenceOf = (kind, project) => (kind !== "test" ? kind : project?.type === "e2e" ? "acceptance" : "unit");
+/** The evidence that a run of `kind` gives for a project: a `--spec` run is spec, the `test` of an `e2e` is acceptance, any other `test` is unit. */
+const evidenceOf = (kind, project, scoped) => (kind !== "test" ? kind : scoped ? "spec" : project?.type === "e2e" ? "acceptance" : "unit");
 
-/** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval`. */
-function recordRun(root, kind, runs, projects) {
+/** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval` and `release`. */
+function recordRun(root, kind, runs, projects, scoped) {
   const dir = findSpec(root, currentBranch(root));
   if (!dir) return;
   const control = readControl(dir);
@@ -140,7 +141,7 @@ function recordRun(root, kind, runs, projects) {
   for (const name of new Set(runs.map((entry) => entry.project))) {
     const own = runs.filter((entry) => entry.project === name);
     const na = own.find((entry) => entry.na !== undefined)?.na;
-    const evidence = evidenceOf(kind, projects[name]);
+    const evidence = evidenceOf(kind, projects[name], scoped);
     control.runs[evidence] = { ...control.runs[evidence], [name]: { commit, ok: own.every((entry) => entry.ok), at, ...(na !== undefined && { na }) } };
   }
   writeControl(dir, control);
@@ -230,16 +231,56 @@ function duplicateFindings(root, project, start, size) {
 /** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
 const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
 
-/** Remember each lint result with the files it saw; a format of clean files keeps that lint valid, because format is cosmetic. */
-function rememberLint(root, kind, projects, runs, before) {
+/** The git blob of each file as the working copy holds it now: an equal blob means equal content. */
+function blobs(root, files) {
+  return files.length ? git(root, ["hash-object", "--", ...files]).split(/\r?\n/) : [];
+}
+
+/** Remember each lint result with the files it saw: the tree of a full lint, or the blob of each file of a `--changed` lint.
+ *  A format of clean files keeps a full lint valid, because format is cosmetic. */
+function rememberLint(root, kind, projects, runs, before, linted) {
   const file = lintStateFile(root);
   const state = readJson(file, {});
   for (const name of new Set(runs.filter((entry) => entry.na === undefined).map((entry) => entry.project))) {
+    const ok = runs.every((entry) => entry.project !== name || entry.ok);
+    if (kind === "lint" && linted[name]) {
+      const files = { ...state[name]?.files };
+      blobs(root, linted[name]).forEach((blob, index) => {
+        if (ok) files[linted[name][index]] = blob;
+        else delete files[linted[name][index]];
+      });
+      state[name] = { ...state[name], files };
+      continue;
+    }
     const tree = workingTree(root, projects[name].path);
-    if (kind === "lint") state[name] = { tree, ok: runs.every((entry) => entry.project !== name || entry.ok) };
+    if (kind === "lint") state[name] = { ...state[name], tree, ok };
     else if (state[name]?.ok && state[name].tree === before[name]) state[name].tree = tree;
   }
   writeJson(file, state);
+}
+
+const projectPrefix = (project) => (project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`);
+
+/** The files that the branch changes and that still exist: the diff from its merge base with the default branch, uncommitted changes included, and the new files. */
+function branchFiles(root) {
+  let base = null;
+  try {
+    base = git(root, ["merge-base", "HEAD", defaultBranch(root)], { allowFailure: true });
+  } catch {
+    base = null;
+  }
+  const list = (args) => (git(root, args, { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
+  const diff = list(["diff", "--name-only", "--no-renames", "--diff-filter=d", base || "HEAD"]);
+  return [...new Set([...diff, ...list(["ls-files", "--others", "--exclude-standard"])])];
+}
+
+/** The changed code files of a project, relative to it, for `lint`; for `test`, each changed test and the test beside each changed source (`x.ts` → `x.test.ts`). */
+function changedOf(root, project, kind, changed) {
+  const prefix = projectPrefix(project);
+  const own = changed.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && !INSTALLED.test(file)).map((file) => file.slice(prefix.length));
+  if (kind === "lint") return own;
+  const tests = own.map((file) => (TEST_FILE.test(file) ? file : file.replace(/(\.[^./]+)$/, ".test$1")));
+  return [...new Set(tests)].filter((file) => fs.existsSync(path.join(root, prefix, file)));
 }
 
 /** The files that a commit of `paths` would take: changed since HEAD (only added or modified, with `kept`), or new and not ignored. */
@@ -249,7 +290,8 @@ function changedFiles(root, paths, kept = false) {
   return [...list(diff), ...list(["ls-files", "--others", "--exclude-standard"])];
 }
 
-/** A commit that changes the code of a project needs the last lint of that project to have passed on the same files. */
+/** A commit that changes the code of a project needs a passing lint on the same files: the last full lint of that project,
+ *  or a `--changed` lint of each changed code file that still exists. A deleted file is left to the full lint of the release. */
 export function requireLint(root, paths) {
   const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
   const code = changedFiles(root, paths).filter((file) => !/^\.(aiddbot|product)\//.test(file) && !file.endsWith(".md"));
@@ -258,21 +300,45 @@ export function requireLint(root, paths) {
   for (const [name, project] of Object.entries(projects)) {
     const slot = project.commands?.lint;
     if (!slot || isNa(slot)) continue;
-    const prefix = project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`;
+    const prefix = projectPrefix(project);
     if (!code.some((file) => file.startsWith(prefix))) continue;
     const last = state[name];
     if (last?.ok && last.tree === workingTree(root, project.path)) continue;
-    stale.push(`${name} (${!last ? "never linted" : last.ok ? "changed since its last lint" : "its last lint failed"})`);
+    const own = code.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && fs.existsSync(path.join(root, file)));
+    const hashes = blobs(root, own);
+    if (last?.files && own.every((file, index) => last.files[file] === hashes[index])) continue;
+    stale.push(`${name} (${!last ? "never linted" : last.ok === false ? "its last lint failed" : "changed since its last lint"})`);
   }
   if (stale.length) {
-    throw new RuleError(`Lint before you commit: ${stale.join(", ")}. Run \`aidd run lint --project <name>\`, fix every error, then commit.`);
+    throw new RuleError(`Lint before you commit: ${stale.join(", ")}. Run \`aidd run lint --changed --project <name>\`, fix every error, then commit.`);
+  }
+}
+
+/** A release needs a passing full lint of each project on its current files: a lint of changed files cannot see a deleted file or a changed signature. */
+export function requireFullLint(root) {
+  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
+  const state = readJson(lintStateFile(root), {});
+  const stale = [];
+  for (const [name, project] of Object.entries(projects)) {
+    const slot = project.commands?.lint;
+    if (!slot || isNa(slot)) continue;
+    const last = state[name];
+    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
+    stale.push(`${name} (${!last?.tree ? "no full lint" : last.ok ? "changed since its full lint" : "its full lint failed"})`);
+  }
+  if (stale.length) {
+    throw new RuleError(`Run the full lint before you release: ${stale.join(", ")}. Run \`aidd run lint\`, fix every error, then release again.`);
   }
 }
 
 /** Run one classified command kind for every project that has it, or for `--project`. `test` runs the `e2e` projects last.
- *  `--spec` narrows `test` to the `e2e` tests of the current spec; that run is a quick check, never evidence. */
+ *  `--spec` narrows `test` to the `e2e` tests of the current spec: the evidence of the verification.
+ *  `--changed` narrows `lint` and `test` to the files that the branch changes, through the `lint:files` and `test:files` slots; it is never evidence. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
+  const changed = flags.changed === true;
+  if (changed && !["lint", "test"].includes(kind)) throw new UsageError("--changed applies only to lint and test.");
+  if (changed && flags.spec) throw new UsageError("Use --changed or --spec, not both.");
   const settings = readJson(configFile(root), { projects: {} });
   const projects = settings.projects ?? {};
   const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
@@ -280,18 +346,22 @@ export function run(root, [kind], flags) {
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
     .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length)
     .filter((name) => !scoped || projects[name].type === "e2e")
+    // The Builder checks the acceptance tests with `--spec`, never with `--changed`.
+    .filter((name) => !(changed && kind === "test" && projects[name].type === "e2e"))
     .sort((a, b) => (kind === "test") * ((projects[a].type === "e2e") - (projects[b].type === "e2e")));
   if (!names.length) {
     const what = scoped ? "No 'e2e' project has a 'test' command" : `No '${kind}' command is configured`;
     throw new UnavailableError(`${what}; the foundation records each project's type and slots from its AGENTS.md.`);
   }
   const id = scoped && path.basename(scoped).slice(0, 5);
-  // A spec without requirements (a refactor or a chore) has no tagged test: the full run of verify-behavior checks it.
+  // A spec without requirements (a refactor or a chore) has no tagged test: the regression of ship-spec checks it.
   if (id && !requirements(scoped).length) {
-    const na = `${id} has no requirements, so no test has its tag; the full test run of verify-behavior checks it.`;
+    const na = `${id} has no requirements, so no test has its tag; the regression of ship-spec checks it.`;
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
+  const linted = {};
+  const touched = changed ? branchFiles(root) : [];
   const tracksLint = !id && (kind === "lint" || kind === "format");
   const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
   const unlock = lockRun(root, kind);
@@ -302,9 +372,23 @@ export function run(root, [kind], flags) {
         runs.push({ project: name, ok: true, na: slot.na });
         continue;
       }
-      const commands = [projects[name].commands[kind]].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
+      let commands = [slot].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
+      if (changed) {
+        const files = changedOf(root, projects[name], kind, touched);
+        if (!files.length) {
+          runs.push({ project: name, ok: true, na: `no changed ${kind === "test" ? "test" : "code file"}` });
+          continue;
+        }
+        // A project without a `:files` slot runs its full slot.
+        const narrow = projects[name].commands[`${kind}:files`];
+        if (typeof narrow === "string" || Array.isArray(narrow)) {
+          commands = [narrow].flat().map((command) => withArguments(command, files.map((file) => `"${file}"`).join(" ")));
+          if (kind === "lint") linted[name] = files.map((file) => `${projectPrefix(projects[name])}${file}`);
+        }
+      }
       commands.forEach((command, index) => {
-        const log = aiddbotPath(root, "runs", `${kind}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+        const mode = id ? "-scoped" : changed ? "-changed" : "";
+        const log = aiddbotPath(root, "runs", `${kind}${mode}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
         runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
       });
     }
@@ -319,7 +403,7 @@ export function run(root, [kind], flags) {
   const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
   const duplicates = kind === "quality" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
-  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : changed ? " --changed" : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
     journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
   }
@@ -330,10 +414,10 @@ export function run(root, [kind], flags) {
     const where = duplicates.slice(0, 3).map((entry) => `${entry.locations[0].file}:${entry.locations[0].from} (${entry.lines} lines, ${entry.locations.length} places)`);
     journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
   }
-  if (!id && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects);
-  if (tracksLint) rememberLint(root, kind, projects, runs, before);
+  if (!changed && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
+  if (tracksLint) rememberLint(root, kind, projects, runs, before, linted);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
+    : { kind, ok, ...(changed && { changed: true }), runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 

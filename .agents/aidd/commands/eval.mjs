@@ -1,8 +1,9 @@
-// `aidd eval <kind> <status> <summary> [--spec <id>] [--preexisting <D IDs>]`: record one evaluation at HEAD.
+// `aidd eval <kind> <status> <summary> [--spec <id>]`: record one evaluation at HEAD.
+// It also gives `release` the regression check: the full unit and acceptance runs.
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, commitPaths, git, journal, productPath, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
-import { isApproved, KINDS, readControl, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
+import { isApproved, KINDS, LAST_REVISION, readControl, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const MESSAGES = { verification: "docs(verification): record acceptance", qualification: "docs(review): qualify implementation" };
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
@@ -33,38 +34,45 @@ export function untested(root, dir, id) {
   return required.filter((requirement) => !text.includes(`@${id}-${requirement}`));
 }
 
-/** Code changes since `commit`, records left out; empty when none. */
-const changedSince = (root, commit) => git(root, ["diff", "--name-only", commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot"]);
+/** Code changes since `commit`, records and documents left out; empty when none. */
+const changedSince = (root, commit) => git(root, ["diff", "--name-only", commit, "HEAD", "--", ".", ":!.product", ":!.aiddbot", ":!*.md"]);
 
-/** Why the unit tests do not prove this commit: each project that is not `e2e` and has a `test` command needs a passing run with no code change since. */
-function missingUnit(root, control) {
-  const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
-  for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.test;
-    if (project.type === "e2e" || !slot || typeof slot.na === "string") continue;
-    const last = control.runs?.unit?.[name];
-    if (!last) return `Run \`aidd run test\` on this spec branch before recording a green verification: ${name} has no unit run.`;
-    if (!last.ok) return `The last unit run of ${name} failed. A failing unit test blocks the delivery: record red.`;
-    const changed = changedSince(root, last.commit);
-    if (changed) return `Code changed since the last unit run of ${name} (${changed.split("\n")[0]}…); run \`aidd run test\` again.`;
-  }
-  return null;
-}
-
-/** Why a green verification cannot be recorded now; null when it can. */
-function missingEvidence(root, dir, control, preexisting) {
-  const unit = missingUnit(root, control);
-  if (unit) return unit;
-  const accepted = Object.values(control.runs?.acceptance ?? {});
-  if (!accepted.length) return "Run `aidd run test` on this spec branch before recording a green verification: no e2e project has an acceptance run.";
-  for (const { commit } of accepted) {
+/** Why a green verification cannot be recorded now; null when it can. Its evidence is the `--spec` run: the acceptance tests of the spec only. */
+function missingEvidence(root, dir, control) {
+  // A spec without requirements has no tagged test: the regression of the release proves it.
+  if (!requirements(dir).length) return null;
+  const scoped = Object.values(control.runs?.spec ?? {});
+  if (!scoped.length) return "Run `aidd run test --spec` on this spec branch before recording a green verification: the acceptance tests of the spec have no run.";
+  for (const { commit } of scoped) {
     const changed = changedSince(root, commit);
-    if (changed) return `Code changed since the last acceptance run (${changed.split("\n")[0]}…); run \`aidd run test\` again.`;
+    if (changed) return `Code changed since the last run of the acceptance tests of the spec (${changed.split("\n")[0]}…); run \`aidd run test --spec\` again.`;
   }
   const missing = untested(root, dir, control.id);
   if (missing.length) return `No acceptance test tagged or titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
-  if (accepted.every((entry) => entry.ok)) return null;
-  if (!preexisting.length) return "The last acceptance run failed; record red, or name the older debt behind every failure with --preexisting.";
+  return scoped.every((entry) => entry.ok) ? null : "The last run of the acceptance tests of the spec failed; record red.";
+}
+
+/** Why the regression does not allow the release; null when it does. Each project with a `test` command needs a full run (unit, or acceptance for `e2e`)
+ *  with no code change since. A failure ships only after a red verification at the last revision, or with open debt older than the spec behind it. */
+export function regression(root, control, preexisting) {
+  const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
+  const failed = [];
+  for (const [name, project] of Object.entries(projects)) {
+    const slot = project.commands?.test;
+    if (!slot || typeof slot.na === "string") continue;
+    const evidence = project.type === "e2e" ? "acceptance" : "unit";
+    const last = control.runs?.[evidence]?.[name];
+    if (!last) return `Run the full \`aidd run test\` before you release: ${name} has no ${evidence} run.`;
+    const changed = changedSince(root, last.commit);
+    if (changed) return `Code changed since the last ${evidence} run of ${name} (${changed.split("\n")[0]}…); run the full \`aidd run test\` again.`;
+    if (!last.ok) failed.push(name);
+  }
+  if (!failed.length) return null;
+  const verification = control.evaluations.filter((entry) => entry.kind === "verification").at(-1);
+  if (verification?.status === "red" && verification.revision >= LAST_REVISION) return null;
+  if (!preexisting.length) {
+    return `The regression failed in ${failed.join(", ")}. Triage each failure into verification.md and record a red verification, or name the older debt behind every failure with --preexisting.`;
+  }
   const open = readJson(productPath(root, "quality", "debt.json"), { items: [] }).items;
   const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));
   return invalid.length ? `${invalid.join(", ")} is not open debt recorded before ${control.id} was created.` : null;
@@ -82,9 +90,9 @@ export default function evaluate(root, [kind, status, summary], flags) {
   if (status !== "green" && !fs.existsSync(report)) {
     throw new RuleError(`This ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);
   }
+  if (flags.preexisting !== undefined) throw new UsageError("--preexisting belongs to `aidd release`: older debt can explain only a failure of the regression.");
   if (kind === "verification" && status === "green") {
-    const preexisting = typeof flags.preexisting === "string" ? flags.preexisting.split(/[\s,]+/).filter(Boolean) : [];
-    const problem = missingEvidence(root, dir, control, preexisting);
+    const problem = missingEvidence(root, dir, control);
     if (problem) throw new RuleError(problem);
   }
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;

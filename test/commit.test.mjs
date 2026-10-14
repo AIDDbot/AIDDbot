@@ -55,6 +55,33 @@ test("commit needs a passing lint on the same files of each project it changes",
   assert.equal(aidd(root, "commit", "docs(back): rules").body.committed, true, "documents and files outside projects need no lint");
 });
 
+test("a lint of the changed files lints only the files of the branch, and lets a commit of those files pass", () => {
+  const root = repo();
+  write(root, "back/src/old.ts", "0\n");
+  write(root, "back/args.js", "console.log(process.argv.slice(2).join(' '));\n");
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "chore: old");
+  git(root, "switch", "-q", "-c", "chore/task");
+  const commands = { lint: 'node -e "process.exit(0)"', "lint:files": "node args.js", test: 'node -e "process.exit(0)"', "test:files": "node args.js" };
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands }));
+  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { lint: 'node -e "process.exit(0)"' } }));
+  write(root, "back/src/one.ts", "1\n");
+  write(root, "back/src/one.test.ts", "1\n");
+  write(root, "back/src/two.ts", "2\n");
+  const linted = aidd(root, "run", "lint", "--changed");
+  assert.equal(linted.code, 0);
+  assert.equal(linted.body.runs.find((entry) => entry.project === "back").command, 'node args.js "src/one.test.ts" "src/one.ts" "src/two.ts"');
+  assert.match(linted.body.runs.find((entry) => entry.project === "front").na, /no changed code file/);
+  const tested = aidd(root, "run", "test", "--changed");
+  assert.equal(tested.body.runs[0].command, 'node args.js "src/one.test.ts"', "the changed test and the test beside each changed source");
+  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
+  write(root, "back/src/one.ts", "1;\n");
+  assert.match(aidd(root, "commit", "feat(back): one again", "back").body.error, /back \(changed since its last lint\)/);
+  aidd(root, "config", "set", "projects.back.commands", JSON.stringify({ lint: 'node -e "process.exit(0)"' }));
+  assert.equal(aidd(root, "run", "lint", "--changed", "--project", "back").body.runs[0].command, 'node -e "process.exit(0)"', "a project without lint:files runs its full lint");
+  assert.equal(aidd(root, "run", "quality", "--changed").code, 2);
+});
+
 test("release and integrate refuse project code that changed since its last lint", () => {
   const root = repo();
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
@@ -69,7 +96,7 @@ test("release and integrate refuse project code that changed since its last lint
   write(root, "back/one.ts", "1;\n");
   const refused = aidd(root, "release");
   assert.equal(refused.code, 1);
-  assert.match(refused.body.error, /back \(changed since its last lint\)/);
+  assert.match(refused.body.error, /back \(changed since its full lint\)/);
   aidd(root, "run", "lint", "--project", "back");
   assert.equal(aidd(root, "release").code, 0, "a formatted file ships once its lint passes again");
 });

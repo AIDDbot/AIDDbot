@@ -5,7 +5,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { git, write, repo, aidd, readJson } from "./helpers.mjs";
 
-test("a scoped acceptance run filters by spec, lists untested requirements, and is never evidence", () => {
+test("a scoped acceptance run filters by spec, lists untested requirements, and is the evidence of the verification", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   write(root, ".product/specs/S0001-fleet/spec.md", "- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
@@ -16,7 +16,9 @@ test("a scoped acceptance run filters by spec, lists untested requirements, and 
   assert.equal(scoped.code, 0);
   assert.deepEqual(scoped.body.untested, ["R02"]);
   assert.match(scoped.body.runs[0].command, /--grep @S0001-$/);
-  assert.equal(readJson(root, ".product/specs/S0001-fleet/control.json").runs, undefined);
+  const runs = readJson(root, ".product/specs/S0001-fleet/control.json").runs;
+  assert.equal(runs.spec.e2e.ok, true);
+  assert.equal(runs.acceptance, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.test", '"npm test"');
   assert.equal(aidd(root, "run", "test", "--spec").body.runs[0].command, "npm test -- --grep @S0001-");
   aidd(root, "config", "set", "projects.e2e.commands.test", '"npm test --"');
