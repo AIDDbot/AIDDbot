@@ -143,7 +143,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 | --- | --- | --- |
 | Verification | `green` | The acceptance tests of the spec |
 | Regression | a passing full `lint` and `test` at the code that ships | The full system: unit tests and the full acceptance suite |
-| Qualification | any recorded status; findings ship as debt after one repair of a failed Security gate | Expert review of gross errors that no linter sees: security, data integrity, accessibility |
+| Qualification | any recorded status; findings ship as debt after one repair of a failed Security or Requirements gate | Expert review of gross errors that no linter sees: security, data integrity, accessibility |
 
 Verification runs before qualification. `aidd eval` records each evaluation with its status, revision and current commit in the `control.json` of the spec. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits the record.
 
@@ -152,7 +152,7 @@ Verification runs before qualification. `aidd eval` records each evaluation with
 - Green evaluations leave no report. Amber and red evaluations leave a report with only the failures and findings.
 - A red verification returns for repair and runs again, without qualification, until revision 3.
 - If the Builder cannot reproduce a failure and does not change it, the failure becomes debt before verification runs again. Thus a green retry never hides it.
-- Qualification never blocks shipping. Shipping records each finding as debt: `high` for a blocking one, `low` for a debt one. A failed Security gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
+- Qualification never blocks shipping. Shipping records each finding as debt: `high` for a blocking one, `low` for a debt one. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
 - `aidd release` needs the regression: a passing full `lint` of each project on the current files, and a passing last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A failed regression ships only with `--preexisting <D IDs>`, which names open debt recorded before the spec, or after a red verification at revision 3.
 - A failed regression goes to triage. The Craftsman writes each failure into `verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus it counts as one more revision. The repair stays in the spec, so a regression never reaches the default branch.
 

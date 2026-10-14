@@ -51,13 +51,13 @@ Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send sc
 | Event | Action |
 | --- | --- |
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
-| The regression of `ship-spec` is red | It recorded a red verification with a triage. Send each row to its owner: a row of the **Builder** for repair, a row of the human as in the rows below. Then verify again and ship again. Qualify again only after a repair of a failed Security gate. |
+| The regression of `ship-spec` is red | It recorded a red verification with a triage. Send each row to its owner: a row of the **Builder** for repair, a row of the human as in the rows below. Then verify again and ship again. Qualify again only after a repair of a failed Security or Requirements gate. |
 | The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` before verification starts again. Thus a green retry never hides it. |
 | A test tagged with a different spec fails | It is a regression. The **Builder** repairs the production code. |
 | A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test and tags it with the requirement of this spec that replaces the old one. |
 | Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship with each unresolved failure, failure of the regression, and finding recorded as debt. |
 | Qualification has findings | Never send them back for repair. They ship as debt. |
-| The Security gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |
+| The Security or the Requirements gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |
 | Verification asks a product question | Stop. Relay the question to the human. When it is answered, the **Architect** writes the answer into the spec as a requirement. Then continue from the repair of the **Builder** and verification. |
 | Acceptance cannot run at all | Stop the delivery. |
 

@@ -93,7 +93,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 - Unit tests prove `logic`, at least one for each business rule, with a fake `data`. They also prove `shared` and `core`. They are fast and independent. A business rule without a unit test is debt.
 - An acceptance test proves one requirement. Its name contains the identifier of that requirement.
 - `e2e` has no layers, no manifest, no composition and no unit tests; the runner is the entry, and each run proves its `core`. `core` is the life cycle of the suite (setup, teardown, startup check of the projects). Features: one folder for each feature of the system, with `.api.spec`, `.web.spec` and `.cli.spec` tests. `shared`: primitives, `page-objects/`, `test-data/`.
-- An e2e test uses only the API, the screens and the commands. It never uses `core` or a different feature. Only the migration tests of `configuration` open the database. Each test makes its own data with unique values. One browser engine (Chromium), unless the system asks for more.
+- An e2e test uses only the API, the screens and the commands. It starts each project only with its start command, and never injects code into its process. It never uses `core` or a different feature. Only the migration tests of `configuration` open the database. Each test makes its own data with unique values. One browser engine (Chromium), unless the system asks for more.
 
 ### Code
 
