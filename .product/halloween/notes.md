@@ -155,3 +155,22 @@ Hoy los pasos 1 a 3 del procedimiento (scaffold, outline, integración) son el �
 ### Cierre
 
 Abandonada tras la segunda parada de `define-spec`. Los huecos de las 6 specs se cerraron de una vez en el Builder (`08276b4`) y la prueba limpia es cli-5, otra vez con el megaprompt.
+
+## Hacia arquetipos en serie (2026-10-14)
+
+Tras cli-5, el prompt llega a dos líneas (`cli-6.prompt.md`) y no nombra ninguna biblioteca. Todo lo demás está en ficheros:
+
+- El manifiesto: `archetype-builder/libraries/{library}.system.md` → `.product/system.md`.
+- El scaffold: la spec 0 (`chore`) del Blueprint.
+- El orden y la puerta de deuda cero: `/build-ordered-specs` de AIDDbot, con la tabla de `project-types.md`.
+- La publicación: `seed.md`, fuera del proceso del agente.
+
+Una biblioteca nueva es un manifiesto nuevo, el paso 0 y el mismo prompt.
+
+Antes de producir en serie:
+
+1. **cli-6 sale de una.** Primera vez del scaffold como spec, el orquestador y `define-spec` sin modelo.
+2. **Una biblioteca con `api`, `web` y `e2e`.** Los huecos cerrados hoy en el Blueprint vienen solo de `cli`; las filas de `api` y `web` no pasaron por este proceso (Archetype Base salió por otro camino). Con YOLO sin paradas, buscar después en el journal y en las specs las decisiones que tomó el agente, y subirlas al Blueprint.
+3. **Otros ecosistemas.** `ecosystems.md` fija solo JS / TS sobre Node. Go, Python u otro necesitan su bloque: herramientas, comandos de scaffold, persistencia.
+
+Después, en serie.
