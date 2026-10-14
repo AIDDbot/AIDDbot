@@ -248,6 +248,27 @@ Completa en una sola sesión de Codex: 7 specs del Blueprint (sin `users`) y 3 r
 - **Más vías, deducidas de datos** (en `ideas.md`).
 - **Complejidad por la vía rápida:** la deuda con origen `scan` (quality y harden) se repara sin spec; la puerta vuelve a ejecutar la herramienta que la encontró. S0004, S0006 y S0010 eran de este tipo.
 
-### Al cerrar · Revisión preventiva del código
+### Revisión preventiva del código (2026-10-14, al cerrar)
 
-Recorrer el código final de cli-6. Buscar oportunidades de mejora preventiva: lo que el proceso detectó por su cuenta (deuda, triajes, reparaciones repetidas) y lo que se ve repetido o complejo a mano. Cada hallazgo, a una regla del Blueprint o a una primitiva de `shared` con evidencia, no a una suposición. Así el set de `shared` sale del código, con menos especulación.
+Recorrido del código final (`cli/src`, `e2e`; 2353 líneas). Cada hallazgo, con su evidencia.
+
+**Un bug que la vía rápida conservó.** D0001 (`no-useless-escape`) señalaba un bug real: `quote()` en `e2e/shared/projects/cli.ts:72` quería escapar las comillas para el shell (`\\"`), y `'\"'` ya era `'"'`. La reparación mecánica dejó `replaceAll('"', '"')`, una operación nula. Un `--fix` habría hecho lo mismo. → Una regla de harden puede señalar un bug; si el arreglo deja código sin efecto, el ítem pasa a `fix` con spec. Y en `e2e`: invocar con un array de argumentos, nunca con comillas a mano.
+
+**Primitivas de `shared`, con evidencia** (la docena de funciones de la nota anterior):
+
+| Fichero | Primitivas | Evidencia en cli-6 |
+| --- | --- | --- |
+| `checks` | `isRecord`, `isText` (no vacío), `isOneOf`, `findByName`, `requireByName` | `app.config.ts:31`, `app.settings.ts:9,13`, `e2e/core/settings.ts:6`; búsqueda por nombre en 8 sitios (`app.config.ts:43,51,79,82`, `app.compose.ts:16`, `app.shell.ts:20,42`, `config.service.ts:17`), tres con `as` |
+| `numbers` | `parseInteger(value, field, range)` | `shared/form.ts:11` ya lo hace; `e2e/core/settings.ts:9` lo repite |
+| `dates` | `formatDate`, `formatTime`, `formatDateTime` (hora local, con ceros) | `app.logger.ts:12-13` y `shared/values.ts:4-16`, el mismo `padStart` dos veces |
+| `errors` | `attempt(action, kind, message)`: un fallo de recurso pasa a `ExpectedError` | 6 `try/catch` iguales: `health.repository.ts` ×3, `app.database.ts:53`, `app.config.ts:27,69` |
+
+**Reglas del Blueprint, con evidencia:**
+
+- **Una opción es un dato, no un texto.** `app.compose.ts:20` vuelve a parsear `"--limit <n>"` para sacar `LIMIT`. La conversión `--x-y` ↔ `X_Y` está en 4 sitios (`app.arguments.ts:24,36`, `app.compose.ts:20`, `form.ts:19`, que no cambia `_` por `-`). Los flags globales (`HELP`, `JSON`, `VERSION`) se repiten 3 veces.
+- **La ayuda sale de las definiciones.** `settingOptions` en `app.shell.ts:60` copia a mano `settingDefinitions`.
+- **Los argumentos se parsean una vez.** `app.main.ts:10,20` vuelve a leer `--json` y el comando junto a `parseArguments`.
+- **El error de uso cita el `usage` declarado.** Ya hay deriva: `health.routes.ts:38` dice `Usage: health [runs]` y el comando declara `health [runs [--limit <n>] [--offset <n>]]`. `config.command.ts:23` lo duplica.
+- **Un default, en un sitio.** `health.routes.ts:24,27`: `20` dos veces.
+- **La ejecución de `core` es un pipeline desde el scaffold:** parsear, ejecutar, renderizar, informar. La complejidad volvió 4 veces al mismo pegamento (D0002 y D0005 en la invocación de `e2e`, D0004 en el parser, D0006 en la ejecución).
+- **`presentation` antes, no la última.** Llegó al final y cambió la salida de `config list` que ya existía: la regresión de S0009. Con las primitivas de presentación junto a `shell`, cada feature nace con su vista y los tests leen con `readTable` y `readRecord`.
