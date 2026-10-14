@@ -237,3 +237,34 @@ Si la sesión se queda sin tokens, se lanza otra vez el mismo comando.
 - El `AGENTS.md` de `cli` nombra `node:sqlite` desde el scaffold.
 - Las regresiones de las listas cerradas (3 en cli-3) no vuelven.
 - Tiempo de cada spec y de cada `craft`, y cuántas sesiones hacen falta.
+
+## cli-6 · Archetype CLI desde su manifiesto, con `$build-ordered-specs`
+
+Todo sale de specs. El scaffold es la spec 0 (`chore`), el manifiesto es `.product/system.md`, y un orquestador de AIDDbot entrega la lista: cada spec con su `craft`, deuda cero antes de la siguiente, y el `craft` de cierre. Una sola sesión: si no sale de una, se sigue recortando. AIDDbot (`9e3bf31`) y el Builder (`730150f`) en `main` local, sin publicar.
+
+### 0 · Preparar (PowerShell)
+
+```powershell
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-6 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-6
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init
+New-Item -ItemType Directory builder | Out-Null
+Copy-Item C:\code\aidd\archetype-builder\procedure.md builder\
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint builder\
+Copy-Item C:\code\aidd\archetype-builder\libraries\archetype-cli.system.md .product\system.md
+git add -A; git commit -m "chore: Archetype Builder and the Archetype CLI manifest"
+```
+
+### 1 · Lanzar (PowerShell)
+
+```powershell
+Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-6.prompt.md' -Raw | codex exec --dangerously-bypass-approvals-and-sandbox -C C:\code\aidd\experiments\halloween\cli-6 -
+```
+
+### Vigilar
+
+- **S0001 `chore` scaffold.** `define-spec` sin `model/` ni proyectos, y sin parar. La identidad en el `package.json` raíz. Tres commits por proyecto. Verificación en verde sin run. `ship-spec` ejecuta `outline-system`: el `AGENTS.md` raíz con los dos proyectos y los schemas de `cli`. Versión 0.0.1.
+- **`$build-ordered-specs`.** Las specs en el orden de `project-types.md`, sin `users`. Un `craft` tras cada spec, deuda cero antes de la siguiente, el `craft` de cierre hasta un scan y un hardening vacíos. La tabla final.
+- **YOLO sin paradas.** Anotar cada decisión que el agente tomó por su cuenta: es un hueco del Blueprint.
+- **`harden`.** Sin `no-floating-promises` ni `no-empty-pattern` (`f615746`).
+- **Una sesión.** Si se agotan los tokens, dónde, y cuánto contexto gasta el orquestador.
