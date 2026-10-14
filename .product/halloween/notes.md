@@ -110,3 +110,48 @@ Setup (scaffold, outline, integración) 6 min. Las 5 primeras specs y sus `craft
 - **`quality` en el Builder.** En un `refactor`, el Builder ejecuta `quality` completo para comprobar su reparación (no hay `quality:files`). Barato (1 s); solo anotar.
 - **Tokens.** Una sesión de Codex sigue sin bastar para 6 specs, aunque llega más lejos. El prompt reanudable sigue siendo necesario.
 - **Una sesión por spec.** La sesión que orquesta acumula todo el contexto de la ejecución. Los desvíos se juntan hacia el final (el `lint` y el `test` completos del Builder a las 11:53, la lista cerrada que la reparación de S0005 volvió a cerrar). Propuesta para cli-4: el mismo prompt reanudable, pero hace solo el primer paso sin terminar (una spec y su `craft`) y para. Cada spec empieza en una sesión nueva, con el contexto vacío; el estado ya está en los ficheros. Así también se puede medir cada spec por separado.
+
+## cli-4 · Archetype CLI desde cero, en tres prompts (2026-10-14, abandonada en configuration)
+
+`experiments/halloween/cli-4`, AIDDbot y el Builder en `main` local tras D26. Tres prompts, cada uno en una sesión nueva de Codex (`cli-4.prompt.md`): la base del `cli` (pasos 1–3), `configuration`, y el resto con el cierre. Sin script de bucle.
+
+### Lo que salió
+
+- **Prompt 1** (base): 9 min (15:38–15:47), integrado en `master`. D26 bien en el scaffold: `--quiet` en `lint` y `lint:files`, script `harden` registrado, `.oxlint.quality.json` sin `extends`. `no-empty-pattern` en `e2e`: sin fixtures todavía.
+- **Prompt 2** (configuration), primer intento: `define-spec` paró a los 2 min (15:51), sin aprobar S0001. La spec de origen no daba el valor por defecto de `DATABASE_URL`, la tecnología del almacén local ni la regla de validación de cada ajuste. En cli-3 el mismo hueco pasó sin ruido: el Builder eligió `node:sqlite` y `./local.sqlite` por su cuenta. Parar es lo correcto: es un hueco del Blueprint, no una decisión de producto.
+  - Reparado en el Builder (`archetype-builder` `71509c5`), nunca en el prompt: `ecosystems.md` dice `node:sqlite` para la base de datos de un `api` y el almacén de un `cli`, con `DATABASE_URL` = `./data/app.sqlite` (igual que Archetype Base); `configuration.spec.md` da ese valor por defecto y la regla de validación de cada ajuste.
+  - Segundo intento: paró en 68 s por `CLI_DIRECTORY` sin valor por defecto (la regla «cada ajuste tiene un default documentado»). Reparado de una vez para todos los ajustes (`f424344`): `{PROJECT}_DIRECTORY` = `../{folder}`, `{PROJECT}_PORT` = el puerto del proyecto, `E2E_STARTUP_TIMEOUT_MS` = 15000 (como Archetype Base), `API_BASE_URL` del `cli` = `http://localhost:3000`, y la regla de validación de cada uno. Commit `ec9d7b4` en cli-4.
+  - En cli-4: el Blueprint copiado a `builder/`, y en `cli/AGENTS.md` la dependencia principal `node:sqlite` a mano (lo que el paso 1 escribiría ahora). Commit `7261926` en `feat/S0001-configuration`. El prompt 2 se relanza igual.
+
+### Decisión · El prompt tiende a una línea
+
+Los prompts de cli-1 a cli-4 son demasiado largos. Casi todas sus líneas reparan un hueco del Builder o de AIDDbot. Una biblioteca nueva tiene que salir de un prompt limpio, más o menos `Sigue builder/procedure.md con builder/library.json`, y el mismo prompt sirve para cada sesión.
+
+Cada tipo de línea del prompt va a su sitio:
+
+| Lo que dice hoy el prompt | Dónde va |
+| --- | --- |
+| Identidad, proyectos, tipos, «sin usuarios» | Un **manifiesto de la biblioteca** (datos, no prosa): identidad y proyectos con su `type`. De ahí salen las specs que aplican: `users` cae sola si no hay usuarios. |
+| Orden de las specs; build → `craft` → `debt list`; no seguir con deuda | `procedure.md`, paso 4. |
+| Reanudar: leer `git log`, `control.json` y `debt list`; terminar la skill pendiente, nunca empezar de nuevo | AIDDbot, de forma determinista: un comando `next` que lee el estado y da el paso o la skill siguiente. |
+| «No `$architect-system-foundation`», «no cambies `builder/`», «`CONFIG_FILE` relativo» | `procedure.md` y la spec. Si hay que repetirlo en el prompt, la spec o la skill tienen un hueco. |
+| YOLO, ASD-STE100, la tabla del resumen | La configuración del harness, el `AGENTS.md` y un comando de informe que lee el journal. |
+
+Regla para cada prueba: una línea que se añade al prompt para corregir un desvío es deuda del Builder o de AIDDbot. Al cerrar la prueba, anotar aquí cada línea que hizo falta y su sitio. Cada prueba acorta el prompt de la siguiente.
+
+Pendiente: el formato del manifiesto, el nombre y la salida de `next`, si el corte en sesiones lo hace el harness o una skill (`$build-library`), y si entra en Halloween o después.
+
+### Propuesta para cli-6 · El scaffold es una spec `chore`
+
+Hoy los pasos 1 a 3 del procedimiento (scaffold, outline, integración) son el único trabajo fuera del ciclo de las specs: sin `control.json` para reanudar, sin revisión ni evidencia, sin versión ni tiempos propios en el journal. Todo sale de una spec menos el comienzo.
+
+- **Tipo nuevo `chore`**: un cambio sin comportamiento que se vea desde fuera (scaffold, herramientas, dependencias). Lo que se ve desde una interfaz es `feat` o `fix`, como ya exige `define-spec`.
+- **Como `refactor` (D23)**: sin requisitos `@S{nnnn}-R{nn}`; la verificación pasa a verde sin run. La evidencia son las ranuras del build (`lint`, `test`, la prueba de fronteras). La revisión compara con el Blueprint, no con requisitos. `ship-spec` integra, versiona (0.1.0) y deja tiempos.
+- **El contenido de la spec es el manifiesto** de la decisión anterior: identidad, proyectos y tipos. El inicio de una biblioteca es `S0001 chore scaffold`.
+- **El procedimiento se acorta**: «entrega estas specs en orden», con el scaffold incluido. El megaprompt pierde los pasos 1 a 3 y la lógica de reanudación del scaffold.
+- **Coste**: el tipo `chore` en `aidd spec new` y en las skills que distinguen `refactor` (`define-spec`, `verify-behavior`, `ship-spec`, con `/maintain-skills`); el procedimiento del Builder, pasos 1 a 3 como una spec.
+- **Pendiente**: si `outline-system` (documentación, no código) entra en la misma spec o queda como paso previo; el formato del manifiesto dentro de la spec.
+
+### Cierre
+
+Abandonada tras la segunda parada de `define-spec`. Los huecos de las 6 specs se cerraron de una vez en el Builder (`08276b4`) y la prueba limpia es cli-5, otra vez con el megaprompt.

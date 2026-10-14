@@ -212,3 +212,28 @@ for ($i = 1; $i -le 12; $i++) {
 - **`harden` en `craft`.** Solo cuando no queda deuda `high` ni `medium`, una vez por ejecución. Deuda `low` con origen `scan`, un item por regla con todos sus sitios.
 - **Una sesión por paso.** Tiempo y desvíos de cada sesión; si la reanudación sigue en el sitio correcto; si los desvíos de cli-3 (el `lint` y el `test` completos en el Builder, la spec editada por el Builder) vuelven con el contexto vacío.
 - **Las listas cerradas en los tests** y el **punto ciego de `--changed`** siguen sin arreglar: contar cuántas regresiones y ciclos de triaje cuestan.
+
+## cli-5 · Archetype CLI desde cero, con el megaprompt y el Blueprint sin huecos
+
+cli-4 se abandonó en la spec `configuration`: `define-spec` paró dos veces por ajustes sin valor por defecto (`notes.md`). Antes de cli-5, el Builder cierra los huecos que podían parar al Architect en las 6 specs (`archetype-builder` `71509c5`, `f424344`, `08276b4`): `node:sqlite` y `DATABASE_URL` = `./data/app.sqlite`, un valor por defecto y una regla de validación para cada ajuste, `source` del log = el nombre del proyecto, sin uptime en un `cli` local, y listas abiertas en los tests de aceptación. AIDDbot y el Builder en `main` local tras D26, sin publicar.
+
+### 0 · Preparar (hecho)
+
+Igual que cli-3, en `experiments/halloween/cli-5`.
+
+### 1 · Lanzar (PowerShell)
+
+El megaprompt está en [`cli-5.prompt.md`](./cli-5.prompt.md). Es el mismo para empezar y para retomar:
+
+```powershell
+Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-5.prompt.md' -Raw | codex exec --dangerously-bypass-approvals-and-sandbox -C C:\code\aidd\experiments\halloween\cli-5 -
+```
+
+Si la sesión se queda sin tokens, se lanza otra vez el mismo comando.
+
+### Vigilar (además de lo de cli-3 y cli-4)
+
+- `define-spec` no para en ninguna spec por un valor por defecto o una regla de validación.
+- El `AGENTS.md` de `cli` nombra `node:sqlite` desde el scaffold.
+- Las regresiones de las listas cerradas (3 en cli-3) no vuelven.
+- Tiempo de cada spec y de cada `craft`, y cuántas sesiones hacen falta.
