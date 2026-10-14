@@ -207,3 +207,13 @@ Después, en serie.
 
 - El punto ciego de `--changed`: un cambio en un fichero de configuración da `lint --changed: n/a`. La regresión lo cubre.
 - Sin nueva revisión tras una reparación de la regresión.
+
+## cli-6 · Archetype CLI desde su manifiesto, con `$build-ordered-specs` (2026-10-14, en curso)
+
+### Cambios durante la ejecución (no afectan a cli-6)
+
+- **Autofix del lint.** `lint` y `lint:files` aplican los arreglos seguros (`--fix`; nunca `--fix-suggestions` ni `--fix-dangerously`). `--quiet --fix` también arregla los avisos, así que `harden` solo ve lo que no tiene autofix. `harden` y `quality` siguen siendo de solo lectura. `ship-spec`: primero el lint, después `format` (`oxfmt --write .`), y un commit `style: lint fixes and format`. El lint y el format no se mezclan en un slot. AIDDbot `a743865`, Builder `ff68381`, archetype-base `01e065a`.
+
+### Huecos del Blueprint
+
+- **Sin primitivas de comprobación en `shared`.** La plantilla del `AGENTS.md` de proyecto nombra `parseInteger`, `requireText` e `isRecord`, pero ninguna spec las crea. En cli-6, la tabla «Shared primitives» de `cli/AGENTS.md` está vacía y hay checks escritos a mano (`src/core/app.config.ts:31` es un `isRecord`; `src/core/app.settings.ts:9`, un texto no vacío). → El scaffold crea un set fijo de una docena de funciones auxiliares en 3 o 4 ficheros de `shared` (nulos y vacíos, tipos, texto, números), cada una con su fila en la tabla. Es especulación aceptada: cuesta poco, y evita que cada feature escriba los suyos.
