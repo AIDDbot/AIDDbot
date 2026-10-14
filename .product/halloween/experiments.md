@@ -263,7 +263,7 @@ Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-6.prompt.md' -Raw | cod
 
 ### Vigilar
 
-- **S0001 `chore` scaffold.** `define-spec` sin `model/` ni proyectos, y sin parar. La identidad en el `package.json` raíz. Tres commits por proyecto. Verificación en verde sin run. `ship-spec` ejecuta `outline-system`: el `AGENTS.md` raíz con los dos proyectos y los schemas de `cli`. Versión 0.0.1.
+- **S0001 `chore` scaffold.** `define-spec` sin `model/` ni proyectos, y sin parar. La identidad en el `package.json` raíz. Tres commits por proyecto. Verificación en verde sin run. `ship-spec` ejecuta `outline-system`: el `AGENTS.md` raíz con los dos proyectos y los schemas de `cli`. Versión 0.1.1 (un `chore` sube el patch).
 - **`$build-ordered-specs`.** Las specs en el orden de `project-types.md`, sin `users`. Un `craft` tras cada spec, deuda cero antes de la siguiente, el `craft` de cierre hasta un scan y un hardening vacíos. La tabla final.
 - **YOLO sin paradas.** Anotar cada decisión que el agente tomó por su cuenta: es un hueco del Blueprint.
 - **`harden`.** Sin `no-floating-promises` ni `no-empty-pattern` (`f615746`).
