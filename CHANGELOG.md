@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.18 - 2026-10-14
+
+- docs(product): cli-3 plan and gates implemented (9ab4fb7)
+- refactor(skills): one gate per step, regression and triage at ship (D22–D25) (53d6395)
+- feat(core): run --changed, spec-scoped verification evidence, full regression at release (aa04de1)
+- docs: one gate per step, full regression at release (Halloween D22–D25) (7a140f0)
+- docs(product): cli-2 session 1 notes and the resume point (7b11622)
+- refactor(skills): tighten /craft-lasting-quality to group debt by type (62ae23e)
+- docs(product): cli-2 e2e note points to the define-spec rule (3c681e1)
+- refactor(skills): tighten /define-spec (e4845f7)
+- docs(product): cli-2 note on the e2e black-box break (06315a8)
+- refactor(skills): tighten /define-spec (2978179)
+- docs(product): cli-2 megaprompt asks for ASD-STE100 English (b36e081)
+- docs(product): cli-1 notes and the resumable cli-2 script (5384027)
+- docs(product): D19 scans only at the start and the end of a craft run (c83d92d)
+- refactor(skills): tighten /craft-lasting-quality to scan only at the start and the end (2659238)
+- refactor(skills): an e2e project has no unit tests (Halloween D18) (058cfeb)
+- docs(product): D18 start runs every project type (4b0f05d)
+- docs(product): fix the Windows paths of the 3.2 script (0f132a6)
+- docs(product): 3.2 builds Archetype CLI from an empty scaffold and its specs (d2024b1)
+- docs(product): 3.2 runs in experiments/halloween/cli-1 (1f806b2)
+- docs(product): 3.2 foundation prompt names no capabilities (f254204)
+- docs(product): Halloween 3.2 experiment script (d35e48c)
+
 ## 0.3.17 - 2026-10-13
 
 - chore: pin Archetype CLI v0.3.13 (d1b20da)
