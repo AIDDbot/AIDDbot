@@ -68,3 +68,45 @@ Tras cada `craft`, `debt list` quedó vacío (4 de 4), con scan solo al principi
 ### Pendiente (AIDDbot)
 
 - La suite `e2e` rompe la caja negra (S0008, en `master` desde 0.4.1). `e2e/shared/projects/registered-cli.ts` copia `cli/src`, escribe un punto de entrada que importa `app.compose.ts` y `core/app.platform.ts`, registra un comando falso `sample` y lo ejecuta con `node`, sin pasar por `CLI_START`. La causa: D0007 (opciones declaradas de un comando) no se ve desde fuera, porque ningún comando de la fundación declara opciones; se juntó con D0006 en un `fix` y se probó desde `e2e`. Debió ser un `refactor` con tests unitarios en `cli`. La revisión lo dio por bueno, 1 s después de la verificación. `lint` no ve una copia de ficheros. Corregido en `define-spec`: un requisito solo para lo que muestra una interfaz pública; lo demás va a `Solution` con tests unitarios. Queda abierto: una regla de la revisión (un test de `e2e` no toca el código de otro proyecto), si el problema vuelve.
+
+## cli-3 · Archetype CLI desde cero, con una puerta por paso (2026-10-14, sin terminar)
+
+`experiments/halloween/cli-3`, AIDDbot v0.3.18 (D22–D25), Codex, el megaprompt de cli-2. Una sesión de ~2 h 05 min (09:55–12:00). Codex se quedó sin tokens en el Builder de S0009 (`presentation`), la última spec: 28 ficheros sin commitear. Llegó más lejos que cli-1 (4 specs) y cli-2 (5 specs).
+
+### Lo que salió
+
+| Spec | Tipo | Versión | Tiempo | Revisiones | Deuda que dejó | Reparaciones de craft |
+| --- | --- | --- | --- | --- | --- | --- |
+| S0001 configuration | feat | 0.2.0 | 16 min | 1 | D0001–D0003 medium (scan) | S0002 (8 min) |
+| S0003 monitoring | feat | 0.3.0 | 29 min (3–4 de espera humana) | 2 + triaje | — | scan vacío (1 min) |
+| S0004 shell | feat | 0.4.0 | 12 min | 1 | — | scan vacío (1 min) |
+| S0005 about | feat | 0.5.0 | 10 min | 1 + triaje | D0004 low (revisión) | S0006 (4 min) |
+| S0007 health | feat | 0.6.0 | 10 min | 1 + triaje | D0005 medium (scan) | S0008 (3 min) |
+| S0009 presentation | feat | — | sin commit | — | — | — |
+
+Setup (scaffold, outline, integración) 6 min. Las 5 primeras specs y sus `craft`: 1 h 43 min (10:01–11:44). cli-2 necesitó ~1 h 40 min para 4.
+
+### Lo que funcionó
+
+- D22: el Builder usó solo `run lint --changed`, `run test --changed` y `run test --spec`, con una excepción (ver abajo). Los fallos salieron junto a su causa y se repararon en 1–2 min.
+- D23: la verificación ejecutó solo `test --spec`; un `refactor` sin requisitos se verificó en verde sin run.
+- D24: la regresión completa de `ship-spec` cazó 3 roturas entre specs que `--spec` no ve (S0001-R08 en S0003, S0004-R06 en S0005, S0001-R01 en S0007). Triaje en `verification.md`, verificación en rojo y reparación dentro de la misma spec. Solo una fue al humano, con razón: una decisión de producto.
+- La revisión en rojo (seguridad en S0003: secretos en los errores) volvió al Builder dentro de la spec. Cero deuda `high` (cli-1 y cli-2: 3 cada una).
+- D25: un scan al inicio de cada `craft`, nunca al final; dos `craft` sin nada que reparar costaron 1 min.
+- Deuda por origen: revisión → `low` (D0004); scan → `medium` (D0001–D0003, D0005).
+- `lint` cazó una frontera de capas (`no-restricted-imports` en `health.command.ts`). `e2e` respetó la caja negra: solo lee el `package.json` raíz para la identidad.
+
+### Al reanudar
+
+- Seguir en `feat/S0009-presentation` y conservar el trabajo sin commitear. Reparar: tipos de `cli/src/core/app.shell.test.ts:31-32` (la firma de `app.shell.ts` cambió), tipos de `e2e/features/presentation/runs.cli.spec.ts:27`, y el test S0001-R05 de `config get` (ahora una tabla, también S0009-R06). Después, verificación, revisión, ship, `craft`, y el `craft` final hasta un scan vacío.
+
+### Para la próxima (AIDDbot)
+
+- **Listas cerradas en los tests de aceptación.** Las 3 regresiones tienen la misma causa: un test de una spec anterior comprueba una lista cerrada (comandos, migraciones, ajustes), y cada spec que la extiende lo rompe. Cada una cuesta un ciclo de triaje. Además, la reparación de S0005 volvió a cerrar la lista. Candidata a regla (en `define-spec` o en los principios de `e2e`): un test comprueba lo que añade su spec y el orden que exige, nunca que no haya nada más.
+- **Punto ciego de `--changed`.** Un cambio de firma rompe un fichero que el Builder no tocó (`app.shell.test.ts`). El Builder, sin confianza en `--changed`, ejecutó `lint` y `test` completos (11:53, contra `implement-project`). Opción: `run lint --changed` añade los ficheros que importan un fichero cambiado; así se cierra el hueco sin el run completo.
+- **Sin nueva revisión tras una reparación de regresión.** En S0003, el código cambió tras la revisión 2 (reparación del triaje) y `release` publicó con esa revisión. Decidir si un cambio de código tras la revisión exige otra revisión, o si basta la verificación y la regresión.
+- **El Builder edita la spec.** En S0003 añadió `Replaces: S0001-R05` a `spec.md` sin el Architect. `implement-project` no lo prohíbe. Decidir si un cambio de la spec durante el build vuelve siempre al Architect.
+- **Warnings.** 3 quedaron en el código (`no-empty-pattern`, `no-useless-escape`, `require-array-sort-compare`): nadie los recoge. Resuelto en D26 (`harden`), pendiente de release.
+- **`quality` en el Builder.** En un `refactor`, el Builder ejecuta `quality` completo para comprobar su reparación (no hay `quality:files`). Barato (1 s); solo anotar.
+- **Tokens.** Una sesión de Codex sigue sin bastar para 6 specs, aunque llega más lejos. El prompt reanudable sigue siendo necesario.
+- **Una sesión por spec.** La sesión que orquesta acumula todo el contexto de la ejecución. Los desvíos se juntan hacia el final (el `lint` y el `test` completos del Builder a las 11:53, la lista cerrada que la reparación de S0005 volvió a cerrar). Propuesta para cli-4: el mismo prompt reanudable, pero hace solo el primer paso sin terminar (una spec y su `craft`) y para. Cada spec empieza en una sesión nueva, con el contexto vacío; el estado ya está en los ficheros. Así también se puede medir cada spec por separado.

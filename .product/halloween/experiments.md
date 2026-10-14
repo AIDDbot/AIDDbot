@@ -133,6 +133,16 @@ Al final, ejecuta `node .agents/aidd/aidd.mjs run lint`, `run test` y `debt list
 
 ## cli-3 · Archetype CLI desde cero, con una puerta por paso (D22–D25)
 
+```powershell
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-3 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-3
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init
+New-Item -ItemType Directory builder | Out-Null
+Copy-Item C:\code\aidd\archetype-builder\procedure.md builder\
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint builder\
+git add -A; git commit -m "chore: Archetype Builder procedure and blueprint"
+```
+
 Igual que cli-2 (mismo paso 0 en `experiments/halloween/cli-3`, mismo megaprompt), con AIDDbot y el Builder en `main` local tras D22–D25.
 
 ### Vigilar
@@ -143,3 +153,62 @@ Igual que cli-2 (mismo paso 0 en `experiments/halloween/cli-3`, mismo megaprompt
 - La deuda de la revisión sale `high` o `low`; la del scan, solo `medium`.
 - `craft` escanea al inicio solo sin deuda `medium` abierta, y nunca al final. Tras la última spec, otro `craft` hasta un scan vacío.
 - Tiempos por spec frente a cli-2: menos tests en cada paso, una sola regresión completa.
+
+## cli-4 · Archetype CLI desde cero, una sesión por paso (D26)
+
+Igual que cli-3, pero cada paso (el scaffold, cada spec con su `craft`, el cierre, el resumen) corre en una **sesión nueva de Codex, con el contexto vacío**. En cli-3, la sesión que orquesta acumuló todo el contexto: los desvíos se juntaron hacia el final y se agotaron los tokens en la sexta spec (`notes.md`). AIDDbot y el Builder en `main` local tras D26 (`harden`), sin publicar.
+
+### 0 · Preparar (PowerShell)
+
+```powershell
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-4 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-4
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init
+New-Item -ItemType Directory builder | Out-Null
+Copy-Item C:\code\aidd\archetype-builder\procedure.md builder\
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint builder\
+git add -A; git commit -m "chore: Archetype Builder procedure and blueprint"
+```
+
+### 1 · El prompt
+
+En [`cli-4.prompt.md`](./cli-4.prompt.md). El mismo para cada sesión: lee el estado de los ficheros, hace solo el primer paso sin terminar y para. Su última línea es `AIDD-NEXT`, `AIDD-DONE` o `AIDD-STOP: <motivo>`.
+
+### 2 · Lanzar (PowerShell)
+
+Un paso, en una sesión nueva:
+
+```powershell
+$dir = 'C:\code\aidd\experiments\halloween\cli-4'
+$prompt = Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-4.prompt.md' -Raw
+$prompt | codex exec --dangerously-bypass-approvals-and-sandbox -C $dir -
+```
+
+Todos los pasos, una sesión nueva para cada uno, hasta `AIDD-DONE` o `AIDD-STOP` (como mucho 12 sesiones):
+
+```powershell
+$dir = 'C:\code\aidd\experiments\halloween\cli-4'
+$prompt = Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-4.prompt.md' -Raw
+$logs = Join-Path $env:TEMP 'cli-4'; New-Item -ItemType Directory -Force $logs | Out-Null
+for ($i = 1; $i -le 12; $i++) {
+  $last = Join-Path $logs "session-$i.last.txt"
+  $start = Get-Date
+  $prompt | codex exec --dangerously-bypass-approvals-and-sandbox -C $dir -o $last - 2>&1 | Tee-Object -FilePath (Join-Path $logs "session-$i.log")
+  $minutes = [math]::Round(((Get-Date) - $start).TotalMinutes)
+  $end = if (Test-Path $last) { (Get-Content $last | Where-Object { $_.Trim() } | Select-Object -Last 1).Trim() } else { 'no last message' }
+  Write-Host "[$i] $minutes min · $end"
+  if ($LASTEXITCODE -ne 0 -or $end -ne 'AIDD-NEXT') { break }
+}
+```
+
+- Cada sesión deja su salida en `%TEMP%\cli-4\session-{n}.log` y su último mensaje en `session-{n}.last.txt`.
+- Tras un `AIDD-STOP` por una decisión de producto, responde en la misma sesión y vuelve a lanzar el bucle:
+  `codex exec resume --last --dangerously-bypass-approvals-and-sandbox "<tu respuesta>"`.
+- Una sesión que se queda sin tokens a mitad de paso no deja `AIDD-NEXT`: el bucle para. Lanza el bucle otra vez; la sesión nueva sigue el paso sin empezarlo de nuevo.
+
+### Vigilar (además de lo de cli-3)
+
+- **D26.** Los `package.json` de `cli` y `e2e` tienen `--quiet` en `lint` y `lint:files`, y el script `harden`; `config.json` registra `harden`; `.oxlint.quality.json` no extiende la configuración de `lint`. `no-empty-pattern` desactivado para los fixtures de `e2e` en su configuración de `lint`.
+- **`harden` en `craft`.** Solo cuando no queda deuda `high` ni `medium`, una vez por ejecución. Deuda `low` con origen `scan`, un item por regla con todos sus sitios.
+- **Una sesión por paso.** Tiempo y desvíos de cada sesión; si la reanudación sigue en el sitio correcto; si los desvíos de cli-3 (el `lint` y el `test` completos en el Builder, la spec editada por el Builder) vuelven con el contexto vacío.
+- **Las listas cerradas en los tests** y el **punto ciego de `--changed`** siguen sin arreglar: contar cuántas regresiones y ciclos de triaje cuestan.
