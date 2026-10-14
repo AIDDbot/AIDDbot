@@ -8,3 +8,4 @@
 - Bun prepara su propio lint, format y control de tipos (compatibles con oxc). Tenerlo en cuenta para una biblioteca Bun (D16).
 - No todos los requisitos ni arreglos son iguales: más de tres vías (rápida, refactor, fix corto, feature, contrato), deducidas de datos comprobables (qué demuestra que está hecho, qué criterio hace falta), nunca del humor del agente. Decidir con los costes de cli-6.
 - La deuda de complejidad y duplicados (origen `scan` de `quality`) también por la vía rápida.
+- Demasiadas carpetas con punto en un sistema (cli-6: `.agents`, `.aiddbot`, `.product`, `.claude`, `.codex`, `.cursor`, `.github`). `.product/quality/` solo tiene `debt.json`: ¿`.product/debt.json`? Las de cada harness llevan solo los 3 agentes (y `.claude` las skills): ¿instalar solo los harness que se usan?
