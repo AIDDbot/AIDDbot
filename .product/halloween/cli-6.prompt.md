@@ -1,5 +1,5 @@
 Modo YOLO, sin preguntas: ante cada decisión, elige la mejor opción y sigue. Todo en inglés ASD-STE100.
-Construye la biblioteca Archetype CLI siguiendo `builder/procedure.md`, pasos 1 y 2. No hagas el paso 3 (el seed). AIDDbot ya está instalado y `builder/` ya está en su sitio.
+Construye la biblioteca Archetype CLI siguiendo `builder/procedure.md`. AIDDbot ya está instalado y `builder/` ya está en su sitio.
 
 La biblioteca: una aplicación de línea de comandos local, sin usuarios.
 Proyectos: `cli` (tipo cli) y `e2e` (tipo e2e), en TypeScript sobre Node, con las herramientas de `builder/blueprint/ecosystems.md`.
