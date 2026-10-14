@@ -119,7 +119,7 @@ craft
 - **Biblioteca (D19):** termina con un `craft` cuyo scan no apunta nada y con el registro vacío.
 > **R:** de acuerdo (2026-10-14) → D25.
 
-## Lo que cambia al implantar
+## Lo que cambia al implantar (hecho 2026-10-14, salvo las bibliotecas)
 
 - Skills: `implement-project`, `verify-behavior`, `review-implementation` (solo su referencia de prioridades), `ship-spec`, `scan-quality`, `build-requested-spec` (roles y bucle), `craft-lasting-quality` (scan).
 - Core: `run --changed` y la regla de commit (P20), `eval verification` (evidencia de la spec), `release` (regresión completa, lint completo, `--preexisting`), sus tests.

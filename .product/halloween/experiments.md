@@ -130,3 +130,16 @@ Al final, ejecuta `node .agents/aidd/aidd.mjs run lint`, `run test` y `debt list
 - El `craft` sin scan intermedio.
 - Si los defectos funcionales vuelven a salir como deuda de la revisión (D0004, D0005 y D0012 en cli-1).
 - Cuántas sesiones de Codex hacen falta, y si la reanudación sigue en el sitio correcto.
+
+## cli-3 · Archetype CLI desde cero, con una puerta por paso (D22–D25)
+
+Igual que cli-2 (mismo paso 0 en `experiments/halloween/cli-3`, mismo megaprompt), con AIDDbot y el Builder en `main` local tras D22–D25.
+
+### Vigilar
+
+- El Builder usa `run lint --changed` y `run test --changed`, nunca el lint ni el test completos; el `AGENTS.md` de `cli` y de `e2e` declara `lint:files` (y `test:files` en `cli`), y `config.json` los registra.
+- `verify-behavior` ejecuta solo `run test --spec`; un `refactor` sin requisitos se verifica en verde sin run.
+- `ship-spec` ejecuta `format`, `lint` y `test` completos antes de `release`. Si la regresión falla: triaje en `verification.md`, verificación en rojo y vuelta al Builder dentro de la misma spec.
+- La deuda de la revisión sale `high` o `low`; la del scan, solo `medium`.
+- `craft` escanea al inicio solo sin deuda `medium` abierta, y nunca al final. Tras la última spec, otro `craft` hasta un scan vacío.
+- Tiempos por spec frente a cli-2: menos tests en cada paso, una sola regresión completa.
