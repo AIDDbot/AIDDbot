@@ -15,6 +15,7 @@ upgrade request ─────────────────────�
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
    repeat 2–3 while debt remains, highest priority first, at most 5 specs
+   Craftsman   scan-quality, harden  low debt          once, when no high or medium debt remains
 ```
 
 ## Roles
@@ -22,7 +23,7 @@ upgrade request ─────────────────────�
 - Route as the **Craftsman**. Use the **Craftsman** and the **Architect** that a calling orchestrator gives you. Otherwise, spawn each one for one repair, when its first step starts, with a fresh context: never fork or copy your conversation into it. Thus no repair inherits the context of the one before. Relay their questions to the human. When a repair ends, also after a failure, stop each agent that you started for it.
 - Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. A single **Craftsman** would then scan, specify, code, and ship alone. Never read the skill of a step that you hand off.
 - Wait for an agent with the longest timeout that the tool allows: each wait that ends early costs one more turn.
-- Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before the scan, before the selection, and before the handover to `build-requested-spec`.
+- Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each scan, before the selection, and before the handover to `build-requested-spec`.
 
 ## Upgrade request
 
@@ -32,7 +33,11 @@ When the human asks to upgrade dependencies, skip the scan and the selection. Th
 
 Read `node .agents/aidd/aidd.mjs debt list`. When an open item is `medium`, skip the scan: it would only find that debt again. Otherwise, the **Craftsman** executes `scan-quality` one time. It records only `medium` debt; the review of each spec records the `high` and `low` debt.
 
-At most one scan runs in this run, at its start, so that its findings get their repair in this run. Never scan between two repairs, and never at the end: the review of each repair records the debt that it leaves, and the next run scans the rest.
+At most one scan runs in this run, at its start, so that its findings get their repair in this run. Never scan between two repairs, and never at the end: the review of each repair records the debt that it leaves, and the next run scans the rest. Hardening is the only exception.
+
+## Harden
+
+Hardening is the final polish, such as the warnings of the linter: never spend a repair on it while better work remains. When no `high` or `medium` item remains, the **Craftsman** executes `scan-quality` one time in this run, and you ask it to harden. It records `low` debt, one item for each rule. The selection then repairs it with the other `low` debt.
 
 ## 2. Select
 
@@ -45,7 +50,7 @@ The **Architect** reads `node .agents/aidd/aidd.mjs debt list` and selects one g
 
 Journal the choice with `node .agents/aidd/aidd.mjs log select "<D IDs>: <why this group>"`.
 
-When no eligible debt remains, stop.
+Before each selection, harden when no `high` or `medium` item remains and this run has not hardened yet. When no eligible debt remains, stop.
 
 ## 3. Build
 

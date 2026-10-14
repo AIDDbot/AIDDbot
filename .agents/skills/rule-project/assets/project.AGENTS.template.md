@@ -33,6 +33,7 @@ This file gives the data of this project. Do not explore the code to learn the s
 | `test:files` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
 | `quality` | No | `{command}` | {tool} |
+| `harden` | No | `{command}` | {tool} |
 
 ## 4 · Architecture
 
