@@ -9,6 +9,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 | Prepare or understand a system | `/architect-system-foundation` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
+| Deliver an ordered list of spec files, such as the specs of a library | `/build-ordered-specs` |
 
 ## Skills
 
@@ -21,6 +22,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 | [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from a library of archetypes, copy the projects and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
+| [`/build-ordered-specs`](../.agents/skills/build-ordered-specs/SKILL.md) | Deliver an ordered list of spec files, each with its quality repair, to zero debt |
 
 ### Primitives
 
@@ -62,6 +64,12 @@ craft-lasting-quality:
   - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
   - "repeat the selection and the repair while debt remains, highest priority first, at most 5 specs, and stop at a spec that ships an unresolved failure; no scan between two repairs and no scan at the end"
   - "return the debt list summary"
+
+build-ordered-specs:
+  - "read the state from the files; a spec file with a shipped spec is done, and an unshipped one continues with its next skill"
+  - "for each spec file, in order: build-requested-spec approved in advance, then craft-lasting-quality; the next spec starts only with zero open debt"
+  - "after the last spec: craft-lasting-quality until its scan and its hardening record nothing"
+  - "return one row for each shipped spec, with its version, debt, repairs and times"
 ```
 
 ## Foundation
