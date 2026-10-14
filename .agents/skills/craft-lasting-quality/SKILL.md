@@ -14,6 +14,7 @@ upgrade request ─────────────────────�
 1. Craftsman   scan-quality          medium debt    │  only with no open medium debt
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
+   or Builder  quick repair          integrated       only a group of hardening items
    repeat 2–3 while debt remains, highest priority first, at most 5 specs
    Craftsman   scan-quality, harden  low debt          once, when no high or medium debt remains
 ```
@@ -51,6 +52,17 @@ The **Architect** reads `node .agents/aidd/aidd.mjs debt list` and selects one g
 Journal the choice with `node .agents/aidd/aidd.mjs log select "<D IDs>: <why this group>"`.
 
 Before each selection, harden when no `high` or `medium` item remains and this run has not hardened yet. When no eligible debt remains, stop.
+
+## Quick repair
+
+An item of hardening is a warning of one rule: its repair is mechanical and changes no behavior. A full spec costs more than the repair. Thus, when the selected group holds only items of hardening, take this route instead of step 3:
+
+- Create the task branch `chore/{D ID}-{slug}` from the default branch.
+- The **Builder** executes `implement-project` for each project of the evidence, with the evidence as its scope.
+- Run `node .agents/aidd/aidd.mjs run harden`, `run lint` and `run test` for those projects. When one fails and the **Builder** cannot repair it, keep the item: the next selection gives it a spec.
+- Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the repair does}"`.
+
+A quick repair has no review and no release, and it does not count as one of the five specs.
 
 ## 3. Build
 

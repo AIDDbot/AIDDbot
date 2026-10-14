@@ -9,9 +9,9 @@ user-invocable: true
 
 Your goal is to implement the share of one project in an approved spec, or to repair the findings that you get for it.
 
-Work on the spec branch. If the default branch is checked out, stop. The Blueprint of the root `AGENTS.md`, when it exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
+Work on the spec branch, or on the task branch of a quick repair of `craft-lasting-quality`. If the default branch is checked out, stop. The Blueprint of the root `AGENTS.md`, when it exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
 
-Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`.
+Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`. A quick repair has no spec: leave out `--spec`.
 
 ## Build
 
