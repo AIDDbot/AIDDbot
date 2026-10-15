@@ -140,6 +140,8 @@ export function mergeAndDelete(root, source, base) {
 }
 
 const MAX_SUMMARY = 128;
+// Quotes in a summary break when the cap cuts them, and JSON values fill the line with them; an apostrophe inside a word stays.
+const QUOTES = /["`]|(?<!\p{L})'|'(?!\p{L})/gu;
 const pad2 = (value) => String(value).padStart(2, "0");
 
 /** Append one line to today's journal; a journal failure never undoes the command. */
@@ -148,7 +150,7 @@ export function journal(root, { actor = "aidd", event, spec = "-", summary = "",
     const now = new Date();
     const date = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
     const time = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
-    const text = summary.replace(/\s+/g, " ").trim() || "-";
+    const text = summary.replace(QUOTES, "").replace(/\s+/g, " ").trim() || "-";
     const capped = text.length > MAX_SUMMARY ? `${text.slice(0, MAX_SUMMARY - 1)}…` : text;
     const cells = [time, actor.padEnd(6), spec.padEnd(6), event.padEnd(10), level.padEnd(5), capped];
     const file = aiddbotPath(root, "logs", `${date}.log`);
