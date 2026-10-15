@@ -11,12 +11,21 @@ export const SPEC_DEFINED = "docs(spec): define delivery";
 
 export const specsDir = (root) => productPath(root, "specs");
 
+/** The folder of a spec: one folder for each type, as the branches have (D32). */
+export const specDir = (root, type, key) => path.join(specsDir(root), type, key);
+
+/** The folder of every spec, by type and then by key. */
+export function allSpecs(root) {
+  return TYPES.flatMap((type) => {
+    const dir = path.join(specsDir(root), type);
+    return fs.existsSync(dir) ? fs.readdirSync(dir).sort().map((key) => path.join(dir, key)) : [];
+  });
+}
+
 /** The folder of a spec given as `S0001`, `S0001-slug`, or a path; null when absent. */
 export function findSpec(root, input) {
   const id = /S\d{4}/.exec(path.basename(input ?? ""))?.[0];
-  if (!id || !fs.existsSync(specsDir(root))) return null;
-  const name = fs.readdirSync(specsDir(root)).find((entry) => entry.startsWith(`${id}-`));
-  return name ? path.join(specsDir(root), name) : null;
+  return (id && allSpecs(root).find((dir) => path.basename(dir).startsWith(`${id}-`))) || null;
 }
 
 /** The spec of `input`, or of the current spec branch when `input` is omitted. */
@@ -27,14 +36,14 @@ export function requireSpec(root, input) {
   return dir;
 }
 
-/** The identity of a spec: its folder name gives the key and the ID, its `spec.md` the type, branch, domain, and title. */
+/** The identity of a spec: its folders give the type, the key and the ID; its `spec.md` the branch, domain, and title. */
 export function specMeta(dir) {
   const key = path.basename(dir);
   const text = fs.readFileSync(path.join(dir, "spec.md"), "utf8");
   const front = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text)?.[1] ?? "";
   const meta = Object.fromEntries([...front.matchAll(/^(\w+):[ \t]*([^#\r\n]*?)[ \t]*(?:#.*)?$/gm)].map(([, name, value]) => [name, value]));
   const title = /^# .+? — (.+)$/m.exec(text)?.[1]?.trim() ?? key;
-  return { id: key.slice(0, 5), key, type: meta.type, branch: meta.branch, domain: meta.domain || "general", title };
+  return { id: key.slice(0, 5), key, type: path.basename(path.dirname(dir)), branch: meta.branch, domain: meta.domain || "general", title };
 }
 
 /** A spec is shipped when the changelog names it: `aidd release` writes that entry. */

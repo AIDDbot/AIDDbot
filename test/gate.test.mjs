@@ -55,7 +55,7 @@ test("green verification needs a passing run of the tests of the spec at HEAD th
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   approve(root);
-  const spec = ".product/specs/S0001-fleet/spec.md";
+  const spec = ".product/specs/feat/S0001-fleet/spec.md";
   write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run test --spec/);
   accept(root, 0, "S0001");
@@ -67,6 +67,8 @@ test("green verification needs a passing run of the tests of the spec at HEAD th
   aidd(root, "run", "test", "--spec");
   const control = readJson(root, ".aiddbot/logs/S0001-fleet.json");
   assert.equal(control.runs.spec.e2e.commit, git(root, "rev-parse", "HEAD"));
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last acceptance run of e2e/, "the verification also needs the full suites");
+  aidd(root, "run", "test");
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });
 
@@ -83,7 +85,7 @@ test("a failing run of the tests of the spec is red, and older debt never excuse
 test("a spec without requirements is verified green with no run, and the regression proves it", () => {
   const root = repo();
   aidd(root, "spec", "new", "refactor", "input", "Input");
-  write(root, ".product/specs/S0001-input/spec.md", "---\ntype: refactor\n---\n# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  write(root, ".product/specs/refactor/S0001-input/spec.md", "---\ntype: refactor\n---\n# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
   approve(root);
   assert.equal(aidd(root, "eval", "verification", "green", "no requirements").code, 0);
   aidd(root, "eval", "qualification", "green", "ok");
@@ -115,11 +117,11 @@ test("release needs a passing full unit and acceptance run at HEAD; a failure sh
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
   accept(root, 0, "S0001");
-  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0, "the verification needs no unit run");
-  aidd(root, "eval", "qualification", "green", "ok");
-  assert.match(aidd(root, "release").body.error, /back has no unit run/);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /before you verify: back has no unit run/);
   unit(1);
   aidd(root, "run", "test");
+  assert.equal(aidd(root, "eval", "verification", "green", "older debt explains it").code, 0, "the skill judges a failure; the release checks it");
+  aidd(root, "eval", "qualification", "green", "ok");
   assert.match(aidd(root, "release").body.error, /regression failed in back\. Triage each failure into \.aiddbot\/logs\/S0001-cart\.verification\.md/);
   aidd(root, "debt", "add", "Written to dodge the failure", "low");
   assert.match(aidd(root, "release", "--preexisting", "D0002").body.error, /D0002 is not open debt recorded before S0001/);

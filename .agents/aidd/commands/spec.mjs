@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { commitPaths, git, journal, nextId, relative, RuleError, UsageError } from "../lib/core.mjs";
-import { gate, readControl, requireSpec, specsDir, TYPES, writeControl } from "../lib/spec.mjs";
+import { gate, readControl, requireSpec, specDir, TYPES, writeControl } from "../lib/spec.mjs";
 
 const template = (name) => fileURLToPath(new URL(`../../skills/define-spec/assets/${name}.md`, import.meta.url));
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -19,7 +19,7 @@ function create(root, [type, slug, title], flags) {
   const key = `${id}-${slug}`;
   const branch = `${type}/${key}`;
   git(root, ["switch", "-c", branch]);
-  const dir = path.join(specsDir(root), key);
+  const dir = specDir(root, type, key);
   const spec = fs.readFileSync(template(type === "feat" ? "spec.template" : "spec.fix.template"), "utf8")
     .replaceAll("S0001", id).replaceAll("{slug}", slug).replaceAll("{title}", title.trim())
     .replaceAll("{domain}", domain).replace("type: feat", `type: ${type}`).replace("branch: feat/", `branch: ${type}/`);

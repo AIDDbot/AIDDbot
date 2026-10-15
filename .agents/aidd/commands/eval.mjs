@@ -38,7 +38,7 @@ const changedSince = (root, commit) => git(root, ["diff", "--name-only", commit,
 
 /** Why a green verification cannot be recorded now; null when it can. Its evidence is the `--spec` run: the acceptance tests of the spec only. */
 function missingEvidence(root, dir, control) {
-  // A spec without requirements has no tagged test: the regression of the release proves it.
+  // A spec without requirements has no tagged test: the full suites prove it.
   if (!requirements(dir).length) return null;
   const scoped = Object.values(control.runs?.spec ?? {});
   if (!scoped.length) return "Run `aidd run test --spec` on this spec branch before recording a green verification: the acceptance tests of the spec have no run.";
@@ -51,9 +51,9 @@ function missingEvidence(root, dir, control) {
   return scoped.every((entry) => entry.ok) ? null : "The last run of the acceptance tests of the spec failed; record red.";
 }
 
-/** Why the regression does not allow the release; null when it does. Each project with a `test` command needs a full run (unit, or acceptance for `e2e`)
- *  with no code change since. A failure ships only after a red verification at the last revision, or with open debt older than the spec behind it. */
-export function regression(root, control, preexisting) {
+/** The full runs of the current code: each project with a `test` command needs one (unit, or acceptance for `e2e`) with no code change since.
+ *  `problem` names a missing or stale run; `failed` lists the projects whose run failed. */
+function fullRuns(root, control, when) {
   const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
   const failed = [];
   for (const [name, project] of Object.entries(projects)) {
@@ -61,11 +61,19 @@ export function regression(root, control, preexisting) {
     if (!slot || typeof slot.na === "string") continue;
     const evidence = project.type === "e2e" ? "acceptance" : "unit";
     const last = control.runs?.[evidence]?.[name];
-    if (!last) return `Run the full \`aidd run test\` before you release: ${name} has no ${evidence} run.`;
+    if (!last) return { problem: `Run the full \`aidd run test\` before you ${when}: ${name} has no ${evidence} run.` };
     const changed = changedSince(root, last.commit);
-    if (changed) return `Code changed since the last ${evidence} run of ${name} (${changed.split("\n")[0]}…); run the full \`aidd run test\` again.`;
+    if (changed) return { problem: `Code changed since the last ${evidence} run of ${name} (${changed.split("\n")[0]}…); run the full \`aidd run test\` again.` };
     if (!last.ok) failed.push(name);
   }
+  return { failed };
+}
+
+/** Why the regression does not allow the release; null when it does. A failure ships only after a red verification at the last revision,
+ *  or with open debt older than the spec behind it. */
+export function regression(root, control, preexisting) {
+  const { problem, failed } = fullRuns(root, control, "release");
+  if (problem) return problem;
   if (!failed.length) return null;
   const verification = control.evaluations.filter((entry) => entry.kind === "verification").at(-1);
   if (verification?.status === "red" && verification.revision >= LAST_REVISION) return null;
@@ -91,7 +99,8 @@ export default function evaluate(root, [kind, status, summary], flags) {
   }
   if (flags.preexisting !== undefined) throw new UsageError("--preexisting belongs to `aidd release`: older debt can explain only a failure of the regression.");
   if (kind === "verification" && status === "green") {
-    const problem = missingEvidence(root, dir, control);
+    // The verification runs the full suites too (D33): a regression shows at its first revision. Only a failure that older debt explains stays green.
+    const problem = missingEvidence(root, dir, control) ?? fullRuns(root, control, "verify").problem;
     if (problem) throw new RuleError(problem);
   }
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;

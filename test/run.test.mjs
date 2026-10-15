@@ -8,7 +8,7 @@ import { git, write, repo, aidd, readJson, journalText } from "./helpers.mjs";
 test("a scoped acceptance run filters by spec, lists untested requirements, and is the evidence of the verification", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
-  write(root, ".product/specs/S0001-fleet/spec.md", "- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
+  write(root, ".product/specs/feat/S0001-fleet/spec.md", "- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
   write(root, "e2e/tags.spec.ts", 'test("@S0001-R01", () => {});\n');
   write(root, "e2e/ok.js", "");
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node ok.js" } }));
@@ -227,7 +227,7 @@ test("a quality run reports each block of logic lines that two places repeat, fo
 test("a scoped acceptance run of a spec without requirements runs nothing and is not applicable", () => {
   const root = repo();
   aidd(root, "spec", "new", "refactor", "input", "Input");
-  write(root, ".product/specs/S0001-input/spec.md", "# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  write(root, ".product/specs/refactor/S0001-input/spec.md", "# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: 'node -e "process.exit(1)"' } }));
   const scoped = aidd(root, "run", "test", "--spec");
   assert.equal(scoped.code, 0);
