@@ -9,7 +9,7 @@
 ## Estado
 
 - 2026-10-15: paso 1 hecho en la rama `refactor/quality-gates` (core, skills y docs; `npm test` verde). Sin fusionar: sale con las librerías. Decisiones del paso 1 en el doc, sección "Step 1 decisions".
-- Siguiente: paso 2 (tecnología base).
+- Siguiente: paso 2 (tecnología base), con Vite+. Bun queda fuera: no tiene hooks de pre-commit.
 
 ## Contexto
 
