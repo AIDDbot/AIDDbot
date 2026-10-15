@@ -219,3 +219,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - Una falsa alarma (como `no-empty-pattern` en los fixtures de Playwright) se repara desactivando la regla en la configuración del proyecto, nunca con un comentario en cada sitio.
 - La `low` de `harden` se distingue de la de la revisión por su origen (`scan` frente al ID de la spec). Sin cambio en el core para eso.
 - Pendiente en el Builder y en las bibliotecas: `--quiet` en `lint`, el script `harden`, y `quality` sin los warnings de `lint`.
+
+## D27 (2026-10-15) · Menos carpetas con punto: cada una con un dueño
+
+- `aiddbot init --harness a,b` instala solo esos harness. Sin `--harness`, instala todos. El manifest guarda la lista y `update` la respeta.
+- `.agents/` tiene lo que instala AIDDbot. `.aiddbot/` tiene lo que escribe el core: `config.json`, `counters.yaml`, `manifest.json`, `debt.json`, `agents.local.yaml` y `logs/`. `.product/` tiene el Markdown que escriben las skills: `PRD.md`, `system.md`, `model/`, `specs/{key}/` y `archetypes/`.
+- `.aiddbot/logs/` reúne el journal (`YYYY-MM-DD.log`), la salida de cada run (`{kind}-{project}.log`) y el control de cada spec (`{key}.json`). Git la ignora entera.
+- El control de una spec guarda solo el estado de trabajo: las evaluaciones y los runs. La identidad de la spec está solo en el frontmatter y el título de `spec.md`. Una spec está publicada cuando su ID está en el `CHANGELOG.md`.
+- Sin control en Git, el core no hace commits de evaluación. Retomar una spec a medias en otro clon repite sus evaluaciones.
+- Desaparece `.product/quality/`. Sin migración (beta, solo greenfield).

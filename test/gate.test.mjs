@@ -41,7 +41,7 @@ test("the gate rejects evidence written by hand without a real commit", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fake", "Fake");
   approve(root);
-  const file = path.join(root, ".product/specs/S0001-fake/control.json");
+  const file = path.join(root, ".aiddbot/logs/S0001-fake.json");
   const control = JSON.parse(fs.readFileSync(file, "utf8"));
   control.evaluations = ["verification", "qualification"].map((kind) => ({ kind, revision: 1, status: "green" }));
   fs.writeFileSync(file, JSON.stringify(control));
@@ -65,7 +65,7 @@ test("green verification needs a passing run of the tests of the spec at HEAD th
   git(root, "commit", "-q", "-m", "test(e2e): fleet");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /Code changed since the last run of the acceptance tests of the spec/);
   aidd(root, "run", "test", "--spec");
-  const control = readJson(root, ".product/specs/S0001-fleet/control.json");
+  const control = readJson(root, ".aiddbot/logs/S0001-fleet.json");
   assert.equal(control.runs.spec.e2e.commit, git(root, "rev-parse", "HEAD"));
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
 });
@@ -83,7 +83,7 @@ test("a failing run of the tests of the spec is red, and older debt never excuse
 test("a spec without requirements is verified green with no run, and the regression proves it", () => {
   const root = repo();
   aidd(root, "spec", "new", "refactor", "input", "Input");
-  write(root, ".product/specs/S0001-input/spec.md", "# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  write(root, ".product/specs/S0001-input/spec.md", "---\ntype: refactor\n---\n# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
   approve(root);
   assert.equal(aidd(root, "eval", "verification", "green", "no requirements").code, 0);
   aidd(root, "eval", "qualification", "green", "ok");
@@ -91,17 +91,19 @@ test("a spec without requirements is verified green with no run, and the regress
   assert.equal(aidd(root, "release").code, 0);
 });
 
-test("eval commits its own record and drops the report once green", () => {
+test("eval keeps its record in the ignored logs, commits nothing, and drops the report once green", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "seats", "Seats");
   approve(root);
+  const head = git(root, "rev-parse", "HEAD");
   write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
-  assert.equal(aidd(root, "eval", "verification", "red", "one failure").body.committed, true);
-  assert.equal(git(root, "log", "-1", "--format=%s"), "docs(verification): record acceptance");
+  assert.equal(aidd(root, "eval", "verification", "red", "one failure").code, 0);
+  assert.equal(git(root, "rev-parse", "HEAD"), head);
+  assert.equal(readJson(root, ".aiddbot/logs/S0001-seats.json").evaluations[0].status, "red");
+  assert.equal(git(root, "status", "--short", "--", ".aiddbot"), "");
   accept(root, 0, "S0001");
   assert.equal(aidd(root, "eval", "verification", "green", "fixed").code, 0);
   assert.ok(!fs.existsSync(path.join(root, ".product/specs/S0001-seats/verification.md")));
-  assert.equal(git(root, "status", "--short", "--", ".product"), "");
 });
 
 test("release needs a passing full unit and acceptance run at HEAD; a failure ships only with older debt or at revision 3", () => {

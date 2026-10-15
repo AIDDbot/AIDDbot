@@ -151,7 +151,7 @@ export function journal(root, { actor = "aidd", event, spec = "-", summary = "",
     const text = summary.replace(/\s+/g, " ").trim() || "-";
     const capped = text.length > MAX_SUMMARY ? `${text.slice(0, MAX_SUMMARY - 1)}…` : text;
     const cells = [time, actor.padEnd(6), spec.padEnd(6), event.padEnd(10), level.padEnd(5), capped];
-    const file = aiddbotPath(root, "journals", `${date}.log`);
+    const file = aiddbotPath(root, "logs", `${date}.log`);
     fs.mkdirSync(path.dirname(file), { recursive: true });
     const header = fs.existsSync(file) ? "" : `# AIDDbot journal ${date}\n`;
     fs.appendFileSync(file, `${header}${cells.join(" ")}\n`, "utf8");

@@ -84,11 +84,11 @@ Read [The core](./core.md) for the details.
 
 | Where | What |
 | --- | --- |
-| `.aiddbot/journals/` | One log for each day. Each line is one step, with its time and result. Git ignores it. |
+| `.aiddbot/logs/` | One log for each day. Each line is one step, with its time and result. Git ignores it. |
 | `.product/system.md` | The approved system proposal. |
 | `.product/specs/` | One folder for each spec, with its requirements and its evidence. |
 | `.product/PRD.md` | The shipped features, by domain. |
-| `.product/quality/debt.json` | The open debt. |
+| `.aiddbot/debt.json` | The open debt. |
 | `.product/model/` | The schemas of the data and the API. |
 | `AGENTS.md` | The architecture and the rules of the system. Each project has its own `AGENTS.md`. |
 | `.aiddbot/config.json` | The projects and their commands. |

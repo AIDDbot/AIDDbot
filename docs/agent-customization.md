@@ -1,6 +1,6 @@
 # Customize agent profiles
 
-AIDDbot installs agent profiles for Claude Code, Codex, GitHub Copilot and Cursor. You can edit these files in the format of your harness. You can select the models and the reasoning effort that your account gives. You can remove the profiles of the harnesses that you do not use.
+AIDDbot installs agent profiles for Claude Code, Codex, GitHub Copilot and Cursor. You can edit these files in the format of your harness. You can select the models and the reasoning effort that your account gives. To install only the harnesses that you use, run `init` or `update` with `--harness`, for example `--harness codex`. `update` keeps that list.
 
 > [!WARNING]
 > Some harnesses also read the folders of other harnesses, or the folders of the Agent Skills standard. For example, GitHub Copilot CLI finds project agents in `.github/agents/` and in `.claude/agents/`. When two agents have the same ID at the same level, `.github/agents/` has priority. It also finds project skills in `.github/skills/`, `.agents/skills/` and `.claude/skills/`, and the first location that has the skill has priority. Thus an agent or a skill can come from a folder that you do not expect. Before you add one more copy, examine each folder that your harness reads. See the [Copilot CLI locations and precedence](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference#custom-agents-reference).

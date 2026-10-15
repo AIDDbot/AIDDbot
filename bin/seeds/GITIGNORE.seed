@@ -35,3 +35,6 @@ secrets.json
 
 # Agent scratch
 /.claude/agents/runs
+
+# AIDDbot logs: journal, run output, and spec work state
+/.aiddbot/logs/

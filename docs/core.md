@@ -20,7 +20,7 @@ A model never does deterministic work by hand. Each step goes to the part that d
 | --- | --- | --- |
 | **Reliability** | A model can forget a step, skip a test, or write a record by hand. A skill can only ask it not to. | A rule in code is always true. The core refuses the step, and its message tells the agent what to do. |
 | **Speed** | Each step is a turn of reasoning. | Each command runs in a moment. The time of a run is the time of your tests. |
-| **Cost** | Each line that a model reads or writes costs tokens. | A check costs no tokens. A test run gives the agent only the last lines of its output; the full output stays in `.aiddbot/runs/`. |
+| **Cost** | Each line that a model reads or writes costs tokens. | A check costs no tokens. A test run gives the agent only the last lines of its output; the full output stays in `.aiddbot/logs/`. |
 | **Evidence** | The reasons of a decision stay in the conversation. | The state stays in files in Git. A new clone of the repository gives the same answer. |
 
 In a real run, the tests used about 15 % of the time. The reasoning of the models used the rest. Thus each step that moves from the model to the core makes the delivery faster, cheaper and more reliable.
@@ -47,13 +47,11 @@ Only the core writes these files. Nobody edits them by hand.
 
 | File | Content |
 | --- | --- |
-| `.product/specs/S{nnnn}-{slug}/control.json` | The state of the spec: its runs, its evaluations and their commits. |
-| `.product/quality/debt.json` | The open debt. |
+| `.aiddbot/debt.json` | The open debt. |
 | `.product/PRD.md` | One line for each shipped feature. |
 | `.aiddbot/config.json` | The projects and their commands. |
 | `.aiddbot/counters.yaml` | The next IDs of the specs and the debt. |
-| `.aiddbot/runs/` | The full output of the last run of each command. |
-| `.aiddbot/journals/` | The daily log. The agents add only their judgments to it, through the core. |
+| `.aiddbot/logs/` | Ignored by Git: the daily log (the agents add only their judgments to it, through the core), the full output of the last run of each command, and the work state of each spec (its runs, its evaluations and their commits). |
 | `package.json`, `CHANGELOG.md`, the tags | The version of your product. |
 
 The agents write only the texts: `system.md`, each `spec.md`, the reports of findings, and the `AGENTS.md` files.

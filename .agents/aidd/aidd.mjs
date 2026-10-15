@@ -22,7 +22,7 @@ const COMMANDS = {
 const HELP = [
   "Usage: node .agents/aidd/aidd.mjs <command>",
   ...Object.values(COMMANDS).map(([, usage]) => `  ${usage}`),
-  "Never edit .aiddbot/, control.json, or debt.json by hand: use these commands.",
+  "Never edit .aiddbot/ by hand: use these commands.",
 ].join("\n");
 
 function main([name, ...argv]) {

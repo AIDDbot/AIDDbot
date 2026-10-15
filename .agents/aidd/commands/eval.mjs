@@ -2,10 +2,9 @@
 // It also gives `release` the regression check: the full unit and acceptance runs.
 import fs from "node:fs";
 import path from "node:path";
-import { aiddbotPath, commitPaths, git, journal, productPath, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
+import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../lib/core.mjs";
 import { isApproved, KINDS, LAST_REVISION, readControl, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
-const MESSAGES = { verification: "docs(verification): record acceptance", qualification: "docs(review): qualify implementation" };
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
 const SKIPPED = new Set(["node_modules"]);
@@ -73,7 +72,7 @@ export function regression(root, control, preexisting) {
   if (!preexisting.length) {
     return `The regression failed in ${failed.join(", ")}. Triage each failure into verification.md and record a red verification, or name the older debt behind every failure with --preexisting.`;
   }
-  const open = readJson(productPath(root, "quality", "debt.json"), { items: [] }).items;
+  const open = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
   const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));
   return invalid.length ? `${invalid.join(", ")} is not open debt recorded before ${control.id} was created.` : null;
 }
@@ -83,7 +82,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   if (!STATUSES.includes(status)) throw new UsageError(`Status must be one of: ${STATUSES.join(", ")}.`);
   if (!summary?.trim()) throw new UsageError("Give a one-line summary of the evaluation.");
   const dir = requireSpec(root, typeof flags.spec === "string" ? flags.spec : undefined);
-  const control = readControl(dir);
+  const control = readControl(root, dir);
   if (control.status === "shipped") throw new RuleError(`${control.id} is already shipped.`);
   if (!isApproved(root, dir)) throw new RuleError(unapproved(control));
   const report = path.join(dir, `${kind}.md`);
@@ -98,9 +97,8 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;
   const commit = git(root, ["rev-parse", "HEAD"]);
   control.evaluations.push({ kind, revision, status, commit, at: new Date().toISOString(), summary: summary.trim() });
-  writeControl(dir, control);
+  writeControl(root, control);
   if (status === "green") fs.rmSync(report, { force: true });
   journal(root, { event: "evaluated", spec: control.id, level: LEVELS[status], summary: `${kind} ${revision}: ${summary}` });
-  const committed = commitPaths(root, [relative(root, dir)], MESSAGES[kind]);
-  return { spec: control.id, kind, revision, status, commit, committed };
+  return { spec: control.id, kind, revision, status, commit };
 }

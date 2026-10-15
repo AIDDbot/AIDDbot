@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, readJson } from "./helpers.mjs";
+import { git, write, repo, aidd, readJson, journalText } from "./helpers.mjs";
 
 test("a scoped acceptance run filters by spec, lists untested requirements, and is the evidence of the verification", () => {
   const root = repo();
@@ -16,7 +16,7 @@ test("a scoped acceptance run filters by spec, lists untested requirements, and 
   assert.equal(scoped.code, 0);
   assert.deepEqual(scoped.body.untested, ["R02"]);
   assert.match(scoped.body.runs[0].command, /--grep @S0001-$/);
-  const runs = readJson(root, ".product/specs/S0001-fleet/control.json").runs;
+  const runs = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs;
   assert.equal(runs.spec.e2e.ok, true);
   assert.equal(runs.acceptance, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.test", '"npm test"');
@@ -42,11 +42,11 @@ test("run refuses while another run is alive, and a dead run leaves no lock", ()
 test("a log says RUNNING until its command ends", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
-  const peek = `node -e "console.log(require('fs').readFileSync('../.aiddbot/runs/test-back.log', 'utf8').split('\\n')[0])"`;
+  const peek = `node -e "console.log(require('fs').readFileSync('../.aiddbot/logs/test-back.log', 'utf8').split('\\n')[0])"`;
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: peek } }));
   const unit = aidd(root, "run", "test");
   assert.match(unit.body.runs[0].tail, /^RUNNING since .*no result until this line is gone/);
-  const log = fs.readFileSync(path.join(root, ".aiddbot/runs/test-back.log"), "utf8");
+  const log = fs.readFileSync(path.join(root, ".aiddbot/logs/test-back.log"), "utf8");
   assert.equal(log.match(/RUNNING/g).length, 1, "the header is gone, and only the output of the command keeps its copy");
 });
 
@@ -58,15 +58,14 @@ test("run keeps the whole output in a log, journals it, and stops at the timeout
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: noisy, test: hang } }));
   const lint = aidd(root, "run", "lint");
   assert.equal(lint.code, 0);
-  assert.equal(lint.body.runs[0].log, ".aiddbot/runs/lint-back.log");
+  assert.equal(lint.body.runs[0].log, ".aiddbot/logs/lint-back.log");
   assert.ok(lint.body.runs[0].tail.length <= 1500);
-  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/runs/lint-back.log"), "utf8").trim().length, 5003);
+  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/logs/lint-back.log"), "utf8").trim().length, 5003);
   aidd(root, "config", "set", "run", '{ "timeoutMinutes": 0.02 }');
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 1);
   assert.match(unit.body.runs[0].timedOut, /killed after/);
-  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"))[0];
-  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8"), / run +INFO +lint: back ok \d+s/);
+  assert.match(journalText(root), / run +INFO +lint: back ok \d+s/);
 });
 
 test("run journals the last output line of each project and leaves out n/a projects", () => {
@@ -76,14 +75,13 @@ test("run journals the last output line of each project and leaves out n/a proje
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: { na: "e2e owns acceptance" } } }));
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: tool } }));
   assert.equal(aidd(root, "run", "test").code, 0);
-  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"))[0];
-  const line = fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8").split("\n").find((entry) => entry.includes("test:"));
+  const line = journalText(root).split("\n").find((entry) => entry.includes("test:"));
   assert.match(line, /test: e2e ok \d+s \(3 passed \(2s\)\)$/);
   assert.doesNotMatch(line, /n\/a/);
   const failing = `node -e "console.log('1 failed'); console.log('99 passed (5s)'); process.exit(1)"`;
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: failing } }));
   assert.equal(aidd(root, "run", "test").code, 1);
-  const last = fs.readFileSync(path.join(root, ".aiddbot/journals", journal), "utf8").trim().split("\n").at(-1);
+  const last = journalText(root).trim().split("\n").at(-1);
   assert.match(last, /test: e2e exit 1 \d+s \(1 failed\)$/);
 });
 
@@ -128,7 +126,7 @@ test("a project needs a known type, and test runs e2e last as acceptance evidenc
   assert.equal(aidd(root, "config", "set", "projects.back.type", '"front"').code, 2);
   const all = aidd(root, "run", "test");
   assert.deepEqual(all.body.runs.map((entry) => entry.project), ["back", "e2e"]);
-  const runs = readJson(root, ".product/specs/S0001-fleet/control.json").runs;
+  const runs = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs;
   assert.deepEqual([Object.keys(runs.unit), Object.keys(runs.acceptance)], [["back"], ["e2e"]]);
   assert.deepEqual(aidd(root, "run", "test", "--spec").body.runs.map((entry) => entry.project), ["e2e"]);
 });
@@ -180,7 +178,7 @@ test("a spec keeps the latest run of each kind per project", () => {
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   aidd(root, "run", "lint", "--project", "back");
   aidd(root, "run", "lint", "--project", "front");
-  const lint = readJson(root, ".product/specs/S0001-fleet/control.json").runs.lint;
+  const lint = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs.lint;
   assert.deepEqual(Object.keys(lint).sort(), ["back", "front"]);
   assert.equal(lint.back.ok, true);
   assert.equal(lint.front.ok, false);
@@ -199,13 +197,13 @@ test("a slot that does not apply needs its reason, and run reports it as ok; for
   assert.deepEqual(unit.body.runs, [{ project: "e2e", ok: true, na: "no own logic" }]);
   aidd(root, "spec", "new", "feat", "rockets", "Rockets");
   assert.equal(aidd(root, "run", "format").code, 0);
-  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.format, undefined);
+  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.format, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.upgrade", JSON.stringify("node -e \"process.exit(0)\""));
   assert.equal(aidd(root, "run", "upgrade").code, 0);
-  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.upgrade, undefined);
+  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.upgrade, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.harden", JSON.stringify("node -e \"process.exit(1)\""));
   assert.equal(aidd(root, "run", "harden").code, 1);
-  assert.equal(readJson(root, ".product/specs/S0001-rockets/control.json").runs?.harden, undefined);
+  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.harden, undefined);
   assert.equal(aidd(root, "run", "harden", "--changed").code, 2);
   assert.equal(aidd(root, "run", "lint").code, 3);
 });

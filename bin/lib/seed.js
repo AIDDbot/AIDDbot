@@ -178,21 +178,17 @@ function ensureCounters(destRoot, dryRun) {
 
 // Empty forms of the records only the core writes, through `aidd config` and `aidd debt`.
 // The PRD (`.product/PRD.md`) is not seeded: `aidd release` generates it from the shipped `feat` specs.
-function ensureConfig(destRoot, dryRun) {
+function ensureRecords(destRoot, dryRun) {
   SEEDS[".aiddbot/config.json"] = `${JSON.stringify({ projects: {} }, null, 2)}\n`;
-  return ensureFromSeed(destRoot, dryRun, ".aiddbot/config.json");
-}
-
-function ensureProductRecords(destRoot, dryRun) {
-  SEEDS[".product/quality/debt.json"] = `${JSON.stringify({ items: [] }, null, 2)}\n`;
-  return [ensureFromSeed(destRoot, dryRun, ".product/quality/debt.json")].filter(Boolean);
+  SEEDS[".aiddbot/debt.json"] = `${JSON.stringify({ items: [] }, null, 2)}\n`;
+  return [".aiddbot/config.json", ".aiddbot/debt.json"].map((rel) => ensureFromSeed(destRoot, dryRun, rel)).filter(Boolean);
 }
 
 // The journal is born once per repository: only the very first `aiddbot init`
 // writes this event. It imports the destination's own core, installed by the
-// overlay, so the line format lives in one place. Journals are gitignored.
+// overlay, so the line format lives in one place. `.aiddbot/logs/` is gitignored.
 async function ensureJournalGenesis(destRoot, dryRun) {
-  const rel = ".aiddbot/journals";
+  const rel = ".aiddbot/logs";
   if (fs.existsSync(path.join(destRoot, rel))) {
     print("skip-same", rel);
     return;
@@ -218,9 +214,7 @@ async function ensureSeedFiles(destRoot, dryRun, title) {
   if (rootPackage) written.push(rootPackage);
   const counters = ensureCounters(destRoot, dryRun);
   if (counters) written.push(counters);
-  const config = ensureConfig(destRoot, dryRun);
-  if (config) written.push(config);
-  written.push(...ensureProductRecords(destRoot, dryRun));
+  written.push(...ensureRecords(destRoot, dryRun));
   return written;
 }
 

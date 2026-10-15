@@ -25,19 +25,15 @@ function create(root, [type, slug, title], flags) {
     .replaceAll("{domain}", domain).replace("type: feat", `type: ${type}`).replace("branch: feat/", `branch: ${type}/`);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, "spec.md"), spec, "utf8");
-  const control = {
-    id, key, type, title: title.trim(), domain, branch,
-    status: "in-progress", created: new Date().toISOString(), evaluations: [], shipped: null,
-  };
-  writeControl(dir, control);
+  writeControl(root, { key, created: new Date().toISOString(), evaluations: [], runs: {} });
   commitPaths(root, [".aiddbot/counters.yaml"], `chore(spec): reserve ${id}`);
-  journal(root, { event: "created", spec: id, summary: `${branch} · ${control.title}` });
+  journal(root, { event: "created", spec: id, summary: `${branch} · ${title.trim()}` });
   return { spec: id, branch, file: relative(root, path.join(dir, "spec.md")) };
 }
 
 function show(root, [input]) {
   const dir = requireSpec(root, input);
-  const control = readControl(dir);
+  const control = readControl(root, dir);
   return { ...control, blockers: gate(root, dir, control) };
 }
 

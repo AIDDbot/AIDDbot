@@ -2,12 +2,23 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { LOCAL_TABLE, loadAgentTable, renderAllAdapters } from "./agents.js";
+import { HARNESS_NAMES, LOCAL_TABLE, loadAgentTable, renderAllAdapters } from "./agents.js";
 import { loadManifest, manifestText, payloadDigest, writeManifestAtomic } from "./manifest.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const sourceRoot = path.resolve(here, "../..");
-export const TREES = [".agents/aidd", ".agents/agents", ".agents/skills", ".claude/agents", ".claude/skills", ".cursor/agents", ".codex/agents", ".github/agents"];
+const CORE_TREES = [".agents/aidd", ".agents/agents", ".agents/skills"];
+// The folders of each harness; a consumer installs only the harnesses it names (D27).
+const HARNESS_TREES = { "claude-code": [".claude/agents", ".claude/skills"], codex: [".codex/agents"], copilot: [".github/agents"], cursor: [".cursor/agents"] };
+export const TREES = [...CORE_TREES, ...Object.values(HARNESS_TREES).flat()];
+
+/** The harnesses to install: the `--harness` list, else the list of the last install, else all of them. */
+export function selectHarnesses(requested, manifest) {
+  const names = requested ?? manifest?.harnesses ?? HARNESS_NAMES;
+  const unknown = names.filter((name) => !HARNESS_NAMES.includes(name));
+  if (unknown.length || !names.length) throw new Error(`Unknown harness: ${unknown.join(", ") || "(none)"}. Use: ${HARNESS_NAMES.join(", ")}.`);
+  return HARNESS_NAMES.filter((name) => names.includes(name));
+}
 export const ACTION_ORDER = ["create", "update", "remove", "skip-same", "conflict", "overwritten"];
 const WRITE_ACTIONS = new Set(["create", "update", "overwritten"]);
 export const MUTATING_ACTIONS = new Set(["create", "update", "remove", "overwritten"]);
@@ -60,7 +71,7 @@ function applyLocalAgents(files, root, destRoot) {
   for (const [rel, content] of renderAllAdapters(root, table)) if (files[rel]) files[rel] = { digest: sha(content), content };
 }
 
-export function sourceInventory(root = sourceRoot, destRoot = null) {
+export function sourceInventory(root = sourceRoot, destRoot = null, harnesses = HARNESS_NAMES) {
   const files = {};
   const walk = (base, rel) => {
     if (skip(rel)) return;
@@ -72,7 +83,7 @@ export function sourceInventory(root = sourceRoot, destRoot = null) {
       if (ent.isFile() || ent.isDirectory()) walk(path.join(base, ent.name), child);
     }
   };
-  for (const tree of TREES) walk(path.join(root, ...tree.split("/")), tree);
+  for (const tree of [...CORE_TREES, ...harnesses.flatMap((name) => HARNESS_TREES[name])]) walk(path.join(root, ...tree.split("/")), tree);
   if (destRoot) applyLocalAgents(files, root, destRoot);
   return Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b)));
 }
@@ -84,7 +95,7 @@ function destination(root, rel) {
   catch (error) { if (error.code === "ENOENT") return { target, stat: null, digest: null }; throw error; }
 }
 
-export function reconcile(destRoot, inventory, oldManifest, force = false) {
+export function reconcile(destRoot, inventory, oldManifest, force = false, harnesses = undefined) {
   const old = oldManifest?.files ?? {};
   const paths = [...new Set([...Object.keys(old), ...Object.keys(inventory)])].sort();
   const rows = [], files = {};
@@ -107,7 +118,7 @@ export function reconcile(destRoot, inventory, oldManifest, force = false) {
     else { action = "conflict"; if (prior) files[file] = prior; }
     rows.push({ action, file, source: inventory[file]?.source, content: inventory[file]?.content });
   }
-  return { rows, manifest: { schemaVersion: 1, packageVersion: "0.0.0", payloadDigest: payloadDigest(inventory), files: Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b))) } };
+  return { rows, manifest: { schemaVersion: 1, packageVersion: "0.0.0", payloadDigest: payloadDigest(inventory), harnesses, files: Object.fromEntries(Object.entries(files).sort(([a], [b]) => a.localeCompare(b))) } };
 }
 
 function printInventory(rows) {
@@ -119,12 +130,12 @@ function printInventory(rows) {
 function removeEmptyParents(root, target) { for (let dir = path.dirname(target); inside(dir, root) && dir !== path.resolve(root); dir = path.dirname(dir)) { try { fs.rmdirSync(dir); } catch { break; } } }
 function apply(root, plan) { for (const row of plan.rows) { const target = safeFile(root, row.file); if (WRITE_ACTIONS.has(row.action)) { fs.mkdirSync(path.dirname(target), { recursive: true }); if (row.content !== undefined) fs.writeFileSync(target, row.content, "utf8"); else fs.copyFileSync(row.source, target); } else if (row.action === "remove") { fs.unlinkSync(target); removeEmptyParents(root, target); } } }
 
-export function runOverlay(destRoot, { dryRun = false, force = false, inventory } = {}) {
-  let oldManifest;
-  try { inventory ??= sourceInventory(sourceRoot, destRoot); } catch (error) { process.stderr.write(`${error.message}
-`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
+export function runOverlay(destRoot, { dryRun = false, force = false, inventory, harnesses: requested } = {}) {
+  let oldManifest, harnesses;
   try { oldManifest = loadManifest(destRoot); } catch (error) { process.stderr.write(`Invalid AIDDbot manifest: ${error.message}\n`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
-  const plan = reconcile(destRoot, inventory, oldManifest, force);
+  try { harnesses = selectHarnesses(requested, oldManifest); inventory ??= sourceInventory(sourceRoot, destRoot, harnesses); } catch (error) { process.stderr.write(`${error.message}
+`); return { conflicts: true, fatal: true, written: [], rows: [] }; }
+  const plan = reconcile(destRoot, inventory, oldManifest, force, harnesses);
   const counts = printInventory(plan.rows);
   const metadata = ".aiddbot/manifest.json", manifestPath = safeFile(destRoot, metadata), desired = manifestText(plan.manifest);
   if (fs.existsSync(manifestPath)) { const stat = fs.lstatSync(manifestPath); if (!stat.isFile() || stat.isSymbolicLink()) { process.stderr.write("Invalid AIDDbot manifest: manifest target is unsafe\n"); return { conflicts: true, fatal: true, written: [], rows: plan.rows }; } }

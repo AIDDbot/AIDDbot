@@ -16,7 +16,7 @@ In the root folder of your repository, run:
 npx github:AIDDbot/AIDDbot init
 ```
 
-`init` adds the skills and the agent profiles, and commits them. If the folder is not a Git repository, it makes one. It never writes over a file that exists. To see the changes first, add `--dry-run`.
+`init` adds the skills and the agent profiles, and commits them. If the folder is not a Git repository, it makes one. It never writes over a file that exists. To see the changes first, add `--dry-run`. By default it installs the profiles of all four harnesses. To install only the harnesses that you use, add `--harness` with their names, for example `--harness codex,claude-code`. The names are `claude-code`, `codex`, `copilot` and `cursor`.
 
 ## 2. Prepare the system
 
@@ -62,7 +62,7 @@ The agents scan the quality of the code, record the debt, and repair the most im
 npx github:AIDDbot/AIDDbot update
 ```
 
-`update` replaces the skills and the agent profiles. It keeps your project files and your records. To select the models and the effort of the agents, see [Customize agent profiles](./agent-customization.md).
+`update` replaces the skills and the agent profiles. It keeps your project files and your records. It installs the same harnesses as the last time. To change them, add `--harness` with the new list. To select the models and the effort of the agents, see [Customize agent profiles](./agent-customization.md).
 
 ## Next
 

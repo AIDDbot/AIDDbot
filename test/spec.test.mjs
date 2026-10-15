@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept, readJson, approve } from "./helpers.mjs";
+import { git, write, repo, aidd, accept, readJson, approve, journalText } from "./helpers.mjs";
 
 test("a spec goes from new to shipped with version, changelog, index, and tag", () => {
   const root = repo();
@@ -14,6 +14,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.match(fs.readFileSync(path.join(root, created.body.file), "utf8"), /# S0001-user-login — User login/);
   approve(root);
 
+  write(root, "src/login.js", "export {};\n");
   git(root, "add", "-A");
   git(root, "commit", "-q", "-m", "feat(S0001): login");
   accept(root, 0, "S0001");
@@ -28,7 +29,7 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.equal(readJson(root, "package.json").version, "0.2.0");
   assert.match(fs.readFileSync(path.join(root, "CHANGELOG.md"), "utf8"), /## \[0\.2\.0\][\s\S]*### Added[\s\S]*User login \(\[S0001\]/);
   assert.match(fs.readFileSync(path.join(root, ".product/PRD.md"), "utf8"), /## auth\r?\n\r?\n- \[S0001\]\(specs\/S0001-user-login\/spec\.md\) User login/);
-  assert.equal(readJson(root, ".product/specs/S0001-user-login/control.json").status, "shipped");
+  assert.equal(aidd(root, "spec", "show", "S0001").body.status, "shipped");
   assert.doesNotMatch(git(root, "branch"), /feat\/S0001/);
 });
 
@@ -38,7 +39,7 @@ test("spec new works with pending changes and never needs a clean tree", () => {
   const created = aidd(root, "spec", "new", "fix", "typo", "Fix typo");
   assert.equal(created.code, 0);
   assert.ok(fs.existsSync(path.join(root, "notes.txt")));
-  assert.equal(readJson(root, ".product/specs/S0001-typo/control.json").domain, "general");
+  assert.equal(aidd(root, "spec", "show", "S0001").body.domain, "general");
   assert.equal(git(root, "status", "--short", "--", ".aiddbot/counters.yaml"), "");
   assert.match(git(root, "log", "-1", "--format=%s"), /reserve S0001/);
 });
@@ -106,7 +107,7 @@ test("log approved commits the spec definition after the approval", () => {
   assert.equal(approved.code, 0, JSON.stringify(approved.body));
   assert.equal(approved.body.committed, true);
   assert.equal(git(root, "log", "-1", "--format=%s"), "docs(spec): define delivery");
-  const journal = fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8");
+  const journal = journalText(root);
   assert.ok(journal.indexOf(" approved ") < journal.indexOf("committed  INFO  docs(spec): define delivery"));
 });
 

@@ -23,7 +23,8 @@ export function repo() {
   git(root, "config", "user.name", "Test");
   write(root, ".aiddbot/counters.yaml", "spec: 0\ndebt: 0\n");
   write(root, ".aiddbot/config.json", '{ "projects": {} }\n');
-  write(root, ".product/quality/debt.json", '{ "items": [] }\n');
+  write(root, ".aiddbot/debt.json", '{ "items": [] }\n');
+  write(root, ".gitignore", "*.log\n/.aiddbot/logs/\n");
   write(root, "package.json", '{ "name": "demo", "version": "0.1.0", "private": true }\n');
   git(root, "add", "-A");
   git(root, "commit", "-q", "-m", "chore: init");
@@ -50,6 +51,13 @@ export function accept(root, code = 0, ...specs) {
   aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
   if (specs.length) aidd(root, "run", "test", "--spec");
   return aidd(root, "run", "test", "--project", "e2e");
+}
+
+/** Today's journal: the dated `.log` in `.aiddbot/logs/`. */
+export function journalText(root) {
+  const dir = path.join(root, ".aiddbot/logs");
+  const name = fs.readdirSync(dir).find((entry) => /^\d{4}-\d{2}-\d{2}\.log$/.test(entry));
+  return fs.readFileSync(path.join(dir, name), "utf8");
 }
 
 export function readJson(root, file) {

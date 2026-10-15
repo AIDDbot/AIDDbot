@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept, approve } from "./helpers.mjs";
+import { git, write, repo, aidd, accept, approve, journalText } from "./helpers.mjs";
 
 test("commit records the paths it is given and journals the milestone", () => {
   const root = repo();
@@ -19,7 +19,7 @@ test("commit records the paths it is given and journals the milestone", () => {
   assert.match(git(root, "status", "--short"), /b\//);
   assert.equal(aidd(root, "commit", "nothing", "a").body.committed, false);
   assert.equal(aidd(root, "commit").code, 2);
-  assert.match(fs.readFileSync(path.join(root, ".aiddbot/journals", fs.readdirSync(path.join(root, ".aiddbot/journals"))[0]), "utf8"), /committed  INFO  feat\(a\): one/);
+  assert.match(journalText(root), /committed  INFO  feat\(a\): one/);
 });
 
 test("commit needs a passing lint on the same files of each project it changes", () => {
@@ -115,8 +115,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(aidd(root, "log", "plan", "back: rockets repository and route", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
-  const journal = fs.readdirSync(path.join(root, ".aiddbot/journals"));
-  const lines = fs.readFileSync(path.join(root, ".aiddbot/journals", journal[0]), "utf8").trim().split("\n");
+  const lines = journalText(root).trim().split("\n");
   const verdict = lines.find((line) => line.includes(" verdict "));
   assert.match(verdict, /model +- +verdict +INFO +greenfield: x+…$/);
   assert.ok(verdict.split(" INFO ").pop().trim().length <= 128);

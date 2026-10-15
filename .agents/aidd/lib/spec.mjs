@@ -1,7 +1,7 @@
-// Specs: their folders, their `control.json`, and the shipping gate.
+// Specs: their folders, their identity in `spec.md`, their work state in `.aiddbot/logs/{key}.json`, and the shipping gate.
 import fs from "node:fs";
 import path from "node:path";
-import { git, productPath, readJson, RuleError, writeJson } from "./core.mjs";
+import { aiddbotPath, git, productPath, readJson, RuleError, writeJson } from "./core.mjs";
 
 export const TYPES = ["feat", "fix", "refactor", "chore"];
 export const KINDS = ["verification", "qualification"];
@@ -27,8 +27,34 @@ export function requireSpec(root, input) {
   return dir;
 }
 
-export const readControl = (dir) => readJson(path.join(dir, "control.json"));
-export const writeControl = (dir, control) => writeJson(path.join(dir, "control.json"), control);
+/** The identity of a spec: its folder name gives the key and the ID, its `spec.md` the type, branch, domain, and title. */
+export function specMeta(dir) {
+  const key = path.basename(dir);
+  const text = fs.readFileSync(path.join(dir, "spec.md"), "utf8");
+  const front = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text)?.[1] ?? "";
+  const meta = Object.fromEntries([...front.matchAll(/^(\w+):[ \t]*([^#\r\n]*?)[ \t]*(?:#.*)?$/gm)].map(([, name, value]) => [name, value]));
+  const title = /^# .+? — (.+)$/m.exec(text)?.[1]?.trim() ?? key;
+  return { id: key.slice(0, 5), key, type: meta.type, branch: meta.branch, domain: meta.domain || "general", title };
+}
+
+/** A spec is shipped when the changelog names it: `aidd release` writes that entry. */
+export function isShipped(root, id) {
+  const file = path.join(root, "CHANGELOG.md");
+  return fs.existsSync(file) && fs.readFileSync(file, "utf8").includes(`[${id}](`);
+}
+
+/** The work state of a spec, its evaluations and runs: local and ignored by git, so a new clone starts it again. */
+const controlFile = (root, key) => aiddbotPath(root, "logs", `${key}.json`);
+
+/** The identity of the spec, its derived status, and its work state. */
+export function readControl(root, dir) {
+  const meta = specMeta(dir);
+  const state = readJson(controlFile(root, meta.key), {});
+  const status = isShipped(root, meta.id) ? "shipped" : "in-progress";
+  return { ...meta, status, created: state.created, evaluations: state.evaluations ?? [], runs: state.runs ?? {} };
+}
+
+export const writeControl = (root, { key, created, evaluations, runs }) => writeJson(controlFile(root, key), { created, evaluations, runs });
 
 /** Whether `log approved` committed the definition of the spec: no code, evidence, or release comes before its approval. */
 export function isApproved(root, dir) {

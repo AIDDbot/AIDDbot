@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, productPath, readJson, relative, RuleError, UnavailableError, UsageError,
+  aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UnavailableError, UsageError,
   workingTree, writeJson,
 } from "../lib/core.mjs";
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
@@ -82,7 +82,7 @@ function lockRun(root, kind) {
   const file = runLockFile(root);
   const held = readJson(file, null);
   if (held && held.pid !== process.pid && alive(held.pid)) {
-    throw new RuleError(`'${held.kind}' is still running since ${held.started} (pid ${held.pid}). Wait until it ends: its result goes to the journal and to .aiddbot/runs/. Never start it again, and never judge its log before it ends.`);
+    throw new RuleError(`'${held.kind}' is still running since ${held.started} (pid ${held.pid}). Wait until it ends: its result goes to the journal and to .aiddbot/logs/. Never start it again, and never judge its log before it ends.`);
   }
   writeJson(file, { pid: process.pid, kind, started: new Date().toISOString() });
   return () => fs.rmSync(file, { force: true });
@@ -133,7 +133,7 @@ const evidenceOf = (kind, project, scoped) => (kind !== "test" ? kind : scoped ?
 function recordRun(root, kind, runs, projects, scoped) {
   const dir = findSpec(root, currentBranch(root));
   if (!dir) return;
-  const control = readControl(dir);
+  const control = readControl(root, dir);
   if (control.status === "shipped") return;
   const commit = git(root, ["rev-parse", "HEAD"]);
   const at = new Date().toISOString();
@@ -144,7 +144,7 @@ function recordRun(root, kind, runs, projects, scoped) {
     const evidence = evidenceOf(kind, projects[name], scoped);
     control.runs[evidence] = { ...control.runs[evidence], [name]: { commit, ok: own.every((entry) => entry.ok), at, ...(na !== undefined && { na }) } };
   }
-  writeControl(dir, control);
+  writeControl(root, control);
 }
 
 /**
@@ -388,7 +388,7 @@ export function run(root, [kind], flags) {
       }
       commands.forEach((command, index) => {
         const mode = id ? "-scoped" : changed ? "-changed" : "";
-        const log = aiddbotPath(root, "runs", `${kind}${mode}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+        const log = aiddbotPath(root, "logs", `${kind}${mode}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
         runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
       });
     }
@@ -461,7 +461,7 @@ export function config(root, [action, key, value]) {
 }
 
 const PRIORITIES = ["high", "medium", "low"];
-const debtFile = (root) => productPath(root, "quality", "debt.json");
+const debtFile = (root) => aiddbotPath(root, "debt.json");
 
 /** `debt add <title> <priority> [evidence]`, `debt list`, or `debt remove <id>`. */
 export function debt(root, [action, ...args]) {
@@ -480,7 +480,7 @@ export function debt(root, [action, ...args]) {
     register.items.push(item);
     writeJson(debtFile(root), register);
     journal(root, { event: "debt-added", summary: `${item.id} ${priority}: ${item.title}` });
-    const committed = commitPaths(root, [".product/quality/debt.json", ".aiddbot/counters.yaml"], `docs(quality): add ${item.id}`);
+    const committed = commitPaths(root, [".aiddbot/debt.json", ".aiddbot/counters.yaml"], `docs(quality): add ${item.id}`);
     return { ...item, committed };
   }
   if (action === "remove") {
@@ -489,7 +489,7 @@ export function debt(root, [action, ...args]) {
     register.items = register.items.filter((entry) => entry !== item);
     writeJson(debtFile(root), register);
     journal(root, { event: "debt-done", summary: `${item.id} ${item.title}` });
-    return { removed: item.id, committed: commitPaths(root, [".product/quality/debt.json"], `docs(quality): remove ${item.id}`) };
+    return { removed: item.id, committed: commitPaths(root, [".aiddbot/debt.json"], `docs(quality): remove ${item.id}`) };
   }
   throw new UsageError("Use: aidd debt add|list|remove");
 }
@@ -504,7 +504,7 @@ export function commit(root, [message, ...paths]) {
     throw new RuleError(`Never commit on ${branch}: only \`aidd release\` and \`aidd integrate\` write there. Commit on the spec or task branch.`);
   }
   const spec = findSpec(root, branch);
-  if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(spec)));
+  if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(root, spec)));
   const installed = changedFiles(root, paths.length ? paths : ["."], true).find((file) => INSTALLED.test(file));
   if (installed) {
     throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);
