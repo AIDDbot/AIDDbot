@@ -23,25 +23,17 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 
 ## Regression
 
-Up to now, each step tested only its own surface. Now test the full system one time:
+The verification already ran the full suites. Now lint the full system, and test it again after the fixes:
 
 1. Run `node .agents/aidd/aidd.mjs run lint` for all projects. It applies the safe fixes of the linter.
 2. When the lint passes, run `node .agents/aidd/aidd.mjs run format`, always last: a fix can change the layout. The format is cosmetic: when it fails or is unavailable, continue. Commit what the lint and the format changed with `node .agents/aidd/aidd.mjs commit "style: lint fixes and format"`.
-3. Run `node .agents/aidd/aidd.mjs run test`: all the unit tests, then the full acceptance suite. Run it also when the lint fails.
+3. Run `node .agents/aidd/aidd.mjs run test`: `release` needs the full suites at the current code.
 
 Never repair code or tests yourself.
 
-`release` refuses a failed regression. When the latest verification is red at revision 3, record each failure as debt and continue. Otherwise, triage each failure from its log in `.aiddbot/logs/`, and give it one cause and one owner:
-
-| Cause | Owner | Proposed repair |
-| --- | --- | --- |
-| The code of the spec breaks shipped behavior, or the lint | **Builder** | the production code |
-| The test is wrong, not the behavior | **Builder** | the test, with no weaker assertion |
-| A requirement of this spec contradicts the test of a shipped one | human | `Replaces: {global ID}` in the spec, if the human agrees |
-| Only a product decision can tell | human | the question |
-
-- When open debt from `debt list`, recorded before this spec, explains each failure, give its D IDs to `release --preexisting` and continue.
-- Otherwise, write `.aiddbot/logs/{spec_key}.verification.md` from `assets/triage.template.md`, then run `node .agents/aidd/aidd.mjs eval verification red "<summary>"`. Return the triage, and stop with the spec not shipped. The repair stays in this spec: a regression never reaches the default branch.
+- When the lint fails, or the test fails where the verification passed, stop with the spec not shipped and return the failures: the verification runs again. The repair stays in this spec: a regression never reaches the default branch.
+- When the latest verification is red at revision 3, record each failure as debt and continue.
+- Give the D IDs that the verification named for older debt to `release --preexisting`.
 
 ## Debt
 
@@ -54,10 +46,10 @@ Change the debt register only with `node .agents/aidd/aidd.mjs debt`, and never 
 
 ## Release
 
-Run `node .agents/aidd/aidd.mjs release` from the spec branch. Add `--major` only when the delivery breaks compatibility for its users. The command checks the gate and the regression, sets the version from the spec type, and writes it to the version files and to `CHANGELOG.md`. It marks the spec `shipped`, makes the spec index again, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
+Run `node .agents/aidd/aidd.mjs release` from the spec branch. Add `--major` only when the request or the spec asks for a major version. The command checks the gate and the regression, sets the version from the spec type, and writes it to the version files and to `CHANGELOG.md`. It marks the spec `shipped`, makes the spec index again, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
 
 When `release` refuses, report its error and stop with the spec not shipped. Never merge, tag, or integrate in a different way: only `release` writes the changelog and the spec index.
 
-The result is one shipped spec, in the spec index, with current schema and debt records, or a triage of its regression.
+The result is one shipped spec, in the spec index, with current schema and debt records, or the failures of its regression.
 
 The core commits as `chore(release): {version}`.

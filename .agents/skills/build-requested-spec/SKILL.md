@@ -12,12 +12,12 @@ Your goal is to turn a natural-language request into a shipped spec.
 ```text
 1. Architect   define-spec            human approval
 2. Builder     implement-project      each project, then e2e     changed files only
-3. Craftsman   verify-behavior        red: repair loop           tests of the spec
+3. Craftsman   verify-behavior        red: triage, repair loop   tests of the spec, then full test
                review-implementation  findings ship as debt      reading only
-               ship-spec              red: triage, repair loop   full lint and test
+               ship-spec              red: verify again          full lint and test
 ```
 
-Each step tests only its own surface. The full system is tested one time, in `ship-spec`.
+The Builder tests only what it changes. The verification tests the full system, so a regression shows at its first revision.
 
 ## Roles
 
@@ -51,7 +51,8 @@ Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send sc
 | Event | Action |
 | --- | --- |
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
-| The regression of `ship-spec` is red | It recorded a red verification with a triage. Send each row to its owner: a row of the **Builder** for repair, a row of the human as in the rows below. Then verify again and ship again. Qualify again only after a repair of a failed Security or Requirements gate. |
+| The verification triages a failure of the full run | Send each row to its owner: a row of the **Builder** for repair, a row of the human as in the rows below. Then verify again. |
+| The regression of `ship-spec` is red | The lint or a fix changed behavior after the verification. Verify again, then repair and ship again. Qualify again only after a repair of a failed Security or Requirements gate. |
 | The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` before verification starts again. Thus a green retry never hides it. |
 | A test tagged with a different spec fails | It is a regression. The **Builder** repairs the production code. |
 | A requirement of this spec contradicts that test | Only then is the old requirement obsolete. Unless in YOLO mode, relay this product change to the human first. Then the **Architect** adds `Replaces: {global ID}` to the Problem of the spec, and the **Builder** updates that test and tags it with the requirement of this spec that replaces the old one. |

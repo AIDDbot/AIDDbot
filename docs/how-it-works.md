@@ -6,7 +6,7 @@ This page gives the model of AIDDbot. For the first session, read [Getting start
 
 - **Spec first.** Each change starts as a small spec with numbered requirements. You approve it before the code starts.
 - **Evidence, not trust.** Each requirement has an acceptance test. A spec ships only when its tests and the full regression pass, or with its failures recorded as debt.
-- **Small surface first.** Each step tests only what it changed: the Builder its files, the verification the tests of the spec. The full system is tested one time, before the release.
+- **Small surface first.** The Builder tests only the files that it changed. The verification tests the spec, then the full system, so a regression shows at its first revision.
 - **The code is the truth.** A shipped spec is a record of the change. It is never written again.
 - **Models judge, code checks.** The models do the non-deterministic work: design, specs, code and review. A deterministic program, the core, runs the tests, records the results and enforces the rules. It is more reliable, faster and cheaper than a model for that work.
 
@@ -47,17 +47,17 @@ After the first run, each system is the same: a documented system with its rules
 ```mermaid
 flowchart LR
     R[Request] --> S[Spec] --> OK{Approval} --> C[Code] --> V{Verify}
-    V -->|red| C
-    V -->|green| Q[Review] --> RG{Regression}
-    RG -->|red: triage| C
+    V -->|red: triage| C
+    V -->|green| Q[Review] --> RG{Lint and test}
+    RG -->|red| V
     RG -->|green| SH[Ship]
 ```
 
 1. The Architect writes one spec on its own branch, and stops for your approval.
 2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time. It lints and tests only the files that it changes.
-3. The Craftsman runs the acceptance tests of the spec. A red result goes back to the Builder.
+3. The Craftsman runs the acceptance tests of the spec, then all the tests. A red result goes back to the Builder.
 4. The Craftsman reviews the code for security, data integrity and accessibility. A finding becomes debt: `high` when it blocks, `low` for the others.
-5. Before the release, the Craftsman runs the full `lint` and the full regression: all the unit tests and the full acceptance suite. A failure goes to triage: the Craftsman finds its cause and its owner, and the repair stays in the spec. At the third revision, the failures become debt and the spec continues.
+5. Before the release, the Craftsman runs the full `lint` and the full test again. The verification already ran the regression: all the unit tests and the full acceptance suite, with a triage of each failure, its cause and its owner. The repair stays in the spec. At the third revision, the failures become debt and the spec continues.
 6. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
 
 Only one spec is open at a time. With `YOLO` in the request, the spec is approved when it is written, and it contains only what the request names.

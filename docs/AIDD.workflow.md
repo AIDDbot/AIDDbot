@@ -55,7 +55,7 @@ build-requested-spec:
       production-projects: "implement-project sequentially, from lower to higher abstraction; lint and unit tests of the changed files only"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
   - Craftsman:
-      evaluation: "verify-behavior runs the spec-scoped acceptance tests; review-implementation; ship-spec runs the full lint and the full regression, and a failure goes to triage; red evaluations and their failure-only reports go back to their owner; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
+      evaluation: "verify-behavior runs the spec-scoped acceptance tests and the full regression, and triages each failure; review-implementation; ship-spec runs the full lint and the full test again; red evaluations and their failure-only reports go back to their owner; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
 craft-lasting-quality:
   - "Craftsman: scan-quality, only when no high or medium debt is open; the scan records only medium debt"
@@ -104,16 +104,16 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 | --- | --- | --- |
 | Define | **Architect** | `define-spec`: scope, domain, branch, the spec with its requirements, schema impact, and approval |
 | Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes. It lints and tests only the changed files, and it runs the tests of the spec to check its E2E work |
-| Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec, then `review-implementation`, then `ship-spec`, which runs the full regression before the release |
+| Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec and the full regression, then `review-implementation`, then `ship-spec`, which runs the full lint and the full test again before the release |
 
-Each step tests only its own surface. The full system is tested one time, at the end:
+The Builder tests only its own surface. The verification tests the full system, so a regression shows at its first revision:
 
 | Step | Owner | Gate | Command |
 | --- | --- | --- | --- |
 | Build | **Builder** | `lint` and unit tests of the changed files | `aidd run lint --changed`, `aidd run test --changed`, and `aidd run test --spec` as a check |
-| Verify | **Craftsman** | the acceptance tests of the spec | `aidd run test --spec` |
+| Verify | **Craftsman** | the acceptance tests of the spec, then the full regression: unit tests and the full acceptance suite | `aidd run test --spec`, `aidd run test` |
 | Review | **Craftsman** | debt: `high` for a blocking finding, `low` for the others | reading only |
-| Ship | **Craftsman** | the full `lint`, and the full regression: unit tests and the full acceptance suite | `aidd run lint`, `aidd run test` |
+| Ship | **Craftsman** | the full `lint`, then the full test again at the current code | `aidd run lint`, `aidd run test` |
 | Scan | **Craftsman** | debt `medium` | `aidd run quality`, only in `craft`, and only when no `high` or `medium` debt is open |
 | Harden | **Craftsman** | debt `low`, one item for each rule | `aidd run harden`, only in `craft`, once, when no `high` or `medium` debt remains |
 
@@ -148,13 +148,13 @@ Each workflow writes its story in one plain-text daily journal at the repository
 Verification runs before qualification. `aidd eval` records each evaluation with its status, revision and current commit in the work state of the spec, `.aiddbot/logs/{key}.json`. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits nothing: Git ignores the work state.
 
 - `aidd run` refuses to start while another run is alive, because two runs share ports, databases and logs. Until a run ends, the first line of its log says `RUNNING`: the log is no result yet.
-- A green verification needs a passing last spec-scoped run of the `e2e` project, from `aidd run test --spec`, with no code change after it, and an acceptance test with the tag or title `@S0042-R03` for each requirement. A spec without requirements has no tagged test: its verification is green with no run, and the regression proves it.
+- A green verification needs a passing last spec-scoped run of the `e2e` project, from `aidd run test --spec`, with no code change after it, an acceptance test with the tag or title `@S0042-R03` for each requirement, and a last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A spec without requirements has no tagged test: the full run proves it. A failure of the full run that open debt recorded before the spec explains stays green; the summary names that debt.
 - Green evaluations leave no report. Amber and red evaluations leave a report with only the failures and findings.
 - A red verification returns for repair and runs again, without qualification, until revision 3.
 - If the Builder cannot reproduce a failure and does not change it, the failure becomes debt before verification runs again. Thus a green retry never hides it.
 - Qualification never blocks shipping. Shipping records each finding as debt: `high` for a blocking one, `low` for a debt one. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
 - `aidd release` needs the regression: a passing full `lint` of each project on the current files, and a passing last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A failed regression ships only with `--preexisting <D IDs>`, which names open debt recorded before the spec, or after a red verification at revision 3.
-- A failed regression goes to triage. The Craftsman writes each failure into `.aiddbot/logs/{key}.verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus it counts as one more revision. The repair stays in the spec, so a regression never reaches the default branch.
+- The verification triages each failure of the full run. The Craftsman writes it into `.aiddbot/logs/{key}.verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus a regression shows at the first revision. The repair stays in the spec, so a regression never reaches the default branch.
 
 | Cause | Owner | Repair |
 | --- | --- | --- |
@@ -175,8 +175,8 @@ Shipping:
 2. Updates the debt.
 3. Adds each reusable lesson that prevents an error to the project-rules table of the applicable `{project}/AGENTS.md`, as one short row.
 4. Runs the full `aidd run lint`, which applies the safe fixes of the linter, then `aidd run format` last, and commits their changes.
-5. Runs the full `aidd run test`. With the lint, it is the regression: a failure goes to triage, and the spec does not ship.
-6. Runs `aidd release`. It enforces the gate and gets the version from the spec type: `feat` increases the minor version; `fix`, `refactor` and `chore` increase the patch version. The model adds `--major` only for a breaking change.
+5. Runs the full `aidd run test` again, because the release needs it at the current code. A failure means that the lint or a fix changed behavior: the spec does not ship, and the verification runs again.
+6. Runs `aidd release`. It enforces the gate and gets the version from the spec type: `feat` increases the minor version; `fix`, `refactor` and `chore` increase the patch version. The model adds `--major` only when the request or the spec asks for a major version.
 
 The core writes that version into the root `package.json`, the root of its lockfile, and each file in `release.versionFiles` of `.aiddbot/config.json`. It adds the `CHANGELOG.md` entry from the spec title, commits, merges the branch and adds the tag. It never changes the versions of dependencies, tools, schemas, APIs or migrations.
 
@@ -186,7 +186,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 | --- | --- |
 | `system.md` | The approved greenfield proposal: purpose, users, projects and scaffold commands. It stays as product context. |
 | `PRD.md` | One line for each shipped `feat` spec, by domain. `aidd release` writes it. |
-| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
+| `specs/{type}/S{nnnn}-{slug}/` | One delivery, in the folder of its type, as its branch: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
 | `.aiddbot/config.json` | The type, the path of each project and its classified commands `lint`, `lint:files`, `format`, `upgrade`, `test`, `test:files`, `start`, `quality` and `harden` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |

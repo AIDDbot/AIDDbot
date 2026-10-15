@@ -258,3 +258,21 @@ Una spec es de fundación si cumple las dos condiciones:
 - Los registros del sistema, los resúmenes del journal incluidos, usan el idioma de `.product/system.md`, nunca el de un encargo.
 - `system.md` toma el idioma del humano cuando se escribe.
 - En cli-7, el prompt en español y `system.md` en inglés: desde S0005, el triaje y los resúmenes de `eval` salieron en español. La regla anterior («el idioma del humano, como lo usa `system.md`») tenía dos fuentes.
+
+## D32 (2026-10-15) · Las specs, en una carpeta por tipo
+
+- `.product/specs/{type}/S{nnnn}-{slug}/spec.md`, como las ramas: `feat/`, `fix/`, `refactor/`, `chore/`.
+- El tipo de una spec lo da su carpeta. La carpeta de una spec tiene solo `spec.md` (D29).
+- Base para dar a cada tipo su flujo, con más o menos burocracia (idea abierta).
+
+## D33 (cli-7) · La verificación corre la suite completa
+
+- `verify-behavior` corre los tests de la spec y después la suite completa. Una verificación verde exige las dos a la altura del código actual.
+- La verificación hace el triaje de cada fallo de la suite completa. Así la regresión sale en la revisión 1, no en la 3.
+- Un fallo que explica deuda abierta anterior a la spec sigue verde; el resumen nombra esa deuda, y `release --preexisting` la comprueba.
+- `ship-spec` corre el lint completo, el formato y otra vez la suite, porque `release` la exige a la altura del código actual. Un fallo ahí vuelve a la verificación.
+- En cli-7, S0004: la reparación de la puerta Requirements gastó la revisión 2, y la regresión llegó en la 3, roja; se publicó con tres `high`.
+
+## D34 (cli-7) · `--major` solo cuando el encargo o la spec lo piden
+
+- Nunca por juicio del agente. En cli-7, S0009 saltó de 0.6.0 a 1.0.0 porque `presentation` cambia la salida de todos los comandos.

@@ -23,7 +23,7 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 ## Check
 
-Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `lint` or `test`: the regression of `ship-spec` runs them.
+Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `lint` or `test`: `verify-behavior` runs the full test, and `ship-spec` the full lint.
 
 - Write unit tests for the critical production code, not for UI code or E2E tests. Put each test beside its module. Run `node .agents/aidd/aidd.mjs run test --changed --project {project}` until they pass.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
