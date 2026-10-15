@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.21 - 2026-10-15
+
+- refactor(skills): tighten /implement-project: an acceptance test checks only the items its spec owns (Halloween cli-7) (d2d9b0f)
+- refactor(skills): tighten /verify-behavior to run and triage the full regression; --major only on request (Halloween D32-D34) (f7fb33b)
+- refactor(core): specs in a folder for each type; a green verification needs the full suites (Halloween D32, D33) (0efb4e0)
+- docs(product): cli-7 post-mortem (aa555b7)
+- fix(core): journal summaries drop every quote and pictograph (8ac6649)
+- fix(core): journal summaries drop quotes, keep apostrophes inside words (d5a9e6a)
+- docs(product): idea on specs grouped by type (97e5c7c)
+- refactor(skills): tighten the record language to the language of system.md (Halloween D31) (e168bfa)
+- refactor(skills): tighten /craft-lasting-quality: no scan while high or medium debt is open (Halloween D30) (cce07c5)
+- refactor(skills): tighten report paths to .aiddbot/logs (Halloween D29) (d0e34ef)
+- refactor(core): evaluation reports are process, in .aiddbot/logs (Halloween D29) (0d34c06)
+- docs(product): D28 archetype is the whole solution (206cfd6)
+- docs(product): ideas on catalog naming and builder folder (3c328fb)
+- docs(product): cli-7 prompt and watch list (abd8e72)
+
 ## 0.3.20 - 2026-10-15
 
 - refactor(skills): tighten paths to .aiddbot/logs and .aiddbot/debt.json (Halloween D27) (9190421)
