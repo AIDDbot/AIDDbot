@@ -228,3 +228,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - El control de una spec guarda solo el estado de trabajo: las evaluaciones y los runs. La identidad de la spec está solo en el frontmatter y el título de `spec.md`. Una spec está publicada cuando su ID está en el `CHANGELOG.md`.
 - Sin control en Git, el core no hace commits de evaluación. Retomar una spec a medias en otro clon repite sus evaluaciones.
 - Desaparece `.product/quality/`. Sin migración (beta, solo greenfield).
+
+## D28 (2026-10-15) · Arquetipo = la solución entera; desaparece «library»
+
+- Un **arquetipo** es una solución: proyectos que funcionan bien juntos y pasan juntos una suite de aceptación. Archetype Base y Archetype CLI son arquetipos.
+- Cada pieza (`back/`, `front/`, `cli/`, `e2e/`) es un **proyecto** del arquetipo, con su tipo.
+- La palabra «library» desaparece. El **catálogo** (`archetypes.md`) lista los arquetipos con su versión fijada.
+- Las piezas no se combinan. Una combinación nueva es un arquetipo nuevo, hecho con el `archetype-builder` en una hora más o menos.
+- La D5 se mantiene: si ningún arquetipo encaja, AIDDbot lo dice y para. Crear arquetipos al vuelo, más adelante.
+- El renombrado, después de cli-7, en AIDDbot, el Builder, Base y CLI. Abierto: «Archetype Builder» choca con el agente Builder.

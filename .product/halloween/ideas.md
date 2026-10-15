@@ -9,5 +9,6 @@
 - No todos los requisitos ni arreglos son iguales: más de tres vías (rápida, refactor, fix corto, feature, contrato), deducidas de datos comprobables (qué demuestra que está hecho, qué criterio hace falta), nunca del humor del agente. Decidir con los costes de cli-6.
 - La deuda de complejidad y duplicados (origen `scan` de `quality`) también por la vía rápida.
 - Demasiadas carpetas con punto en un sistema (cli-6: `.agents`, `.aiddbot`, `.product`, `.claude`, `.codex`, `.cursor`, `.github`). `.product/quality/` solo tiene `debt.json`: ¿`.product/debt.json`? Las de cada harness llevan solo los 3 agentes (y `.claude` las skills): ¿instalar solo los harness que se usan?
-- «Library» para un repo de arquetipos se confunde con una dependencia de código, y en español «librería» es un falso amigo. Elegido: **catalog** (catálogo). Choca con `architect-system-foundation/assets/archetypes.md`, que hoy lista los catálogos: renombrarlo (¿`catalogs.md`?). Después de cli-7, junto con lo de `builder/`.
+- «Library» → resuelto en D28: el arquetipo es la solución entera; cada pieza es un proyecto.
+- Crear arquetipos al vuelo cuando ningún arquetipo del catálogo encaja (hoy D5: decirlo y parar). Más adelante.
 - `builder/` en la raíz del sistema de trabajo (cli-6, cli-7): sin dueño en D27, entra en Git y trae todo `blueprint/` (también `foundation-0.3/` y `theme/` para una cli). Buscarle sitio y copiar solo lo del tipo. Cambio del Builder.
