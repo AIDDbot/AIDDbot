@@ -4,14 +4,15 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UnavailableError, UsageError,
-  workingTree, writeJson,
+  writeJson,
 } from "../lib/core.mjs";
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
 import { requirements, untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "format", "upgrade", "test", "quality", "harden"];
+// Basic lint and format are not here: the technology of each project runs them in its pre-commit hook.
+const RUN_KINDS = ["upgrade", "test", "quality", "harden"];
 const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
-const NOT_EVIDENCE = new Set(["format", "upgrade", "harden"]);
+const NOT_EVIDENCE = new Set(["upgrade", "harden"]);
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
@@ -228,37 +229,6 @@ function duplicateFindings(root, project, start, size) {
   return blocks.sort((a, b) => b.lines - a.lines).slice(0, MAX_DUPLICATES);
 }
 
-/** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
-const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
-
-/** The git blob of each file as the working copy holds it now: an equal blob means equal content. */
-function blobs(root, files) {
-  return files.length ? git(root, ["hash-object", "--", ...files]).split(/\r?\n/) : [];
-}
-
-/** Remember each lint result with the files it saw: the tree of a full lint, or the blob of each file of a `--changed` lint.
- *  A format of clean files keeps a full lint valid, because format is cosmetic. */
-function rememberLint(root, kind, projects, runs, before, linted) {
-  const file = lintStateFile(root);
-  const state = readJson(file, {});
-  for (const name of new Set(runs.filter((entry) => entry.na === undefined).map((entry) => entry.project))) {
-    const ok = runs.every((entry) => entry.project !== name || entry.ok);
-    if (kind === "lint" && linted[name]) {
-      const files = { ...state[name]?.files };
-      blobs(root, linted[name]).forEach((blob, index) => {
-        if (ok) files[linted[name][index]] = blob;
-        else delete files[linted[name][index]];
-      });
-      state[name] = { ...state[name], files };
-      continue;
-    }
-    const tree = workingTree(root, projects[name].path);
-    if (kind === "lint") state[name] = { ...state[name], tree, ok };
-    else if (state[name]?.ok && state[name].tree === before[name]) state[name].tree = tree;
-  }
-  writeJson(file, state);
-}
-
 const projectPrefix = (project) => (project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`);
 
 /** The files that the branch changes and that still exist: the diff from its merge base with the default branch, uncommitted changes included, and the new files. */
@@ -274,11 +244,10 @@ function branchFiles(root) {
   return [...new Set([...diff, ...list(["ls-files", "--others", "--exclude-standard"])])];
 }
 
-/** The changed code files of a project, relative to it, for `lint`; for `test`, each changed test and the test beside each changed source (`x.ts` → `x.test.ts`). */
-function changedOf(root, project, kind, changed) {
+/** The changed tests of a project, relative to it: each changed test and the test beside each changed source (`x.ts` → `x.test.ts`). */
+function changedTests(root, project, changed) {
   const prefix = projectPrefix(project);
   const own = changed.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && !INSTALLED.test(file)).map((file) => file.slice(prefix.length));
-  if (kind === "lint") return own;
   const tests = own.map((file) => (TEST_FILE.test(file) ? file : file.replace(/(\.[^./]+)$/, ".test$1")));
   return [...new Set(tests)].filter((file) => fs.existsSync(path.join(root, prefix, file)));
 }
@@ -290,54 +259,13 @@ function changedFiles(root, paths, kept = false) {
   return [...list(diff), ...list(["ls-files", "--others", "--exclude-standard"])];
 }
 
-/** A commit that changes the code of a project needs a passing lint on the same files: the last full lint of that project,
- *  or a `--changed` lint of each changed code file that still exists. A deleted file is left to the full lint of the release. */
-export function requireLint(root, paths) {
-  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
-  const code = changedFiles(root, paths).filter((file) => !/^\.(aiddbot|product)\//.test(file) && !file.endsWith(".md"));
-  const state = readJson(lintStateFile(root), {});
-  const stale = [];
-  for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.lint;
-    if (!slot || isNa(slot)) continue;
-    const prefix = projectPrefix(project);
-    if (!code.some((file) => file.startsWith(prefix))) continue;
-    const last = state[name];
-    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
-    const own = code.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && fs.existsSync(path.join(root, file)));
-    const hashes = blobs(root, own);
-    if (last?.files && own.every((file, index) => last.files[file] === hashes[index])) continue;
-    stale.push(`${name} (${!last ? "never linted" : last.ok === false ? "its last lint failed" : "changed since its last lint"})`);
-  }
-  if (stale.length) {
-    throw new RuleError(`Lint before you commit: ${stale.join(", ")}. Run \`aidd run lint --changed --project <name>\`, fix every error, then commit.`);
-  }
-}
-
-/** A release needs a passing full lint of each project on its current files: a lint of changed files cannot see a deleted file or a changed signature. */
-export function requireFullLint(root) {
-  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
-  const state = readJson(lintStateFile(root), {});
-  const stale = [];
-  for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.lint;
-    if (!slot || isNa(slot)) continue;
-    const last = state[name];
-    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
-    stale.push(`${name} (${!last?.tree ? "no full lint" : last.ok ? "changed since its full lint" : "its full lint failed"})`);
-  }
-  if (stale.length) {
-    throw new RuleError(`Run the full lint before you release: ${stale.join(", ")}. Run \`aidd run lint\`, fix every error, then release again.`);
-  }
-}
-
 /** Run one classified command kind for every project that has it, or for `--project`. `test` runs the `e2e` projects last.
  *  `--spec` narrows `test` to the `e2e` tests of the current spec: the evidence of the verification.
- *  `--changed` narrows `lint` and `test` to the files that the branch changes, through the `lint:files` and `test:files` slots; it is never evidence. */
+ *  `--changed` narrows `test` to the unit tests of the files that the branch changes, through the `test:files` slot; it is never evidence. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
   const changed = flags.changed === true;
-  if (changed && !["lint", "test"].includes(kind)) throw new UsageError("--changed applies only to lint and test.");
+  if (changed && kind !== "test") throw new UsageError("--changed applies only to test.");
   if (changed && flags.spec) throw new UsageError("Use --changed or --spec, not both.");
   const settings = readJson(configFile(root), { projects: {} });
   const projects = settings.projects ?? {};
@@ -360,10 +288,7 @@ export function run(root, [kind], flags) {
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
-  const linted = {};
   const touched = changed ? branchFiles(root) : [];
-  const tracksLint = !id && (kind === "lint" || kind === "format");
-  const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
   const unlock = lockRun(root, kind);
   try {
     for (const name of names) {
@@ -374,16 +299,15 @@ export function run(root, [kind], flags) {
       }
       let commands = [slot].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
       if (changed) {
-        const files = changedOf(root, projects[name], kind, touched);
+        const files = changedTests(root, projects[name], touched);
         if (!files.length) {
-          runs.push({ project: name, ok: true, na: `no changed ${kind === "test" ? "test" : "code file"}` });
+          runs.push({ project: name, ok: true, na: "no changed test" });
           continue;
         }
-        // A project without a `:files` slot runs its full slot.
-        const narrow = projects[name].commands[`${kind}:files`];
+        // A project without a `test:files` slot runs its full slot.
+        const narrow = projects[name].commands["test:files"];
         if (typeof narrow === "string" || Array.isArray(narrow)) {
           commands = [narrow].flat().map((command) => withArguments(command, files.map((file) => `"${file}"`).join(" ")));
-          if (kind === "lint") linted[name] = files.map((file) => `${projectPrefix(projects[name])}${file}`);
         }
       }
       commands.forEach((command, index) => {
@@ -415,7 +339,6 @@ export function run(root, [kind], flags) {
     journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
   }
   if (!changed && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
-  if (tracksLint) rememberLint(root, kind, projects, runs, before, linted);
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
     : { kind, ok, ...(changed && { changed: true }), runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
@@ -509,7 +432,6 @@ export function commit(root, [message, ...paths]) {
   if (installed) {
     throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);
   }
-  requireLint(root, paths.length ? paths : ["."]);
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });
   return { committed, message: message.trim() };

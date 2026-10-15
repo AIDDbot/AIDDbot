@@ -1,7 +1,6 @@
 // Shared plumbing: errors, the repository root, JSON records, IDs, git, and the journal.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 
 export class UsageError extends Error {}
@@ -90,21 +89,6 @@ export function nextId(root, kind) {
   const updated = pattern.test(text) ? text.replace(pattern, line) : `${text.trimEnd()}\n${line}\n`;
   fs.writeFileSync(file, updated, "utf8");
   return `${kind}${String(number).padStart(4, "0")}`;
-}
-
-/** The git tree of `dir` as the working copy holds it now, ignored files left out: equal trees mean equal files. */
-export function workingTree(root, dir) {
-  const index = path.join(os.tmpdir(), `aidd-index-${process.pid}-${Date.now()}`);
-  const real = path.resolve(root, git(root, ["rev-parse", "--git-path", "index"]));
-  if (fs.existsSync(real)) fs.copyFileSync(real, index);
-  try {
-    const env = { GIT_INDEX_FILE: index };
-    const prefix = dir === "." ? [] : [`--prefix=${dir.replace(/[\\/]+$/, "")}/`];
-    git(root, ["add", "-A", "--", dir], { env });
-    return git(root, ["write-tree", ...prefix], { env, allowFailure: true });
-  } finally {
-    fs.rmSync(index, { force: true });
-  }
 }
 
 export const currentBranch = (root) => git(root, ["branch", "--show-current"]);

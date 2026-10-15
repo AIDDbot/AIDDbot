@@ -1,4 +1,4 @@
-// `aidd release [--major] [--preexisting <D IDs>]`: ship the current spec branch after its regression.
+// `aidd release [--major] [--debt <D IDs>]`: ship the current spec branch after its regression.
 // `aidd integrate <message>`: commit and merge a non-spec task branch.
 import fs from "node:fs";
 import path from "node:path";
@@ -7,7 +7,6 @@ import {
 } from "../lib/core.mjs";
 import { allSpecs, findSpec, gate, isShipped, readControl, specMeta } from "../lib/spec.mjs";
 import { regression } from "./eval.mjs";
-import { requireFullLint, requireLint } from "./work.mjs";
 
 const SEMVER = /^(\d+)\.(\d+)\.(\d+)/;
 const SECTIONS = { feat: "Added", fix: "Fixed", refactor: "Changed", chore: "Changed" };
@@ -68,9 +67,8 @@ export function release(root, _args, flags) {
   const control = readControl(root, dir);
   const blockers = gate(root, dir, control);
   if (blockers.length) throw new RuleError(`${control.id} cannot ship: ${blockers.join(" ")}`);
-  requireFullLint(root);
-  const preexisting = typeof flags.preexisting === "string" ? flags.preexisting.split(/[\s,]+/).filter(Boolean) : [];
-  const failed = regression(root, control, preexisting);
+  const debt = typeof flags.debt === "string" ? flags.debt.split(/[\s,]+/).filter(Boolean) : [];
+  const failed = regression(root, control, debt);
   if (failed) throw new RuleError(`${control.id} cannot ship: ${failed}`);
   const files = versionFiles(root);
   const previous = readJson(path.join(root, "package.json")).version;
@@ -95,7 +93,6 @@ export function integrate(root, [message]) {
   const base = defaultBranch(root);
   if (!branch || branch === base) throw new RuleError(`Run integrate from a task branch, not ${branch || "a detached HEAD"}.`);
   if (findSpec(root, branch)) throw new RuleError("Spec branches ship with aidd release.");
-  requireLint(root, ["."]);
   git(root, ["add", "-A"]);
   const committed = git(root, ["diff", "--cached", "--quiet"], { allowFailure: true }) === null;
   if (committed) git(root, ["commit", "-m", message.trim()]);

@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../lib/core.mjs";
-import { isApproved, KINDS, LAST_REVISION, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
+import { isApproved, KINDS, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
@@ -53,7 +53,7 @@ function missingEvidence(root, dir, control) {
 
 /** The full runs of the current code: each project with a `test` command needs one (unit, or acceptance for `e2e`) with no code change since.
  *  `problem` names a missing or stale run; `failed` lists the projects whose run failed. */
-function fullRuns(root, control, when) {
+function fullRuns(root, control) {
   const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
   const failed = [];
   for (const [name, project] of Object.entries(projects)) {
@@ -61,7 +61,7 @@ function fullRuns(root, control, when) {
     if (!slot || typeof slot.na === "string") continue;
     const evidence = project.type === "e2e" ? "acceptance" : "unit";
     const last = control.runs?.[evidence]?.[name];
-    if (!last) return { problem: `Run the full \`aidd run test\` before you ${when}: ${name} has no ${evidence} run.` };
+    if (!last) return { problem: `Run the full \`aidd run test\` before you release: ${name} has no ${evidence} run.` };
     const changed = changedSince(root, last.commit);
     if (changed) return { problem: `Code changed since the last ${evidence} run of ${name} (${changed.split("\n")[0]}…); run the full \`aidd run test\` again.` };
     if (!last.ok) failed.push(name);
@@ -69,20 +69,18 @@ function fullRuns(root, control, when) {
   return { failed };
 }
 
-/** Why the regression does not allow the release; null when it does. A failure ships only after a red verification at the last revision,
- *  or with open debt older than the spec behind it. */
-export function regression(root, control, preexisting) {
-  const { problem, failed } = fullRuns(root, control, "release");
+/** Why the regression does not allow the release; null when it does. A failure ships only when open high debt records it:
+ *  the spec solves what it can, and a failure too big for it becomes a `fix` of the craft. */
+export function regression(root, control, debt) {
+  const { problem, failed } = fullRuns(root, control);
   if (problem) return problem;
   if (!failed.length) return null;
-  const verification = control.evaluations.filter((entry) => entry.kind === "verification").at(-1);
-  if (verification?.status === "red" && verification.revision >= LAST_REVISION) return null;
-  if (!preexisting.length) {
-    return `The regression failed in ${failed.join(", ")}. Triage each failure into .aiddbot/logs/${control.key}.verification.md and record a red verification, or name the older debt behind every failure with --preexisting.`;
+  if (!debt.length) {
+    return `The regression failed in ${failed.join(", ")}. Triage each failure: repair it in the spec, or record it with \`aidd debt add\` as high debt and name that debt with --debt.`;
   }
   const open = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
-  const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));
-  return invalid.length ? `${invalid.join(", ")} is not open debt recorded before ${control.id} was created.` : null;
+  const invalid = debt.filter((id) => !open.some((item) => item.id === id && item.priority === "high"));
+  return invalid.length ? `${invalid.join(", ")} is not open high debt; only high debt records a failure that ships.` : null;
 }
 
 export default function evaluate(root, [kind, status, summary], flags) {
@@ -97,10 +95,10 @@ export default function evaluate(root, [kind, status, summary], flags) {
   if (status !== "green" && !fs.existsSync(report)) {
     throw new RuleError(`This ${status} ${kind} needs its findings in .aiddbot/logs/${control.key}.${kind}.md first; write it, then record again.`);
   }
-  if (flags.preexisting !== undefined) throw new UsageError("--preexisting belongs to `aidd release`: older debt can explain only a failure of the regression.");
+  if (flags.debt !== undefined) throw new UsageError("--debt belongs to `aidd release`: debt records only a failure of the regression.");
   if (kind === "verification" && status === "green") {
-    // The verification runs the full suites too (D33): a regression shows at its first revision. Only a failure that older debt explains stays green.
-    const problem = missingEvidence(root, dir, control) ?? fullRuns(root, control, "verify").problem;
+    // The verification checks only the acceptance tests of the spec: the regression belongs to the release.
+    const problem = missingEvidence(root, dir, control);
     if (problem) throw new RuleError(problem);
   }
   const revision = control.evaluations.filter((entry) => entry.kind === kind).length + 1;

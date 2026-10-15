@@ -10,11 +10,11 @@ import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./
 const COMMANDS = {
   spec: [spec, "spec new <type> <slug> <title> [--domain <d>] | spec show [<id>]"],
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
-  run: [run, "run <lint|format|upgrade|test|quality|harden> [--project <name>] [--spec | --changed]"],
+  run: [run, "run <upgrade|test|quality|harden> [--project <name>] [--spec | --changed]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
   debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] | debt list | debt remove <id>'],
   commit: [commit, 'commit "<message>" [<path>...]'],
-  release: [release, "release [--major] [--preexisting <D IDs>]"],
+  release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],
   log: [log, 'log <verdict|select|handoff|approved|plan|scaffolded|blocked> "<summary>" [--spec <id>]'],
 };

@@ -55,17 +55,17 @@ test("run keeps the whole output in a log, journals it, and stops at the timeout
   fs.mkdirSync(path.join(root, "back"));
   const noisy = `node -e "console.log('x'.repeat(5000) + 'END')"`;
   const hang = `node -e "setTimeout(() => {}, 30000)"`;
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: noisy, test: hang } }));
-  const lint = aidd(root, "run", "lint");
-  assert.equal(lint.code, 0);
-  assert.equal(lint.body.runs[0].log, ".aiddbot/logs/lint-back.log");
-  assert.ok(lint.body.runs[0].tail.length <= 1500);
-  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/logs/lint-back.log"), "utf8").trim().length, 5003);
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { quality: noisy, test: hang } }));
+  const scan = aidd(root, "run", "quality");
+  assert.equal(scan.code, 0);
+  assert.equal(scan.body.runs[0].log, ".aiddbot/logs/quality-back.log");
+  assert.ok(scan.body.runs[0].tail.length <= 1500);
+  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/logs/quality-back.log"), "utf8").trim().length, 5003);
   aidd(root, "config", "set", "run", '{ "timeoutMinutes": 0.02 }');
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 1);
   assert.match(unit.body.runs[0].timedOut, /killed after/);
-  assert.match(journalText(root), / run +INFO +lint: back ok \d+s/);
+  assert.match(journalText(root), / run +INFO +quality: back ok \d+s/);
 });
 
 test("run journals the last output line of each project and leaves out n/a projects", () => {
@@ -111,7 +111,7 @@ test("config set and get, then run executes the configured commands", () => {
   assert.equal(unit.code, 0);
   assert.equal(unit.body.runs[0].project, "back");
   assert.equal(aidd(root, "run", "quality").code, 1);
-  assert.equal(aidd(root, "run", "lint").code, 3);
+  assert.equal(aidd(root, "run", "harden").code, 3);
 });
 
 test("a project needs a known type, and test runs e2e last as acceptance evidence", () => {
@@ -162,7 +162,7 @@ test("config set refuses a project with files of two package managers", () => {
   const root = repo();
   write(root, "back/package-lock.json", "{}\n");
   write(root, "back/pnpm-workspace.yaml", "packages: []\n");
-  const project = JSON.stringify({ type: "api", path: "back", commands: { lint: "npm run lint" } });
+  const project = JSON.stringify({ type: "api", path: "back", commands: { test: "npm test" } });
   const refused = aidd(root, "config", "set", "projects.back", project);
   assert.equal(refused.code, 1);
   fs.rmSync(path.join(root, "back/pnpm-workspace.yaml"));
@@ -173,31 +173,29 @@ test("a spec keeps the latest run of each kind per project", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
   fs.mkdirSync(path.join(root, "front"));
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: "node -e \"process.exit(0)\"" } }));
-  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { lint: "node -e \"process.exit(1)\"" } }));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { quality: "node -e \"process.exit(0)\"" } }));
+  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { quality: "node -e \"process.exit(1)\"" } }));
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
-  aidd(root, "run", "lint", "--project", "back");
-  aidd(root, "run", "lint", "--project", "front");
-  const lint = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs.lint;
-  assert.deepEqual(Object.keys(lint).sort(), ["back", "front"]);
-  assert.equal(lint.back.ok, true);
-  assert.equal(lint.front.ok, false);
+  aidd(root, "run", "quality", "--project", "back");
+  aidd(root, "run", "quality", "--project", "front");
+  const quality = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs.quality;
+  assert.deepEqual(Object.keys(quality).sort(), ["back", "front"]);
+  assert.equal(quality.back.ok, true);
+  assert.equal(quality.front.ok, false);
 });
 
-test("a slot that does not apply needs its reason, and run reports it as ok; format, upgrade and harden are never evidence", () => {
+test("a slot that does not apply needs its reason, and run reports it as ok; upgrade and harden are never evidence", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "e2e"));
-  const project = { type: "e2e", path: "e2e", commands: { test: { na: "no own logic" }, format: "node -e \"process.exit(0)\"" } };
+  const project = { type: "e2e", path: "e2e", commands: { test: { na: "no own logic" } } };
   assert.equal(aidd(root, "config", "set", "projects.e2e", JSON.stringify(project)).code, 0);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", '{ "na": "" }').code, 2);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", '{ "skip": true }').code, 2);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.lint", "[]").code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.quality", '{ "na": "" }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.quality", '{ "skip": true }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.quality", "[]").code, 2);
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 0);
   assert.deepEqual(unit.body.runs, [{ project: "e2e", ok: true, na: "no own logic" }]);
   aidd(root, "spec", "new", "feat", "rockets", "Rockets");
-  assert.equal(aidd(root, "run", "format").code, 0);
-  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.format, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.upgrade", JSON.stringify("node -e \"process.exit(0)\""));
   assert.equal(aidd(root, "run", "upgrade").code, 0);
   assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.upgrade, undefined);
@@ -205,7 +203,7 @@ test("a slot that does not apply needs its reason, and run reports it as ok; for
   assert.equal(aidd(root, "run", "harden").code, 1);
   assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.harden, undefined);
   assert.equal(aidd(root, "run", "harden", "--changed").code, 2);
-  assert.equal(aidd(root, "run", "lint").code, 3);
+  assert.equal(aidd(root, "run", "quality").code, 3);
 });
 
 test("a quality run reports each block of logic lines that two places repeat, for DRY", () => {
