@@ -252,3 +252,9 @@ Una spec es de fundación si cumple las dos condiciones:
 - Sin `high` ni `medium`, un scan de `quality`; apunta `medium`.
 - Sin `high` ni `medium` después, el scan de `harden`, como hasta ahora; apunta `low`.
 - Una escalera: cada scan corre solo cuando el escalón de arriba está vacío. En cli-7, tras S0004, `craft` escaneó con tres `high` abiertas y añadió dos `medium` a la cola.
+
+## D31 (2026-10-15, cli-7) · El idioma de los registros: solo el de `system.md`
+
+- Los registros del sistema, los resúmenes del journal incluidos, usan el idioma de `.product/system.md`, nunca el de un encargo.
+- `system.md` toma el idioma del humano cuando se escribe.
+- En cli-7, el prompt en español y `system.md` en inglés: desde S0005, el triaje y los resúmenes de `eval` salieron en español. La regla anterior («el idioma del humano, como lo usa `system.md`») tenía dos fuentes.

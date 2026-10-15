@@ -196,7 +196,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 
 ## Language
 
-The records of the system, journal summaries included, use the language of the human, as `.product/system.md` uses it. Commit messages, template headings and technical names stay as they are written. The code, the tests and the texts of the user interface use English, unless the human asks for a different language.
+The records of the system, journal summaries included, use the language of `.product/system.md`, never the language of a request. `system.md` takes the language of the human when it is written. Commit messages, template headings and technical names stay as they are written. The code, the tests and the texts of the user interface use English, unless the human asks for a different language.
 
 ## Quality review
 
