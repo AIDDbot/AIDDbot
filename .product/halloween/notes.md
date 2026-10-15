@@ -278,3 +278,32 @@ Recorrido del código final (`cli/src`, `e2e`; 2353 líneas). Cada hallazgo, con
 - **Builder `9ec2a12`:** el scaffold crea las 11 primitivas semilla de `shared` (`checks`, `text`, `numbers`, `dates`, `errors`) con sus tests unitarios; `shell` cli: opción como dato, la ayuda desde las definiciones, un solo parseo, un pipeline en `core`, el error de uso cita el `usage` declarado.
 - **AIDDbot `e4322bc`:** vía rápida para cada grupo `refactor` con origen `scan` (`quality` y `harden`), con la herramienta que lo encontró como puerta; un bug o un arreglo sin efecto vuelve como `fix`; el Builder commitea como `refactor`. Blueprint raíz: una fuente para cada definición.
 - **Pendiente al sembrar archetype-cli 0.4 desde cli-6:** el bug de `quote()` en `e2e/shared/projects/cli.ts:72`, y las primitivas y reglas de arriba.
+
+## cli-7 · Como cli-6, con AIDDbot v0.3.20 (D27) y solo Codex (2026-10-15, cortada por tokens)
+
+09:36 → 11:03, unos 86 min. 9 specs publicadas (7 del Blueprint y 2 reparaciones), una vía rápida (D0008–D0010), v1.0.0, 113 commits (cli-6: 133), 25 evaluaciones. Codex se quedó sin tokens tras publicar S0009 y apuntar D0011 `medium` (`parseInteger`). Falta reparar D0011 y el `craft` de cierre con `harden`.
+
+### Lo que funcionó
+
+- **D27 entera.** Raíz con `.agents`, `.aiddbot`, `.codex` y `.product`. Logs, runs y estado de spec en `.aiddbot/logs/`, nada en Git. Cero commits de evaluación. El PRD sale del CHANGELOG. `--harness codex` instaló solo Codex.
+- **Puerta Requirements (S0004).** Dos requisitos rotos volvieron al Builder dentro de la spec, nunca como deuda.
+- **La regresión cazó un fallo real (S0008).** `help` concurrente salía con 3 por contención del almacén; reparado en la spec.
+- **Vía rápida.** D0008–D0010 (complejidad, origen `scan`) en una rama `chore/`, en un minuto.
+- **Verde a la primera:** S0006, S0007, S0009.
+
+### Lo que salió mal, y su reparación
+
+1. **Tests de aceptación de lista cerrada (tercera vez, tras cli-3).** S0002 comprueba la lista exacta de ajustes. S0004 añade `LOG_DIR` y `LOG_LEVEL`: tres `high` (D0002–D0004). S0005 las repara y vuelve a fallar por el orden. Unos 10 min y dos revisiones. → **Blueprint:** un test de aceptación comprueba lo que su spec posee (pertenencia, valores), nunca la lista completa ni el orden de una salida que otras specs amplían.
+2. **El presupuesto de revisiones lo gastó la puerta Requirements (S0004).** La reparación consumió la revisión 2; la regresión llegó en la 3, roja, y se publicó con deuda `high`. → Abierto: ¿la regresión dentro de la verificación (antes de calificar), para encontrarla en la revisión 1?
+3. **Scan con `high` abierta (tras S0004).** Añadió D0006 y D0007 a la cola. → D30 (aplicado).
+4. **Idioma (S0005).** Triaje y resúmenes de `eval` en español con `system.md` en inglés. → D31 (aplicado).
+5. **`--major` por juicio (S0009).** 0.6.0 → 1.0.0 porque `presentation` cambia la salida de todos los comandos. «Rompe la compatibilidad para sus usuarios» lo decide el agente. cli-6 terminó en 0.7.1. → Abierto: que lo diga la spec (un dato en el frontmatter), no el agente.
+6. **Ruido de commits.** 21 de 113 son `docs(quality)`: cada `debt add` y `debt remove` hace su commit. Otros 7 son `docs(…)` del agente sobre informes (`clear repaired regression report`). → D29 quita los informes de Git. Abierto: que la deuda viaje con el commit siguiente, sin commit propio.
+7. **Selección que mezcla prioridades (S0005).** Una `refactor` con 3 `high`, 2 `medium` y 1 `low`. Funcionó, pero no es «un grupo de un tipo». Vigilar.
+8. **Tokens.** cli-6 terminó en 82 min; cli-7 se cortó a los 86. Las revisiones extra (S0004: 5 evaluaciones, S0005 y S0008: 4) son la diferencia. Las palancas son 1 y 2.
+9. **Menores.** Un `EPERM` puntual en la carpeta temporal de Windows (S0002). Comillas y pictogramas en el journal → arreglado (`8ac6649`).
+
+### Para la siguiente ventana
+
+- **Terminar cli-7:** el mismo prompt en una sesión nueva. Debe retomar desde `spec show` y `debt list`: reparar D0011 (vía rápida) y el `harden` de cierre. Es la primera prueba de retomar con el estado en `.aiddbot/logs/`.
+- **cli-8:** AIDDbot con D29–D31 y el journal limpio, publicado; el Blueprint con la regla de listas (punto 1). Decidir antes los puntos 2, 5 y 6.
