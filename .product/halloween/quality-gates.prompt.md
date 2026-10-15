@@ -2,6 +2,10 @@
 
 > Escrito 2026-10-15, al final de la sesión de reflexión. Leer entero antes de empezar.
 
+> **No olvidar:**
+> - **No publicar AIDDbot solo.** Sale junto con las librerías, o los sistemas se quedan sin lint.
+> - **El comando para crear specs mínimas desde un ítem de deuda está por diseñar.**
+
 ## Contexto
 
 - **Referencia:** `docs/engineering/quality-gates.md` (commits d4df10e, e875d0c). Todo lo decidido está ahí. Si este fichero y el doc chocan, manda el doc.

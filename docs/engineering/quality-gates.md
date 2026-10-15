@@ -2,6 +2,10 @@
 
 > Draft, 2026-10-15. Thinking session after cli-8. Not decided yet.
 
+> **Do not forget:**
+> - **Do not release AIDDbot alone.** It ships with the libraries, or systems have no lint.
+> - **The command that makes a minimal spec from a debt item is not designed yet.**
+
 Each skill checks only its own work. Only the ship checks everything.
 
 ## Principle
