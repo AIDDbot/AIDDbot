@@ -56,6 +56,9 @@ export function readControl(root, dir) {
 
 export const writeControl = (root, { key, created, evaluations, runs }) => writeJson(controlFile(root, key), { created, evaluations, runs });
 
+/** The findings of a non-green evaluation: process, not product, so local and ignored by git like the work state. */
+export const reportFile = (root, key, kind) => aiddbotPath(root, "logs", `${key}.${kind}.md`);
+
 /** Whether `log approved` committed the definition of the spec: no code, evidence, or release comes before its approval. */
 export function isApproved(root, dir) {
   const subjects = git(root, ["log", "--format=%s", "--", path.relative(root, dir)], { allowFailure: true }) ?? "";
@@ -85,8 +88,8 @@ export function gate(root, dir, control) {
     if (git(root, ["cat-file", "-t", entry.commit ?? "none"], { allowFailure: true }) !== "commit") {
       blockers.push(`${kind} revision ${entry.revision} names no real commit; record it with aidd eval.`);
     }
-    if (entry.status !== "green" && !fs.existsSync(path.join(dir, `${kind}.md`))) {
-      blockers.push(`${kind} is ${entry.status} but ${kind}.md is missing.`);
+    if (entry.status !== "green" && !fs.existsSync(reportFile(root, control.key, kind))) {
+      blockers.push(`${kind} is ${entry.status} but .aiddbot/logs/${control.key}.${kind}.md is missing.`);
     }
   }
   return blockers;

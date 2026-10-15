@@ -59,7 +59,7 @@ test("a non-green evaluation needs its report file", () => {
   const refused = aidd(root, "eval", "verification", "red", "two failures");
   assert.equal(refused.code, 1);
   assert.match(refused.body.error, /verification\.md/);
-  write(root, ".product/specs/S0001-search/verification.md", "# Failures\n");
+  write(root, ".aiddbot/logs/S0001-search.verification.md", "# Failures\n");
   assert.equal(aidd(root, "eval", "verification", "red", "two failures").code, 0);
 });
 

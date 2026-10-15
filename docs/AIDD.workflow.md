@@ -154,7 +154,7 @@ Verification runs before qualification. `aidd eval` records each evaluation with
 - If the Builder cannot reproduce a failure and does not change it, the failure becomes debt before verification runs again. Thus a green retry never hides it.
 - Qualification never blocks shipping. Shipping records each finding as debt: `high` for a blocking one, `low` for a debt one. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
 - `aidd release` needs the regression: a passing full `lint` of each project on the current files, and a passing last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A failed regression ships only with `--preexisting <D IDs>`, which names open debt recorded before the spec, or after a red verification at revision 3.
-- A failed regression goes to triage. The Craftsman writes each failure into `verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus it counts as one more revision. The repair stays in the spec, so a regression never reaches the default branch.
+- A failed regression goes to triage. The Craftsman writes each failure into `.aiddbot/logs/{key}.verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus it counts as one more revision. The repair stays in the spec, so a regression never reaches the default branch.
 
 | Cause | Owner | Repair |
 | --- | --- | --- |
@@ -186,13 +186,13 @@ The core writes that version into the root `package.json`, the root of its lockf
 | --- | --- |
 | `system.md` | The approved greenfield proposal: purpose, users, projects and scaffold commands. It stays as product context. |
 | `PRD.md` | One line for each shipped `feat` spec, by domain. `aidd release` writes it. |
-| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, its requirements, and the non-green reports. It stays after shipping. |
+| `specs/S{nnnn}-{slug}/` | One delivery: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
 | `.aiddbot/config.json` | The type, the path of each project and its classified commands `lint`, `lint:files`, `format`, `upgrade`, `test`, `test:files`, `start`, `quality` and `harden` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
-| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run. `{key}.json`: the work state of a spec, its evaluations and runs. |
+| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run. `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. |
 
-`aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. An evaluation report has only findings: a green verification or qualification has no report file. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its `spec.md`, and a spec is shipped when `CHANGELOG.md` names it.
+`aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its `spec.md`, and a spec is shipped when `CHANGELOG.md` names it.
 
 ## Language
 

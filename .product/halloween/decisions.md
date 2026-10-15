@@ -223,7 +223,7 @@ Una spec es de fundación si cumple las dos condiciones:
 ## D27 (2026-10-15) · Menos carpetas con punto: cada una con un dueño
 
 - `aiddbot init --harness a,b` instala solo esos harness. Sin `--harness`, instala todos. El manifest guarda la lista y `update` la respeta.
-- `.agents/` tiene lo que instala AIDDbot. `.aiddbot/` tiene lo que escribe el core: `config.json`, `counters.yaml`, `manifest.json`, `debt.json`, `agents.local.yaml` y `logs/`. `.product/` tiene el Markdown que escriben las skills: `PRD.md`, `system.md`, `model/`, `specs/{key}/` y `archetypes/`.
+- `.agents/` tiene lo que instala AIDDbot. `.aiddbot/` tiene lo que escribe el core (D29: el criterio es el proceso): `config.json`, `counters.yaml`, `manifest.json`, `debt.json`, `agents.local.yaml` y `logs/`. `.product/` tiene el Markdown que escriben las skills: `PRD.md`, `system.md`, `model/`, `specs/{key}/` y `archetypes/`.
 - `.aiddbot/logs/` reúne el journal (`YYYY-MM-DD.log`), la salida de cada run (`{kind}-{project}.log`) y el control de cada spec (`{key}.json`). Git la ignora entera.
 - El control de una spec guarda solo el estado de trabajo: las evaluaciones y los runs. La identidad de la spec está solo en el frontmatter y el título de `spec.md`. Una spec está publicada cuando su ID está en el `CHANGELOG.md`.
 - Sin control en Git, el core no hace commits de evaluación. Retomar una spec a medias en otro clon repite sus evaluaciones.
@@ -237,3 +237,11 @@ Una spec es de fundación si cumple las dos condiciones:
 - Las piezas no se combinan. Una combinación nueva es un arquetipo nuevo, hecho con el `archetype-builder` en una hora más o menos.
 - La D5 se mantiene: si ningún arquetipo encaja, AIDDbot lo dice y para. Crear arquetipos al vuelo, más adelante.
 - El renombrado, después de cli-7, en AIDDbot, el Builder, Base y CLI. Abierto: «Archetype Builder» choca con el agente Builder.
+
+## D29 (2026-10-15) · Los informes de evaluación, al proceso
+
+- **Afina D27.** El criterio es de qué trata cada fichero, no quién lo escribe. `.product/` es el producto: qué es y qué hace (system, specs, model, PRD). `.aiddbot/` es el proceso: cómo se construye (contadores, config, deuda, logs, estado e informes de las specs).
+- Los informes no verdes van a `.aiddbot/logs/{key}.verification.md` y `.aiddbot/logs/{key}.qualification.md`. Git los ignora.
+- Durante la spec, nada cambia: el Builder lee el informe rojo, el gate exige el informe de una evaluación no verde, y una verde lo borra.
+- Tras publicar, lo que importa de un informe está en la deuda: cada hallazgo es un item con su evidencia.
+- La carpeta de una spec tiene solo `spec.md`. Se queda como carpeta por ahora.

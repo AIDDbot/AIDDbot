@@ -9,17 +9,17 @@ test("the gate blocks red evidence until revision 3 and ships it then", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
-  write(root, ".product/specs/S0001-cart/verification.md", "# Failures\n");
+  write(root, ".aiddbot/logs/S0001-cart.verification.md", "# Failures\n");
   aidd(root, "eval", "verification", "red", "one failure");
   assert.equal(aidd(root, "eval", "qualification", "amber", "minor").code, 1);
-  write(root, ".product/specs/S0001-cart/qualification.md", "# Findings\n");
+  write(root, ".aiddbot/logs/S0001-cart.qualification.md", "# Findings\n");
   aidd(root, "eval", "qualification", "amber", "minor");
-  fs.rmSync(path.join(root, ".product/specs/S0001-cart/qualification.md"));
+  fs.rmSync(path.join(root, ".aiddbot/logs/S0001-cart.qualification.md"));
   const blocked = aidd(root, "release");
   assert.equal(blocked.code, 1);
   assert.match(blocked.body.error, /verification is red at revision 1/);
   assert.match(blocked.body.error, /qualification\.md is missing/);
-  write(root, ".product/specs/S0001-cart/qualification.md", "# Findings\n");
+  write(root, ".aiddbot/logs/S0001-cart.qualification.md", "# Findings\n");
   aidd(root, "eval", "verification", "red", "still one");
   aidd(root, "eval", "verification", "red", "still one");
   assert.equal(aidd(root, "release").code, 0);
@@ -31,7 +31,7 @@ test("a red qualification never blocks shipping", () => {
   approve(root);
   accept(root, 0, "S0001");
   aidd(root, "eval", "verification", "green", "ok");
-  write(root, ".product/specs/S0001-auth/qualification.md", "# Findings\n");
+  write(root, ".aiddbot/logs/S0001-auth.qualification.md", "# Findings\n");
   assert.equal(aidd(root, "eval", "qualification", "red", "missing guard").code, 0);
   assert.deepEqual(aidd(root, "spec", "show").body.blockers, []);
   assert.equal(aidd(root, "release").body.version, "0.1.1");
@@ -96,14 +96,14 @@ test("eval keeps its record in the ignored logs, commits nothing, and drops the 
   aidd(root, "spec", "new", "feat", "seats", "Seats");
   approve(root);
   const head = git(root, "rev-parse", "HEAD");
-  write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
+  write(root, ".aiddbot/logs/S0001-seats.verification.md", "# Failures\n");
   assert.equal(aidd(root, "eval", "verification", "red", "one failure").code, 0);
   assert.equal(git(root, "rev-parse", "HEAD"), head);
   assert.equal(readJson(root, ".aiddbot/logs/S0001-seats.json").evaluations[0].status, "red");
   assert.equal(git(root, "status", "--short", "--", ".aiddbot"), "");
   accept(root, 0, "S0001");
   assert.equal(aidd(root, "eval", "verification", "green", "fixed").code, 0);
-  assert.ok(!fs.existsSync(path.join(root, ".product/specs/S0001-seats/verification.md")));
+  assert.ok(!fs.existsSync(path.join(root, ".aiddbot/logs/S0001-seats.verification.md")));
 });
 
 test("release needs a passing full unit and acceptance run at HEAD; a failure ships only with older debt or at revision 3", () => {
@@ -120,7 +120,7 @@ test("release needs a passing full unit and acceptance run at HEAD; a failure sh
   assert.match(aidd(root, "release").body.error, /back has no unit run/);
   unit(1);
   aidd(root, "run", "test");
-  assert.match(aidd(root, "release").body.error, /regression failed in back\. Triage each failure into verification\.md/);
+  assert.match(aidd(root, "release").body.error, /regression failed in back\. Triage each failure into \.aiddbot\/logs\/S0001-cart\.verification\.md/);
   aidd(root, "debt", "add", "Written to dodge the failure", "low");
   assert.match(aidd(root, "release", "--preexisting", "D0002").body.error, /D0002 is not open debt recorded before S0001/);
   assert.equal(aidd(root, "release", "--preexisting", "D0001").code, 0);
@@ -131,7 +131,7 @@ test("a failed regression ships after a red verification at revision 3", () => {
   aidd(root, "spec", "new", "feat", "seats", "Seats");
   approve(root);
   accept(root, 1, "S0001");
-  write(root, ".product/specs/S0001-seats/verification.md", "# Failures\n");
+  write(root, ".aiddbot/logs/S0001-seats.verification.md", "# Failures\n");
   for (const summary of ["one", "two"]) aidd(root, "eval", "verification", "red", summary);
   assert.match(aidd(root, "release").body.error, /verification is red at revision 2/);
   aidd(root, "eval", "verification", "red", "three");

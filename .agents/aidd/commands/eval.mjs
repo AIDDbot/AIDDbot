@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../lib/core.mjs";
-import { isApproved, KINDS, LAST_REVISION, readControl, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
+import { isApproved, KINDS, LAST_REVISION, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
@@ -70,7 +70,7 @@ export function regression(root, control, preexisting) {
   const verification = control.evaluations.filter((entry) => entry.kind === "verification").at(-1);
   if (verification?.status === "red" && verification.revision >= LAST_REVISION) return null;
   if (!preexisting.length) {
-    return `The regression failed in ${failed.join(", ")}. Triage each failure into verification.md and record a red verification, or name the older debt behind every failure with --preexisting.`;
+    return `The regression failed in ${failed.join(", ")}. Triage each failure into .aiddbot/logs/${control.key}.verification.md and record a red verification, or name the older debt behind every failure with --preexisting.`;
   }
   const open = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
   const invalid = preexisting.filter((id) => !open.some((item) => item.id === id && item.at < control.created));
@@ -85,9 +85,9 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const control = readControl(root, dir);
   if (control.status === "shipped") throw new RuleError(`${control.id} is already shipped.`);
   if (!isApproved(root, dir)) throw new RuleError(unapproved(control));
-  const report = path.join(dir, `${kind}.md`);
+  const report = reportFile(root, control.key, kind);
   if (status !== "green" && !fs.existsSync(report)) {
-    throw new RuleError(`This ${status} ${kind} needs its findings in ${kind}.md first; write it, then record again.`);
+    throw new RuleError(`This ${status} ${kind} needs its findings in .aiddbot/logs/${control.key}.${kind}.md first; write it, then record again.`);
   }
   if (flags.preexisting !== undefined) throw new UsageError("--preexisting belongs to `aidd release`: older debt can explain only a failure of the regression.");
   if (kind === "verification" && status === "green") {
