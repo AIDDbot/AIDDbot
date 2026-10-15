@@ -115,9 +115,9 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(aidd(root, "log", "plan", "back: rockets repository and route", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
-  assert.equal(aidd(root, "log", "verdict", `don't import '../core' or "x" in \`cli\``).code, 0);
+  assert.equal(aidd(root, "log", "verdict", `ℹ ✔ don't import '../core' or "x" in \`cli\` → ok`).code, 0);
   const quoted = journalText(root).trim().split("\n").at(-1);
-  assert.match(quoted, /verdict +INFO +don't import \.\.\/core or x in cli$/);
+  assert.match(quoted, /verdict +INFO +dont import \.\.\/core or x in cli → ok$/);
   const lines = journalText(root).trim().split("\n").slice(0, -1);
   const verdict = lines.find((line) => line.includes(" verdict "));
   assert.match(verdict, /model +- +verdict +INFO +greenfield: x+…$/);

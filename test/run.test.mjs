@@ -75,7 +75,7 @@ test("run journals the last output line of each project and leaves out n/a proje
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: { na: "e2e owns acceptance" } } }));
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: tool } }));
   assert.equal(aidd(root, "run", "test").code, 0);
-  const line = journalText(root).split("\n").find((entry) => entry.includes(" run ") && entry.includes("test:"));
+  const line = journalText(root).split("\n").find((entry) => / run +\w+ +test:/.test(entry));
   assert.match(line, /test: e2e ok \d+s \(3 passed \(2s\)\)$/);
   assert.doesNotMatch(line, /n\/a/);
   const failing = `node -e "console.log('1 failed'); console.log('99 passed (5s)'); process.exit(1)"`;
