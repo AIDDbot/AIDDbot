@@ -22,7 +22,7 @@ Ask about the missing product decisions. Then define one coherent scope: what th
 - The type comes from what an observer sees. `feat` adds behavior. `fix` corrects a behavior that a requirement promised. `refactor` changes the code but not the behavior; a quality repair is a `refactor`, unless it changes what an observer sees, such as an accessibility or a loading state: then it is a `fix` with a requirement. `chore` changes nothing that an observer sees: a scaffold, tooling, dependencies, or documentation. A repair of test code, such as a helper or a fixture, is a `refactor` with no requirement: the tests of the system are not its public interface.
 - The domain is a short kebab-case product area. Use an area of the index again when it fits, so that each area has one name.
 
-When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain <domain>`. It creates the spec branch, the spec ID, `control.json`, and `spec.md` from the correct template.
+When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain <domain>`. It creates the spec branch, the spec ID, and `spec.md` from the correct template.
 
 ## Content
 

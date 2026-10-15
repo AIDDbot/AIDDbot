@@ -18,8 +18,6 @@ Run `node .agents/aidd/aidd.mjs run test --spec` from the spec branch. It runs o
 
 For `amber` or `red`, write `{Product_Folder}/specs/{spec_key}/verification.md` from `assets/verification.template.md`, with only the failing or blocked checks and their evidence.
 
-Then run `node .agents/aidd/aidd.mjs eval verification <status> "<summary>"` from the spec branch. It records the next revision at the current commit, deletes the report when green, and commits the record.
+Then run `node .agents/aidd/aidd.mjs eval verification <status> "<summary>"` from the spec branch. It records the next revision at the current commit and deletes the report when green.
 
 The result is a recorded green evaluation, or a report of the failures only.
-
-The core commits as `docs(verification): record acceptance`.

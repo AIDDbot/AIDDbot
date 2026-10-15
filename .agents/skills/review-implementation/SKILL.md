@@ -19,8 +19,6 @@ Read the spec, its full diff, the `{source_root}/AGENTS.md` of each affected pro
 
 For `amber` or `red`, write `{Product_Folder}/specs/{spec_key}/qualification.md` from `assets/qualification.template.md`, with only the failed controls and the findings. Leave out the passed controls and general review notes.
 
-Then run `node .agents/aidd/aidd.mjs eval qualification <status> "<summary>"` from the spec branch. It records the next revision at the current commit, deletes the report when green, and commits the record.
+Then run `node .agents/aidd/aidd.mjs eval qualification <status> "<summary>"` from the spec branch. It records the next revision at the current commit and deletes the report when green.
 
 The result is a recorded green evaluation, or a report of the findings only.
-
-The core commits as `docs(review): qualify implementation`.

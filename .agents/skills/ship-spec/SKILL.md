@@ -31,7 +31,7 @@ Up to now, each step tested only its own surface. Now test the full system one t
 
 Never repair code or tests yourself.
 
-`release` refuses a failed regression. When the latest verification is red at revision 3, record each failure as debt and continue. Otherwise, triage each failure from its log in `.aiddbot/runs/`, and give it one cause and one owner:
+`release` refuses a failed regression. When the latest verification is red at revision 3, record each failure as debt and continue. Otherwise, triage each failure from its log in `.aiddbot/logs/`, and give it one cause and one owner:
 
 | Cause | Owner | Proposed repair |
 | --- | --- | --- |

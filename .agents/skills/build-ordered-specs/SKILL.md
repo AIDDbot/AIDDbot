@@ -27,7 +27,7 @@ The caller gives the spec files and their order: a list, or a file that holds th
 
 ## State
 
-Before the first step, and again after each interruption, read the state from the files: `git log`, the current branch, `git status`, `.product/specs/*/control.json` and `node .agents/aidd/aidd.mjs debt list`.
+Before the first step, and again after each interruption, read the state from the files: `git log`, the current branch, `git status`, `node .agents/aidd/aidd.mjs spec show` and `node .agents/aidd/aidd.mjs debt list`.
 
 - A spec file is done when a shipped spec has its slug.
 - A spec of the list that is not shipped continues with its next skill, such as `ship-spec`. Never reserve a second spec for the same file. Keep the changes that are not committed: they belong to that spec.
@@ -40,4 +40,4 @@ Before the first step, and again after each interruption, read the state from th
 
 After the last spec, `craft-lasting-quality` has not scanned the code of the last repairs. Execute it again until one run records nothing in its scan and its hardening, and `debt list` shows no open item.
 
-The result is each spec of the list shipped, zero debt, and a table with one row for each shipped spec: its file, its version, the debt that it left, the repairs of `craft-lasting-quality`, and the time of each, from the journal in `.aiddbot/journals/`.
+The result is each spec of the list shipped, zero debt, and a table with one row for each shipped spec: its file, its version, the debt that it left, the repairs of `craft-lasting-quality`, and the time of each, from the journal in `.aiddbot/logs/`.

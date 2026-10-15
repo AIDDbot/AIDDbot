@@ -49,4 +49,4 @@ When every blocking gate passes, look for gross, easy-to-see errors that no lint
 
 Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping. Only a failed Security or Requirements gate gets one repair within the spec; shipping records every other finding as a debt item: `high` for a blocking one, `low` for a debt one.
 
-Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter or quality check reports: warnings, complexity, and coverage belong to `scan-quality`. Cite code, never `.aiddbot/runs/` logs.
+Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter or quality check reports: warnings, complexity, and coverage belong to `scan-quality`. Cite code, never `.aiddbot/logs/` logs.
