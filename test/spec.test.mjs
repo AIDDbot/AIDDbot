@@ -82,10 +82,9 @@ test("a fix bumps the patch and --major the major", () => {
   aidd(root, "eval", "verification", "green", "ok");
   aidd(root, "eval", "qualification", "green", "ok");
   assert.equal(aidd(root, "release").body.version, "0.1.1");
-  aidd(root, "spec", "new", "refactor", "api", "API v2");
+  aidd(root, "spec", "new", "chore", "api", "API v2");
   approve(root, "S0002");
-  accept(root, 0, "S0002");
-  aidd(root, "eval", "verification", "green", "ok");
+  accept(root, 0);
   aidd(root, "eval", "qualification", "green", "ok");
   assert.equal(aidd(root, "release", "--major").body.version, "1.0.0");
 });
@@ -94,9 +93,36 @@ test("spec new refuses while another spec branch is still open", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   git(root, "switch", "-q", "main");
-  const refused = aidd(root, "spec", "new", "refactor", "types", "Types");
+  const refused = aidd(root, "spec", "new", "chore", "types", "Types");
   assert.equal(refused.code, 1);
   assert.match(refused.body.error, /feat\/S0001-fleet is still in progress/);
+});
+
+test("spec debt makes the minimal spec of a debt item: a refactor defined at once, a fix that waits for approval", () => {
+  const root = repo();
+  aidd(root, "debt", "add", "Duplicated price rule!", "medium", "cart.ts:4 and order.ts:9");
+  aidd(root, "debt", "add", "SQL injection in search", "high", "search.ts:12");
+  aidd(root, "debt", "add", "Complex parser", "low");
+  assert.equal(aidd(root, "spec", "new", "refactor", "types", "Types").code, 2, "a refactor comes only from debt");
+  assert.match(aidd(root, "spec", "debt", "D0003").body.error, /low debt: repair it as a patch/);
+  assert.equal(aidd(root, "spec", "debt", "D0009").code, 1);
+  assert.equal(aidd(root, "spec", "debt").code, 2);
+  const refactor = aidd(root, "spec", "debt", "D0001");
+  assert.equal(refactor.code, 0, JSON.stringify(refactor.body));
+  assert.equal(refactor.body.branch, "refactor/S0001-duplicated-price-rule");
+  assert.equal(refactor.body.approved, true);
+  assert.equal(git(root, "log", "-1", "--format=%s"), "docs(spec): define delivery");
+  const text = fs.readFileSync(path.join(root, refactor.body.file), "utf8");
+  assert.match(text, /# S0001-duplicated-price-rule — Duplicated price rule!/);
+  assert.match(text, /## Problem\n\ncart\.ts:4 and order\.ts:9/);
+  assert.match(text, /## Technical debt\n\n- D0001 — Duplicated price rule!/);
+  assert.equal(aidd(root, "spec", "show").body.type, "refactor");
+  accept(root, 0);
+  assert.equal(aidd(root, "release").code, 0);
+  const fix = aidd(root, "spec", "debt", "D0002");
+  assert.equal(fix.body.branch, "fix/S0002-sql-injection-in-search");
+  assert.equal(fix.body.approved, false);
+  assert.match(aidd(root, "spec", "show").body.blockers[0], /S0002 is not approved/);
 });
 
 test("log approved commits the spec definition after the approval", () => {

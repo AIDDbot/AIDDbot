@@ -8,7 +8,7 @@ import { commit, config, debt, log, run } from "./commands/work.mjs";
 import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./lib/core.mjs";
 
 const COMMANDS = {
-  spec: [spec, "spec new <type> <slug> <title> [--domain <d>] | spec show [<id>]"],
+  spec: [spec, "spec new <feat|fix|chore> <slug> <title> [--domain <d>] | spec debt <D ID> [--domain <d>] | spec show [<id>]"],
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
   run: [run, "run <upgrade|test|quality|harden> [--project <name>] [--spec | --changed]"],
   config: [config, "config get [<key>] | config set <key> <json>"],

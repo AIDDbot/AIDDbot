@@ -80,15 +80,30 @@ test("a failing run of the tests of the spec is red, and debt never excuses it",
   assert.equal(aidd(root, "eval", "verification", "green", "ok", "--debt", "D0001").code, 2);
 });
 
-test("a spec without requirements is verified green with no run, and the regression proves it", () => {
+test("a fix without requirements is verified green with no run, and the regression proves it", () => {
   const root = repo();
-  aidd(root, "spec", "new", "refactor", "input", "Input");
-  write(root, ".product/specs/refactor/S0001-input/spec.md", "---\ntype: refactor\n---\n# S0001-input — Input\n\n## Problem\n\nReduce complexity.\n");
+  aidd(root, "spec", "new", "fix", "input", "Input");
+  write(root, ".product/specs/fix/S0001-input/spec.md", "---\ntype: fix\n---\n# S0001-input — Input\n\n## Problem\n\nAn unsafe input.\n");
   approve(root);
   assert.equal(aidd(root, "eval", "verification", "green", "no requirements").code, 0);
   aidd(root, "eval", "qualification", "green", "ok");
   accept(root, 0);
   assert.equal(aidd(root, "release").code, 0);
+});
+
+test("a refactor records no evaluation, and a chore no verification: the regression proves them", () => {
+  const root = repo();
+  aidd(root, "debt", "add", "Duplicated price rule", "medium", "cart.ts:4 and order.ts:9");
+  aidd(root, "spec", "debt", "D0001");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /A refactor records no verification/);
+  assert.match(aidd(root, "eval", "qualification", "green", "ok").body.error, /A refactor records no qualification/);
+  assert.deepEqual(aidd(root, "spec", "show").body.blockers, []);
+  accept(root, 0);
+  assert.equal(aidd(root, "release").code, 0);
+  aidd(root, "spec", "new", "chore", "tools", "Tools");
+  approve(root, "S0002");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /A chore records no verification/);
+  assert.deepEqual(aidd(root, "spec", "show").body.blockers, ["No qualification recorded."]);
 });
 
 test("eval keeps its record in the ignored logs, commits nothing, and drops the report once green", () => {

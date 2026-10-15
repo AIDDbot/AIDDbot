@@ -5,6 +5,8 @@ import { aiddbotPath, git, productPath, readJson, RuleError, writeJson } from ".
 
 export const TYPES = ["feat", "fix", "refactor", "chore"];
 export const KINDS = ["verification", "qualification"];
+/** The evaluations that each type needs: verification only where behavior changes, and no review of a refactor, whose regression proves it. */
+export const EVALUATIONS = { feat: KINDS, fix: KINDS, chore: ["qualification"], refactor: [] };
 export const STATUSES = ["green", "amber", "red"];
 export const LAST_REVISION = 3;
 export const SPEC_DEFINED = "docs(spec): define delivery";
@@ -84,7 +86,7 @@ const latest = (control, kind) => control.evaluations.filter((entry) => entry.ki
 export function gate(root, dir, control) {
   if (control.status === "shipped") return [`${control.id} is already shipped.`];
   const blockers = isApproved(root, dir) ? [] : [unapproved(control)];
-  for (const kind of KINDS) {
+  for (const kind of EVALUATIONS[control.type]) {
     const entry = latest(control, kind);
     if (!entry) {
       blockers.push(`No ${kind} recorded.`);

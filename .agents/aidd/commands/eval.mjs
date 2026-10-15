@@ -3,7 +3,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../lib/core.mjs";
-import { isApproved, KINDS, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
+import { EVALUATIONS, isApproved, KINDS, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
 const SOURCE = /\.[cm]?[jt]sx?$/;
@@ -91,6 +91,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   const control = readControl(root, dir);
   if (control.status === "shipped") throw new RuleError(`${control.id} is already shipped.`);
   if (!isApproved(root, dir)) throw new RuleError(unapproved(control));
+  if (!EVALUATIONS[control.type].includes(kind)) throw new RuleError(`A ${control.type} records no ${kind}: its behavior does not change, and the regression of aidd release proves it.`);
   const report = reportFile(root, control.key, kind);
   if (status !== "green" && !fs.existsSync(report)) {
     throw new RuleError(`This ${status} ${kind} needs its findings in .aiddbot/logs/${control.key}.${kind}.md first; write it, then record again.`);
