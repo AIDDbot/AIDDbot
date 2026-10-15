@@ -31,7 +31,7 @@ export function git(root, args, { allowFailure = false, env } = {}) {
     return execFileSync("git", args, options).trim();
   } catch (error) {
     if (allowFailure) return null;
-    const detail = error.stderr?.toString().trim() || error.message;
+    const detail = [error.stdout, error.stderr].map((text) => text?.toString().trim()).filter(Boolean).join("\n") || error.message;
     throw new RuleError(`git ${args.join(" ")} failed: ${detail}`);
   }
 }
@@ -107,7 +107,9 @@ export function defaultBranch(root) {
 export function commitPaths(root, paths, message) {
   git(root, ["add", "-A", "--", ...paths], { allowFailure: true });
   if (!git(root, ["diff", "--cached", "--name-only", "--", ...paths], { allowFailure: true })) return false;
-  return git(root, ["commit", "-q", "-m", message, "--", ...paths], { allowFailure: true }) !== null;
+  // A refused commit, such as one that the pre-commit hook of the technology stops, shows its output: the Builder repairs it.
+  git(root, ["commit", "-q", "-m", message, "--", ...paths]);
+  return true;
 }
 
 /** Merge `source` into `base` with a merge commit, then delete `source`. */

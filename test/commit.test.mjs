@@ -22,6 +22,19 @@ test("commit records the paths it is given and journals the milestone", () => {
   assert.match(journalText(root), /committed  INFO  feat\(a\): one/);
 });
 
+test("a commit that the pre-commit hook refuses fails with the output of the hook", () => {
+  const root = repo();
+  git(root, "switch", "-q", "-c", "chore/task");
+  write(root, ".git/hooks/pre-commit", "#!/bin/sh\necho \"one.ts:1 no-unused-vars\" >&2\nexit 1\n");
+  fs.chmodSync(path.join(root, ".git/hooks/pre-commit"), 0o755);
+  write(root, "back/one.ts", "1\n");
+  const refused = aidd(root, "commit", "feat(back): one", "back");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /one\.ts:1 no-unused-vars/);
+  fs.rmSync(path.join(root, ".git/hooks/pre-commit"));
+  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
+});
+
 test("a test of the changed files runs only the unit tests of the branch; lint and format are no run kinds", () => {
   const root = repo();
   write(root, "back/src/old.ts", "0\n");
