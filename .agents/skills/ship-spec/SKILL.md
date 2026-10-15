@@ -41,7 +41,7 @@ Never repair code or tests yourself.
 | Only a product decision can tell | human | the question |
 
 - When open debt from `debt list`, recorded before this spec, explains each failure, give its D IDs to `release --preexisting` and continue.
-- Otherwise, write `{Product_Folder}/specs/{spec_key}/verification.md` from `assets/triage.template.md`, then run `node .agents/aidd/aidd.mjs eval verification red "<summary>"`. Return the triage, and stop with the spec not shipped. The repair stays in this spec: a regression never reaches the default branch.
+- Otherwise, write `.aiddbot/logs/{spec_key}.verification.md` from `assets/triage.template.md`, then run `node .agents/aidd/aidd.mjs eval verification red "<summary>"`. Return the triage, and stop with the spec not shipped. The repair stays in this spec: a regression never reaches the default branch.
 
 ## Debt
 

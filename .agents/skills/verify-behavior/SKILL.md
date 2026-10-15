@@ -16,7 +16,7 @@ Run `node .agents/aidd/aidd.mjs run test --spec` from the spec branch. It runs o
 - Each failure counts. Debt never excuses a failure of the tests of this spec.
 - When only a product decision can tell if a failure is expected, return that question and record nothing, so that no revision is spent.
 
-For `amber` or `red`, write `{Product_Folder}/specs/{spec_key}/verification.md` from `assets/verification.template.md`, with only the failing or blocked checks and their evidence.
+For `amber` or `red`, write `.aiddbot/logs/{spec_key}.verification.md` from `assets/verification.template.md`, with only the failing or blocked checks and their evidence.
 
 Then run `node .agents/aidd/aidd.mjs eval verification <status> "<summary>"` from the spec branch. It records the next revision at the current commit and deletes the report when green.
 

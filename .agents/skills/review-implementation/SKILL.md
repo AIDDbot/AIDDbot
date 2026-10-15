@@ -17,7 +17,7 @@ Read the spec, its full diff, the `{source_root}/AGENTS.md` of each affected pro
 - When that `AGENTS.md` keeps a layer boundary as a written rule, because no linter checks it, check it in the diff.
 - Names must carry their domain meaning. A misleading name, an unnamed compound condition, or a check that repeats a shared primitive is a `debt` finding, never a `blocking` one.
 
-For `amber` or `red`, write `{Product_Folder}/specs/{spec_key}/qualification.md` from `assets/qualification.template.md`, with only the failed controls and the findings. Leave out the passed controls and general review notes.
+For `amber` or `red`, write `.aiddbot/logs/{spec_key}.qualification.md` from `assets/qualification.template.md`, with only the failed controls and the findings. Leave out the passed controls and general review notes.
 
 Then run `node .agents/aidd/aidd.mjs eval qualification <status> "<summary>"` from the spec branch. It records the next revision at the current commit and deletes the report when green.
 
