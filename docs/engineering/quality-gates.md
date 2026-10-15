@@ -36,10 +36,11 @@ Each skill checks only its own work. Only the ship checks everything.
 | Debt | Comes from | Repaired by |
 |---|---|---|
 | high | review; triage that the spec cannot solve | `fix` spec |
-| medium | layers check (duplicates and folder size: question 4) | `refactor` spec |
+| medium | layers, duplicates, folder size | `refactor` spec |
 | low | complexity check | patch, with no spec and no branch |
 
-A `fix` or `refactor` spec goes through the full spec flow again, review included.
+- A `fix` spec from high debt is minimal too: the core makes it from the debt item, with no define-spec. The human approves the item before the work starts (in YOLO mode, it is approved when made). Flow: branch, `implement-project`, verify, review, ship. Verify runs the e2e tests of the requirement that fails; for an item with no requirement (security, accessibility), the review of the `fix` proves it.
+- A `refactor` spec is minimal: the core makes it from the debt item, with no model and no approval, only for a key, a folder and a CHANGELOG entry. Flow: branch, `implement-project` (the rule green), ship. No define-spec, no verify, no review.
 
 ## Changes from today
 
@@ -80,12 +81,15 @@ What is the real difference between `feat`, `fix`, `refactor`, `chore` and a pat
 | debt | `fix` (high), `refactor` (medium), patch (low) | the debt item | the craft |
 
 - The spec is the contract with the human, who approves it. Debt needs no contract: a rule or the review found it, and the item says what and where.
-- `fix` is in both rows. A requested fix goes through define-spec. A fix from high debt (security, a too-big triage) is the most serious: it may need a spec and human approval too.
+- `fix` is in both rows. A requested fix goes through define-spec. A fix from high debt (security, a too-big triage) is the most serious: it gets a minimal spec from the core and human approval (see Debt).
 
 ### To decide
 
-- Which axis makes the flow: behavior, origin, or both?
-- Medium debt: a full `refactor` spec, or only a branch and ship with the debt item as definition?
+- Decided: both axes, each for its own part.
+  - Origin → definition. A request has a spec that the human approves. Debt has its item as definition.
+  - Behavior → verify. Verify runs only when behavior changes: `feat`, `fix`. Not `refactor`, `chore`, patch.
+  - Branch, ship and regression: all but the patch.
+- Decided: medium debt → minimal `refactor` spec, made by the core from the item (see Debt). No review: behavior does not change, and the regression covers it.
 - Does the review run on work that does not change behavior? A `chore` that updates dependencies can bring a security issue.
 - Is the scaffold still spec 0 `chore`? With Vite+ or Bun it is `vp create` or `bun create`.
 - Related idea in `.product/halloween/ideas.md`: group specs by type, each type with its own flow and more or less bureaucracy.
@@ -106,17 +110,10 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 
 ## Open questions
 
-1. **Triage too big for the spec.** Does it become high debt, which the craft repairs with a `fix` spec? Or does the triage open the `fix` spec directly? Proposal: high debt, so `fix` specs come only from the craft.
-2. **Regression after patches.** A patch goes to `main` with no ship. Options:
-   - A. At the end of the craft, run the full suite once. On failure, revert the patches of that craft and reopen their debt.
-   - B. Accept the risk. The ship of the next spec catches it.
-
-   Proposal: A.
-3. **Refactor spec verify.** A refactor has no new behavior, so it has no own acceptance tests. Its verify runs nothing, and its ship carries all the weight. Say it explicitly?
-4. **Duplicates and folder size.** The core `quality` run also finds duplicate lines and folders with too many entries. Neither is a layer rule. Ideas:
-   - Duplicates → `quality`, medium debt (user's leaning). A fix often touches many places, or needs a new shared primitive: a `refactor`.
-   - Folder size → `quality`, medium debt. A fix moves files and their imports: a `refactor` spec.
-   - Or drop one or both.
+1. **Triage too big for the spec.** Decided: it becomes high debt, and the craft repairs it with a `fix` spec. The spec closes with the failure on record. The release gate (green full suite) accepts a failing test only when a high debt item records it (as `--preexisting` does today).
+2. **Regression after patches.** Decided: accept the risk. A patch runs only its affected unit tests. The ship of the next spec catches a regression; its triage repairs it in the spec, or records it as high debt (question 1).
+3. **Refactor spec verify.** Decided: a refactor skips verify. Verify checks behavior, not implementation. The ship regression proves that the behavior did not change. The Builder (`implement-project`) runs the rule that found the debt before it hands over, and fixes it on the fly: that is implementation.
+4. **Duplicates and folder size.** Decided: both stay in the core `quality` run, as medium debt, next to the layers. A fix touches many places, needs a shared primitive, or moves files and imports: a `refactor`. Later they may become archetype lint rules, like the layers.
 5. **Base technology.** Vite+ is strong for `web`. Bun is strong for `cli` and `api`. Bun lints with types, takes ESLint plugins, has `--staged`/`--changed`. Its docs do not say whether lint and format run in one pass, whether complexity rules are present, or whether it is stable. Ideas:
    - One technology for each project type: two configs and two hooks in one monorepo, against uniformity.
    - Bun as the base for all types, with Vite only as the `web` bundler and dev server.
