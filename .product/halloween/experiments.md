@@ -271,3 +271,37 @@ Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-6.prompt.md' -Raw | cod
 - **Puerta `Requirements`.** Un hallazgo que rompe un requisito vuelve al Builder dentro de la spec, nunca como deuda `low`.
 - **Caja negra.** Ningún test inyecta código ni arranca `cli` sin `CLI_START`; el fallo inesperado, con un test unitario.
 - **Una sesión.** Si se agotan los tokens, dónde, y cuánto contexto gasta el orquestador. cli-5: 11 specs en una sesión.
+
+## cli-7 · Como cli-6, con AIDDbot v0.3.20 (D27) y solo Codex
+
+El mismo prompt que cli-6 sobre AIDDbot v0.3.20 (`bf4e658`) y el Builder en `main`. Primera ejecución real de `--harness` y del estado de la spec en `.aiddbot/logs/`.
+
+### 0 · Preparar (PowerShell)
+
+```powershell
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-7 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-7
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init --harness codex
+New-Item -ItemType Directory builder | Out-Null
+Copy-Item C:\code\aidd\archetype-builder\procedure.md builder\
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint builder\
+New-Item -ItemType Directory .product | Out-Null
+Copy-Item C:\code\aidd\archetype-builder\libraries\archetype-cli.system.md .product\system.md
+git add -A; git commit -m "chore: Archetype Builder and the Archetype CLI manifest"
+```
+
+### 1 · Lanzar (PowerShell)
+
+```powershell
+Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-7.prompt.md' -Raw | codex exec --dangerously-bypass-approvals-and-sandbox -C C:\code\aidd\experiments\halloween\cli-7 -
+```
+
+### Vigilar
+
+- **Raíz.** Solo `.agents`, `.aiddbot`, `.codex` y `.product`. `.aiddbot/manifest.json` con `"harnesses": ["codex"]`.
+- **`.aiddbot/logs/`.** El journal, los `.log` de los runs y un `{key}.json` por spec; nada de eso en Git. Ningún `control.json` en `.product/specs/`.
+- **Sin commits de evaluación.** Ni `docs(verification): record acceptance` ni `docs(review): qualify implementation`. Los informes no verdes entran con el commit siguiente o con el de `release`.
+- **Estado de la spec.** `aidd spec show` da el estado; el agente no busca `control.json` ni lee `.aiddbot/logs/` a mano. `build-ordered-specs` retoma desde `spec show` tras una interrupción.
+- **Publicada = CHANGELOG.** El PRD lista los `feat` publicados; `eval` rechaza una spec ya publicada.
+- **Deuda.** En `.aiddbot/debt.json`, con sus commits `docs(quality)`.
+- **Lo de cli-6.** YOLO sin paradas, un `craft` por spec y deuda cero, vía rápida para `harden`, una sola sesión. Comparar tiempo y commits con cli-6 (82 min, v0.7.1).
