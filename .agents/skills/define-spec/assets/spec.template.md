@@ -2,7 +2,7 @@
 id: S0001
 slug: {slug}
 key: S0001-{slug}
-type: feat # feat, fix, refactor, chore
+type: feat # feat, fix, chore
 branch: feat/S0001-{slug}
 domain: {domain}
 ---
@@ -45,7 +45,7 @@ domain: {domain}
 
 ### Requirements
 
-{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A WHILE requirement states what shows and what does not show. A `feat` or a `fix` has one or more requirements. A `refactor` or a `chore` can have none. If no acceptance test can prove a technical result, put it in Solution. Each requirement has at least one acceptance test with its tag `@S0001-R01`. When its test needs a technique that is not obvious, such as a mark on the document, a blocked API, a viewport size or a restart, add it after the requirement as `Test: {technique}`.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A WHILE requirement states what shows and what does not show. A `feat` or a `fix` has one or more requirements. A `chore` has none. If no acceptance test can prove a technical result, put it in Solution. Each requirement has at least one acceptance test with its tag `@S0001-R01`. When its test needs a technique that is not obvious, such as a mark on the document, a blocked API, a viewport size or a restart, add it after the requirement as `Test: {technique}`.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 

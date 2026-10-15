@@ -9,14 +9,14 @@ Evaluate every applicable blocking gate first. Mark one `n/a` only when its cate
 - **Security** — Authentication and authorization protect every changed action and resource that requires them, and every security minimum that the spec or the project's `AGENTS.md` cites (such as an OWASP cost parameter) holds in the code. A library default is evidence only when its value meets that minimum.
 - **Requirements** — The changed code breaks no requirement of this spec or of a shipped spec, also when its acceptance test passes. Name the global ID of the requirement that the code breaks.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
-- **Project rules** — The changed scope violates no explicit restriction in its project's `AGENTS.md` or in the Blueprint of the root `AGENTS.md`, including any layer boundary kept as a written rule. A violation of a general coding rule, which never blocks, is a `debt` finding.
+- **Project rules** — The changed scope violates no explicit restriction in its project's `AGENTS.md` or in the Blueprint of the root `AGENTS.md` that the hook lint, `quality`, and the tests cannot check. Layers, names, structure, and complexity are never findings here.
 - **Schema impact** — Every entity, table, and column change in the diff is declared in the spec's schema impact, every endpoint change in its `Expected URLs and APIs`, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
 
 Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
 
 ## Debt checks
 
-When every blocking gate passes, look for gross, easy-to-see errors that no linter reports. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope.
+When every blocking gate passes, look for gross, easy-to-see errors that no linter and no test reports. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope, serious enough to be `high` debt.
 
 ### Security
 
@@ -41,12 +41,8 @@ When every blocking gate passes, look for gross, easy-to-see errors that no lint
 - [ ] Text and controls keep readable contrast and never rely on color alone.
 - [ ] Changed interfaces handle empty, loading, and error states.
 
-### Project rules
-
-- [ ] Each restriction is checked only within its declared scope, and every finding names the restriction it violates.
-
 ## Findings
 
-Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping. Only a failed Security or Requirements gate gets one repair within the spec; shipping records every other finding as a debt item: `high` for a blocking one, `low` for a debt one.
+Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping. Only a failed Security or Requirements gate gets one repair within the spec; shipping records every other finding as a `high` debt item.
 
-Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter or quality check reports: warnings, complexity, and coverage belong to `scan-quality`. Cite code, never `.aiddbot/logs/` logs.
+Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter, a test, or a quality check reports: lint and format belong to the hook, and layers, duplicates, complexity, and coverage to `scan-quality`. Cite code, never `.aiddbot/logs/` logs.

@@ -7,70 +7,70 @@ user-invocable: true
 ---
 # craft-lasting-quality
 
-Your goal is to reduce existing quality debt through evidence-backed specs.
+Your goal is to reduce existing quality debt, from high to low, each item with the smallest repair that proves it.
 
 ```text
-upgrade request ────────────────────────────────────┐
-1. Craftsman   scan-quality          medium debt    │  only with no open high or medium debt
-2. Architect   select                repair request │
-3. you         build-requested-spec  shipped spec  ◄┘
-   or Builder  quick repair          integrated       only a group of items with origin scan
-   repeat 2–3 while debt remains, highest priority first, at most 5 specs
-   Craftsman   scan-quality, harden  low debt          once, when no high or medium debt remains
+upgrade request ─────────────────────────────────────────────────────┐
+1. you         debt list              the next item                    │  high, then medium, then low
+2. high        spec debt  → fix       build-requested-spec             │  the human approves the item
+   no high:    Craftsman  scan-quality            medium debt          │  once
+3. medium      spec debt  → refactor  build-requested-spec             │
+   no medium:  Craftsman  scan-quality, harden    low debt             │  once
+4. low         Builder    patch                   integrated           │  no spec
+   repeat 1–4 while debt remains, at most 5 specs                      │
+   you         build-requested-spec   shipped chore                   ◄┘
 ```
+
+| Debt | Comes from | Repaired by |
+| --- | --- | --- |
+| `high` | the review, or a triage too big for its spec | a `fix` spec: implement, verify, review, ship |
+| `medium` | `quality`: layers, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
+| `low` | `harden`: complexity | a patch: implement with the check green, integrate |
 
 ## Roles
 
-- Route as the **Craftsman**. Use the **Craftsman** and the **Architect** that a calling orchestrator gives you. Otherwise, spawn each one for one repair, when its first step starts, with a fresh context: never fork or copy your conversation into it. Thus no repair inherits the context of the one before. Relay their questions to the human. When a repair ends, also after a failure, stop each agent that you started for it.
-- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. A single **Craftsman** would then scan, specify, code, and ship alone. Never read the skill of a step that you hand off.
+- Route as the **Craftsman**. Use the **Craftsman** that a calling orchestrator gives you. Otherwise, spawn the agents of each repair when its first step starts, with a fresh context: never fork or copy your conversation into it. Thus no repair inherits the context of the one before. Relay their questions to the human. When a repair ends, also after a failure, stop each agent that you started for it.
+- Run this flow yourself. Never give all of it to one agent, because an agent that you spawn cannot spawn other agents. Never read the skill of a step that you hand off.
 - Wait for an agent with the longest timeout that the tool allows: each wait that ends early costs one more turn.
-- Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each scan, before the selection, and before the handover to `build-requested-spec`.
+- Journal `node .agents/aidd/aidd.mjs log handoff "<from> → <to>: <what>"` before each scan, each patch, and each handover to `build-requested-spec`.
 
 ## Upgrade request
 
-When the human asks to upgrade dependencies, skip the scan and the selection. The request is a `chore` that upgrades the named projects, or all projects, and repairs all that the upgrade breaks. Go to step 3, and stop after that one spec.
+When the human asks to upgrade dependencies, skip the debt. The request is a `chore` that upgrades the named projects, or all projects, and repairs all that the upgrade breaks. Execute `build-requested-spec` with it, and stop after that one spec.
 
-## 1. Scan
+## 1. Select
 
-Read `node .agents/aidd/aidd.mjs debt list`. When an open item is `high` or `medium`, skip the scan: repair it first, and the next run scans. Otherwise, the **Craftsman** executes `scan-quality` one time. It records only `medium` debt; the review of each spec records the `high` and `low` debt.
+Read `node .agents/aidd/aidd.mjs debt list` and take the open item of the highest priority. Before you take it, check in the current code that it still exists, because an earlier repair of this run can remove it: remove an item that no longer exists with `debt remove <id>`. Journal the choice with `node .agents/aidd/aidd.mjs log select "<D ID>: <why>"`.
 
-At most one scan runs in this run, at its start, so that its findings get their repair in this run. Never scan between two repairs, and never at the end: the review of each repair records the debt that it leaves, and the next run scans the rest. Hardening is the only exception.
+The priority sets the repair, so no one judges "big" or "small". The evidence of the item limits the repair: a finding that a later check shows stays for the next scan. Never add it to the scope.
 
-## Harden
+## 2. High debt
 
-Hardening is the final polish, such as the warnings of the linter: never spend a repair on it while better work remains. When no `high` or `medium` item remains, the **Craftsman** executes `scan-quality` one time in this run, and you ask it to harden. It records `low` debt, one item for each rule. The selection then repairs it with the other `low` debt.
+Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `fix` spec of the item. Execute `build-requested-spec` with that spec. The human approves the item before the work starts; in YOLO mode, it is approved when the spec is made.
 
-## 2. Select
+When no `high` item is open and this run has not scanned yet, the **Craftsman** executes `scan-quality` one time. It records `medium` debt.
 
-The **Architect** reads `node .agents/aidd/aidd.mjs debt list` and selects one group: each eligible item of one type, in all projects. The `fix` group holds each item that breaks behavior, and the `refactor` group holds all others. It selects first the group that holds the item of the highest priority. Each spec costs a full delivery, so never divide a group into more specs. It writes the group as a natural-language repair request:
+## 3. Medium debt
 
-- With the D IDs and their evidence. Before it selects an item, it checks in the current code that the item still exists, because an earlier repair of this run can remove it. It never selects an item that no longer exists.
-- Marked with the type of the group.
-- The **Architect** edits no code and no documentation.
-- The evidence limits the repair. A quality finding that a later check shows stays for the next scan. Never add it to the scope.
+Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `refactor` spec of the item, approved at once. Execute `build-requested-spec` with that spec: it has no verification and no review, and its regression proves that the behavior did not change.
 
-Journal the choice with `node .agents/aidd/aidd.mjs log select "<D IDs>: <why this group>"`.
+When no `high` or `medium` item is open and this run has not hardened yet, the **Craftsman** executes `scan-quality` one time, and you ask it to harden. It records `low` debt, one item for each rule.
 
-Before each selection, harden when no `high` or `medium` item remains and this run has not hardened yet. When no eligible debt remains, stop.
+## 4. Low debt: patch
 
-## Quick repair
-
-An item with origin `scan` is a finding of a tool (`quality` or `harden`): the same tool proves its repair, and the repair changes no behavior. A full spec costs more than the repair. Thus, when the selected group is `refactor` and holds only items with origin `scan`, take this route instead of step 3:
+A patch has no spec and no release:
 
 - Create the task branch `chore/{D ID}-{slug}` from the default branch.
-- The **Builder** executes `implement-project` for each project of the evidence, with the evidence as its scope. It commits as `refactor({project}): {what the repair does}`.
-- Run the tool that found each item (`node .agents/aidd/aidd.mjs run quality` or `run harden`), then `run lint` and `run test` for those projects. When one fails and the **Builder** cannot repair it, keep the item: the next selection gives it a spec.
-- When the finding shows a bug, or the repair leaves code with no effect (such as a replacement of a value with the same value), the behavior is wrong: stop the route, keep the item as `fix`, and the next selection gives it a spec.
-- Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the repair does}"`.
+- The **Builder** executes `implement-project` for each project of the evidence, with the item as its scope. It runs `harden` and its affected unit tests until both pass, and commits as `refactor({project}): {what the patch does}`.
+- When the **Builder** cannot make the check green, or the finding shows a bug, keep the item, delete the task branch, and select the next item.
+- Run `node .agents/aidd/aidd.mjs debt remove <id>`, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
 
-A quick repair has no review and no release, and it does not count as one of the five specs.
+A patch runs only its affected unit tests. The ship of the next spec catches a regression. A patch does not count as one of the five specs.
 
-## 3. Build
+## Stop
 
-Execute `build-requested-spec` with the request, approved in advance: a repair of recorded debt needs no human approval, so nobody asks and the approval is journaled as soon as the spec is written. Give it the **Craftsman** and the **Architect**, so that it spawns only the **Builder**.
-
-Then go back to the selection while eligible debt remains: `high` first, then `medium`, then `low`. Stop after five shipped specs, or when a spec ships with an unresolved failure. A human request that names the debt or asks for one repair gets only one.
+Go back to the selection while debt remains. Stop after five shipped specs, when a spec ships with a failure recorded as debt, or when a scan and its hardening record nothing. A human request that names one item gets only its repair.
 
 When you stop, return the summary of `debt list`.
 
-The result is each selected debt group repaired and shipped as one spec, and the debt register that remains.
+The result is each selected debt item repaired, and the debt register that remains.

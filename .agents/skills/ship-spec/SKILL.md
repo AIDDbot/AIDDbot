@@ -23,26 +23,32 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 
 ## Regression
 
-The verification already ran the full suites. Now lint the full system, and test it again after the fixes:
+Only the ship tests the full system. The verification tested only the acceptance tests of the spec, and the Builder only the unit tests of its changes, so a regression shows here first.
 
-1. Run `node .agents/aidd/aidd.mjs run lint` for all projects. It applies the safe fixes of the linter.
-2. When the lint passes, run `node .agents/aidd/aidd.mjs run format`, always last: a fix can change the layout. The format is cosmetic: when it fails or is unavailable, continue. Commit what the lint and the format changed with `node .agents/aidd/aidd.mjs commit "style: lint fixes and format"`.
-3. Run `node .agents/aidd/aidd.mjs run test`: `release` needs the full suites at the current code.
+Run `node .agents/aidd/aidd.mjs run test`: all the unit tests, then the full acceptance suite. `release` needs it at the current code. Never repair code or tests yourself, and never run a lint or a format: the pre-commit hook of the technology did that at each commit.
 
-Never repair code or tests yourself.
+When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Give each failure one cause and one owner:
 
-- When the lint fails, or the test fails where the verification passed, stop with the spec not shipped and return the failures: the verification runs again. The repair stays in this spec: a regression never reaches the default branch.
-- When the latest verification is red at revision 3, record each failure as debt and continue.
-- Give the D IDs that the verification named for older debt to `release --preexisting`.
+| Cause | Owner | Proposed repair |
+| --- | --- | --- |
+| The code of the spec breaks shipped behavior | **Builder** | the production code |
+| The test is wrong, not the behavior | **Builder** | the test, with no weaker assertion |
+| A requirement of this spec contradicts the test of a shipped one | human | `Replaces: {global ID}` in the spec, if the human agrees |
+| Only a product decision can tell | human | the question |
+| Too big for the spec: it failed before the spec, its repair is outside the scope of the spec, or the **Builder** tried it one time and could not repair it | debt | a `high` debt item |
+
+- When a row has the owner **Builder** or human, stop with the spec not shipped and return the report: the repair stays in this spec, and the ship runs again after it.
+- When only rows of the owner debt remain, record each one as `high` debt (see Debt) and give their D IDs to `release --debt`. The spec solves its problem as well as it can, and then it closes.
 
 ## Debt
 
-Change the debt register only with `node .agents/aidd/aidd.mjs debt`, and never run a quality tool. The priority tells the source; `medium` belongs to `scan-quality` only.
+Change the debt register only with `node .agents/aidd/aidd.mjs debt`. The priority tells the source: `high` comes from the review and from a triage, `medium` and `low` belong to `scan-quality` only.
 
-- When the verification is green, remove with `debt remove <id>` each D ID that the `Technical debt` section of the spec gives, unless the latest quality run of the spec still shows it.
-- Add with `debt add "<title>" <high|low> "<evidence>"` each finding of a qualification that is not green: `high` when it is `blocking`, else `low`.
-- At revision 3, also add as `high` each failure that remains in the red report and each failure of the regression.
-- Skip each one that an open item already describes.
+- Remove with `debt remove <id>` each D ID that the `Technical debt` section of the spec gives, when the spec proves its repair: a green verification for a `feat` or a `fix`, a green qualification for a `fix` with no requirements, or, for a `refactor`, a `node .agents/aidd/aidd.mjs run quality --project {project}` that no longer shows it.
+- Add with `debt add "<title>" high "<evidence>"` each finding of a qualification that is not green.
+- At revision 3 of the verification, also add as `high` each failure that remains in the red report.
+- Add as `high` each row of the regression report with the owner debt.
+- Skip each one that an open item already describes, and give its D ID instead.
 
 ## Release
 

@@ -60,7 +60,7 @@ Each project has one type and its own `AGENTS.md` with its technical data. This 
 
 <!-- Only when `.product/system.md` exists (a system that `architect-system-foundation` made). Otherwise remove this section. Copy it as written. D50. -->
 
-All projects obey these principles. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup. First make it work, then make it correct: only `lint` and `test` (the unit tests, and the acceptance suite of `e2e`) block a delivery, and a security finding gets one repair first. Any other violation is debt.
+All projects obey these principles. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup. First make it work, then make it correct: only the pre-commit hook of the technology (lint and format) and `test` (the unit tests, and the acceptance suite of `e2e`) block a delivery, and a security finding gets one repair first. Any other violation is debt.
 
 ### System
 
@@ -85,7 +85,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 - `logic`: rules and decisions. It does not know how data is stored.
 - `data`: all that the project reads or writes outside itself (database, remote API, files).
 - Types are not a layer. Each layer can use types, `shared` and the facades of other features.
-- `lint` checks the imports. With no boundary linter, `review-implementation` checks them.
+- `quality` checks the imports with the boundary rules of the linter. A broken boundary is `medium` debt.
 - A feature that the manifest loads on demand has no other import. Tests start the application through the composition, without a port.
 
 ### Tests
@@ -106,7 +106,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 | Lines in a file | 128 | 256 |
 | Entries in a folder | 16 | 16 |
 
-- A callback whose signature the framework sets (such as a middleware) is outside the parameter limit: disable the limit for it with a lint comment. A folder over the limit has more than one concern: divide it by concern.
+- `harden` checks the limits of functions and files, and `quality` the entries in a folder. A callback whose signature the framework sets (such as a middleware) is outside the parameter limit: disable the limit for it with a lint comment. A folder over the limit has more than one concern: divide it by concern.
 - Strictest typed form of the language and its strictest type check. One type for each domain concept, never a bare string, number, object or array. A value object for a value with rules, made at the edge; it checks only what the spec states. A closed type for a closed set: an enum or a union of literals, as the type check permits. Composition, not inheritance. Generic types in `shared`, domain types in their feature.
 - DRY: `shared` has one function to check, convert or format each common type. Look there before you write one. `quality` reports each duplicated block of code as debt.
 - One source for each definition: a default, an option, a usage text or a list of names is data in one place. Help, checks and error messages read it. Never parse a display text to get the data again.

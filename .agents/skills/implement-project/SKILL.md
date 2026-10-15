@@ -7,11 +7,11 @@ user-invocable: true
 ---
 # implement-project
 
-Your goal is to implement the share of one project in an approved spec, or to repair the findings that you get for it.
+Your goal is to implement the share of one project in an approved spec, or to repair the findings or the debt item that you get for it.
 
-Work on the spec branch, or on the task branch of a quick repair of `craft-lasting-quality`. If the default branch is checked out, stop. The Blueprint of the root `AGENTS.md`, when it exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
+Work on the spec branch, or on the task branch of a patch of `craft-lasting-quality`. If the default branch is checked out, stop. The Blueprint of the root `AGENTS.md`, when it exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
 
-Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`. A quick repair has no spec: leave out `--spec`.
+Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the files or parts to change>" --spec {id}`. A patch has no spec: leave out `--spec`.
 
 ## Build
 
@@ -23,17 +23,17 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 ## Check
 
-Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `lint` or `test`: `verify-behavior` runs the full test, and `ship-spec` the full lint.
+Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `test`: only `ship-spec` runs all the tests.
 
 - Write unit tests for the critical production code, not for UI code or E2E tests. Put each test beside its module. Run `node .agents/aidd/aidd.mjs run test --changed --project {project}` until they pass.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
-- After each change, run `node .agents/aidd/aidd.mjs run lint --changed --project {project}` and fix each error. A layer-boundary error blocks like all other errors.
-- Run `node .agents/aidd/aidd.mjs run quality --project {project}` only to check a repair of recorded debt. Otherwise `quality` belongs to `scan-quality`.
+- The pre-commit hook of the technology lints and formats each commit. When it refuses a commit, fix each error that it shows and commit again. Never skip the hook.
+- When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run quality --project {project}` or `run harden --project {project}`, and repair until it no longer shows the item. Otherwise `quality` and `harden` belong to `scan-quality`.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
 Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the code rules of the Blueprint, and each sentence of the spec for this project. Check your diff against each one: a rule that you had and did not apply fails the qualification.
 
-The result is the code and the tests of the project for the given scope, with no lint errors.
+The result is the code and the tests of the project for the given scope, committed through the hook.
 
 Commit only this project with `node .agents/aidd/aidd.mjs commit "{feat|fix|refactor|test|chore}({project}): {description}" {project path}`.

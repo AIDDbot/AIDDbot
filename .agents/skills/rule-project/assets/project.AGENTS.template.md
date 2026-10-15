@@ -18,6 +18,7 @@ This file gives the data of this project. Do not explore the code to learn the s
 - **Runtime / framework**: {runtime and framework}
 - **Main dependencies**: {library — role}
 - **Package manager**: {package manager}
+- **Pre-commit hook**: `{command}` — {what it lints and formats, and its safe fixes}
 
 ## 3 · Tooling
 
@@ -25,9 +26,6 @@ This file gives the data of this project. Do not explore the code to learn the s
 
 | Slot | Blocks | Command | Tool |
 | --- | --- | --- | --- |
-| `lint` | Yes | `{command}` | {tool} |
-| `lint:files` | Yes | `{command}` | {tool} |
-| `format` | No | `{command}` | {tool} |
 | `upgrade` | No | `{command}` | {tool} |
 | `test` | Yes | `{command}` | {tool} |
 | `test:files` | Yes | `{command}` | {tool} |
@@ -37,7 +35,7 @@ This file gives the data of this project. Do not explore the code to learn the s
 
 ## 4 · Architecture
 
-<!-- The pattern that the code really follows. Write each layer boundary that no linter checks as a rule: the review checks it in the diff. -->
+<!-- The pattern that the code really follows. The boundary rules of `quality` check the layers. -->
 
 **Pattern**: {Layer-based | Feature-based | Hybrid}
 

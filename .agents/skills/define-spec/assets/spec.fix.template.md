@@ -2,7 +2,7 @@
 id: S0001
 slug: {slug}
 key: S0001-{slug}
-type: feat # fix, refactor, chore
+type: feat # fix, chore
 branch: feat/S0001-{slug}
 domain: {domain}
 ---
@@ -28,7 +28,7 @@ domain: {domain}
 
 ### Requirements
 
-{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements, each with one acceptance test with its tag; add `Test: {technique}` only for a technique that is not obvious. A `refactor` or a `chore` can have none: then write instead that the regression of the release and the check that reported the debt are its verification.}
+{One line for each behavior that an acceptance test can prove. Number them R01, R02, … with no gaps. Write them in EARS, with keywords in upper case. A `fix` has one or more requirements, each with one acceptance test with its tag; add `Test: {technique}` only for a technique that is not obvious. A `chore` has none: then write instead that the regression of the release is its verification.}
 
 - **R01**: WHEN {trigger}, the {system} SHALL {response}.
 
