@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.20 - 2026-10-15
+
+- refactor(skills): tighten paths to .aiddbot/logs and .aiddbot/debt.json (Halloween D27) (9190421)
+- refactor(core): one owner per dot folder (Halloween D27) (e594333)
+- docs(product): idea on dot folders (6f7f10b)
+
 ## 0.3.19 - 2026-10-14
 
 - chore(skills): pin archetype-base v0.3.14 (b5e0a53)
