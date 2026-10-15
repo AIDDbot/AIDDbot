@@ -305,3 +305,39 @@ Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-7.prompt.md' -Raw | cod
 - **Publicada = CHANGELOG.** El PRD lista los `feat` publicados; `eval` rechaza una spec ya publicada.
 - **Deuda.** En `.aiddbot/debt.json`, con sus commits `docs(quality)`.
 - **Lo de cli-6.** YOLO sin paradas, un `craft` por spec y deuda cero, vía rápida para `harden`, una sola sesión. Comparar tiempo y commits con cli-6 (82 min, v0.7.1).
+
+## cli-8 · Archetype CLI con AIDDbot v0.3.21 (D29–D34) y el Blueprint en `.product/blueprint/`
+
+cli-7 se abandona (`notes.md`). AIDDbot v0.3.21 (`0696048`) y el Builder en `main` (`b7a0b69`). El prompt sigue en español con `system.md` en inglés: prueba la D31.
+
+### 0 · Preparar (PowerShell)
+
+```powershell
+New-Item -ItemType Directory C:\code\aidd\experiments\halloween\cli-8 | Out-Null
+Set-Location C:\code\aidd\experiments\halloween\cli-8
+node C:\code\aidd\AIDDbot\bin\aiddbot.js init --harness codex
+New-Item -ItemType Directory .product | Out-Null
+Copy-Item -Recurse C:\code\aidd\archetype-builder\blueprint .product\blueprint
+Remove-Item -Recurse .product\blueprint\foundation-0.3
+Copy-Item C:\code\aidd\archetype-builder\libraries\archetype-cli.system.md .product\system.md
+git add -A; git commit -m "chore: the Blueprint and the Archetype CLI manifest"
+```
+
+### 1 · Lanzar (PowerShell)
+
+```powershell
+Get-Content 'C:\code\aidd\AIDDbot\.product\halloween\cli-8.prompt.md' -Raw | codex exec --dangerously-bypass-approvals-and-sandbox -C C:\code\aidd\experiments\halloween\cli-8 -
+```
+
+### Vigilar
+
+- **Raíz.** Solo `.agents`, `.aiddbot`, `.codex` y `.product`, más los proyectos. Nada de `builder/`.
+- **D32.** Las specs en `.product/specs/{type}/`; el PRD enlaza `specs/feat/…`.
+- **D29.** Los informes no verdes en `.aiddbot/logs/{key}.*.md`; la carpeta de cada spec, solo con `spec.md`; ningún commit `docs(…)` sobre informes.
+- **D33.** `verify-behavior` corre `run test --spec` y `run test`; una regresión sale en la verificación 1, con triaje. Contar las revisiones frente a cli-7 (25 evaluaciones).
+- **Listas.** Ningún test de aceptación de lista cerrada; S0004 no rompe S0002.
+- **D30.** Ningún scan con `high` o `medium` abierta.
+- **D31.** Resúmenes, informes y journal en inglés, aunque el prompt esté en español.
+- **D34.** Ningún `--major`: la última versión es 0.x.
+- **Journal.** Sin comillas ni `ℹ`.
+- **Una sesión.** Tiempo y tokens frente a cli-6 (82 min) y cli-7 (cortada a los 86).
