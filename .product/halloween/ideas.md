@@ -12,3 +12,4 @@
 - «Library» → resuelto en D28: el arquetipo es la solución entera; cada pieza es un proyecto.
 - Crear arquetipos al vuelo cuando ningún arquetipo del catálogo encaja (hoy D5: decirlo y parar). Más adelante.
 - `builder/` en la raíz del sistema de trabajo (cli-6, cli-7): sin dueño en D27, entra en Git y trae todo `blueprint/` (también `foundation-0.3/` y `theme/` para una cli). Buscarle sitio y copiar solo lo del tipo. Cambio del Builder.
+- Agrupar las specs por tipo, como las ramas: `.product/specs/feat/S0002-configuration/`… Cada tipo, su flujo, con más o menos burocracia (une con la idea de las vías deducidas de datos).
