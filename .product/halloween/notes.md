@@ -307,3 +307,50 @@ Recorrido del código final (`cli/src`, `e2e`; 2353 líneas). Cada hallazgo, con
 
 - **Terminar cli-7:** el mismo prompt en una sesión nueva. Debe retomar desde `spec show` y `debt list`: reparar D0011 (vía rápida) y el `harden` de cierre. Es la primera prueba de retomar con el estado en `.aiddbot/logs/`.
 - **cli-8:** AIDDbot con D29–D31 y el journal limpio, publicado; el Blueprint con la regla de listas (punto 1). Decidir antes los puntos 2, 5 y 6.
+
+## cli-8 · Como cli-7, con AIDDbot v0.3.21 (D29–D34) (2026-10-15, cortada por tokens)
+
+14:39 → 16:07, unos 88 min. 10 specs publicadas (el scaffold, 5 del Blueprint, 2 `fix` y 2 `refactor`) y una vía rápida (D0004). Versión 0.6.1, 108 commits, 26 evaluaciones hasta S0010 y 41 agentes. Codex se quedó sin tokens en la verificación de S0011 `presentation`: el Builder había terminado (9 tests de aceptación en verde, scoped) y el Craftsman acababa de empezar. Queda la rama `feat/S0011-presentation` sin publicar. La deuda está a cero. Sesión exportada en `codex-session-01a13f93-….md`, en la carpeta de la ejecución.
+
+| Spec | Versión | Entrega | Revisiones | Tras la spec |
+| --- | ---: | ---: | ---: | --- |
+| S0001 scaffold | 0.1.1 | ~8 min | 1 | scan y harden vacíos |
+| S0002 configuration | 0.2.0 | ~11 min | 2, roja | D0001 `high` → S0003 `fix`, ~5 min |
+| S0004 monitoring | 0.3.0 | ~10 min | 2, roja | D0002 `high` → S0005 `fix`, ~4,5 min |
+| S0006 shell | 0.4.0 | ~11,5 min | 1, roja | D0003 `medium` → S0007 `refactor`, ~3,5 min |
+| S0008 about | 0.5.0 | ~6 min | 2 | scan → D0004, vía rápida, ~2 min |
+| S0009 health | 0.6.0 | ~7 min | 1, ámbar | D0005 `medium` → S0010 `refactor`, ~3,5 min |
+| S0011 presentation | — | cortada a los ~10 min | — | — |
+
+### Lista de vigilancia
+
+- **Raíz y D32.** Sin `builder/`. Las specs están en `.product/specs/{chore,feat,fix,refactor}/` y el PRD enlaza `specs/feat/…`. ✅
+- **D29.** Los informes están en `.aiddbot/logs/{key}.qualification.md` y la carpeta de cada spec solo tiene `spec.md`. No hay ningún commit `docs(…)` sobre informes. ✅
+- **D30.** Hubo dos scans, tras S0001 y tras S0008, y los dos con la deuda vacía. El selector dice «skip scan» con `high` o `medium` abierta. ✅
+- **D31.** El journal, los resúmenes y los informes están en inglés; solo los mensajes del orquestador al humano salen en español, como el prompt. ✅
+- **D33.** Cada verificación cita la regresión completa (unit + acceptance). Ninguna regresión llegó a la verificación: todas las verificaciones salieron verdes a la primera. ✅
+- **Listas.** S0004 no rompió S0002. Primera ejecución sin lista cerrada rota. ✅
+- **D34 y journal.** Se queda en 0.x, sin `--major`. El journal no lleva comillas ni `ℹ`. ✅
+- **Una sesión.** ❌ Se cortó a los 88 min. cli-6 terminó en 82; cli-7 se cortó a los 86, tras S0009.
+
+### Lo que funcionó
+
+- **D29–D34 enteras**, a la primera (lista de arriba).
+- **La calificación cazó lo que los tests no veían.** Encontró dos huecos de Requirements (S0002: un valor de ruta que coincide con una opción; S0004: `LOG_DIR` ignorado si falla un ajuste al arrancar) y una regresión cruzada (S0008: `--version` salía antes de crear el logger y rompía S0004-R01/R02). Los tests en verde no cubrían ninguno de los tres.
+- **Cada deuda, en su tipo.** `high` → `fix` con spec; `medium` de revisión → `refactor` con spec; `medium` de scan → vía rápida. Ninguna mezcla (punto 7 de cli-7).
+- **`Replaces:` durante la implementación (S0011).** El Builder vio que la alineación de `presentation` cambia el texto exacto de S0009-R01. Lo devolvió al Architect, que añadió `Replaces: S0009-R01` a la spec. No reescribió los tests de otra spec por su cuenta.
+- **Commits.** 108, frente a 113 de cli-7 con una spec menos; 10 son `docs(quality)`.
+
+### Lo que salió mal
+
+1. **El tiempo se va en repetir la puerta Requirements.** S0002 y S0004 gastaron su única reparación, y el mismo hallazgo, ya más estrecho, se publicó como `high`. Cada uno costó una revisión 2 (~2 min) y una spec `fix` completa (~5 min, con tres agentes nuevos). Son ~14 min, la diferencia con cli-6, donde la puerta no saltó. Los dos hallazgos son casos límite reales que el `Test:` de la spec no nombra.
+2. **`harden` tras cada reparación, siempre vacío.** Seis ejecuciones, cada una con su agente Craftsman, sin un solo hallazgo. Unos 3 min y seis contextos en frío.
+3. **Hueco del Blueprint.** El `Replaces:` de `presentation` nombra solo el requisito de `configuration`. La variante `cli` de `health` fija texto exacto (`Runs: 1`) y `presentation` lo alinea. El Builder lo resolvió en la ejecución; el Blueprint lo tiene que decir.
+4. **`presentation`, otra vez sin publicar dentro de la ventana** (cli-3, cli-7 y cli-8). Es la última y la más grande: llega con el presupuesto agotado.
+
+### Abierto (decidir antes de cli-9)
+
+- **Punto 1.** ¿Requirements bloquea solo cuando falla el `Test:` del requisito o una entrada normal, y un caso límite pasa a deuda `medium`? Ahorra la revisión 2, pero no la spec `fix`. La otra opción es aceptar el coste: la calificación hizo bien su trabajo.
+- **Punto 2.** ¿`harden` solo en el craft de cierre? Ahorra unos 3 min por ejecución y deja la lista de deuda igual de limpia hasta el final.
+- **Punto 3.** Blueprint: `presentation` nombra cada requisito de texto que sustituye, también el de `health`.
+- **Retomar.** Terminar cli-8 con el mismo prompt en una sesión nueva. Retoma desde `spec show S0011` (rama abierta, verificación pendiente) y prueba por fin la reanudación desde `.aiddbot/logs/`.
