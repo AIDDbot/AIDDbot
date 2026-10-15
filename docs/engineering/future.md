@@ -19,11 +19,11 @@ Debt comes from two sources:
   - Folders with too many entries, and subfolders in a feature.
   - Duplicated blocks of code (DRY): the repair moves each block to one function.
 
-Record each debt with its priority, its evidence and its origin. Do not hide it. Scan from time to time, not after each spec, and only when no `medium` debt is open: a scan would find that debt again.
+Record each debt with its priority, its evidence and its origin. Do not hide it. Scan from time to time, not after each spec, and only when no `high` or `medium` debt is open: repair that debt first.
 
 ## Payment
 
-1. Scan, only when no `medium` debt is open. The priority of the debt tells its source:
+1. Scan, only when no `high` or `medium` debt is open. The priority of the debt tells its source:
    - `high`: it breaks the behavior, the security or the data. A blocking review finding, or a failure.
    - `medium`: it makes a change slow or difficult. A scan finding.
    - `low`: all other debt. A debt finding of a review.

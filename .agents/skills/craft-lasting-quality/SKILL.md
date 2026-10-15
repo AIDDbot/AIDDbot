@@ -11,7 +11,7 @@ Your goal is to reduce existing quality debt through evidence-backed specs.
 
 ```text
 upgrade request ────────────────────────────────────┐
-1. Craftsman   scan-quality          medium debt    │  only with no open medium debt
+1. Craftsman   scan-quality          medium debt    │  only with no open high or medium debt
 2. Architect   select                repair request │
 3. you         build-requested-spec  shipped spec  ◄┘
    or Builder  quick repair          integrated       only a group of items with origin scan
@@ -32,7 +32,7 @@ When the human asks to upgrade dependencies, skip the scan and the selection. Th
 
 ## 1. Scan
 
-Read `node .agents/aidd/aidd.mjs debt list`. When an open item is `medium`, skip the scan: it would only find that debt again. Otherwise, the **Craftsman** executes `scan-quality` one time. It records only `medium` debt; the review of each spec records the `high` and `low` debt.
+Read `node .agents/aidd/aidd.mjs debt list`. When an open item is `high` or `medium`, skip the scan: repair it first, and the next run scans. Otherwise, the **Craftsman** executes `scan-quality` one time. It records only `medium` debt; the review of each spec records the `high` and `low` debt.
 
 At most one scan runs in this run, at its start, so that its findings get their repair in this run. Never scan between two repairs, and never at the end: the review of each repair records the debt that it leaves, and the next run scans the rest. Hardening is the only exception.
 

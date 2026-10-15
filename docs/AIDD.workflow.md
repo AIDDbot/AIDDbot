@@ -58,7 +58,7 @@ build-requested-spec:
       evaluation: "verify-behavior runs the spec-scoped acceptance tests; review-implementation; ship-spec runs the full lint and the full regression, and a failure goes to triage; red evaluations and their failure-only reports go back to their owner; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
 craft-lasting-quality:
-  - "Craftsman: scan-quality, only when no medium debt is open; the scan records only medium debt"
+  - "Craftsman: scan-quality, only when no high or medium debt is open; the scan records only medium debt"
   - "Craftsman: scan-quality to harden, once, when no high or medium debt remains; it records low debt, one item for each rule"
   - "Architect: select the eligible debt of one type, `fix` or `refactor`, in one group; the repair stays within its evidence"
   - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
@@ -114,7 +114,7 @@ Each step tests only its own surface. The full system is tested one time, at the
 | Verify | **Craftsman** | the acceptance tests of the spec | `aidd run test --spec` |
 | Review | **Craftsman** | debt: `high` for a blocking finding, `low` for the others | reading only |
 | Ship | **Craftsman** | the full `lint`, and the full regression: unit tests and the full acceptance suite | `aidd run lint`, `aidd run test` |
-| Scan | **Craftsman** | debt `medium` | `aidd run quality`, only in `craft`, and only when no `medium` debt is open |
+| Scan | **Craftsman** | debt `medium` | `aidd run quality`, only in `craft`, and only when no `high` or `medium` debt is open |
 | Harden | **Craftsman** | debt `low`, one item for each rule | `aidd run harden`, only in `craft`, once, when no `high` or `medium` debt remains |
 
 `.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair.
@@ -202,7 +202,7 @@ The records of the system, journal summaries included, use the language of the h
 
 `craft-lasting-quality` follows this route:
 
-`scan-quality`, only when no `medium` debt is open → select the debt of one type → `/build-requested-spec`, again from the selection while debt remains, highest priority first (at most 5 specs in one run)
+`scan-quality`, only when no `high` or `medium` debt is open → select the debt of one type → `/build-requested-spec`, again from the selection while debt remains, highest priority first (at most 5 specs in one run)
 
 At most one scan runs in each run, at its start, so that its findings get their repair in the same run. Open `medium` debt skips it: a scan would only find that debt again. There is no scan at the end: the review of each repair records the debt that the repair leaves, and the next scan finds the rest. The only later scan is `harden`: one time, when no `high` or `medium` debt remains, before the selection.
 

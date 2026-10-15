@@ -245,3 +245,10 @@ Una spec es de fundación si cumple las dos condiciones:
 - Durante la spec, nada cambia: el Builder lee el informe rojo, el gate exige el informe de una evaluación no verde, y una verde lo borra.
 - Tras publicar, lo que importa de un informe está en la deuda: cada hallazgo es un item con su evidencia.
 - La carpeta de una spec tiene solo `spec.md`. Se queda como carpeta por ahora.
+
+## D30 (2026-10-15, cli-7) · Un scan solo cuando no hay nada más urgente
+
+- **Cambia D25.** Al inicio de `craft`, con deuda `high` o `medium` abierta, no hay scan: se repara.
+- Sin `high` ni `medium`, un scan de `quality`; apunta `medium`.
+- Sin `high` ni `medium` después, el scan de `harden`, como hasta ahora; apunta `low`.
+- Una escalera: cada scan corre solo cuando el escalón de arriba está vacío. En cli-7, tras S0004, `craft` escaneó con tres `high` abiertas y añadió dos `medium` a la cola.
