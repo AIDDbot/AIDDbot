@@ -4,21 +4,20 @@ First make it work. Then make it correct.
 
 ## Checks
 
-Each project gives one command for each check. The archetype selects the tool.
+Each project gives one command for each check. The archetype selects the tool. Basic lint and format are not checks of AIDDbot: the technology of the project runs them in its pre-commit hook, at each commit. A technology without them cannot be the base of an archetype.
 
 | Check | What it does | Blocks the delivery |
 | --- | --- | --- |
-| `lint` | Finds errors, type errors and incorrect imports between containers and between layers. It reports only errors, never warnings. `lint:files` does the same for the given files only. | Yes |
+| Pre-commit hook | Lints and formats the changed files, with safe fixes. It refuses a commit with an error. | Yes |
 | `test` | Runs the tests of the project. In an `e2e` project, it runs the full acceptance suite: the tests of the spec and of every shipped requirement. In other projects, it runs the unit tests. `test:files` runs the given test files only. | Yes |
-| `quality` | Measures the code against the limits. | No |
-| `harden` | Polishes code that works: the warnings of the linter, and stricter rules. | No |
-| `format` | Formats the code. | No |
+| `quality` | Checks the logical layers: incorrect imports between containers and between layers. It also finds duplicated blocks of code (DRY) and large folders. | No |
+| `harden` | Checks the complexity limits of functions and files. | No |
 
-- A check that does not block makes debt. A later pass repairs it. `quality` also finds duplicated blocks of code (DRY).
+- A check that does not block makes debt. A later pass repairs it. A `quality` finding is `medium` debt.
 - `harden` runs last, only when no `high` or `medium` debt remains. Its findings are `low` debt, one item for each rule. A false alarm is disabled in the configuration of the project, never in each place.
-- During the build, `lint` and the unit tests run only on the changed files, and the verification runs only the acceptance tests of the spec. Thus each failure is near its cause.
-- The full `lint` and the `test` of each project must pass at the commit that ships: the regression. The core refuses a release without them.
-- The review finds what a tool cannot find. Its findings are also debt. A security finding gets one repair first.
+- During the build, the unit tests run only on the changed files, and the verification runs only the acceptance tests of the spec. Thus each failure is near its cause.
+- The `test` of each project must pass at the commit that ships: the regression. The core refuses a release without it, unless open `high` debt records each failure.
+- The review finds what a tool cannot find, such as a security or an accessibility error. Its findings are `high` debt. A security finding gets one repair first.
 
 ## Tests
 

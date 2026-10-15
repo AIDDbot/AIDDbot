@@ -17,7 +17,7 @@ The repository has no application code. Make the system from scratch.
 - The root `AGENTS.md` gets the Blueprint: the architecture and the general coding rules. Each project gets a short `AGENTS.md` with only its own data and rules.
 - The foundation specs come before the business specs. The library brings the code, the tests, the spec instances and the schemas. Nothing is delivered again: the instances stay in `.product/archetypes/foundation/` as the contract, and the close is the only evidence. The system keeps version `0.1.0`, and the first business spec gets the ID after the last instance.
 - The Architect documents the system: only the root `AGENTS.md`, because the library brings the rest. Then the branch merges.
-- The foundation is complete only when `lint` and `test` pass. A red close is a defect of the environment or of the library: repair it there, never in the system. No spec starts on a red foundation.
+- The foundation is complete only when `test` passes. A red close is a defect of the environment or of the library: repair it there, never in the system. No spec starts on a red foundation.
 
 ## Brownfield
 

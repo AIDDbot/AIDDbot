@@ -2,7 +2,7 @@
 
 ## Limits
 
-The limits do not block a delivery. The `quality` check measures them, separate from `lint`. A violation is debt. A later craft pass repairs it.
+The limits do not block a delivery. The `harden` check measures the limits of functions and files, and `quality` the entries in a folder, separate from the lint of the pre-commit hook. A violation is debt. A later craft pass repairs it.
 
 The archetype can change these numbers.
 

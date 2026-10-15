@@ -6,6 +6,11 @@
 > - **No publicar AIDDbot solo.** Sale junto con las librerías, o los sistemas se quedan sin lint.
 > - **El comando para crear specs mínimas desde un ítem de deuda está por diseñar.**
 
+## Estado
+
+- 2026-10-15: paso 1 hecho en la rama `refactor/quality-gates` (core, skills y docs; `npm test` verde). Sin fusionar: sale con las librerías. Decisiones del paso 1 en el doc, sección "Step 1 decisions".
+- Siguiente: paso 2 (tecnología base).
+
 ## Contexto
 
 - **Referencia:** `docs/engineering/quality-gates.md` (commits d4df10e, e875d0c). Todo lo decidido está ahí. Si este fichero y el doc chocan, manda el doc.

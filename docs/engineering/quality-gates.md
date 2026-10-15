@@ -1,10 +1,9 @@
 # Quality gates
 
-> Draft, 2026-10-15. Thinking session after cli-8. Not decided yet.
+> Decided 2026-10-15, after cli-8. Step 1 (AIDDbot) is done on `refactor/quality-gates`.
 
 > **Do not forget:**
 > - **Do not release AIDDbot alone.** It ships with the libraries, or systems have no lint.
-> - **The command that makes a minimal spec from a debt item is not designed yet.**
 
 Each skill checks only its own work. Only the ship checks everything.
 
@@ -112,9 +111,19 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 5. **Run.** cli-9 checks it.
 6. **Release** AIDDbot and the libraries together.
 
+## Step 1 decisions
+
+- `aidd spec debt <D ID>` makes the minimal spec of one item: `high` → `fix`, which waits for the approval of the item; `medium` → `refactor`, defined at once. It refuses `low`: that is a patch. One item makes one spec.
+- `aidd spec new` takes only `feat`, `fix` and `chore`. A `refactor` comes only from debt. A repair of test code is a `chore`.
+- The gate asks for the evaluations of the type: `feat` and `fix` both, `chore` only the review, `refactor` none.
+- A red verification at revision 3 no longer lets a failed regression ship alone: high debt must record each failure.
+- `aidd commit` runs the hook of the technology; a refused commit fails with the output of the hook.
+- A patch uses a short task branch (`chore/{D ID}-{slug}`) and `aidd integrate`, because the core never commits on the default branch. It has no spec and no release.
+- Open: verify cannot run through the core the failing test of an older spec (`@S0042-R03`) that a `fix` from triage cites.
+
 ## Open questions
 
-1. **Triage too big for the spec.** Decided: it becomes high debt, and the craft repairs it with a `fix` spec. The spec closes with the failure on record. The release gate (green full suite) accepts a failing test only when a high debt item records it (as `--preexisting` does today).
+1. **Triage too big for the spec.** Decided: it becomes high debt, and the craft repairs it with a `fix` spec. The spec closes with the failure on record. The release gate (green full suite) accepts a failing test only when an open high debt item records it: `aidd release --debt <D IDs>`.
 2. **Regression after patches.** Decided: accept the risk. A patch runs only its affected unit tests. The ship of the next spec catches a regression; its triage repairs it in the spec, or records it as high debt (question 1).
 3. **Refactor spec verify.** Decided: a refactor skips verify. Verify checks behavior, not implementation. The ship regression proves that the behavior did not change. The Builder (`implement-project`) runs the rule that found the debt before it hands over, and fixes it on the fly: that is implementation.
 4. **Duplicates and folder size.** Decided: both stay in the core `quality` run, as medium debt, next to the layers. A fix touches many places, needs a shared primitive, or moves files and imports: a `refactor`. Later they may become archetype lint rules, like the layers.
