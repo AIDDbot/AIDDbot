@@ -104,6 +104,29 @@ Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la base limpia, si
 
 **Base (`master`):** `app.main.ts` → `app.compose.ts` → `features/features.manifest.ts` (vacío); `core/app.arguments.ts`; en `shared` las primitivas semilla con sus tests. Sin comandos ni tests de aceptación: los traen `shell` y las demás specs fundacionales.
 
+## Paso 3: decisiones (2026-10-16, una a una)
+
+Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un workspace).
+
+**D1. Layout: carpetas planas bajo un workspace de Vite+.**
+
+- Un repo tiene un solo hook, así que la raíz del sistema es un workspace de Vite+: `package.json` con `workspaces`, la identidad del sistema, `vite-plus` y `"prepare": "vp config"`; `vite.config.ts` con `staged`, `fmt` (sin Markdown), `lint` con tipos y `test.projects` con cada proyecto.
+- Cada proyecto en una carpeta plana con su nombre de hoy (`cli/`, `e2e/`, `back/`, `front/`), no `apps/*`. Seguimos llamándolo **proyecto**: "app" choca con los ficheros `app.*.ts` y un `e2e` no es una app. Corregir el glosario: un proyecto es "una unidad de código con un tipo, en su carpeta del sistema: algo que se despliega (`api`, `web`, `cli`) o la suite de aceptación (`e2e`)" (hoy dice "que se despliega solo", falso para el `e2e`).
+- Cada proyecto: `package.json` (`start`, `test`, `debt:*`), `vite.config.ts` (su proyecto de Vitest y su cobertura), `tsconfig.json`, `lint/` con sus dependencias (cambian por tipo) y un `.gitignore` con sus datos de ejecución (`/data/`).
+- La complejidad, una vez en la raíz: `lint/complexity.json` (límites de código, override de tests) para `api`, `web`, `cli`; `lint/complexity.tests.json` (límites de test en todos los ficheros) para `e2e`. Cada `{proyecto}/lint/low.json` extiende la suya. Defecto: los límites de test están dos veces en la raíz (un override no admite `extends`).
+- `.gitignore` raíz sin anclar `node_modules/`, `.vite/` y `coverage/`: Vitest los crea dentro de cada proyecto.
+- Probado: el hook raíz corre los unitarios relacionados y los tipos de `cli/`; los `debt:*` de cada proyecto leen su `lint/`; `e2e/` lanza `cli/` como proceso; `npm test` raíz = `vp run -r test`.
+- `upgrade` sube `vite-plus` y `@vitest/coverage-v8` juntos (su Vitest debe coincidir).
+
+**D2. Unitarios afectados en el hook, como calidad mínima garantizada.**
+
+- El hook es la puerta del commit: formato, lint, tipos y unitarios afectados (`vp test related`). Igual para el agente y para un humano.
+- **Regla: un test unitario es rápido y prueba solo lógica, sin acceso a datos** (ni disco, ni base de datos, ni red, ni procesos). El `data` lo prueban los e2e. Así el coste del hook sale de la ecuación.
+- Contrato para cualquier tecnología: su hook corre los unitarios afectados. Sin alternativa `test:files`.
+- Cambia en AIDDbot (paso 1): fuera el slot `test:files` y `run test --changed` del core; `implement-project` solo hace commit y arregla lo que el hook rechace; `rule-project` deja de clasificar `test:files`; `quality-gates.md`: pregunta 6 = sí, y la tabla de puertas.
+- Cambia en el Builder: el contrato del hook; fuera `test:files` de `project-types.md` y del template.
+- Choca con `archetype-cli`: `app.config.test.ts`, `app.errors.test.ts` y `app.migrations.test.ts` tocan disco o SQLite. Al re-sembrar (paso 4) esa parte la prueba el e2e.
+
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
 2. **Tecnología base:** prueba corta de Vite+ y Bun (`C:\code\temp\viteplus`). Mirar: formato en la misma pasada, reglas de complejidad, estabilidad, hook de pre-commit. Pregunta 5 del doc.
