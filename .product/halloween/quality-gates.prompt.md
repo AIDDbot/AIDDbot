@@ -152,6 +152,10 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 
 **Orden:** paso 1b (core, skills y docs de AIDDbot con D2, D3 y D4), luego el Builder con todo (lista de "Paso 2: resultado" y D1–D4).
 
+## cli-A
+
+Preparado 2026-10-16 en `C:codeaiddexperimentshalloweencli-A`: AIDDbot desde `refactor/quality-gates` (con la agrupación de deuda), Blueprint `ca30caa` (proyectos en `projects/`, arreglos de cli-9) y el manifiesto de Archetype CLI. Mirar: `projects/`, `parseArgs`, refactors agrupados, `erasableSyntaxOnly`, `start` del e2e en modo watch, `shared/projects/` en el e2e, y los abiertos 3, 4, 7 y 9 de cli-9.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (¿`typescript` explícito?), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
