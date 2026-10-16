@@ -48,10 +48,12 @@ function slugOf(item) {
   return words.slice(0, SLUG_WORDS).join("-") || item.id.toLowerCase();
 }
 
-/** The minimal spec of a debt item: the item is its definition, so no model writes it. */
+/** The minimal spec of a debt item: the item is its definition, so no model writes it.
+ *  A failing test that the item names (`@S0042-R03`) goes into the spec, so that the verification of the fix runs it again. */
 function debtSpec(item, type, domain) {
-  const check = type === "refactor"
-    ? `The check that reported ${item.id} passes, and the regression of the release passes.`
+  const tags = [...new Set(`${item.title} ${item.evidence ?? ""}`.match(/\bS\d{4}-R\d{2}\b/g) ?? [])].map((requirement) => `@${requirement}`);
+  const check = type === "refactor" ? `The check that reported ${item.id} passes, and the regression of the release passes.`
+    : tags.length ? `The acceptance tests ${tags.join(", ")} pass again, and the regression of the release passes.`
     : `The review of this fix shows that ${item.id} is gone, and the regression of the release passes.`;
   return (id, key, branch) => [
     "---", `id: ${id}`, `slug: ${key.slice(6)}`, `key: ${key}`, `type: ${type}`, `branch: ${branch}`, `domain: ${domain}`, "---",

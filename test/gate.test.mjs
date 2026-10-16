@@ -155,3 +155,28 @@ test("a failed regression ships after a red verification at revision 3 only with
   aidd(root, "debt", "add", "Seats cannot be booked", "high");
   assert.equal(aidd(root, "release", "--debt", "D0001").code, 0);
 });
+
+test("a fix of a failing test cites it: the verification runs that test again and needs it green", () => {
+  const root = repo();
+  aidd(root, "debt", "add", "Fleet list fails", "high", "@S0042-R03 fails: the list is empty after a reload");
+  aidd(root, "spec", "debt", "D0001");
+  approve(root);
+  const text = fs.readFileSync(path.join(root, ".product/specs/fix/S0001-fleet-list-fails/spec.md"), "utf8");
+  assert.match(text, /The acceptance tests @S0042-R03 pass again/);
+  write(root, "e2e/suite.js", "process.exit(1);\n");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js", "test:spec": "node suite.js -t" } }));
+  const missing = aidd(root, "run", "test", "--spec");
+  assert.equal(missing.body.runs[0].command, "node suite.js -t @S0042-R03", "the tag of the cited test, not the tag of the fix");
+  assert.deepEqual(missing.body.untested, ["S0042-R03"]);
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /@S0042-R03, which the spec cites/);
+  write(root, "e2e/fleet.spec.ts", 'test("lists after a reload @S0042-R03", () => {});\n');
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "fix(e2e): fleet list");
+  aidd(root, "run", "test", "--spec");
+  assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /failed; record red/, "the cited test still fails");
+  write(root, "e2e/suite.js", "process.exit(0);\n");
+  git(root, "add", "-A");
+  git(root, "commit", "-q", "-m", "fix(back): fleet list");
+  assert.deepEqual(aidd(root, "run", "test", "--spec").body.untested, []);
+  assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0);
+});

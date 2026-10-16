@@ -22,15 +22,26 @@ function sources(dir) {
 export const requirements = (dir) =>
   [...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/^\s*-\s*\*\*(R\d{2})\*\*/gm)].map((match) => match[1]);
 
-/** Requirements of the spec with no acceptance test tagged or titled `@{id}-Rnn` in any `e2e` project. */
+/** The requirements of older specs that a spec cites, such as `S0042-R03`: a `fix` of a failing test names the test that it repairs. */
+export const cited = (dir, id) =>
+  [...new Set([...fs.readFileSync(path.join(dir, "spec.md"), "utf8").matchAll(/\b(S\d{4}-R\d{2})\b/g)].map((match) => match[1]))]
+    .filter((requirement) => !requirement.startsWith(`${id}-`));
+
+/** The tags of the acceptance tests that check a spec: `@{id}-` for its own requirements, else the tag of each requirement that it cites. */
+export const specTags = (dir, id) => (requirements(dir).length ? [`@${id}-`] : cited(dir, id).map((requirement) => `@${requirement}`));
+
+/** The requirements that the spec checks with no acceptance test tagged or titled with them in any `e2e` project:
+ *  its own (`R02`), or else the ones that it cites (`S0042-R03`). */
 export function untested(root, dir, id) {
-  const required = requirements(dir);
+  const own = requirements(dir);
+  const required = own.length ? own.map((requirement) => ({ name: requirement, tag: `@${id}-${requirement}` }))
+    : cited(dir, id).map((requirement) => ({ name: requirement, tag: `@${requirement}` }));
   if (!required.length) return [];
   const projects = Object.values(readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {});
   const text = projects.filter((project) => project.type === "e2e" && project.commands?.test && typeof project.commands.test.na !== "string")
     .flatMap((project) => sources(path.join(root, project.path)))
     .map((file) => fs.readFileSync(file, "utf8")).join("\n");
-  return required.filter((requirement) => !text.includes(`@${id}-${requirement}`));
+  return required.filter(({ tag }) => !text.includes(tag)).map(({ name }) => name);
 }
 
 /** Code changes since `commit`, records and documents left out; empty when none. */
@@ -38,8 +49,8 @@ const changedSince = (root, commit) => git(root, ["diff", "--name-only", commit,
 
 /** Why a green verification cannot be recorded now; null when it can. Its evidence is the `--spec` run: the acceptance tests of the spec only. */
 function missingEvidence(root, dir, control) {
-  // A spec without requirements has no tagged test: the full suites prove it.
-  if (!requirements(dir).length) return null;
+  // A spec that has no requirements and cites none has no tagged test: the full suites prove it.
+  if (!specTags(dir, control.id).length) return null;
   const scoped = Object.values(control.runs?.spec ?? {});
   if (!scoped.length) return "Run `aidd run test --spec` on this spec branch before recording a green verification: the acceptance tests of the spec have no run.";
   for (const { commit } of scoped) {
@@ -47,7 +58,8 @@ function missingEvidence(root, dir, control) {
     if (changed) return `Code changed since the last run of the acceptance tests of the spec (${changed.split("\n")[0]}…); run \`aidd run test --spec\` again.`;
   }
   const missing = untested(root, dir, control.id);
-  if (missing.length) return `No acceptance test tagged or titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
+  if (missing.length && requirements(dir).length) return `No acceptance test tagged or titled @${control.id}-Rnn for ${missing.join(", ")}; every requirement needs one.`;
+  if (missing.length) return `No acceptance test tagged or titled @${missing.join(", @")}, which the spec cites; a fix of a failing test needs that test.`;
   return scoped.every((entry) => entry.ok) ? null : "The last run of the acceptance tests of the spec failed; record red.";
 }
 

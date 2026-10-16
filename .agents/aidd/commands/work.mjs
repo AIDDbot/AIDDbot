@@ -7,7 +7,7 @@ import {
   writeJson,
 } from "../lib/core.mjs";
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
-import { requirements, untested } from "./eval.mjs";
+import { specTags, untested } from "./eval.mjs";
 
 // Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
 // Each debt kind has the name of the level of the debt that it finds.
@@ -257,9 +257,10 @@ export function run(root, [kind], flags) {
     throw new UnavailableError(`${what}; the foundation records each project's type and slots from its AGENTS.md.`);
   }
   const id = scoped && path.basename(scoped).slice(0, 5);
-  // A spec without requirements (a refactor or a chore) has no tagged test: the regression of ship-spec checks it.
-  if (id && !requirements(scoped).length) {
-    const na = `${id} has no requirements, so no test has its tag; the regression of ship-spec checks it.`;
+  // Its own requirements, or the requirements of older specs that a fix cites; a refactor or a chore has neither.
+  const tags = id ? specTags(scoped, id) : [];
+  if (id && !tags.length) {
+    const na = `${id} has no requirements and cites none, so no test has its tag; the regression of ship-spec checks it.`;
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
@@ -271,7 +272,7 @@ export function run(root, [kind], flags) {
         runs.push({ project: name, ok: true, na: slot.na });
         continue;
       }
-      const commands = [slot].flat().map((command) => (id ? withArguments(command, `@${id}-`) : command));
+      const commands = id ? [slot].flat().flatMap((command) => tags.map((tag) => withArguments(command, tag))) : [slot].flat();
       commands.forEach((command, index) => {
         // A slot name such as `debt:medium` is not a valid file name on every system.
         const log = aiddbotPath(root, "logs", `${kind.replace(":", "-")}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
