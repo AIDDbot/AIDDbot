@@ -21,7 +21,7 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 - **{Agents_File}** — `AGENTS.md` — this file
 - **{Agents_Folder}** — `.agents/` — agent configuration
 - **{Product_Folder}** — `.product/` — the Markdown of the product: system, specs, model, and PRD
-- **{Source_Folders}** — [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
+- **{Source_Folders}** — [`projects/cli/`, `projects/e2e/`] | [`src/`, `e2e/`] | [`back/`, `front/`] | {chosen} — code files
 - **AIDDbot** — `/.aiddbot/` — the AIDDbot configuration folder
 
 ## Product
