@@ -12,6 +12,7 @@
 - Siguiente: paso 2 (tecnología base), con Vite+. Bun queda fuera: no tiene hooks de pre-commit.
 - 2026-10-16: paso 2 hecho. Vite+ cumple los cuatro criterios. Resultado y cambios para el paso 3 en la sección "Paso 2: resultado".
 - 2026-10-16: paso 1b hecho en `refactor/quality-gates` (D2, D3, D4 y el `fix` que cita su test; core, 10 skills y docs; `npm test` 44 verdes). Siguiente: el Builder (paso 3) con la lista de "Paso 2: resultado" y D1–D4. Pendiente: la regla de lint que prohíbe datos en los unitarios.
+- 2026-10-16: paso 3 hecho en `archetype-builder` (`f728dee`, `5f0b96b`, sin push): `blueprint/lint/` por nivel de deuda, `ecosystems.md` con Vite+, slots nuevos en `project-types.md` y el template, primitivas con 2 parámetros y el error esperado en la semilla, `scaffold` con el tooling raíz y las pruebas de los `debt:*` y del hook. Siguiente: paso 4 (re-sembrar `archetype-cli` y `archetype-base`). Pendientes: la regla de unitarios sin datos; el titular del copyright; `api` y `web` sin probar en un workspace de Vite+ (archetype-base).
 
 ## Contexto
 
