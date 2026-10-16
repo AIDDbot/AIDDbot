@@ -23,12 +23,12 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 ## Check
 
-Check only what you change: fewer tests, and each failure near its cause. The core gives the changed files of the branch to the tool. Never run the full `test`: only `ship-spec` runs all the tests.
+Check only what you change: fewer tests, and each failure near its cause. The pre-commit hook of the technology checks each commit: it formats, lints, type-checks, and runs the unit tests that the commit affects. Never run the full `test`: only `ship-spec` runs all the tests.
 
-- Write unit tests for the critical production code, not for UI code or E2E tests. Put each test beside its module. Run `node .agents/aidd/aidd.mjs run test --changed --project {project}` until they pass.
+- Write unit tests for the critical logic, not for UI code, data access, or E2E tests. A unit test is fast and touches no disk, database, network, or process: the E2E tests prove the data. Put each test beside its module.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
-- The pre-commit hook of the technology lints and formats each commit. When it refuses a commit, fix each error that it shows and commit again. Never skip the hook.
-- When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run quality --project {project}` or `run harden --project {project}`, and repair until it no longer shows the item. Otherwise `quality` and `harden` belong to `scan-quality`.
+- When the hook refuses a commit, fix each error that it shows and commit again. Never skip the hook.
+- When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run debt:medium --project {project}` or `run debt:low --project {project}`, and repair until it no longer shows the item. Otherwise `debt:medium` and `debt:low` belong to `scan-quality`.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
