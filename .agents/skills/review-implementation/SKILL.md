@@ -11,7 +11,7 @@ Your goal is to qualify the implementation of one spec as an adversarial reviewe
 
 Read the spec, its full diff, the `{source_root}/AGENTS.md` of each affected project, and the affected schema documents under `{Product_Folder}/model/`. Judge them against `references/qualify.gates.md`.
 
-The review checks only what the hook lint and the acceptance tests cannot see, such as security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `quality` and `harden` own them. Each finding is serious enough to be `high` debt; leave out all else. A `refactor` has no review: the core refuses it.
+The review checks only what the hook lint and the acceptance tests cannot see, such as security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `debt:medium` and `debt:low` own them. Each finding is serious enough to be `high` debt; leave out all else. A `refactor` has no review: the core refuses it.
 
 - Judge only by reading. Never run lint, tests, or quality tools, and never edit code.
 - Find each file through the folders and the primitives of that `AGENTS.md`, or with a file search. Never open a file by a guessed name.
