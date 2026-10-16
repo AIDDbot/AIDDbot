@@ -1,6 +1,6 @@
 # Quality gates
 
-> Decided 2026-10-15, after cli-8. Step 1 (AIDDbot) is done on `refactor/quality-gates`.
+> Decided 2026-10-15, after cli-8. Steps 1 and 1b (AIDDbot) are done on `refactor/quality-gates`; step 2 chose Vite+ (2026-10-16).
 
 > **Do not forget:**
 > - **Do not release AIDDbot alone.** It ships with the libraries, or systems have no lint.
@@ -10,24 +10,24 @@ Each skill checks only its own work. Only the ship checks everything.
 ## Principle
 
 - Basic lint and format are not part of AIDDbot.
-- The chosen technology gives them, free, in its pre-commit hook (`vp staged`, `bun lint --staged --fix`).
+- The chosen technology gives them, free, in its pre-commit hook (`vp staged`), together with the type check and the unit tests that the commit affects.
 - A technology without them cannot be the base of an archetype.
-- AIDDbot owns only what the technology cannot know: the logical layers and the complexity.
+- AIDDbot owns only what the technology cannot know: the logical layers, the test coverage and the complexity.
 
 ## Gates
 
 | Skill | Unit tests | E2E tests | Other check | On failure |
 |---|---|---|---|---|
-| `implement-project` | affected | - | lint format at commit | fix it on the fly |
+| `implement-project` | affected, in the hook | - | lint, format and types at commit | fix it on the fly |
 | `verify-behavior` | — | affected  | — | triage |
 | `review-implementation` | — | — | security, accessibility… | high debt |
 | `ship-spec` | all | all | — | triage |
 | `craft-lasting-quality` | — | — | — | fix(high) / refactor(medium) spec |
-| `scan-quality` (`quality`) | — | — | logical layers | medium debt |
-| `scan-quality` (`harden`) | — | — | complexity | low debt |
+| `scan-quality` (`debt:medium`) | — | — | logical layers, test coverage | medium debt |
+| `scan-quality` (`debt:low`) | — | — | complexity | low debt |
 
 - The spec flow calls `implement-project`, `verify-behavior`, `review-implementation` and `ship-spec`.
-- The craft repairs debt from high to low. It calls `scan-quality` (`quality`) only when no high debt is open, and `scan-quality` (`harden`) only when no high or medium debt is open.
+- The craft repairs debt from high to low. It calls `scan-quality` (`debt:medium`) only when no high debt is open, and `scan-quality` (`debt:low`) only when no high or medium debt is open.
 - A patch is `implement-project` called by the craft, with no spec flow around it.
 - The review checks only what lint and e2e tests cannot see. It does not judge style, structure or complexity.
 - A spec solves its problem as well as it can, and then it closes. Debt is debt.
@@ -51,8 +51,8 @@ Each skill checks only its own work. Only the ship checks everything.
 - Remove the `lint` and `lint:files` slots from the core. Remove the lint choices in D22, D26 and cli-6 (`--quiet`, `--fix`).
 - Revert D33: verify runs only the affected e2e tests again. The regression goes back to the ship (as in D22).
 - Remove the core lint gates: a commit needs a passing lint, a release needs a full lint, and the lint state in the git folder. The release needs a green full test suite instead.
-- `quality` = logical layers. They are lint rules (today `oxlint.boundaries.json`, `oxlint.boundaries.e2e.json`) that the `quality` slot runs, never the commit hook.
-- `harden` = complexity. Also lint rules (today `oxlint.complexity.json`).
+- `quality` (since step 1b, `debt:medium`) = logical layers. They are lint rules (today `oxlint.boundaries.json`, `oxlint.boundaries.e2e.json`) that the `quality` slot runs, never the commit hook.
+- `harden` (since step 1b, `debt:low`) = complexity. Also lint rules (today `oxlint.complexity.json`).
 - No backward compatibility. In beta, the old way goes.
 - The review no longer makes low debt.
 - The spec types stay `feat`, `fix`, `refactor`, `chore` (D32). `fix` gets a new use.
@@ -119,7 +119,16 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 - A red verification at revision 3 no longer lets a failed regression ship alone: high debt must record each failure.
 - `aidd commit` runs the hook of the technology; a refused commit fails with the output of the hook.
 - A patch uses a short task branch (`chore/{D ID}-{slug}`) and `aidd integrate`, because the core never commits on the default branch. It has no spec and no release.
-- Open: verify cannot run through the core the failing test of an older spec (`@S0042-R03`) that a `fix` from triage cites.
+- Decided in step 1b: a `fix` cites the failing test that it repairs. The triage puts its tag (`@S0042-R03`) in the evidence of the high debt item, `aidd spec debt` copies it into the `fix` spec, and `aidd run test --spec` runs that test as the evidence of the verification.
+
+## Step 1b decisions (2026-10-16)
+
+Details in `.product/halloween/quality-gates.prompt.md`, section "Paso 3: decisiones".
+
+- **The hook runs the affected unit tests** (question 6). `test:files` and `aidd run test --changed` are gone; `implement-project` commits and fixes what the hook refuses. A unit test is fast and proves logic only: no disk, database, network or process. The acceptance tests prove the data.
+- **Debt slots by level.** `quality` is `debt:medium` (layers and test coverage, plus the core checks of folders and duplicates), and `harden` is `debt:low` (complexity). The rule that finds the debt sets its level, and its name says it.
+- **`test:spec`.** The `e2e` project has a slot that ends in the filter flag of its runner (`vp test run -t`, `playwright test --grep`). `aidd run test --spec` adds only the tag, so the core never knows the runner. `test` stays the full suite.
+- **A system is a Vite+ workspace** with one flat folder for each project (`cli/`, `e2e/`); we keep the word project.
 
 ## Open questions
 
@@ -127,9 +136,9 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 2. **Regression after patches.** Decided: accept the risk. A patch runs only its affected unit tests. The ship of the next spec catches a regression; its triage repairs it in the spec, or records it as high debt (question 1).
 3. **Refactor spec verify.** Decided: a refactor skips verify. Verify checks behavior, not implementation. The ship regression proves that the behavior did not change. The Builder (`implement-project`) runs the rule that found the debt before it hands over, and fixes it on the fly: that is implementation.
 4. **Duplicates and folder size.** Decided: both stay in the core `quality` run, as medium debt, next to the layers. A fix touches many places, needs a shared primitive, or moves files and imports: a `refactor`. Later they may become archetype lint rules, like the layers.
-5. **Base technology.** Vite+ is strong for `web`. Bun is strong for `cli` and `api`. Bun lints with types, takes ESLint plugins, has `--staged`/`--changed`. Its docs do not say whether lint and format run in one pass, whether complexity rules are present, or whether it is stable. Ideas:
+5. **Base technology.** Decided in step 2: Vite+ (`vp`), for all project types; the trial is in `.product/halloween/quality-gates.prompt.md`. Before: Vite+ is strong for `web`. Bun is strong for `cli` and `api`. Bun lints with types, takes ESLint plugins, has `--staged`/`--changed`. Its docs do not say whether lint and format run in one pass, whether complexity rules are present, or whether it is stable. Ideas:
    - One technology for each project type: two configs and two hooks in one monorepo, against uniformity.
    - Bun as the base for all types, with Vite only as the `web` bundler and dev server.
 
    This reopens D16 (platform level) and the library name (`cli-node`, `cli-bun`).
-6. **Unit tests in the pre-commit hook.** Proposal: no. They slow every commit. They are a Builder rule.
+6. **Unit tests in the pre-commit hook.** Decided in step 1b: yes, only the affected ones (`vp test related`). They stay fast because a unit test proves logic only, with no data access. A commit of specs or docs runs none.

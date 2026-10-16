@@ -25,7 +25,7 @@ The repository has existing code. Learn the system that exists.
 
 - Document the code. Do not change it.
 - Record the rules and classify the commands of each project.
-- Do not run the tests or the `quality` check. Do not record debt.
+- Do not run the tests or the `debt:*` checks. Do not record debt.
 
 ## Tracking
 

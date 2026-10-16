@@ -62,7 +62,7 @@ The agents write only the texts: `system.md`, each `spec.md`, the reports of fin
 | Command | Purpose |
 | --- | --- |
 | `spec new` · `spec debt` · `spec show` | Open a spec on its branch, from a request (`feat`, `fix`, `chore`) or from a debt item (`fix` from high, `refactor` from medium). Show the state and the blockers of a spec. |
-| `run <kind>` | Run a project command: `upgrade`, `test`, `quality` or `harden`. `test` runs the `e2e` project last. `--changed` runs `test` only on the files that the branch changes. `--spec` runs only the acceptance tests of the spec: the evidence of the verification. The full `test` is the evidence of the release. |
+| `run <kind>` | Run a project command: `upgrade`, `test`, `debt:medium` or `debt:low`. `test` runs the `e2e` project last. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec (or the tests that a `fix` cites): the evidence of the verification. The full `test` is the evidence of the release. |
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |

@@ -60,10 +60,10 @@ build-requested-spec:
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
   - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO: at once)"
-  - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
+  - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, test coverage, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
-  - "Craftsman: scan-quality to harden, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
-  - "low: patch, with no spec; Builder: implement-project on a chore task branch, harden and the affected unit tests green, debt remove and integrate"
+  - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
+  - "low: patch, with no spec; Builder: implement-project on a chore task branch, debt:low green and the affected unit tests green at commit, debt remove and integrate"
   - "repeat while debt remains, at most 5 specs, and stop at a spec that ships a failure recorded as debt"
   - "return the debt list summary"
 
@@ -107,16 +107,16 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 | Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes. It tests only the affected unit tests, and it runs the tests of the spec to check its E2E work |
 | Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec, then `review-implementation`, then `ship-spec`, which runs all the tests before the release |
 
-Each step checks only its own work. Only the ship checks everything. Basic lint and format are not part of AIDDbot: the technology of each project runs them in its pre-commit hook. AIDDbot owns only what the technology cannot know: the logical layers and the complexity.
+Each step checks only its own work. Only the ship checks everything. Basic lint, format and the affected unit tests are not part of AIDDbot: the technology of each project runs them in its pre-commit hook. AIDDbot owns only what the technology cannot know: the logical layers, the test coverage and the complexity.
 
 | Step | Owner | Unit tests | E2E tests | Other check | On failure | Command |
 | --- | --- | --- | --- | --- | --- | --- |
-| Build | **Builder** | affected | — | lint and format at commit | fix it on the fly | `aidd run test --changed`, and `aidd run test --spec` as a check |
+| Build | **Builder** | affected, at commit | — | lint, format and types at commit | fix it on the fly | the pre-commit hook, and `aidd run test --spec` as a check |
 | Verify | **Craftsman** | — | affected | — | triage | `aidd run test --spec` |
 | Review | **Craftsman** | — | — | security, accessibility… | `high` debt | reading only |
 | Ship | **Craftsman** | all | all | — | triage | `aidd run test` |
-| Scan | **Craftsman** | — | — | logical layers, duplicates, folder size | `medium` debt | `aidd run quality`, only in `craft`, when no `high` debt is open |
-| Harden | **Craftsman** | — | — | complexity | `low` debt, one item for each rule | `aidd run harden`, only in `craft`, when no `high` or `medium` debt is open |
+| Scan | **Craftsman** | — | — | logical layers, test coverage, duplicates, folder size | `medium` debt | `aidd run debt:medium`, only in `craft`, when no `high` debt is open |
+| Harden | **Craftsman** | — | — | complexity | `low` debt, one item for each rule | `aidd run debt:low`, only in `craft`, when no `high` or `medium` debt is open |
 
 The type of the spec sets its steps. The origin sets the definition: a request has a spec that the human approves; debt has its item. The behavior sets the verification: only a `feat` and a `fix` change it.
 
@@ -200,8 +200,8 @@ The core writes that version into the root `package.json`, the root of its lockf
 | `specs/{type}/S{nnnn}-{slug}/` | One delivery, in the folder of its type, as its branch: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
-| `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:files`, `start`, `quality` and `harden` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
-| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run. `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
+| `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:spec`, `start`, `debt:medium` and `debt:low` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
+| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run (`debt-medium-back.log` for `debt:medium`). `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
 
 `aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its `spec.md`, and a spec is shipped when `CHANGELOG.md` names it.
 
@@ -213,26 +213,26 @@ The records of the system, journal summaries included, use the language of `.pro
 
 `craft-lasting-quality` follows this route:
 
-high debt → `fix` spec → `scan-quality` (`quality`) → medium debt → `refactor` spec → `scan-quality` (`harden`) → low debt → patch, again while debt remains (at most 5 specs in one run)
+high debt → `fix` spec → `scan-quality` (`debt:medium`) → medium debt → `refactor` spec → `scan-quality` (`debt:low`) → low debt → patch, again while debt remains (at most 5 specs in one run)
 
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review; a triage that the spec cannot solve | a `fix` spec: branch, implement, verify, review, ship |
-| `medium` | `quality`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
-| `low` | `harden`: complexity | a patch: a task branch, implement with the check green, integrate; no spec |
+| `medium` | `debt:medium`: layers, test coverage, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
+| `low` | `debt:low`: complexity | a patch: a task branch, implement with the check green, integrate; no spec |
 
-`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open.
+`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open.
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
-- `aidd run <kind> [--project]` runs the classified command. `--spec` runs only the tests of the spec in `e2e`. `--changed` runs `test` only on the files that the branch changes. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the lint of the hook. A slot marked `{"na": "<reason>"}` reports its reason and passes.
-- `upgrade` increases the dependencies to their latest releases. It is not evidence, and neither is `harden`.
+- `aidd run <kind> [--project]` runs the classified command. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec, such as `@S0001-`: the slot ends in the filter flag of its runner, so the core never knows the runner. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the lint of the hook. A slot marked `{"na": "<reason>"}` reports its reason and passes.
+- `upgrade` increases the dependencies to their latest releases. It is not evidence, and neither is `debt:low`.
 - Each run keeps its full output in `.aiddbot/logs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, the work state of the spec records it as the latest run of that kind for each project.
-- During coding, the Builder runs `test --changed`. Git gives the changed files: the diff from the merge base with the default branch, the uncommitted changes and the new files, never the deleted ones. `test --changed` gives the changed test files, and the test beside each changed source file (`x.ts` → `x.test.ts`), to the `test:files` slot. A project without a `test:files` slot runs its full slot. A project with no changed file reports n/a.
-- The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. For a spec without requirements, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `quality` or `harden` only to check a debt repair.
+- During coding, the pre-commit hook of the technology runs the unit tests that each commit affects. A unit test is fast and proves logic only: no disk, database, network or process. A commit of specs or docs only runs no test.
+- The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`, which `aidd spec debt` copies from the evidence of the item. For a spec with no requirements that cites none, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `debt:medium` or `debt:low` only to check a debt repair.
 - Quality findings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
-- `quality` runs the boundary rules of the linter, never the commit hook. `harden` runs the complexity rules: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
-- The Craftsman runs `test --spec` in `verify-behavior`, the full `test` in `ship-spec` (the unit tests first, then the acceptance suite), and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
-- A `quality` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
+- `debt:medium` runs the dependency rules of the linter and the test coverage, never the commit hook. `debt:low` runs the complexity rules: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
+- The Craftsman runs `test --spec` in `verify-behavior`, the full `test` in `ship-spec` (the unit tests first, then the acceptance suite), and the `debt:medium` list of each project in `scan-quality`. Each check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
+- A `debt:medium` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
 
-Open debt is in `.aiddbot/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority, its evidence and its origin: the spec whose branch added it, or `scan`. The priority tells the source and the repair: `high` for a review finding or a failure too big for its spec, `medium` for a `quality` finding, and `low` for a `harden` finding. A fixed item goes away: at shipping, when the spec cites it and proves its repair, after a patch, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.
+Open debt is in `.aiddbot/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority, its evidence and its origin: the spec whose branch added it, or `scan`. The priority tells the source and the repair: `high` for a review finding or a failure too big for its spec, `medium` for a `debt:medium` finding, and `low` for a `debt:low` finding. A fixed item goes away: at shipping, when the spec cites it and proves its repair, after a patch, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.
