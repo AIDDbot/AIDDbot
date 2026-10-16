@@ -15,7 +15,7 @@ upgrade request ─────────────────────�
 2. high        spec debt  → fix       build-requested-spec             │  the human approves the item
    no high:    Craftsman  scan-quality            medium debt          │  once
 3. medium      spec debt  → refactor  build-requested-spec             │
-   no medium:  Craftsman  scan-quality, harden    low debt             │  once
+   no medium:  Craftsman  scan-quality, low       low debt             │  once
 4. low         Builder    patch                   integrated           │  no spec
    repeat 1–4 while debt remains, at most 5 specs                      │
    you         build-requested-spec   shipped chore                   ◄┘
@@ -24,8 +24,8 @@ upgrade request ─────────────────────�
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review, or a triage too big for its spec | a `fix` spec: implement, verify, review, ship |
-| `medium` | `quality`: layers, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
-| `low` | `harden`: complexity | a patch: implement with the check green, integrate |
+| `medium` | `debt:medium`: layers, test coverage, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
+| `low` | `debt:low`: complexity | a patch: implement with the check green, integrate |
 
 ## Roles
 
@@ -54,14 +54,14 @@ When no `high` item is open and this run has not scanned yet, the **Craftsman** 
 
 Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `refactor` spec of the item, approved at once. Execute `build-requested-spec` with that spec: it has no verification and no review, and its regression proves that the behavior did not change.
 
-When no `high` or `medium` item is open and this run has not hardened yet, the **Craftsman** executes `scan-quality` one time, and you ask it to harden. It records `low` debt, one item for each rule.
+When no `high` or `medium` item is open and this run has not hardened yet, the **Craftsman** executes `scan-quality` one time, and you ask it for the `low` mode. It records `low` debt, one item for each rule.
 
 ## 4. Low debt: patch
 
 A patch has no spec and no release:
 
 - Create the task branch `chore/{D ID}-{slug}` from the default branch.
-- The **Builder** executes `implement-project` for each project of the evidence, with the item as its scope. It runs `harden` and its affected unit tests until both pass, and commits as `refactor({project}): {what the patch does}`.
+- The **Builder** executes `implement-project` for each project of the evidence, with the item as its scope. It runs `debt:low` until the item is gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
 - When the **Builder** cannot make the check green, or the finding shows a bug, keep the item, delete the task branch, and select the next item.
 - Run `node .agents/aidd/aidd.mjs debt remove <id>`, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
 
