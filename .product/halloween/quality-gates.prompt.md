@@ -158,6 +158,11 @@ Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gate
 2. **`@vitest/coverage-v8` en la raíz.** El Blueprint lo pone en cada proyecto que mide cobertura. Funciona por el workspace, pero aclarar en `ecosystems.md` dónde va (o aceptar la raíz).
 3. **`typescript` explícito en la raíz.** El Blueprint no lo pide: Vite+ ya trae TypeScript. Ver si algo lo usa (¿el editor?) y decidir si se prohíbe o se admite.
 4. **Activación del hook en un clon.** En cli-9 funciona: `"prepare": "vp config"` lo activa en cada `npm install`/`npm ci` y `.vite-hooks/pre-commit` (`vp staged`) está versionado. Comprobar al crear un sistema desde la librería que `npm ci` de `architect-system-foundation` deja el hook activo, y avisar de que `--ignore-scripts` lo deja sin hook.
+5. **`tsconfig` para que Node ejecute TypeScript** (`4a0b97b`, `fix(cli): keep shared primitives executable by Node`). El Blueprint no dice qué opciones necesita el `tsconfig` (sintaxis borrable, como `erasableSyntaxOnly`) para que `node src/app.main.ts` funcione. Añadirlo a `ecosystems.md`.
+6. **Bug mío en `lint/dependencies.json` (D0001).** La regla de `core` prohíbe `**/app.*.ts`, que también casa con los ficheros de `core` (`app.config.ts`, `app.database.ts`). Prohibir solo la composición de arriba: `../app.*.ts`, `../../app.*.ts` (y `**/features/**`).
+7. **Cobertura contra "unitarios sin datos" (D0003).** El 80 % por fichero en `core` incluye las conexiones (`app.database.ts`), que un unitario no puede probar. Excluir de `coverage` los ficheros de `core` que hacen de conexión (datos, disco, procesos), o limitar el umbral a la lógica; los prueban los e2e.
+8. **Fixtures del e2e con Vitest (D0004, D0005).** La regla dice que un test recibe la dirección de cada proyecto por fixtures, no de `core`. Con Vitest es `test.extend`: explicarlo en `ecosystems.md` (hoy solo se da por hecho con Playwright).
+9. **Menor:** las primitivas de `cli` tienen un único `primitives.test.ts`; la regla es un test junto a cada módulo.
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
