@@ -150,6 +150,14 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 
 **Orden:** paso 1b (core, skills y docs de AIDDbot con D2, D3 y D4), luego el Builder con todo (lista de "Paso 2: resultado" y D1–D4).
 
+## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
+
+Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gates`).
+
+1. **`@vitest/ui` en la raíz** (`3b71ad7`). Lo pide sin querer el `start` del `e2e` ("la UI interactiva del runner"): con Vitest eso necesita `@vitest/ui`. Arreglo: con Vitest, el `start` del `e2e` es `vp test` (modo watch), sin paquete extra; la UI solo con Playwright. Tocar `project-types.md`, el template y `ecosystems.md`.
+2. **`@vitest/coverage-v8` en la raíz.** El Blueprint lo pone en cada proyecto que mide cobertura. Funciona por el workspace, pero aclarar en `ecosystems.md` dónde va (o aceptar la raíz).
+3. **`typescript` explícito en la raíz.** El Blueprint no lo pide: Vite+ ya trae TypeScript. Ver si algo lo usa (¿el editor?) y decidir si se prohíbe o se admite.
+
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
 2. **Tecnología base:** prueba corta de Vite+ y Bun (`C:\code\temp\viteplus`). Mirar: formato en la misma pasada, reglas de complejidad, estabilidad, hook de pre-commit. Pregunta 5 del doc.
