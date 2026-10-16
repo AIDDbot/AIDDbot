@@ -11,7 +11,7 @@ Your goal is to evaluate one spec against its own acceptance tests, and to recor
 
 Run `node .agents/aidd/aidd.mjs run test --spec` from the spec branch. It runs only the acceptance tests that have the tag of this spec, and it lists each requirement without a test as `untested`. Only a `feat` or a `fix` has a verification: the core refuses it for a `refactor` or a `chore`.
 
-Never edit code, tests, or contracts. Never run the full `test`, `quality`, or a test tool yourself: the regression belongs to `ship-spec`.
+Never edit code, tests, or contracts. Never run the full `test`, a `debt:*` check, or a test tool yourself: the regression belongs to `ship-spec`.
 
 - A requirement without an acceptance test that has its global ID, as a tag or in its title, is a failure.
 - A spec without requirements, such as a `fix` from high debt, has no tagged test, and the scoped run is not applicable: its review and the regression of `ship-spec` prove it.
