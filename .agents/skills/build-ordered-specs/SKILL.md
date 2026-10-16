@@ -15,7 +15,7 @@ for each spec file, in order:
 2. you   craft-lasting-quality  debt repaired       one run
 3. you   debt list              zero open items     else craft again
 then:
-4. you   craft-lasting-quality  until its scan and its hardening record nothing
+4. you   craft-lasting-quality  until its medium and low scans record nothing
 ```
 
 The caller gives the spec files and their order: a list, or a file that holds the list. A row with a condition, such as "the system has users", applies only when `.product/system.md` meets it. Skip each other row.
@@ -38,6 +38,6 @@ Before the first step, and again after each interruption, read the state from th
 2. Execute `craft-lasting-quality` one time.
 3. Read `node .agents/aidd/aidd.mjs debt list`. The next spec never starts on open debt: while an item is open, execute `craft-lasting-quality` again. Stop and return the open debt only when a run ships no repair.
 
-After the last spec, `craft-lasting-quality` has not scanned the code of the last repairs. Execute it again until one run records nothing in its scan and its hardening, and `debt list` shows no open item.
+After the last spec, `craft-lasting-quality` has not scanned the code of the last repairs. Execute it again until one run records nothing in its medium and low scans, and `debt list` shows no open item.
 
 The result is each spec of the list shipped, zero debt, and a table with one row for each shipped spec: its file, its version, the debt that it left, the repairs of `craft-lasting-quality`, and the time of each, from the journal in `.aiddbot/logs/`.
