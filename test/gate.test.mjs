@@ -55,7 +55,7 @@ test("green verification needs a passing run of the tests of the spec at HEAD th
   const root = repo();
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
   approve(root);
-  const spec = ".product/specs/feat/S0001-fleet/spec.md";
+  const spec = ".product/specs/feat/S0001-fleet.md";
   write(root, spec, "## Requirements\n\n- **R01**: WHEN a list is asked...\n- **R02**: WHEN a rocket is added...\n");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /aidd run test --spec/);
   accept(root, 0, "S0001");
@@ -83,7 +83,7 @@ test("a failing run of the tests of the spec is red, and debt never excuses it",
 test("a fix without requirements is verified green with no run, and the regression proves it", () => {
   const root = repo();
   aidd(root, "spec", "new", "fix", "input", "Input");
-  write(root, ".product/specs/fix/S0001-input/spec.md", "---\ntype: fix\n---\n# S0001-input — Input\n\n## Problem\n\nAn unsafe input.\n");
+  write(root, ".product/specs/fix/S0001-input.md", "---\ntype: fix\n---\n# S0001-input — Input\n\n## Problem\n\nAn unsafe input.\n");
   approve(root);
   assert.equal(aidd(root, "eval", "verification", "green", "no requirements").code, 0);
   aidd(root, "eval", "qualification", "green", "ok");
@@ -161,7 +161,7 @@ test("a fix of a failing test cites it: the verification runs that test again an
   aidd(root, "debt", "add", "Fleet list fails", "high", "@S0042-R03 fails: the list is empty after a reload");
   aidd(root, "spec", "debt", "D0001");
   approve(root);
-  const text = fs.readFileSync(path.join(root, ".product/specs/fix/S0001-fleet-list-fails/spec.md"), "utf8");
+  const text = fs.readFileSync(path.join(root, ".product/specs/fix/S0001-fleet-list-fails.md"), "utf8");
   assert.match(text, /The acceptance tests @S0042-R03 pass again/);
   write(root, "e2e/suite.js", "process.exit(1);\n");
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js", "test:spec": "node suite.js -t" } }));

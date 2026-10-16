@@ -118,10 +118,10 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 
 ## Delivery documents
 
-Agents write `system.md`, `spec.md` and the reports from their templates. Only `node .agents/aidd/aidd.mjs` writes `.aiddbot/`: never edit it by hand. When a command refuses, fix what its error names and run it again.
+Agents write `system.md`, the specs and the reports from their templates. Only `node .agents/aidd/aidd.mjs` writes `.aiddbot/`: never edit it by hand. When a command refuses, fix what its error names and run it again.
 
 - **System proposal** — `{Product_Folder}/system.md`: the approved greenfield proposal. The code wins where they disagree.
-- **Specs** — `{Product_Folder}/specs/{type}/S{nnnn}-{slug}/spec.md`, one folder for each type, as the branches. A non-green evaluation has its findings in `.aiddbot/logs/{key}.verification.md` or `.aiddbot/logs/{key}.qualification.md`. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists the evaluations and runs of the spec and what blocks shipping; they stay local in `.aiddbot/logs/{key}.json`. `{Product_Folder}/PRD.md` lists the shipped specs. `.aiddbot/counters.yaml` keeps the last S and D numbers; an ID is never used again. Slugs are lowercase kebab-case.
+- **Specs** — `{Product_Folder}/specs/{type}/S{nnnn}-{slug}.md`, one file for each spec in a folder for each type, as the branches. A non-green evaluation has its findings in `.aiddbot/logs/{key}.verification.md` or `.aiddbot/logs/{key}.qualification.md`. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists the evaluations and runs of the spec and what blocks shipping; they stay local in `.aiddbot/logs/{key}.json`. `{Product_Folder}/PRD.md` lists the shipped specs. `.aiddbot/counters.yaml` keeps the last S and D numbers; an ID is never used again. Slugs are lowercase kebab-case.
 - **Spec state** — `in-progress` until `aidd release` ships it; one spec branch at a time. It ships when its verification is green or at revision 3, with a qualification of any status.
 - **Runs** — `aidd run <kind>` keeps the full output in `.aiddbot/logs/{kind}-{project}.log`: read it instead of running the tool by hand. One run at a time; a log that starts with `RUNNING` is no result yet.
 - **Debt** — `.aiddbot/debt.json`, through `aidd debt`. Priority: `high` breaks behavior, security, or data; `medium` slows change; `low` otherwise.

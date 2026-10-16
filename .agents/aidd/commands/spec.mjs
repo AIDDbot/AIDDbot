@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { aiddbotPath, commitPaths, git, journal, nextId, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
-import { gate, readControl, requireSpec, SPEC_DEFINED, specDir, TYPES, writeControl } from "../lib/spec.mjs";
+import { gate, readControl, requireSpec, SPEC_DEFINED, specFile, TYPES, writeControl } from "../lib/spec.mjs";
 
 const template = (name) => fileURLToPath(new URL(`../../skills/define-spec/assets/${name}.md`, import.meta.url));
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -15,7 +15,7 @@ const FROM_DEBT = { high: "fix", medium: "refactor" };
 /** The most items that one refactor repairs: a larger one is harder to review and to revert. */
 const MAX_GROUP = 5;
 
-/** Open the branch and the folder of a new spec, reserve its ID, and write its `spec.md` from `text(id, branch)`. */
+/** Open the branch and the file of a new spec, reserve its ID, and write the file from `text(id, key, branch)`. */
 function open(root, type, slug, title, domain, text) {
   const busy = git(root, ["branch", "--list", "--format=%(refname:short)", ...TYPES.map((kind) => `${kind}/S*`)]);
   if (busy) throw new RuleError(`${busy.split("\n")[0]} is still in progress; ship it with aidd release or delete that branch first.`);
@@ -23,13 +23,13 @@ function open(root, type, slug, title, domain, text) {
   const key = `${id}-${slug}`;
   const branch = `${type}/${key}`;
   git(root, ["switch", "-c", branch]);
-  const dir = specDir(root, type, key);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, "spec.md"), text(id, key, branch), "utf8");
+  const file = specFile(root, type, key);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, text(id, key, branch), "utf8");
   writeControl(root, { key, created: new Date().toISOString(), evaluations: [], runs: {} });
   commitPaths(root, [".aiddbot/counters.yaml"], `chore(spec): reserve ${id}`);
   journal(root, { event: "created", spec: id, summary: `${branch} · ${title}` });
-  return { spec: id, branch, file: relative(root, path.join(dir, "spec.md")) };
+  return { spec: id, branch, file: relative(root, file) };
 }
 
 const domainOf = (flags) => (typeof flags.domain === "string" && SLUG.test(flags.domain) ? flags.domain : "general");
@@ -105,9 +105,9 @@ function fromDebt(root, [id], flags) {
 }
 
 function show(root, [input]) {
-  const dir = requireSpec(root, input);
-  const control = readControl(root, dir);
-  return { ...control, blockers: gate(root, dir, control) };
+  const file = requireSpec(root, input);
+  const control = readControl(root, file);
+  return { ...control, blockers: gate(root, file, control) };
 }
 
 export default function spec(root, [action, ...args], flags) {

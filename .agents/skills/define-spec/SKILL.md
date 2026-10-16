@@ -22,11 +22,11 @@ Ask about the missing product decisions. Then define one coherent scope: what th
 - The type comes from what an observer sees. `feat` adds behavior. `fix` corrects a behavior that a requirement promised. `chore` changes nothing that an observer sees: a scaffold, tooling, dependencies, documentation, or a repair of test code, such as a helper or a fixture, with no requirement. A request never makes a `refactor`: a change of code with no change of behavior comes from medium debt, and the core makes its spec. When a request asks for one, offer to record it as debt.
 - The domain is a short kebab-case product area. Use an area of the index again when it fits, so that each area has one name.
 
-When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain <domain>`. It creates the spec branch, the spec ID, and `spec.md` from the correct template.
+When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain <domain>`. It creates the spec branch, the spec ID, and the spec file from the correct template.
 
 ## Content
 
-Fill `spec.md` as its template says. The template does not say these rules:
+Fill the spec file as its template says. The template does not say these rules:
 
 - Each requirement gets its acceptance test in this spec; never defer it to another spec. Cover at least one error scenario.
 - Each behavior in `Solution` that an acceptance test can prove, such as a log line, an exit code, or a message, gets its requirement. Only a result that no acceptance test can prove stays in `Solution` alone.

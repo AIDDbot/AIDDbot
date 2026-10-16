@@ -264,6 +264,7 @@ Una spec es de fundación si cumple las dos condiciones:
 - `.product/specs/{type}/S{nnnn}-{slug}/spec.md`, como las ramas: `feat/`, `fix/`, `refactor/`, `chore/`.
 - El tipo de una spec lo da su carpeta. La carpeta de una spec tiene solo `spec.md` (D29).
 - Base para dar a cada tipo su flujo, con más o menos burocracia (idea abierta).
+- Cambiado 2026-10-16 (cli-A): una spec es un fichero, `.product/specs/{type}/S{nnnn}-{slug}.md`. Una carpeta para un solo fichero sobraba; regla única para todos los tipos.
 
 ## D33 (cli-7) · La verificación corre la suite completa
 

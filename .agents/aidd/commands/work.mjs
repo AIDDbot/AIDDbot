@@ -139,9 +139,9 @@ const evidenceOf = (kind, project, scoped) => (kind !== "test" ? kind : scoped ?
 
 /** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval` and `release`. */
 function recordRun(root, kind, runs, projects, scoped) {
-  const dir = findSpec(root, currentBranch(root));
-  if (!dir) return;
-  const control = readControl(root, dir);
+  const spec = findSpec(root, currentBranch(root));
+  if (!spec) return;
+  const control = readControl(root, spec);
   if (control.status === "shipped") return;
   const commit = git(root, ["rev-parse", "HEAD"]);
   const at = new Date().toISOString();
@@ -417,7 +417,7 @@ export function log(root, [event, summary], flags) {
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
   journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
   // An approved spec is committed here, so its definition never lands before its approval.
-  const dir = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
-  if (dir) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, dir)]) };
+  const file = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
+  if (file) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, file)]) };
   return { event, summary };
 }

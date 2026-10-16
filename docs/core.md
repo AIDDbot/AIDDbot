@@ -55,7 +55,7 @@ Only the core writes these files. Nobody edits them by hand.
 | `.aiddbot/logs/` | Ignored by Git: the daily log (the agents add only their judgments to it, through the core), the full output of the last run of each command, and the work state of each spec (its runs, its evaluations and their commits). |
 | `package.json`, `CHANGELOG.md`, the tags | The version of your product. |
 
-The agents write only the texts: `system.md`, each `spec.md`, the reports of findings, and the `AGENTS.md` files.
+The agents write only the texts: `system.md`, each spec, the reports of findings, and the `AGENTS.md` files.
 
 ## Commands
 
