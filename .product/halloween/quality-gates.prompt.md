@@ -10,6 +10,7 @@
 
 - 2026-10-15: paso 1 hecho en la rama `refactor/quality-gates` (core, skills y docs; `npm test` verde). Sin fusionar: sale con las librerías. Decisiones del paso 1 en el doc, sección "Step 1 decisions".
 - Siguiente: paso 2 (tecnología base), con Vite+. Bun queda fuera: no tiene hooks de pre-commit.
+- 2026-10-16: paso 2 hecho. Vite+ cumple los cuatro criterios. Resultado y cambios para el paso 3 en la sección "Paso 2: resultado".
 
 ## Contexto
 
@@ -64,10 +65,39 @@ Rama: `refactor/quality-gates` (o la que toque). Commit pequeño por bloque.
 
 `docs/engineering/features.md`, `docs/core.md`, `docs/principles/verification.md`, `docs/how-it-works.md`, `docs/AIDD.workflow.md`, `docs/principles/glossary.md`. Quitar la marca de borrador de `quality-gates.md` cuando todo encaje.
 
+## Paso 2: resultado
+
+Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la prueba con código de ejemplo (parser, comandos, e2e). Rama `basement`: la base limpia, sin deuda en ninguna puerta. Es el modelo de la plantilla `cli`.
+
+**Vite+ (`vp` 1.2.0, Vitest 5, Oxlint 1.88) cumple:**
+
+- **Hook:** `vp staged` (lint-staged) corre en cada commit, solo sobre los ficheros del commit. Un fallo para el commit.
+- **Formato en la misma pasada:** `vp check --fix` formatea, lintea y mete los arreglos seguros en el commit.
+- **Complejidad y dependencias:** reglas de Oxlint (`eslint/complexity`, `max-*`, `no-restricted-imports`). No vienen por defecto: solo `correctness`.
+- **Estabilidad:** sin fallos en la prueba. 27 unitarios en menos de un segundo; `vp check` en 0,4 s.
+
+**Cambios para el paso 3 (Builder / Blueprint):**
+
+1. **Tipos activados a mano.** `vp check` no comprueba tipos por defecto. `lint.options: { typeAware: true, typeCheck: true }` en `vite.config.ts`; con eso el hook para un commit con un error de tipos.
+2. **Hook con unitarios relacionados.** `staged: { "*": "vp check --fix", "*.ts": "vp test related --run --passWithNoTests" }`. Cada commit comprueba formato, lint, tipos y los unitarios que importan los ficheros del commit (probado: rompe un validador → commit rechazado). No es regresión: los e2e y lo que no se importa (JSON leído, `import()` dinámico) los coge el ship. Sobran los slots `lint:files` y `test:files`, y el core ya no pasa la lista de ficheros. **Choca con la propuesta de la pregunta 6 del doc ("unitarios en el pre-commit: no"): decidir.**
+3. **Scripts por nivel de deuda, no por slot.** `lint:medium` (antes `quality`) y `lint:low` (antes `harden`). Nombres explícitos: dicen qué deuda producen. Cambia el core, las skills (`scan-quality`, `craft-lasting-quality`), `quality-gates.md` y el Blueprint. Ojo: el `quality` del core también corre duplicados y tamaño de carpeta; `lint:medium` es solo la parte de lint.
+4. **Configs compuestas en `lint/`.** `lint/complexity.json` y `lint/dependencies.json` tienen las reglas; `lint/low.json` y `lint/medium.json` solo hacen `extends`. Un nivel crece añadiendo un fichero. Fuera del root: solo queda `vite.config.ts`.
+5. **`error`, no `warn`.** Un nivel de deuda falla con código 1.
+6. **Globs `**/src/...`.** Oxlint resuelve los `files` de un override relativos al fichero de config: desde `lint/`, `src/...` y `../src/...` no casan nada (0 errores, sin aviso). `**/src/...` sí, y sirve en un monorepo (`apps/*/src`).
+7. **`core` a cualquier profundidad.** La regla de `core` del Blueprint solo cubría `src/core/*.ts` y no vio un router en `src/core/commands/` que importaba features. `**/src/core/**/*.ts` con `**/features/**`.
+8. **Orden de overrides.** El override global de tests (`no-restricted-imports: off`) apaga también los e2e; el override de `e2e` va el último.
+9. **e2e con Vitest, en `e2e/` en la raíz.** Sin Playwright para una cli: `runCli(args)` lanza el proceso y mira salida y código. Dos proyectos de Vitest (`unit`, `e2e`); `test:e2e` pasa sin tests (`--passWithNoTests`). El filtro por spec pasa de `--grep` a `-t "@S0001-"`: cambia el argumento que añade el core. Regla: `e2e/` en la raíz del repo; en un sistema de un proyecto es ese proyecto, en uno de varios es el monorepo. Una regla de dependencias prohíbe a `e2e` importar `src`.
+10. **Contratos de primitivas con 2 parámetros como mucho.** La tabla semilla choca con su propio límite `max-params: 2`. Ahora: `parseInteger(value, { field, min, max })`, `requireByName(items, { name, kind })`. Cambiar `project.AGENTS.template.md`.
+11. **Error esperado en la semilla.** `ExpectedError` con `kind` (`rule`/`usage`/`unavailable`) y `attempt` entran en el scaffold; `monitoring` los usa. `readSetting` de la cli se queda para `configuration`.
+12. **Parser genérico en `core`.** `core/app.arguments.ts`: `parseArguments(argumentsList, definitions)` sobre `node:util` `parseArgs`; una opción no declarada es un error `usage`. Los tipos (`OptionDefinition`, `ParsedArguments`) en `shared/arguments.contract.ts`, para que una feature declare sus opciones sin importar `core`. No se conecta a la composición hasta `shell` (sin manejador de errores saldría una traza).
+13. **Formato sin Markdown.** `fmt.ignorePatterns: ["**/*.md"]`; si no, `vp check` rellena las tablas de Markdown.
+
+**Base (`basement`):** `app.main.ts` → `app.compose.ts` → `features/features.manifest.ts` (vacío); `core/app.arguments.ts`; en `shared` las primitivas semilla con sus tests. Sin comandos ni tests de aceptación: los traen `shell` y las demás specs fundacionales.
+
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
 2. **Tecnología base:** prueba corta de Vite+ y Bun (`C:\code\temp\viteplus`). Mirar: formato en la misma pasada, reglas de complejidad, estabilidad, hook de pre-commit. Pregunta 5 del doc.
-3. **Builder** (`C:\code\aidd\archetype-builder`, `git fetch` antes): lint del commit = lo de serie de la tecnología con arreglos seguros; `oxlint.boundaries*.json` → `quality`; `oxlint.complexity.json` → `harden`; la spec 0 instala el hook.
+3. **Builder** (`C:\code\aidd\archetype-builder`, `git fetch` antes): lint del commit = lo de serie de la tecnología con arreglos seguros; `oxlint.boundaries*.json` → `quality`; `oxlint.complexity.json` → `harden`; la spec 0 instala el hook. **Aplicar la lista de "Paso 2: resultado"** (cambia nombres: `lint/dependencies.json` → `lint:medium`, `lint/complexity.json` → `lint:low`).
 4. **Librerías:** volver a sembrar `archetype-cli` y `archetype-base`. Aquí entran el renombrado D28 y el nombre de plataforma (`cli-node`/`cli-bun`).
 5. **Ejecución real:** cli-9.
 6. **Release conjunta** de AIDDbot y librerías.
@@ -76,7 +106,7 @@ Rama: `refactor/quality-gates` (o la que toque). Commit pequeño por bloque.
 
 - ¿Corre la revisión en un `chore`? (actualizar dependencias puede meter un fallo de seguridad).
 - ¿El scaffold sigue siendo la spec 0 `chore`, o pasa a `vp create`/`bun create`?
-- Preguntas 5 y 6 del doc: tecnología base; unitarios en el pre-commit (propuesta: no).
+- Pregunta 5 del doc (tecnología base): Vite+ (paso 2). Pregunta 6 (unitarios en el pre-commit): el doc propone que no; el paso 2 los mete (`vp test related`). Decidir y actualizar el doc.
 
 ## Cómo arrancar
 
