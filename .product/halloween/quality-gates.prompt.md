@@ -148,6 +148,8 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 - La etiqueta va en el título del test (Vitest no tiene tags). Playwright solo cuando el sistema tiene una `web`; si no, Vitest.
 - Cambia en AIDDbot (paso 1b): `--spec` corre `test:spec` con `@{id}-` en vez de `test` con `--grep` (`work.mjs`); `rule-project` clasifica `test:spec`; `architect-system-foundation/references/scaffold.md` e `implement-project/references/acceptance-tests.md` (hoy nombran `--grep`). En el Builder: `project-types.md`, el template y `ecosystems.md`.
 
+**D1b (2026-10-16, tras cli-9). Proyectos en `projects/`.** La raíz tenía 23 entradas. Ahora cada proyecto va en `projects/{nombre}/` (nuestro vocabulario, no `apps/`); el `lint/` común en `projects/lint/` (sin `package.json`, el workspace y Vitest lo saltan); sin `tsconfig.json` raíz. `workspaces` y `test.projects` son `["projects/*"]`. Probado en `system-vite` (`6599ef5`): hook, tests relacionados, tipos, `debt:*` y e2e funcionan un nivel más abajo. En el Builder: `ca30caa`. Falta en el paso 4: `architect-system-foundation/assets/archetypes.md` (carpetas de las librerías publicadas).
+
 **Orden:** paso 1b (core, skills y docs de AIDDbot con D2, D3 y D4), luego el Builder con todo (lista de "Paso 2: resultado" y D1–D4).
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
