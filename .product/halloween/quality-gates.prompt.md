@@ -156,6 +156,12 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 
 Preparado 2026-10-16 en `C:codeaiddexperimentshalloweencli-A`: AIDDbot desde `refactor/quality-gates` (con la agrupación de deuda), Blueprint `ca30caa` (proyectos en `projects/`, arreglos de cli-9) y el manifiesto de Archetype CLI. Mirar: `projects/`, `parseArgs`, refactors agrupados, `erasableSyntaxOnly`, `start` del e2e en modo watch, `shared/projects/` en el e2e, y los abiertos 3, 4, 7 y 9 de cli-9.
 
+Seguimiento (Claude, cada 5 min):
+
+- 13:41 S0001 scaffold en calificación (sin deuda alta), unos 7 min de implementación. `projects/cli` y `projects/e2e` creados. Bien: `erasableSyntaxOnly` en los dos tsconfig, `start` del e2e = `vp test` (modo watch), `shared/projects/` existe en el e2e. Abierto 3: `typescript` no aparece explícito en ningún `package.json`. Revisar: `projects/lint/` (complexity compartido) vive dentro de `projects/` y la raíz declara `test.projects: ["projects/*"]`, así que Vitest podría tomarlo por un proyecto. Las primeras ejecuciones de `debt:medium`/`debt:low` fallaron (exit 1) y las siguientes pasaron; sus logs quedaron pisados y el journal solo mostró la línea `npm error command`, que no dice nada (resumen arreglado en AIDDbot db944e70).
+- 13:46 S0001 shipped 13:42 (0.1.1, unos 8 min en total; outline foundation + model justo antes de ship). El craft de después no encontró deuda medium ni low. S0002 configuration va en implementación desde 13:45. Bien: el Builder devuelve al Architect la forma del almacén de versiones aplicadas en vez de editar el spec él mismo. Feo: el resumen del `test` del e2e sin tests sale `(exclude: **/node_modules/**, **/.git/**)`, porque es la última línea de "No test files found". Ver: el plan de cli para S0002 incluye "database migration lifecycle".
+- Decidido 2026-10-16: `upgrade` sigue con `ncu -u`. Con npm, `vp update -L` falla (`npm does not support --latest`) y `vp update` no salta de mayor; `vp outdated -r` solo informa. Revisarlo si algún día pasamos a bun o pnpm.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (¿`typescript` explícito?), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
