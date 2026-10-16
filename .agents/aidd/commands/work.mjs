@@ -29,6 +29,9 @@ const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
+/** UTF-8 text read and written again as Windows-1252, such as an em dash read as three characters: a shell with the wrong encoding writes it. */
+const GARBLED = /\u00e2\u20ac|\u00c3[\u0080-\u00bf]|\u00c2[\u00a0-\u00bf]/;
+const TEXT_FILE = /\.(md|[cm]?[jt]sx?|json|ya?ml|txt|css|html)$/;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line.
@@ -411,6 +414,11 @@ export function commit(root, [message, ...paths]) {
   const installed = changedFiles(root, paths.length ? paths : ["."], true).find((file) => INSTALLED.test(file));
   if (installed) {
     throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);
+  }
+  const garbled = changedFiles(root, paths.length ? paths : ["."], true)
+    .find((file) => TEXT_FILE.test(file) && GARBLED.test(fs.readFileSync(path.join(root, file), "utf8")));
+  if (garbled) {
+    throw new RuleError(`${garbled} has garbled characters, such as \u00e2\u20ac\u201d for an em dash: it was written with the wrong encoding. Write it again as UTF-8, then commit again.`);
   }
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });

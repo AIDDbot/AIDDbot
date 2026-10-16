@@ -93,3 +93,14 @@ test("commit refuses installed dependencies, and lets them leave the index", () 
   write(root, "back/.gitignore", "/node_modules/\n");
   assert.equal(aidd(root, "commit", "chore(back): exclude installed dependencies", "back").code, 0);
 });
+
+test("commit refuses text with garbled characters, as a shell with the wrong encoding writes it", () => {
+  const root = repo();
+  git(root, "switch", "-q", "-c", "chore/docs");
+  write(root, "e2e/AGENTS.md", "# Acceptance suite â€” e2e\n\n## 1 Â· Purpose\n");
+  const refused = aidd(root, "commit", "docs(e2e): purpose", "e2e");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /e2e\/AGENTS\.md has garbled characters/);
+  write(root, "e2e/AGENTS.md", "# Acceptance suite — e2e\n\n## 1 · Purpose\n\nCafé, naïve, ½.\n");
+  assert.equal(aidd(root, "commit", "docs(e2e): purpose", "e2e").code, 0);
+});

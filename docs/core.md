@@ -36,6 +36,7 @@ The core refuses a step when a rule is not true. It stops with an error message 
 | A commit that the pre-commit hook refuses | You fix the errors that the hook shows. |
 | A commit on the main branch | Never: only `release` and `integrate` write there. |
 | A commit of installed dependencies, such as `node_modules/` | Never. |
+| A commit of text with garbled characters, as a shell with the wrong encoding writes them | Never. |
 | A second run of a test command | The first run ends. Two runs share ports and databases. |
 | A green verification | The acceptance tests of the spec (`test --spec`) pass on the current code, and each requirement has an acceptance test. |
 | An evaluation that the type does not need | Never: a `chore` has no verification, and a `refactor` has no evaluation. |
