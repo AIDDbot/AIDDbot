@@ -18,18 +18,18 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 | Slot | Effect |
 | --- | --- |
 | `upgrade` | Updates the dependencies and the lockfile. |
-| `test` | In an `e2e` project: the end-to-end tests that start the system, headless. In other projects: fast tests, with no server or browser. |
-| `test:files` | The fast tests of the test files that the core gives as arguments. Never in an `e2e` project. |
+| `test` | In an `e2e` project: all the end-to-end tests that start the system, headless. In other projects: all the unit tests. |
+| `test:spec` | Only in an `e2e` project: the end-to-end tests, ending in the filter flag of the runner (such as `-t` or `--grep`), so that the core adds only a tag such as `@S0001-`. |
 | `start` | Starts the project. In an `e2e` project: the interactive UI of the test runner, for a human only. |
-| `quality` | The logical layers: the boundary rules of the linter, each set as its own command. Never the lint of the pre-commit hook. Never one aggregate that stops at its first failure: one scan must show each failing check. |
-| `harden` | The complexity limits: the complexity rules of the linter. Each finding shows its rule. |
+| `debt:medium` | The checks of medium debt, such as the dependency rules between layers and the test coverage. Never the lint of the pre-commit hook. |
+| `debt:low` | The checks of low debt: the complexity rules of the linter. Each finding shows its rule. |
 
-Lint and format are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
+Lint, format and the affected unit tests are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
 
-Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `quality` is always a list:
+Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `debt:medium` is always a list with one command for each check, never one aggregate that stops at its first failure: one scan must show each failing check.
 
 ```json
-{"type":"api","path":"back","commands":{"test":"npm test","test:files":"npm run test:files","quality":["npm run quality","npm run quality:e2e"],"harden":"npm run harden"}}
+{"type":"cli","path":"cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"debt:medium":["npm run debt:medium:dependencies","npm run debt:medium:coverage"],"debt:low":"npm run debt:low"}}
 ```
 
 ## AGENTS.md

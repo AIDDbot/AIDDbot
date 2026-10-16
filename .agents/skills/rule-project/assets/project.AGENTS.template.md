@@ -18,7 +18,7 @@ This file gives the data of this project. Do not explore the code to learn the s
 - **Runtime / framework**: {runtime and framework}
 - **Main dependencies**: {library — role}
 - **Package manager**: {package manager}
-- **Pre-commit hook**: `{command}` — {what it lints and formats, and its safe fixes}
+- **Pre-commit hook**: `{command}` — {what it formats, lints and type-checks with its safe fixes, and the affected unit tests that it runs}
 
 ## 3 · Tooling
 
@@ -28,14 +28,14 @@ This file gives the data of this project. Do not explore the code to learn the s
 | --- | --- | --- | --- |
 | `upgrade` | No | `{command}` | {tool} |
 | `test` | Yes | `{command}` | {tool} |
-| `test:files` | Yes | `{command}` | {tool} |
+| `test:spec` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
-| `quality` | No | `{command}` | {tool} |
-| `harden` | No | `{command}` | {tool} |
+| `debt:medium` | No | `{command}` | {tool} |
+| `debt:low` | No | `{command}` | {tool} |
 
 ## 4 · Architecture
 
-<!-- The pattern that the code really follows. The boundary rules of `quality` check the layers. -->
+<!-- The pattern that the code really follows. The dependency rules of `debt:medium` check the layers. -->
 
 **Pattern**: {Layer-based | Feature-based | Hybrid}
 
