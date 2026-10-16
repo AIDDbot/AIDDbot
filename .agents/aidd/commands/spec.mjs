@@ -12,6 +12,8 @@ const SLUG_WORDS = 4;
 const REQUESTED = ["feat", "fix", "chore"];
 /** The type of the spec that repairs each debt level; low debt is a patch, with no spec. */
 const FROM_DEBT = { high: "fix", medium: "refactor" };
+/** The most items that one refactor repairs: a larger one is harder to review and to revert. */
+const MAX_GROUP = 5;
 
 /** Open the branch and the folder of a new spec, reserve its ID, and write its `spec.md` from `text(id, branch)`. */
 function open(root, type, slug, title, domain, text) {
@@ -48,33 +50,58 @@ function slugOf(item) {
   return words.slice(0, SLUG_WORDS).join("-") || item.id.toLowerCase();
 }
 
-/** The minimal spec of a debt item: the item is its definition, so no model writes it.
- *  A failing test that the item names (`@S0042-R03`) goes into the spec, so that the verification of the fix runs it again. */
-function debtSpec(item, type, domain) {
-  const tags = [...new Set(`${item.title} ${item.evidence ?? ""}`.match(/\bS\d{4}-R\d{2}\b/g) ?? [])].map((requirement) => `@${requirement}`);
-  const check = type === "refactor" ? `The check that reported ${item.id} passes, and the regression of the release passes.`
+/** The minimal spec of debt items: the items are its definition, so no model writes it.
+ *  A failing test that an item names (`@S0042-R03`) goes into the spec, so that the verification of the fix runs it again. */
+function debtSpec(items, type, domain) {
+  const [first] = items;
+  const ids = items.map((item) => item.id).join(", ");
+  const tags = [...new Set(items.flatMap((item) => `${item.title} ${item.evidence ?? ""}`.match(/\bS\d{4}-R\d{2}\b/g) ?? []))].map((requirement) => `@${requirement}`);
+  const check = type === "refactor" ? `The check that reported ${ids} passes, and the regression of the release passes.`
     : tags.length ? `The acceptance tests ${tags.join(", ")} pass again, and the regression of the release passes.`
-    : `The review of this fix shows that ${item.id} is gone, and the regression of the release passes.`;
+    : `The review of this fix shows that ${ids} is gone, and the regression of the release passes.`;
+  const problem = items.length === 1 ? [first.evidence || first.title] : items.map((item) => `- ${item.id}: ${item.evidence || item.title}`);
   return (id, key, branch) => [
     "---", `id: ${id}`, `slug: ${key.slice(6)}`, `key: ${key}`, `type: ${type}`, `branch: ${branch}`, `domain: ${domain}`, "---",
-    `# ${key} — ${item.title}`, "", "## Problem", "", item.evidence || item.title, "",
-    "## Verification", "", check, "", "## Technical debt", "", `- ${item.id} — ${item.title}`, "",
+    `# ${key} — ${first.title}${items.length > 1 ? ` and ${items.length - 1} more` : ""}`, "", "## Problem", "", ...problem, "",
+    "## Verification", "", check, "", "## Technical debt", "", ...items.map((item) => `- ${item.id} — ${item.title}`), "",
   ].join("\n");
 }
 
-/** `spec debt <D ID>`: the minimal spec that repairs one debt item. A `refactor` (medium) is defined at once; a `fix` (high) waits for the approval of the item. */
+/** The one project whose folder the item names in its title or evidence, such as `cli/src/core/…`; null for none or several. */
+function projectOf(projects, item) {
+  const text = `${item.title} ${item.evidence ?? ""}`.replaceAll("\\", "/");
+  const named = Object.entries(projects).filter(([, project]) => project.path && project.path !== "." && text.includes(`${project.path.replace(/[\\/]+$/, "")}/`));
+  return named.length === 1 ? named[0][0] : null;
+}
+
+/** The items that one refactor repairs: the given item, and the other open `medium` items of its project, by D ID, at most MAX_GROUP.
+ *  The rule is mechanical, so no one judges which items go together; a `fix` repairs one item, because each one needs its approval. */
+function groupOf(root, item, items) {
+  if (item.priority !== "medium") return [item];
+  const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
+  const project = projectOf(projects, item);
+  if (!project) return [item];
+  const others = items.filter((entry) => entry.id !== item.id && entry.priority === "medium" && projectOf(projects, entry) === project);
+  return [item, ...others.sort((a, b) => a.id.localeCompare(b.id))].slice(0, MAX_GROUP);
+}
+
+/** `spec debt <D ID>`: the minimal spec that repairs a debt item. A `refactor` (medium) is defined at once and also repairs the other medium items of the same project;
+ *  a `fix` (high) repairs one item and waits for its approval. */
 function fromDebt(root, [id], flags) {
   if (!id) throw new UsageError("Give a debt item: aidd spec debt D0007.");
-  const item = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items.find((entry) => entry.id === id);
+  const items = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
+  const item = items.find((entry) => entry.id === id);
   if (!item) throw new RuleError(`No open debt item ${id}; see aidd debt list.`);
   const type = FROM_DEBT[item.priority];
   if (!type) throw new RuleError(`${item.id} is low debt: repair it as a patch, with no spec and no branch.`);
   const domain = domainOf(flags);
-  const created = open(root, type, slugOf(item), item.title, domain, debtSpec(item, type, domain));
-  if (type === "fix") return { ...created, debt: item.id, approved: false };
+  const group = groupOf(root, item, items);
+  const debt = group.map((entry) => entry.id);
+  const created = open(root, type, slugOf(item), item.title, domain, debtSpec(group, type, domain));
+  if (type === "fix") return { ...created, debt, approved: false };
   commitPaths(root, [created.file], SPEC_DEFINED);
-  journal(root, { event: "committed", spec: created.spec, summary: `${SPEC_DEFINED} from ${item.id}` });
-  return { ...created, debt: item.id, approved: true };
+  journal(root, { event: "committed", spec: created.spec, summary: `${SPEC_DEFINED} from ${debt.join(", ")}` });
+  return { ...created, debt, approved: true };
 }
 
 function show(root, [input]) {
