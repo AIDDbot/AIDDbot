@@ -181,6 +181,14 @@ Seguimiento (Claude, cada 5 min):
 - Decidido 2026-10-16: un spec es un fichero, `.product/specs/{type}/{key}.md`, para todos los tipos (regla única; reemplaza la carpeta `{key}/spec.md` de D32). Se hace al terminar cli-A, en `refactor/quality-gates`: core (`findSpec`, creación, `spec debt`, release, tests), skills por `/maintain-skills` + `npm run adapt`, docs.
 - Decidido 2026-10-16: `upgrade` sigue con `ncu -u`. Con npm, `vp update -L` falla (`npm does not support --latest`) y `vp update` no salta de mayor; `vp outdated -r` solo informa. Revisarlo si algún día pasamos a bun o pnpm.
 
+### Al cerrar cli-A (2026-10-16)
+
+Hechos en `refactor/quality-gates`: spec como fichero (91f4510b), deuda medium con `--project` y agrupación por él (a968e63d), resúmenes sin `npm error`, separadores ni patrones (db944e70, 7df3ecf5), `commit` rechaza texto con caracteres rotos (09f4db3e). En el Builder (`440d7a5`, local): un solo parseo desde `configuration` y un requisito shell R21 para la opción no declarada o el argumento de más (salida 2). Pendientes de decidir: (a) ship con deuda high nacida en el propio spec; (b) aprobación humana del fix high bajo un mandato de cero deuda. Sigue abierto 3 de cli-9 (`typescript` explícito).
+
+## cli-B
+
+Preparado 2026-10-16 en `C:\code\aidd\experiments\halloween\cli-B`: AIDDbot desde `refactor/quality-gates` `09f4db3e` (init local), Blueprint `440d7a5` sin `foundation-0.3/`, el manifiesto de Archetype CLI de cli-A. Prompt: `cli-B.md` (el mismo que cli-A). Mirar: specs como `.product/specs/{type}/{key}.md`; `debt add --project` en cada medium y refactors agrupados por proyecto; un solo `parseArgs`; R21 de shell (salida 2); resúmenes del journal legibles; ningún `AGENTS.md` con caracteres rotos; craft de cierre completo. Evitar que el ordenador se duerma.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (¿`typescript` explícito?), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
