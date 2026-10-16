@@ -12,7 +12,7 @@
 - Siguiente: paso 2 (tecnología base), con Vite+. Bun queda fuera: no tiene hooks de pre-commit.
 - 2026-10-16: paso 2 hecho. Vite+ cumple los cuatro criterios. Resultado y cambios para el paso 3 en la sección "Paso 2: resultado".
 - 2026-10-16: paso 1b hecho en `refactor/quality-gates` (D2, D3, D4 y el `fix` que cita su test; core, 10 skills y docs; `npm test` 44 verdes). Siguiente: el Builder (paso 3) con la lista de "Paso 2: resultado" y D1–D4. Pendiente: la regla de lint que prohíbe datos en los unitarios.
-- 2026-10-16: paso 3 hecho en `archetype-builder` (`f728dee`, `5f0b96b`, sin push): `blueprint/lint/` por nivel de deuda, `ecosystems.md` con Vite+, slots nuevos en `project-types.md` y el template, primitivas con 2 parámetros y el error esperado en la semilla, `scaffold` con el tooling raíz y las pruebas de los `debt:*` y del hook. Siguiente: paso 4 (re-sembrar `archetype-cli` y `archetype-base`). Pendientes: la regla de unitarios sin datos; el titular del copyright; `api` y `web` sin probar en un workspace de Vite+ (archetype-base).
+- 2026-10-16: paso 3 hecho en `archetype-builder` (`f728dee`, `5f0b96b`, sin push): `blueprint/lint/` por nivel de deuda, `ecosystems.md` con Vite+, slots nuevos en `project-types.md` y el template, primitivas con 2 parámetros y el error esperado en la semilla, `scaffold` con el tooling raíz y las pruebas de los `debt:*` y del hook. Siguiente: paso 4 (re-sembrar `archetype-cli` y `archetype-base`). Pendientes: el titular del copyright; `api` y `web` sin probar en un workspace de Vite+ (archetype-base).
 
 ## Contexto
 
@@ -129,7 +129,7 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 - Cambia en el Builder: el contrato del hook; fuera `test:files` de `project-types.md` y del template.
 - Choca con `archetype-cli`: `app.config.test.ts`, `app.errors.test.ts` y `app.migrations.test.ts` tocan disco o SQLite. Al re-sembrar (paso 4) esa parte la prueba el e2e.
 - Solo corren si el commit lleva `.ts`: cada tarea de `staged` tiene su patrón. Un commit de solo specs o docs pasa sin tests (probado).
-- Pendiente (propuesta): una regla de dependencias que prohíba a un `*.test.ts` de `api`, `web` y `cli` importar `node:fs`, `node:sqlite`, `node:child_process`, `node:net`, `node:http`, `*.repository.ts` y `*.client.ts`. Así la regla es comprobable (deuda media), no de revisión.
+- Hecho (`archetype-builder` 3ª commit del paso 3): una regla de dependencias que prohíbe a un `*.test.ts` de `api`, `web` y `cli` importar `node:fs`, `node:sqlite`, `node:child_process`, `node:net`, `node:http`, `*.repository.ts` y `*.client.ts`. Así la regla es comprobable (deuda media), no de revisión.
 
 **D3. Slots por nivel de deuda, también en el core.**
 
