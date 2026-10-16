@@ -67,7 +67,7 @@ Rama: `refactor/quality-gates` (o la que toque). Commit pequeño por bloque.
 
 ## Paso 2: resultado
 
-Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la prueba con código de ejemplo (parser, comandos, e2e). Rama `basement`: la base limpia, sin deuda en ninguna puerta. Es el modelo de la plantilla `cli`.
+Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la base limpia, sin deuda en ninguna puerta. Es el modelo de la plantilla `cli`. La prueba con código de ejemplo (parser, comandos, e2e) queda en el historial, en `8deb0f7`.
 
 **Vite+ (`vp` 1.2.0, Vitest 5, Oxlint 1.88) cumple:**
 
@@ -102,7 +102,7 @@ Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la prueba con cód
 
 14. **Identidad, licencia y `.gitignore`.** `package.json` con `displayName`, `description`, `author` (`{ name, url }`), `homepage` y `license: "MIT"`; `LICENSE` y secciones Author y License en el README. Es la identidad de la plantilla: el scaffold la cambia por la de `.product/system.md`. El Blueprint no nombra la licencia: añadirla a esa lista. Titular del copyright: las librerías dicen `AIDDbot` y `create-aiddbot` `Alberto Basalo from aicode.academy`; elegir uno en el paso 4. `.gitignore` corto, por bloques (dependencias, Vite+ y tests, datos de ejecución anclados a la raíz, secretos).
 
-**Base (`basement`):** `app.main.ts` → `app.compose.ts` → `features/features.manifest.ts` (vacío); `core/app.arguments.ts`; en `shared` las primitivas semilla con sus tests. Sin comandos ni tests de aceptación: los traen `shell` y las demás specs fundacionales.
+**Base (`master`):** `app.main.ts` → `app.compose.ts` → `features/features.manifest.ts` (vacío); `core/app.arguments.ts`; en `shared` las primitivas semilla con sus tests. Sin comandos ni tests de aceptación: los traen `shell` y las demás specs fundacionales.
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
