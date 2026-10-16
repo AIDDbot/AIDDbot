@@ -52,7 +52,7 @@ When no `high` item is open and this run has not scanned yet, the **Craftsman** 
 
 ## 3. Medium debt
 
-Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `refactor` spec of the item, approved at once. Execute `build-requested-spec` with that spec: it has no verification and no review, and its regression proves that the behavior did not change.
+Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `refactor` spec of the item, approved at once, and adds the other open `medium` items of the same project (its `debt` lists them): one refactor repairs them together. Execute `build-requested-spec` with that spec: it has no verification and no review, and its regression proves that the behavior did not change.
 
 When no `high` or `medium` item is open and this run has not hardened yet, the **Craftsman** executes `scan-quality` one time, and you ask it for the `low` mode. It records `low` debt, one item for each rule.
 
@@ -60,10 +60,10 @@ When no `high` or `medium` item is open and this run has not hardened yet, the *
 
 A patch has no spec and no release:
 
-- Create the task branch `chore/{D ID}-{slug}` from the default branch.
-- The **Builder** executes `implement-project` for each project of the evidence, with the item as its scope. It runs `debt:low` until the item is gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
-- When the **Builder** cannot make the check green, or the finding shows a bug, keep the item, delete the task branch, and select the next item.
-- Run `node .agents/aidd/aidd.mjs debt remove <id>`, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
+- A patch repairs the item and the other open `low` items of the same project, at most five. Create the task branch `chore/{D ID}-{slug}` from the default branch, with the D ID of the selected item.
+- The **Builder** executes `implement-project` for that project, with these items as its scope. It runs `debt:low` until the items are gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
+- When the **Builder** cannot repair an item, or its finding shows a bug, keep that item. When it repairs none, delete the task branch and select the next item.
+- Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item that `debt:low` no longer shows, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
 
 A patch runs only its affected unit tests. The ship of the next spec catches a regression. A patch does not count as one of the five specs.
 
