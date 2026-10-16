@@ -91,6 +91,10 @@ test("run journals the last output line of each project and leaves out n/a proje
   const lint = journalText(root).trim().split("\n").at(-1);
   assert.match(lint, /debt:low: e2e #1 exit 1 \d+s \(lint\/low\.json: 2 errors\), e2e #2 exit 1/);
   assert.doesNotMatch(lint, /npm error/);
+  const coverage = `node -e "console.log('No test files found, exiting with code 0'); console.log('include: **/*.test.ts'); console.log('exclude:  **/node_modules/**'); console.log('Lines        : 88.57% ( 31/35 )'); console.log('='.repeat(80))"`;
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "debt:low": coverage } }));
+  assert.equal(aidd(root, "run", "debt:low").code, 0);
+  assert.match(journalText(root).trim().split("\n").at(-1), /debt:low: e2e ok \d+s \(Lines : 88\.57% \( 31\/35 \)\)$/);
 });
 
 test("debt is added with the next D ID, listed by priority, and removed", () => {

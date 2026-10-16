@@ -32,9 +32,10 @@ const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line.
- *  Package-manager noise is never a summary: its `npm error` lines only repeat the command and its exit code. */
+ *  Noise is never a summary: package-manager lines, which only repeat the command and its exit code, rules of a table, and lists of patterns. */
 function summaryLine(tail = "", ok = true) {
-  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !/^(npm (notice|warn|error|ERR!)|> )/.test(line));
+  const noise = /^(npm (notice|warn|error|ERR!)|> )|^[\s=\-|+*_]+$|^(include|exclude):/;
+  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !noise.test(line));
   const telling = ok ? /\bpass/i : /\b(fail|error)/i;
   const line = lines.findLast((entry) => telling.test(entry)) ?? lines.at(-1) ?? "";
   return line.length > SUMMARY_LINE ? `${line.slice(0, SUMMARY_LINE - 1)}…` : line;
