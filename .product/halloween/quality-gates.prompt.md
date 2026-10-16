@@ -163,6 +163,7 @@ Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gate
 7. **Cobertura contra "unitarios sin datos" (D0003, y probablemente D0012 en `shared`: la identidad lee `package.json`).** El 80 % por fichero en `core` y `shared` incluye las conexiones (`app.database.ts`, la lectura de la identidad), que un unitario no puede probar. Excluir de `coverage` los ficheros de `core` que hacen de conexión (datos, disco, procesos), o limitar el umbral a la lógica; los prueban los e2e.
 8. **Fixtures del e2e con Vitest (D0004, D0005).** La regla dice que un test recibe la dirección de cada proyecto por fixtures, no de `core`. Con Vitest es `test.extend`: explicarlo en `ecosystems.md` (hoy solo se da por hecho con Playwright).
 9. **Menor:** las primitivas de `cli` tienen un único `primitives.test.ts`; la regla es un test junto a cada módulo.
+10. **Parser de argumentos propio (D0009, D0014, D0015).** La run escribe su parser a mano en `cli/src/core/app.arguments.ts` y el límite de complejidad lo para tres veces. En la base de `cli-vite` iba sobre `node:util` `parseArgs` y cabía en los límites. Añadir a `ecosystems.md` (cli): leer los argumentos con `node:util` `parseArgs`; el `core` no escribe un parser propio.
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
