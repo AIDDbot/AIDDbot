@@ -60,7 +60,7 @@ build-requested-spec:
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
   - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO: at once)"
-  - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, test coverage, duplicates, folder size)"
+  - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
   - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
   - "low: patch, with no spec; Builder: implement-project on a chore task branch, debt:low green and the affected unit tests green at commit, debt remove and integrate"
@@ -115,8 +115,8 @@ Each step checks only its own work. Only the ship checks everything. Basic lint,
 | Verify | **Craftsman** | — | affected | — | triage | `aidd run test --spec` |
 | Review | **Craftsman** | — | — | security, accessibility… | `high` debt | reading only |
 | Ship | **Craftsman** | all | all | — | triage | `aidd run test` |
-| Scan | **Craftsman** | — | — | logical layers, test coverage, duplicates, folder size | `medium` debt | `aidd run debt:medium`, only in `craft`, when no `high` debt is open |
-| Harden | **Craftsman** | — | — | complexity | `low` debt, one item for each rule | `aidd run debt:low`, only in `craft`, when no `high` or `medium` debt is open |
+| Scan | **Craftsman** | — | — | logical layers, duplicates, folder size | `medium` debt | `aidd run debt:medium`, only in `craft`, when no `high` debt is open |
+| Harden | **Craftsman** | — | — | complexity, test coverage | `low` debt, one item for each rule | `aidd run debt:low`, only in `craft`, when no `high` or `medium` debt is open |
 
 The type of the spec sets its steps. The origin sets the definition: a request has a spec that the human approves; debt has its item. The behavior sets the verification: only a `feat` and a `fix` change it.
 
@@ -218,8 +218,8 @@ high debt → `fix` spec → `scan-quality` (`debt:medium`) → medium debt → 
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review; a triage that the spec cannot solve | a `fix` spec: branch, implement, verify, review, ship |
-| `medium` | `debt:medium`: layers, test coverage, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
-| `low` | `debt:low`: complexity | a patch: a task branch for the `low` items of one project, implement with the check green, integrate; no spec |
+| `medium` | `debt:medium`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
+| `low` | `debt:low`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement with the check green, integrate; no spec |
 
 `aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. A `refactor` also repairs the other open `medium` items of the same project, at most five: each `medium` item names its project with `debt add --project`. A `fix` repairs one item, because each one needs its approval. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open.
 
@@ -231,7 +231,7 @@ In greenfield, `architect-system-foundation` registers the slots of each project
 - During coding, the pre-commit hook of the technology runs the unit tests that each commit affects. A unit test is fast and proves logic only: no disk, database, network or process. A commit of specs or docs only runs no test.
 - The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`, which `aidd spec debt` copies from the evidence of the item. For a spec with no requirements that cites none, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `debt:medium` or `debt:low` only to check a debt repair.
 - Quality findings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
-- `debt:medium` runs the dependency rules of the linter and the test coverage, never the commit hook. `debt:low` runs the complexity rules: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
+- `debt:medium` runs the dependency rules of the linter, never the commit hook. `debt:low` runs the complexity rules and the test coverage: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
 - The Craftsman runs `test --spec` in `verify-behavior`, the full `test` in `ship-spec` (the unit tests first, then the acceptance suite), and the `debt:medium` list of each project in `scan-quality`. Each check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
 - A `debt:medium` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
 

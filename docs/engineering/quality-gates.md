@@ -23,8 +23,8 @@ Each skill checks only its own work. Only the ship checks everything.
 | `review-implementation` | — | — | security, accessibility… | high debt |
 | `ship-spec` | all | all | — | triage |
 | `craft-lasting-quality` | — | — | — | fix(high) / refactor(medium) spec |
-| `scan-quality` (`debt:medium`) | — | — | logical layers, test coverage | medium debt |
-| `scan-quality` (`debt:low`) | — | — | complexity | low debt |
+| `scan-quality` (`debt:medium`) | — | — | logical layers | medium debt |
+| `scan-quality` (`debt:low`) | — | — | complexity, test coverage | low debt |
 
 - The spec flow calls `implement-project`, `verify-behavior`, `review-implementation` and `ship-spec`.
 - The craft repairs debt from high to low. It calls `scan-quality` (`debt:medium`) only when no high debt is open, and `scan-quality` (`debt:low`) only when no high or medium debt is open.
@@ -126,7 +126,7 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 Details in `.product/halloween/quality-gates.prompt.md`, section "Paso 3: decisiones".
 
 - **The hook runs the affected unit tests** (question 6). `test:files` and `aidd run test --changed` are gone; `implement-project` commits and fixes what the hook refuses. A unit test is fast and proves logic only: no disk, database, network or process. The acceptance tests prove the data.
-- **Debt slots by level.** `quality` is `debt:medium` (layers and test coverage, plus the core checks of folders and duplicates), and `harden` is `debt:low` (complexity). The rule that finds the debt sets its level, and its name says it.
+- **Debt slots by level.** `quality` is `debt:medium` (layers, plus the core checks of folders and duplicates), and `harden` is `debt:low` (complexity and test coverage: an untested branch of code that the acceptance tests prove is polish, not structure). The rule that finds the debt sets its level, and its name says it.
 - **`test:spec`.** The `e2e` project has a slot that ends in the filter flag of its runner (`vp test run -t`, `playwright test --grep`). `aidd run test --spec` adds only the tag, so the core never knows the runner. `test` stays the full suite.
 - **A system is a Vite+ workspace** with one flat folder for each project (`cli/`, `e2e/`); we keep the word project.
 

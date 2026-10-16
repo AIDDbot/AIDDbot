@@ -24,8 +24,8 @@ upgrade request ─────────────────────�
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review, or a triage too big for its spec | a `fix` spec: implement, verify, review, ship |
-| `medium` | `debt:medium`: layers, test coverage, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
-| `low` | `debt:low`: complexity | a patch: implement with the check green, integrate |
+| `medium` | `debt:medium`: layers, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
+| `low` | `debt:low`: complexity, test coverage | a patch: implement with the check green, integrate |
 
 ## Roles
 
