@@ -9,10 +9,12 @@ import {
 import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
 import { requirements, untested } from "./eval.mjs";
 
-// Basic lint and format are not here: the technology of each project runs them in its pre-commit hook.
-const RUN_KINDS = ["upgrade", "test", "quality", "harden"];
+// Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
+// Each debt kind has the name of the level of the debt that it finds.
+const RUN_KINDS = ["upgrade", "test", "debt:medium", "debt:low"];
 const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
-const NOT_EVIDENCE = new Set(["upgrade", "harden"]);
+const NOT_EVIDENCE = new Set(["upgrade", "debt:low"]);
+const SPEC_SLOT = "test:spec";
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
@@ -27,7 +29,6 @@ const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
-const TEST_FILE = /\.test\.[^./]+$/;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
 /** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
@@ -229,29 +230,6 @@ function duplicateFindings(root, project, start, size) {
   return blocks.sort((a, b) => b.lines - a.lines).slice(0, MAX_DUPLICATES);
 }
 
-const projectPrefix = (project) => (project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`);
-
-/** The files that the branch changes and that still exist: the diff from its merge base with the default branch, uncommitted changes included, and the new files. */
-function branchFiles(root) {
-  let base = null;
-  try {
-    base = git(root, ["merge-base", "HEAD", defaultBranch(root)], { allowFailure: true });
-  } catch {
-    base = null;
-  }
-  const list = (args) => (git(root, args, { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
-  const diff = list(["diff", "--name-only", "--no-renames", "--diff-filter=d", base || "HEAD"]);
-  return [...new Set([...diff, ...list(["ls-files", "--others", "--exclude-standard"])])];
-}
-
-/** The changed tests of a project, relative to it: each changed test and the test beside each changed source (`x.ts` → `x.test.ts`). */
-function changedTests(root, project, changed) {
-  const prefix = projectPrefix(project);
-  const own = changed.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && !INSTALLED.test(file)).map((file) => file.slice(prefix.length));
-  const tests = own.map((file) => (TEST_FILE.test(file) ? file : file.replace(/(\.[^./]+)$/, ".test$1")));
-  return [...new Set(tests)].filter((file) => fs.existsSync(path.join(root, prefix, file)));
-}
-
 /** The files that a commit of `paths` would take: changed since HEAD (only added or modified, with `kept`), or new and not ignored. */
 function changedFiles(root, paths, kept = false) {
   const list = (args) => (git(root, [...args, "--", ...paths], { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
@@ -260,25 +238,22 @@ function changedFiles(root, paths, kept = false) {
 }
 
 /** Run one classified command kind for every project that has it, or for `--project`. `test` runs the `e2e` projects last.
- *  `--spec` narrows `test` to the `e2e` tests of the current spec: the evidence of the verification.
- *  `--changed` narrows `test` to the unit tests of the files that the branch changes, through the `test:files` slot; it is never evidence. */
+ *  `--spec` runs the `test:spec` slot of each `e2e` with the tag of the current spec: the evidence of the verification.
+ *  That slot ends in the filter flag of its runner, so the core adds only the tag and never knows the runner. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
-  const changed = flags.changed === true;
-  if (changed && kind !== "test") throw new UsageError("--changed applies only to test.");
-  if (changed && flags.spec) throw new UsageError("Use --changed or --spec, not both.");
+  if (flags.spec && kind !== "test") throw new UsageError("--spec applies only to test.");
   const settings = readJson(configFile(root), { projects: {} });
   const projects = settings.projects ?? {};
   const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
-  const scoped = kind === "test" && flags.spec ? requireSpec(root) : null;
+  const scoped = flags.spec ? requireSpec(root) : null;
+  const slotName = scoped ? SPEC_SLOT : kind;
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
-    .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length)
+    .filter((name) => isNa(projects[name]?.commands?.[slotName]) || [projects[name]?.commands?.[slotName] ?? []].flat().length)
     .filter((name) => !scoped || projects[name].type === "e2e")
-    // The Builder checks the acceptance tests with `--spec`, never with `--changed`.
-    .filter((name) => !(changed && kind === "test" && projects[name].type === "e2e"))
     .sort((a, b) => (kind === "test") * ((projects[a].type === "e2e") - (projects[b].type === "e2e")));
   if (!names.length) {
-    const what = scoped ? "No 'e2e' project has a 'test' command" : `No '${kind}' command is configured`;
+    const what = scoped ? `No 'e2e' project has a '${SPEC_SLOT}' command` : `No '${kind}' command is configured`;
     throw new UnavailableError(`${what}; the foundation records each project's type and slots from its AGENTS.md.`);
   }
   const id = scoped && path.basename(scoped).slice(0, 5);
@@ -288,31 +263,18 @@ export function run(root, [kind], flags) {
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
-  const touched = changed ? branchFiles(root) : [];
   const unlock = lockRun(root, kind);
   try {
     for (const name of names) {
-      const slot = projects[name].commands[kind];
+      const slot = projects[name].commands[slotName];
       if (isNa(slot)) {
         runs.push({ project: name, ok: true, na: slot.na });
         continue;
       }
-      let commands = [slot].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
-      if (changed) {
-        const files = changedTests(root, projects[name], touched);
-        if (!files.length) {
-          runs.push({ project: name, ok: true, na: "no changed test" });
-          continue;
-        }
-        // A project without a `test:files` slot runs its full slot.
-        const narrow = projects[name].commands["test:files"];
-        if (typeof narrow === "string" || Array.isArray(narrow)) {
-          commands = [narrow].flat().map((command) => withArguments(command, files.map((file) => `"${file}"`).join(" ")));
-        }
-      }
+      const commands = [slot].flat().map((command) => (id ? withArguments(command, `@${id}-`) : command));
       commands.forEach((command, index) => {
-        const mode = id ? "-scoped" : changed ? "-changed" : "";
-        const log = aiddbotPath(root, "logs", `${kind}${mode}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+        // A slot name such as `debt:medium` is not a valid file name on every system.
+        const log = aiddbotPath(root, "logs", `${kind.replace(":", "-")}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
         runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
       });
     }
@@ -321,13 +283,13 @@ export function run(root, [kind], flags) {
   }
   const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
-  const findings = kind === "quality" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
+  const findings = kind === "debt:medium" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
   const folders = findings.flatMap((entry) => entry.crowded);
   const subfolders = findings.flatMap((entry) => entry.subfolders);
   const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
-  const duplicates = kind === "quality" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
+  const duplicates = kind === "debt:medium" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
-  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : changed ? " --changed" : ""}: ${summary.join(", ") || "n/a"}` });
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
     journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
   }
@@ -338,9 +300,9 @@ export function run(root, [kind], flags) {
     const where = duplicates.slice(0, 3).map((entry) => `${entry.locations[0].file}:${entry.locations[0].from} (${entry.lines} lines, ${entry.locations.length} places)`);
     journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
   }
-  if (!changed && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
+  if (!NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, ...(changed && { changed: true }), runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
+    : { kind, ok, runs, ...(kind === "debt:medium" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 

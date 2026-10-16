@@ -35,30 +35,15 @@ test("a commit that the pre-commit hook refuses fails with the output of the hoo
   assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
 });
 
-test("a test of the changed files runs only the unit tests of the branch; lint and format are no run kinds", () => {
+test("a commit needs no lint or test run: the hook of the technology lints, formats and runs the affected unit tests", () => {
   const root = repo();
-  write(root, "back/src/old.ts", "0\n");
-  write(root, "back/args.js", "console.log(process.argv.slice(2).join(' '));\n");
-  git(root, "add", "-A");
-  git(root, "commit", "-q", "-m", "chore: old");
   git(root, "switch", "-q", "-c", "chore/task");
-  const commands = { test: 'node -e "process.exit(0)"', "test:files": "node args.js" };
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands }));
-  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { test: 'node -e "process.exit(0)"' } }));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: 'node -e "process.exit(1)"' } }));
   write(root, "back/src/one.ts", "1\n");
-  write(root, "back/src/one.test.ts", "1\n");
-  write(root, "back/src/two.ts", "2\n");
-  const tested = aidd(root, "run", "test", "--changed");
-  assert.equal(tested.code, 0);
-  assert.equal(tested.body.runs.find((entry) => entry.project === "back").command, 'node args.js "src/one.test.ts"', "the changed test and the test beside each changed source");
-  assert.match(tested.body.runs.find((entry) => entry.project === "front").na, /no changed test/);
-  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true, "a commit needs no lint run: the hook of the technology lints");
-  aidd(root, "config", "set", "projects.back.commands", JSON.stringify({ test: 'node -e "process.exit(0)"' }));
-  write(root, "back/src/two.test.ts", "2\n");
-  assert.equal(aidd(root, "run", "test", "--changed", "--project", "back").body.runs[0].command, 'node -e "process.exit(0)"', "a project without test:files runs its full test");
-  assert.equal(aidd(root, "run", "quality", "--changed").code, 2);
+  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
   assert.equal(aidd(root, "run", "lint").code, 2);
   assert.equal(aidd(root, "run", "format").code, 2);
+  assert.equal(aidd(root, "run", "test:files").code, 2);
 });
 
 test("integrate commits and merges a task branch; log journals a capped judgment", () => {

@@ -47,7 +47,7 @@ export function aidd(root, ...args) {
 export function accept(root, code = 0, ...specs) {
   write(root, "e2e/tags.spec.ts", specs.map((id) => `test("@${id}-R01", () => {});\n`).join(""));
   write(root, "e2e/suite.js", `process.exit(${code});\n`);
-  const project = { type: "e2e", path: "e2e", commands: { test: "node suite.js" } };
+  const project = { type: "e2e", path: "e2e", commands: { test: "node suite.js", "test:spec": "node suite.js" } };
   aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
   if (specs.length) aidd(root, "run", "test", "--spec");
   return aidd(root, "run", "test", "--project", "e2e");
