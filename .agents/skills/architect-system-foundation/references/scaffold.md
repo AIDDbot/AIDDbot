@@ -15,15 +15,14 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 - Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit the projects and `.aiddbot/config.json`:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm run upgrade","test":"npm test","test:files":"npm run test:files","start":"npm start","quality":"npm run quality","harden":"npm run harden"}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm run upgrade","test":"npm test","test:spec":"npm run test:spec","start":"npm start","debt:medium":["npm run debt:medium:dependencies","npm run debt:medium:coverage"],"debt:low":"npm run debt:low"}}'
   ```
 
   - `type` is the type of the project in `.product/system.md`: `api`, `web`, `cli` or `e2e`.
-  - Each of `upgrade`, `test`, `start`, `quality`, and `harden` is a command, a list of commands, or `{"na":"<reason>"}`. The `test` of the `e2e` project is the acceptance suite.
-  - `test:files` takes the changed test files as arguments, for the Builder. Register it when the `AGENTS.md` gives it. Without it, `run test --changed` runs the full slot. An `e2e` project has no `test:files`.
-  - Lint and format are no slots: the pre-commit hook of the archetype runs them at each commit, and the install sets it up.
+  - Each slot is a command, a list of commands, or `{"na":"<reason>"}`, as the `AGENTS.md` of the project gives it. The `test` of the `e2e` project is the acceptance suite; `test:spec` is `n/a` in the other projects.
+  - Lint, format and the affected unit tests are no slots: the pre-commit hook of the archetype runs them at each commit, and the install sets it up.
   - Each command runs in `{source_root}`.
-  - For a scoped run, the core adds `--grep @S{nnnn}-` to the `test` command of the `e2e` project (after `--` for an npm script).
+  - For a scoped run, the core adds only the tag, such as `@S{nnnn}-`, to the `test:spec` command of the `e2e` project (after `--` for an npm script): that command ends in the filter flag of its runner.
 
 ## After all projects
 
