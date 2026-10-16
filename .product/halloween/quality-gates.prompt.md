@@ -80,7 +80,15 @@ Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la prueba con cód
 
 1. **Tipos activados a mano.** `vp check` no comprueba tipos por defecto. `lint.options: { typeAware: true, typeCheck: true }` en `vite.config.ts`; con eso el hook para un commit con un error de tipos.
 2. **Hook con unitarios relacionados.** `staged: { "*": "vp check --fix", "*.ts": "vp test related --run --passWithNoTests" }`. Cada commit comprueba formato, lint, tipos y los unitarios que importan los ficheros del commit (probado: rompe un validador → commit rechazado). No es regresión: los e2e y lo que no se importa (JSON leído, `import()` dinámico) los coge el ship. Sobran los slots `lint:files` y `test:files`, y el core ya no pasa la lista de ficheros. **Choca con la propuesta de la pregunta 6 del doc ("unitarios en el pre-commit: no"): decidir.**
-3. **Scripts por nivel de deuda, no por slot.** `lint:medium` (antes `quality`) y `lint:low` (antes `harden`). Nombres explícitos: dicen qué deuda producen. Cambia el core, las skills (`scan-quality`, `craft-lasting-quality`), `quality-gates.md` y el Blueprint. Ojo: el `quality` del core también corre duplicados y tamaño de carpeta; `lint:medium` es solo la parte de lint.
+3. **Scripts por nivel de deuda, no por slot.** `debt:medium` (antes `quality`) y `debt:low` (antes `harden`). Nombres explícitos: dicen qué deuda producen. Cambia el core, las skills (`scan-quality`, `craft-lasting-quality`), `quality-gates.md` y el Blueprint. Ojo: el `quality` del core también corre duplicados y tamaño de carpeta; `debt:medium` es solo la parte de la tecnología.
+   - `debt:medium` = `vp lint -c lint/medium.json && vp test run --project unit --coverage` (dependencias y cobertura).
+   - `debt:low` = `vp lint -c lint/low.json` (complejidad).
+   - Con `&&`, si falla el lint no corre la cobertura: una pasada no registra toda la deuda media. Alternativa: una tarea de `vp run` con `dependsOn` (trae caché). Aceptado por ahora.
+   - **Cobertura como deuda media.** 80 % por fichero en `core` y `shared` (sentencias, ramas, funciones, líneas), en `test.coverage` de `vite.config.ts`:
+     - Vite+ no trae el proveedor: `@vitest/coverage-v8` a la misma versión que su Vitest (5.0.4).
+     - `include: ["src/**/*.ts"]` (sin tests); si no, un fichero que ningún test carga no cuenta.
+     - `perFile: true`; si no, el umbral de un glob es la media de la carpeta y un fichero sin tests pasa (probado).
+     - Ni `test` ni el hook miden cobertura: solo con `--coverage`.
 4. **Configs compuestas en `lint/`.** `lint/complexity.json` y `lint/dependencies.json` tienen las reglas; `lint/low.json` y `lint/medium.json` solo hacen `extends`. Un nivel crece añadiendo un fichero. Fuera del root: solo queda `vite.config.ts`.
 5. **`error`, no `warn`.** Un nivel de deuda falla con código 1.
 6. **Globs `**/src/...`.** Oxlint resuelve los `files` de un override relativos al fichero de config: desde `lint/`, `src/...` y `../src/...` no casan nada (0 errores, sin aviso). `**/src/...` sí, y sirve en un monorepo (`apps/*/src`).
@@ -92,12 +100,14 @@ Experimento: `C:\code\temp\viteplus\cli-vite`. Rama `master`: la prueba con cód
 12. **Parser genérico en `core`.** `core/app.arguments.ts`: `parseArguments(argumentsList, definitions)` sobre `node:util` `parseArgs`; una opción no declarada es un error `usage`. Los tipos (`OptionDefinition`, `ParsedArguments`) en `shared/arguments.contract.ts`, para que una feature declare sus opciones sin importar `core`. No se conecta a la composición hasta `shell` (sin manejador de errores saldría una traza).
 13. **Formato sin Markdown.** `fmt.ignorePatterns: ["**/*.md"]`; si no, `vp check` rellena las tablas de Markdown.
 
+14. **Identidad, licencia y `.gitignore`.** `package.json` con `displayName`, `description`, `author` (`{ name, url }`), `homepage` y `license: "MIT"`; `LICENSE` y secciones Author y License en el README. Es la identidad de la plantilla: el scaffold la cambia por la de `.product/system.md`. El Blueprint no nombra la licencia: añadirla a esa lista. Titular del copyright: las librerías dicen `AIDDbot` y `create-aiddbot` `Alberto Basalo from aicode.academy`; elegir uno en el paso 4. `.gitignore` corto, por bloques (dependencias, Vite+ y tests, datos de ejecución anclados a la raíz, secretos).
+
 **Base (`basement`):** `app.main.ts` → `app.compose.ts` → `features/features.manifest.ts` (vacío); `core/app.arguments.ts`; en `shared` las primitivas semilla con sus tests. Sin comandos ni tests de aceptación: los traen `shell` y las demás specs fundacionales.
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
 2. **Tecnología base:** prueba corta de Vite+ y Bun (`C:\code\temp\viteplus`). Mirar: formato en la misma pasada, reglas de complejidad, estabilidad, hook de pre-commit. Pregunta 5 del doc.
-3. **Builder** (`C:\code\aidd\archetype-builder`, `git fetch` antes): lint del commit = lo de serie de la tecnología con arreglos seguros; `oxlint.boundaries*.json` → `quality`; `oxlint.complexity.json` → `harden`; la spec 0 instala el hook. **Aplicar la lista de "Paso 2: resultado"** (cambia nombres: `lint/dependencies.json` → `lint:medium`, `lint/complexity.json` → `lint:low`).
+3. **Builder** (`C:\code\aidd\archetype-builder`, `git fetch` antes): lint del commit = lo de serie de la tecnología con arreglos seguros; `oxlint.boundaries*.json` → `quality`; `oxlint.complexity.json` → `harden`; la spec 0 instala el hook. **Aplicar la lista de "Paso 2: resultado"** (cambia nombres: `lint/dependencies.json` y la cobertura → `debt:medium`, `lint/complexity.json` → `debt:low`).
 4. **Librerías:** volver a sembrar `archetype-cli` y `archetype-base`. Aquí entran el renombrado D28 y el nombre de plataforma (`cli-node`/`cli-bun`).
 5. **Ejecución real:** cli-9.
 6. **Release conjunta** de AIDDbot y librerías.
