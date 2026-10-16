@@ -187,7 +187,7 @@ Hechos en `refactor/quality-gates`: spec como fichero (91f4510b), deuda medium c
 
 ## cli-B
 
-Preparado 2026-10-16 en `C:\code\aidd\experiments\halloween\cli-B`: AIDDbot desde `refactor/quality-gates` `09f4db3e` (init local), Blueprint `440d7a5` sin `foundation-0.3/`, el manifiesto de Archetype CLI de cli-A. Prompt: `cli-B.md` (el mismo que cli-A). Mirar: specs como `.product/specs/{type}/{key}.md`; `debt add --project` en cada medium y refactors agrupados por proyecto; un solo `parseArgs`; R21 de shell (salida 2); resúmenes del journal legibles; ningún `AGENTS.md` con caracteres rotos; craft de cierre completo. Evitar que el ordenador se duerma.
+Preparado 2026-10-16 en `C:\code\aidd\experiments\halloween\cli-B`: AIDDbot desde `refactor/quality-gates` `88ff8f99` (init local), Blueprint `b296a50` sin `foundation-0.3/`, el manifiesto de Archetype CLI de cli-A. Prompt: `cli-B.md` (el mismo que cli-A). Mirar: specs como `.product/specs/{type}/{key}.md`; `debt add --project` en cada medium y refactors agrupados por proyecto; un solo `parseArgs`; R21 de shell (salida 2); resúmenes del journal legibles; ningún `AGENTS.md` con caracteres rotos; craft de cierre completo; la cobertura sale como deuda low (patch), ya no como refactor. Evitar que el ordenador se duerma.
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
