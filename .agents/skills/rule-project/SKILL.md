@@ -29,7 +29,7 @@ Lint, format and the affected unit tests are no slots: the pre-commit hook of th
 Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `debt:medium` is always a list with one command for each check, never one aggregate that stops at its first failure: one scan must show each failing check.
 
 ```json
-{"type":"cli","path":"cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"debt:medium":["npm run debt:medium:dependencies","npm run debt:medium:coverage"],"debt:low":"npm run debt:low"}}
+{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"debt:medium":["npm run debt:medium:dependencies","npm run debt:medium:coverage"],"debt:low":"npm run debt:low"}}
 ```
 
 ## AGENTS.md
