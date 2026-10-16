@@ -113,7 +113,7 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 
 ## Step 1 decisions
 
-- `aidd spec debt <D ID>` makes the minimal spec of one item: `high` → `fix`, which waits for the approval of the item; `medium` → `refactor`, defined at once. It refuses `low`: that is a patch. One item makes one spec.
+- `aidd spec debt <D ID>` makes the minimal spec of one item: `high` → `fix`, which waits for the approval of the item; `medium` → `refactor`, defined at once. It refuses `low`: that is a patch. One item made one spec until cli-9: there, eleven one-item refactors took about half an hour of spec cycles. Now a `refactor` also repairs the other open `medium` items of the same project (at most five), and a patch the `low` items of one project; a `fix` stays one item, because each one needs its approval.
 - `aidd spec new` takes only `feat`, `fix` and `chore`. A `refactor` comes only from debt. A repair of test code is a `chore`.
 - The gate asks for the evaluations of the type: `feat` and `fix` both, `chore` only the review, `refactor` none.
 - A red verification at revision 3 no longer lets a failed regression ship alone: high debt must record each failure.

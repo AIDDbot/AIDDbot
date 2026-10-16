@@ -71,7 +71,7 @@ It repairs the debt from high to low. The level of the debt sets the repair:
 
 1. Each `high` item gets a minimal `fix` spec from the core. You approve the item, then `/build-requested-spec` builds, verifies, reviews and ships it.
 2. When no `high` debt is open, the Craftsman runs the `debt:medium` checks: the logical layers, the test coverage, large folders and duplicated code. Each problem becomes `medium` debt.
-3. Each `medium` item gets a minimal `refactor` spec from the core, with no approval. The Builder makes the check pass, and the ship proves that the behavior did not change.
+3. The `medium` items of each project get one minimal `refactor` spec from the core, with no approval. The Builder makes the check pass, and the ship proves that the behavior did not change.
 4. When no `high` or `medium` debt remains, the Craftsman runs `debt:low` one time: the complexity limits. Each rule becomes one `low` item.
 5. Each `low` item is a patch: no spec and no release. The Builder makes the check pass, and the hook runs the affected unit tests.
 
