@@ -152,6 +152,8 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
+**Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (¿`typescript` explícito?), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
+
 Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gates`).
 
 1. **`@vitest/ui` en la raíz** (`3b71ad7`). Lo pide sin querer el `start` del `e2e` ("la UI interactiva del runner"): con Vitest eso necesita `@vitest/ui`. Arreglo: con Vitest, el `start` del `e2e` es `vp test` (modo watch), sin paquete extra; la UI solo con Playwright. Tocar `project-types.md`, el template y `ecosystems.md`.
