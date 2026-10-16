@@ -356,8 +356,9 @@ export function config(root, [action, key, value]) {
 const PRIORITIES = ["high", "medium", "low"];
 const debtFile = (root) => aiddbotPath(root, "debt.json");
 
-/** `debt add <title> <priority> [evidence]`, `debt list`, or `debt remove <id>`. */
-export function debt(root, [action, ...args]) {
+/** `debt add <title> <priority> [evidence] [--project <name>]`, `debt list`, or `debt remove <id>`.
+ *  A `medium` item names its project: a `debt:medium` run checks one project, and its refactor repairs the items of that project together. */
+export function debt(root, [action, ...args], flags = {}) {
   const register = readJson(debtFile(root), { items: [] });
   if (action === "list") {
     return register.items.toSorted((a, b) => PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority));
@@ -365,10 +366,18 @@ export function debt(root, [action, ...args]) {
   if (action === "add") {
     const [title, priority, evidence = ""] = args;
     if (!title?.trim() || !PRIORITIES.includes(priority)) {
-      throw new UsageError(`Use: aidd debt add "<title>" <${PRIORITIES.join("|")}> ["<evidence>"]`);
+      throw new UsageError(`Use: aidd debt add "<title>" <${PRIORITIES.join("|")}> ["<evidence>"] [--project <name>]`);
+    }
+    const projects = Object.keys(readJson(configFile(root), { projects: {} }).projects ?? {});
+    const project = typeof flags.project === "string" ? flags.project : undefined;
+    if (project !== undefined && !projects.includes(project)) {
+      throw new UsageError(`Project must be one of: ${projects.join(", ") || "(none configured)"}.`);
+    }
+    if (priority === "medium" && project === undefined) {
+      throw new UsageError("A medium item needs --project <name>: the project whose debt:medium run reported it.");
     }
     const spec = findSpec(root, git(root, ["branch", "--show-current"]));
-    const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(),
+    const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(), ...(project && { project }),
       origin: spec ? path.basename(spec).slice(0, 5) : "scan", at: new Date().toISOString() };
     register.items.push(item);
     writeJson(debtFile(root), register);

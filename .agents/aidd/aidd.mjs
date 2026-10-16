@@ -12,7 +12,7 @@ const COMMANDS = {
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
   run: [run, "run <upgrade|test|debt:medium|debt:low> [--project <name>] [--spec]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
-  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] | debt list | debt remove <id>'],
+  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] [--project <name>] | debt list | debt remove <id>'],
   commit: [commit, 'commit "<message>" [<path>...]'],
   release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],

@@ -67,21 +67,11 @@ function debtSpec(items, type, domain) {
   ].join("\n");
 }
 
-/** The one project whose folder the item names in its title or evidence, such as `cli/src/core/…`; null for none or several. */
-function projectOf(projects, item) {
-  const text = `${item.title} ${item.evidence ?? ""}`.replaceAll("\\", "/");
-  const named = Object.entries(projects).filter(([, project]) => project.path && project.path !== "." && text.includes(`${project.path.replace(/[\\/]+$/, "")}/`));
-  return named.length === 1 ? named[0][0] : null;
-}
-
 /** The items that one refactor repairs: the given item, and the other open `medium` items of its project, by D ID, at most MAX_GROUP.
  *  The rule is mechanical, so no one judges which items go together; a `fix` repairs one item, because each one needs its approval. */
-function groupOf(root, item, items) {
-  if (item.priority !== "medium") return [item];
-  const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
-  const project = projectOf(projects, item);
-  if (!project) return [item];
-  const others = items.filter((entry) => entry.id !== item.id && entry.priority === "medium" && projectOf(projects, entry) === project);
+function groupOf(item, items) {
+  if (item.priority !== "medium" || !item.project) return [item];
+  const others = items.filter((entry) => entry.id !== item.id && entry.priority === "medium" && entry.project === item.project);
   return [item, ...others.sort((a, b) => a.id.localeCompare(b.id))].slice(0, MAX_GROUP);
 }
 
@@ -95,7 +85,7 @@ function fromDebt(root, [id], flags) {
   const type = FROM_DEBT[item.priority];
   if (!type) throw new RuleError(`${item.id} is low debt: repair it as a patch, with no spec and no branch.`);
   const domain = domainOf(flags);
-  const group = groupOf(root, item, items);
+  const group = groupOf(item, items);
   const debt = group.map((entry) => entry.id);
   const created = open(root, type, slugOf(item), item.title, domain, debtSpec(group, type, domain));
   if (type === "fix") return { ...created, debt, approved: false };

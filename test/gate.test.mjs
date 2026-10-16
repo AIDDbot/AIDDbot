@@ -93,7 +93,8 @@ test("a fix without requirements is verified green with no run, and the regressi
 
 test("a refactor records no evaluation, and a chore no verification: the regression proves them", () => {
   const root = repo();
-  aidd(root, "debt", "add", "Duplicated price rule", "medium", "cart.ts:4 and order.ts:9");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js" } }));
+  aidd(root, "debt", "add", "Duplicated price rule", "medium", "cart.ts:4 and order.ts:9", "--project", "e2e");
   aidd(root, "spec", "debt", "D0001");
   assert.match(aidd(root, "eval", "verification", "green", "ok").body.error, /A refactor records no verification/);
   assert.match(aidd(root, "eval", "qualification", "green", "ok").body.error, /A refactor records no qualification/);
@@ -126,7 +127,7 @@ test("release needs a passing full unit and acceptance run at HEAD; a failure sh
   fs.mkdirSync(path.join(root, "back"));
   const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: `node -e "process.exit(${code})"` } }));
   unit(0);
-  aidd(root, "debt", "add", "Flaky login test", "medium");
+  aidd(root, "debt", "add", "Flaky login test", "medium", "", "--project", "back");
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
   accept(root, 0, "S0001");

@@ -101,7 +101,8 @@ test("spec new refuses while another spec branch is still open", () => {
 
 test("spec debt makes the minimal spec of a debt item: a refactor defined at once, a fix that waits for approval", () => {
   const root = repo();
-  aidd(root, "debt", "add", "Duplicated price rule!", "medium", "cart.ts:4 and order.ts:9");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js" } }));
+  aidd(root, "debt", "add", "Duplicated price rule!", "medium", "cart.ts:4 and order.ts:9", "--project", "e2e");
   aidd(root, "debt", "add", "SQL injection in search", "high", "search.ts:12");
   aidd(root, "debt", "add", "Complex parser", "low");
   assert.equal(aidd(root, "spec", "new", "refactor", "types", "Types").code, 2, "a refactor comes only from debt");
@@ -152,20 +153,22 @@ test("an unapproved spec takes no commit, no evaluation, and no release", () => 
   assert.doesNotMatch(aidd(root, "spec", "show").body.blockers.join(" "), /not approved/);
 });
 
-test("spec debt groups the open medium items of one project in one refactor, and keeps a fix to one item", () => {
+test("spec debt groups the open medium items of the project that each one names, and keeps a fix to one item", () => {
   const root = repo();
-  aidd(root, "config", "set", "projects.cli", JSON.stringify({ type: "cli", path: "cli", commands: { test: "npm test" } }));
-  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "npm test" } }));
-  aidd(root, "debt", "add", "Health presentation imports its repository", "medium", "cli/src/features/health/health.command.ts:2");
-  aidd(root, "debt", "add", "Suites repeat the CLI client", "medium", "e2e/features/shell/shell.test.ts:4");
-  aidd(root, "debt", "add", "Composition imports health outside the manifest", "medium", "cli/src/app.compose.ts:3");
-  aidd(root, "debt", "add", "Leaked token in a log", "high", "cli/src/core/app.logger.ts:9");
-  aidd(root, "debt", "add", "Unit coverage of the parser", "medium", "cli/src/core/app.arguments.ts");
+  aidd(root, "config", "set", "projects.cli", JSON.stringify({ type: "cli", path: "projects/cli", commands: { test: "npm test" } }));
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "projects/e2e", commands: { test: "npm test" } }));
+  aidd(root, "debt", "add", "Health presentation imports its repository", "medium", "src/features/health/health.command.ts:2", "--project", "cli");
+  aidd(root, "debt", "add", "Suites repeat the CLI client", "medium", "features/shell/shell.test.ts:4", "--project", "e2e");
+  aidd(root, "debt", "add", "Composition imports health outside the manifest", "medium", "src/app.compose.ts:3", "--project", "cli");
+  aidd(root, "debt", "add", "Leaked token in a log", "high", "src/core/app.logger.ts:9", "--project", "cli");
+  aidd(root, "debt", "add", "Unit coverage of the parser", "medium", "src/core/app.arguments.ts", "--project", "cli");
+  assert.equal(aidd(root, "debt", "add", "No project", "medium", "src/a.ts").code, 2, "a medium item names its project");
+  assert.equal(aidd(root, "debt", "add", "Unknown project", "medium", "src/a.ts", "--project", "web").code, 2);
   const refactor = aidd(root, "spec", "debt", "D0003");
   assert.deepEqual(refactor.body.debt, ["D0003", "D0001", "D0005"], "the given item first, then the other medium items of cli; never e2e or high");
   const text = fs.readFileSync(path.join(root, refactor.body.file), "utf8");
   assert.match(text, /— Composition imports health outside the manifest and 2 more/);
-  assert.match(text, /- D0001: cli\/src\/features\/health\/health\.command\.ts:2/);
+  assert.match(text, /- D0001: src\/features\/health\/health\.command\.ts:2/);
   assert.match(text, /The check that reported D0003, D0001, D0005 passes/);
   assert.match(text, /## Technical debt\n\n- D0003 — .*\n- D0001 — .*\n- D0005 — /);
   const other = repo();
