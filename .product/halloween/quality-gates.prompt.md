@@ -157,6 +157,7 @@ Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gate
 1. **`@vitest/ui` en la raíz** (`3b71ad7`). Lo pide sin querer el `start` del `e2e` ("la UI interactiva del runner"): con Vitest eso necesita `@vitest/ui`. Arreglo: con Vitest, el `start` del `e2e` es `vp test` (modo watch), sin paquete extra; la UI solo con Playwright. Tocar `project-types.md`, el template y `ecosystems.md`.
 2. **`@vitest/coverage-v8` en la raíz.** El Blueprint lo pone en cada proyecto que mide cobertura. Funciona por el workspace, pero aclarar en `ecosystems.md` dónde va (o aceptar la raíz).
 3. **`typescript` explícito en la raíz.** El Blueprint no lo pide: Vite+ ya trae TypeScript. Ver si algo lo usa (¿el editor?) y decidir si se prohíbe o se admite.
+4. **Activación del hook en un clon.** En cli-9 funciona: `"prepare": "vp config"` lo activa en cada `npm install`/`npm ci` y `.vite-hooks/pre-commit` (`vp staged`) está versionado. Comprobar al crear un sistema desde la librería que `npm ci` de `architect-system-foundation` deja el hook activo, y avisar de que `--ignore-scripts` lo deja sin hook.
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
