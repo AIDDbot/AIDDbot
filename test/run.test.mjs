@@ -85,6 +85,12 @@ test("run journals the last output line of each project and leaves out n/a proje
   assert.equal(aidd(root, "run", "test").code, 1);
   const last = journalText(root).trim().split("\n").at(-1);
   assert.match(last, /test: e2e exit 1 \d+s \(1 failed\)$/);
+  const wrapped = `node -e "console.log('lint/low.json: 2 errors'); console.error('npm error command sh -c vp lint'); process.exit(1)"`;
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "debt:low": [wrapped, wrapped] } }));
+  assert.equal(aidd(root, "run", "debt:low").code, 1);
+  const lint = journalText(root).trim().split("\n").at(-1);
+  assert.match(lint, /debt:low: e2e #1 exit 1 \d+s \(lint\/low\.json: 2 errors\), e2e #2 exit 1/);
+  assert.doesNotMatch(lint, /npm error/);
 });
 
 test("debt is added with the next D ID, listed by priority, and removed", () => {

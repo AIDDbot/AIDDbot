@@ -31,17 +31,23 @@ const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|p
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
-/** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
+/** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line.
+ *  Package-manager noise is never a summary: its `npm error` lines only repeat the command and its exit code. */
 function summaryLine(tail = "", ok = true) {
-  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !/^(npm (notice|warn)|> )/.test(line));
+  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !/^(npm (notice|warn|error|ERR!)|> )/.test(line));
   const telling = ok ? /\bpass/i : /\b(fail|error)/i;
   const line = lines.findLast((entry) => telling.test(entry)) ?? lines.at(-1) ?? "";
   return line.length > SUMMARY_LINE ? `${line.slice(0, SUMMARY_LINE - 1)}…` : line;
 }
 
+/** The name of one command of a slot with several: its npm script, else its place in the list. */
+function stepName(command, index) {
+  return command.match(/^npm\s+(?:run|run-script)\s+(\S+)/)?.[1] ?? `#${index + 1}`;
+}
+
 /** One project of a run for the journal: status, time and the summary line of its output. */
 function runSummary(entry) {
-  const status = `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`;
+  const status = `${entry.project}${entry.step ? ` ${entry.step}` : ""} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`;
   const line = summaryLine(entry.tail, entry.ok);
   return line ? `${status} (${line})` : status;
 }
@@ -276,7 +282,8 @@ export function run(root, [kind], flags) {
       commands.forEach((command, index) => {
         // A slot name such as `debt:medium` is not a valid file name on every system.
         const log = aiddbotPath(root, "logs", `${kind.replace(":", "-")}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
-        runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
+        const step = commands.length > 1 && !id ? { step: stepName(command, index) } : {};
+        runs.push({ project: name, ...step, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
       });
     }
   } finally {
