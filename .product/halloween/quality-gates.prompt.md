@@ -126,6 +126,27 @@ Prueba del layout: `C:\code\temp\viteplus\system-vite` (`cli/` y `e2e/` bajo un 
 - Cambia en AIDDbot (paso 1): fuera el slot `test:files` y `run test --changed` del core; `implement-project` solo hace commit y arregla lo que el hook rechace; `rule-project` deja de clasificar `test:files`; `quality-gates.md`: pregunta 6 = sí, y la tabla de puertas.
 - Cambia en el Builder: el contrato del hook; fuera `test:files` de `project-types.md` y del template.
 - Choca con `archetype-cli`: `app.config.test.ts`, `app.errors.test.ts` y `app.migrations.test.ts` tocan disco o SQLite. Al re-sembrar (paso 4) esa parte la prueba el e2e.
+- Solo corren si el commit lleva `.ts`: cada tarea de `staged` tiene su patrón. Un commit de solo specs o docs pasa sin tests (probado).
+- Pendiente (propuesta): una regla de dependencias que prohíba a un `*.test.ts` de `api`, `web` y `cli` importar `node:fs`, `node:sqlite`, `node:child_process`, `node:net`, `node:http`, `*.repository.ts` y `*.client.ts`. Así la regla es comprobable (deuda media), no de revisión.
+
+**D3. Slots por nivel de deuda, también en el core.**
+
+- `aidd run quality` → `aidd run debt:medium`: el script `debt:medium` de cada proyecto (dependencias, cobertura) más carpetas y duplicados del core. Todo es deuda media.
+- `aidd run harden` → `aidd run debt:low`: el script `debt:low` (complejidad). Deuda baja.
+- Sigue la regla "slot = script": el core no traduce. El nivel sale del nombre: la regla que encuentra la deuda fija su nivel. Una comprobación nueva entra en su nivel, sin slot nuevo.
+- Cambia en AIDDbot: `RUN_KINDS` (`upgrade`, `test`, `debt:medium`, `debt:low`), `NOT_EVIDENCE`, el uso de `aidd.mjs` y sus tests; `scan-quality` (modos `medium`/`low`), `craft-lasting-quality`, `rule-project`; docs (`quality-gates.md`, `core.md`, glosario, `features.md`). En el Builder: `project-types.md` y el template.
+- Va como **paso 1b** en `refactor/quality-gates`, junto con D2 (fuera `test:files` y `--changed`), después de cerrar las cuatro decisiones: el core se toca una vez.
+
+**D4. Slot `test:spec`: el core no conoce el runner.**
+
+- `test:spec` termina en el flag de filtro de su runner; el core solo añade la etiqueta. Vitest: `vp test run --passWithNoTests -t`; Playwright: `playwright test --grep`; Go: `go test ./... -run`; pytest: `pytest -k`.
+- `test` sigue siendo la suite completa (la regresión del ship). `test:spec` es `n/a` en `api`, `web` y `cli`.
+- Probado en `system-vite`: `@S0001-` corre los de la spec, `@S0001-R02` solo ese requisito. Una etiqueta sin tests sale con 0 (Vitest salta todos), pero `untested()` de `eval.mjs` ya exige un test etiquetado por requisito.
+- Cierra un abierto del paso 1: un `fix` que cita `@S0042-R03` puede correr ese test, porque `test:spec` admite cualquier etiqueta. Diseñar la opción de `aidd run test --spec` en el paso 1b.
+- La etiqueta va en el título del test (Vitest no tiene tags). Playwright solo cuando el sistema tiene una `web`; si no, Vitest.
+- Cambia en AIDDbot (paso 1b): `--spec` corre `test:spec` con `@{id}-` en vez de `test` con `--grep` (`work.mjs`); `rule-project` clasifica `test:spec`; `architect-system-foundation/references/scaffold.md` e `implement-project/references/acceptance-tests.md` (hoy nombran `--grep`). En el Builder: `project-types.md`, el template y `ecosystems.md`.
+
+**Orden:** paso 1b (core, skills y docs de AIDDbot con D2, D3 y D4), luego el Builder con todo (lista de "Paso 2: resultado" y D1–D4).
 
 ## Pasos siguientes (no empezar sin cerrar el 1)
 
