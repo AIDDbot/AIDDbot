@@ -234,6 +234,12 @@ Para el post-mortem: D0004 (S0006, `41dc84a`) abrió una excepción por fichero 
 
 CRLF en cli-B: 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `LICENSE`, `.vite-hooks/pre-commit`) y 7 `.ts` con CRLF en el índice y LF en disco. cli-C lo evita desde el primer commit. `archetype-base` también tiene ficheros mixtos: normalizarlo al resembrar.
 
+## web-A
+
+Preparado 2026-10-17 en `C:codeaiddexperimentshalloweenweb-A`: AIDDbot `refactor/quality-gates` `f4a0b814` (init local), Blueprint `431ef70` (React, D38, y los arreglos de cli-C `8a043f0`) sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` desde el primer commit, `core.autocrlf false`. Commits `a8ce0bd` (overlay) y `e0beaa3` (Blueprint y manifiesto). Prompt: `web-A.md` (7 specs, con users). Primera run con `api` y `web` en un workspace de Vite+: el scaffold de React y de Playwright están sin probar ahí.
+
+Mirar: el scaffold de React quita ESLint y `typescript` y no mete Next.js ni librerías fuera de la lista cerrada; el manifest de react-router es una lista explícita; los `.tsx` solo pintan (reglas y conversiones en `.ts`); la cobertura del `web` solo cuenta `.ts`; Pico y el tema copiados tal cual, sin CSS-in-JS; el helper del e2e da carpeta temporal a la base de datos y a los logs, y ningún test escribe en el repo (`git status` limpio tras la run); `node:sqlite` sin dependencia; ninguna excepción en `lint/`; ningún CRLF; ninguna etiqueta de otra spec reemplazada; el `.gitignore` raíz solo crece. Anotar cada intervención humana con hora. Evitar que el ordenador se duerma.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
