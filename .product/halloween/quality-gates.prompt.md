@@ -189,9 +189,11 @@ Hechos en `refactor/quality-gates`: spec como fichero (91f4510b), deuda medium c
 
 Preparado 2026-10-16 en `C:\code\aidd\experiments\halloween\cli-B`: AIDDbot desde `refactor/quality-gates` `88ff8f99` (init local), Blueprint `b296a50` sin `foundation-0.3/`, el manifiesto de Archetype CLI de cli-A. Prompt: `cli-B.md` (el mismo que cli-A). Mirar: specs como `.product/specs/{type}/{key}.md`; `debt add --project` en cada medium y refactors agrupados por proyecto; un solo `parseArgs`; R21 de shell (salida 2); resúmenes del journal legibles; ningún `AGENTS.md` con caracteres rotos; craft de cierre completo; la cobertura sale como deuda low (patch), ya no como refactor. Evitar que el ordenador se duerma.
 
+Actualizado 2026-10-17 (D35, D36; Blueprint sin `health`): 6 specs, scaffold → configuration → monitoring → shell → about → presentation. Mirar también: ningún `node:sqlite`, `DATABASE_URL`, migración ni concern `database` en el cli; R16 de monitoring con `CONFIG_FILE` carpeta; `presentation` sin `runs`, paginación ni `readOptions`; solo las 4 dependencias de la lista de `ecosystems.md` (sin `typescript` ni `@vitest/ui`); ninguna prueba que siga buscando `health`.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
-**Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (¿`typescript` explícito?), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
+**Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
 
 Run: `C:codeaiddexperimentshalloweencli-9` (AIDDbot desde `refactor/quality-gates`).
 
