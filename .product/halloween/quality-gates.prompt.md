@@ -251,6 +251,7 @@ Mirar: el lint por paquetes (`correctness` y `suspicious`, con `react` y `jsx-a1
 
 Hallazgos durante web-A:
 - 18:15, S0002: `projects/back/src/core/app.database.test.ts` (aún sin commit) hace `vi.mock("node:fs")` y `vi.mock("node:sqlite")`, e importa de `vitest` en vez de `vite-plus/test`. Prioridad baja (la regla de fondo es la velocidad: el mock evita el disco), pero el Blueprint pide inyectar; Resuelto: el escaneo medium tras S0002 lo abrió como D0001 y el refactor S0003 (`642d09d`) inyecta las dependencias de la base de datos, `layers` en verde. El e2e arranca sin npm (`node src/app.main.ts`, `vp dev`): bien.
+- 18:22, patch D0002 (`cd78bb4`): excepción por fichero en `projects/back/lint/crap.json` (`**/app.compose.ts`, `max-params` 3) para el middleware de Express `(request, response, next)`. Choca con la puerta («ninguna excepción en `lint/`») y con el Blueprint, que pide un comentario de lint en cada callback con firma del framework. Además el middleware de CORS está escrito en la composición, no en `core` como pide el estilo moderno. Decidir en el Blueprint: todo middleware de Express tiene 3 parámetros (4 el de errores), así que `max-params` 2 choca siempre; opciones: subir el límite de código a 3 (también lo pedía `readSetting` en cli-C), o una excepción en el `complexity.json` compartido para los ficheros de middleware de `core`.
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
