@@ -302,3 +302,10 @@ Una spec es de fundación si cumple las dos condiciones:
 - `debt:low` pasa a `crap`: complejidad, límites de tamaño y cobertura, las entradas de CRAP como umbrales separados; nunca se calcula la fórmula. Produce deuda `low`.
 - El nombre dice qué mide; la severidad la pone el core. `debt` a secas se descarta: deuda es el concepto general (registro, `aidd spec debt`, tres severidades).
 - Cuándo: al acabar cli-B, en `refactor/quality-gates`: core (`work.mjs`, `aidd.mjs`, `test/run.test.mjs`), skills con `/maintain-skills` y `npm run adapt`, docs, Blueprint y las dos librerías. Sale con las librerías.
+
+## D38 (2026-10-17) · Archetype Base se reconstruye como Archetype Web
+
+- Archetype Base (`api` + `web` + `e2e`, con usuarios) se reconstruye en 0.4 como un workspace entero, igual que Archetype CLI: un work system con el Builder, cero deuda, y la siembra con `seed.md`.
+- Nombre nuevo: **Archetype Web**, repositorio `AIDDbot/archetype-web`. Simétrico con Archetype CLI: un arquetipo se nombra por cómo usa la persona el sistema (la terminal, el navegador). «Full stack» es largo; «App» sirve también para móvil; «Stack» dice menos.
+- `archetype-base` queda en `v0.3.14`, sin tags nuevos. El catálogo cambia de nombre y de repositorio cuando se fija `archetype-web` 0.4.
+- La reconstrucción recoge los arreglos del Blueprint pendientes de cli-C (`quality-gates.prompt.md`, «Pendiente para el Builder»). AIDDbot 0.4 no sale hasta fijarla.
