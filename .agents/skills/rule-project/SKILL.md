@@ -20,16 +20,16 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 | `upgrade` | Updates the dependencies and the lockfile. |
 | `test` | In an `e2e` project: all the end-to-end tests that start the system, headless. In other projects: all the unit tests. |
 | `test:spec` | Only in an `e2e` project: the end-to-end tests, ending in the filter flag of the runner (such as `-t` or `--grep`), so that the core adds only a tag such as `@S0001-`. |
-| `start` | Starts the project. In an `e2e` project: the interactive UI of the test runner, for a human only. |
-| `debt:medium` | The checks of medium debt: the dependency rules between layers. Never the lint of the pre-commit hook. |
-| `debt:low` | The checks of low debt: the complexity rules of the linter and the test coverage. Each finding shows its rule. |
+| `start` | Starts the project. In an `e2e` project: the runner for a human only, in watch mode or with its UI; never a package added only for it. |
+| `layers` | The checks of medium debt: the dependency rules between layers. Never the lint of the pre-commit hook. |
+| `crap` | The checks of low debt: the complexity and size rules of the linter and the test coverage, the inputs of CRAP as separate thresholds; never compute the CRAP formula. Each finding shows its rule. |
 
 Lint, format and the affected unit tests are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
 
-Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `debt:medium` and `debt:low` are each a list with one command for each check, never one aggregate that stops at its first failure: one scan must show each failing check.
+Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `layers` and `crap` are each a list with one command for each check, never one aggregate that stops at its first failure: one scan must show each failing check.
 
 ```json
-{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"debt:medium":["npm run debt:medium:dependencies"],"debt:low":["npm run debt:low:complexity","npm run debt:low:coverage"]}}
+{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"layers":["npm run layers"],"crap":["npm run crap:complexity","npm run crap:coverage"]}}
 ```
 
 ## AGENTS.md

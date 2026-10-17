@@ -30,12 +30,12 @@ This file gives the data of this project. Do not explore the code to learn the s
 | `test` | Yes | `{command}` | {tool} |
 | `test:spec` | Yes | `{command}` | {tool} |
 | `start` | No | `{command}` | {tool} |
-| `debt:medium` | No | `{command}` | {tool} |
-| `debt:low` | No | `{command}` | {tool} |
+| `layers` | No | `{command}` | {tool} |
+| `crap` | No | `{command}` | {tool} |
 
 ## 4 · Architecture
 
-<!-- The pattern that the code really follows. The dependency rules of `debt:medium` check the layers. -->
+<!-- The pattern that the code really follows. The dependency rules of `layers` check the layers. -->
 
 **Pattern**: {Layer-based | Feature-based | Hybrid}
 

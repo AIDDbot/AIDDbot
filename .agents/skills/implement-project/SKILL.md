@@ -28,7 +28,7 @@ Check only what you change: fewer tests, and each failure near its cause. The pr
 - Write unit tests for the critical logic, not for UI code, data access, or E2E tests. A unit test is fast and touches no disk, database, network, or process: the E2E tests prove the data. Put each test beside its module.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
 - When the hook refuses a commit, fix each error that it shows and commit again. Never skip the hook.
-- When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run debt:medium --project {project}` or `run debt:low --project {project}`, and repair until it no longer shows the item. Otherwise `debt:medium` and `debt:low` belong to `scan-quality`.
+- When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run layers --project {project}` or `run crap --project {project}`, and repair until it no longer shows the item. Otherwise `layers` and `crap` belong to `scan-quality`.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 

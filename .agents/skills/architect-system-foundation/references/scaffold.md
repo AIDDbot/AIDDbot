@@ -15,7 +15,7 @@ Do each step for all the projects at once: the **Architect** does steps 1 and 2 
 - Step 3: install with `npm ci`. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit the projects and `.aiddbot/config.json`:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm run upgrade","test":"npm test","test:spec":"npm run test:spec","start":"npm start","debt:medium":["npm run debt:medium:dependencies"],"debt:low":["npm run debt:low:complexity","npm run debt:low:coverage"]}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm run upgrade","test":"npm test","test:spec":"npm run test:spec","start":"npm start","layers":["npm run layers"],"crap":["npm run crap:complexity","npm run crap:coverage"]}}'
   ```
 
   - `type` is the type of the project in `.product/system.md`: `api`, `web`, `cli` or `e2e`.

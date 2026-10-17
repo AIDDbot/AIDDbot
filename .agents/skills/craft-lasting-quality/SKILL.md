@@ -24,8 +24,8 @@ upgrade request ─────────────────────�
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review, or a triage too big for its spec | a `fix` spec: implement, verify, review, ship |
-| `medium` | `debt:medium`: layers, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
-| `low` | `debt:low`: complexity, test coverage | a patch: implement with the check green, integrate |
+| `medium` | `layers`: layers, duplicates, folder size | a `refactor` spec: implement with the check green, ship |
+| `low` | `crap`: complexity, test coverage | a patch: implement with the check green, integrate |
 
 ## Roles
 
@@ -61,9 +61,9 @@ When no `high` or `medium` item is open and this run has not hardened yet, the *
 A patch has no spec and no release:
 
 - A patch repairs the item and the other open `low` items of the same project, at most five. Create the task branch `chore/{D ID}-{slug}` from the default branch, with the D ID of the selected item.
-- The **Builder** executes `implement-project` for that project, with these items as its scope. It runs `debt:low` until the items are gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
+- The **Builder** executes `implement-project` for that project, with these items as its scope. It runs `crap` until the items are gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
 - When the **Builder** cannot repair an item, or its finding shows a bug, keep that item. When it repairs none, delete the task branch and select the next item.
-- Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item that `debt:low` no longer shows, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
+- Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item that `crap` no longer shows, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
 
 A patch runs only its affected unit tests. The ship of the next spec catches a regression. A patch does not count as one of the five specs.
 

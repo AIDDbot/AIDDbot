@@ -85,7 +85,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 - `logic`: rules and decisions. It does not know how data is stored.
 - `data`: all that the project reads or writes outside itself (database, remote API, files).
 - Types are not a layer. Each layer can use types, `shared` and the facades of other features.
-- `debt:medium` checks the imports with the dependency rules of the linter. A broken boundary is `medium` debt.
+- `layers` checks the imports with the dependency rules of the linter. A broken boundary is `medium` debt.
 - A feature that the manifest loads on demand has no other import. Tests start the application through the composition, without a port.
 
 ### Tests
@@ -106,9 +106,9 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 | Lines in a file | 128 | 256 |
 | Entries in a folder | 16 | 16 |
 
-- `debt:low` checks the limits of functions and files, and `debt:medium` the entries in a folder. A callback whose signature the framework sets (such as a middleware) is outside the parameter limit: disable the limit for it with a lint comment. A folder over the limit has more than one concern: divide it by concern.
+- `crap` checks the limits of functions and files, and `layers` the entries in a folder. A callback whose signature the framework sets (such as a middleware) is outside the parameter limit: disable the limit for it with a lint comment. A folder over the limit has more than one concern: divide it by concern.
 - Strictest typed form of the language and its strictest type check. One type for each domain concept, never a bare string, number, object or array. A value object for a value with rules, made at the edge; it checks only what the spec states. A closed type for a closed set: an enum or a union of literals, as the type check permits. Composition, not inheritance. Generic types in `shared`, domain types in their feature.
-- DRY: `shared` has one function to check, convert or format each common type. Look there before you write one. `debt:medium` reports each duplicated block of code as debt.
+- DRY: `shared` has one function to check, convert or format each common type. Look there before you write one. `layers` reports each duplicated block of code as debt.
 - One source for each definition: a default, an option, a usage text or a list of names is data in one place. Help, checks and error messages read it. Never parse a display text to get the data again.
 - Names: idiomatic, words of the domain. A function is a verb. A boolean is a question (`isActive`, `canEdit`). No negative names, no abbreviations except standard ones.
 - Early returns; no `else` on the main path. A long or deep block: a function with a domain name. More than one logical operator: a named variable or predicate. More than two values: one typed object.
