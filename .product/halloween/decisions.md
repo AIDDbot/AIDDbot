@@ -277,3 +277,20 @@ Una spec es de fundación si cumple las dos condiciones:
 ## D34 (cli-7) · `--major` solo cuando el encargo o la spec lo piden
 
 - Nunca por juicio del agente. En cli-7, S0009 saltó de 0.6.0 a 1.0.0 porque `presentation` cambia la salida de todos los comandos.
+
+## D35 (2026-10-17) · Fuera `health`; el cli, sin base de datos
+
+- `health` sale del blueprint. Nació cuando los arquetipos no hacían nada; hoy `configuration`, `monitoring`, `shell` y `about` ya recorren las capas. Tras `scaffold` quedan 6 specs de foundation: `configuration`, `monitoring`, `shell`, `about`, `users` (opcional), `presentation`.
+- En la `web`, `about` es el tracer bullet: `/about` y su tarjeta en la home leen `GET /api/about` con el cliente HTTP (`logic` + `data`). Así el cliente HTTP, las tarjetas y los estados busy/error siguen teniendo uso y prueba.
+- El arranque de la `api` y la preflight del `e2e` usan el índice `GET /api` de `shell`.
+- La paginación (`readPage`, `{ items, total }`, `--limit/--offset`, `readOptions`) espera a la primera lista de negocio; `presentation` deja la forma escrita como regla para entonces.
+- El cli no tiene base de datos: sin `DATABASE_URL`, migraciones, `node:sqlite` ni concern `database`. La spec que guarde datos la añade, con la receta de `ecosystems.md`. La `api` la conserva: es la dueña de los datos y `users` la usa.
+- Abierto: sin `users`, las migraciones de la `api` (R09, R10 de `configuration`) se prueban sin ninguna migración de feature.
+
+## D36 (2026-10-17) · Las dependencias, una lista cerrada
+
+- Un proyecto tiene solo las dependencias que nombran `ecosystems.md`, el `AGENTS.md` de su arquetipo o una spec. Nunca una por juicio del agente.
+- Motivo: la lista negra («ni otro runner, ni paquete de UI») no bastó; en una ejecución anterior entró `@vitest/ui`.
+- Una necesidad que no cubren la plataforma ni una dependencia nombrada es una decisión de spec. Una dependencia sin nombre rompe una regla del proyecto: deuda `medium`.
+- Pendiente: un check determinista que compare cada `package.json` con la lista.
+- Vitest se queda frente a `node:test`: `vp test related` en el pre-commit, cobertura por fichero y una sola cadena de herramientas; sin `web`, es también el runner del `e2e`.
