@@ -295,3 +295,10 @@ Una spec es de fundación si cumple las dos condiciones:
 - Una necesidad que no cubren la plataforma ni una dependencia nombrada es una decisión de spec. Una dependencia sin nombre rompe una regla del proyecto: deuda `medium`.
 - Pendiente: un check determinista que compare cada `package.json` con la lista.
 - Vitest se queda frente a `node:test`: `vp test related` en el pre-commit, cobertura por fichero y una sola cadena de herramientas; sin `web`, es también el runner del `e2e`.
+
+## D37 (2026-10-17) · Los slots de deuda, por lo que miden: `layers` y `crap`
+
+- `debt:medium` pasa a `layers`: las reglas de imports entre capas, o entre los contenedores de un `e2e`. Produce deuda `medium`.
+- `debt:low` pasa a `crap`: complejidad, límites de tamaño y cobertura, las entradas de CRAP como umbrales separados; nunca se calcula la fórmula. Produce deuda `low`.
+- El nombre dice qué mide; la severidad la pone el core. `debt` a secas se descarta: deuda es el concepto general (registro, `aidd spec debt`, tres severidades).
+- Cuándo: al acabar cli-B, en `refactor/quality-gates`: core (`work.mjs`, `aidd.mjs`, `test/run.test.mjs`), skills con `/maintain-skills` y `npm run adapt`, docs, Blueprint y las dos librerías. Sale con las librerías.
