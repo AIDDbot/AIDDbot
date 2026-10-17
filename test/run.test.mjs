@@ -24,7 +24,7 @@ test("a scoped acceptance run adds the spec tag to the test:spec slot, lists unt
   assert.equal(runs.acceptance, undefined);
   aidd(root, "config", "set", "projects.e2e.commands.test:spec", '"npm run test:spec"');
   assert.equal(aidd(root, "run", "test", "--spec").body.runs[0].command, "npm run test:spec -- @S0001-");
-  assert.equal(aidd(root, "run", "debt:medium", "--spec").code, 2);
+  assert.equal(aidd(root, "run", "layers", "--spec").code, 2);
 });
 
 test("run refuses while another run is alive, and a dead run leaves no lock", () => {
@@ -57,17 +57,17 @@ test("run keeps the whole output in a log, journals it, and stops at the timeout
   fs.mkdirSync(path.join(root, "back"));
   const noisy = `node -e "console.log('x'.repeat(5000) + 'END')"`;
   const hang = `node -e "setTimeout(() => {}, 30000)"`;
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "debt:medium": noisy, test: hang } }));
-  const scan = aidd(root, "run", "debt:medium");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": noisy, test: hang } }));
+  const scan = aidd(root, "run", "layers");
   assert.equal(scan.code, 0);
-  assert.equal(scan.body.runs[0].log, ".aiddbot/logs/debt-medium-back.log");
+  assert.equal(scan.body.runs[0].log, ".aiddbot/logs/layers-back.log");
   assert.ok(scan.body.runs[0].tail.length <= 1500);
-  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/logs/debt-medium-back.log"), "utf8").trim().length, 5003);
+  assert.equal(fs.readFileSync(path.join(root, ".aiddbot/logs/layers-back.log"), "utf8").trim().length, 5003);
   aidd(root, "config", "set", "run", '{ "timeoutMinutes": 0.02 }');
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 1);
   assert.match(unit.body.runs[0].timedOut, /killed after/);
-  assert.match(journalText(root), / run +INFO +debt:medium: back ok \d+s/);
+  assert.match(journalText(root), / run +INFO +layers: back ok \d+s/);
 });
 
 test("run journals the last output line of each project and leaves out n/a projects", () => {
@@ -85,16 +85,16 @@ test("run journals the last output line of each project and leaves out n/a proje
   assert.equal(aidd(root, "run", "test").code, 1);
   const last = journalText(root).trim().split("\n").at(-1);
   assert.match(last, /test: e2e exit 1 \d+s \(1 failed\)$/);
-  const wrapped = `node -e "console.log('lint/low.json: 2 errors'); console.error('npm error command sh -c vp lint'); process.exit(1)"`;
-  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "debt:low": [wrapped, wrapped] } }));
-  assert.equal(aidd(root, "run", "debt:low").code, 1);
+  const wrapped = `node -e "console.log('lint/crap.json: 2 errors'); console.error('npm error command sh -c vp lint'); process.exit(1)"`;
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "crap": [wrapped, wrapped] } }));
+  assert.equal(aidd(root, "run", "crap").code, 1);
   const lint = journalText(root).trim().split("\n").at(-1);
-  assert.match(lint, /debt:low: e2e #1 exit 1 \d+s \(lint\/low\.json: 2 errors\), e2e #2 exit 1/);
+  assert.match(lint, /crap: e2e #1 exit 1 \d+s \(lint\/crap\.json: 2 errors\), e2e #2 exit 1/);
   assert.doesNotMatch(lint, /npm error/);
   const coverage = `node -e "console.log('No test files found, exiting with code 0'); console.log('include: **/*.test.ts'); console.log('exclude:  **/node_modules/**'); console.log('Lines        : 88.57% ( 31/35 )'); console.log('='.repeat(80))"`;
-  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "debt:low": coverage } }));
-  assert.equal(aidd(root, "run", "debt:low").code, 0);
-  assert.match(journalText(root).trim().split("\n").at(-1), /debt:low: e2e ok \d+s \(Lines : 88\.57% \( 31\/35 \)\)$/);
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "crap": coverage } }));
+  assert.equal(aidd(root, "run", "crap").code, 0);
+  assert.match(journalText(root).trim().split("\n").at(-1), /crap: e2e ok \d+s \(Lines : 88\.57% \( 31\/35 \)\)$/);
 });
 
 test("debt is added with the next D ID, listed by priority, and removed", () => {
@@ -115,15 +115,15 @@ test("debt is added with the next D ID, listed by priority, and removed", () => 
 test("config set and get, then run executes the configured commands", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
-  const project = JSON.stringify({ type: "api", path: "back", commands: { test: "node -e \"process.exit(0)\"", "debt:medium": ["node -e \"process.exit(3)\""] } });
+  const project = JSON.stringify({ type: "api", path: "back", commands: { test: "node -e \"process.exit(0)\"", "layers": ["node -e \"process.exit(3)\""] } });
   assert.equal(aidd(root, "config", "set", "projects.back", project).code, 0);
   assert.equal(aidd(root, "config", "get", "projects.back.path").body, "back");
   assert.equal(aidd(root, "config", "set", "projects.front", "{}").code, 2);
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 0);
   assert.equal(unit.body.runs[0].project, "back");
-  assert.equal(aidd(root, "run", "debt:medium").code, 1);
-  assert.equal(aidd(root, "run", "debt:low").code, 3);
+  assert.equal(aidd(root, "run", "layers").code, 1);
+  assert.equal(aidd(root, "run", "crap").code, 3);
 });
 
 test("a project needs a known type, and test runs e2e last as acceptance evidence", () => {
@@ -143,29 +143,29 @@ test("a project needs a known type, and test runs e2e last as acceptance evidenc
   assert.deepEqual(aidd(root, "run", "test", "--spec").body.runs.map((entry) => entry.project), ["e2e"]);
 });
 
-test("a debt:medium run reports each shared or features folder over the size limit, and it never fails the run", () => {
+test("a layers run reports each shared or features folder over the size limit, and it never fails the run", () => {
   const root = repo();
   for (let index = 0; index < 17; index++) write(root, `back/src/shared/file${index}.ts`, "");
   for (let index = 0; index < 4; index++) write(root, `back/src/features/auth/file${index}.ts`, "");
   for (let index = 0; index < 20; index++) write(root, `back/src/core/file${index}.ts`, "");
   for (let index = 0; index < 20; index++) write(root, `back/node_modules/shared/file${index}.ts`, "");
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "debt:medium": "node -e \"process.exit(0)\"" } }));
-  const scan = aidd(root, "run", "debt:medium");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
+  const scan = aidd(root, "run", "layers");
   assert.equal(scan.code, 0);
   assert.deepEqual(scan.body.folders, [{ project: "back", folder: "back/src/shared", entries: 17, limit: 16 }]);
   aidd(root, "config", "set", "quality", '{"folderEntries":3}');
-  assert.deepEqual(aidd(root, "run", "debt:medium").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
+  assert.deepEqual(aidd(root, "run", "layers").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
 });
 
-test("a debt:medium run reports each subfolder inside a feature, and only there", () => {
+test("a layers run reports each subfolder inside a feature, and only there", () => {
   const root = repo();
   write(root, "back/src/features/auth/auth.api.ts", "");
   write(root, "back/src/features/auth/logic/auth.service.ts", "");
   write(root, "back/src/features/auth/logic/deep/more.ts", "");
   write(root, "back/src/shared/http/body.middleware.ts", "");
   write(root, "back/src/core/migrations/001-init.sql", "");
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "debt:medium": "node -e \"process.exit(0)\"" } }));
-  const scan = aidd(root, "run", "debt:medium");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
+  const scan = aidd(root, "run", "layers");
   assert.equal(scan.code, 0);
   assert.deepEqual(scan.body.subfolders, [{ project: "back", folder: "back/src/features/auth/logic" }]);
 });
@@ -185,25 +185,25 @@ test("a spec keeps the latest run of each kind per project", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
   fs.mkdirSync(path.join(root, "front"));
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "debt:medium": "node -e \"process.exit(0)\"" } }));
-  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { "debt:medium": "node -e \"process.exit(1)\"" } }));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
+  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { "layers": "node -e \"process.exit(1)\"" } }));
   aidd(root, "spec", "new", "feat", "fleet", "Fleet");
-  aidd(root, "run", "debt:medium", "--project", "back");
-  aidd(root, "run", "debt:medium", "--project", "front");
-  const medium = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs["debt:medium"];
+  aidd(root, "run", "layers", "--project", "back");
+  aidd(root, "run", "layers", "--project", "front");
+  const medium = readJson(root, ".aiddbot/logs/S0001-fleet.json").runs["layers"];
   assert.deepEqual(Object.keys(medium).sort(), ["back", "front"]);
   assert.equal(medium.back.ok, true);
   assert.equal(medium.front.ok, false);
 });
 
-test("a slot that does not apply needs its reason, and run reports it as ok; upgrade and debt:low are never evidence", () => {
+test("a slot that does not apply needs its reason, and run reports it as ok; upgrade and crap are never evidence", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "e2e"));
   const project = { type: "e2e", path: "e2e", commands: { test: { na: "no own logic" } } };
   assert.equal(aidd(root, "config", "set", "projects.e2e", JSON.stringify(project)).code, 0);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.debt:medium", '{ "na": "" }').code, 2);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.debt:medium", '{ "skip": true }').code, 2);
-  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.debt:medium", "[]").code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.layers", '{ "na": "" }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.layers", '{ "skip": true }').code, 2);
+  assert.equal(aidd(root, "config", "set", "projects.e2e.commands.layers", "[]").code, 2);
   const unit = aidd(root, "run", "test");
   assert.equal(unit.code, 0);
   assert.deepEqual(unit.body.runs, [{ project: "e2e", ok: true, na: "no own logic" }]);
@@ -211,27 +211,27 @@ test("a slot that does not apply needs its reason, and run reports it as ok; upg
   aidd(root, "config", "set", "projects.e2e.commands.upgrade", JSON.stringify("node -e \"process.exit(0)\""));
   assert.equal(aidd(root, "run", "upgrade").code, 0);
   assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.upgrade, undefined);
-  aidd(root, "config", "set", "projects.e2e.commands.debt:low", JSON.stringify("node -e \"process.exit(1)\""));
-  assert.equal(aidd(root, "run", "debt:low").code, 1);
-  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.["debt:low"], undefined);
-  assert.equal(aidd(root, "run", "debt:low", "--spec").code, 2);
-  assert.equal(aidd(root, "run", "debt:medium").code, 3);
+  aidd(root, "config", "set", "projects.e2e.commands.crap", JSON.stringify("node -e \"process.exit(1)\""));
+  assert.equal(aidd(root, "run", "crap").code, 1);
+  assert.equal(readJson(root, ".aiddbot/logs/S0001-rockets.json").runs?.["crap"], undefined);
+  assert.equal(aidd(root, "run", "crap", "--spec").code, 2);
+  assert.equal(aidd(root, "run", "layers").code, 3);
 });
 
-test("a debt:medium run reports each block of logic lines that two places repeat, for DRY", () => {
+test("a layers run reports each block of logic lines that two places repeat, for DRY", () => {
   const root = repo();
   const block = ["const total = items.length;", "if (total === 0) return [];", "const first = items[0];", "const last = items[total - 1];", "const middle = items.slice(1, -1);", "return [first, ...middle, last];"];
   write(root, "back/src/features/a/a.service.ts", ['import { x } from "./x.ts";', "export function a(items) {", ...block, "}", ""].join("\n"));
   write(root, "back/src/features/b/b.service.ts", ['import { y } from "./y.ts";', "// another feature", "export function b(items) {", "", ...block.map((line) => `    ${line}`), "}", ""].join("\n"));
   write(root, "back/src/shared/short.ts", block.slice(0, 5).join("\n"));
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "debt:medium": 'node -e "process.exit(0)"' } }));
-  const scan = aidd(root, "run", "debt:medium");
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": 'node -e "process.exit(0)"' } }));
+  const scan = aidd(root, "run", "layers");
   assert.equal(scan.code, 0, "duplication is debt, never a failed run");
   assert.equal(scan.body.duplicates.length, 1);
   assert.deepEqual(scan.body.duplicates[0].locations.map((entry) => `${entry.file}:${entry.from}-${entry.to}`),
     ["back/src/features/a/a.service.ts:3-8", "back/src/features/b/b.service.ts:5-10"]);
   aidd(root, "config", "set", "quality", '{"duplicateLines":5}');
-  assert.equal(aidd(root, "run", "debt:medium").body.duplicates[0].locations.length, 3);
+  assert.equal(aidd(root, "run", "layers").body.duplicates[0].locations.length, 3);
 });
 
 test("a scoped acceptance run of a spec without requirements runs nothing and is not applicable", () => {

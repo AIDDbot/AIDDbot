@@ -11,9 +11,9 @@ import { specTags, untested } from "./eval.mjs";
 
 // Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
 // Each debt kind has the name of the level of the debt that it finds.
-const RUN_KINDS = ["upgrade", "test", "debt:medium", "debt:low"];
+const RUN_KINDS = ["upgrade", "test", "layers", "crap"];
 const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
-const NOT_EVIDENCE = new Set(["upgrade", "debt:low"]);
+const NOT_EVIDENCE = new Set(["upgrade", "crap"]);
 const SPEC_SLOT = "test:spec";
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
@@ -284,7 +284,7 @@ export function run(root, [kind], flags) {
       }
       const commands = id ? [slot].flat().flatMap((command) => tags.map((tag) => withArguments(command, tag))) : [slot].flat();
       commands.forEach((command, index) => {
-        // A slot name such as `debt:medium` is not a valid file name on every system.
+        // A slot name such as `test:spec` is not a valid file name on every system.
         const log = aiddbotPath(root, "logs", `${kind.replace(":", "-")}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
         const step = commands.length > 1 && !id ? { step: stepName(command, index) } : {};
         runs.push({ project: name, ...step, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
@@ -295,11 +295,11 @@ export function run(root, [kind], flags) {
   }
   const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
-  const findings = kind === "debt:medium" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
+  const findings = kind === "layers" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
   const folders = findings.flatMap((entry) => entry.crowded);
   const subfolders = findings.flatMap((entry) => entry.subfolders);
   const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
-  const duplicates = kind === "debt:medium" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
+  const duplicates = kind === "layers" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
@@ -314,7 +314,7 @@ export function run(root, [kind], flags) {
   }
   if (!NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, runs, ...(kind === "debt:medium" && { folders, subfolders, duplicates }) };
+    : { kind, ok, runs, ...(kind === "layers" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 
@@ -361,7 +361,7 @@ const PRIORITIES = ["high", "medium", "low"];
 const debtFile = (root) => aiddbotPath(root, "debt.json");
 
 /** `debt add <title> <priority> [evidence] [--project <name>]`, `debt list`, or `debt remove <id>`.
- *  A `medium` item names its project: a `debt:medium` run checks one project, and its refactor repairs the items of that project together. */
+ *  A `medium` item names its project: a `layers` run checks one project, and its refactor repairs the items of that project together. */
 export function debt(root, [action, ...args], flags = {}) {
   const register = readJson(debtFile(root), { items: [] });
   if (action === "list") {
@@ -378,7 +378,7 @@ export function debt(root, [action, ...args], flags = {}) {
       throw new UsageError(`Project must be one of: ${projects.join(", ") || "(none configured)"}.`);
     }
     if (priority === "medium" && project === undefined) {
-      throw new UsageError("A medium item needs --project <name>: the project whose debt:medium run reported it.");
+      throw new UsageError("A medium item needs --project <name>: the project whose layers run reported it.");
     }
     const spec = findSpec(root, git(root, ["branch", "--show-current"]));
     const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(), ...(project && { project }),
