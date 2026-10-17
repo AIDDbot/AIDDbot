@@ -45,9 +45,9 @@ test("spec new works with pending changes and never needs a clean tree", () => {
   assert.match(git(root, "log", "-1", "--format=%s"), /reserve S0001/);
 });
 
-test("spec new skips the IDs of the archetype foundation specs", () => {
+test("spec new numbers after the specs of an archetype, with no counter", () => {
   const root = repo();
-  write(root, ".product/archetypes/foundation/S0008-record-views.spec.md", "# S0008-record-views\n");
+  write(root, ".product/specs/feat/S0008-record-views.md", "# S0008-record-views\n");
   const created = aidd(root, "spec", "new", "feat", "catalog", "Catalog");
   assert.equal(created.code, 0, JSON.stringify(created.body));
   assert.equal(created.body.branch, "feat/S0009-catalog");
