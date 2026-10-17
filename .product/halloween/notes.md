@@ -354,3 +354,45 @@ Recorrido del código final (`cli/src`, `e2e`; 2353 líneas). Cada hallazgo, con
 - **Punto 2.** ¿`harden` solo en el craft de cierre? Ahorra unos 3 min por ejecución y deja la lista de deuda igual de limpia hasta el final.
 - **Punto 3.** Blueprint: `presentation` nombra cada requisito de texto que sustituye, también el de `health`.
 - **Retomar.** Terminar cli-8 con el mismo prompt en una sesión nueva. Retoma desde `spec show S0011` (rama abierta, verificación pendiente) y prueba por fin la reanudación desde `.aiddbot/logs/`.
+
+## cli-B · Blueprint sin `health` (D35, D36), AIDDbot `refactor/quality-gates` (2026-10-17, completa)
+
+09:23:50 → 10:44:43, 81 min; unos 70 activos (13 min de espera por la pregunta de S0002, fallo de D35). Las 6 specs del Blueprint y 8 reparaciones de deuda. Versión 0.6.0, 108 commits (16 `docs(quality)`), 44 handoffs, 17 evaluaciones. Codex se quedó sin tokens justo tras publicar S0009; los scans de cierre (medium y low, `cli` y `e2e`) los corrí yo: todos en 0. Deuda cero. 70 tests unitarios, 39 de aceptación, cobertura `cli` 92 % sentencias / 89 % ramas. Dependencias: solo las 4 de la lista.
+
+| Spec | Versión | Entrega | Calificaciones | Tras la spec |
+| --- | ---: | ---: | ---: | --- |
+| S0001 scaffold | 0.1.1 | ~6 min | 1 | scans vacíos |
+| S0002 configuration | 0.2.0 | ~9 min (22 con la espera) | 1, ámbar | D0001 `high` → S0003 `fix`, ~2 min; D0002 `medium` → S0004 `refactor`, ~2 min; D0003 `low` → patch, ~1,5 min |
+| S0005 monitoring | 0.3.0 | ~10,5 min | 2 | D0004 `medium` → S0006 `refactor`, ~2 min; D0005 + D0006 `low` → un patch, ~1,5 min |
+| S0007 shell | 0.4.0 | ~12,5 min | 2 | D0007 `low` → patch, ~1,5 min |
+| S0008 about | 0.5.0 | ~5 min | 1 | D0008 `low` → patch, ~1 min |
+| S0009 presentation | 0.6.0 | ~7 min | 1 | scans de cierre (míos), vacíos |
+
+### Intervenciones humanas
+
+1. **S0002, la pregunta.** Con D35, `CONFIG_FILE` era la única setting del cli y no puede venir del fichero: nada que probar en `config get|set` ni en la prioridad de fuentes. La run preguntó si diferir los tests a `monitoring`. Respuesta: no; `configuration` declara `LOG_DIR` y `LOG_LEVEL` (Builder `681489c`). Fallo mío, no de la run.
+2. **S0002, «probar la prueba, no».** La spec añadió R09/R10: tests que arrancan la suite hija para probar sus settings. Quitados en un minuto, sin parar la run (Builder `bab320d`: los settings de la suite, solo revisión).
+
+### Lo que funcionó
+
+- **D35 y D36.** Ni `node:sqlite`, ni `DATABASE_URL`, ni migraciones, ni `health`; solo las 4 dependencias nombradas, sin `typescript` ni `@vitest/ui`.
+- **Cada deuda, en su flujo (quality gates).** `high` → `fix` con spec; `medium` → `refactor` con spec; `low` → patch sin spec. Cada reparación en 1–2 min. La cobertura sale como `low`, como se decidió.
+- **`presentation` publicada dentro de la ventana**, por primera vez desde cli-6. Sin `health` es más pequeña y llega antes.
+- **La corrección humana se quedó.** Cada handoff posterior repite «no suite self-tests».
+- **`Replaces:`.** `presentation` sustituye S0002-R03 de forma explícita, y la calificación lo comprobó.
+
+### Lo que salió mal
+
+1. **Un caso límite inventado hizo el código más complejo (S0007).** La calificación exigió que `config set LOG_DIR -logs` aceptase un valor con guion. El arreglo añadió metadatos de posición al parseo. La convención de un cli es `--` (`config set LOG_DIR -- -logs`), y `parseArgs` ya la soporta. Es el punto 1 abierto de cli-8, otra vez.
+2. **La cobertura, siempre después.** D0003, D0006, D0007 y D0008: el Builder no cubre `core` ni `shared` mientras implementa, y un patch lo arregla después. Barato (~1 min cada uno), pero son cuatro ciclos con su scan y su handoff.
+3. **Excepción de lint para `vi.mock` (D0004, S0006).** Un override por fichero en `lint/dependencies.json` para que `app.config.test.ts` importe `node:fs/promises`. Crece con cada test de `core`. Ya hay regla en el Blueprint (`137eade`): el código recibe disco, red o proceso como argumento; nunca `vi.mock` de un módulo ni excepción en `lint/`.
+4. **CRLF.** Codex en Windows escribe CRLF; Oxfmt deja LF. 8 ficheros con CRLF en el índice (también `.vite-hooks/pre-commit`) y 7 `.ts` mezclados. Blueprint `c4f917b`: `.gitattributes` con `* text=auto eol=lf` desde el scaffold.
+5. **`LICENSE` dentro de `configuration`.** La calificación de S0001 lo vio y no lo pidió; S0002 lo escribió. Le toca a `scaffold`.
+6. **Verificación de un `fix` sin requisitos (S0003).** «No aplicable»: solo revisión y regresión. Correcto para un fix de deuda, pero el fix no deja ningún test de aceptación del fallo que repara.
+
+### Abierto
+
+- **Punto 1 (cli-8 y cli-B).** Proponer: un caso límite que la spec no nombra no bloquea Requirements; va al registro como deuda `medium` y la spec se publica. Además, el revisor nunca pide salirse de las convenciones de la plataforma (como `--`).
+- **Punto 2.** ¿El Builder cubre `core` y `shared` con unit tests dentro de la spec, para que la cobertura no salga como deuda tras cada una? Por ahora el coste es bajo; decidir si vale la regla.
+- **Punto 5.** `scaffold` escribe el `LICENSE` del `system.md`.
+- **Al sembrar `archetype-cli` 0.4:** `.gitattributes` y renormalizar; cambiar los `vi.mock` por falsos inyectados y quitar el override de D0004; slots `layers` y `crap` (D37).
