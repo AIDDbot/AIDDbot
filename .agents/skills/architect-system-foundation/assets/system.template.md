@@ -18,21 +18,19 @@
 
 | Project | Type | Folder | Archetype | Responsibility |
 | --- | --- | --- | --- | --- |
-| {project} | {api \| web \| cli \| e2e} | `{folder}/` | `{library}/{folder}` | {one-line responsibility} |
+| {project} | {api \| web \| cli \| e2e} | `{folder}/` | {archetype name} | {one-line responsibility} |
 
 ## Technical decisions
 
-- {Only choices that shape the scaffold or the first specs: persistence, integration, deployment target, constraints. None when the archetypes decide it.}
+- {Only choices that shape the scaffold or the first specs: persistence, integration, deployment target, constraints. None when the archetype decides it.}
 - Basic authentication: {yes, the system has users \| no}.
 
 ## Scaffold
 
-Run from the repository root with a clean working tree, for each project of the library:
+Copy the whole archetype at its tag into a temporary folder, as the scaffold of `architect-system-foundation` says, then install one time at the root:
 
 ```bash
 {the copy command of the archetype in archetypes.md}
-npm install --prefix {folder}
+npm ci
 ```
-
-{Also copy the spec instances and the schema documents of the library: `npx degit AIDDbot/{library}/foundation#{tag} .product/archetypes/foundation` and `npx degit AIDDbot/{library}/model#{tag} .product/model`.}
 

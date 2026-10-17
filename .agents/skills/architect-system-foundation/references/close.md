@@ -1,8 +1,8 @@
 # Greenfield: close the foundation
 
-The code, the tagged tests, and the review of each foundation spec came with the library, and the gate of the library passed them. The instances in `.product/archetypes/foundation/` are the contract of the system. Never create, verify, review, or ship them as specs.
+The code, the tagged tests, and the review of each foundation spec came with the archetype, and the gate of the archetype passed them. The instances in `.product/archetypes/foundation/` are the contract of the system. Never create, verify, review, or ship them as specs.
 
-- The close is the only evidence. A red close is a defect of the environment or of the library: never repair it in the system.
+- The close is the only evidence. A red close is a defect of the environment or of the archetype: never repair it in the system.
 - The system keeps the version of its root `package.json`. The first business spec releases the next one.
 - The core gives the first business spec the ID after the instances, so the test tags never collide.
 
