@@ -2,7 +2,7 @@
 id: S0001
 slug: {slug}
 key: S0001-{slug}
-type: feat # feat, fix, chore
+type: {feat|fix|chore}
 branch: feat/S0001-{slug}
 domain: {domain}
 ---

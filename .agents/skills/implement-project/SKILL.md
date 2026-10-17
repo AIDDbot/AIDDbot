@@ -25,12 +25,14 @@ Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs l
 
 Check only what you change: fewer tests, and each failure near its cause. The pre-commit hook of the technology checks each commit: it formats, lints, type-checks, and runs the unit tests that the commit affects. Never run the full `test`: only `ship-spec` runs all the tests.
 
-- Write unit tests for the critical logic, not for UI code, data access, or E2E tests. A unit test is fast and touches no disk, database, network, or process: the E2E tests prove the data. Put each test beside its module.
+- Write unit tests for `logic`, `core`, and `shared`, up to the coverage that the `crap` slot of the project measures (each file, each branch, each error path), so that no coverage debt follows the spec. Never for UI code, data access, or E2E tests. A unit test is fast and touches no disk, database, network, or process: the code gets them as an argument, and the test gives a fake. Put each test beside its module.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
 - When the hook refuses a commit, fix each error that it shows and commit again. Never skip the hook.
 - When the scope is a debt item, such as a `refactor` or a patch, run the check that reported it, `node .agents/aidd/aidd.mjs run layers --project {project}` or `run crap --project {project}`, and repair until it no longer shows the item. Otherwise `layers` and `crap` belong to `scan-quality`.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
+
+Keep the `AGENTS.md` of the project current with your change: its tooling, its features, its shared primitives index, and its environment variables. A later agent reads it instead of the code.
 
 Before you return, read again the project rules and the technology rules of that `AGENTS.md`, the code rules of the Blueprint, and each sentence of the spec for this project. Check your diff against each one: a rule that you had and did not apply fails the qualification.
 
