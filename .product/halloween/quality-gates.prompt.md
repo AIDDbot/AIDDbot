@@ -195,6 +195,8 @@ Intervenciones humanas (restar del tiempo activo):
 - S0002, 09:30:59 → 09:44:24 (13 min 25 s, con la redacción de la spec dentro): la run preguntó porque `CONFIG_FILE` era la única setting (fallo de D35). Arreglo: Builder `681489c`, cli-B `4386e6a`.
 - S0002, 09:49:37 → 09:49:50 (sin parada): corrección humana, quitar R09/R10 (tests que arrancan la suite: «probar la prueba, no»). Builder `bab320d`.
 
+Para el post-mortem: D0004 (S0006, `41dc84a`) abrió una excepción por fichero en `lint/dependencies.json` para que `app.config.test.ts` importe `node:fs/promises` y lo sustituya con `vi.mock`. Es una excepción que crecerá con cada test de `core` que toque disco. Decidir en el Blueprint: o `core` recibe las operaciones de fichero como argumento (un falso en el test, sin `vi.mock` de `node:*`), o la regla admite el import cuando el test lo sustituye con `vi.mock`. Es el punto 7 abierto de cli-9.
+
 Al terminar cli-B: añadir `.gitattributes` (`* text=auto eol=lf`, Builder `c4f917b`) y `git add --renormalize .` antes de sembrar `archetype-cli`. En la run ya hay 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `LICENSE`, `.vite-hooks/pre-commit`) y 7 `.ts` con CRLF en el índice y LF en disco. `archetype-base` también tiene ficheros mixtos: normalizarlo al resembrar.
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
