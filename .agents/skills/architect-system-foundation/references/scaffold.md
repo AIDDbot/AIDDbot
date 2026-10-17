@@ -11,8 +11,8 @@ The **Architect** does steps 1 and 2, then the **Builder** does step 3, in one h
 | 3 | `chore(scaffold): register tooling`, one time | Dependencies installed, hook active, and all tooling slots registered. |
 
 - Step 1: copy the whole archetype with its copy command into a temporary folder outside the repository. Then, into the repository:
-  - Move the workspace root (`package.json`, `package-lock.json`, the tool configuration, the hook folder, `.gitattributes`) and the project folders.
-  - Move `foundation/` to `.product/archetypes/foundation/` and `model/` to `.product/model/`. The spec instances are the contract of the system, and the schema documents describe the code of the archetype.
+  - Move the workspace root (`package.json`, `package-lock.json`, the tool configuration, the shared limits in `.lint/`, the hook folder, `.gitattributes`) and the project folders.
+  - Move `.product/specs/`, `.product/model/` and `.product/PRD.md` of the archetype into `.product/`. They are shipped specs, as in any system: the tests carry their tags, and the schema documents describe the code. Leave out the `.product/system.md` of the archetype: the approved proposal is the one of the system.
   - Merge `.gitignore`: add each line of the archetype that the system does not have. Never remove a line of the system.
   - Leave out the `AGENTS.md`, `CLAUDE.md`, `README.md` and `LICENSE` of the archetype root: the system has its own.
   - Delete the temporary folder.
@@ -20,7 +20,7 @@ The **Architect** does steps 1 and 2, then the **Builder** does step 3, in one h
 - Step 3: install with one `npm ci` at the root. Its `prepare` script installs the pre-commit hook. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit `.aiddbot/config.json`:
 
   ```bash
-  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm run upgrade","test":"npm test","test:spec":"npm run test:spec","start":"npm start","layers":["npm run layers"],"crap":["npm run crap:complexity","npm run crap:coverage"]}}'
+  node .agents/aidd/aidd.mjs config set projects.{project} '{"type":"{type}","path":"{source_root}","commands":{"upgrade":"npm --prefix ../.. run upgrade","test":"npm test","test:spec":"npm run test:spec","start":"npm start","layers":"npm run layers","crap":["vp lint -c lint/crap.json","vp test run --coverage"]}}'
   ```
 
   - `type` is the type of the project in `.product/system.md`: `api`, `web`, `cli` or `e2e`.

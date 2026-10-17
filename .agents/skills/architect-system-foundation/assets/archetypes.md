@@ -1,6 +1,6 @@
 # Archetypes
 
-Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together, with the instances of their foundation specs (`foundation/`) and their schema documents (`model/`) (Halloween D28). Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
+Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together, with its shipped foundation specs and its schema documents in `.product/`, as an AIDDbot system (Halloween D28). Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
 
 ## Archetype Base
 
@@ -17,7 +17,7 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.4.1`. A system with exactly one local `cli` (no `api`, no database) and one `e2e`, and with no users. For any other system, use the other archetype.
+`AIDDbot/archetype-cli`, tag `v0.4.2`. A system with exactly one local `cli` (no `api`, no database) and one `e2e`, and with no users. For any other system, use the other archetype.
 
 | Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
@@ -25,8 +25,8 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 | `e2e` | e2e | `projects/e2e/` | Vitest, no browser |
 
 - One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and complexity configuration.
-- `foundation/` holds the instances `S0001-scaffold`, `S0002-configuration`, `S0004-monitoring`, `S0006-shell`, `S0008-about` and `S0009-presentation`.
-- Copy command: `npx degit AIDDbot/archetype-cli#v0.4.1 {temporary folder}`.
+- `.product/specs/` holds the shipped specs `S0001-scaffold`, `S0002-configuration`, `S0003-monitoring`, `S0004-shell`, `S0005-about` and `S0006-presentation`. The first business spec of a system is `S0007`.
+- Copy command: `npx degit AIDDbot/archetype-cli#v0.4.2 {temporary folder}`.
 
 ## No archetype fits
 

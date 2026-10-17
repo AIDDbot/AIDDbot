@@ -44,7 +44,7 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 
 Never scaffold when working code exists.
 
-The projects come only from an archetype of `assets/archetypes.md` (Archetype Base or Archetype CLI). The code, the tests, the tooling, the spec instances, and the schema documents of the foundation come with it. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships. When no archetype fits, stop: never make one.
+The projects come only from an archetype of `assets/archetypes.md` (Archetype Base or Archetype CLI). The code, the tests, the tooling, the shipped foundation specs, and the schema documents come with it. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships. When no archetype fits, stop: never make one.
 
 ## Brownfield
 
