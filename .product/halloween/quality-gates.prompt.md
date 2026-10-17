@@ -237,7 +237,7 @@ CRLF en cli-B: 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `
 ## Archetype CLI: mejoras a mano (2026-10-17, sobre v0.4.1, en `main` sin release ni push)
 
 - `b085120`: el e2e arranca el cli con `node src/app.main.ts`, no con `npm start` (npm suma ~0,5 s por invocación): suite e2e de 17 s a 5 s.
-- `794ef81`: `projects/lint/` → `.lint/` en la raíz; un solo script `crap` por proyecto; el slot del cli da los dos comandos `vp` directos.
+- `794ef81`: `projects/lint/` → los dos ficheros de límites en la raíz (`ce455d3`; `.lint/` se descartó por tener solo dos ficheros); un solo script `crap` por proyecto; el slot del cli da los dos comandos `vp` directos.
 - `3f6c583`: un solo `upgrade` en la raíz con `npx npm-check-updates@latest`, sin dependencia; cada proyecto lo llama con `npm --prefix ../.. run upgrade` (`vp` 1.3 no actualiza).
 - `c286bd4`: lint por paquetes, categorías `correctness` y `suspicious` con los plugins `typescript`, `unicorn`, `oxc`, `import`, `node`, `promise`, `vitest`; `no-non-null-assertion` es la única regla suelta (`restriction` no es un paquete). 31 hallazgos reparados.
 
