@@ -195,23 +195,23 @@ Intervenciones humanas (restar del tiempo activo):
 - S0002, 09:30:59 → 09:44:24 (13 min 25 s, con la redacción de la spec dentro): la run preguntó porque `CONFIG_FILE` era la única setting (fallo de D35). Arreglo: Builder `681489c`, cli-B `4386e6a`.
 - S0002, 09:49:37 → 09:49:50 (sin parada): corrección humana, quitar R09/R10 (tests que arrancan la suite: «probar la prueba, no»). Builder `bab320d`.
 
-**cli-B2 (preparado 2026-10-17, cuando Codex tenga tokens).** En `experiments/halloween/cli-B`, con AIDDbot `refactor/quality-gates` (`abc721da`, slots `layers` y `crap`) y el Blueprint `215e93a`. `layers` ya falla con 6 hallazgos: `node:fs/promises` y `vi.mock`/`vi.doMock` en `app.config.test.ts`, `app.adapters.test.ts`, `shell.pipeline.test.ts` e `identity.test.ts`. Prompt:
+**cli-B2 descartado (2026-10-17).** Iba a reparar con un craft los 6 hallazgos de `layers` (`vi.mock`/`vi.doMock` y `node:fs/promises` en `app.config.test.ts`, `app.adapters.test.ts`, `shell.pipeline.test.ts` e `identity.test.ts`). En su lugar, una run limpia (cli-C): el arquetipo sale de código escrito con un solo juego de reglas, sin overlays a mitad de run, y la run prueba que el Builder inyecta desde la primera spec, no solo que un craft sabe repararlo. cli-B queda como referencia.
 
-```
-$craft-lasting-quality for the cli project. The layers check refuses vi.mock and imports of disk in unit tests: the code under test gets its files, its configuration and its identity as an argument, and the test gives a fake. Never add an exception in lint/. The archetype ships with zero debt.
-```
+## cli-C
 
-Después de cli-B2, en orden (decidido 2026-10-17):
-1. Sembrar `archetype-cli` 0.4.0 con `seed.md` del Builder (`dd1a4b6`): el workspace entero, `foundation/` con las 6 specs de foundation y sus IDs (S0001, S0002, S0005, S0007, S0008, S0009), `model/`, el `AGENTS.md` raíz con la puerta del arquetipo. Tag y push solo con el visto bueno del humano.
+Preparado 2026-10-17 en `C:\code\aidd\experiments\halloween\cli-C`: AIDDbot desde `refactor/quality-gates` `48e2e2b4` (init local; slots `layers` y `crap`), Blueprint `dd1a4b6` (D28, D35–D37, la regla de los falsos) sin `foundation-0.3/`, el manifiesto `archetypes/archetype-cli.system.md` del Builder. `.gitattributes` (LF) desde el primer commit, `core.autocrlf false`: ningún fichero con CRLF en el índice. Commits `39bb183` (overlay) y `bede7b8` (Blueprint y manifiesto). Prompt: `cli-C.md` (el de cli-B, con «archetype» por «library»). Sin pistas sobre los falsos en el prompt: las reglas tienen que bastar.
+
+Mirar: ningún `vi.mock`/`vi.doMock` ni import de `node:*` de disco en los unitarios (el código recibe ficheros, configuración e identidad como argumento; el test da un falso); ninguna excepción en `lint/`; `layers`, `crap` y `test` en verde en cada ship; los nombres nuevos en el journal y en los logs (`layers-cli.log`); ningún CRLF (`git ls-files --eol | grep i/crlf` vacío); todo lo de la lista de cli-B (6 specs, sin `health` ni base de datos, solo las dependencias de `ecosystems.md`, un solo `parseArgs`, craft de cierre completo). Anotar cada intervención humana con hora. Evitar que el ordenador se duerma.
+
+Después de cli-C, en orden (decidido 2026-10-17):
+1. Sembrar `archetype-cli` 0.4.0 desde cli-C con `seed.md` del Builder (`dd1a4b6`): el workspace entero, `foundation/` con las 6 specs de foundation y sus IDs (los que salgan en cli-C), `model/`, el `AGENTS.md` raíz con la puerta del arquetipo. Tag y push solo con el visto bueno del humano.
 2. `architect-system-foundation` copia el arquetipo entero: degit a una carpeta temporal; mover la raíz del workspace y `projects/`; `foundation/` → `.product/archetypes/foundation/`, `model/` → `.product/model/`; fusionar `.gitignore`; descartar `AGENTS.md`, `README.md` y `LICENSE` del arquetipo; la identidad y `version` `0.0.0` en el `package.json` raíz; un `npm ci` en la raíz (su `prepare` instala el hook). Con el renombrado D28 de la skill, `AGENTS.md`, docs y `scripts/release.js`.
-3. Probarlo con un greenfield real (cli-C) desde el catálogo local.
+3. Probarlo con un greenfield real (cli-D) desde el catálogo local.
 4. AIDDbot 0.4 solo cuando Base esté rehecho: `release.js` no deja fijar un arquetipo de otro `major.minor`.
-
-Mirar: que la reparación inyecte (sin `vi.mock` ni excepción); que `layers`, `crap` y `test` queden en verde; los nombres nuevos en el journal y en los logs (`layers-cli.log`).
 
 Para el post-mortem: D0004 (S0006, `41dc84a`) abrió una excepción por fichero en `lint/dependencies.json` para que `app.config.test.ts` importe `node:fs/promises` y lo sustituya con `vi.mock`. Es una excepción que crecerá con cada test de `core` que toque disco. Decidir en el Blueprint: o `core` recibe las operaciones de fichero como argumento (un falso en el test, sin `vi.mock` de `node:*`), o la regla admite el import cuando el test lo sustituye con `vi.mock`. Es el punto 7 abierto de cli-9.
 
-Al terminar cli-B: añadir `.gitattributes` (`* text=auto eol=lf`, Builder `c4f917b`) y `git add --renormalize .` antes de sembrar `archetype-cli`. En la run ya hay 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `LICENSE`, `.vite-hooks/pre-commit`) y 7 `.ts` con CRLF en el índice y LF en disco. `archetype-base` también tiene ficheros mixtos: normalizarlo al resembrar.
+CRLF en cli-B: 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `LICENSE`, `.vite-hooks/pre-commit`) y 7 `.ts` con CRLF en el índice y LF en disco. cli-C lo evita desde el primer commit. `archetype-base` también tiene ficheros mixtos: normalizarlo al resembrar.
 
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
