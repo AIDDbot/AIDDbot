@@ -106,7 +106,7 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 | Lines in a file | 128 | 256 |
 | Entries in a folder | 16 | 16 |
 
-- `crap` checks the limits of functions and files, and `layers` the entries in a folder. A callback whose signature the framework sets (such as a middleware) is outside the parameter limit: disable the limit for it with a lint comment. A folder over the limit has more than one concern: divide it by concern.
+- `crap` checks the limits of functions and files, and `layers` the entries in a folder. A callback whose signature the framework sets (such as a middleware) sits in the file that the shared limits allow for it (`src/core/{concern}.middleware.ts`): no lint comment and no exception in `lint/`. A folder over the limit has more than one concern: divide it by concern.
 - Strictest typed form of the language and its strictest type check. One type for each domain concept, never a bare string, number, object or array. A value object for a value with rules, made at the edge; it checks only what the spec states. A closed type for a closed set: an enum or a union of literals, as the type check permits. Composition, not inheritance. Generic types in `shared`, domain types in their feature.
 - DRY: `shared` has one function to check, convert or format each common type. Look there before you write one. `layers` reports each duplicated block of code as debt.
 - One source for each definition: a default, an option, a usage text or a list of names is data in one place. Help, checks and error messages read it. Never parse a display text to get the data again.
