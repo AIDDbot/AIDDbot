@@ -234,6 +234,15 @@ Para el post-mortem: D0004 (S0006, `41dc84a`) abrió una excepción por fichero 
 
 CRLF en cli-B: 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `LICENSE`, `.vite-hooks/pre-commit`) y 7 `.ts` con CRLF en el índice y LF en disco. cli-C lo evita desde el primer commit. `archetype-base` también tiene ficheros mixtos: normalizarlo al resembrar.
 
+## Archetype CLI: mejoras a mano (2026-10-17, sobre v0.4.1, en `main` sin release ni push)
+
+- `b085120`: el e2e arranca el cli con `node src/app.main.ts`, no con `npm start` (npm suma ~0,5 s por invocación): suite e2e de 17 s a 5 s.
+- `794ef81`: `projects/lint/` → `.lint/` en la raíz; un solo script `crap` por proyecto; el slot del cli da los dos comandos `vp` directos.
+- `3f6c583`: un solo `upgrade` en la raíz con `npx npm-check-updates@latest`, sin dependencia; cada proyecto lo llama con `npm --prefix ../.. run upgrade` (`vp` 1.3 no actualiza).
+- `c286bd4`: lint por paquetes, categorías `correctness` y `suspicious` con los plugins `typescript`, `unicorn`, `oxc`, `import`, `node`, `promise`, `vitest`; `no-non-null-assertion` es la única regla suelta (`restriction` no es un paquete). 31 hallazgos reparados.
+
+Pendiente de llevar al Blueprint (y a web-A antes de lanzarla): CLI_START y los start del e2e sin npm; `.lint/`; un `crap` por proyecto; `upgrade` en la raíz con `npx`; los paquetes de lint en el `vite.config.ts` raíz. A AIDDbot: el ejemplo de `config set` de `architect-system-foundation/references/scaffold.md`.
+
 ## web-A
 
 Preparado 2026-10-17 en `C:codeaiddexperimentshalloweenweb-A`: AIDDbot `refactor/quality-gates` `f4a0b814` (init local), Blueprint `431ef70` (React, D38, y los arreglos de cli-C `8a043f0`) sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` desde el primer commit, `core.autocrlf false`. Commits `a8ce0bd` (overlay), `e0beaa3` (Blueprint y manifiesto) y `1ee7481` (Blueprint `6962fae`: estilo moderno de Express 5 y React 19). Prompt: `web-A.md` (7 specs, con users). Primera run con `api` y `web` en un workspace de Vite+: el scaffold de React y de Playwright están sin probar ahí.
