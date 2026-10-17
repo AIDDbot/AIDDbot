@@ -201,6 +201,12 @@ Intervenciones humanas (restar del tiempo activo):
 $craft-lasting-quality for the cli project. The layers check refuses vi.mock and imports of disk in unit tests: the code under test gets its files, its configuration and its identity as an argument, and the test gives a fake. Never add an exception in lint/. The archetype ships with zero debt.
 ```
 
+Después de cli-B2, en orden (decidido 2026-10-17):
+1. Sembrar `archetype-cli` 0.4.0 con `seed.md` del Builder (`dd1a4b6`): el workspace entero, `foundation/` con las 6 specs de foundation y sus IDs (S0001, S0002, S0005, S0007, S0008, S0009), `model/`, el `AGENTS.md` raíz con la puerta del arquetipo. Tag y push solo con el visto bueno del humano.
+2. `architect-system-foundation` copia el arquetipo entero: degit a una carpeta temporal; mover la raíz del workspace y `projects/`; `foundation/` → `.product/archetypes/foundation/`, `model/` → `.product/model/`; fusionar `.gitignore`; descartar `AGENTS.md`, `README.md` y `LICENSE` del arquetipo; la identidad y `version` `0.0.0` en el `package.json` raíz; un `npm ci` en la raíz (su `prepare` instala el hook). Con el renombrado D28 de la skill, `AGENTS.md`, docs y `scripts/release.js`.
+3. Probarlo con un greenfield real (cli-C) desde el catálogo local.
+4. AIDDbot 0.4 solo cuando Base esté rehecho: `release.js` no deja fijar un arquetipo de otro `major.minor`.
+
 Mirar: que la reparación inyecte (sin `vi.mock` ni excepción); que `layers`, `crap` y `test` queden en verde; los nombres nuevos en el journal y en los logs (`layers-cli.log`).
 
 Para el post-mortem: D0004 (S0006, `41dc84a`) abrió una excepción por fichero en `lint/dependencies.json` para que `app.config.test.ts` importe `node:fs/promises` y lo sustituya con `vi.mock`. Es una excepción que crecerá con cada test de `core` que toque disco. Decidir en el Blueprint: o `core` recibe las operaciones de fichero como argumento (un falso en el test, sin `vi.mock` de `node:*`), o la regla admite el import cuando el test lo sustituye con `vi.mock`. Es el punto 7 abierto de cli-9.
