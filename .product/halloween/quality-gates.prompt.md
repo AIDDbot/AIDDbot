@@ -241,7 +241,7 @@ CRLF en cli-B: 8 ficheros con CRLF en el índice (`AGENTS.md`, `.env.example`, `
 - `3f6c583`: un solo `upgrade` en la raíz con `npx npm-check-updates@latest`, sin dependencia; cada proyecto lo llama con `npm --prefix ../.. run upgrade` (`vp` 1.3 no actualiza).
 - `c286bd4`: lint por paquetes, categorías `correctness` y `suspicious` con los plugins `typescript`, `unicorn`, `oxc`, `import`, `node`, `promise`, `vitest`; `no-non-null-assertion` es la única regla suelta (`restriction` no es un paquete). 31 hallazgos reparados.
 
-Pendiente de llevar al Blueprint (y a web-A antes de lanzarla): CLI_START y los start del e2e sin npm; `.lint/`; un `crap` por proyecto; `upgrade` en la raíz con `npx`; los paquetes de lint en el `vite.config.ts` raíz. A AIDDbot: el ejemplo de `config set` de `architect-system-foundation/references/scaffold.md`.
+Pendiente de llevar al Blueprint (y a web-A antes de lanzarla): CLI_START y los start del e2e sin npm; los dos ficheros de límites en la raíz; un `crap` por proyecto; `upgrade` en la raíz con `npx`; los paquetes de lint en el `vite.config.ts` raíz. A AIDDbot: el ejemplo de `config set` de `architect-system-foundation/references/scaffold.md`.
 
 ## web-A
 
