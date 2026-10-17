@@ -34,13 +34,13 @@ function release() {
   parts[index]++;
   parts.fill(0, index + 1);
   const version = parts.join(".");
-  // Each library (Archetype Base, Archetype CLI) shares major.minor with AIDDbot; patches are independent (Halloween D6).
+  // Each archetype (Archetype Base, Archetype CLI) shares major.minor with AIDDbot; patches are independent (Halloween D6).
   const series = `v${parts[0]}.${parts[1]}.`;
   const catalog = path.join(root, ".agents", "skills", "architect-system-foundation", "assets", "archetypes.md");
   const pins = fs.existsSync(catalog) ? fs.readFileSync(catalog, "utf8").matchAll(/AIDDbot\/(archetype-[\w-]+)`, tag `(v[\d.]+)`/g) : [];
-  for (const [, library, pinned] of pins) {
+  for (const [, archetype, pinned] of pins) {
     if (!pinned.startsWith(series)) {
-      throw new Error(`${library} is pinned at ${pinned}. Release ${library} ${series}x first, pin it in archetypes.md and docs, then release AIDDbot v${version}.`);
+      throw new Error(`${archetype} is pinned at ${pinned}. Release ${archetype} ${series}x first, pin it in archetypes.md and docs, then release AIDDbot v${version}.`);
     }
   }
   const timestamp = new Date().toISOString();

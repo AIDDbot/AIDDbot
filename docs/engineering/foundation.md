@@ -4,7 +4,7 @@ Start the system before you deliver business value. First, the orchestrator give
 
 ```mermaid
 flowchart LR
-    V{Verdict} -->|greenfield| G[Proposal] --> A[Library] --> C{Close}
+    V{Verdict} -->|greenfield| G[Proposal] --> A[Archetype] --> C{Close}
     V -->|brownfield| D[Documentation] --> R[Rules]
 ```
 
@@ -13,11 +13,11 @@ flowchart LR
 The repository has no application code. Make the system from scratch.
 
 - An approved proposal in `.product/system.md` comes first. It sets the typed [projects](../principles/project.md) of the [system](../principles/system.md). Do not write code before the approval.
-- Each project starts from an archetype of its type. The archetypes come from one library of the catalog, such as Archetype Base or Archetype CLI. AIDDbot offers only libraries: when no library fits the system, the Architect says so and stops.
+- The system starts from one archetype of the catalog, such as Archetype Base or Archetype CLI: a whole solution, copied as a whole. AIDDbot offers only the archetypes of its catalog: when no archetype fits the system, the Architect says so and stops.
 - The root `AGENTS.md` gets the Blueprint: the architecture and the general coding rules. Each project gets a short `AGENTS.md` with only its own data and rules.
-- The foundation specs come before the business specs. The library brings the code, the tests, the spec instances and the schemas. Nothing is delivered again: the instances stay in `.product/archetypes/foundation/` as the contract, and the close is the only evidence. The system keeps version `0.1.0`, and the first business spec gets the ID after the last instance.
-- The Architect documents the system: only the root `AGENTS.md`, because the library brings the rest. Then the branch merges.
-- The foundation is complete only when `test` passes. A red close is a defect of the environment or of the library: repair it there, never in the system. No spec starts on a red foundation.
+- The foundation specs come before the business specs. The archetype brings the code, the tests, the tooling, the spec instances and the schemas. Nothing is delivered again: the instances stay in `.product/archetypes/foundation/` as the contract, and the close is the only evidence. The system keeps version `0.1.0`, and the first business spec gets the ID after the last instance.
+- The Architect documents the system: only the root `AGENTS.md`, because the archetype brings the rest. Then the branch merges.
+- The foundation is complete only when `test` passes. A red close is a defect of the environment or of the archetype: repair it there, never in the system. No spec starts on a red foundation.
 
 ## Brownfield
 

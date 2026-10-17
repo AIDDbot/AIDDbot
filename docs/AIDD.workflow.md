@@ -9,7 +9,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 | Prepare or understand a system | `/architect-system-foundation` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
-| Deliver an ordered list of spec files, such as the specs of a library | `/build-ordered-specs` |
+| Deliver an ordered list of spec files, such as the foundation specs of an archetype | `/build-ordered-specs` |
 
 ## Skills
 
@@ -19,7 +19,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from a library of archetypes, copy the projects and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
+| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 | [`/build-ordered-specs`](../.agents/skills/build-ordered-specs/SKILL.md) | Deliver an ordered list of spec files, each with its quality repair, to zero debt |
@@ -40,8 +40,8 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 ```yaml
 architect-system-foundation:
   greenfield:
-    - "Architect: propose .product/system.md as typed projects from one library, and obtain approval; when no library fits, stop"
-    - "Architect: on chore/foundation, copy each project of the library with its spec instances and schema documents; Builder: register the slots"
+    - "Architect: propose .product/system.md as typed projects from one archetype, and obtain approval; when no archetype fits, stop"
+    - "Architect: on chore/foundation, copy the whole archetype with its spec instances and schema documents; Builder: install and register the slots"
     - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
     - "close only when test passes"
   brownfield:
@@ -78,22 +78,22 @@ build-ordered-specs:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → copy of the library → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the library (its spec instances, code and tests) proved by the close |
+| No application code | Staged questions → `.product/system.md` → approval → copy of the archetype → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the archetype (its spec instances, code and tests) proved by the close |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one library of the catalog. AIDDbot offers only libraries: when no library fits, the foundation stops and makes no archetype. Libraries are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
+A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one archetype of the catalog: a whole solution. AIDDbot offers only the archetypes of its catalog: when no archetype fits, the foundation stops and makes none. Archetypes are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three projects that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
 
-After the approval, the Architect works on `chore/foundation`, each step for all the projects of the library at once:
+After the approval, the Architect works on `chore/foundation`, each step for all the projects of the archetype at once:
 
-1. The scaffold, with no change (`chore(scaffold): generate`).
+1. The copy of the whole archetype into the repository, with no change (`chore(scaffold): copy`): the workspace root, the projects, the spec instances and the schema documents.
 2. The system data in each `AGENTS.md` (`refactor: shape to blueprint`).
 3. The tooling, one `chore(scaffold): register tooling` for all the projects.
 
 In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. When projects share technology, `outline-system` moves the tooling and technology rules that they repeat to the Common stack of the root `AGENTS.md`, one time. The primitives index lists only the helpers that two or more features use; a helper of one feature follows a naming convention and has no row. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
 
-The Builder installs with `npm ci` and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of the library, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
+The Builder installs with one `npm ci` at the root, which also installs the pre-commit hook, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of the archetype, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
 Run `/architect-system-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 
