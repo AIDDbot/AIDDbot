@@ -191,6 +191,10 @@ Preparado 2026-10-16 en `C:\code\aidd\experiments\halloween\cli-B`: AIDDbot desd
 
 Actualizado 2026-10-17 (D35, D36; Blueprint sin `health`): 6 specs, scaffold → configuration → monitoring → shell → about → presentation. Mirar también: ningún `node:sqlite`, `DATABASE_URL`, migración ni concern `database` en el cli; R16 de monitoring con `CONFIG_FILE` carpeta; `presentation` sin `runs`, paginación ni `readOptions`; solo las 4 dependencias de la lista de `ecosystems.md` (sin `typescript` ni `@vitest/ui`); ninguna prueba que siga buscando `health`.
 
+Intervenciones humanas (restar del tiempo activo):
+- S0002, 09:30:59 → 09:44:24 (13 min 25 s, con la redacción de la spec dentro): la run preguntó porque `CONFIG_FILE` era la única setting (fallo de D35). Arreglo: Builder `681489c`, cli-B `4386e6a`.
+- S0002, 09:49:37 → 09:49:50 (sin parada): corrección humana, quitar R09/R10 (tests que arrancan la suite: «probar la prueba, no»). Builder `bab320d`.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
