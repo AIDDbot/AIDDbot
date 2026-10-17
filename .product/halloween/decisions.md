@@ -285,6 +285,7 @@ Una spec es de fundación si cumple las dos condiciones:
 - El arranque de la `api` y la preflight del `e2e` usan el índice `GET /api` de `shell`.
 - La paginación (`readPage`, `{ items, total }`, `--limit/--offset`, `readOptions`) espera a la primera lista de negocio; `presentation` deja la forma escrita como regla para entonces.
 - El cli no tiene base de datos: sin `DATABASE_URL`, migraciones, `node:sqlite` ni concern `database`. La spec que guarde datos la añade, con la receta de `ecosystems.md`. La `api` la conserva: es la dueña de los datos y `users` la usa.
+- Corregido en cli-B (S0002): sin `DATABASE_URL`, la única setting del cli en `configuration` era `CONFIG_FILE`, que no puede venir del fichero, así que `config get|set` y la prioridad de fuentes no tenían nada que probar. `configuration` declara ahora `LOG_DIR` y `LOG_LEVEL` en la `api` y en el cli, y `monitoring` solo los usa.
 - Abierto: sin `users`, las migraciones de la `api` (R09, R10 de `configuration`) se prueban sin ninguna migración de feature.
 
 ## D36 (2026-10-17) · Las dependencias, una lista cerrada
