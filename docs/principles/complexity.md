@@ -2,7 +2,7 @@
 
 ## Limits
 
-The limits do not block a delivery. The `debt:low` check measures the limits of functions and files, and `debt:medium` the entries in a folder, separate from the lint of the pre-commit hook. A violation is debt. A later craft pass repairs it.
+The limits do not block a delivery. The `crap` check measures the limits of functions and files, and `layers` the entries in a folder, separate from the lint of the pre-commit hook. A violation is debt. A later craft pass repairs it.
 
 The archetype can change these numbers.
 

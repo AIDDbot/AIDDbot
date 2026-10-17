@@ -70,12 +70,12 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 It repairs the debt from high to low. The level of the debt sets the repair:
 
 1. Each `high` item gets a minimal `fix` spec from the core. You approve the item, then `/build-requested-spec` builds, verifies, reviews and ships it.
-2. When no `high` debt is open, the Craftsman runs the `debt:medium` checks: the logical layers, large folders and duplicated code. Each problem becomes `medium` debt.
+2. When no `high` debt is open, the Craftsman runs the `layers` checks: the logical layers, large folders and duplicated code. Each problem becomes `medium` debt.
 3. The `medium` items of each project get one minimal `refactor` spec from the core, with no approval. The Builder makes the check pass, and the ship proves that the behavior did not change.
-4. When no `high` or `medium` debt remains, the Craftsman runs `debt:low` one time: the complexity limits and the test coverage. Each rule becomes one `low` item.
+4. When no `high` or `medium` debt remains, the Craftsman runs `crap` one time: the complexity limits and the test coverage. Each rule becomes one `low` item.
 5. Each `low` item is a patch: no spec and no release. The Builder makes the check pass, and the hook runs the affected unit tests.
 
-The loop repeats while debt remains, for at most five specs. The debt comes from two places. The review and the triage of each spec add `high` debt. The scan adds `medium` debt, and `debt:low` adds `low` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
+The loop repeats while debt remains, for at most five specs. The debt comes from two places. The review and the triage of each spec add `high` debt. The scan adds `medium` debt, and `crap` adds `low` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
 
 ## The core guards the process
 

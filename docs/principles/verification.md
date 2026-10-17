@@ -10,11 +10,11 @@ Each project gives one command for each check. The archetype selects the tool. B
 | --- | --- | --- |
 | Pre-commit hook | Formats, lints and type-checks the changed files, with safe fixes, and runs the unit tests that they affect. It refuses a commit with an error. | Yes |
 | `test` | Runs the tests of the project. In an `e2e` project, it runs the full acceptance suite: the tests of the spec and of every shipped requirement. In other projects, it runs the unit tests. `test:spec` runs the acceptance tests of one tag only. | Yes |
-| `debt:medium` | Checks the logical layers: incorrect imports between containers and between layers. It also finds duplicated blocks of code (DRY) and large folders. | No |
-| `debt:low` | Checks the complexity limits of functions and files, and the test coverage. | No |
+| `layers` | Checks the logical layers: incorrect imports between containers and between layers. It also finds duplicated blocks of code (DRY) and large folders. | No |
+| `crap` | Checks the complexity limits of functions and files, and the test coverage: the inputs of CRAP (Change Risk Anti-Patterns), as separate thresholds. | No |
 
-- A check that does not block makes debt. A later pass repairs it. A `debt:medium` finding is `medium` debt.
-- `debt:low` runs last, only when no `high` or `medium` debt remains. Its findings are `low` debt, one item for each rule. A false alarm is disabled in the configuration of the project, never in each place.
+- A check that does not block makes debt. A later pass repairs it. A `layers` finding is `medium` debt.
+- `crap` runs last, only when no `high` or `medium` debt remains. Its findings are `low` debt, one item for each rule. A false alarm is disabled in the configuration of the project, never in each place.
 - During the build, the hook runs only the unit tests that each commit affects, and the verification runs only the acceptance tests of the spec. Thus each failure is near its cause.
 - The `test` of each project must pass at the commit that ships: the regression. The core refuses a release without it, unless open `high` debt records each failure.
 - The review finds what a tool cannot find, such as a security or an accessibility error. Its findings are `high` debt. A security finding gets one repair first.

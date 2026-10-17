@@ -23,11 +23,11 @@ Each skill checks only its own work. Only the ship checks everything.
 | `review-implementation` | — | — | security, accessibility… | high debt |
 | `ship-spec` | all | all | — | triage |
 | `craft-lasting-quality` | — | — | — | fix(high) / refactor(medium) spec |
-| `scan-quality` (`debt:medium`) | — | — | logical layers | medium debt |
-| `scan-quality` (`debt:low`) | — | — | complexity, test coverage | low debt |
+| `scan-quality` (`layers`) | — | — | logical layers | medium debt |
+| `scan-quality` (`crap`) | — | — | complexity, test coverage | low debt |
 
 - The spec flow calls `implement-project`, `verify-behavior`, `review-implementation` and `ship-spec`.
-- The craft repairs debt from high to low. It calls `scan-quality` (`debt:medium`) only when no high debt is open, and `scan-quality` (`debt:low`) only when no high or medium debt is open.
+- The craft repairs debt from high to low. It calls `scan-quality` (`layers`) only when no high debt is open, and `scan-quality` (`crap`) only when no high or medium debt is open.
 - A patch is `implement-project` called by the craft, with no spec flow around it.
 - The review checks only what lint and e2e tests cannot see. It does not judge style, structure or complexity.
 - A spec solves its problem as well as it can, and then it closes. Debt is debt.
@@ -51,8 +51,8 @@ Each skill checks only its own work. Only the ship checks everything.
 - Remove the `lint` and `lint:files` slots from the core. Remove the lint choices in D22, D26 and cli-6 (`--quiet`, `--fix`).
 - Revert D33: verify runs only the affected e2e tests again. The regression goes back to the ship (as in D22).
 - Remove the core lint gates: a commit needs a passing lint, a release needs a full lint, and the lint state in the git folder. The release needs a green full test suite instead.
-- `quality` (since step 1b, `debt:medium`) = logical layers. They are lint rules (today `oxlint.boundaries.json`, `oxlint.boundaries.e2e.json`) that the `quality` slot runs, never the commit hook.
-- `harden` (since step 1b, `debt:low`) = complexity. Also lint rules (today `oxlint.complexity.json`).
+- `quality` (since step 1b, `layers`) = logical layers. They are lint rules (today `oxlint.boundaries.json`, `oxlint.boundaries.e2e.json`) that the `quality` slot runs, never the commit hook.
+- `harden` (since step 1b, `crap`) = complexity. Also lint rules (today `oxlint.complexity.json`).
 - No backward compatibility. In beta, the old way goes.
 - The review no longer makes low debt.
 - The spec types stay `feat`, `fix`, `refactor`, `chore` (D32). `fix` gets a new use.
@@ -126,7 +126,7 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 Details in `.product/halloween/quality-gates.prompt.md`, section "Paso 3: decisiones".
 
 - **The hook runs the affected unit tests** (question 6). `test:files` and `aidd run test --changed` are gone; `implement-project` commits and fixes what the hook refuses. A unit test is fast and proves logic only: no disk, database, network or process. The acceptance tests prove the data.
-- **Debt slots by level.** `quality` is `debt:medium` (layers, plus the core checks of folders and duplicates), and `harden` is `debt:low` (complexity and test coverage: an untested branch of code that the acceptance tests prove is polish, not structure). The rule that finds the debt sets its level, and its name says it.
+- **Debt slots by level.** `quality` is `layers` (layers, plus the core checks of folders and duplicates), and `harden` is `crap` (complexity and test coverage: an untested branch of code that the acceptance tests prove is polish, not structure). The rule that finds the debt sets its level, and its name says it.
 - **`test:spec`.** The `e2e` project has a slot that ends in the filter flag of its runner (`vp test run -t`, `playwright test --grep`). `aidd run test --spec` adds only the tag, so the core never knows the runner. `test` stays the full suite.
 - **A system is a Vite+ workspace** with one flat folder for each project (`cli/`, `e2e/`); we keep the word project.
 

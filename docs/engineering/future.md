@@ -14,7 +14,7 @@ flowchart LR
 Debt comes from two sources:
 
 - **Development.** A finding that does not block a delivery becomes debt. Examples: a review finding, or a failure at revision 3 of a [feature](./features.md#verification). Its origin is the spec. Its priority is `high` when it breaks (a blocking review finding, a failure), else `low`.
-- **Scan.** The `debt:medium` check measures the code. Its origin is `scan`, and its priority is `medium`.
+- **Scan.** The `layers` check measures the code. Its origin is `scan`, and its priority is `medium`.
   - Complexity over the [limits](../principles/complexity.md#limits).
   - Folders with too many entries, and subfolders in a feature.
   - Duplicated blocks of code (DRY): the repair moves each block to one function.
