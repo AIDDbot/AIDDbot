@@ -307,5 +307,6 @@ Una spec es de fundación si cumple las dos condiciones:
 
 - Archetype Base (`api` + `web` + `e2e`, con usuarios) se reconstruye en 0.4 como un workspace entero, igual que Archetype CLI: un work system con el Builder, cero deuda, y la siembra con `seed.md`.
 - Nombre nuevo: **Archetype Web**, repositorio `AIDDbot/archetype-web`. Simétrico con Archetype CLI: un arquetipo se nombra por cómo usa la persona el sistema (la terminal, el navegador). «Full stack» es largo; «App» sirve también para móvil; «Stack» dice menos.
+- Tecnología: `api` con Express; `web` con React sobre Vite, sin Next.js (su enrutado por ficheros es descubrimiento automático); rutas en una lista explícita de react-router como manifest; Pico CSS con el tema de la marca; `e2e` con Playwright. Criterio: lo más estándar, lo que esperan los equipos y mejor conocen los modelos; el código lo escribe el agente. Fuera por ahora: Angular (quizá un arquetipo futuro con NestJS) y Vue (quizá un arquetipo rápido futuro con Hono sobre Bun; Bun pendiente del hook de pre-commit, D16).
 - `archetype-base` queda en `v0.3.14`, sin tags nuevos. El catálogo cambia de nombre y de repositorio cuando se fija `archetype-web` 0.4.
 - La reconstrucción recoge los arreglos del Blueprint pendientes de cli-C (`quality-gates.prompt.md`, «Pendiente para el Builder»). AIDDbot 0.4 no sale hasta fijarla.
