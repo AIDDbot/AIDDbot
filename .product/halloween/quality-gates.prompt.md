@@ -218,6 +218,8 @@ Arreglado en cli-C a mano (2026-10-17, rama `fix/test-isolation`, merge `d4870c3
 - `90d78c8`: el helper del e2e da a cada test su `LOG_DIR` temporal (`logs: null` para no darlo); `cli.copy()` copia el proyecto para los tests que usan los valores por defecto (R07 y el caso de `LOG_DIR` no válido en el fichero de R08); `quote()` escapa por shell.
 - Perdidas al hacer el merge: las últimas líneas del journal (12:55:50–12:56:18, los escaneos finales medium y low, en verde). El resto está restaurado sin versionar.
 
+Siembra (2026-10-17): `archetype-cli` `3565243` (local, sin tag ni push), 0.4.0 Halloween desde cli-C `1473397`. Puerta en verde: suite completa (56 + 31), `layers` y `crap` en los dos proyectos, árbol limpio tras la run, canario de `core` → feature falla `layers`, 34 requisitos con su etiqueta, ningún CRLF, ninguna excepción en `lint/`, el hook se instala con `npm ci`. Hallazgo de la puerta: S0009 cambió las etiquetas `@S0002-R03` por `@S0009-R02` en tres tests (`b6e1736`), así que R03 de configuration se quedó sin test; arreglado en cli-C (`1473397`) con las dos etiquetas. Para AIDDbot: una spec nunca quita la etiqueta de otra spec; verify debería comprobar todos los requisitos shipped, no solo los propios.
+
 Pendiente para el Builder, con el arquetipo api + web: `readSetting` como objeto en `project-types.md`; «añade, nunca reescribas el `.gitignore` raíz»; el helper del e2e da una carpeta temporal a cada setting que sea una ruta, y los tests de valores por defecto usan una copia del proyecto; el logger de arranque lee sus settings de las definiciones. Para AIDDbot: `outline-system` no debe borrar reglas técnicas del `AGENTS.md` de un proyecto.
 
 Después de cli-C, en orden (decidido 2026-10-17):
