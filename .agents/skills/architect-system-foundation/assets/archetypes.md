@@ -17,7 +17,7 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.4.0`. A system with exactly one local `cli` (no `api`, no database) and one `e2e`, and with no users. For any other system, use the other archetype.
+`AIDDbot/archetype-cli`, tag `v0.4.1`. A system with exactly one local `cli` (no `api`, no database) and one `e2e`, and with no users. For any other system, use the other archetype.
 
 | Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
@@ -26,7 +26,7 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 
 - One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and complexity configuration.
 - `foundation/` holds the instances `S0001-scaffold`, `S0002-configuration`, `S0004-monitoring`, `S0006-shell`, `S0008-about` and `S0009-presentation`.
-- Copy command: `npx degit AIDDbot/archetype-cli#v0.4.0 {temporary folder}`.
+- Copy command: `npx degit AIDDbot/archetype-cli#v0.4.1 {temporary folder}`.
 
 ## No archetype fits
 

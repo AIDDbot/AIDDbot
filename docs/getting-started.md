@@ -31,7 +31,7 @@ In Codex, start each command with `$` instead of `/`.
 - **Brownfield** (existing or legacy code): the agent documents your code. It does not change it.
 - **Greenfield** (an empty repository): the agent asks about your product, and proposes a system. Approve it. Then the agent makes the projects and their foundation, and stops when all the tests pass.
 
-For a web system with an API and users, the first offer is [Archetype Base v0.3.14](https://github.com/AIDDbot/archetype-base/tree/v0.3.14). For a local command-line application, it is [Archetype CLI v0.4.0](https://github.com/AIDDbot/archetype-cli/tree/v0.4.0). Each one already has the foundation and its tests.
+For a web system with an API and users, the first offer is [Archetype Base v0.3.14](https://github.com/AIDDbot/archetype-base/tree/v0.3.14). For a local command-line application, it is [Archetype CLI v0.4.1](https://github.com/AIDDbot/archetype-cli/tree/v0.4.1). Each one already has the foundation and its tests.
 
 ## 3. Deliver a change
 
