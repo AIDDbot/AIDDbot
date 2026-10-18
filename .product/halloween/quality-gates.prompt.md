@@ -312,7 +312,7 @@ Durante web-C:
 
 ## web-D
 
-Preparado 2026-10-18 en `C:codeaiddexperimentshalloweenweb-D`: AIDDbot `refactor/quality-gates` `7c175ed1` (init local), Blueprint `b92ca1b` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e611c3f` (overlay) y `3bf3201` (Blueprint y manifiesto). Prompt: `web-D.md` (el de web-C).
+Preparado 2026-10-18 en `C:\code\aidd\experiments\halloween\web-D`: AIDDbot `refactor/quality-gates` `7c175ed1` (init local), Blueprint `b92ca1b` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e611c3f` (overlay) y `3bf3201` (Blueprint y manifiesto). Prompt: `web-D.md` (el de web-C).
 
 Qué cambia frente a web-C y qué mirar:
 
