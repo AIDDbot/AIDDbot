@@ -28,8 +28,9 @@ When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.
 
 Fill the spec file as its template says. The template does not say these rules:
 
+- A spec has at most 9 requirements, 3 user stories and 5 business rules, in fewer than 100 lines: `log approved` refuses more. Each requirement is one capability that a user sees; its errors and edge cases are part of it, and a `Test:` note says how to prove a case that is not obvious. What does not fit is a later spec, split by user story.
 - Each requirement gets its acceptance test in this spec; never defer it to another spec. Cover at least one error scenario.
-- Each behavior in `Solution` that an acceptance test can prove, such as a log line, an exit code, or a message, gets its requirement. Only a result that no acceptance test can prove stays in `Solution` alone.
+- Each behavior in `Solution` that an acceptance test can prove, such as a log line, an exit code, or a message, belongs to the requirement of its capability. Only a result that no acceptance test can prove stays in `Solution` alone.
 - A requirement states only what a public interface of the system shows: a page, an address, or a command and its output. A change that no public interface shows yet, such as an option that no command declares, gets no requirement: put it in `Solution`, and its unit tests prove it.
 - Never list shipped requirements: a spec looks forward. A shipped requirement that it contradicts shows as a failing regression test, and the verification triages it.
 - In `Expected URLs and APIs`, list only the errors that the address can cause. A request with no body gets no invalid-JSON or body-size error.
