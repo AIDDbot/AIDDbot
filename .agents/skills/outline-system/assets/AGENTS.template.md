@@ -60,39 +60,13 @@ Each project has one type and its own `AGENTS.md` with its technical data. This 
 
 <!-- Only when `.product/system.md` exists (a system that `architect-system-foundation` made). Otherwise remove this section. Copy it as written. D50. -->
 
-All projects obey these principles. A project `AGENTS.md` gives only its own data and the limits that its archetype changes. Do not explore the code to learn the setup. First make it work, then make it correct: only the pre-commit hook of the technology (lint and format) and `test` (the unit tests, and the acceptance suite of `e2e`) block a delivery, and a security finding gets one repair first. Any other violation is debt.
+All projects obey these principles. Each project `AGENTS.md` gives its architecture (containers, layers, tests), its data and the limits that its archetype changes. Do not explore the code to learn the setup. First make it work, then make it correct: only the pre-commit hook of the technology (lint and format) and `test` (the unit tests, and the acceptance suite of `e2e`) block a delivery, and a security finding gets one repair first. Any other violation is debt.
 
 ### System
 
 - `api` owns the data. Only it connects to persistence. `web` and `cli` get data only through `api`. Exception: an application in a system with no `api`, such as a `cli`, a desktop or a mobile application, owns its local data.
 - REST API: paths start with `/api`; a resource is a plural noun; a singleton resource is a singular noun, such as `/api/health`. JSON bodies, ISO 8601 dates, `Authorization: Bearer <token>`. Status codes: 200, 201, 204, 400, 401, 403, 404, 409, 413, 500. Every error has the body `{ "error": "<message>" }`; an input error adds `fields`. An error never shows a stack, SQL or a path.
 - Security: no secrets in the code or the repository; a password only as a salted hash; check each input at the edge.
-
-### Containers
-
-| Container | Is | Never |
-| --- | --- | --- |
-| `core` | The platform that the framework or the entry calls one time at startup: server or shell, router, connections, error handler, global styles. | Business rules. Imports of a feature. |
-| `shared` | Generic elements with no domain, and the contracts of the services that features need (such as the logger, the HTTP client or the error type). Primitives at the root, other elements in folders by technical concern (`http`, `database`). | Domain words. Imports of `core` or of a feature. Folders `utils`, `helpers`, `common`, `misc`. |
-| feature | One flat folder for one unit of business value. The role in each file name tells its layer. | Subfolders. Imports of `core`. Imports of a different feature, except its facade. |
-| composition | The entry. It starts `core`, registers each feature by name in one explicit list (the manifest), and gives the features the services of `core` through the contracts of `shared`. The only part that knows `core` and the features. | Automatic discovery: folder scans, global decorators, file-based routers. |
-
-### Layers
-
-- composition → `presentation` → `logic` → `data`. A different feature → `facade` → `logic`. A layer never skips the next one: only the registration creates `data` and gives it to `logic`.
-- `presentation`: input, output and the registration of the feature (route, page, command). No business rules. Only the composition imports it.
-- `facade`: the public functions and types for other features. Only other features import it. A feature that gives nothing has no facade.
-- `logic`: rules and decisions. It does not know how data is stored.
-- `data`: all that the project reads or writes outside itself (database, remote API, files).
-- Types are not a layer. Each layer can use types, `shared` and the facades of other features.
-- A broken boundary is `medium` debt.
-- A feature that the manifest loads on demand has no other import. Tests start the application through the composition, without a port.
-
-### Tests
-
-- Unit tests prove `logic`, at least one for each business rule, with a fake `data`. They also prove `shared` and `core`. They are fast and independent, and touch no disk, database, network or process: the acceptance tests prove `data`. The pre-commit hook runs the ones that a commit affects. A business rule without a unit test is debt.
-- An acceptance test proves one requirement. Its name contains the identifier of that requirement.
-- An e2e test uses only the API, the screens and the commands. It starts each project only with its start command, and never injects code into its process. It never uses `core` or a different feature. Only the migration tests of `configuration` open the database. Each test makes its own data with unique values. One browser engine (Chromium), unless the system asks for more.
 
 ### Code
 
