@@ -310,6 +310,19 @@ Durante web-C:
 - Builder, sin commit hasta el informe: fuera el override de tests de `lint/dependencies.json` (18 módulos prohibidos, repository/client, `vi.mock`); `ecosystems.md` lo deja en una regla: un unitario prueba solo lógica, rápido, sin disco, base de datos, red ni proceso, y los recibe como argumento con un fake. Mirar en la revisión si vuelve `vi.mock` o un test contra el disco real.
 - Cobertura al 100 % por fichero en `back` y `front` (scaffold `a575947` y `ad110fa`, y el `AGENTS.md` raíz). El usuario: basta con el 80. El Blueprint (`ecosystems.md`) y archetype-cli ya dicen 80: el agente lo inventó al dar forma al scaffold. Ninguna regla pide 100; buscar en el export por qué, y bajarlo a 80 en la semilla de Archetype Web.
 
+## web-D
+
+Preparado 2026-10-18 en `C:codeaiddexperimentshalloweenweb-D`: AIDDbot `refactor/quality-gates` `7c175ed1` (init local), Blueprint `b92ca1b` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e611c3f` (overlay) y `3bf3201` (Blueprint y manifiesto). Prompt: `web-D.md` (el de web-C).
+
+Qué cambia frente a web-C y qué mirar:
+
+- Specs con límite (core `log approved`): 9 requisitos, 3 historias, 5 reglas, menos de 100 líneas. Las de foundation ya caben por instancia (web: configuration 6, monitoring 4, shell 8, about 4, users 8, presentation 8). Mirar si algún `log approved` se rechaza y cuánto cuesta; si el Architect añade requisitos.
+- `.lint/` en la raíz con `boundaries*.json` y `complexity*.json`; ningún `lint/` por proyecto; scripts = slots (`start`, `test`, `layers`, `crap`, `test:spec` en el e2e); `crap` = complejidad && cobertura; config del core con `crap: npm run crap`.
+- Cobertura exactamente 80. Sin override de tests en lint: mirar si vuelve `vi.mock` o un unitario contra el disco.
+- Identidad: la composición lee el `package.json` y la pasa como argumento; ningún mock en su test.
+- Cada `AGENTS.md` por debajo de 100 líneas (raíz con el Blueprint corto: intro + 6 reglas de código; arquitectura en cada proyecto).
+- users y presentation entregados. Exportar la conversación fuera del repo. Evitar que el ordenador se duerma.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
