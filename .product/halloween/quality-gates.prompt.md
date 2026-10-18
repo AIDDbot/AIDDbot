@@ -261,6 +261,12 @@ Arreglos ya hechos durante web-A (2026-10-17, valen desde la próxima run, no pa
 
 Al terminar web-A (o al retomarla): post-mortem; antes de sembrar Archetype Web, refactor del about a `loader`, quitar las dos excepciones de `projects/back/lint/crap.json` moviendo los middleware a `core/*.middleware.ts`, quitar `windows-console.ps1` y las ramas `win32`, poner al día los `AGENTS.md` de proyecto; después `seed-product.mjs`.
 
+## web-B
+
+Preparado 2026-10-18 en `C:\code\aidd\experiments\halloween\web-B`: AIDDbot `refactor/quality-gates` `af5db190` (init local; `implement-project` con unitarios hasta la cobertura de `crap`, `outline-system` sin comentario de lint para middleware), Blueprint `3ba5fbf` (los arreglos de web-A) sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` desde el segundo commit, `core.autocrlf false`, ningún CRLF en el índice. Commits `d0fa13d` (overlay) y `036a714` (Blueprint y manifiesto). Prompt: `web-B.md` (el de web-A, 7 specs con users). Run limpia: web-A quedó parada en S0010 users y sirve de referencia.
+
+Mirar, además de la lista de web-A: ningún patch de cobertura tras un spec (los unitarios llegan con la implementación); los `AGENTS.md` de proyecto al día en cada spec; middleware de Express en `src/core/{concern}.middleware.ts`, nunca en la composición, con `max-params` 4 sin excepción en `lint/`; `layers` del `web` para React en facade, `logic` y `data`, y `useEffect`/`useMemo`/`useCallback`/`memo` en `presentation`; el about (y todo dato de página) por `loader` y `useLoaderData`; el cierre limpio por unitario de `core`, ningún script de sistema operativo ni rama `win32`; users entregado; presentation al final sin romper etiquetas de otras specs. Anotar cada intervención humana con hora. Evitar que el ordenador se duerma.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
