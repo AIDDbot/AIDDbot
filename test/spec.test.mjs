@@ -139,6 +139,20 @@ test("log approved commits the spec definition after the approval", () => {
   assert.ok(journal.indexOf(" approved ") < journal.indexOf("committed  INFO  docs(spec): define delivery"));
 });
 
+test("log approved refuses a spec over the size limits and names each one", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "feat", "offers", "Offers");
+  const stories = Array.from({ length: 4 }, (_, index) => `- As a buyer, I want **offer ${index}** so that I save.`);
+  const requirements = Array.from({ length: 10 }, (_, index) => `- **R${String(index + 1).padStart(2, "0")}**: WHEN an offer is sent, the api SHALL answer 201.`);
+  const text = ["# S0001-offers — Offers", "", "### User Stories", "", ...stories, "", "### Requirements", "", ...requirements, ""].join("\n");
+  write(root, ".product/specs/feat/S0001-offers.md", text);
+  const refused = aidd(root, "log", "approved", "Offers", "--spec", "S0001");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /S0001 has 10 requirements; the limit is 9/);
+  assert.match(refused.body.error, /S0001 has 4 stories; the limit is 3/);
+  assert.notEqual(git(root, "log", "-1", "--format=%s"), "docs(spec): define delivery");
+});
+
 test("an unapproved spec takes no commit, no evaluation, and no release", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "offers", "Offers");

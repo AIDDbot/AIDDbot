@@ -76,6 +76,38 @@ export function isApproved(root, file) {
   return subjects.split(/\r?\n/).includes(SPEC_DEFINED);
 }
 
+/** The size limits of a spec: each agent reads it whole at each step, so its context stays small. */
+export const SPEC_LIMITS = { lines: 99, requirements: 9, stories: 3, rules: 5 };
+
+/** The bullets of one `###` subsection, up to the next heading. */
+function bulletsUnder(lines, heading) {
+  const start = lines.findIndex((line) => line.trim() === `### ${heading}`);
+  if (start < 0) return 0;
+  const end = lines.findIndex((line, index) => index > start && /^#{1,3} /.test(line));
+  return lines.slice(start + 1, end < 0 ? lines.length : end).filter((line) => line.startsWith("- ")).length;
+}
+
+/** Why a spec is too large to approve, with the repair of each limit; an empty list means that it fits. */
+export function oversize(file) {
+  const lines = fs.readFileSync(file, "utf8").trimEnd().split(/\r?\n/);
+  const counts = {
+    lines: lines.length,
+    requirements: lines.filter((line) => /^- \*\*R\d{2}\*\*/.test(line)).length,
+    stories: bulletsUnder(lines, "User Stories"),
+    rules: bulletsUnder(lines, "Business rules"),
+  };
+  const repairs = {
+    lines: "remove what the Blueprint, the project AGENTS.md or a check already gives",
+    requirements: "each requirement is one capability that a user sees, with its errors and edge cases inside it",
+    stories: "split the spec by user story",
+    rules: "state each rule as a requirement, or split the spec",
+  };
+  const id = path.basename(file).slice(0, 5);
+  return Object.entries(SPEC_LIMITS)
+    .filter(([name, limit]) => counts[name] > limit)
+    .map(([name, limit]) => `${id} has ${counts[name]} ${name}; the limit is ${limit}: ${repairs[name]}.`);
+}
+
 /** The rule that an unapproved spec breaks, with the command that repairs it. */
 export const unapproved = (control) =>
   `${control.id} is not approved: its definition is not committed. When the human approves it, or in YOLO mode, run \`aidd log approved "${control.title}" --spec ${control.id}\` first.`;

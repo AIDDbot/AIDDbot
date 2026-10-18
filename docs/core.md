@@ -69,7 +69,7 @@ The agents write only the texts: `system.md`, each spec, the reports of findings
 | `debt add` · `list` · `remove` | Change or show the debt register. |
 | `release` | Ship the open spec: version, changelog, PRD, merge and tag. `--debt <D IDs>` names the open `high` debt that records each failure of the regression. |
 | `integrate` | Merge a branch that is not a spec, such as `chore/foundation`. |
-| `log` | Add a judgment of an agent to the journal. |
+| `log` | Add a judgment of an agent to the journal. `log approved` commits the spec definition, and refuses a spec over its size limits: 9 requirements, 3 user stories, 5 business rules, fewer than 100 lines. |
 | `config get` · `set` | Read or write `.aiddbot/config.json`. |
 
 The `run` command does not know your technology. It executes the command that the foundation recorded for each project, such as `npm test` or `pytest`. Each run stops after 20 minutes by default.

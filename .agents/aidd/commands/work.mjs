@@ -6,7 +6,7 @@ import {
   aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UnavailableError, UsageError,
   writeJson,
 } from "../lib/core.mjs";
-import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
+import { findSpec, isApproved, oversize, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
 import { specTags, untested } from "./eval.mjs";
 
 // Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
@@ -433,9 +433,11 @@ export function log(root, [event, summary], flags) {
     throw new UsageError(`Use: aidd log <${Object.keys(MODEL_EVENTS).join("|")}> "<summary>"`);
   }
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
-  journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
-  // An approved spec is committed here, so its definition never lands before its approval.
+  // An approved spec is committed here, so its definition never lands before its approval, and only within the size limits.
   const file = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
+  const tooLarge = file ? oversize(file) : [];
+  if (tooLarge.length) throw new RuleError(tooLarge.join(" "));
+  journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
   if (file) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, file)]) };
   return { event, summary };
 }
