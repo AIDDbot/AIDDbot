@@ -85,28 +85,18 @@ All projects obey these principles. A project `AGENTS.md` gives only its own dat
 - `logic`: rules and decisions. It does not know how data is stored.
 - `data`: all that the project reads or writes outside itself (database, remote API, files).
 - Types are not a layer. Each layer can use types, `shared` and the facades of other features.
-- `layers` checks the imports with the dependency rules of the linter. A broken boundary is `medium` debt.
+- A broken boundary is `medium` debt.
 - A feature that the manifest loads on demand has no other import. Tests start the application through the composition, without a port.
 
 ### Tests
 
 - Unit tests prove `logic`, at least one for each business rule, with a fake `data`. They also prove `shared` and `core`. They are fast and independent, and touch no disk, database, network or process: the acceptance tests prove `data`. The pre-commit hook runs the ones that a commit affects. A business rule without a unit test is debt.
 - An acceptance test proves one requirement. Its name contains the identifier of that requirement.
-- `e2e` has no layers, no manifest, no composition and no unit tests; the runner is the entry, and each run proves its `core`. `core` is the life cycle of the suite (setup, teardown, startup check of the projects). Features: one folder for each feature of the system, with `.api.spec`, `.web.spec` and `.cli.spec` tests. `shared`: primitives, `page-objects/`, `test-data/`.
 - An e2e test uses only the API, the screens and the commands. It starts each project only with its start command, and never injects code into its process. It never uses `core` or a different feature. Only the migration tests of `configuration` open the database. Each test makes its own data with unique values. One browser engine (Chromium), unless the system asks for more.
 
 ### Code
 
-| Limit | Code | Tests (all `e2e` files) |
-| --- | --- | --- |
-| Cyclomatic complexity of a function | 8 | 8 |
-| Statements in a function | 16 | 64 |
-| Nesting depth | 2 | 4 |
-| Parameters of a function | 2 | 4 |
-| Lines in a file | 128 | 256 |
-| Entries in a folder | 16 | 16 |
-
-- `crap` checks the limits of functions and files, and `layers` the entries in a folder. A callback whose signature the framework sets (such as a middleware) sits in the file that the shared limits allow for it (`src/core/{concern}.middleware.ts`): no lint comment and no exception in `lint/`. A folder over the limit has more than one concern: divide it by concern.
+- `crap` checks the limits of functions and files in `.lint/complexity*.json`; `layers` checks at most 16 entries in a folder. A callback whose signature the framework sets (such as a middleware) sits in the file that the shared limits allow for it (`src/core/{concern}.middleware.ts`): no lint comment and no exception in `.lint/`. A folder over the limit has more than one concern: divide it by concern.
 - Strictest typed form of the language and its strictest type check. One type for each domain concept, never a bare string, number, object or array. A value object for a value with rules, made at the edge; it checks only what the spec states. A closed type for a closed set: an enum or a union of literals, as the type check permits. Composition, not inheritance. Generic types in `shared`, domain types in their feature.
 - DRY: `shared` has one function to check, convert or format each common type. Look there before you write one. `layers` reports each duplicated block of code as debt.
 - One source for each definition: a default, an option, a usage text or a list of names is data in one place. Help, checks and error messages read it. Never parse a display text to get the data again.
