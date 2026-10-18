@@ -299,6 +299,12 @@ Arreglado después de web-B (2026-10-18):
 - AIDDbot `3e6b8974`: `build-ordered-specs` arranca agentes nuevos en cada spec y reparación y para los de la anterior. `e7a8afc9`: la regla de proyecto de `review-implementation` revisa los manifiestos de dependencias y la configuración de lint del diff.
 - Sin tocar: el título de un refactor agrupado (cosmético; el encabezado ya dice «and N more»), el `crap` en rojo al shipear (hueco aceptado), los campos del generador en los `package.json` de proyecto.
 
+## web-C
+
+Preparado 2026-10-18 en `C:\code\aidd\experiments\halloween\web-C`: AIDDbot `refactor/quality-gates` `9cec1461` (init local; agentes nuevos en cada spec, la regla de proyecto revisa dependencias y lint), Blueprint `9621b67` (los arreglos de web-B) sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `82e21b4` (overlay) y `c74de78` (Blueprint y manifiesto). Prompt: `web-C.md` (el de web-B, 7 specs con users).
+
+Mirar, además de las listas de web-A y web-B: un agente nuevo por spec y reparación (contar los «Started» en el export); `tree-kill` solo en el e2e y el `front` en todas las interfaces, sin atasco al arrancar; `react/react-in-jsx-scope` en el `vite.config.ts` raíz y nada más que `.json` en `lint/`; un test por primitiva; nada en la raíz de `src` salvo `app.main` y `app.compose`; users y presentation entregados (ninguna run ha llegado). Exportar la conversación al final, fuera de la raíz del repo. Evitar que el ordenador se duerma.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
