@@ -305,6 +305,37 @@ Preparado 2026-10-18 en `C:\code\aidd\experiments\halloween\web-C`: AIDDbot `ref
 
 Mirar, además de las listas de web-A y web-B: un agente nuevo por spec y reparación (contar los «Started» en el export); `tree-kill` solo en el e2e y el `front` en todas las interfaces, sin atasco al arrancar; `react/react-in-jsx-scope` en el `vite.config.ts` raíz y nada más que `.json` en `lint/`; un test por primitiva; nada en la raíz de `src` salvo `app.main` y `app.compose`; users y presentation entregados (ninguna run ha llegado). Exportar la conversación al final, fuera de la raíz del repo. Evitar que el ordenador se duerma.
 
+Durante web-C:
+
+- Builder, sin commit hasta el informe: fuera el override de tests de `lint/dependencies.json` (18 módulos prohibidos, repository/client, `vi.mock`); `ecosystems.md` lo deja en una regla: un unitario prueba solo lógica, rápido, sin disco, base de datos, red ni proceso, y los recibe como argumento con un fake. Mirar en la revisión si vuelve `vi.mock` o un test contra el disco real.
+- Cobertura al 100 % por fichero en `back` y `front` (scaffold `a575947` y `ad110fa`, y el `AGENTS.md` raíz). El usuario: basta con el 80. El Blueprint (`ecosystems.md`) y archetype-cli ya dicen 80: el agente lo inventó al dar forma al scaffold. Ninguna regla pide 100; buscar en el export por qué, y bajarlo a 80 en la semilla de Archetype Web.
+
+## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
+
+Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
+
+- Tres sitios: el hook (`vite.config.ts` raíz, `vp staged`), `complexity.json` y `complexity.tests.json` en la raíz, y `lint/layers.json` + `lint/crap.json` en cada proyecto.
+- archetype-cli copia `lint/dependencies.json` y `layers.json` lo extiende; web-C lo mete todo en `layers.json` (sin `dependencies.json`). Dos formas para lo mismo.
+- `layers.json` de un proyecto web: ~500 líneas, cada override repite todos sus grupos (Oxlint no fusiona) y cada patrón va doble (`.ts`/`.tsx`).
+- Nombres que no casan: el fichero `dependencies.json` produce el slot `layers`; `complexity.json` produce `crap` (que además corre la cobertura).
+- web-C añade scripts que el Blueprint no pide: `check:complexity`, `test:coverage` y un `upgrade` por proyecto.
+- El override de tests ya salió del Builder (sin commit); en web-C costó D0001 y el refactor S0003.
+
+Decidido (2026-10-18, durante web-C):
+
+1. Las configuraciones de deuda viven en la raíz, en la carpeta `.lint/`. Ningún proyecto tiene carpeta `lint/`. Los scripts de cada proyecto apuntan a `../../.lint/`. Un ajuste de un proyecto es un override por ruta en el fichero de `.lint/`. Comprobar: los `files` de los overrides casan desde `.lint/` con los ficheros de `projects/*`.
+2. Los ficheros se nombran por lo que comprueban (deja sitio a otras comprobaciones): `.lint/boundaries.json` y `.lint/boundaries.e2e.json` (slot `layers`), `.lint/complexity.json` y `.lint/complexity.e2e.json` (slot `crap`, más la cobertura). Sufijo `.e2e` por tipo de proyecto. Fuera `dependencies.json` (confusión con el manifiesto) y `complexity.tests.json`.
+3. Copiar o extender: no aplica. Cada script apunta directo a `.lint/`; ningún proyecto extiende ni copia.
+4. `boundaries*.json` con llaves en `files` y en los `group` (`*.{page,component,card}.{ts,tsx}`); los grupos comunes se repiten en cada override (Oxlint reemplaza la regla, no la fusiona, y no tiene `import/no-restricted-paths`): escribir ese motivo en `ecosystems.md`. Probado con Oxlint 1.88: overrides desde `.lint/` casan con `projects/*`, llaves en `files` y en `group` funcionan.
+5. `crap` sigue siendo un script: `vp lint -c ../../.lint/complexity.json && vp test run --coverage`, siempre en ese orden. Los hallazgos son distintos (simplificar no es probar) y se reparan con patches sin spec: primero simplificar, luego probar; las dos vueltas son buscadas. El `e2e`: solo la complejidad.
+6. Lista cerrada de scripts: los de un proyecto son exactamente los slots de su tipo. `api`, `web`, `cli`: `start`, `test`, `layers`, `crap`. `e2e`: `start`, `test`, `test:spec`, `layers`, `crap`. Raíz: `prepare` (`vp config`, instala el hook), `test` (`vp run -r test`), `upgrade`. `upgrade` sale de la tabla de proyectos de `project-types.md` y pasa a la raíz. La revisión lo comprueba. El hook no es slot: lo lanza git; queda en la línea «Pre-commit hook» del `AGENTS.md`. `test:spec` solo en el `e2e` (los unitarios afectados los corre el hook, por fichero). El `start` del `web` es `vp dev` (host y strictPort en `vite.config.ts`).
+
+Aplicar después de web-C, en una pasada: Builder (`blueprint/lint/` → `.lint/` con los nombres nuevos y llaves, `ecosystems.md`, `project-types.md`, template, procedure), archetype-cli (release 0.4.x) y la semilla de Archetype Web; AIDDbot: `review-implementation` (lista cerrada) y cualquier mención de `lint/` por proyecto, vía /maintain-skills.
+
+Origen de los scripts de más en web-C: `architect-system-foundation/references/scaffold.md` (líneas 14 y 23) registra en la config del core `upgrade: npm --prefix ../.. run upgrade` y `crap` como dos comandos (`vp lint -c lint/crap.json`, `vp test run --coverage`), y nombra `complexity.json`/`complexity.tests.json`. Con la decisión 6: el comando `upgrade` de la config apunta a la raíz sin script en el proyecto; `crap` es `npm run crap`; la línea 14 mueve `.lint/`. Revisar si el core exige `upgrade` por proyecto.
+
+Hecho en archetype-cli (2026-10-18, `10c775a`, local, sin tag): `.lint/` con los 4 ficheros, llaves, sin `.vue` ni override de tests (boundaries 402 → 196 líneas); scripts `layers`/`crap` apuntan a `../../.lint/`; AGENTS.md y S0001 al día. Probado: 15/15 violaciones plantadas saltan, el override de tests de complexity aplica, `npm test` raíz 31/31. El core sí corre `upgrade` por proyecto (`work.mjs` RUN_KINDS): la fila `upgrade` del AGENTS.md de cada proyecto queda como comando a la raíz (`npm --prefix ../.. run upgrade`), sin script en el proyecto. Publicado archetype-cli v0.4.4 (tag y push, 2026-10-18) y fijado en AIDDbot. Pendiente: el Builder (`blueprint/lint/`) aún con los nombres viejos.
+
 ## cli-9: arreglos para el Blueprint (apuntar durante la run, arreglar al final)
 
 **Estado (2026-10-16, `archetype-builder` `9a76577`):** hechos 1, 2, 5, 6, 8 y 10. Abiertos: 3 (cerrado 2026-10-17 por D36: sin `typescript`, Vite+ lo trae), 4 (hook en un clon con `npm ci`), 7 (cli-9 lo resolvió con servicios falsos inyectados: quizá no hace falta excluir nada; mirarlo en la próxima run) y 9 (menor). La run paró en la reparación de la calificación de S0019 (`health runs extra` debe salir con 2): retomarla con `/build-requested-spec` sobre S0019.
