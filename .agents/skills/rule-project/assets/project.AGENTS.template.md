@@ -1,6 +1,6 @@
 <!--
 The technical data of one existing project, from repository evidence.
-Keep the sections, their order and their headings: the other skills find their data by them. Write short lists and tables, not prose. Remove these comments.
+Keep the sections, their order and their headings: the other skills find their data by them. Write short lists and tables, not prose. The file has fewer than 100 lines. Remove these comments.
 Leave out each line that the Common stack of the root AGENTS.md gives.
 -->
 # {Project_Name} — {project_type}
