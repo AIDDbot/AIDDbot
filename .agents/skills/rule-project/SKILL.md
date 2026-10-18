@@ -26,10 +26,10 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 
 Lint, format and the affected unit tests are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
 
-Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `layers` and `crap` are each a list with one command for each check, never one aggregate that stops at its first failure: one scan must show each failing check.
+Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `layers` and `crap` are each the command that the project gives: a list of commands when its checks are separate, or one script, such as a `crap` that runs the complexity and then the coverage, when the project orders them.
 
 ```json
-{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"layers":["npm run layers"],"crap":["npm run crap:complexity","npm run crap:coverage"]}}
+{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"layers":"npm run layers","crap":"npm run crap"}}
 ```
 
 ## AGENTS.md
