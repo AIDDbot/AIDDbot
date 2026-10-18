@@ -24,6 +24,7 @@ The caller gives the spec files and their order: a list, or a file that holds th
 
 - Run each step yourself. `build-requested-spec` and `craft-lasting-quality` spawn their own agents. Never give a step to one agent, because an agent that you spawn cannot spawn other agents.
 - Keep in your context only the result of each step. The files hold all else: the next step reads them again.
+- Each step starts its agents fresh. When a step ends, stop each agent that it started; never give an agent of one spec or repair to the next one. An agent keeps the context of all its work, and each later turn pays for it again.
 
 ## State
 
