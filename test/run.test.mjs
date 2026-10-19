@@ -143,7 +143,7 @@ test("a project needs a known type, and test runs e2e last as acceptance evidenc
   assert.deepEqual(aidd(root, "run", "test", "--spec").body.runs.map((entry) => entry.project), ["e2e"]);
 });
 
-test("a layers run reports each core, shared or features folder over the size limit, and it never fails the run", () => {
+test("a layers run reports each core, shared or features folder over the size limit, and fails the run of its project", () => {
   const root = repo();
   for (let index = 0; index < 17; index++) write(root, `back/src/shared/file${index}.ts`, "");
   for (let index = 0; index < 4; index++) write(root, `back/src/features/auth/file${index}.ts`, "");
@@ -151,7 +151,8 @@ test("a layers run reports each core, shared or features folder over the size li
   for (let index = 0; index < 20; index++) write(root, `back/node_modules/shared/file${index}.ts`, "");
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
   const scan = aidd(root, "run", "layers");
-  assert.equal(scan.code, 0);
+  assert.equal(scan.code, 1);
+  assert.equal(scan.body.runs[0].ok, false);
   assert.deepEqual(scan.body.folders, [
     { project: "back", folder: "back/src/core", entries: 20, limit: 16 },
     { project: "back", folder: "back/src/shared", entries: 17, limit: 16 },
@@ -160,7 +161,7 @@ test("a layers run reports each core, shared or features folder over the size li
   assert.deepEqual(aidd(root, "run", "layers").body.folders.map((entry) => entry.folder), ["back/src/core", "back/src/features/auth", "back/src/shared"]);
 });
 
-test("a layers run reports each subfolder inside a feature, and only there", () => {
+test("a layers run reports each subfolder inside a feature, and only there, and fails the run", () => {
   const root = repo();
   write(root, "back/src/features/auth/auth.api.ts", "");
   write(root, "back/src/features/auth/logic/auth.service.ts", "");
@@ -169,7 +170,7 @@ test("a layers run reports each subfolder inside a feature, and only there", () 
   write(root, "back/src/core/migrations/001-init.sql", "");
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
   const scan = aidd(root, "run", "layers");
-  assert.equal(scan.code, 0);
+  assert.equal(scan.code, 1);
   assert.deepEqual(scan.body.subfolders, [{ project: "back", folder: "back/src/features/auth/logic" }]);
 });
 
@@ -229,7 +230,7 @@ test("a layers run reports each block of logic lines that two places repeat, for
   write(root, "back/src/shared/short.ts", block.slice(0, 5).join("\n"));
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": 'node -e "process.exit(0)"' } }));
   const scan = aidd(root, "run", "layers");
-  assert.equal(scan.code, 0, "duplication is debt, never a failed run");
+  assert.equal(scan.code, 1, "duplication fails the layers run, and scan-quality records it as debt");
   assert.equal(scan.body.duplicates.length, 1);
   assert.deepEqual(scan.body.duplicates[0].locations.map((entry) => `${entry.file}:${entry.from}-${entry.to}`),
     ["back/src/features/a/a.service.ts:3-8", "back/src/features/b/b.service.ts:5-10"]);
@@ -252,4 +253,17 @@ test("help prints the usage and exits 0", () => {
   const root = repo();
   for (const flag of ["help", "--help", "-h"]) assert.equal(aidd(root, flag).code, 0);
   assert.equal(aidd(root, "nonsense").code, 2);
+});
+
+test("a structure finding fails only the layers run of its own project", () => {
+  const root = repo();
+  for (let index = 0; index < 17; index++) write(root, `back/src/shared/file${index}.ts`, "");
+  write(root, "front/src/shared/one.ts", "");
+  const pass = 'node -e "process.exit(0)"';
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { layers: pass } }));
+  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { layers: pass } }));
+  const scan = aidd(root, "run", "layers");
+  assert.equal(scan.code, 1);
+  assert.deepEqual(scan.body.runs.map((entry) => [entry.project, entry.ok]), [["back", false], ["front", true]]);
+  assert.equal(aidd(root, "run", "layers", "--project", "front").code, 0);
 });

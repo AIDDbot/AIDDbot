@@ -293,13 +293,16 @@ export function run(root, [kind], flags) {
   } finally {
     unlock();
   }
-  const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
   const findings = kind === "layers" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
   const folders = findings.flatMap((entry) => entry.crowded);
   const subfolders = findings.flatMap((entry) => entry.subfolders);
   const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
   const duplicates = kind === "layers" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
+  // A structure finding of the core makes the layers run of its project red, as a finding of its lint does.
+  const structured = new Set([...folders, ...subfolders, ...duplicates].map((entry) => entry.project));
+  for (const entry of runs) if (structured.has(entry.project)) entry.ok = false;
+  const ok = runs.every((entry) => entry.ok);
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
   journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
