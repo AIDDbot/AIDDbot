@@ -342,6 +342,10 @@ Qué cambia frente a web-D y qué mirar:
 - users y presentation entregados. Exportar la conversación fuera del repo. Evitar que el ordenador se duerma.
 - Si sale limpio, su código es la semilla de Archetype Web 0.4, que desbloquea AIDDbot 0.4.0 (archetype-base 0.3.14 no tiene `.lint/` ni hook).
 
+Hallazgos durante web-E:
+
+- Alias `#core/*` inventado (S0004, 14:00). El refactor `a34408d` de S0003 movió el logger a `back/src/core/logging/` y dejó 3 imports `../` (el commit pasó: el hook no ejecuta `layers`). El scan de `layers` dio D0002–D0004 y el Builder los reparó con un alias nuevo `#core/*` en `projects/back/package.json`, fuera del Blueprint (solo `#shared/*` y `#api/*`). Causa: una subcarpeta en `core/` no llega a su padre sin `../`. Decidir: `#core/*` en el Blueprint, o `core/` plano (sin subcarpetas).
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
