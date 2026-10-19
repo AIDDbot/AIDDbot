@@ -381,7 +381,7 @@ Resultado (2026-10-19, 18:44 → 20:03, corte por el límite de uso de Codex a l
 
 ## web-G
 
-Preparado 2026-10-19 en `C:\code\aidd\experiments\halloween\web-G`: AIDDbot `refactor/quality-gates` `752ee261` (init local, todos los harnesses), Blueprint `2226ea8` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `3e681e1` (overlay) y `4f60b56` (Blueprint y manifiesto). Prompt: `web-G.md` (el de web-F).
+Preparado 2026-10-19 en `C:\code\aidd\experiments\halloween\web-G`: AIDDbot `refactor/quality-gates` `752ee261` (init local, todos los harnesses), Blueprint `900252c` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `3e681e1` (overlay) y `7d0af10` (Blueprint y manifiesto). Prompt: `web-G.md` (el de web-F).
 
 Qué cambia frente a web-F y qué mirar:
 
@@ -389,6 +389,7 @@ Qué cambia frente a web-F y qué mirar:
 - `layers` rechaza `process.platform` en el e2e (Builder `8552fb7`): el helper para los procesos con `tree-kill`, sin `taskkill` ni rama `win32`. Mirar si `tree-kill` entra en el `package.json` del e2e.
 - `crap` da complejidad 1 a cada función de un adaptador (Builder `2226ea8`): la lógica del arranque va a `core` con sus tests, y `server.adapter.ts` queda en una implementación sin ramas. Mirar que el error de arranque registre su mensaje, no solo `error.name`. web-F: 16 funciones con ramas en 9 adaptadores.
 - `types/named` (Builder `2226ea8`, `.lint/types.mjs`): un tipo con nombre en cada parámetro, también las props. Contar sus hallazgos dentro de las specs (web-F: 33 al final) y si alguno llega a deuda.
+- Tipo de retorno en cada función exportada (`typescript/explicit-module-boundary-types`, Builder `900252c`), salvo los `.tsx`: una fábrica que devuelve un objeto con métodos nombra su contrato en la firma. web-F: 47 sin tipo en back y front, 61 en el e2e.
 - Lo de web-F se mantiene: deuda 0 sin scans tras el ship, 23 agentes, `shared` pequeño, `vi.mock` 0. Medir el coste de las dos reglas nuevas en minutos por spec (web-F hasta users: 58 min sin esperas).
 - Tokens: web-F se cortó por el límite de uso de Codex en S0007, con el código hecho. Lanzar con el límite recién renovado y mirar si presentation se publica.
 - Si sale limpio, su código es la semilla de Archetype Web 0.4.
