@@ -16,8 +16,9 @@ upgrade request ─────────────────────�
    no high:    Craftsman  scan-quality            medium debt          │  once
 3. medium      spec debt  → refactor  build-requested-spec             │
    no medium:  Craftsman  scan-quality, low       low debt             │  once
-4. low         Builder    patch                   integrated           │  no spec
+4. low         Builder    patch                   crap green           │  no spec
    repeat 1–4 while debt remains, at most 5 specs                      │
+5. you         run layers, crap       all green: stop                  │  no new scan
    you         build-requested-spec   shipped chore                   ◄┘
 ```
 
@@ -42,7 +43,7 @@ When the human asks to upgrade dependencies, skip the debt. The request is a `ch
 
 Read `node .agents/aidd/aidd.mjs debt list` and take the open item of the highest priority. Before you take it, check in the current code that it still exists, because an earlier repair of this run can remove it: remove an item that no longer exists with `debt remove <id>`. Journal the choice with `node .agents/aidd/aidd.mjs log select "<D ID>: <why>"`.
 
-The priority sets the repair, so no one judges "big" or "small". The evidence of the item limits the repair: a finding that a later check shows stays for the next scan. Never add it to the scope.
+The priority sets the repair, so no one judges "big" or "small". The evidence of the item limits the repair of a spec: a finding that a later check shows stays for the next scan. Never add it to the scope. A patch is different: the `crap` of its project limits it.
 
 ## 2. High debt
 
@@ -61,15 +62,19 @@ When no `high` or `medium` item is open and this run has not hardened yet, the *
 A patch has no spec and no release:
 
 - A patch repairs the item and the other open `low` items of the same project, at most five. Create the task branch `chore/{D ID}-{slug}` from the default branch, with the D ID of the selected item.
-- The **Builder** executes `implement-project` for that project, with these items as its scope. It runs `crap` until the items are gone, and commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
-- When the **Builder** cannot repair an item, or its finding shows a bug, keep that item. When it repairs none, delete the task branch and select the next item.
+- The **Builder** executes `implement-project` for that project, with these items and the `crap` slot of the project as its scope. It runs `crap` until it is green: first the items, then what `crap` shows next, such as the test coverage that a failing limit hides. Thus one patch ends the `crap` debt of its project, with no scan and no patch more. It commits through the hook, which runs the affected unit tests, as `refactor({project}): {what the patch does}`.
+- When the **Builder** cannot repair an item, or its finding shows a bug, keep that item. When it repairs none, delete the task branch and select the next item. When `crap` stays red, the check of step 5 sends it to a scan.
 - Run `node .agents/aidd/aidd.mjs debt remove <id>` for each item that `crap` no longer shows, then `node .agents/aidd/aidd.mjs integrate "refactor({project}): {what the patch does}"`.
 
 A patch runs only its affected unit tests. The ship of the next spec catches a regression. A patch does not count as one of the five specs.
 
+## 5. Check
+
+When no debt is open, check the code with the core, never with a new scan: run `node .agents/aidd/aidd.mjs run layers` and `node .agents/aidd/aidd.mjs run crap`. When each project is green, the run stops. When a project is red, the **Craftsman** executes `scan-quality` in the mode of the red check, for that project only, and you go back to the selection.
+
 ## Stop
 
-Go back to the selection while debt remains. Stop after five shipped specs, when a spec ships with a failure recorded as debt, or when a scan and its hardening record nothing. A human request that names one item gets only its repair.
+Go back to the selection while debt remains. Stop after five shipped specs, when a spec ships with a failure recorded as debt, when the check of step 5 is green, or when a scan of step 5 records nothing. A human request that names one item gets only its repair.
 
 When you stop, return the summary of `debt list`.
 

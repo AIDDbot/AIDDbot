@@ -70,7 +70,7 @@ craft-lasting-quality:
 build-ordered-specs:
   - "read the state from the files; a spec file with a shipped spec is done, and an unshipped one continues with its next skill"
   - "for each spec file, in order: build-requested-spec approved in advance, then craft-lasting-quality; the next spec starts only with zero open debt"
-  - "after the last spec: craft-lasting-quality until its scan and its hardening record nothing"
+  - "after the last spec: craft-lasting-quality until its check (layers and crap green for each project) is green"
   - "return one row for each shipped spec, with its version, debt, repairs and times"
 ```
 
@@ -215,15 +215,15 @@ The records of the system, journal summaries included, use the language of `.pro
 
 `craft-lasting-quality` follows this route:
 
-high debt → `fix` spec → `scan-quality` (`layers`) → medium debt → `refactor` spec → `scan-quality` (`crap`) → low debt → patch, again while debt remains (at most 5 specs in one run)
+high debt → `fix` spec → `scan-quality` (`layers`) → medium debt → `refactor` spec → `scan-quality` (`crap`) → low debt → patch, again while debt remains (at most 5 specs in one run) → check: `aidd run layers` and `aidd run crap` green for each project, else a scan of the red one
 
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
 | `high` | the review; a triage that the spec cannot solve | a `fix` spec: branch, implement, verify, review, ship |
 | `medium` | `layers`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
-| `low` | `crap`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement with the check green, integrate; no spec |
+| `low` | `crap`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement until the `crap` of the project is green, integrate; no spec |
 
-`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. A `refactor` also repairs the other open `medium` items of the same project, at most five: each `medium` item names its project with `debt add --project`. A `fix` repairs one item, because each one needs its approval. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open.
+`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. A `refactor` also repairs the other open `medium` items of the same project, at most five: each `medium` item names its project with `debt add --project`. A `fix` repairs one item, because each one needs its approval. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
