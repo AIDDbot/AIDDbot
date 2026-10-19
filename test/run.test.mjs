@@ -143,7 +143,7 @@ test("a project needs a known type, and test runs e2e last as acceptance evidenc
   assert.deepEqual(aidd(root, "run", "test", "--spec").body.runs.map((entry) => entry.project), ["e2e"]);
 });
 
-test("a layers run reports each shared or features folder over the size limit, and it never fails the run", () => {
+test("a layers run reports each core, shared or features folder over the size limit, and it never fails the run", () => {
   const root = repo();
   for (let index = 0; index < 17; index++) write(root, `back/src/shared/file${index}.ts`, "");
   for (let index = 0; index < 4; index++) write(root, `back/src/features/auth/file${index}.ts`, "");
@@ -152,9 +152,12 @@ test("a layers run reports each shared or features folder over the size limit, a
   aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": "node -e \"process.exit(0)\"" } }));
   const scan = aidd(root, "run", "layers");
   assert.equal(scan.code, 0);
-  assert.deepEqual(scan.body.folders, [{ project: "back", folder: "back/src/shared", entries: 17, limit: 16 }]);
+  assert.deepEqual(scan.body.folders, [
+    { project: "back", folder: "back/src/core", entries: 20, limit: 16 },
+    { project: "back", folder: "back/src/shared", entries: 17, limit: 16 },
+  ]);
   aidd(root, "config", "set", "quality", '{"folderEntries":3}');
-  assert.deepEqual(aidd(root, "run", "layers").body.folders.map((entry) => entry.folder), ["back/src/features/auth", "back/src/shared"]);
+  assert.deepEqual(aidd(root, "run", "layers").body.folders.map((entry) => entry.folder), ["back/src/core", "back/src/features/auth", "back/src/shared"]);
 });
 
 test("a layers run reports each subfolder inside a feature, and only there", () => {

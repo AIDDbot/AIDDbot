@@ -20,7 +20,7 @@ const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const RUNNING = "RUNNING";
 const DEFAULT_FOLDER_ENTRIES = 16;
-const GROUPED_FOLDERS = new Set(["shared", "features"]);
+const GROUPED_FOLDERS = new Set(["core", "shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
 const DEFAULT_DUPLICATE_LINES = 6;
 const MAX_DUPLICATES = 20;
@@ -160,7 +160,7 @@ function recordRun(root, kind, runs, projects, scoped) {
 }
 
 /**
- * The folder findings of one project. `crowded`: each folder of a `shared` or `features` tree, the tree included, with more direct entries than `limit`.
+ * The folder findings of one project. `crowded`: each folder of a `core`, `shared` or `features` tree, the tree included, with more direct entries than `limit`.
  * `subfolders`: each folder inside a feature folder, because a feature is one flat folder and the layer lint sees only its top. Technology-free: it reads the file system only.
  */
 function folderFindings(root, project, start, limit) {
