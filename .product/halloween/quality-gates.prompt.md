@@ -351,7 +351,7 @@ Resultado (2026-10-19, 13:24 → 14:57, corte por tokens en S0011, sin retomar):
 
 ## web-F
 
-Preparado 2026-10-19 en `C:\codeidd\experiments\halloween\web-F`: AIDDbot `refactor/quality-gates` `3903bb1d` (init local), Blueprint `0a33f29` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e28836e` (overlay) y `9d7a443` (Blueprint y manifiesto). Prompt: `web-F.md` (el de web-E).
+Preparado 2026-10-19 en `C:\code\aidd\experiments\halloween\web-F`: AIDDbot `refactor/quality-gates` `3903bb1d` (init local), Blueprint `0a33f29` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e28836e` (overlay) y `9d7a443` (Blueprint y manifiesto). Prompt: `web-F.md` (el de web-E).
 
 Qué cambia frente a web-E y qué mirar:
 
