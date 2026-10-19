@@ -347,6 +347,25 @@ Hallazgos durante web-E:
 - Alias `#core/*` inventado (S0004, 14:00). El refactor `a34408d` de S0003 movió el logger a `back/src/core/logging/` y dejó 3 imports `../` (el commit pasó: el hook no ejecuta `layers`). El scan de `layers` dio D0002–D0004 y el Builder los reparó con un alias nuevo `#core/*` en `projects/back/package.json`, fuera del Blueprint (solo `#shared/*` y `#api/*`). Causa: una subcarpeta en `core/` no llega a su padre sin `../`. Decidir: `#core/*` en el Blueprint, o `core/` plano (sin subcarpetas).
 - `EBUSY` de SQLite en Windows (regresión de S0006, 14:16). `@S0002-R01` falló de forma intermitente: el `dispose` de `e2e/shared/projects/helper.ts` borra la carpeta temporal tras parar el proceso, y Windows aún tiene `app.sqlite` abierto. El triage lo sacó de S0006 como D0012 alta → fix S0007, que espera la aprobación humana y deja la run parada. Arreglar en el Blueprint: el helper espera a que el proceso suelte el fichero (o reintenta el borrado) antes de quitar la carpeta.
 
+Resultado (2026-10-19, 13:24 → 14:57, corte por tokens en S0011, sin retomar): 6 de 7 specs (scaffold → users, v0.6.0; users entregada con revisión verde), 17 ítems de deuda (15 reparados: 1 alto, 6 medios en 4 refactors, 8 bajos en 7 parches; abiertos D0016–D0017, `shared` lleno), 42 agentes, 7 min parada por la aprobación de D0012. `max-params` 0 (web-D: 7), `vi.mock` 0, `conditions/named` 9. 16 de los 17 ítems vinieron de `layers` y `crap` después del ship: unos 25 de 94 min en reparaciones. El cierre de `layers` decía `ok` junto al aviso de carpetas llenas. Siguen decenas de esperas «No agents completed yet». `e2e` paró procesos con `taskkill` y una rama de Windows, contra la regla de `tree-kill`.
+
+## web-F
+
+Preparado 2026-10-19 en `C:\codeidd\experiments\halloween\web-F`: AIDDbot `refactor/quality-gates` `3903bb1d` (init local), Blueprint `0a33f29` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `e28836e` (overlay) y `9d7a443` (Blueprint y manifiesto). Prompt: `web-F.md` (el de web-E).
+
+Qué cambia frente a web-E y qué mirar:
+
+- `layers` y `crap` dentro de cada spec (AIDDbot `b0b0ba9e`): el Builder los deja verdes en cada proyecto que toca antes de volver. Tras el ship, el orquestador ejecuta `run layers` y `run crap`; todo verde y sin deuda → siguiente spec, sin craft ni scan. Contar refactors, parches, scans y agentes por spec frente a web-E (4 refactors, 7 parches, 42 agentes).
+- Un hallazgo de estructura (carpeta llena, subcarpeta en una feature, duplicado) pone `layers` en rojo en su proyecto (AIDDbot `3903bb1d`). `core` cuenta para el límite de 16 (`a44e4bee`).
+- `core` por concern con `#core/*`; `layers` prohíbe `#core` en `shared` y en las features (Builder `229ad83`). Mirar si sale `#core` y dónde.
+- `shared` con lista cerrada de carpetas: en la raíz solo `errors` e `identity`; la semilla en `values/`; cada spec de foundation nombra su carpeta (Builder `0a33f29`). Mirar el tamaño de `shared` tras users (web-E: 21 en `back`).
+- El helper de `e2e` espera `close` y borra con reintentos (Builder `c154a46`): ningún `EBUSY`. Mirar también si usa `tree-kill` o vuelve a `taskkill`.
+- `e2e` lee la identidad de la raíz con `shared/projects/identity.ts` (Builder `46394dd`): ningún `../package.json`.
+- La lista aprueba los fixes de deuda alta (AIDDbot `979de8f6`): ninguna parada por aprobación.
+- Tokens: web-E se cortó en S0011, tras users. Mirar si llega a presentation.
+- users y presentation entregados. Exportar la conversación fuera del repo. Evitar que el ordenador se duerma.
+- Si sale limpio, su código es la semilla de Archetype Web 0.4.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
