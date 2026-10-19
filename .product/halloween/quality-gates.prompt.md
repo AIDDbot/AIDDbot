@@ -345,6 +345,7 @@ Qué cambia frente a web-D y qué mirar:
 Hallazgos durante web-E:
 
 - Alias `#core/*` inventado (S0004, 14:00). El refactor `a34408d` de S0003 movió el logger a `back/src/core/logging/` y dejó 3 imports `../` (el commit pasó: el hook no ejecuta `layers`). El scan de `layers` dio D0002–D0004 y el Builder los reparó con un alias nuevo `#core/*` en `projects/back/package.json`, fuera del Blueprint (solo `#shared/*` y `#api/*`). Causa: una subcarpeta en `core/` no llega a su padre sin `../`. Decidir: `#core/*` en el Blueprint, o `core/` plano (sin subcarpetas).
+- `EBUSY` de SQLite en Windows (regresión de S0006, 14:16). `@S0002-R01` falló de forma intermitente: el `dispose` de `e2e/shared/projects/helper.ts` borra la carpeta temporal tras parar el proceso, y Windows aún tiene `app.sqlite` abierto. El triage lo sacó de S0006 como D0012 alta → fix S0007, que espera la aprobación humana y deja la run parada. Arreglar en el Blueprint: el helper espera a que el proceso suelte el fichero (o reintenta el borrado) antes de quitar la carpeta.
 
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
