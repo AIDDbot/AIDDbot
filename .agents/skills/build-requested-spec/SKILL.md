@@ -11,7 +11,7 @@ Your goal is to turn a natural-language request, or a spec that the core made fr
 
 ```text
 1. Architect   define-spec            human approval            a request only
-2. Builder     implement-project      each project, then e2e    affected unit tests
+2. Builder     implement-project      each project, then e2e    affected unit tests, layers, crap
 3. Craftsman   verify-behavior        red: repair loop          tests of the spec       feat, fix
                review-implementation  findings ship as debt     reading only            feat, fix, chore
                ship-spec              red: triage               all unit and e2e tests
