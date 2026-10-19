@@ -323,6 +323,25 @@ Qué cambia frente a web-C y qué mirar:
 - Cada `AGENTS.md` por debajo de 100 líneas (raíz con el Blueprint corto: intro + 6 reglas de código; arquitectura en cada proyecto).
 - users y presentation entregados. Exportar la conversación fuera del repo. Evitar que el ordenador se duerma.
 
+Resultado (2026-10-19, corte por tokens a las 09:52, sin retomar): 6 de 7 specs (scaffold, configuration, monitoring, shell, about, users: primera run que entrega users), v0.6.1, 20 ítems de deuda reparados (6 medios en 5 refactors, 14 bajos en parches). Ningún `log approved` rechazado. Hallazgos: `max-params 2` es 7 de los 14 bajos; `crap` corta en el lint y esconde la cobertura, así que configuration, monitoring y users pagan re-scan + segundo parche; la cobertura de `core` se cubrió con `vi.mock` (D0006, D0011); `session.contract.ts` del front con código y 0 % de cobertura; decenas de esperas «No agents completed yet» en el orquestador.
+
+## web-E
+
+Preparado 2026-10-19 en `C:\code\aidd\experiments\halloween\web-E`: AIDDbot `refactor/quality-gates` `7d6a4da9` (init local), Blueprint `47a3e28` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `50d6c9d` (overlay) y `9b0ce1a` (Blueprint y manifiesto). Prompt: `web-E.md` (el de web-D).
+
+Qué cambia frente a web-D y qué mirar:
+
+- Alias `#shared/*` y `#api/*` en cada `package.json`; `import/no-relative-parent-imports`; ningún `../`. Mirar si Vite resuelve `#api` y si el Builder los usa desde el scaffold.
+- `boundaries.json` y `complexity.json` locales en cada proyecto, con solo `extends` de `.lint/`; scripts `vp lint -c boundaries.json` y `vp lint -c complexity.json`.
+- `conditions/named` (`.lint/conditions.mjs`, en `crap`) y la regla «A condition is a name» en el `AGENTS.md` raíz: contar sus hallazgos.
+- Límites escritos en la regla de código (2 parámetros, complejidad 8…): contar `max-params` (web-D: 7 de 14 bajos).
+- `vi.mock` y `vi.doMock` prohibidos (`layers`); solo `src/core/{concern}.adapter.ts` toca la plataforma, sin lógica y fuera de la cobertura. Mirar cómo se cubre la base de datos y el logger del back sin mocks.
+- Identidad: cada proyecto (`back`, `front`) importa su propio `package.json` (`#package`, `with { type: "json" }`), copia de la raíz; el scaffold registra `release.versionFiles`. Mirar: Vite con el import JSON, que cada release suba todas las versiones, y que el front la tenga en el bundle sin pedirla a la API.
+- Reparación A + B: un parche termina con el `crap` de su proyecto en verde (también la cobertura que escondía); con la deuda a cero, el orquestador ejecuta `run layers` y `run crap` y solo un rojo lanza un scan. Contar scans, parches y agentes por spec frente a web-D.
+- Tokens: web-D se cortó en 6 de 7. Mirar si llega a presentation.
+- users y presentation entregados. Exportar la conversación fuera del repo. Evitar que el ordenador se duerma.
+- Si sale limpio, su código es la semilla de Archetype Web 0.4, que desbloquea AIDDbot 0.4.0 (archetype-base 0.3.14 no tiene `.lint/` ni hook).
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
