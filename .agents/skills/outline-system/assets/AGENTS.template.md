@@ -52,6 +52,7 @@ All projects obey these principles. Each project `AGENTS.md` gives its architect
 ### Code
 
 - Limits: `crap` checks `.lint/complexity*.json`; `layers` checks 16 entries in a folder. A framework callback (such as a middleware) goes in `core/{concern}.middleware.ts`, never a lint comment or an exception in `.lint/`. A folder over the limit: divide it by concern.
+- A condition is a name: an `if`, a `while` or a ternary tests a name or its negation (`hasItems`, `!isApplied`). Put a comparison or a callback in a `const` with a name first. `crap` checks it.
 - One type for each domain concept, never a bare primitive. Generic types in `shared`, domain types in their feature.
 - `shared` has one function to check, convert or format each common type: look there before you write one.
 - One source for each definition: a default, an option, a usage text or a list of names is data in one place. Never parse a display text to get the data again.
