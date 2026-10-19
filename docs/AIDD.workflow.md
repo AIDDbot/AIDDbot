@@ -59,7 +59,7 @@ build-requested-spec:
 
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
-  - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO: at once)"
+  - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO or build-ordered-specs: at once)"
   - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
   - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
@@ -124,7 +124,7 @@ The type of the spec sets its steps. The origin sets the definition: a request h
 | --- | --- | --- | --- | --- |
 | `feat`, `fix` | a request | `define-spec`, human approval | yes | yes |
 | `chore` | a request | `define-spec`, human approval | no | yes |
-| `fix` | high debt | `aidd spec debt`, human approval of the item | yes | yes |
+| `fix` | high debt | `aidd spec debt`, human approval of the item (in advance under `build-ordered-specs`) | yes | yes |
 | `refactor` | medium debt | `aidd spec debt`, no approval | no | no |
 | patch (no spec) | low debt | the item | no | no |
 

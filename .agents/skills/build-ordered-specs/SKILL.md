@@ -36,7 +36,7 @@ Before the first step, and again after each interruption, read the state from th
 ## Deliver
 
 1. Execute `build-requested-spec` with the request "Deliver the spec from `{file}`". The list is the approval in advance: nobody asks, and the approval is journaled as soon as the spec is written.
-2. Execute `craft-lasting-quality` one time.
+2. Execute `craft-lasting-quality` one time. The list also approves in advance each `fix` that it makes from high debt: journal the approval as soon as the spec is made, as in YOLO mode.
 3. Read `node .agents/aidd/aidd.mjs debt list`. The next spec never starts on open debt: while an item is open, execute `craft-lasting-quality` again. Stop and return the open debt only when a run ships no repair.
 
 After the last spec, execute `craft-lasting-quality` again until its check is green, and `debt list` shows no open item.
