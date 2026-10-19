@@ -394,6 +394,8 @@ Qué cambia frente a web-F y qué mirar:
 - Tokens: web-F se cortó por el límite de uso de Codex en S0007, con el código hecho. Lanzar con el límite recién renovado y mirar si presentation se publica.
 - Si sale limpio, su código es la semilla de Archetype Web 0.4.
 
+Prueba de las reglas nuevas en archetype-cli v0.4.15 (2026-10-19, a mano, antes de web-G): 29 hallazgos. `cli`: 8 `types/named` y 10 tipos de retorno; `e2e`: 1 `process.platform` (`layers`), 1 `types/named` y 9 tipos de retorno. Ningún adaptador con ramas (`files.adapter.ts` ya era limpio). Arreglo: 17 ficheros (11 `cli`, 6 `e2e`), +185 −85 líneas, en 2 refactors y sin un solo `fix`: ningún test cambió y los 56 unitarios y 31 de aceptación pasaron a la primera. `cli` pidió 2 pasadas (la segunda: `app.help.ts` y `app.compose.ts`); `e2e` 1. La rama `win32` del helper no era para parar procesos sino para el shell (`cmd.exe` o `sh`, con su `quote`): ahora parte el `start` en palabras y lanza el cli sin shell, y sobra el `quote`. Publicado como archetype-cli v0.4.16 (`621db3e`, `c4ad411`, `7a8f6e4`) y fijado en AIDDbot (`fba73909`).
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
