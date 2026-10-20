@@ -434,18 +434,24 @@ Prueba de las reglas nuevas en archetype-cli v0.4.15 (2026-10-19, a mano, antes 
 
 ## web-H
 
-Preparado 2026-10-20 a las 10:50, para el mediodía, en `C:\code\aidd\experiments\halloween\web-H`: AIDDbot `refactor/quality-gates` (`node bin/aiddbot.js init` local, todos los harnesses; el overlay es el de web-G salvo el pin de archetype-cli en `archetypes.md`), Blueprint `a2d04a8` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `core.autocrlf false`, `.gitattributes` en el segundo commit, ningún CRLF. Commits `98779fc` (overlay) y `2b5585e` (Blueprint y manifiesto). Prompt: `web-H.md` (el de web-G).
+Preparado de nuevo 2026-10-20 a las 12:10, con D39, en `C:\code\aidd\experiments\halloween\web-H`: AIDDbot `refactor/quality-gates` (`node bin/aiddbot.js init` local, todos los harnesses; ya con `d8b45335`, los informes en `.aiddbot/logs/`, y `6e8a5c2e`, la identidad en `architect-system-foundation`), Blueprint `312a023` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `core.autocrlf false`, `.gitattributes` en el segundo commit, ningún CRLF. Commits `f9b2548` (overlay) y `a6d8b19` (Blueprint y manifiesto). Prompt: `web-H.md`, con el orden nuevo. La primera preparación (Blueprint `a2d04a8`, sin D39) no llegó a ejecutarse.
 
-Por qué otra run: web-G salió accidentada (dos paradas de unos 20 min: Codex «at capacity» y el hueco de `monitoring`) y no mide bien el coste de las reglas.
+Por qué otra run: web-G salió accidentada (dos paradas de unos 20 min: Codex «at capacity» y el hueco de `monitoring`), y su e2e de infraestructura costaba más que el funcional (D39).
 
 Qué cambia frente a web-G y qué mirar:
 
-- Identidad en el `package.json` de cada proyecto (Builder `f6c6e10`): web-G ya la tenía. Mirar `shell` y `about`: ningún `displayName ??`, ninguna alternativa, ningún `package.json` leído en el e2e.
-- CORS preflight 204 en `configuration` (R02), y `monitoring` lo usa como respuesta correcta antes de `shell` (Builder `a2d04a8`): la decisión humana de web-G, ya en el Blueprint. Ninguna parada en `monitoring`.
-- `npm run fix` antes de `layers` y `crap` (Builder `a2d04a8`). En web-G, el `layers` del Builder no vio el duplicado de S0002 porque medía código sin formatear (las líneas densas de `process.ts`); el hook lo formateó al commitear, y el duplicado salió tras el ship como D0001–D0002 y el refactor S0003. Comprobado: a `37f87a0`, `aidd run layers` sí da el duplicado. Mirar: ningún duplicado después de un ship.
+- **D39, la foundation como framework** (Builder `312a023`): `scaffold` → `platform` (chore) → `shell` → `presentation` (chore) → `about` → `users` → `settings`. Mirar:
+  - `platform` y `presentation` sin tests de aceptación: sus listas de valores, en unitarios de `core` y `shared`; la review en verde.
+  - `shell`, con los tests de contrato del cableado (R03: cabeceras, CORS y log con la ruta completa; R04: arranque y `PORT=0`).
+  - `about`, con los primeros primitivos (tarjeta, registro, tabla, estados) desde la primera versión, sin retoques después.
+  - `settings` en web: tema y formato de fecha de la cuenta, `GET` y `PUT /api/users/me/settings`.
+  - El e2e en paralelo (sin `workers: 1`), con un solo valor por comportamiento. web-G: 55 tests y 25,5 s tras `about`, 46 de ellos de infraestructura.
+  - Tokens: llegar a `settings`. web-F se cortó en presentation y web-G en users.
+- Identidad en el `package.json` de cada proyecto (Builder `f6c6e10`): funcionó en web-G; mirar que siga sin `displayName ??` ni alternativa.
+- `npm run fix` antes de `layers` y `crap` (Builder `a2d04a8`): ningún duplicado después de un ship.
 - Scripts `check` y `fix` en la raíz, y `.agents/`, `.aiddbot/` y `.lint/` fuera del format y del lint (Builder `4c9476b`, `110a27f`).
-- `conditions/named` rechaza negar un nombre propio (`isUnknown`, no `!isKnown`; Builder `ac66afe`): regla nueva para esta run. Contar sus hallazgos.
-- Lo de web-G se mantiene: `types/named`, el tipo de retorno, los adaptadores sin ramas y `process.platform` rechazado en el e2e, con `tree-kill`.
+- `conditions/named` rechaza negar un nombre propio (`isUnknown`, no `!isKnown`; Builder `ac66afe`): contar sus hallazgos.
+- Lo de web-G se mantiene: `types/named`, el tipo de retorno, los adaptadores sin ramas y `process.platform` rechazado en el e2e, con `tree-kill`. Pendiente aparte: `createServer` de `vite-plus` en un solo proceso, para quitar `tree-kill`.
 
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
