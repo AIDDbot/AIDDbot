@@ -343,6 +343,6 @@ Una spec es de fundación si cumple las dos condiciones:
 - `core` tiene una carpeta por capacidad de `platform`: `settings/`, `logging/`, `http/` (en `api`, servidor, rutas, middlewares y request; en `web`, cliente y middleware de runtime), `database/` (solo `api`), `lifecycle/` (`compose`, `start` y señales, D40) y `theme/` (solo `web`).
 - `shared` tiene una carpeta por tipo de primitivo: `values/`, `http/`, `logging/`, `database/` (solo `api`) y `components/` (solo `web`). `errors.ts` e `identity.ts` se quedan en la raíz de `shared`.
 - `core` crece con el sistema: es normal. Una carpeta nueva sale de una capacidad o un tipo nuevo, no de llegar al límite de entradas.
-- El Blueprint no entrega código sucio. Sus fuentes (`lint/`, `theme/` y los ejemplos) pasan `fmt` y `lint` antes de cada siembra. En web-H, el formateador reformateó `lint/types.mjs`.
+- El Blueprint no entrega código sucio. Todo su código (`lint/`, `theme/` y los ejemplos de las specs y de `ecosystems.md`) cumple las mismas barreras que impone: `fmt`, `lint`, `layers` y `crap`. El Builder lo comprueba antes de cada siembra. En web-H, el formateador reformateó `lint/types.mjs`.
 - Los ficheros `proof` de `scaffold` (paso 3) fallan a propósito: prueban `layers` y `crap`. No cuentan como deuda ni como semilla sucia.
 - Aplicar: Builder, junto con D40 (`scaffold`, `platform`, `project-types.md`, `boundaries.json`), después de web-H.
