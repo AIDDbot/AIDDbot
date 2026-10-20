@@ -453,6 +453,19 @@ Qué cambia frente a web-G y qué mirar:
 - `conditions/named` rechaza negar un nombre propio (`isUnknown`, no `!isKnown`; Builder `ac66afe`): contar sus hallazgos.
 - Lo de web-G se mantiene: `types/named`, el tipo de retorno, los adaptadores sin ramas y `process.platform` rechazado en el e2e, con `tree-kill`. Pendiente aparte: `createServer` de `vite-plus` en un solo proceso, para quitar `tree-kill`.
 
+Resultado (2026-10-20, 15:49 → 17:23, cortado por el límite de uso de Codex en S0007 settings, en la segunda verificación tras reparar un hallazgo de la review; el código está commiteado): 6 de 7 specs fundacionales publicadas (scaffold → users, v0.4.0), sin paradas. Tiempos: scaffold 13 min, platform 17, shell 10, presentation 9, about 9 (`about` publicada a los 59 min; web-G, unos 85 efectivos), users 21, settings 12 hasta el corte. Deuda 0 (`debt.json` vacío), ningún scan ni spec de reparación. Regresión tras users: 70 unitarios en `back`, 62 en `front` y 36 e2e en 10,7 s (`fullyParallel`); tras about, 16 e2e en unos 6 s (web-G: 55 en 25,5 s). Reglas dentro de las specs: 25 hallazgos sin contar las 4 pruebas de `scaffold`, todos reparados en segundos (`conditions/named` 7, `types/named` 5, `max-params` 2, complejidad 4, `explicit-module-boundary-types` 3, `no-restricted-imports` 1, `no-relative-parent-imports` 1, `max-statements` 1, más avisos de carpetas y 2 duplicados). Por spec: platform 6, shell 3, presentation 2, about 3, users 4, settings 5: no bajan con el código ya escrito; se repiten las mismas reglas en código de otra forma. 5 ejecuciones rojas de los tests acotados, todas reparadas en 1 o 2 min. La review de settings cazó un fallo real (una respuesta pendiente devuelve el tema de la cuenta anterior tras salir) y el Builder lo reparó en 2 min.
+
+Hallazgos durante web-H:
+- `core` pasa de 16 entradas desde `shell` (`back/src/core`, 17) y `front/src/shared/values` llega a 18. El agente abrió subcarpetas por su cuenta (`core/database`, `core/lifecycle`, `core/logging`, `core/routing`, `core/navigation`). Decisión: D41.
+- `app.main.ts` y `app.compose.ts` al 0 % de cobertura; `src/core`, al 100 % de líneas. Decisión: D40.
+- El formateador de la run reformateó `.product/blueprint/lint/types.mjs`: el Blueprint no pasaba su propio `fmt`. Decisión: D41.
+- `about` repara las tablas y registros a 375 px, igual que Columbus con el menú y la tabla. Al Blueprint (tema) ya; al Prefab después (D41).
+- `shell` mantiene `startup.spec.ts` con un servidor propio y `PORT=0`, que el unitario de ajustes ya cubre. Sale con D40.
+- La verificación 1 de S0005 se registró dos veces, en español y en inglés, con 30 s de diferencia.
+
+Post-mortem (solo nuestros fallos gordos):
+1. **Los tokens siguen sin alcanzar para la foundation entera.** Faltó una requalificación y el ship de settings. D39 bajó el coste (web-G se cortó antes de users), pero no lo bastante. Lo siguiente: D40 y D41 en el Builder, el tema a 375 px y el Blueprint limpio, para quitar trabajo repetido en cada spec; medirlo en la próxima run.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
