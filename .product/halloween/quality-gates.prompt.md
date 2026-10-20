@@ -466,6 +466,22 @@ Hallazgos durante web-H:
 Post-mortem (solo nuestros fallos gordos):
 1. **Los tokens siguen sin alcanzar para la foundation entera.** Faltó una requalificación y el ship de settings. D39 bajó el coste (web-G se cortó antes de users), pero no lo bastante. Lo siguiente: D40 y D41 en el Builder, el tema a 375 px y el Blueprint limpio, para quitar trabajo repetido en cada spec; medirlo en la próxima run.
 
+## web-I
+
+Preparado 2026-10-20, en `C:\code\aidd\experiments\halloween\web-I`: AIDDbot `refactor/quality-gates` (`node bin/aiddbot.js init` local, todos los harnesses; overlay idéntico a `.agents/` en `aed6183a`), Blueprint `e13f009` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md` (igual que en web-H). `core.autocrlf false`, `.gitattributes` en el segundo commit, ningún CRLF. Commits `2d2e684` (overlay) y `6b458fb` (Blueprint y manifiesto). Prompt: `web-I.md`, el mismo de web-H.
+
+Objetivo: la foundation entera en una ventana de Codex, para tener un Archetype Web decente.
+
+Qué cambia frente a web-H y qué mirar:
+
+- **D40, todo con unitario menos lo visual.** Solo `main` en la raíz de `src`: importa `start`, el manifiesto y `#package`, y llama a `start`. La composición está en `core/lifecycle/`. Cobertura 100 de líneas y funciones por fichero (fuera `main`, los adaptadores y los `.tsx`). Mirar: que `scaffold` deje el umbral en 100, que no salga ningún fichero más en la raíz de `src`, y cuántos ciclos de `crap` cuesta la cobertura en cada spec.
+- **`shell` sin el test de arranque** (sale el antiguo R04, requisitos renumerados) y el test de contrato del `api` sin CORS. Ningún test arranca un servidor propio. Comparar el tiempo de la regresión: web-H, 36 e2e en 10,7 s tras users.
+- **D41, carpetas de `core`** (lista cerrada, sin ficheros en su raíz). Mirar: ningún aviso `folders over 16 entries`.
+- **Reglas de código en el `AGENTS.md` de cada proyecto** (`ecosystems.md`, «Code rules of each project»). Contar los hallazgos de `layers` y `crap` por spec. web-H: 24 (platform 6, shell 3, presentation 2, about 3, users 4, settings 5). Mirar también la longitud de cada `AGENTS.md` de proyecto (límite de 100 líneas).
+- **375 px en el tema** (`custom.css`): ningún `fix` de pantalla estrecha en `about` ni en las features.
+- **Blueprint limpio:** el formato de la run no toca `.product/blueprint/`.
+- Tokens: llegar al ship de `settings`. web-H se cortó en su requalificación, a los 94 min.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
