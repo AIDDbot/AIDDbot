@@ -336,3 +336,13 @@ Una spec es de fundación si cumple las dos condiciones:
 - Los tests de relleno (ejecutan código y no comprueban nada) los caza la review del Craftsman, no el umbral.
 - Los tests de contrato de `shell` (D39) se quedan en uno, sobre el servidor compartido: una petición comprueba `X-Request-Id`, las cabeceras de seguridad y la línea de log con la ruta completa. Un fallo ahí no impide usar la app, así que ningún e2e funcional lo caza, y el unitario de la composición no ve lo que hace Express de verdad (el `request.path` de web-G). Cuesta milisegundos. CORS roto sí impide usar la app: lo cazan los e2e funcionales. El `PORT` inválido arranca un servidor propio y ya lo prueba el unitario de ajustes: fuera.
 - Aplicar: Builder (lint de `layers`, `complexity.json` o la configuración de cobertura de `crap`, la estructura de `scaffold` y `platform`), después de web-H. No entra en web-H.
+
+## D41 (2026-10-20, durante web-H) · Subcarpetas de `core` y `shared`; el Blueprint, limpio
+
+- Motivo: en web-H, `back/src/core` llega a 17 entradas en `shell` y D40 le suma la composición y el arranque. El agente ya abrió subcarpetas por su cuenta (`core/database`, `core/logging`, `shared/values`, `shared/components`...). Se fija lo que salió, sin inventar.
+- `core` tiene una carpeta por capacidad de `platform`: `settings/`, `logging/`, `http/` (en `api`, servidor, rutas, middlewares y request; en `web`, cliente y middleware de runtime), `database/` (solo `api`), `lifecycle/` (`compose`, `start` y señales, D40) y `theme/` (solo `web`).
+- `shared` tiene una carpeta por tipo de primitivo: `values/`, `http/`, `logging/`, `database/` (solo `api`) y `components/` (solo `web`). `errors.ts` e `identity.ts` se quedan en la raíz de `shared`.
+- `core` crece con el sistema: es normal. Una carpeta nueva sale de una capacidad o un tipo nuevo, no de llegar al límite de entradas.
+- El Blueprint no entrega código sucio. Sus fuentes (`lint/`, `theme/` y los ejemplos) pasan `fmt` y `lint` antes de cada siembra. En web-H, el formateador reformateó `lint/types.mjs`.
+- Los ficheros `proof` de `scaffold` (paso 3) fallan a propósito: prueban `layers` y `crap`. No cuentan como deuda ni como semilla sucia.
+- Aplicar: Builder, junto con D40 (`scaffold`, `platform`, `project-types.md`, `boundaries.json`), después de web-H.
