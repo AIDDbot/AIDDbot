@@ -416,6 +416,21 @@ Hallazgos durante web-G:
 
 Prueba de las reglas nuevas en archetype-cli v0.4.15 (2026-10-19, a mano, antes de web-G): 29 hallazgos. `cli`: 8 `types/named` y 10 tipos de retorno; `e2e`: 1 `process.platform` (`layers`), 1 `types/named` y 9 tipos de retorno. Ningún adaptador con ramas (`files.adapter.ts` ya era limpio). Arreglo: 17 ficheros (11 `cli`, 6 `e2e`), +185 −85 líneas, en 2 refactors y sin un solo `fix`: ningún test cambió y los 56 unitarios y 31 de aceptación pasaron a la primera. `cli` pidió 2 pasadas (la segunda: `app.help.ts` y `app.compose.ts`); `e2e` 1. La rama `win32` del helper no era para parar procesos sino para el shell (`cmd.exe` o `sh`, con su `quote`): ahora parte el `start` en palabras y lanza el cli sin shell, y sobra el `quote`. Publicado como archetype-cli v0.4.16 (`621db3e`, `c4ad411`, `7a8f6e4`) y fijado en AIDDbot (`fba73909`).
 
+## web-H
+
+Preparado 2026-10-20 a las 10:50, para el mediodía, en `C:\code\aidd\experiments\halloween\web-H`: AIDDbot `refactor/quality-gates` (`node bin/aiddbot.js init` local, todos los harnesses; el overlay es el de web-G salvo el pin de archetype-cli en `archetypes.md`), Blueprint `a2d04a8` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `core.autocrlf false`, `.gitattributes` en el segundo commit, ningún CRLF. Commits `98779fc` (overlay) y `2b5585e` (Blueprint y manifiesto). Prompt: `web-H.md` (el de web-G).
+
+Por qué otra run: web-G salió accidentada (dos paradas de unos 20 min: Codex «at capacity» y el hueco de `monitoring`) y no mide bien el coste de las reglas.
+
+Qué cambia frente a web-G y qué mirar:
+
+- Identidad en el `package.json` de cada proyecto (Builder `f6c6e10`): web-G ya la tenía. Mirar `shell` y `about`: ningún `displayName ??`, ninguna alternativa, ningún `package.json` leído en el e2e.
+- CORS preflight 204 en `configuration` (R02), y `monitoring` lo usa como respuesta correcta antes de `shell` (Builder `a2d04a8`): la decisión humana de web-G, ya en el Blueprint. Ninguna parada en `monitoring`.
+- `npm run fix` antes de `layers` y `crap` (Builder `a2d04a8`). En web-G, el `layers` del Builder no vio el duplicado de S0002 porque medía código sin formatear (las líneas densas de `process.ts`); el hook lo formateó al commitear, y el duplicado salió tras el ship como D0001–D0002 y el refactor S0003. Comprobado: a `37f87a0`, `aidd run layers` sí da el duplicado. Mirar: ningún duplicado después de un ship.
+- Scripts `check` y `fix` en la raíz, y `.agents/`, `.aiddbot/` y `.lint/` fuera del format y del lint (Builder `4c9476b`, `110a27f`).
+- `conditions/named` rechaza negar un nombre propio (`isUnknown`, no `!isKnown`; Builder `ac66afe`): regla nueva para esta run. Contar sus hallazgos.
+- Lo de web-G se mantiene: `types/named`, el tipo de retorno, los adaptadores sin ramas y `process.platform` rechazado en el e2e, con `tree-kill`.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
