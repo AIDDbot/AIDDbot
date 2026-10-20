@@ -334,5 +334,5 @@ Una spec es de fundación si cumple las dos condiciones:
 - `layers` lo comprueba: en la raíz solo puede haber `main.*`, y `main.*` solo importa `#core/start`.
 - `crap` exige 100 % de líneas y de funciones. Excluye `main.*` y los componentes visuales, por ruta. Las ramas no tienen umbral: forzarlas lleva a tests de relleno o a deformar el código.
 - Los tests de relleno (ejecutan código y no comprueban nada) los caza la review del Craftsman, no el umbral.
-- Los tests de contrato de `shell` (D39) ya no cubren el cableado: solo las respuestas de error de la API y, en el `cli`, `error:` con su código de salida.
+- Los tests de contrato de `shell` (D39) se quedan en uno, sobre el servidor compartido: una petición comprueba `X-Request-Id`, las cabeceras de seguridad y la línea de log con la ruta completa. Un fallo ahí no impide usar la app, así que ningún e2e funcional lo caza, y el unitario de la composición no ve lo que hace Express de verdad (el `request.path` de web-G). Cuesta milisegundos. CORS roto sí impide usar la app: lo cazan los e2e funcionales. El `PORT` inválido arranca un servidor propio y ya lo prueba el unitario de ajustes: fuera.
 - Aplicar: Builder (lint de `layers`, `complexity.json` o la configuración de cobertura de `crap`, la estructura de `scaffold` y `platform`), después de web-H. No entra en web-H.
