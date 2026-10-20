@@ -383,7 +383,11 @@ Resultado (2026-10-19, 18:44 → 20:03, corte por el límite de uso de Codex a l
 
 Preparado 2026-10-19 en `C:\code\aidd\experiments\halloween\web-G`: AIDDbot `refactor/quality-gates` `752ee261` (init local, todos los harnesses), Blueprint `900252c` sin `foundation-0.3/`, el manifiesto `archetypes/archetype-web.system.md`. `.gitattributes` en el segundo commit, `core.autocrlf false`, ningún CRLF. Commits `3e681e1` (overlay) y `7d0af10` (Blueprint y manifiesto). Prompt: `web-G.md` (el de web-F).
 
+Rehecho 2026-10-20: Blueprint `f6c6e10`, commit `0879cc3` (amend de `7d0af10`). La identidad, simplificada antes de lanzar: un consumidor que tiene que pasar por diez piezas para poner su nombre deja el arquetipo. Ahora son los campos estándar del `package.json` de cada proyecto que la muestra (`displayName`, `description`, `author` con `name` y `url`, y `version`), todos obligatorios. Se quitan la identidad en la raíz, las copias, la función de `shared` con la alternativa «AIDDbot» (origen de D0009–D0012 en web-C), el helper del e2e y la copia del `package.json` raíz en la carpeta temporal. Se quedan `#package` y `release.versionFiles`. `shared/identity` solo tiene el tipo `Identity`. El e2e comprueba que la identidad está, no sus valores. Pendiente tras web-G: `architect-system-foundation/references/scaffold.md` (vía `/maintain-skills`) y archetype-cli.
+
 Qué cambia frente a web-F y qué mirar:
+
+- Identidad (Builder `f6c6e10`): ningún `displayName ??`, ninguna alternativa ni rama en `shared/identity.ts`, ninguna lectura de un `package.json` en el e2e. La medición mezcla esto con las dos reglas nuevas.
 
 - `X-Request-Id` de 1 a 128 caracteres en el Blueprint (Builder `8c8de15`): ninguna parada humana en monitoring (web-F: 13 min).
 - `layers` rechaza `process.platform` en el e2e (Builder `8552fb7`): el helper para los procesos con `tree-kill`, sin `taskkill` ni rama `win32`. Mirar si `tree-kill` entra en el `package.json` del e2e.
