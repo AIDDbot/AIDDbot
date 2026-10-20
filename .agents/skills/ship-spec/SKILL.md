@@ -28,7 +28,7 @@ Only the ship tests the full system. The verification tested only the acceptance
 
 Run `node .agents/aidd/aidd.mjs run test`: all the unit tests, then the full acceptance suite. `release` needs it at the current code. Never repair code or tests yourself, and never run a lint or a format: the pre-commit hook of the technology did that at each commit.
 
-When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Give each failure one cause and one owner:
+When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`: a record of the process, never a file of `{Product_Folder}/`. Give each failure one cause and one owner:
 
 | Cause | Owner | Proposed repair |
 | --- | --- | --- |

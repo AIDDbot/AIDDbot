@@ -61,7 +61,7 @@ All projects obey these principles. Each project `AGENTS.md` gives its architect
 
 ## Delivery documents
 
-Agents write `system.md`, the specs and the reports from their templates. Only `node .agents/aidd/aidd.mjs` writes `.aiddbot/`: never edit it by hand. When a command refuses, fix what its error names and run it again.
+Agents write `system.md`, the specs and the reports from their templates. A report is a record of the process: it goes to `.aiddbot/logs/{spec_key}.{kind}.md`, never to `{Product_Folder}/`. Only `node .agents/aidd/aidd.mjs` writes the other files of `.aiddbot/`: never edit them by hand. When a command refuses, fix what its error names and run it again.
 
 - **System proposal** — `{Product_Folder}/system.md`: the approved greenfield proposal. The code wins where they disagree.
 - **Specs** — `{Product_Folder}/specs/{type}/S{nnnn}-{slug}.md`, one file for each spec in a folder for each type, as the branches. A non-green evaluation has its findings in `.aiddbot/logs/{key}.verification.md` or `.aiddbot/logs/{key}.qualification.md`. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists the evaluations and runs of the spec and what blocks shipping; they stay local in `.aiddbot/logs/{key}.json`. `{Product_Folder}/PRD.md` lists the shipped specs. An ID is never used again. Slugs are lowercase kebab-case.
