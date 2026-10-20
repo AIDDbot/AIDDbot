@@ -346,3 +346,4 @@ Una spec es de fundación si cumple las dos condiciones:
 - El Blueprint no entrega código sucio. Todo su código (`lint/`, `theme/` y los ejemplos de las specs y de `ecosystems.md`) cumple las mismas barreras que impone: `fmt`, `lint`, `layers` y `crap`. El Builder lo comprueba antes de cada siembra. En web-H, el formateador reformateó `lint/types.mjs`.
 - Los ficheros `proof` de `scaffold` (paso 3) fallan a propósito: prueban `layers` y `crap`. No cuentan como deuda ni como semilla sucia.
 - Aplicar: Builder, junto con D40 (`scaffold`, `platform`, `project-types.md`, `boundaries.json`), después de web-H.
+- Abierto, para más adelante: un **proyecto semilla** en el Builder. Se siembra desde el Blueprint y pasa las barreras, así que comprueba los ejemplos de los `.md` y quizá resuelve más cosas (probar el Blueprint sin una run entera, por ejemplo). Pensarlo antes de decidir cómo se comprueba el código de los `.md`.
