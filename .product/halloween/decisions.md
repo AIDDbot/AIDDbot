@@ -325,3 +325,14 @@ Una spec es de fundación si cumple las dos condiciones:
 - Al aplicarla (2026-10-20, Builder `312a023`), dos cambios sobre lo de arriba:
   - **`presentation` también es `chore`.** Antes de las features no queda nada visible que probar: la primera fecha llega con `users` y la primera tarjeta con `about`. Cada requisito visible pasa a la primera feature que usa ese primitivo: `about` (tarjeta, rejilla a 375 px, registro de detalle, tabla, estados, las líneas `{label}: {value}`), `users` (formulario y fecha ISO de la API) y `settings` (formulario y tabla de `config get`). El contraste de los temas pasa a `shell`. El núcleo del arquetipo es un framework: `scaffold`, `platform` y `presentation` son `chore`, con código y unitarios; el e2e queda para la funcionalidad.
   - **Los límites de `define-spec`** (como mucho 9 requisitos, 3 historias y 5 reglas, en menos de 100 líneas) se cumplen en la instancia de cada arquetipo. `shell` junta los errores de la API en un requisito, mete el menú a 375 px en el del menú y el contraste en el del tema, y une el comando desconocido con la opción desconocida (los dos dan código 2). La línea de consola de cada vista pasa a `platform`. Queda en web con 8 requisitos y en cli con 5.
+
+## D40 (2026-10-20, durante web-H) · Todo lleva unitario menos lo visual; la raíz, un solo `main`
+
+- Motivo: en web-H, S0002 deja `src/core` al 100 % de líneas, pero `app.main.ts` y `app.compose.ts` al 0 %. Decidir capa por capa qué se prueba es un juicio del agente. Una regla uniforme se comprueba sola.
+- Regla: cada fichero de código lleva test unitario, menos los componentes visuales y el punto de entrada.
+- La raíz de `src` tiene un solo fichero, `main.*` (`main.ts`; en `web`, `main.tsx`). Solo importa `start` de `#core` y lo llama. La composición, el arranque, el ciclo de vida y las señales van a `core`, con sus unitarios.
+- `layers` lo comprueba: en la raíz solo puede haber `main.*`, y `main.*` solo importa `#core/start`.
+- `crap` exige 100 % de líneas y de funciones. Excluye `main.*` y los componentes visuales, por ruta. Las ramas no tienen umbral: forzarlas lleva a tests de relleno o a deformar el código.
+- Los tests de relleno (ejecutan código y no comprueban nada) los caza la review del Craftsman, no el umbral.
+- Los tests de contrato de `shell` (D39) ya no cubren el cableado: solo las respuestas de error de la API y, en el `cli`, `error:` con su código de salida.
+- Aplicar: Builder (lint de `layers`, `complexity.json` o la configuración de cobertura de `crap`, la estructura de `scaffold` y `platform`), después de web-H. No entra en web-H.
