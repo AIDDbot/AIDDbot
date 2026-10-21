@@ -163,3 +163,12 @@ Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint direct
 - En web-I, `about-card.test.ts` (S0010-R04, «About unavailable») falló en el ship de `users`, pasó tras la reparación y volvió a fallar en el refactor S0013, que solo tocó unitarios del `back`. Es un test inestable. El triage lo registró como D0013 high.
 - Causa probable: el test lee el texto (`expect(await locator.innerText()).toBe(…)`) antes de que la página pinte el estado. Una aserción que espera sola (`await expect(locator).toHaveText(…)`) no depende de la velocidad.
 - No entra en el Blueprint todavía: un modelo frontera suele usar esas aserciones (criterio del usuario). Si web-1 tiene un test inestable por esto, se añade con esa evidencia.
+
+## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
+
+- 09:01 → 14:32 (5 h 31 min). Las 7 specs fundacionales enviadas, v0.5.0, cero deuda, `layers` y `crap` en verde (cobertura de líneas al 100 %: 818 en `back`, 649 en `front`). Es la primera run que llega al final de la Foundation web.
+- 17 specs en total: 7 fundacionales, 5 `fix` (S0002, S0004–S0006, S0014) y 5 `refactor` (S0007, S0011, S0013, S0015, S0016).
+- Tiempo hasta `about`: 178 min (web-H: 59 min con Codex). Las `chore` (`scaffold`, `platform`) y sus reparaciones se llevaron la mitad del día.
+- Unos veinte arreglos llevados a Daylight (tabla «Lo que entra de web-I»). Los fallos que solo eran del modelo (`page.evaluate`, los apaños del logout, localizadores ambiguos, el `recordForm` sin usar) se quedan fuera, por criterio del usuario.
+- Evidencia de D51: tras el ship de `settings`, con `layers` y `crap` ya en verde (14:29:46), el craft lanzó dos escaneos (medium y low) y otro check: unos 2,5 min para nada.
+- Abiertos para web-1: los datos de ejemplo duplicados en los tests, y los tests que leen antes de esperar. También el store del `front` (`about`, `users`, `settings` repiten `snapshot`, `subscribe`, `start`): candidato a primitiva del Bedrock si web-1 lo repite.
