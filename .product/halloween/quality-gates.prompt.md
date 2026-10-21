@@ -482,6 +482,12 @@ Qué cambia frente a web-H y qué mirar:
 - **Blueprint limpio:** el formato de la run no toca `.product/blueprint/`.
 - Tokens: llegar al ship de `settings`. web-H se cortó en su requalificación, a los 94 min.
 
+**Cambio 2026-10-21: web-I corre en Cursor con `grok-4.7`**, porque Codex hace falta para otra tarea. Perfiles de `.cursor/agents/` (Architect alto, Builder bajo, Craftsman medio, 256k). Prompt con `/build-ordered-specs` en lugar de `$`, auto-run activo. Consecuencias:
+
+- No mide si la foundation cabe en una ventana de Codex. Ese objetivo queda para una run posterior con Codex.
+- Cambian a la vez el harness, el modelo y el Blueprint. Si los hallazgos de reglas no bajan, no se sabe si falla D40/D41 o el modelo.
+- Sí se comparan con web-H: hallazgos de `layers` y `crap` por spec, deuda, tiempo hasta `about`, regresión e2e, `fix` de 375 px. Mirar además que la sesión principal delegue en los subagentes.
+
 ## Después de web-C: revisar el lint y los ficheros (Builder, archetype-cli, Archetype Web)
 
 Pedido por el usuario 2026-10-18. Revisar el proceso de lint y los nombres y sitios de sus ficheros. Estado de partida:
