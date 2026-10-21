@@ -142,6 +142,7 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | S0010: el `e2e` copia en dos tests el helper que retiene `/api/about` para ver el estado de carga; `presentation` decía «n/a» para los estados del `e2e` | `presentation` (`holdRoute`, `failRoute`) | `ec225ec` | cli-1 `0a896dd`, web-1 `d4eea66` |
 | S0010: el ship repite todos los unitarios que `crap` acaba de pasar | D49: core `eval.mjs`, `ship-spec`, `build-requested-spec` (el ship solo corre la aceptación) | AIDDbot `36bb2845` | overlay: cli-1 `ce10d7c`, web-1 `92b5676` |
 | S0011: escaneo low con `crap` ya en verde (un agente para nada), y después el check otra vez | D51: `craft-lasting-quality` (solo se escanea un check en rojo) | AIDDbot `51d73b59` | overlay: cli-1 `1b86fde`, web-1 `b3ba6d3` |
+| El Architect tarda 3–6 min por spec en adaptar una plantilla genérica (~30 min por run) | D52: `foundation/{cli,web}/` en el Builder, `aidd spec new --from`, `build-archetype-foundation` sin Architect | AIDDbot `717e84e9`, Builder `d773330` | cli-1 `1801d1e`, web-1 `bf90311` (`.product/foundation/` = la instancia del arquetipo) |
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
 
 Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
