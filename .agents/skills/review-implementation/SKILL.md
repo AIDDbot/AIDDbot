@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to qualify the implementation of one spec as an adversarial reviewer, and to record each finding that only a reader can see.
 
-Read the spec, its full diff, the `{source_root}/AGENTS.md` of each affected project, and the affected schema documents under `{Product_Folder}/model/`. Judge them against `references/qualify.gates.md`.
+Read the spec, the diff of its branch from the default branch in the source of the projects only, the `{source_root}/AGENTS.md` of each affected project, and the affected schema documents under `{Product_Folder}/model/`. The diff leaves out each lock file (such as `package-lock.json`), which a tool writes, and the records of `.aiddbot/` and `{Product_Folder}/`; it keeps each dependency manifest (such as `package.json`), which the Project rules gate checks. Judge them against `references/qualify.gates.md`.
 
 The review checks only what the hook lint and the acceptance tests cannot see, such as security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `layers` and `crap` own them. Each finding is serious enough to be `high` debt; leave out all else. A `refactor` has no review: the core refuses it.
 
