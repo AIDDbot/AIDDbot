@@ -1,5 +1,5 @@
 // `aidd eval <kind> <status> <summary> [--spec <id>]`: record one evaluation at HEAD.
-// It also gives `release` the regression check: the full unit and acceptance runs.
+// It also gives `release` the regression check: the full acceptance run. The unit tests are not run again: `crap` ran all of them, and the hook the affected ones at each commit.
 import fs from "node:fs";
 import path from "node:path";
 import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../lib/core.mjs";
@@ -63,19 +63,18 @@ function missingEvidence(root, spec, control) {
   return scoped.every((entry) => entry.ok) ? null : "The last run of the acceptance tests of the spec failed; record red.";
 }
 
-/** The full runs of the current code: each project with a `test` command needs one (unit, or acceptance for `e2e`) with no code change since.
+/** The full acceptance runs of the current code: each `e2e` project with a `test` command needs one with no code change since.
  *  `problem` names a missing or stale run; `failed` lists the projects whose run failed. */
 function fullRuns(root, control) {
   const projects = readJson(aiddbotPath(root, "config.json"), { projects: {} }).projects ?? {};
   const failed = [];
   for (const [name, project] of Object.entries(projects)) {
     const slot = project.commands?.test;
-    if (!slot || typeof slot.na === "string") continue;
-    const evidence = project.type === "e2e" ? "acceptance" : "unit";
-    const last = control.runs?.[evidence]?.[name];
-    if (!last) return { problem: `Run the full \`aidd run test\` before you release: ${name} has no ${evidence} run.` };
+    if (project.type !== "e2e" || !slot || typeof slot.na === "string") continue;
+    const last = control.runs?.acceptance?.[name];
+    if (!last) return { problem: `Run the full acceptance suite before you release: ${name} has no acceptance run; run \`aidd run test --project ${name}\`.` };
     const changed = changedSince(root, last.commit);
-    if (changed) return { problem: `Code changed since the last ${evidence} run of ${name} (${changed.split("\n")[0]}…); run the full \`aidd run test\` again.` };
+    if (changed) return { problem: `Code changed since the last acceptance run of ${name} (${changed.split("\n")[0]}…); run \`aidd run test --project ${name}\` again.` };
     if (!last.ok) failed.push(name);
   }
   return { failed };

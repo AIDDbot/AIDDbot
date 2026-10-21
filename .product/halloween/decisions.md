@@ -436,3 +436,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - `ship-spec` y `build-requested-spec` registran la deuda high con `--project`.
 - Lo que es del humano sigue parando: una pregunta de producto detiene la entrega, como antes.
 - AIDDbot: core `spec.mjs` con tests (49/49), skills `craft-lasting-quality`, `build-requested-spec` y `ship-spec` vía `/maintain-skills`, `AIDD.workflow.md`, `quality-gates.md`.
+
+## D49 (2026-10-21, Daylight) · El ship ejecuta solo la suite de aceptación
+
+- Motivo: los unitarios completos corrían varias veces en cada spec con el mismo código. En web-I, `about` los pasó con `crap` a las 12:07 y 12:10, y el ship los repitió a las 12:18 tras commits solo de tests e2e.
+- `crap` ejecuta todos los unitarios de cada proyecto, con cobertura. Lo corre el Builder antes de devolver, y el orquestador lo comprueba (`build-requested-spec`). Cada commit posterior pasa por el hook, que ejecuta los unitarios afectados.
+- Por eso el ship no vuelve a ejecutar los unitarios. Ejecuta solo la suite de aceptación completa: es la única regresión que nadie ha corrido antes.
+- `aidd release` pide solo la última ejecución de aceptación de cada `e2e` sin cambios de código después (`aidd run test --project {e2e}`). Nunca pide una ejecución unitaria.
+- Descartado antes: una memoria de runs verdes por huella del código en el core. Ahorraba poco y era difícil de defender.
+- AIDDbot: core `eval.mjs` con su test (49/49), skills `ship-spec` y `build-requested-spec` vía `/maintain-skills`, `AIDD.workflow.md`, `quality-gates.md`.

@@ -122,21 +122,23 @@ test("eval keeps its record in the ignored logs, commits nothing, and drops the 
   assert.ok(!fs.existsSync(path.join(root, ".aiddbot/logs/S0001-seats.verification.md")));
 });
 
-test("release needs a passing full unit and acceptance run at HEAD; a failure ships only with open high debt", () => {
+test("release needs a passing full acceptance run at HEAD, never the unit tests again; a failure ships only with open high debt", () => {
   const root = repo();
   fs.mkdirSync(path.join(root, "back"));
-  const unit = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: `node -e "process.exit(${code})"` } }));
-  unit(0);
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: 'node -e "process.exit(1)"' } }));
   aidd(root, "debt", "add", "Flaky login test", "medium", "", "--project", "back");
   aidd(root, "spec", "new", "feat", "cart", "Cart");
   approve(root);
-  accept(root, 0, "S0001");
+  write(root, "e2e/tags.spec.ts", 'test("@S0001-R01", () => {});\n');
+  write(root, "e2e/suite.js", "process.exit(0);\n");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js", "test:spec": "node suite.js" } }));
+  aidd(root, "run", "test", "--spec");
   assert.equal(aidd(root, "eval", "verification", "green", "ok").code, 0, "the verification needs only the tests of the spec");
   aidd(root, "eval", "qualification", "green", "ok");
-  assert.match(aidd(root, "release").body.error, /before you release: back has no unit run/);
-  unit(1);
-  aidd(root, "run", "test");
-  assert.match(aidd(root, "release").body.error, /regression failed in back\. Triage each failure/);
+  assert.match(aidd(root, "release").body.error, /before you release: e2e has no acceptance run/);
+  write(root, "e2e/suite.js", "process.exit(1);\n");
+  aidd(root, "run", "test", "--project", "e2e");
+  assert.match(aidd(root, "release").body.error, /regression failed in e2e\. Triage each failure/, "only the acceptance suite counts: crap and the hook proved the unit tests");
   assert.match(aidd(root, "release", "--debt", "D0001").body.error, /D0001 is not open high debt/);
   aidd(root, "debt", "add", "Login breaks on the cart page", "high");
   assert.equal(aidd(root, "release", "--debt", "D0002").code, 0, "a failure too big for the spec ships as high debt");

@@ -15,10 +15,10 @@ Your goal is to turn a natural-language request, or a spec that the core made fr
    you         run layers, crap       red: repair, 2 times      each changed project
 3. Craftsman   verify-behavior        red: repair loop          tests of the spec       feat, fix
                review-implementation  findings ship as debt     reading only            feat, fix, chore
-               ship-spec              red: triage               all unit and e2e tests
+               ship-spec              red: triage               the full e2e suite
 ```
 
-Each step checks only its own work. Only the ship tests everything. The type of the spec sets which steps of 3 run:
+Each step checks only its own work. `crap` runs all the unit tests; only the ship runs the full acceptance suite. The type of the spec sets which steps of 3 run:
 
 | Type | Comes from | Define | Verify | Review |
 | --- | --- | --- | --- | --- |

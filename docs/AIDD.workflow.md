@@ -56,7 +56,7 @@ build-requested-spec:
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
   - "trust, then check: the orchestrator runs layers and crap of each changed project; red goes back to the Builder, at most 2 repairs; what stays red ships as debt"
   - Craftsman:
-      evaluation: "verify-behavior runs the spec-scoped acceptance tests (feat, fix); review-implementation checks only what lint and tests cannot see (feat, fix, chore); ship-spec runs all the unit and acceptance tests and triages each failure; a failure too big for the spec becomes high debt and the spec closes; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
+      evaluation: "verify-behavior runs the spec-scoped acceptance tests (feat, fix); review-implementation checks only what lint and tests cannot see (feat, fix, chore); ship-spec runs the full acceptance suite (never the unit tests again: crap ran all of them, and the hook the affected ones at each commit) and triages each failure; a failure too big for the spec becomes high debt and the spec closes; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
@@ -108,7 +108,7 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 | Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes. It tests only the affected unit tests, and it runs the tests of the spec to check its E2E work |
 | Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec, then `review-implementation`, then `ship-spec`, which runs all the tests before the release |
 
-Each step checks only its own work. Only the ship checks everything. Basic lint, format and the affected unit tests are not part of AIDDbot: the technology of each project runs them in its pre-commit hook. AIDDbot owns only what the technology cannot know: the logical layers, the test coverage and the complexity.
+Each step checks only its own work. `crap` runs all the unit tests; only the ship runs the full acceptance suite. Basic lint, format and the affected unit tests are not part of AIDDbot: the technology of each project runs them in its pre-commit hook. AIDDbot owns only what the technology cannot know: the logical layers, the test coverage and the complexity.
 
 | Step | Owner | Unit tests | E2E tests | Other check | On failure | Command |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -156,7 +156,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 | Evidence | Passing state | Scope |
 | --- | --- | --- |
 | Verification | `green` | The acceptance tests of the spec |
-| Regression | a passing full `test` at the code that ships, or each failure recorded as open `high` debt | The full system: unit tests and the full acceptance suite |
+| Regression | a passing full acceptance run at the code that ships, or each failure recorded as open `high` debt | The full acceptance suite; the unit tests are proved by `crap` and the hook |
 | Qualification | any recorded status; findings ship as `high` debt after one repair of a failed Security or Requirements gate | Expert review of gross errors that no linter and no test sees: security, data integrity, accessibility |
 
 Verification runs before qualification. A `chore` has no verification, and a `refactor` has neither: `aidd eval` refuses them, and the gate does not ask for them. `aidd eval` records each evaluation with its status, revision and current commit in the work state of the spec, `.aiddbot/logs/{key}.json`. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits nothing: Git ignores the work state.
@@ -167,7 +167,7 @@ Verification runs before qualification. A `chore` has no verification, and a `re
 - A red verification returns for repair and runs again, without qualification, until revision 3.
 - If the Builder cannot reproduce a failure and does not change it, the failure becomes `high` debt before verification runs again. Thus a green retry never hides it.
 - Qualification never blocks shipping. Shipping records each finding as `high` debt. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
-- `aidd release` needs the regression: a passing last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A failed regression ships only with `--debt <D IDs>`, which names open `high` debt that records each failure.
+- `aidd release` needs the regression: a passing last acceptance run of each `e2e` project (`aidd run test --project {e2e}`), with no code change after it. It never needs a unit run (Halloween D49). A failed regression ships only with `--debt <D IDs>`, which names open `high` debt that records each failure.
 - The ship triages each failure of the full run. The Craftsman writes it into `.aiddbot/logs/{key}.regression.md` with its cause, its owner and the proposed repair. A repair of the Builder stays in the spec, so a regression it can repair never reaches the default branch. A partial test run can miss a change, such as a changed signature: the ship catches it.
 
 | Cause | Owner | Repair |
@@ -235,7 +235,7 @@ In greenfield, `architect-system-foundation` registers the slots of each project
 - The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`, which `aidd spec debt` copies from the evidence of the item. For a spec with no requirements that cites none, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `layers` or `crap` only to check a debt repair.
 - Quality findings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
 - `layers` runs the dependency rules of the linter, never the commit hook. `crap` runs the complexity rules and the test coverage: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
-- The Craftsman runs `test --spec` in `verify-behavior`, the full `test` in `ship-spec` (the unit tests first, then the acceptance suite), and the `layers` list of each project in `scan-quality`. Each check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
+- The Craftsman runs `test --spec` in `verify-behavior`, the full acceptance suite in `ship-spec`, and the `layers` list of each project in `scan-quality`. Each check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
 - A `layers` run also lists, in `folders`, each folder of a `core`, `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. Each one makes the layers run of its project red, as a finding of its lint does. `scan-quality` records each one as debt: it divides a full `core` or `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
 
 Open debt is in `.aiddbot/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority, its evidence, its origin (the spec whose branch added it, or `scan`), and its project, which a `medium` item always names. The priority tells the source and the repair: `high` for a review finding or a failure too big for its spec, `medium` for a `layers` finding, and `low` for a `crap` finding. A fixed item goes away: at shipping, when the spec cites it and proves its repair, after a patch, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.

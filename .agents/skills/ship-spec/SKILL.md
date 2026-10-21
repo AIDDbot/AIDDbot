@@ -24,9 +24,9 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 
 ## Regression
 
-Only the ship tests the full system. The verification tested only the acceptance tests of the spec, and the Builder only the unit tests of its changes, so a regression shows here first.
+Only the ship runs the full acceptance suite. The verification ran only the acceptance tests of the spec, so a regression shows here first. The unit tests do not run again: `crap` ran all of them before the Builder returned, and the hook ran the affected ones at each commit after it.
 
-Run `node .agents/aidd/aidd.mjs run test`: all the unit tests, then the full acceptance suite. `release` needs it at the current code. Never repair code or tests yourself, and never run a lint or a format: the pre-commit hook of the technology did that at each commit.
+Run `node .agents/aidd/aidd.mjs run test --project {e2e}` for each `e2e` project: the full acceptance suite. `release` needs it at the current code. Never repair code or tests yourself, and never run a lint or a format: the pre-commit hook of the technology did that at each commit.
 
 When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`: a record of the process, never a file of `{Product_Folder}/`. Give each failure one cause and one owner:
 
