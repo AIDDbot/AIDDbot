@@ -97,3 +97,21 @@ La tensión: la regla de 2026-10-13 (cli-1) pide que el código de un arquetipo 
 ## Siguiente paso
 
 Con P26–P29 respondidas: las paso a `decisions.md` como D42 y escribo el inventario cerrado de la semilla. Después decidimos si la primera prueba es una run `daylight-1` que entrega solo las tres `chore`.
+
+## Runs
+
+Carpeta nueva: `C:\codeidd\experiments\daylight\`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario, seguramente con Cursor y Grok.
+
+Preparadas 2026-10-21, las dos igual, con `construction.md` del Builder:
+
+- AIDDbot `refactor/quality-gates` `4a540136` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `8b1d8e3`. `core.autocrlf false`, ningún CRLF.
+- Commit 1: el overlay de AIDDbot. Commit 2: el Bedrock en la raíz, `foundation/` en `.product/foundation/`, `blueprint/` en `.product/blueprint/` y el manifiesto en `.product/system.md`. `npm install` antes del commit 2: el hook pasó en él.
+- `cli-1`: commits `cb54394 86c35d6`. Prompt: [`daylight/cli-1.md`](./daylight/cli-1.md) (6 specs, sin users).
+- `web-1`: commits `b874dd2 22690e9`. Prompt: [`daylight/web-1.md`](./daylight/web-1.md) (7 specs, con users).
+
+Qué mirar:
+
+- Que `scaffold` parta del Bedrock: sin generador, sin reescribir `.lint/`, el tema, la identidad ni el `.gitignore`; solo el framework con los comandos de `ecosystems.md`.
+- El tiempo hasta `about`, frente a web-H (59 min) y web-I.
+- Que el `check` de la raíz siga con `--passWithNoTests`, y que `upgrade` no rompa la pila.
+- En `web-1`: que se instale Chromium (`npm exec -w e2e -- playwright install chromium`).
