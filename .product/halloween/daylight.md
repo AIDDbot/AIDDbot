@@ -115,3 +115,18 @@ Qué mirar:
 - El tiempo hasta `about`, frente a web-H (59 min) y web-I.
 - Que el `check` de la raíz siga con `--passWithNoTests`, y que `upgrade` no rompa la pila.
 - En `web-1`: que se instale Chromium (`npm exec -w e2e -- playwright install chromium`).
+
+## Lo que entra de web-I
+
+web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
+
+1. Arreglo en el Builder, con commit y push.
+2. En cada run: copiar otra vez `foundation/` y `blueprint/` a `.product/`, y un commit `chore: the Foundation and the Blueprint of Builder {hash}`.
+3. Una línea en esta tabla.
+
+| Hallazgo de web-I | Dónde | Builder | En las runs |
+| --- | --- | --- | --- |
+| S0003: el log no cambia de fichero a medianoche (la ruta se calcula al arrancar) | `platform`, todos | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
+| S0003: el `front` no lee `.env` (Vite lo carga después de su configuración) | `platform`, `web` | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
+| S0003: `/* eslint-disable */` en el `vite.config.ts` del `front` | ninguno: la review lo cazó | n/a | n/a |
+| S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
