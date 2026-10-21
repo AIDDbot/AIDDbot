@@ -100,7 +100,7 @@ Con P26–P29 respondidas: las paso a `decisions.md` como D42 y escribo el inven
 
 ## Runs
 
-Carpeta nueva: `C:\codeidd\experiments\daylight\`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario, seguramente con Cursor y Grok.
+Carpeta nueva: `C:/code/aidd/experiments/daylight/`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario, seguramente con Cursor y Grok.
 
 Preparadas 2026-10-21, las dos igual, con `construction.md` del Builder:
 
