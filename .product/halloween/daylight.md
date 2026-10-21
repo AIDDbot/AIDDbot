@@ -161,6 +161,13 @@ web-1 se lanzó con Codex a las 18:40. Mismo proceso: arreglo en el Builder y co
 | S0001: el `crap` deja `coverage/` en cada proyecto y entra en un commit (luego, tres commits para sacarlo). `ecosystems.md` ya decía que la raíz lleva `.vite/` y `coverage/`; el Bedrock no lo cumplía | Bedrock `web` y `cli` (`.gitignore` de la raíz) | `9441205` | cli-1 `bbff9c5` |
 | S0001: con npm 12, `@vitejs/plugin-react` del `front` instala su propio `vite@8.3.5`: el override de la raíz solo vale para lo que instala la raíz. Probado en una copia del Bedrock: el override anidado solo no basta; el plugin en la raíz, sí | `ecosystems.md` (fila de React y dependencias de la raíz) | `ca1759c` | cli-1 `bbff9c5` |
 
+Candidatos para el core (apuntados 2026-10-21, sin hacer):
+
+1. **La salida de cada `run` que falla.** Hoy `exec` (`work.mjs`) abre `{slot}-{proyecto}.log` con `"w"`: cada pasada borra la anterior, y del fallo solo queda una línea recortada en el diario. En S0002 se perdieron dos fallos del `crap` (18:56:45, 18:56:52).
+   - Qué: la salida completa del fallo, tal como queda en el log.
+   - Dónde: `.aiddbot/logs/fails/{fecha}-{hora}-{slot}-{proyecto}.log`, una copia por fallo. La línea del diario da su ruta. `{slot}-{proyecto}.log` sigue siendo la última pasada. La carpeta ya está fuera de git.
+2. **El tipo del commit, el de la spec.** En S0002 (`chore`) el Builder hizo `feat(back): implement platform services`. Ninguna skill lo dice. Mejor una comprobación que una frase: `aidd commit` ya rechaza dependencias instaladas y texto mal codificado; también rechaza un tipo `feat`, `fix`, `refactor` o `chore` distinto del de la rama de la spec (`chore/S0002-platform`). Los ámbitos del core (`spec`, `release`) y los `docs` quedan fuera.
+
 Para vigilar: en S0001 el `front` renderiza en `document.body` (`<body id="root">`) para no tener la rama `if (container)`. React lo desaconseja. Entra si da un fallo.
 
 ## Abierto: datos de ejemplo duplicados en los tests
