@@ -159,6 +159,7 @@ web-1 se lanzó con Codex a las 18:40. Mismo proceso: arreglo en el Builder y co
 | Hallazgo de web-1 | Dónde | Builder | En las runs |
 | --- | --- | --- | --- |
 | S0001: el `crap` deja `coverage/` en cada proyecto y entra en un commit (luego, tres commits para sacarlo). `ecosystems.md` ya decía que la raíz lleva `.vite/` y `coverage/`; el Bedrock no lo cumplía | Bedrock `web` y `cli` (`.gitignore` de la raíz) | `9441205` | cli-1 `bbff9c5` |
+| S0002: D0001 high, una escritura fallida del log tumba el `back` (cadena de promesas sin rechazo). La spec decía «nunca bloquea», pero no qué pasa si falla una escritura. S0003 lo reparó en 2 min: la línea a la salida de error, y la cola sigue | `platform`, `cli` y `web` | `215cdfb` | cli-1 `e550a69` |
 | S0001: con npm 12, `@vitejs/plugin-react` del `front` instala su propio `vite@8.3.5`: el override de la raíz solo vale para lo que instala la raíz. Probado en una copia del Bedrock: el override anidado solo no basta; el plugin en la raíz, sí | `ecosystems.md` (fila de React y dependencias de la raíz) | `ca1759c` | cli-1 `bbff9c5` |
 
 Cambios en el core (2026-10-21, hechos; 51/51 tests; AIDDbot `3d60ea4b`, overlay: cli-1 `a849299`; web-1 no, está en marcha). Diseño final: `.aiddbot/logs/{fecha}/` es la historia del día, con `journal.log` y `HHMMSS-{slot}-{proyecto}.log` de cada fallo; el resultado del `run` da la ruta como `failure`. La raíz de `logs/` se queda con el estado actual: el último log de cada slot y el estado de cada spec. Lo que crece cada día va en su carpeta. Propuesta inicial:
