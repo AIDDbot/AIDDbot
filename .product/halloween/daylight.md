@@ -179,12 +179,21 @@ Para vigilar: en S0001 el `front` renderiza en `document.body` (`<body id="root"
 - En web-I (S0012 `users`), el detector de duplicados del core contó como lógica repetida un usuario de ejemplo escrito en dos tests: seis líneas `clave: "valor",`. Dio D0010 (`back`) y D0011 (`front`), dos refactors.
 - Dos opciones: dejar el detector como está (uniforme; un `test-data` por feature), o no contar las líneas que solo asignan un literal a una propiedad (un literal es dato, no lógica).
 - Decisión del usuario (2026-10-21): no cambiar nada todavía. Medirlo en web-1, con un modelo frontera: cuántas features pagan un refactor por datos de ejemplo. Con esa evidencia, se decide.
+- Evidencia de web-1 (hasta S0008): un solo caso, en S0008 (`settings.routes.test.ts`, una identidad de ejemplo de 6 líneas). El Builder lo arregló en 20 s dentro de la spec (importa la identidad del `package.json`), sin `refactor` ni deuda. Los otros duplicados de web-1 (S0007) eran preparación de tests, no datos. Apoya dejar el detector como está.
 
 ## Candidato: tests inestables por leer antes de esperar
 
 - En web-I, `about-card.test.ts` (S0010-R04, «About unavailable») falló en el ship de `users`, pasó tras la reparación y volvió a fallar en el refactor S0013, que solo tocó unitarios del `back`. Es un test inestable. El triage lo registró como D0013 high.
 - Causa probable: el test lee el texto (`expect(await locator.innerText()).toBe(…)`) antes de que la página pinte el estado. Una aserción que espera sola (`await expect(locator).toHaveText(…)`) no depende de la velocidad.
 - No entra en el Blueprint todavía: un modelo frontera suele usar esas aserciones (criterio del usuario). Si web-1 tiene un test inestable por esto, se añade con esa evidencia.
+- Evidencia de web-1 (Codex, modelo frontera): S0007-R06 falló en la aceptación porque el page object de login rellenaba el formulario antes de que su página estuviera a la vista (tras navegar, los campos de la página anterior todavía coinciden). Arreglo: esperar al encabezado. Entra en `ecosystems.md`: un page object espera a su página antes de leer o actuar, con aserciones que esperan. Builder `68ff090`, cli-1 `a0df571`.
+
+## Estado de web-1 (Codex, 2026-10-21)
+
+- Arranque 18:40. Se para a las ~20:18 al acabarse los tokens de Codex, en S0008 `settings`: `back` hecho (2 commits), `front` a medias, sin commit (11 ficheros en el árbol de trabajo, rama `feat/S0008-settings`).
+- Enviadas: S0001 `scaffold` 0.0.1 (12 min), S0002 `platform` 0.0.2 (19 min), S0003 `fix` de D0001 0.0.3 (2 min), S0004 `shell` 0.1.0 (10 min), S0005 `presentation` 0.1.1 (10 min), S0006 `about` 0.2.0 (11 min), S0007 `users` 0.3.0 (26 min). Cero deuda tras cada ship; `layers` y `crap` en verde.
+- `about` aprobada a los 56 min del arranque (web-H: 59 min; web-I: 178 min) y enviada a 1 h 07 min. Seis de siete fundacionales en 1 h 34 min (web-I: las siete en 5 h 31 min).
+- Para seguir: relanzar en la misma rama cuando haya tokens; el Builder retoma el `front` de S0008.
 
 ## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
 
