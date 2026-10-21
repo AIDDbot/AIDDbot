@@ -462,3 +462,12 @@ Una spec es de fundación si cumple las dos condiciones:
   - un check en rojo: el Craftsman escanea en su modo (`layers` → medium, `crap` → low), solo ese proyecto, y vuelve a la selección.
 - Un escaneo en verde no encuentra nada: lanzar un agente para eso es redundante.
 - AIDDbot: `craft-lasting-quality` vía `/maintain-skills`, `AIDD.workflow.md`.
+
+## D52 (2026-10-21, Daylight) · Las specs fundacionales, escritas una vez para cada arquetipo
+
+- Motivo: en web-I, el Architect tardaba de 3 a 6 minutos por spec en adaptar una plantilla genérica (quitar los roles ausentes, renombrar, renumerar), unos 30 minutos por run. Es trabajo fijo para cada arquetipo, como el Bedrock.
+- El Builder guarda `foundation/cli/` (6 specs) y `foundation/web/` (7), escritas para los proyectos de cada arquetipo (`cli` y `e2e`; `back`, `front` y `e2e`). Son la fuente: las plantillas genéricas salen. Un cambio de la Foundation se hace en las dos instancias, como con `.lint/`.
+- La primera línea de cada fichero es su comando: `aidd spec new <type> <slug> "<title>" --domain foundation --from .product/foundation/<file>`. El core crea la spec con el texto del fichero, el frontmatter y el ID en lugar de `{id}`.
+- `build-archetype-foundation` crea cada spec así, sin Architect, y la aprueba con `log approved` (que comprueba su tamaño). `build-requested-spec` salta `define-spec` para una spec de fichero, como para una de deuda.
+- Las 13 instancias cumplen los límites (como mucho 9 requisitos, 3 historias, 5 reglas, menos de 100 líneas). El scaffold de cada una nombra sus proyectos, su tipo, su carpeta y su framework.
+- AIDDbot: core `spec.mjs` (`--from`) con su test (50/50), skills `build-archetype-foundation` y `build-requested-spec` vía `/maintain-skills`, `AIDD.workflow.md`. Builder: `foundation/{cli,web}/`, `construction.md`, `project-types.md`, `README.md`.

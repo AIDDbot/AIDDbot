@@ -34,6 +34,22 @@ test("a spec goes from new to shipped with version, changelog, index, and tag", 
   assert.doesNotMatch(git(root, "branch"), /feat\/S0001/);
 });
 
+test("spec new --from writes a spec from a file: no leading comment, the frontmatter, and the ID for {id}", () => {
+  const root = repo();
+  write(root, "foundation/about.spec.md", "<!--\nInstance of about for Archetype CLI.\n-->\n# {id}-about — About\n\n## Problem\n\nShow what it is. See {id}-R01.\n");
+  write(root, "foundation/bad.spec.md", "# About\n");
+  assert.equal(aidd(root, "spec", "new", "feat", "about", "About", "--from", "foundation/missing.spec.md").code, 2);
+  assert.match(aidd(root, "spec", "new", "feat", "bad", "Bad", "--from", "foundation/bad.spec.md").body.error, /must start with the heading/);
+  const created = aidd(root, "spec", "new", "feat", "about", "About", "--domain", "foundation", "--from", "foundation/about.spec.md");
+  assert.equal(created.code, 0, JSON.stringify(created.body));
+  const text = fs.readFileSync(path.join(root, created.body.file), "utf8");
+  assert.match(text, /^---\nid: S0\d{3}\nslug: about\n/);
+  assert.match(text, /domain: foundation\n---\n# S0\d{3}-about — About\n/);
+  assert.match(text, /See S0\d{3}-R01\./);
+  assert.doesNotMatch(text, /Instance of about|\{id\}/);
+  assert.equal(approve(root, created.body.spec).code, 0, "the caller approves it, and the core checks its size");
+});
+
 test("spec new works with pending changes and never needs a clean tree", () => {
   const root = repo();
   write(root, "notes.txt", "draft");

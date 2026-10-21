@@ -38,7 +38,7 @@ Each step checks only its own work. `crap` runs all the unit tests; only the shi
 
 Start no spec on a greenfield system whose foundation close is red and not repaired: return that failure to the human, also when the human asked for features.
 
-A spec that the core made from a debt item skips `define-spec`: the item is its definition. The core approves it when it makes it: a `refactor` or a `fix`.
+A spec that the core made from a debt item or from a spec file skips `define-spec`: the item or the file is its definition. The core approves a spec of debt when it makes it: a `refactor` or a `fix`. The caller approved a spec of a file, such as `build-archetype-foundation`.
 
 For a request, the **Architect** executes `define-spec` with it. Relay its proposal to the human. Nothing is built before approval.
 

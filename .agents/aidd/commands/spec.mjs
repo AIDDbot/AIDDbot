@@ -39,9 +39,20 @@ function create(root, [type, slug, title], flags) {
   if (!SLUG.test(slug ?? "")) throw new UsageError("Slug must be lowercase kebab-case, like user-login.");
   if (!title?.trim()) throw new UsageError('Give a title: aidd spec new feat user-login "User login".');
   const domain = domainOf(flags);
+  if (typeof flags.from === "string") return open(root, type, slug, title.trim(), domain, fromFile(root, { file: flags.from, type, slug, domain }));
   return open(root, type, slug, title.trim(), domain, (id) => fs.readFileSync(template(type === "feat" ? "spec.template" : "spec.fix.template"), "utf8")
     .replaceAll("S0001", id).replaceAll("{slug}", slug).replaceAll("{title}", title.trim())
     .replaceAll("{domain}", domain).replace("type: feat", `type: ${type}`).replace("branch: feat/", `branch: ${type}/`));
+}
+
+/** A spec written before the system, such as a foundation spec of an archetype: its text with the frontmatter, `{id}` as the ID, and no leading comment.
+ *  No model writes it, so it skips define-spec; the caller still approves it with `aidd log approved`, which checks its size. */
+function fromFile(root, { file, type, slug, domain }) {
+  const source = path.resolve(root, file);
+  if (!fs.existsSync(source)) throw new UsageError(`No spec file ${file}.`);
+  const body = fs.readFileSync(source, "utf8").replace(/^\s*<!--[\s\S]*?-->\s*/, "");
+  if (!body.startsWith("# {id}-")) throw new RuleError(`${file} must start with the heading "# {id}-${slug} — <title>".`);
+  return (id, key, branch) => ["---", `id: ${id}`, `slug: ${slug}`, `key: ${key}`, `type: ${type}`, `branch: ${branch}`, `domain: ${domain}`, "---", body.replaceAll("{id}", id)].join("\n");
 }
 
 /** The slug of a debt title: its first words in kebab-case, or the item ID when no word is left. */

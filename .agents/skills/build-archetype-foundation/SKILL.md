@@ -11,7 +11,8 @@ Your goal is to build the Foundation of an archetype on its Bedrock: deliver its
 
 ```text
 for each spec file, in order:
-1. you   build-requested-spec   shipped spec        approved in advance
+1. you   spec new --from        the spec, approved  no Architect
+         build-requested-spec   shipped spec
 2. you   run layers, crap       all green: next spec
          craft-lasting-quality  debt repaired       else one run
 3. you   debt list              zero open items     else craft again
@@ -36,8 +37,8 @@ Before the first step, and again after each interruption, read the state from th
 
 ## Deliver
 
-1. Execute `build-requested-spec` with the request "Deliver the spec from `{file}`". The list is the approval in advance: nobody asks, and the approval is journaled as soon as the spec is written.
-2. Run `node .agents/aidd/aidd.mjs run layers` and `run crap`, and read `debt list`. When each project is green and no item is open, the spec is done: go to the next one. Else execute `craft-lasting-quality` one time. The list also approves in advance each `fix` that it makes from high debt: journal the approval as soon as the spec is made, as in YOLO mode.
+1. Create the spec from its file with the command on the first line of the file: `node .agents/aidd/aidd.mjs spec new <type> <slug> "<title>" --domain foundation --from {file}`. The file is the spec, written for this archetype: no model writes or adapts it. The list is the approval in advance: journal `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>` at once, which also checks its size. Then execute `build-requested-spec` with that spec.
+2. Run `node .agents/aidd/aidd.mjs run layers` and `run crap`, and read `debt list`. When each project is green and no item is open, the spec is done: go to the next one. Else execute `craft-lasting-quality` one time.
 3. Read `node .agents/aidd/aidd.mjs debt list`. The next spec never starts on open debt: while an item is open, execute `craft-lasting-quality` again. Stop and return the open debt only when a run ships no repair.
 
 After the last spec, execute `craft-lasting-quality` again until its check is green, and `debt list` shows no open item.

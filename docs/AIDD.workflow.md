@@ -68,7 +68,7 @@ craft-lasting-quality:
 
 build-archetype-foundation:
   - "read the state from the files; a spec file with a shipped spec is done, and an unshipped one continues with its next skill"
-  - "for each spec file, in order: build-requested-spec approved in advance, then the core check (run layers, run crap): all green with no open debt goes to the next spec, else craft-lasting-quality; the next spec starts only with zero open debt"
+  - "for each spec file, in order: aidd spec new --from the file and log approved (no Architect), build-requested-spec, then the core check (run layers, run crap): all green with no open debt goes to the next spec, else craft-lasting-quality; the next spec starts only with zero open debt"
   - "after the last spec: craft-lasting-quality until its check (layers and crap green for each project) is green"
   - "return one row for each shipped spec, with its version, debt, repairs and times"
 ```
@@ -123,6 +123,7 @@ The type of the spec sets its steps. The origin sets the definition: a request h
 | --- | --- | --- | --- | --- |
 | `feat`, `fix` | a request | `define-spec`, human approval | yes | yes |
 | `chore` | a request | `define-spec`, human approval | no | yes |
+| `feat`, `chore` | a spec file of an archetype | `aidd spec new --from`, approved by `build-archetype-foundation` | as its type | yes |
 | `fix` | high debt | `aidd spec debt`, no approval | yes | yes |
 | `refactor` | medium debt | `aidd spec debt`, no approval | no | no |
 | patch (no spec) | low debt | the item | no | no |
