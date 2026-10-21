@@ -411,3 +411,19 @@ Una spec es de fundación si cumple las dos condiciones:
 - `/build-ordered-specs` pasa a **`/build-archetype-foundation`**. «Ordered specs» decía cómo trabaja, no para qué. Su único uso es construir la Foundation de un arquetipo sobre su Bedrock, spec a spec, hasta cero deuda.
 - En el Builder, con la metáfora de obra: `procedure.md` → **`construction.md`** (la obra en un work system), `seed.md` → **`handover.md`** (la entrega de obra al repo del arquetipo, con su archetype gate), `scripts/seed-product.mjs` → `scripts/handover-product.mjs`. «Seed» sale del Builder (salvo las primitivas semilla).
 - Pendiente: el `AGENTS.md` de archetype-cli cita `seed.md` del Builder en GitHub; cambiarlo en su próxima release.
+
+## D47 (2026-10-21, Daylight) · El Bedrock lleva las primitivas de `shared`, con sus unitarios
+
+- Corrige D42: el Bedrock sigue sin framework y sin código funcional, pero lleva las primitivas de `shared` en TypeScript puro. Antes, el paso 2 del scaffold las escribía en cada run, cada vez a su manera.
+- Son la referencia de las reglas de código: pasan `conditions/named`, `types/named`, `max-params` de 2, la complejidad y la cobertura al 100 %. El agente las lee antes de su primera línea.
+- Nombres `{tema}.{rol}.ts` (`ecosystems.md`), un test al lado de cada módulo:
+  - `values/values.check.ts`: `isMissing`, `isEmpty`, `isRecord`, `isText`, `isOneOf`.
+  - `values/lists.find.ts`: `findByName`, `requireByName`.
+  - `values/text.parse.ts`: `requireText`, `optionalText`, `requireLength`.
+  - `values/text.format.ts`: `truncateText` (con `…`), `padText` (`{ width, align }`).
+  - `values/numbers.parse.ts`, `booleans.parse.ts`, `dates.parse.ts`: `parseInteger`, `parseNumber`, `parseBoolean`, `parseDate` (ISO).
+  - `values/dates.format.ts`: `formatDate`, `formatTime`, `formatDateTime`.
+  - `expected.error.ts`: `ExpectedError`, `ruleError`, `attempt`. `identity.type.ts`: `Identity`.
+- Una copia en cada proyecto que no es `e2e` (`cli`, `back`, `front`), como `.lint/`. El `e2e` no lleva: no tiene unitarios (D18).
+- Lista cerrada: una primitiva nueva entra cuando la usan dos features (`ship-spec`). La tabla del `AGENTS.md` de proyecto va por fichero (8 filas, antes 12), para seguir por debajo de 100 líneas.
+- Builder `60f3a1e`: 31 tests en cada proyecto, `check`, `layers` y `crap` en verde.
