@@ -100,7 +100,7 @@ Con P26–P29 respondidas: las paso a `decisions.md` como D42 y escribo el inven
 
 ## Runs
 
-Carpeta nueva: `C:/code/aidd/experiments/daylight/`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario, seguramente con Cursor y Grok.
+Carpeta nueva: `C:/code/aidd/experiments/daylight/`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario. Grok 4.7 no cuenta como modelo frontera (web-I es su única prueba, a la espera de 4.8): las runs de Daylight van con un modelo frontera, y su referencia es web-H, no web-I.
 
 Preparadas 2026-10-21, las dos igual, con `construction.md` del Builder:
 
@@ -137,4 +137,5 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | S0008: el `e2e` escribe `isRecord` cinco veces (lee JSON sin tipo); D47 lo había dejado sin primitivas | Bedrock (`e2e/shared/values/values.check.ts`, sin test), `project-types.md`, `scaffold`, plantilla | `725cec1` | cli-1 `ac2708a`, web-1 `94a93cb` |
 | S0008: los page objects buscan por clase CSS y ruta de etiquetas (`.shell-header span`, `main p`); el Blueprint no decía cómo | `ecosystems.md` (por rol, etiqueta o texto) | `2e2f22f` | cli-1 `ecee3b1`, web-1 `41176b3` |
 | S0008: el contraste se calcula dentro de `page.evaluate`, que no ve los helpers de la suite (`colorOf is not defined`) | `ecosystems.md` (el navegador solo lee; Node calcula) | `dbca2eb` | cli-1 `4f83e3a`, web-1 `790749a` |
+| S0008: la página sin estilo: cada hoja se importaba como valor (`import theme from "…css"`); la «reparación» fue un plugin que añade `export default` al CSS. Bloqueos del Bedrock: `import/no-unassigned-import` y TS2882 sin tipos de CSS | Bedrock (`vite.config.ts` permite `**/*.css`; `front` con `vite-plus/client`), `ecosystems.md` (imports de efecto por ruta de fichero) | `800bedf`, `b27ab5d` | cli-1 `277230e`, web-1 `a2afeaf` |
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
