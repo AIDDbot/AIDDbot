@@ -141,6 +141,7 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | S0004–S0006: tres `fix` de una sola review, cada uno con su aprobación y su vuelta | D48: core `spec.mjs` (fix aprobado al crearse, agrupado por proyecto), `craft-lasting-quality`, `build-requested-spec`, `ship-spec` (`--project`) | AIDDbot `34821c80` | overlay: cli-1 `fa4993f`, web-1 `3025053` |
 | S0010: el `e2e` copia en dos tests el helper que retiene `/api/about` para ver el estado de carga; `presentation` decía «n/a» para los estados del `e2e` | `presentation` (`holdRoute`, `failRoute`) | `ec225ec` | cli-1 `0a896dd`, web-1 `d4eea66` |
 | S0010: el ship repite todos los unitarios que `crap` acaba de pasar | D49: core `eval.mjs`, `ship-spec`, `build-requested-spec` (el ship solo corre la aceptación) | AIDDbot `36bb2845` | overlay: cli-1 `ce10d7c`, web-1 `92b5676` |
+| S0011: escaneo low con `crap` ya en verde (un agente para nada), y después el check otra vez | D51: `craft-lasting-quality` (solo se escanea un check en rojo) | AIDDbot `51d73b59` | overlay: cli-1 `1b86fde`, web-1 `b3ba6d3` |
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
 
 Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
