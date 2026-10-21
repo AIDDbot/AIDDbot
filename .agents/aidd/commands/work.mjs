@@ -28,6 +28,7 @@ const CODE_FILE = /\.(c|m)?[jt]sx?$|\.(css|scss|html|vue|svelte|py|go|rs|java|kt
 const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
+const OPEN_IMPORT = [["{", "}"], ["(", ")"]];
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
 /** UTF-8 text read and written again as Windows-1252, such as an em dash read as three characters: a shell with the wrong encoding writes it. */
 const GARBLED = /\u00e2\u20ac|\u00c3[\u0080-\u00bf]|\u00c2[\u00a0-\u00bf]/;
@@ -186,11 +187,21 @@ function folderFindings(root, project, start, limit) {
   return { crowded: crowded.sort(byFolder), subfolders: subfolders.sort(byFolder) };
 }
 
-/** The lines that carry logic: no blank, bracket-only, comment, or import line, and spaces collapsed. */
+/** The lines that carry logic: no blank, bracket-only, comment, or import line, and spaces collapsed.
+ *  An import that names its items on the next lines is one import: each line up to its closer is skipped too. */
 function logicLines(text) {
+  let closer = null;
   return text.split(/\r?\n/).flatMap((raw, index) => {
     const line = raw.trim().replace(/\s+/g, " ");
-    if (TRIVIAL_LINE.test(line) || COMMENT_LINE.test(line) || IMPORT_LINE.test(line)) return [];
+    if (closer) {
+      if (line.includes(closer)) closer = null;
+      return [];
+    }
+    if (IMPORT_LINE.test(line)) {
+      closer = OPEN_IMPORT.find(([open, close]) => line.endsWith(open) && !line.includes(close))?.[1] ?? null;
+      return [];
+    }
+    if (TRIVIAL_LINE.test(line) || COMMENT_LINE.test(line)) return [];
     return [{ line, number: index + 1 }];
   });
 }

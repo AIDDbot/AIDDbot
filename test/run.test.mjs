@@ -238,6 +238,18 @@ test("a layers run reports each block of logic lines that two places repeat, for
   assert.equal(aidd(root, "run", "layers").body.duplicates[0].locations.length, 3);
 });
 
+test("a layers run never counts the names of an import on several lines as duplicated logic", () => {
+  const root = repo();
+  const names = ["parseHost,", "parsePort,", "parseLogLevel,", "parseBodyLimit,", "parseCorsOrigin,", "parsePathSetting,"];
+  const importing = (name) => ["import {", ...names.map((item) => `  ${item}`), '} from "#core/settings/settings.check.ts";', `export const ${name} = 1;`, ""].join("\n");
+  write(root, "back/src/core/settings/settings.load.ts", importing("load"));
+  write(root, "back/src/core/settings/settings.check.test.ts", importing("check"));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { "layers": 'node -e "process.exit(0)"' } }));
+  const scan = aidd(root, "run", "layers");
+  assert.equal(scan.code, 0);
+  assert.deepEqual(scan.body.duplicates, []);
+});
+
 test("a scoped acceptance run of a spec without requirements runs nothing and is not applicable", () => {
   const root = repo();
   aidd(root, "spec", "new", "chore", "input", "Input");
