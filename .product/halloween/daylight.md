@@ -149,3 +149,9 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
 
 Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
+
+## Abierto: datos de ejemplo duplicados en los tests
+
+- En web-I (S0012 `users`), el detector de duplicados del core contó como lógica repetida un usuario de ejemplo escrito en dos tests: seis líneas `clave: "valor",`. Dio D0010 (`back`) y D0011 (`front`), dos refactors.
+- Dos opciones: dejar el detector como está (uniforme; un `test-data` por feature), o no contar las líneas que solo asignan un literal a una propiedad (un literal es dato, no lógica).
+- Decisión del usuario (2026-10-21): no cambiar nada todavía. Medirlo en web-1, con un modelo frontera: cuántas features pagan un refactor por datos de ejemplo. Con esa evidencia, se decide.
