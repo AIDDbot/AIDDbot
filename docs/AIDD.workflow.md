@@ -60,11 +60,10 @@ build-requested-spec:
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
   - "high: aidd spec debt makes a minimal fix spec of the high items of one project, approved at once; build-requested-spec with verification and review"
-  - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
-  - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
   - "low: patch, with no spec; Builder: implement-project on a chore task branch, crap green and the affected unit tests green at commit, debt remove and integrate"
   - "repeat while debt remains, at most 5 specs, and stop at a spec that ships a failure recorded as debt"
+  - "when no debt is open: check layers and crap; a red check gets a Craftsman scan of its mode for that project, then again from select; a green check stops, with no scan"
   - "return the debt list summary"
 
 build-archetype-foundation:
@@ -215,7 +214,7 @@ The records of the system, journal summaries included, use the language of `.pro
 
 `craft-lasting-quality` follows this route:
 
-high debt → `fix` spec → `scan-quality` (`layers`) → medium debt → `refactor` spec → `scan-quality` (`crap`) → low debt → patch, again while debt remains (at most 5 specs in one run) → check: `aidd run layers` and `aidd run crap` green for each project, else a scan of the red one
+high debt → `fix` spec → medium debt → `refactor` spec → low debt → patch, again while debt remains (at most 5 specs in one run) → check: `aidd run layers` and `aidd run crap` green for each project, else a scan of the red check (`layers` → medium, `crap` → low) for the red project, and again from high. No scan runs on a green check (Halloween D51).
 
 | Debt | Comes from | Repaired by |
 | --- | --- | --- |
@@ -223,7 +222,7 @@ high debt → `fix` spec → `scan-quality` (`layers`) → medium debt → `refa
 | `medium` | `layers`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
 | `low` | `crap`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement until the `crap` of the project is green, integrate; no spec |
 
-`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. It also repairs the other open items of the same priority and project, at most five: each item names its project with `debt add --project`; one with no project goes alone. Neither waits for an approval: the items come from evidence, and a product question still stops the delivery (Halloween D48). The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
+`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. It also repairs the other open items of the same priority and project, at most five: each item names its project with `debt add --project`; one with no project goes alone. Neither waits for an approval: the items come from evidence, and a product question still stops the delivery (Halloween D48). The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). A scan runs only for a red check, and only when no debt is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 

@@ -13,12 +13,11 @@ Your goal is to reduce existing quality debt, from high to low, each item with t
 upgrade request ─────────────────────────────────────────────────────┐
 1. you         debt list              the next item                    │  high, then medium, then low
 2. high        spec debt  → fix       build-requested-spec             │  approved when made
-   no high:    Craftsman  scan-quality            medium debt          │  once
 3. medium      spec debt  → refactor  build-requested-spec             │
-   no medium:  Craftsman  scan-quality, low       low debt             │  once
 4. low         Builder    patch                   crap green           │  no spec
    repeat 1–4 while debt remains, at most 5 specs                      │
-5. you         run layers, crap       all green: stop                  │  no new scan
+5. you         run layers, crap       all green: stop                  │
+   red:        Craftsman  scan-quality            its debt, then 1     │  only a red check
    you         build-requested-spec   shipped chore                   ◄┘
 ```
 
@@ -49,13 +48,9 @@ The priority sets the repair, so no one judges "big" or "small". The evidence of
 
 Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `fix` spec of the item, approved at once, and adds the other open `high` items of the same project (its `debt` lists them). Execute `build-requested-spec` with that spec.
 
-When no `high` item is open and this run has not scanned yet, the **Craftsman** executes `scan-quality` one time. It records `medium` debt.
-
 ## 3. Medium debt
 
 Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `refactor` spec of the item, approved at once, and adds the other open `medium` items of the same project (its `debt` lists them): one refactor repairs them together. Execute `build-requested-spec` with that spec: it has no verification and no review, and its regression proves that the behavior did not change.
-
-When no `high` or `medium` item is open and this run has not hardened yet, the **Craftsman** executes `scan-quality` one time, and you ask it for the `low` mode. It records `low` debt, one item for each rule.
 
 ## 4. Low debt: patch
 
@@ -70,7 +65,7 @@ A patch runs only its affected unit tests. The ship of the next spec catches a r
 
 ## 5. Check
 
-When no debt is open, check the code with the core, never with a new scan: run `node .agents/aidd/aidd.mjs run layers` and `node .agents/aidd/aidd.mjs run crap`. When each project is green, the run stops. When a project is red, the **Craftsman** executes `scan-quality` in the mode of the red check, for that project only, and you go back to the selection.
+When no debt is open, check the code with the core: run `node .agents/aidd/aidd.mjs run layers` and `node .agents/aidd/aidd.mjs run crap`. When each project is green, the run stops: no scan runs on a green check, because it would find nothing. When a project is red, the **Craftsman** executes `scan-quality` in the mode of the red check (`layers` → medium, `crap` → `low`), for that project only, and you go back to the selection.
 
 ## Stop
 

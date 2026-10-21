@@ -453,3 +453,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - Riesgo asumido: `layers` y `crap` solo dan deuda medium o low, nunca un comportamiento roto. Los fallos de comportamiento los cazan la verificación y la regresión de aceptación del ship (D49).
 - Descartado también: que el core guarde el `crap` del Builder para que el orquestador lo consulte sin volver a ejecutarlo. Menos código, menos que mantener.
 - Queda una ejecución completa de los unitarios por spec (el `crap` del Builder), más la del check posterior del craft.
+
+## D51 (2026-10-21, Daylight) · Un escaneo solo con su check en rojo
+
+- Motivo: en web-I, tras el refactor S0011, el craft lanzó al Craftsman para el escaneo low aunque `crap` estaba en verde desde las 12:20. Fue un agente para ejecutar `crap` y verlo verde, y después el check volvió a ejecutar `layers` y `crap`.
+- `craft-lasting-quality` ya no escanea «una vez» tras cada nivel. Repara la deuda abierta (high, medium, low). Cuando no queda deuda, el core ejecuta `layers` y `crap`:
+  - todo verde: para, sin escaneo;
+  - un check en rojo: el Craftsman escanea en su modo (`layers` → medium, `crap` → low), solo ese proyecto, y vuelve a la selección.
+- Un escaneo en verde no encuentra nada: lanzar un agente para eso es redundante.
+- AIDDbot: `craft-lasting-quality` vía `/maintain-skills`, `AIDD.workflow.md`.
