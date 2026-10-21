@@ -128,5 +128,6 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | --- | --- | --- | --- |
 | S0003: el log no cambia de fichero a medianoche (la ruta se calcula al arrancar) | `platform`, todos | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
 | S0003: el `front` no lee `.env` (Vite lo carga después de su configuración) | `platform`, `web` | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
+| S0003: el `e2e` pasó una carpeta como `DATABASE_URL` («una carpeta temporal por cada ajuste que es una ruta») | `platform`, `e2e` | `7fabddd` | cli-1 `5784e5a`, web-1 `304b052` |
 | S0003: `/* eslint-disable */` en el `vite.config.ts` del `front` | ninguno: la review lo cazó | n/a | n/a |
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
