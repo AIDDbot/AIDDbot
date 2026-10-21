@@ -54,6 +54,7 @@ build-requested-spec:
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; the pre-commit hook of the technology lints and formats each commit; before it returns, layers and crap of each changed project green"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
+  - "trust, then check: the orchestrator runs layers and crap of each changed project; red goes back to the Builder, at most 2 repairs; what stays red ships as debt"
   - Craftsman:
       evaluation: "verify-behavior runs the spec-scoped acceptance tests (feat, fix); review-implementation checks only what lint and tests cannot see (feat, fix, chore); ship-spec runs all the unit and acceptance tests and triages each failure; a failure too big for the spec becomes high debt and the spec closes; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
