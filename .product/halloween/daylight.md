@@ -152,6 +152,17 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 
 Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
 
+## Lo que entra de web-1
+
+web-1 se lanzó con Codex a las 18:40. Mismo proceso: arreglo en el Builder y copia en cli-1 mientras no se lance.
+
+| Hallazgo de web-1 | Dónde | Builder | En las runs |
+| --- | --- | --- | --- |
+| S0001: el `crap` deja `coverage/` en cada proyecto y entra en un commit (luego, tres commits para sacarlo). `ecosystems.md` ya decía que la raíz lleva `.vite/` y `coverage/`; el Bedrock no lo cumplía | Bedrock `web` y `cli` (`.gitignore` de la raíz) | `9441205` | cli-1 `bbff9c5` |
+| S0001: con npm 12, `@vitejs/plugin-react` del `front` instala su propio `vite@8.3.5`: el override de la raíz solo vale para lo que instala la raíz. Probado en una copia del Bedrock: el override anidado solo no basta; el plugin en la raíz, sí | `ecosystems.md` (fila de React y dependencias de la raíz) | `ca1759c` | cli-1 `bbff9c5` |
+
+Para vigilar: en S0001 el `front` renderiza en `document.body` (`<body id="root">`) para no tener la rama `if (container)`. React lo desaconseja. Entra si da un fallo.
+
 ## Abierto: datos de ejemplo duplicados en los tests
 
 - En web-I (S0012 `users`), el detector de duplicados del core contó como lógica repetida un usuario de ejemplo escrito en dos tests: seis líneas `clave: "valor",`. Dio D0010 (`back`) y D0011 (`front`), dos refactors.
