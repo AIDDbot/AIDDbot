@@ -354,3 +354,54 @@ Una spec es de fundación si cumple las dos condiciones:
   - El código propio del Blueprint no pasaba su regla: `lint/conditions.mjs` tenía 4 hallazgos de `conditions/named`, además del formato de `types.mjs`. Arreglados.
   - Carpetas de `core` (lista cerrada, sin ficheros en la raíz de `core`): `lifecycle/`, `settings/`, `logging/`, `http/`, `database/` (`api`), `shell/` y `theme/` (`web`), `arguments/` y `output/` (`cli`).
   - Reglas de código para el `AGENTS.md` de cada proyecto (`ecosystems.md`, «Code rules of each project»): 7 líneas, una por regla de `layers` o `crap` que falló en web-H. Riesgo: el `AGENTS.md` de proyecto ya rozaba las 100 líneas.
+
+## D42 (2026-10-21, Daylight) · Una semilla por tipo de arquetipo: el tooling, sin framework
+
+- Motivo: cada run rehace el mismo tooling antes de la primera spec. El tooling ya está decidido (D36, D38). El framework es una decisión que cambia de un arquetipo a otro.
+- Arquetipo = semilla + specs. Hay una semilla por tipo de arquetipo. Primero, dos: `cli` y `web`.
+- La semilla elige todo el tooling y no tiene framework:
+  - Vite+ funciona desde el principio: formato, lint, hook pre-commit y `.lint/` (`layers` y `crap`).
+  - Los unitarios usan Vitest. El `e2e` del `cli` usa Vitest. El `e2e` de `web` usa Playwright.
+- La semilla también tiene:
+  - el `package.json` de la raíz y el de cada proyecto;
+  - `LICENSE` y `README.md`;
+  - la identidad, para que nunca falte; el sistema del usuario la cambia después;
+  - en `web`, el tema CSS sobre Pico CSS: es lo menos invasivo, y hace falta un tema;
+  - las tres carpetas contenedoras de cada proyecto: `core/`, `shared/` y `features/`.
+- El scaffold hace todo lo demás: instala el framework (Express, React u otro) y hace lo que depende de él. Lo grueso del scaffold se queda en el scaffold.
+- La semilla no tiene código funcional. Se comprueba sola: `npm install`, `check` en verde, `test` en verde sin tests, y el hook rechaza un commit roto.
+- Consecuencia: el paso 1 del scaffold ya no ejecuta el generador oficial sobre una carpeta vacía. Añade el framework a un proyecto que ya existe, con una receta de `ecosystems.md` para cada framework.
+- Abierto: P28 (cómo se fabrica la semilla), P30 (dónde vive) y P31 (nombre), en `daylight.md`.
+
+## D43 (2026-10-21, Daylight) · La semilla vive en el Builder y sale de los arquetipos actuales
+
+- Lugar: `seeds/cli/` y `seeds/web/` en el Builder. El nombre de la carpeta es provisional, como el de la semilla.
+- Origen: se extrae de lo que ya hay (huevo y gallina al revés). La semilla `cli` sale de archetype-cli `86f6135`; la `web`, del scaffold de web-I. `.lint/` y el tema son copias de `blueprint/lint/` y `blueprint/theme/`.
+- Al día: cada semilla tiene `upgrade` en la raíz, con `npx npm-check-updates@latest -u --workspaces --root`. Sin `--workspaces --root`, ncu solo sube la raíz y deja viejos los proyectos. En `web`, `upgrade` también instala Chromium para Playwright.
+- El Builder tiene `scripts/upgrade-seeds.mjs`: copia `lint/` y `theme/` del Blueprint, sube las dependencias, instala sin `prepare` (una semilla dentro del repo del Builder no debe tocar sus hooks de Git), y corre `check` y `test`.
+- Comprobado (2026-10-21): las dos semillas pasan `check`, `test`, `layers` y `crap` sin código. En una copia con Git, el hook acepta la semilla y rechaza un commit con un test roto.
+- Diferencias con `ecosystems.md`:
+  - el `check` de la raíz lleva `--passWithNoTests`: sin tests, `vp test run` falla;
+  - el script `start` de los proyectos de código no está: depende de `main`, y `main` llega con el scaffold;
+  - el `e2e` de `web` usa `features/` (como `project-types.md`), no `tests/` (web-I).
+  Llevarlas a `ecosystems.md` cuando el scaffold parta de la semilla.
+- Sin nombre todavía (P31).
+
+## D44 (2026-10-21, Daylight) · La semilla se llama Bedrock
+
+- La semilla se llama **Bedrock** (roca madre), por ahora. El sistema la encuentra hecha y no la cambia: tooling elegido, sin código.
+- Encaja en la metáfora: Bedrock → Foundation → Builder, que construye según el Blueprint. Arquetipo = Bedrock + specs fundacionales.
+- En el Builder: `bedrock/cli/`, `bedrock/web/` y `scripts/upgrade-bedrock.mjs`. Así no choca con `seed.md` (publicar un arquetipo).
+- Aviso: Amazon Bedrock. Para un nombre interno no es un problema; para uno público, pensarlo.
+- Abierto: los usos de «foundation» y «Blueprint» (`daylight.md`).
+
+## D45 (2026-10-21, Daylight) · Bedrock, Foundation y Blueprint: una palabra para cada cosa
+
+- Motivo: «Blueprint» tenía tres sentidos (la carpeta del Builder, que era un cajón con todo; la sección de reglas del `AGENTS.md` raíz; el paso «shape to blueprint» del scaffold). «Foundation» tenía dos (las specs fundacionales y el acto de fundar un sistema), que se llevan bien.
+- **Bedrock**: lo que se elige y no se construye. El tooling de un tipo de arquetipo, sin código. Builder `bedrock/{cli,web}/`.
+- **Foundation**: lo que se construye sobre el Bedrock. Las specs fundacionales. Builder `foundation/`, fuera de `blueprint/`. Fundar un sistema sigue siendo recibir la Foundation hecha.
+- **Blueprint**: solo las reglas de construcción: arquitectura, capas, slots y reglas de código (`project-types.md`, `ecosystems.md`, la plantilla del `AGENTS.md`). Acaba en la sección Blueprint del `AGENTS.md` raíz.
+- Arquetipo = Bedrock + Foundation, construida según el Blueprint.
+- `.lint/` y el tema son assets del Bedrock, como `LICENSE`: cada Bedrock lleva su copia, sin fuente en el Blueprint y sin copia automática. Salen `blueprint/lint/` y `blueprint/theme/`.
+- El scaffold parte del Bedrock: ya no ejecuta el generador oficial ni hace «shape to blueprint». Añade el framework y lo que depende de él.
+- Aplicar: Builder ahora. AIDDbot (`architect-system-foundation`, su `scaffold.md` con «shape to blueprint») después, vía `/maintain-skills`.

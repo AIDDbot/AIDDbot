@@ -1,0 +1,99 @@
+# Daylight · arquetipo = semilla + specs
+
+Vía nueva dentro de Halloween (abierta 2026-10-21). El nombre viene del cambio de hora (25 de octubre). «Semilla» es un nombre de trabajo; en D41 se llamó **Prefab**.
+
+## Contexto
+
+- Cada run web (web-A … web-I) rehace lo mismo antes de llegar a lo que ve el usuario: el scaffold, `platform` y `presentation`. En web-H, `about` llega a los 59 min.
+- D39 ya lo dijo: el núcleo del arquetipo es un framework. `scaffold`, `platform` y `presentation` son `chore`, con código y unitarios, sin e2e.
+- D41 dejó abierto el Prefab: código limpio de partida que cumple el Blueprint. Lo que falla en cada run (los 375 px) se arregla una vez en él, no en cada sistema.
+- La idea de hoy: **arquetipo = semilla + specs**. La semilla es lo común. Las specs hacen el resto.
+
+## La pregunta
+
+¿Qué puede tener la semilla que sea común a todas las implementaciones de un arquetipo que siguen las specs?
+
+## Criterio propuesto
+
+Una pieza entra en la semilla solo si cumple las cuatro condiciones:
+
+1. **Es igual en todas las implementaciones.** No depende del juicio del agente.
+2. **No es un comportamiento que vea el usuario.** Lo que ve el usuario es una spec `feat`, con su test de aceptación.
+3. **Se comprueba sola, sin una run.** Pasa `fmt`, `lint`, `layers`, `crap` y `test` por sí misma (D41: el Blueprint no entrega código sucio).
+4. **Tiene evidencia.** Salió igual, o falló igual, en varias runs. Se fija lo que salió, sin inventar (como D41).
+
+## Inventario candidato, por capas
+
+Tres capas, de lo más común a lo más concreto. Igual que los tres niveles de `project-types.md` (genérico → por tipo → por tecnología).
+
+### A · Común a todo arquetipo, de cualquier tecnología
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| `.product/`: `system.md`, `PRD.md`, `model/`, specs fundacionales numeradas | `seed-product.mjs` del Builder, al sembrar | Ya es determinista |
+| Raíz del repositorio: `.gitattributes` (LF), `.gitignore` con secretos y `logs/`, `LICENSE`, `README.md`, `AGENTS.md` raíz (intro + reglas de código), `CLAUDE.md` | `scaffold` | cli-C perdió el `.gitignore` raíz; R21 y LF |
+| Registro de proyectos: tipo y slots en `.aiddbot/config.json` | `scaffold`, paso 3 | Lista cerrada de slots (D18, D37) |
+| Contratos escritos: variables de entorno con default y check, línea de log, códigos de salida 0/1/2/3, `{ error }`, `X-Request-Id`, `GET /api`, `GET /api/about`, `/runtime-config.json` | Texto de `platform` y `shell`, rehecho en código en cada run | Mismo texto en todas las runs |
+
+### B · Común a un tipo de arquetipo (web, cli), de cualquier tecnología
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| Tema CSS (`colors`, `theme`, `custom`) con las reglas de 375 px | Copia de `blueprint/theme/` + arreglos en cada run | Columbus (menú, tablas), web-H (`about` arregla tablas) |
+| `e2e`: ajustes, arranque de la suite, preflight, helpers de arranque y de error, `uniqueValue`, `tree-kill` | `platform` del `e2e` | web-B, web-D (EBUSY), web-F |
+| `.env.example` de cada proyecto | `platform` | Lista fija de variables |
+
+El `e2e` habla con el sistema por HTTP, navegador o proceso: no ve Express ni React. Por eso vale para cualquier tecnología del mismo tipo.
+
+### C · Común a las implementaciones de una tecnología (JS / TS en Node, Vite+)
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| Workspace raíz: `vite.config.ts`, hook pre-commit, `check`/`fix`/`upgrade`, `.lint/` | `scaffold` | Cada run lo reconstruye igual |
+| Forma de cada proyecto: `main` solo, `core/` y `shared/` con sus listas cerradas, manifiesto vacío, `imports` `#core` `#shared`, `AGENTS.md` de proyecto | `scaffold`, paso 2 | D40, D41 |
+| Primitivas semilla: `shared/errors`, `shared/identity`, `shared/values/` con sus unitarios | `scaffold` | cli-6, web-C (identidad como argumento) |
+| El framework: settings, logger, middleware, migraciones, ciclo de vida, cliente HTTP, parser y salidas del `cli`, los cinco primitivos de `presentation` | `platform` y `presentation` | D39; web-G (84 % del e2e era infraestructura) |
+
+### Fuera de la semilla
+
+- Las features: `shell`, `about`, `users`, `settings`. Son `feat`: las entrega el Builder, cada una con su test de aceptación.
+- Toda decisión de producto del sistema del usuario.
+- Deuda: la semilla sale con cero deuda o no sale.
+
+## Dónde cortar
+
+> Superado por D42: una semilla por tipo de arquetipo, con todo el tooling y sin framework. Queda como historia.
+
+| Corte | La semilla tiene | Las specs hacen | Ahorra en cada run |
+| --- | --- | --- | --- |
+| 1 | A | todo el código | casi nada |
+| 2 | A + B | `scaffold`, `platform` y `presentation` de cada tecnología, y las features | el tema, el `e2e` base |
+| 3 | A + B + C | solo las features | `scaffold`, `platform` y `presentation` (~45 min en web-H) |
+
+**Recomendación: corte 3, con una regla uniforme: `chore` → semilla; `feat` → spec.** Es la línea que ya trazó D39 (sin e2e ↔ con e2e), y se comprueba sola. Las capas A y B se comparten entre tecnologías; la C es una por tecnología. Un arquetipo nuevo en otra tecnología (Hono + Vue, NestJS + Angular) reutiliza A y B y solo hace su C.
+
+La tensión: la regla de 2026-10-13 (cli-1) pide que el código de un arquetipo salga de specs, no «por arte de magia». Con el corte 3, el código de la semilla sigue saliendo de specs (las tres `chore`), pero se construye una vez, se endurece y se congela. No se reconstruye en cada run.
+
+## Preguntas
+
+**P26.** ¿«Distintas implementaciones de un arquetipo» son varias runs con la misma tecnología (web-A … web-I), o varias tecnologías del mismo arquetipo (Express + React frente a Hono + Vue)? Mi propuesta sirve para las dos, por capas.
+> **R:** Una semilla por tipo de arquetipo: primero `cli` y `web`. ✅ → D42
+
+**P27.** ¿La línea es `chore` → semilla, `feat` → spec (corte 3)?
+> **R:** No. Corte nuevo: la semilla tiene todo el tooling (Vite+, Vitest, Playwright en `web`, `.lint/`), sin framework. ✅ → D42
+
+**P28.** ¿Cómo se fabrica la semilla? (a) A mano. (b) Una run que entrega solo las tres `chore`, y después se endurece y se congela. (c) Se extrae de la mejor run (web-I, si sale limpia). Recomiendo (b): el código sigue saliendo de specs, y la run es corta y repetible.
+> **R:** Se extrae de lo que ya hay en los arquetipos actuales, con un comando `upgrade` para tenerla al día. ✅ → D43
+
+**P29.** El `e2e` de la semilla, ¿solo infraestructura (helpers, arranque, preflight), o también los tests de aceptación de las features fundacionales, escritos de antemano? Con los tests dentro, implementar una feature es «hacer pasar una suite fija»: muy controlable, pero los tests ya no salen de su spec. Recomiendo solo infraestructura por ahora.
+> **R:** Solo el tooling del `e2e`: Vitest en `cli`, Playwright en `web`. ✅ → D42
+
+**P30.** ¿Dónde vive la semilla? (a) En el Builder, una carpeta por capa (`seed/common/`, `seed/{tipo}/`, `seed/{tecnología}/`). (b) Un repositorio por tecnología. Recomiendo (a) mientras solo hay una tecnología.
+> **R:** En el Builder. ✅ → D43
+
+**P31.** El nombre. Candidatos con la metáfora de construcción (Blueprint, Builder): **Prefab** (D41), **Frame** (la estructura del edificio; encaja con «el núcleo es un framework», D39), **Kit**. Ocupados: Foundation, Scaffold, Core, Shell. No bloquea: sigo con «semilla» hasta que decidas.
+> **R:** Bedrock, por ahora. ✅ → D44
+
+## Siguiente paso
+
+Con P26–P29 respondidas: las paso a `decisions.md` como D42 y escribo el inventario cerrado de la semilla. Después decidimos si la primera prueba es una run `daylight-1` que entrega solo las tres `chore`.
