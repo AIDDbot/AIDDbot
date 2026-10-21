@@ -445,3 +445,11 @@ Una spec es de fundación si cumple las dos condiciones:
 - `aidd release` pide solo la última ejecución de aceptación de cada `e2e` sin cambios de código después (`aidd run test --project {e2e}`). Nunca pide una ejecución unitaria.
 - Descartado antes: una memoria de runs verdes por huella del código en el core. Ahorraba poco y era difícil de defender.
 - AIDDbot: core `eval.mjs` con su test (49/49), skills `ship-spec` y `build-requested-spec` vía `/maintain-skills`, `AIDD.workflow.md`, `quality-gates.md`.
+
+## D50 (2026-10-21, Daylight) · Sin comprobación de `layers` y `crap` en el orquestador
+
+- Quita el paso «confía, pero comprueba» que se añadió a `build-requested-spec` el mismo día (AIDDbot `95a954c2`).
+- Motivo: repetía los unitarios completos que el Builder acababa de pasar con `crap`, con el mismo código. El Builder repara barato dentro de la spec, y si miente, el `crap` de después del ship (`build-archetype-foundation`, `craft-lasting-quality`) lo caza como deuda.
+- Riesgo asumido: `layers` y `crap` solo dan deuda medium o low, nunca un comportamiento roto. Los fallos de comportamiento los cazan la verificación y la regresión de aceptación del ship (D49).
+- Descartado también: que el core guarde el `crap` del Builder para que el orquestador lo consulte sin volver a ejecutarlo. Menos código, menos que mantener.
+- Queda una ejecución completa de los unitarios por spec (el `crap` del Builder), más la del check posterior del craft.

@@ -12,7 +12,6 @@ Your goal is to turn a natural-language request, or a spec that the core made fr
 ```text
 1. Architect   define-spec            human approval            a request only
 2. Builder     implement-project      each project, then e2e    affected unit tests, layers, crap
-   you         run layers, crap       red: repair, 2 times      each changed project
 3. Craftsman   verify-behavior        red: repair loop          tests of the spec       feat, fix
                review-implementation  findings ship as debt     reading only            feat, fix, chore
                ship-spec              red: triage               the full e2e suite
@@ -52,8 +51,6 @@ The **Builder** executes `implement-project`:
 - For each affected production project, from lower to higher levels of abstraction.
 - Then for the E2E project, when the spec has requirements or its Solution has E2E work. Do this also when its Solution lists no E2E work, because each requirement needs its tagged acceptance test.
 - For a `refactor`, the scope is the debt item: the **Builder** runs the check that reported it, and leaves it green before it returns.
-
-Trust the **Builder**, then check it. When it returns, run `node .agents/aidd/aidd.mjs run layers --project {project}` and `run crap --project {project}` yourself for each project that the branch changed. When one is red, send its output to the **Builder** for repair, and check again. After two repairs, continue with what stays red: it ships as debt.
 
 ## 3. Verify, qualify, and ship
 
