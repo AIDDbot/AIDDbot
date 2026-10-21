@@ -146,6 +146,7 @@ web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo su
 | S0012: el hash de las contraseñas usa el coste por defecto de `scrypt` en Node (N=16384), por debajo de OWASP; `ecosystems.md` no daba parámetros | `ecosystems.md` (N 2^17, r 8, p 1, sal de 16 bytes, `maxmem` 256 MiB; ~300 ms por hash) | `4b65505` | cli-1 `6c6d313`, web-1 `a62d85c` |
 | S0012: el fake de la respuesta HTTP de los unitarios de rutas, copiado en dos tests del `back` | `web/shell` (el fake de petición y respuesta en `shared/http/`) | `719429c` | web-1 `aef5bf7` |
 | Ship de S0012: 4 tests de `about` rompen porque buscaban «el» artículo (`getByRole('article')`) y `users` añade otra tarjeta | `ecosystems.md` (una tarjeta se busca por su nombre) | `704de00` | cli-1 `2d024e1`, web-1 `116ed4e` |
+| S0017: los unitarios de los repositorios llevan un fake que imita SQL (lee `query.sql` y los parámetros por posición), copiado en dos tests | Bedrock `web` (`shared/database/`: el contrato `Database` y `openMemoryDatabase()` con su test), `platform`, `scaffold`, `ecosystems.md`, plantilla | `96f40e3` | web-1 `80a6ed4` |
 | S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
 
 Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
