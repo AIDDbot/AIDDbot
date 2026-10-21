@@ -30,7 +30,7 @@ Open your coding agent in the same folder. Then use these commands:
 | Start a greenfield system, or document a brownfield one | `/architect-system-foundation` |
 | Deliver a change | `/build-requested-spec your request` |
 | Repair technical debt | `/craft-lasting-quality` |
-| Deliver an ordered list of spec files | `/build-ordered-specs your list` |
+| Build the Foundation of an archetype on its Bedrock | `/build-archetype-foundation your list` |
 
 > In Codex, use `$` instead of `/`.
 

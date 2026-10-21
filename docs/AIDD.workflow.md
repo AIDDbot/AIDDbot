@@ -9,7 +9,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 | Prepare or understand a system | `/architect-system-foundation` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
-| Deliver an ordered list of spec files, such as the foundation specs of an archetype | `/build-ordered-specs` |
+| Build the Foundation of an archetype on its Bedrock: its foundation specs, in order | `/build-archetype-foundation` |
 
 ## Skills
 
@@ -22,7 +22,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 | [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
-| [`/build-ordered-specs`](../.agents/skills/build-ordered-specs/SKILL.md) | Deliver an ordered list of spec files, each with its quality repair, to zero debt |
+| [`/build-archetype-foundation`](../.agents/skills/build-archetype-foundation/SKILL.md) | Build the Foundation of an archetype on its Bedrock, one foundation spec at a time, each with its quality repair, to zero debt |
 
 ### Primitives
 
@@ -59,7 +59,7 @@ build-requested-spec:
 
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
-  - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO or build-ordered-specs: at once)"
+  - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO or build-archetype-foundation: at once)"
   - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
   - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
@@ -67,7 +67,7 @@ craft-lasting-quality:
   - "repeat while debt remains, at most 5 specs, and stop at a spec that ships a failure recorded as debt"
   - "return the debt list summary"
 
-build-ordered-specs:
+build-archetype-foundation:
   - "read the state from the files; a spec file with a shipped spec is done, and an unshipped one continues with its next skill"
   - "for each spec file, in order: build-requested-spec approved in advance, then the core check (run layers, run crap): all green with no open debt goes to the next spec, else craft-lasting-quality; the next spec starts only with zero open debt"
   - "after the last spec: craft-lasting-quality until its check (layers and crap green for each project) is green"
@@ -124,11 +124,11 @@ The type of the spec sets its steps. The origin sets the definition: a request h
 | --- | --- | --- | --- | --- |
 | `feat`, `fix` | a request | `define-spec`, human approval | yes | yes |
 | `chore` | a request | `define-spec`, human approval | no | yes |
-| `fix` | high debt | `aidd spec debt`, human approval of the item (in advance under `build-ordered-specs`) | yes | yes |
+| `fix` | high debt | `aidd spec debt`, human approval of the item (in advance under `build-archetype-foundation`) | yes | yes |
 | `refactor` | medium debt | `aidd spec debt`, no approval | no | no |
 | patch (no spec) | low debt | the item | no | no |
 
-`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair, and `build-ordered-specs` stops the agents of each spec and repair before the next one: an agent carried from spec to spec pays for all its earlier context on each turn.
+`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair, and `build-archetype-foundation` stops the agents of each spec and repair before the next one: an agent carried from spec to spec pays for all its earlier context on each turn.
 
 Spec size: at most 9 requirements (one capability that a user sees each), 3 user stories and 5 business rules, in fewer than 100 lines; `aidd log approved` refuses more.
 

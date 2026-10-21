@@ -1,13 +1,13 @@
 ---
-name: build-ordered-specs
-description: Deliver an ordered list of spec files, each with its quality repair, to zero debt.
+name: build-archetype-foundation
+description: Build the Foundation of an archetype on its Bedrock, one foundation spec at a time, each with its quality repair, to zero debt.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
 ---
-# build-ordered-specs
+# build-archetype-foundation
 
-Your goal is to deliver an ordered list of spec files, one at a time, each with its quality repair, and to end with zero debt.
+Your goal is to build the Foundation of an archetype on its Bedrock: deliver its foundation spec files in order, one at a time, each with its quality repair, and end with zero debt.
 
 ```text
 for each spec file, in order:

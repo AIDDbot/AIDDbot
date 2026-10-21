@@ -405,3 +405,9 @@ Una spec es de fundación si cumple las dos condiciones:
 - `.lint/` y el tema son assets del Bedrock, como `LICENSE`: cada Bedrock lleva su copia, sin fuente en el Blueprint y sin copia automática. Salen `blueprint/lint/` y `blueprint/theme/`.
 - El scaffold parte del Bedrock: ya no ejecuta el generador oficial ni hace «shape to blueprint». Añade el framework y lo que depende de él.
 - Aplicar: Builder ahora. AIDDbot (`architect-system-foundation`, su `scaffold.md` con «shape to blueprint») después, vía `/maintain-skills`.
+
+## D46 (2026-10-21, Daylight) · Nombres de obra: `build-archetype-foundation`, `construction.md`, `handover.md`
+
+- `/build-ordered-specs` pasa a **`/build-archetype-foundation`**. «Ordered specs» decía cómo trabaja, no para qué. Su único uso es construir la Foundation de un arquetipo sobre su Bedrock, spec a spec, hasta cero deuda.
+- En el Builder, con la metáfora de obra: `procedure.md` → **`construction.md`** (la obra en un work system), `seed.md` → **`handover.md`** (la entrega de obra al repo del arquetipo, con su archetype gate), `scripts/seed-product.mjs` → `scripts/handover-product.mjs`. «Seed» sale del Builder (salvo las primitivas semilla).
+- Pendiente: el `AGENTS.md` de archetype-cli cita `seed.md` del Builder en GitHub; cambiarlo en su próxima release.
