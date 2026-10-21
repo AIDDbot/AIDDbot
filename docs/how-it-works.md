@@ -87,7 +87,7 @@ Read [The core](./core.md) for the details.
 
 | Where | What |
 | --- | --- |
-| `.aiddbot/logs/` | One log for each day. Each line is one step, with its time and result. Git ignores it. |
+| `.aiddbot/logs/` | One folder for each day, with its log and the output of each failed run. Each line of the log is one step, with its time and result. Git ignores it. |
 | `.product/system.md` | The approved system proposal. |
 | `.product/specs/` | One file for each spec, with its requirements, in a folder for each type. |
 | `.product/PRD.md` | The shipped features, by domain. |

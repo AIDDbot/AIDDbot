@@ -3,10 +3,12 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UnavailableError, UsageError,
-  writeJson,
+  aiddbotPath, commitPaths, currentBranch, dayFolder, defaultBranch, git, journal, localStamp, nextId, readJson, relative, RuleError,
+  UnavailableError, UsageError, writeJson,
 } from "../lib/core.mjs";
-import { findSpec, isApproved, oversize, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
+import {
+  findSpec, isApproved, oversize, readControl, requireSpec, SPEC_DEFINED, specMeta, TYPES, unapproved, writeControl,
+} from "../lib/spec.mjs";
 import { specTags, untested } from "./eval.mjs";
 
 // Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
@@ -74,7 +76,17 @@ function exec(root, cwd, command, log, minutes) {
   fs.writeFileSync(log, output);
   const entry = { command, ok: result.status === 0, exitCode: result.status ?? 1, seconds: Math.round((Date.now() - started) / 1000) };
   if (result.error?.code === "ETIMEDOUT") entry.timedOut = `killed after ${minutes} minutes`;
-  return { ...entry, log: relative(root, log), tail: output.trim().slice(-TAIL) };
+  const failure = entry.ok ? {} : { failure: keepFailure(root, log) };
+  return { ...entry, log: relative(root, log), ...failure, tail: output.trim().slice(-TAIL) };
+}
+
+/** Keep the output of a failed run in the folder of its day, named by the time it ended: the next run of the slot writes its log again. */
+function keepFailure(root, log) {
+  const { date, time } = localStamp();
+  const copy = path.join(dayFolder(root, date), `${time.replaceAll(":", "")}-${path.basename(log)}`);
+  fs.mkdirSync(path.dirname(copy), { recursive: true });
+  fs.copyFileSync(log, copy);
+  return relative(root, copy);
 }
 
 /** The lock of the run in progress, kept in the git folder because it is local state, never history. */
@@ -425,6 +437,12 @@ export function commit(root, [message, ...paths]) {
   }
   const spec = findSpec(root, branch);
   if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(root, spec)));
+  // The history and the changelog tell a spec by its type: each commit of a spec has the type of the spec, or one that is not a type of spec, such as `docs`.
+  const type = /^(\w+)[(!:]/.exec(message.trim())?.[1];
+  const meta = spec && specMeta(spec);
+  if (meta && TYPES.includes(type) && type !== meta.type) {
+    throw new RuleError(`${meta.key} is a ${meta.type}: commit its work as \`${meta.type}(...)\`, never \`${type}(...)\`.`);
+  }
   const installed = changedFiles(root, paths.length ? paths : ["."], true).find((file) => INSTALLED.test(file));
   if (installed) {
     throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);

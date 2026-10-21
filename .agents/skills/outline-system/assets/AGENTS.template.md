@@ -65,13 +65,13 @@ Agents write `system.md`, the specs and the reports from their templates. A repo
 
 - **System proposal** — `{Product_Folder}/system.md`: the approved greenfield proposal. The code wins where they disagree.
 - **Specs** — `{Product_Folder}/specs/{type}/S{nnnn}-{slug}.md`, one file for each spec in a folder for each type, as the branches. A non-green evaluation has its findings in `.aiddbot/logs/{key}.verification.md` or `.aiddbot/logs/{key}.qualification.md`. Requirements are `R01` in the spec and `S0042-R03` elsewhere. `aidd spec show` lists the evaluations and runs of the spec and what blocks shipping; they stay local in `.aiddbot/logs/{key}.json`. `{Product_Folder}/PRD.md` lists the shipped specs. An ID is never used again. Slugs are lowercase kebab-case.
-- **Runs** — `aidd run <kind>` keeps the full output in `.aiddbot/logs/{kind}-{project}.log`: read it instead of running the tool by hand. One run at a time; a log that starts with `RUNNING` is no result yet.
+- **Runs** — `aidd run <kind>` keeps the full output in `.aiddbot/logs/{kind}-{project}.log`: read it instead of running the tool by hand. A failed run also keeps a copy, at the `failure` path of its result. One run at a time; a log that starts with `RUNNING` is no result yet.
 - **Debt** — `.aiddbot/debt.json`, through `aidd debt`. Priority: `high` breaks behavior, security, or data; `medium` slows change; `low` otherwise.
 
 ## Git
 
 - MANDATORY: Preserve work; no secrets; no destructive commands.
-- Conventional commit, made with `node .agents/aidd/aidd.mjs commit "<message>" [<path>...]` so the journal records each milestone: `{feat|refactor|fix|chore|docs|test}(scope): {description}`
+- Conventional commit, made with `node .agents/aidd/aidd.mjs commit "<message>" [<path>...]` so the journal records each milestone: `{feat|refactor|fix|chore|docs|test}(scope): {description}`. On a spec branch, the work of the spec has the type of the spec, never another of `feat`, `fix`, `refactor` and `chore`.
 - Never commit on the default branch: only `aidd release` and `aidd integrate` write there.
 
 ## Project decisions

@@ -53,11 +53,15 @@ export function accept(root, code = 0, ...specs) {
   return aidd(root, "run", "test", "--project", "e2e");
 }
 
-/** Today's journal: the dated `.log` in `.aiddbot/logs/`. */
-export function journalText(root) {
+/** Today's folder in `.aiddbot/logs/`: the one named by a date. */
+export function dayDir(root) {
   const dir = path.join(root, ".aiddbot/logs");
-  const name = fs.readdirSync(dir).find((entry) => /^\d{4}-\d{2}-\d{2}\.log$/.test(entry));
-  return fs.readFileSync(path.join(dir, name), "utf8");
+  return path.join(dir, fs.readdirSync(dir).find((entry) => /^\d{4}-\d{2}-\d{2}$/.test(entry)));
+}
+
+/** Today's journal: `journal.log` in the folder of the day. */
+export function journalText(root) {
+  return fs.readFileSync(path.join(dayDir(root), "journal.log"), "utf8");
 }
 
 export function readJson(root, file) {

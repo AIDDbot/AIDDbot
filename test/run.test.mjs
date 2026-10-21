@@ -85,6 +85,12 @@ test("run journals the last output line of each project and leaves out n/a proje
   assert.equal(aidd(root, "run", "test").code, 1);
   const last = journalText(root).trim().split("\n").at(-1);
   assert.match(last, /test: e2e exit 1 \d+s \(1 failed\)$/);
+  const failed = aidd(root, "run", "test").body.runs.at(-1).failure;
+  assert.match(failed, /^\.aiddbot\/logs\/\d{4}-\d{2}-\d{2}\/\d{6}-test-e2e\.log$/);
+  assert.equal(aidd(root, "run", "test", "--project", "back").body.runs[0].failure, undefined, "an n/a project leaves no failure");
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: tool } }));
+  assert.equal(aidd(root, "run", "test").body.runs.at(-1).failure, undefined, "only a failed run keeps a copy");
+  assert.match(fs.readFileSync(path.join(root, failed), "utf8"), /1 failed/, "the next run of the slot leaves the copy of the failure");
   const wrapped = `node -e "console.log('lint/crap.json: 2 errors'); console.error('npm error command sh -c vp lint'); process.exit(1)"`;
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { "crap": [wrapped, wrapped] } }));
   assert.equal(aidd(root, "run", "crap").code, 1);

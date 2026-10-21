@@ -53,7 +53,7 @@ Only the core writes these files. Nobody edits them by hand.
 | `.product/PRD.md` | One line for each shipped feature. |
 | `.aiddbot/config.json` | The projects and their commands. |
 | `.aiddbot/counters.yaml` | The next IDs of the specs and the debt. |
-| `.aiddbot/logs/` | Ignored by Git: the daily log (the agents add only their judgments to it, through the core), the full output of the last run of each command, and the work state of each spec (its runs, its evaluations and their commits). |
+| `.aiddbot/logs/` | Ignored by Git: one folder for each day, with its journal (the agents add only their judgments to it, through the core) and the full output of each failed run; the full output of the last run of each command; and the work state of each spec (its runs, its evaluations and their commits). |
 | `package.json`, `CHANGELOG.md`, the tags | The version of your product. |
 
 The agents write only the texts: `system.md`, each spec, the reports of findings, and the `AGENTS.md` files.

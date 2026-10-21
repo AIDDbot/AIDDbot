@@ -140,11 +140,12 @@ The product schemas are in `.product/model/`: one conceptual `model.schema.md`, 
 
 ### Journal
 
-Each workflow writes its story in one plain-text daily journal at the repository root: `.aiddbot/logs/YYYY-MM-DD.log`. Git ignores it.
+Each workflow writes its story in one plain-text daily journal at the repository root: `.aiddbot/logs/YYYY-MM-DD/journal.log`. Git ignores it.
 
 - Each skill commit goes through `aidd commit`, which writes it as `committed`. Thus the journal shows each milestone and its time.
 - An orchestrator writes a `handoff` line each time that it sends work to a different agent.
 - `aidd commit` runs the pre-commit hook of the technology. When the hook refuses the commit, the command fails with the output of the hook.
+- On a spec branch, a commit of type `feat`, `fix`, `refactor` or `chore` has the type of the spec. `aidd commit` refuses another one. A type that is not a type of spec, such as `docs` or `test`, passes.
 - The journal is only a story. No code reads it or makes a decision from it: the process state is in the work state of each spec, `.aiddbot/logs/{key}.json`.
 - Each line has complete fields with a space between them: time, actor, spec, event, level and summary. The level is `INFO`, `WARN` for a failed run or an amber evaluation, or `ERROR` for a red evaluation or a `blocked` reason. The short columns have a minimum width, so the log reads as a table. The summary stops at 128 characters.
 - The core (`node .agents/aidd/aidd.mjs`) writes an entry for each state change that it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. A run line shows only the projects that apply, each with its result and the summary line of its tool (such as `100 passed` or `1 failed`).
@@ -203,7 +204,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
 | `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:spec`, `start`, `layers` and `crap` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
-| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run (`debt-medium-back.log` for `layers`). `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
+| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD/`: the history of one local day: `journal.log`, the story of the process, which nothing reads, and `HHMMSS-{kind}-{project}.log`, the full output of each failed run, named by the time it ended. `{kind}-{project}.log`: the full output of the last run (`debt-medium-back.log` for `layers`). `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
 
 `aiddbot init` makes each shared record above. The core makes each spec file, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its file, and a spec is shipped when `CHANGELOG.md` names it.
 
@@ -229,7 +230,7 @@ In greenfield, `architect-system-foundation` registers the slots of each project
 
 - `aidd run <kind> [--project]` runs the classified command. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec, such as `@S0001-`: the slot ends in the filter flag of its runner, so the core never knows the runner. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the lint of the hook. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `upgrade` increases the dependencies to their latest releases. It is not evidence, and neither is `crap`.
-- Each run keeps its full output in `.aiddbot/logs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, the work state of the spec records it as the latest run of that kind for each project.
+- Each run keeps its full output in `.aiddbot/logs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The next run of the slot writes that log again, so a failed run also keeps a copy in the folder of its day; the result of the run gives its path as `failure`. The journal records it. On a spec branch, the work state of the spec records it as the latest run of that kind for each project.
 - During coding, the pre-commit hook of the technology runs the unit tests that each commit affects. A unit test is fast and proves logic only: no disk, database, network or process. A commit of specs or docs only runs no test.
 - The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`, which `aidd spec debt` copies from the evidence of the item. For a spec with no requirements that cites none, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `layers` or `crap` only to check a debt repair.
 - Quality findings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.

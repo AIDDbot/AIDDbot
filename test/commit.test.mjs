@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, journalText } from "./helpers.mjs";
+import { git, write, repo, aidd, approve, journalText } from "./helpers.mjs";
 
 test("commit records the paths it is given and journals the milestone", () => {
   const root = repo();
@@ -92,6 +92,19 @@ test("commit refuses installed dependencies, and lets them leave the index", () 
   git(root, "rm", "-r", "-q", "--cached", "back/node_modules");
   write(root, "back/.gitignore", "/node_modules/\n");
   assert.equal(aidd(root, "commit", "chore(back): exclude installed dependencies", "back").code, 0);
+});
+
+test("commit refuses a type of spec that is not the type of the spec of the branch", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "chore", "platform", "Platform");
+  approve(root);
+  write(root, "back/one.ts", "1\n");
+  const refused = aidd(root, "commit", "feat(back): implement platform services", "back");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /S0001-platform is a chore: commit its work as `chore\(\.\.\.\)`, never `feat\(\.\.\.\)`/);
+  assert.equal(aidd(root, "commit", "chore(back): add platform services", "back").code, 0);
+  write(root, "back/AGENTS.md", "# back\n");
+  assert.equal(aidd(root, "commit", "docs(back): describe the platform", "back").code, 0);
 });
 
 test("commit refuses text with garbled characters, as a shell with the wrong encoding writes it", () => {
