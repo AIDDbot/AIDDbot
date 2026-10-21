@@ -12,7 +12,7 @@ const SLUG_WORDS = 4;
 const REQUESTED = ["feat", "fix", "chore"];
 /** The type of the spec that repairs each debt level; low debt is a patch, with no spec. */
 const FROM_DEBT = { high: "fix", medium: "refactor" };
-/** The most items that one refactor repairs: a larger one is harder to review and to revert. */
+/** The most items that one debt spec repairs: a larger one is harder to review and to revert. */
 const MAX_GROUP = 5;
 
 /** Open the branch and the file of a new spec, reserve its ID, and write the file from `text(id, key, branch)`. */
@@ -58,7 +58,7 @@ function debtSpec(items, type, domain) {
   const tags = [...new Set(items.flatMap((item) => `${item.title} ${item.evidence ?? ""}`.match(/\bS\d{4}-R\d{2}\b/g) ?? []))].map((requirement) => `@${requirement}`);
   const check = type === "refactor" ? `The check that reported ${ids} passes, and the regression of the release passes.`
     : tags.length ? `The acceptance tests ${tags.join(", ")} pass again, and the regression of the release passes.`
-    : `The review of this fix shows that ${ids} is gone, and the regression of the release passes.`;
+    : `The review of this fix shows that ${ids} ${items.length > 1 ? "are" : "is"} gone, and the regression of the release passes.`;
   const problem = items.length === 1 ? [first.evidence || first.title] : items.map((item) => `- ${item.id}: ${item.evidence || item.title}`);
   return (id, key, branch) => [
     "---", `id: ${id}`, `slug: ${key.slice(6)}`, `key: ${key}`, `type: ${type}`, `branch: ${branch}`, `domain: ${domain}`, "---",
@@ -67,16 +67,16 @@ function debtSpec(items, type, domain) {
   ].join("\n");
 }
 
-/** The items that one refactor repairs: the given item, and the other open `medium` items of its project, by D ID, at most MAX_GROUP.
- *  The rule is mechanical, so no one judges which items go together; a `fix` repairs one item, because each one needs its approval. */
+/** The items that one debt spec repairs: the given item, and the other open items of its priority and its project, by D ID, at most MAX_GROUP.
+ *  The rule is mechanical, so no one judges which items go together. An item with no project goes alone. */
 function groupOf(item, items) {
-  if (item.priority !== "medium" || !item.project) return [item];
-  const others = items.filter((entry) => entry.id !== item.id && entry.priority === "medium" && entry.project === item.project);
+  if (!item.project) return [item];
+  const others = items.filter((entry) => entry.id !== item.id && entry.priority === item.priority && entry.project === item.project);
   return [item, ...others.sort((a, b) => a.id.localeCompare(b.id))].slice(0, MAX_GROUP);
 }
 
-/** `spec debt <D ID>`: the minimal spec that repairs a debt item. A `refactor` (medium) is defined at once and also repairs the other medium items of the same project;
- *  a `fix` (high) repairs one item and waits for its approval. */
+/** `spec debt <D ID>`: the minimal spec that repairs a debt item and the other items of its priority and project: a `fix` (high) or a `refactor` (medium).
+ *  The items are its definition, from evidence, so it is approved at once (Halloween D48); a product question still stops the delivery. */
 function fromDebt(root, [id], flags) {
   if (!id) throw new UsageError("Give a debt item: aidd spec debt D0007.");
   const items = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
@@ -88,7 +88,6 @@ function fromDebt(root, [id], flags) {
   const group = groupOf(item, items);
   const debt = group.map((entry) => entry.id);
   const created = open(root, type, slugOf(item), item.title, domain, debtSpec(group, type, domain));
-  if (type === "fix") return { ...created, debt, approved: false };
   commitPaths(root, [created.file], SPEC_DEFINED);
   journal(root, { event: "committed", spec: created.spec, summary: `${SPEC_DEFINED} from ${debt.join(", ")}` });
   return { ...created, debt, approved: true };

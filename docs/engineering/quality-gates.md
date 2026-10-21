@@ -43,7 +43,7 @@ Each skill checks only its own work. Only the ship checks everything.
 | medium | layers, duplicates, folder size | `refactor` spec |
 | low | complexity check | patch, with no spec and no branch |
 
-- A `fix` spec from high debt is minimal too: the core makes it from the debt item, with no define-spec. The human approves the item before the work starts (in YOLO mode, it is approved when made). Flow: branch, `implement-project`, verify, review, ship. Verify runs the e2e tests of the requirement that fails; for an item with no requirement (security, accessibility), the review of the `fix` proves it.
+- A `fix` spec from high debt is minimal too: the core makes it from the debt item, with no define-spec. It is approved when made, with the other open high items of its project (Halloween D48): the item comes from evidence, verify and review check the repair, and a product question still stops the delivery. Flow: branch, `implement-project`, verify, review, ship. Verify runs the e2e tests of the requirement that fails; for an item with no requirement (security, accessibility), the review of the `fix` proves it.
 - A `refactor` spec is minimal: the core makes it from the debt item, with no model and no approval, only for a key, a folder and a CHANGELOG entry. Flow: branch, `implement-project` (the rule green), ship. No define-spec, no verify, no review.
 
 ## Changes from today
@@ -85,7 +85,7 @@ What is the real difference between `feat`, `fix`, `refactor`, `chore` and a pat
 | debt | `fix` (high), `refactor` (medium), patch (low) | the debt item | the craft |
 
 - The spec is the contract with the human, who approves it. Debt needs no contract: a rule or the review found it, and the item says what and where.
-- `fix` is in both rows. A requested fix goes through define-spec. A fix from high debt (security, a too-big triage) is the most serious: it gets a minimal spec from the core and human approval (see Debt).
+- `fix` is in both rows. A requested fix goes through define-spec. A fix from high debt (security, a too-big triage) is the most serious: it gets a minimal spec from the core, approved when made (see Debt).
 
 ### To decide
 
@@ -114,7 +114,7 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
 
 ## Step 1 decisions
 
-- `aidd spec debt <D ID>` makes the minimal spec of one item: `high` → `fix`, which waits for the approval of the item; `medium` → `refactor`, defined at once. It refuses `low`: that is a patch. One item made one spec until cli-9: there, eleven one-item refactors took about half an hour of spec cycles. Now a `refactor` also repairs the other open `medium` items of the same project (at most five), and a patch the `low` items of one project; a `fix` stays one item, because each one needs its approval.
+- `aidd spec debt <D ID>` makes the minimal spec of one item: `high` → `fix` and `medium` → `refactor`, both defined and approved at once. It refuses `low`: that is a patch. One item made one spec until cli-9: there, eleven one-item refactors took about half an hour of spec cycles. Now a `refactor` also repairs the other open `medium` items of the same project (at most five), and a patch the `low` items of one project; since Halloween D48 (web-I: three one-item fixes from one review), a `fix` also repairs the open `high` items of its project.
 - `aidd spec new` takes only `feat`, `fix` and `chore`. A `refactor` comes only from debt. A repair of test code is a `chore`.
 - The gate asks for the evaluations of the type: `feat` and `fix` both, `chore` only the review, `refactor` none.
 - A red verification at revision 3 no longer lets a failed regression ship alone: high debt must record each failure.

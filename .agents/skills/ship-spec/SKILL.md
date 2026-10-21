@@ -46,7 +46,7 @@ When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression
 Change the debt register only with `node .agents/aidd/aidd.mjs debt`. The priority tells the source: `high` comes from the review and from a triage, `medium` and `low` belong to `scan-quality` only.
 
 - Remove with `debt remove <id>` each D ID that the `Technical debt` section of the spec gives, when the spec proves its repair: a green verification for a `feat` or a `fix`, a green qualification for a `fix` with no requirements, or, for a `refactor`, a `node .agents/aidd/aidd.mjs run layers --project {project}` that no longer shows it.
-- Add with `debt add "<title>" high "<evidence>"` each finding of a qualification that is not green.
+- Add with `debt add "<title>" high "<evidence>" --project <name>` each finding of a qualification that is not green, with the project of its scope: the core repairs the `high` items of one project in one `fix`.
 - At revision 3 of the verification, also add as `high` each failure that remains in the red report.
 - Add as `high` each row of the regression report with the owner debt. Put the tag of each failing test in its evidence, such as `@S0042-R03`: the `fix` that repairs it runs that test again.
 - Skip each one that an open item already describes, and give its D ID instead.

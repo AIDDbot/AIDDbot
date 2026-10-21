@@ -39,7 +39,7 @@ Each step checks only its own work. Only the ship tests everything. The type of 
 
 Start no spec on a greenfield system whose foundation close is red and not repaired: return that failure to the human, also when the human asked for features.
 
-A spec that the core made from a debt item skips `define-spec`: the item is its definition. A `refactor` is approved when the core makes it. A `fix` from high debt waits for the approval of the item: relay the item to the human, and journal the approval as below.
+A spec that the core made from a debt item skips `define-spec`: the item is its definition. The core approves it when it makes it: a `refactor` or a `fix`.
 
 For a request, the **Architect** executes `define-spec` with it. Relay its proposal to the human. Nothing is built before approval.
 
@@ -64,7 +64,7 @@ Within a spec, only `ship-spec` changes `{Product_Folder}/model/`: never send sc
 | Event | Action |
 | --- | --- |
 | Verification is red | Send its finding-only report to the **Builder** for repair. Then verify again. |
-| The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` as `high` before verification starts again. Thus a green retry never hides it. |
+| The **Builder** cannot reproduce a failure and changes nothing | The **Builder** records the failure and its evidence with `node .agents/aidd/aidd.mjs debt add` as `high`, with `--project` of the failing project, before verification starts again. Thus a green retry never hides it. |
 | Verification is still red at its third revision | Do not repair again. Continue the delivery: qualify if not done yet, and ship. The ship records each unresolved failure as `high` debt. |
 | Qualification has findings | Never send them back for repair. They ship as `high` debt. |
 | The Security or the Requirements gate fails | Send that report to the **Builder** one time for repair. Then verification and qualification run again. Findings of the second qualification ship as debt. |

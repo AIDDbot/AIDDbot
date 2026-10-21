@@ -50,7 +50,7 @@ architect-system-foundation:
 
 build-requested-spec:
   - "refuse to start on a greenfield system whose foundation close is red"
-  - "Architect: define-spec and obtain approval, for a request; a spec that the core made from debt skips it (a refactor is approved when made, a fix waits for the approval of the item)"
+  - "Architect: define-spec and obtain approval, for a request; a spec that the core made from debt skips it (the core approves it when it makes it)"
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; the pre-commit hook of the technology lints and formats each commit; before it returns, layers and crap of each changed project green"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
@@ -60,7 +60,7 @@ build-requested-spec:
 
 craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
-  - "high: aidd spec debt makes a minimal fix spec; build-requested-spec after the human approves the item (YOLO or build-archetype-foundation: at once)"
+  - "high: aidd spec debt makes a minimal fix spec of the high items of one project, approved at once; build-requested-spec with verification and review"
   - "Craftsman: scan-quality, once, only when no high debt is open; it records medium debt (layers, duplicates, folder size)"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
   - "Craftsman: scan-quality in its low mode, once, only when no high or medium debt is open; it records low debt (complexity), one item for each rule"
@@ -125,7 +125,7 @@ The type of the spec sets its steps. The origin sets the definition: a request h
 | --- | --- | --- | --- | --- |
 | `feat`, `fix` | a request | `define-spec`, human approval | yes | yes |
 | `chore` | a request | `define-spec`, human approval | no | yes |
-| `fix` | high debt | `aidd spec debt`, human approval of the item (in advance under `build-archetype-foundation`) | yes | yes |
+| `fix` | high debt | `aidd spec debt`, no approval | yes | yes |
 | `refactor` | medium debt | `aidd spec debt`, no approval | no | no |
 | patch (no spec) | low debt | the item | no | no |
 
@@ -224,7 +224,7 @@ high debt → `fix` spec → `scan-quality` (`layers`) → medium debt → `refa
 | `medium` | `layers`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
 | `low` | `crap`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement until the `crap` of the project is green, integrate; no spec |
 
-`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. A `refactor` also repairs the other open `medium` items of the same project, at most five: each `medium` item names its project with `debt add --project`. A `fix` repairs one item, because each one needs its approval. The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
+`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. It also repairs the other open items of the same priority and project, at most five: each item names its project with `debt add --project`; one with no project goes alone. Neither waits for an approval: the items come from evidence, and a product question still stops the delivery (Halloween D48). The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). Each scan runs at most one time in each run, and only when no debt of a higher level is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 

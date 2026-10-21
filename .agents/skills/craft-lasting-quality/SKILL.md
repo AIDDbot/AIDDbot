@@ -12,7 +12,7 @@ Your goal is to reduce existing quality debt, from high to low, each item with t
 ```text
 upgrade request ─────────────────────────────────────────────────────┐
 1. you         debt list              the next item                    │  high, then medium, then low
-2. high        spec debt  → fix       build-requested-spec             │  the human approves the item
+2. high        spec debt  → fix       build-requested-spec             │  approved when made
    no high:    Craftsman  scan-quality            medium debt          │  once
 3. medium      spec debt  → refactor  build-requested-spec             │
    no medium:  Craftsman  scan-quality, low       low debt             │  once
@@ -47,7 +47,7 @@ The priority sets the repair, so no one judges "big" or "small". The evidence of
 
 ## 2. High debt
 
-Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `fix` spec of the item. Execute `build-requested-spec` with that spec. The human approves the item before the work starts; in YOLO mode, it is approved when the spec is made.
+Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. It makes the minimal `fix` spec of the item, approved at once, and adds the other open `high` items of the same project (its `debt` lists them). Execute `build-requested-spec` with that spec.
 
 When no `high` item is open and this run has not scanned yet, the **Craftsman** executes `scan-quality` one time. It records `medium` debt.
 

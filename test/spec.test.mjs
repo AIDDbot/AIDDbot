@@ -99,7 +99,7 @@ test("spec new refuses while another spec branch is still open", () => {
   assert.match(refused.body.error, /feat\/S0001-fleet is still in progress/);
 });
 
-test("spec debt makes the minimal spec of a debt item: a refactor defined at once, a fix that waits for approval", () => {
+test("spec debt makes the minimal spec of a debt item, defined and approved at once: a refactor or a fix", () => {
   const root = repo();
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "node suite.js" } }));
   aidd(root, "debt", "add", "Duplicated price rule!", "medium", "cart.ts:4 and order.ts:9", "--project", "e2e");
@@ -123,8 +123,8 @@ test("spec debt makes the minimal spec of a debt item: a refactor defined at onc
   assert.equal(aidd(root, "release").code, 0);
   const fix = aidd(root, "spec", "debt", "D0002");
   assert.equal(fix.body.branch, "fix/S0002-sql-injection-in-search");
-  assert.equal(fix.body.approved, false);
-  assert.match(aidd(root, "spec", "show").body.blockers[0], /S0002 is not approved/);
+  assert.equal(fix.body.approved, true);
+  assert.doesNotMatch(aidd(root, "spec", "show").body.blockers.join(" "), /not approved/);
 });
 
 test("log approved commits the spec definition after the approval", () => {
@@ -167,7 +167,7 @@ test("an unapproved spec takes no commit, no evaluation, and no release", () => 
   assert.doesNotMatch(aidd(root, "spec", "show").body.blockers.join(" "), /not approved/);
 });
 
-test("spec debt groups the open medium items of the project that each one names, and keeps a fix to one item", () => {
+test("spec debt groups the open items of the priority and the project of the given item", () => {
   const root = repo();
   aidd(root, "config", "set", "projects.cli", JSON.stringify({ type: "cli", path: "projects/cli", commands: { test: "npm test" } }));
   aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "projects/e2e", commands: { test: "npm test" } }));
@@ -187,7 +187,12 @@ test("spec debt groups the open medium items of the project that each one names,
   assert.match(text, /## Technical debt\n\n- D0003 — .*\n- D0001 — .*\n- D0005 — /);
   const other = repo();
   aidd(other, "config", "set", "projects.cli", JSON.stringify({ type: "cli", path: "cli", commands: { test: "npm test" } }));
-  aidd(other, "debt", "add", "Leaked token in a log", "high", "cli/src/core/app.logger.ts:9");
-  aidd(other, "debt", "add", "Unsafe path in a setting", "high", "cli/src/core/app.config.ts:4");
-  assert.deepEqual(aidd(other, "spec", "debt", "D0001").body.debt, ["D0001"], "each fix needs the approval of its own item");
+  aidd(other, "debt", "add", "Leaked token in a log", "high", "cli/src/core/app.logger.ts:9", "--project", "cli");
+  aidd(other, "debt", "add", "Missing setting check", "medium", "cli/src/core/app.config.ts:7", "--project", "cli");
+  aidd(other, "debt", "add", "Unsafe path in a setting", "high", "cli/src/core/app.config.ts:4", "--project", "cli");
+  aidd(other, "debt", "add", "Crash with no project", "high", "cli/src/app.ts:1");
+  const fix = aidd(other, "spec", "debt", "D0001");
+  assert.deepEqual(fix.body.debt, ["D0001", "D0003"], "one fix for the high items of cli; never the medium one or an item with no project");
+  assert.equal(fix.body.approved, true);
+  assert.match(fs.readFileSync(path.join(other, fix.body.file), "utf8"), /The review of this fix shows that D0001, D0003 are gone/);
 });

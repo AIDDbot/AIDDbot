@@ -427,3 +427,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - Una copia en cada proyecto que no es `e2e` (`cli`, `back`, `front`), como `.lint/`. El `e2e` no lleva: no tiene unitarios (D18).
 - Lista cerrada: una primitiva nueva entra cuando la usan dos features (`ship-spec`). La tabla del `AGENTS.md` de proyecto va por fichero (8 filas, antes 12), para seguir por debajo de 100 líneas.
 - Builder `60f3a1e`: 31 tests en cada proyecto, `check`, `layers` y `crap` en verde.
+
+## D48 (2026-10-21, Daylight) · Un fix de deuda high, sin aprobación humana y agrupado por proyecto
+
+- Cambia la decisión de quality gates del 2026-10-15 («high-debt fix = minimal core spec + human approval»).
+- Motivo: en web-I, una review de `platform` dio 3 items high (2 en `front`, 1 en `back`) y costó 3 vueltas de `fix` (S0004–S0006, unos 21 min). La aprobación no aportaba nada: el item sale de evidencia (review, verificación, regresión), el humano ya aprobó la spec que lo provocó, y el fix pasa verify y review. YOLO y `build-archetype-foundation` ya la saltaban.
+- `aidd spec debt <D>` crea el `fix` aprobado al momento, como el `refactor`, con los demás items high abiertos del mismo proyecto, hasta 5. Una regla para los tres niveles: medium y low ya agrupaban por proyecto. Un item sin proyecto va solo.
+- `ship-spec` y `build-requested-spec` registran la deuda high con `--project`.
+- Lo que es del humano sigue parando: una pregunta de producto detiene la entrega, como antes.
+- AIDDbot: core `spec.mjs` con tests (49/49), skills `craft-lasting-quality`, `build-requested-spec` y `ship-spec` vía `/maintain-skills`, `AIDD.workflow.md`, `quality-gates.md`.
