@@ -155,3 +155,9 @@ Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint direct
 - En web-I (S0012 `users`), el detector de duplicados del core contó como lógica repetida un usuario de ejemplo escrito en dos tests: seis líneas `clave: "valor",`. Dio D0010 (`back`) y D0011 (`front`), dos refactors.
 - Dos opciones: dejar el detector como está (uniforme; un `test-data` por feature), o no contar las líneas que solo asignan un literal a una propiedad (un literal es dato, no lógica).
 - Decisión del usuario (2026-10-21): no cambiar nada todavía. Medirlo en web-1, con un modelo frontera: cuántas features pagan un refactor por datos de ejemplo. Con esa evidencia, se decide.
+
+## Candidato: tests inestables por leer antes de esperar
+
+- En web-I, `about-card.test.ts` (S0010-R04, «About unavailable») falló en el ship de `users`, pasó tras la reparación y volvió a fallar en el refactor S0013, que solo tocó unitarios del `back`. Es un test inestable. El triage lo registró como D0013 high.
+- Causa probable: el test lee el texto (`expect(await locator.innerText()).toBe(…)`) antes de que la página pinte el estado. Una aserción que espera sola (`await expect(locator).toHaveText(…)`) no depende de la velocidad.
+- No entra en el Blueprint todavía: un modelo frontera suele usar esas aserciones (criterio del usuario). Si web-1 tiene un test inestable por esto, se añade con esa evidencia.
