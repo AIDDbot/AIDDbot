@@ -559,3 +559,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - Assistant queda en 3 líneas; la plantilla de la raíz, en 88; la raíz de web-1, en 85.
 - Sale «el idioma de `system.md`» de `outline-system`, `docs/AIDD.workflow.md` y `construction.md`. Un arquetipo publica sus documentos y su código en inglés.
 - AIDDbot `45f8851a`, Builder `9165076`.
+
+## D61 (2026-10-22, Daylight) · Commits pequeños en el Builder
+
+- Motivo: en web-2, S0002, el `back` acumuló 35 ficheros y pasó `layers` y `crap` antes del primer commit; el hook lo rechazó con 50 errores (42 de reglas de tests). `implement-project` no decía cada cuánto hacer commit.
+- Unidad (usuario): una carpeta de `core`, un módulo o un slice de una feature. El `plan` del journal enumera las unidades, en orden.
+- Primero el código de la unidad, luego sus unitarios en un commit `test({project})` aparte (usuario): mejor rastro, y cada error del hook queda cerca de su causa. No se empieza otra unidad con una sin commit.
+- `layers` y `crap` corren después de la última unidad, sobre lo commiteado; cada reparación, en su propio commit.
+- De paso, evita el límite de `cmd.exe` del hook con commits de más de 100 ficheros.
+- `implement-project` y `docs/AIDD.workflow.md`. web-2 sigue con el overlay de antes.
