@@ -269,7 +269,7 @@ Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y d
 3. Hecho: comandos en la raíz: `npm start` (`web`), `npm test` (unitarios) y `npm run test:e2e` (D55).
 4. Hecho: un solo `check`, que ejecuta cada paso y no esconde ninguno; `app.main` espera a `start` (D56).
 5. Hecho: el registro valida sus datos: nombre ≥ 2, email válido, contraseña ≥ 8 (D58).
-6. Redefinir, estandarizar y reducir los `AGENTS.md` generados (idea del usuario, 2026-10-22). Necesita una sesión de brainstorm antes de cambiar nada: no se hace a la ligera.
+6. Brainstorm hecho (D59): un mapa, reglas una vez en la raíz, sin historia, primitivas en un índice del core, 128 líneas para siempre. Falta cerrar el esqueleto e implementarlo.
 
 ## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
 

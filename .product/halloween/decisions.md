@@ -530,3 +530,18 @@ Una spec es de fundación si cumple las dos condiciones:
 - R01 lo concreta: un email válido tiene una `@`, texto antes y un dominio con un punto después. Un dato incorrecto da 400, con una entrada de `fields` por cada campo incorrecto. Test: `a`, `a`, `a` da 400 con tres entradas; un nombre de 2 caracteres y una contraseña de 8 pasan.
 - La spec queda en los límites: 82 líneas, 8 requisitos, 5 reglas de negocio.
 - Builder: `8ce47f6` (`foundation/web/users.spec.md`). El `cli` no tiene `users`.
+
+## D59 (2026-10-22, Daylight) · `AGENTS.md`: un mapa, corto para siempre
+
+- Motivo (brainstorm con el usuario, tras web-1): cuatro `AGENTS.md` con unas 5700 palabras. Un agente del `back` carga unas 3000. La tabla de contenedores y capas está copiada igual en `back` y `front`. En la raíz, las reglas se repiten (una, tres veces). Hay secciones vacías, un comentario de la plantilla que se quedó, prosa que repite el lint, y una sección 7 que cada ship alarga con la crónica de su feature (el `front`, en 98 de 100 líneas tras 7 specs).
+- Un `AGENTS.md` de proyecto es un **mapa**: los comandos, dónde va cada cosa y las reglas que ningún check comprueba. No es un manual completo.
+- Las reglas genéricas viven **una vez, en el `AGENTS.md` de la raíz**: es lo único que el agente carga siempre, también en un sistema que nace de un arquetipo publicado (el handover no lleva `.product/`). Un proyecto no copia nada de la raíz.
+- **Sin historia.** De la sección «Connections» queda el contrato (puerto, variables, qué necesita y a quién da) y **una línea por carpeta de `core`**, de la lista cerrada. El ship reemplaza la línea de una carpeta y nunca añade otra. Una feature no tiene línea: lo suyo está en su spec y en el PRD.
+- **Las reglas del lint, una fila por intención**, con el espíritu de la regla y sus valores. Por ejemplo: «reduce la complejidad: parámetros ≤ 2, complejidad ≤ 8, sentencias ≤ 16, anidamiento ≤ 2, líneas ≤ 128 (tests: 4, 64, 4, 256)». Unas seis filas, solo en la raíz.
+- **Las primitivas de `shared`, en un índice que genera el core** (por ejemplo, `shared/README.md`): cada fichero con sus exports, regenerado en cada ship. No se desactualiza. El `AGENTS.md` solo dice «busca en el índice antes de escribir una función». Pendiente: si la firma basta o si cada export lleva un comentario de una línea.
+- **La forma la comprueba el core**, en cada ship, para siempre: las secciones del esqueleto en orden, ninguna sección vacía, ningún `<!--`, y **128 líneas como máximo para cualquier `AGENTS.md`** (el mismo límite que un fichero de código).
+- Esqueleto propuesto, sin cerrar:
+  - Raíz: Assistant (conducta y entorno), System (proyectos, problema, solución, esquemas), Commands, Architecture (contenedores y capas), Code (intenciones y reglas sin check), Records, Git.
+  - Proyecto: Purpose, Technology, Folders, Platform (contrato y una línea por carpeta de `core`), Project rules (solo si hay).
+  - Salen: «Paths», «Common stack», las tablas vacías, las capas copiadas, la tabla de primitivas y la crónica de cada feature.
+- Cambia: en AIDDbot, `outline-system` (`AGENTS.template.md`), `rule-project`, `ship-spec` y un comando nuevo del core (el check y el índice), vía `/maintain-skills`. En el Builder, `project.AGENTS.template.md` y `ecosystems.md`.
