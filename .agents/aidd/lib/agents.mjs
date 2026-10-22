@@ -85,12 +85,15 @@ function exportsOf(text) {
   return [...new Set(names)];
 }
 
-/** Write the index of the `src/shared/` folder of each configured project that has one; return the paths that it wrote. */
+// The `shared` folder of a project: in its source, or at its root, as in an `e2e`.
+const SHARED_FOLDERS = [["src", "shared"], ["shared"]];
+
+/** Write the index of the `shared` folder of each configured project that has one; return the paths that it wrote. */
 export function writeSharedIndexes(root) {
   const written = [];
   for (const project of projectsOf(root)) {
-    const shared = path.join(root, project.path, "src", "shared");
-    if (!fs.existsSync(shared)) continue;
+    const shared = SHARED_FOLDERS.map((parts) => path.join(root, project.path, ...parts)).find((folder) => fs.existsSync(folder));
+    if (!shared) continue;
     const rows = fs.readdirSync(shared, { recursive: true })
       .map((name) => name.split(path.sep).join("/"))
       .filter((name) => SOURCE.test(name) && !NOT_SOURCE.test(name))
