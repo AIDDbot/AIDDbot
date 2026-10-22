@@ -522,3 +522,11 @@ Una spec es de fundación si cumple las dos condiciones:
 - Los scripts de cada proyecto no cambian: son sus slots, y cada uno cabe en una línea.
 - Probado: `npm test`, `npm run test:e2e` y `npm run check` en los dos Bedrocks; `start.mjs` en web-1 (`back` 200, `front` 200, sin procesos al final). `upgrade.mjs` no se ha ejecutado: cambia las dependencias.
 - Builder: `4ee3096` (Bedrock `cli` y `web`: `tools/scripts/`, `package.json`, `README.md`; `ecosystems.md`).
+
+## D58 (2026-10-22, Daylight) · El registro valida sus datos
+
+- Motivo: en web-1, el registro acepta `a`, `a`, `a`. La spec `users` solo pedía un texto no vacío en cada campo: es una ambigüedad de la spec, no un fallo del modelo.
+- Regla de negocio nueva en `users`: un nombre de 2 caracteres o más (sin contar los espacios de los extremos), un email válido y una contraseña de 8 caracteres o más (el mínimo de OWASP sin segundo factor). Números del usuario.
+- R01 lo concreta: un email válido tiene una `@`, texto antes y un dominio con un punto después. Un dato incorrecto da 400, con una entrada de `fields` por cada campo incorrecto. Test: `a`, `a`, `a` da 400 con tres entradas; un nombre de 2 caracteres y una contraseña de 8 pasan.
+- La spec queda en los límites: 82 líneas, 8 requisitos, 5 reglas de negocio.
+- Builder: `8ce47f6` (`foundation/web/users.spec.md`). El `cli` no tiene `users`.
