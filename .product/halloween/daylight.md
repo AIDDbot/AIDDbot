@@ -122,6 +122,10 @@ Preparada 2026-10-22, con `construction.md` del Builder y los arreglos D53–D60
 - Commits `bafa56b` (overlay), `d7ba61b` (Bedrock: `projects/` y `tools/`) y `40fde41` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-2.md`](./daylight/web-2.md) (7 specs, con users), el mismo que web-1. Después, `60d8af2`: la plantilla de la raíz de AIDDbot `e9cb4851` (Architecture más corta, Records solo con lo que ninguna skill da).
 - Hallazgo al prepararla: el hook (`"*": "vp check --fix"` de `vp staged`) recibe todos los ficheros del commit en una línea, y con 101 `cmd.exe` la rechaza («La línea de comandos es demasiado larga»). En web-1 el commit tenía 55 y pasó. Aquí, dos commits. Candidato a arreglo del Bedrock: un commit grande, como el de un `scaffold`, puede chocar con esto.
 
+Hallazgos de web-2:
+
+- S0001: el orquestador ejecutó `log approved "Scaffold" --spec 0001`. El core lo apuntó en el diario y no aprobó nada: la spec quedó sin commit. Se arregló sola en el primer `aidd commit` del Builder, que se negó y dio el comando (`68ddcb2 docs(spec): define delivery`). Arreglo: `log approved` rechaza un ID que no es de ninguna spec, con el ejemplo `--spec S0001` (AIDDbot `8e395026`, test). web-2 sigue con el core de antes.
+
 Qué mirar en web-2:
 
 - Los `AGENTS.md` (D59): que `outline-system` llene la raíz sin comentarios, que cada proyecto salga como mapa, que Platform tenga una línea por carpeta de `core` y ninguna por feature, y que `release` escriba el índice de `shared`. Que ningún `release` choque con `agents check`.
