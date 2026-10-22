@@ -52,7 +52,7 @@ build-requested-spec:
   - "refuse to start on a greenfield system whose foundation close is red"
   - "Architect: define-spec and obtain approval, for a request; a spec that the core made from debt skips it (the core approves it when it makes it)"
   - Builder:
-      production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; the pre-commit hook of the technology lints and formats each commit; before it returns, layers and crap of each changed project green"
+      production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; one commit per unit (a core folder, a module or a feature slice), then one for its unit tests; the pre-commit hook of the technology lints and formats each commit; after the last unit, layers and crap of each changed project green"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
   - Craftsman:
       evaluation: "verify-behavior runs the spec-scoped acceptance tests (feat, fix); review-implementation checks only what lint and tests cannot see (feat, fix, chore); ship-spec runs the full acceptance suite (never the unit tests again: crap ran all of them, and the hook the affected ones at each commit) and triages each failure; a failure too big for the spec becomes high debt and the spec closes; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
