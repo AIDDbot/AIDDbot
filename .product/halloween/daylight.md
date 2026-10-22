@@ -119,7 +119,7 @@ Qué mirar:
 Preparada 2026-10-22, con `construction.md` del Builder y los arreglos D53–D60:
 
 - `web-2`: AIDDbot `refactor/quality-gates` `40873ee0` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `9165076`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes del commit.
-- Commits `bafa56b` (overlay), `d7ba61b` (Bedrock: `projects/` y `tools/`) y `40fde41` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-2.md`](./daylight/web-2.md) (7 specs, con users), el mismo que web-1.
+- Commits `bafa56b` (overlay), `d7ba61b` (Bedrock: `projects/` y `tools/`) y `40fde41` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-2.md`](./daylight/web-2.md) (7 specs, con users), el mismo que web-1. Después, `60d8af2`: la plantilla de la raíz de AIDDbot `e9cb4851` (Architecture más corta, Records solo con lo que ninguna skill da).
 - Hallazgo al prepararla: el hook (`"*": "vp check --fix"` de `vp staged`) recibe todos los ficheros del commit en una línea, y con 101 `cmd.exe` la rechaza («La línea de comandos es demasiado larga»). En web-1 el commit tenía 55 y pasó. Aquí, dos commits. Candidato a arreglo del Bedrock: un commit grande, como el de un `scaffold`, puede chocar con esto.
 
 Qué mirar en web-2:
