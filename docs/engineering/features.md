@@ -30,10 +30,10 @@ The Architect turns one request into one spec.
 The Builder implements the spec in each project that changes.
 
 - Implement the projects from the lower abstraction to the higher.
-- Write a plan before the first edit: the units to change, in order. A unit is one folder of `core`, one module, or one slice of a feature.
+- Write a plan before the first edit: the units to change, in order.
 - Write the code and its unit tests. Write the necessary acceptance tests in the `e2e` project.
 - Each requirement has at least one acceptance test with its identifier.
-- Commit unit by unit: the code of a unit when it is complete, then its unit tests in a separate commit. Never start the next unit while one is not committed. A small commit gets few errors from the hook, each near its cause, and an error that the hook shows once does not occur again in the next units. A large commit gets all the errors together, and the work stops until all are fixed.
+- Make small commits. Each commit holds one coherent unit of work, with at most 64 files. Thus each error of the hook is near its cause, and an error that the hook shows once does not occur again in the next commits.
 - Run the unit tests of the changed files during the work. The pre-commit hook of the technology lints and formats each commit. When it refuses, fix the errors and commit again.
 - In a `refactor`, run the check that found the debt, and make it pass.
 - Check the acceptance tests of the spec only. Never run the full suites: that is the work of the Craftsman.
