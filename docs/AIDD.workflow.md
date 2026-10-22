@@ -210,7 +210,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 
 ## Language
 
-AIDDbot talks in the language of the human. The documents (specs, `AGENTS.md`, reports, journal summaries) use ASD-STE100 Simplified Technical English, in English unless the human chooses a different language: the Assistant section of the root `AGENTS.md` records it. Commit messages, template headings and technical names stay as they are written. The code is in English: names, tests, texts of the user interface, tables, entities and other data.
+AIDDbot talks in the language of the human. The documents use ASD-STE100, in English unless the human chooses a different language. The code is in English. The Assistant section of the root `AGENTS.md` records the three.
 
 ## Quality review
 

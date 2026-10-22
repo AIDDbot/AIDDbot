@@ -270,6 +270,7 @@ Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y d
 4. Hecho: un solo `check`, que ejecuta cada paso y no esconde ninguno; `app.main` espera a `start` (D56).
 5. Hecho: el registro valida sus datos: nombre ≥ 2, email válido, contraseña ≥ 8 (D58).
 6. Hecho: los `AGENTS.md` son mapas cortos para siempre, con un esqueleto que comprueba `aidd release` y el índice de `shared` que escribe el core (D59). Y una sola regla de idioma (D60).
+7. Idea (usuario): la regla de las esperas largas de los subagentes sale de la raíz y va a las definiciones de cada agente, quizá con un rol nuevo. Sin decidir.
 
 ## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
 

@@ -553,9 +553,9 @@ Una spec es de fundación si cumple las dos condiciones:
 ## D60 (2026-10-22, Daylight) · Una regla de idioma
 
 - Motivo: la regla de idioma era larga y tenía excepciones (los registros en el idioma de `system.md`, nunca en el de una petición; `system.md` en el idioma del humano cuando se escribe…). Idea del usuario: es muy simple.
-- Tres entradas en el entorno, en la sección Assistant del `AGENTS.md` de la raíz:
-  - Habla en el idioma del humano.
-  - Los documentos (specs, `AGENTS.md`, informes, resúmenes del diario) van en ASD-STE100, en inglés por defecto. El humano puede elegir otro idioma.
-  - El código va en inglés: nombres, tests, textos de la interfaz, tablas, entidades y demás datos.
+- Una línea del entorno, en la sección Assistant del `AGENTS.md` de la raíz: `**Talk** in the language of the human — **Documents** in ASD-STE100, in English — **Code** in English`. El humano puede elegir otro idioma para los documentos.
+- Sin explicar qué es STE (los modelos lo conocen) ni dónde se aplica: se aplica a todo (usuario).
+- Sale también de la raíz la regla de las esperas largas («the longest timeout that the tool allows»): va a las definiciones de cada agente, quizá con un rol nuevo (idea del usuario, sin decidir).
+- Assistant queda en 3 líneas; la plantilla de la raíz, en 88; la raíz de web-1, en 85.
 - Sale «el idioma de `system.md`» de `outline-system`, `docs/AIDD.workflow.md` y `construction.md`. Un arquetipo publica sus documentos y su código en inglés.
 - AIDDbot `45f8851a`, Builder `9165076`.
