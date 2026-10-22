@@ -126,6 +126,8 @@ Hallazgos de web-2:
 
 - S0001: el orquestador ejecutó `log approved "Scaffold" --spec 0001`. El core lo apuntó en el diario y no aprobó nada: la spec quedó sin commit. Se arregló sola en el primer `aidd commit` del Builder, que se negó y dio el comando (`68ddcb2 docs(spec): define delivery`). Arreglo: `log approved` rechaza un ID que no es de ninguna spec, con el ejemplo `--spec S0001` (AIDDbot `8e395026`, test). web-2 sigue con el core de antes.
 
+- S0001 enviada a las 10:26:46, 10 min (web-1: 12). `agents check` sin problemas tras el release; raíz 77 líneas, proyectos 36–41; el índice de `shared` en el commit de la release, también el del `e2e`. Los commits del framework pasaron el hook. En la raíz, el agente quitó las llaves de `{Product_Folder}` (la plantilla usa llaves para lo que se rellena): ahora la línea dice «the product folder is `.product/`», sin llaves.
+
 Qué mirar en web-2:
 
 - Los `AGENTS.md` (D59): que `outline-system` llene la raíz sin comentarios, que cada proyecto salga como mapa, que Platform tenga una línea por carpeta de `core` y ninguna por feature, y que `release` escriba el índice de `shared`. Que ningún `release` choque con `agents check`.

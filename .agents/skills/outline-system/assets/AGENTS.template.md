@@ -18,7 +18,7 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 | --- | --- | --- |
 | {project} | {project_type} | `{source_root}/`, with its `AGENTS.md` |
 
-- **Folders**: `{Product_Folder}` is `.product/` (system, specs, model, PRD); `{Agents_Folder}` is `.agents/`; `{Source_Folders}` are the paths above; `.aiddbot/` belongs to the core.
+- **Folders**: the product folder is `.product/` (system, specs, model, PRD); the agents folder is `.agents/`; the source folders are the paths above; `.aiddbot/` belongs to the core.
 - **Model**: `{Product_Folder}/model/model.schema.md`; `{project}.db.schema.md` for each project that owns relational persistence; `{project}.api.schema.md` for each project that exposes endpoints.
 - {Each cross-project fact that no other section gives, such as the project that owns persistence.}
 
