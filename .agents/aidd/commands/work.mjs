@@ -467,6 +467,10 @@ export function log(root, [event, summary], flags) {
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
   // An approved spec is committed here, so its definition never lands before its approval, and only within the size limits.
   const file = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
+  // An approval with no spec that exists approves nothing: refuse it, so that the definition is never left out of git.
+  if (event === "approved" && !file) {
+    throw new RuleError(`log approved needs the ID of an existing spec, such as --spec S0001; ${spec === "-" ? "no --spec was given" : `no spec is ${spec}`}.`);
+  }
   const tooLarge = file ? oversize(file) : [];
   if (tooLarge.length) throw new RuleError(tooLarge.join(" "));
   journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });

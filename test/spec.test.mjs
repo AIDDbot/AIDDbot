@@ -147,6 +147,11 @@ test("log approved commits the spec definition after the approval", () => {
   const root = repo();
   aidd(root, "spec", "new", "feat", "offers", "Offers");
   write(root, ".product/specs/feat/S0001-offers.md", "# S0001-offers — Offers\n\n- **R01**: WHEN an offer is sent...\n");
+  const unknown = aidd(root, "log", "approved", "Offers", "--spec", "0001");
+  assert.equal(unknown.code, 1, "an ID that names no spec approves nothing (from web-2)");
+  assert.match(unknown.body.error, /needs the ID of an existing spec, such as --spec S0001; no spec is 0001/);
+  assert.match(aidd(root, "log", "approved", "Offers").body.error, /no --spec was given/);
+  assert.doesNotMatch(journalText(root), / approved /, "a refused approval writes no journal line");
   const approved = aidd(root, "log", "approved", "Offers", "--spec", "S0001");
   assert.equal(approved.code, 0, JSON.stringify(approved.body));
   assert.equal(approved.body.committed, true);
