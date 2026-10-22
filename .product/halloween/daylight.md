@@ -163,6 +163,14 @@ Qué mirar en web-3:
 - Que llegue a `users` y `settings` enviadas. Al final, `npm start`, `npm test`, `npm run test:e2e` y `npm run check` en verde.
 - El tiempo hasta `about` y el total, frente a web-2 (`about` a los 79 min) y web-1 (67).
 
+Hallazgos de web-3 (Codex, desde las 17:16):
+
+- D61 se cumple desde S0001: el `plan` nombra unidades, y cada unidad va a su commit al acabarla, el código y luego sus unitarios. El `back` de S0002: 14 commits en 10 min, el mayor de 11 ficheros, ningún rechazo del hook (web-2: un commit de 36, rechazado con 50 errores). S0001 en 8 min (web-2: 10); S0002 en 22 min (web-2: 27); `layers` y `crap` después de la última unidad, cada reparación en su commit.
+- S0003: el cliente HTTP del `front` lee el error de la API desde el principio (`35a1cea`), lo que web-2 no vio hasta la revisión.
+- S0003: el usuario tenía dos servidores de otro proyecto en 3000 y 4000. La primera ejecución de aceptación falló en 7 tests; el Builder añadió `a699a88 feat(e2e): reject occupied suite server ports` y verificó en 3103 y 4103. Descontar unos 2 min en las comparaciones.
+- S0003 R07: contraste 2,54 tras cambiar de tema. Causa en el Bedrock: botón primario blanco sobre `#60a5fa` en hover oscuro (2,54) y `#3b82f6` (3,68), enlaces con texto en degradado (verde 3,16 en claro), botones secundarios blancos sobre verde (2,28), y la clase `.secondary` de `custom.css` encima del botón secundario de Pico (1,13). Codex lo tapó en `shell.css` con `background: none` en los enlaces y colores heredados en el botón. Arreglo en el Builder `6f92a4b`: los valores en `colors.css` y `theme.css`, `.secondary` sin controles, y una línea en `ecosystems.md` (4,5:1 en cada tema y estado; ningún componente pone colores propios). Medido en Chromium: todo de 4,95 a 17.
+- S0003: el Craftsman ejecutó `eval` en rojo sin el informe; el core se negó («Red eval requires a report…») y el Craftsman apuntó `blocked` en vez de escribirlo. Se recuperó solo (el Builder reparó, verification 1 verde). Candidato: que el rechazo diga la ruta y la plantilla del informe.
+
 ## Lo que entra de web-I
 
 web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
