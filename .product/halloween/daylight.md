@@ -116,6 +116,21 @@ Qué mirar:
 - Que el `check` de la raíz siga con `--passWithNoTests`, y que `upgrade` no rompa la pila.
 - En `web-1`: que se instale Chromium (`npm exec -w e2e -- playwright install chromium`).
 
+Preparada 2026-10-22, con `construction.md` del Builder y los arreglos D53–D60:
+
+- `web-2`: AIDDbot `refactor/quality-gates` `40873ee0` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `9165076`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes del commit.
+- Commits `bafa56b` (overlay), `d7ba61b` (Bedrock: `projects/` y `tools/`) y `40fde41` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-2.md`](./daylight/web-2.md) (7 specs, con users), el mismo que web-1.
+- Hallazgo al prepararla: el hook (`"*": "vp check --fix"` de `vp staged`) recibe todos los ficheros del commit en una línea, y con 101 `cmd.exe` la rechaza («La línea de comandos es demasiado larga»). En web-1 el commit tenía 55 y pasó. Aquí, dos commits. Candidato a arreglo del Bedrock: un commit grande, como el de un `scaffold`, puede chocar con esto.
+
+Qué mirar en web-2:
+
+- Los `AGENTS.md` (D59): que `outline-system` llene la raíz sin comentarios, que cada proyecto salga como mapa, que Platform tenga una línea por carpeta de `core` y ninguna por feature, y que `release` escriba el índice de `shared`. Que ningún `release` choque con `agents check`.
+- `no-param-reassign` (D54): que los stores usen `createStore` y la sesión vaya en un `WeakMap`, sin errores de `crap`.
+- `npm start`, `npm test`, `npm run test:e2e` y `npm run check` (D55–D57) al final de la run.
+- El registro (D58): `a`, `a`, `a` da 400 con tres entradas.
+- `app.main` espera a `start` (D56): sin `no-floating-promises`.
+- El tiempo hasta `about` y el total, frente a web-1 (Codex: `about` a los 56 min).
+
 ## Lo que entra de web-I
 
 web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
