@@ -262,6 +262,15 @@ Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y d
 19. El código commiteado no pasa el lint de la raíz. `app.main.ts` (`back`) y `app.main.tsx` (`front`) tienen `typescript/no-floating-promises` en `start({ features, identity })`. No se veía porque el formato fallaba antes.
 20. Hay dos configs de lint con reglas distintas: el de la raíz (`vite.config.ts`, lo corre `vp check`) y el de complejidad (`.lint/complexity.json`, lo corre `crap` en cada proyecto). Quien corre `check` cree que el código cumple todas las reglas, y no es así.
 
+## Mejoras del Builder antes de web-2 o cli-2
+
+1. Hecho: `.lint/` pasa a `tools/lint/` (D53).
+2. Hecho: nadie escribe en un objeto que recibe: `no-param-reassign`, `createStore`, la sesión en un `WeakMap` (D54).
+3. Comandos en la raíz: `npm start` (`back` y `front` en paralelo), los unitarios y los e2e.
+4. Check: que el formato no esconda el lint, y que `check` corra los dos configs de lint.
+5. Spec `users`: validar el registro (longitud mínima del nombre y de la contraseña, email válido).
+6. Redefinir, estandarizar y reducir los `AGENTS.md` generados (idea del usuario, 2026-10-22). Necesita una sesión de brainstorm antes de cambiar nada: no se hace a la ligera.
+
 ## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
 
 - 09:01 → 14:32 (5 h 31 min). Las 7 specs fundacionales enviadas, v0.5.0, cero deuda, `layers` y `crap` en verde (cobertura de líneas al 100 %: 818 en `back`, 649 en `front`). Es la primera run que llega al final de la Foundation web.
