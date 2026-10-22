@@ -1,10 +1,11 @@
-// `aidd release [--major] [--debt <D IDs>]`: ship the current spec branch after its regression.
+// `aidd release [--major] [--debt <D IDs>]`: ship the current spec branch after its regression, with each `AGENTS.md` in form.
 // `aidd integrate <message>`: commit and merge a non-spec task branch.
 import fs from "node:fs";
 import path from "node:path";
 import {
   aiddbotPath, currentBranch, defaultBranch, git, journal, mergeAndDelete, productPath, readJson, relative, RuleError, UsageError,
 } from "../lib/core.mjs";
+import { agentsProblems, writeSharedIndexes } from "../lib/agents.mjs";
 import { allSpecs, findSpec, gate, isShipped, readControl, specMeta } from "../lib/spec.mjs";
 import { regression } from "./eval.mjs";
 
@@ -69,6 +70,8 @@ export function release(root, _args, flags) {
   const debt = typeof flags.debt === "string" ? flags.debt.split(/[\s,]+/).filter(Boolean) : [];
   const failed = regression(root, control, debt);
   if (failed) throw new RuleError(`${control.id} cannot ship: ${failed}`);
+  const problems = agentsProblems(root);
+  if (problems.length) throw new RuleError(`${control.id} cannot ship: AGENTS.md has ${problems.length} problem(s): ${problems.join("; ")}`);
   const files = versionFiles(root);
   const previous = readJson(path.join(root, "package.json")).version;
   const version = nextVersion(previous, control.type, flags.major === true);
@@ -77,13 +80,14 @@ export function release(root, _args, flags) {
   for (const file of files) writeVersion(root, file, version);
   writeChangelog(root, control, version);
   writeIndex(root);
+  const shared = writeSharedIndexes(root);
   git(root, ["add", "-A"]);
   git(root, ["commit", "-m", `chore(release): ${version}`]);
   const base = defaultBranch(root);
   mergeAndDelete(root, branch, base);
   git(root, ["tag", "-a", tag, "-m", `Release ${version}`]);
   journal(root, { event: "shipped", spec: control.id, summary: `${previous} -> ${version} on ${base}` });
-  return { spec: control.id, version, tag, base, files, index: relative(root, productPath(root, "PRD.md")) };
+  return { spec: control.id, version, tag, base, files, index: relative(root, productPath(root, "PRD.md")), shared };
 }
 
 export function integrate(root, [message]) {

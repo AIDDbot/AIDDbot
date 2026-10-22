@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // The AIDD core: every state change of the process goes through these commands.
 // Output is JSON on stdout. Exit codes: 0 ok, 1 rejected by a rule, 2 usage, 3 nothing configured.
+import agents from "./commands/agents.mjs";
 import evaluate from "./commands/eval.mjs";
 import { integrate, release } from "./commands/release.mjs";
 import spec from "./commands/spec.mjs";
@@ -16,6 +17,7 @@ const COMMANDS = {
   commit: [commit, 'commit "<message>" [<path>...]'],
   release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],
+  agents: [agents, "agents <check|index>"],
   log: [log, 'log <verdict|select|handoff|approved|plan|scaffolded|blocked> "<summary>" [--spec <id>]'],
 };
 

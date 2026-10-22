@@ -67,8 +67,9 @@ The agents write only the texts: `system.md`, each spec, the reports of findings
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
-| `release` | Ship the open spec: version, changelog, PRD, merge and tag. `--debt <D IDs>` names the open `high` debt that records each failure of the regression. |
+| `release` | Ship the open spec: version, changelog, PRD, the index of each `shared` folder, merge and tag; it refuses an `AGENTS.md` out of form. `--debt <D IDs>` names the open `high` debt that records each failure of the regression. |
 | `integrate` | Merge a branch that is not a spec, such as `chore/foundation`. |
+| `agents check` · `index` | Check the form of each `AGENTS.md` (at most 128 lines, the sections of its template in order, no empty section, no comment), or write the index of each `shared` folder. `release` runs both. |
 | `log` | Add a judgment of an agent to the journal. `log approved` commits the spec definition, and refuses a spec over its size limits: 9 requirements, 3 user stories, 5 business rules, fewer than 100 lines. |
 | `config get` · `set` | Read or write `.aiddbot/config.json`. |
 
