@@ -24,9 +24,8 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 ## Commands
 
-<!-- Only the commands that exist. Remove this comment. -->
+<!-- Only the commands that exist. The commands for a human go to the `README.md`. Remove this comment. -->
 
-- **For a human**, at the root: {`npm start`, `npm test` (unit tests), `npm run test:e2e`, `npm run check` (all the checks, no fix), `npm run fix`}.
 - **For an agent**: `node .agents/aidd/aidd.mjs run <test|layers|crap|upgrade> [--project <name>]` runs the slot of each project and keeps its full output in `.aiddbot/logs/{kind}-{project}.log`. Read the log instead of running the tool by hand. A failed run also keeps a copy, at the `failure` path of its result. One run at a time; a log that starts with `RUNNING` is no result yet.
 - **Pre-commit hook**: `{command}` formats, lints and type-checks the staged files with safe fixes, and runs the unit tests that they affect. A failure stops the commit.
 
