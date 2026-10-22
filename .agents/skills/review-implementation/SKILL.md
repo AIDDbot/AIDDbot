@@ -14,7 +14,7 @@ Read the spec, the diff of its branch from the default branch in the source of t
 The review checks only what the hook lint and the acceptance tests cannot see, such as security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `layers` and `crap` own them. Each finding is serious enough to be `high` debt; leave out all else. A `refactor` has no review: the core refuses it.
 
 - Judge only by reading. Never run lint, tests, or quality tools, and never edit code.
-- Find each file through the folders and the primitives of that `AGENTS.md`, or with a file search. Never open a file by a guessed name.
+- Find each file through the folders of that `AGENTS.md`, the index of `shared` (`src/shared/README.md`), or a file search. Never open a file by a guessed name.
 - The schema documents still show the system before this spec, because `ship-spec` updates them. Their delay is never a finding.
 
 For `amber` or `red`, write `.aiddbot/logs/{spec_key}.qualification.md` from `assets/qualification.template.md`, with only the failed controls and the findings. Leave out the passed controls and general review notes.

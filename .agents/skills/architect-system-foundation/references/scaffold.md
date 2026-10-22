@@ -16,7 +16,7 @@ The **Architect** does steps 1 and 2, then the **Builder** does step 3, in one h
   - Merge `.gitignore`: add each line of the archetype that the system does not have. Never remove a line of the system.
   - Leave out the `AGENTS.md`, `CLAUDE.md`, `README.md` and `LICENSE` of the archetype root: the system has its own.
   - Delete the temporary folder.
-- Step 2: change only the system data in each `AGENTS.md`: purpose and boundary, connections, ports, and variables. Never move, rename or remove code: each file and each test belongs to a foundation spec.
+- Step 2: change only the system data in each `AGENTS.md`: its purpose, and the contract of its platform (needs, gives to, port and variables). Never move, rename or remove code: each file and each test belongs to a foundation spec.
 - Step 3: install with one `npm ci` at the root. Its `prepare` script installs the pre-commit hook. Never run `upgrade`: the tag pins a tested set of dependencies. Register the slots that each `AGENTS.md` gives, then commit `.aiddbot/config.json`:
 
   ```bash
@@ -35,7 +35,7 @@ The **Architect** does steps 1 and 2, then the **Builder** does step 3, in one h
 - In the `package.json` of each project that shows the identity (`api`, `web`, `cli`), replace the identity of the archetype with the one of `.product/system.md`: `displayName` (the system name), `description` (one sentence of the purpose), `author` with `name` and `url` (the author and the website of the proposal) and `version` `0.0.0`. Each field is required, with no fallback: the type check rejects a `package.json` without one. The project imports its own `package.json`, so no file copies the identity, and the `e2e` tests check only that it is there. Register these files, so that `aidd release` writes each next `version`: `node .agents/aidd/aidd.mjs config set release.versionFiles '["projects/{project}/package.json", …]'`. Commit them with `package-lock.json` and `.aiddbot/config.json` as `chore(scaffold): set the system identity`.
 - Journal `node .agents/aidd/aidd.mjs log scaffolded "<the scaffolded projects>"`.
 - Never run `rule-project` in greenfield.
-- The **Architect** executes `outline-system`, only for the root `AGENTS.md` and its Common stack, because the schema documents came with the archetype: change only the system name in the title of `model.schema.md`.
+- The **Architect** executes `outline-system`, only for the root `AGENTS.md`, because the schema documents came with the archetype: change only the system name in the title of `model.schema.md`.
 - Run `node .agents/aidd/aidd.mjs integrate "chore(foundation): scaffold {system}"` from `chore/foundation`.
 - Never run `test` in this phase: the close of `references/close.md` is the only test run of the foundation.
 

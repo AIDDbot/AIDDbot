@@ -18,9 +18,9 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 ## Project AGENTS.md
 
 - When the spec adds or removes a project, such as a `chore` that scaffolds it, run `outline-system` for the root `AGENTS.md` and for the schema documents of that project.
-- Promote each durable lesson of one project that no automatic check enforces to the project-rules table of its `{source_root}/AGENTS.md`: one short row, with its scope and a reason from the evidence. Never record a single incident, a product requirement, or tool output.
-- Each `AGENTS.md` stays under 100 lines: before you add a row, merge or remove one that a check or the code already gives.
-- Keep one shared-primitives table there. Add each helper that the spec made in `shared` and that two or more features use, with its contract and path. Remove each row whose export no longer exists. A helper of one feature, such as its page object, follows the name convention of that table and gets no row.
+- Promote each durable lesson of one project that no automatic check enforces to the project rules of its `{source_root}/AGENTS.md`: one short line, with its reason from the evidence. Never record a single incident, a product requirement, or tool output.
+- Never add what a feature does to an `AGENTS.md`: its spec and the PRD give it. A change to the platform replaces the line of its `core` folder in Platform.
+- `release` refuses an `AGENTS.md` over 128 lines, with a comment, or with an empty or misplaced section, and writes the index of each `shared` folder (`src/shared/README.md`). Run `node .agents/aidd/aidd.mjs agents check` before it: to make room, merge or remove a line that a check, the code or the root `AGENTS.md` already gives.
 
 ## Regression
 

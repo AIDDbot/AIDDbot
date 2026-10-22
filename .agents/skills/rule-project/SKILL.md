@@ -34,9 +34,9 @@ Register `type`, `path` and only the slots that have a clear command, with `node
 
 ## AGENTS.md
 
-Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`, and put a `CLAUDE.md` next to it that contains only `@AGENTS.md`. When the file exists, write its sections from the code again, but keep each row of its project rules and its shared primitives that still has a scope: shipping promoted them, and the code cannot make them again.
+Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`, and put a `CLAUDE.md` next to it that contains only `@AGENTS.md`. When the file exists, write its sections from the code again, but keep each project rule that still has a scope: shipping promoted it, and the code cannot make it again. Then run `node .agents/aidd/aidd.mjs agents check`, and repair each problem that it gives.
 
-When an old `{Agents_Folder}/rules/{project}.rules.md` exists, move its code-rules rows to the project rules, then delete that file.
+When an old `{Agents_Folder}/rules/{project}.rules.md` exists, move its rules to the project rules, then delete that file.
 
 The result is the current `AGENTS.md` of the project and its classified commands.
 

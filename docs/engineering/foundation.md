@@ -14,7 +14,7 @@ The repository has no application code. Make the system from scratch.
 
 - An approved proposal in `.product/system.md` comes first. It sets the typed [projects](../principles/project.md) of the [system](../principles/system.md). Do not write code before the approval.
 - The system starts from one archetype of the catalog, such as Archetype Base or Archetype CLI: a whole solution, copied as a whole. AIDDbot offers only the archetypes of its catalog: when no archetype fits the system, the Architect says so and stops.
-- The root `AGENTS.md` gets the Blueprint: the architecture and the general coding rules. Each project gets a short `AGENTS.md` with only its own data and rules.
+- The root `AGENTS.md` gets the Architecture and the Code: the rules of all the projects, one time. Each project gets a short `AGENTS.md`, a map with only its own data. Each one has at most 128 lines, for good: `aidd release` checks it.
 - The foundation specs come before the business specs. The archetype brings the code, the tests, the tooling, the shipped foundation specs and the schemas, in the layout of an AIDDbot system. Nothing is delivered again: the specs stay in `.product/specs/`, and the close is the only evidence. The system starts at version `0.0.0`, and the first business spec gets the ID after the last spec.
 - The Architect documents the system: only the root `AGENTS.md`, because the archetype brings the rest. Then the branch merges.
 - The foundation is complete only when `test` passes. A red close is a defect of the environment or of the archetype: repair it there, never in the system. No spec starts on a red foundation.

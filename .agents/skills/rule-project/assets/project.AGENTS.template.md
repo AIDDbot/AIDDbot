@@ -1,78 +1,40 @@
 <!--
-The technical data of one existing project, from repository evidence.
-Keep the sections, their order and their headings: the other skills find their data by them. Write short lists and tables, not prose. The file has fewer than 100 lines. Remove these comments.
-Leave out each line that the Common stack of the root AGENTS.md gives.
+The data of one existing project, from repository evidence: a map, not a manual. The root AGENTS.md gives what all projects share: never copy it here.
+Keep the sections and their order. Write short lists and tables, not prose. Remove each comment and each empty section. `aidd release` refuses a file over 128 lines, with a comment, or with an empty section.
 -->
 # {Project_Name} — {project_type}
 
-This file gives the data of this project. Do not explore the code to learn the setup.
-
-## 1 · Purpose and boundary
+## Purpose
 
 - **Owns**: {what the project owns}
 - **Never**: {what the project never does}
 
-## 2 · Technology
+## Technology
 
-- **Language**: {language and version}
-- **Runtime / framework**: {runtime and framework}
-- **Main dependencies**: {library — role}
-- **Package manager**: {package manager}
-- **Pre-commit hook**: `{command}` — {what it formats, lints and type-checks with its safe fixes, and the affected unit tests that it runs}
+<!-- The slots are the commands that `rule-project` records with `aidd config set`. A slot without a clear command is `n/a` with its reason. -->
 
-## 3 · Tooling
+- **Stack**: {language and version}; {runtime and framework}; {package manager}.
+- **Dependencies**: {library — role}
+- **Slots**: `test` `{command}`; `test:spec` `{command | n/a: reason}`; `start` `{command}`; `layers` `{command | n/a: reason}`; `crap` `{command | n/a: reason}`; `upgrade` `{command}`.
 
-<!-- The commands that `rule-project` registers with `aidd config set`. A slot without a clear command is `n/a` with its reason. -->
+## Folders
 
-| Slot | Blocks | Command | Tool |
+<!-- The pattern that the code really follows: each part, its path, and what it may import. When a `src/shared/` folder exists, `aidd release` writes its index in `src/shared/README.md`. -->
+
+| Part | Path | Responsibility | May import |
 | --- | --- | --- | --- |
-| `upgrade` | No | `{command}` | {tool} |
-| `test` | Yes | `{command}` | {tool} |
-| `test:spec` | Yes | `{command}` | {tool} |
-| `start` | No | `{command}` | {tool} |
-| `layers` | No | `{command}` | {tool} |
-| `crap` | No | `{command}` | {tool} |
+| {layer or part} | `{path}` | {one-line responsibility} | {parts} |
 
-## 4 · Architecture
+## Platform
 
-<!-- The pattern that the code really follows. The dependency rules of `layers` check the layers. -->
+<!-- The contract of the project, then one line for each technical concern of its platform. A change replaces the line of its concern; never add a line for a feature. -->
 
-**Pattern**: {Layer-based | Feature-based | Hybrid}
+- **Needs**: {sibling projects or external systems}. **Gives to**: {sibling projects or external systems}.
+- **Port**: `PORT` = {default}. **Variables**: `{NAME}` — {purpose}.
+- {concern}: {what it owns, in one line}
 
-- {layer or part} — {responsibility} — {what it may import}
+## Project rules
 
-## 5 · Folder structure
+<!-- The rules of the stack that the code follows, and the lessons that `ship-spec` adds: each with its reason. Keep each one that still has a scope: the code cannot make it again. Remove the section when it is empty. -->
 
-```text
-{source_root}/
-├── {folder_or_file}    # {one-line responsibility}
-└── {folder_or_file}    # {one-line responsibility}
-```
-
-### Shared primitives
-
-<!-- The helpers that two or more features use. `ship-spec` adds new ones. A helper of one feature gets no row. -->
-
-| Primitive | Contract | Path |
-| --- | --- | --- |
-| {name(args)} | {contract} | {path} |
-
-## 6 · Coding rules
-
-### Technology rules
-
-- {rule of the stack that the code follows — reason}
-
-### Project rules
-
-<!-- `ship-spec` adds lessons from shipped specs. Keep each row: the code cannot make it again. -->
-
-| Rule | Scope | Origin |
-| --- | --- | --- |
-
-## 7 · Connections
-
-- **Needs**: {sibling projects or external systems}
-- **Gives to**: {sibling projects or external systems}
-- **Port**: `PORT` = {default}
-- **Environment variables**: `{NAME}` — {purpose}
+- {rule — reason}

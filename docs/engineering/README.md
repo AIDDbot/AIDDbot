@@ -24,7 +24,7 @@ flowchart LR
 
 | Step | Technical | Functional |
 | --- | --- | --- |
-| Documentation | The rules: the Blueprint of the root `AGENTS.md` and the `AGENTS.md` of each project. The [foundation](./foundation.md) writes them from the [principles](../principles/README.md). | The [spec](./features.md#definition), with its requirements in EARS. |
+| Documentation | The rules: the Architecture and the Code of the root `AGENTS.md`, and the `AGENTS.md` of each project. The [foundation](./foundation.md) writes them from the [principles](../principles/README.md). | The [spec](./features.md#definition), with its requirements in EARS. |
 | Code | The [code](./features.md#coding) obeys the rules. | The [code](./features.md#coding) and its unit tests implement the spec. |
 | Verification | The pre-commit hook of the technology (format, lint, types and the affected unit tests) blocks each commit. All the unit tests block the release. `layers` checks the layers, folder size and duplicated code, and `crap` the complexity and the test coverage; they never block. | The acceptance tests of the spec block the verification. The full acceptance suite, `test` of the `e2e` project, blocks the release. |
 

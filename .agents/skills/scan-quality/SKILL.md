@@ -16,7 +16,7 @@ The scan has two modes, and each owns one level of debt:
 | medium (default) | `node .agents/aidd/aidd.mjs run layers` | the logical layers, duplicated code, folder size | `medium` |
 | low, when the caller asks | `node .agents/aidd/aidd.mjs run crap` | the complexity limits, the test coverage | `low` |
 
-Run it for all projects, unless the human named one. Never edit code, write tests, or run `test`. The limits of the Blueprint, and the limits that the technology rules of a project change, come to you only through these commands: never measure code yourself. A project without a `layers` command is unavailable. Never replace a command with a stricter invocation or with the lint of the pre-commit hook. A project without a `crap` command has nothing to harden.
+Run it for all projects, unless the human named one. Never edit code, write tests, or run `test`. The limits of the Code of the root `AGENTS.md`, and the limits that the project rules of a project change, come to you only through these commands: never measure code yourself. A project without a `layers` command is unavailable. Never replace a command with a stricter invocation or with the lint of the pre-commit hook. A project without a `crap` command has nothing to harden.
 
 Read the open debt with `node .agents/aidd/aidd.mjs debt list`. A `layers` run owns the `medium` items, and a `crap` run owns the `low` items. Make the items that the run owns agree with it, only through `node .agents/aidd/aidd.mjs debt`:
 

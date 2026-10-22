@@ -26,7 +26,7 @@ domain: {domain}
 
 ## Solution
 
-{A short list, by project, of what to do. Only what the Blueprint, the project `AGENTS.md` and the requirements do not decide: placement that is not obvious, connections between features, security parameters, constraints, and each technical result that the qualification must check. It is not a plan: do not describe what each layer does.}
+{A short list, by project, of what to do. Only what the root `AGENTS.md`, the project `AGENTS.md` and the requirements do not decide: placement that is not obvious, connections between features, security parameters, constraints, and each technical result that the qualification must check. It is not a plan: do not describe what each layer does.}
 
 ### {project}
 
