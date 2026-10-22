@@ -6,6 +6,10 @@ import { aiddbotPath, git, journal, readJson, RuleError, UsageError } from "../l
 import { EVALUATIONS, isApproved, KINDS, readControl, reportFile, requireSpec, STATUSES, unapproved, writeControl } from "../lib/spec.mjs";
 
 const LEVELS = { green: "INFO", amber: "WARN", red: "ERROR" };
+const REPORT_TEMPLATES = {
+  verification: ".agents/skills/verify-behavior/assets/verification.template.md",
+  qualification: ".agents/skills/review-implementation/assets/qualification.template.md",
+};
 const SOURCE = /\.[cm]?[jt]sx?$/;
 const SKIPPED = new Set(["node_modules"]);
 
@@ -105,7 +109,7 @@ export default function evaluate(root, [kind, status, summary], flags) {
   if (!EVALUATIONS[control.type].includes(kind)) throw new RuleError(`A ${control.type} records no ${kind}: its behavior does not change, and the regression of aidd release proves it.`);
   const report = reportFile(root, control.key, kind);
   if (status !== "green" && !fs.existsSync(report)) {
-    throw new RuleError(`This ${status} ${kind} needs its findings in .aiddbot/logs/${control.key}.${kind}.md first; write it, then record again.`);
+    throw new RuleError(`This ${status} ${kind} needs its findings in .aiddbot/logs/${control.key}.${kind}.md first: write it from ${REPORT_TEMPLATES[kind]}, with only the failing checks and their evidence, then record again. The record keeps each revision, so never hand off a ${status} ${kind} without it.`);
   }
   if (flags.debt !== undefined) throw new UsageError("--debt belongs to `aidd release`: debt records only a failure of the regression.");
   if (kind === "verification" && status === "green") {

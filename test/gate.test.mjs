@@ -112,6 +112,8 @@ test("eval keeps its record in the ignored logs, commits nothing, and drops the 
   aidd(root, "spec", "new", "feat", "seats", "Seats");
   approve(root);
   const head = git(root, "rev-parse", "HEAD");
+  const missing = aidd(root, "eval", "verification", "red", "one failure").body.error;
+  assert.match(missing, /\.aiddbot\/logs\/S0001-seats\.verification\.md first: write it from \.agents\/skills\/verify-behavior\/assets\/verification\.template\.md/);
   write(root, ".aiddbot/logs/S0001-seats.verification.md", "# Failures\n");
   assert.equal(aidd(root, "eval", "verification", "red", "one failure").code, 0);
   assert.equal(git(root, "rev-parse", "HEAD"), head);
