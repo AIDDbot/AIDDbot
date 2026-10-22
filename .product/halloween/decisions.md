@@ -568,3 +568,4 @@ Una spec es de fundación si cumple las dos condiciones:
 - `layers` y `crap` corren después de la última unidad, sobre lo commiteado; cada reparación, en su propio commit.
 - De paso, evita el límite de `cmd.exe` del hook con commits de más de 100 ficheros.
 - `implement-project` y `docs/AIDD.workflow.md`. web-2 sigue con el overlay de antes.
+- Se mantiene (usuario, 2026-10-22), tras medir en web-2: Presentation con 27 commits en 9 min 35 s, frente a 10 commits en 9 min 42 s en web-1. Un commit pequeño cuesta unos 5 s con el turno del modelo; `layers` y `crap` corren las mismas veces que antes. Confirmar en la siguiente run, con la skill desde el principio.
