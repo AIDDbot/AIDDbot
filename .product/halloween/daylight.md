@@ -128,6 +128,9 @@ Hallazgos de web-2:
 
 - S0001 enviada a las 10:26:46, 10 min (web-1: 12). `agents check` sin problemas tras el release; raíz 77 líneas, proyectos 36–41; el índice de `shared` en el commit de la release, también el del `e2e`. Los commits del framework pasaron el hook. En la raíz, el agente quitó las llaves de `{Product_Folder}` (la plantilla usa llaves para lo que se rellena): ahora la línea dice «the product folder is `.product/`», sin llaves.
 
+- S0002 `back`: 35 ficheros en stage, y `layers` y `crap` pasados antes del primer commit. El hook lo rechazó con 50 errores (42 de reglas de tests: 30 `require-mock-type-parameters`, 11 `unbound-method`); los arregló en 1,5 min y entró en un commit (`b1ea923`, 36 ficheros, +1067). Las dos reparaciones, cada una en su commit (`2845f41` `crap`, `068f239` `layers`). Arreglo: D61, commits por unidad, el código y luego sus unitarios (AIDDbot `5b8c5bc7`). A web-2 le llegó como mensaje de steering a mitad de S0002, ya tarde para el `back`.
+- S0002 `front`, con el steering: 8 commits de 1 a 5 ficheros, `chore` y `test` alternados, ninguno rechazado; `layers` y `crap` en verde a la primera tras la última unidad. Unos 4 min del plan al verde. Matiz: los 8 commits se hicieron en 72 s, después de unos 3 min escribiendo todo; partió el trabajo hecho en commits, no hizo commit al acabar cada unidad. El rastro y los errores cerca de su causa se consiguen; «never start the next unit while one is not committed», no. El `plan` aún nombra partes, no unidades (overlay de antes). Mirar en la siguiente run, con la skill nueva, antes de cambiar nada más.
+
 Qué mirar en web-2:
 
 - Los `AGENTS.md` (D59): que `outline-system` llene la raíz sin comentarios, que cada proyecto salga como mapa, que Platform tenga una línea por carpeta de `core` y ninguna por feature, y que `release` escriba el índice de `shared`. Que ningún `release` choque con `agents check`.
