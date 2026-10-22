@@ -480,3 +480,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - No se llama `config/`: choca con la configuración de la app (`.env`, settings, `runtime-config.json`).
 - Ventajas: una sola entrada `tools/**` en los `ignorePatterns` de formato y lint, y rutas estables desde cada proyecto (`../../tools/lint/complexity.json`).
 - Cambia: el Bedrock `cli` y `web` (`vite.config.ts`, los `boundaries.json` y `complexity.json` de cada proyecto, `README.md`), el Blueprint (`ecosystems.md`, `project.AGENTS.template.md`), la spec `scaffold` de `foundation/{cli,web}/`, y en AIDDbot `architect-system-foundation/references/scaffold.md` y `outline-system/assets/AGENTS.template.md` vía `/maintain-skills`.
+
+## D54 (2026-10-22, Daylight) · Nadie escribe en un objeto que recibe
+
+- Motivo: en web-1, `eslint/no-param-reassign` con `props: true` da 10 errores reales. `fields.read.ts` y los stores del `front` (`record.form.ts`, `auth.service.ts`) pasan un objeto con estado de función en función y lo mutan; el middleware de sesión escribe `request.session` y `request.token`. Las otras dos reglas probadas (`unicorn/prefer-object-from-entries`, `unicorn/no-immediate-mutation`) no dan ninguno: no entran.
+- La regla entra en `tools/lint/complexity.json` y `complexity.e2e.json`, `cli` y `web`, sin excepción.
+- El Bedrock `web` lleva `shared/state/store.create.ts` en el `front`: `createStore(initial)` → `{ read, set, subscribe }`, con su unitario. Cada store y cada formulario guarda en él su estado. `set` recibe un valor nuevo.
+- Un middleware no escribe en `request` ni en `response.locals`. Los datos de una petición van en un `WeakMap` con la petición como clave (`readSession(request)` en `users`). El tipo `Request` no se amplía.
+- `Object.assign` a un parámetro también muta, pero la regla no lo ve. Queda como regla escrita en `ecosystems.md`.
+- Builder: `474f80b` (Bedrock, `ecosystems.md`, `project-types.md`, `project.AGENTS.template.md`, `users`).
