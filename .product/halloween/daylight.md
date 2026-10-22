@@ -266,7 +266,7 @@ Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y d
 
 1. Hecho: `.lint/` pasa a `tools/lint/` (D53).
 2. Hecho: nadie escribe en un objeto que recibe: `no-param-reassign`, `createStore`, la sesión en un `WeakMap` (D54).
-3. Comandos en la raíz: `npm start` (`back` y `front` en paralelo), los unitarios y los e2e.
+3. Hecho: comandos en la raíz: `npm start` (`web`), `npm test` (unitarios) y `npm run test:e2e` (D55).
 4. Check: que el formato no esconda el lint, y que `check` corra los dos configs de lint.
 5. Spec `users`: validar el registro (longitud mínima del nombre y de la contraseña, email válido).
 6. Redefinir, estandarizar y reducir los `AGENTS.md` generados (idea del usuario, 2026-10-22). Necesita una sesión de brainstorm antes de cambiar nada: no se hace a la ligera.

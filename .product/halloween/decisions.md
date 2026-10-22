@@ -489,3 +489,15 @@ Una spec es de fundación si cumple las dos condiciones:
 - Un middleware no escribe en `request` ni en `response.locals`. Los datos de una petición van en un `WeakMap` con la petición como clave (`readSession(request)` en `users`). El tipo `Request` no se amplía.
 - `Object.assign` a un parámetro también muta, pero la regla no lo ve. Queda como regla escrita en `ecosystems.md`.
 - Builder: `474f80b` (Bedrock, `ecosystems.md`, `project-types.md`, `project.AGENTS.template.md`, `users`).
+
+## D55 (2026-10-22, Daylight) · La raíz arranca y prueba todo
+
+- Motivo: en web-1 no hay un comando en la raíz para arrancar la app, ni para separar los unitarios de los e2e. El `test` de la raíz (`vp run -r test`) corría también el `e2e`.
+- La raíz del Bedrock tiene, para una persona:
+  - `start`, solo en `web`: el `back` y el `front` en paralelo, con la salida etiquetada (`vp run --parallel --log labeled`). Un `cli` no tiene `start`: no sirve nada, se ejecuta con argumentos.
+  - `test`: los unitarios de cada proyecto menos el `e2e`.
+  - `test:e2e`: la suite de aceptación.
+- Los filtros de `vp run` van entre comillas dobles escapadas: en Windows, npm ejecuta los scripts con `cmd.exe`, que no trata las comillas simples como comillas.
+- Sin scripts en `tools/scripts/`: cada comando cabe en una línea del `package.json`.
+- Probado: `npm test` y `npm run test:e2e` en los dos Bedrocks; `start` en una copia con `start` (web-1): el `back` responde en el 3000 y el `front` arranca en el 4000.
+- Builder: `5fa1392` (Bedrock `cli` y `web`: `package.json`, `README.md`; `ecosystems.md`).
