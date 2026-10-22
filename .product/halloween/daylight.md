@@ -148,6 +148,21 @@ Qué mirar en web-2:
 - `app.main` espera a `start` (D56): sin `no-floating-promises`.
 - El tiempo hasta `about` y el total, frente a web-1 (Codex: `about` a los 56 min).
 
+Preparada 2026-10-22 por la tarde, con `construction.md` del Builder, D61 y los arreglos de web-2:
+
+- `web-3`: AIDDbot `refactor/quality-gates` `dc05f355` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `e9ffec5`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes del commit, y el hook pasó en él.
+- Commits `fade95d` (overlay), `1826b9c` (Bedrock: `projects/` y `tools/`, solo los ficheros con git del Builder) y `baab890` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-3.md`](./daylight/web-3.md), el mismo que web-2. La plantilla de la raíz ya es la de AIDDbot actual: sin commit aparte.
+
+Qué mirar en web-3:
+
+- D61 desde el principio: que el `plan` nombre unidades, y que cada unidad vaya a su commit al acabarla (código y luego sus unitarios), no partido al final. Sobre todo en el primer `back` de S0002 (web-2: un commit de 36 ficheros, rechazado con 50 errores).
+- `log approved` con un ID que no es de ninguna spec: ahora lo rechaza (AIDDbot `8e395026`).
+- Las primitivas del Bedrock (`durations/`, `email/`, `formatIsoDate`, `readable/`, `numbers/`): que las use y no las escriba otra vez.
+- El log con la duración en milisegundos enteros, y ningún test que adapte la regex a la salida.
+- El error de un campo fuera de su `<label>`, con `aria-describedby`: `@S0007-R06` en verde.
+- Que llegue a `users` y `settings` enviadas. Al final, `npm start`, `npm test`, `npm run test:e2e` y `npm run check` en verde.
+- El tiempo hasta `about` y el total, frente a web-2 (`about` a los 79 min) y web-1 (67).
+
 ## Lo que entra de web-I
 
 web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
