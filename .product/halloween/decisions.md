@@ -501,3 +501,15 @@ Una spec es de fundación si cumple las dos condiciones:
 - Sin scripts en `tools/scripts/`: cada comando cabe en una línea del `package.json`.
 - Probado: `npm test` y `npm run test:e2e` en los dos Bedrocks; `start` en una copia con `start` (web-1): el `back` responde en el 3000 y el `front` arranca en el 4000.
 - Builder: `5fa1392` (Bedrock `cli` y `web`: `package.json`, `README.md`; `ecosystems.md`).
+
+## D56 (2026-10-22, Daylight) · Un solo `check`, que no esconde nada
+
+- Motivo: en web-1, `vp check` paraba en el formato y no ejecutaba el lint. Además, `check` no ejecutaba los configs de `layers` ni de `crap`: quien lo ejecutaba creía que el código cumplía todas las reglas, y no era así.
+- `check` de la raíz es `node tools/scripts/check.mjs`. Ejecuta, en orden, el formato (`vp fmt --check`), el lint y los tipos (`vp check --no-fmt`), y `layers` y `crap` de cada proyecto. Cada paso se ejecuta aunque el anterior esté en rojo. La última línea nombra cada paso en rojo, y la salida es roja si hay uno.
+- No hace falta `vp test run`: el `crap` de cada proyecto ya ejecuta los unitarios, con su cobertura.
+- Es un script, y no una línea del `package.json`, porque «seguir tras un fallo» no se escribe igual en `cmd.exe` y en sh. Es el primer script de `tools/scripts/` (D53).
+- `fix` sigue siendo `vp check --fix`.
+- Bug del Blueprint: `app.main` «llama» a `start(...)`, que devuelve una promesa, y eso rompe `typescript/no-floating-promises`. Ahora `app.main` hace `await start({ features, identity })`.
+- Probado: verde en los dos Bedrocks. Con un fallo de formato y uno de `no-param-reassign` a la vez, la última línea es «check: red in format, crap».
+- Abierto: los finales de línea CRLF de web-1, con un `.gitattributes` en LF. Causa sin confirmar. Se mira si vuelve a pasar.
+- Builder: `e3dbe98` (Bedrock `cli` y `web`: `tools/scripts/check.mjs`, `package.json`, `README.md`; `ecosystems.md`).
