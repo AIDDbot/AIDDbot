@@ -471,3 +471,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - `build-archetype-foundation` crea cada spec así, sin Architect, y la aprueba con `log approved` (que comprueba su tamaño). `build-requested-spec` salta `define-spec` para una spec de fichero, como para una de deuda.
 - Las 13 instancias cumplen los límites (como mucho 9 requisitos, 3 historias, 5 reglas, menos de 100 líneas). El scaffold de cada una nombra sus proyectos, su tipo, su carpeta y su framework.
 - AIDDbot: core `spec.mjs` (`--from`) con su test (50/50), skills `build-archetype-foundation` y `build-requested-spec` vía `/maintain-skills`, `AIDD.workflow.md`. Builder: `foundation/{cli,web}/`, `construction.md`, `project-types.md`, `README.md`.
+
+## D53 (2026-10-22, Daylight) · `.lint/` pasa a `tools/lint/`, en la raíz
+
+- Motivo: el Bedrock necesitará más herramientas de desarrollo en la raíz: scripts para arrancar y probar todo, más casos de lint y quizá plugins propios. `.lint` solo nombra el lint, y el punto la esconde como «no tocar».
+- `tools/` en la raíz del Bedrock. Dentro: `tools/lint/` (los configs y los plugins de hoy) y `tools/scripts/` solo cuando algo no cabe en una línea del `package.json`.
+- No es un proyecto de `projects/`. Un proyecto cumple todas las reglas de proyecto (tipo, `AGENTS.md`, `layers`, `crap`, unitarios, specs). `tools/` es Bedrock: viene con el arquetipo y no la escribe ninguna spec.
+- No se llama `config/`: choca con la configuración de la app (`.env`, settings, `runtime-config.json`).
+- Ventajas: una sola entrada `tools/**` en los `ignorePatterns` de formato y lint, y rutas estables desde cada proyecto (`../../tools/lint/complexity.json`).
+- Cambia: el Bedrock `cli` y `web` (`vite.config.ts`, los `boundaries.json` y `complexity.json` de cada proyecto, `README.md`), el Blueprint (`ecosystems.md`, `project.AGENTS.template.md`), la spec `scaffold` de `foundation/{cli,web}/`, y en AIDDbot `architect-system-foundation/references/scaffold.md` y `outline-system/assets/AGENTS.template.md` vía `/maintain-skills`.

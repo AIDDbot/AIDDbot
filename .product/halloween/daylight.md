@@ -193,7 +193,74 @@ Para vigilar: en S0001 el `front` renderiza en `document.body` (`<body id="root"
 - Arranque 18:40. Se para a las ~20:18 al acabarse los tokens de Codex, en S0008 `settings`: `back` hecho (2 commits), `front` a medias, sin commit (11 ficheros en el árbol de trabajo, rama `feat/S0008-settings`).
 - Enviadas: S0001 `scaffold` 0.0.1 (12 min), S0002 `platform` 0.0.2 (19 min), S0003 `fix` de D0001 0.0.3 (2 min), S0004 `shell` 0.1.0 (10 min), S0005 `presentation` 0.1.1 (10 min), S0006 `about` 0.2.0 (11 min), S0007 `users` 0.3.0 (26 min). Cero deuda tras cada ship; `layers` y `crap` en verde.
 - `about` aprobada a los 56 min del arranque (web-H: 59 min; web-I: 178 min) y enviada a 1 h 07 min. Seis de siete fundacionales en 1 h 34 min (web-I: las siete en 5 h 31 min).
-- Para seguir: relanzar en la misma rama cuando haya tokens; el Builder retoma el `front` de S0008.
+- Cerrada (usuario, 2026-10-22): web-1 no se relanza. Sus hallazgos van al Builder, y la siguiente run (web-2 o cli-2) sale del Builder corregido.
+
+## Sensaciones del usuario sobre web-1 (2026-10-22)
+
+Sin decidir. Cada punto es una observación de la run parada en S0008.
+
+### Arranque desde la raíz
+
+1. La app no tiene un comando de arranque en la raíz.
+2. Hace falta un `npm start` en la raíz. Este comando arranca el `back` y el `front` en paralelo.
+3. Hace falta un comando en la raíz para los tests unitarios.
+4. Hace falta otro comando en la raíz para los tests e2e.
+5. Duda abierta: ¿estos comandos son parte del Bedrock?
+
+### Validación del registro
+
+6. El registro no valida los datos. Ahora acepta `a`, `a`, `a`.
+7. El nombre necesita una longitud mínima.
+8. La contraseña necesita una longitud mínima.
+9. El email necesita un formato válido.
+
+### Legibilidad del código
+
+Síntoma: `projects/back/src/shared/http/fields.read.ts` y su llamador `features/auth/auth.input.ts`. No es el caso concreto: es una clase de defecto.
+
+10. No hay líneas en blanco. Los imports, los tipos y las funciones van seguidos.
+11. El tipo genérico no se usa. `FieldValues<Readers>` existe, pero `readFields` devuelve `Record<string, unknown>`. El llamador valida otra vez (`readEmail(fields.email)`, `String(fields.password)`).
+12. Un término tiene dos significados. En `readFields`, `fields` son los errores; en el llamador, `fields` son los valores. `FieldInput` es el tipo de la entrada y también el de la salida.
+13. Hay parámetros de salida escondidos. `ReadFieldInput` junta los datos de entrada y dos acumuladores (`values`, `fields`). `readField` los muta y devuelve `void`. Así esquiva `max-params: 2`: la regla se cumple, la intención no.
+14. Hay condiciones con nombre que no aportan nada: `const isObject = isRecord(value)`. El alias tiene un nombre peor que la función. Causa probable: `conditions/named` exige nombre también para una llamada a un predicado.
+15. El código del borde está duplicado. `inputRecord` (`auth`) y `isObject ? value : {}` (`settings`) hacen lo mismo, porque `readFields` no acepta `unknown`.
+16. Los readers no tienen la misma forma. `password` llama a `requireText` y después a `String(value)`; `name` devuelve lo que da `requireText`.
+
+Conclusión: `max-params` y `conditions/named` cambian la forma del código, no siempre su calidad. Cada límite necesita una regla al lado que cierre la forma de esquivarlo.
+
+Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y de los plugins que ya existen.
+
+- Oxlint (1.88) no tiene una regla que limite las propiedades de un objeto literal ni de un objeto de parámetros (`vue/max-props` es solo para Vue). El tamaño y la cohesión de un objeto de parámetros quedan para el revisor.
+- Reglas en prueba, en `.lint/complexity.json` de web-1:
+  - `eslint/no-param-reassign` con `props: true`: prohíbe mutar un objeto recibido.
+  - `unicorn/prefer-object-from-entries`: prefiere `Object.fromEntries` a un bucle que rellena un `{}`.
+  - `unicorn/no-immediate-mutation`: prohíbe crear un objeto y mutarlo justo después.
+- Resultado en el `back` (4 errores, todos de `no-param-reassign`):
+  - `fields.read.ts:27` y `:31`: los acumuladores del punto 13. La regla los encuentra.
+  - `core/http/session.middleware.ts:22-23`: `request.session = user` y `request.token = token`. Es la forma habitual de Express, pero también muta un objeto recibido.
+  - Las otras dos reglas no dan errores.
+  - Propuesta uniforme: la regla sin excepción. La sesión va en un `WeakMap<Request, Session>` en `core/http/`. El middleware hace `sessions.set(request, { user, token })` y quien la necesita llama a `readSession(request)`. El tipo `Request` ya no se amplía.
+  - Duda abierta: un override de la regla para `*.middleware.ts`, como el de `max-params`. Rompe la uniformidad.
+- Resultado en el `front` (6 errores, todos de `no-param-reassign`):
+  - `shared/components/form/record.form.ts` (5) y `features/auth/auth.service.ts` (1). Es el mismo patrón: el store crea un objeto `context` con estado mutable y lo pasa a funciones del módulo, que lo mutan (`context.state.busy = false`, `context.state = state`). Es la bolsa del punto 13, en forma de store.
+  - La regla no ve `Object.assign(context.state, { … })` (`record.form.ts:82`), que también muta. `eslint/prefer-object-spread` solo mira un `Object.assign` con un literal como primer argumento.
+  - Las otras dos reglas no dan errores.
+  - Confirma el candidato de web-I: los stores del `front` repiten `snapshot`, `subscribe` y los `listeners`.
+  - Propuesta uniforme: una primitiva de store en el Bedrock, `createStore(initial)` → `{ read, set, subscribe }`. El estado vive en una variable local de la primitiva: es la única mutación, y no es un parámetro. Las features calculan el estado nuevo sin mutar: `store.set((s) => ({ ...s, busy: false }))`.
+- Total: 10 errores en web-1, todos de `no-param-reassign`. `prefer-object-from-entries` y `no-immediate-mutation` no dan ninguno.
+- Candidatas a regla escrita (para el revisor):
+  - Un nombre tiene un solo significado en un módulo.
+  - Una función de borde acepta `unknown` y devuelve el tipo exacto. El llamador no valida otra vez.
+  - Una función devuelve su resultado. No escribe en las estructuras que recibe.
+  - Un objeto de parámetros agrupa datos que van juntos. Nunca lleva salidas.
+  - Todos los readers tienen la misma forma: reciben `unknown` y devuelven el valor validado.
+
+### Check y formato
+
+17. `vp check` para en el formato y no ejecuta el lint. Un fallo de formato esconde los fallos de lint.
+18. Los finales de línea de la carpeta de trabajo no coinciden con `.gitattributes`. Unos 55 ficheros del `back` están en LF en el índice y en CRLF en la carpeta de trabajo (`git ls-files --eol`: `i/lf w/crlf`). `git status` no muestra cambios, pero el formato falla. Causa sin confirmar: un checkout anterior al `.gitattributes`, o una herramienta de Windows. `vp check --fix` lo arregla sin cambios en git.
+19. El código commiteado no pasa el lint de la raíz. `app.main.ts` (`back`) y `app.main.tsx` (`front`) tienen `typescript/no-floating-promises` en `start({ features, identity })`. No se veía porque el formato fallaba antes.
+20. Hay dos configs de lint con reglas distintas: el de la raíz (`vite.config.ts`, lo corre `vp check`) y el de complejidad (`.lint/complexity.json`, lo corre `crap` en cada proyecto). Quien corre `check` cree que el código cumple todas las reglas, y no es así.
 
 ## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
 
