@@ -540,8 +540,22 @@ Una spec es de fundación si cumple las dos condiciones:
 - **Las reglas del lint, una fila por intención**, con el espíritu de la regla y sus valores. Por ejemplo: «reduce la complejidad: parámetros ≤ 2, complejidad ≤ 8, sentencias ≤ 16, anidamiento ≤ 2, líneas ≤ 128 (tests: 4, 64, 4, 256)». Unas seis filas, solo en la raíz.
 - **Las primitivas de `shared`, en un índice que genera el core** (por ejemplo, `shared/README.md`): cada fichero con sus exports, regenerado en cada ship. No se desactualiza. El `AGENTS.md` solo dice «busca en el índice antes de escribir una función». Pendiente: si la firma basta o si cada export lleva un comentario de una línea.
 - **La forma la comprueba el core**, en cada ship, para siempre: las secciones del esqueleto en orden, ninguna sección vacía, ningún `<!--`, y **128 líneas como máximo para cualquier `AGENTS.md`** (el mismo límite que un fichero de código).
-- Esqueleto propuesto, sin cerrar:
-  - Raíz: Assistant (conducta y entorno), System (proyectos, problema, solución, esquemas), Commands, Architecture (contenedores y capas), Code (intenciones y reglas sin check), Records, Git.
-  - Proyecto: Purpose, Technology, Folders, Platform (contrato y una línea por carpeta de `core`), Project rules (solo si hay).
+- Esqueleto cerrado (usuario), sin números en los títulos:
+  - Raíz: Assistant (conducta, entorno e idioma), System (proyectos, problema, solución, esquemas), Commands, Architecture y Code (solo en un sistema con Blueprint), Records, Git.
+  - Proyecto: Purpose, Technology (stack, dependencias, slots), Folders, Platform (contrato y una línea por carpeta de `core`), Project rules (opcional).
+- El índice de `shared`: una fila por fichero, con su ruta y sus exports (usuario). Sin firma y sin comentario: el nombre del fichero (`{topic}.{role}`) y los de sus exports dicen el contrato.
+- Dónde (usuario): en `aidd release`, que no se puede saltar. `release` rechaza un `AGENTS.md` fuera de forma y escribe `src/shared/README.md` de cada proyecto en su propio commit. `aidd agents check` y `aidd agents index` lo hacen a mano.
+- Hecho: AIDDbot `a527bd20` (core, 55/55 tests) y `45f8851a` (plantillas y skills: `outline-system`, `rule-project`, `ship-spec`, `implement-project`, `review-implementation`, `scan-quality`, `define-spec`, `architect-system-foundation`; docs); Builder `9165076` (`project.AGENTS.template.md`, los contratos de los slots en `project-types.md`, `ecosystems.md`, `foundation/`, `handover.md`). La crónica de cada feature nacía en `implement-project` («its features»): ya no lo pide.
+- Probado en web-1 (solo lectura): `aidd agents check` da 44 problemas, todos del formato viejo.
+- Los arquetipos publicados (`archetype-cli`, `archetype-base`) llevan el formato viejo: un sistema nuevo desde ellos no pasa el `release`. Se arregla al publicar los arquetipos desde las runs nuevas (Daylight); sin trabajo de compatibilidad (beta, solo greenfield).
   - Salen: «Paths», «Common stack», las tablas vacías, las capas copiadas, la tabla de primitivas y la crónica de cada feature.
-- Cambia: en AIDDbot, `outline-system` (`AGENTS.template.md`), `rule-project`, `ship-spec` y un comando nuevo del core (el check y el índice), vía `/maintain-skills`. En el Builder, `project.AGENTS.template.md` y `ecosystems.md`.
+
+## D60 (2026-10-22, Daylight) · Una regla de idioma
+
+- Motivo: la regla de idioma era larga y tenía excepciones (los registros en el idioma de `system.md`, nunca en el de una petición; `system.md` en el idioma del humano cuando se escribe…). Idea del usuario: es muy simple.
+- Tres entradas en el entorno, en la sección Assistant del `AGENTS.md` de la raíz:
+  - Habla en el idioma del humano.
+  - Los documentos (specs, `AGENTS.md`, informes, resúmenes del diario) van en ASD-STE100, en inglés por defecto. El humano puede elegir otro idioma.
+  - El código va en inglés: nombres, tests, textos de la interfaz, tablas, entidades y demás datos.
+- Sale «el idioma de `system.md`» de `outline-system`, `docs/AIDD.workflow.md` y `construction.md`. Un arquetipo publica sus documentos y su código en inglés.
+- AIDDbot `45f8851a`, Builder `9165076`.
