@@ -513,3 +513,12 @@ Una spec es de fundación si cumple las dos condiciones:
 - Probado: verde en los dos Bedrocks. Con un fallo de formato y uno de `no-param-reassign` a la vez, la última línea es «check: red in format, crap».
 - Abierto: los finales de línea CRLF de web-1, con un `.gitattributes` en LF. Causa sin confirmar. Se mira si vuelve a pasar.
 - Builder: `e3dbe98` (Bedrock `cli` y `web`: `tools/scripts/check.mjs`, `package.json`, `README.md`; `ecosystems.md`).
+
+## D57 (2026-10-22, Daylight) · Los scripts largos de la raíz, en `tools/scripts/`
+
+- Motivo: los scripts de la raíz con filtros y varios comandos se leen mal en JSON, con las comillas escapadas (`\"./projects/*\"`). Idea del usuario: aprovechar `tools/scripts/` (D56).
+- Regla: un script de la raíz con un filtro o con más de un comando es un fichero de `tools/scripts/` (`"test": "node tools/scripts/test.mjs"`). Uno corto se queda en el `package.json`: `prepare`, `fix` y `test:e2e`.
+- Ficheros: `shell.mjs` (`run`, `runAll` y `APPS`, el filtro de cada proyecto menos el `e2e`), `start.mjs` (solo `web`), `test.mjs`, `upgrade.mjs` (para en el primer comando en rojo; en `web`, también instala Chromium) y `check.mjs`.
+- Los scripts de cada proyecto no cambian: son sus slots, y cada uno cabe en una línea.
+- Probado: `npm test`, `npm run test:e2e` y `npm run check` en los dos Bedrocks; `start.mjs` en web-1 (`back` 200, `front` 200, sin procesos al final). `upgrade.mjs` no se ha ejecutado: cambia las dependencias.
+- Builder: `4ee3096` (Bedrock `cli` y `web`: `tools/scripts/`, `package.json`, `README.md`; `ecosystems.md`).
