@@ -569,3 +569,13 @@ Una spec es de fundación si cumple las dos condiciones:
 - De paso, evita el límite de `cmd.exe` del hook con commits de más de 100 ficheros.
 - `implement-project` y `docs/AIDD.workflow.md`. web-2 sigue con el overlay de antes.
 - Se mantiene (usuario, 2026-10-22), tras medir en web-2: Presentation con 27 commits en 9 min 35 s, frente a 10 commits en 9 min 42 s en web-1. Un commit pequeño cuesta unos 5 s con el turno del modelo; `layers` y `crap` corren las mismas veces que antes. Confirmar en la siguiente run, con la skill desde el principio.
+
+## D62 (2026-10-23, Daylight) · Las reglas de código fuera de la raíz
+
+- Motivo: medida del contexto (usuario). En web-3, Architecture y Code eran el 66 % del `AGENTS.md` de la raíz (795 de 1202 palabras), y la raíz se carga en cada agente y en cada fase. Solo las usan quien escribe código y quien lo revisa.
+- Architecture y Code van a `implement-project/references/code-rules.md`, sin recortes. Las leen `implement-project` y `review-implementation` (puerta Project rules). Cambia D59: la raíz ya no las tiene.
+- La raíz guarda una línea en Records, solo con `system.md`: leer las reglas antes de escribir o revisar código, y la política de entrega (solo el hook y `test` bloquean). Así un agente que toca código fuera de una skill aún las encuentra.
+- El esqueleto de la raíz en el core queda en Assistant, System, Commands, Records, Git. Sin compatibilidad (beta, solo greenfield).
+- La plantilla de la raíz baja a 470 palabras; la raíz de web-3 bajaría a unas 450. Carga fija por proyecto: de 1550–1800 a 800–1050 palabras.
+- Riesgo: `define-spec` ya no ve la arquitectura y puede repetirla en la Solution. Mirar el tamaño de las specs en web-4.
+- AIDDbot `a368d745` (skills, core, 55/55 tests) y `7520f4f3` (docs); Builder `eadcad0`.
