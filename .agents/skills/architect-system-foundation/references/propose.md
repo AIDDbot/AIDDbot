@@ -6,7 +6,7 @@ The **Architect** writes `.product/system.md` from `assets/system.template.md`. 
   1. Purpose, users, and needs.
   2. Projects.
   3. The archetype of `assets/archetypes.md` that fits the projects, as one closed question that names its technologies.
-- Archetype Base fits one `api`, one `web`, one `e2e`, and users. Its three projects go together, in the folders `back`, `front` and `e2e`. It has no business feature: it carries only the foundation (configuration, monitoring, layout, health, accounts, about, record views). A request for no features yet still fits it.
+- Archetype Web fits one `api`, one `web`, one `e2e`, and users. Its three projects go together, in the folders `projects/back`, `projects/front` and `projects/e2e`. It has no business feature: it carries only the foundation (scaffold, platform, shell, presentation, about, users, settings). A request for no features yet still fits it.
 - Archetype CLI fits one local `cli` (no `api`, no database) and one `e2e`, without users. Its two projects go together, in the folders `projects/cli` and `projects/e2e`. It carries only the foundation (configuration, monitoring, shell, about, presentation). A request for no features yet still fits it.
 - When the human accepts an archetype, ask nothing more about its technologies or tools.
 - No archetype fits when the projects differ, when the request asks for a different technology, or when the human refuses the archetype. Then stop: journal `blocked`, and tell the human that AIDDbot offers only the archetypes of `assets/archetypes.md`. Never make an archetype.

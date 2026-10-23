@@ -34,7 +34,7 @@ function release() {
   parts[index]++;
   parts.fill(0, index + 1);
   const version = parts.join(".");
-  // Each archetype (Archetype Base, Archetype CLI) shares major.minor with AIDDbot; patches are independent (Halloween D6).
+  // Each archetype (Archetype Web, Archetype CLI) shares major.minor with AIDDbot; patches are independent (Halloween D6).
   const series = `v${parts[0]}.${parts[1]}.`;
   const catalog = path.join(root, ".agents", "skills", "architect-system-foundation", "assets", "archetypes.md");
   const pins = fs.existsSync(catalog) ? fs.readFileSync(catalog, "utf8").matchAll(/AIDDbot\/(archetype-[\w-]+)`, tag `(v[\d.]+)`/g) : [];

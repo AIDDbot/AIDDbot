@@ -2,18 +2,19 @@
 
 Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together, with its shipped foundation specs and its schema documents in `.product/`, as an AIDDbot system (Halloween D28). Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
 
-## Archetype Base
+## Archetype Web
 
-`AIDDbot/archetype-base`, tag `v0.3.14`. A system with exactly one `api`, one `web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other archetype.
+`AIDDbot/archetype-web`, tag `v0.4.0`. A system with exactly one `api`, one `web` and one `e2e`, and with users. For any other system, use the other archetype.
 
 | Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
-| `api` | back | `back/` | Express, framework-free TypeScript 7, SQLite |
-| `web` | front | `front/` | Framework-free TypeScript 7 with Vite, web components, Pico CSS with the brand theme |
-| `e2e` | e2e | `e2e/` | Playwright |
+| `api` | back | `projects/back/` | TypeScript on Node.js, Express, SQLite |
+| `web` | front | `projects/front/` | TypeScript on Vite, React with react-router, Pico CSS with the brand theme |
+| `e2e` | e2e | `projects/e2e/` | Playwright with Chromium |
 
-- The rebuild as a whole workspace at `major.minor` 0.4 is pending. Until it is pinned here, AIDDbot 0.4 does not release.
-- Copy command: `npx degit AIDDbot/archetype-base#v0.3.14 {temporary folder}`.
+- One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and type check, and the debt checks in `tools/lint/`.
+- `.product/specs/` holds the shipped specs `S0001-scaffold`, `S0002-platform`, `S0003-shell`, `S0004-presentation`, `S0005-about`, `S0006-users` and `S0007-settings`. The first business spec of a system is `S0008`.
+- Copy command: `npx degit AIDDbot/archetype-web#v0.4.0 {temporary folder}`.
 
 ## Archetype CLI
 
