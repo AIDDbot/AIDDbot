@@ -50,7 +50,7 @@ Only the core writes these files. Nobody edits them by hand.
 | File | Content |
 | --- | --- |
 | `.aiddbot/debt.json` | The open debt. |
-| `.product/PRD.md` | One line for each shipped feature. |
+| `.product/PRD.md` | One line for each shipped feature, with a short summary from its Problem. |
 | `.aiddbot/config.json` | The projects and their commands. |
 | `.aiddbot/counters.yaml` | The next IDs of the specs and the debt. |
 | `.aiddbot/logs/` | Ignored by Git: one folder for each day, with its journal (the agents add only their judgments to it, through the core) and the full output of each failed run; the full output of the last run of each command; and the work state of each spec (its runs, its evaluations and their commits). |
