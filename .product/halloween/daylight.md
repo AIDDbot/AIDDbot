@@ -229,7 +229,24 @@ Qué mirar en cli-4:
 - `conditions(named)` tras el refuerzo de `code-rules.md` (AIDDbot `5f62109a`): cuántos hallazgos, frente a 37 únicos en web-4.
 - Los rangos cerrados de `platform` y `settings` (Builder `e469bd9`).
 - Que llegue a `settings` sin ayuda: 6 de 6 con deuda cero. Al final, `npm test`, `npm run check` y la suite de aceptación en verde.
-- Después: traspaso a `AIDDbot/archetype-cli` con el `handover.md` nuevo (raíz neutra, bloque About), fijarlo y la release de AIDDbot 0.4.0 Halloween.
+- Después: traspaso a `AIDDbot/archetype-cli` con el `handover.md` nuevo (raíz neutra, bloque About), fijarlo y la release de AIDDbot 0.4.0.
+
+Resultado de cli-4 (Codex, 2026-10-23, 15:05 a 16:14, 69 min, con un 30 % de tokens libres):
+
+| Spec | Versión | Deuda que dejó | Reparación |
+| --- | --- | --- | --- |
+| S0001 scaffold | 0.0.1 | ninguna | — |
+| S0002 platform | 0.0.2 | D0001 alta: los logs de un fallo inesperado pierden la causa | S0003, 0.0.3, 3 min |
+| S0004 shell | 0.1.0 | D0002 alta: un fallo del parser ignora `--json` (R02 ya reparada en la qualification) | S0005, 0.1.1, 7 min (también `--toString=value`) |
+| S0006 presentation | 0.1.2 | ninguna | — |
+| S0007 about | 0.2.0 | ninguna | — |
+| S0008 settings | 0.3.0 | D0003 alta: una escritura fallida trunca la configuración | S0009, 0.3.1, 3 min |
+
+- 6 de 6 con deuda cero, sin ayuda. 183 tests unitarios, 28 de aceptación, `npm run check` en verde, el canario de `layers` falla como debe.
+- D61: commits pequeños de un solo tipo. Ningún hallazgo de `conditions(named)` (37 en web-4).
+- El contrato de uso con `--json` es la parte frágil del cli (R02, R03 y el parser): candidato para el Builder.
+- Traspaso: Archetype CLI v0.4.17 Daylight (la historia anterior en la rama `archive/v0.4.16-halloween`), Archetype Web v0.4.3 Daylight, los dos con el README nuevo (bienvenida, enlaces al PRD y al system, sin tabla de proyectos; Builder `cccfadc`).
+- Decisión del usuario (2026-10-23): la release 0.4.0 se llama **Daylight**, y AIDDbot, el Builder y los dos arquetipos van en 0.4 Daylight. Halloween pasa a una release posterior, con otros cambios.
 
 ## Lo que entra de web-I
 
