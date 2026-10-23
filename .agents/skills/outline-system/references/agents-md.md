@@ -5,7 +5,7 @@ Fill `AGENTS.md` with findings and human input. It is a map of the whole system 
 - When it exists, change only what the repository contradicts, and keep the content that a human wrote.
 - Keep the sections of the template in their order. Remove each comment, and each section that has no content: never leave a heading with no line under it.
 - Write only facts of the whole system. List each project with its type and its path: its `{source_root}/AGENTS.md` owns its technology, its slots, its folders and its platform. Never copy them here.
-- Architecture and Code: copy them as written when `.product/system.md` exists. Otherwise, remove them.
+- Records: copy the line of the code rules as written when `.product/system.md` exists. Otherwise, remove it. Never copy the code rules here.
 - Commands: write only the commands of an agent and the hook, as they exist. The commands for a human go to the `README.md`, never here.
 - Never list skills or the actions that run them: the orchestrators own that routing.
 - Write each `AGENTS.md` in the language of the documents of the Assistant section, English by default. Never add a note that repeats another section.

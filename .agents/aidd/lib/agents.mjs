@@ -6,7 +6,7 @@ import { aiddbotPath, readJson, relative } from "./core.mjs";
 const MAX_LINES = 128;
 // The `##` sections of each kind of file, in their order. A section with `?` is optional.
 const SKELETONS = {
-  root: ["Assistant", "System", "Commands", "Architecture?", "Code?", "Records", "Git"],
+  root: ["Assistant", "System", "Commands", "Records", "Git"],
   project: ["Purpose", "Technology", "Folders", "Platform", "Project rules?"],
 };
 const TABLE_SEPARATOR = /^\|[\s:|-]+\|\s*$/;
