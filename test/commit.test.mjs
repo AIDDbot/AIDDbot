@@ -4,7 +4,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { test } from "node:test";
-import { git, write, repo, aidd, accept, approve, journalText } from "./helpers.mjs";
+import { git, write, repo, aidd, approve, journalText } from "./helpers.mjs";
 
 test("commit records the paths it is given and journals the milestone", () => {
   const root = repo();
@@ -22,83 +22,28 @@ test("commit records the paths it is given and journals the milestone", () => {
   assert.match(journalText(root), /committed  INFO  feat\(a\): one/);
 });
 
-test("commit needs a passing lint on the same files of each project it changes", () => {
+test("a commit that the pre-commit hook refuses fails with the output of the hook", () => {
   const root = repo();
   git(root, "switch", "-q", "-c", "chore/task");
-  const lint = (code) => aidd(root, "config", "set", "projects.back", JSON.stringify({
-    type: "api",
-    path: "back",
-    commands: { lint: `node -e "process.exit(${code})"`, format: "node -e \"require('fs').writeFileSync('style.ts', 'x')\"" },
-  }));
+  write(root, ".git/hooks/pre-commit", "#!/bin/sh\necho \"one.ts:1 no-unused-vars\" >&2\nexit 1\n");
+  fs.chmodSync(path.join(root, ".git/hooks/pre-commit"), 0o755);
   write(root, "back/one.ts", "1\n");
-  lint(0);
   const refused = aidd(root, "commit", "feat(back): one", "back");
   assert.equal(refused.code, 1);
-  assert.match(refused.body.error, /back \(never linted\)/);
-
-  aidd(root, "run", "lint", "--project", "back");
+  assert.match(refused.body.error, /one\.ts:1 no-unused-vars/);
+  fs.rmSync(path.join(root, ".git/hooks/pre-commit"));
   assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
-
-  write(root, "back/two.ts", "2\n");
-  assert.match(aidd(root, "commit", "feat(back): two", "back").body.error, /changed since its last lint/);
-  lint(1);
-  aidd(root, "run", "lint", "--project", "back");
-  assert.match(aidd(root, "commit", "feat(back): two", "back").body.error, /its last lint failed/);
-
-  lint(0);
-  aidd(root, "run", "lint", "--project", "back");
-  aidd(root, "run", "format", "--project", "back");
-  assert.equal(aidd(root, "commit", "feat(back): two", "back").body.committed, true, "a format of clean files keeps the lint valid");
-
-  write(root, "back/AGENTS.md", "# back\n");
-  write(root, "docs/notes.txt", "outside every project\n");
-  assert.equal(aidd(root, "commit", "docs(back): rules").body.committed, true, "documents and files outside projects need no lint");
 });
 
-test("a lint of the changed files lints only the files of the branch, and lets a commit of those files pass", () => {
+test("a commit needs no lint or test run: the hook of the technology lints, formats and runs the affected unit tests", () => {
   const root = repo();
-  write(root, "back/src/old.ts", "0\n");
-  write(root, "back/args.js", "console.log(process.argv.slice(2).join(' '));\n");
-  git(root, "add", "-A");
-  git(root, "commit", "-q", "-m", "chore: old");
   git(root, "switch", "-q", "-c", "chore/task");
-  const commands = { lint: 'node -e "process.exit(0)"', "lint:files": "node args.js", test: 'node -e "process.exit(0)"', "test:files": "node args.js" };
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands }));
-  aidd(root, "config", "set", "projects.front", JSON.stringify({ type: "web", path: "front", commands: { lint: 'node -e "process.exit(0)"' } }));
+  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { test: 'node -e "process.exit(1)"' } }));
   write(root, "back/src/one.ts", "1\n");
-  write(root, "back/src/one.test.ts", "1\n");
-  write(root, "back/src/two.ts", "2\n");
-  const linted = aidd(root, "run", "lint", "--changed");
-  assert.equal(linted.code, 0);
-  assert.equal(linted.body.runs.find((entry) => entry.project === "back").command, 'node args.js "src/one.test.ts" "src/one.ts" "src/two.ts"');
-  assert.match(linted.body.runs.find((entry) => entry.project === "front").na, /no changed code file/);
-  const tested = aidd(root, "run", "test", "--changed");
-  assert.equal(tested.body.runs[0].command, 'node args.js "src/one.test.ts"', "the changed test and the test beside each changed source");
   assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
-  write(root, "back/src/one.ts", "1;\n");
-  assert.match(aidd(root, "commit", "feat(back): one again", "back").body.error, /back \(changed since its last lint\)/);
-  aidd(root, "config", "set", "projects.back.commands", JSON.stringify({ lint: 'node -e "process.exit(0)"' }));
-  assert.equal(aidd(root, "run", "lint", "--changed", "--project", "back").body.runs[0].command, 'node -e "process.exit(0)"', "a project without lint:files runs its full lint");
-  assert.equal(aidd(root, "run", "quality", "--changed").code, 2);
-});
-
-test("release and integrate refuse project code that changed since its last lint", () => {
-  const root = repo();
-  aidd(root, "config", "set", "projects.back", JSON.stringify({ type: "api", path: "back", commands: { lint: 'node -e "process.exit(0)"' } }));
-  aidd(root, "spec", "new", "feat", "styled", "Styled", "--domain", "ui");
-  approve(root);
-  write(root, "back/one.ts", "1\n");
-  aidd(root, "run", "lint", "--project", "back");
-  assert.equal(aidd(root, "commit", "feat(back): one", "back").body.committed, true);
-  accept(root, 0, "S0001");
-  aidd(root, "eval", "verification", "green", "ok");
-  aidd(root, "eval", "qualification", "green", "ok");
-  write(root, "back/one.ts", "1;\n");
-  const refused = aidd(root, "release");
-  assert.equal(refused.code, 1);
-  assert.match(refused.body.error, /back \(changed since its full lint\)/);
-  aidd(root, "run", "lint", "--project", "back");
-  assert.equal(aidd(root, "release").code, 0, "a formatted file ships once its lint passes again");
+  assert.equal(aidd(root, "run", "lint").code, 2);
+  assert.equal(aidd(root, "run", "format").code, 2);
+  assert.equal(aidd(root, "run", "test:files").code, 2);
 });
 
 test("integrate commits and merges a task branch; log journals a capped judgment", () => {
@@ -111,7 +56,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(git(root, "branch", "--show-current"), "main");
   assert.equal(aidd(root, "log", "verdict", `greenfield: ${"x".repeat(200)}`).code, 0);
   assert.equal(aidd(root, "log", "handoff", "builder → craftsman: S0001", "--spec", "S0001").code, 0);
-  assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 0);
+  assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 1, "no spec S0001 exists: nothing to approve");
   assert.equal(aidd(root, "log", "plan", "back: rockets repository and route", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
@@ -122,7 +67,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   const verdict = lines.find((line) => line.includes(" verdict "));
   assert.match(verdict, /model +- +verdict +INFO +greenfield: x+…$/);
   assert.ok(verdict.split(" INFO ").pop().trim().length <= 128);
-  assert.match(lines.at(-3), /model +S0001 +approved +INFO +S0001 Rocket fleet$/);
+  assert.match(lines.at(-3), /model +S0001 +handoff +INFO +builder → craftsman: S0001$/);
   assert.match(lines.at(-2), /model +S0001 +plan +INFO +back: rockets repository and route$/);
   assert.match(lines.at(-1), /model +- +scaffolded +INFO +back, front, e2e$/);
 });
@@ -147,4 +92,28 @@ test("commit refuses installed dependencies, and lets them leave the index", () 
   git(root, "rm", "-r", "-q", "--cached", "back/node_modules");
   write(root, "back/.gitignore", "/node_modules/\n");
   assert.equal(aidd(root, "commit", "chore(back): exclude installed dependencies", "back").code, 0);
+});
+
+test("commit refuses a type of spec that is not the type of the spec of the branch", () => {
+  const root = repo();
+  aidd(root, "spec", "new", "chore", "platform", "Platform");
+  approve(root);
+  write(root, "back/one.ts", "1\n");
+  const refused = aidd(root, "commit", "feat(back): implement platform services", "back");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /S0001-platform is a chore: commit its work as `chore\(\.\.\.\)`, never `feat\(\.\.\.\)`/);
+  assert.equal(aidd(root, "commit", "chore(back): add platform services", "back").code, 0);
+  write(root, "back/AGENTS.md", "# back\n");
+  assert.equal(aidd(root, "commit", "docs(back): describe the platform", "back").code, 0);
+});
+
+test("commit refuses text with garbled characters, as a shell with the wrong encoding writes it", () => {
+  const root = repo();
+  git(root, "switch", "-q", "-c", "chore/docs");
+  write(root, "e2e/AGENTS.md", "# Acceptance suite â€” e2e\n\n## 1 Â· Purpose\n");
+  const refused = aidd(root, "commit", "docs(e2e): purpose", "e2e");
+  assert.equal(refused.code, 1);
+  assert.match(refused.body.error, /e2e\/AGENTS\.md has garbled characters/);
+  write(root, "e2e/AGENTS.md", "# Acceptance suite — e2e\n\n## 1 · Purpose\n\nCafé, naïve, ½.\n");
+  assert.equal(aidd(root, "commit", "docs(e2e): purpose", "e2e").code, 0);
 });

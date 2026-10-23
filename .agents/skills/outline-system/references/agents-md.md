@@ -1,11 +1,12 @@
 # Root AGENTS.md
 
-Fill `AGENTS.md` with findings and human input.
+Fill `AGENTS.md` with findings and human input. It is a map of the whole system (Halloween D59).
 
 - When it exists, change only what the repository contradicts, and keep the content that a human wrote.
-- Keep each template section. A section without repository evidence stays as the template writes it: never drop it or summarize it.
-- Write only facts of the whole system. List each project with its type, and point to its `{source_root}/AGENTS.md`. That file owns the technology, the tooling, the architecture, and the code rules of the project: never copy them here.
-- Blueprint: keep it as written when `.product/system.md` exists. Otherwise, remove it.
-- Common stack: when two or more projects share a technology, write each tooling slot and each technology rule that their `{source_root}/AGENTS.md` files repeat, and remove those lines from each of them. Otherwise, remove the section.
-- Record the important paths and the product records. Never list skills, commands, or the actions that run them: the orchestrators own that routing.
-- Write each `AGENTS.md` in English, the language of its template. Never add a note that repeats another section.
+- Keep the sections of the template in their order. Remove each comment, and each section that has no content: never leave a heading with no line under it.
+- Write only facts of the whole system. List each project with its type and its path: its `{source_root}/AGENTS.md` owns its technology, its slots, its folders and its platform. Never copy them here.
+- Assistant: copy the line of the code rules as written when `.product/system.md` exists. Otherwise, remove it. Never copy the code rules here.
+- Commands: write only the commands of an agent and the hook, as they exist. The commands for a human go to the `README.md`, never here.
+- Never list skills or the actions that run them: the orchestrators own that routing.
+- Write each `AGENTS.md` in the language of the documents of the Assistant section, English by default. Never add a note that repeats another section.
+- Run `node .agents/aidd/aidd.mjs agents check`, and repair each problem that it gives: at most 128 lines, the sections in order, no empty section, no comment.

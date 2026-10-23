@@ -9,7 +9,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 | Prepare or understand a system | `/architect-system-foundation` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
-| Deliver an ordered list of spec files, such as the specs of a library | `/build-ordered-specs` |
+| Build the Foundation of an archetype on its Bedrock: its foundation specs, in order | `/build-archetype-foundation` |
 
 ## Skills
 
@@ -19,10 +19,10 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from a library of archetypes, copy the projects and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
+| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
-| [`/build-ordered-specs`](../.agents/skills/build-ordered-specs/SKILL.md) | Deliver an ordered list of spec files, each with its quality repair, to zero debt |
+| [`/build-archetype-foundation`](../.agents/skills/build-archetype-foundation/SKILL.md) | Build the Foundation of an archetype on its Bedrock, one foundation spec at a time, each with its quality repair, to zero debt |
 
 ### Primitives
 
@@ -40,36 +40,36 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 ```yaml
 architect-system-foundation:
   greenfield:
-    - "Architect: propose .product/system.md as typed projects from one library, and obtain approval; when no library fits, stop"
-    - "Architect: on chore/foundation, copy each project of the library with its spec instances and schema documents; Builder: register the slots"
+    - "Architect: propose .product/system.md as typed projects from one archetype, and obtain approval; when no archetype fits, stop"
+    - "Architect: on chore/foundation, copy the whole archetype with its shipped specs and schema documents; Builder: install and register the slots"
     - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
-    - "close only when lint and test pass"
+    - "close only when test passes"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
 
 build-requested-spec:
   - "refuse to start on a greenfield system whose foundation close is red"
-  - "Architect: define-spec and obtain approval"
+  - "Architect: define-spec and obtain approval, for a request; a spec that the core made from debt skips it (the core approves it when it makes it)"
   - Builder:
-      production-projects: "implement-project sequentially, from lower to higher abstraction; lint and unit tests of the changed files only"
+      production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; one commit per unit (a core folder, a module or a feature slice), then one for its unit tests; the pre-commit hook of the technology lints and formats each commit; after the last unit, layers and crap of each changed project green"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
   - Craftsman:
-      evaluation: "verify-behavior runs the spec-scoped acceptance tests and the full regression, and triages each failure; review-implementation; ship-spec runs the full lint and the full test again; red evaluations and their failure-only reports go back to their owner; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
+      evaluation: "verify-behavior runs the spec-scoped acceptance tests (feat, fix); review-implementation checks only what lint and tests cannot see (feat, fix, chore); ship-spec runs the full acceptance suite (never the unit tests again: crap ran all of them, and the hook the affected ones at each commit) and triages each failure; a failure too big for the spec becomes high debt and the spec closes; a failing test counts toward revision 3, and only a product question or acceptance that cannot run stops"
 
 craft-lasting-quality:
-  - "Craftsman: scan-quality, only when no high or medium debt is open; the scan records only medium debt"
-  - "Craftsman: scan-quality to harden, once, when no high or medium debt remains; it records low debt, one item for each rule"
-  - "Architect: select the eligible debt of one type, `fix` or `refactor`, in one group; the repair stays within its evidence"
-  - "build-requested-spec with both agents for the selected group; the repair is approved in advance"
-  - "a refactor group of scan items only (quality or harden): quick repair, with no spec; Builder: implement-project on a chore task branch, then the tool that found them, full lint and test, debt remove and integrate; a bug or a no-effect repair goes back as fix"
-  - "repeat the selection and the repair while debt remains, highest priority first, at most 5 specs, and stop at a spec that ships an unresolved failure; no scan between two repairs and no scan at the end"
+  - "select the open item of the highest priority that still exists"
+  - "high: aidd spec debt makes a minimal fix spec of the high items of one project, approved at once; build-requested-spec with verification and review"
+  - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
+  - "low: patch, with no spec; Builder: implement-project on a chore task branch, crap green and the affected unit tests green at commit, debt remove and integrate"
+  - "repeat while debt remains, at most 5 specs, and stop at a spec that ships a failure recorded as debt"
+  - "when no debt is open: check layers and crap; a red check gets a Craftsman scan of its mode for that project, then again from select; a green check stops, with no scan"
   - "return the debt list summary"
 
-build-ordered-specs:
+build-archetype-foundation:
   - "read the state from the files; a spec file with a shipped spec is done, and an unshipped one continues with its next skill"
-  - "for each spec file, in order: build-requested-spec approved in advance, then craft-lasting-quality; the next spec starts only with zero open debt"
-  - "after the last spec: craft-lasting-quality until its scan and its hardening record nothing"
+  - "for each spec file, in order: aidd spec new --from the file and log approved (no Architect), build-requested-spec, then the core check (run layers, run crap): all green with no open debt goes to the next spec, else craft-lasting-quality; the next spec starts only with zero open debt"
+  - "after the last spec: craft-lasting-quality until its check (layers and crap green for each project) is green"
   - "return one row for each shipped spec, with its version, debt, repairs and times"
 ```
 
@@ -77,22 +77,22 @@ build-ordered-specs:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → copy of the library → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the library (its spec instances, code and tests) proved by the close |
+| No application code | Staged questions → `.product/system.md` → approval → copy of the archetype → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the archetype (its shipped specs, code and tests) proved by the close |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one library of the catalog. AIDDbot offers only libraries: when no library fits, the foundation stops and makes no archetype. Libraries are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three archetypes that ship with the code and the tagged tests of every foundation spec, with the spec instances in `foundation/`, and with the schema documents in `model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
+A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one archetype of the catalog: a whole solution. AIDDbot offers only the archetypes of its catalog: when no archetype fits, the foundation stops and makes none. Archetypes are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three projects that ship with the code and the tagged tests of every foundation spec, as an AIDDbot system: the shipped specs in `.product/specs/` and the schema documents in `.product/model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
 
-After the approval, the Architect works on `chore/foundation`, each step for all the projects of the library at once:
+After the approval, the Architect works on `chore/foundation`, each step for all the projects of the archetype at once:
 
-1. The scaffold, with no change (`chore(scaffold): generate`).
+1. The copy of the whole archetype into the repository, with no change (`chore(scaffold): copy`): the workspace root, the projects, and `.product/specs/`, `.product/model/` and `.product/PRD.md`.
 2. The system data in each `AGENTS.md` (`refactor: shape to blueprint`).
 3. The tooling, one `chore(scaffold): register tooling` for all the projects.
 
-In the shape, `{project}/AGENTS.md` has only the data of its project, in short lists: technology, tooling, the variation of its type, folders, primitives, technology and project rules, and connections. When projects share technology, `outline-system` moves the tooling and technology rules that they repeat to the Common stack of the root `AGENTS.md`, one time. The primitives index lists only the helpers that two or more features use; a helper of one feature follows a naming convention and has no row. A `CLAUDE.md` refers to it. The architecture and the code rules are in the Blueprint of the root `AGENTS.md`, one time for the system: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
+In the shape, `{project}/AGENTS.md` is a map of its project, in short lists: purpose, technology (stack, dependencies, slots), folders, platform (its contract and one line for each `core` folder) and project rules. A `CLAUDE.md` refers to it. The rules of all the projects are in the code rules of `implement-project` (`references/code-rules.md`), one time for the system: only the skills that write or review code read them, and the root `AGENTS.md` points to them. `aidd release` refuses an `AGENTS.md` over 128 lines, with a comment, or with an empty or misplaced section, and writes the index of each `shared` folder (`src/shared/README.md`): each file and its exports (Halloween D59). The architecture of each project: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
 
-The Builder installs with `npm ci` and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered: the instances stay in `.product/archetypes/foundation/` as the contract, the close is the only evidence, and a red close is a defect of the environment or of the library, never repaired in the system. The core gives the first business spec the ID after the instances. A failed command stops the run, with no partial commit. The foundation never makes working code again.
+The Builder installs with one `npm ci` at the root, which also installs the pre-commit hook, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered again: they come as shipped specs in `.product/specs/`, the close is the only evidence, and a red close is a defect of the environment or of the archetype, never repaired in the system. The core gives the first business spec the ID after the last spec. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
 Run `/architect-system-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 
@@ -103,23 +103,36 @@ Run `/architect-system-foundation` again when the documentation must agree with 
 | Stage | Owner | Work |
 | --- | --- | --- |
 | Define | **Architect** | `define-spec`: scope, domain, branch, the spec with its requirements, schema impact, and approval |
-| Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes. It lints and tests only the changed files, and it runs the tests of the spec to check its E2E work |
-| Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec and the full regression, then `review-implementation`, then `ship-spec`, which runs the full lint and the full test again before the release |
+| Build | **Builder** | `implement-project` for each project that changes: code, unit tests, and the necessary E2E test changes. It tests only the affected unit tests, and it runs the tests of the spec to check its E2E work |
+| Prove and ship | **Craftsman** | `verify-behavior` runs the acceptance tests of the spec, then `review-implementation`, then `ship-spec`, which runs all the tests before the release |
 
-The Builder tests only its own surface. The verification tests the full system, so a regression shows at its first revision:
+Each step checks only its own work. `crap` runs all the unit tests; only the ship runs the full acceptance suite. Basic lint, format and the affected unit tests are not part of AIDDbot: the technology of each project runs them in its pre-commit hook. AIDDbot owns only what the technology cannot know: the logical layers, the test coverage and the complexity.
 
-| Step | Owner | Gate | Command |
-| --- | --- | --- | --- |
-| Build | **Builder** | `lint` and unit tests of the changed files | `aidd run lint --changed`, `aidd run test --changed`, and `aidd run test --spec` as a check |
-| Verify | **Craftsman** | the acceptance tests of the spec, then the full regression: unit tests and the full acceptance suite | `aidd run test --spec`, `aidd run test` |
-| Review | **Craftsman** | debt: `high` for a blocking finding, `low` for the others | reading only |
-| Ship | **Craftsman** | the full `lint`, then the full test again at the current code | `aidd run lint`, `aidd run test` |
-| Scan | **Craftsman** | debt `medium` | `aidd run quality`, only in `craft`, and only when no `high` or `medium` debt is open |
-| Harden | **Craftsman** | debt `low`, one item for each rule | `aidd run harden`, only in `craft`, once, when no `high` or `medium` debt remains |
+| Step | Owner | Unit tests | E2E tests | Other check | On failure | Command |
+| --- | --- | --- | --- | --- | --- | --- |
+| Build | **Builder** | affected, at commit | — | lint, format and types at commit | fix it on the fly | the pre-commit hook, and `aidd run test --spec` as a check |
+| Verify | **Craftsman** | — | affected | — | triage | `aidd run test --spec` |
+| Review | **Craftsman** | — | — | security, accessibility… | `high` debt | reading only |
+| Ship | **Craftsman** | all | all | — | triage | `aidd run test` |
+| Scan | **Craftsman** | — | — | logical layers, duplicates, folder size | `medium` debt | `aidd run layers`, only in `craft`, when no `high` debt is open |
+| Harden | **Craftsman** | — | — | complexity, test coverage | `low` debt, one item for each rule | `aidd run crap`, only in `craft`, when no `high` or `medium` debt is open |
 
-`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair.
+The type of the spec sets its steps. The origin sets the definition: a request has a spec that the human approves; debt has its item. The behavior sets the verification: only a `feat` and a `fix` change it.
 
-Spec state: `in-progress` from `aidd spec new` until `aidd release` names it in `CHANGELOG.md`, which makes it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active or the spec repairs recorded debt. In YOLO mode, the spec contains only what the request names. A repair that changes what an observer sees is a `fix` with a requirement, not a `refactor`. The agent that gets the approval, usually the orchestrator, journals `approved`, which commits the spec. Until then, `aidd commit`, `aidd eval` and `aidd release` refuse the spec.
+| Type | Comes from | Definition | Verify | Review |
+| --- | --- | --- | --- | --- |
+| `feat`, `fix` | a request | `define-spec`, human approval | yes | yes |
+| `chore` | a request | `define-spec`, human approval | no | yes |
+| `feat`, `chore` | a spec file of an archetype | `aidd spec new --from`, approved by `build-archetype-foundation` | as its type | yes |
+| `fix` | high debt | `aidd spec debt`, no approval | yes | yes |
+| `refactor` | medium debt | `aidd spec debt`, no approval | no | no |
+| patch (no spec) | low debt | the item | no | no |
+
+`.aiddbot/agents.yaml` sets the agent names, descriptions, adapter paths, and the model tiers of each harness (`deep`, `standard` and `light`, each a model and an effort). The `.aiddbot/agents.local.yaml` of a consumer changes them at `aiddbot update`. `.agents/agents/{id}.md` has the canonical prompt of each agent. `npm run adapt` uses them to make all harness adapters again, and `npm run release` runs it before packaging. An orchestrator spawns each agent when its first step starts, with a fresh context: it never forks its own conversation into the agent, and it never reads the skill of a step that it hands off. It continues an agent with messages only in the same run, where the harness permits it, and stops each agent that it started when the run ends. `craft-lasting-quality` spawns new agents for each repair, and `build-archetype-foundation` stops the agents of each spec and repair before the next one: an agent carried from spec to spec pays for all its earlier context on each turn.
+
+Spec size: at most 9 requirements (one capability that a user sees each), 3 user stories and 5 business rules, in fewer than 100 lines; `aidd log approved` refuses more.
+
+Spec state: `in-progress` from `aidd spec new` until `aidd release` names it in `CHANGELOG.md`, which makes it `shipped`. Only one spec is open at a time: `aidd spec new` refuses while a different spec branch exists. The human approves the spec in the conversation before the build starts, unless YOLO mode is active or the spec is a `refactor` from debt. In YOLO mode, the spec contains only what the request names. A request never makes a `refactor`: only `aidd spec debt` does. The agent that gets the approval, usually the orchestrator, journals `approved`, which commits the spec. Until then, `aidd commit`, `aidd eval` and `aidd release` refuse the spec.
 
 Each spec owns its requirements: `R01`, `R02`, … in EARS. Other records cite them as `S0042-R03`. Each requirement has at least one acceptance test. A spec looks forward and never lists shipped requirements. A failed test with the tag of a different spec is a regression, until a requirement of the new spec contradicts it. Shipped specs stay in their folders. `aidd release` writes `.product/PRD.md`: one line for each shipped `feat` spec, by domain. Fixes, refactors and chores change features and do not get a line. The PRD is the product view. Nobody writes it by hand.
 
@@ -127,11 +140,12 @@ The product schemas are in `.product/model/`: one conceptual `model.schema.md`, 
 
 ### Journal
 
-Each workflow writes its story in one plain-text daily journal at the repository root: `.aiddbot/logs/YYYY-MM-DD.log`. Git ignores it.
+Each workflow writes its story in one plain-text daily journal at the repository root: `.aiddbot/logs/YYYY-MM-DD/journal.log`. Git ignores it.
 
 - Each skill commit goes through `aidd commit`, which writes it as `committed`. Thus the journal shows each milestone and its time.
 - An orchestrator writes a `handoff` line each time that it sends work to a different agent.
-- `aidd commit` and `aidd integrate` refuse code of a project that changed since the last passing `aidd run lint` of that project, or since the last passing `aidd run lint --changed` of each changed file. `aidd release` needs a passing full `lint` of each project on its current files. Documents (`.md`), `.product/` and `.aiddbot/` need no lint. A format that rewrites code needs a new lint.
+- `aidd commit` runs the pre-commit hook of the technology. When the hook refuses the commit, the command fails with the output of the hook.
+- On a spec branch, a commit of type `feat`, `fix`, `refactor` or `chore` has the type of the spec. `aidd commit` refuses another one. A type that is not a type of spec, such as `docs` or `test`, passes.
 - The journal is only a story. No code reads it or makes a decision from it: the process state is in the work state of each spec, `.aiddbot/logs/{key}.json`.
 - Each line has complete fields with a space between them: time, actor, spec, event, level and summary. The level is `INFO`, `WARN` for a failed run or an amber evaluation, or `ERROR` for a red evaluation or a `blocked` reason. The short columns have a minimum width, so the log reads as a table. The summary stops at 128 characters.
 - The core (`node .agents/aidd/aidd.mjs`) writes an entry for each state change that it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. A run line shows only the projects that apply, each with its result and the summary line of its tool (such as `100 passed` or `1 failed`).
@@ -142,19 +156,19 @@ Each workflow writes its story in one plain-text daily journal at the repository
 | Evidence | Passing state | Scope |
 | --- | --- | --- |
 | Verification | `green` | The acceptance tests of the spec |
-| Regression | a passing full `lint` and `test` at the code that ships | The full system: unit tests and the full acceptance suite |
-| Qualification | any recorded status; findings ship as debt after one repair of a failed Security or Requirements gate | Expert review of gross errors that no linter sees: security, data integrity, accessibility |
+| Regression | a passing full acceptance run at the code that ships, or each failure recorded as open `high` debt | The full acceptance suite; the unit tests are proved by `crap` and the hook |
+| Qualification | any recorded status; findings ship as `high` debt after one repair of a failed Security or Requirements gate | Expert review of gross errors that no linter and no test sees: security, data integrity, accessibility |
 
-Verification runs before qualification. `aidd eval` records each evaluation with its status, revision and current commit in the work state of the spec, `.aiddbot/logs/{key}.json`. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits nothing: Git ignores the work state.
+Verification runs before qualification. A `chore` has no verification, and a `refactor` has neither: `aidd eval` refuses them, and the gate does not ask for them. `aidd eval` records each evaluation with its status, revision and current commit in the work state of the spec, `.aiddbot/logs/{key}.json`. A non-green evaluation needs its report first. A green one removes an earlier report. The core commits nothing: Git ignores the work state.
 
 - `aidd run` refuses to start while another run is alive, because two runs share ports, databases and logs. Until a run ends, the first line of its log says `RUNNING`: the log is no result yet.
-- A green verification needs a passing last spec-scoped run of the `e2e` project, from `aidd run test --spec`, with no code change after it, an acceptance test with the tag or title `@S0042-R03` for each requirement, and a last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A spec without requirements has no tagged test: the full run proves it. A failure of the full run that open debt recorded before the spec explains stays green; the summary names that debt.
+- A green verification needs a passing last spec-scoped run of the `e2e` project, from `aidd run test --spec`, with no code change after it, and an acceptance test with the tag or title `@S0042-R03` for each requirement. A spec without requirements has no tagged test: its review and the regression prove it.
 - Green evaluations leave no report. Amber and red evaluations leave a report with only the failures and findings.
 - A red verification returns for repair and runs again, without qualification, until revision 3.
-- If the Builder cannot reproduce a failure and does not change it, the failure becomes debt before verification runs again. Thus a green retry never hides it.
-- Qualification never blocks shipping. Shipping records each finding as debt: `high` for a blocking one, `low` for a debt one. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
-- `aidd release` needs the regression: a passing full `lint` of each project on the current files, and a passing last unit run of each project and acceptance run of the `e2e` project, from the full `aidd run test`, with no code change after them. A failed regression ships only with `--preexisting <D IDs>`, which names open debt recorded before the spec, or after a red verification at revision 3.
-- The verification triages each failure of the full run. The Craftsman writes it into `.aiddbot/logs/{key}.verification.md` with its cause, its owner and the proposed repair, and records a red verification. Thus a regression shows at the first revision. The repair stays in the spec, so a regression never reaches the default branch.
+- If the Builder cannot reproduce a failure and does not change it, the failure becomes `high` debt before verification runs again. Thus a green retry never hides it.
+- Qualification never blocks shipping. Shipping records each finding as `high` debt. A failed Security or Requirements gate gets one repair: its report returns to the Builder one time, then verification and qualification run again.
+- `aidd release` needs the regression: a passing last acceptance run of each `e2e` project (`aidd run test --project {e2e}`), with no code change after it. It never needs a unit run (Halloween D49). A failed regression ships only with `--debt <D IDs>`, which names open `high` debt that records each failure.
+- The ship triages each failure of the full run. The Craftsman writes it into `.aiddbot/logs/{key}.regression.md` with its cause, its owner and the proposed repair. A repair of the Builder stays in the spec, so a regression it can repair never reaches the default branch. A partial test run can miss a change, such as a changed signature: the ship catches it.
 
 | Cause | Owner | Repair |
 | --- | --- | --- |
@@ -162,9 +176,10 @@ Verification runs before qualification. `aidd eval` records each evaluation with
 | The acceptance test is wrong, not the behavior | **Builder** | the test, with no weaker assertion |
 | A requirement of the spec contradicts a shipped one | the human, then the **Architect** | `Replaces: {global ID}` in the spec; the Builder updates and tags the test |
 | Only a product decision can tell | the human | the answer becomes a requirement |
-| Open debt recorded before the spec explains it | nobody | ship with `--preexisting <D IDs>` |
+| Too big for the spec: it failed before, its repair is outside the scope, or the Builder could not repair it | debt | a `high` item; ship with `--debt <D IDs>` |
 
-- At revision 3, a red verification no longer blocks. Shipping records its current failures, and each failure of the regression, as `high` debt.
+- A spec solves its problem as well as it can, and then it closes. Debt is debt.
+- At revision 3, a red verification no longer blocks. Shipping records its current failures as `high` debt.
 - `aidd spec show` lists the gate, and `aidd release` enforces it. The gate also refuses an evaluation with a commit that does not exist, so evidence written by hand never ships. It reads only the work state and the reports. The work state is local: a spec resumed in a new clone repeats its evaluations.
 
 ### Shipping
@@ -174,9 +189,8 @@ Shipping:
 1. Makes the spec index again and aligns the schema documents with the code.
 2. Updates the debt.
 3. Adds each reusable lesson that prevents an error to the project-rules table of the applicable `{project}/AGENTS.md`, as one short row.
-4. Runs the full `aidd run lint`, which applies the safe fixes of the linter, then `aidd run format` last, and commits their changes.
-5. Runs the full `aidd run test` again, because the release needs it at the current code. A failure means that the lint or a fix changed behavior: the spec does not ship, and the verification runs again.
-6. Runs `aidd release`. It enforces the gate and gets the version from the spec type: `feat` increases the minor version; `fix`, `refactor` and `chore` increase the patch version. The model adds `--major` only when the request or the spec asks for a major version.
+4. Runs the full `aidd run test`, because the release needs it at the current code, and triages each failure.
+5. Runs `aidd release`. It enforces the gate and gets the version from the spec type: `feat` increases the minor version; `fix`, `refactor` and `chore` increase the patch version. The model adds `--major` only when the request or the spec asks for a major version.
 
 The core writes that version into the root `package.json`, the root of its lockfile, and each file in `release.versionFiles` of `.aiddbot/config.json`. It adds the `CHANGELOG.md` entry from the spec title, commits, merges the branch and adds the tag. It never changes the versions of dependencies, tools, schemas, APIs or migrations.
 
@@ -186,36 +200,42 @@ The core writes that version into the root `package.json`, the root of its lockf
 | --- | --- |
 | `system.md` | The approved greenfield proposal: purpose, users, projects and scaffold commands. It stays as product context. |
 | `PRD.md` | One line for each shipped `feat` spec, by domain. `aidd release` writes it. |
-| `specs/{type}/S{nnnn}-{slug}/` | One delivery, in the folder of its type, as its branch: `spec.md` (a shorter template for each type but `feat`) with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
+| `specs/{type}/S{nnnn}-{slug}.md` | One delivery, one file in the folder of its type, as its branch (a shorter template for each type but `feat`), with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
-| `.aiddbot/config.json` | The type, the path of each project and its classified commands `lint`, `lint:files`, `format`, `upgrade`, `test`, `test:files`, `start`, `quality` and `harden` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
-| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD.log`: the story of the process by local date; nothing reads it. `{kind}-{project}.log`: the full output of the last run. `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. |
+| `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:spec`, `start`, `layers` and `crap` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
+| `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD/`: the history of one local day: `journal.log`, the story of the process, which nothing reads, and `HHMMSS-{kind}-{project}.log`, the full output of each failed run, named by the time it ended. `{kind}-{project}.log`: the full output of the last run (`debt-medium-back.log` for `layers`). `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
 
-`aiddbot init` makes each shared record above. The core makes each spec folder, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its `spec.md`, and a spec is shipped when `CHANGELOG.md` names it.
+`aiddbot init` makes each shared record above. The core makes each spec file, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its file, and a spec is shipped when `CHANGELOG.md` names it.
 
 ## Language
 
-The records of the system, journal summaries included, use the language of `.product/system.md`, never the language of a request. `system.md` takes the language of the human when it is written. Commit messages, template headings and technical names stay as they are written. The code, the tests and the texts of the user interface use English, unless the human asks for a different language.
+AIDDbot talks in the language of the human. The documents use ASD-STE100, in English unless the human chooses a different language. The code is in English. The Assistant section of the root `AGENTS.md` records the three.
 
 ## Quality review
 
 `craft-lasting-quality` follows this route:
 
-`scan-quality`, only when no `high` or `medium` debt is open → select the debt of one type → `/build-requested-spec`, again from the selection while debt remains, highest priority first (at most 5 specs in one run)
+high debt → `fix` spec → medium debt → `refactor` spec → low debt → patch, again while debt remains (at most 5 specs in one run) → check: `aidd run layers` and `aidd run crap` green for each project, else a scan of the red check (`layers` → medium, `crap` → low) for the red project, and again from high. No scan runs on a green check (Halloween D51).
 
-At most one scan runs in each run, at its start, so that its findings get their repair in the same run. Open `medium` debt skips it: a scan would only find that debt again. There is no scan at the end: the review of each repair records the debt that the repair leaves, and the next scan finds the rest. The only later scan is `harden`: one time, when no `high` or `medium` debt remains, before the selection.
+| Debt | Comes from | Repaired by |
+| --- | --- | --- |
+| `high` | the review; a triage that the spec cannot solve | a `fix` spec: branch, implement, verify, review, ship |
+| `medium` | `layers`: layers, duplicates, folder size | a `refactor` spec: branch, implement with the check green, ship |
+| `low` | `crap`: complexity, test coverage | a patch: a task branch for the `low` items of one project, implement until the `crap` of the project is green, integrate; no spec |
+
+`aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. It also repairs the other open items of the same priority and project, at most five: each item names its project with `debt add --project`; one with no project goes alone. Neither waits for an approval: the items come from evidence, and a product question still stops the delivery (Halloween D48). The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). A scan runs only for a red check, and only when no debt is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
 
 In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
-- `aidd run <kind> [--project]` runs the classified command. `--spec` runs only the tests of the spec in `e2e`. `--changed` runs `lint` or `test` only on the files that the branch changes. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the build lint. A slot marked `{"na": "<reason>"}` reports its reason and passes.
-- `format` changes the files in place. `upgrade` increases the dependencies to their latest releases. Neither is evidence.
-- Each run keeps its full output in `.aiddbot/logs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The journal records it. On a spec branch, the work state of the spec records it as the latest run of that kind for each project.
-- During coding, the Builder runs `lint --changed` and `test --changed`. Git gives the changed files: the diff from the merge base with the default branch, the uncommitted changes and the new files, never the deleted ones. `lint --changed` gives the changed files to the `lint:files` slot. `test --changed` gives the changed test files, and the test beside each changed source file (`x.ts` → `x.test.ts`), to the `test:files` slot. A project without a `:files` slot runs its full slot. A project with no changed file reports n/a.
-- The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. For a spec without requirements, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `quality` only to check a debt repair.
+- `aidd run <kind> [--project]` runs the classified command. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec, such as `@S0001-`: the slot ends in the filter flag of its runner, so the core never knows the runner. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the lint of the hook. A slot marked `{"na": "<reason>"}` reports its reason and passes.
+- `upgrade` increases the dependencies to their latest releases. It is not evidence, and neither is `crap`.
+- Each run keeps its full output in `.aiddbot/logs/{kind}-{project}.log` and stops after `run.timeoutMinutes` (20 by default). The next run of the slot writes that log again, so a failed run also keeps a copy in the folder of its day; the result of the run gives its path as `failure`. The journal records it. On a spec branch, the work state of the spec records it as the latest run of that kind for each project.
+- During coding, the pre-commit hook of the technology runs the unit tests that each commit affects. A unit test is fast and proves logic only: no disk, database, network or process. A commit of specs or docs only runs no test.
+- The Builder checks its acceptance tests with `aidd run test --spec`, which runs only the tagged tests of the spec and lists the requirements that have no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`, which `aidd spec debt` copies from the evidence of the item. For a spec with no requirements that cites none, it runs nothing and reports n/a. The Builder never runs the full suites. It runs `layers` or `crap` only to check a debt repair.
 - Quality findings make the code stronger over time. A feature can ship with them. `/craft-lasting-quality` scans them from time to time, never after each spec.
-- `lint` reports only errors, so the warnings of the linter are not noise in each build. `harden` reports them, with stricter rules, as the final polish: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
-- The Craftsman runs `test --spec` in `verify-behavior`, the full `lint` and `test` in `ship-spec` (the unit tests first, then the acceptance suite), and the `quality` list of each project in `scan-quality`. Each quality check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
-- A `quality` run also lists, in `folders`, each folder of a `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. It never fails the run. `scan-quality` records each one as debt: it divides a full `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
+- `layers` runs the dependency rules of the linter, never the commit hook. `crap` runs the complexity rules and the test coverage: `craft` runs it once, when no `high` or `medium` debt remains. Each rule becomes one `low` item with all its places, and one repair fixes them all. A false alarm is disabled in the configuration of the project.
+- The Craftsman runs `test --spec` in `verify-behavior`, the full acceptance suite in `ship-spec`, and the `layers` list of each project in `scan-quality`. Each check is its own entry, never one aggregate that stops at its first failure, and `run` executes each entry also after a failure.
+- A `layers` run also lists, in `folders`, each folder of a `core`, `shared` or `features` tree with more direct entries than `quality.folderEntries` (16 by default), and, in `subfolders`, each folder inside a feature. In `duplicates`, it lists each block of `quality.duplicateLines` (6 by default) or more logic lines that two or more places of a project repeat, with no blank, comment, import or bracket-only line. Each one makes the layers run of its project red, as a finding of its lint does. `scan-quality` records each one as debt: it divides a full `core` or `shared` folder by technical concern, a feature into two features, and moves a duplicated block to one function (DRY).
 
-Open debt is in `.aiddbot/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority, its evidence and its origin: the spec whose branch added it, or `scan`. The priority tells the source: `high` for what breaks (a blocking review finding, an unresolved failure), `medium` for a `quality` finding, and `low` for a debt finding of a review or a `harden` finding (origin `scan`). For now, the priority only orders the repairs. A fixed item goes away: at shipping, when the spec cites it and verification is green, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.
+Open debt is in `.aiddbot/debt.json`. Only `aidd debt add|list|remove` changes it, and each add or remove commits itself. Each item has a priority, its evidence, its origin (the spec whose branch added it, or `scan`), and its project, which a `medium` item always names. The priority tells the source and the repair: `high` for a review finding or a failure too big for its spec, `medium` for a `layers` finding, and `low` for a `crap` finding. A fixed item goes away: at shipping, when the spec cites it and proves its repair, after a patch, or at a scan whose check ran and no longer shows it. There is no separate review report: the journal records when a scan ran.

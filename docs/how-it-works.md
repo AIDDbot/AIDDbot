@@ -6,7 +6,7 @@ This page gives the model of AIDDbot. For the first session, read [Getting start
 
 - **Spec first.** Each change starts as a small spec with numbered requirements. You approve it before the code starts.
 - **Evidence, not trust.** Each requirement has an acceptance test. A spec ships only when its tests and the full regression pass, or with its failures recorded as debt.
-- **Small surface first.** The Builder tests only the files that it changed. The verification tests the spec, then the full system, so a regression shows at its first revision.
+- **Small surface first.** Each step checks only its own work. The Builder tests only the files that it changed, and the verification only the tests of the spec. Only the ship tests the full system.
 - **The code is the truth.** A shipped spec is a record of the change. It is never written again.
 - **Models judge, code checks.** The models do the non-deterministic work: design, specs, code and review. A deterministic program, the core, runs the tests, records the results and enforces the rules. It is more reliable, faster and cheaper than a model for that work.
 
@@ -14,7 +14,7 @@ This page gives the model of AIDDbot. For the first session, read [Getting start
 
 | Agent | Work |
 | --- | --- |
-| **Architect** | Designs the system, writes the specs, and selects the debt to repair. |
+| **Architect** | Designs the system and writes the specs. |
 | **Builder** | Writes the code and the tests. |
 | **Craftsman** | Verifies the spec, reviews the code, runs the regression, ships the spec, and scans the quality. |
 
@@ -36,7 +36,7 @@ flowchart LR
 `/architect-system-foundation` first decides the route. A repository with application code is **brownfield**, also when it is legacy code. A repository without application code is **greenfield**.
 
 - **Brownfield.** The Architect reads the code and writes the documentation: the `AGENTS.md` of the system and of each project, the schemas, and the commands of each project. It does not change the code or run the tests.
-- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `api`, `web`, `cli` and `e2e`. The projects come from a library of archetypes, such as Archetype Base or Archetype CLI, that already has the foundation and its tests. If no library fits your system, the Architect tells you and stops. After your approval, it copies the projects. The foundation ends only when `lint` and `test` pass.
+- **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `api`, `web`, `cli` and `e2e`. The projects come from an archetype, such as Archetype Base or Archetype CLI: a whole solution that already has the foundation and its tests. If no archetype fits your system, the Architect tells you and stops. After your approval, it copies the archetype. The foundation ends only when `test` passes.
 
 After the first run, each system is the same: a documented system with its rules. Thus `/build-requested-spec` and `/craft-lasting-quality` operate the same way on greenfield and brownfield code. Run the command again when the documentation must agree with the code.
 
@@ -48,16 +48,17 @@ After the first run, each system is the same: a documented system with its rules
 flowchart LR
     R[Request] --> S[Spec] --> OK{Approval} --> C[Code] --> V{Verify}
     V -->|red: triage| C
-    V -->|green| Q[Review] --> RG{Lint and test}
-    RG -->|red| V
+    V -->|green| Q[Review] --> RG{All tests}
+    RG -->|red: triage| C
+    RG -->|too big: high debt| SH
     RG -->|green| SH[Ship]
 ```
 
 1. The Architect writes one spec on its own branch, and stops for your approval.
-2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time. It lints and tests only the files that it changes.
-3. The Craftsman runs the acceptance tests of the spec, then all the tests. A red result goes back to the Builder.
-4. The Craftsman reviews the code for security, data integrity and accessibility. A finding becomes debt: `high` when it blocks, `low` for the others.
-5. Before the release, the Craftsman runs the full `lint` and the full test again. The verification already ran the regression: all the unit tests and the full acceptance suite, with a triage of each failure, its cause and its owner. The repair stays in the spec. At the third revision, the failures become debt and the spec continues.
+2. The Builder writes the code, the unit tests and the acceptance tests, one project at a time. It tests only the files that it changes. The pre-commit hook of the technology lints and formats each commit.
+3. The Craftsman runs the acceptance tests of the spec. A red result goes back to the Builder.
+4. The Craftsman reviews the code for security, data integrity and accessibility: only what lint and the tests cannot see. A finding becomes `high` debt.
+5. Before the release, the Craftsman runs all the tests: the regression. It triages each failure, with its cause and its owner. The Builder repairs what belongs to the spec. A failure that is too big for the spec becomes `high` debt, and the spec closes. At the third revision of the verification, the failures become debt and the spec continues.
 6. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
 
 Only one spec is open at a time. With `YOLO` in the request, the spec is approved when it is written, and it contains only what the request names.
@@ -66,13 +67,15 @@ Only one spec is open at a time. With `YOLO` in the request, the spec is approve
 
 `/craft-lasting-quality` keeps the code easy to change.
 
-1. When no `high` or `medium` debt is open, the Craftsman runs the `quality` checks: complexity, large folders and duplicated code. Each problem becomes `medium` debt. Open `high` or `medium` debt skips the scan: it is repaired first.
-2. The Architect selects the debt of one type in one group: `fix` when it breaks the behavior, `refactor` for all others.
-3. `/build-requested-spec` repairs it. The repair needs no approval: the debt is already recorded.
-4. The loop repeats steps 2 and 3 while debt remains, the highest priority first, for at most five specs.
-5. When no `high` or `medium` debt remains, the Craftsman runs `harden` one time: the final polish, such as the warnings of the linter. Each rule becomes one `low` item, and the loop repairs it.
+It repairs the debt from high to low. The level of the debt sets the repair:
 
-The debt comes from two places. The review of each spec adds `high` and `low` debt. The scan adds `medium` debt, and `harden` adds `low` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
+1. Each `high` item gets a minimal `fix` spec from the core. You approve the item, then `/build-requested-spec` builds, verifies, reviews and ships it.
+2. When no `high` debt is open, the Craftsman runs the `layers` checks: the logical layers, large folders and duplicated code. Each problem becomes `medium` debt.
+3. The `medium` items of each project get one minimal `refactor` spec from the core, with no approval. The Builder makes the check pass, and the ship proves that the behavior did not change.
+4. When no `high` or `medium` debt remains, the Craftsman runs `crap` one time: the complexity limits and the test coverage. Each rule becomes one `low` item.
+5. Each `low` item is a patch: no spec and no release. The Builder makes the check pass, and the hook runs the affected unit tests.
+
+The loop repeats while debt remains, for at most five specs. The debt comes from two places. The review and the triage of each spec add `high` debt. The scan adds `medium` debt, and `crap` adds `low` debt. A feature can ship with quality warnings. Scan from time to time, not after each spec: at most one scan runs in each `/craft-lasting-quality`, at its start.
 
 ## The core guards the process
 
@@ -84,9 +87,9 @@ Read [The core](./core.md) for the details.
 
 | Where | What |
 | --- | --- |
-| `.aiddbot/logs/` | One log for each day. Each line is one step, with its time and result. Git ignores it. |
+| `.aiddbot/logs/` | One folder for each day, with its log and the output of each failed run. Each line of the log is one step, with its time and result. Git ignores it. |
 | `.product/system.md` | The approved system proposal. |
-| `.product/specs/` | One folder for each spec, with its requirements and its evidence. |
+| `.product/specs/` | One file for each spec, with its requirements, in a folder for each type. |
 | `.product/PRD.md` | The shipped features, by domain. |
 | `.aiddbot/debt.json` | The open debt. |
 | `.product/model/` | The schemas of the data and the API. |

@@ -1,7 +1,6 @@
 // Shared plumbing: errors, the repository root, JSON records, IDs, git, and the journal.
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 
 export class UsageError extends Error {}
@@ -32,7 +31,7 @@ export function git(root, args, { allowFailure = false, env } = {}) {
     return execFileSync("git", args, options).trim();
   } catch (error) {
     if (allowFailure) return null;
-    const detail = error.stderr?.toString().trim() || error.message;
+    const detail = [error.stdout, error.stderr].map((text) => text?.toString().trim()).filter(Boolean).join("\n") || error.message;
     throw new RuleError(`git ${args.join(" ")} failed: ${detail}`);
   }
 }
@@ -82,29 +81,14 @@ export function nextId(root, kind) {
   const key = kind === "S" ? "spec" : "debt";
   const text = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "spec: 0\ndebt: 0\n";
   const pattern = new RegExp(`^${key}:\\s*(\\d+)\\s*$`, "m");
-  // Spec IDs also skip the ones already in use, such as the archetype foundation specs, so test tags never collide.
-  const taken = kind === "S" ? [productPath(root, "specs"), productPath(root, "archetypes")].flatMap(specNumbers) : [];
+  // Spec IDs also skip the spec files that exist with no counter, such as the foundation specs of an archetype, so test tags never collide.
+  const taken = kind === "S" ? specNumbers(productPath(root, "specs")) : [];
   const number = Math.max(Number(pattern.exec(text)?.[1] ?? 0), ...taken) + 1;
   const line = `${key}: ${number}`;
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const updated = pattern.test(text) ? text.replace(pattern, line) : `${text.trimEnd()}\n${line}\n`;
   fs.writeFileSync(file, updated, "utf8");
   return `${kind}${String(number).padStart(4, "0")}`;
-}
-
-/** The git tree of `dir` as the working copy holds it now, ignored files left out: equal trees mean equal files. */
-export function workingTree(root, dir) {
-  const index = path.join(os.tmpdir(), `aidd-index-${process.pid}-${Date.now()}`);
-  const real = path.resolve(root, git(root, ["rev-parse", "--git-path", "index"]));
-  if (fs.existsSync(real)) fs.copyFileSync(real, index);
-  try {
-    const env = { GIT_INDEX_FILE: index };
-    const prefix = dir === "." ? [] : [`--prefix=${dir.replace(/[\\/]+$/, "")}/`];
-    git(root, ["add", "-A", "--", dir], { env });
-    return git(root, ["write-tree", ...prefix], { env, allowFailure: true });
-  } finally {
-    fs.rmSync(index, { force: true });
-  }
 }
 
 export const currentBranch = (root) => git(root, ["branch", "--show-current"]);
@@ -123,7 +107,9 @@ export function defaultBranch(root) {
 export function commitPaths(root, paths, message) {
   git(root, ["add", "-A", "--", ...paths], { allowFailure: true });
   if (!git(root, ["diff", "--cached", "--name-only", "--", ...paths], { allowFailure: true })) return false;
-  return git(root, ["commit", "-q", "-m", message, "--", ...paths], { allowFailure: true }) !== null;
+  // A refused commit, such as one that the pre-commit hook of the technology stops, shows its output: the Builder repairs it.
+  git(root, ["commit", "-q", "-m", message, "--", ...paths]);
+  return true;
 }
 
 /** Merge `source` into `base` with a merge commit, then delete `source`. */
@@ -144,16 +130,25 @@ const MAX_SUMMARY = 128;
 const NOISE = /["'`]|\p{Extended_Pictographic}/gu;
 const pad2 = (value) => String(value).padStart(2, "0");
 
+/** The local date and time of `now`, as the journal writes them. */
+export function localStamp(now = new Date()) {
+  return {
+    date: `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`,
+    time: `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`,
+  };
+}
+
+/** The folder of one day in `.aiddbot/logs/`: the history of that day, its journal and the output of each failed run. */
+export const dayFolder = (root, date) => aiddbotPath(root, "logs", date);
+
 /** Append one line to today's journal; a journal failure never undoes the command. */
 export function journal(root, { actor = "aidd", event, spec = "-", summary = "", level = "INFO" }) {
   try {
-    const now = new Date();
-    const date = `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
-    const time = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
+    const { date, time } = localStamp();
     const text = summary.replace(NOISE, "").replace(/\s+/g, " ").trim() || "-";
     const capped = text.length > MAX_SUMMARY ? `${text.slice(0, MAX_SUMMARY - 1)}…` : text;
     const cells = [time, actor.padEnd(6), spec.padEnd(6), event.padEnd(10), level.padEnd(5), capped];
-    const file = aiddbotPath(root, "logs", `${date}.log`);
+    const file = path.join(dayFolder(root, date), "journal.log");
     fs.mkdirSync(path.dirname(file), { recursive: true });
     const header = fs.existsSync(file) ? "" : `# AIDDbot journal ${date}\n`;
     fs.appendFileSync(file, `${header}${cells.join(" ")}\n`, "utf8");

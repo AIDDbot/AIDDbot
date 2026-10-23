@@ -33,13 +33,15 @@ The core refuses a step when a rule is not true. It stops with an error message 
 | --- | --- |
 | A commit, an evaluation or a release of a spec | The human approves the spec. |
 | A new spec | The open spec ships. Only one spec is open at a time. |
-| A commit of changed code | `lint` passes on that code: the full `lint` of its project, or `lint --changed` on each changed file. |
+| A commit that the pre-commit hook refuses | You fix the errors that the hook shows. |
 | A commit on the main branch | Never: only `release` and `integrate` write there. |
 | A commit of installed dependencies, such as `node_modules/` | Never. |
+| A commit of text with garbled characters, as a shell with the wrong encoding writes them | Never. |
 | A second run of a test command | The first run ends. Two runs share ports and databases. |
 | A green verification | The acceptance tests of the spec (`test --spec`) pass on the current code, and each requirement has an acceptance test. |
+| An evaluation that the type does not need | Never: a `chore` has no verification, and a `refactor` has no evaluation. |
 | A non-green evaluation | Its report of findings exists. |
-| A release | The spec has all its evidence, and the regression passes on the current code: the full `lint` of each project, and the full `test`, with the unit tests and the full acceptance suite. |
+| A release | The spec has all the evidence of its type, and the regression passes on the current code: the full `test`, with the unit tests and the full acceptance suite. Open `high` debt can record a failure. |
 
 ## What it owns
 
@@ -51,23 +53,24 @@ Only the core writes these files. Nobody edits them by hand.
 | `.product/PRD.md` | One line for each shipped feature. |
 | `.aiddbot/config.json` | The projects and their commands. |
 | `.aiddbot/counters.yaml` | The next IDs of the specs and the debt. |
-| `.aiddbot/logs/` | Ignored by Git: the daily log (the agents add only their judgments to it, through the core), the full output of the last run of each command, and the work state of each spec (its runs, its evaluations and their commits). |
+| `.aiddbot/logs/` | Ignored by Git: one folder for each day, with its journal (the agents add only their judgments to it, through the core) and the full output of each failed run; the full output of the last run of each command; and the work state of each spec (its runs, its evaluations and their commits). |
 | `package.json`, `CHANGELOG.md`, the tags | The version of your product. |
 
-The agents write only the texts: `system.md`, each `spec.md`, the reports of findings, and the `AGENTS.md` files.
+The agents write only the texts: `system.md`, each spec, the reports of findings, and the `AGENTS.md` files.
 
 ## Commands
 
 | Command | Purpose |
 | --- | --- |
-| `spec new` · `spec show` | Open a spec on its branch. Show the state and the blockers of a spec. |
-| `run <kind>` | Run a project command: `lint`, `format`, `upgrade`, `test`, `quality` or `harden`. `test` runs the `e2e` project last. `--changed` runs `lint` or `test` only on the files that the branch changes. `--spec` runs only the acceptance tests of the spec: the evidence of the verification. The full `lint` and `test` are the evidence of the release. |
+| `spec new` · `spec debt` · `spec show` | Open a spec on its branch, from a request (`feat`, `fix`, `chore`) or from a debt item (`fix` from high, `refactor` from medium). Show the state and the blockers of a spec. |
+| `run <kind>` | Run a project command: `upgrade`, `test`, `layers` or `crap`. `test` runs the `e2e` project last. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec (or the tests that a `fix` cites): the evidence of the verification. The full `test` is the evidence of the release. |
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
-| `release` | Ship the open spec: version, changelog, PRD, merge and tag. `--preexisting <D IDs>` names older debt that explains each failure of the regression. |
+| `release` | Ship the open spec: version, changelog, PRD, the index of each `shared` folder, merge and tag; it refuses an `AGENTS.md` out of form. `--debt <D IDs>` names the open `high` debt that records each failure of the regression. |
 | `integrate` | Merge a branch that is not a spec, such as `chore/foundation`. |
-| `log` | Add a judgment of an agent to the journal. |
+| `agents check` · `index` | Check the form of each `AGENTS.md` (at most 128 lines, the sections of its template in order, no empty section, no comment), or write the index of each `shared` folder. `release` runs both. |
+| `log` | Add a judgment of an agent to the journal. `log approved` commits the spec definition, and refuses a spec over its size limits: 9 requirements, 3 user stories, 5 business rules, fewer than 100 lines. |
 | `config get` · `set` | Read or write `.aiddbot/config.json`. |
 
 The `run` command does not know your technology. It executes the command that the foundation recorded for each project, such as `npm test` or `pytest`. Each run stops after 20 minutes by default.

@@ -3,21 +3,26 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import {
-  aiddbotPath, commitPaths, currentBranch, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UnavailableError, UsageError,
-  workingTree, writeJson,
+  aiddbotPath, commitPaths, currentBranch, dayFolder, defaultBranch, git, journal, localStamp, nextId, readJson, relative, RuleError,
+  UnavailableError, UsageError, writeJson,
 } from "../lib/core.mjs";
-import { findSpec, isApproved, readControl, requireSpec, SPEC_DEFINED, unapproved, writeControl } from "../lib/spec.mjs";
-import { requirements, untested } from "./eval.mjs";
+import {
+  findSpec, isApproved, oversize, readControl, requireSpec, SPEC_DEFINED, specMeta, TYPES, unapproved, writeControl,
+} from "../lib/spec.mjs";
+import { specTags, untested } from "./eval.mjs";
 
-const RUN_KINDS = ["lint", "format", "upgrade", "test", "quality", "harden"];
+// Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
+// Each debt kind has the name of the level of the debt that it finds.
+const RUN_KINDS = ["upgrade", "test", "layers", "crap"];
 const PROJECT_TYPES = ["api", "web", "cli", "e2e"];
-const NOT_EVIDENCE = new Set(["format", "upgrade", "harden"]);
+const NOT_EVIDENCE = new Set(["upgrade", "crap"]);
+const SPEC_SLOT = "test:spec";
 const TAIL = 1500;
 const SUMMARY_LINE = 80;
 const DEFAULT_TIMEOUT_MINUTES = 20;
 const RUNNING = "RUNNING";
 const DEFAULT_FOLDER_ENTRIES = 16;
-const GROUPED_FOLDERS = new Set(["shared", "features"]);
+const GROUPED_FOLDERS = new Set(["core", "shared", "features"]);
 const SKIPPED_FOLDERS = new Set(["node_modules", "dist", "build", "coverage", "out", "vendor", "target"]);
 const DEFAULT_DUPLICATE_LINES = 6;
 const MAX_DUPLICATES = 20;
@@ -25,21 +30,31 @@ const CODE_FILE = /\.(c|m)?[jt]sx?$|\.(css|scss|html|vue|svelte|py|go|rs|java|kt
 const TRIVIAL_LINE = /^[\s{}()[\];,]*$/;
 const COMMENT_LINE = /^(\/\/|\/\*|\*|#(?!include)|--)/;
 const IMPORT_LINE = /^(import\b|export \{?.*\bfrom\b|from \S+ import\b|using\b|package\b|#include\b|require\()/;
+const OPEN_IMPORT = [["{", "}"], ["(", ")"]];
 const INSTALLED = /(^|\/)(node_modules|\.venv|__pycache__)\//;
-const TEST_FILE = /\.test\.[^./]+$/;
+/** UTF-8 text read and written again as Windows-1252, such as an em dash read as three characters: a shell with the wrong encoding writes it. */
+const GARBLED = /\u00e2\u20ac|\u00c3[\u0080-\u00bf]|\u00c2[\u00a0-\u00bf]/;
+const TEXT_FILE = /\.(md|[cm]?[jt]sx?|json|ya?ml|txt|css|html)$/;
 const configFile = (root) => aiddbotPath(root, "config.json");
 
-/** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line. Package-manager noise is never a summary. */
+/** The tool's own summary line of a run: the last line that tells a pass (or, after a failure, a fail or an error), else the last line.
+ *  Noise is never a summary: package-manager lines, which only repeat the command and its exit code, rules of a table, and lists of patterns. */
 function summaryLine(tail = "", ok = true) {
-  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !/^(npm (notice|warn)|> )/.test(line));
+  const noise = /^(npm (notice|warn|error|ERR!)|> )|^[\s=\-|+*_]+$|^(include|exclude):/;
+  const lines = tail.split(/\r?\n/).map((line) => line.trim()).filter((line) => line && !noise.test(line));
   const telling = ok ? /\bpass/i : /\b(fail|error)/i;
   const line = lines.findLast((entry) => telling.test(entry)) ?? lines.at(-1) ?? "";
   return line.length > SUMMARY_LINE ? `${line.slice(0, SUMMARY_LINE - 1)}…` : line;
 }
 
+/** The name of one command of a slot with several: its npm script, else its place in the list. */
+function stepName(command, index) {
+  return command.match(/^npm\s+(?:run|run-script)\s+(\S+)/)?.[1] ?? `#${index + 1}`;
+}
+
 /** One project of a run for the journal: status, time and the summary line of its output. */
 function runSummary(entry) {
-  const status = `${entry.project} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`;
+  const status = `${entry.project}${entry.step ? ` ${entry.step}` : ""} ${entry.ok ? "ok" : `exit ${entry.exitCode}`} ${entry.seconds}s`;
   const line = summaryLine(entry.tail, entry.ok);
   return line ? `${status} (${line})` : status;
 }
@@ -61,7 +76,17 @@ function exec(root, cwd, command, log, minutes) {
   fs.writeFileSync(log, output);
   const entry = { command, ok: result.status === 0, exitCode: result.status ?? 1, seconds: Math.round((Date.now() - started) / 1000) };
   if (result.error?.code === "ETIMEDOUT") entry.timedOut = `killed after ${minutes} minutes`;
-  return { ...entry, log: relative(root, log), tail: output.trim().slice(-TAIL) };
+  const failure = entry.ok ? {} : { failure: keepFailure(root, log) };
+  return { ...entry, log: relative(root, log), ...failure, tail: output.trim().slice(-TAIL) };
+}
+
+/** Keep the output of a failed run in the folder of its day, named by the time it ended: the next run of the slot writes its log again. */
+function keepFailure(root, log) {
+  const { date, time } = localStamp();
+  const copy = path.join(dayFolder(root, date), `${time.replaceAll(":", "")}-${path.basename(log)}`);
+  fs.mkdirSync(path.dirname(copy), { recursive: true });
+  fs.copyFileSync(log, copy);
+  return relative(root, copy);
 }
 
 /** The lock of the run in progress, kept in the git folder because it is local state, never history. */
@@ -131,9 +156,9 @@ const evidenceOf = (kind, project, scoped) => (kind !== "test" ? kind : scoped ?
 
 /** Keep the latest run of each kind and project in the spec of the current branch, as evidence for `eval` and `release`. */
 function recordRun(root, kind, runs, projects, scoped) {
-  const dir = findSpec(root, currentBranch(root));
-  if (!dir) return;
-  const control = readControl(root, dir);
+  const spec = findSpec(root, currentBranch(root));
+  if (!spec) return;
+  const control = readControl(root, spec);
   if (control.status === "shipped") return;
   const commit = git(root, ["rev-parse", "HEAD"]);
   const at = new Date().toISOString();
@@ -148,7 +173,7 @@ function recordRun(root, kind, runs, projects, scoped) {
 }
 
 /**
- * The folder findings of one project. `crowded`: each folder of a `shared` or `features` tree, the tree included, with more direct entries than `limit`.
+ * The folder findings of one project. `crowded`: each folder of a `core`, `shared` or `features` tree, the tree included, with more direct entries than `limit`.
  * `subfolders`: each folder inside a feature folder, because a feature is one flat folder and the layer lint sees only its top. Technology-free: it reads the file system only.
  */
 function folderFindings(root, project, start, limit) {
@@ -174,11 +199,21 @@ function folderFindings(root, project, start, limit) {
   return { crowded: crowded.sort(byFolder), subfolders: subfolders.sort(byFolder) };
 }
 
-/** The lines that carry logic: no blank, bracket-only, comment, or import line, and spaces collapsed. */
+/** The lines that carry logic: no blank, bracket-only, comment, or import line, and spaces collapsed.
+ *  An import that names its items on the next lines is one import: each line up to its closer is skipped too. */
 function logicLines(text) {
+  let closer = null;
   return text.split(/\r?\n/).flatMap((raw, index) => {
     const line = raw.trim().replace(/\s+/g, " ");
-    if (TRIVIAL_LINE.test(line) || COMMENT_LINE.test(line) || IMPORT_LINE.test(line)) return [];
+    if (closer) {
+      if (line.includes(closer)) closer = null;
+      return [];
+    }
+    if (IMPORT_LINE.test(line)) {
+      closer = OPEN_IMPORT.find(([open, close]) => line.endsWith(open) && !line.includes(close))?.[1] ?? null;
+      return [];
+    }
+    if (TRIVIAL_LINE.test(line) || COMMENT_LINE.test(line)) return [];
     return [{ line, number: index + 1 }];
   });
 }
@@ -228,61 +263,6 @@ function duplicateFindings(root, project, start, size) {
   return blocks.sort((a, b) => b.lines - a.lines).slice(0, MAX_DUPLICATES);
 }
 
-/** The last lint of each project and the tree it saw, kept in the git folder because it is local state, never history. */
-const lintStateFile = (root) => path.resolve(root, git(root, ["rev-parse", "--git-path", "aidd-lint.json"]));
-
-/** The git blob of each file as the working copy holds it now: an equal blob means equal content. */
-function blobs(root, files) {
-  return files.length ? git(root, ["hash-object", "--", ...files]).split(/\r?\n/) : [];
-}
-
-/** Remember each lint result with the files it saw: the tree of a full lint, or the blob of each file of a `--changed` lint.
- *  A format of clean files keeps a full lint valid, because format is cosmetic. */
-function rememberLint(root, kind, projects, runs, before, linted) {
-  const file = lintStateFile(root);
-  const state = readJson(file, {});
-  for (const name of new Set(runs.filter((entry) => entry.na === undefined).map((entry) => entry.project))) {
-    const ok = runs.every((entry) => entry.project !== name || entry.ok);
-    if (kind === "lint" && linted[name]) {
-      const files = { ...state[name]?.files };
-      blobs(root, linted[name]).forEach((blob, index) => {
-        if (ok) files[linted[name][index]] = blob;
-        else delete files[linted[name][index]];
-      });
-      state[name] = { ...state[name], files };
-      continue;
-    }
-    const tree = workingTree(root, projects[name].path);
-    if (kind === "lint") state[name] = { ...state[name], tree, ok };
-    else if (state[name]?.ok && state[name].tree === before[name]) state[name].tree = tree;
-  }
-  writeJson(file, state);
-}
-
-const projectPrefix = (project) => (project.path === "." ? "" : `${project.path.replace(/[\\/]+$/, "")}/`);
-
-/** The files that the branch changes and that still exist: the diff from its merge base with the default branch, uncommitted changes included, and the new files. */
-function branchFiles(root) {
-  let base = null;
-  try {
-    base = git(root, ["merge-base", "HEAD", defaultBranch(root)], { allowFailure: true });
-  } catch {
-    base = null;
-  }
-  const list = (args) => (git(root, args, { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
-  const diff = list(["diff", "--name-only", "--no-renames", "--diff-filter=d", base || "HEAD"]);
-  return [...new Set([...diff, ...list(["ls-files", "--others", "--exclude-standard"])])];
-}
-
-/** The changed code files of a project, relative to it, for `lint`; for `test`, each changed test and the test beside each changed source (`x.ts` → `x.test.ts`). */
-function changedOf(root, project, kind, changed) {
-  const prefix = projectPrefix(project);
-  const own = changed.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && !INSTALLED.test(file)).map((file) => file.slice(prefix.length));
-  if (kind === "lint") return own;
-  const tests = own.map((file) => (TEST_FILE.test(file) ? file : file.replace(/(\.[^./]+)$/, ".test$1")));
-  return [...new Set(tests)].filter((file) => fs.existsSync(path.join(root, prefix, file)));
-}
-
 /** The files that a commit of `paths` would take: changed since HEAD (only added or modified, with `kept`), or new and not ignored. */
 function changedFiles(root, paths, kept = false) {
   const list = (args) => (git(root, [...args, "--", ...paths], { allowFailure: true }) ?? "").split(/\r?\n/).filter(Boolean);
@@ -290,120 +270,64 @@ function changedFiles(root, paths, kept = false) {
   return [...list(diff), ...list(["ls-files", "--others", "--exclude-standard"])];
 }
 
-/** A commit that changes the code of a project needs a passing lint on the same files: the last full lint of that project,
- *  or a `--changed` lint of each changed code file that still exists. A deleted file is left to the full lint of the release. */
-export function requireLint(root, paths) {
-  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
-  const code = changedFiles(root, paths).filter((file) => !/^\.(aiddbot|product)\//.test(file) && !file.endsWith(".md"));
-  const state = readJson(lintStateFile(root), {});
-  const stale = [];
-  for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.lint;
-    if (!slot || isNa(slot)) continue;
-    const prefix = projectPrefix(project);
-    if (!code.some((file) => file.startsWith(prefix))) continue;
-    const last = state[name];
-    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
-    const own = code.filter((file) => file.startsWith(prefix) && CODE_FILE.test(file) && fs.existsSync(path.join(root, file)));
-    const hashes = blobs(root, own);
-    if (last?.files && own.every((file, index) => last.files[file] === hashes[index])) continue;
-    stale.push(`${name} (${!last ? "never linted" : last.ok === false ? "its last lint failed" : "changed since its last lint"})`);
-  }
-  if (stale.length) {
-    throw new RuleError(`Lint before you commit: ${stale.join(", ")}. Run \`aidd run lint --changed --project <name>\`, fix every error, then commit.`);
-  }
-}
-
-/** A release needs a passing full lint of each project on its current files: a lint of changed files cannot see a deleted file or a changed signature. */
-export function requireFullLint(root) {
-  const projects = readJson(configFile(root), { projects: {} }).projects ?? {};
-  const state = readJson(lintStateFile(root), {});
-  const stale = [];
-  for (const [name, project] of Object.entries(projects)) {
-    const slot = project.commands?.lint;
-    if (!slot || isNa(slot)) continue;
-    const last = state[name];
-    if (last?.ok && last.tree === workingTree(root, project.path)) continue;
-    stale.push(`${name} (${!last?.tree ? "no full lint" : last.ok ? "changed since its full lint" : "its full lint failed"})`);
-  }
-  if (stale.length) {
-    throw new RuleError(`Run the full lint before you release: ${stale.join(", ")}. Run \`aidd run lint\`, fix every error, then release again.`);
-  }
-}
-
 /** Run one classified command kind for every project that has it, or for `--project`. `test` runs the `e2e` projects last.
- *  `--spec` narrows `test` to the `e2e` tests of the current spec: the evidence of the verification.
- *  `--changed` narrows `lint` and `test` to the files that the branch changes, through the `lint:files` and `test:files` slots; it is never evidence. */
+ *  `--spec` runs the `test:spec` slot of each `e2e` with the tag of the current spec: the evidence of the verification.
+ *  That slot ends in the filter flag of its runner, so the core adds only the tag and never knows the runner. */
 export function run(root, [kind], flags) {
   if (!RUN_KINDS.includes(kind)) throw new UsageError(`Kind must be one of: ${RUN_KINDS.join(", ")}.`);
-  const changed = flags.changed === true;
-  if (changed && !["lint", "test"].includes(kind)) throw new UsageError("--changed applies only to lint and test.");
-  if (changed && flags.spec) throw new UsageError("Use --changed or --spec, not both.");
+  if (flags.spec && kind !== "test") throw new UsageError("--spec applies only to test.");
   const settings = readJson(configFile(root), { projects: {} });
   const projects = settings.projects ?? {};
   const minutes = settings.run?.timeoutMinutes ?? DEFAULT_TIMEOUT_MINUTES;
-  const scoped = kind === "test" && flags.spec ? requireSpec(root) : null;
+  const scoped = flags.spec ? requireSpec(root) : null;
+  const slotName = scoped ? SPEC_SLOT : kind;
   const names = (typeof flags.project === "string" ? [flags.project] : Object.keys(projects))
-    .filter((name) => isNa(projects[name]?.commands?.[kind]) || [projects[name]?.commands?.[kind] ?? []].flat().length)
+    .filter((name) => isNa(projects[name]?.commands?.[slotName]) || [projects[name]?.commands?.[slotName] ?? []].flat().length)
     .filter((name) => !scoped || projects[name].type === "e2e")
-    // The Builder checks the acceptance tests with `--spec`, never with `--changed`.
-    .filter((name) => !(changed && kind === "test" && projects[name].type === "e2e"))
     .sort((a, b) => (kind === "test") * ((projects[a].type === "e2e") - (projects[b].type === "e2e")));
   if (!names.length) {
-    const what = scoped ? "No 'e2e' project has a 'test' command" : `No '${kind}' command is configured`;
+    const what = scoped ? `No 'e2e' project has a '${SPEC_SLOT}' command` : `No '${kind}' command is configured`;
     throw new UnavailableError(`${what}; the foundation records each project's type and slots from its AGENTS.md.`);
   }
   const id = scoped && path.basename(scoped).slice(0, 5);
-  // A spec without requirements (a refactor or a chore) has no tagged test: the regression of ship-spec checks it.
-  if (id && !requirements(scoped).length) {
-    const na = `${id} has no requirements, so no test has its tag; the regression of ship-spec checks it.`;
+  // Its own requirements, or the requirements of older specs that a fix cites; a refactor or a chore has neither.
+  const tags = id ? specTags(scoped, id) : [];
+  if (id && !tags.length) {
+    const na = `${id} has no requirements and cites none, so no test has its tag; the regression of ship-spec checks it.`;
     return { body: { kind, spec: id, scoped: true, ok: true, na, runs: [] }, exitCode: 0 };
   }
   const runs = [];
-  const linted = {};
-  const touched = changed ? branchFiles(root) : [];
-  const tracksLint = !id && (kind === "lint" || kind === "format");
-  const before = kind === "format" ? Object.fromEntries(names.map((name) => [name, workingTree(root, projects[name].path)])) : {};
   const unlock = lockRun(root, kind);
   try {
     for (const name of names) {
-      const slot = projects[name].commands[kind];
+      const slot = projects[name].commands[slotName];
       if (isNa(slot)) {
         runs.push({ project: name, ok: true, na: slot.na });
         continue;
       }
-      let commands = [slot].flat().map((command) => (id ? withArguments(command, `--grep @${id}-`) : command));
-      if (changed) {
-        const files = changedOf(root, projects[name], kind, touched);
-        if (!files.length) {
-          runs.push({ project: name, ok: true, na: `no changed ${kind === "test" ? "test" : "code file"}` });
-          continue;
-        }
-        // A project without a `:files` slot runs its full slot.
-        const narrow = projects[name].commands[`${kind}:files`];
-        if (typeof narrow === "string" || Array.isArray(narrow)) {
-          commands = [narrow].flat().map((command) => withArguments(command, files.map((file) => `"${file}"`).join(" ")));
-          if (kind === "lint") linted[name] = files.map((file) => `${projectPrefix(projects[name])}${file}`);
-        }
-      }
+      const commands = id ? [slot].flat().flatMap((command) => tags.map((tag) => withArguments(command, tag))) : [slot].flat();
       commands.forEach((command, index) => {
-        const mode = id ? "-scoped" : changed ? "-changed" : "";
-        const log = aiddbotPath(root, "logs", `${kind}${mode}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
-        runs.push({ project: name, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
+        // A slot name such as `test:spec` is not a valid file name on every system.
+        const log = aiddbotPath(root, "logs", `${kind.replace(":", "-")}${id ? "-scoped" : ""}-${name}${commands.length > 1 ? `-${index + 1}` : ""}.log`);
+        const step = commands.length > 1 && !id ? { step: stepName(command, index) } : {};
+        runs.push({ project: name, ...step, ...exec(root, path.join(root, projects[name].path), command, log, minutes) });
       });
     }
   } finally {
     unlock();
   }
-  const ok = runs.every((entry) => entry.ok);
   const limit = settings.quality?.folderEntries ?? DEFAULT_FOLDER_ENTRIES;
-  const findings = kind === "quality" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
+  const findings = kind === "layers" ? names.map((name) => folderFindings(root, name, path.join(root, projects[name].path), limit)) : [];
   const folders = findings.flatMap((entry) => entry.crowded);
   const subfolders = findings.flatMap((entry) => entry.subfolders);
   const size = settings.quality?.duplicateLines ?? DEFAULT_DUPLICATE_LINES;
-  const duplicates = kind === "quality" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
+  const duplicates = kind === "layers" ? names.flatMap((name) => duplicateFindings(root, name, path.join(root, projects[name].path), size)) : [];
+  // A structure finding of the core makes the layers run of its project red, as a finding of its lint does.
+  const structured = new Set([...folders, ...subfolders, ...duplicates].map((entry) => entry.project));
+  for (const entry of runs) if (structured.has(entry.project)) entry.ok = false;
+  const ok = runs.every((entry) => entry.ok);
   const summary = runs.filter((entry) => entry.na === undefined).map(runSummary);
-  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : changed ? " --changed" : ""}: ${summary.join(", ") || "n/a"}` });
+  journal(root, { event: "run", level: ok ? "INFO" : "WARN", summary: `${kind}${id ? ` ${id}` : ""}: ${summary.join(", ") || "n/a"}` });
   if (folders.length) {
     journal(root, { event: "run", level: "WARN", summary: `folders over ${limit} entries: ${folders.map((entry) => `${entry.folder} (${entry.entries})`).join(", ")}` });
   }
@@ -414,10 +338,9 @@ export function run(root, [kind], flags) {
     const where = duplicates.slice(0, 3).map((entry) => `${entry.locations[0].file}:${entry.locations[0].from} (${entry.lines} lines, ${entry.locations.length} places)`);
     journal(root, { event: "run", level: "WARN", summary: `duplicated blocks: ${duplicates.length}, such as ${where.join(", ")}` });
   }
-  if (!changed && !NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
-  if (tracksLint) rememberLint(root, kind, projects, runs, before, linted);
+  if (!NOT_EVIDENCE.has(kind)) recordRun(root, kind, runs, projects, Boolean(id));
   const body = id ? { kind, spec: id, scoped: true, ok, untested: untested(root, scoped, id), runs }
-    : { kind, ok, ...(changed && { changed: true }), runs, ...(kind === "quality" && { folders, subfolders, duplicates }) };
+    : { kind, ok, runs, ...(kind === "layers" && { folders, subfolders, duplicates }) };
   return { body, exitCode: ok ? 0 : 1 };
 }
 
@@ -463,8 +386,9 @@ export function config(root, [action, key, value]) {
 const PRIORITIES = ["high", "medium", "low"];
 const debtFile = (root) => aiddbotPath(root, "debt.json");
 
-/** `debt add <title> <priority> [evidence]`, `debt list`, or `debt remove <id>`. */
-export function debt(root, [action, ...args]) {
+/** `debt add <title> <priority> [evidence] [--project <name>]`, `debt list`, or `debt remove <id>`.
+ *  A `medium` item names its project: a `layers` run checks one project, and its refactor repairs the items of that project together. */
+export function debt(root, [action, ...args], flags = {}) {
   const register = readJson(debtFile(root), { items: [] });
   if (action === "list") {
     return register.items.toSorted((a, b) => PRIORITIES.indexOf(a.priority) - PRIORITIES.indexOf(b.priority));
@@ -472,10 +396,18 @@ export function debt(root, [action, ...args]) {
   if (action === "add") {
     const [title, priority, evidence = ""] = args;
     if (!title?.trim() || !PRIORITIES.includes(priority)) {
-      throw new UsageError(`Use: aidd debt add "<title>" <${PRIORITIES.join("|")}> ["<evidence>"]`);
+      throw new UsageError(`Use: aidd debt add "<title>" <${PRIORITIES.join("|")}> ["<evidence>"] [--project <name>]`);
+    }
+    const projects = Object.keys(readJson(configFile(root), { projects: {} }).projects ?? {});
+    const project = typeof flags.project === "string" ? flags.project : undefined;
+    if (project !== undefined && !projects.includes(project)) {
+      throw new UsageError(`Project must be one of: ${projects.join(", ") || "(none configured)"}.`);
+    }
+    if (priority === "medium" && project === undefined) {
+      throw new UsageError("A medium item needs --project <name>: the project whose layers run reported it.");
     }
     const spec = findSpec(root, git(root, ["branch", "--show-current"]));
-    const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(),
+    const item = { id: nextId(root, "D"), title: title.trim(), priority, evidence: evidence.trim(), ...(project && { project }),
       origin: spec ? path.basename(spec).slice(0, 5) : "scan", at: new Date().toISOString() };
     register.items.push(item);
     writeJson(debtFile(root), register);
@@ -505,11 +437,21 @@ export function commit(root, [message, ...paths]) {
   }
   const spec = findSpec(root, branch);
   if (spec && message.trim() !== SPEC_DEFINED && !isApproved(root, spec)) throw new RuleError(unapproved(readControl(root, spec)));
+  // The history and the changelog tell a spec by its type: each commit of a spec has the type of the spec, or one that is not a type of spec, such as `docs`.
+  const type = /^(\w+)[(!:]/.exec(message.trim())?.[1];
+  const meta = spec && specMeta(spec);
+  if (meta && TYPES.includes(type) && type !== meta.type) {
+    throw new RuleError(`${meta.key} is a ${meta.type}: commit its work as \`${meta.type}(...)\`, never \`${type}(...)\`.`);
+  }
   const installed = changedFiles(root, paths.length ? paths : ["."], true).find((file) => INSTALLED.test(file));
   if (installed) {
     throw new RuleError(`Installed dependencies are never committed (${installed}). Add the dependency folder to the ignore file of its project, then commit again.`);
   }
-  requireLint(root, paths.length ? paths : ["."]);
+  const garbled = changedFiles(root, paths.length ? paths : ["."], true)
+    .find((file) => TEXT_FILE.test(file) && GARBLED.test(fs.readFileSync(path.join(root, file), "utf8")));
+  if (garbled) {
+    throw new RuleError(`${garbled} has garbled characters, such as \u00e2\u20ac\u201d for an em dash: it was written with the wrong encoding. Write it again as UTF-8, then commit again.`);
+  }
   const committed = commitPaths(root, paths.length ? paths : ["."], message.trim());
   if (committed) journal(root, { event: "committed", summary: message });
   return { committed, message: message.trim() };
@@ -523,9 +465,15 @@ export function log(root, [event, summary], flags) {
     throw new UsageError(`Use: aidd log <${Object.keys(MODEL_EVENTS).join("|")}> "<summary>"`);
   }
   const spec = typeof flags.spec === "string" ? flags.spec : "-";
+  // An approved spec is committed here, so its definition never lands before its approval, and only within the size limits.
+  const file = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
+  // An approval with no spec that exists approves nothing: refuse it, so that the definition is never left out of git.
+  if (event === "approved" && !file) {
+    throw new RuleError(`log approved needs the ID of an existing spec, such as --spec S0001; ${spec === "-" ? "no --spec was given" : `no spec is ${spec}`}.`);
+  }
+  const tooLarge = file ? oversize(file) : [];
+  if (tooLarge.length) throw new RuleError(tooLarge.join(" "));
   journal(root, { actor: "model", event, spec, level: MODEL_EVENTS[event], summary });
-  // An approved spec is committed here, so its definition never lands before its approval.
-  const dir = event === "approved" && spec !== "-" ? findSpec(root, spec) : null;
-  if (dir) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, dir)]) };
+  if (file) return { event, summary, ...commit(root, [SPEC_DEFINED, relative(root, file)]) };
   return { event, summary };
 }

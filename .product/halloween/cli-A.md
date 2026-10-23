@@ -1,0 +1,1 @@
+$build-ordered-specs with the spec files of .product/blueprint/foundation/, in the order of section 1 of .product/blueprint/project-types.md: scaffold, configuration, monitoring, shell, about, health, presentation. Leave out users: the system has no users. The library ships with zero debt.

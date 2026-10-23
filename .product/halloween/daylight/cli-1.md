@@ -1,0 +1,1 @@
+/build-archetype-foundation with the spec files of .product/foundation/, in the order of section 1 of .product/blueprint/project-types.md: scaffold, platform, shell, presentation, about, settings. The system has no users, so skip users. The Bedrock of the archetype is at the root: scaffold starts from it. The archetype ships with zero debt.

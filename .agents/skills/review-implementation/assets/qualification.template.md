@@ -15,4 +15,4 @@
 - Evidence: {observed facts}
 - Classification: {blocking | debt}
 
-{Only a failed Security gate goes back to the Builder, once; shipping records every other finding as a debt item, `high` for a blocking one. Include only failed controls and findings.}
+{Only a failed Security or Requirements gate goes back to the Builder, once; shipping records every other finding as a `high` debt item. Include only failed controls and findings.}

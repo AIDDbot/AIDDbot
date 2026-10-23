@@ -1,0 +1,414 @@
+# Daylight · arquetipo = semilla + specs
+
+Vía nueva dentro de Halloween (abierta 2026-10-21). El nombre viene del cambio de hora (25 de octubre). «Semilla» es un nombre de trabajo; en D41 se llamó **Prefab**.
+
+## Contexto
+
+- Cada run web (web-A … web-I) rehace lo mismo antes de llegar a lo que ve el usuario: el scaffold, `platform` y `presentation`. En web-H, `about` llega a los 59 min.
+- D39 ya lo dijo: el núcleo del arquetipo es un framework. `scaffold`, `platform` y `presentation` son `chore`, con código y unitarios, sin e2e.
+- D41 dejó abierto el Prefab: código limpio de partida que cumple el Blueprint. Lo que falla en cada run (los 375 px) se arregla una vez en él, no en cada sistema.
+- La idea de hoy: **arquetipo = semilla + specs**. La semilla es lo común. Las specs hacen el resto.
+
+## La pregunta
+
+¿Qué puede tener la semilla que sea común a todas las implementaciones de un arquetipo que siguen las specs?
+
+## Criterio propuesto
+
+Una pieza entra en la semilla solo si cumple las cuatro condiciones:
+
+1. **Es igual en todas las implementaciones.** No depende del juicio del agente.
+2. **No es un comportamiento que vea el usuario.** Lo que ve el usuario es una spec `feat`, con su test de aceptación.
+3. **Se comprueba sola, sin una run.** Pasa `fmt`, `lint`, `layers`, `crap` y `test` por sí misma (D41: el Blueprint no entrega código sucio).
+4. **Tiene evidencia.** Salió igual, o falló igual, en varias runs. Se fija lo que salió, sin inventar (como D41).
+
+## Inventario candidato, por capas
+
+Tres capas, de lo más común a lo más concreto. Igual que los tres niveles de `project-types.md` (genérico → por tipo → por tecnología).
+
+### A · Común a todo arquetipo, de cualquier tecnología
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| `.product/`: `system.md`, `PRD.md`, `model/`, specs fundacionales numeradas | `seed-product.mjs` del Builder, al sembrar | Ya es determinista |
+| Raíz del repositorio: `.gitattributes` (LF), `.gitignore` con secretos y `logs/`, `LICENSE`, `README.md`, `AGENTS.md` raíz (intro + reglas de código), `CLAUDE.md` | `scaffold` | cli-C perdió el `.gitignore` raíz; R21 y LF |
+| Registro de proyectos: tipo y slots en `.aiddbot/config.json` | `scaffold`, paso 3 | Lista cerrada de slots (D18, D37) |
+| Contratos escritos: variables de entorno con default y check, línea de log, códigos de salida 0/1/2/3, `{ error }`, `X-Request-Id`, `GET /api`, `GET /api/about`, `/runtime-config.json` | Texto de `platform` y `shell`, rehecho en código en cada run | Mismo texto en todas las runs |
+
+### B · Común a un tipo de arquetipo (web, cli), de cualquier tecnología
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| Tema CSS (`colors`, `theme`, `custom`) con las reglas de 375 px | Copia de `blueprint/theme/` + arreglos en cada run | Columbus (menú, tablas), web-H (`about` arregla tablas) |
+| `e2e`: ajustes, arranque de la suite, preflight, helpers de arranque y de error, `uniqueValue`, `tree-kill` | `platform` del `e2e` | web-B, web-D (EBUSY), web-F |
+| `.env.example` de cada proyecto | `platform` | Lista fija de variables |
+
+El `e2e` habla con el sistema por HTTP, navegador o proceso: no ve Express ni React. Por eso vale para cualquier tecnología del mismo tipo.
+
+### C · Común a las implementaciones de una tecnología (JS / TS en Node, Vite+)
+
+| Pieza | Hoy la hace | Evidencia |
+| --- | --- | --- |
+| Workspace raíz: `vite.config.ts`, hook pre-commit, `check`/`fix`/`upgrade`, `.lint/` | `scaffold` | Cada run lo reconstruye igual |
+| Forma de cada proyecto: `main` solo, `core/` y `shared/` con sus listas cerradas, manifiesto vacío, `imports` `#core` `#shared`, `AGENTS.md` de proyecto | `scaffold`, paso 2 | D40, D41 |
+| Primitivas semilla: `shared/errors`, `shared/identity`, `shared/values/` con sus unitarios | `scaffold` | cli-6, web-C (identidad como argumento) |
+| El framework: settings, logger, middleware, migraciones, ciclo de vida, cliente HTTP, parser y salidas del `cli`, los cinco primitivos de `presentation` | `platform` y `presentation` | D39; web-G (84 % del e2e era infraestructura) |
+
+### Fuera de la semilla
+
+- Las features: `shell`, `about`, `users`, `settings`. Son `feat`: las entrega el Builder, cada una con su test de aceptación.
+- Toda decisión de producto del sistema del usuario.
+- Deuda: la semilla sale con cero deuda o no sale.
+
+## Dónde cortar
+
+> Superado por D42: una semilla por tipo de arquetipo, con todo el tooling y sin framework. Queda como historia.
+
+| Corte | La semilla tiene | Las specs hacen | Ahorra en cada run |
+| --- | --- | --- | --- |
+| 1 | A | todo el código | casi nada |
+| 2 | A + B | `scaffold`, `platform` y `presentation` de cada tecnología, y las features | el tema, el `e2e` base |
+| 3 | A + B + C | solo las features | `scaffold`, `platform` y `presentation` (~45 min en web-H) |
+
+**Recomendación: corte 3, con una regla uniforme: `chore` → semilla; `feat` → spec.** Es la línea que ya trazó D39 (sin e2e ↔ con e2e), y se comprueba sola. Las capas A y B se comparten entre tecnologías; la C es una por tecnología. Un arquetipo nuevo en otra tecnología (Hono + Vue, NestJS + Angular) reutiliza A y B y solo hace su C.
+
+La tensión: la regla de 2026-10-13 (cli-1) pide que el código de un arquetipo salga de specs, no «por arte de magia». Con el corte 3, el código de la semilla sigue saliendo de specs (las tres `chore`), pero se construye una vez, se endurece y se congela. No se reconstruye en cada run.
+
+## Preguntas
+
+**P26.** ¿«Distintas implementaciones de un arquetipo» son varias runs con la misma tecnología (web-A … web-I), o varias tecnologías del mismo arquetipo (Express + React frente a Hono + Vue)? Mi propuesta sirve para las dos, por capas.
+> **R:** Una semilla por tipo de arquetipo: primero `cli` y `web`. ✅ → D42
+
+**P27.** ¿La línea es `chore` → semilla, `feat` → spec (corte 3)?
+> **R:** No. Corte nuevo: la semilla tiene todo el tooling (Vite+, Vitest, Playwright en `web`, `.lint/`), sin framework. ✅ → D42
+
+**P28.** ¿Cómo se fabrica la semilla? (a) A mano. (b) Una run que entrega solo las tres `chore`, y después se endurece y se congela. (c) Se extrae de la mejor run (web-I, si sale limpia). Recomiendo (b): el código sigue saliendo de specs, y la run es corta y repetible.
+> **R:** Se extrae de lo que ya hay en los arquetipos actuales, con un comando `upgrade` para tenerla al día. ✅ → D43
+
+**P29.** El `e2e` de la semilla, ¿solo infraestructura (helpers, arranque, preflight), o también los tests de aceptación de las features fundacionales, escritos de antemano? Con los tests dentro, implementar una feature es «hacer pasar una suite fija»: muy controlable, pero los tests ya no salen de su spec. Recomiendo solo infraestructura por ahora.
+> **R:** Solo el tooling del `e2e`: Vitest en `cli`, Playwright en `web`. ✅ → D42
+
+**P30.** ¿Dónde vive la semilla? (a) En el Builder, una carpeta por capa (`seed/common/`, `seed/{tipo}/`, `seed/{tecnología}/`). (b) Un repositorio por tecnología. Recomiendo (a) mientras solo hay una tecnología.
+> **R:** En el Builder. ✅ → D43
+
+**P31.** El nombre. Candidatos con la metáfora de construcción (Blueprint, Builder): **Prefab** (D41), **Frame** (la estructura del edificio; encaja con «el núcleo es un framework», D39), **Kit**. Ocupados: Foundation, Scaffold, Core, Shell. No bloquea: sigo con «semilla» hasta que decidas.
+> **R:** Bedrock, por ahora. ✅ → D44
+
+## Siguiente paso
+
+Con P26–P29 respondidas: las paso a `decisions.md` como D42 y escribo el inventario cerrado de la semilla. Después decidimos si la primera prueba es una run `daylight-1` que entrega solo las tres `chore`.
+
+## Runs
+
+Carpeta nueva: `C:/code/aidd/experiments/daylight/`. La numeración empieza en 1 (`cli-1`, `web-1`). Las lanza el usuario. Grok 4.7 no cuenta como modelo frontera (web-I es su única prueba, a la espera de 4.8): las runs de Daylight van con un modelo frontera, y su referencia es web-H, no web-I.
+
+Preparadas 2026-10-21, las dos igual, con `construction.md` del Builder:
+
+- AIDDbot `refactor/quality-gates` `4a540136` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `8b1d8e3`. `core.autocrlf false`, ningún CRLF.
+- Commit 1: el overlay de AIDDbot. Commit 2: el Bedrock en la raíz, `foundation/` en `.product/foundation/`, `blueprint/` en `.product/blueprint/` y el manifiesto en `.product/system.md`. `npm install` antes del commit 2: el hook pasó en él.
+- `cli-1`: commits `cb54394 86c35d6`. Prompt: [`daylight/cli-1.md`](./daylight/cli-1.md) (6 specs, sin users).
+- `web-1`: commits `b874dd2 22690e9`. Prompt: [`daylight/web-1.md`](./daylight/web-1.md) (7 specs, con users).
+
+Qué mirar:
+
+- Que `scaffold` parta del Bedrock: sin generador, sin reescribir `.lint/`, el tema, la identidad ni el `.gitignore`; solo el framework con los comandos de `ecosystems.md`.
+- El tiempo hasta `about`, frente a web-H (59 min) y web-I.
+- Que el `check` de la raíz siga con `--passWithNoTests`, y que `upgrade` no rompa la pila.
+- En `web-1`: que se instale Chromium (`npm exec -w e2e -- playwright install chromium`).
+
+Preparada 2026-10-22, con `construction.md` del Builder y los arreglos D53–D60:
+
+- `web-2`: AIDDbot `refactor/quality-gates` `40873ee0` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `9165076`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes del commit.
+- Commits `bafa56b` (overlay), `d7ba61b` (Bedrock: `projects/` y `tools/`) y `40fde41` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-2.md`](./daylight/web-2.md) (7 specs, con users), el mismo que web-1. Después, `60d8af2`: la plantilla de la raíz de AIDDbot `e9cb4851` (Architecture más corta, Records solo con lo que ninguna skill da).
+- Hallazgo al prepararla: el hook (`"*": "vp check --fix"` de `vp staged`) recibe todos los ficheros del commit en una línea, y con 101 `cmd.exe` la rechaza («La línea de comandos es demasiado larga»). En web-1 el commit tenía 55 y pasó. Aquí, dos commits. Candidato a arreglo del Bedrock: un commit grande, como el de un `scaffold`, puede chocar con esto.
+
+Hallazgos de web-2:
+
+- S0001: el orquestador ejecutó `log approved "Scaffold" --spec 0001`. El core lo apuntó en el diario y no aprobó nada: la spec quedó sin commit. Se arregló sola en el primer `aidd commit` del Builder, que se negó y dio el comando (`68ddcb2 docs(spec): define delivery`). Arreglo: `log approved` rechaza un ID que no es de ninguna spec, con el ejemplo `--spec S0001` (AIDDbot `8e395026`, test). web-2 sigue con el core de antes.
+
+- S0001 enviada a las 10:26:46, 10 min (web-1: 12). `agents check` sin problemas tras el release; raíz 77 líneas, proyectos 36–41; el índice de `shared` en el commit de la release, también el del `e2e`. Los commits del framework pasaron el hook. En la raíz, el agente quitó las llaves de `{Product_Folder}` (la plantilla usa llaves para lo que se rellena): ahora la línea dice «the product folder is `.product/`», sin llaves.
+
+- S0002 `back`: 35 ficheros en stage, y `layers` y `crap` pasados antes del primer commit. El hook lo rechazó con 50 errores (42 de reglas de tests: 30 `require-mock-type-parameters`, 11 `unbound-method`); los arregló en 1,5 min y entró en un commit (`b1ea923`, 36 ficheros, +1067). Las dos reparaciones, cada una en su commit (`2845f41` `crap`, `068f239` `layers`). Arreglo: D61, commits por unidad, el código y luego sus unitarios (AIDDbot `5b8c5bc7`). A web-2 le llegó como mensaje de steering a mitad de S0002, ya tarde para el `back`.
+- S0002 `front`, con el steering: 8 commits de 1 a 5 ficheros, `chore` y `test` alternados, ninguno rechazado; `layers` y `crap` en verde a la primera tras la última unidad. Unos 4 min del plan al verde. Matiz: los 8 commits se hicieron en 72 s, después de unos 3 min escribiendo todo; partió el trabajo hecho en commits, no hizo commit al acabar cada unidad. El rastro y los errores cerca de su causa se consiguen; «never start the next unit while one is not committed», no. El `plan` aún nombra partes, no unidades (overlay de antes). Mirar en la siguiente run, con la skill nueva, antes de cambiar nada más.
+- S0002 `e2e`: sí, un commit al acabar cada unidad (6, separados de 30 a 75 s). La reparación de `crap` (`conditions(named)`) y una primitiva de `shared` nueva, cada una en su commit; sin commits `test`, porque un E2E no lleva unitarios. El arreglo del `back` tras la revisión, en dos commits (código `140e94a`, test `14754b1`). Qualification 1. S0002 enviada a las 10:54:05, 27 min (web-1: 19); la diferencia sale casi entera del primer commit del `back`. `front` y `e2e`, de 4 a 5 min cada uno.
+- S0003 Shell: 20 min (web-1: 10), 41 commits por unidad. Verification 1 en verde; qualification 1 en rojo: con el cuerpo de error nuevo de la API, el cliente HTTP del `front` perdía `message` y `fields` (web-1 no lo vio). Reparado en 3 commits, qualification 2. Dudoso: `24c6220` cambia la regex del log del test a `\d+(?:\.\d+)?ms` para aceptar la salida, sin mirar qué pide la spec. `81338c8` saca `routeIndex` como función pura para llegar al 100 % de funciones.
+- S0004 Presentation: 9 min 35 s (web-1: 9 min 42 s), 27 commits frente a 10. Qualification 1.
+- S0005 About: 10 min 35 s (web-1: 10 min 50 s). Qualification 1 en rojo por una regla del proyecto (About prepara los registros dentro del TSX): deuda high D0001 y ship. About enviada a los 79 min de crear S0001 (web-1: 67, contado igual; los 56 de antes eran desde otro punto). La diferencia sale de Platform y Shell.
+- S0006 (fix de D0001): el ciclo de deuda entero sin ayuda, de la deuda a `debt-done` en 5 min, 4 commits, qualification 1. Primera vez en Daylight.
+- S0007 Users: el `back` en 10 min y 22 commits; la sesión en un `WeakMap` y los stores del `front` con `createStore` (D54); ningún `eslint-disable`. En los checks finales, solo `conditions(named)`, una `complexity`, cobertura de funciones y un bloque duplicado; ningún `no-param-reassign`. El modelo se queda sin tokens en la reparación de los checks.
+- Cierre a mano, sobre `7daedc0` (S0007 sin enviar, rama `feat/S0007-users`): `npm test` verde (109). `npm run check` en rojo: el formato de `projects/e2e/vite.config.ts`, y en `crap` del `front` un `max-params` en `page.handlers.ts` y cuatro `conditions(named)` en `auth-session.store`. `npm run test:e2e`: 25 en verde y 1 en rojo, `@S0007-R06`: con el error a la vista, el nombre accesible del campo pasa a «Name name needs text» y `getByLabel("Name", { exact: true })` ya no lo encuentra. Lo que falla es el page object o la etiqueta, no el registro; el Builder no llegó a correr `test --spec`. `npm start`: el `back` en 3000 (el índice de `/api` con 6 rutas) y el `front` en 4000 (`/` y `/runtime-config.json` 200). D58: `a`, `a`, `a` da 400 con tres campos. El log escribe la duración como `9.520999999999958ms`, la salida a la que `24c6220` adaptó la regex: un formato sin redondear que la spec no pide.
+- Arreglos en el Builder (`e7f3022`, `e9ffec5`): el error de un campo va fuera de su `<label>`, enlazado con `aria-describedby`, y el page object lo lee como la descripción del campo (`presentation`, `ecosystems.md`). La duración del log va en milisegundos enteros con `formatMilliseconds` (`platform` web y cli). En el Bedrock, lo que web-2 escribió por su cuenta: `durations/` (`formatMilliseconds`, `toSeconds`), `email/` (`parseEmail`) y `formatIsoDate` en cada proyecto; `readable/` en el `front` (`readableDate`, `readableNumber`, `readableDuration`, `readableText`, con `—` para lo que falta); `numbers/` en el `e2e` (`parseInteger`). `check` verde en los dos Bedrocks.
+
+Qué mirar en web-2:
+
+- Los `AGENTS.md` (D59): que `outline-system` llene la raíz sin comentarios, que cada proyecto salga como mapa, que Platform tenga una línea por carpeta de `core` y ninguna por feature, y que `release` escriba el índice de `shared`. Que ningún `release` choque con `agents check`.
+- `no-param-reassign` (D54): que los stores usen `createStore` y la sesión vaya en un `WeakMap`, sin errores de `crap`.
+- `npm start`, `npm test`, `npm run test:e2e` y `npm run check` (D55–D57) al final de la run.
+- El registro (D58): `a`, `a`, `a` da 400 con tres entradas.
+- `app.main` espera a `start` (D56): sin `no-floating-promises`.
+- El tiempo hasta `about` y el total, frente a web-1 (Codex: `about` a los 56 min).
+
+Preparada 2026-10-22 por la tarde, con `construction.md` del Builder, D61 y los arreglos de web-2:
+
+- `web-3`: AIDDbot `refactor/quality-gates` `dc05f355` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `e9ffec5`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes del commit, y el hook pasó en él.
+- Commits `fade95d` (overlay), `1826b9c` (Bedrock: `projects/` y `tools/`, solo los ficheros con git del Builder) y `baab890` (raíz del Bedrock, `.product/foundation/`, `.product/blueprint/`, `.product/system.md`). Prompt: [`daylight/web-3.md`](./daylight/web-3.md), el mismo que web-2. La plantilla de la raíz ya es la de AIDDbot actual: sin commit aparte.
+
+Qué mirar en web-3:
+
+- D61 desde el principio: que el `plan` nombre unidades, y que cada unidad vaya a su commit al acabarla (código y luego sus unitarios), no partido al final. Sobre todo en el primer `back` de S0002 (web-2: un commit de 36 ficheros, rechazado con 50 errores).
+- `log approved` con un ID que no es de ninguna spec: ahora lo rechaza (AIDDbot `8e395026`).
+- Las primitivas del Bedrock (`durations/`, `email/`, `formatIsoDate`, `readable/`, `numbers/`): que las use y no las escriba otra vez.
+- El log con la duración en milisegundos enteros, y ningún test que adapte la regex a la salida.
+- El error de un campo fuera de su `<label>`, con `aria-describedby`: `@S0007-R06` en verde.
+- Que llegue a `users` y `settings` enviadas. Al final, `npm start`, `npm test`, `npm run test:e2e` y `npm run check` en verde.
+- El tiempo hasta `about` y el total, frente a web-2 (`about` a los 79 min) y web-1 (67).
+
+Hallazgos de web-3 (Codex, desde las 17:16):
+
+- D61 se cumple desde S0001: el `plan` nombra unidades, y cada unidad va a su commit al acabarla, el código y luego sus unitarios. El `back` de S0002: 14 commits en 10 min, el mayor de 11 ficheros, ningún rechazo del hook (web-2: un commit de 36, rechazado con 50 errores). S0001 en 8 min (web-2: 10); S0002 en 22 min (web-2: 27); `layers` y `crap` después de la última unidad, cada reparación en su commit.
+- S0003: el cliente HTTP del `front` lee el error de la API desde el principio (`35a1cea`), lo que web-2 no vio hasta la revisión.
+- S0003: el usuario tenía dos servidores de otro proyecto en 3000 y 4000. La primera ejecución de aceptación falló en 7 tests; el Builder añadió `a699a88 feat(e2e): reject occupied suite server ports` y verificó en 3103 y 4103. Descontar unos 2 min en las comparaciones.
+- S0003 R07: contraste 2,54 tras cambiar de tema. Causa en el Bedrock: botón primario blanco sobre `#60a5fa` en hover oscuro (2,54) y `#3b82f6` (3,68), enlaces con texto en degradado (verde 3,16 en claro), botones secundarios blancos sobre verde (2,28), y la clase `.secondary` de `custom.css` encima del botón secundario de Pico (1,13). Codex lo tapó en `shell.css` con `background: none` en los enlaces y colores heredados en el botón. Arreglo en el Builder `6f92a4b`: los valores en `colors.css` y `theme.css`, `.secondary` sin controles, y una línea en `ecosystems.md` (4,5:1 en cada tema y estado; ningún componente pone colores propios). Medido en Chromium: todo de 4,95 a 17.
+- S0004 Presentation: 7,5 min (web-2: 9,5). S0005 About: 11 min con una regresión de S0003 cazada en el ship (el localizador de la descripción de la home) y reparada en 2 commits; About enviada a los ~67 min sin los puertos (web-2: 79, y con deuda `high`); ninguna spec de deuda en toda la run.
+- S0006 Users: el `back` en 7 min, el `front` en 8, todo con `createStore` y ningún `eslint-disable`. La aceptación falló en 3 tests porque el preflight CORS no permitía `Authorization`; arreglo `bb49699`, y en la Foundation (Builder `6f728db`: `platform` nombra los métodos y las cabeceras del preflight). Verification 1 y qualification 1 en verde a las 18:50:52, y el modelo (Codex) se quedó sin tokens antes del ship.
+- Ship de S0006 a mano, con la skill `ship-spec` de la run: los esquemas `model`, `back.db` y `back.api` desde el código (`7dcf92a`), `agents check` sin problemas, regresión completa 26 en verde, `aidd release` → `v0.3.0` en `main` (`ccad3e4`). Después, en la raíz: `npm test` verde (154 `back`, 124 `front`), `npm run check` verde, `npm run test:e2e` 26 en verde. `npm start`: el índice de `/api` con 6 rutas, el `front` 200 y su `runtime-config.json`; registro, login y `me` 200; el preflight con `Authorization`; el log en milisegundos enteros (`297ms`, `0ms`). D58: `a`, `a`, `a` da 400 con tres campos, pero el de `name` decía «has 2 to Infinity characters»: primitiva del Bedrock con `max: Infinity`. Primer arreglo `ae6bcdf` + `71f9e8f` (nombrar el rango abierto por su mínimo), sustituido por decisión del usuario: los rangos abiertos son un peligro, todo rango es `[min..max]`. Builder `77f7594` + `b59fac0`: las siete copias de `numbers.parse` y `text.parse` rechazan un límite infinito como error de programación; `e469bd9`: la Foundation cierra cada rango (nombre 2–64, email ≤ 64, contraseña 8–64, `offset` 0–10000, timeout 1–600000 ms, `BODY_LIMIT_KB` 1–10240).
+- Total: 6 de 7 specs (sin `settings`), de las 17:16 a las 18:51, unos 93 min sin los puertos. Ningún rechazo del hook visto en el diario; el commit mayor, 22 ficheros (`ba6615f`), el resto ≤ 14.
+- S0003: el Craftsman ejecutó `eval` en rojo sin el informe; el core se negó («Red eval requires a report…») y el Craftsman apuntó `blocked` en vez de escribirlo. Se recuperó solo (el Builder reparó, verification 1 verde). El core ya daba la ruta; ahora da también la plantilla y pide no pasar la spec sin el informe (AIDDbot `2bde76c1`, test). Consecuencia que se vio: la verificación roja nunca se apuntó, y la verde salió como «verification 1».
+
+Preparada 2026-10-23, con `construction.md` del Builder (commits de preparación pequeños), D62 y los arreglos de web-3:
+
+- `web-4`: AIDDbot `refactor/quality-gates` `d63b837a` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `0e5648d`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes de los commits, y el hook pasó en cada uno.
+- Commits `da77e41` (overlay), `fe77f11` (raíz del Bedrock y `tools/`, 19 ficheros), `dad51a5` (`back`, 34), `b83703b` (`front`, 37), `8ce0391` (`e2e`, 11) y `6e3b869` (`.product/`, 11). Prompt: [`daylight/web-4.md`](./daylight/web-4.md), el mismo que web-3.
+- Con un modelo con más margen de tokens que web-3: el objetivo es 7 de 7 specs con deuda cero, `settings` incluida.
+
+Qué mirar en web-4:
+
+- D62: la raíz sin Architecture ni Code, con la línea de las reglas en Records; `agents check` en verde en cada release. Que `implement-project` lea `code-rules.md` y que las reglas se sigan cumpliendo como en web-3 (sin más rechazos del hook ni más hallazgos de `layers` y `crap`). Que `define-spec` o el Builder no copien la arquitectura en otro sitio.
+- El contraste de 4,5:1 en cada tema sin parches en `shell.css` (Builder `6f92a4b`).
+- El preflight CORS con `Authorization` desde S0002 (Builder `6f728db`): ningún fallo de aceptación en `users`.
+- Los rangos cerrados (Builder `e469bd9`): el error de `name` dice «2 to 64», nunca «Infinity».
+- Un `eval` en rojo o ámbar con su informe desde la plantilla, sin `blocked` (AIDDbot `2bde76c1`).
+- Que llegue a `settings` enviada. Al final, `npm start`, `npm test`, `npm run test:e2e` y `npm run check` en verde.
+- El tiempo hasta `about` y el total, frente a web-3 (`about` a los ~67 min; 6 specs en ~93 min).
+
+Hallazgos de web-4 (desde las 09:09:54, `reserve S0001`):
+
+- S0001 Scaffold: de 09:09:54 a la release `0.0.1` a las 09:18:15, unos 8,5 min (web-3: 8). Un proyecto tras otro, tres commits cada uno; los `WARN` de `layers` y `crap` del diario son las pruebas del paso 3 (`scaffold.proof.ts`), no fallos. Dos commits de corrección de los `AGENTS.md` de `front` y `e2e` tras registrar. D62 se cumple: la raíz sale con 42 líneas, sin Architecture ni Code, con la línea de las reglas en Records.
+- S0002 Platform: desde las 09:18:43. El `back` en 7 unidades (código y luego unitarios), `layers` verde a la primera a las 09:26; `crap` en rojo dos veces (`conditions(named)` en `error.middleware.ts`, cobertura de funciones 75 %), cada reparación en su commit, verde a las 09:26:45 (58 tests). El `front` junta settings, runtime config, cliente HTTP y logging en un solo commit de código y uno de tests (el `plan` lo nombra como una unidad): D61 más débil en el `front`. `crap` del `front` rojo una vez (`conditions(named)`), verde a las 09:28:47. A las 09:30, dos commits que alinean el cuerpo de error de `back` y `front` con el contrato de `shell`.
+  - Qualification 1 en rojo a las 09:33:18, apuntada con su informe y sin `blocked` (AIDDbot `2bde76c1` funciona): los settings de texto sin longitud máxima (la regla de rangos cerrados de `e469bd9`, que la spec da en general y no para cada ruta o comando) y una `port` de más en `runtime-config.json`. Reparado en 3 commits, qualification 2 verde a las 09:34:42.
+  - Ship: la regresión cazó dos fallos y el Builder los reparó: el `e2e` esperaba una ruta de `shell` para saber que el `back` estaba listo (ahora espera el puerto) y el lock de Vite del `front` no casaba con lo instalado (`webServer` no arrancaba). Release `0.0.2` a las 09:38:30: S0002 en ~20 min (web-3: 22).
+- S0003 Shell: de 09:38:58 a la release `0.1.0` a las 09:47:45, unos 9 min (web-3: 17, unos 15 sin los puertos). Verification 1 (8 tests, los 7 requisitos con su tag) y qualification 1 en verde a la primera. El contraste de R07 pasa sin parches: `shell.css` usa solo tokens de Pico (Builder `6f92a4b` funciona). Un `crap` rojo (`max-params` en el contrato de rutas), reparado en su commit.
+- S0004 Presentation: de 09:48:09 a la release `0.1.1` a las 09:56:14, unos 8 min (web-3: 7,5). Un `crap` del `front` ejecutado entre el commit del código (`85c8dcf`) y el de sus unitarios (`a0e6e8f`): 0 % de cobertura en `form.prepare.ts` y `record.prepare.ts`, 30 s perdidos. Sin regla nueva: cuesta segundos.
+- Los `crap` rojos hasta S0004 (9): `conditions(named)` en 7 (11 casos, en los tres proyectos y en cada spec), `max-params` en 2, cobertura en 2 (el de S0004 y un hueco real de 1 función en `app.boot.ts` de S0002, cuyo commit juntaba código y tests). No faltan unitarios.
+- S0005 About: desde las 09:56:42. El `back` hace commit de `about.routes.ts` sin su unitario (`f33bb67`): `crap` lo caza a las 10:00:32 (75 % líneas, 50 % funciones). Aquí sí falta un unitario: la spec dice «No `logic` or `data`», y el Builder lo lee como «sin test»; `code-rules.md` pide un unitario para cada fichero con código salvo la entrada, los adaptadores de `core` y los componentes. El `front`, a la vez, un `layers` rojo: `about.component.tsx` usa `useEffect` y `useMemo` y llama a `about.client.ts` (presentation → data) en vez de recibir los datos del loader de la ruta; y `crap` sin cobertura de `about.client.ts`.
+  - Reparado: el `front` carga el estado desde el loader de la ruta (`91c844b`) y el `back` prueba la ruta (`c63c86e`); `layers` y `crap` verdes a las 10:04:33. Verification 1 (5 tests) y qualification 1 verdes a las 10:05.
+  - La regresión del ship falla en 3 tests de S0003 (`@S0003-R04`, `@S0003-R07`): el localizador de la descripción de la home también encuentra la versión que añade About. **La misma regresión que en web-3**: candidata a arreglo en la Foundation (el page object de la home de `shell` localiza la descripción de forma exacta, o About pone la versión en su propio elemento). El diario apunta `blocked` en vez de una verificación roja; reparado en 1 commit (`6129f8d`), regresión 13 verde.
+  - Release `0.2.0` a las 10:07:14: S0005 en 10,5 min (web-3: 11,1). **About enviada a los 57 min** (web-3: ~65 sin puertos, web-1: 67, web-2: 79).
+- S0006 Users: desde las 10:07:40. El `back` en 10,5 min y 18 commits, código y unitarios alternados (web-3: 7 min); un solo `crap` rojo (`complexity` en `routes.mount.test.ts`), verde a las 10:17:10 con 90 tests. El `front` de 10:19 a 10:27, unos 8 min y 9 commits (web-3: 8). **El mismo `layers` rojo que en About**: `users.component.tsx` con `useEffect` y `useMemo`, y `auth.component.tsx` llamando a `auth.client.ts`; no aprendió de S0005. También dos bloques duplicados en tests, un `conditions(named)` y cobertura de funciones al 60 %; todo verde a las 10:26:31 (88 tests).
+  - `e2e`: el primer `test --spec` a las 10:30:19 falla en 3 tests (`R04` por timeout de 30 s, `R05`, `R06`). `R05`: el test espera «Logout unavailable» y la app dice «Logout failed»; la spec solo dice «show an error», así que el texto lo inventó una de las dos partes. Ningún fallo de CORS: login y sesión funcionan (Builder `6f728db`).
+  - Reparado en 3 commits del `e2e` (el último: esperar el formulario de la página pedida en la navegación SPA); `test --spec` 21 verde a las 10:35:58. Verification 1 y qualification 1 verdes a la primera (10:33:25). La regresión del ship falló en `@S0006-R06` (el formulario perdía el email al pasar de registro a login; `blocked` en el diario), reparada en un commit; regresión 34 verde. Release `0.3.0` a las 10:37:42: S0006 en 30 min (web-3: ~25 hasta el verde, más el ship a mano). Aviso del usuario a las ~10:40: al modelo le quedan pocos tokens.
+- S0007 Settings: desde las 10:38:10. El `back` en 2 commits, `layers` y `crap` verdes a la primera a las 10:40:29 (93 tests). Primera vez en Daylight que una run llega a `settings`. El modelo se queda sin tokens a las ~10:41, justo tras el `plan` del `front` (10:41:14): árbol limpio, rama `feat/S0007-settings` con el `back` hecho (`b63565a`); faltan el `front`, el `e2e`, la verificación, la revisión y el ship.
+- Total del modelo: 6 de 7 specs enviadas con deuda cero, de 09:09:54 a 10:37:42 (88 min; web-3: 6 specs en ~93), más el `back` de S0007. About a los 57 min.
+- S0007 terminada a mano (Claude, decisión del usuario), con las skills de la run, de 10:43 a 10:51:28: 13 commits, código y unitarios alternados. `front`: el contrato de preferencias en `shared/session/`, la fecha ISO en `readable/`, un campo de elección (`<select>`) en el formulario de `presentation`; `core` con un store del tema y la conexión sesión → preferencias → tema; la feature `settings` registra la fuente de preferencias (`core` no la importa); la fecha de la cuenta con el formato de la cuenta. `crap` rojo una vez (`max-statements` en `start`) y un `conditions(named)` en mi propio `e2e`. `e2e`: datos de sesión en `shared/test-data/`, page object de `/settings`, 5 tests de R01 a R04, verdes a la primera. Verification 1 y qualification 1 verdes (revisión de mi propio código: anotarlo al comparar), esquemas `model`, `back.db` y `back.api` con Settings, regresión 39 verde, release `0.4.0`.
+- Cierre en la raíz: `npm test` verde (back 93, front 100), `npm run check` verde, `npm run test:e2e` 39 verde, deuda vacía. **7 de 7 specs, deuda cero**: primera run de Daylight completa.
+- `conditions(named)` en toda la run, 37 hallazgos únicos: 28 comparaciones en un `if` o un ternario (también en tests), 7 `const` probadas solo negadas, 2 callbacks en un bucle. Corrige lo que dije a mitad de run: el caso principal no es negar un parámetro. Reforzado en `code-rules.md` (AIDDbot `5f62109a`): la regla cubre `if`, bucle y ternario, también en tests, el nombre negado y los callbacks.
+- Revisión independiente de S0007 (agente Craftsman nuevo, solo lectura, puertas de `review-implementation`): roja por una puerta, Requirements. Con sesión, recargar aplica el tema de la cuenta encima del que se eligió con el control (`startPreferences` conecta el tema antes de `syncPreferences`), y S0003-R07 decía «keep that theme after a reload» sin excepción. Las otras cuatro puertas verdes; R03, R04 y S0006 bien. Causa: las specs no decían qué tema manda al recargar con sesión. Decisión del usuario: manda el de la cuenta, y el control dura hasta la siguiente recarga o login; el código de web-4 ya lo hace. Builder `852120b`: `shell` R07 «unless the account of a session has a theme», `settings` en Solution y en R04 (con su paso de test).
+- Pendiente en el traspaso de web-4: llevar ese texto de R07 y de S0007 (Solution y R04) a `.product/specs/` del arquetipo y añadir al test de R04 el paso «control de tema, recarga → tema de la cuenta». La versión de las migraciones queda como en el código (decisión del usuario): Builder `f1a2b69`, `platform` pide `S{id}-{name}` de la spec que añade la tabla; `handover-product.mjs` reescribe también esos IDs en los `.ts` al renumerar.
+- Traspaso (2026-10-23): `AIDDbot/archetype-web` `v0.4.0` publicado desde web-4 `f2b9424` y Builder `f1a2b69`, con `handover.md`: 9 commits (el mayor de 52 ficheros), `.product/` con `handover-product.mjs` (sin renumerar), el texto nuevo de S0003-R07 y S0007 y el paso de recarga en el test de R04; `README.md` y System del `AGENTS.md` raíz al día. Gate: `check` verde, 193 unitarios, 39 e2e (un fallo intermitente sin identificar en la primera pasada tras `npm install`, luego 5 pasadas verdes; candidato: el arranque en frío de Vite), `git status` limpio, 23 requisitos = 23 tags, lint igual al Bedrock, sin deuda, `agents check` limpio, canario `core` → `#api/auth` rojo en `layers`. AIDDbot fija Archetype Web en el catálogo (D38).
+- Candidatos para el Builder: el localizador de la descripción de la home (la misma regresión en web-3 y web-4); la versión de las migraciones es `S0006-users`, no `0001-{name}` como dice `platform`; «No `logic` or `data`» de About se leyó como «sin test».
+- Pendiente al final de la run (usuario, 2026-10-23): reforzar `conditions(named)` en `code-rules.md`, sobre todo el caso que más sale, una condición que niega un parámetro de la función (`!text`, `!expected`).
+
+Preparada 2026-10-23, para rehacer Archetype CLI con lo de Daylight (se llama cli-4, de la misma generación que web-4):
+
+- `cli-4`: AIDDbot `refactor/quality-gates` `1696bc45` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `a4f46c0`. `core.autocrlf false`. `npm install`; `npm run check` en verde antes de los commits, y el hook pasó en cada uno.
+- Commits `15cddfd` (overlay), `2461cf9` (raíz del Bedrock y `tools/`, 18 ficheros), `ed89f70` (`cli`, 31), `094d34a` (`e2e`, 9) y `53a7053` (`.product/`, 10). Prompt: [`daylight/cli-4.md`](./daylight/cli-4.md), el mismo que cli-1 (6 specs, sin users).
+
+Qué mirar en cli-4:
+
+- D61, D62 y D63: commits por unidad, la raíz con Assistant, System, Commands y Git, sin OS ni shell fijos, y la línea de las reglas de código en Assistant.
+- `conditions(named)` tras el refuerzo de `code-rules.md` (AIDDbot `5f62109a`): cuántos hallazgos, frente a 37 únicos en web-4.
+- Los rangos cerrados de `platform` y `settings` (Builder `e469bd9`).
+- Que llegue a `settings` sin ayuda: 6 de 6 con deuda cero. Al final, `npm test`, `npm run check` y la suite de aceptación en verde.
+- Después: traspaso a `AIDDbot/archetype-cli` con el `handover.md` nuevo (raíz neutra, bloque About), fijarlo y la release de AIDDbot 0.4.0.
+
+Resultado de cli-4 (Codex, 2026-10-23, 15:05 a 16:14, 69 min, con un 30 % de tokens libres):
+
+| Spec | Versión | Deuda que dejó | Reparación |
+| --- | --- | --- | --- |
+| S0001 scaffold | 0.0.1 | ninguna | — |
+| S0002 platform | 0.0.2 | D0001 alta: los logs de un fallo inesperado pierden la causa | S0003, 0.0.3, 3 min |
+| S0004 shell | 0.1.0 | D0002 alta: un fallo del parser ignora `--json` (R02 ya reparada en la qualification) | S0005, 0.1.1, 7 min (también `--toString=value`) |
+| S0006 presentation | 0.1.2 | ninguna | — |
+| S0007 about | 0.2.0 | ninguna | — |
+| S0008 settings | 0.3.0 | D0003 alta: una escritura fallida trunca la configuración | S0009, 0.3.1, 3 min |
+
+- 6 de 6 con deuda cero, sin ayuda. 183 tests unitarios, 28 de aceptación, `npm run check` en verde, el canario de `layers` falla como debe.
+- D61: commits pequeños de un solo tipo. Ningún hallazgo de `conditions(named)` (37 en web-4).
+- El contrato de uso con `--json` es la parte frágil del cli (R02, R03 y el parser): candidato para el Builder.
+- Traspaso: Archetype CLI v0.4.17 Daylight (la historia anterior en la rama `archive/v0.4.16-halloween`), Archetype Web v0.4.3 Daylight, los dos con el README nuevo (bienvenida, enlaces al PRD y al system, sin tabla de proyectos; Builder `cccfadc`).
+- Decisión del usuario (2026-10-23): la release 0.4.0 se llama **Daylight**, y AIDDbot, el Builder y los dos arquetipos van en 0.4 Daylight. Halloween pasa a una release posterior, con otros cambios.
+
+## Lo que entra de web-I
+
+web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
+
+1. Arreglo en el Builder, con commit y push.
+2. En cada run: copiar otra vez `foundation/` y `blueprint/` a `.product/`, y un commit `chore: the Foundation and the Blueprint of Builder {hash}`.
+3. Una línea en esta tabla.
+
+| Hallazgo de web-I | Dónde | Builder | En las runs |
+| --- | --- | --- | --- |
+| S0003: el log no cambia de fichero a medianoche (la ruta se calcula al arrancar) | `platform`, todos | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
+| S0003: el `front` no lee `.env` (Vite lo carga después de su configuración) | `platform`, `web` | `0bd6bf2` | cli-1 `3aa7e0a`, web-1 `a164064` |
+| S0003: el `e2e` pasó una carpeta como `DATABASE_URL` («una carpeta temporal por cada ajuste que es una ruta») | `platform`, `e2e` | `7fabddd` | cli-1 `5784e5a`, web-1 `304b052` |
+| S0003/S0004: el middleware de Vite que sirve `/runtime-config.json` (3 parámetros) cae en un adaptador de `lifecycle/` y rompe `max-params`; solo `core/http/*.middleware.ts` admite los de Express | `platform` `web`, `ecosystems.md` | `397c2b5` | cli-1 `7e32bcd`, web-1 `530f971` |
+| S0003: `/* eslint-disable */` en el `vite.config.ts` del `front` | lo puso el usuario: el editor marcaba `Excessive stack depth…` y `Plugin<any>[]` no asignable a `PluginOption`. Causa: dos Vite (el de Vite+ y el `vite` que instalan `@vitejs/plugin-react` y `vitest`); `vp check` pasa, el TypeScript del editor no. Arreglo: `overrides` de `vite` al core de Vite+ en la raíz del Bedrock, con instalación limpia (el lockfile viejo conserva la copia). Probado en una copia de web-I: 2 errores → 0 | Bedrock, `ecosystems.md` | `08be22c` | cli-1 `03f4c45`, web-1 `dd202ba` |
+| (idea del usuario) las primitivas de `shared` en el Bedrock, con sus unitarios; el scaffold ya no las escribe | Bedrock, `scaffold`, plantilla del `AGENTS.md` | `60f3a1e` (D47) | cli-1 `9842e1a`, web-1 `714eb38` |
+| D0005: falsa deuda medium por un import de varias líneas (los nombres importados contaban como lógica duplicada); D0006, sí duplicación real | core de AIDDbot (`work.mjs`), con test (49/49) | AIDDbot `7a90261f` | overlay: cli-1 `388896c`, web-1 `28265d8` |
+| S0006: `crap` en rojo entró en `master` (`types/named` en un middleware): el Builder dijo verde y nadie lo comprobó. «Confía, pero comprueba»: el orquestador corre `layers` y `crap` de cada proyecto cambiado; rojo vuelve al Builder, 2 vueltas como mucho | `build-requested-spec`, `AIDD.workflow.md`; quitado después en D50 (repetía los unitarios; lo caza el `crap` de después del ship) | AIDDbot `95a954c2`, retirado en `9f4576e1` | overlay: cli-1 `d9e05a7`, web-1 `04d61b9` |
+| S0008: el `e2e` escribe `isRecord` cinco veces (lee JSON sin tipo); D47 lo había dejado sin primitivas | Bedrock (`e2e/shared/values/values.check.ts`, sin test), `project-types.md`, `scaffold`, plantilla | `725cec1` | cli-1 `ac2708a`, web-1 `94a93cb` |
+| S0008: los page objects buscan por clase CSS y ruta de etiquetas (`.shell-header span`, `main p`); el Blueprint no decía cómo | `ecosystems.md` (por rol, etiqueta o texto) | `2e2f22f` | cli-1 `ecee3b1`, web-1 `41176b3` |
+| S0008: el contraste se calcula dentro de `page.evaluate`, que no ve los helpers de la suite (`colorOf is not defined`) | ninguno: quitado en `a40c7ef`, es tutela para un modelo débil | `dbca2eb` | cli-1 `4f83e3a`, web-1 `790749a` |
+| S0008: la página sin estilo: cada hoja se importaba como valor (`import theme from "…css"`); la «reparación» fue un plugin que añade `export default` al CSS. Bloqueos del Bedrock: `import/no-unassigned-import` y TS2882 sin tipos de CSS | Bedrock (`vite.config.ts` permite `**/*.css`; `front` con `vite-plus/client`), `ecosystems.md` (una línea: imports de efecto por ruta de fichero; el texto largo, quitado en `a40c7ef`) | `800bedf`, `b27ab5d` | cli-1 `277230e`, web-1 `a2afeaf` |
+| S0004–S0006: tres `fix` de una sola review, cada uno con su aprobación y su vuelta | D48: core `spec.mjs` (fix aprobado al crearse, agrupado por proyecto), `craft-lasting-quality`, `build-requested-spec`, `ship-spec` (`--project`) | AIDDbot `34821c80` | overlay: cli-1 `fa4993f`, web-1 `3025053` |
+| S0010: el `e2e` copia en dos tests el helper que retiene `/api/about` para ver el estado de carga; `presentation` decía «n/a» para los estados del `e2e` | `presentation` (`holdRoute`, `failRoute`) | `ec225ec` | cli-1 `0a896dd`, web-1 `d4eea66` |
+| S0010: el ship repite todos los unitarios que `crap` acaba de pasar | D49: core `eval.mjs`, `ship-spec`, `build-requested-spec` (el ship solo corre la aceptación) | AIDDbot `36bb2845` | overlay: cli-1 `ce10d7c`, web-1 `92b5676` |
+| S0011: escaneo low con `crap` ya en verde (un agente para nada), y después el check otra vez | D51: `craft-lasting-quality` (solo se escanea un check en rojo) | AIDDbot `51d73b59` | overlay: cli-1 `1b86fde`, web-1 `b3ba6d3` |
+| El Architect tarda 3–6 min por spec en adaptar una plantilla genérica (~30 min por run) | D52: `foundation/{cli,web}/` en el Builder, `aidd spec new --from`, `build-archetype-foundation` sin Architect | AIDDbot `717e84e9`, Builder `d773330` | cli-1 `1801d1e`, web-1 `bf90311` (`.product/foundation/` = la instancia del arquetipo) |
+| S0012: el hash de las contraseñas usa el coste por defecto de `scrypt` en Node (N=16384), por debajo de OWASP; `ecosystems.md` no daba parámetros | `ecosystems.md` (N 2^17, r 8, p 1, sal de 16 bytes, `maxmem` 256 MiB; ~300 ms por hash) | `4b65505` | cli-1 `6c6d313`, web-1 `a62d85c` |
+| S0012: el fake de la respuesta HTTP de los unitarios de rutas, copiado en dos tests del `back` | `web/shell` (el fake de petición y respuesta en `shared/http/`) | `719429c` | web-1 `aef5bf7` |
+| Ship de S0012: 4 tests de `about` rompen porque buscaban «el» artículo (`getByRole('article')`) y `users` añade otra tarjeta | `ecosystems.md` (una tarjeta se busca por su nombre) | `704de00` | cli-1 `2d024e1`, web-1 `116ed4e` |
+| S0017: los unitarios de los repositorios llevan un fake que imita SQL (lee `query.sql` y los parámetros por posición), copiado en dos tests | Bedrock `web` (`shared/database/`: el contrato `Database` y `openMemoryDatabase()` con su test), `platform`, `scaffold`, `ecosystems.md`, plantilla | `96f40e3` | web-1 `80a6ed4` |
+| La review lee «the full diff»: también la spec, `.aiddbot/` y `package-lock.json` (generado, de cientos o miles de líneas) | `review-implementation`: solo el diff del código de los proyectos, nunca un lock ni un registro; los `package.json` se quedan | AIDDbot `07390ade` | overlay: cli-1 `82d5621`, web-1 `8f1c88c` |
+| S0002 (D0001): `@types/node` en el `e2e` | el Bedrock web ya no lo lleva | `9d99175` | desde el principio |
+
+Criterio (usuario, 2026-10-21): no meter en las skills ni en el Blueprint directrices escritas para los fallos de un modelo que no es frontera. Entra lo que fallaría con cualquier modelo: una ambigüedad de la spec, un hueco de estructura, un bug nuestro, o una comprobación determinista. Lo demás se queda fuera.
+
+## Lo que entra de web-1
+
+web-1 se lanzó con Codex a las 18:40. Mismo proceso: arreglo en el Builder y copia en cli-1 mientras no se lance.
+
+| Hallazgo de web-1 | Dónde | Builder | En las runs |
+| --- | --- | --- | --- |
+| S0001: el `crap` deja `coverage/` en cada proyecto y entra en un commit (luego, tres commits para sacarlo). `ecosystems.md` ya decía que la raíz lleva `.vite/` y `coverage/`; el Bedrock no lo cumplía | Bedrock `web` y `cli` (`.gitignore` de la raíz) | `9441205` | cli-1 `bbff9c5` |
+| S0002: D0001 high, una escritura fallida del log tumba el `back` (cadena de promesas sin rechazo). La spec decía «nunca bloquea», pero no qué pasa si falla una escritura. S0003 lo reparó en 2 min: la línea a la salida de error, y la cola sigue | `platform`, `cli` y `web` | `215cdfb` | cli-1 `e550a69` |
+| S0005: `shared/values` sale del Bedrock con 16 entradas, el límite de `layers`; la primera primitiva de valores nueva lo rompe (18). Decisión del usuario: partir por tipo. `values.check` en la raíz y una carpeta por tipo (`text/`, `numbers/`, `booleans/`, `dates/`, `lists/`); `Email` irá a `values/email/` | Bedrock `cli` y `web`, plantilla del `AGENTS.md`, `project-types.md`, `scaffold`, `presentation`, `users` | `798a091` | cli-1 `5cf4dfa` |
+| S0006: R04 falla en la verificación (`route is already handled`): el `release` de `holdRoute` (escrito en S0005, sin unitarios en el `e2e`) quitaba la interceptación antes de que acabara la petición retenida. La spec no decía qué hace el `release` | `presentation` `web` | `ff4fab4` | no aplica a cli-1 |
+| S0007: el `front` crea `core/session/` para el adaptador del token en `localStorage`; no estaba en la lista cerrada de `core` del `web`, y no lo escribe en su `AGENTS.md`. La spec decía «en el almacenamiento del navegador», sin carpeta | `project-types.md`, `users` `web` | `fb24e65` | cli-1 `a7adf48` (Blueprint) |
+| S0001: con npm 12, `@vitejs/plugin-react` del `front` instala su propio `vite@8.3.5`: el override de la raíz solo vale para lo que instala la raíz. Probado en una copia del Bedrock: el override anidado solo no basta; el plugin en la raíz, sí | `ecosystems.md` (fila de React y dependencias de la raíz) | `ca1759c` | cli-1 `bbff9c5` |
+
+Cambios en el core (2026-10-21, hechos; 51/51 tests; AIDDbot `3d60ea4b`, overlay: cli-1 `a849299`; web-1 no, está en marcha). Diseño final: `.aiddbot/logs/{fecha}/` es la historia del día, con `journal.log` y `HHMMSS-{slot}-{proyecto}.log` de cada fallo; el resultado del `run` da la ruta como `failure`. La raíz de `logs/` se queda con el estado actual: el último log de cada slot y el estado de cada spec. Lo que crece cada día va en su carpeta. Propuesta inicial:
+
+1. **La salida de cada `run` que falla.** Hoy `exec` (`work.mjs`) abre `{slot}-{proyecto}.log` con `"w"`: cada pasada borra la anterior, y del fallo solo queda una línea recortada en el diario. En S0002 se perdieron dos fallos del `crap` (18:56:45, 18:56:52).
+   - Qué: la salida completa del fallo, tal como queda en el log.
+   - Dónde: `.aiddbot/logs/fails/{fecha}-{hora}-{slot}-{proyecto}.log`, una copia por fallo. La línea del diario da su ruta. `{slot}-{proyecto}.log` sigue siendo la última pasada. La carpeta ya está fuera de git.
+2. **El tipo del commit, el de la spec.** En S0002 (`chore`) el Builder hizo `feat(back): implement platform services`. Ninguna skill lo dice. Mejor una comprobación que una frase: `aidd commit` ya rechaza dependencias instaladas y texto mal codificado; también rechaza un tipo `feat`, `fix`, `refactor` o `chore` distinto del de la rama de la spec (`chore/S0002-platform`). Los ámbitos del core (`spec`, `release`) y los `docs` quedan fuera.
+
+Para vigilar: en S0001 el `front` renderiza en `document.body` (`<body id="root">`) para no tener la rama `if (container)`. React lo desaconseja. Entra si da un fallo.
+
+## Abierto: datos de ejemplo duplicados en los tests
+
+- En web-I (S0012 `users`), el detector de duplicados del core contó como lógica repetida un usuario de ejemplo escrito en dos tests: seis líneas `clave: "valor",`. Dio D0010 (`back`) y D0011 (`front`), dos refactors.
+- Dos opciones: dejar el detector como está (uniforme; un `test-data` por feature), o no contar las líneas que solo asignan un literal a una propiedad (un literal es dato, no lógica).
+- Decisión del usuario (2026-10-21): no cambiar nada todavía. Medirlo en web-1, con un modelo frontera: cuántas features pagan un refactor por datos de ejemplo. Con esa evidencia, se decide.
+- Evidencia de web-1 (hasta S0008): un solo caso, en S0008 (`settings.routes.test.ts`, una identidad de ejemplo de 6 líneas). El Builder lo arregló en 20 s dentro de la spec (importa la identidad del `package.json`), sin `refactor` ni deuda. Los otros duplicados de web-1 (S0007) eran preparación de tests, no datos. Apoya dejar el detector como está.
+
+## Candidato: tests inestables por leer antes de esperar
+
+- En web-I, `about-card.test.ts` (S0010-R04, «About unavailable») falló en el ship de `users`, pasó tras la reparación y volvió a fallar en el refactor S0013, que solo tocó unitarios del `back`. Es un test inestable. El triage lo registró como D0013 high.
+- Causa probable: el test lee el texto (`expect(await locator.innerText()).toBe(…)`) antes de que la página pinte el estado. Una aserción que espera sola (`await expect(locator).toHaveText(…)`) no depende de la velocidad.
+- No entra en el Blueprint todavía: un modelo frontera suele usar esas aserciones (criterio del usuario). Si web-1 tiene un test inestable por esto, se añade con esa evidencia.
+- Evidencia de web-1 (Codex, modelo frontera): S0007-R06 falló en la aceptación porque el page object de login rellenaba el formulario antes de que su página estuviera a la vista (tras navegar, los campos de la página anterior todavía coinciden). Arreglo: esperar al encabezado. Entra en `ecosystems.md`: un page object espera a su página antes de leer o actuar, con aserciones que esperan. Builder `68ff090`, cli-1 `a0df571`.
+
+## Estado de web-1 (Codex, 2026-10-21)
+
+- Arranque 18:40. Se para a las ~20:18 al acabarse los tokens de Codex, en S0008 `settings`: `back` hecho (2 commits), `front` a medias, sin commit (11 ficheros en el árbol de trabajo, rama `feat/S0008-settings`).
+- Enviadas: S0001 `scaffold` 0.0.1 (12 min), S0002 `platform` 0.0.2 (19 min), S0003 `fix` de D0001 0.0.3 (2 min), S0004 `shell` 0.1.0 (10 min), S0005 `presentation` 0.1.1 (10 min), S0006 `about` 0.2.0 (11 min), S0007 `users` 0.3.0 (26 min). Cero deuda tras cada ship; `layers` y `crap` en verde.
+- `about` aprobada a los 56 min del arranque (web-H: 59 min; web-I: 178 min) y enviada a 1 h 07 min. Seis de siete fundacionales en 1 h 34 min (web-I: las siete en 5 h 31 min).
+- Cerrada (usuario, 2026-10-22): web-1 no se relanza. Sus hallazgos van al Builder, y la siguiente run (web-2 o cli-2) sale del Builder corregido.
+
+## Sensaciones del usuario sobre web-1 (2026-10-22)
+
+Sin decidir. Cada punto es una observación de la run parada en S0008.
+
+### Arranque desde la raíz
+
+1. La app no tiene un comando de arranque en la raíz.
+2. Hace falta un `npm start` en la raíz. Este comando arranca el `back` y el `front` en paralelo.
+3. Hace falta un comando en la raíz para los tests unitarios.
+4. Hace falta otro comando en la raíz para los tests e2e.
+5. Duda abierta: ¿estos comandos son parte del Bedrock?
+
+### Validación del registro
+
+6. El registro no valida los datos. Ahora acepta `a`, `a`, `a`.
+7. El nombre necesita una longitud mínima.
+8. La contraseña necesita una longitud mínima.
+9. El email necesita un formato válido.
+
+### Legibilidad del código
+
+Síntoma: `projects/back/src/shared/http/fields.read.ts` y su llamador `features/auth/auth.input.ts`. No es el caso concreto: es una clase de defecto.
+
+10. No hay líneas en blanco. Los imports, los tipos y las funciones van seguidos.
+11. El tipo genérico no se usa. `FieldValues<Readers>` existe, pero `readFields` devuelve `Record<string, unknown>`. El llamador valida otra vez (`readEmail(fields.email)`, `String(fields.password)`).
+12. Un término tiene dos significados. En `readFields`, `fields` son los errores; en el llamador, `fields` son los valores. `FieldInput` es el tipo de la entrada y también el de la salida.
+13. Hay parámetros de salida escondidos. `ReadFieldInput` junta los datos de entrada y dos acumuladores (`values`, `fields`). `readField` los muta y devuelve `void`. Así esquiva `max-params: 2`: la regla se cumple, la intención no.
+14. Hay condiciones con nombre que no aportan nada: `const isObject = isRecord(value)`. El alias tiene un nombre peor que la función. Causa probable: `conditions/named` exige nombre también para una llamada a un predicado.
+15. El código del borde está duplicado. `inputRecord` (`auth`) y `isObject ? value : {}` (`settings`) hacen lo mismo, porque `readFields` no acepta `unknown`.
+16. Los readers no tienen la misma forma. `password` llama a `requireText` y después a `String(value)`; `name` devuelve lo que da `requireText`.
+
+Conclusión: `max-params` y `conditions/named` cambian la forma del código, no siempre su calidad. Cada límite necesita una regla al lado que cierre la forma de esquivarlo.
+
+Criterio del usuario: no hacer plugins de lint nuevos. Usar reglas de oxlint y de los plugins que ya existen.
+
+- Oxlint (1.88) no tiene una regla que limite las propiedades de un objeto literal ni de un objeto de parámetros (`vue/max-props` es solo para Vue). El tamaño y la cohesión de un objeto de parámetros quedan para el revisor.
+- Reglas en prueba, en `.lint/complexity.json` de web-1:
+  - `eslint/no-param-reassign` con `props: true`: prohíbe mutar un objeto recibido.
+  - `unicorn/prefer-object-from-entries`: prefiere `Object.fromEntries` a un bucle que rellena un `{}`.
+  - `unicorn/no-immediate-mutation`: prohíbe crear un objeto y mutarlo justo después.
+- Resultado en el `back` (4 errores, todos de `no-param-reassign`):
+  - `fields.read.ts:27` y `:31`: los acumuladores del punto 13. La regla los encuentra.
+  - `core/http/session.middleware.ts:22-23`: `request.session = user` y `request.token = token`. Es la forma habitual de Express, pero también muta un objeto recibido.
+  - Las otras dos reglas no dan errores.
+  - Propuesta uniforme: la regla sin excepción. La sesión va en un `WeakMap<Request, Session>` en `core/http/`. El middleware hace `sessions.set(request, { user, token })` y quien la necesita llama a `readSession(request)`. El tipo `Request` ya no se amplía.
+  - Duda abierta: un override de la regla para `*.middleware.ts`, como el de `max-params`. Rompe la uniformidad.
+- Resultado en el `front` (6 errores, todos de `no-param-reassign`):
+  - `shared/components/form/record.form.ts` (5) y `features/auth/auth.service.ts` (1). Es el mismo patrón: el store crea un objeto `context` con estado mutable y lo pasa a funciones del módulo, que lo mutan (`context.state.busy = false`, `context.state = state`). Es la bolsa del punto 13, en forma de store.
+  - La regla no ve `Object.assign(context.state, { … })` (`record.form.ts:82`), que también muta. `eslint/prefer-object-spread` solo mira un `Object.assign` con un literal como primer argumento.
+  - Las otras dos reglas no dan errores.
+  - Confirma el candidato de web-I: los stores del `front` repiten `snapshot`, `subscribe` y los `listeners`.
+  - Propuesta uniforme: una primitiva de store en el Bedrock, `createStore(initial)` → `{ read, set, subscribe }`. El estado vive en una variable local de la primitiva: es la única mutación, y no es un parámetro. Las features calculan el estado nuevo sin mutar: `store.set((s) => ({ ...s, busy: false }))`.
+- Total: 10 errores en web-1, todos de `no-param-reassign`. `prefer-object-from-entries` y `no-immediate-mutation` no dan ninguno.
+- Candidatas a regla escrita (para el revisor):
+  - Un nombre tiene un solo significado en un módulo.
+  - Una función de borde acepta `unknown` y devuelve el tipo exacto. El llamador no valida otra vez.
+  - Una función devuelve su resultado. No escribe en las estructuras que recibe.
+  - Un objeto de parámetros agrupa datos que van juntos. Nunca lleva salidas.
+  - Todos los readers tienen la misma forma: reciben `unknown` y devuelven el valor validado.
+
+### Check y formato
+
+17. `vp check` para en el formato y no ejecuta el lint. Un fallo de formato esconde los fallos de lint.
+18. Los finales de línea de la carpeta de trabajo no coinciden con `.gitattributes`. Unos 55 ficheros del `back` están en LF en el índice y en CRLF en la carpeta de trabajo (`git ls-files --eol`: `i/lf w/crlf`). `git status` no muestra cambios, pero el formato falla. Causa sin confirmar: un checkout anterior al `.gitattributes`, o una herramienta de Windows. `vp check --fix` lo arregla sin cambios en git.
+19. El código commiteado no pasa el lint de la raíz. `app.main.ts` (`back`) y `app.main.tsx` (`front`) tienen `typescript/no-floating-promises` en `start({ features, identity })`. No se veía porque el formato fallaba antes.
+20. Hay dos configs de lint con reglas distintas: el de la raíz (`vite.config.ts`, lo corre `vp check`) y el de complejidad (`.lint/complexity.json`, lo corre `crap` en cada proyecto). Quien corre `check` cree que el código cumple todas las reglas, y no es así.
+
+## Mejoras del Builder antes de web-2 o cli-2
+
+1. Hecho: `.lint/` pasa a `tools/lint/` (D53).
+2. Hecho: nadie escribe en un objeto que recibe: `no-param-reassign`, `createStore`, la sesión en un `WeakMap` (D54).
+3. Hecho: comandos en la raíz: `npm start` (`web`), `npm test` (unitarios) y `npm run test:e2e` (D55).
+4. Hecho: un solo `check`, que ejecuta cada paso y no esconde ninguno; `app.main` espera a `start` (D56).
+5. Hecho: el registro valida sus datos: nombre ≥ 2, email válido, contraseña ≥ 8 (D58).
+6. Hecho: los `AGENTS.md` son mapas cortos para siempre, con un esqueleto que comprueba `aidd release` y el índice de `shared` que escribe el core (D59). Y una sola regla de idioma (D60).
+7. Idea (usuario): la regla de las esperas largas de los subagentes sale de la raíz y va a las definiciones de cada agente, quizá con un rol nuevo. Sin decidir.
+
+## Resultado de web-I (Grok 4.7 en Cursor, 2026-10-21)
+
+- 09:01 → 14:32 (5 h 31 min). Las 7 specs fundacionales enviadas, v0.5.0, cero deuda, `layers` y `crap` en verde (cobertura de líneas al 100 %: 818 en `back`, 649 en `front`). Es la primera run que llega al final de la Foundation web.
+- 17 specs en total: 7 fundacionales, 5 `fix` (S0002, S0004–S0006, S0014) y 5 `refactor` (S0007, S0011, S0013, S0015, S0016).
+- Tiempo hasta `about`: 178 min (web-H: 59 min con Codex). Las `chore` (`scaffold`, `platform`) y sus reparaciones se llevaron la mitad del día.
+- Unos veinte arreglos llevados a Daylight (tabla «Lo que entra de web-I»). Los fallos que solo eran del modelo (`page.evaluate`, los apaños del logout, localizadores ambiguos, el `recordForm` sin usar) se quedan fuera, por criterio del usuario.
+- Evidencia de D51: tras el ship de `settings`, con `layers` y `crap` ya en verde (14:29:46), el craft lanzó dos escaneos (medium y low) y otro check: unos 2,5 min para nada.
+- Abiertos para web-1: los datos de ejemplo duplicados en los tests, y los tests que leen antes de esperar. También el store del `front` (`about`, `users`, `settings` repiten `snapshot`, `subscribe`, `start`): candidato a primitiva del Bedrock si web-1 lo repite.

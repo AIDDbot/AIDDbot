@@ -30,19 +30,23 @@ Open your coding agent in the same folder. Then use these commands:
 | Start a greenfield system, or document a brownfield one | `/architect-system-foundation` |
 | Deliver a change | `/build-requested-spec your request` |
 | Repair technical debt | `/craft-lasting-quality` |
-| Deliver an ordered list of spec files | `/build-ordered-specs your list` |
+| Build the Foundation of an archetype on its Bedrock | `/build-archetype-foundation your list` |
 
 > In Codex, use `$` instead of `/`.
 
 **Next:** [Getting started](docs/getting-started.md)
 
-## Links
+## About
 
-- [The aiddbot.com website](https://aiddbot.com/)
-- [GitHub repository](https://github.com/AIDDbot/AIDDbot)
-- [Author: Alberto Basalo at X/Twitter](https://twitter.com/albertobasalo)
+- **Author**: [Alberto Basalo](https://albertobasalo.dev)
+- **Socials**:
+  - [X](https://x.com/albertobasalo)
+  - [LinkedIn](https://www.linkedin.com/in/albertobasalo/)
+  - [GitHub](https://github.com/albertobasalo)
+- **Cursos en Español**: [AI code Academy](https://aicode.academy)
+- **AIDDbot.com**: [AIDDbot.com](https://aiddbot.com)
+- **The main Repository for AIDDBot**: [AIDDbot](https://github.com/AIDDbot/AIDDbot)
 
 #### Promoción de cursos en español
 - [Mini-Curso. - Spec-Driven Development Inteligente](https://www.udemy.com/course/spec-driven-development-inteligente/?referralCode=D67B0EB2BD294D29A5B7)
 - [Oficial Fundae. - Programación Inteligente: domina el desarrollo asistido con IA](https://www.trainingit.es/producto/programacion-inteligente-ia/)
-- [AI Code Academy](https://aicode.academy/)

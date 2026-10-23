@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // The AIDD core: every state change of the process goes through these commands.
 // Output is JSON on stdout. Exit codes: 0 ok, 1 rejected by a rule, 2 usage, 3 nothing configured.
+import agents from "./commands/agents.mjs";
 import evaluate from "./commands/eval.mjs";
 import { integrate, release } from "./commands/release.mjs";
 import spec from "./commands/spec.mjs";
@@ -8,14 +9,15 @@ import { commit, config, debt, log, run } from "./commands/work.mjs";
 import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./lib/core.mjs";
 
 const COMMANDS = {
-  spec: [spec, "spec new <type> <slug> <title> [--domain <d>] | spec show [<id>]"],
+  spec: [spec, "spec new <feat|fix|chore> <slug> <title> [--domain <d>] | spec debt <D ID> [--domain <d>] | spec show [<id>]"],
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
-  run: [run, "run <lint|format|upgrade|test|quality|harden> [--project <name>] [--spec | --changed]"],
+  run: [run, "run <upgrade|test|layers|crap> [--project <name>] [--spec]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
-  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] | debt list | debt remove <id>'],
+  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] [--project <name>] | debt list | debt remove <id>'],
   commit: [commit, 'commit "<message>" [<path>...]'],
-  release: [release, "release [--major] [--preexisting <D IDs>]"],
+  release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],
+  agents: [agents, "agents <check|index>"],
   log: [log, 'log <verdict|select|handoff|approved|plan|scaffolded|blocked> "<summary>" [--spec <id>]'],
 };
 

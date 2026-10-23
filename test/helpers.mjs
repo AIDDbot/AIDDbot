@@ -47,17 +47,21 @@ export function aidd(root, ...args) {
 export function accept(root, code = 0, ...specs) {
   write(root, "e2e/tags.spec.ts", specs.map((id) => `test("@${id}-R01", () => {});\n`).join(""));
   write(root, "e2e/suite.js", `process.exit(${code});\n`);
-  const project = { type: "e2e", path: "e2e", commands: { test: "node suite.js" } };
+  const project = { type: "e2e", path: "e2e", commands: { test: "node suite.js", "test:spec": "node suite.js" } };
   aidd(root, "config", "set", "projects.e2e", JSON.stringify(project));
   if (specs.length) aidd(root, "run", "test", "--spec");
   return aidd(root, "run", "test", "--project", "e2e");
 }
 
-/** Today's journal: the dated `.log` in `.aiddbot/logs/`. */
-export function journalText(root) {
+/** Today's folder in `.aiddbot/logs/`: the one named by a date. */
+export function dayDir(root) {
   const dir = path.join(root, ".aiddbot/logs");
-  const name = fs.readdirSync(dir).find((entry) => /^\d{4}-\d{2}-\d{2}\.log$/.test(entry));
-  return fs.readFileSync(path.join(dir, name), "utf8");
+  return path.join(dir, fs.readdirSync(dir).find((entry) => /^\d{4}-\d{2}-\d{2}$/.test(entry)));
+}
+
+/** Today's journal: `journal.log` in the folder of the day. */
+export function journalText(root) {
+  return fs.readFileSync(path.join(dayDir(root), "journal.log"), "utf8");
 }
 
 export function readJson(root, file) {

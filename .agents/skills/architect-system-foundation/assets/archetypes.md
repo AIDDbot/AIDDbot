@@ -1,34 +1,34 @@
 # Archetypes
 
-Catalog of archetypes by project type. A **library** is one repository of archetypes that pass one acceptance suite together, with the instances of their foundation specs and their schema documents. Each library has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
+Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together, with its shipped foundation specs and its schema documents in `.product/`, as an AIDDbot system (Halloween D28). Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
 
-## Archetype Base
+## Archetype Web
 
-`AIDDbot/archetype-base`, tag `v0.3.14`. One repository with three archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one `api`, one `web` and one `e2e`, and with users (`basic-auth`). For any other system, use the other library.
+`AIDDbot/archetype-web`, tag `v0.4.3`. A system with exactly one `api`, one `web` and one `e2e`, and with users. For any other system, use the other archetype.
 
-| Project type | Archetype | Folder | Technology |
+| Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
-| `api` | `archetype-base/back` | `back/` | Express, framework-free TypeScript 7, SQLite |
-| `web` | `archetype-base/front` | `front/` | Framework-free TypeScript 7 with Vite, web components, Pico CSS with the brand theme |
-| `e2e` | `archetype-base/e2e` | `e2e/` | Playwright |
+| `api` | back | `projects/back/` | TypeScript on Node.js, Express, SQLite |
+| `web` | front | `projects/front/` | TypeScript on Vite, React with react-router, Pico CSS with the brand theme |
+| `e2e` | e2e | `projects/e2e/` | Playwright with Chromium |
 
-- Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed: the e2e suite, the boundary configuration and the spec instances use them.
-- `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0008-record-views`). The code implements each one, and each acceptance test has the tag of its requirement. `model/` holds the schema documents of the code.
-- Copy command: `npx degit AIDDbot/archetype-base/{folder}#v0.3.14 {target}`.
+- One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and type check, and the debt checks in `tools/lint/`.
+- `.product/specs/` holds the shipped specs `S0001-scaffold`, `S0002-platform`, `S0003-shell`, `S0004-presentation`, `S0005-about`, `S0006-users` and `S0007-settings`. The first business spec of a system is `S0008`.
+- Copy command: `npx degit AIDDbot/archetype-web#v0.4.3 {temporary folder}`.
 
 ## Archetype CLI
 
-`AIDDbot/archetype-cli`, tag `v0.3.13`. One repository with two archetypes that pass one acceptance suite together. Use them only together, for a system with exactly one local `cli` (no `api`) and one `e2e`, and with no users. For any other system, use the other library.
+`AIDDbot/archetype-cli`, tag `v0.4.17`. A system with exactly one local `cli` (no `api`, no database) and one `e2e`, and with no users. For any other system, use the other archetype.
 
-| Project type | Archetype | Folder | Technology |
+| Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
-| `cli` | `archetype-cli/cli` | `cli/` | Framework-free TypeScript 7 on Node.js, local SQLite (`node:sqlite`) |
-| `e2e` | `archetype-cli/e2e` | `e2e/` | Playwright Test, no browser |
+| `cli` | cli | `projects/cli/` | Framework-free TypeScript on Node.js |
+| `e2e` | e2e | `projects/e2e/` | Vitest, no browser |
 
-- Each folder has its `AGENTS.md` and its `CLAUDE.md`. The folder names are fixed.
-- `foundation/` holds the instance of each foundation spec for this system (`S0001-configuration` to `S0003-health`). `model/` holds the schema documents of the code.
-- Copy command: `npx degit AIDDbot/archetype-cli/{folder}#v0.3.13 {target}`.
+- One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and type check, and the debt checks in `tools/lint/`.
+- `.product/specs/` holds the shipped specs `S0001-scaffold`, `S0002-platform`, `S0003-shell`, `S0004-presentation`, `S0005-about` and `S0006-settings`. The first business spec of a system is `S0007`.
+- Copy command: `npx degit AIDDbot/archetype-cli#v0.4.17 {temporary folder}`.
 
-## No library fits
+## No archetype fits
 
-AIDDbot makes no archetype. Stop, and tell the human which libraries exist.
+AIDDbot makes no archetype. Stop, and tell the human which archetypes exist.

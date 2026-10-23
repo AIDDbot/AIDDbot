@@ -7,14 +7,14 @@ user-invocable: true
 ---
 # architect-system-foundation
 
-Your goal is to set up the foundation architecture for the system. When no code exists, propose it from a library of archetypes, scaffold it, and close it green. When code exists, document it. You can run this skill again at any time to align the documentation with the code.
+Your goal is to set up the foundation architecture for the system. When no code exists, propose it from an archetype of the catalog, scaffold it, and close it green. When code exists, document it. You can run this skill again at any time to align the documentation with the code.
 
 ```text
 verdict
 ├── greenfield
 │   ├── propose    approved system.md
-│   ├── scaffold   each project, then outline-system and integrate
-│   └── close      green check of the library foundation
+│   ├── scaffold   the whole archetype, then outline-system and integrate
+│   └── close      green check of the archetype foundation
 └── brownfield
     └── outline-system, rule-project, integrate
 ```
@@ -39,12 +39,12 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 | Phase | Reference | Result |
 | --- | --- | --- |
 | Propose | `references/propose.md` | An approved `.product/system.md`, committed on `chore/foundation`. |
-| Scaffold | `references/scaffold.md` | Each project scaffolded, shaped, and with its tooling registered; the system outlined and integrated. |
-| Close | `references/close.md` | The foundation of the library proved by a green close. |
+| Scaffold | `references/scaffold.md` | The archetype copied, each project shaped and with its tooling registered; the system outlined and integrated. |
+| Close | `references/close.md` | The foundation of the archetype proved by a green close. |
 
 Never scaffold when working code exists.
 
-The projects come only from a library of `assets/archetypes.md` (Archetype Base or Archetype CLI). The code, the tests, the spec instances, and the schema documents of the foundation come with it. The scaffold copies them and one green close proves them; never build, document, or deliver again what a library ships. When no library fits, stop: never make an archetype.
+The projects come only from an archetype of `assets/archetypes.md` (Archetype Web or Archetype CLI). The code, the tests, the tooling, the shipped foundation specs, and the schema documents come with it. The scaffold copies them and one green close proves them; never build, document, or deliver again what an archetype ships. When no archetype fits, stop: never make one.
 
 ## Brownfield
 
@@ -53,4 +53,4 @@ The projects come only from a library of `assets/archetypes.md` (Archetype Base 
 - Create the `chore/document` branch from the default branch. There, the **Architect** executes `outline-system`, then `rule-project` for each project.
 - When all documentation and project rules are complete, run `node .agents/aidd/aidd.mjs integrate "docs(system): document foundation"` from `chore/document`. It commits the remaining changes, merges the branch into the default branch, and deletes the branch after a successful merge.
 
-The result is a system scaffolded from a library that closes its foundation green, a documented brownfield system, or the reason why this was not possible.
+The result is a system scaffolded from an archetype that closes its foundation green, a documented brownfield system, or the reason why this was not possible.

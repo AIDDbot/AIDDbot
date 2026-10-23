@@ -1,0 +1,1 @@
+$build-ordered-specs with the spec files of .product/blueprint/foundation/, in the order of section 1 of .product/blueprint/project-types.md: scaffold, configuration, monitoring, shell, about, users, presentation. The system has users, so deliver users. The archetype ships with zero debt.

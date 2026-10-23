@@ -17,27 +17,26 @@ Set the type of the project by the interface that it gives: `api`, `web`, `cli`,
 
 | Slot | Effect |
 | --- | --- |
-| `lint` | Only checks of error level, with the safe fixes of the linter applied, such as `--fix`; never its suggestions or dangerous fixes. It reports only errors, never warnings: they are noise for each build. |
-| `lint:files` | The same `lint`, on the files that the core gives as arguments. |
-| `format` | Rewrites the files with the formatter, with its write flag explicit, such as `--write`. |
 | `upgrade` | Updates the dependencies and the lockfile. |
-| `test` | In an `e2e` project: the end-to-end tests that start the system, headless. In other projects: fast tests, with no server or browser. |
-| `test:files` | The fast tests of the test files that the core gives as arguments. Never in an `e2e` project. |
-| `start` | Starts the project. In an `e2e` project: the interactive UI of the test runner, for a human only. |
-| `quality` | Each complexity, size, coverage, or other limit check, as its own command. It never reports the warnings of `lint`. Never one aggregate that stops at its first failure: one scan must show each failing check. |
-| `harden` | The final polish of code that works: the warnings of the linter, and stricter rules. Each finding shows its rule. |
+| `test` | In an `e2e` project: all the end-to-end tests that start the system, headless. In other projects: all the unit tests. |
+| `test:spec` | Only in an `e2e` project: the end-to-end tests, ending in the filter flag of the runner (such as `-t` or `--grep`), so that the core adds only a tag such as `@S0001-`. |
+| `start` | Starts the project. In an `e2e` project: the runner for a human only, in watch mode or with its UI; never a package added only for it. |
+| `layers` | The checks of medium debt: the dependency rules between layers. Never the lint of the pre-commit hook. |
+| `crap` | The checks of low debt: the complexity and size rules of the linter and the test coverage, the inputs of CRAP as separate thresholds; never compute the CRAP formula. Each finding shows its rule. |
 
-Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `quality` is always a list:
+Lint, format and the affected unit tests are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
+
+Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `layers` and `crap` are each the command that the project gives: a list of commands when its checks are separate, or one script, such as a `crap` that runs the complexity and then the coverage, when the project orders them.
 
 ```json
-{"type":"api","path":"back","commands":{"lint":"npm run lint","lint:files":"npm run lint:files","test":"npm test","test:files":"npm run test:files","quality":["npm run quality","npm run quality:coverage"],"harden":"npm run harden"}}
+{"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"layers":"npm run layers","crap":"npm run crap"}}
 ```
 
 ## AGENTS.md
 
-Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`, and put a `CLAUDE.md` next to it that contains only `@AGENTS.md`. When the file exists, write its sections from the code again, but keep each row of its project rules and its shared primitives that still has a scope: shipping promoted them, and the code cannot make them again.
+Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`, and put a `CLAUDE.md` next to it that contains only `@AGENTS.md`. When the file exists, write its sections from the code again, but keep each project rule that still has a scope: shipping promoted it, and the code cannot make it again. Then run `node .agents/aidd/aidd.mjs agents check`, and repair each problem that it gives.
 
-When an old `{Agents_Folder}/rules/{project}.rules.md` exists, move its code-rules rows to the project rules, then delete that file.
+When an old `{Agents_Folder}/rules/{project}.rules.md` exists, move its rules to the project rules, then delete that file.
 
 The result is the current `AGENTS.md` of the project and its classified commands.
 

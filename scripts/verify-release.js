@@ -58,7 +58,7 @@ try {
   const invalid = spawnSync(process.execPath, ["scripts/release.js", "invalid"], { cwd: root });
   assert.equal(invalid.status, 1);
   assert.equal(fs.readFileSync(path.join(root, "package.json"), "utf8"), original);
-  // A pinned library must share major.minor with the next version; its patch is free.
+  // A pinned archetype must share major.minor with the next version; its patch is free.
   const catalog = path.join(root, ".agents/skills/architect-system-foundation/assets/archetypes.md");
   fs.mkdirSync(path.dirname(catalog), { recursive: true });
   fs.writeFileSync(catalog, "`AIDDbot/archetype-base`, tag `v1.2.0`.\n");
