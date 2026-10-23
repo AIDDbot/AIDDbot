@@ -1,6 +1,6 @@
 {
   "name": "aiddbot",
-  "version": "0.3.21",
+  "version": "0.4.0",
   "codename": "Daylight",
   "author": {
     "name": "Alberto Basalo",
@@ -23,8 +23,8 @@
     "node": ">=18"
   },
   "license": "MIT",
-  "buildTimestamp": "2026-10-15T09:17:30.967Z",
-  "releaseCommit": "d2d9b0ffcb21e4c6ab3b1c6ae73d065eda20381e",
+  "buildTimestamp": "2026-10-23T14:23:43.858Z",
+  "releaseCommit": "ee2695eaa015734281b224086d183563a831ac7e",
   "devDependencies": {
     "oxlint": "^1.86.0"
   }
