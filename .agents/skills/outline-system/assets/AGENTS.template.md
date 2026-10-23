@@ -7,6 +7,9 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 - Use the OS and the shell that your harness gives. When it gives none, find them before the first command.
 - **Talk** in the language of the human — **Documents** in ASD-STE100, in `{English | the language that the human chose}` — **Code** in English
 - When a request is ambiguous or incomplete, ask one closed question at a time (yes/no or pick-one).
+- Before you write or review code outside a skill, read `.agents/skills/implement-project/references/code-rules.md`: the architecture and the code of all the projects.
+
+<!-- The last line only when `.product/system.md` exists (a system that `architect-system-foundation` made). Remove this comment. -->
 
 ## System
 
@@ -28,14 +31,6 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 
 - **For an agent**: `node .agents/aidd/aidd.mjs run <test|layers|crap|upgrade> [--project <name>]` runs the slot of each project and keeps its full output in `.aiddbot/logs/{kind}-{project}.log`. Read the log instead of running the tool by hand. A failed run also keeps a copy, at the `failure` path of its result. One run at a time; a log that starts with `RUNNING` is no result yet.
 - **Pre-commit hook**: `{command}` formats, lints and type-checks the staged files with safe fixes, and runs the unit tests that they affect. A failure stops the commit.
-
-## Records
-
-<!-- The first line only when `.product/system.md` exists (a system that `architect-system-foundation` made). Remove this comment. -->
-
-- Before you write or review code, read `.agents/skills/implement-project/references/code-rules.md`: the architecture and the code of all the projects. Only the pre-commit hook and `test` block a delivery, and a security finding gets one repair first; any other violation is debt.
-- `.aiddbot/` belongs to the core: change it only with `node .agents/aidd/aidd.mjs`. When a command refuses, fix what its error names and run it again.
-- `{Product_Folder}/system.md` is the approved proposal, and `{Product_Folder}/specs/` has the specs. The code wins where they disagree.
 
 ## Git
 

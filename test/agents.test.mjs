@@ -5,7 +5,7 @@ import path from "node:path";
 import { test } from "node:test";
 import { git, write, repo, aidd, accept, approve } from "./helpers.mjs";
 
-const ROOT_AGENTS = ["# Project instructions", "", "## Assistant", "", "- Ask one closed question.", "", "## System", "", "| Project | Type |", "| --- | --- |", "| back | api |", "", "## Commands", "", "- `npm test`", "", "## Records", "", "- Specs in `.product/specs/`.", "", "## Git", "", "- Conventional commits.", ""].join("\n");
+const ROOT_AGENTS = ["# Project instructions", "", "## Assistant", "", "- Ask one closed question.", "", "## System", "", "| Project | Type |", "| --- | --- |", "| back | api |", "", "## Commands", "", "- `npm test`", "", "## Git", "", "- Conventional commits.", ""].join("\n");
 const PROJECT_AGENTS = ["# back — api", "", "## Purpose", "", "- **Owns**: the API.", "", "## Technology", "", "- Express.", "", "## Folders", "", "| Concept | Path |", "| --- | --- |", "| core | `src/core/` |", "", "## Platform", "", "- **Port**: `PORT` = 3000", ""].join("\n");
 
 function project(root) {
