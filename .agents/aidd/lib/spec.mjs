@@ -45,7 +45,14 @@ export function specMeta(file) {
   const front = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text)?.[1] ?? "";
   const meta = Object.fromEntries([...front.matchAll(/^(\w+):[ \t]*([^#\r\n]*?)[ \t]*(?:#.*)?$/gm)].map(([, name, value]) => [name, value]));
   const title = /^# .+? — (.+)$/m.exec(text)?.[1]?.trim() ?? key;
-  return { id: key.slice(0, 5), key, type: path.basename(path.dirname(file)), branch: meta.branch, domain: meta.domain || "general", title };
+  return { id: key.slice(0, 5), key, type: path.basename(path.dirname(file)), branch: meta.branch, domain: meta.domain || "general", title, summary: summaryOf(text) };
+}
+
+/** The first sentence of the Problem, cut at its first colon or semicolon; empty when the Problem has no text yet. */
+function summaryOf(text) {
+  const paragraph = /^## Problem\r?\n(?:[ \t]*\r?\n)*([^\r\n]+)/m.exec(text)?.[1]?.trim() ?? "";
+  if (!paragraph || /^[{#]/.test(paragraph)) return "";
+  return `${paragraph.split(/(?<=\.)\s/)[0].split(/[:;]/)[0].trim().replace(/\.$/, "")}.`;
 }
 
 /** A spec is shipped when the changelog names it: `aidd release` writes that entry. */
