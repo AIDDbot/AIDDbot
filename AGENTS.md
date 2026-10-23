@@ -18,7 +18,7 @@ The deliverable are **agent skills** tailored to implement AI-Driven Development
 
 ## Releasing
 
-- AIDDbot and each archetype (`AIDDbot/archetype-web`, `AIDDbot/archetype-cli`) share `major.minor` and the codename; each repo releases its patches on its own (Halloween D6). To change an archetype, release it (bump its root `package.json`, commit `chore(release): {version}`, tag, push), then pin that tag in `architect-system-foundation/assets/archetypes.md` and `docs/getting-started.md`. Never move a published tag.
+- AIDDbot, the Archetype Builder (`AIDDbot/archetype-builder`) and each archetype (`AIDDbot/archetype-web`, `AIDDbot/archetype-cli`) share `major.minor` and the codename; each repo releases its patches on its own (Halloween D6). To change an archetype, release it (bump its root `package.json`, commit `chore(release): {version}`, tag, push), then pin that tag in `architect-system-foundation/assets/archetypes.md` and `docs/getting-started.md`. Never move a published tag.
 - For a `minor` or `major` AIDDbot release, release and pin each archetype at the new `major.minor` first. `npm run release` refuses a pin from another `major.minor`.
 - Release with `npm run release -- patch|minor|major`, then tag `v{version}` and push the tag.
 - Run `npm test` first only when `.agents/aidd/`, `bin/`, `scripts/`, or `test/` changed since the last tag. A change to skills or docs needs only `npm run adapt`.
