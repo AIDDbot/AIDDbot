@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2 - 2026-10-23
+
+- chore(skills): pin Archetype Web v0.4.20 and Archetype CLI v0.4.20 (a root start in the cli, and vp run --cache for test, layers and crap) (2f8bd5af)
+
 ## 0.4.1 - 2026-10-23
 
 - chore(skills): pin Archetype Web v0.4.4 and Archetype CLI v0.4.18 (the PRD with a summary of each feature) (a89a7f03)
