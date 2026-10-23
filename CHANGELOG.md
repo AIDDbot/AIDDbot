@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 - 2026-10-23
+
+- chore(skills): pin Archetype Web v0.4.4 and Archetype CLI v0.4.18 (the PRD with a summary of each feature) (a89a7f03)
+- refactor(skills): tighten /define-spec: the first sentence of the Problem is the summary in the PRD (5dc7bcbc)
+- feat(core): each PRD line has the spec ID with its slug, and the first sentence of its Problem (37c57b3a)
+
 ## 0.4.0 - 2026-10-23
 
 - docs(product): cli-4 closed 6 of 6 with zero debt, handed over as Archetype CLI v0.4.17 (ee2695ea)

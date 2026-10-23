@@ -10,7 +10,7 @@ domain: {domain}
 
 ## Problem
 
-{The requested behavior and its scope, in a few short sentences.}
+{The requested behavior and its scope, in a few short sentences. The first sentence, up to a colon, is the summary of the feature in the PRD.}
 
 ### User Stories
 
