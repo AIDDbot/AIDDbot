@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.4 - 2026-10-23
+
+- chore(skills): pin Archetype Web v0.4.22 and Archetype CLI v0.4.22 (a README with what comes out of the box, Vite+, and Make it yours) (cbb28b8a)
+
 ## 0.4.3 - 2026-10-23
 
 - chore(skills): pin Archetype Web v0.4.21 and Archetype CLI v0.4.21 (no-deprecated in the hook, and no-magic-numbers in crap) (0a2c9888)
