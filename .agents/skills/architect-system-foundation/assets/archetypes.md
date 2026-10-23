@@ -4,7 +4,7 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 
 ## Archetype Web
 
-`AIDDbot/archetype-web`, tag `v0.4.1`. A system with exactly one `api`, one `web` and one `e2e`, and with users. For any other system, use the other archetype.
+`AIDDbot/archetype-web`, tag `v0.4.2`. A system with exactly one `api`, one `web` and one `e2e`, and with users. For any other system, use the other archetype.
 
 | Project type | Project | Folder | Technology |
 | --- | --- | --- | --- |
@@ -14,7 +14,7 @@ Catalog of archetypes. An **archetype** is a whole solution: one repository with
 
 - One npm workspace with Vite+ at the root: the pre-commit hook (`vp staged`), the format, lint and type check, and the debt checks in `tools/lint/`.
 - `.product/specs/` holds the shipped specs `S0001-scaffold`, `S0002-platform`, `S0003-shell`, `S0004-presentation`, `S0005-about`, `S0006-users` and `S0007-settings`. The first business spec of a system is `S0008`.
-- Copy command: `npx degit AIDDbot/archetype-web#v0.4.1 {temporary folder}`.
+- Copy command: `npx degit AIDDbot/archetype-web#v0.4.2 {temporary folder}`.
 
 ## Archetype CLI
 
