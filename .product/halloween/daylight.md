@@ -218,6 +218,19 @@ Hallazgos de web-4 (desde las 09:09:54, `reserve S0001`):
 - Candidatos para el Builder: el localizador de la descripción de la home (la misma regresión en web-3 y web-4); la versión de las migraciones es `S0006-users`, no `0001-{name}` como dice `platform`; «No `logic` or `data`» de About se leyó como «sin test».
 - Pendiente al final de la run (usuario, 2026-10-23): reforzar `conditions(named)` en `code-rules.md`, sobre todo el caso que más sale, una condición que niega un parámetro de la función (`!text`, `!expected`).
 
+Preparada 2026-10-23, para rehacer Archetype CLI con lo de Daylight (se llama cli-4, de la misma generación que web-4):
+
+- `cli-4`: AIDDbot `refactor/quality-gates` `1696bc45` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `a4f46c0`. `core.autocrlf false`. `npm install`; `npm run check` en verde antes de los commits, y el hook pasó en cada uno.
+- Commits `15cddfd` (overlay), `2461cf9` (raíz del Bedrock y `tools/`, 18 ficheros), `ed89f70` (`cli`, 31), `094d34a` (`e2e`, 9) y `53a7053` (`.product/`, 10). Prompt: [`daylight/cli-4.md`](./daylight/cli-4.md), el mismo que cli-1 (6 specs, sin users).
+
+Qué mirar en cli-4:
+
+- D61, D62 y D63: commits por unidad, la raíz con Assistant, System, Commands y Git, sin OS ni shell fijos, y la línea de las reglas de código en Assistant.
+- `conditions(named)` tras el refuerzo de `code-rules.md` (AIDDbot `5f62109a`): cuántos hallazgos, frente a 37 únicos en web-4.
+- Los rangos cerrados de `platform` y `settings` (Builder `e469bd9`).
+- Que llegue a `settings` sin ayuda: 6 de 6 con deuda cero. Al final, `npm test`, `npm run check` y la suite de aceptación en verde.
+- Después: traspaso a `AIDDbot/archetype-cli` con el `handover.md` nuevo (raíz neutra, bloque About), fijarlo y la release de AIDDbot 0.4.0 Halloween.
+
 ## Lo que entra de web-I
 
 web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
