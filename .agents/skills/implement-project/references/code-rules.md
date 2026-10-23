@@ -24,7 +24,7 @@ Each row is the intent of a check and its limits (code / tests). `crap` and `lay
 | Intent | Limits | How |
 | --- | --- | --- |
 | Keep each unit small | parameters 2 / 4, complexity 8, statements 16 / 64, nesting 2 / 4, lines of a file 128 / 256 | More values go in one object with a named type, never with outputs. A choice between kinds is a table (`Record<Kind, Handler>`), never a chain of `if` or a `switch`. A function with several steps calls one function for each step. A framework callback, such as a middleware, goes in `core/{concern}/{topic}.middleware.ts`. |
-| Make each decision readable | one logical operator between names | A condition is a name: `const isUnknown = version === undefined; if (isUnknown)`. |
+| Make each decision readable | one logical operator between names | The test of each `if`, loop and ternary (`? :`), also in a test file, is a name: `const isUnknown = version === undefined; if (isUnknown)`, never `if (version === undefined)` or `version === undefined ? a : b`. Name it as the code tests it: `if (isMissing)`, never `if (!isPresent)`. A callback goes in a `const` before the condition or the loop: `const active = items.filter(isActive); for (const item of active)`. |
 | Name each shape | each parameter, each exported return | A named type, also the props of a component: never an object type or `ReturnType<…>` in a signature. |
 | Change nothing that you get | no parameter written | Return a new value. `Object.assign` to a parameter is the same, though the check does not see it. State that changes stays in a closure. |
 | Keep the layers apart | 16 entries in a folder | Imports go down the layers. A folder over the limit divides by concern. |
