@@ -579,3 +579,10 @@ Una spec es de fundación si cumple las dos condiciones:
 - La plantilla de la raíz baja a 470 palabras; la raíz de web-3 bajaría a unas 450. Carga fija por proyecto: de 1550–1800 a 800–1050 palabras.
 - Riesgo: `define-spec` ya no ve la arquitectura y puede repetirla en la Solution. Mirar el tamaño de las specs en web-4.
 - AIDDbot `a368d745` (skills, core, 55/55 tests) y `7520f4f3` (docs); Builder `eadcad0`.
+
+## D63 (2026-10-23, Daylight) · El entorno lo da el harness, y el arquetipo no huele a AIDDbot
+
+- El OS y el shell salen del `AGENTS.md` (usuario: fallo de años). Cada programador usa los de su máquina, y cada harness puede usar un shell distinto en la misma máquina. La plantilla dice: «Use the OS and the shell that your harness gives. When it gives none, find them before the first command.» Sin fichero local. AIDDbot `33a9580c`.
+- La raíz pierde Records: sus reglas las imponen las skills y el core, y un `AGENTS.md` generado no se actualiza con `aiddbot update`. La línea de las reglas de código pasa a Assistant, para el trabajo fuera de una skill. Esqueleto de la raíz en el core: Assistant, System, Commands, Git. AIDDbot `d7d7c6c0` (55/55 tests).
+- El `AGENTS.md` raíz de un arquetipo no lleva rastro de AIDDbot (identidad, comandos `aidd`, `.agents/`, `.aiddbot/`): el scaffold nunca lo copia, y quien usa el arquetipo sin AIDDbot no tiene esas carpetas. La línea del gate va al `README.md`. Builder `83dd9c0` (`handover.md`).
+- Archetype Web `v0.4.1` (entorno) y `v0.4.2` (raíz neutra), fijados en AIDDbot `89fa7036` y `9f8871f4`. Archetype CLI lo recibe al rehacerse.
