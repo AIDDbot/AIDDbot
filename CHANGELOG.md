@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3 - 2026-10-23
+
+- chore(skills): pin Archetype Web v0.4.21 and Archetype CLI v0.4.21 (no-deprecated in the hook, and no-magic-numbers in crap) (0a2c9888)
+
 ## 0.4.2 - 2026-10-23
 
 - chore(skills): pin Archetype Web v0.4.20 and Archetype CLI v0.4.20 (a root start in the cli, and vp run --cache for test, layers and crap) (2f8bd5af)
