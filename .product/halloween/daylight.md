@@ -175,6 +175,22 @@ Hallazgos de web-3 (Codex, desde las 17:16):
 - Total: 6 de 7 specs (sin `settings`), de las 17:16 a las 18:51, unos 93 min sin los puertos. Ningún rechazo del hook visto en el diario; el commit mayor, 22 ficheros (`ba6615f`), el resto ≤ 14.
 - S0003: el Craftsman ejecutó `eval` en rojo sin el informe; el core se negó («Red eval requires a report…») y el Craftsman apuntó `blocked` en vez de escribirlo. Se recuperó solo (el Builder reparó, verification 1 verde). El core ya daba la ruta; ahora da también la plantilla y pide no pasar la spec sin el informe (AIDDbot `2bde76c1`, test). Consecuencia que se vio: la verificación roja nunca se apuntó, y la verde salió como «verification 1».
 
+Preparada 2026-10-23, con `construction.md` del Builder (commits de preparación pequeños), D62 y los arreglos de web-3:
+
+- `web-4`: AIDDbot `refactor/quality-gates` `d63b837a` (`node bin/aiddbot.js init` local, todos los harnesses), Builder `0e5648d`. `core.autocrlf false`, ningún CRLF. `npm install` y Chromium instalados; `npm run check` en verde antes de los commits, y el hook pasó en cada uno.
+- Commits `da77e41` (overlay), `fe77f11` (raíz del Bedrock y `tools/`, 19 ficheros), `dad51a5` (`back`, 34), `b83703b` (`front`, 37), `8ce0391` (`e2e`, 11) y `6e3b869` (`.product/`, 11). Prompt: [`daylight/web-4.md`](./daylight/web-4.md), el mismo que web-3.
+- Con un modelo con más margen de tokens que web-3: el objetivo es 7 de 7 specs con deuda cero, `settings` incluida.
+
+Qué mirar en web-4:
+
+- D62: la raíz sin Architecture ni Code, con la línea de las reglas en Records; `agents check` en verde en cada release. Que `implement-project` lea `code-rules.md` y que las reglas se sigan cumpliendo como en web-3 (sin más rechazos del hook ni más hallazgos de `layers` y `crap`). Que `define-spec` o el Builder no copien la arquitectura en otro sitio.
+- El contraste de 4,5:1 en cada tema sin parches en `shell.css` (Builder `6f92a4b`).
+- El preflight CORS con `Authorization` desde S0002 (Builder `6f728db`): ningún fallo de aceptación en `users`.
+- Los rangos cerrados (Builder `e469bd9`): el error de `name` dice «2 to 64», nunca «Infinity».
+- Un `eval` en rojo o ámbar con su informe desde la plantilla, sin `blocked` (AIDDbot `2bde76c1`).
+- Que llegue a `settings` enviada. Al final, `npm start`, `npm test`, `npm run test:e2e` y `npm run check` en verde.
+- El tiempo hasta `about` y el total, frente a web-3 (`about` a los ~67 min; 6 specs en ~93 min).
+
 ## Lo que entra de web-I
 
 web-I sigue hasta el final (decisión del usuario, 2026-10-21). Cada hallazgo suyo que cambie la Foundation o el Blueprint entra en las runs de Daylight mientras no se lancen:
