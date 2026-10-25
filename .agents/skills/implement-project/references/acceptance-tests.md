@@ -9,6 +9,6 @@ Write or repair the E2E tests from the requirements of the spec.
 - A test checks only what its spec owns. For a list, a table, or a help text that other specs extend, check that each item of this spec is there, with its value: never the whole list, its count, or its order, unless a requirement states them. A later spec adds items, and a closed list breaks.
 - Each test makes its own data with unique identifiers. It never depends on the test order, on data that exists before, or on global counts: the suite runs in parallel against one shared database.
 
-Check with `node .agents/aidd/aidd.mjs run test --spec`. It runs only the tests of this spec, and it lists each requirement that has no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`. A spec with no requirements that cites none runs nothing. `verify-behavior` runs it again as its evidence. Never run the full suite yourself: `verify-behavior` runs it.
+Check with `node .agents/aidd/aidd.mjs run test --spec`. It runs only the tests of this spec, and it lists each requirement that has no test. A `fix` of a failing test has no requirements of its own: it runs the test that the spec cites, such as `@S0042-R03`. A spec with no requirements that cites none runs nothing. `verify-behavior` runs it again as its evidence. Never run the full suite yourself: `ship-spec` runs it.
 
 Repair each failure that it shows, in the tests or in the production code. Do at most three cycles of run and repair. Then return what still fails.

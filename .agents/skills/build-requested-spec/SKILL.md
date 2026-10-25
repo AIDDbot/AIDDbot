@@ -50,7 +50,7 @@ The **Builder** executes `implement-project`:
 
 - For each affected production project, from lower to higher levels of abstraction.
 - Then for the E2E project, when the spec has requirements or its Solution has E2E work. Do this also when its Solution lists no E2E work, because each requirement needs its tagged acceptance test.
-- For a `refactor`, the scope is the debt item: the **Builder** runs the check that reported it, and leaves it green before it returns.
+- For a `refactor`, the scope is the debt item: the **Builder** runs the check that reported it, and leaves the item repaired before it returns. A finding outside the item stays for the next scan.
 
 ## 3. Verify, qualify, and ship
 

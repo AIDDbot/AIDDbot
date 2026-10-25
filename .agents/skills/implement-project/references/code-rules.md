@@ -34,4 +34,4 @@ Each row is the intent of a check and its limits (code / tests). `crap` and `lay
 - One name for one meaning in a module, and one source for each definition: a default, an option, a usage text or a list of names is data in one place. Never parse a display text to get the data again.
 - A function at an edge gets `unknown` and returns the exact type: the caller never checks or converts the value again.
 - Catch errors only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error.
-- No check, limit or default value that the spec does not state. Never a lint comment, and never an exception in the lint configuration.
+- No check, limit or default value that the spec does not state. Never a lint comment, and never an exception in the lint configuration, except the one that the evidence of a debt item names for a rule that the framework makes a false alarm.

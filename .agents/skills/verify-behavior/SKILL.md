@@ -14,7 +14,7 @@ Run `node .agents/aidd/aidd.mjs run test --spec` from the spec branch. It runs o
 Never edit code, tests, or contracts. Never run the full `test`, a `debt:*` check, or a test tool yourself: the regression belongs to `ship-spec`.
 
 - A requirement without an acceptance test that has its global ID, as a tag or in its title, is a failure.
-- A spec without requirements, such as a `fix` from high debt, has no tagged test, and the scoped run is not applicable: its review and the regression of `ship-spec` prove it.
+- A spec without requirements, such as a `fix` from high debt, runs the tests that it cites, such as `@S0042-R03`. Only a spec that has no requirements and cites none has no scoped run: its review and the regression of `ship-spec` prove it.
 - Each failure counts. Debt never excuses a failure of the tests of this spec.
 - When only a product decision can tell if a failure is expected, return that question and record nothing, so that no revision is spent.
 

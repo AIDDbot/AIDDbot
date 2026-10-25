@@ -29,7 +29,7 @@ Check only what you change: fewer tests, and each failure near its cause. The pr
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
 - Commit unit by unit. Commit the code of a unit when it is complete, then its unit tests in a separate `test({project})` commit. Never start the next unit while one is not committed.
 - When the hook refuses a commit, fix each error that it shows and commit again. Never skip the hook.
-- After the last unit, run `node .agents/aidd/aidd.mjs run layers --project {project}` and `run crap --project {project}`, and repair until both are green: first what they show, then what they show next, such as the test coverage that a failing limit hid. Commit each repair on its own. Thus no medium or low debt follows the spec. A `refactor` repairs at least its debt items; a red check that you cannot repair stays in your result.
+- After the last unit, run `node .agents/aidd/aidd.mjs run layers --project {project}` and `run crap --project {project}`, and repair what they show in the code that you changed, and the debt items or the check that your scope names: first what they show, then what they show next, such as the test coverage that a failing limit hid. Commit each repair on its own. Thus no medium or low debt follows the spec. A finding in code outside your scope stays for the next scan: never repair it. Each red check stays in your result, with what you could not repair.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
