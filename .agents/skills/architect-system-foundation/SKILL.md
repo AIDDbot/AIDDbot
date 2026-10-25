@@ -43,4 +43,4 @@ The projects come only from an archetype of `assets/archetypes.md` (Archetype We
 - Create the `chore/document` branch from the default branch. There, the **Architect** executes `outline-system`, then `rule-project` for each project.
 - When all documentation and project rules are complete, run `node .agents/aidd/aidd.mjs integrate "docs(system): document foundation"` from `chore/document`. It commits the remaining changes, merges the branch into the default branch, and deletes the branch after a successful merge.
 
-The result is a system scaffolded from an archetype that closes its foundation green, a documented brownfield system, or the reason why this was not possible.
+The result is one of three outcomes. It is a system scaffolded from an archetype that closes its foundation green, or a documented brownfield system. Otherwise, it is the reason why neither was possible.

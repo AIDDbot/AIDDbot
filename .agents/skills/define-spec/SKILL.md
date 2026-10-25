@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to turn one natural-language request into an approved spec.
 
-Before you define anything, read the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, the counters, the schema documents under `{Product_Folder}/model/`, and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing and a project exists, return that `outline-system` must run. With no project yet, continue: the spec that adds a project gets them when it ships. Never invent their contents.
+Before you define anything, read these sources: the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, and the counters. Also read the schema documents under `{Product_Folder}/model/` and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing and a project exists, return that `outline-system` must run. With no project yet, continue: the spec that adds a project gets them when it ships. Never invent their contents.
 
 When the request gives a spec file, read `references/spec-file.md` and follow it instead of the next section. When the request asks for a draft, read `references/draft.md` and follow it instead of the `spec new` command and the approval.
 
@@ -18,7 +18,7 @@ When the request gives a spec file, read `references/spec-file.md` and follow it
 Ask about the missing product decisions. Then define one coherent scope: what the request asks, and nothing more.
 
 - No field, operation, or screen that the request does not name, such as a name, an edit, or a get-by-id. When one seems necessary, ask the human. In YOLO mode, leave it out and offer it as a later spec.
-- No migration of data that the system does not have yet, no change of the approved stack, no repair of debt that the request does not name, and no instructions on how other agents work. Offer all else as a later spec.
+- No migration of data that the system does not have yet. No change of the approved stack. No repair of debt that the request does not name. No instructions on how other agents work. Offer all else as a later spec.
 - Choose the type from the behavior that an observer sees. A `feat` adds behavior. A `fix` corrects behavior that a requirement promised. A `chore` changes no behavior that an observer sees: a scaffold, tools, dependencies, documentation, or test code repairs with no requirement. A `refactor` changes code without a change of behavior. It comes only from medium debt. For such a request, offer to record debt. Only the core makes its spec.
 - The domain is a short kebab-case product area. Use an area of the index again when it fits, so that each area has one name.
 
@@ -30,8 +30,8 @@ Fill the spec file from the template for its type. Apply these rules also to dra
 
 - Keep at most 9 requirements, 3 user stories and 5 business rules, in fewer than 100 lines. The `log approved` command refuses more. Split excess scope into later specs by user story.
 - Each requirement states one capability that a user sees, with its errors and edge cases. Give it an acceptance test in this spec. Never defer that test. Cover at least one error scenario.
-- Each behavior in `Solution` that an acceptance test can prove, such as a log line, an exit code, or a message, belongs to the requirement of its capability. Only a result that no acceptance test can prove stays in `Solution` alone.
-- A requirement states only what a public interface of the system shows: a page, an address, or a command and its output. A change that no public interface shows yet, such as an option that no command declares, gets no requirement: put it in `Solution`, and its unit tests prove it.
+- Some behaviors in `Solution` are possible to prove with an acceptance test, such as a log line, an exit code, or a message. Each such behavior belongs to the requirement of its capability. Only a result that no acceptance test can prove stays in `Solution` alone.
+- A requirement states only what a public interface of the system shows: a page, an address, or a command and its output. Some changes show in no public interface yet, such as an option that no command declares. Such a change gets no requirement. Put it in `Solution`, and its unit tests prove it.
 - Never list shipped requirements: a spec looks forward. A shipped requirement that it contradicts shows as a failing regression test, and the verification triages it.
 - In `Expected URLs and APIs`, list only the errors that the address can cause. A request with no body gets no invalid-JSON or body-size error.
 - Leave the schema documents to `ship-spec`.

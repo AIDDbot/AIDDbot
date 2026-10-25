@@ -7,7 +7,7 @@ user-invocable: true
 ---
 # build-requested-spec
 
-Your goal is to turn a natural-language request, a draft of `architect-requested-spec`, or a spec that the core made from a debt item, into a shipped spec.
+Your goal is to turn a request into a shipped spec. The request is natural language, a draft of `architect-requested-spec`, or a spec that the core made from a debt item.
 
 ## Roles
 
@@ -50,6 +50,6 @@ The **Craftsman** executes these skills in order. Each step checks only its own 
 
 Only `ship-spec` changes `{Product_Folder}/model/` within a spec. Never send schema work to another agent or run `outline-system`. The review needs the schema documents from before the spec.
 
-When a step is not green, read `references/events.md` and act on its row. A step is not green when verification is red, the **Builder** cannot reproduce a failure, qualification has findings, the regression has rows, a step asks a product question, or acceptance cannot run.
+When a step is not green, read `references/events.md` and act on its row. A step is not green in these conditions: verification is red, the **Builder** cannot reproduce a failure, or qualification has findings. It is also not green when the regression has rows, when a step asks a product question, or when acceptance cannot run.
 
 The result is one shipped spec, or the reason why it could not ship.

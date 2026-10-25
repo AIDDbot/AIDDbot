@@ -7,7 +7,7 @@ user-invocable: true
 ---
 # implement-project
 
-Your goal is to implement the share of one project in an approved spec, or to repair the findings or the debt item that you get for it.
+Your goal is to implement the share of one project in an approved spec. Or your goal is to repair the findings or the debt item that you get for that project.
 
 Work on the spec branch or the patch branch of `craft-lasting-quality`. If you are on the default branch, stop. Read `{source_root}/AGENTS.md` of the project for technical data. When `{Product_Folder}/system.md` exists, also read `references/code-rules.md`. Do not explore code to learn the setup. Follow their folders, layers, and permitted imports.
 
@@ -32,7 +32,7 @@ Check only your changes. The pre-commit hook formats, lints, checks types, and r
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
-Keep the `AGENTS.md` of the project current with your change: its slots, its dependencies, its folders, its contract (port and variables) and the line of each `core` folder that you change. Never write what a feature does: its spec gives it. The core writes the index of `shared`.
+Keep the `AGENTS.md` of the project current with your change. Update its slots, its dependencies, its folders, and its contract (port and variables). Also update the line of each `core` folder that you change. Never write what a feature does: its spec gives it. The core writes the index of `shared`.
 
 Before you return, read the project rules of `AGENTS.md` again. Also read the code rules that apply and each sentence of the spec for this project. Check your diff against each one. A rule you did not apply fails the qualification.
 
