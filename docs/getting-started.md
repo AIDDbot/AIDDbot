@@ -46,6 +46,8 @@ The agent shows a spec with its requirements. Read it, and approve it or ask for
 > [!TIP]
 > To skip the approval, add `YOLO` to the request.
 
+To define a change now and build it later, run `/architect-requested-spec your request`. It writes an approved draft in `.product/drafts/`. Later, run `/build-requested-spec .product/drafts/{slug}.md`.
+
 ## 4. Repair debt
 
 From time to time, run:

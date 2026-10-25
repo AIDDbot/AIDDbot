@@ -7,6 +7,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 | Need | Command |
 | --- | --- |
 | Prepare or understand a system | `/architect-system-foundation` |
+| Define a spec now, build it later | `/architect-requested-spec` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
 | Build the Foundation of an archetype on its Bedrock: its foundation specs, in order | `/build-archetype-foundation` |
@@ -20,7 +21,8 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 | Skill | Outcome |
 | --- | --- |
 | [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
-| [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec |
+| [`/architect-requested-spec`](../.agents/skills/architect-requested-spec/SKILL.md) | Define one requested spec as an approved draft in `.product/drafts/`, with no ID and no spec branch, for a later build |
+| [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec, or one draft |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
 | [`/build-archetype-foundation`](../.agents/skills/build-archetype-foundation/SKILL.md) | Build the Foundation of an archetype on its Bedrock, one foundation spec at a time, each with its quality repair, to zero debt |
 
@@ -48,9 +50,14 @@ architect-system-foundation:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
 
+architect-requested-spec:
+  - "Architect: define-spec as a draft, on the task branch specs/drafts: .product/drafts/{slug}.md, with no ID, no spec branch and the spec new command on its first line"
+  - "human approval, then integrate specs/drafts; a rejected draft deletes the branch"
+
 build-requested-spec:
   - "refuse to start on a greenfield system whose foundation close is red"
   - "Architect: define-spec and obtain approval, for a request; a spec that the core made from debt skips it (the core approves it when it makes it)"
+  - "a draft skips define-spec: spec new --from the draft, log approved at once, then a commit that deletes the draft"
   - Builder:
       production-projects: "implement-project sequentially, from lower to higher abstraction; affected unit tests only; one commit per unit (a core folder, a module or a feature slice), then one for its unit tests; the pre-commit hook of the technology lints and formats each commit; after the last unit, layers and crap of each changed project, repairing only what they show in the changed code or the debt of the scope"
       e2e-project: "implement-project authors assigned acceptance-test changes and checks them with the spec-scoped run"
@@ -201,6 +208,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 | `system.md` | The approved greenfield proposal: purpose, users, projects and scaffold commands. It stays as product context. |
 | `PRD.md` | One line for each shipped `feat` spec, by domain. `aidd release` writes it. |
 | `specs/{type}/S{nnnn}-{slug}.md` | One delivery, one file in the folder of its type, as its branch (a shorter template for each type but `feat`), with its identity in the frontmatter and the title, and its requirements. It stays after shipping. |
+| `drafts/{slug}.md` | A spec of `architect-requested-spec` that waits for its build: the text of a spec with `{id}` for its ID, no frontmatter, and its `spec new --from` command on the first line. It has no ID and no branch, so it blocks nothing. `build-requested-spec` makes the spec from it and deletes it. |
 | `.aiddbot/counters.yaml` | Permanent S and D IDs, tracked in Git |
 | `.aiddbot/debt.json` | Open technical debt with priority, evidence and origin. `aidd debt` writes it; `aidd debt list` reads it. |
 | `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:spec`, `start`, `layers` and `crap` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |

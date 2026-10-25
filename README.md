@@ -28,6 +28,7 @@ Open your coding agent in the same folder. Then use these commands:
 | Need | Command |
 | --- | --- |
 | Start a greenfield system, or document a brownfield one | `/architect-system-foundation` |
+| Define a change now, build it later | `/architect-requested-spec your request` |
 | Deliver a change | `/build-requested-spec your request` |
 | Repair technical debt | `/craft-lasting-quality` |
 | Build the Foundation of an archetype on its Bedrock | `/build-archetype-foundation your list` |

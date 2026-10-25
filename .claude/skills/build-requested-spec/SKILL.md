@@ -1,6 +1,6 @@
 ---
 name: build-requested-spec
-description: Turn a natural-language request, or a spec made from a debt item, into a shipped spec.
+description: Turn a natural-language request, a draft, or a spec made from a debt item, into a shipped spec.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true

@@ -11,7 +11,7 @@ Your goal is to turn one natural-language request into an approved spec.
 
 Before you define anything, read the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, the counters, the schema documents under `{Product_Folder}/model/`, and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing and a project exists, return that `outline-system` must run. With no project yet, continue: the spec that adds a project gets them when it ships. Never invent their contents.
 
-When the request gives a spec file, read `references/spec-file.md` and follow it instead of the next section.
+When the request gives a spec file, read `references/spec-file.md` and follow it instead of the next section. When the request asks for a draft, read `references/draft.md` and follow it instead of the `spec new` command and the approval.
 
 ## Scope
 

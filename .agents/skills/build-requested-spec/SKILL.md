@@ -1,16 +1,16 @@
 ---
 name: build-requested-spec
-description: Turn a natural-language request, or a spec made from a debt item, into a shipped spec.
+description: Turn a natural-language request, a draft, or a spec made from a debt item, into a shipped spec.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
 ---
 # build-requested-spec
 
-Your goal is to turn a natural-language request, or a spec that the core made from a debt item, into a shipped spec.
+Your goal is to turn a natural-language request, a draft of `architect-requested-spec`, or a spec that the core made from a debt item, into a shipped spec.
 
 ```text
-1. Architect   define-spec            human approval            a request only
+1. Architect   define-spec            human approval            a request only; a draft skips it
 2. Builder     implement-project      each project, then e2e    affected unit tests, layers, crap
 3. Craftsman   verify-behavior        red: repair loop          tests of the spec       feat, fix
                review-implementation  findings ship as debt     reading only            feat, fix, chore
@@ -23,6 +23,7 @@ Each step checks only its own work. `crap` runs all the unit tests; only the shi
 | --- | --- | --- | --- | --- |
 | `feat`, `fix` | a request | `define-spec` | yes | yes |
 | `chore` | a request | `define-spec` | no | yes |
+| `feat`, `fix`, `chore` | a draft | `architect-requested-spec`, before | not a `chore` | yes |
 | `fix` | high debt | the core, from the item | yes | yes |
 | `refactor` | medium debt | the core, from the item | no | no |
 
@@ -39,6 +40,8 @@ Each step checks only its own work. `crap` runs all the unit tests; only the shi
 Start no spec on a greenfield system whose foundation close is red and not repaired: return that failure to the human, also when the human asked for features.
 
 A spec that the core made from a debt item or from a spec file skips `define-spec`: the item or the file is its definition. The core approves a spec of debt when it makes it: a `refactor` or a `fix`. The caller approved a spec of a file, such as `build-archetype-foundation`.
+
+For a draft of `{Product_Folder}/drafts/`, run the command on its first line from the default branch, then journal `log approved` at once: `architect-requested-spec` got its approval. Then delete the draft with `node .agents/aidd/aidd.mjs commit "docs(spec): use draft {slug}" {Product_Folder}/drafts/{slug}.md`. Never change its contents.
 
 For a request, the **Architect** executes `define-spec` with it. Relay its proposal to the human. Nothing is built before approval.
 
