@@ -9,16 +9,6 @@ user-invocable: true
 
 Your goal is to set up the foundation architecture for the system. When no code exists, propose it from an archetype of the catalog, scaffold it, and close it green. When code exists, document it. You can run this skill again at any time to align the documentation with the code.
 
-```text
-verdict
-├── greenfield
-│   ├── propose    approved system.md
-│   ├── scaffold   the whole archetype, then outline-system and integrate
-│   └── close      green check of the archetype foundation
-└── brownfield
-    └── outline-system, rule-project, integrate
-```
-
 ## Roles
 
 - Route as the **Architect**. Spawn one **Architect** for the full run, or use the one that a calling orchestrator gives you. Continue it with messages. Relay its questions to the human. Stop it only if you started it.

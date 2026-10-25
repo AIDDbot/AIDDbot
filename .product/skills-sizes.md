@@ -7,10 +7,10 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | Skill | Líneas | Palabras |
 | --- | ---: | ---: |
 | [architect-requested-spec](../.agents/skills/architect-requested-spec/SKILL.md) | 30 | 257 |
-| [architect-system-foundation](../.agents/skills/architect-system-foundation/SKILL.md) | 56 | 586 |
-| [build-archetype-foundation](../.agents/skills/build-archetype-foundation/SKILL.md) | 46 | 556 |
-| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 68 | 1046 |
-| [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 56 | 721 |
+| [architect-system-foundation](../.agents/skills/architect-system-foundation/SKILL.md) | 46 | 551 |
+| [build-archetype-foundation](../.agents/skills/build-archetype-foundation/SKILL.md) | 35 | 501 |
+| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 728 |
+| [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 50 | 554 |
 | [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 728 |
 | [implement-project](../.agents/skills/implement-project/SKILL.md) | 41 | 648 |
 | [maintain-skills](../.agents/skills/maintain-skills/SKILL.md) | 20 | 292 |
@@ -20,7 +20,7 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 34 | 462 |
 | [ship-spec](../.agents/skills/ship-spec/SKILL.md) | 51 | 632 |
 | [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 281 |
-| **Total (14 skills)** | **568** | **7302** |
+| **Total (14 skills)** | **528** | **6727** |
 
 ## Revisión de tamaños tras los tres prompts
 
@@ -40,20 +40,20 @@ La tabla siguiente incluye todos los archivos actuales de references/ y assets/.
 | Skill | SKILL.md | Referencias | Assets | Total de palabras |
 | --- | ---: | ---: | ---: | ---: |
 | architect-requested-spec | 257 | 0 | 0 | 257 |
-| architect-system-foundation | 586 | 1320 | 536 | 2442 |
-| build-archetype-foundation | 556 | 0 | 0 | 556 |
-| build-requested-spec | 1046 | 0 | 0 | 1046 |
-| craft-lasting-quality | 721 | 0 | 0 | 721 |
+| architect-system-foundation | 551 | 1320 | 536 | 2407 |
+| build-archetype-foundation | 501 | 0 | 0 | 501 |
+| build-requested-spec | 728 | 387 | 0 | 1115 |
+| craft-lasting-quality | 554 | 192 | 0 | 746 |
 | define-spec | 728 | 342 | 708 | 1778 |
-| implement-project | 648 | 1247 | 0 | 1895 |
+| implement-project | 648 | 1216 | 0 | 1864 |
 | maintain-skills | 292 | 0 | 668 | 960 |
 | outline-system | 295 | 419 | 725 | 1439 |
-| review-implementation | 301 | 626 | 92 | 1019 |
+| review-implementation | 301 | 668 | 92 | 1061 |
 | rule-project | 497 | 0 | 325 | 822 |
 | scan-quality | 462 | 173 | 0 | 635 |
 | ship-spec | 632 | 155 | 84 | 871 |
 | verify-behavior | 281 | 0 | 74 | 355 |
-| **Total** | **7302** | **4282** | **3212** | **14796** |
+| **Total** | **6727** | **4872** | **3212** | **14811** |
 
 En ship-spec, la ruta verde carga 632 palabras de instrucciones propias. Con regresiones, SKILL.md, referencia y plantilla suman 871 palabras, frente a 1.028 en HEAD (15,3 % menos). No se incluyen el resultado de comandos ni el contexto de otras skills.
 
@@ -319,3 +319,111 @@ Comparación manual del diff completo contra HEAD, de las referencias y de las p
 | ship-spec: release y rechazo | Mismo comando desde rama de spec y major solo por petición/spec explícita. Release comprueba gates/regresión, controla versión/changelog/índice y hace commit, merge, tag y elimina la rama. Prohibición de editar versiones/changelog e integrar por otra vía vale siempre, antes de la condición de rechazo. Si rechaza, devolver error sin enviar. |
 
 Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones u omisiones. `git diff --check` no informa errores. Revisión manual del estilo de las líneas nuevas, sin genitivos con apóstrofo ni instrucciones en -ing; se mantienen los términos técnicos. No cambian rutas, paths ni registros respecto de HEAD, por lo que docs/AIDD.workflow.md sigue vigente. No se modifican core, scripts ni tests. Sin commit ni release.
+
+## Duplicados en la ruta del Builder
+
+Aplicada mediante `maintain-skills`. Cada regla vive en un solo archivo de los que `implement-project` carga juntos. `SKILL.md` no cambia: brownfield no lee `code-rules.md`. La tabla de límites no cambia.
+
+- `code-rules.md` pierde el bullet de E2E. Las reglas que solo valen para E2E pasan a `acceptance-tests.md`: sin capas, un requisito por test, solo API, pantallas y comandos, start command y nunca abrir la base de datos. El bullet nuevo empieza con «When `{Product_Folder}/system.md` exists», para que brownfield no reciba reglas nuevas. El ID del requisito en el test y los datos únicos ya estaban en `acceptance-tests.md`; la falta de unitarios en E2E, en `SKILL.md`.
+- `code-rules.md` pierde las reglas que `SKILL.md` ya da: ningún check, límite o default fuera de la spec, test junto a su módulo y efectos externos como argumento con fakes. Conserva lo que solo está allí: un unitario por archivo con código, salvo la entrada, los adapters de `core` y los componentes; uno por regla de negocio como mínimo; nunca reemplazar un módulo para dar un fake.
+- `review-implementation/references/qualify.gates.md` lee esas reglas en su nuevo lugar. Véase abajo.
+
+### Palabras por llamada al Builder
+
+| Llamada | Archivos | Antes | Después | Diferencia |
+| --- | --- | ---: | ---: | ---: |
+| Greenfield, producción | SKILL.md y code-rules | 1519 | 1448 | −71 (4,7 %) |
+| Greenfield, E2E | SKILL.md, code-rules y acceptance-tests | 1895 | 1864 | −31 (1,6 %) |
+| Brownfield, producción | SKILL.md | 648 | 648 | 0 |
+| Brownfield, E2E | SKILL.md y acceptance-tests | 1024 | 1064 | +40 (3,9 %) |
+
+`code-rules.md` pasa de 871 a 800 palabras y `acceptance-tests.md`, de 376 a 416. Brownfield E2E lee 40 palabras más: es el bullet condicional, que no aplica sin `system.md`. Es el coste de un solo lugar para cada regla.
+
+### Equivalencia
+
+Comparación manual del diff. No es una ejecución de los workflows.
+
+| Ruta | Reglas que recibe el Builder |
+| --- | --- |
+| Greenfield, producción | Las mismas. Las reglas quitadas de `code-rules.md` están en Build y Check de `SKILL.md`. Las reglas de E2E no aplican a producción. |
+| Greenfield, E2E | Las mismas. Sin capas, un requisito por test, solo API, pantallas y comandos, start command y nunca la base de datos: bullet condicional de `acceptance-tests.md`. ID y datos únicos: `acceptance-tests.md`. Sin unitarios: Check de `SKILL.md`. |
+| Brownfield, producción | Las mismas. No lee ningún archivo cambiado. |
+| Brownfield, E2E | Las mismas. El bullet nuevo empieza con la condición de `system.md` y no aplica. |
+
+### review-implementation
+
+El gate Project rules leía solo `code-rules.md`. Tras el cambio no encontraba allí tres grupos de reglas: los efectos externos como argumento; ningún check, límite o default fuera de la spec; y las reglas de E2E (solo API, pantallas y comandos, start command y nunca la base de datos). `qualify.gates.md` las nombra ahora, también solo cuando existe `system.md`: `code-rules.md`, la regla de `system.md` para E2E en `acceptance-tests.md` y esas dos reglas de `implement-project`. `qualify.gates.md` pasa de 626 a 668 palabras (+42). La regla del test junto a su módulo es estructura, y el gate no la juzga.
+
+El AGENTS.md raíz que escribe `outline-system` remite a `code-rules.md` para escribir o revisar código fuera de una skill. Ese archivo ya no tiene las reglas de E2E ni las reglas que solo están en `SKILL.md`. Esta tarea no cambia la plantilla.
+
+Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones. `git diff --check` no informa errores. No cambian rutas ni registros: `docs/AIDD.workflow.md` sigue vigente. Sin commit ni release.
+
+## Carga progresiva en `build-requested-spec`
+
+Aplicada mediante `maintain-skills` y su plantilla: una rama de la ruta pasa a una referencia cuando alarga `SKILL.md`. La tabla de eventos de la sección 3 solo sirve cuando un paso no está verde. Pasa sin cambios, con su regla final, a `build-requested-spec/references/events.md`. `SKILL.md` conserva las entradas, la implementación, la tabla de etapas por tipo y la regla de que solo `ship-spec` cambia el modelo. Una frase nueva dice cuándo leer la referencia y nombra cada caso no verde: verificación roja, fallo que el Builder no reproduce, hallazgos de la revisión, filas de regresión, pregunta de producto y aceptación que no se puede ejecutar.
+
+| Medida | Antes | Después | Diferencia |
+| --- | ---: | ---: | ---: |
+| Palabras de `SKILL.md` | 1046 | 728 | −318 (30,4 %) |
+| Líneas de `SKILL.md` | 68 | 55 | −13 |
+| Palabras de referencias propias | 0 | 387 | Solo si un paso no está verde |
+| Ruta verde: solo `SKILL.md` | 1046 | 728 | −318 (30,4 %) |
+| Ruta con un paso no verde: `SKILL.md` y `events.md` | 1046 | 1115 | +69 (6,6 %) |
+
+El ahorro también vale cuando `build-requested-spec` se carga dentro de `craft-lasting-quality` o de `build-archetype-foundation`. El total de `SKILL.md` de las 14 skills baja de 7302 a 6984 palabras (4,4 %).
+
+### Equivalencia
+
+Comparación manual del diff. No es una ejecución de los workflows.
+
+| Caso | Resultado |
+| --- | --- |
+| Ruta verde | Mismas etapas por tipo, mismo orden y mismo alcance. No lee la referencia. |
+| Verificación roja, fallo no reproducido, revisión 3 | Misma fila en `events.md`. La tabla de etapas remite al límite de reparación de la referencia. |
+| Hallazgos de revisión, gate Security o Requirements | Mismas filas: deuda `high` o una reparación y nueva verificación y revisión. |
+| Regresión: fila del Builder, fila humana o solo deuda | Mismas filas, con `Replaces` y acuerdo humano salvo en YOLO. |
+| Pregunta de producto o aceptación que no se puede ejecutar | Mismas filas y misma regla final: solo estos dos casos detienen la entrega. Un test fallido o ausente cuenta para la revisión 3. |
+
+Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones. `git diff --check` no informa errores. No cambian rutas ni registros: `docs/AIDD.workflow.md` sigue vigente. Sin commit ni release.
+
+## Carga progresiva en `craft-lasting-quality`
+
+Aplicada mediante `maintain-skills` y su plantilla. Los cinco pasos del patch de deuda baja solo sirven cuando se selecciona un ítem `low`. Pasan sin cambios a `craft-lasting-quality/references/patch.md`. La única diferencia es que la remisión a la sección Check dice ahora «of `SKILL.md`». `SKILL.md` conserva el origen de la deuda baja y las invariantes de todas las rutas: un patch no tiene spec ni release y no cuenta en el límite de cinco specs. Una frase nueva dice cuándo leer la referencia: al seleccionar un ítem `low`.
+
+| Medida | Antes | Después | Diferencia |
+| --- | ---: | ---: | ---: |
+| Palabras de `SKILL.md` | 721 | 554 | −167 (23,2 %) |
+| Líneas de `SKILL.md` | 56 | 50 | −6 |
+| Palabras de referencias propias | 0 | 192 | Solo con un ítem `low` |
+| Ruta alta, media o upgrade: solo `SKILL.md` | 721 | 554 | −167 (23,2 %) |
+| Ruta con patch: `SKILL.md` y `patch.md` | 721 | 746 | +25 (3,5 %) |
+
+`craft-lasting-quality` lee la referencia una vez por ejecución, aunque haga varios patches. El total de `SKILL.md` de las 14 skills baja de 6984 a 6817 palabras (2,4 %).
+
+### Equivalencia
+
+Comparación manual del diff. No es una ejecución de los workflows.
+
+| Caso | Resultado |
+| --- | --- |
+| Deuda alta o media, upgrade | Mismas secciones. No lee la referencia. |
+| Selección de un ítem `low` | Lee `patch.md`: mismos pasos de agrupación (cinco como máximo), rama, Builder, commits, ítems que se conservan, borrado de la rama sin reparaciones, `debt remove` e `integrate`. |
+| Límite de cinco specs y Stop | Sin cambios: la invariante del patch sigue en `SKILL.md`. |
+| `crap` rojo tras el patch | La referencia remite a la sección Check de `SKILL.md`, que envía el proyecto a un scan. |
+
+Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones. `git diff --check` no informa errores. No cambian rutas ni registros: `docs/AIDD.workflow.md` sigue vigente. Sin commit ni release.
+
+## Diagramas que repetían secciones
+
+Aplicada mediante `maintain-skills` y su plantilla. La plantilla admite un diagrama de texto cuando muestra la estructura mejor que la prosa. Estos dos solo repetían secciones del mismo `SKILL.md`:
+
+| Skill | Diagrama eliminado | Dónde sigue la ruta | Palabras | Líneas |
+| --- | --- | --- | ---: | ---: |
+| build-archetype-foundation | Pasos 1–4 por spec | Deliver: los pasos 1–3 con sus comandos y el cierre tras la última spec. «No Architect»: Deliver dice que ningún modelo escribe ni adapta el archivo. | 556 → 501 (−55) | 46 → 35 |
+| architect-system-foundation | Árbol del veredicto | Verdict, la tabla de fases de Greenfield (propose, scaffold, close) y Brownfield (`outline-system`, `rule-project`, `integrate`). | 586 → 551 (−35) | 56 → 46 |
+
+El diagrama de architect-requested-spec se conserva: es el único lugar de la skill con la ruta del draft y solo tiene 15 palabras. El total de `SKILL.md` de las 14 skills baja de 6817 a 6727 palabras.
+
+No se aplica la opción de un archivo común de roles para los orquestadores. La plantilla dice que una skill solo remite a archivos de su propia carpeta. Un archivo común exige cambiar antes esa regla.
+
+Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones. `git diff --check` no informa errores. Sin commit ni release.

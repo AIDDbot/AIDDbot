@@ -13,8 +13,7 @@ The rules of all the projects of a system that `architect-system-foundation` mad
 
 - In `core` and `shared`, one folder for each concern, from the closed list of the project; never `utils`, `helpers`, `common` or `misc`.
 - `presentation` (input, output and the registration) → `logic` (the rules; it does not know the storage) → `data` (all that the project reads or writes outside itself). No layer skips the next. A different feature imports only the `facade`, which calls `logic`.
-- A unit test sits beside its module, for each file with code except the entry, the adapters of `core` and the components; at least one for each business rule. It gets each external effect as an argument, with a fake, never by replacing a module.
-- An `e2e` has no layers and no unit tests. A test proves one requirement and has its ID in its name. It uses only the API, the screens and the commands, starts each project with its start command, never opens the database, and makes its own unique data.
+- Write a unit test for each file with code, except the entry, the adapters of `core` and the components, and at least one for each business rule. Never replace a module to give a fake.
 - `shared/README.md` of each project lists each file and its exports: read it before you write a check, a conversion or a format.
 
 ## Code
@@ -34,4 +33,4 @@ Each row is the intent of a check and its limits (code / tests). `crap` and `lay
 - One name for one meaning in a module, and one source for each definition: a default, an option, a usage text or a list of names is data in one place. Never parse a display text to get the data again.
 - A function at an edge gets `unknown` and returns the exact type: the caller never checks or converts the value again.
 - Catch errors only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error.
-- No check, limit or default value that the spec does not state. Never a lint comment, and never an exception in the lint configuration, except the one that the evidence of a debt item names for a rule that the framework makes a false alarm.
+- Never a lint comment, and never an exception in the lint configuration, except the one that the evidence of a debt item names for a rule that the framework makes a false alarm.

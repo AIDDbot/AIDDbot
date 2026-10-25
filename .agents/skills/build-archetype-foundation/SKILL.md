@@ -9,17 +9,6 @@ user-invocable: true
 
 Your goal is to build the Foundation of an archetype on its Bedrock: deliver its foundation spec files in order, one at a time, each with its quality repair, and end with zero debt.
 
-```text
-for each spec file, in order:
-1. you   spec new --from        the spec, approved  no Architect
-         build-requested-spec   shipped spec
-2. you   run layers, crap       all green: next spec
-         craft-lasting-quality  debt repaired       else one run
-3. you   debt list              zero open items     else craft again
-then:
-4. you   craft-lasting-quality  until its check is green
-```
-
 The caller gives the spec files and their order: a list, or a file that holds the list. A row with a condition, such as "the system has users", applies only when `.product/system.md` meets it. Skip each other row.
 
 ## Roles
