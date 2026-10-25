@@ -7,26 +7,26 @@ user-invocable: true
 ---
 # rule-project
 
-Your goal is to write the `AGENTS.md` of one existing project, and to register the commands that `aidd run` executes for it.
+Your goal is to write the `AGENTS.md` of one existing project. You also register the commands that `aidd run` executes for it.
 
-Read only the decisive source files, the folder trees, the manifests, and the configuration that they refer to. Identify the project by its source folder, its responsibility, and its configuration. Never list skills or the actions that run them.
+Read only the important source files, the folder trees, the manifests, and the configuration that they refer to. Identify the project by its source folder, its responsibility, and its configuration. Never list skills or the actions that run them.
 
 ## Commands
 
-Set the type of the project by the interface that it gives: `api`, `web`, `cli`, or `e2e` for the project of the end-to-end tests. Then classify its real commands by their effect, never by their script name:
+Set the type of the project from the interface that it gives: `api`, `web`, or `cli`. The project of the end-to-end tests is `e2e`. Then classify its real commands by their effect, never by their script name:
 
 | Slot | Effect |
 | --- | --- |
 | `upgrade` | Updates the dependencies and the lockfile. |
-| `test` | In an `e2e` project: all the end-to-end tests that start the system, headless. In other projects: all the unit tests. |
-| `test:spec` | Only in an `e2e` project: the end-to-end tests, ending in the filter flag of the runner (such as `-t` or `--grep`), so that the core adds only a tag such as `@S0001-`. |
-| `start` | Starts the project. In an `e2e` project: the runner for a human only, in watch mode or with its UI; never a package added only for it. |
+| `test` | In an `e2e` project: all the end-to-end tests, headless. They start the system. In other projects: all the unit tests. |
+| `test:spec` | Only in an `e2e` project: the end-to-end tests. The command ends with the filter flag of the runner, such as `-t` or `--grep`. The core then adds only a tag, such as `@S0001-`. |
+| `start` | Starts the project. In an `e2e` project: the runner in watch mode or with its UI, for a human only. Never add a package only for it. |
 | `layers` | The checks of medium debt: the dependency rules between layers. Never the lint of the pre-commit hook. |
-| `crap` | The checks of low debt: the complexity and size rules of the linter and the test coverage, the inputs of CRAP as separate thresholds; never compute the CRAP formula. Each finding shows its rule. |
+| `crap` | The checks of low debt: the complexity and size rules of the linter, and the test coverage. These are the inputs of CRAP, each with its own threshold. Never calculate the CRAP formula. Each finding shows its rule. |
 
-Lint, format and the affected unit tests are no slots: the pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`, and register no command for it.
+Lint, format, and the affected unit tests are not slots. The pre-commit hook of the technology runs them at each commit. Record the hook in the `AGENTS.md`. Register no command for it.
 
-Register `type`, `path` and only the slots that have a clear command, with `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. `layers` and `crap` are each the command that the project gives: a list of commands when its checks are separate, or one script, such as a `crap` that runs the complexity and then the coverage, when the project orders them.
+Register `type`, `path`, and only the slots that have a clear command. Use `node .agents/aidd/aidd.mjs config set projects.{project} <json>`. Never invent a missing slot. Register `layers` and `crap` as the project gives them. When its checks are separate, register a list of commands. When the project runs them in an order, register its one script. An example is a `crap` script that runs the complexity and then the coverage.
 
 ```json
 {"type":"cli","path":"projects/cli","commands":{"test":"npm test","test:spec":{"na":"no end-to-end tests"},"layers":"npm run layers","crap":"npm run crap"}}
@@ -34,9 +34,11 @@ Register `type`, `path` and only the slots that have a clear command, with `node
 
 ## AGENTS.md
 
-Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`, and put a `CLAUDE.md` next to it that contains only `@AGENTS.md`. When the file exists, write its sections from the code again, but keep each project rule that still has a scope: shipping promoted it, and the code cannot make it again. Then run `node .agents/aidd/aidd.mjs agents check`, and repair each problem that it gives.
+Write `{source_root}/AGENTS.md` from `assets/project.AGENTS.template.md`. Put a `CLAUDE.md` next to it that contains only `@AGENTS.md`.
 
-When an old `{Agents_Folder}/rules/{project}.rules.md` exists, move its rules to the project rules, then delete that file.
+When the file exists, write its sections again from the code. But keep each project rule that still has a scope. Shipping added that rule, and the code cannot give it again.
+
+Then run `node .agents/aidd/aidd.mjs agents check`. Repair each problem that it shows.
 
 The result is the current `AGENTS.md` of the project and its classified commands.
 
