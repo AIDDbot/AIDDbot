@@ -1,6 +1,6 @@
 # Features
 
-Deliver one spec at a time. Only one spec is open at a time. Each spec has its own branch.
+Deliver one spec at a time. Only one spec is open at a time. Each spec has its own branch. A backlog of approved drafts can wait in `.product/drafts/`: a draft has no ID and no branch, so it blocks nothing ([`/architect-requested-spec`](../../.agents/skills/architect-requested-spec/SKILL.md)).
 
 ```mermaid
 flowchart LR
