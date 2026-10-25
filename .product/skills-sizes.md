@@ -22,7 +22,15 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 281 |
 | **Total (14 skills)** | **528** | **6727** |
 
-## Revisión de tamaños tras los tres prompts
+## Último recuento
+
+Recalculado el 2026-10-25 directamente desde los archivos: **14 skills, 528 líneas y 6.727 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.486 menos (18,1 %).
+
+Referencias: **4.872 palabras**. Assets: **3.212 palabras**. Inventario conjunto: **14.811 palabras**; este total no equivale a la carga de una ejecución.
+
+La tabla principal y el inventario de archivos auxiliares reflejan este recuento. Las notas de reducción y equivalencia que siguen conservan sus medidas históricas; este recuento no revalida sus conclusiones ni vuelve a medir las rutas.
+
+## Revisión anterior de tamaños tras los tres prompts (histórico)
 
 Recuento verificado el 2026-10-25. Las tablas principales incluyen los cinco recortes y su corrección semántica y de redacción. Frente a HEAD y a la base inicial: **43 líneas y 911 palabras menos en SKILL.md (11,1 % de palabras)**. La tabla siguiente conserva el balance histórico de la primera pasada.
 
