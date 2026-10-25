@@ -12,7 +12,7 @@ const check = process.argv.includes("--check");
 const MARKER_TEXT = "managed by /adapt";
 const markerMd = (source) => `<!-- managed by /adapt — do not edit here, edit ${source} instead -->`;
 const markerToml = (source) => `# managed by /adapt — do not edit here, edit ${source} instead`;
-const report = { created: [], updated: [], unchanged: [], deleted: [], collisions: [], skippedSources: [] };
+const report = { created: [], updated: [], unchanged: [], deleted: [], collisions: [], skippedSources: [], longSentences: [] };
 const rel = (file) => path.relative(root, file).split(path.sep).join("/");
 
 // ---------- generic file IO ----------
@@ -83,6 +83,26 @@ function parseFrontmatter(text) {
 
 // ---------- skills ----------
 
+// ASD-STE100 caps a descriptive sentence at 25 words. A heuristic warning only: prose outside
+// frontmatter, code fences, headings, and tables.
+const STE_MAX_WORDS = 25;
+
+/** Return the line numbers of the sentences over STE_MAX_WORDS words. */
+function longSentences(text) {
+  const lines = text.split(/\r?\n/);
+  const found = [];
+  let fence = false, frontmatter = lines[0] === "---";
+  lines.forEach((line, index) => {
+    if (frontmatter) { if (index > 0 && line === "---") frontmatter = false; return; }
+    if (line.startsWith("```")) { fence = !fence; return; }
+    if (fence || /^\s*(#|\|)/.test(line)) return;
+    const prose = line.replace(/^\s*([-*]|\d+\.)\s+/, "");
+    const sentences = prose.split(/(?<=[.!?])\s+/);
+    if (sentences.some((sentence) => sentence.split(/\s+/).filter(Boolean).length > STE_MAX_WORDS)) found.push(index + 1);
+  });
+  return found;
+}
+
 function loadSkills() {
   const skillsRoot = path.join(root, ".agents", "skills");
   const valid = [];
@@ -98,6 +118,8 @@ function loadSkills() {
     if (kind !== "orchestrator" && kind !== "primitive") problems.push(`metadata.aiddbot-kind must be orchestrator or primitive, got ${kind}`);
     if (data["user-invocable"] !== true) problems.push("user-invocable must be true");
     if (problems.length) { report.skippedSources.push(`skill ${entry.name}: ${problems.join("; ")}`); continue; }
+    const long = longSentences(read(file));
+    if (long.length) report.longSentences.push(`skill ${entry.name}: ${long.length} sentences over ${STE_MAX_WORDS} words, lines ${long.join(", ")}`);
     valid.push({ name: entry.name, kind, description: data.description, argumentHint: data["argument-hint"], allowedTools: data["allowed-tools"], sourcePath: `.agents/skills/${entry.name}/SKILL.md` });
   }
   return valid.sort((a, b) => a.name.localeCompare(b.name));
@@ -156,6 +178,7 @@ process.stdout.write([
   ...report.deleted.map((file) => `  - ${file}`),
   ...report.collisions.map((file) => `  ! collision, left untouched: ${file}`),
   ...report.skippedSources.map((line) => `  · ${line}`),
+  ...report.longSentences.map((line) => `  ? ste, ${line}`),
 ].join("\n") + "\n");
 
 if (report.collisions.length > 0) process.exit(1);
