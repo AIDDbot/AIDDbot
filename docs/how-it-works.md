@@ -22,11 +22,12 @@ Each agent starts with a fresh context, and it reads only the skill of its step.
 
 ## Three commands
 
-You start one of three commands. Each command starts the agents and the steps that it needs. The other skills in `.agents/skills/` are those steps.
+You start one of three commands. Each command starts the agents and the steps that it needs. The other skills in `.agents/skills/` are those steps. A fourth command, `/architect-requested-spec`, defines a spec now for a later build.
 
 ```mermaid
 flowchart LR
     A["/architect-system-foundation"] --> B["/build-requested-spec"]
+    D["/architect-requested-spec"] -->|draft| B
     C["/craft-lasting-quality"] --> B
     B --> V[New version]
 ```
@@ -60,6 +61,8 @@ flowchart LR
 4. The Craftsman reviews the code for security, data integrity and accessibility: only what lint and the tests cannot see. A finding becomes `high` debt.
 5. Before the release, the Craftsman runs all the tests: the regression. It triages each failure, with its cause and its owner. The Builder repairs what belongs to the spec. A failure that is too big for the spec becomes `high` debt, and the spec closes. At the third revision of the verification, the failures become debt and the spec continues.
 6. Shipping merges the branch, writes `CHANGELOG.md` and `.product/PRD.md`, and tags the version: `feat` increases the minor version, other types the patch version.
+
+To keep a backlog, run `/architect-requested-spec` with a request. The Architect writes the spec as a draft in `.product/drafts/`, and stops for your approval. A draft has no ID and no branch, so it blocks nothing. Later, `/build-requested-spec` takes the draft, skips step 1, and continues from step 2.
 
 Only one spec is open at a time. With `YOLO` in the request, the spec is approved when it is written, and it contains only what the request names.
 
