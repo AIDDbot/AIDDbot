@@ -7,26 +7,26 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | Skill | Líneas | Palabras |
 | --- | ---: | ---: |
 | [architect-requested-spec](../.agents/skills/architect-requested-spec/SKILL.md) | 30 | 257 |
-| [architect-system-foundation](../.agents/skills/architect-system-foundation/SKILL.md) | 46 | 551 |
-| [build-archetype-foundation](../.agents/skills/build-archetype-foundation/SKILL.md) | 35 | 501 |
-| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 728 |
+| [architect-system-foundation](../.agents/skills/architect-system-foundation/SKILL.md) | 46 | 559 |
+| [build-archetype-foundation](../.agents/skills/build-archetype-foundation/SKILL.md) | 35 | 517 |
+| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 743 |
 | [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 50 | 554 |
-| [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 728 |
-| [implement-project](../.agents/skills/implement-project/SKILL.md) | 41 | 648 |
-| [maintain-skills](../.agents/skills/maintain-skills/SKILL.md) | 20 | 292 |
-| [outline-system](../.agents/skills/outline-system/SKILL.md) | 27 | 295 |
-| [review-implementation](../.agents/skills/review-implementation/SKILL.md) | 24 | 301 |
-| [rule-project](../.agents/skills/rule-project/SKILL.md) | 43 | 497 |
-| [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 34 | 462 |
+| [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 740 |
+| [implement-project](../.agents/skills/implement-project/SKILL.md) | 41 | 655 |
+| [maintain-skills](../.agents/skills/maintain-skills/SKILL.md) | 28 | 342 |
+| [outline-system](../.agents/skills/outline-system/SKILL.md) | 31 | 315 |
+| [review-implementation](../.agents/skills/review-implementation/SKILL.md) | 31 | 320 |
+| [rule-project](../.agents/skills/rule-project/SKILL.md) | 45 | 489 |
+| [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 37 | 414 |
 | [ship-spec](../.agents/skills/ship-spec/SKILL.md) | 51 | 632 |
-| [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 281 |
-| **Total (14 skills)** | **528** | **6727** |
+| [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 287 |
+| **Total (14 skills)** | **552** | **6824** |
 
 ## Último recuento
 
-Recalculado el 2026-10-25 directamente desde los archivos: **14 skills, 528 líneas y 6.727 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.486 menos (18,1 %).
+Recalculado el 2026-10-25 tras la pasada ASD-STE100: **14 skills, 552 líneas y 6.824 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.389 menos (16,9 %). Frente al recuento anterior (6.727), son 97 más: la pasada STE divide frases y no busca ahorro.
 
-Referencias: **4.872 palabras**. Assets: **3.212 palabras**. Inventario conjunto: **14.811 palabras**; este total no equivale a la carga de una ejecución.
+Referencias: **4.960 palabras**. Assets: **3.212 palabras**. Inventario conjunto: **14.996 palabras**; este total no equivale a la carga de una ejecución.
 
 La tabla principal y el inventario de archivos auxiliares reflejan este recuento. Las notas de reducción y equivalencia que siguen conservan sus medidas históricas; este recuento no revalida sus conclusiones ni vuelve a medir las rutas.
 
@@ -435,3 +435,32 @@ El diagrama de architect-requested-spec se conserva: es el único lugar de la sk
 No se aplica la opción de un archivo común de roles para los orquestadores. La plantilla dice que una skill solo remite a archivos de su propia carpeta. Un archivo común exige cambiar antes esa regla.
 
 Validación: `npm run adapt` acepta las 14 skills y los 3 agentes; 26 adaptadores sin cambios y cero colisiones. `git diff --check` no informa errores. Sin commit ni release.
+
+## Pasada ASD-STE100
+
+Fecha: 2026-10-25. Objetivo: una idea por frase y palabras aprobadas, sin cambiar reglas. No es una reducción: separar frases añade palabras.
+
+`npm run adapt` avisa ahora de cada línea de un `SKILL.md` con una frase de más de 25 palabras, el límite STE de una frase descriptiva. Ignora frontmatter, bloques de código, títulos y tablas. Es una heurística: avisa y nunca falla.
+
+| Skill | Media de palabras por frase | Frases de más de 20 palabras | Palabras de SKILL.md |
+| --- | --- | --- | --- |
+| `rule-project` | 17,2 → 10,0 | 29 % → 0 % | 497 → 489 |
+| `review-implementation` | 14,7 → 8,9 | 21 % → 0 % | 301 → 320 |
+| `verify-behavior` | 15,9 → 10,4 | 25 % → 0 % | 281 → 287 |
+| `scan-quality` | 14,0 → 9,6 | 18 % → 0 % | 462 → 414 |
+| `outline-system` | 17,5 → 10,8 | 30 % → 0 % | 295 → 315 |
+| `maintain-skills` | 21,0 → 11,4 | 38 % → 0 % | 292 → 342 |
+
+Las otras cinco skills con avisos (`architect-system-foundation`, `build-archetype-foundation`, `build-requested-spec`, `define-spec`, `implement-project`) solo dividen sus 13 frases largas. Tras la pasada, `adapt` no avisa de ninguna skill.
+
+Cambios de contenido de la pasada:
+
+- `rule-project` borra la migración del antiguo `{Agents_Folder}/rules/{project}.rules.md`: la beta es solo greenfield.
+- `verify-behavior` y el gate Project rules de `review-implementation` nombran los checks `layers` y `crap` en lugar de los antiguos `debt:*`.
+- `scan-quality` mueve a `references/crap-findings.md` (86 palabras) las reglas que solo usa el modo low. El modo medium lee 48 palabras menos; el modo low, unas 40 más.
+- `outline-system` pone el mensaje de commit de cada documento en su tabla y la ruta `assets/` en cada plantilla.
+
+### Equivalencia
+
+Se ha comparado el texto antes y después de cada skill: cada regla queda en `SKILL.md` o en una referencia con condición de lectura. `scan-quality` separa además la regla "nunca un ítem por proyecto o gate", que antes dependía de un "Otherwise" y solo cubría los hallazgos de `layers`. No se han ejecutado workflows para probar la equivalencia.
+
