@@ -9,53 +9,42 @@ user-invocable: true
 
 Your goal is to prove one evidenced spec against the full system, then integrate it and close it with current schema and debt records.
 
-Run `node .agents/aidd/aidd.mjs spec show` from the spec branch. If it lists a blocker, stop. Make sure that each report that is not green contains only current findings.
+From the spec branch, run `node .agents/aidd/aidd.mjs spec show`. If it lists a blocker, stop. Keep only current findings in reports that are not green.
 
 ## Schemas
 
-Apply the conceptual changes of the spec to `model.schema.md`. Update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes, never from the spec. Change a timestamp only when the content changes.
+Apply the conceptual changes of the spec to `model.schema.md`. Update each affected `{project}.db.schema.md` and `{project}.api.schema.md` from the merged migrations, ORM schema, and routes. Never use the spec for these physical schemas. Change a timestamp only when the content changes.
 
 ## Project AGENTS.md
 
-- When the spec adds or removes a project, such as a `chore` that scaffolds it, run `outline-system` for the root `AGENTS.md` and for the schema documents of that project.
-- Promote each durable lesson of one project that no automatic check enforces to the project rules of its `{source_root}/AGENTS.md`: one short line, with its reason from the evidence. Never record a single incident, a product requirement, or tool output.
-- Never add what a feature does to an `AGENTS.md`: its spec and the PRD give it. A change to the platform replaces the line of its `core` folder in Platform.
-- `release` refuses an `AGENTS.md` over 128 lines, with a comment, or with an empty or misplaced section, and writes the index of each `shared` folder (`src/shared/README.md`). Run `node .agents/aidd/aidd.mjs agents check` before it: to make room, merge or remove a line that a check, the code or the root `AGENTS.md` already gives.
+- When the spec adds or removes a project, run `outline-system` for the root `AGENTS.md` and the schema documents of that project.
+- Add durable lessons that no automatic check enforces to the project rules of `{source_root}/AGENTS.md`. Use one short line with its reason from the evidence. Never add single incidents, product requirements, tool output, or feature descriptions.
+- For a platform change, replace the line of its `core` folder in Platform.
+- The `release` command rejects an `AGENTS.md` with more than 128 lines, comments, or sections that are empty or out of order. Run `node .agents/aidd/aidd.mjs agents check` before release. To make room, merge or remove lines that checks, code, or the root `AGENTS.md` already give. The core writes the index of each `shared` folder.
 
 ## Regression
 
-Only the ship runs the full acceptance suite. The verification ran only the acceptance tests of the spec, so a regression shows here first. The unit tests do not run again: `crap` ran all of them before the Builder returned, and the hook ran the affected ones at each commit after it.
+Run `node .agents/aidd/aidd.mjs run test --project {e2e}` for each `e2e` project. Only `ship-spec` runs the full acceptance suite. The `release` command needs this evidence at the current code. Do not repeat unit tests: `crap` ran all of them, and the hooks ran those affected by each commit. Never repair code or tests. Never run lint or format.
 
-Run `node .agents/aidd/aidd.mjs run test --project {e2e}` for each `e2e` project: the full acceptance suite. `release` needs it at the current code. Never repair code or tests yourself, and never run a lint or a format: the pre-commit hook of the technology did that at each commit.
+If a test fails, read `references/regression.md`. Record the triage in `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Never put this report in `{Product_Folder}/`.
 
-When a test fails, triage each failure into `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`: a record of the process, never a file of `{Product_Folder}/`. Give each failure one cause and one owner:
-
-| Cause | Owner | Proposed repair |
-| --- | --- | --- |
-| The code of the spec breaks shipped behavior | **Builder** | the production code |
-| The test is wrong, not the behavior | **Builder** | the test, with no weaker assertion |
-| A requirement of this spec contradicts the test of a shipped one | human | `Replaces: {global ID}` in the spec, if the human agrees |
-| Only a product decision can tell | human | the question |
-| Too big for the spec: it failed before the spec, its repair is outside the scope of the spec, or the **Builder** tried it one time and could not repair it | debt | a `high` debt item |
-
-- When a row has the owner **Builder** or human, stop with the spec not shipped and return the report: the repair stays in this spec, and the ship runs again after it.
-- When only rows of the owner debt remain, record each one as `high` debt (see Debt) and give their D IDs to `release --debt`. The spec solves its problem as well as it can, and then it closes.
+If a row has the owner **Builder** or human, stop with the spec not shipped. Return the report. Repairs stay in this spec. Run `ship-spec` again after repair. If only debt rows remain, record them as `high` debt. Give their D IDs to `release --debt`.
 
 ## Debt
 
-Change the debt register only with `node .agents/aidd/aidd.mjs debt`. The priority tells the source: `high` comes from the review and from a triage, `medium` and `low` belong to `scan-quality` only.
+Change the debt register only with `node .agents/aidd/aidd.mjs debt`. Review and triage produce `high` debt. Only `scan-quality` produces `medium` and `low` debt.
 
-- Remove with `debt remove <id>` each D ID that the `Technical debt` section of the spec gives, when the spec proves its repair: a green verification for a `feat` or a `fix`, a green qualification for a `fix` with no requirements, or, for a `refactor`, a `node .agents/aidd/aidd.mjs run layers --project {project}` that no longer shows it.
-- Add with `debt add "<title>" high "<evidence>" --project <name>` each finding of a qualification that is not green, with the project of its scope: the core repairs the `high` items of one project in one `fix`.
-- At revision 3 of the verification, also add as `high` each failure that remains in the red report.
-- Add as `high` each row of the regression report with the owner debt. Put the tag of each failing test in its evidence, such as `@S0042-R03`: the `fix` that repairs it runs that test again.
-- Skip each one that an open item already describes, and give its D ID instead.
+- Remove only IDs from `Technical debt` in the spec with `debt remove <id>`, and only with proof of repair. A `feat` or `fix` needs green verification. A `fix` without requirements uses green qualification instead. For a `refactor`, `node .agents/aidd/aidd.mjs run layers --project {project}` must no longer show the item.
+- Add each finding of a qualification that is not green with `debt add "<title>" high "<evidence>" --project <name>`. Use the project of its scope.
+- At revision 3 of the verification, add each failure that remains in the red report as `high` debt.
+- Add regression debt rows as `high`. Put the tag of each failed test in the evidence, such as `@S0042-R03`. Thus the repair runs that test again.
+- Use the D ID of an open item that already describes a finding. Never duplicate it.
 
 ## Release
 
-Run `node .agents/aidd/aidd.mjs release` from the spec branch. Add `--major` only when the request or the spec asks for a major version. The command checks the gate and the regression, sets the version from the spec type, and writes it to the version files and to `CHANGELOG.md`. It marks the spec `shipped`, makes the spec index again, commits, merges into the default branch, tags, and deletes the spec branch. Never edit a version or the changelog yourself.
+Run `node .agents/aidd/aidd.mjs release` from the spec branch. Add `--major` only when the request or the spec asks for a major version. The command checks the gate and the regression. It controls the versions, changelog, and spec index. It commits, merges into the default branch, tags, and deletes the spec branch. Never edit versions or the changelog yourself. Never merge, tag, or integrate another way.
 
-When `release` refuses, report its error and stop with the spec not shipped. Never merge, tag, or integrate in a different way: only `release` writes the changelog and the spec index.
+If `release` rejects the spec, report the error and stop with the spec not shipped.
 
 The result is one shipped spec, in the spec index, with current schema and debt records, or the failures of its regression.
 

@@ -9,33 +9,32 @@ user-invocable: true
 
 Your goal is to implement the share of one project in an approved spec, or to repair the findings or the debt item that you get for it.
 
-Work on the spec branch, or on the task branch of a patch of `craft-lasting-quality`. If the default branch is checked out, stop. The code rules in `references/code-rules.md`, when `{Product_Folder}/system.md` exists, and the `{source_root}/AGENTS.md` of the project give all the technical data: do not explore the code to learn the setup. Put code in the folder and the layer that they name, and import only what the architecture permits.
+Work on the spec branch or the patch branch of `craft-lasting-quality`. If you are on the default branch, stop. Read `{source_root}/AGENTS.md` of the project for technical data. When `{Product_Folder}/system.md` exists, also read `references/code-rules.md`. Do not explore code to learn the setup. Follow their folders, layers, and permitted imports.
 
 Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the units to change, in order>" --spec {id}`. A unit is one folder of `core`, one module, or one slice of a feature. A patch has no spec: leave out `--spec`.
 
 ## Build
 
-- Build exactly the shape that the spec declares in its schema impact and in its `Expected URLs and APIs`, with each status code, against the schema documents of the project under `{Product_Folder}/model/`.
-- Return a client failure with its declared 4xx status, through the error mechanism of the project. Never return it as a success with an empty body, or as a 500.
-- If the work needs a shape that the spec does not declare, stop and return it for approval.
-- Build only the rules that the spec states. Never add a validation, a limit, or a default of your own, such as a minimum password length: all projects must apply the same rule.
-- When the spec asks for an upgrade, run `node .agents/aidd/aidd.mjs run upgrade --project {project}` first, then repair what breaks. Add a dependency with the add command of the package manager; never write a version by hand.
+- Build exactly the shape in the schema impact and `Expected URLs and APIs` of the spec, with each status code. Check it against the schemas of the project under `{Product_Folder}/model/`. If you need a shape that the spec does not declare, stop and return it for approval.
+- Use the error mechanism of the project for client failures with their declared 4xx status. Never return an empty success or a 500.
+- Build only the rules that the spec states, so that all projects apply the same rule. Never add your own validation, limit, or default, such as a minimum password length.
+- When the spec asks for an upgrade, first run `node .agents/aidd/aidd.mjs run upgrade --project {project}`. Then repair what breaks. Add dependencies with the add command of the package manager. Never write versions by hand.
 
 ## Check
 
-Check only what you change: fewer tests, and each failure near its cause. The pre-commit hook of the technology checks each commit: it formats, lints, type-checks, and runs the unit tests that the commit affects. Never run the full `test`: only `ship-spec` runs all the tests.
+Check only your changes. The pre-commit hook formats, lints, checks types, and runs the affected unit tests on each commit. Never run the full `test`. Only `ship-spec` runs it.
 
-- Write unit tests for `logic`, `core`, and `shared`, up to the coverage that the `crap` slot of the project measures (each file, each branch, each error path), so that no coverage debt follows the spec. Never for UI code, data access, or E2E tests. A unit test is fast and touches no disk, database, network, or process: the code gets them as an argument, and the test gives a fake. Put each test beside its module.
+- Write unit tests only for `logic`, `core`, and `shared`, never for UI code, data access, or E2E tests. Meet the coverage that the `crap` slot measures for each file, branch, and error path. Tests are fast and sit beside their modules. The code gets external effects as arguments. Tests give fakes, never real disk, database, network, or process access.
 - When the scope has E2E tests, read `references/acceptance-tests.md` before you write them.
-- Commit unit by unit. Commit the code of a unit when it is complete, then its unit tests in a separate `test({project})` commit. Never start the next unit while one is not committed.
-- When the hook refuses a commit, fix each error that it shows and commit again. Never skip the hook.
-- After the last unit, run `node .agents/aidd/aidd.mjs run layers --project {project}` and `run crap --project {project}`, and repair what they show in the code that you changed, and the debt items or the check that your scope names: first what they show, then what they show next, such as the test coverage that a failing limit hid. Commit each repair on its own. Thus no medium or low debt follows the spec. A finding in code outside your scope stays for the next scan: never repair it. Each red check stays in your result, with what you could not repair.
+- Commit the complete code of each unit. Then commit its unit tests separately as `test({project})`. Commit both before you start the next unit.
+- If the hook rejects a commit, fix all reported errors and retry. Never skip it.
+- After the last unit, run `node .agents/aidd/aidd.mjs run layers --project {project}` and `run crap --project {project}`. Repair findings in the code you changed and the debt items or check that your scope names. Also repair what the checks show next, such as coverage that a failed limit hid. Commit each repair separately. Leave findings outside your scope for the next scan. Report each red check and what you could not repair.
 - If a command is unavailable, say so in your result. Never make a replacement command.
 - Never weaken an assertion. A repair never builds behavior that the spec does not declare.
 
 Keep the `AGENTS.md` of the project current with your change: its slots, its dependencies, its folders, its contract (port and variables) and the line of each `core` folder that you change. Never write what a feature does: its spec gives it. The core writes the index of `shared`.
 
-Before you return, read again the project rules of that `AGENTS.md`, the code rules, and each sentence of the spec for this project. Check your diff against each one: a rule that you had and did not apply fails the qualification.
+Before you return, read the project rules of `AGENTS.md` again. Also read the code rules that apply and each sentence of the spec for this project. Check your diff against each one. A rule you did not apply fails the qualification.
 
 The result is the code and the tests of the project for the given scope, committed through the hook.
 
