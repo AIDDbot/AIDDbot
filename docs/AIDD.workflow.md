@@ -66,7 +66,7 @@ craft-lasting-quality:
   - "select the open item of the highest priority that still exists"
   - "high: aidd spec debt makes a minimal fix spec of the high items of one project, approved at once; build-requested-spec with verification and review"
   - "medium: aidd spec debt makes a minimal refactor spec, approved at once; build-requested-spec with no verification and no review"
-  - "low: patch, with no spec; Builder: implement-project on a chore task branch, crap green and the affected unit tests green at commit, debt remove and integrate"
+  - "low: patch, with no spec; aidd debt patch opens the chore task branch with the low items of the project, at most 5; Builder: implement-project on it, crap green and the affected unit tests green at commit, debt remove and integrate"
   - "repeat while debt remains, at most 5 specs, and stop at a spec that ships a failure recorded as debt"
   - "when no debt is open: check layers and crap; a red check gets a Craftsman scan of its mode for that project, then again from select; a green check stops, with no scan"
   - "return the debt list summary"

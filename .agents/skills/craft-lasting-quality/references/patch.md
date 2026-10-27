@@ -1,7 +1,6 @@
 # Low debt patch
 
-- Take the selected item and other open `low` items of the same project: at most five items.
-- From the default branch, create `chore/{D ID}-{slug}` with the selected ID.
+- Run `node .agents/aidd/aidd.mjs debt patch <D ID>`. The core creates the task branch from the default branch, and gives the items of the patch and their project.
 - Have the **Builder** execute `implement-project` for that project. Its scope is these items and the `crap` slot of the project.
 - The **Builder** runs `crap` until the check is green. It repairs the items, then each new finding. A new finding can be coverage that a failed limit hid.
 - The **Builder** commits as `refactor({project}): {what the patch does}`. The hook runs only the affected unit tests. The ship of the next spec finds regressions.

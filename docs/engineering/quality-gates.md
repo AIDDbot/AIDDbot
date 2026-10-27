@@ -41,7 +41,7 @@ Each skill checks only its own work. Only the ship checks everything.
 |---|---|---|
 | high | review; triage that the spec cannot solve | `fix` spec |
 | medium | layers, duplicates, folder size | `refactor` spec |
-| low | complexity check | patch, with no spec and no branch |
+| low | complexity check | patch, with no spec, on a task branch from `aidd debt patch` |
 
 - A `fix` spec from high debt is minimal too: the core makes it from the debt item, with no define-spec. It is approved when made, with the other open high items of its project (Halloween D48): the item comes from evidence, verify and review check the repair, and a product question still stops the delivery. Flow: branch, `implement-project`, verify, review, ship. Verify runs the e2e tests of the requirement that fails; for an item with no requirement (security, accessibility), the review of the `fix` proves it.
 - A `refactor` spec is minimal: the core makes it from the debt item, with no model and no approval, only for a key, a folder and a CHANGELOG entry. Flow: branch, `implement-project` (the rule green), ship. No define-spec, no verify, no review.
@@ -75,7 +75,7 @@ What is the real difference between `feat`, `fix`, `refactor`, `chore` and a pat
 - `feat` and `fix` change behavior. A `feat` writes new requirements and e2e tests.
 - A `fix` writes no new requirement. It cites what fails: an existing requirement (`S0042-R03`), or a high debt item. A security or accessibility item may have no e2e test; then the review of the `fix` proves it.
 - `refactor`, `chore` and a patch have no requirements and no own e2e tests. "Done" = a check turns green and nothing breaks.
-- Between `refactor` and a patch the only difference is the debt level: medium goes on a branch and ships, low goes straight to `main`. The rule that found the debt sets its level, so no one judges "big" or "small".
+- Between `refactor` and a patch the only difference is the debt level: medium goes on a spec branch and ships, low goes on a task branch and integrates, with no release. The rule that found the debt sets its level, so no one judges "big" or "small".
 
 ### By origin
 
