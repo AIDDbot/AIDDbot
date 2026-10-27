@@ -18,7 +18,7 @@ The scan has two modes. Each mode owns one level of debt:
 
 Run the scan for all projects, unless the human names one. Never edit code, write tests, or run `test`.
 
-Never measure code yourself. The limits of the code rules come to you only through these commands. So do the limits that the project rules of a project change. Never replace a command with a stricter invocation or with the lint of the pre-commit hook. A project without a `layers` command is unavailable. In the low mode, read `references/crap-findings.md` before you record debt.
+Never measure code yourself: the limits of the code rules and of the project rules reach you only through these commands. Never replace a command with a stricter invocation or with the lint of the pre-commit hook. A project without a `layers` command is unavailable. In the low mode, read `references/crap-findings.md` before you record debt.
 
 Read the open debt with `node .agents/aidd/aidd.mjs debt list`. A `layers` run owns the `medium` items. A `crap` run owns the `low` items. Make the items that the run owns agree with it. Change them only through `node .agents/aidd/aidd.mjs debt`:
 
