@@ -18,7 +18,7 @@ Read these documents:
 
 Leave each lock file, such as `package-lock.json`, out of the diff. A tool writes it. Also leave out the records of `.aiddbot/` and `{Product_Folder}/`. Keep each dependency manifest, such as `package.json`: the Project rules gate checks it. Judge all of them against `references/qualify.gates.md`.
 
-The review checks only what the hook lint and the acceptance tests cannot see. Examples are security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `layers` and `crap` own them. Record only findings that are serious enough to be `high` debt. Leave out all else. A `refactor` has no review: the core refuses it.
+The review checks only what the hook lint and the acceptance tests cannot see. Examples are security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `layers` and `crap` own them. Record only findings that are serious enough to be `high` debt. Leave out all else.
 
 - Judge only by reading. Never run lint, tests, or quality tools. Never edit code.
 - Find each file through the folders of that `AGENTS.md`, the index of `shared` (`src/shared/README.md`), or a file search. Never open a file by a name that you guess.

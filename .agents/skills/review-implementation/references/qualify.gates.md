@@ -4,19 +4,27 @@ Inspect the complete diff. Judge changed code by project convention, not persona
 
 ## Blocking gates
 
-Evaluate every applicable blocking gate first. Mark one `n/a` only when its category cannot apply to the changed scope and state why. Missing evidence for an applicable gate is a failure.
+Evaluate every applicable blocking gate first. Mark one `n/a` only when its category cannot apply to the changed scope, and state why. Missing evidence for an applicable gate is a failure.
 
-- **Security** — Authentication and authorization protect every changed action and resource that requires them, and every security minimum that the spec or the project's `AGENTS.md` cites (such as an OWASP cost parameter) holds in the code. A library default is evidence only when its value meets that minimum.
+- **Security**
+  - Authentication and authorization protect every changed action and resource that requires them.
+  - Every security minimum that the spec or the project `AGENTS.md` cites holds in the code, such as an OWASP cost parameter. A library default is evidence only when its value meets that minimum.
 - **Requirements** — The changed code breaks no requirement of this spec or of a shipped spec, also when its acceptance test passes. Name the global ID of the requirement that the code breaks.
 - **Accessibility** — Every changed interaction is keyboard-accessible with visible focus and no focus trap.
-- **Project rules** — The changed scope violates no explicit restriction in its project's `AGENTS.md` or in the code rules that the hook lint, the `layers` and `crap` checks, and the tests cannot check. When `{Product_Folder}/system.md` exists, the code rules are `.agents/skills/implement-project/references/code-rules.md`, the `system.md` rule for E2E tests in `acceptance-tests.md` beside it, and two rules of `implement-project`: the code gets each external effect as an argument, and it adds no check, limit, or default that the spec does not state. Check each changed dependency manifest and lint configuration too: a dependency that no rule or spec names, or a lint rule turned off that no rule and no debt item of the spec allows, fails it. Layers, names, structure, and complexity are never findings here.
-- **Schema impact** — Every entity, table, and column change in the diff is declared in the spec's schema impact, every endpoint change in its `Expected URLs and APIs`, and every declared change is present, including each endpoint's declared success and error statuses. Mark it `n/a` only when the diff changes no persistence or API shape.
+- **Project rules** — The changed scope violates no explicit restriction that the hook lint, the `layers` and `crap` checks, and the tests cannot check. Layers, names, structure, and complexity are never findings here. The restrictions are:
+  - the project `AGENTS.md`;
+  - when `.product/system.md` exists, `.agents/skills/implement-project/references/code-rules.md` and the `system.md` rule of `acceptance-tests.md` beside it;
+  - two rules of `implement-project`: the code gets each external effect as an argument, and it adds no check, limit, or default that the spec does not state;
+  - each changed dependency manifest and lint configuration: a dependency that no rule or spec names fails it, and so does a lint rule turned off that no rule and no debt item of the spec allows.
+- **Schema impact** — Mark it `n/a` only when the diff changes no persistence or API shape. Otherwise:
+  - The spec declares each change of an entity, a table, or a column in the diff in its schema impact, and each change of an endpoint in its `Expected URLs and APIs`.
+  - Each declared change is present, with the declared success and error statuses of each endpoint.
 
-Evaluate every technical criterion explicitly declared by the spec as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, set qualification to red, and skip the debt checks.
+Evaluate every technical criterion that the spec declares as another blocking gate. Do not invent criteria. If any blocking gate fails, record all blocking failures, and skip the debt checks.
 
 ## Debt checks
 
-When every blocking gate passes, look for gross, easy-to-see errors that no linter and no test reports. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope, serious enough to be `high` debt.
+When every blocking gate passes, look for gross errors that are easy to see and that no linter and no test reports. A failed check becomes `debt` only when observed facts show a concrete problem in the changed scope, serious enough to be `high` debt.
 
 ### Security
 
@@ -29,7 +37,7 @@ When every blocking gate passes, look for gross, easy-to-see errors that no lint
 
 - [ ] A failed operation leaves stored data unchanged.
 - [ ] Related writes that must succeed together are atomic.
-- A storage constraint weaker than the spec is a finding only when the changed code lets the invalid value reach storage; one reachable only by writing to storage directly is not.
+- A storage constraint weaker than the spec is a finding only when the changed code lets the invalid value reach storage. A value that only a direct write to storage can reach is no finding.
 
 ### Performance
 
@@ -43,6 +51,6 @@ When every blocking gate passes, look for gross, easy-to-see errors that no lint
 
 ## Findings
 
-Classify every finding as `blocking` or `debt`. Blocking findings make qualification red; debt findings make it amber; with no findings, it is green. Qualification never blocks shipping. Only a failed Security or Requirements gate gets one repair within the spec; shipping records every other finding as a `high` debt item.
+Classify every finding as `blocking` or `debt`. A blocking finding makes the qualification `red`. Debt findings alone make it `amber`. With no findings, it is `green`.
 
-Do not record stylistic preference, speculative improvement, unrelated pre-existing code, or anything a linter, a test, or a quality check reports: lint and format belong to the hook, and layers, duplicates, complexity, and coverage to `scan-quality`. Cite code, never `.aiddbot/logs/` logs.
+Do not record stylistic preference, speculative improvement, or unrelated code that existed before. Cite code, never the logs of `.aiddbot/logs/`.
