@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.8 - 2026-10-27
+
+- refactor(skills): tighten /craft-lasting-quality: the core groups the items of a patch and opens its branch (aefd16fa)
+- feat(core): aidd debt patch opens the task branch of a low patch, with the low items of its project, at most five (dac68a72)
+- docs: recount skill sizes after v0.4.7 (fab9f3f9)
+
 ## 0.4.7 - 2026-10-27
 
 - refactor(skills): the product folder is .product/, as the core writes it: no {Product_Folder} or {Source_Folders} placeholder (7e8ce6ef)
