@@ -45,11 +45,11 @@ The **Craftsman** executes these skills in order. Each step checks only its own 
 | Skill | Spec types | Scope |
 | --- | --- | --- |
 | `verify-behavior` | `feat`, `fix` | Acceptance tests of the spec |
-| `review-implementation` | `feat`, `fix`, `chore` | Read only. Review after verification is green, when the type needs no verification, or at the repair limit of `references/events.md`. |
+| `review-implementation` | `feat`, `fix`, `chore` | Read only. Review after verification is green, when the type needs no verification, or at revision 3 of verification. |
 | `ship-spec` | All types, also `refactor` | The full acceptance suite |
 
 Only `ship-spec` changes `{Product_Folder}/model/` within a spec. Never send schema work to another agent or run `outline-system`. The review needs the schema documents from before the spec.
 
-When a step is not green, read `references/events.md` and act on its row. A step is not green in these conditions: verification is red, the **Builder** cannot reproduce a failure, or qualification has findings. It is also not green when the regression has rows, when a step asks a product question, or when acceptance cannot run.
+When a step is not green, read `references/checkpoints.md` and act on its row.
 
 The result is one shipped spec, or the reason why it could not ship.
