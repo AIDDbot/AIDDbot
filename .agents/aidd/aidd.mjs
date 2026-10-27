@@ -3,12 +3,14 @@
 // Output is JSON on stdout. Exit codes: 0 ok, 1 rejected by a rule, 2 usage, 3 nothing configured.
 import agents from "./commands/agents.mjs";
 import evaluate from "./commands/eval.mjs";
+import { found } from "./commands/found.mjs";
 import { integrate, release } from "./commands/release.mjs";
 import spec from "./commands/spec.mjs";
 import { commit, config, debt, log, run } from "./commands/work.mjs";
 import { findRoot, parseArgs, RuleError, UnavailableError, UsageError } from "./lib/core.mjs";
 
 const COMMANDS = {
+  found: [found, "found <web|cli> [--source <folder>]"],
   spec: [spec, "spec new <feat|fix|chore> <slug> <title> [--domain <d>] | spec debt <D ID> [--domain <d>] | spec show [<id>]"],
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
   run: [run, "run <upgrade|test|layers|crap> [--project <name>] [--spec]"],
@@ -18,7 +20,7 @@ const COMMANDS = {
   release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],
   agents: [agents, "agents <check|index>"],
-  log: [log, 'log <verdict|select|handoff|approved|plan|scaffolded|blocked> "<summary>" [--spec <id>]'],
+  log: [log, 'log <verdict|select|handoff|approved|plan|blocked> "<summary>" [--spec <id>]'],
 };
 
 const HELP = [

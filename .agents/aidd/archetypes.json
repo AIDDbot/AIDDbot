@@ -1,0 +1,43 @@
+{
+  "web": {
+    "name": "Archetype Web",
+    "repository": "AIDDbot/archetype-web",
+    "tag": "v0.4.22",
+    "projects": {
+      "back": {
+        "type": "api",
+        "path": "projects/back",
+        "commands": { "test": "npm test", "test:spec": { "na": "No acceptance tests" }, "start": "npm start", "layers": "npm run layers", "crap": "npm run crap", "upgrade": "npm --prefix ../.. run upgrade" }
+      },
+      "front": {
+        "type": "web",
+        "path": "projects/front",
+        "commands": { "test": "npm test", "test:spec": { "na": "No acceptance tests" }, "start": "npm start", "layers": "npm run layers", "crap": "npm run crap", "upgrade": "npm --prefix ../.. run upgrade" }
+      },
+      "e2e": {
+        "type": "e2e",
+        "path": "projects/e2e",
+        "commands": { "test": "npm test", "test:spec": "npm run test:spec --", "start": "npm start", "layers": "npm run layers", "crap": "npm run crap", "upgrade": "npm --prefix ../.. run upgrade" }
+      }
+    },
+    "versionFiles": ["projects/back/package.json", "projects/front/package.json"]
+  },
+  "cli": {
+    "name": "Archetype CLI",
+    "repository": "AIDDbot/archetype-cli",
+    "tag": "v0.4.22",
+    "projects": {
+      "cli": {
+        "type": "cli",
+        "path": "projects/cli",
+        "commands": { "test": "npm test", "test:spec": { "na": "No acceptance tests" }, "start": "node src/app.main.ts", "layers": "npm run layers", "crap": "npm run crap", "upgrade": "npm --prefix ../.. run upgrade" }
+      },
+      "e2e": {
+        "type": "e2e",
+        "path": "projects/e2e",
+        "commands": { "test": "npm test", "test:spec": "npm run test:spec --", "start": "npm start", "layers": "npm run layers", "crap": "npm run crap", "upgrade": "npm --prefix ../.. run upgrade" }
+      }
+    },
+    "versionFiles": ["projects/cli/package.json"]
+  }
+}

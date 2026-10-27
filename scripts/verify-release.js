@@ -59,9 +59,9 @@ try {
   assert.equal(invalid.status, 1);
   assert.equal(fs.readFileSync(path.join(root, "package.json"), "utf8"), original);
   // A pinned archetype must share major.minor with the next version; its patch is free.
-  const catalog = path.join(root, ".agents/skills/architect-initial-foundation/assets/archetypes.md");
+  const catalog = path.join(root, ".agents/aidd/archetypes.json");
   fs.mkdirSync(path.dirname(catalog), { recursive: true });
-  fs.writeFileSync(catalog, "`AIDDbot/archetype-base`, tag `v1.2.0`.\n");
+  fs.writeFileSync(catalog, JSON.stringify({ base: { repository: "AIDDbot/archetype-base", tag: "v1.2.0" } }));
   assert.match(release("--dry-run"), /1\.2\.3 -> 1\.2\.4/);
   const otherSeries = spawnSync(process.execPath, ["scripts/release.js", "minor", "--dry-run"], { cwd: root, encoding: "utf8" });
   assert.equal(otherSeries.status, 1);

@@ -62,6 +62,7 @@ The agents write only the texts: `system.md`, each spec, the reports of findings
 
 | Command | Purpose |
 | --- | --- |
+| `found <archetype>` | Found a greenfield system from an archetype of `.agents/aidd/archetypes.json`: the copy at its pinned tag, the identity of `.product/system.md`, the slots, and one `npm ci`, in two commits on `chore/foundation`. |
 | `spec new` · `spec debt` · `spec show` | Open a spec on its branch, from a request (`feat`, `fix`, `chore`) or from a debt item (`fix` from high, `refactor` from medium). Show the state and the blockers of a spec. |
 | `run <kind>` | Run a project command: `upgrade`, `test`, `layers` or `crap`. `test` runs the `e2e` project last. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec (or the tests that a `fix` cites): the evidence of the verification. The full `test` is the evidence of the release. |
 | `eval` | Record a verification or a qualification, with its status. |

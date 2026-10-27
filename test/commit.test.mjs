@@ -58,8 +58,9 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.equal(aidd(root, "log", "handoff", "builder → craftsman: S0001", "--spec", "S0001").code, 0);
   assert.equal(aidd(root, "log", "approved", "S0001 Rocket fleet", "--spec", "S0001").code, 1, "no spec S0001 exists: nothing to approve");
   assert.equal(aidd(root, "log", "plan", "back: rockets repository and route", "--spec", "S0001").code, 0);
-  assert.equal(aidd(root, "log", "scaffolded", "back, front, e2e").code, 0);
+  assert.equal(aidd(root, "log", "select", "web: back, front, e2e").code, 0);
   assert.equal(aidd(root, "log", "started", "nope").code, 2);
+  assert.equal(aidd(root, "log", "scaffolded", "the core journals it").code, 2);
   assert.equal(aidd(root, "log", "verdict", `ℹ ✔ don't import '../core' or "x" in \`cli\` → ok`).code, 0);
   const quoted = journalText(root).trim().split("\n").at(-1);
   assert.match(quoted, /verdict +INFO +dont import \.\.\/core or x in cli → ok$/);
@@ -69,7 +70,7 @@ test("integrate commits and merges a task branch; log journals a capped judgment
   assert.ok(verdict.split(" INFO ").pop().trim().length <= 128);
   assert.match(lines.at(-3), /model +S0001 +handoff +INFO +builder → craftsman: S0001$/);
   assert.match(lines.at(-2), /model +S0001 +plan +INFO +back: rockets repository and route$/);
-  assert.match(lines.at(-1), /model +- +scaffolded +INFO +back, front, e2e$/);
+  assert.match(lines.at(-1), /model +- +select +INFO +web: back, front, e2e$/);
 });
 
 test("commands outside an initialized repository explain what to do", () => {
