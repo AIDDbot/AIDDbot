@@ -24,16 +24,11 @@ When the human asks for a dependency upgrade, skip the debt. Execute `build-requ
 
 Read `node .agents/aidd/aidd.mjs debt list`. Select an open item by priority: high, then medium, then low. First check the current code. Remove items that no longer exist with `node .agents/aidd/aidd.mjs debt remove <id>`. Journal the choice with `node .agents/aidd/aidd.mjs log select "<D ID>: <why>"`.
 
-The priority sets the repair, not the size. The evidence of the item limits the scope of a spec. Leave findings from later checks for the next scan. The scope of a patch includes the `crap` of its project.
+The priority sets the repair, not the size. The evidence of the item limits the scope of a spec. Leave findings from later checks for the next scan.
 
 ## High and medium debt
 
-Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. The core makes and approves a minimal spec. It includes other open items of the same priority and project in its `debt`. Execute `build-requested-spec` with it.
-
-| Priority | Source | Spec and route |
-| --- | --- | --- |
-| `high` | The review, or a triage too big for its spec | `fix`: implement, verify, review, ship |
-| `medium` | `layers`: layers, duplicates, folder size | `refactor`: implement until the check is green, then ship. No verification or review. The regression proves that behavior did not change. |
+Run `node .agents/aidd/aidd.mjs spec debt <D ID>`. The core makes and approves a minimal spec: a `fix` for `high`, a `refactor` for `medium`. The spec also repairs the other open items of the same priority and project. Execute `build-requested-spec` with it: it sets the steps of each type.
 
 ## Low debt: patch
 
