@@ -1,16 +1,15 @@
 # Tamaño de las skills
 
-Fecha: 2026-10-25.
+Fecha: 2026-10-27.
 
 Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye assets, referencias ni otros archivos auxiliares. Las palabras se cuentan como secuencias de caracteres separadas por espacios en blanco; se incluye el contenido Markdown y el frontmatter.
 
 | Skill | Líneas | Palabras |
 | --- | ---: | ---: |
+| [architect-initial-foundation](../.agents/skills/architect-initial-foundation/SKILL.md) | 51 | 634 |
 | [architect-requested-spec](../.agents/skills/architect-requested-spec/SKILL.md) | 30 | 257 |
-| [architect-system-foundation](../.agents/skills/architect-system-foundation/SKILL.md) | 46 | 559 |
-| [build-archetype-foundation](../.agents/skills/build-archetype-foundation/SKILL.md) | 35 | 517 |
-| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 743 |
-| [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 50 | 554 |
+| [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 700 |
+| [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 45 | 491 |
 | [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 740 |
 | [implement-project](../.agents/skills/implement-project/SKILL.md) | 41 | 655 |
 | [maintain-skills](../.agents/skills/maintain-skills/SKILL.md) | 28 | 342 |
@@ -20,13 +19,13 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 37 | 414 |
 | [ship-spec](../.agents/skills/ship-spec/SKILL.md) | 51 | 632 |
 | [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 287 |
-| **Total (14 skills)** | **552** | **6824** |
+| **Total (13 skills)** | **517** | **6276** |
 
 ## Último recuento
 
-Recalculado el 2026-10-25 tras la pasada ASD-STE100: **14 skills, 552 líneas y 6.824 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.389 menos (16,9 %). Frente al recuento anterior (6.727), son 97 más: la pasada STE divide frases y no busca ahorro.
+Recalculado el 2026-10-27, tras Halloween D64–D66 y la pasada STE de las referencias de las orquestadoras: **13 skills, 517 líneas y 6.276 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.937 menos (23,6 %). Frente al recuento del 2026-10-25 (6.824), son 548 menos (8,0 %): sale `build-archetype-foundation` (al Builder) y el scaffold de `architect-initial-foundation` pasa al core (`aidd found`).
 
-Referencias: **4.960 palabras**. Assets: **3.212 palabras**. Inventario conjunto: **14.996 palabras**; este total no equivale a la carga de una ejecución.
+Referencias: **3.741 palabras**. Assets: **2.960 palabras**. Inventario conjunto: **12.977 palabras**, 2.019 menos que el 2026-10-25 (13,5 %); este total no equivale a la carga de una ejecución.
 
 La tabla principal y el inventario de archivos auxiliares reflejan este recuento. Las notas de reducción y equivalencia que siguen conservan sus medidas históricas; este recuento no revalida sus conclusiones ni vuelve a medir las rutas.
 
@@ -47,25 +46,24 @@ La tabla siguiente incluye todos los archivos actuales de references/ y assets/.
 
 | Skill | SKILL.md | Referencias | Assets | Total de palabras |
 | --- | ---: | ---: | ---: | ---: |
+| architect-initial-foundation | 634 | 203 | 294 | 1131 |
 | architect-requested-spec | 257 | 0 | 0 | 257 |
-| architect-system-foundation | 551 | 1320 | 536 | 2407 |
-| build-archetype-foundation | 501 | 0 | 0 | 501 |
-| build-requested-spec | 728 | 387 | 0 | 1115 |
-| craft-lasting-quality | 554 | 192 | 0 | 746 |
-| define-spec | 728 | 342 | 708 | 1778 |
-| implement-project | 648 | 1216 | 0 | 1864 |
-| maintain-skills | 292 | 0 | 668 | 960 |
-| outline-system | 295 | 419 | 725 | 1439 |
-| review-implementation | 301 | 668 | 92 | 1061 |
-| rule-project | 497 | 0 | 325 | 822 |
-| scan-quality | 462 | 173 | 0 | 635 |
+| build-requested-spec | 700 | 312 | 0 | 1012 |
+| craft-lasting-quality | 491 | 165 | 0 | 656 |
+| define-spec | 740 | 342 | 708 | 1790 |
+| implement-project | 655 | 1216 | 0 | 1871 |
+| maintain-skills | 342 | 0 | 658 | 1000 |
+| outline-system | 315 | 419 | 725 | 1459 |
+| review-implementation | 320 | 670 | 92 | 1082 |
+| rule-project | 489 | 0 | 325 | 814 |
+| scan-quality | 414 | 259 | 0 | 673 |
 | ship-spec | 632 | 155 | 84 | 871 |
-| verify-behavior | 281 | 0 | 74 | 355 |
-| **Total** | **6727** | **4872** | **3212** | **14811** |
+| verify-behavior | 287 | 0 | 74 | 361 |
+| **Total** | **6276** | **3741** | **2960** | **12977** |
 
 En ship-spec, la ruta verde carga 632 palabras de instrucciones propias. Con regresiones, SKILL.md, referencia y plantilla suman 871 palabras, frente a 1.028 en HEAD (15,3 % menos). No se incluyen el resultado de comandos ni el contexto de otras skills.
 
-Siguiente prioridad: build-archetype-foundation. Véase la segunda pasada de [skills-slimming-plan.md](skills-slimming-plan.md). Las comprobaciones de equivalencia que siguen comparan instrucciones; no ejecutan workflows de producto.
+Siguiente prioridad (2026-10-25): build-archetype-foundation, que salió de AIDDbot el 2026-10-27 (D64). Véase la segunda pasada de [skills-slimming-plan.md](skills-slimming-plan.md). Las comprobaciones de equivalencia que siguen comparan instrucciones; no ejecutan workflows de producto.
 
 ## Reducción de `build-requested-spec`
 
