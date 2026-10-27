@@ -586,3 +586,11 @@ Una spec es de fundación si cumple las dos condiciones:
 - La raíz pierde Records: sus reglas las imponen las skills y el core, y un `AGENTS.md` generado no se actualiza con `aiddbot update`. La línea de las reglas de código pasa a Assistant, para el trabajo fuera de una skill. Esqueleto de la raíz en el core: Assistant, System, Commands, Git. AIDDbot `d7d7c6c0` (55/55 tests).
 - El `AGENTS.md` raíz de un arquetipo no lleva rastro de AIDDbot (identidad, comandos `aidd`, `.agents/`, `.aiddbot/`): el scaffold nunca lo copia, y quien usa el arquetipo sin AIDDbot no tiene esas carpetas. La línea del gate va al `README.md`. Builder `83dd9c0` (`handover.md`).
 - Archetype Web `v0.4.1` (entorno) y `v0.4.2` (raíz neutra), fijados en AIDDbot `89fa7036` y `9f8871f4`. Archetype CLI lo recibe al rehacerse.
+
+## D64 (2026-10-27, Halloween) · La construcción de la Foundation vive en el Builder
+
+- Revisa D10 («el Builder no tiene skills propias») y D46. `/build-archetype-foundation` sale de AIDDbot: solo construía arquetipos, y un sistema recibe la Foundation hecha. Reparto (usuario): AIDDbot da las skills de cada paso; el Builder, el procedimiento de la obra.
+- El Builder tiene `foundation/build.md`, el texto de la skill sin frontmatter. Construction lo copia en `.product/foundation/` del work system, junto a las specs, y el prompt de la run dice «Follow `.product/foundation/build.md`». Sin instalación ni adaptadores; la run queda fija aunque cambie el Builder.
+- Queda en AIDDbot lo genérico: `aidd spec new --from`, `log approved`, la fila «spec desde un fichero» de `build-requested-spec` (aprobada por quien da el fichero) y `craft-lasting-quality`.
+- Se pierde el slash command y la revisión de `/maintain-skills` del procedimiento.
+- AIDDbot (skills y docs) y Builder `fdd6f88`.

@@ -29,7 +29,7 @@ Each skill checks only its own work. Only the ship checks everything.
 - The spec flow calls `implement-project`, `verify-behavior`, `review-implementation` and `ship-spec`.
 - The craft repairs debt from high to low. It calls `scan-quality` (`layers`) only when no high debt is open, and `scan-quality` (`crap`) only when no high or medium debt is open.
 - A patch is `implement-project` called by the craft, with no spec flow around it.
-- The Builder leaves `layers` and `crap` green in each project that it changes (Halloween web-E: 16 of 17 debt items came from them after the ship, at the cost of 4 refactors and 6 patches). `build-archetype-foundation` calls the craft only when the core check after the ship is red or debt is open: the scans stay as a safety net.
+- The Builder leaves `layers` and `crap` green in each project that it changes (Halloween web-E: 16 of 17 debt items came from them after the ship, at the cost of 4 refactors and 6 patches). The construction procedure of the [Archetype Builder](https://github.com/AIDDbot/archetype-builder) calls the craft only when the core check after the ship is red or debt is open: the scans stay as a safety net.
 - The review checks only what lint and e2e tests cannot see. It does not judge style, structure or complexity.
 - A spec solves its problem as well as it can, and then it closes. Debt is debt.
 - "Affected" means: not all tests. Only the ship runs all of them.

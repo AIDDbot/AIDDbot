@@ -26,7 +26,7 @@ If a greenfield foundation close is still red, return that failure to the human.
 | Request | The **Architect** executes `define-spec`. Relay its proposal to the human. Build nothing before approval. |
 | Draft in `{Product_Folder}/drafts/` | Skip `define-spec`. From the default branch, run the command on its first line. Journal `log approved` at once: `architect-requested-spec` got approval. Delete the draft with `node .agents/aidd/aidd.mjs commit "docs(spec): use draft {slug}" {Product_Folder}/drafts/{slug}.md`. Never change its contents. |
 | Spec made by the core from debt | Skip `define-spec`: the item defines it. The core approves it when it makes it: `fix` for high debt, `refactor` for medium debt. |
-| Spec made by the core from a spec file | Skip `define-spec`: the file defines it. The caller, such as `build-archetype-foundation`, approved it. |
+| Spec made by the core from a spec file | Skip `define-spec`: the file defines it. The caller that gives the file approved it. |
 
 The human answers you, not the **Architect**. When the human approves the spec, journal `node .agents/aidd/aidd.mjs log approved "<title>" --spec <id>` yourself before the **Builder** starts. In YOLO mode, or when the caller approved the request in advance, ask nothing. Journal approval as soon as the spec is complete. The command commits the spec. Until approval, the core refuses other commits, evaluations, and release of the spec.
 
