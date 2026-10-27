@@ -35,6 +35,6 @@ Keep the sections and their order. Write short lists and tables, not prose. Remo
 
 ## Project rules
 
-<!-- The rules of the stack that the code follows, and the lessons that `ship-spec` adds: each with its reason. Keep each one that still has a scope: the code cannot make it again. Remove the section when it is empty. -->
+<!-- The rules of the stack that the code follows, and the lessons that `ship-spec` adds: each with its reason. -->
 
 - {rule — reason}
