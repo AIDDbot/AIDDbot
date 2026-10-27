@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.7 - 2026-10-27
+
+- refactor(skills): the product folder is .product/, as the core writes it: no {Product_Folder} or {Source_Folders} placeholder (7e8ce6ef)
+- refactor(skills): tighten /scan-quality: STE in the limits and in the repair of a crowded folder (674a27b2)
+- refactor(skills): tighten /ship-spec: the core gives the AGENTS.md problems, the route of a repair stays in build-requested-spec, and the regression has no unit tests (19439b4b)
+- refactor(skills): tighten /review-implementation: STE in its gates, and the route of a finding stays in build-requested-spec (0846132f)
+- refactor(skills): tighten /verify-behavior: a verification is red or green, and the core rules stay in the core (a8e35f80)
+- refactor(skills): tighten /implement-project: STE in its references, one idea in each sentence (45a2388a)
+- refactor(skills): tighten /define-spec: the spec template gives the shape of the requirements, the skill gives their rules (9595faf8)
+- refactor(skills): tighten /define-spec: no spec-file reference (the core makes a spec from a file) and no case of a system with no project (a4d9f86b)
+- refactor(skills): tighten /rule-project: a slot with no clear command is n/a with its reason, as the template and the example say (5f991df9)
+- refactor(skills): tighten /outline-system: no case of a system with no project, since an archetype or the code always gives one (f5fbe009)
+- docs: recount skill sizes after Halloween D64–D66 (35639116)
+
 ## 0.4.6 - 2026-10-27
 
 - refactor(skills): tighten /craft-lasting-quality: build-requested-spec owns the steps of each debt spec, and patch.md drops what the flow already does (af4d92c6)
