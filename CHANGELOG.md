@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.4.5 - 2026-10-27
+
+- refactor(skills): remove /build-archetype-foundation; the Archetype Builder owns the procedure (Halloween D64) (ba2384d0)
+- docs: record the ASD-STE100 pass in skill sizes (43ce1476)
+- refactor(skills): split sentences over 25 words (6c60ee79)
+- refactor(skills): tighten /maintain-skills (4c485066)
+- refactor(skills): tighten /outline-system (fa8eebc7)
+- refactor(skills): tighten /scan-quality (dc037f7c)
+- refactor(skills): tighten /review-implementation (7d6bf9dc)
+- refactor(skills): tighten /verify-behavior (e74cc66c)
+- refactor(skills): tighten /review-implementation (36471172)
+- feat(adapt): warn on skill sentences over 25 words (9121d753)
+- refactor(skills): tighten /rule-project (ba38fd72)
+- docs: refresh skill size counts (f91b7d86)
+- refactor(skills): load failure and patch paths on demand (bbb11aa5)
+- refactor(skills): slim the five largest skills (467adaa9)
+- docs: add the draft backlog to features (19ad2429)
+- docs: add /architect-requested-spec to how it works (7faaada9)
+- feat(skills): add /architect-requested-spec (14c46f0f)
+- refactor(skills): tighten /implement-project, /verify-behavior, /review-implementation, /build-requested-spec (311e121c)
+- Merge branch 'refactor/quality-gates': v0.4.4 pins Archetype Web and CLI v0.4.22 (f61ceabf)
+- Merge branch 'refactor/quality-gates': v0.4.3 pins Archetype Web and CLI v0.4.21 (b336a6c1)
+- Merge branch 'refactor/quality-gates': v0.4.2 pins Archetype Web and CLI v0.4.20 (800e9a27)
+- Merge pull request #2 from AIDDbot/refactor/quality-gates daylight (5344c6c7)
+- Merge pull request #1 from AIDDbot/refactor/quality-gates Codename Daylight (593d9c79)
+
 ## 0.4.4 - 2026-10-23
 
 - chore(skills): pin Archetype Web v0.4.22 and Archetype CLI v0.4.22 (a README with what comes out of the box, Vite+, and Make it yours) (cbb28b8a)
