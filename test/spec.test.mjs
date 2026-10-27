@@ -219,3 +219,18 @@ test("spec debt groups the open items of the priority and the project of the giv
   assert.equal(fix.body.approved, true);
   assert.match(fs.readFileSync(path.join(other, fix.body.file), "utf8"), /The review of this fix shows that D0001, D0003 are gone/);
 });
+
+test("debt patch opens the task branch of a low patch, with the low items of its project, at most five", () => {
+  const root = repo();
+  aidd(root, "config", "set", "projects.cli", JSON.stringify({ type: "cli", path: "cli", commands: { test: "npm test" } }));
+  aidd(root, "config", "set", "projects.e2e", JSON.stringify({ type: "e2e", path: "e2e", commands: { test: "npm test" } }));
+  for (let index = 1; index <= 6; index++) aidd(root, "debt", "add", `Complex function ${index}`, "low", `cli/src/a${index}.ts`, "--project", "cli");
+  aidd(root, "debt", "add", "Low coverage of the suite", "low", "e2e/a.ts", "--project", "e2e");
+  aidd(root, "debt", "add", "Layer skip", "medium", "cli/src/b.ts", "--project", "cli");
+  assert.match(aidd(root, "debt", "patch", "D0008").body.error, /medium debt: repair it with aidd spec debt D0008/);
+  assert.equal(aidd(root, "debt", "patch").code, 2);
+  const patched = aidd(root, "debt", "patch", "D0003");
+  assert.deepEqual(patched.body.debt, ["D0003", "D0001", "D0002", "D0004", "D0005"], "the given item first, then the other low items of cli; never e2e or medium");
+  assert.equal(patched.body.branch, "chore/D0003-complex-function-3");
+  assert.equal(git(root, "branch", "--show-current"), "chore/D0003-complex-function-3");
+});

@@ -68,6 +68,7 @@ The agents write only the texts: `system.md`, each spec, the reports of findings
 | `eval` | Record a verification or a qualification, with its status. |
 | `commit` | Commit with the guards above. |
 | `debt add` · `list` · `remove` | Change or show the debt register. |
+| `debt patch <D ID>` | Open the task branch of a `low` patch from the default branch. Give its items: the given item and the other open `low` items of its project, at most five. |
 | `release` | Ship the open spec: version, changelog, PRD, the index of each `shared` folder, merge and tag; it refuses an `AGENTS.md` out of form. `--debt <D IDs>` names the open `high` debt that records each failure of the regression. |
 | `integrate` | Merge a branch that is not a spec, such as `chore/foundation`. |
 | `agents check` · `index` | Check the form of each `AGENTS.md` (at most 128 lines, the sections of its template in order, no empty section, no comment), or write the index of each `shared` folder. `release` runs both. |

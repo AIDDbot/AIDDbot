@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { aiddbotPath, commitPaths, git, journal, nextId, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
+import { aiddbotPath, commitPaths, defaultBranch, git, journal, nextId, readJson, relative, RuleError, UsageError } from "../lib/core.mjs";
 import { gate, readControl, requireSpec, SPEC_DEFINED, specFile, TYPES, writeControl } from "../lib/spec.mjs";
 
 const template = (name) => fileURLToPath(new URL(`../../skills/define-spec/assets/${name}.md`, import.meta.url));
@@ -94,7 +94,7 @@ function fromDebt(root, [id], flags) {
   const item = items.find((entry) => entry.id === id);
   if (!item) throw new RuleError(`No open debt item ${id}; see aidd debt list.`);
   const type = FROM_DEBT[item.priority];
-  if (!type) throw new RuleError(`${item.id} is low debt: repair it as a patch, with no spec and no branch.`);
+  if (!type) throw new RuleError(`${item.id} is low debt: repair it as a patch, with aidd debt patch ${item.id}.`);
   const domain = domainOf(flags);
   const group = groupOf(item, items);
   const debt = group.map((entry) => entry.id);
@@ -102,6 +102,21 @@ function fromDebt(root, [id], flags) {
   commitPaths(root, [created.file], SPEC_DEFINED);
   journal(root, { event: "committed", spec: created.spec, summary: `${SPEC_DEFINED} from ${debt.join(", ")}` });
   return { ...created, debt, approved: true };
+}
+
+/** `debt patch <D ID>`: the task branch of a `low` patch, from the default branch, and its items: the given item and the other open
+ *  `low` items of its project, by D ID, at most MAX_GROUP. A patch has no spec, so the branch is `chore/{D ID}-{slug}`. */
+export function patch(root, [id]) {
+  if (!id) throw new UsageError("Give a debt item: aidd debt patch D0007.");
+  const items = readJson(aiddbotPath(root, "debt.json"), { items: [] }).items;
+  const item = items.find((entry) => entry.id === id);
+  if (!item) throw new RuleError(`No open debt item ${id}; see aidd debt list.`);
+  if (item.priority !== "low") throw new RuleError(`${item.id} is ${item.priority} debt: repair it with aidd spec debt ${item.id}.`);
+  const debt = groupOf(item, items).map((entry) => entry.id);
+  const branch = `chore/${item.id}-${slugOf(item)}`;
+  git(root, ["switch", "-c", branch, defaultBranch(root)]);
+  journal(root, { event: "created", summary: `${branch} · patch of ${debt.join(", ")}` });
+  return { branch, project: item.project ?? null, debt };
 }
 
 function show(root, [input]) {

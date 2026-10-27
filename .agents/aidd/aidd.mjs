@@ -15,7 +15,7 @@ const COMMANDS = {
   eval: [evaluate, "eval <verification|qualification> <green|amber|red> <summary> [--spec <id>]"],
   run: [run, "run <upgrade|test|layers|crap> [--project <name>] [--spec]"],
   config: [config, "config get [<key>] | config set <key> <json>"],
-  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] [--project <name>] | debt list | debt remove <id>'],
+  debt: [debt, 'debt add "<title>" <high|medium|low> ["<evidence>"] [--project <name>] | debt list | debt remove <id> | debt patch <D ID>'],
   commit: [commit, 'commit "<message>" [<path>...]'],
   release: [release, "release [--major] [--debt <D IDs>]"],
   integrate: [integrate, 'integrate "<commit message>"'],

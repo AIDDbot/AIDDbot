@@ -10,6 +10,7 @@ import {
   findSpec, isApproved, oversize, readControl, requireSpec, SPEC_DEFINED, specMeta, TYPES, unapproved, writeControl,
 } from "../lib/spec.mjs";
 import { specTags, untested } from "./eval.mjs";
+import { patch } from "./spec.mjs";
 
 // Basic lint, format and the affected unit tests are not here: the technology of each project runs them in its pre-commit hook.
 // Each debt kind has the name of the level of the debt that it finds.
@@ -423,7 +424,8 @@ export function debt(root, [action, ...args], flags = {}) {
     journal(root, { event: "debt-done", summary: `${item.id} ${item.title}` });
     return { removed: item.id, committed: commitPaths(root, [".aiddbot/debt.json"], `docs(quality): remove ${item.id}`) };
   }
-  throw new UsageError("Use: aidd debt add|list|remove");
+  if (action === "patch") return patch(root, args);
+  throw new UsageError("Use: aidd debt add|list|remove|patch");
 }
 
 
