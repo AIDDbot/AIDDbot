@@ -13,8 +13,6 @@ Document what exists. Never redesign. Read the source code only to find the doma
 
 Take `{Product_Folder}` and `{Source_Folders}` from the existing `AGENTS.md`. Ask the human only when they are missing.
 
-When no project exists yet, write the root `AGENTS.md` and the conceptual model from `system.md`. Write no project rows and no physical schemas. The spec that adds a project adds them when it ships.
-
 | Document | Template | Rules | Commit |
 | --- | --- | --- | --- |
 | `AGENTS.md` | `assets/AGENTS.template.md` | `references/agents-md.md` | `docs(system): outline foundation` |

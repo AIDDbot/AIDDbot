@@ -2,7 +2,7 @@
 
 ## Conceptual model
 
-Get the entities and the relations of `model.schema.md` from the entity definitions, the ORM models, or the migrations. When code defines entities, make the model agree with it, and keep each description that is still correct. Without working code, write a draft from the shipped specs and the human input. When neither names an entity, leave the model empty: never invent one.
+Get the entities and the relations of `model.schema.md` from the entity definitions, the ORM models, or the migrations. Make the model agree with the code, and keep each description that is still correct. When the code defines no entity, leave the model empty: never invent one.
 
 ## Physical schemas
 
