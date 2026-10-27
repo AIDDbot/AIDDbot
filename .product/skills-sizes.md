@@ -485,3 +485,9 @@ Lecciones, para aplicarlas a las otras orquestadoras (`build-requested-spec` con
 4. Cambiar cada pasiva por la activa, con el actor (el humano, el core, el **Architect**).
 5. Una palabra, un sentido: buscar las palabras con «-ing» y las que se usan en dos sentidos.
 6. Contrastar cada lista o cada nombre con su fuente (las specs publicadas de cada arquetipo, las decisiones pendientes de «Aplicar» en `decisions.md`). Una pasada de forma encuentra contenido viejo.
+
+Aplicadas el mismo día a las otras dos orquestadoras:
+
+- `build-requested-spec/references/events.md`: ninguna frase de más de 25 palabras. Se separan 3 instrucciones con condición («Qualify if not done yet, then ship», «Verify if the type requires it, then ship again»), se quita un «this» sin nombre («Only this event») y un «Thus». Los términos coinciden con su fuente: revision 3 (`LAST_REVISION` del core) y los gates Security y Requirements (`qualify.gates.md`).
+- `craft-lasting-quality/references/patch.md`: de 5 viñetas con 2–4 frases cada una a 9 viñetas, una idea en cada una. Quita una frase sin actor («Repair the items…»: lo hace el **Builder**) y una ambigüedad: «with only the affected unit tests» pasa a «The hook runs only the affected unit tests». «at most five» pasa a «at most five items».
+- Lección 6 sin hallazgos: ninguna de las dos tenía contenido viejo.
