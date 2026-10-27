@@ -23,7 +23,7 @@ Decide quickly, from working code only. Ignore agent configuration, AIDD product
 
 ## Greenfield
 
-An archetype is a library: its projects, technology, foundation specs, code, tests and schema documents come with it, and its own gate proved them. Take it as it is. Never build, change, document, or check again what it ships. When no archetype fits, stop: never make one.
+An archetype comes proved: its projects, technology, foundation specs, code, tests and schema documents come with it, and its own gate proved them. Take it as it is. Never build, change, document, or check again what it ships. When no archetype fits, stop: never make one.
 
 | Step | Who | What |
 | --- | --- | --- |

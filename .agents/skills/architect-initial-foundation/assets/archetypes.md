@@ -1,6 +1,6 @@
 # Archetypes
 
-The catalog of AIDDbot. An **archetype** is a whole solution: its projects, their technology, and the foundation, with its code and its tests. Take it as it is, as a library: never change or check it again in the system. The core pins its tag in `.agents/aidd/archetypes.json`.
+The catalog of AIDDbot. An **archetype** is a whole solution: its projects, their technology, and the foundation, with its code and its tests. Take it as it is: never change or check it again in the system. The core pins its tag in `.agents/aidd/archetypes.json`.
 
 ## Archetype Web (`web`)
 

@@ -601,7 +601,7 @@ Una spec es de fundación si cumple las dos condiciones:
 - Se mantiene «foundation». «Initial» dice su lugar en el flujo: también es el primer paso en un repo con código. Descartados Bedrock y Blueprint: son vocabulario del Builder (D45, D64).
 - AIDDbot (skill, docs, `bin/`, `scripts/`, 55/55 tests) y Builder `6f0d73a`.
 
-## D66 (2026-10-27, Halloween) · El greenfield toma el arquetipo como una librería
+## D66 (2026-10-27, Halloween) · El greenfield toma el arquetipo como viene, ya probado
 
 - Motivo (usuario): `architect-initial-foundation` seguía contaminada por el proceso de construcción de arquetipos. Un greenfield solo elige el arquetipo, lo descarga y ajusta la identidad.
 - El core tiene el catálogo de datos `.agents/aidd/archetypes.json`: el tag, los proyectos con sus slots y los `versionFiles` de cada arquetipo. `assets/archetypes.md` queda solo para elegir: qué encaja, los proyectos y la tecnología. `npm run release` lee los pins del JSON. No va en el arquetipo: no huele a AIDDbot (D63).

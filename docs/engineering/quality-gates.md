@@ -3,7 +3,7 @@
 > Decided 2026-10-15, after cli-8. Steps 1 and 1b (AIDDbot) are done on `refactor/quality-gates`; step 2 chose Vite+ (2026-10-16).
 
 > **Do not forget:**
-> - **Do not release AIDDbot alone.** It ships with the libraries, or systems have no lint.
+> - **Do not release AIDDbot alone.** It ships with the archetypes, or systems have no lint.
 
 Each skill checks only its own work. Only the ship checks everything.
 
@@ -100,7 +100,7 @@ What is the real difference between `feat`, `fix`, `refactor`, `chore` and a pat
 
 ## Rollout (Halloween)
 
-All in one release, with the libraries at the same `major.minor`. If AIDDbot drops its lint gates before the libraries bring the technology hook, a system has no lint at all.
+All in one release, with the archetypes at the same `major.minor`. If AIDDbot drops its lint gates before the archetypes bring the technology hook, a system has no lint at all.
 
 1. **AIDDbot**, on a branch. Technology-free.
    - Core: `run` kinds, `--changed` for `test` only, gates in `commit` and `release`. Then `npm test`.
@@ -108,9 +108,9 @@ All in one release, with the libraries at the same `major.minor`. If AIDDbot dro
    - Docs: `features.md`, `core.md`, `principles/verification.md`, `how-it-works.md`, glossary.
 2. **Base technology.** A short trial of Vite+ and Bun (question 5).
 3. **Builder.** Blueprint: commit lint = technology defaults with safe fixes; boundaries → `quality`; complexity → `harden`; spec 0 installs the technology hook.
-4. **Libraries.** Seed `archetype-cli` and `archetype-base` again from the Builder. Join the D28 rename and the platform name here.
+4. **Archetypes.** Seed `archetype-cli` and `archetype-base` again from the Builder. Join the D28 rename and the platform name here.
 5. **Run.** cli-9 checks it.
-6. **Release** AIDDbot and the libraries together.
+6. **Release** AIDDbot and the archetypes together.
 
 ## Step 1 decisions
 
@@ -141,5 +141,5 @@ Details in `.product/halloween/quality-gates.prompt.md`, section "Paso 3: decisi
    - One technology for each project type: two configs and two hooks in one monorepo, against uniformity.
    - Bun as the base for all types, with Vite only as the `web` bundler and dev server.
 
-   This reopens D16 (platform level) and the library name (`cli-node`, `cli-bun`).
+   This reopens D16 (platform level) and the archetype name (`cli-node`, `cli-bun`).
 6. **Unit tests in the pre-commit hook.** Decided in step 1b: yes, only the affected ones (`vp test related`). They stay fast because a unit test proves logic only, with no data access. A commit of specs or docs runs none.

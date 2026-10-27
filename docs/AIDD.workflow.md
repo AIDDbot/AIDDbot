@@ -42,7 +42,7 @@ architect-initial-foundation:
   greenfield:
     - "Architect: propose .product/system.md (purpose, users, one archetype of the catalog), and obtain approval; when no archetype fits, stop"
     - "aidd found <archetype> on chore/foundation: the copy at its pinned tag, the identity, the slots, the install, two commits"
-    - "close: run test of each project that is not e2e; the archetype is a library, and the acceptance suite runs first with the first business spec"
+    - "close: run test of each project that is not e2e; the archetype comes proved, and the acceptance suite runs first with the first business spec"
     - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
@@ -83,7 +83,7 @@ The foundation keeps the product records that exist.
 
 A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one archetype of the catalog: a whole solution. AIDDbot offers only the archetypes of its catalog: when no archetype fits, the foundation stops and makes none. Archetypes are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the offer is Archetype Web (`web`). For one local `cli` and one `e2e`, it is Archetype CLI (`cli`). Each one ships the code and the tagged tests of every foundation spec, as an AIDDbot system: the shipped specs in `.product/specs/` and the schema documents in `.product/model/`.
 
-An archetype is a library: its own gate proved it, and the system takes it as it is (Halloween D66). The core owns the mechanics. `.agents/aidd/archetypes.json` pins the tag, the projects and the slots of each archetype. On `chore/foundation`, `aidd found <archetype>` makes two commits:
+An archetype comes proved: its own gate proved it, and the system takes it as it is (Halloween D66). The core owns the mechanics. `.agents/aidd/archetypes.json` pins the tag, the projects and the slots of each archetype. On `chore/foundation`, `aidd found <archetype>` makes two commits:
 
 1. `chore(scaffold): copy {archetype} {tag}`: the whole archetype at its pinned tag, with no change. The system keeps its own `AGENTS.md`, `README.md`, `LICENSE` and `.product/system.md`, and gets each `.gitignore` line that it lacks.
 2. `chore(scaffold): set the system identity`: the name, the purpose, the author and the version `0.0.0` from `.product/system.md`, in the root `package.json`, each version file, the lockfile and the title of `model.schema.md`. Also the slots and the version files in `.aiddbot/config.json`. One `npm ci` installs, and its `prepare` installs the pre-commit hook.
