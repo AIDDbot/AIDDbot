@@ -29,7 +29,7 @@ Open your coding agent in the same folder. Run:
 In Codex, start each command with `$` instead of `/`.
 
 - **Brownfield** (existing or legacy code): the agent documents your code. It does not change it.
-- **Greenfield** (an empty repository): the agent asks about your product, and proposes a system. Approve it. Then the agent makes the projects and their foundation, and stops when all the tests pass.
+- **Greenfield** (an empty repository): the agent asks about your product, and proposes a system. Approve it. Then the agent makes the projects and their foundation, and stops when the unit tests pass.
 
 For a web system with an API and users, the first offer is [Archetype Web v0.4.22](https://github.com/AIDDbot/archetype-web/tree/v0.4.22). For a local command-line application, it is [Archetype CLI v0.4.22](https://github.com/AIDDbot/archetype-cli/tree/v0.4.22). Each one already has the foundation and its tests.
 

@@ -600,3 +600,13 @@ Una spec es de fundación si cumple las dos condiciones:
 - `/architect-system-foundation` pasa a **`/architect-initial-foundation`** (usuario). El harness ordena las skills alfabéticamente: así la fundación va antes que `/architect-requested-spec`, en el orden de ejecución.
 - Se mantiene «foundation». «Initial» dice su lugar en el flujo: también es el primer paso en un repo con código. Descartados Bedrock y Blueprint: son vocabulario del Builder (D45, D64).
 - AIDDbot (skill, docs, `bin/`, `scripts/`, 55/55 tests) y Builder `6f0d73a`.
+
+## D66 (2026-10-27, Halloween) · El greenfield toma el arquetipo como una librería
+
+- Motivo (usuario): `architect-initial-foundation` seguía contaminada por el proceso de construcción de arquetipos. Un greenfield solo elige el arquetipo, lo descarga y ajusta la identidad.
+- El core tiene el catálogo de datos `.agents/aidd/archetypes.json`: el tag, los proyectos con sus slots y los `versionFiles` de cada arquetipo. `assets/archetypes.md` queda solo para elegir: qué encaja, los proyectos y la tecnología. `npm run release` lee los pins del JSON. No va en el arquetipo: no huele a AIDDbot (D63).
+- `aidd found <web|cli>`, en `chore/foundation`, con `system.md` aprobado (la fecha de `approved`) y sin código de proyecto. Hace la copia con degit en el tag fijado, la identidad (nombre, propósito, autor, `0.0.0`, lockfile, título del modelo), los slots, `npm ci` y dos commits. Journal `scaffolded` del core; sale de los eventos del modelo. `--source <folder>` copia una carpeta local, para los tests y sin red.
+- El cierre se rebaja (usuario): solo los unitarios de cada proyecto que no es `e2e`. Los arquetipos se dan por buenos; si algo falla, saldrá con la primera feature del usuario.
+- La propuesta: propósito, usuarios y el arquetipo. `system.md` pierde Projects, Technical decisions, Basic authentication y Scaffold: los da el arquetipo. Fuera también el `log approved "system proposal"`: el core lo rechazaba siempre (no hay spec), y la fecha de `system.md` ya es el registro.
+- Fuera `references/scaffold.md` (784 palabras), `references/close.md` y el **Builder** de la skill. El paso 2 (datos del sistema en cada `AGENTS.md`) desaparece: el `AGENTS.md` de un proyecto no tiene datos del sistema.
+- Prueba real: Archetype CLI v0.4.22 desde GitHub, `found` en 14 s y cierre de unitarios en 2 s (183 tests).

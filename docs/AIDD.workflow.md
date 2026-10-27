@@ -40,10 +40,10 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 ```yaml
 architect-initial-foundation:
   greenfield:
-    - "Architect: propose .product/system.md as typed projects from one archetype, and obtain approval; when no archetype fits, stop"
-    - "Architect: on chore/foundation, copy the whole archetype with its shipped specs and schema documents; Builder: install and register the slots"
+    - "Architect: propose .product/system.md (purpose, users, one archetype of the catalog), and obtain approval; when no archetype fits, stop"
+    - "aidd found <archetype> on chore/foundation: the copy at its pinned tag, the identity, the slots, the install, two commits"
+    - "close: run test of each project that is not e2e; the archetype is a library, and the acceptance suite runs first with the first business spec"
     - "Architect: outline-system for the root AGENTS.md only, then integrate (never rule-project)"
-    - "close only when test passes"
   brownfield:
     - "Architect: outline-system, reading code only (no test or quality runs, no debt)"
     - "Architect: rule-project per project"
@@ -76,22 +76,21 @@ craft-lasting-quality:
 
 | Repository | Route | Result |
 | --- | --- | --- |
-| No application code | Staged questions → `.product/system.md` → approval → copy of the archetype → `outline-system` → green close | A green system: each project with its `AGENTS.md`, and the foundation of the archetype (its shipped specs, code and tests) proved by the close |
+| No application code | Two questions and the archetype → `.product/system.md` → approval → `aidd found` → unit close → `outline-system` | A system with the whole archetype: its projects with their `AGENTS.md`, and its foundation (shipped specs, code and tests) |
 | Existing application code | `outline-system` → `rule-project` | Documentation, rules, and the missing product records |
 
 The foundation keeps the product records that exist.
 
-A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one archetype of the catalog: a whole solution. AIDDbot offers only the archetypes of its catalog: when no archetype fits, the foundation stops and makes none. Archetypes are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the first offer is Archetype Base (`AIDDbot/archetype-base`): three projects that ship with the code and the tagged tests of every foundation spec, as an AIDDbot system: the shipped specs in `.product/specs/` and the schema documents in `.product/model/`. For one local `cli` and one `e2e`, the first offer is Archetype CLI (`AIDDbot/archetype-cli`), in the same form.
+A greenfield system is a solution of typed projects: `api`, `web`, `cli` and `e2e`. The projects come from one archetype of the catalog: a whole solution. AIDDbot offers only the archetypes of its catalog: when no archetype fits, the foundation stops and makes none. Archetypes are made with the [Archetype Builder](https://github.com/AIDDbot/archetype-builder). For one `api`, one `web`, one `e2e` and users, the offer is Archetype Web (`web`). For one local `cli` and one `e2e`, it is Archetype CLI (`cli`). Each one ships the code and the tagged tests of every foundation spec, as an AIDDbot system: the shipped specs in `.product/specs/` and the schema documents in `.product/model/`.
 
-After the approval, the Architect works on `chore/foundation`, each step for all the projects of the archetype at once:
+An archetype is a library: its own gate proved it, and the system takes it as it is (Halloween D66). The core owns the mechanics. `.agents/aidd/archetypes.json` pins the tag, the projects and the slots of each archetype. On `chore/foundation`, `aidd found <archetype>` makes two commits:
 
-1. The copy of the whole archetype into the repository, with no change (`chore(scaffold): copy`): the workspace root, the projects, and `.product/specs/`, `.product/model/` and `.product/PRD.md`.
-2. The system data in each `AGENTS.md` (`refactor({project}): set the system data`).
-3. The tooling, one `chore(scaffold): register tooling` for all the projects.
+1. `chore(scaffold): copy {archetype} {tag}`: the whole archetype at its pinned tag, with no change. The system keeps its own `AGENTS.md`, `README.md`, `LICENSE` and `.product/system.md`, and gets each `.gitignore` line that it lacks.
+2. `chore(scaffold): set the system identity`: the name, the purpose, the author and the version `0.0.0` from `.product/system.md`, in the root `package.json`, each version file, the lockfile and the title of `model.schema.md`. Also the slots and the version files in `.aiddbot/config.json`. One `npm ci` installs, and its `prepare` installs the pre-commit hook.
 
-After step 2, `{project}/AGENTS.md` is a map of its project, in short lists: purpose, technology (stack, dependencies, slots), folders, platform (its contract and one line for each `core` folder) and project rules. A `CLAUDE.md` refers to it. The rules of all the projects are in the code rules of `implement-project` (`references/code-rules.md`), one time for the system: only the skills that write or review code read them, and the root `AGENTS.md` points to them. `aidd release` refuses an `AGENTS.md` over 128 lines, with a comment, or with an empty or misplaced section, and writes the index of each `shared` folder (`src/shared/README.md`): each file and its exports (Halloween D59). The architecture of each project: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
+`{project}/AGENTS.md` is a map of its project, in short lists: purpose, technology (stack, dependencies, slots), folders, platform (its contract and one line for each `core` folder) and project rules. A `CLAUDE.md` refers to it. The rules of all the projects are in the code rules of `implement-project` (`references/code-rules.md`), one time for the system: only the skills that write or review code read them, and the root `AGENTS.md` points to them. `aidd release` refuses an `AGENTS.md` over 128 lines, with a comment, or with an empty or misplaced section, and writes the index of each `shared` folder (`src/shared/README.md`): each file and its exports (Halloween D59). The architecture of each project: the composition connects `core` and the features through a manifest, `core` and the features never import each other, `shared` has the contracts and folders by technical concern, and `presentation` → `logic` → `data`, where no layer skips the next one (see the [principles](./principles/README.md)).
 
-The Builder installs with one `npm ci` at the root, which also installs the pre-commit hook, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered again: they come as shipped specs in `.product/specs/`, the close is the only evidence, and a red close is a defect of the environment or of the archetype, never repaired in the system. The core gives the first business spec the ID after the last spec. A failed command stops the run, with no partial commit. The foundation never makes working code again.
+The close runs only the unit tests of each project that is not `e2e`: the acceptance suite runs first with the first business spec. After `outline-system`, the branch merges. No foundation spec is delivered again: they come as shipped specs in `.product/specs/`. A red `found` or close is a defect of the environment or of the archetype, never repaired in the system. The core gives the first business spec the ID after the last spec. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
 Run `/architect-initial-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 
@@ -148,7 +147,7 @@ Each workflow writes its story in one plain-text daily journal at the repository
 - The journal is only a story. No code reads it or makes a decision from it: the process state is in the work state of each spec, `.aiddbot/logs/{key}.json`.
 - Each line has complete fields with a space between them: time, actor, spec, event, level and summary. The level is `INFO`, `WARN` for a failed run or an amber evaluation, or `ERROR` for a red evaluation or a `blocked` reason. The short columns have a minimum width, so the log reads as a table. The summary stops at 128 characters.
 - The core (`node .agents/aidd/aidd.mjs`) writes an entry for each state change that it makes: spec creation, each run and evaluation, configuration, debt changes, shipping, and integration. A run line shows only the projects that apply, each with its result and the summary line of its tool (such as `100 passed` or `1 failed`).
-- The model adds only its judgments, with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt or the archetype of each project, each human `approved` proposal or spec (an approved spec is committed by that same command, so its definition never lands before its approval), the `plan` of each implementation before its first edit, the `scaffolded` projects, and a `blocked` reason.
+- The model adds only its judgments, with `aidd log`: the `verdict` (greenfield or brownfield), the `select`ed debt or the archetype of each project, each human `approved` spec (an approved spec is committed by that same command, so its definition never lands before its approval), the `plan` of each implementation before its first edit, and a `blocked` reason. The core journals the `scaffolded` projects.
 
 ### Evidence
 

@@ -59,9 +59,8 @@ The core journals every state change it makes on its own. A skill journals only 
 | `verdict` | greenfield or brownfield |
 | `select` | the debt or the archetype chosen |
 | `handoff` | an orchestrator sends work to a different agent: `<from> → <to>: <what>` |
-| `approved` | the human approves a proposal or a spec, or YOLO mode accepts it |
+| `approved` | the human approves a spec, or YOLO mode accepts it |
 | `plan` | the plan of an implementation, before its first edit |
-| `scaffolded` | the scaffolded projects |
 | `blocked` | with its reason |
 
 Never journal starts, ends, spawns, or coding, testing, and linting milestones.
