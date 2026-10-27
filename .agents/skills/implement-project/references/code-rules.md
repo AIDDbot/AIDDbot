@@ -1,6 +1,6 @@
 # Code rules
 
-The rules of all the projects of a system that `architect-system-foundation` made, when `{Product_Folder}/system.md` exists. Each project `AGENTS.md` gives only its data: do not explore the code to learn the setup.
+The rules of all the projects of a system that `architect-initial-foundation` made, when `{Product_Folder}/system.md` exists. Each project `AGENTS.md` gives only its data: do not explore the code to learn the setup.
 
 ## Architecture
 

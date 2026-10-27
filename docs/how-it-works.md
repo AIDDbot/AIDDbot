@@ -26,7 +26,7 @@ You start one of three commands. Each command starts the agents and the steps th
 
 ```mermaid
 flowchart LR
-    A["/architect-system-foundation"] --> B["/build-requested-spec"]
+    A["/architect-initial-foundation"] --> B["/build-requested-spec"]
     D["/architect-requested-spec"] -->|draft| B
     C["/craft-lasting-quality"] --> B
     B --> V[New version]
@@ -34,7 +34,7 @@ flowchart LR
 
 ### Prepare the system
 
-`/architect-system-foundation` first decides the route. A repository with application code is **brownfield**, also when it is legacy code. A repository without application code is **greenfield**.
+`/architect-initial-foundation` first decides the route. A repository with application code is **brownfield**, also when it is legacy code. A repository without application code is **greenfield**.
 
 - **Brownfield.** The Architect reads the code and writes the documentation: the `AGENTS.md` of the system and of each project, the schemas, and the commands of each project. It does not change the code or run the tests.
 - **Greenfield.** The Architect asks about your product and proposes the system: a set of typed projects, such as `api`, `web`, `cli` and `e2e`. The projects come from an archetype, such as Archetype Base or Archetype CLI: a whole solution that already has the foundation and its tests. If no archetype fits your system, the Architect tells you and stops. After your approval, it copies the archetype. The foundation ends only when `test` passes.

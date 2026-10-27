@@ -27,7 +27,7 @@
 
 ## Scaffold
 
-Copy the whole archetype at its tag into a temporary folder, as the scaffold of `architect-system-foundation` says, then install one time at the root:
+Copy the whole archetype at its tag into a temporary folder, as the scaffold of `architect-initial-foundation` says, then install one time at the root:
 
 ```bash
 {the copy command of the archetype in archetypes.md}

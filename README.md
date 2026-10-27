@@ -27,7 +27,7 @@ Open your coding agent in the same folder. Then use these commands:
 
 | Need | Command |
 | --- | --- |
-| Start a greenfield system, or document a brownfield one | `/architect-system-foundation` |
+| Start a greenfield system, or document a brownfield one | `/architect-initial-foundation` |
 | Define a change now, build it later | `/architect-requested-spec your request` |
 | Deliver a change | `/build-requested-spec your request` |
 | Repair technical debt | `/craft-lasting-quality` |

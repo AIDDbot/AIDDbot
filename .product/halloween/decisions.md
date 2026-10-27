@@ -594,3 +594,9 @@ Una spec es de fundación si cumple las dos condiciones:
 - Queda en AIDDbot lo genérico: `aidd spec new --from`, `log approved`, la fila «spec desde un fichero» de `build-requested-spec` (aprobada por quien da el fichero) y `craft-lasting-quality`.
 - Se pierde el slash command y la revisión de `/maintain-skills` del procedimiento.
 - AIDDbot (skills y docs) y Builder `fdd6f88`.
+
+## D65 (2026-10-27, Halloween) · `/architect-initial-foundation`
+
+- `/architect-system-foundation` pasa a **`/architect-initial-foundation`** (usuario). El harness ordena las skills alfabéticamente: así la fundación va antes que `/architect-requested-spec`, en el orden de ejecución.
+- Se mantiene «foundation». «Initial» dice su lugar en el flujo: también es el primer paso en un repo con código. Descartados Bedrock y Blueprint: son vocabulario del Builder (D45, D64).
+- AIDDbot (skill, docs, `bin/`, `scripts/`, 55/55 tests) y Builder `6f0d73a`.

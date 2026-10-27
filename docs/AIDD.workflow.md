@@ -6,7 +6,7 @@ This is the reference of the process. For an overview, read [How it works](./how
 
 | Need | Command |
 | --- | --- |
-| Prepare or understand a system | `/architect-system-foundation` |
+| Prepare or understand a system | `/architect-initial-foundation` |
 | Define a spec now, build it later | `/architect-requested-spec` |
 | Deliver one requested spec | `/build-requested-spec` |
 | Review quality and repair debt | `/craft-lasting-quality` |
@@ -19,7 +19,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 
 | Skill | Outcome |
 | --- | --- |
-| [`/architect-system-foundation`](../.agents/skills/architect-system-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
+| [`/architect-initial-foundation`](../.agents/skills/architect-initial-foundation/SKILL.md) | With no project code: propose the system in `.product/system.md` from an archetype of the catalog, copy the whole archetype and close the foundation green. With code: document the architecture. Run it again at any time to align the documentation with the code. |
 | [`/architect-requested-spec`](../.agents/skills/architect-requested-spec/SKILL.md) | Define one requested spec as an approved draft in `.product/drafts/`, with no ID and no spec branch, for a later build |
 | [`/build-requested-spec`](../.agents/skills/build-requested-spec/SKILL.md) | Deliver one requested spec, or one draft |
 | [`/craft-lasting-quality`](../.agents/skills/craft-lasting-quality/SKILL.md) | Review quality and deliver selected repairs |
@@ -38,7 +38,7 @@ Each executable capability is a skill in `.agents/skills/`. An orchestrator owns
 ## Call tree
 
 ```yaml
-architect-system-foundation:
+architect-initial-foundation:
   greenfield:
     - "Architect: propose .product/system.md as typed projects from one archetype, and obtain approval; when no archetype fits, stop"
     - "Architect: on chore/foundation, copy the whole archetype with its shipped specs and schema documents; Builder: install and register the slots"
@@ -93,7 +93,7 @@ In the shape, `{project}/AGENTS.md` is a map of its project, in short lists: pur
 
 The Builder installs with one `npm ci` at the root, which also installs the pre-commit hook, and registers each slot in `.aiddbot/config.json`. After `outline-system`, the branch merges. No foundation spec is delivered again: they come as shipped specs in `.product/specs/`, the close is the only evidence, and a red close is a defect of the environment or of the archetype, never repaired in the system. The core gives the first business spec the ID after the last spec. A failed command stops the run, with no partial commit. The foundation never makes working code again.
 
-Run `/architect-system-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
+Run `/architect-initial-foundation` again when the documentation must agree with the code. It refuses while a spec is `in-progress`. It works on `chore/document` and merges it. It writes the structure, the model and the schemas again from the code. It keeps the coding rules that shipping added, and it deletes the records of removed projects.
 
 `aiddbot init` prepares all that a delivery needs before a skill runs: `.gitignore`, `README.md`, `LICENSE`, a root `package.json` at `0.1.0` with the product version, `AGENTS.md` (from the template of `outline-system`, which fills it later), `.aiddbot/counters.yaml`, an empty `.aiddbot/config.json`, the empty debt register `debt.json`, and the first event of the journal. It does not repeat the skill routing or the commands of the models.
 
@@ -206,7 +206,7 @@ The core writes that version into the root `package.json`, the root of its lockf
 | `.aiddbot/config.json` | The type, the path of each project and its classified commands `upgrade`, `test`, `test:spec`, `start`, `layers` and `crap` (a slot that does not apply has `{"na": "<reason>"}`), and the optional `release.versionFiles`, `run.timeoutMinutes` and `quality.folderEntries`. The core writes it; `aidd run` and `aidd release` read it. |
 | `.aiddbot/logs/` | Ignored by Git. `YYYY-MM-DD/`: the history of one local day: `journal.log`, the story of the process, which nothing reads, and `HHMMSS-{kind}-{project}.log`, the full output of each failed run, named by the time it ended. `{kind}-{project}.log`: the full output of the last run (`debt-medium-back.log` for `layers`). `{key}.json`: the work state of a spec, its evaluations and runs. `{key}.verification.md` and `{key}.qualification.md`: the findings of a non-green evaluation. `{key}.regression.md`: the triage of a failed regression. |
 
-`aiddbot init` makes each shared record above. The core makes each spec file, and `architect-system-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its file, and a spec is shipped when `CHANGELOG.md` names it.
+`aiddbot init` makes each shared record above. The core makes each spec file, and `architect-initial-foundation` writes `system.md`. `.product/` holds the product, what it is and what it does; `.aiddbot/` holds the process, how it is built. An evaluation report is process: it has only findings, a green verification or qualification has no report file, and after shipping each finding that matters is a debt item. The work state of each spec has the revision, status and commit of each evaluation and the latest run of each kind. Only the core writes it, never a hand edit. The identity of a spec is only in its file, and a spec is shipped when `CHANGELOG.md` names it.
 
 ## Language
 
@@ -226,7 +226,7 @@ high debt → `fix` spec → medium debt → `refactor` spec → low debt → pa
 
 `aidd spec debt <D ID>` makes the minimal spec of a `high` or `medium` item: the item is its definition, so no model writes it. It also repairs the other open items of the same priority and project, at most five: each item names its project with `debt add --project`; one with no project goes alone. Neither waits for an approval: the items come from evidence, and a product question still stops the delivery (Halloween D48). The rule that found the debt sets its level, so no one judges "big" or "small". A patch runs only its affected unit tests, in the hook: the ship of the next spec catches a regression (an accepted risk). A scan runs only for a red check, and only when no debt is open. A patch repairs until the `crap` of its project is green, also the test coverage that a failing limit hid: thus no scan and no second patch follow it. When no debt is open, the core checks `layers` and `crap` of each project; only a red one gets a scan again.
 
-In greenfield, `architect-system-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
+In greenfield, `architect-initial-foundation` registers the slots of each project from its `AGENTS.md`. In brownfield, `rule-project` writes the `AGENTS.md` of each project from the code, the same file that a greenfield project gets. It classifies the commands of each slot by their real effect, never by their script name, and records them in `.aiddbot/config.json`.
 
 - `aidd run <kind> [--project]` runs the classified command. `--spec` runs the `test:spec` slot of each `e2e` with only the tag of the spec, such as `@S0001-`: the slot ends in the filter flag of its runner, so the core never knows the runner. When no command is configured, it exits as unavailable; it never uses a stricter invocation or the lint of the hook. A slot marked `{"na": "<reason>"}` reports its reason and passes.
 - `upgrade` increases the dependencies to their latest releases. It is not evidence, and neither is `crap`.

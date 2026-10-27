@@ -41,7 +41,7 @@ The records tell the state of the development. The installation creates the coun
 - A release writes the PRD. A `fix`, a `refactor` or a `chore` does not add a line.
 - Each change to the debt is a commit. A repaired item goes away.
 
-Skill: [`/architect-system-foundation`](../../.agents/skills/architect-system-foundation/SKILL.md).
+Skill: [`/architect-initial-foundation`](../../.agents/skills/architect-initial-foundation/SKILL.md).
 
 ---
 

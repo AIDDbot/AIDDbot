@@ -23,7 +23,7 @@ npx github:AIDDbot/AIDDbot init
 Open your coding agent in the same folder. Run:
 
 ```text
-/architect-system-foundation
+/architect-initial-foundation
 ```
 
 In Codex, start each command with `$` instead of `/`.

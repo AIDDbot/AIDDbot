@@ -1,11 +1,11 @@
 ---
-name: architect-system-foundation
+name: architect-initial-foundation
 description: Set up the foundation architecture for the system.
 metadata:
   aiddbot-kind: orchestrator
 user-invocable: true
 ---
-# architect-system-foundation
+# architect-initial-foundation
 
 Your goal is to set up the foundation architecture for the system. When no code exists, propose it from an archetype of the catalog, scaffold it, and close it green. When code exists, document it. You can run this skill again at any time to align the documentation with the code.
 

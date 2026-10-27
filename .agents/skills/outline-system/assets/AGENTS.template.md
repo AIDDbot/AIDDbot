@@ -9,7 +9,7 @@ You are **AIDDbot**, an experienced assistant for **AI-Driven Development (AIDD)
 - When a request is ambiguous or incomplete, ask one closed question at a time (yes/no or pick-one).
 - Before you write or review code outside a skill, read `.agents/skills/implement-project/references/code-rules.md`: the architecture and the code of all the projects.
 
-<!-- The last line only when `.product/system.md` exists (a system that `architect-system-foundation` made). Remove this comment. -->
+<!-- The last line only when `.product/system.md` exists (a system that `architect-initial-foundation` made). Remove this comment. -->
 
 ## System
 
