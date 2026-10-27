@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.9 - 2026-10-27
+
+- docs: an archetype comes proved, never a library (Halloween D28) (311b1a02)
+
 ## 0.4.8 - 2026-10-27
 
 - refactor(skills): tighten /craft-lasting-quality: the core groups the items of a patch and opens its branch (aefd16fa)
