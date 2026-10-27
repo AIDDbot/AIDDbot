@@ -20,7 +20,7 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 - When the spec adds or removes a project, run `outline-system` for the root `AGENTS.md` and the schema documents of that project.
 - Add durable lessons that no automatic check enforces to the project rules of `{source_root}/AGENTS.md`. Use one short line with its reason from the evidence. Never add single incidents, product requirements, tool output, or feature descriptions.
 - For a platform change, replace the line of its `core` folder in Platform.
-- The `release` command rejects an `AGENTS.md` with more than 128 lines, comments, or sections that are empty or out of order. Run `node .agents/aidd/aidd.mjs agents check` before release. To make room, merge or remove lines that checks, code, or the root `AGENTS.md` already give. The core writes the index of each `shared` folder.
+- Run `node .agents/aidd/aidd.mjs agents check` before release, and repair what it gives: `release` rejects the same problems. To make room, merge or remove lines that checks, code, or the root `AGENTS.md` already give. The core writes the index of each `shared` folder.
 
 ## Regression
 
@@ -28,7 +28,7 @@ Run `node .agents/aidd/aidd.mjs run test --project {e2e}` for each `e2e` project
 
 If a test fails, read `references/regression.md`. Record the triage in `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Never put this report in `{Product_Folder}/`.
 
-If a row has the owner **Builder** or human, stop with the spec not shipped. Return the report. Repairs stay in this spec. Run `ship-spec` again after repair. If only debt rows remain, record them as `high` debt. Give their D IDs to `release --debt`.
+If a row has the owner **Builder** or human, stop with the spec not shipped, and return the report. If only debt rows remain, record them as `high` debt. Give their D IDs to `release --debt`.
 
 ## Debt
 
