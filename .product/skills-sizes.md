@@ -464,3 +464,24 @@ Cambios de contenido de la pasada:
 
 Se ha comparado el texto antes y después de cada skill: cada regla queda en `SKILL.md` o en una referencia con condición de lectura. `scan-quality` separa además la regla "nunca un ítem por proyecto o gate", que antes dependía de un "Otherwise" y solo cubría los hallazgos de `layers`. No se han ejecutado workflows para probar la equivalencia.
 
+
+## Pasada STE de las referencias: `architect-initial-foundation`
+
+Fecha: 2026-10-27. `adapt` comprueba solo los `SKILL.md`: las `references/` y los `assets/` no pasaron por la pasada del 2026-10-25. Primera skill revisada: `architect-initial-foundation` (3 referencias, 2 assets).
+
+Hallazgos:
+
+- 4 frases de más de 25 palabras (la mayor, 38) y un párrafo de 5 frases con 3 instrucciones (los campos de la identidad).
+- 4 pasivas: «can be reviewed», «is settled», «is approved as soon as it is written», «is required».
+- Una frase con 4 acciones (stop, journal, commit nothing, return).
+- Palabras con dos sentidos o fuera de STE: «scoped», «settled», «working» (en «working tree» y en «working code»).
+- Contenido viejo: la lista de specs de Archetype CLI era la de 0.3, y el commit «shape to blueprint» seguía ahí, aunque D45 lo mandaba quitar.
+
+Lecciones, para aplicarlas a las otras orquestadoras (`build-requested-spec` con `references/events.md`, `craft-lasting-quality` con `references/patch.md`; `architect-requested-spec` no tiene referencias):
+
+1. Revisar también `references/` y `assets/`, con el mismo límite de 25 palabras. El script de la pasada quita los code spans y no mira tablas, títulos ni bloques de código.
+2. Una frase de causa con «because» o «so» suele llevar dos ideas: partirla en dos frases.
+3. Una lista de campos o de acciones dentro de una frase pasa a ser una lista: con viñetas para datos, numerada para pasos.
+4. Cambiar cada pasiva por la activa, con el actor (el humano, el core, el **Architect**).
+5. Una palabra, un sentido: buscar las palabras con «-ing» y las que se usan en dos sentidos.
+6. Contrastar cada lista o cada nombre con su fuente (las specs publicadas de cada arquetipo, las decisiones pendientes de «Aplicar» en `decisions.md`). Una pasada de forma encuentra contenido viejo.

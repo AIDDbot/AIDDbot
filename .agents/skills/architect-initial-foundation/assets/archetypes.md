@@ -1,6 +1,6 @@
 # Archetypes
 
-Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together, with its shipped foundation specs and its schema documents in `.product/`, as an AIDDbot system (Halloween D28). Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
+Catalog of archetypes. An **archetype** is a whole solution: one repository with its projects, which pass one acceptance suite together (Halloween D28). As in an AIDDbot system, it has its shipped foundation specs and its schema documents in `.product/`. Each archetype has the same major.minor and codename as AIDDbot; its patches are its own, and this catalog pins its exact tag.
 
 ## Archetype Web
 

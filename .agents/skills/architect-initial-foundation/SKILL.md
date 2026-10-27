@@ -29,7 +29,7 @@ Do the three phases in sequence. Before each phase, read its reference. The path
 | Phase | Reference | Result |
 | --- | --- | --- |
 | Propose | `references/propose.md` | An approved `.product/system.md`, committed on `chore/foundation`. |
-| Scaffold | `references/scaffold.md` | The archetype copied, each project shaped and with its tooling registered; the system outlined and integrated. |
+| Scaffold | `references/scaffold.md` | The archetype copied, the system data in each project and its tooling registered; the system outlined and integrated. |
 | Close | `references/close.md` | The foundation of the archetype proved by a green close. |
 
 Never scaffold when working code exists.
