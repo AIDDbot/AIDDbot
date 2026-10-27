@@ -10,22 +10,22 @@ Recuento del archivo `SKILL.md` de cada carpeta de `.agents/skills/`. No incluye
 | [architect-requested-spec](../.agents/skills/architect-requested-spec/SKILL.md) | 30 | 257 |
 | [build-requested-spec](../.agents/skills/build-requested-spec/SKILL.md) | 55 | 700 |
 | [craft-lasting-quality](../.agents/skills/craft-lasting-quality/SKILL.md) | 45 | 491 |
-| [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 740 |
+| [define-spec](../.agents/skills/define-spec/SKILL.md) | 47 | 697 |
 | [implement-project](../.agents/skills/implement-project/SKILL.md) | 41 | 655 |
 | [maintain-skills](../.agents/skills/maintain-skills/SKILL.md) | 28 | 342 |
-| [outline-system](../.agents/skills/outline-system/SKILL.md) | 31 | 315 |
-| [review-implementation](../.agents/skills/review-implementation/SKILL.md) | 31 | 320 |
-| [rule-project](../.agents/skills/rule-project/SKILL.md) | 45 | 489 |
-| [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 37 | 414 |
-| [ship-spec](../.agents/skills/ship-spec/SKILL.md) | 51 | 632 |
-| [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 287 |
-| **Total (13 skills)** | **517** | **6276** |
+| [outline-system](../.agents/skills/outline-system/SKILL.md) | 27 | 265 |
+| [review-implementation](../.agents/skills/review-implementation/SKILL.md) | 31 | 311 |
+| [rule-project](../.agents/skills/rule-project/SKILL.md) | 45 | 491 |
+| [scan-quality](../.agents/skills/scan-quality/SKILL.md) | 37 | 406 |
+| [ship-spec](../.agents/skills/ship-spec/SKILL.md) | 51 | 612 |
+| [verify-behavior](../.agents/skills/verify-behavior/SKILL.md) | 25 | 260 |
+| **Total (13 skills)** | **513** | **6121** |
 
 ## Último recuento
 
-Recalculado el 2026-10-27, tras Halloween D64–D66 y la pasada STE de las referencias de las orquestadoras: **13 skills, 517 líneas y 6.276 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 1.937 menos (23,6 %). Frente al recuento del 2026-10-25 (6.824), son 548 menos (8,0 %): sale `build-archetype-foundation` (al Builder) y el scaffold de `architect-initial-foundation` pasa al core (`aidd found`).
+Recalculado el 2026-10-27, tras la v0.4.7 (pasada de las 8 primitivas en orden de llamada): **13 skills, 513 líneas y 6.121 palabras en SKILL.md**. Frente a la base inicial de 8.213 palabras, son 2.092 menos (25,5 %). Frente al recuento de la v0.4.6 (6.276), son 155 menos (2,5 %). Frente al del 2026-10-25 (6.824), 703 menos (10,3 %).
 
-Referencias: **3.741 palabras**. Assets: **2.960 palabras**. Inventario conjunto: **12.977 palabras**, 2.019 menos que el 2026-10-25 (13,5 %); este total no equivale a la carga de una ejecución.
+Referencias: **3.544 palabras**. Assets: **2.867 palabras**. Inventario conjunto: **12.532 palabras**: 445 menos que en la v0.4.6 (3,4 %) y 2.464 menos que el 2026-10-25 (16,4 %). Este total no equivale a la carga de una ejecución.
 
 La tabla principal y el inventario de archivos auxiliares reflejan este recuento. Las notas de reducción y equivalencia que siguen conservan sus medidas históricas; este recuento no revalida sus conclusiones ni vuelve a medir las rutas.
 
@@ -50,16 +50,16 @@ La tabla siguiente incluye todos los archivos actuales de references/ y assets/.
 | architect-requested-spec | 257 | 0 | 0 | 257 |
 | build-requested-spec | 700 | 312 | 0 | 1012 |
 | craft-lasting-quality | 491 | 165 | 0 | 656 |
-| define-spec | 740 | 342 | 708 | 1790 |
-| implement-project | 655 | 1216 | 0 | 1871 |
+| define-spec | 697 | 208 | 663 | 1568 |
+| implement-project | 655 | 1231 | 0 | 1886 |
 | maintain-skills | 342 | 0 | 658 | 1000 |
-| outline-system | 315 | 419 | 725 | 1459 |
-| review-implementation | 320 | 670 | 92 | 1082 |
-| rule-project | 489 | 0 | 325 | 814 |
-| scan-quality | 414 | 259 | 0 | 673 |
-| ship-spec | 632 | 155 | 84 | 871 |
-| verify-behavior | 287 | 0 | 74 | 361 |
-| **Total** | **6276** | **3741** | **2960** | **12977** |
+| outline-system | 265 | 390 | 725 | 1380 |
+| review-implementation | 311 | 634 | 69 | 1014 |
+| rule-project | 491 | 0 | 304 | 795 |
+| scan-quality | 406 | 259 | 0 | 665 |
+| ship-spec | 612 | 142 | 80 | 834 |
+| verify-behavior | 260 | 0 | 74 | 334 |
+| **Total** | **6121** | **3544** | **2867** | **12532** |
 
 En ship-spec, la ruta verde carga 632 palabras de instrucciones propias. Con regresiones, SKILL.md, referencia y plantilla suman 871 palabras, frente a 1.028 en HEAD (15,3 % menos). No se incluyen el resultado de comandos ni el contexto de otras skills.
 
