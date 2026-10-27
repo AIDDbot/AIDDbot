@@ -24,7 +24,7 @@ If a greenfield foundation close is still red, return that failure to the human.
 | Entry | Definition and approval |
 | --- | --- |
 | Request | The **Architect** executes `define-spec`. Relay its proposal to the human. Build nothing before approval. |
-| Draft in `{Product_Folder}/drafts/` | Skip `define-spec`. From the default branch, run the command on its first line. Journal `log approved` at once: `architect-requested-spec` got approval. Delete the draft with `node .agents/aidd/aidd.mjs commit "docs(spec): use draft {slug}" {Product_Folder}/drafts/{slug}.md`. Never change its contents. |
+| Draft in `.product/drafts/` | Skip `define-spec`. From the default branch, run the command on its first line. Journal `log approved` at once: `architect-requested-spec` got approval. Delete the draft with `node .agents/aidd/aidd.mjs commit "docs(spec): use draft {slug}" .product/drafts/{slug}.md`. Never change its contents. |
 | Spec made by the core from debt | Skip `define-spec`: the item defines it. The core approves it when it makes it: `fix` for high debt, `refactor` for medium debt. |
 | Spec made by the core from a spec file | Skip `define-spec`: the file defines it. The caller that gives the file approved it. |
 
@@ -48,7 +48,7 @@ The **Craftsman** executes these skills in order. Each step checks only its own 
 | `review-implementation` | `feat`, `fix`, `chore` | Read only. Review after verification is green, when the type needs no verification, or at revision 3 of verification. |
 | `ship-spec` | All types, also `refactor` | The full acceptance suite |
 
-Only `ship-spec` changes `{Product_Folder}/model/` within a spec. Never send schema work to another agent or run `outline-system`. The review needs the schema documents from before the spec.
+Only `ship-spec` changes `.product/model/` within a spec. Never send schema work to another agent or run `outline-system`. The review needs the schema documents from before the spec.
 
 When a step is not green, read `references/checkpoints.md` and act on its row.
 

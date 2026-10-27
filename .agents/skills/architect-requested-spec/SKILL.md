@@ -10,7 +10,7 @@ user-invocable: true
 Your goal is to turn a natural-language request into an approved draft, which `build-requested-spec` builds later.
 
 ```text
-1. Architect   define-spec, as a draft    {Product_Folder}/drafts/{slug}.md
+1. Architect   define-spec, as a draft    .product/drafts/{slug}.md
 2. you         human approval             integrate specs/drafts
 ```
 

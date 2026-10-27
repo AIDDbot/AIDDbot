@@ -26,7 +26,7 @@ Apply the conceptual changes of the spec to `model.schema.md`. Update each affec
 
 Run `node .agents/aidd/aidd.mjs run test --project {e2e}` for each `e2e` project. Only `ship-spec` runs the full acceptance suite. The `release` command needs this evidence at the current code. Do not repeat unit tests: `crap` ran all of them, and the hooks ran those affected by each commit. Never repair code or tests. Never run lint or format.
 
-If a test fails, read `references/regression.md`. Record the triage in `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Never put this report in `{Product_Folder}/`.
+If a test fails, read `references/regression.md`. Record the triage in `.aiddbot/logs/{spec_key}.regression.md` from `assets/regression.template.md`. Never put this report in `.product/`.
 
 If a row has the owner **Builder** or human, stop with the spec not shipped, and return the report. If only debt rows remain, record them as `high` debt. Give their D IDs to `release --debt`.
 

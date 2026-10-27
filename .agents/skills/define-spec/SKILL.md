@@ -9,7 +9,7 @@ user-invocable: true
 
 Your goal is to turn one natural-language request into an approved spec.
 
-Before you define anything, read these sources: the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, and the counters. Also read the schema documents under `{Product_Folder}/model/` and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing, return that `outline-system` must run. Never invent their contents.
+Before you define anything, read these sources: the spec index `.product/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, and the counters. Also read the schema documents under `.product/model/` and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing, return that `outline-system` must run. Never invent their contents.
 
 When the request asks for a draft, read `references/draft.md` and follow it instead of the `spec new` command and the approval.
 

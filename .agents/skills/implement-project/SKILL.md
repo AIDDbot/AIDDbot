@@ -9,13 +9,13 @@ user-invocable: true
 
 Your goal is to implement the share of one project in an approved spec. Or your goal is to repair the findings or the debt item that you get for that project.
 
-Work on the spec branch or the patch branch of `craft-lasting-quality`. If you are on the default branch, stop. Read `{source_root}/AGENTS.md` of the project for technical data. When `{Product_Folder}/system.md` exists, also read `references/code-rules.md`. Do not explore code to learn the setup. Follow their folders, layers, and permitted imports.
+Work on the spec branch or the patch branch of `craft-lasting-quality`. If you are on the default branch, stop. Read `{source_root}/AGENTS.md` of the project for technical data. When `.product/system.md` exists, also read `references/code-rules.md`. Do not explore code to learn the setup. Follow their folders, layers, and permitted imports.
 
 Before the first edit, journal your plan one time: `node .agents/aidd/aidd.mjs log plan "{project}: <the units to change, in order>" --spec {id}`. A unit is one folder of `core`, one module, or one slice of a feature. A patch has no spec: leave out `--spec`.
 
 ## Build
 
-- Build exactly the shape in the schema impact and `Expected URLs and APIs` of the spec, with each status code. Check it against the schemas of the project under `{Product_Folder}/model/`. If you need a shape that the spec does not declare, stop and return it for approval.
+- Build exactly the shape in the schema impact and `Expected URLs and APIs` of the spec, with each status code. Check it against the schemas of the project under `.product/model/`. If you need a shape that the spec does not declare, stop and return it for approval.
 - Use the error mechanism of the project for client failures with their declared 4xx status. Never return an empty success or a 500.
 - Build only the rules that the spec states, so that all projects apply the same rule. Never add your own validation, limit, or default, such as a minimum password length.
 - When the spec asks for an upgrade, first run `node .agents/aidd/aidd.mjs run upgrade --project {project}`. Then repair what breaks. Add dependencies with the add command of the package manager. Never write versions by hand.

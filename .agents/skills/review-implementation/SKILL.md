@@ -14,9 +14,9 @@ Read these documents:
 - The spec.
 - The diff of its branch from the default branch, in the source of the projects only.
 - The `{source_root}/AGENTS.md` of each affected project.
-- The affected schema documents under `{Product_Folder}/model/`.
+- The affected schema documents under `.product/model/`.
 
-Leave each lock file, such as `package-lock.json`, out of the diff. A tool writes it. Also leave out the records of `.aiddbot/` and `{Product_Folder}/`. Keep each dependency manifest, such as `package.json`: the Project rules gate checks it. Judge all of them against `references/qualify.gates.md`.
+Leave each lock file, such as `package-lock.json`, out of the diff. A tool writes it. Also leave out the records of `.aiddbot/` and `.product/`. Keep each dependency manifest, such as `package.json`: the Project rules gate checks it. Judge all of them against `references/qualify.gates.md`.
 
 The review checks only what the hook lint and the acceptance tests cannot see. Examples are security, accessibility, and data integrity. It never judges style, structure, layers, or complexity: `layers` and `crap` own them. Record only findings that are serious enough to be `high` debt. Leave out all else.
 
