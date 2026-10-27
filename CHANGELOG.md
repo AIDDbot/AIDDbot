@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.6 - 2026-10-27
+
+- refactor(skills): tighten /craft-lasting-quality: build-requested-spec owns the steps of each debt spec, and patch.md drops what the flow already does (af4d92c6)
+- refactor(skills): tighten /build-requested-spec: references/events.md becomes checkpoints.md, one row for each result of each checkpoint (05d40ff8)
+- refactor(skills): tighten /architect-initial-foundation: the archetype is a library, aidd found does the scaffold, and the close runs the unit tests (Halloween D66) (cba7fe35)
+- feat(core): aidd found copies an archetype of the catalog, sets the system identity and registers its slots (Halloween D66) (6356fde6)
+- refactor(skills): tighten /craft-lasting-quality: STE in references/patch.md (f0a1f926)
+- refactor(skills): tighten /build-requested-spec: STE in references/events.md (d142058b)
+- refactor(skills): tighten /architect-initial-foundation: STE in its references, the 0.4 specs of Archetype CLI, and no shape to blueprint (c5364cb6)
+- refactor(skills): rename /architect-system-foundation to /architect-initial-foundation (Halloween D65) (28e01333)
+
 ## 0.4.5 - 2026-10-27
 
 - refactor(skills): remove /build-archetype-foundation; the Archetype Builder owns the procedure (Halloween D64) (ba2384d0)
