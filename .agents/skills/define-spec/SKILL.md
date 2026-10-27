@@ -9,9 +9,9 @@ user-invocable: true
 
 Your goal is to turn one natural-language request into an approved spec.
 
-Before you define anything, read these sources: the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, and the counters. Also read the schema documents under `{Product_Folder}/model/` and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing and a project exists, return that `outline-system` must run. With no project yet, continue: the spec that adds a project gets them when it ships. Never invent their contents.
+Before you define anything, read these sources: the spec index `{Product_Folder}/PRD.md` when it exists, the open debt with `node .agents/aidd/aidd.mjs debt list`, and the counters. Also read the schema documents under `{Product_Folder}/model/` and the shipped specs that the request touches. If the debt register or the counters are missing, return that `aiddbot init` must run. If the schema documents are missing, return that `outline-system` must run. Never invent their contents.
 
-When the request gives a spec file, read `references/spec-file.md` and follow it instead of the next section. When the request asks for a draft, read `references/draft.md` and follow it instead of the `spec new` command and the approval.
+When the request asks for a draft, read `references/draft.md` and follow it instead of the `spec new` command and the approval.
 
 ## Scope
 
@@ -26,7 +26,7 @@ When the title, slug, type, and domain are settled, run `node .agents/aidd/aidd.
 
 ## Content
 
-Fill the spec file from the template for its type. Apply these rules also to drafts and files that the request gives:
+Fill the spec file from the template for its type. Apply these rules also to drafts:
 
 - Keep at most 9 requirements, 3 user stories and 5 business rules, in fewer than 100 lines. The `log approved` command refuses more. Split excess scope into later specs by user story.
 - Each requirement states one capability that a user sees, with its errors and edge cases. Give it an acceptance test in this spec. Never defer that test. Cover at least one error scenario.
