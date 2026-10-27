@@ -12,8 +12,12 @@ The rules of all the projects of a system that `architect-initial-foundation` ma
 | `main` | The only file at the root of the source: it awaits `start` of `core/lifecycle/` with the manifest (the features by name) and the identity. `core` gets the features as data. | Logic. Automatic discovery, such as folder scans or file-based routers. |
 
 - In `core` and `shared`, one folder for each concern, from the closed list of the project; never `utils`, `helpers`, `common` or `misc`.
-- `presentation` (input, output and the registration) → `logic` (the rules; it does not know the storage) → `data` (all that the project reads or writes outside itself). No layer skips the next. A different feature imports only the `facade`, which calls `logic`.
-- Write a unit test for each file with code, except the entry, the adapters of `core` and the components, and at least one for each business rule. Never replace a module to give a fake.
+- The layers are `presentation` → `logic` → `data`. No layer skips the next:
+  - `presentation`: the input, the output and the registration.
+  - `logic`: the rules. It does not know the storage.
+  - `data`: all that the project reads or writes outside itself.
+- A different feature imports only the `facade`, which calls `logic`.
+- Write a unit test for each file with code, and at least one for each business rule. The entry, the adapters of `core` and the components get none. Never replace a module to give a fake.
 - `shared/README.md` of each project lists each file and its exports: read it before you write a check, a conversion or a format.
 
 ## Code
@@ -27,10 +31,10 @@ Each row is the intent of a check and its limits (code / tests). `crap` and `lay
 | Name each shape | each parameter, each exported return | A named type, also the props of a component: never an object type or `ReturnType<…>` in a signature. |
 | Change nothing that you get | no parameter written | Return a new value. `Object.assign` to a parameter is the same, though the check does not see it. State that changes stays in a closure. |
 | Keep the layers apart | 16 entries in a folder | Imports go down the layers. A folder over the limit divides by concern. |
-| Prove each decision | coverage 100 of the lines and the functions | An adapter has no branch, no `??` and no default value: the decision goes to a function of `core` that gets the adapter as an argument. |
+| Prove each decision | coverage 100 of the lines and the functions | An adapter has no branch, no `??` and no default value. The decision goes to a function of `core`, which gets the adapter as an argument. |
 
 - One type for each domain concept, never a bare primitive. Generic types in `shared`, domain types in their feature.
-- One name for one meaning in a module, and one source for each definition: a default, an option, a usage text or a list of names is data in one place. Never parse a display text to get the data again.
+- One name for one meaning in a module, and one source for each definition. A default, an option, a usage text or a list of names is data in one place. Never parse a display text to get the data again.
 - A function at an edge gets `unknown` and returns the exact type: the caller never checks or converts the value again.
 - Catch errors only at the edges: the error handler of `core`, and `data` when it changes an external failure into the expected error.
-- Never a lint comment, and never an exception in the lint configuration, except the one that the evidence of a debt item names for a rule that the framework makes a false alarm.
+- Never a lint comment, and never an exception in the lint configuration. The only exception is the one that the evidence of a debt item names: a rule that the framework makes a false alarm.
