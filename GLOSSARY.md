@@ -37,7 +37,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="person"></a>Person | A human who works on a project: writes specs, reviews changes, and gives human approval. **Avoid:** user. A user is the end user of the software. | — |
 | <a id="agent"></a>Agent | An AI model that works in an AI coding tool. It follows skills and project context, and it calls scripts. | — |
 | <a id="ai-coding-tool"></a>AI coding tool | An application that runs an agent on a project, such as Codex, Claude Code, or Cursor. [Shared core](INTENT.md#shared-core) | — |
-| <a id="dogfooding"></a>Dogfooding | Building AIDDbot with AIDDbot. Templates, skills, and scripts come from real work in this repository. [Rules](PLAN.md#dogfooding-rules) | — |
+| <a id="dogfooding"></a>Dogfooding | Testing AIDDbot on AIDDbot. This repository uses each skill, template, and script as soon as it exists. [Rules](PLAN.md#dogfooding-rules) | — |
 | <a id="skill"></a>Skill | Instructions for a recurring development activity: objective, required context, expected outputs, and checks. The agent chooses the approach. [Building blocks](INTENT.md#building-blocks) | `SKILL.md` |
 | <a id="script"></a>Script | A command that does one deterministic task with defined inputs, outputs, and errors. Skills call it. **Avoid:** tool, helper. [Script contract](SCRIPT-TOOLCHAIN.md#script-contract) | `aiddbot <group> <action>` |
 | <a id="aiddbot-cli"></a>AIDDbot CLI | The single executable that ships all scripts as subcommands. Skills call a pinned version. [Packaging](SCRIPT-TOOLCHAIN.md#packaging) | `aiddbot` |
@@ -59,6 +59,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="metadata"></a>Metadata | The YAML frontmatter at the start of every document: `id`, `type`, `title`, `status`, `date`, and `links`. A spec also has `change`, its change type. The `id` is unique. [Metadata](DOCUMENTATION-CATALOG.md#metadata-meta) | `META` |
 | <a id="adr"></a>ADR | Architecture decision record. A living document for one significant, hard-to-reverse decision. A new ADR supersedes it; nobody edits it. | `adr` |
 | <a id="changelog"></a>Changelog | The versioned history of notable changes, in `CHANGELOG.md`. **Avoid:** log (alone). | `changelog` |
-| <a id="knowledge-wiki"></a>Knowledge wiki | The linked Markdown pages in `docs/wiki/` that hold what a project knows now. Agents maintain it from sources. [Wiki model](KNOWLEDGE-WIKI.md#model) | `wiki-page` |
-| <a id="source"></a>Source | An original input that the wiki cites and never edits: a closed change document, an ADR, a raw file, or an external URL. [Sources](KNOWLEDGE-WIKI.md#sources) | — |
+| <a id="knowledge-wiki"></a>Knowledge wiki | The linked Markdown pages in `docs/wiki/` that hold what a project knows now: a second brain for all the project documentation. Agents maintain it from sources. **Avoid:** brain, second brain (as a term). [Wiki model](KNOWLEDGE-WIKI.md#model) | `docs/wiki/` |
+| <a id="wiki-page"></a>Wiki page | One page of the knowledge wiki, about one topic. **Avoid:** note, doc. [Page rules](KNOWLEDGE-WIKI.md#page-rules) | `wiki-page` |
+| <a id="source"></a>Source | An original input that the wiki cites and never edits, such as a closed spec, a review report, an ADR, an issue, a pull request, or a raw file. [Sources](KNOWLEDGE-WIKI.md#sources) | — |
 | <a id="harvest"></a>Harvest | Moving durable knowledge from a closed change to the living documents that it affects. For wiki pages, the harvest is an ingest. [Principles](DOCUMENTATION-CATALOG.md#principles) | — |

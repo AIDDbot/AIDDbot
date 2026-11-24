@@ -4,7 +4,7 @@
 
 AIDDbot is in the design stage. The repository holds foundational documents only. Do not create code, templates, or skills unless the task asks for them.
 
-Keep the foundational documents at the repository root, with uppercase file names. The current milestone is in [PLAN.md](PLAN.md).
+Keep the foundational documents at the repository root, with uppercase file names. Milestone H1 moves them into the AIDDbot wiki in `docs/wiki/`. The current milestone is in [PLAN.md](PLAN.md).
 
 ## Reference documents
 

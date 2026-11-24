@@ -34,13 +34,13 @@ Teams pick the practices that fit their project. Skills and templates build on:
 | Release and deployment | Write release notes, check readiness, support deploy and rollback. |
 | Operation and maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. |
 
-The first milestones cover one change: specify, plan, build and review, close. See [PLAN.md](PLAN.md).
+The first skills cover one change: specify, plan, build and review, close. Later skills cover the other stages. See [PLAN.md](PLAN.md).
 
 ## Project knowledge
 
 ### Document templates
 
-Templates give consistent documents. The first one is the spec. Each template comes from a real document that worked ([dogfooding rules](PLAN.md#dogfooding-rules)). See [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
+Templates give consistent documents. The first one is the spec. Each template applies the rules of the foundational documents. We test it on a real change in this repository ([dogfooding rules](PLAN.md#dogfooding-rules)). See [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
 
 Each template states:
 
@@ -51,7 +51,7 @@ Skills choose and fill the template. Scripts do the deterministic steps, such as
 
 ### Knowledge wiki
 
-A persistent wiki of linked Markdown pages for people and agents, based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md).
+A persistent wiki of linked Markdown pages for people and agents: a second brain for all the project documentation. AIDDbot keeps its own documents in one, and its skills help teams keep one in their projects. It is based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md).
 
 - Keep original sources. Link every summary back to its evidence.
 - Agents add new sources, answer with references, and flag stale claims, contradictions, and broken links.
@@ -66,7 +66,8 @@ AIDDbot documents and diagrams use the colors, fonts, and Mermaid rules in [DESI
 | Block | Role |
 | --- | --- |
 | **Skills** | Run development activities and handoffs, and generate documents. Each one defines: objective, needed context, standards, deliverables, and evidence of completion. The model chooses the approach. |
-| **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. Skills do not repeat their logic in prose. |
+| **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. They do not depend on the project stack or build tool. Skills do not repeat their logic in prose. |
+| **Distribution** | One versioned release of the skills, templates, and CLI. A script installs and updates it in a project. Only these three parts ship. [What ships](SCAFFOLDING.md#what-ships) |
 | **Project context** | Gives repo conventions, commands, and constraints in `AGENTS.md`. Workflows use existing project tools and state their prerequisites. |
 
 ### Shared core

@@ -20,18 +20,30 @@ aidd-bot/
     └── cli/                        # The aiddbot CLI
 ```
 
-The foundational documents stay at the root until they are hard to find.
+The foundational documents stay at the root until H1 moves them into `docs/wiki/`.
+
+## What ships
+
+AIDDbot is a help for development teams that use AI across the software lifecycle. A release gives them only these parts:
+
+| Ships | Source |
+| --- | --- |
+| Skills | `skills/` |
+| Document templates | `templates/` |
+| AIDDbot CLI | `packages/cli/` |
+
+Everything else stays in this repository: the foundational documents, the specs, and the AIDDbot wiki. They are how we build AIDDbot, not what teams install.
 
 ## When each folder appears
 
 | Folder | Created when | Milestone |
 | --- | --- | --- |
 | `docs/specs/` | The first spec is written. | H1 |
-| `templates/` | The spec template is extracted. | H2 |
-| `skills/` | The first skill is extracted: specify a change. | H2 |
-| `packages/cli/` | The first CLI command is added, if the findings justify it. | H2 |
+| `templates/` | The first template is written: the spec. | H2 |
+| `skills/` | The first skill is written: specify a change. | H2 |
+| `packages/cli/` | The first CLI command is written. | H3 |
 | `docs/adr/` | The first ADR is written. | When needed |
-| `docs/wiki/` | There is durable knowledge that has no home yet. | When needed |
+| `docs/wiki/` | The foundational documents become the AIDDbot wiki. | H1 |
 | `docs/raw/` | The wiki ingests the first external source. | When needed |
 
 Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second package exists.

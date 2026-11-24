@@ -19,7 +19,7 @@ Skills guide the agent in each step. Scripts do the deterministic parts, such as
 
 Design stage. There is no usable release yet.
 
-Next step: **H1**, one real change by hand, with its spec in `docs/specs/`. See the [project plan](PLAN.md).
+Next step: **H1**, turn the foundational documents into the AIDDbot wiki and map the lifecycle skills. See the [project plan](PLAN.md).
 
 ## Requirements
 

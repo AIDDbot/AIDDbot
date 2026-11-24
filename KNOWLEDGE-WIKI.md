@@ -1,8 +1,8 @@
 # AIDDbot Knowledge Wiki
 
-The wiki is the living knowledge of a project, for people and agents. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [INTENT.md](INTENT.md) and [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
+The wiki is the living knowledge of a project, for people and agents. It is a second brain for all the project documentation. AIDDbot uses it for its own documents, and its skills help teams keep one in their projects. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [INTENT.md](INTENT.md) and [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
 
-Status: **draft**. The wiki and its index start when there is durable knowledge that has no home yet. In AIDDbot, the foundational documents at the root hold the knowledge for now.
+Status: **draft**. AIDDbot builds its own wiki in [H1](PLAN.md#h1--base-documentation) from its foundational documents. Until then, they stay at the root. The wiki skills come in [H2](PLAN.md#h2--lifecycle-skills).
 
 ## Model
 
@@ -10,7 +10,7 @@ Three layers:
 
 | Layer | What | Rule |
 | --- | --- | --- |
-| **Sources** | Closed specs and other change documents, ADRs, raw files, external URLs. | Never edited by the wiki. Cited by the wiki. |
+| **Sources** | Closed specs and reports, ADRs, issues, pull requests, raw files, external URLs. [Sources](#sources) | Never edited by the wiki. Cited by the wiki. |
 | **Wiki** | Synthesis pages: what the project knows now. | Maintained by agents. Every claim cites a source. |
 | **Schema** | The wiki rules in this document. | Tells agents how to ingest, answer, and review. |
 
@@ -68,9 +68,9 @@ Agents read the index first. Then they open only the pages they need.
 
 ### 1. Ingest a source
 
-A person or an agent gives a closed spec, a file from `docs/raw/`, a project document, or a URL.
+A person or an agent gives a [source](#sources): for example, a closed spec, an ADR, an issue, a pull request, or a file from `docs/raw/`.
 
-1. Read the source.
+1. Read the source. See the [source types](#sources).
 2. Find related pages in `index.md`.
 3. Update those pages, or create new ones, with citations.
 4. Mark conflicts with existing claims.
@@ -94,14 +94,43 @@ Check, then fix what the sources support. Flag the rest for a person.
 
 ## Sources
 
+| Source | Where it lives | How the wiki cites it |
+| --- | --- | --- |
+| Closed specs, plans, and review reports | `docs/specs/` | Relative link. |
+| ADRs | `docs/adr/` | Relative link. |
+| Issues and pull requests | The issue tracker or the Git host | URL. |
+| Incident reports and postmortems | The project documents or the incident tool | Relative link or URL. |
+| Transcripts, meeting notes, articles | `docs/raw/` | Relative link. |
+| External references | The web | URL. |
+
+Ingest only sources with durable knowledge, such as the cause of a defect or a decision taken in a pull request. Not every issue or pull request needs an ingest.
+
 - **`docs/raw/` is immutable.** Files are added, never edited or deleted.
 - Cite project documents in place. Do not copy them to `docs/raw/`.
-- Cite external references by URL. Save a local copy only when the page may change or disappear; record the original URL and capture date in its frontmatter.
+- Cite issues, pull requests, and external references by URL. Save a local copy only when the page may change or disappear; record the original URL and capture date in its frontmatter.
 
 ## Access
 
 - **Agents**: `agent-instructions` says: "For project knowledge, start at `docs/wiki/index.md`."
 - **People**: any Markdown editor. On GitHub, links work as they are.
+
+### Obsidian
+
+[Obsidian](https://obsidian.md/) can open the repository as a vault. It reads the pages, the relative links, the `META` frontmatter as properties, Mermaid diagrams, and callouts.
+
+Set these options in **Settings → Files & links**, so that new links stay standard Markdown:
+
+| Option | Value |
+| --- | --- |
+| Use `[[Wikilinks]]` | Off |
+| New link format | Relative path to file |
+
+Known limits:
+
+- Links to an anchor, such as `glossary.md#spec`, open the page but do not go to the section. Obsidian does not use GitHub heading anchors or HTML `<a id>` anchors.
+- File names in the `links` field of `META` do not show in the graph. Obsidian shows only `[[...]]` links there.
+
+Do not use `[[...]]` links in pages. GitHub and other editors do not read them.
 
 ## Deferred
 

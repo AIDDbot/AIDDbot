@@ -2,7 +2,7 @@
 
 Scripts do the deterministic tasks of AIDDbot, such as document IDs, metadata checks, and Git chores. Skills call them. See [INTENT.md](INTENT.md#building-blocks).
 
-Status: **draft**. There is no CLI yet. The first command comes in [H2](PLAN.md#h2--repeat-and-extract), only if the findings justify it.
+Status: **draft**. There is no CLI yet. It comes in [H3](PLAN.md#h3--deterministic-cli), from the deterministic steps that the skills mark in H2.
 
 ## Runtime and development
 
@@ -22,6 +22,8 @@ Run the lint, type check, and tests before you close a change to scripts.
 ## Prerequisite
 
 Bun must be installed on the user's machine. The README states this. If Bun is missing, the skill shows a clear message and an install link. It never fails silently.
+
+[H4](PLAN.md#h4--distribution-and-versions) decides if compiled binaries remove this prerequisite. Teams that do not use JavaScript may not have Bun.
 
 ## Packaging
 
@@ -51,11 +53,10 @@ bunx --bun --package <package>@<x.y.z> aiddbot <command> [args]
 Until the package is on npm, test a skill that needs the CLI with a local package file:
 
 1. In this repository, run `bun pm pack` in `packages/cli/`. It creates `<package>-<x.y.z>.tgz`. [bun pm pack](https://bun.com/docs/pm/cli/pm#pack)
-2. In the test repository, install that file as a development dependency: `bun add -d <path>/<package>-<x.y.z>.tgz`.
-3. In the copied skill, call `bunx --bun aiddbot <command> [args]`. `bunx` runs the installed package. The version is the one in the file.
-4. Record the file name and the repository revision in the evidence of the test.
+2. Install that file in the test repository without a change to the project manifest. Many projects have no `package.json`. [H4](PLAN.md#h4--distribution-and-versions) defines the exact steps (finding F6).
+3. Record the file name and the repository revision in the evidence of the test.
 
-When the package is published, change the skill call to the pinned form above. Prefer skills that do not need the CLI in H3; this procedure applies only if a skill depends on it.
+When the package is published, change the skill call to the pinned form above.
 
 ## Script contract
 
@@ -68,11 +69,12 @@ Every subcommand follows these rules:
 | Errors | A short message on stderr. Exit code `0` = success, `1` = validation failure, `2` = usage or system error. |
 | Side effects | Only the files and Git operations that the command states. `--dry-run` shows them without applying them. |
 | Portability | Bun and Node APIs only. No Bash or PowerShell commands. Works on Windows, macOS, and Linux. |
+| Stack | Works in any project stack. Reads and writes documents and Git only. Does not need the project manifest or build tool. |
 | Help | `aiddbot --help` and `aiddbot <command> --help` list arguments, output, and exit codes. |
 
 ## Candidate commands
 
-Add a command only when the [rule of three](PLAN.md#dogfooding-rules) asks for it.
+Add a command for each deterministic step that a skill marks. [H3](PLAN.md#h3--deterministic-cli)
 
 | Command | Purpose |
 | --- | --- |

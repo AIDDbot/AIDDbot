@@ -6,7 +6,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Added
 
-- Project plan with three milestones, the dogfooding rules, and a list of future ideas.
+- Project plan with four milestones (base documentation and wiki, lifecycle skills, deterministic CLI, distribution), the dogfooding rules, and a list of future ideas.
 - Change flow with one spec per change and an explicit criterion for separate plan and review documents.
 - Proposed repository layout for the specs, templates, skills, and CLI.
 - Foundational documentation for the project scope, documentation standards, knowledge wiki, and script toolchain.
