@@ -1,0 +1,12 @@
+{
+  "name": "aiddbot",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A framework of reusable skills, document templates, and scripts for AI-assisted software development.",
+  "author": {
+    "name": "Alberto Basalo",
+    "email": "albertobasalo@hotmail.com",
+    "url": "https://albertobasalo.dev/"
+  },
+  "license": "MIT"
+}

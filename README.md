@@ -35,6 +35,7 @@ Next steps:
 - [Documentation catalog](DOCUMENTATION-CATALOG.md): change profiles, document types, and standards.
 - [Knowledge wiki](KNOWLEDGE-WIKI.md): how agents build and maintain the project's Markdown wiki.
 - [Script toolchain](SCRIPT-TOOLCHAIN.md): the planned CLI and its development and execution rules.
+- [Changelog](CHANGELOG.md): notable project changes.
 
 ## Author and license
 

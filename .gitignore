@@ -1,0 +1,15 @@
+# Dependencies and generated output
+node_modules/
+/dist/
+/coverage/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
