@@ -4,33 +4,42 @@
 
 AIDDbot is in the design stage. The repository holds foundational documents only. Do not create code, templates, or skills unless the task asks for them.
 
-During bootstrap, create foundational documents at the repository root and use uppercase file names.
+Keep the foundational documents at the repository root, with uppercase file names. The current milestone is in [PLAN.md](PLAN.md).
 
-## Foundational documents
+## Reference documents
 
-Read the relevant documents before you change anything:
+Each topic has one reference document. Read it before you change that topic.
 
-- [INTENT.md](INTENT.md): scope, engineering foundations, and the roles of skills, hooks, and scripts.
-- [ONTOLOGY.md](ONTOLOGY.md) for the relationships between AIDDbot concepts.
-- [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md): document types, change profiles, standards, and metadata. Use it to design templates and workflows.
-- [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md): wiki model, layout, page rules, and operations.
-- [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md): Bun runtime, CLI packaging, script contract, and performance budget.
-- [SCAFFOLDING.md](SCAFFOLDING.md) for the proposed repository layout, installed layout, and release units.
-- [DOCUMENTATION-EXPLORER.md](DOCUMENTATION-EXPLORER.md): intent of the planned web guide.
-- [DESIGN.md](DESIGN.md) for the visual design and review of AIDDbot web pages, documents, slides, and diagrams.
+| Topic | Reference document |
+| --- | --- |
+| Scope, building blocks, shared core, inclusion criteria | [INTENT.md](INTENT.md) |
+| Milestones, dogfooding rules, findings, future ideas | [PLAN.md](PLAN.md) |
+| Change flow, spec, document types, standards, metadata | [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md) |
+| Terms | [GLOSSARY.md](GLOSSARY.md) |
+| Wiki model and page rules | [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md) |
+| Bun runtime, CLI, script contract | [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md) |
+| Folders and skill locations | [SCAFFOLDING.md](SCAFFOLDING.md) |
+| Colors, fonts, Mermaid diagrams | [DESIGN.md](DESIGN.md) |
+| Notable changes | [CHANGELOG.md](CHANGELOG.md) |
 
-These documents reference each other. When you change one:
+When you change a rule:
 
-1. Check the others for consistency and update them.
-2. Record the change in the document's change history or decisions table, if it has one.
+1. Change it in its reference document.
+2. Check the documents that the rule affects, and update them. Include the documents that apply the rule without a link to it.
+3. Record the reason in the decisions table of the reference document, if it has one.
+
+Git and `CHANGELOG.md` keep the history. Do not add change history sections to the documents.
 
 ## Way of working
 
-- **Spec-first.** Every change starts with a spec, sized to the change type (`chore`, `refactor`, `fix`, `feat`, `epic`). When the change closes, update the affected living documents.
-  - Temporary exception: until the spec templates exist, changes to the foundational documents do not need a spec.
+- **Spec-first.** Every change starts with one [spec](DOCUMENTATION-CATALOG.md#spec): goal, scope, and acceptance. A person approves it before any code. When the change closes, record the verification in the spec and update the affected living documents.
+  - Temporary exception: until the spec template has been used in a change, changes to the foundational documents do not need a spec.
+- **Change types** are `chore`, `refactor`, `fix`, and `feat`. An `epic` only groups specs.
 - **Commits** follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The commit type matches the change type.
+- **Conventions** for this project are the writing style and script rules below.
 - **Skills** define the objective, required context, expected outputs, and verification criteria. The model chooses the approach.
 - **Scripts** do deterministic tasks. Skills do not repeat that logic in prose.
+- **Shared core.** Do not add `CLAUDE.md`, `.cursor/rules`, or other files for one AI coding tool. [Shared core](INTENT.md#shared-core)
 
 ## Writing style
 
@@ -48,4 +57,4 @@ Follow [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md):
 
 - TypeScript on the latest stable Bun.
 - Before you finish a script change, run `bun lint`, `bunx tsc --noEmit`, and `bun test`.
-- Skills and hooks call the exact package version shipped with the skills: `bunx --bun --package <package>@<x.y.z> aiddbot <command>`.
+- Skills call the exact package version shipped with the skills: `bunx --bun --package <package>@<x.y.z> aiddbot <command>`.

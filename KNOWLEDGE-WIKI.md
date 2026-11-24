@@ -1,8 +1,8 @@
 # AIDDbot Knowledge Wiki
 
-The wiki is the living knowledge of the project, for people and agents. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [INTENT.md](INTENT.md) and [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
+The wiki is the living knowledge of a project, for people and agents. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [INTENT.md](INTENT.md) and [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
 
-Status: **draft**.
+Status: **draft**. The wiki and its index start when there is durable knowledge that has no home yet. In AIDDbot, the foundational documents at the root hold the knowledge for now.
 
 ## Model
 
@@ -10,27 +10,22 @@ Three layers:
 
 | Layer | What | Rule |
 | --- | --- | --- |
-| **Sources** | Frozen change documents (`spec`, `impl-plan`, `review-report`…), ADRs, decision notes, raw files, external URLs. | Never edited by the wiki. Cited by the wiki. |
+| **Sources** | Closed specs and other change documents, ADRs, raw files, external URLs. | Never edited by the wiki. Cited by the wiki. |
 | **Wiki** | Synthesis pages: what the project knows now. | Maintained by agents. Every claim cites a source. |
-| **Schema** | The wiki skill and these conventions. | Tells agents how to ingest, answer, and review. |
+| **Schema** | The wiki rules in this document. | Tells agents how to ingest, answer, and review. |
 
 The wiki **synthesizes**; it does not **copy**. One fact has one home.
 
 ### What is a wiki page
 
-Prose `LIVE` documents that hold project knowledge are wiki pages:
-
-`glossary` · `business-rules` · `domain-model` · `vision` · `process-model` · `quality-attrs` · `architecture` · `er-model` · `runbook` · `tech-debt` · `wiki-page` (any other topic)
+A wiki page is a prose `LIVE` document about one topic.
 
 These `LIVE` documents stay **outside** the wiki, because tools or conventions need them in a fixed place. The wiki links to them:
 
 | Document | Why outside |
 | --- | --- |
 | `agent-instructions`, `readme`, `changelog` | Fixed names at the repository root. |
-| `conventions` | Read by agents and tools at the start of every task. |
-| `api-contract`, `event-contract`, `data-schema` | Machine-readable formats used by tools. |
-| `gherkin` | Executable; lives with the tests. |
-| `design-system` | Lives with the UI code or in a shared guide for several artifacts. AIDDbot uses [DESIGN.md](DESIGN.md) at the repository root. |
+| `design-system` | Lives with the UI code or in a shared guide. AIDDbot uses [DESIGN.md](DESIGN.md) at the repository root. |
 | `adr` | Immutable record; a source, not a synthesis. |
 
 ## Repository layout
@@ -38,23 +33,16 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 ```text
 <project-root>/
 ├── AGENTS.md            # points agents to docs/wiki/index.md
-├── README.md
-├── CHANGELOG.md
 └── docs/
     ├── wiki/
     │   ├── index.md     # catalog of pages
-    │   ├── log.md       # append-only history of wiki operations
-    │   ├── glossary.md
-    │   ├── business-rules.md
-    │   ├── domain-model.md
     │   └── <topic>.md
-    ├── specs/           # spec, impl-plan, review-report (CHG, sources)
-    ├── adr/             # adr (sources)
-    ├── decisions/       # decision-note (sources)
+    ├── specs/           # specs and other change documents (sources)
+    ├── adr/             # ADRs (sources)
     └── raw/             # imported files: transcripts, notes, articles (sources)
 ```
 
-The folders that hold wiki sources are provisional. See the [proposed repository layout](SCAFFOLDING.md#proposed-layout) for the guides, packages, and explorer.
+Git records the history of the wiki.
 
 ## Page rules
 
@@ -76,43 +64,24 @@ One line per page, grouped by `type`:
 
 Agents read the index first. Then they open only the pages they need.
 
-## log.md
-
-Append-only. One entry per operation, newest last. The fixed prefix makes the file easy to search with `grep`:
-
-```markdown
-## [YYYY-MM-DD] <operation> | <source or topic>
-- Updated: <wiki pages>
-- Conflicts: <summary>
-```
-
-Operations: `ingest`, `answer`, `review`.
-
 ## Operations
-
-All three operations are part of **one AIDDbot skill**.
 
 ### 1. Ingest a source
 
-Triggers:
-
-- **Automatic**: when a change closes (`aiddbot doc close <id>`), the skill ingests its `spec` and related documents.
-- **Manual**: a person gives a file from `docs/raw/`, a project document, or a URL.
-
-Steps:
+A person or an agent gives a closed spec, a file from `docs/raw/`, a project document, or a URL.
 
 1. Read the source.
 2. Find related pages in `index.md`.
 3. Update those pages, or create new ones, with citations.
 4. Mark conflicts with existing claims.
-5. Update `index.md` and append to `log.md`.
+5. Update `index.md`.
 
 ### 2. Answer a question
 
 1. Read `index.md`, then the relevant pages.
 2. Check the original sources where needed.
 3. Answer with citations. State uncertainty.
-4. If the answer adds knowledge, offer to save it as a page (`answer` entry in `log.md`).
+4. If the answer adds knowledge, offer to save it as a page.
 
 ### 3. Review the wiki
 
@@ -121,7 +90,7 @@ Check, then fix what the sources support. Flag the rest for a person.
 - Claims with no source, or with sources that no longer say it.
 - Conflicts between pages.
 - Pages missing from `index.md`, and orphan pages.
-- Broken links and invalid `META`: run `aiddbot doc validate docs/wiki` ([SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md#commands-provisional)).
+- Broken links and invalid `META`.
 
 ## Sources
 
@@ -133,15 +102,11 @@ Check, then fix what the sources support. Flag the rest for a person.
 
 - **Agents**: `agent-instructions` says: "For project knowledge, start at `docs/wiki/index.md`."
 - **People**: any Markdown editor. On GitHub, links work as they are.
-- **Planned web guide**. The [documentation explorer](DOCUMENTATION-EXPLORER.md) shows how the wiki fits into the AIDDbot lifecycle and links to its rules.
 
-### Optional: Obsidian
+## Deferred
 
-Open the project root as a vault, so Obsidian sees the wiki and its sources. [Open a folder as a vault](https://help.obsidian.md/vault)
+These ideas wait for a real need. See the [future ideas](PLAN.md#future-ideas).
 
-Under **Settings → Files and links**: [Link settings](https://help.obsidian.md/settings#Files%20and%20links)
-
-- **Use Wikilinks**: off.
-- **New link format**: relative path to file.
-
-[Backlinks](https://help.obsidian.md/plugins/backlinks) and the [graph view](https://help.obsidian.md/plugins/graph) work with standard Markdown links.
+- A `log.md` of wiki operations. Git is the history.
+- Automatic ingest when a change closes.
+- `META` validation with the AIDDbot CLI.

@@ -1,126 +1,82 @@
 # AIDDbot Project Plan
 
-Status: **draft**. Current phase: **1**.
+Status: **draft**. Current milestone: **H1**.
 
-This plan holds the order of work and its progress. [DOGFOODING.md](DOGFOODING.md) holds the method: rules, the rule of three, and findings. [SCAFFOLDING.md](SCAFFOLDING.md) holds the folders.
+- **Success criterion.** Another person completes a real change with the AIDDbot [README](README.md) and leaves evidence that others can review.
+- **Guiding idea.** Design only what the next real change needs. Everything else goes to the [future ideas](#future-ideas).
+
+## Dogfooding rules
+
+We build AIDDbot with AIDDbot. This repository is the first project for its templates, skills, and scripts. The outputs are examples for teams and courses.
+
+1. **The tool never blocks the work.** If an AIDDbot step is missing or gets in the way, do it by hand and record a finding.
+2. **Extract, do not invent.** A template comes from a real document that worked. A skill comes from a workflow that we repeated. A script comes from a manual step that we repeated.
+3. **Rule of three.** The second time we repeat something, record it as a finding. The third time, turn it into a template, skill, or script.
+4. **Record every finding.** Each change records its process findings in its spec. Findings that change this plan go to the [findings](#findings) table.
 
 ## How to use this plan
 
-- Work through the phases in order, unless **Depends on** allows parallel work.
-- Tick a task when it is done. A phase is done when its **Done when** criterion is true.
-- Close every phase with a findings review. Apply the [rule of three](DOGFOODING.md#rules).
-- Phases 1 and 2 are fixed. From phase 3, the tasks are the expected order. Findings can change, add, or remove tasks. Record each change in this plan.
+- Work through the milestones in order.
+- Tick a task when it is done. A milestone is done when its **Done when** criterion is true.
+- Close every milestone with a findings review. Findings can change, add, or remove tasks. Record each change in this plan.
 
-## Phase 1 · Prepare the repository
+## H1 · One change by hand
 
-By hand. No spec needed: the temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers this phase. Depends on: nothing.
+The temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers the preparation of the foundational documents. H1 starts with a spec written by hand.
 
-- [ ] Confirm the repository and installation layouts. [Scaffolding](SCAFFOLDING.md)
-- [ ] Check the project set against the [catalog](DOCUMENTATION-CATALOG.md#project-set) (findings F1 and F2).
-- [ ] Create the wiki index and log: `docs/wiki/index.md` and `docs/wiki/log.md`. [Knowledge wiki](KNOWLEDGE-WIKI.md)
-- [ ] Move the foundational documents into the wiki (catalog decision 14). Add `META` to each page, add it to the index, and add one `ingest` entry per page to the log.
+- [ ] Choose a small change that solves a current need of this repository.
+- [ ] Write its [spec](DOCUMENTATION-CATALOG.md#spec) in `docs/specs/spec-0001-<short-name>.md`, with [`META`](DOCUMENTATION-CATALOG.md#metadata-meta): goal, scope, and acceptance. A person approves it.
+- [ ] Implement the change.
+- [ ] Review the change. Record the checks, their results, and their evidence in the spec.
+- [ ] Close the change. Record the process findings.
+- [ ] Review the findings. Decide which simplifications make the next change easier.
 
-  | Current file | Wiki page | `type` |
-  | --- | --- | --- |
-  | `GLOSSARY.md` | `docs/wiki/glossary.md` | `glossary` |
-  | `ONTOLOGY.md` | `docs/wiki/ontology.md` | `domain-model` |
-  | `INTENT.md` | `docs/wiki/vision.md` | `vision` |
-  | `DOCUMENTATION-CATALOG.md` | `docs/wiki/documentation-catalog.md` | `wiki-page` |
-  | `KNOWLEDGE-WIKI.md` | `docs/wiki/knowledge-wiki.md` | `wiki-page` |
-  | `SCRIPT-TOOLCHAIN.md` | `docs/wiki/script-toolchain.md` | `architecture` |
-  | `SCAFFOLDING.md` | `docs/wiki/scaffolding.md` | `architecture` |
-  | `DOCUMENTATION-EXPLORER.md` | `docs/wiki/documentation-explorer.md` | `wiki-page` |
-  | `PLAN.md` | `docs/wiki/plan.md` | `wiki-page` |
-  | `DOGFOODING.md` | `docs/wiki/dogfooding.md` | `wiki-page` |
+Done when: there is a closed change with evidence that another person can review.
 
-  Keep `README.md`, `AGENTS.md`, `DESIGN.md`, `CHANGELOG.md`, and `LICENSE` at the root.
-- [ ] Update all links, including those in `README.md` and `AGENTS.md`.
-- [ ] Move the [initial findings](DOGFOODING.md#initial-findings) to `docs/wiki/dogfooding-findings.md`.
+## H2 · Repeat and extract
+
+- [ ] Make more real changes with the same flow.
+- [ ] Apply the rule of three. Extract the spec template into `templates/`.
+- [ ] Extract the first skill, "specify a change", into `skills/`.
+- [ ] If the findings justify it, add the first CLI command. [Script toolchain](SCRIPT-TOOLCHAIN.md)
+- [ ] Remove the temporary exception from `AGENTS.md` when a change has used the template.
 - [ ] Review the findings.
 
-Done when: a contributor can start at `README.md` or `AGENTS.md`, reach `docs/wiki/index.md`, and find every foundational page.
+Done when: a change starts from the template and the first skill, and closes with evidence.
 
-## Phase 2 · Complete the first change
+## H3 · Test outside
 
-By hand. Change: **spec template**. Type: `feat`. Depends on: phase 1.
-
-- [ ] **Specify.** Write the first spec in `docs/specs/`. Follow the `feat` profile: `user-story`, `acceptance`, and `META`.
-- [ ] **Plan.** Write its `impl-plan` with a `tasks` checklist.
-- [ ] **Build.** Extract the spec template from the first spec, with variants for `chore`, `refactor`, `fix`, and `feat`.
-- [ ] **Review.** Write the `review-report`, with checks, evidence, and **Process feedback**.
-- [ ] **Close.** Set the spec to `done`, ingest it into the wiki, add a `CHANGELOG.md` entry, and remove the temporary exception from `AGENTS.md`.
+- [ ] Prepare a clean repository with its own `AGENTS.md`.
+- [ ] Follow the AIDDbot `README.md` to copy the skill and the files that it uses.
+- [ ] Another person completes a change with one AI coding tool.
+- [ ] Repeat the test with a second AI coding tool and the same shared files.
+- [ ] Update the `README.md` with the example and the tested steps. Add notable changes to `CHANGELOG.md`.
 - [ ] Review the findings.
 
-Done when: the next change can start from the template, not from a blank page.
+Done when: there is evidence of a complete change in both tools. The guide states how to load the skill in each tool and which context the skill takes from the test repository.
 
-## Phase 3 · Complete the change templates
+H3 can use an identified revision of this repository. If the skill needs the CLI, the test uses a local package file, as [before the first publish](SCRIPT-TOOLCHAIN.md#before-the-first-publish) explains. Consider npm publishing, an installer, and tool integrations only after a real need for distribution or installation appears.
 
-Depends on: phase 2.
+## Findings
 
-- [ ] Extract the `impl-plan` and `review-report` templates from the first change.
-- [ ] Use the three templates in the next change.
-- [ ] Review the findings.
+| # | Finding | Status |
+| --- | --- | --- |
+| F1 | The repository had only 2 of the 5 documents of the old project set. | Closed. The [project set](DOCUMENTATION-CATALOG.md#project-set) is now `AGENTS.md`, `README.md`, `CHANGELOG.md`, and `GLOSSARY.md`. The repository has all four. |
+| F2 | `AGENTS.md` already contains the conventions. A separate `conventions` document is redundant in small projects. | Closed. Conventions are a section of `AGENTS.md`. |
+| F3 | The catalog did not fix the folders for source documents. | Closed. [SCAFFOLDING.md](SCAFFOLDING.md) states each folder and the milestone that creates it. |
+| F4 | Without templates, the spec-first rule blocks changes to the foundational documents. | Open. Temporary exception in `AGENTS.md`. H2 removes it. |
 
-Done when: a `feat` change can be documented from templates only.
+## Future ideas
 
-## Phase 4 · Build the CLI
+Names only. Design one when a real change needs it.
 
-Depends on: phase 2. Can run in parallel with phase 3.
-
-- [ ] Create the CLI package in the Bun workspace. [Script toolchain](SCRIPT-TOOLCHAIN.md)
-- [ ] Set up CI: lint, type check, and tests on every push.
-- [ ] Run the `log` command spike. Record the CLI launch decision in an ADR.
-- [ ] Add the document commands (`doc new`, `doc validate`, `doc close`) when the findings show repeated manual steps.
-- [ ] Add the commit check command.
-- [ ] Add maintenance tasks in `scripts/` when a repository task repeats.
-- [ ] Review the findings.
-
-Done when: every command passes CI, and the hook commands meet the [performance budget](SCRIPT-TOOLCHAIN.md#performance-budget).
-
-## Phase 5 · Build and install skills and hooks
-
-Depends on: phase 4.
-
-- [ ] Extract the first skill: specify a change.
-- [ ] Add the wiki skill: ingest, answer, and review.
-- [ ] Add installation support for the first AI coding tool.
-- [ ] Pin the exact CLI version in the installed skills and hooks.
-- [ ] Install them in this repository and use them on a real change.
-- [ ] Review the findings.
-
-Done when: a change in this repository runs with the installed skills and hooks, with no manual workaround.
-
-## Phase 6 · Build the explorer
-
-Depends on: phase 2. Can run in parallel with phases 3 to 5.
-
-- [ ] Write the first explorer spec. Confirm the stack, hosting, and tour content format. [Explorer](DOCUMENTATION-EXPLORER.md)
-- [ ] Build an animated walkthrough from a real AIDDbot change.
-- [ ] Show the ontology relationships in the building blocks map.
-- [ ] Add build checks for source links and stale tour content.
-- [ ] Deploy the site from CI.
-- [ ] Review the findings.
-
-Done when: a new reader can follow a real change from spec to close in the explorer, and its review report passes the `ui-checklist`.
-
-## Phase 7 · Release AIDDbot
-
-Depends on: phases 3 to 6.
-
-- [ ] Decide which AI coding tools the first release supports.
-- [ ] Confirm the npm package name.
-- [ ] Write the first user guide.
-- [ ] Follow the guide in a clean project. Record the results.
-- [ ] Publish the CLI package.
-- [ ] Publish the skills bundle for the pinned CLI version.
-- [ ] Check that the explorer shows the release revision.
-- [ ] Move the `Unreleased` changelog entries to the release version and tag it.
-- [ ] Update `README.md` and `AGENTS.md`: remove the design-stage notice, and add the release and guide links.
-- [ ] Review the findings.
-
-Done when: a team can install AIDDbot in a new project from the guide and complete one change.
-
-## Change history
-
-- v2. The plan holds the order and progress; `DOGFOODING.md` keeps the method. Add **Done when** and **Depends on** to every phase, a findings review per phase, CI, the change templates phase, and the complete release steps. Reorder the release phase.
-- v1. List the phases and tasks.
+- Web explorer of the documentation.
+- Regulated profile (`brd`, `srs`, `use-case`, `traceability`) and `prd`.
+- Installer and optional integrations for each tool: hooks and install paths.
+- Monitoring log and performance budget.
+- Compiled binaries.
+- Customization for each project (`.aiddbot/`).
+- Migration of the foundational documents into `docs/wiki/`.
+- Wiki log, automatic ingest on change close, and `META` validation with the CLI.
+- Ontology, if a real consumer needs it.
+- Catalog documents and standards that are not used today.

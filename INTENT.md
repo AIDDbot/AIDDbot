@@ -8,7 +8,7 @@ AIDDbot is a reusable framework of skills and scripts for AI-assisted software d
 - apply their own standards and engineering practices,
 - keep decisions, progress, and verification visible.
 
-It works with any project type or stack. Initial targets: **Codex**, **Claude Code**, and **Cursor**.
+It works with any project type or stack. It works with AI coding tools that read `AGENTS.md` and [Agent Skills](https://agentskills.io/specification), such as Codex, Claude Code, and Cursor.
 
 ## Origin
 
@@ -34,11 +34,13 @@ Teams pick the practices that fit their project. Skills and templates build on:
 | Release and deployment | Write release notes, check readiness, support deploy and rollback. |
 | Operation and maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. |
 
+The first milestones cover one change: specify, plan, build and review, close. See [PLAN.md](PLAN.md).
+
 ## Project knowledge
 
 ### Document templates
 
-A catalog of templates for consistent documents: requirements, design proposals, ADRs, test plans, release notes, runbooks, and incident reviews.
+Templates give consistent documents. The first one is the spec. Each template comes from a real document that worked ([dogfooding rules](PLAN.md#dogfooding-rules)). See [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
 
 Each template states:
 
@@ -49,27 +51,35 @@ Skills choose and fill the template. Scripts do the deterministic steps, such as
 
 ### Knowledge wiki
 
-A persistent wiki of linked Markdown pages for people and agents, based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
+A persistent wiki of linked Markdown pages for people and agents, based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md).
 
 - Keep original sources. Link every summary back to its evidence.
 - Agents add new sources, answer with references, and flag stale claims, contradictions, and broken links.
-- Optional: evaluate [Obsidian](https://help.obsidian.md/Files+and+folders/How+Obsidian+stores+data) as a viewer. Files must stay plain Markdown, usable in any editor.
+- Files stay plain Markdown, usable in any editor.
 
-### Documentation explorer
+### Visual identity
 
-A planned web guide helps people use and build AIDDbot. It offers visual maps, a walkthrough of one change, and the current project progress. It links each summary to the project documents that support it. See [DOCUMENTATION-EXPLORER.md](DOCUMENTATION-EXPLORER.md).
-
-The explorer, documents, slides, and diagrams share the visual identity defined in [DESIGN.md](DESIGN.md).
+AIDDbot documents and diagrams use the colors, fonts, and Mermaid rules in [DESIGN.md](DESIGN.md).
 
 ## Building blocks
 
 | Block | Role |
 | --- | --- |
 | **Skills** | Run development activities and handoffs, and generate documents. Each one defines: objective, needed context, standards, deliverables, and evidence of completion. The model chooses the approach. |
-| **Hooks** | Run scripts on events from the AI coding tools. |
-| **Scripts** | Do deterministic tasks (monitoring logs, Git chores, document IDs). Clear inputs, outputs, and error messages. |
-| **Tool integrations** | Adapt shared workflows and hooks to each tool. Keep tool-specific details there; reuse the shared workflow. |
-| **Project context** | Gives repo conventions, commands, and constraints. Workflows use existing project tools and state their prerequisites. |
+| **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. Skills do not repeat their logic in prose. |
+| **Project context** | Gives repo conventions, commands, and constraints in `AGENTS.md`. Workflows use existing project tools and state their prerequisites. |
+
+### Shared core
+
+The same core works in every AI coding tool:
+
+- the project context in `AGENTS.md`,
+- skills in the [Agent Skills](https://agentskills.io/specification) format,
+- the `aiddbot` CLI, when it is needed.
+
+There is no `CLAUDE.md`, `.cursor/rules`, or other file for one tool. Only the location of a skill and the way to load it can change between tools. The README documents them.
+
+Hooks and tool integrations are optional and come later. See the [future ideas](PLAN.md#future-ideas).
 
 ## Inclusion criteria
 
