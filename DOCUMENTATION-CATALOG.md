@@ -107,10 +107,11 @@ Every document starts with YAML frontmatter:
 
 ```yaml
 ---
-id: adr-0001            # Unique document ID. Wiki pages use their file name.
-type: adr               # document ID from this catalog
-title: Choose the spec file names
-status: proposed        # draft | proposed | accepted | done | superseded | deprecated
+id: s0001               # Unique document ID
+type: spec              # document ID from this catalog
+change: feat            # spec only: chore | refactor | fix | feat
+title: Add the spec template
+status: draft           # draft | proposed | accepted | done | superseded | deprecated
 date: 2026-11-24        # ISO 8601, last status change
 links:
   sources: []           # evidence and inputs
@@ -121,16 +122,19 @@ links:
 
 In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatter. Keep the design format keys at the top level.
 
-Document IDs:
+### Document IDs and file names
 
 | Document | `id` | File |
 | --- | --- | --- |
-| `spec` | `spec-<NNNN>`, a sequence with four digits, such as `spec-0001`. | `docs/specs/spec-<NNNN>-<short-name>.md` |
-| `adr` | `adr-<NNNN>`, its own sequence. | `docs/adr/adr-<NNNN>-<short-name>.md` |
-| `impl-plan`, `review-report` | The spec ID with a suffix: `spec-0001-plan`, `spec-0001-review`. | Next to the spec, with the same name pattern. |
+| `spec` | `s<NNNN>`: one sequence with four digits for all change types, such as `s0001`. | `docs/specs/s<NNNN>-<short-slug>.spec.md` |
+| `impl-plan` | The spec ID with a suffix: `s0001-plan`. | `docs/specs/s<NNNN>-<short-slug>.plan.md` |
+| `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/specs/s<NNNN>-<short-slug>.review.md` |
 | Wiki page | The file name without `.md`. | `docs/wiki/<topic>.md` |
 
-`<short-name>` uses lowercase words joined by hyphens. The rule is provisional: the spec template in H2 confirms or changes it (decision 11).
+- `<short-slug>` uses lowercase words joined by hyphens.
+- The ID does not show the change type. The `change` field holds it, so a spec can change its type without a new file name.
+- The `adr` IDs and file names are decided with the first ADR.
+- The rule is provisional. The spec template in H2 confirms or changes it (decision 11).
 
 Status use:
 
@@ -169,14 +173,14 @@ Names only. Add one to the tables above when a real change needs it. See the [fu
 | 1 | Is a 3-level focus enough? | Superseded by decision 15. | — |
 | 2 | Is the minimum set too heavy? | Split into a [project set](#project-set) (once) and one spec per change. | No "one size fits all". |
 | 3 | Relevance per change size? | Superseded by decision 16. The change type guides the acceptance criteria. | — |
-| 4 | `META` fields? | `id`, `type`, `title`, `status`, `date`, `links`. | Minimum that supports IDs, status, and traceability. |
+| 4 | `META` fields? | `id`, `type`, `title`, `status`, `date`, `links`. A spec adds `change`. | Minimum that supports IDs, status, and traceability. The change type can change without a new ID. |
 | 5 | ADR format? | `MADR` only. | Current standard; its minimal variant covers the Nygard form. |
 | 6 | Standards for the remaining documents? | None. Plain Markdown + `META`. | YAGNI. |
 | 7 | Is `progress-log` a document? | No. Progress lives in the tasks of the spec or the `impl-plan`. | One source of truth for progress. |
 | 8 | Where do user stories live? | Inside the `spec`, when they help. | Spec-first: the spec is the unit of change. |
 | 9 | Spec-first or spec-anchored? | Spec-first. Knowledge is harvested into `LIVE` documents. | Specs stay small; living docs stay true. |
 | 10 | Where do `CHG` documents go after `done`? | They stay in the same folder. Status `done` marks them. | Links never break. |
-| 11 | How are document IDs assigned? | One sequence per document type, such as `spec-0001` and `adr-0001`. Plans and reviews reuse the spec ID with a suffix. The H1 spec uses this provisional rule; the spec template in H2 confirms or changes it. See [document IDs](#metadata-meta). | The first spec needs a clear rule. The template can still refine it with real evidence. |
+| 11 | How are document IDs assigned? | Specs use one neutral sequence, `s0001`, with the file `s0001-<short-slug>.spec.md`. Plans and reviews reuse the spec name with `.plan.md` and `.review.md`. The change type goes in the `change` field, not in the ID. ADR IDs wait for the first ADR. The H1 spec uses this provisional rule; the spec template in H2 confirms or changes it. See [document IDs](#document-ids-and-file-names). | The first spec needs a clear rule. A type letter in the ID would force a rename when the type changes. The suffix groups the documents of one change. |
 | 12 | Review and verification: one document or two? | One. It is a section of the spec, or a `review-report` when the [criterion](#when-to-separate-documents) asks for one. | Both are written at the same moment for the same change. |
 | 13 | UI specification: document or section? | A section of the `spec`, for later. | Spec-first: UI behavior is part of the change. `design-system` keeps the durable part. |
 | 14 | Are prose `LIVE` documents wiki pages? | Yes, when the wiki starts. The foundational documents stay at the root (decision 19). | One fact, one home. |

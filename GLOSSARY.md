@@ -56,7 +56,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="human-approval"></a>Human approval | A decision that a person must take before the agent continues. Skills mark these decisions and show the evidence. [Inclusion criteria](INTENT.md#inclusion-criteria) | — |
 | <a id="living-document"></a>Living document | A document maintained for the whole life of a project. [Life](DOCUMENTATION-CATALOG.md#life) | `LIVE` |
 | <a id="change-document"></a>Change document | A document written for one change. When the change closes, its status becomes `done` and nobody edits it again. [Life](DOCUMENTATION-CATALOG.md#life) | `CHG` |
-| <a id="metadata"></a>Metadata | The YAML frontmatter at the start of every document: `id`, `type`, `title`, `status`, `date`, and `links`. The `id` is unique. [Metadata](DOCUMENTATION-CATALOG.md#metadata-meta) | `META` |
+| <a id="metadata"></a>Metadata | The YAML frontmatter at the start of every document: `id`, `type`, `title`, `status`, `date`, and `links`. A spec also has `change`, its change type. The `id` is unique. [Metadata](DOCUMENTATION-CATALOG.md#metadata-meta) | `META` |
 | <a id="adr"></a>ADR | Architecture decision record. A living document for one significant, hard-to-reverse decision. A new ADR supersedes it; nobody edits it. | `adr` |
 | <a id="changelog"></a>Changelog | The versioned history of notable changes, in `CHANGELOG.md`. **Avoid:** log (alone). | `changelog` |
 | <a id="knowledge-wiki"></a>Knowledge wiki | The linked Markdown pages in `docs/wiki/` that hold what a project knows now. Agents maintain it from sources. [Wiki model](KNOWLEDGE-WIKI.md#model) | `wiki-page` |

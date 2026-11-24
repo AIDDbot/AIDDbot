@@ -25,7 +25,7 @@ We build AIDDbot with AIDDbot. This repository is the first project for its temp
 The temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers the preparation of the foundational documents. H1 starts with a spec written by hand.
 
 - [ ] Choose a small change that solves a current need of this repository.
-- [ ] Write its [spec](DOCUMENTATION-CATALOG.md#spec) in `docs/specs/spec-0001-<short-name>.md`, with [`META`](DOCUMENTATION-CATALOG.md#metadata-meta): goal, scope, and acceptance. A person approves it.
+- [ ] Write its [spec](DOCUMENTATION-CATALOG.md#spec) in `docs/specs/s0001-<short-slug>.spec.md`, with [`META`](DOCUMENTATION-CATALOG.md#document-ids-and-file-names): goal, scope, and acceptance. A person approves it.
 - [ ] Implement the change.
 - [ ] Review the change. Record the checks, their results, and their evidence in the spec.
 - [ ] Close the change. Record the process findings.
