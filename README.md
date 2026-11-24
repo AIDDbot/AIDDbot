@@ -31,10 +31,16 @@ Next steps:
 
 ## Project documents
 
+- [Project plan](PLAN.md) for the order of work and progress checklist.
 - [Project intent](INTENT.md): goals and engineering foundations.
 - [Documentation catalog](DOCUMENTATION-CATALOG.md): change profiles, document types, and standards.
+- [Glossary](GLOSSARY.md) for shared AIDDbot terms.
+- [Ontology](ONTOLOGY.md) for how those terms relate across AIDDbot.
 - [Knowledge wiki](KNOWLEDGE-WIKI.md): how agents build and maintain the project's Markdown wiki.
 - [Script toolchain](SCRIPT-TOOLCHAIN.md): the planned CLI and its development and execution rules.
+- [Scaffolding](SCAFFOLDING.md) for the proposed layout of the skills, CLI, and documentation.
+- [Documentation explorer](DOCUMENTATION-EXPLORER.md): the plan for a visual, interactive guide to AIDDbot.
+- [Design system](DESIGN.md) for AIDDbot web pages, documents, slides, and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
 
 ## Author and license

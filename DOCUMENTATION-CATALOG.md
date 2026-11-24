@@ -13,6 +13,8 @@ Status: **draft**. Classifications are proposals for review.
 
 ## How to read this catalog
 
+The ontology shows how document types and fragments relate to changes and wiki pages. [AIDDbot ontology](ONTOLOGY.md)
+
 ### Kinds of entry
 
 | Kind | Meaning | Example |
@@ -171,7 +173,7 @@ Standard codes link to the [standards catalog](#standards-catalog). Fragment IDs
 | `event-contract` | Event / message contract | `TEC` | `LIVE` | `MUST` | events | `ASYNCAPI` | Channels, payloads, producers, consumers, compatibility. |
 | `data-schema` | Data schema and examples | `TEC` | `LIVE` | `COULD` | data | `JSONSCHEMA` | Payload or file structure, constraints, samples. |
 | `threat-model` | Threat model | `TEC` | `LIVE` | `SHOULD` | prod | `STRIDE`, `ASVS` | Assets, trust boundaries, threats, mitigations. |
-| `design-system` | Design system | `TEC` | `LIVE` | `COULD` | ui | `DTCG`, `CSF`, `APG`, `WCAG` | Visual style, design tokens, components, UI writing rules. |
+| `design-system` | Design system | `TEC` | `LIVE` | `COULD` | ui | `DESIGNMD`, `DTCG`, `CSF`, `APG`, `WCAG` | Visual style, design tokens, components, UI writing rules. |
 | `spike` | Spike report | `TEC` | `CHG` | `COULD` | any | — | Time-boxed question, evidence, findings. |
 
 ### P3 · Implementation
@@ -239,10 +241,10 @@ Every document starts with YAML frontmatter:
 
 ```yaml
 ---
-id: adr-0007            # <type>-<nnnn>, one sequence per type, never reused; wiki pages use their file name
+id: adr-0007            # Unique document ID. Wiki pages use their file name.
 type: adr               # document ID from this catalog
-title: Use PostgreSQL for orders
-status: accepted        # draft | proposed | accepted | done | superseded | deprecated
+title: Choose how hooks launch the CLI
+status: proposed        # draft | proposed | accepted | done | superseded | deprecated
 date: 2026-11-24        # ISO 8601, last status change
 links:
   sources: []           # evidence and inputs
@@ -250,6 +252,8 @@ links:
   supersedes: []        # document IDs this one replaces
 ---
 ```
+
+In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatter. Keep the design format keys at the top level.
 
 Status use:
 
@@ -318,6 +322,7 @@ Documents without a standard use plain Markdown + `META`. Add a standard only wh
 | `OPENAPI` | [OpenAPI](https://spec.openapis.org/oas/latest.html) | HTTP APIs | `api-contract` |
 | `ASYNCAPI` | [AsyncAPI](https://www.asyncapi.com/docs/reference/specification/latest) | Message-driven interfaces | `event-contract` |
 | `JSONSCHEMA` | [JSON Schema](https://json-schema.org/specification) | JSON structure and constraints | `data-schema` |
+| `DESIGNMD` | [DESIGN.md format](https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md) | YAML design tokens and Markdown usage guidance | `design-system` |
 | `DTCG` | [Design Tokens Format](https://www.designtokens.org/tr/2025.10/format/) | Typed design tokens | `design-system` |
 | `CSF` | [Storybook CSF](https://storybook.js.org/docs/api/csf) | Component stories and states | `design-system` |
 
@@ -350,13 +355,16 @@ Documents without a standard use plain Markdown + `META`. Add a standard only wh
 | 8 | Where do user stories live? | Inside the functional `spec`, as a fragment. | Spec-first: the spec is the unit of change. |
 | 9 | Spec-first or spec-anchored? | Spec-first. Knowledge is harvested into `LIVE` documents. | Specs stay small; living docs stay true. |
 | 10 | Where do `CHG` documents go after `done`? | They stay in the same folder. Status `done` marks them. | Links never break. |
-| 11 | ID numbering? | One sequence per document type: `spec-0001`, `adr-0001`. | Same convention as ADR and MADR tools. |
+| 11 | How are document IDs assigned? | Keep a separate sequence for document types with an established numbering scheme, such as ADRs. Decide spec IDs and file names when designing the spec template. | The template can define how to identify and find a spec. |
 | 12 | Review and verification: one document or two? | One `review-report`. | Both are written at the same moment for the same change. |
 | 13 | UI specification: document or fragment? | Fragment of `spec`. | Spec-first: UI behavior is part of the change. `design-system` keeps the durable part. |
 | 14 | Are prose `LIVE` documents (glossary, business rules, domain model…) wiki pages? | Yes. They live in `docs/wiki/`; their `id` is the file name. Full list in [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md#what-is-a-wiki-page). | One fact, one home. Agents and people have one entry point. |
 
 ## Change history
 
+- v4.5: defer spec IDs and file names to the spec template work.
+- v4.4: link to the ontology for relationships across the document model.
+- v4.3: add `DESIGNMD` as a format for the visual identity of web artifacts and define where it stores `META` fields.
 - v4.2: prose `LIVE` documents become wiki pages (decision 14).
 - v4.1: `business-rules` and `gherkin` back to `SHOULD` in any project; both added to the change closing check.
 - v4 (reduction: 50 → 35 documents + 4 regulated):

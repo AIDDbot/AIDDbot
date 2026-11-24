@@ -12,7 +12,7 @@ Status: **draft**.
 
 | Task | Command |
 | --- | --- |
-| Run a script | `bun run ./src/cli.ts <command> [args]` |
+| Run a script from the repository root | `bun run ./packages/cli/src/cli.ts <command> [args]` |
 | Lint | `bun lint` ([Bun linter](https://bun.com/docs/lint)) |
 | Type-check | `bunx tsc --noEmit` (Bun strips types without checking them) |
 | Test | `bun test` |
@@ -22,6 +22,8 @@ Status: **draft**.
 Bun must be installed on the user's machine. The README states this. If Bun is missing, a hook fails with a clear message and an install link. It never fails silently.
 
 ## Packaging
+
+The proposed package lives at `packages/cli/` in a private Bun workspace. [Scaffolding](SCAFFOLDING.md#cli-and-support-scripts)
 
 - One npm package with **one executable**: `aiddbot`, declared in the `bin` field.
 - Each task is a **subcommand**: `aiddbot <group> <action> [args]`.
@@ -99,7 +101,7 @@ If we compile, distribute through npm with one package per platform in `optional
 
 | Command | Called by | Purpose |
 | --- | --- | --- |
-| `doc new <type>` | skill | Create a document from its template; assign the next ID for its type. |
+| `doc new <type>` | skill | Create a document from its template. Assign an ID according to its document type. |
 | `doc validate [path]` | skill, hook | Check `META` frontmatter: required fields, status values, ID format, links. |
 | `doc close <id>` | skill | Set a `CHG` document to `done`; list the `LIVE` documents to review. |
 | `commit check` | hook | Validate a commit message against Conventional Commits. |

@@ -55,6 +55,12 @@ A persistent wiki of linked Markdown pages for people and agents, based on [Karp
 - Agents add new sources, answer with references, and flag stale claims, contradictions, and broken links.
 - Optional: evaluate [Obsidian](https://help.obsidian.md/Files+and+folders/How+Obsidian+stores+data) as a viewer. Files must stay plain Markdown, usable in any editor.
 
+### Documentation explorer
+
+A planned web guide helps people use and build AIDDbot. It offers visual maps, a walkthrough of one change, and the current project progress. It links each summary to the project documents that support it. See [DOCUMENTATION-EXPLORER.md](DOCUMENTATION-EXPLORER.md).
+
+The explorer, documents, slides, and diagrams share the visual identity defined in [DESIGN.md](DESIGN.md).
+
 ## Building blocks
 
 | Block | Role |

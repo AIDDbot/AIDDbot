@@ -4,14 +4,20 @@
 
 AIDDbot is in the design stage. The repository holds foundational documents only. Do not create code, templates, or skills unless the task asks for them.
 
+During bootstrap, create foundational documents at the repository root and use uppercase file names.
+
 ## Foundational documents
 
 Read the relevant documents before you change anything:
 
 - [INTENT.md](INTENT.md): scope, engineering foundations, and the roles of skills, hooks, and scripts.
+- [ONTOLOGY.md](ONTOLOGY.md) for the relationships between AIDDbot concepts.
 - [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md): document types, change profiles, standards, and metadata. Use it to design templates and workflows.
 - [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md): wiki model, layout, page rules, and operations.
 - [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md): Bun runtime, CLI packaging, script contract, and performance budget.
+- [SCAFFOLDING.md](SCAFFOLDING.md) for the proposed repository layout, installed layout, and release units.
+- [DOCUMENTATION-EXPLORER.md](DOCUMENTATION-EXPLORER.md): intent of the planned web guide.
+- [DESIGN.md](DESIGN.md) for the visual design and review of AIDDbot web pages, documents, slides, and diagrams.
 
 These documents reference each other. When you change one:
 
@@ -27,6 +33,8 @@ These documents reference each other. When you change one:
 - **Scripts** do deterministic tasks. Skills do not repeat that logic in prose.
 
 ## Writing style
+
+Use the terms in the [project glossary](GLOSSARY.md).
 
 All repository content is in English. Write for people and machines:
 

@@ -30,7 +30,7 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 | `conventions` | Read by agents and tools at the start of every task. |
 | `api-contract`, `event-contract`, `data-schema` | Machine-readable formats used by tools. |
 | `gherkin` | Executable; lives with the tests. |
-| `design-system` | Usually lives with the UI code (for example, Storybook). |
+| `design-system` | Lives with the UI code or in a shared guide for several artifacts. AIDDbot uses [DESIGN.md](DESIGN.md) at the repository root. |
 | `adr` | Immutable record; a source, not a synthesis. |
 
 ## Repository layout
@@ -54,7 +54,7 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
     └── raw/             # imported files: transcripts, notes, articles (sources)
 ```
 
-The folders under `docs/` other than `wiki/` are provisional. The catalog will fix them.
+The folders that hold wiki sources are provisional. See the [proposed repository layout](SCAFFOLDING.md#proposed-layout) for the guides, packages, and explorer.
 
 ## Page rules
 
@@ -63,7 +63,7 @@ The folders under `docs/` other than `wiki/` are provisional. The catalog will f
 - **Synthesis first.** The page starts with a short summary of the current state. Details follow.
 - **Citations.** Every claim links to its source with a relative Markdown link. A claim without a source is marked `(unverified)`.
 - **Conflicts.** When sources disagree, the page shows both with their citations under a `> [!warning] Conflict` callout. A person decides.
-- **Links.** Standard relative Markdown links only, such as `[Orders](orders.md)`. No wikilinks.
+- **Links.** Use only standard relative Markdown links, such as `[Glossary](glossary.md)`.
 
 ## index.md
 
@@ -72,7 +72,6 @@ One line per page, grouped by `type`:
 ```markdown
 ## Domain
 - [Glossary](glossary.md) — shared terms for people, agents, and code
-- [Orders](orders.md) — order lifecycle, states, and rules
 ```
 
 Agents read the index first. Then they open only the pages they need.
@@ -82,9 +81,9 @@ Agents read the index first. Then they open only the pages they need.
 Append-only. One entry per operation, newest last. The fixed prefix makes the file easy to search with `grep`:
 
 ```markdown
-## [2026-11-24] ingest | spec-0007 — Add order cancellation
-- Updated: orders.md, business-rules.md, glossary.md
-- Conflicts: none
+## [YYYY-MM-DD] <operation> | <source or topic>
+- Updated: <wiki pages>
+- Conflicts: <summary>
 ```
 
 Operations: `ingest`, `answer`, `review`.
@@ -134,6 +133,7 @@ Check, then fix what the sources support. Flag the rest for a person.
 
 - **Agents**: `agent-instructions` says: "For project knowledge, start at `docs/wiki/index.md`."
 - **People**: any Markdown editor. On GitHub, links work as they are.
+- **Planned web guide**. The [documentation explorer](DOCUMENTATION-EXPLORER.md) shows how the wiki fits into the AIDDbot lifecycle and links to its rules.
 
 ### Optional: Obsidian
 
