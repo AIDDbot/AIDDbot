@@ -3,11 +3,12 @@ version: alpha
 name: AIDDbot
 description: Visual identity for AIDDbot documents and diagrams.
 aiddbot:
-  id: design-system-0001
+  id: design-system
   type: design-system
   title: AIDDbot Design System
   status: draft
-  date: "2026-11-24"
+  created: "2026-11-24"
+  updated: "2026-11-24"
   links:
     sources:
       - https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md

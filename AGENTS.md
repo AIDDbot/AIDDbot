@@ -2,23 +2,24 @@
 
 ## Project status
 
-AIDDbot is in the design stage. The repository holds foundational documents only. Do not create code, templates, or skills unless the task asks for them.
+AIDDbot is in the design stage. The repository holds its wiki, its plan, and its specs. Do not create code, templates, or skills unless the task asks for them.
 
-Keep the foundational documents at the repository root, with uppercase file names. Milestone H1 moves them into the AIDDbot wiki in `docs/wiki/`. The current milestone is in [PLAN.md](PLAN.md).
+For project knowledge, start at [`docs/wiki/index.md`](docs/wiki/index.md). The current milestone is in [PLAN.md](PLAN.md).
 
 ## Reference documents
 
-Each topic has one reference document. Read it before you change that topic.
+Each topic has one reference document. Read it before you change that topic. Wiki pages follow the [page rules](docs/wiki/knowledge-wiki.md#page-rules).
 
 | Topic | Reference document |
 | --- | --- |
-| Scope, building blocks, shared core, inclusion criteria | [INTENT.md](INTENT.md) |
+| Scope, building blocks, shared core, inclusion criteria | [intent](docs/wiki/intent.md) |
 | Milestones, dogfooding rules, findings, future ideas | [PLAN.md](PLAN.md) |
-| Change flow, spec, document types, standards, metadata | [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md) |
-| Terms | [GLOSSARY.md](GLOSSARY.md) |
-| Wiki model and page rules | [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md) |
-| Bun runtime, CLI, script contract | [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md) |
-| Folders and skill locations | [SCAFFOLDING.md](SCAFFOLDING.md) |
+| Change flow, spec, document types, standards, metadata | [documentation catalog](docs/wiki/documentation-catalog.md) |
+| Terms | [glossary](docs/wiki/glossary.md) |
+| Wiki model, page rules, sources | [knowledge wiki](docs/wiki/knowledge-wiki.md) |
+| CLI command form, script contract, candidate commands | [AIDDbot CLI](docs/wiki/aiddbot-cli.md) |
+| Bun runtime, CLI development and packaging | [CLI development](docs/wiki/cli-development.md) |
+| Folders, skill locations, what ships | [scaffolding](docs/wiki/scaffolding.md) |
 | Colors, fonts, Mermaid diagrams | [DESIGN.md](DESIGN.md) |
 | Notable changes | [CHANGELOG.md](CHANGELOG.md) |
 
@@ -32,18 +33,18 @@ Git and `CHANGELOG.md` keep the history. Do not add change history sections to t
 
 ## Way of working
 
-- **Spec-first.** Every change starts with one [spec](DOCUMENTATION-CATALOG.md#spec): goal, scope, and acceptance. A person approves it before any code. When the change closes, record the verification in the spec and update the affected living documents.
-  - Temporary exception: until the spec template has been used in a change, changes to the foundational documents do not need a spec.
+- **Spec-first.** Every change starts with one [spec](docs/wiki/documentation-catalog.md#spec): goal, scope, and acceptance. A person approves it before any code. When the change closes, record the verification in the spec and update the affected living documents.
+  - Temporary exception: until the spec template has been used in a change, changes to the wiki pages and the root documents do not need a spec.
 - **Change types** are `chore`, `refactor`, `fix`, and `feat`. An `epic` only groups specs.
 - **Commits** follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The commit type matches the change type.
 - **Conventions** for this project are the writing style and script rules below.
 - **Skills** define the objective, required context, expected outputs, and verification criteria. The model chooses the approach.
 - **Scripts** do deterministic tasks. Skills do not repeat that logic in prose.
-- **Shared core.** Do not add `CLAUDE.md`, `.cursor/rules`, or other files for one AI coding tool. [Shared core](INTENT.md#shared-core)
+- **Shared core.** Do not add `CLAUDE.md`, `.cursor/rules`, or other files for one AI coding tool. [Shared core](docs/wiki/intent.md#shared-core)
 
 ## Writing style
 
-Use the terms in the [project glossary](GLOSSARY.md).
+Use the terms in the [project glossary](docs/wiki/glossary.md).
 
 All repository content is in English. Write for people and machines:
 
@@ -53,7 +54,7 @@ All repository content is in English. Write for people and machines:
 
 ## Scripts
 
-Follow [SCRIPT-TOOLCHAIN.md](SCRIPT-TOOLCHAIN.md):
+Follow the [AIDDbot CLI](docs/wiki/aiddbot-cli.md) and [CLI development](docs/wiki/cli-development.md) pages:
 
 - TypeScript on the latest stable Bun.
 - Before you finish a script change, run `bun lint`, `bunx tsc --noEmit`, and `bun test`.

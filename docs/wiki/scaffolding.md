@@ -1,17 +1,35 @@
+---
+id: scaffolding
+type: wiki-page
+title: AIDDbot Scaffolding
+status: draft
+created: 2026-11-24
+updated: 2026-11-24
+links:
+  sources:
+    - https://agentskills.io/specification#directory-structure
+  related:
+    - cli-development
+    - knowledge-wiki
+  supersedes: []
+---
+
 # AIDDbot Scaffolding
 
 Status: **draft**.
 
-This document states where AIDDbot keeps its files. Create each folder only when the work needs it. The [project plan](PLAN.md) sets the order.
+This page states where AIDDbot keeps its files. Create each folder only when the work needs it. The [project plan](../../PLAN.md) sets the order.
 
 ## Layout
 
 ```text
 aidd-bot/
 ├── AGENTS.md, README.md, CHANGELOG.md, LICENSE
-├── <FOUNDATIONAL>.md               # Foundational documents, uppercase names
+├── PLAN.md                         # Roadmap: milestones and tasks
+├── DESIGN.md                       # Design system
 ├── package.json                    # Private repository manifest
 ├── docs/
+│   ├── wiki/                       # The AIDDbot wiki: index.md and pages
 │   └── specs/                      # Specs of the changes
 ├── templates/                      # Shared document templates
 ├── skills/
@@ -19,8 +37,6 @@ aidd-bot/
 └── packages/
     └── cli/                        # The aiddbot CLI
 ```
-
-The foundational documents stay at the root until H1 moves them into `docs/wiki/`.
 
 ## What ships
 
@@ -32,7 +48,7 @@ AIDDbot is a help for development teams that use AI across the software lifecycl
 | Document templates | `templates/` |
 | AIDDbot CLI | `packages/cli/` |
 
-Everything else stays in this repository: the foundational documents, the specs, and the AIDDbot wiki. They are how we build AIDDbot, not what teams install.
+Everything else stays in this repository: the roadmap, the specs, and the AIDDbot wiki. They are how we build AIDDbot, not what teams install.
 
 ## When each folder appears
 
@@ -52,5 +68,5 @@ Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second 
 
 - Keep one source folder per skill in `skills/`. Put the entry point in `SKILL.md`. Use `references/` and `assets/` for resources that travel with that skill. [Agent Skills specification](https://agentskills.io/specification#directory-structure)
 - Keep shared document templates in `templates/`. A skill that needs a template references it. Do not copy its content into the skill.
-- The same skill works in every AI coding tool. To use it, copy it by hand to the location that each tool supports. The `README.md` documents the location and the way to load the skill in each tool.
+- The same skill works in every AI coding tool. Until the [installer](glossary.md#installer) exists, copy it by hand to the location that each tool supports. The `README.md` documents the location and the way to load the skill in each tool.
 - Keep the source in `skills/` only. Do not commit copies in tool folders. Do not add `CLAUDE.md`, `.cursor/rules`, or other files for one tool.

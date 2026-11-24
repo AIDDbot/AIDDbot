@@ -13,13 +13,13 @@ Every change follows the same flow and has one spec. The change type (`chore`, `
 3. **Build and review.** Implement the change. Run the checks and record the evidence.
 4. **Close.** Record the verification in the spec and freeze it. Move durable knowledge into the living documents.
 
-Skills guide the agent in each step. Scripts do the deterministic parts, such as document IDs, metadata checks, and Git chores. See the [documentation catalog](DOCUMENTATION-CATALOG.md#change-flow).
+Skills guide the agent in each step. Scripts do the deterministic parts, such as document IDs, metadata checks, and Git chores. See the [documentation catalog](docs/wiki/documentation-catalog.md#change-flow).
 
 ## Status
 
 Design stage. There is no usable release yet.
 
-Next step: **H1**, turn the foundational documents into the AIDDbot wiki and map the lifecycle skills. See the [project plan](PLAN.md).
+Next step: **H1**, map the lifecycle skills. See the [project plan](PLAN.md).
 
 ## Requirements
 
@@ -28,13 +28,8 @@ Next step: **H1**, turn the foundational documents into the AIDDbot wiki and map
 
 ## Project documents
 
+- [AIDDbot wiki](docs/wiki/index.md): intent, glossary, method, and development pages.
 - [Project plan](PLAN.md): milestones, dogfooding rules, and future ideas.
-- [Project intent](INTENT.md): goals, building blocks, and engineering foundations.
-- [Documentation catalog](DOCUMENTATION-CATALOG.md): change flow, spec, document types, and standards.
-- [Glossary](GLOSSARY.md) for shared AIDDbot terms.
-- [Knowledge wiki](KNOWLEDGE-WIKI.md): how agents build and maintain a project's Markdown wiki.
-- [Script toolchain](SCRIPT-TOOLCHAIN.md): the planned CLI and its development and execution rules.
-- [Scaffolding](SCAFFOLDING.md) for the layout of the skills, templates, CLI, and documentation.
 - [Design system](DESIGN.md) for AIDDbot documents and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
 

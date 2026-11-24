@@ -1,8 +1,25 @@
+---
+id: knowledge-wiki
+type: wiki-page
+title: AIDDbot Knowledge Wiki
+status: draft
+created: 2026-11-24
+updated: 2026-11-24
+links:
+  sources:
+    - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+    - https://obsidian.md/
+  related:
+    - documentation-catalog
+    - glossary
+  supersedes: []
+---
+
 # AIDDbot Knowledge Wiki
 
-The wiki is the living knowledge of a project, for people and agents. It is a second brain for all the project documentation. AIDDbot uses it for its own documents, and its skills help teams keep one in their projects. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See [INTENT.md](INTENT.md) and [DOCUMENTATION-CATALOG.md](DOCUMENTATION-CATALOG.md).
+The wiki is the living knowledge of a project, for people and agents. It is a second brain for all the project documentation. AIDDbot uses it for its own documents, and its skills help teams keep one in their projects. Agents keep it up to date from sources. It follows [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See the [intent](intent.md) and the [documentation catalog](documentation-catalog.md).
 
-Status: **draft**. AIDDbot builds its own wiki in [H1](PLAN.md#h1--base-documentation) from its foundational documents. Until then, they stay at the root. The wiki skills come in [H2](PLAN.md#h2--lifecycle-skills).
+Status: **draft**.
 
 ## Model
 
@@ -25,8 +42,9 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 | Document | Why outside |
 | --- | --- |
 | `agent-instructions`, `readme`, `changelog` | Fixed names at the repository root. |
-| `design-system` | Lives with the UI code or in a shared guide. AIDDbot uses [DESIGN.md](DESIGN.md) at the repository root. |
+| `design-system` | Lives with the UI code or in a shared guide. AIDDbot uses [DESIGN.md](../../DESIGN.md) at the repository root. |
 | `adr` | Immutable record; a source, not a synthesis. |
+| `roadmap` | Fixed place at the repository root, next to the readme. |
 
 ## Repository layout
 
@@ -134,8 +152,7 @@ Do not use `[[...]]` links in pages. GitHub and other editors do not read them.
 
 ## Deferred
 
-These ideas wait for a real need. See the [future ideas](PLAN.md#future-ideas).
+These ideas wait for a real need.
 
 - A `log.md` of wiki operations. Git is the history.
 - Automatic ingest when a change closes.
-- `META` validation with the AIDDbot CLI.

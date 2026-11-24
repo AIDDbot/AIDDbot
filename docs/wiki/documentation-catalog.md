@@ -1,8 +1,25 @@
+---
+id: documentation-catalog
+type: wiki-page
+title: AIDDbot Documentation Catalog
+status: draft
+created: 2026-11-24
+updated: 2026-11-24
+links:
+  sources:
+    - https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
+  related:
+    - intent
+    - glossary
+    - knowledge-wiki
+  supersedes: []
+---
+
 # AIDDbot Documentation Catalog
 
-The documents that AIDDbot uses, the rules for each change, and the standards that the templates follow. See [INTENT.md](INTENT.md).
+The documents that AIDDbot uses, the rules for each change, and the standards that the templates follow. See the [intent](intent.md).
 
-Status: **draft**. The catalog holds only the documents that the next real change needs. The others are [names for later](#other-documents-and-standards).
+Status: **draft**. The catalog defines the documents that the lifecycle skills produce. The others are [names for later](#other-documents-and-standards).
 
 ## Principles
 
@@ -69,7 +86,7 @@ One spec per change. Sections:
 | Acceptance | Observable outcomes, as the [change type](#change-types) asks. | Always. |
 | Tasks | Ordered checklist. Each task has a check. | When tasks help to coordinate the work. |
 | Verification | At close: the checks, their results, and their evidence, or a link to the review of the pull request. | Always, at close. |
-| Findings | Process findings for [dogfooding](PLAN.md#dogfooding-rules). | When there are some. |
+| Findings | Lessons about the way of working: what helped, what got in the way. | When there are some. |
 
 ### When to separate documents
 
@@ -84,7 +101,7 @@ Write a separate `impl-plan` or `review-report` only if at least one of these is
 1. Record the checks, their results, and their evidence in the spec, or link to the review.
 2. Set the spec status to `done`. Do not edit it again.
 3. Update the `LIVE` documents that the change affects.
-4. Add a `changelog` entry if the change matters to people who use AIDDbot.
+4. Add a `changelog` entry if the change matters to the people who use the project.
 
 ## Document catalog
 
@@ -95,15 +112,16 @@ Write a separate `impl-plan` or `review-report` only if at least one of these is
 | `review-report` | Review report | `CHG` | `COULD`: [criterion](#when-to-separate-documents) | `META` | Checks with evidence, findings, and decisions that need human approval. |
 | `adr` | Architecture decision record | `LIVE` | `MUST` for a significant, hard-to-reverse decision | `MADR`, `META` | One decision: context, options, outcome, consequences. A new ADR supersedes it. Nobody edits it. |
 | `glossary` | Glossary | `LIVE` | `MUST` | `META` | Shared terms for people, agents, documents, and code. |
-| `wiki-page` | Knowledge wiki page | `LIVE` | `SHOULD` | `LLMWIKI`, `META` | One topic, linked to its sources. See [KNOWLEDGE-WIKI.md](KNOWLEDGE-WIKI.md). |
+| `wiki-page` | Knowledge wiki page | `LIVE` | `SHOULD` | `LLMWIKI`, `META` | One topic, linked to its sources. See the [knowledge wiki](knowledge-wiki.md). |
 | `agent-instructions` | Agent instructions | `LIVE` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
 | `readme` | README | `LIVE` | `MUST` | — | Understand the project, set it up, and make a first change. |
 | `changelog` | Changelog | `LIVE` | `MUST` | `KEEPACL`, `SEMVER`, `CONVCOMMIT` | Versioned history of notable changes. |
-| `design-system` | Design system | `LIVE` | `COULD` with a user interface or visual outputs | — | Colors, fonts, and diagram rules. AIDDbot keeps its own in [DESIGN.md](DESIGN.md), in the [DESIGN.md format](https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md). |
+| `roadmap` | Roadmap | `LIVE` | `COULD` when work spans several milestones | `META` | Milestones, their tasks, and their done criteria. |
+| `design-system` | Design system | `LIVE` | `COULD` with a user interface or visual outputs | — | Colors, fonts, and diagram rules. AIDDbot keeps its own in [DESIGN.md](../../DESIGN.md), in the [DESIGN.md format](https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md). |
 
 ## Metadata (`META`)
 
-Every document starts with YAML frontmatter:
+Every document starts with YAML frontmatter, except the three documents named below:
 
 ```yaml
 ---
@@ -112,7 +130,8 @@ type: spec              # document ID from this catalog
 change: feat            # spec only: chore | refactor | fix | feat
 title: Add the spec template
 status: draft           # draft | proposed | accepted | done | superseded | deprecated
-date: 2026-11-24        # ISO 8601, last status change
+created: 2026-11-24     # ISO 8601 date of creation; never changes
+updated: 2026-11-24     # ISO 8601 date of the last content change
 links:
   sources: []           # evidence and inputs
   related: []           # other document IDs
@@ -120,7 +139,11 @@ links:
 ---
 ```
 
+Use dates without time. Git keeps the history of status changes.
+
 In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatter. Keep the design format keys at the top level.
+
+`agent-instructions`, `readme`, and `changelog` have no `META`. Tools and people read them at fixed names, and frontmatter shows as noise there.
 
 ### Document IDs and file names
 
@@ -130,6 +153,8 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `impl-plan` | The spec ID with a suffix: `s0001-plan`. | `docs/specs/s<NNNN>-<short-slug>.plan.md` |
 | `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/specs/s<NNNN>-<short-slug>.review.md` |
 | Wiki page | The file name without `.md`. | `docs/wiki/<topic>.md` |
+| `roadmap` | `roadmap`. One per project. | `PLAN.md` |
+| `design-system` | `design-system`. One per project. | `DESIGN.md` |
 
 - `<short-slug>` uses lowercase words joined by hyphens.
 - The ID does not show the change type. The `change` field holds it, so a spec can change its type without a new file name.
@@ -159,7 +184,7 @@ Documents without a standard use plain Markdown and `META`. Add a standard only 
 
 ## Other documents and standards
 
-Names only. Add one to the tables above when a real change needs it. See the [future ideas](PLAN.md#future-ideas).
+Names only. Add one to the tables above when a lifecycle skill needs it.
 
 - **Documents:** `conventions` (a section of `agent-instructions` for now), `prd`, `decision-note`, `vision`, `business-rules`, `process-model`, `example-map`, `domain-model`, `quality-attrs`, `tech-design`, `architecture`, `er-model`, `api-contract`, `event-contract`, `data-schema`, `threat-model`, `spike`, `migration-plan`, `gherkin`, `release-notes`, `deploy-plan`, `runbook`, `postmortem`, `tech-debt`, `diataxis-doc`.
 - **Regulated profile:** `brd`, `srs`, `use-case`, `traceability`. If a project needs regulated documentation, its obligations decide what to add.
@@ -173,7 +198,7 @@ Names only. Add one to the tables above when a real change needs it. See the [fu
 | 1 | Is a 3-level focus enough? | Superseded by decision 15. | — |
 | 2 | Is the minimum set too heavy? | Split into a [project set](#project-set) (once) and one spec per change. | No "one size fits all". |
 | 3 | Relevance per change size? | Superseded by decision 16. The change type guides the acceptance criteria. | — |
-| 4 | `META` fields? | `id`, `type`, `title`, `status`, `date`, `links`. A spec adds `change`. | Minimum that supports IDs, status, and traceability. The change type can change without a new ID. |
+| 4 | `META` fields? | `id`, `type`, `title`, `status`, `created`, `updated`, `links`. A spec adds `change`. See decision 20. | Minimum that supports IDs, status, and traceability. The change type can change without a new ID. |
 | 5 | ADR format? | `MADR` only. | Current standard; its minimal variant covers the Nygard form. |
 | 6 | Standards for the remaining documents? | None. Plain Markdown + `META`. | YAGNI. |
 | 7 | Is `progress-log` a document? | No. Progress lives in the tasks of the spec or the `impl-plan`. | One source of truth for progress. |
@@ -187,5 +212,9 @@ Names only. Add one to the tables above when a real change needs it. See the [fu
 | 15 | Which tags does a document need? | Two: life and relevance. | Phase, focus, and context did not change any decision for the next change. |
 | 16 | How many documents does a change need? | One spec. A separate `impl-plan` or `review-report` only with an explicit criterion that a skill can check. | Small changes stay light. The criterion is checkable. |
 | 17 | Which change types? | `chore`, `refactor`, `fix`, `feat`. An `epic` only groups specs. No `prd` and no regulated profile for now. | They wait for a real need. |
-| 18 | How large is the catalog? | About ten documents with tables. The others are names. | Design only what the next real change needs. |
+| 18 | How large is the catalog? | The documents that the lifecycle skills produce have tables. The others are names. | The catalog follows the skill map, not one change at a time. |
 | 19 | Do the foundational documents move to `docs/wiki/`? | Yes, in H1. `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root. | The wiki is the base of AIDDbot documentation. AIDDbot tests its own wiki before its skills help teams keep one. |
+| 20 | Which dates does `META` hold? | `created` and `updated`, as ISO 8601 dates without time. They replace `date`. | Readers and the wiki review see when the content changed. Git keeps the status history. Time adds noise and merge conflicts. |
+| 21 | Do all documents need `META`? | No. `agent-instructions`, `readme`, and `changelog` have none. | Tools read them at fixed names. Frontmatter shows as noise on GitHub. |
+| 22 | Which type has the project plan? | `roadmap`, with one per project. | It is a living document of milestones. The name does not clash with the plan step or the `impl-plan`. |
+| 23 | Which ID has the design system? | `design-system`, with one per project. | Single documents use their type as ID, like wiki pages use their topic. |

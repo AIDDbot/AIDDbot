@@ -1,0 +1,121 @@
+---
+id: s0001
+type: spec
+change: chore
+title: Build the AIDDbot wiki from the foundational documents
+status: done
+created: 2026-11-24
+updated: 2026-11-24
+links:
+  sources:
+    - PLAN.md
+    - docs/wiki/knowledge-wiki.md
+    - docs/wiki/documentation-catalog.md
+  related: []
+  supersedes: []
+---
+
+# s0001 · Build the AIDDbot wiki from the foundational documents
+
+## Goal
+
+The foundational documents hold the AIDDbot design. Today they sit at the repository root, without `META`, and they mix two audiences:
+
+- the method that AIDDbot gives to teams through its skills and templates,
+- the way we build AIDDbot.
+
+An audit before this spec found contradictions, gaps, and overlaps between them. This change turns the documents into the AIDDbot [knowledge wiki](../wiki/knowledge-wiki.md) and fixes the audit items. The wiki is the base for the skill map and the H2 skills. [H1](../../PLAN.md#h1--base-documentation)
+
+This is also the first spec of AIDDbot. A person writes it by hand, to test the spec format.
+
+## Scope
+
+### In
+
+**1. Pages.** Move the documents to `docs/wiki/` with lowercase names. Group them in `index.md`:
+
+| Group | Page | From |
+| --- | --- | --- |
+| About AIDDbot | `intent.md` | `INTENT.md` |
+| About AIDDbot | `glossary.md` | `GLOSSARY.md` |
+| Method | `documentation-catalog.md` | `DOCUMENTATION-CATALOG.md` |
+| Method | `knowledge-wiki.md` | `KNOWLEDGE-WIKI.md` |
+| Method | `aiddbot-cli.md` | `SCRIPT-TOOLCHAIN.md`: prerequisite, execution from skills, script contract, candidate commands. |
+| Development | `cli-development.md` | `SCRIPT-TOOLCHAIN.md`: runtime, development commands, packaging, test before the first publish. |
+| Development | `scaffolding.md` | `SCAFFOLDING.md` |
+
+- **Method** pages hold the rules that AIDDbot ships to teams through its skills and templates.
+- **Development** pages hold the rules to build AIDDbot. They do not ship.
+- `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, `DESIGN.md`, and `LICENSE` stay at the root. `index.md` links to them.
+
+**2. Audit fixes.**
+
+| # | Problem | Fix |
+| --- | --- | --- |
+| A1 | The catalog says that every document starts with `META`. Only two documents have it. | Every wiki page, `PLAN.md`, and every spec has `META`. `AGENTS.md`, `README.md`, and `CHANGELOG.md` are exempt: tools read them at fixed names. The catalog states the exemption. |
+| A2 | The catalog keeps the old rule "only the documents that the next real change needs". | The catalog defines the documents that the skill map needs. Update its status line and decision 18. |
+| A3 | `META` validation is a future idea and also a candidate command. | It is a candidate command for H3 only. Remove it from the future ideas and from the deferred wiki ideas. |
+| A4 | Scaffolding says that skills are copied by hand. H4 plans an installer. | Skills are copied by hand until the H4 installer exists. |
+| A5 | `META` has one `date` field: the last status change. It does not show when the content changed. | Replace `date` with `created` (never changes) and `updated` (last content change). Both are ISO 8601 dates, without time. Git keeps the status history. Update decision 4. |
+| B1 | Method rules mention AIDDbot internals: dogfooding, `PLAN.md`, "people who use AIDDbot". | Method pages do not use the term dogfooding and do not link to `PLAN.md` or to development pages. The spec **Findings** section becomes "lessons about the way of working". |
+| B2 | `PLAN.md` has no document type. | Add the `roadmap` type to the catalog: `LIVE`, `COULD`, milestones and their tasks. `PLAN.md` uses it. |
+| C1 | The change flow is repeated in `README.md`, `AGENTS.md`, the catalog, and the glossary. | The catalog holds the flow. The other documents keep a short summary and link to it. |
+| C2 | "Script" names both a CLI command and the H4 installer. | Add the term **installer** to the glossary. `PLAN.md` uses it. |
+| C3 | `PLAN.md` says "review" for the wiki review. | Write "wiki review". |
+| D1 | Anchor links do not go to the section in Obsidian. | Keep the anchor links. GitHub is the main reader. `knowledge-wiki.md` already states the limit. Close the H1 task about anchors. |
+| D2 | The `DESIGN.md` ID `design-system-0001` does not follow the ID rules. | The ID is `design-system`. The catalog states the rule: one per project. |
+| D3 | `AGENTS.md` does not point agents to the wiki. | `AGENTS.md` says: "For project knowledge, start at `docs/wiki/index.md`." Its reference table uses the new paths. |
+
+**3. Related updates.** Update every link, `SCAFFOLDING` layout, the `AGENTS.md` rule about foundational documents, and `CHANGELOG.md`. Ignore the `.obsidian/` settings folder in `.gitignore`: it is local, and it belongs to one tool. Added during the review, for check 8.
+
+### Out
+
+- The skill map and audit items B3 and B4: the relation between the change flow and the lifecycle stages, and the documents for release and operation. A later H1 change does them.
+- New rules or new content, except the `META` dates of A5. This change moves, splits, and fixes. It does not redesign.
+- Templates, skills, and CLI code.
+
+## Acceptance
+
+| # | Criterion | Check |
+| --- | --- | --- |
+| 1 | `docs/wiki/` holds `index.md` and the seven pages of the scope. The root holds no other foundational document. | List the files. |
+| 2 | Every wiki page, `PLAN.md`, `DESIGN.md`, and this spec start with valid `META`, with `created` and `updated` and without `date`. A wiki page `id` equals its file name without `.md`. | Script: parse the frontmatter, check the required fields and the `id` rule. |
+| 3 | No relative link or anchor is broken. | Script: resolve every relative link and its anchor. |
+| 4 | `index.md` lists each page once, under its group, with a one-line summary. | Review. |
+| 5 | Method pages do not contain the term dogfooding and do not link to `PLAN.md` or to development pages. | Search the Method pages. |
+| 6 | Each audit item of the scope has its fix. | Review each row of the audit table. |
+| 7 | No rule is lost in the move. | Review the Git diff: each removed line is moved or has a reason. |
+| 8 | A person opens the repository in Obsidian with the documented settings. The pages, links, and `META` properties work, within the known limits. | Manual review. |
+
+## Tasks
+
+- [x] Create `docs/wiki/` and move the documents with `git mv`, to keep their history.
+- [x] Split `SCRIPT-TOOLCHAIN.md` into `aiddbot-cli.md` and `cli-development.md`.
+- [x] Add `META` to each page and to `PLAN.md`. Fix the `DESIGN.md` ID.
+- [x] Apply the audit fixes.
+- [x] Write `index.md`.
+- [x] Update `AGENTS.md`, `README.md`, `SCAFFOLDING` layout, every link, and `CHANGELOG.md`.
+- [x] Run the checks and record the evidence.
+- [x] A person reviews the result in GitHub and Obsidian.
+
+## Verification
+
+Checks run on 2026-11-24 with a temporary script, `check_s0001.py`, outside the repository. It checks the files, `META`, every relative link and anchor, and the Method pages.
+
+| # | Result | Evidence |
+| --- | --- | --- |
+| 1 | Pass | `docs/wiki/`: `index.md` and the seven pages. Root: `AGENTS.md`, `CHANGELOG.md`, `DESIGN.md`, `PLAN.md`, `README.md`. |
+| 2 | Pass | 11 documents checked: required fields, no `date`, wiki page `id` equals the file name, `DESIGN.md` ID is `design-system`. |
+| 3 | Pass | 115 relative links checked. None broken. |
+| 4 | Pass | `index.md` lists the seven pages once, in the About, Method, and Development groups. It also lists the documents outside the wiki. A person reviewed it. |
+| 5 | Pass | No `dogfood`, no link to `PLAN.md`, `scaffolding.md`, or `cli-development.md` in the Method pages. |
+| 6 | Pass | Each row A1 to D3 has its fix. A person reviewed it. |
+| 7 | Pass | Each removed line in `git diff --cached -M` is a moved line, a new link path, or an audit fix. A person reviewed it. |
+| 8 | Pass | A person opened the repository root as an Obsidian vault with the documented settings. Links and `META` properties work. |
+
+## Findings
+
+- **The audit made the scope clear.** A read-only audit before the spec gave a numbered list of problems. The spec reused it as its scope. A future skill can start a documentation change with an audit.
+- **The checks are repeated work.** The link and `META` checks ran twice, before and after the change, with throwaway scripts. They are the first input for `doc validate` in H3.
+- **The scope changed at approval.** The person added the `META` dates (A5) while reviewing the spec. The spec template needs a simple way to record changes made at approval.
+- **The spec linked to paths that did not exist yet.** Its links to `docs/wiki/` broke until the implementation. The link check must skip or flag specs in `draft` and `accepted` status.
