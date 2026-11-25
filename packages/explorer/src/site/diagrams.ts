@@ -157,75 +157,25 @@ function itemRow(
   return row + 28;
 }
 
-function phaseDiagram(data: ExplorerData, phase: Element): SVGSVGElement {
-  const c = new Canvas(`Diagram of the ${phase.name} phase`);
-  const { prev, next } = neighbours(data.chapters.phases, phase);
-  const center = c.chip(
-    { x: W / 2 - 80, y: 20, w: 160, h: 50 },
-    phase.name,
-    0,
-    "center phase",
-  );
-  if (prev) {
-    const p = c.chip(
-      { x: 30, y: 28, w: 140, h: 34 },
-      prev.name,
-      1,
-      "side",
-      asRef(prev),
-    );
-    c.edge(`M${p.x + p.w},${p.y + 17} L${center.x - 2},${center.y + 25}`, 1.5);
-  }
-  if (next) {
-    const n = c.chip(
-      { x: W - 170, y: 28, w: 140, h: 34 },
-      next.name,
-      1,
-      "side",
-      asRef(next),
-    );
-    c.edge(
-      `M${center.x + center.w},${center.y + 25} L${n.x - 2},${n.y + 17}`,
-      1.5,
-    );
-  }
-  let y = 100;
-  const step = data.chapters.steps.find((s) => s.id === phase.id);
-  if (step) {
-    const s = c.chip(
-      { x: W / 2 - 70, y: 100, w: 140, h: 30 },
-      `Step: ${step.name}`,
-      2,
-      "chip",
-      asRef(step),
-    );
-    c.edge(
-      `M${W / 2},${center.y + center.h} L${W / 2},${s.y - 2}`,
-      2,
-      "dashed",
-    );
-    y = 150;
-  }
-  c.text(30, y + 18, "Project level", 3);
-  y = itemRow(c, fieldOf(phase, "Project level")?.items ?? [], 150, y, 3) + 14;
-  c.text(30, y + 18, "Change level", 4);
-  itemRow(c, fieldOf(phase, "Change level")?.items ?? [], 150, y, 4);
-  return c.done();
-}
-
-function stepDiagram(data: ExplorerData, step: Element): SVGSVGElement {
-  const c = new Canvas(`Diagram of the ${step.name} step`);
-  const { prev, next } = neighbours(data.chapters.steps, step);
-  const uses = fieldOf(step, "Uses")?.items ?? [];
-  const produces = fieldOf(step, "Produces")?.items ?? [];
+/** The shared template of phases and steps: neighbours on top, `Uses` on the left, `Produces` on the right. */
+function flowDiagram(
+  element: Element,
+  list: Element[],
+  label: string,
+  parent?: Element,
+): { c: Canvas; center: Box; bottom: number } {
+  const c = new Canvas(`Diagram of the ${element.name} ${label}`);
+  const { prev, next } = neighbours(list, element);
+  const uses = fieldOf(element, "Uses")?.items ?? [];
+  const produces = fieldOf(element, "Produces")?.items ?? [];
   const rows = Math.max(uses.length, produces.length, 1);
   const top = 70;
   const centerY = top + (rows * 40) / 2 - 25;
   const center = c.chip(
     { x: W / 2 - 80, y: centerY, w: 160, h: 50 },
-    step.name,
+    element.name,
     0,
-    "center step",
+    `center ${element.kind}`,
   );
   if (prev) {
     c.chip(
@@ -245,14 +195,13 @@ function stepDiagram(data: ExplorerData, step: Element): SVGSVGElement {
       asRef(next),
     );
   }
-  const phase = data.chapters.phases.find((p) => p.id === step.id);
-  if (phase)
+  if (parent)
     c.chip(
       { x: W / 2 - 95, y: 14, w: 190, h: 28 },
-      `Phase: ${phase.name}`,
+      `Phase: ${parent.name}`,
       1,
       "chip",
-      asRef(phase),
+      asRef(parent),
     );
   c.text(30, top - 8, "Uses", 2);
   c.text(W - 30, top - 8, "Produces", 3, "diagram-label", "end");
@@ -279,7 +228,39 @@ function stepDiagram(data: ExplorerData, step: Element): SVGSVGElement {
   if (uses.length === 0) c.text(30, top + 18, "—", 2, "diagram-muted");
   if (produces.length === 0)
     c.text(W - 30, top + 18, "—", 3, "diagram-muted", "end");
+  return { c, center, bottom: Math.max(top + rows * 40, center.y + center.h) };
+}
+
+function phaseDiagram(data: ExplorerData, phase: Element): SVGSVGElement {
+  const { c, center, bottom } = flowDiagram(phase, data.chapters.phases, "phase");
+  if (phase.id === data.flowPhase) {
+    // The phase that holds the change flow opens into its steps.
+    const steps = data.chapters.steps;
+    const y = bottom + 50;
+    c.edge(`M${W / 2},${center.y + center.h} L${W / 2},${y - 2}`, 4, "dashed");
+    c.text(30, y - 10, "Steps of each change", 4);
+    const w = (W - 60 - 10 * (steps.length - 1)) / Math.max(1, steps.length);
+    steps.forEach((step, i) => {
+      const box = c.chip(
+        { x: 30 + i * (w + 10), y, w, h: 34 },
+        step.name,
+        4.5 + i * 0.3,
+        "chip",
+        asRef(step),
+      );
+      if (i > 0)
+        c.edge(
+          `M${box.x - 10},${y + 17} L${box.x - 2},${y + 17}`,
+          4.5 + i * 0.3,
+        );
+    });
+  }
   return c.done();
+}
+
+function stepDiagram(data: ExplorerData, step: Element): SVGSVGElement {
+  const parent = data.chapters.phases.find((p) => p.id === data.flowPhase);
+  return flowDiagram(step, data.chapters.steps, "step", parent).c.done();
 }
 
 function blockDiagram(_data: ExplorerData, block: Element): SVGSVGElement {
@@ -340,6 +321,9 @@ function blockDiagram(_data: ExplorerData, block: Element): SVGSVGElement {
     c.text(x0, 70, "No relations in the table.", 1, "diagram-muted");
   return c.done();
 }
+
+const items = (refs: Ref[]): Item[] =>
+  refs.map((r) => ({ label: r.label, ref: r }));
 
 function typeDiagram(data: ExplorerData, type: Element): SVGSVGElement {
   const c = new Canvas(`Diagram of the status cycle of ${type.id}`);
@@ -409,16 +393,19 @@ function typeDiagram(data: ExplorerData, type: Element): SVGSVGElement {
     y = 36 + Math.max(1, ends.length) * 64 + 20;
   }
   const step0 = statuses.length * 1.2 + 1;
-  const rows: [string, Ref[]][] = [
-    ["Produced in", stepsFor(data, type.id, "Produces")],
-    ["Used in", stepsFor(data, type.id, "Uses")],
+  const rows: [string, Item[]][] = [
+    ["Produced in", items(stepsFor(data, type.id, "Produces"))],
+    ["Used in", items(stepsFor(data, type.id, "Uses"))],
   ];
-  if (type.owner) rows.unshift(["On the map under", [type.owner]]);
+  if (data.brain.includes(type.id))
+    rows.unshift(["On the map", [{ label: "Project brain" }]]);
+  else if (type.owner)
+    rows.unshift(["On the map under", items([type.owner])]);
   rows.forEach(([title, refs], i) => {
     c.text(30, y + 18, title, step0 + i);
     itemRow(
       c,
-      refs.map((r) => ({ label: r.label, ref: r })),
+      refs,
       200,
       y,
       step0 + i,

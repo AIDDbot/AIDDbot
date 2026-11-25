@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { readData } from "../src/builder/read.ts";
 import { designColors } from "../src/builder/theme.ts";
 import type { ExplorerData } from "../src/shared/types.ts";
-import { columns, mapLayout } from "../src/site/layout.ts";
+import { FLOW_KEY, type MapLayout, mapLayout } from "../src/site/layout.ts";
 import { parseRoute } from "../src/site/router.ts";
 
 const REPO = resolve(import.meta.dir, "..", "..", "..");
@@ -32,35 +32,132 @@ describe("router", () => {
   });
 });
 
-describe("map layout (US1R2)", () => {
+describe("map layout (s0003-US1)", () => {
   let data: ExplorerData;
+  let layout: MapLayout;
   beforeAll(async () => {
     data = await readData(REPO);
+    layout = mapLayout(data);
   });
+  const labelsOf = (kind: string) =>
+    layout.nodes
+      .filter((n) => n.kind === kind)
+      .sort((a, b) => a.x - b.x)
+      .map((n) => n.label);
+  const has = (from: string, to: string, hover = false) =>
+    layout.edges.some(
+      (e) =>
+        e.from === from &&
+        e.to === to &&
+        e.cls.includes("hover-edge") === hover,
+    );
 
-  test("shows every element of the chapter tables", () => {
-    const layout = mapLayout(data);
+  test("shows every element of the chapter tables once", () => {
     const { phases, steps, blocks, types } = data.chapters;
     expect(layout.nodes.length).toBe(
       phases.length + steps.length + blocks.length + types.length,
     );
+    const keys = layout.nodes.map((n) => `${n.kind}/${n.id}`);
+    expect(new Set(keys).size).toBe(keys.length);
   });
 
-  test("places phases and steps left to right in table order", () => {
-    const layout = mapLayout(data);
-    for (const kind of ["phase", "step", "block"] as const) {
-      const xs = layout.nodes.filter((n) => n.kind === kind).map((n) => n.x);
-      expect(xs).toEqual([...xs].sort((a, b) => a - b));
+  test("US1R1: the project loop shows the phases in one row, with feedback to Development", () => {
+    const phases = layout.nodes.filter((n) => n.kind === "phase");
+    expect(new Set(phases.map((n) => n.y)).size).toBe(1);
+    expect(labelsOf("phase")).toEqual([
+      "Foundation",
+      "Development",
+      "Release",
+      "Maintenance",
+    ]);
+    const loop = layout.edges.find((e) => e.cls.includes("loop-edge"));
+    expect(loop).toMatchObject({
+      from: "phase/maintenance",
+      to: "phase/development",
+    });
+  });
+
+  test("US1R2: the change loop shows the steps in one framed row, zoomed from Development", () => {
+    const steps = layout.nodes.filter((n) => n.kind === "step");
+    expect(new Set(steps.map((n) => n.y)).size).toBe(1);
+    expect(labelsOf("step")).toEqual([
+      "Analysis",
+      "Design",
+      "Implementation",
+      "Verification",
+      "Close",
+    ]);
+    const flow = layout.flow;
+    if (!flow) throw new Error("no frame");
+    for (const n of steps) {
+      expect(n.x).toBeGreaterThan(flow.x);
+      expect(n.x + n.w).toBeLessThan(flow.x + flow.w);
+      expect(n.y).toBeGreaterThan(flow.y);
     }
+    expect(
+      layout.edges.some(
+        (e) =>
+          e.from === "phase/development" &&
+          e.to === FLOW_KEY &&
+          e.cls.includes("zoom-edge"),
+      ),
+    ).toBe(true);
   });
 
-  test("puts a step under the phase with its name, and Close in its own column", () => {
-    const cols = columns(data);
-    const design = cols.find((c) => c.phase?.id === "design");
-    expect(design?.step?.id).toBe("design");
-    const close = cols.findIndex((c) => c.step?.id === "close");
-    expect(cols[close]?.phase).toBeUndefined();
-    expect(cols[close - 1]?.step?.id).toBe("verification");
+  test("US1R2: each phase and step name shows once", () => {
+    const names = layout.nodes
+      .filter((n) => n.kind === "phase" || n.kind === "step")
+      .map((n) => n.label);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  test("US1R3: the brain holds the brain types in catalog order, between the two loops", () => {
+    const inBrain = layout.nodes.filter(
+      (n) =>
+        n.kind === "type" &&
+        n.y > layout.brain.y &&
+        n.y + n.h < layout.brain.y + layout.brain.h,
+    );
+    expect(inBrain.sort((a, b) => a.x - b.x).map((n) => n.id)).toEqual(
+      data.brain,
+    );
+    for (const id of ["code", "unit-test", "e2e-test", "spec"])
+      expect(inBrain.some((n) => n.id === id)).toBe(false);
+    const phaseY = layout.nodes.find((n) => n.kind === "phase")?.y ?? 0;
+    expect(layout.brain.y).toBeGreaterThan(phaseY);
+    expect(layout.brain.y + layout.brain.h).toBeLessThan(layout.flow?.y ?? 0);
+  });
+
+  test("s0004-US1R3: the brain band has the label Project brain", () => {
+    const label = layout.labels.find((l) => l.text === "Project brain");
+    expect(label?.y).toBeGreaterThan(layout.brain.y);
+    expect(label?.y).toBeLessThan(layout.brain.y + layout.brain.h);
+  });
+
+  test("US1R3: change documents hang under their step", () => {
+    const x = (kind: string, id: string) => {
+      const n = layout.nodes.find((m) => m.kind === kind && m.id === id);
+      return n ? n.x + n.w / 2 : Number.NaN;
+    };
+    const under: Record<string, string[]> = {
+      analysis: ["spec", "feature-file"],
+      implementation: ["code", "unit-test", "e2e-test", "check-report"],
+      verification: ["test-report", "review-report"],
+    };
+    for (const [step, ids] of Object.entries(under))
+      for (const id of ids) expect(x("type", id)).toBe(x("step", step));
+  });
+
+  test("US1R4: the links of the phases and of Close to the brain always show", () => {
+    expect(has("step/close", "type/changelog")).toBe(true);
+    expect(has("type/changelog", "phase/release")).toBe(true);
+    for (const id of ["readme", "glossary", "wiki-page", "agents"])
+      expect(has("phase/foundation", `type/${id}`)).toBe(true);
+  });
+
+  test("US1R4: the links of the other steps show on pointing", () => {
+    expect(has("type/roadmap", "step/analysis", true)).toBe(true);
+    expect(has("type/roadmap", "step/analysis")).toBe(false);
   });
 
   test("a new table row appears with no drawing work", () => {
@@ -69,25 +166,6 @@ describe("map layout (US1R2)", () => {
     if (!first) throw new Error("no blocks");
     copy.chapters.blocks.push({ ...first, id: "new-block", name: "New block" });
     expect(mapLayout(copy).nodes.some((n) => n.id === "new-block")).toBe(true);
-  });
-
-  test("draws the links between elements", () => {
-    const layout = mapLayout(data);
-    expect(
-      layout.edges.some(
-        (e) => e.from === "phase/foundation" && e.to === "phase/analysis",
-      ),
-    ).toBe(true);
-    expect(
-      layout.edges.some(
-        (e) => e.from === "step/verification" && e.to === "step/close",
-      ),
-    ).toBe(true);
-    expect(
-      layout.edges.some(
-        (e) => e.from === "phase/maintenance" && e.to === "phase/analysis",
-      ),
-    ).toBe(true);
   });
 });
 

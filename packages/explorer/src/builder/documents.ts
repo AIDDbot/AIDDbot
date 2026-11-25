@@ -28,7 +28,7 @@ export const ROOT_FILES = [
 /** Root documents with no META by design, and the document type that the file name gives them. */
 export const NO_META_TYPES: Record<string, string> = {
   "README.md": "readme",
-  "AGENTS.md": "agent-instructions",
+  "AGENTS.md": "agents",
   "CHANGELOG.md": "changelog",
 };
 
@@ -68,7 +68,7 @@ export function contentFiles(
     ["docs/wiki", "wiki"],
     ["docs/specs", "specs"],
   ] as const) {
-    // Specs live in one folder per change: docs/specs/<spec>/spec.md.
+    // Specs live in one folder per change: docs/specs/<spec>/<id>.spec.md.
     const glob = new Bun.Glob(group === "specs" ? "**/*.md" : "*.md");
     const names = [...glob.scanSync({ cwd: posix.join(root, folder) })]
       .map((name) => name.replaceAll("\\", "/"))

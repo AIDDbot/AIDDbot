@@ -292,7 +292,6 @@ svg .edge.loop-edge {
   stroke-dasharray: 6 5;
 }
 
-svg .edge.level-edge,
 svg .edge.doc-edge,
 svg .edge.dashed {
   stroke-dasharray: 3 4;
@@ -742,4 +741,26 @@ svg .chip.type text {
     animation: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+svg .brain-band {
+  fill: var(--surface);
+}
+
+svg .edge.zoom-edge {
+  stroke: var(--brand-green);
+  stroke-dasharray: 2 5;
+  stroke-width: 1;
+}
+
+svg .edge.brain-edge {
+  stroke-width: 1;
+}
+
+svg .edge.hover-edge {
+  opacity: 0;
+}
+
+svg.focus-mode .edge.hover-edge.related {
+  opacity: 1;
 }

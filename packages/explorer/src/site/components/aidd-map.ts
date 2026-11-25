@@ -42,6 +42,16 @@ export class AiddMap extends HTMLElement {
     const world = svg("g", { class: "world" });
     world.append(
       svg("rect", {
+        class: "band brain-band",
+        x: layout.brain.x,
+        y: layout.brain.y,
+        width: layout.brain.w,
+        height: layout.brain.h,
+        rx: 14,
+      }),
+    );
+    world.append(
+      svg("rect", {
         class: "band",
         x: layout.band.x,
         y: layout.band.y,
@@ -69,7 +79,7 @@ export class AiddMap extends HTMLElement {
     }
     for (const e of layout.edges) {
       const marker =
-        e.cls.includes("doc-edge") || e.cls.includes("level-edge")
+        e.cls.includes("doc-edge") || e.cls.includes("zoom-edge")
           ? undefined
           : "url(#arrow)";
       world.append(
@@ -86,7 +96,7 @@ export class AiddMap extends HTMLElement {
 
     const label = this.mini
       ? "Mini-map of AIDDbot. Select it to go back to the map."
-      : "Map of AIDDbot: lifecycle phases, change flow, document types, and building blocks.";
+      : "Map of AIDDbot: the project loop of lifecycle phases, the project brain, the change loop of steps with their document types, and the building blocks.";
     const root = svg(
       "svg",
       {
@@ -234,8 +244,10 @@ export class AiddMap extends HTMLElement {
     const details = document.createElement("details");
     details.className = "map-text";
     const { phases, steps, blocks, types } = data.chapters;
+    const brain = types.filter((t) => data.brain.includes(t.id));
+    const changeTypes = types.filter((t) => !data.brain.includes(t.id));
     const list = (
-      kind: keyof typeof CHAPTER_LABEL,
+      title: string,
       items: {
         kind: string;
         id: string;
@@ -243,7 +255,7 @@ export class AiddMap extends HTMLElement {
         links: { label: string }[];
       }[],
     ) =>
-      `<section><h2>${CHAPTER_LABEL[kind]}</h2><ol>${items
+      `<section><h2>${escapeHtml(title)}</h2><ol>${items
         .map(
           (e) =>
             `<li><a href="#/${e.kind}/${e.id}">${escapeHtml(e.name)}</a> <span class="muted">— linked to ${e.links
@@ -251,10 +263,13 @@ export class AiddMap extends HTMLElement {
               .join(", ")}</span></li>`,
         )
         .join("")}</ol></section>`;
-    details.innerHTML = `<summary>The map as text</summary><div class="map-text-grid">${list("phase", phases)}${list(
-      "step",
-      steps,
-    )}${list("type", types)}${list("block", blocks)}</div>`;
+    details.innerHTML = `<summary>The map as text</summary><div class="map-text-grid">${list("Project loop: lifecycle phases", phases)}${list(
+      "Project brain",
+      brain,
+    )}${list("Change loop: steps", steps)}${list(
+      "Change documents",
+      changeTypes,
+    )}${list(CHAPTER_LABEL.block, blocks)}</div>`;
     return details;
   }
 }

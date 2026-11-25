@@ -7,7 +7,8 @@ created: 2026-11-25
 updated: 2026-11-25
 links:
   sources:
-    - docs/specs/s0002-web-knowledge-explorer/spec.md
+    - docs/specs/s0002-web-knowledge-explorer/s0002.spec.md
+    - docs/specs/s0003-two-loop-lifecycle/s0003.spec.md
     - https://bun.com/docs/bundler
     - https://developer.mozilla.org/en-US/docs/Web/API/Web_components
   related:
@@ -21,7 +22,7 @@ links:
 
 # AIDDbot Explorer Development
 
-How we build the [knowledge explorer](glossary.md#knowledge-explorer): a static web site that tells the story of AIDDbot to people. It reads the AIDDbot documents and never edits them. It does not ship. [`s0002`](../specs/s0002-web-knowledge-explorer/spec.md)
+How we build the [knowledge explorer](glossary.md#knowledge-explorer): a static web site that tells the story of AIDDbot to people. It reads the AIDDbot documents and never edits them. It does not ship. [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md)
 
 Status: **draft**.
 
@@ -58,23 +59,26 @@ packages/explorer/
 
 ## Wiki contract
 
-The builder reads five tables. Each one is the first table under a fixed heading. The column names are fixed.
+The builder reads six tables. Each one is the first table under a fixed heading. The column names are fixed.
 
 | Table | Heading anchor | Columns |
 | --- | --- | --- |
-| Lifecycle phases | [`intent.md#lifecycle-phases`](intent.md#lifecycle-phases) | `#`, `Phase`, `AIDDbot helps teams to`, `Project level`, `Change level` |
+| Lifecycle phases | [`intent.md#lifecycle-phases`](intent.md#lifecycle-phases) | `#`, `Phase`, `Work`, `Uses`, `Produces` |
 | Change flow | [`documentation-catalog.md#change-flow`](documentation-catalog.md#change-flow) | `#`, `Step`, `Work`, `Uses`, `Produces` |
 | Building blocks | [`intent.md#building-blocks`](intent.md#building-blocks) | `Block`, `Role`, `Relations` |
-| Document catalog | [`documentation-catalog.md#document-catalog`](documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Relevance`, `Standards`, `Purpose` |
+| Document catalog | [`documentation-catalog.md#document-catalog`](documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Form`, `Relevance`, `Standards`, `Purpose` |
+| Form tag | [`documentation-catalog.md#form`](documentation-catalog.md#form) | `Code`, `Form`, `Rule` |
 | Status use | [`documentation-catalog.md#status-use`](documentation-catalog.md#status-use) | `Status`, `Meaning`, `Set in`, `Used by` |
 
 Rules:
 
-- **ID columns.** `Project level`, `Change level`, `Uses`, `Produces`, and `Used by` hold document IDs in backticks. Plain text is allowed next to them, such as "Tasks or `impl-plan`".
-- **Name columns.** `Relations` and `Set in` hold a comma list. Each item is a document ID in backticks, or the name of a phase, a step, or a block. A name that is both a phase and a step links to the phase.
-- **Links between elements.** A step links to the phase with the same name. Every reference links both elements.
+- **ID columns.** `Uses`, `Produces`, and `Used by` hold document IDs in backticks. Plain text is allowed next to them, such as "`code`, and docs".
+- **Name columns.** `Relations` and `Set in` hold a comma list. Each item is a document ID in backticks, or the name of a phase, a step, or a block. Phase and step names are unique.
+- **Links between elements.** Every step links to the phase whose row links to the change flow: Development. No phase name is written in the code. Every reference links both elements.
+- **Form.** Each catalog row holds one code of the Form tag table in backticks. A missing `Form` column or an unknown value stops the build.
+- **Project brain.** The brain holds every document type with Life `LIVE` and Form `DOC`, in catalog order. No document ID is written in the code.
 - **Sections.** A relative link in a row cell adds the linked section to the page of the element. A link to a glossary anchor adds a glossary term. The page also shows the glossary term with the ID or the name of the element, and, for a document type, the catalog section with its ID, such as `#spec`.
-- **Errors.** A missing heading or table, a renamed column, an unknown document ID, or an unknown name stops the build. The error names the file and the problem.
+- **Errors.** A missing heading or table, a renamed or missing column, an unknown document ID, an unknown Form value, or an unknown name stops the build. The error names the file and the problem.
 - **Smaller problems.** A missing or invalid `META`, a broken relative link, or an unknown `links` value does not stop the build. The build lists each one with its file. The document shows a warning.
 
 A change to these headings or columns needs a change to the builder in the same commit. [Page rules](knowledge-wiki.md#page-rules)
@@ -87,18 +91,29 @@ A change to these headings or columns needs a change to the builder in the same 
 | Root | `README.md`, `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `CHANGELOG.md` |
 | Specs | `docs/specs/**/*.md` |
 
-- `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agent-instructions`, and `changelog`.
+- `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.
 - A link to another file of the repository, such as `LICENSE` or a folder, shows as plain text with an "outside the explorer" mark.
 
 ## Map rules
 
-Code places every element. Nobody draws the map by hand.
+Code places every element. Nobody draws the map by hand. The map has three rows: the project loop, the project brain, and the change loop. The building blocks form a band below.
 
-- Columns follow the phase order. A step with the name of a phase shares its column. Another step, such as Close, gets a new column after the step before it.
-- A dashed arrow goes from the last phase back to the first phase with a change level: Maintenance starts new changes.
-- A document type hangs under the first phase that names it in `Project level` or `Change level`. If no phase names it, it hangs under the first step that produces it.
-- The building blocks form a band below, in table order.
+```text
+PROJECT    Foundation ──► Development ──► Release ──► Maintenance
+                              ▲    │ zoom     ▲            │
+                              └────┼──────────┼── feedback ┘
+BRAIN     │ readme  glossary  wiki-page  roadmap  adr  ...  changelog │
+CHANGE     Analysis ► Design ► Implementation ► Verification ► Close
+           spec       adr       code             test-report
+```
+
+- **Project loop.** The phases form the top row, in table order. A dashed arrow goes from the last phase to the phase that holds the change flow.
+- **Change loop.** The steps form the bottom row, in table order, inside a frame. A zoom line goes from the phase that holds the change flow to the frame.
+- **Brain.** The brain is a band between the two loops, with the brain document types in catalog order.
+- **Document types.** A brain document type sits only on the brain. Any other document type hangs under the first step that produces it, or else under the first step that uses it.
+- **Links to the brain.** The map always draws the links between the phases and the brain, and the links from the last step to the brain. The links of the other steps show when a person points at the step.
+- **Phase page.** The phase diagram shows `Uses` and `Produces`, as the step diagram does. The page of the phase that holds the change flow also shows its steps.
 
 ## Site rules
 

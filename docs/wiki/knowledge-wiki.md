@@ -41,7 +41,7 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 
 | Document | Why outside |
 | --- | --- |
-| `agent-instructions`, `readme`, `changelog` | Fixed names at the repository root. |
+| `agents`, `readme`, `changelog` | Fixed names at the repository root. |
 | `design-system` | Lives with the UI code or in a shared guide. AIDDbot uses [DESIGN.md](../../DESIGN.md) at the repository root. |
 | `adr` | Immutable record; a source, not a synthesis. |
 | `roadmap` | Fixed place at the repository root, next to the readme. |
@@ -70,7 +70,7 @@ Git records the history of the wiki.
 - **Citations.** Every claim links to its source with a relative Markdown link. A claim without a source is marked `(unverified)`.
 - **Conflicts.** When sources disagree, the page shows both with their citations under a `> [!warning] Conflict` callout. A person decides.
 - **Links.** Use only standard relative Markdown links, such as `[Glossary](glossary.md)`.
-- **Explorer tables.** The [knowledge explorer](glossary.md#knowledge-explorer) reads five tables: the [lifecycle phases](intent.md#lifecycle-phases), the [change flow](documentation-catalog.md#change-flow), the [building blocks](intent.md#building-blocks), the [document catalog](documentation-catalog.md#document-catalog), and the [status use](documentation-catalog.md#status-use). Keep their headings and column names. Write document IDs in backticks. A change to them needs an explorer update. [Explorer development](explorer-development.md#wiki-contract)
+- **Explorer tables.** The [knowledge explorer](glossary.md#knowledge-explorer) reads six tables: the [lifecycle phases](intent.md#lifecycle-phases), the [change flow](documentation-catalog.md#change-flow), the [building blocks](intent.md#building-blocks), the [document catalog](documentation-catalog.md#document-catalog), the [Form tag](documentation-catalog.md#form), and the [status use](documentation-catalog.md#status-use). Keep their headings and column names. Write document IDs in backticks. A change to them needs an explorer update. [Explorer development](explorer-development.md#wiki-contract)
 
 ## index.md
 
@@ -130,7 +130,7 @@ Ingest only sources with durable knowledge, such as the cause of a defect or a d
 
 ## Access
 
-- **Agents**: `agent-instructions` says: "For project knowledge, start at `docs/wiki/index.md`."
+- **Agents**: `agents` says: "For project knowledge, start at `docs/wiki/index.md`."
 - **People**: any Markdown editor. On GitHub, links work as they are.
 
 ### Obsidian

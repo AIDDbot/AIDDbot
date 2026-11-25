@@ -53,11 +53,13 @@ The temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers changes 
 - [x] Build the AIDDbot wiki. Move the foundational documents into `docs/wiki/` as pages, with `index.md`. Follow the [page rules](docs/wiki/knowledge-wiki.md#page-rules). `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root.
 - [x] Update `AGENTS.md` and the links in every document.
 - [x] Check how anchor links work in [Obsidian](docs/wiki/knowledge-wiki.md#obsidian). Decide if the pages keep them or link to whole pages.
-- [x] Define the [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), their project and change levels, and the structure and business terms of the [glossary](docs/wiki/glossary.md).
-- [x] Build the web knowledge explorer: a visual site for people that reads the AIDDbot documents. Spec [`s0002`](docs/specs/s0002-web-knowledge-explorer/spec.md). [Explorer development](docs/wiki/explorer-development.md)
-- [ ] Map the lifecycle skills. For each phase in [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), state the skills, the documents that each skill produces, and the order in which we build them.
+- [x] Define the [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), their project loop and change loop, and the structure and business terms of the [glossary](docs/wiki/glossary.md).
+- [x] Build the web knowledge explorer: a visual site for people that reads the AIDDbot documents. Spec [`s0002`](docs/specs/s0002-web-knowledge-explorer/s0002.spec.md). [Explorer development](docs/wiki/explorer-development.md)
+- [x] Separate the project loop and the change loop, with the knowledge shelf between them. Spec [`s0003`](docs/specs/s0003-two-loop-lifecycle/s0003.spec.md)
+- [x] Apply the naming review: project brain, `agents`, no `impl-plan`, feature files in Analysis. Spec [`s0004`](docs/specs/s0004-naming-review/s0004.spec.md)
+- [ ] Map the lifecycle skills. For each phase in [lifecycle phases](docs/wiki/intent.md#lifecycle-phases) and each step of the [change flow](docs/wiki/documentation-catalog.md#change-flow), state the skills, the documents that each skill produces, and the order in which we build them.
 - [ ] Check that the [documentation catalog](docs/wiki/documentation-catalog.md) defines every document in the map.
-- [x] Write one change with its [spec](docs/wiki/documentation-catalog.md#spec) in `docs/specs/s0001-<short-slug>/spec.md`, with [`META`](docs/wiki/documentation-catalog.md#document-ids-and-file-names). A person approves it, and the change closes with evidence.
+- [x] Write one change with its [spec](docs/wiki/documentation-catalog.md#spec) in `docs/specs/s0001-<short-slug>/s0001.spec.md`, with [`META`](docs/wiki/documentation-catalog.md#document-ids-and-file-names). A person approves it, and the change closes with evidence.
 - [ ] Review the findings.
 
 Done when: the AIDDbot wiki holds the foundational knowledge with no contradictions, the skill map exists, and one change has closed with a spec written by hand.

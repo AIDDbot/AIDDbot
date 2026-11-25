@@ -60,10 +60,7 @@ describe("readData on this repository", () => {
   test("reads the four chapters in table order", () => {
     expect(data.chapters.phases.map((p) => p.name)).toEqual([
       "Foundation",
-      "Analysis",
-      "Design",
-      "Implementation",
-      "Verification",
+      "Development",
       "Release",
       "Maintenance",
     ]);
@@ -78,29 +75,89 @@ describe("readData on this repository", () => {
     expect(data.chapters.types.map((t) => t.id)).toContain("spec");
   });
 
-  test("links a step to the phase with the same name, in both directions", () => {
-    const step = data.chapters.steps.find((s) => s.id === "design");
-    const phase = data.chapters.phases.find((p) => p.id === "design");
-    expect(step?.links).toContainEqual({
-      kind: "phase",
-      id: "design",
-      label: "Design",
-    });
-    expect(phase?.links).toContainEqual({
-      kind: "step",
-      id: "design",
-      label: "Design",
-    });
+  test("links every step to the phase that links to the change flow (US2R1)", () => {
+    expect(data.flowPhase).toBe("development");
+    const phase = data.chapters.phases.find((p) => p.id === "development");
+    for (const step of data.chapters.steps) {
+      expect(step.links).toContainEqual({
+        kind: "phase",
+        id: "development",
+        label: "Development",
+      });
+      expect(phase?.links).toContainEqual({
+        kind: "step",
+        id: step.id,
+        label: step.name,
+      });
+    }
   });
 
-  test("hangs each document type under a phase or a step", () => {
-    for (const type of data.chapters.types) expect(type.owner).toBeDefined();
+  test("reads the phase table with the Work, Uses, and Produces columns (US2R1)", () => {
+    const release = data.chapters.phases.find((p) => p.id === "release");
+    expect(release?.fields.map((f) => f.column)).toEqual([
+      "#",
+      "Phase",
+      "Work",
+      "Uses",
+      "Produces",
+    ]);
+    for (const column of ["Uses", "Produces"])
+      expect(
+        release?.fields.find((f) => f.column === column)?.refs.map((r) => r.id),
+      ).toEqual(["changelog"]);
+  });
+
+  test("puts the LIVE DOC types in the brain, in catalog order (US2R2)", () => {
+    expect(data.brain).toEqual([
+      "readme",
+      "glossary",
+      "wiki-page",
+      "agents",
+      "roadmap",
+      "adr",
+      "domain-model",
+      "design-system",
+      "changelog",
+    ]);
+  });
+
+  test("s0004-US1R2: Analysis reads the brain and writes the spec, the feature file, and the roadmap", () => {
+    const analysis = data.chapters.steps.find((s) => s.id === "analysis");
+    const ids = (column: string) =>
+      analysis?.fields.find((f) => f.column === column)?.refs.map((r) => r.id);
+    expect(ids("Uses")).toEqual([
+      "roadmap",
+      "glossary",
+      "wiki-page",
+      "domain-model",
+      "adr",
+      "agents",
+    ]);
+    expect(ids("Produces")).toEqual(["spec", "feature-file", "roadmap"]);
+    expect(data.chapters.types.map((t) => t.id)).not.toContain("impl-plan");
+  });
+
+  test("hangs each other type under the first step that produces or uses it", () => {
+    const owners = Object.fromEntries(
+      data.chapters.types.map((t) => [t.id, t.owner?.id]),
+    );
+    for (const id of data.brain) expect(owners[id]).toBeUndefined();
+    expect(owners).toMatchObject({
+      spec: "analysis",
+      "feature-file": "analysis",
+      code: "implementation",
+      "unit-test": "implementation",
+      "e2e-test": "implementation",
+      "check-report": "implementation",
+      "test-report": "verification",
+      "review-report": "verification",
+    });
   });
 
   test("README, AGENTS, and CHANGELOG get their type from the file name, with no warning", () => {
     for (const [id, path] of [
       ["readme", "README.md"],
-      ["agent-instructions", "AGENTS.md"],
+      ["agents", "AGENTS.md"],
       ["changelog", "CHANGELOG.md"],
     ]) {
       const doc = data.docs.find((d) => d.path === path);
@@ -158,8 +215,8 @@ describe("wiki contract (US1R4)", () => {
     edit(
       dir,
       "docs/wiki/documentation-catalog.md",
-      "`feature-file`, `adr`, `impl-plan` |",
-      "`feature-file`, `adrs`, `impl-plan` |",
+      "`design-system` | `spec`, `adr` |",
+      "`design-system` | `spec`, `adrs` |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining("unknown document ID `adrs`"),
@@ -176,6 +233,43 @@ describe("wiki contract (US1R4)", () => {
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining('unknown element "Deploy"'),
+    );
+  });
+});
+
+describe("Form column (s0003-US2R3)", () => {
+  test("a missing Form column stops the build and names the file and the column", async () => {
+    const dir = copyRepo();
+    const file = "docs/wiki/documentation-catalog.md";
+    const path = join(dir, file);
+    const lines = readFileSync(path, "utf8").split("\n");
+    const start = lines.findIndex((l) => l.startsWith("| ID | Document |"));
+    for (let i = start; lines[i]?.startsWith("|"); i++) {
+      const cells = (lines[i] ?? "").split(" | ");
+      cells.splice(3, 1);
+      lines[i] = cells.join(" | ");
+    }
+    writeFileSync(path, lines.join("\n"));
+    const problems = await contractProblems(dir);
+    expect(problems).toContainEqual(
+      expect.stringMatching(
+        /^docs\/wiki\/documentation-catalog\.md: table #document-catalog .*\(missing: Form\)/,
+      ),
+    );
+  });
+
+  test("an unknown Form value stops the build and names the file and the value", async () => {
+    const dir = copyRepo();
+    edit(
+      dir,
+      "docs/wiki/documentation-catalog.md",
+      "| `spec` | Change specification | `CHG` | `DOC` |",
+      "| `spec` | Change specification | `CHG` | `TEXT` |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining(
+        "docs/wiki/documentation-catalog.md: unknown Form value `TEXT` in row `spec`",
+      ),
     );
   });
 });

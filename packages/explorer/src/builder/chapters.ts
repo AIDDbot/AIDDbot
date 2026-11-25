@@ -36,18 +36,25 @@ export const CONTRACT = {
   types: {
     file: CATALOG,
     anchor: "document-catalog",
-    columns: ["ID", "Document", "Life", "Relevance", "Standards", "Purpose"],
+    columns: [
+      "ID",
+      "Document",
+      "Life",
+      "Form",
+      "Relevance",
+      "Standards",
+      "Purpose",
+    ],
+  },
+  forms: {
+    file: CATALOG,
+    anchor: "form",
+    columns: ["Code", "Form", "Rule"],
   },
   phases: {
     file: INTENT,
     anchor: "lifecycle-phases",
-    columns: [
-      "#",
-      "Phase",
-      "AIDDbot helps teams to",
-      "Project level",
-      "Change level",
-    ],
+    columns: ["#", "Phase", "Work", "Uses", "Produces"],
   },
   steps: {
     file: CATALOG,
@@ -67,13 +74,7 @@ export const CONTRACT = {
 } as const;
 
 /** Columns that hold document IDs in backticks. */
-const ID_COLUMNS = new Set([
-  "Project level",
-  "Change level",
-  "Uses",
-  "Produces",
-  "Used by",
-]);
+const ID_COLUMNS = new Set(["Uses", "Produces", "Used by"]);
 /** Columns that hold a comma list of element names and document IDs. */
 const NAME_COLUMNS = new Set(["Relations", "Set in"]);
 
@@ -109,9 +110,12 @@ export function readContractTable(
   const expected = spec.columns.join(" | ");
   const actual = table.header.map(plainText).join(" | ");
   if (expected !== actual) {
+    const found = new Set(table.header.map(plainText));
+    const missing = spec.columns.filter((c) => !found.has(c));
+    const note = missing.length ? ` (missing: ${missing.join(", ")})` : "";
     errors.push({
       file: spec.file,
-      message: `table #${spec.anchor} has columns "${actual}", expected "${expected}"`,
+      message: `table #${spec.anchor} has columns "${actual}", expected "${expected}"${note}`,
     });
     return null;
   }
@@ -134,6 +138,30 @@ interface Context {
     step: Map<string, string>;
     block: Map<string, string>;
   };
+}
+
+function fieldOf(element: Element, column: string): Field | undefined {
+  return element.fields.find((f) => f.column === column);
+}
+
+/** The code of a tag column of one catalog row, such as `LIVE` or `DOC`. */
+function tagOf(table: Table, row: string[], column: string): string {
+  const cell = row[table.header.map(plainText).indexOf(column)] ?? "";
+  return codeSpans(cell)[0] ?? plainText(cell);
+}
+
+/** Checks that each catalog row holds a code of the Form tag table. */
+function checkForms(types: Table, forms: Table, errors: Problem[]) {
+  const known = new Set(forms.rows.map((row) => codeSpans(row[0] ?? "")[0]));
+  for (const row of types.rows) {
+    const form = tagOf(types, row, "Form");
+    if (known.has(form)) continue;
+    const id = codeSpans(row[0] ?? "")[0] ?? "";
+    errors.push({
+      file: CATALOG,
+      message: `unknown Form value \`${form}\` in row \`${id}\` of table #${CONTRACT.types.anchor}`,
+    });
+  }
 }
 
 function ref(kind: Kind, id: string, label: string): Ref {
@@ -328,6 +356,10 @@ export interface Chapters {
   blocks: Element[];
   types: Element[];
   statuses: StatusUse[];
+  /** The document types of the project brain: Life `LIVE` and Form `DOC`, in catalog order. */
+  brain: string[];
+  /** The phase whose row links to the change flow. It holds the steps. */
+  flowPhase: string | null;
 }
 
 /** Reads the five contract tables. Throws a ContractError when the wiki breaks the contract. */
@@ -346,7 +378,15 @@ export function readChapters(
   if (errors.length > 0) throw new ContractError(errors);
   const t = tables as Record<TableKey, Table>;
 
+  checkForms(t.types, t.forms, errors);
   const types = new Set(typeIds(t.types));
+  const brain = t.types.rows
+    .filter(
+      (row) =>
+        tagOf(t.types, row, "Life") === "LIVE" &&
+        tagOf(t.types, row, "Form") === "DOC",
+    )
+    .map((row) => codeSpans(row[0] ?? "")[0] ?? "");
   const names = (table: Table, column: number) =>
     new Map(
       table.rows.map((row) => [
@@ -406,31 +446,31 @@ export function readChapters(
   };
   for (const list of [phases, steps])
     list.forEach((e, i) => link(e, list[i + 1]));
-  for (const step of steps)
-    link(
-      step,
-      phases.find((p) => p.id === step.id),
-    );
+  // The phase whose row links to the change flow holds every step.
+  const catalogDoc = resolver.byPath.get(CATALOG);
+  const flowPhase = phases.find((p) =>
+    p.sections.some(
+      (s) => s.docId === catalogDoc?.id && s.anchor === CONTRACT.steps.anchor,
+    ),
+  );
+  for (const step of steps) link(step, flowPhase);
   for (const element of all)
     for (const f of element.fields)
       for (const r of f.refs) link(element, find(r));
 
+  // A brain type sits in the brain. Another type hangs under the first step that produces it, or else uses it.
   for (const type of typeElements) {
-    const levels = (e: Element, columns: string[]) =>
-      e.fields
-        .filter((f) => columns.includes(f.column))
-        .some((f) => f.refs.some((r) => r.id === type.id));
-    const phase = phases.find((p) =>
-      levels(p, ["Project level", "Change level"]),
-    );
-    const step = steps.find((s) => levels(s, ["Produces"]));
-    const owner = phase ?? step;
+    const names = (e: Element, column: string) =>
+      fieldOf(e, column)?.refs.some((r) => r.id === type.id) ?? false;
+    const owner = brain.includes(type.id)
+      ? undefined
+      : (steps.find((s) => names(s, "Produces")) ??
+        steps.find((s) => names(s, "Uses")));
     if (owner) type.owner = ref(owner.kind, owner.id, owner.name);
     type.documents = docs.filter((d) => d.type === type.id).map((d) => d.id);
   }
   for (const element of all) ownTerm(element, ctx);
   // A document type also shows its own catalog section, such as `#spec`.
-  const catalogDoc = resolver.byPath.get(CATALOG);
   for (const type of typeElements) {
     if (
       !catalogDoc?.anchors.has(type.id) ||
@@ -441,5 +481,13 @@ export function readChapters(
     if (section) type.sections.unshift(section);
   }
 
-  return { phases, steps, blocks, types: typeElements, statuses };
+  return {
+    phases,
+    steps,
+    blocks,
+    types: typeElements,
+    statuses,
+    brain,
+    flowPhase: flowPhase?.id ?? null,
+  };
 }

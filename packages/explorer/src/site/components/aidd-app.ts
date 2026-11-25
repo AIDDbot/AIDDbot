@@ -92,7 +92,7 @@ export class MapView extends HTMLElement {
     this.innerHTML = `
       <section class="map-intro">
         <h1>The AIDDbot method</h1>
-        <p>Seven lifecycle phases. Inside them, the five steps of every change. Under each one, the documents it uses and makes. Below, the building blocks that do the work.</p>
+        <p>On top, the project loop of lifecycle phases. At the bottom, the change loop: the steps of every change, with the documents they make. Between them, the project brain that each change reads and Close updates. Below, the building blocks that do the work.</p>
       </section>
       <aidd-map></aidd-map>`;
   }

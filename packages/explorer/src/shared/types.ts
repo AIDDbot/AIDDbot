@@ -45,7 +45,7 @@ export interface Element {
   links: Ref[];
   sections: Section[];
   terms: Section[];
-  /** Document types only: the phase or step under which the type hangs on the map. */
+  /** Document types only: the step under which the type hangs on the map. Brain types have none. */
   owner?: Ref;
   /** Document types only: the documents of the content scope with this type. */
   documents?: string[];
@@ -103,6 +103,10 @@ export interface ExplorerData {
     types: Element[];
   };
   statuses: StatusUse[];
+  /** The document types of the project brain, in catalog order. */
+  brain: string[];
+  /** The ID of the phase that holds the change flow. */
+  flowPhase: string | null;
   docs: Doc[];
   problems: Problem[];
 }

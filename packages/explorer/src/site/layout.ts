@@ -18,56 +18,59 @@ export interface MapEdge {
   cls: string;
 }
 
+interface Rect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export interface MapLayout {
   width: number;
   height: number;
   nodes: MapNode[];
   edges: MapEdge[];
-  /** The frame of the change flow, around the steps. */
-  flow: { x: number; y: number; w: number; h: number } | null;
+  /** The frame of the change loop, around the steps. */
+  flow: Rect | null;
+  /** The band of the project brain, between the two loops. */
+  brain: Rect;
   /** The band of the building blocks. */
-  band: { x: number; y: number; w: number; h: number };
+  band: Rect;
   labels: { x: number; y: number; text: string; cls: string }[];
 }
 
-const COL = 150;
+/** The key of the change loop frame in the `to` field of the zoom edge. */
+export const FLOW_KEY = "flow";
+
 const PAD = 30;
-const PHASE = { y: 64, w: 132, h: 44 };
-const STEP = { y: 176, w: 122, h: 36 };
-const DOC = { y: 262, w: 144, h: 26, gap: 34 };
+const PHASE = { y: 84, w: 140, h: 44, col: 200 };
+const BRAIN = { y: 172, h: 84, w: 128, col: 140 };
+const STEP = { y: 330, w: 128, h: 36, col: 170 };
+const DOC = { w: 144, h: 26, gap: 34 };
 const BLOCK_H = 46;
-
-interface Column {
-  phase?: Element;
-  step?: Element;
-}
-
-/**
- * Columns follow the phase order. A step with the name of a phase shares its column.
- * Another step, such as Close, gets a new column after the column of the step before it.
- */
-export function columns(data: ExplorerData): Column[] {
-  const cols: Column[] = data.chapters.phases.map((phase) => ({ phase }));
-  let last = -1;
-  for (const step of data.chapters.steps) {
-    const index = cols.findIndex((c) => c.phase?.id === step.id && !c.step);
-    if (index >= 0) {
-      cols[index] = { ...cols[index], step };
-      last = index;
-    } else {
-      last += 1;
-      cols.splice(last, 0, { step });
-    }
-  }
-  return cols;
-}
 
 const nodeKey = (n: { kind: Kind; id: string }) => `${n.kind}/${n.id}`;
 
+/** A vertical S-curve from one point to another. */
+const vcurve = (x1: number, y1: number, x2: number, y2: number) => {
+  const my = (y1 + y2) / 2;
+  return `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+};
+
 export function mapLayout(data: ExplorerData): MapLayout {
-  const cols = columns(data);
-  const width = PAD * 2 + cols.length * COL;
-  const cx = (i: number) => PAD + i * COL + COL / 2;
+  const { phases, steps, types, blocks } = data.chapters;
+  const brainTypes = data.brain
+    .map((id) => types.find((t) => t.id === id))
+    .filter((t) => t !== undefined);
+  const inner = Math.max(
+    phases.length * PHASE.col,
+    steps.length * STEP.col,
+    brainTypes.length * BRAIN.col,
+  );
+  const width = PAD * 2 + inner;
+  /** The center of item i of n, spread over the full width. */
+  const spread = (i: number, n: number) => PAD + ((i + 0.5) * inner) / n;
+
   const nodes: MapNode[] = [];
   const edges: MapEdge[] = [];
   const labels: MapLayout["labels"] = [];
@@ -75,168 +78,186 @@ export function mapLayout(data: ExplorerData): MapLayout {
   const add = (node: MapNode) => {
     nodes.push(node);
     byKey.set(nodeKey(node), node);
+    return node;
   };
+  const row = (
+    list: Element[],
+    kind: Kind,
+    size: { y: number; w: number; h: number },
+  ) =>
+    list.forEach((e, i) =>
+      add({
+        kind,
+        id: e.id,
+        label: kind === "type" ? e.id : e.name,
+        x: spread(i, list.length) - size.w / 2,
+        y: size.y,
+        w: size.w,
+        h: size.h,
+      }),
+    );
 
-  cols.forEach((col, i) => {
-    if (col.phase)
-      add({
-        kind: "phase",
-        id: col.phase.id,
-        label: col.phase.name,
-        x: cx(i) - PHASE.w / 2,
-        y: PHASE.y,
-        w: PHASE.w,
-        h: PHASE.h,
-      });
-    if (col.step)
-      add({
-        kind: "step",
-        id: col.step.id,
-        label: col.step.name,
-        x: cx(i) - STEP.w / 2,
-        y: STEP.y,
-        w: STEP.w,
-        h: STEP.h,
-      });
+  // Project loop: the phases in table order.
+  row(phases, "phase", PHASE);
+  labels.push({
+    x: PAD + 4,
+    y: PHASE.y - 22,
+    text: "Project loop",
+    cls: "map-label",
   });
 
-  // Phase loop and change flow arrows.
-  const right = (n: MapNode) => ({ x: n.x + n.w, y: n.y + n.h / 2 });
-  const left = (n: MapNode) => ({ x: n.x, y: n.y + n.h / 2 });
+  // Project brain: a band between the two loops.
+  const brain = { x: PAD - 10, y: BRAIN.y, w: inner + 20, h: BRAIN.h };
+  row(brainTypes, "type", { y: BRAIN.y + 36, w: BRAIN.w, h: 30 });
+  labels.push({
+    x: brain.x + 10,
+    y: brain.y + 20,
+    text: "Project brain",
+    cls: "map-label",
+  });
+
+  // Change loop: the steps in table order, inside a frame.
+  row(steps, "step", STEP);
+  const flow =
+    steps.length > 0
+      ? (() => {
+          const stepNodes = nodes.filter((n) => n.kind === "step");
+          const x0 = Math.min(...stepNodes.map((n) => n.x)) - 14;
+          const x1 = Math.max(...stepNodes.map((n) => n.x + n.w)) + 14;
+          return { x: x0, y: STEP.y - 34, w: x1 - x0, h: STEP.h + 50 };
+        })()
+      : null;
+  if (flow)
+    labels.push({
+      x: flow.x + 10,
+      y: flow.y + 18,
+      text: "Change loop",
+      cls: "map-label",
+    });
+
+  // Arrows inside each loop.
   const chain = (list: Element[], kind: Kind) => {
     for (let i = 0; i + 1 < list.length; i++) {
       const a = byKey.get(`${kind}/${list[i]?.id}`);
       const b = byKey.get(`${kind}/${list[i + 1]?.id}`);
       if (!a || !b) continue;
-      const p = right(a);
-      const q = left(b);
+      const y = a.y + a.h / 2;
       edges.push({
         from: nodeKey(a),
         to: nodeKey(b),
-        d: `M${p.x},${p.y} L${q.x - 2},${q.y}`,
+        d: `M${a.x + a.w},${y} L${b.x - 2},${y}`,
         cls: `edge ${kind}-edge`,
       });
     }
   };
-  chain(data.chapters.phases, "phase");
-  chain(data.chapters.steps, "step");
+  chain(phases, "phase");
+  chain(steps, "step");
 
-  // Feedback: the last phase starts new changes in the first change-level phase.
-  const phases = data.chapters.phases;
-  const lastPhase = phases.at(-1);
-  const firstChange = phases.find((p) =>
-    p.fields
-      .find((f) => f.column === "Change level")
-      ?.html.replace(/—/g, "")
-      .trim(),
-  );
-  const a = lastPhase && byKey.get(`phase/${lastPhase.id}`);
-  const b = firstChange && byKey.get(`phase/${firstChange.id}`);
+  // Feedback: the last phase starts new changes in the phase that holds the change flow.
+  const last = phases.at(-1);
+  const a = last && byKey.get(`phase/${last.id}`);
+  const b = data.flowPhase ? byKey.get(`phase/${data.flowPhase}`) : undefined;
   if (a && b && a !== b) {
     const ax = a.x + a.w / 2;
     const bx = b.x + b.w / 2;
     edges.push({
       from: nodeKey(a),
       to: nodeKey(b),
-      d: `M${ax},${a.y} C${ax},${a.y - 46} ${bx},${b.y - 46} ${bx},${b.y - 2}`,
+      d: `M${ax},${a.y} C${ax},${a.y - 50} ${bx},${b.y - 50} ${bx},${b.y - 2}`,
       cls: "edge loop-edge",
     });
     labels.push({
       x: (ax + bx) / 2,
-      y: a.y - 42,
+      y: a.y - 44,
       text: "feedback: new changes",
       cls: "map-note",
     });
   }
 
-  // Phase and step with the same name.
-  for (const step of data.chapters.steps) {
-    const s = byKey.get(`step/${step.id}`);
-    const p = byKey.get(`phase/${step.id}`);
-    if (s && p) {
-      const x = s.x + s.w / 2;
-      edges.push({
-        from: nodeKey(p),
-        to: nodeKey(s),
-        d: `M${x},${p.y + p.h} L${x},${s.y}`,
-        cls: "edge level-edge",
-      });
-    }
-  }
-
-  // Change flow frame.
-  const stepNodes = nodes.filter((n) => n.kind === "step");
-  const flow =
-    stepNodes.length > 0
-      ? (() => {
-          const x0 = Math.min(...stepNodes.map((n) => n.x)) - 12;
-          const x1 = Math.max(...stepNodes.map((n) => n.x + n.w)) + 12;
-          return { x: x0, y: STEP.y - 30, w: x1 - x0, h: STEP.h + 44 };
-        })()
-      : null;
-  if (flow)
-    labels.push({
-      x: flow.x + flow.w - 10,
-      y: flow.y + 16,
-      text: "Change flow",
-      cls: "map-label end",
+  // Zoom: the phase that holds the change flow opens into the change loop frame.
+  if (b && flow)
+    edges.push({
+      from: nodeKey(b),
+      to: FLOW_KEY,
+      d: `M${b.x},${b.y + b.h} L${flow.x},${flow.y} M${b.x + b.w},${b.y + b.h} L${flow.x + flow.w},${flow.y}`,
+      cls: "edge zoom-edge",
     });
-  labels.push({
-    x: PAD + 4,
-    y: PHASE.y - 18,
-    text: "Lifecycle phases",
-    cls: "map-label",
-  });
 
-  // Document types hang under the phase or step that names them, in table order.
-  const stacks = new Map<number, number>();
-  let docBottom = DOC.y;
-  for (const type of data.chapters.types) {
-    const ownerKey = type.owner ? `${type.owner.kind}/${type.owner.id}` : "";
-    let index = cols.findIndex((c) =>
-      type.owner?.kind === "phase"
-        ? c.phase?.id === type.owner.id
-        : c.step?.id === type.owner?.id,
-    );
-    if (index < 0) index = cols.length - 1;
-    const count = stacks.get(index) ?? 0;
-    stacks.set(index, count + 1);
-    const node: MapNode = {
+  // Links to the brain. Phases and the last step always show them. Other steps show them on pointing.
+  const lastStep = steps.at(-1);
+  const brainLinks = (element: Element, kind: Kind, above: boolean) => {
+    const node = byKey.get(`${kind}/${element.id}`);
+    if (!node) return;
+    const always = kind === "phase" || element.id === lastStep?.id;
+    const cls = `edge brain-edge${always ? "" : " hover-edge"}`;
+    const ny = above ? node.y + node.h : node.y;
+    for (const [column, writes] of [
+      ["Produces", true],
+      ["Uses", false],
+    ] as const) {
+      const refs =
+        element.fields.find((f) => f.column === column)?.refs ?? [];
+      for (const ref of refs) {
+        const doc = byKey.get(`type/${ref.id}`);
+        if (!doc || !data.brain.includes(ref.id)) continue;
+        const dy = above ? doc.y : doc.y + doc.h;
+        // Writes and reads of the same pair run side by side.
+        const shift = writes ? -5 : 5;
+        const nx = node.x + node.w / 2 + shift;
+        const dx = doc.x + doc.w / 2 + shift;
+        edges.push(
+          writes
+            ? {
+                from: nodeKey(node),
+                to: nodeKey(doc),
+                d: vcurve(nx, ny, dx, above ? dy - 2 : dy + 2),
+                cls,
+              }
+            : {
+                from: nodeKey(doc),
+                to: nodeKey(node),
+                d: vcurve(dx, dy, nx, above ? ny + 2 : ny - 2),
+                cls,
+              },
+        );
+      }
+    }
+  };
+  for (const phase of phases) brainLinks(phase, "phase", true);
+  for (const step of steps) brainLinks(step, "step", false);
+
+  // Other document types hang under their step, in table order.
+  const docTop = (flow ? flow.y + flow.h : STEP.y + STEP.h) + 20;
+  const stacks = new Map<string, number>();
+  let docBottom = docTop;
+  for (const type of types) {
+    if (data.brain.includes(type.id)) continue;
+    const owner = type.owner ? byKey.get(nodeKey(type.owner)) : undefined;
+    const ownerKey = owner ? nodeKey(owner) : "";
+    const count = stacks.get(ownerKey) ?? 0;
+    stacks.set(ownerKey, count + 1);
+    const cx = owner ? owner.x + owner.w / 2 : width - PAD - DOC.w / 2;
+    const node = add({
       kind: "type",
       id: type.id,
       label: type.id,
-      x: cx(index) - DOC.w / 2,
-      y: DOC.y + count * DOC.gap,
+      x: cx - DOC.w / 2,
+      y: docTop + count * DOC.gap,
       w: DOC.w,
       h: DOC.h,
-    };
-    add(node);
+    });
     docBottom = Math.max(docBottom, node.y + node.h);
-    if (count === 0 && ownerKey) {
-      const col = cols[index];
-      const above = col?.step
-        ? byKey.get(`step/${col.step.id}`)
-        : byKey.get(ownerKey);
-      if (above) {
-        const x = node.x + node.w / 2;
-        edges.push({
-          from: ownerKey,
-          to: nodeKey(node),
-          d: `M${x},${above.y + above.h} L${x},${node.y}`,
-          cls: "edge doc-edge",
-        });
-      }
-    }
+    if (count === 0 && owner)
+      edges.push({
+        from: ownerKey,
+        to: nodeKey(node),
+        d: `M${cx},${owner.y + owner.h} L${cx},${node.y}`,
+        cls: "edge doc-edge",
+      });
   }
 
   // Building blocks form a band below.
-  const band = {
-    x: PAD - 10,
-    y: docBottom + 36,
-    w: width - 2 * PAD + 20,
-    h: BLOCK_H + 46,
-  };
-  const blocks = data.chapters.blocks;
+  const band = { x: PAD - 10, y: docBottom + 36, w: inner + 20, h: BLOCK_H + 46 };
   const gap = 12;
   const bw =
     blocks.length > 0
@@ -266,6 +287,7 @@ export function mapLayout(data: ExplorerData): MapLayout {
     nodes,
     edges,
     flow,
+    brain,
     band,
     labels,
   };
