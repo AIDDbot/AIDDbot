@@ -3,13 +3,15 @@ id: s0002
 type: spec
 change: feat
 title: Build the web knowledge explorer
-status: draft
+status: accepted
 created: 2026-11-25
 updated: 2026-11-25
 links:
   sources:
     - PLAN.md
     - DESIGN.md
+    - docs/wiki/intent.md
+    - docs/wiki/documentation-catalog.md
     - docs/wiki/knowledge-wiki.md
     - https://github.com/Testing-IA-TrIT/testing-ia-repaso
   related:
@@ -19,87 +21,30 @@ links:
 
 # s0002 - Build the web knowledge explorer
 
-## Pending
-
-> **Proposals from the brainstorm of 2026-11-25.** The spec went back to `draft` before any code was written. The sections below this one are the old version. Rewrite them with these decisions, then approve the spec again. Delete this section when the spec is rewritten.
-
-### Decisions
-
-| # | Decision | Reason |
-| --- | --- | --- |
-| 1 | `s0002` goes back to `draft` and is rewritten. | No code exists yet. The scope must change. |
-| 2 | New catalog rule: an accepted spec can go back to `draft` only before its implementation starts. | The catalog does not cover this case today (decision 31 forbids other changes). |
-| 3 | The core is a visual story of AIDDbot for people. It is not a graph viewer and not a copy of Obsidian. | The goal is documentation for people, as visual as possible. |
-| 4 | Chapters: lifecycle phases, change flow, building blocks, and documents. | Together they show the whole picture of AIDDbot. |
-| 5 | The home page is an interactive map. Each element (phase, step, block, document type) has its own page. Each page shows a mini-map or breadcrumb, so a person never gets lost. | No single huge HTML page. Detail lives on its own page. |
-| 6 | The page content is built from the wiki (`intent.md`, the catalog, the glossary). The site adds only layout and animation. | The wiki stays the single source of truth. |
-| 7 | Full documents are a second level: a map page links to the rendered document with its `META` badges. The map replaces the list of all documents on the home page. | Detail for people who want it. |
-| 8 | Animations are SVG diagrams that build up step by step. Nothing moves while the browser asks for reduced motion. | Very visual, and easy to keep in step with the wiki. |
-
-Removed from the old version: the graph view (`US3`) and the `d3-force` library.
-
-#### Wiki structure for the builder
-
-| # | Decision | Reason |
-| --- | --- | --- |
-| 9 | The builder finds each chapter by a fixed anchor and reads the first table under it, with fixed column names. A renamed anchor or column fails the build with a clear error. | Almost no change to the wiki. No tool-specific markers. |
-| 10 | Chapter sources: `intent.md#lifecycle-phases`, `documentation-catalog.md#change-flow`, `intent.md#building-blocks`, `documentation-catalog.md#document-catalog`. | These sections already hold the four chapters. |
-| 11 | The change flow becomes a table: `#`, `Step`, `Work`, `Produces` (document IDs). | The same contract for the four chapters. `Produces` links steps to documents. |
-| 12 | The building blocks table adds Templates and Wiki, and a new column that lists the phases or documents that each block touches. "Project knowledge" keeps its detail sections, linked from the rows. | The map shows all the blocks, and each block links to the rest. |
-| 13 | Cross-links: a document ID in backticks links to that document. A step name equal to a phase name links them. An unknown ID fails the build. | Short tables, explicit links, and early errors. |
-| 14 | An element page shows its row as a summary, plus the wiki sections and glossary terms that the row links to. | Detail without new text. The wiki stays the source. |
-| 15 | The contract goes in the page rules of `knowledge-wiki.md`: these anchors and columns are stable, and a change to them needs an explorer update. The detail goes in `explorer-development.md`. | A wiki editor sees the rule before they break it. |
-
-#### Map
-
-| # | Decision | Reason |
-| --- | --- | --- |
-| 16 | The home map is one picture in layers: the phase loop in the middle, the change flow inside the change-level phases, the documents under the phase or step that names them, and the building blocks as a band below. | A person sees the whole of AIDDbot at once. |
-| 17 | The same picture, small, is the mini-map on each page. It marks the current element. | One mental model. A person never gets lost. |
-| 18 | The builder places the elements by rules, from the table order. Nobody draws the map by hand. | A new table row appears on the map with no drawing work. |
-| 19 | A click on an element zooms the map into it, and then opens its page. With reduced motion, the page opens at once. | The zoom shows where the page sits in the whole. |
-
-#### Page diagrams
-
-| # | Decision | Reason |
-| --- | --- | --- |
-| 20 | Each element kind has one animated diagram template, filled from the tables: phase (neighbors and its project and change documents), step (uses, produces, and the review report on failure), block (what it uses and where it runs), and document (status cycle and the steps that set each status). | A new row gets its diagram with no drawing work. |
-| 21 | The change flow table gets a `Uses` column: `#`, `Step`, `Work`, `Uses`, `Produces`. | Step pages show their inputs exactly. |
-| 22 | "Status use" in the catalog becomes a table: `Status`, `Meaning`, `Set in step`, plus a column that says which documents use it. The `Life` column is not enough, because `adr` is `LIVE` with its own cycle. | Document pages show the status cycle, and the list fits the table contract. |
-
-#### Libraries
-
-| # | Decision | Reason |
-| --- | --- | --- |
-| 23 | The builder parses Markdown with the built-in `Bun.markdown` (Bun 1.4.5). The builder adds heading ids as GitHub slugs. `marked` is not used. | No dependency. It renders GFM tables, code blocks, and links. |
-| 24 | The map, the page diagrams, and the zoom are hand-written SVG and CSS, with the Web Animations API. No diagram or animation library. | The diagrams are our own templates. A library adds weight and little value. |
-| 25 | The `mermaid` package loads in the browser only when a full document with a Mermaid block opens. It uses the colors of `DESIGN.md`. | The map and element pages stay light. |
-| 26 | The fonts come from `@fontsource` packages and ship with the site. | No external font server. |
-
-### Open questions
-
-- Finding: `bun lint` does not exist in Bun 1.4.5 (`Script not found "lint"`). It runs a `lint` script of `package.json`. The built-in linter of [the Bun docs](https://bun.com/docs/lint) is not in the stable version yet. The project owner handles lint and format.
-
 ## Problem
 
 ### Goal
 
-The AIDDbot knowledge lives in Markdown files: the wiki, the root documents, and the specs. GitHub and Obsidian show them as plain pages. A person cannot see the whole picture: the lifecycle phases, the links between documents, and the status of each one.
+The AIDDbot knowledge lives in Markdown files: the wiki, the root documents, and the specs. GitHub and Obsidian show them as separate plain pages. A person cannot see the whole method at once: the lifecycle phases, the steps of a change, the building blocks, and the documents that each step makes.
 
-This change builds a web explorer for people. It reads the AIDDbot documents and shows them as a visual site, with navigation, graphics, and animations. It is part of the Foundation phase: it makes the project knowledge easy to read before we design the skills and templates. [Lifecycle phases](../wiki/intent.md#lifecycle-phases)
+This change builds a web explorer that tells the story of AIDDbot to people, as visually as possible. A map shows the whole method. Each part of the method has its own page with an animated diagram. The full documents are one click away. The explorer is documentation for people. It is not a graph viewer and not a copy of Obsidian.
+
+It is part of the Foundation phase: it makes the project knowledge easy to understand before we design the skills and templates. [Lifecycle phases](../wiki/intent.md#lifecycle-phases)
 
 ### Out of scope
 
 - Publication to a public host, such as GitHub Pages.
 - Search, editing, comments, and authentication.
+- A graph of all the documents and their links.
 - Reuse for the wiki of other projects, and any change to [what ships](../wiki/scaffolding.md#what-ships). A later spec can do it.
 - Validation of documents. The `doc validate` command of H3 does it. The explorer only shows the problems that it finds while it reads.
+- Links to files outside the content scope, such as `LICENSE`, on a Git host. The repository has no remote yet.
 
 ### User stories
 
-- `US1` - As a person who learns AIDDbot, I want to browse all the project documents from one home page, so that I find any topic quickly.
-- `US2` - As a person who reads a document, I want to see it rendered with its metadata, diagrams, and working links, so that I read it as easily as a web page.
-- `US3` - As a person who studies the project, I want to see a graph of the documents and their links, so that I understand how the knowledge connects.
+- `US1` - As a person who learns AIDDbot, I want one visual map of the whole method, so that I see how its phases, steps, building blocks, and documents fit together.
+- `US2` - As a person who studies one part of AIDDbot, I want a page for that part with an animated diagram and its details, so that I understand it without reading the whole wiki.
+- `US3` - As a person who wants all the details, I want to read the full documents rendered with their metadata and working links, so that I go deeper from any page.
 
 ## Solution
 
@@ -109,70 +54,157 @@ The explorer has two parts: a **builder** that reads the documents, and a **site
 
 ```mermaid
 graph LR
-  Docs[Markdown documents] -->|read| Builder[Builder]
+  Wiki[Wiki tables and sections] -->|read| Builder[Builder]
+  Docs[Full documents] -->|read| Builder
   Design[DESIGN.md] -->|colors and fonts| Builder
   Builder -->|writes| Site[Static site]
   Site -->|opens in| Browser[Browser]
 ```
 
-Text equivalent: the builder reads the Markdown documents and `DESIGN.md`, and writes a static site. A person opens the site in a browser.
+Text equivalent: the builder reads the wiki tables and sections, the full documents, and `DESIGN.md`. It writes a static site. A person opens the site in a browser.
 
-1. **The builder** runs on the person's machine with Bun. It reads each document in the content scope, its `META` frontmatter, and its links. It writes one data file with the documents, their groups, and their links, and copies the site files next to it. It lists each problem that it finds: a missing file, invalid `META`, or a broken link.
-2. **The site** is a set of HTML, CSS, and JavaScript files. It works on any static file server, also in a subfolder, because all its paths are relative. It loads the data file and shows the view that the address asks for.
+1. **The builder** runs on the person's machine with Bun. It reads four chapter tables from the wiki, the wiki sections and glossary terms that their rows link to, and every document of the content scope with its `META`. It writes one data file and copies the site files next to it. It stops with a clear error when the wiki breaks the contract below. It lists each smaller problem: a missing `META`, an invalid `META`, or a broken link.
+2. **The site** is a set of HTML, CSS, and JavaScript files. It works on any static file server, also in a subfolder, because all its paths are relative and the views use hash addresses, such as `#/phase/design`. It loads the data file and shows the view that the address asks for.
 
-### Content
+The wiki stays the single source of truth. The site adds only layout and animation. It never edits a document.
 
-| Group | Files |
+### Chapters
+
+The explorer tells AIDDbot in four chapters. Each chapter comes from one table of the wiki. Each row of the table is one **element** of the method.
+
+| Chapter | Element | Source table | Columns |
+| --- | --- | --- | --- |
+| Lifecycle phases | Phase | [`intent.md#lifecycle-phases`](../wiki/intent.md#lifecycle-phases) | `#`, `Phase`, `AIDDbot helps teams to`, `Project level`, `Change level` (as today) |
+| Change flow | Step | [`documentation-catalog.md#change-flow`](../wiki/documentation-catalog.md#change-flow) | `#`, `Step`, `Work`, `Uses`, `Produces` (new table) |
+| Building blocks | Block | [`intent.md#building-blocks`](../wiki/intent.md#building-blocks) | `Block`, `Role`, and a new column with the phases or documents that the block touches |
+| Documents | Document type | [`documentation-catalog.md#document-catalog`](../wiki/documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Relevance`, `Standards`, `Purpose` (as today) |
+
+### Wiki contract
+
+The builder and the wiki agree on a small contract:
+
+- **Location.** The builder finds each chapter by its fixed anchor, and reads the first table under it. The column names are fixed.
+- **Links between elements.** A document ID in backticks, such as `` `spec` ``, links to that document type. A step with the same name as a phase links to that phase.
+- **Errors.** A missing anchor, a renamed column, or an unknown document ID stops the build. The error names the file and the problem.
+- **Rule for editors.** The page rules of [knowledge-wiki.md](../wiki/knowledge-wiki.md#page-rules) say that these anchors and columns are stable. A change to them needs an explorer update. The details are in `explorer-development.md`.
+
+To meet the contract, the wiki changes in four places:
+
+| Page | Change |
 | --- | --- |
-| Wiki | `docs/wiki/*.md`, with the groups of `index.md` |
-| Root | `README.md`, `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `CHANGELOG.md` |
-| Specs | `docs/specs/*.md` |
-
-The explorer reads these files. It never edits them.
+| `documentation-catalog.md` | The change flow becomes a table with `Uses` and `Produces`. |
+| `documentation-catalog.md` | "Status use" becomes a table: `Status`, `Meaning`, `Set in step`, and a column that says which document types use it. `Life` is not enough, because `adr` is `LIVE` with its own cycle. |
+| `intent.md` | The building blocks table adds Templates and Wiki, and the new column. "Project knowledge" keeps its detail sections, and the rows link to them. |
+| `knowledge-wiki.md` | The page rules add the contract rule. |
 
 ### Views
 
-| View | User story | Content |
+| View | Address | User story | Content |
+| --- | --- | --- | --- |
+| Map | `#/` | `US1` | The home view. One picture in layers, described below. |
+| Element page | `#/<kind>/<id>` | `US2` | The row as a summary, the animated diagram of its kind, the wiki sections and glossary terms that the row links to, and the mini-map. A document type page also lists the documents of the content scope of that type. |
+| Full document | `#/doc/<id>` | `US3` | The rendered Markdown, the `META` fields as badges, a table of contents, and the `related` documents and `sources` as links. |
+| Not found | any other | `US1` | A message and a link to the map. |
+
+### The map
+
+The map is one picture in layers:
+
+```text
+        ┌──────── Maintenance ◄── Release ◄──┐
+        │                                     │
+        ▼     ┌─── change flow ──────────┐    │
+  Foundation ─► Analysis ► Design ► Impl ► Verif ► Close
+   [glossary]   [spec]     [adr]           [review-report]
+
+ ════════════════════════════════════════════════════
+  Skills · Templates · Scripts · Wiki · Distribution
+```
+
+- The phase loop is in the middle. The change flow sits inside the change-level phases. The document types hang under the phase or step that names them. The building blocks form a band below.
+- Code places each element by rules, from the table order. Nobody draws the map by hand. A new table row appears on the map with no drawing work.
+- A click on an element zooms the map into it, and then opens its page.
+- The same picture, small, is the mini-map of each page. It marks the current element. A click on the mini-map goes back to the map.
+
+### Page diagrams
+
+Each element kind has one diagram template. The builder fills it from the tables, so a new row gets its diagram with no drawing work. The diagram builds up step by step when the page opens.
+
+```text
+PHASE  (Design)
+  Analysis ──► [ Design ] ──► Implementation
+                  │
+       project: adr, design-system
+       change:  tasks / impl-plan
+
+STEP   (Verification)
+  spec ──► [ Verification ] ──► ticked spec
+                  └── fails? ─► review-report
+
+BLOCK  (Skills)
+  [ Skills ] ── uses ──► Templates, Scripts
+      └── runs in ──► Analysis … Close
+
+DOCUMENT  (spec)
+  draft ──► accepted ──► done
+   Analysis   Design      Close
+```
+
+### Content
+
+| Group | Files | Shown as |
 | --- | --- | --- |
-| Home | `US1` | The groups of `index.md`, with the title, summary, type, and status of each document. |
-| Document | `US2` | The rendered Markdown, the `META` fields as badges, a table of contents, and the `related` documents and `sources` as links. |
-| Graph | `US3` | The documents as nodes and their links as edges. The nodes move into place with an animation. A click on a node opens the document. |
-| Not found | `US1` | A message and a link to the home view. |
+| Wiki | `docs/wiki/*.md` | Chapter tables, linked sections, and full documents |
+| Root | `README.md`, `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `CHANGELOG.md` | Full documents |
+| Specs | `docs/specs/*.md` | Full documents |
+
+Rules for `META`:
+
+- Wiki pages and specs must have `META`. If it is missing or invalid, the document shows a warning.
+- `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. They show no warning. The builder gives them their document type from the file name: `readme`, `agent-instructions`, and `changelog`.
+- `DESIGN.md` keeps its `META` under the `aiddbot` key of its frontmatter, as the [DESIGN.md format](https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md) asks.
+- A link to a file outside the content scope, such as `LICENSE`, shows as plain text with a small "outside the explorer" mark.
 
 ### Building blocks
 
-- **Web Components.** Each part of the screen is one custom element in its own file, such as `<doc-card>`, `<doc-view>`, or `<doc-graph>`. A component can be reused in any view. There is no UI framework.
-- **Visual identity.** The colors of [DESIGN.md](../../DESIGN.md) become CSS variables. The dark theme is the default. A button switches to the light theme. The three fonts are hosted with the site.
-- **Animations.** CSS transitions for views and cards. The graph uses SVG and a force layout. When the browser asks for reduced motion, nothing moves.
-- **Libraries.** Only for work that is hard to do well by hand: a Markdown parser, Mermaid for diagrams, and a force layout for the graph. Each library is pinned in `package.json`.
+- **Web Components.** Each part of the screen is one custom element in its own file, such as `<aidd-map>`, `<element-page>`, or `<doc-view>`. A component can be reused in any view. There is no UI framework.
+- **Visual identity.** The colors of [DESIGN.md](../../DESIGN.md) become CSS variables. The dark theme is the default. A button switches to the light theme. The three fonts come from `@fontsource` packages and ship with the site.
+- **Animations.** The map, the page diagrams, and the zoom are hand-written SVG and CSS, with the Web Animations API. When the browser asks for reduced motion, every diagram shows its final state at once, and a click opens the page with no zoom.
+- **Libraries.** Only two:
+  - The builder parses Markdown with the built-in `Bun.markdown`. It adds heading ids as GitHub slugs, because `Bun.markdown` does not.
+  - The `mermaid` package renders the Mermaid blocks of a full document, with the colors of `DESIGN.md`. The site loads it only when such a document opens. The map and the element pages never load it.
+  - Each library is pinned in `package.json`.
 - **Language and checks.** TypeScript on Bun, as in [CLI development](../wiki/cli-development.md). `bun lint`, `bunx tsc --noEmit`, and `bun test` run on the explorer code.
 
 ### Repository changes
 
 - Code in `packages/explorer/`, the first package of the repository. The build output is ignored by Git.
 - Root `package.json` scripts: `explorer:dev` (a local server that rebuilds on change) and `explorer:build`.
-- A new Development wiki page, `explorer-development.md`: commands, folders, and component rules. `index.md` lists it.
+- The four wiki changes of the [wiki contract](#wiki-contract).
+- A new Development wiki page, `explorer-development.md`: commands, folders, the wiki contract in detail, and the component rules. `index.md` lists it.
 - Updates to `scaffolding.md`, `AGENTS.md` (the checks apply to the explorer code), `PLAN.md`, the glossary (term **knowledge explorer**), and `CHANGELOG.md`.
 
 ### Tasks
 
+- [ ] Change the wiki tables and add the contract rule, as the [wiki contract](#wiki-contract) says. Check: no broken link.
 - [ ] Create `packages/explorer/` with its `package.json`, TypeScript settings, and the root scripts. Check: `bun run explorer:build` runs.
-- [ ] Write the reader: documents, `META`, groups, and links, with unit tests. Check: `bun test`.
-- [ ] Write the site shell, the router, the theme, and the home view. Check: `US1R2`, `US1R3`.
-- [ ] Write the document view with Markdown, Mermaid, badges, and links. Check: `US2R1`, `US2R2`, `US2R3`.
-- [ ] Write the graph view. Check: `US3R1`.
-- [ ] Apply the visual identity and the reduced motion rule. Check: `US2R4`, `US3R2`.
+- [ ] Write the reader: chapter tables, links between elements, linked sections, documents, and `META`, with unit tests. Check: `bun test`, and `US1R4` with a broken copy of the wiki.
+- [ ] Write the site shell, the router, the theme, and the not-found view. Check: `US1R1`, and an unknown address shows the not-found view.
+- [ ] Write the map. Check: `US1R2`, `US1R3`.
+- [ ] Write the element pages and the four diagram templates. Check: `US2R1`.
+- [ ] Write the full document view. Check: `US3R1`, `US3R2`.
+- [ ] Apply the visual identity and the reduced motion rule. Check: `US2R2`, `US2R3`.
 - [ ] Update the documents of "Repository changes". Check: no broken link.
 - [ ] Check each requirement and tick it. Write the review report only if a requirement fails or there are findings.
 
 ## Verification
 
 - [ ] `US1R1` - When a person runs the build script, the explorer shall write a static site that works from a subfolder of a static file server.
-- [ ] `US1R2` - When a person opens the home view, the explorer shall list every document of the content scope in the groups of `index.md`, with its title, type, and status.
-- [ ] `US1R3` - If a person opens an unknown address, then the explorer shall show the not-found view with a link to the home view.
-- [ ] `US2R1` - When a person opens a document, the explorer shall render its headings, tables, code blocks, and Mermaid diagrams, and show its `META` fields as badges.
-- [ ] `US2R2` - When a person clicks a relative link to a document of the content scope, the explorer shall open that document at the target anchor.
-- [ ] `US2R3` - If a document has no `META`, invalid `META`, or a broken relative link, then the explorer shall show the document with a warning, and the build shall list each problem with its file.
-- [ ] `US2R4` - The explorer shall use the colors and fonts of `DESIGN.md`, with a dark and a light theme, and a text contrast of at least 4.5:1.
-- [ ] `US3R1` - When a person opens the graph view, the explorer shall show one node per document and one edge per link or `related` ID, and open the document of a node that the person clicks.
-- [ ] `US3R2` - While the browser asks for reduced motion, the explorer shall show no animation.
+- [ ] `US1R2` - When a person opens the map, the explorer shall show every phase, step, building block, and document type of the chapter tables, in their table order, with the links between them.
+- [ ] `US1R3` - When a person clicks an element on the map, the explorer shall zoom into that element and then open its page.
+- [ ] `US1R4` - If a chapter anchor, a chapter column, or a document ID of the wiki contract is missing or unknown, then the build shall stop with an error that names the file and the problem.
+- [ ] `US2R1` - When a person opens an element page, the explorer shall show the row summary, the animated diagram of the element kind, the linked wiki sections and glossary terms, and the mini-map with the element marked.
+- [ ] `US2R2` - The explorer shall use the colors and fonts of `DESIGN.md`, with a dark and a light theme, and a text contrast of at least 4.5:1.
+- [ ] `US2R3` - While the browser asks for reduced motion, the explorer shall show every diagram in its final state and open pages with no zoom.
+- [ ] `US3R1` - When a person opens a full document, the explorer shall render its headings, tables, code blocks, and Mermaid diagrams, show its `META` fields as badges, and open each relative link to a document of the content scope at its target anchor.
+- [ ] `US3R2` - If a wiki page or a spec has no `META` or an invalid `META`, or a document has a broken relative link, then the explorer shall show the document with a warning, and the build shall list each problem with its file.

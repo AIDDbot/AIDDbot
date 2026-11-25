@@ -99,6 +99,7 @@ Rules:
 - Write codes and IDs as inline code. Use a hyphen `-` between a code and its text.
 - A requirement states only the expected behavior. The tasks decide how to check it. Later, end-to-end tests can automate the checks.
 - After approval, the spec changes in two ways only: a checkbox is ticked, and the `status` and `updated` fields change.
+- An accepted spec can go back to `draft` only before its implementation starts. Then a person rewrites it and approves it again. After the implementation starts, a problem with the spec goes to the `review-report`.
 - Failed requirements and findings go to a [`review-report`](#when-to-separate-documents). The evidence stays in the check outputs: test results, CI runs, or the review of the pull request.
 - If a change needs more than 3 user stories or more than 9 requirements, it is too large. Split it into several specs, grouped by an `epic` if needed.
 - The scope is the user stories and the Solution. There is no "In scope" subsection.
@@ -244,3 +245,4 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 31 | What changes in a spec after approval? | Only its checkboxes and its `status` and `updated` fields. | The spec stays short and stable. A script can check it. Evidence lives in the check outputs, and later in end-to-end tests. |
 | 32 | Where do failures and findings go? | To a `review-report`, only when a requirement fails or the change has findings. | Most changes need no report. The spec does not grow after approval. |
 | 33 | How are user stories and requirements coded? | `US<n>` for a user story. `US<n>R<m>` for a requirement, numbered inside its user story. From another document: `<spec id>-US<n>R<m>`. Codes are inline code, with a hyphen before their text. | Codes compose like document IDs (`s0001-plan`). A hyphen is easy to type. Inline code shows each character, as `DESIGN.md` asks for IDs. |
+| 34 | Can an accepted spec change before its implementation starts? | Yes. It goes back to `draft`, a person rewrites it, and approves it again. After the implementation starts, decision 31 applies. | `s0002` needed a new scope after approval and before any code. A rewrite is cheaper than a new spec for the same change. |
