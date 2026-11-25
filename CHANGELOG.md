@@ -19,6 +19,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 - Knowledge explorer in `packages/explorer/`: a static site with a map of the method, one page with an animated diagram for each phase, step, building block, and document type, and the full documents. Run it with `bun run explorer:dev`.
 - Explorer development wiki page and the knowledge explorer glossary term.
+- Second spec, `s0002`: build the web knowledge explorer, closed with a review report of its evidence and findings.
 - First spec, `s0001`: build the AIDDbot wiki.
 - `roadmap` document type for the project plan, and the installer term.
 - Seven lifecycle phases with project and change levels: Foundation, Analysis, Design, Implementation, Verification, Release, Maintenance.

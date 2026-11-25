@@ -2,7 +2,7 @@
 id: s0002-review
 type: review-report
 title: Review of the web knowledge explorer
-status: draft
+status: done
 created: 2026-11-25
 updated: 2026-11-25
 links:
@@ -16,7 +16,7 @@ links:
 
 # s0002-review - Review of the web knowledge explorer
 
-All 9 requirements of [`s0002`](s0002-web-knowledge-explorer.spec.md) pass. This report records the evidence and the findings. An agent did the implementation in one session, with no person present. A person must check it before the spec is closed for good.
+All 9 requirements of [`s0002`](s0002-web-knowledge-explorer.spec.md) pass. This report records the evidence and the findings. An agent did the implementation in one session, with no person present. A person reviewed it and closed the change.
 
 ## Evidence
 
