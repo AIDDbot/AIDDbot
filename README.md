@@ -6,13 +6,13 @@ AIDDbot is a framework of reusable skills, document templates, and scripts for A
 
 ## How it works
 
-Every change follows the same flow and has one spec. The change type (`chore`, `refactor`, `fix`, `feat`) guides its acceptance criteria.
+Every change follows the same flow and has one spec. The change type (`chore`, `refactor`, `fix`, `feat`) guides its requirements.
 
-1. **Analysis.** Write a spec with the goal, scope, and acceptance. A person approves it before any code.
-2. **Design.** Split the work into tasks, each with a check, when tasks help.
+1. **Analysis.** Write the problem of the spec: the goal, what is out of scope, 1 to 3 user stories, and up to 9 requirements.
+2. **Design.** Write the solution and its tasks. A person approves the spec before any code.
 3. **Implementation.** Implement the change and update the docs.
-4. **Verification.** Run the checks and record the evidence.
-5. **Close.** Record the verification in the spec and freeze it. Move durable knowledge into the living documents.
+4. **Verification.** Check each requirement and tick it. Write a review report only if a requirement fails or there are findings.
+5. **Close.** Freeze the spec. Move durable knowledge into the living documents.
 
 Skills guide the agent in each step. Scripts do the deterministic parts, such as document IDs, metadata checks, and Git chores. See the [documentation catalog](docs/wiki/documentation-catalog.md#change-flow).
 

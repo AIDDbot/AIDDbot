@@ -23,7 +23,7 @@ Status: **draft**. The catalog defines the documents that the lifecycle skills p
 
 ## Principles
 
-1. **Spec-first, not spec-anchored.** Every change starts with a spec. A person approves its goal, scope, and acceptance before any code. The spec drives the change and is frozen when the change closes. It is not maintained afterwards. [Böckeler on SDD levels](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
+1. **Spec-first, not spec-anchored.** Every change starts with a spec. A person approves its problem, solution, and requirements before any code. The spec drives the change and is frozen when the change closes. It is not maintained afterwards. After approval, only its checkboxes and its `status` and `updated` fields change. [Böckeler on SDD levels](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 2. **One spec per change.** Separate documents appear only when an [explicit criterion](#when-to-separate-documents) asks for them.
 3. **Living knowledge is harvested, not anchored.** When a change closes, durable knowledge moves to the living documents that it affects: glossary, ADRs, wiki pages, changelog.
 4. **Fewer documents, more sections.** If content always travels with another document, it is a section of that document.
@@ -57,39 +57,51 @@ The project conventions (code style, commits, checks) are a section of `agent-in
 
 Every change follows five steps. The first four use the names of the [lifecycle phases](intent.md#lifecycle-phases) at change level.
 
-1. **Analysis.** Write the spec. Clarify the open questions with a person. A person approves it.
-2. **Design.** Split the work into tasks, each with a check, when tasks help to coordinate the work. Write an `adr` for a significant, hard-to-reverse decision.
+1. **Analysis.** Write the Problem section and the requirements of the spec. Clarify the open questions with a person.
+2. **Design.** Write the Solution section and its tasks. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec.
 3. **Implementation.** Implement the change and update the docs.
-4. **Verification.** Run the checks and record the evidence.
-5. **Close.** Record the results, freeze the spec, and harvest the knowledge.
+4. **Verification.** Check each requirement and tick it when it passes. If a requirement fails or the change has findings, write a `review-report`.
+5. **Close.** Freeze the spec and harvest the knowledge.
 
-Close is the last step of a change, not a lifecycle phase.
+Close is the last step of a change, not a lifecycle phase. In a small change, Analysis and Design can happen in one session, before the approval.
 
 ### Change types
 
-The type follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). It guides the acceptance criteria.
+The type follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). It guides the requirements.
 
-| Type | Use for | Acceptance |
+| Type | Use for | Requirements |
 | --- | --- | --- |
 | `chore` | Tooling, dependencies, configuration, docs. No behavior change. | The check that shows the result works. |
 | `refactor` | Internal structure change. No behavior change. | Behavior is unchanged. The existing checks pass. |
-| `fix` | A defect. Behavior returns to what was expected. | Always a regression case: it fails before the fix and passes after it. |
-| `feat` | New or changed behavior for users. | Observable outcomes: typical, boundary, and error cases. |
+| `fix` | A defect. Behavior returns to what was expected. | Always a regression case: it fails before the fix and passes after it. Usually an `If … then` requirement. |
+| `feat` | New or changed behavior for users. | Observable outcomes: typical (`When`), boundary (`While`, `Where`), and error (`If … then`) cases. |
 
 An `epic` is not a change type. It only groups several specs.
 
 ### Spec
 
-One spec per change. Sections:
+One spec per change. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](glossary.md#problem) views.
 
-| Section | Content | When |
-| --- | --- | --- |
-| Goal | Why the change is needed. | Always. |
-| Scope | What is in and what is out. | Always. |
-| Acceptance | Observable outcomes, as the [change type](#change-types) asks. | Always. |
-| Tasks | Ordered checklist. Each task has a check. | When tasks help to coordinate the work. |
-| Verification | At close: the checks, their results, and their evidence, or a link to the review of the pull request. | Always, at close. |
-| Findings | Lessons about the way of working: what helped, what got in the way. | When there are some. |
+| Section | Subsection | Content | Written in | When |
+| --- | --- | --- | --- | --- |
+| Problem | Goal | Why the change is needed. | Analysis | Always. |
+| Problem | Out of scope | What the change does not do. | Analysis | Always. |
+| Problem | User stories | 1 to 3 stories: `` - `US1` - As a <role>, I want <action>, so that <benefit>. `` | Analysis | Always. |
+| Solution | — | A technical design that a person who does not program can read: the parts, how they work together, and the decisions. | Design | Always. |
+| Solution | Tasks | Ordered checklist. Each task has a check. | Design | When tasks help to coordinate the work. |
+| Verification | — | A checklist of up to 9 requirements, grouped by user story: `` - [ ] `US1R1` - <requirement> ``. | Analysis; ticked in Verification | Always. |
+
+Rules:
+
+- Write each requirement in [EARS](#standards), as the [change type](#change-types) asks. The `<system>` of the pattern is a [system](glossary.md#system).
+- Each requirement belongs to one user story. Each user story has at least one requirement.
+- Codes compose: a requirement is numbered inside its user story (`US1R1`, `US1R2`, `US2R1`). From another document, add the spec ID: `s0002-US1R2`.
+- Write codes and IDs as inline code. Use a hyphen `-` between a code and its text.
+- A requirement states only the expected behavior. The tasks decide how to check it. Later, end-to-end tests can automate the checks.
+- After approval, the spec changes in two ways only: a checkbox is ticked, and the `status` and `updated` fields change.
+- Failed requirements and findings go to a [`review-report`](#when-to-separate-documents). The evidence stays in the check outputs: test results, CI runs, or the review of the pull request.
+- If a change needs more than 3 user stories or more than 9 requirements, it is too large. Split it into several specs, grouped by an `epic` if needed.
+- The scope is the user stories and the Solution. There is no "In scope" subsection.
 
 ### When to separate documents
 
@@ -99,9 +111,11 @@ Write a separate `impl-plan` or `review-report` only if at least one of these is
 - Several agents or people work on the change.
 - The change affects more than one [package](glossary.md#package).
 
+Also write a `review-report` when a requirement fails or the change has findings: lessons about the way of working, what helped, and what got in the way.
+
 ### Close a change
 
-1. Record the checks, their results, and their evidence in the spec, or link to the review.
+1. Check that every task and requirement is ticked. If one is not, the `review-report` says why.
 2. Set the spec status to `done`. Do not edit it again.
 3. Update the `LIVE` documents that the change affects.
 4. Add a `changelog` entry if the change matters to the people who use the project.
@@ -110,9 +124,9 @@ Write a separate `impl-plan` or `review-report` only if at least one of these is
 
 | ID | Document | Life | Relevance | Standards | Purpose |
 | --- | --- | --- | --- | --- | --- |
-| `spec` | Change specification | `CHG` | `MUST` | `EARS`, `GWT`, `META` | Goal, scope, acceptance, and verification of one change. Approved before code. |
+| `spec` | Change specification | `CHG` | `MUST` | `EARS`, `META` | Problem, solution, and verification of one change. Approved before code. |
 | `impl-plan` | Implementation plan | `CHG` | `COULD`: [criterion](#when-to-separate-documents) | `META` | Tasks, dependencies, and risks. Its checklist tracks progress across sessions and agents. |
-| `review-report` | Review report | `CHG` | `COULD`: [criterion](#when-to-separate-documents) | `META` | Checks with evidence, findings, and decisions that need human approval. |
+| `review-report` | Review report | `CHG` | `COULD`: [criterion](#when-to-separate-documents) | `META` | Failed requirements, findings, and decisions that need human approval. |
 | `adr` | Architecture decision record | `LIVE` | `MUST` for a significant, hard-to-reverse decision | `MADR`, `META` | One decision: context, options, outcome, consequences. A new ADR supersedes it. Nobody edits it. |
 | `glossary` | Glossary | `LIVE` | `MUST` | `META` | Shared terms for people, agents, documents, and code. |
 | `wiki-page` | Knowledge wiki page | `LIVE` | `SHOULD` | `LLMWIKI`, `META` | One topic, linked to its sources. See the [knowledge wiki](knowledge-wiki.md). |
@@ -177,8 +191,7 @@ Documents without a standard use plain Markdown and `META`. Add a standard only 
 | Code | Standard | Pattern or content | Used by |
 | --- | --- | --- | --- |
 | `CONVCOMMIT` | [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) | `<type>(<scope>): <description>` | Change types, commits, `changelog` |
-| `EARS` | [Easy Approach to Requirements Syntax](https://alistairmavin.com/ears/) | `When <trigger>, the <system> shall <response>` | `spec` acceptance |
-| `GWT` | [Given–When–Then](https://cucumber.io/docs/gherkin/reference/) | `Given <context> When <action> Then <result>` | `spec` acceptance |
+| `EARS` | [Easy Approach to Requirements Syntax](https://alistairmavin.com/ears/) | `The <system> shall <response>`, with an optional `When <trigger>`, `While <state>`, `Where <feature>`, or `If <condition>, then` | `spec` requirements |
 | `MADR` | [MADR](https://adr.github.io/madr/) | Context, drivers, options, outcome, consequences | `adr` |
 | `KEEPACL` | [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) | Added, Changed, Deprecated, Removed, Fixed, Security | `changelog` |
 | `SEMVER` | [Semantic Versioning](https://semver.org/) | `MAJOR.MINOR.PATCH` | `changelog`, AIDDbot CLI |
@@ -191,8 +204,8 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 
 - **Documents:** `conventions` (a section of `agent-instructions` for now), `prd`, `decision-note`, `vision`, `business-rules`, `process-model`, `example-map`, `domain-model`, `quality-attrs`, `tech-design`, `architecture`, `er-model`, `api-contract`, `event-contract`, `data-schema`, `threat-model`, `spike`, `migration-plan`, `gherkin`, `release-notes`, `deploy-plan`, `runbook`, `postmortem`, `tech-debt`, `diataxis-doc`.
 - **Regulated profile:** `brd`, `srs`, `use-case`, `traceability`. If a project needs regulated documentation, its obligations decide what to add.
-- **Spec sections for later:** `user-story`, `defect`, `ui-spec`, `decision-table`, `state-model`, `sequence`, `ui-checklist`.
-- **Standards:** `RGB`, `BCP14`, `GHERKIN`, `CONVCOMMENTS`, `AGENTSMD`, `SCRUM`, `LEANCANVAS`, `JTBD`, `UC`, `ISO29148`, `ARC42`, `BLAMELESS`, `DIATAXIS`, `DESIGNMD`, `MERMAID`, `UML`, `C4`, `ER`, `BPMN`, `DMN`, `OPENAPI`, `ASYNCAPI`, `JSONSCHEMA`, `DTCG`, `CSF`, `3C`, `INVEST`, `EXMAP`, `ISO25010`, `WCAG`, `APG`, `STRIDE`, `ASVS`, `AAA`, `BVA`.
+- **Spec sections for later:** `defect`, `ui-spec`, `decision-table`, `state-model`, `sequence`, `ui-checklist`.
+- **Standards:** `GWT`, `RGB`, `BCP14`, `GHERKIN`, `CONVCOMMENTS`, `AGENTSMD`, `SCRUM`, `LEANCANVAS`, `JTBD`, `UC`, `ISO29148`, `ARC42`, `BLAMELESS`, `DIATAXIS`, `DESIGNMD`, `MERMAID`, `UML`, `C4`, `ER`, `BPMN`, `DMN`, `OPENAPI`, `ASYNCAPI`, `JSONSCHEMA`, `DTCG`, `CSF`, `3C`, `INVEST`, `EXMAP`, `ISO25010`, `WCAG`, `APG`, `STRIDE`, `ASVS`, `AAA`, `BVA`.
 
 ## Decisions
 
@@ -205,11 +218,11 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 5 | ADR format? | `MADR` only. | Current standard; its minimal variant covers the Nygard form. |
 | 6 | Standards for the remaining documents? | None. Plain Markdown + `META`. | YAGNI. |
 | 7 | Is `progress-log` a document? | No. Progress lives in the tasks of the spec or the `impl-plan`. | One source of truth for progress. |
-| 8 | Where do user stories live? | Inside the `spec`, when they help. | Spec-first: the spec is the unit of change. |
+| 8 | Where do user stories live? | Superseded by decision 27. | — |
 | 9 | Spec-first or spec-anchored? | Spec-first. Knowledge is harvested into `LIVE` documents. | Specs stay small; living docs stay true. |
 | 10 | Where do `CHG` documents go after `done`? | They stay in the same folder. Status `done` marks them. | Links never break. |
 | 11 | How are document IDs assigned? | Specs use one neutral sequence, `s0001`, with the file `s0001-<short-slug>.spec.md`. Plans and reviews reuse the spec name with `.plan.md` and `.review.md`. The change type goes in the `change` field, not in the ID. ADR IDs wait for the first ADR. The H1 spec uses this provisional rule; the spec template in H2 confirms or changes it. See [document IDs](#document-ids-and-file-names). | The first spec needs a clear rule. A type letter in the ID would force a rename when the type changes. The suffix groups the documents of one change. |
-| 12 | Review and verification: one document or two? | One. It is a section of the spec, or a `review-report` when the [criterion](#when-to-separate-documents) asks for one. | Both are written at the same moment for the same change. |
+| 12 | Review and verification: one document or two? | Superseded by decision 32. | — |
 | 13 | UI specification: document or section? | A section of the `spec`, for later. | Spec-first: UI behavior is part of the change. `design-system` keeps the durable part. |
 | 14 | Are prose `LIVE` documents wiki pages? | Yes. The AIDDbot wiki starts in H1 (decision 19). | One fact, one home. |
 | 15 | Which tags does a document need? | Two: life and relevance. | Phase, focus, and context did not change any decision for the next change. |
@@ -224,3 +237,10 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 24 | How are the change steps named? | With the phase names: Analysis, Design, Implementation, Verification, and then Close. They replace specify, plan, build and review, close. | One vocabulary for phases and steps. People and agents do not translate between two lists (audit item B3). |
 | 25 | Is Close a phase? | No. It is the last step of a change. It returns knowledge to the Foundation documents. | It does not check anything. It keeps knowledge. |
 | 26 | Where does clarification go? | Inside Analysis, before a person approves the spec. | Fewer steps and handoffs. |
+| 27 | Which sections has a spec? | Three `##` sections: Problem (goal, out of scope, 1 to 3 user stories), Solution (an accessible technical design and its tasks), and Verification (a checklist of up to 9 EARS requirements, each with its user story). | The sections follow the problem, solution, verification views. User stories give the reason for each requirement. |
+| 28 | Is there a limit on the size of a spec? | Yes. At most 3 user stories and 9 requirements. A larger change is split. | Small changes are easier to review and verify. A script can check the limits. |
+| 29 | Which standard do the requirements use? | `EARS` only. `GWT` waits for a real need. | One syntax. EARS covers typical, state, optional, and error cases. |
+| 30 | When does a person approve the spec? | Once, at the end of Design, before Implementation. | The person sees the problem, the requirements, and the solution together. Small changes do Analysis and Design in one session. |
+| 31 | What changes in a spec after approval? | Only its checkboxes and its `status` and `updated` fields. | The spec stays short and stable. A script can check it. Evidence lives in the check outputs, and later in end-to-end tests. |
+| 32 | Where do failures and findings go? | To a `review-report`, only when a requirement fails or the change has findings. | Most changes need no report. The spec does not grow after approval. |
+| 33 | How are user stories and requirements coded? | `US<n>` for a user story. `US<n>R<m>` for a requirement, numbered inside its user story. From another document: `<spec id>-US<n>R<m>`. Codes are inline code, with a hyphen before their text. | Codes compose like document IDs (`s0001-plan`). A hyphen is easy to type. Inline code shows each character, as `DESIGN.md` asks for IDs. |

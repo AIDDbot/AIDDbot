@@ -33,7 +33,7 @@ Git and `CHANGELOG.md` keep the history. Do not add change history sections to t
 
 ## Way of working
 
-- **Spec-first.** Every change starts with one [spec](docs/wiki/documentation-catalog.md#spec): goal, scope, and acceptance. A person approves it before any code. When the change closes, record the verification in the spec and update the affected living documents.
+- **Spec-first.** Every change starts with one [spec](docs/wiki/documentation-catalog.md#spec): problem, solution, and verification requirements. A person approves it before any code. After approval, the spec changes only in its checkboxes and its `status` and `updated` fields. When the change closes, update the affected living documents.
   - Temporary exception: until the spec template has been used in a change, changes to the wiki pages and the root documents do not need a spec.
 - **Change types** are `chore`, `refactor`, `fix`, and `feat`. An `epic` only groups specs.
 - **Commits** follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The commit type matches the change type.

@@ -10,6 +10,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 - Script toolchain split into the AIDDbot CLI page and the CLI development page.
 - `META` uses `created` and `updated` dates instead of `date`.
 - Change flow steps use the lifecycle phase names: Analysis, Design, Implementation, Verification, and Close.
+- Spec sections are Problem, Solution, and Verification, with 1 to 3 user stories and a checklist of up to 9 EARS requirements. After approval, only checkboxes and status change; failures and findings go to a review report.
 
 ### Added
 

@@ -55,10 +55,10 @@ AIDDbot covers seven phases. Each phase has a one-word name. Work happens at two
 | # | Phase | AIDDbot helps teams to | Project level | Change level |
 | --- | --- | --- | --- | --- |
 | 0 | Foundation | Prepare the project set and the knowledge wiki. | `agent-instructions`, `glossary`, wiki | — |
-| 1 | Analysis | Clarify goals, write requirements and acceptance criteria, split work into deliverable changes. | `roadmap` | `spec` |
+| 1 | Analysis | Clarify goals, write user stories and requirements, split work into deliverable changes. | `roadmap` | `spec` |
 | 2 | Design | Compare options, record decisions, plan the work and its checks. | `adr`, architecture, `design-system` | Tasks or `impl-plan` |
 | 3 | Implementation | Follow repo conventions, make focused changes, update docs. | — | Code and docs |
-| 4 | Verification | Run checks, review against acceptance criteria, record findings and gaps. | — | Verification section or `review-report` |
+| 4 | Verification | Run checks, review against the requirements, record findings and gaps. | — | Ticked requirements; `review-report` on failures or findings |
 | 5 | Release | Write release notes, check readiness, support deploy and rollback. | Release, `changelog` | — |
 | 6 | Maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. | Incidents, dependencies, technical debt | — |
 

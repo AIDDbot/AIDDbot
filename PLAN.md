@@ -37,7 +37,7 @@ We test AIDDbot on AIDDbot. This repository is the first project that uses its s
 1. **Start from the wiki.** The [AIDDbot wiki](docs/wiki/index.md) is the design base. A skill, template, or command applies a rule from a method page. If a rule is missing, add it to its page first.
 2. **Use each piece as soon as it exists.** The next change in this repository uses the new skill, template, or command.
 3. **The tool never blocks the work.** If an AIDDbot step is missing or gets in the way, do it by hand and record a finding.
-4. **Record every finding.** Each change records its process findings in its spec. Findings that change this plan go to the [findings](#findings) table.
+4. **Record every finding.** Each change records its process findings in its review report. Findings that change this plan go to the [findings](#findings) table.
 
 ## How to use this plan
 
@@ -54,6 +54,7 @@ The temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers changes 
 - [x] Update `AGENTS.md` and the links in every document.
 - [x] Check how anchor links work in [Obsidian](docs/wiki/knowledge-wiki.md#obsidian). Decide if the pages keep them or link to whole pages.
 - [x] Define the [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), their project and change levels, and the structure and business terms of the [glossary](docs/wiki/glossary.md).
+- [ ] Build the web knowledge explorer: a visual site for people that reads the AIDDbot documents. Spec [`s0002`](docs/specs/s0002-web-knowledge-explorer.spec.md).
 - [ ] Map the lifecycle skills. For each phase in [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), state the skills, the documents that each skill produces, and the order in which we build them.
 - [ ] Check that the [documentation catalog](docs/wiki/documentation-catalog.md) defines every document in the map.
 - [x] Write one change with its [spec](docs/wiki/documentation-catalog.md#spec) in `docs/specs/s0001-<short-slug>.spec.md`, with [`META`](docs/wiki/documentation-catalog.md#document-ids-and-file-names). A person approves it, and the change closes with evidence.
@@ -117,7 +118,6 @@ Done when: the success criterion is true. The README states how to install, upda
 
 Names only. Design one when a real change needs it.
 
-- Web explorer of the documentation.
 - Regulated profile (`brd`, `srs`, `use-case`, `traceability`) and `prd`.
 - Optional integrations for each tool, such as hooks.
 - Monitoring log and performance budget.
