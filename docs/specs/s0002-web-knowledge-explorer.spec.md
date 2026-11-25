@@ -38,9 +38,20 @@ links:
 
 Removed from the old version: the graph view (`US3`) and the `d3-force` library.
 
+#### Wiki structure for the builder
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| 9 | The builder finds each chapter by a fixed anchor and reads the first table under it, with fixed column names. A renamed anchor or column fails the build with a clear error. | Almost no change to the wiki. No tool-specific markers. |
+| 10 | Chapter sources: `intent.md#lifecycle-phases`, `documentation-catalog.md#change-flow`, `intent.md#building-blocks`, `documentation-catalog.md#document-catalog`. | These sections already hold the four chapters. |
+| 11 | The change flow becomes a table: `#`, `Step`, `Work`, `Produces` (document IDs). | The same contract for the four chapters. `Produces` links steps to documents. |
+| 12 | The building blocks table adds Templates and Wiki, and a new column that lists the phases or documents that each block touches. "Project knowledge" keeps its detail sections, linked from the rows. | The map shows all the blocks, and each block links to the rest. |
+| 13 | Cross-links: a document ID in backticks links to that document. A step name equal to a phase name links them. An unknown ID fails the build. | Short tables, explicit links, and early errors. |
+| 14 | An element page shows its row as a summary, plus the wiki sections and glossary terms that the row links to. | Detail without new text. The wiki stays the source. |
+| 15 | The contract goes in the page rules of `knowledge-wiki.md`: these anchors and columns are stable, and a change to them needs an explorer update. The detail goes in `explorer-development.md`. | A wiki editor sees the rule before they break it. |
+
 ### Open questions
 
-- Which fixed structure (headings, anchors, or tables) the wiki needs, so that the builder can read it.
 - How the map looks: one picture for all chapters, or one picture per chapter.
 - Which libraries stay. `marked` and `mermaid` are probable.
 - Finding: `bun lint` does not exist in Bun 1.4.5 (`Script not found "lint"`). It runs a `lint` script of `package.json`. The built-in linter of [the Bun docs](https://bun.com/docs/lint) is not in the stable version yet. The project owner handles lint and format.
