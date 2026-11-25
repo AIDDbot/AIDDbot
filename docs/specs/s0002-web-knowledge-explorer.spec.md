@@ -3,7 +3,7 @@ id: s0002
 type: spec
 change: feat
 title: Build the web knowledge explorer
-status: accepted
+status: draft
 created: 2026-11-25
 updated: 2026-11-25
 links:
@@ -18,6 +18,32 @@ links:
 ---
 
 # s0002 - Build the web knowledge explorer
+
+## Pending
+
+> **Proposals from the brainstorm of 2026-11-25.** The spec went back to `draft` before any code was written. The sections below this one are the old version. Rewrite them with these decisions, then approve the spec again. Delete this section when the spec is rewritten.
+
+### Decisions
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| 1 | `s0002` goes back to `draft` and is rewritten. | No code exists yet. The scope must change. |
+| 2 | New catalog rule: an accepted spec can go back to `draft` only before its implementation starts. | The catalog does not cover this case today (decision 31 forbids other changes). |
+| 3 | The core is a visual story of AIDDbot for people. It is not a graph viewer and not a copy of Obsidian. | The goal is documentation for people, as visual as possible. |
+| 4 | Chapters: lifecycle phases, change flow, building blocks, and documents. | Together they show the whole picture of AIDDbot. |
+| 5 | The home page is an interactive map. Each element (phase, step, block, document type) has its own page. Each page shows a mini-map or breadcrumb, so a person never gets lost. | No single huge HTML page. Detail lives on its own page. |
+| 6 | The page content is built from the wiki (`intent.md`, the catalog, the glossary). The site adds only layout and animation. | The wiki stays the single source of truth. |
+| 7 | Full documents are a second level: a map page links to the rendered document with its `META` badges. The map replaces the list of all documents on the home page. | Detail for people who want it. |
+| 8 | Animations are SVG diagrams that build up step by step. Nothing moves while the browser asks for reduced motion. | Very visual, and easy to keep in step with the wiki. |
+
+Removed from the old version: the graph view (`US3`) and the `d3-force` library.
+
+### Open questions
+
+- Which fixed structure (headings, anchors, or tables) the wiki needs, so that the builder can read it.
+- How the map looks: one picture for all chapters, or one picture per chapter.
+- Which libraries stay. `marked` and `mermaid` are probable.
+- Finding: `bun lint` does not exist in Bun 1.4.5 (`Script not found "lint"`). It runs a `lint` script of `package.json`. The built-in linter of [the Bun docs](https://bun.com/docs/lint) is not in the stable version yet. The project owner handles lint and format.
 
 ## Problem
 
