@@ -3,11 +3,15 @@
 let counter = 0;
 
 function cssVar(name: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${name}`)
+    .trim();
 }
 
 export async function renderMermaid(root: HTMLElement): Promise<void> {
-  const blocks = [...root.querySelectorAll<HTMLElement>("pre > code.language-mermaid")];
+  const blocks = [
+    ...root.querySelectorAll<HTMLElement>("pre > code.language-mermaid"),
+  ];
   if (blocks.length === 0) return;
   const { default: mermaid } = await import("mermaid");
   mermaid.initialize({

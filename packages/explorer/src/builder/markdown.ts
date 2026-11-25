@@ -9,7 +9,10 @@ export interface Heading {
 }
 
 /** Splits the YAML frontmatter from the Markdown body. */
-export function splitFrontmatter(source: string): { yaml: string | null; body: string } {
+export function splitFrontmatter(source: string): {
+  yaml: string | null;
+  body: string;
+} {
   const text = source.replace(/^﻿/, "").replace(/\r\n/g, "\n");
   const match = /^---\n([\s\S]*?)\n---\n?/.exec(text);
   if (!match) return { yaml: null, body: text };
@@ -70,7 +73,12 @@ export function headings(body: string): Heading[] {
     const match = /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
     if (!match) return;
     const text = match[2] ?? "";
-    result.push({ level: (match[1] ?? "").length, text: plainText(text), slug: counter.next(text), line: index });
+    result.push({
+      level: (match[1] ?? "").length,
+      text: plainText(text),
+      slug: counter.next(text),
+      line: index,
+    });
   });
   return result;
 }
@@ -78,19 +86,26 @@ export function headings(body: string): Heading[] {
 /** Every anchor of a body: heading slugs and HTML `<a id>` anchors. */
 export function anchors(body: string): Set<string> {
   const set = new Set(headings(body).map((h) => h.slug));
-  for (const match of body.matchAll(/<a\s+id="([^"]+)"/g)) set.add(match[1] ?? "");
+  for (const match of body.matchAll(/<a\s+id="([^"]+)"/g))
+    set.add(match[1] ?? "");
   return set;
 }
 
 /** The lines of a heading section: from the heading to the next heading of the same or a higher level. */
-export function sectionLines(body: string, slug: string): { heading: Heading; lines: string[] } | null {
+export function sectionLines(
+  body: string,
+  slug: string,
+): { heading: Heading; lines: string[] } | null {
   const all = headings(body);
   const index = all.findIndex((h) => h.slug === slug);
   const heading = all[index];
   if (!heading) return null;
   const lines = body.split("\n");
   const next = all.slice(index + 1).find((h) => h.level <= heading.level);
-  return { heading, lines: lines.slice(heading.line, next ? next.line : lines.length) };
+  return {
+    heading,
+    lines: lines.slice(heading.line, next ? next.line : lines.length),
+  };
 }
 
 /** Splits one Markdown table row into cells. Pipes inside inline code or escaped pipes stay in the cell. */
@@ -136,7 +151,10 @@ export function firstTableUnder(body: string, slug: string): Table | null {
   const end = all[index + 1]?.line ?? lines.length;
   let start = -1;
   for (let i = heading.line + 1; i < end; i++) {
-    if (/^\s*\|/.test(lines[i] ?? "") && /^\s*\|?\s*:?-{3,}/.test(lines[i + 1] ?? "")) {
+    if (
+      /^\s*\|/.test(lines[i] ?? "") &&
+      /^\s*\|?\s*:?-{3,}/.test(lines[i + 1] ?? "")
+    ) {
       start = i;
       break;
     }
@@ -144,7 +162,8 @@ export function firstTableUnder(body: string, slug: string): Table | null {
   if (start < 0) return null;
   const header = splitRow(lines[start] ?? "");
   const rows: string[][] = [];
-  for (let i = start + 2; i < end && /^\s*\|/.test(lines[i] ?? ""); i++) rows.push(splitRow(lines[i] ?? ""));
+  for (let i = start + 2; i < end && /^\s*\|/.test(lines[i] ?? ""); i++)
+    rows.push(splitRow(lines[i] ?? ""));
   return { header, rows };
 }
 
@@ -169,11 +188,18 @@ export function summaryLines(body: string): string[] {
 
 /** Markdown to HTML with Bun.markdown. Headings get GitHub slugs. */
 export function toHtml(markdown: string): string {
-  const html = Bun.markdown.html(markdown, { tables: true, strikethrough: true, tasklists: true });
-  const counter = new SlugCounter();
-  return html.replace(/<h([1-6])>([\s\S]*?)<\/h\1>/g, (_m, level: string, inner: string) => {
-    return `<h${level} id="${counter.next(inner)}">${inner}</h${level}>`;
+  const html = Bun.markdown.html(markdown, {
+    tables: true,
+    strikethrough: true,
+    tasklists: true,
   });
+  const counter = new SlugCounter();
+  return html.replace(
+    /<h([1-6])>([\s\S]*?)<\/h\1>/g,
+    (_m, level: string, inner: string) => {
+      return `<h${level} id="${counter.next(inner)}">${inner}</h${level}>`;
+    },
+  );
 }
 
 /** Inline Markdown (one table cell) to HTML, with no wrapping paragraph. */
@@ -190,5 +216,9 @@ export function codeSpans(markdown: string): string[] {
 }
 
 export function escapeHtml(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }

@@ -38,7 +38,9 @@ pre,
 kbd {
   font-family: var(--font-code);
   font-size: var(--size-code);
-  font-feature-settings: "liga" 0, "calt" 0;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
 }
 
 h1,

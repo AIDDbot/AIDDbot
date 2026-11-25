@@ -1,5 +1,12 @@
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  cpSync,
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { build } from "../src/builder/build.ts";
@@ -15,7 +22,8 @@ let temp = "";
 function copyRepo(): string {
   const dir = mkdtempSync(join(temp, "repo-"));
   cpSync(join(REPO, "docs"), join(dir, "docs"), { recursive: true });
-  for (const file of [...ROOT_FILES, "LICENSE"]) if (existsSync(join(REPO, file))) cpSync(join(REPO, file), join(dir, file));
+  for (const file of [...ROOT_FILES, "LICENSE"])
+    if (existsSync(join(REPO, file))) cpSync(join(REPO, file), join(dir, file));
   return dir;
 }
 
@@ -31,7 +39,8 @@ async function contractProblems(dir: string): Promise<string[]> {
   try {
     await readData(dir);
   } catch (error) {
-    if (error instanceof ContractError) return error.problems.map((p) => `${p.file}: ${p.message}`);
+    if (error instanceof ContractError)
+      return error.problems.map((p) => `${p.file}: ${p.message}`);
     throw error;
   }
   return [];
@@ -58,7 +67,13 @@ describe("readData on this repository", () => {
       "Release",
       "Maintenance",
     ]);
-    expect(data.chapters.steps.map((s) => s.name)).toEqual(["Analysis", "Design", "Implementation", "Verification", "Close"]);
+    expect(data.chapters.steps.map((s) => s.name)).toEqual([
+      "Analysis",
+      "Design",
+      "Implementation",
+      "Verification",
+      "Close",
+    ]);
     expect(data.chapters.blocks.length).toBeGreaterThanOrEqual(6);
     expect(data.chapters.types.map((t) => t.id)).toContain("spec");
   });
@@ -66,8 +81,16 @@ describe("readData on this repository", () => {
   test("links a step to the phase with the same name, in both directions", () => {
     const step = data.chapters.steps.find((s) => s.id === "design");
     const phase = data.chapters.phases.find((p) => p.id === "design");
-    expect(step?.links).toContainEqual({ kind: "phase", id: "design", label: "Design" });
-    expect(phase?.links).toContainEqual({ kind: "step", id: "design", label: "Design" });
+    expect(step?.links).toContainEqual({
+      kind: "phase",
+      id: "design",
+      label: "Design",
+    });
+    expect(phase?.links).toContainEqual({
+      kind: "step",
+      id: "design",
+      label: "Design",
+    });
   });
 
   test("hangs each document type under a phase or a step", () => {
@@ -88,7 +111,9 @@ describe("readData on this repository", () => {
   });
 
   test("DESIGN.md keeps its META under the aiddbot key", () => {
-    expect(data.docs.find((d) => d.path === "DESIGN.md")?.meta?.id).toBe("design-system");
+    expect(data.docs.find((d) => d.path === "DESIGN.md")?.meta?.id).toBe(
+      "design-system",
+    );
   });
 
   test("links to a document of the content scope open the target anchor", () => {
@@ -107,26 +132,51 @@ describe("wiki contract (US1R4)", () => {
   test("a missing chapter anchor stops the build and names the file", async () => {
     const dir = copyRepo();
     edit(dir, "docs/wiki/intent.md", "## Building blocks", "## Blocks");
-    expect(await contractProblems(dir)).toContainEqual(expect.stringContaining("docs/wiki/intent.md: anchor #building-blocks"));
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining("docs/wiki/intent.md: anchor #building-blocks"),
+    );
   });
 
   test("a renamed column stops the build", async () => {
     const dir = copyRepo();
-    edit(dir, "docs/wiki/documentation-catalog.md", "| # | Step | Work | Uses | Produces |", "| # | Step | Work | Inputs | Produces |");
+    edit(
+      dir,
+      "docs/wiki/documentation-catalog.md",
+      "| # | Step | Work | Uses | Produces |",
+      "| # | Step | Work | Inputs | Produces |",
+    );
     const problems = await contractProblems(dir);
-    expect(problems).toContainEqual(expect.stringContaining("docs/wiki/documentation-catalog.md: table #change-flow has columns"));
+    expect(problems).toContainEqual(
+      expect.stringContaining(
+        "docs/wiki/documentation-catalog.md: table #change-flow has columns",
+      ),
+    );
   });
 
   test("an unknown document ID stops the build", async () => {
     const dir = copyRepo();
-    edit(dir, "docs/wiki/documentation-catalog.md", "| `spec`, `adr`, `impl-plan` |", "| `spec`, `adrs`, `impl-plan` |");
-    expect(await contractProblems(dir)).toContainEqual(expect.stringContaining("unknown document ID `adrs`"));
+    edit(
+      dir,
+      "docs/wiki/documentation-catalog.md",
+      "| `spec`, `adr`, `impl-plan` |",
+      "| `spec`, `adrs`, `impl-plan` |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining("unknown document ID `adrs`"),
+    );
   });
 
   test("an unknown element in a relations column stops the build", async () => {
     const dir = copyRepo();
-    edit(dir, "docs/wiki/intent.md", "| Foundation, Close, `wiki-page`, `glossary` |", "| Foundation, Deploy, `wiki-page`, `glossary` |");
-    expect(await contractProblems(dir)).toContainEqual(expect.stringContaining('unknown element "Deploy"'));
+    edit(
+      dir,
+      "docs/wiki/intent.md",
+      "| Foundation, Close, `wiki-page`, `glossary` |",
+      "| Foundation, Deploy, `wiki-page`, `glossary` |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining('unknown element "Deploy"'),
+    );
   });
 });
 
@@ -137,20 +187,43 @@ describe("smaller problems (US3R2)", () => {
     edit(dir, "docs/wiki/aiddbot-cli.md", /status: \w+/, "status: maybe");
     edit(dir, "docs/wiki/index.md", "(glossary.md)", "(glosary.md)");
     const data = await readData(dir);
-    expect(data.problems).toContainEqual({ file: "docs/wiki/scaffolding.md", message: "META is missing" });
-    expect(data.problems).toContainEqual({ file: "docs/wiki/aiddbot-cli.md", message: "META status `maybe` is not valid" });
-    expect(data.problems).toContainEqual({ file: "docs/wiki/index.md", message: "Broken link: glosary.md not found" });
-    expect(data.docs.find((d) => d.path === "docs/wiki/scaffolding.md")?.warnings).toContain("META is missing");
+    expect(data.problems).toContainEqual({
+      file: "docs/wiki/scaffolding.md",
+      message: "META is missing",
+    });
+    expect(data.problems).toContainEqual({
+      file: "docs/wiki/aiddbot-cli.md",
+      message: "META status `maybe` is not valid",
+    });
+    expect(data.problems).toContainEqual({
+      file: "docs/wiki/index.md",
+      message: "Broken link: glosary.md not found",
+    });
+    expect(
+      data.docs.find((d) => d.path === "docs/wiki/scaffolding.md")?.warnings,
+    ).toContain("META is missing");
   });
 
   test("validateMeta checks fields, dates, and the spec change type", () => {
     const problems = validateMeta(
-      { id: "s9", type: "spec", title: "T", status: "draft", created: "2026-1-1", updated: "2026-01-01", links: {} },
+      {
+        id: "s9",
+        type: "spec",
+        title: "T",
+        status: "draft",
+        created: "2026-1-1",
+        updated: "2026-01-01",
+        links: {},
+      },
       new Set(["spec"]),
     );
     expect(problems).toContain("META field `created` is not an ISO 8601 date");
-    expect(problems).toContain("META field `change` is missing or not a change type");
-    expect(problems).toContain("META field `links.sources` is missing or not a list");
+    expect(problems).toContain(
+      "META field `change` is missing or not a change type",
+    );
+    expect(problems).toContain(
+      "META field `links.sources` is missing or not a list",
+    );
   });
 });
 
@@ -158,7 +231,13 @@ describe("build (US1R1)", () => {
   test("writes a static site with relative paths only", async () => {
     const out = join(temp, "site", "sub", "explorer");
     await build(REPO, out);
-    for (const file of ["index.html", "main.js", "styles.css", "theme.css", "data.json"]) {
+    for (const file of [
+      "index.html",
+      "main.js",
+      "styles.css",
+      "theme.css",
+      "data.json",
+    ]) {
       expect(existsSync(join(out, file))).toBe(true);
     }
     const html = readFileSync(join(out, "index.html"), "utf8");

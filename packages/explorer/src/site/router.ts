@@ -16,6 +16,7 @@ export function parseRoute(hash: string): Route {
   const [first = "", id = "", anchor = "", ...rest] = parts;
   if (rest.length > 0 || !id) return { view: "not-found", address };
   if (first === "doc") return { view: "doc", id, anchor };
-  if (KINDS.has(first) && !anchor) return { view: "element", kind: first as Kind, id };
+  if (KINDS.has(first) && !anchor)
+    return { view: "element", kind: first as Kind, id };
   return { view: "not-found", address };
 }

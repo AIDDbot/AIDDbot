@@ -31,7 +31,11 @@ export function allElements(data: ExplorerData): Element[] {
   return [...phases, ...steps, ...blocks, ...types];
 }
 
-export function findElement(data: ExplorerData, kind: string, id: string): Element | undefined {
+export function findElement(
+  data: ExplorerData,
+  kind: string,
+  id: string,
+): Element | undefined {
   return allElements(data).find((e) => e.kind === kind && e.id === id);
 }
 
@@ -52,12 +56,20 @@ export function fieldOf(element: Element, column: string) {
 }
 
 /** The steps that use or produce a document type. */
-export function stepsFor(data: ExplorerData, typeId: string, column: "Uses" | "Produces"): Ref[] {
+export function stepsFor(
+  data: ExplorerData,
+  typeId: string,
+  column: "Uses" | "Produces",
+): Ref[] {
   return data.chapters.steps
     .filter((s) => fieldOf(s, column)?.refs.some((r) => r.id === typeId))
     .map((s) => ({ kind: s.kind, id: s.id, label: s.name }));
 }
 
 export function escapeHtml(text: string): string {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }

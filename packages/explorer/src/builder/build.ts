@@ -13,7 +13,10 @@ export interface BuildResult {
 }
 
 /** Reads the documents of `root` and writes the site to `outDir`. */
-export async function build(root: string, outDir: string): Promise<BuildResult> {
+export async function build(
+  root: string,
+  outDir: string,
+): Promise<BuildResult> {
   const data = await readData(root);
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
@@ -25,13 +28,23 @@ export async function build(root: string, outDir: string): Promise<BuildResult> 
     format: "esm",
     splitting: true,
     minify: true,
-    naming: { entry: "[name].[ext]", chunk: "chunks/[name]-[hash].[ext]", asset: "assets/[name]-[hash].[ext]" },
+    naming: {
+      entry: "[name].[ext]",
+      chunk: "chunks/[name]-[hash].[ext]",
+      asset: "assets/[name]-[hash].[ext]",
+    },
   });
   if (!bundle.success) {
     throw new AggregateError(bundle.logs, "The site bundle failed");
   }
-  await Bun.write(join(outDir, "theme.css"), themeCss(await Bun.file(posix.join(root, "DESIGN.md")).text()));
-  await Bun.write(join(outDir, "index.html"), Bun.file(join(SITE, "index.html")));
+  await Bun.write(
+    join(outDir, "theme.css"),
+    themeCss(await Bun.file(posix.join(root, "DESIGN.md")).text()),
+  );
+  await Bun.write(
+    join(outDir, "index.html"),
+    Bun.file(join(SITE, "index.html")),
+  );
   await Bun.write(join(outDir, "data.json"), JSON.stringify(data));
   return { data, outDir };
 }

@@ -31,7 +31,10 @@ export class AiddApp extends HTMLElement {
       const footer = this.querySelector("footer") as HTMLElement;
       const problems = data.problems.length
         ? `<details><summary>${data.problems.length} build problem(s)</summary><ul>${data.problems
-            .map((p) => `<li><code>${escapeHtml(p.file)}</code>: ${escapeHtml(p.message)}</li>`)
+            .map(
+              (p) =>
+                `<li><code>${escapeHtml(p.file)}</code>: ${escapeHtml(p.message)}</li>`,
+            )
             .join("")}</ul></details>`
         : "<span>No build problems.</span>";
       footer.innerHTML = `<span>Built from the AIDDbot documents on ${escapeHtml(data.generated.slice(0, 10))}.</span>${problems}`;
@@ -59,9 +62,15 @@ export class AiddApp extends HTMLElement {
       case "doc": {
         // Same document, other anchor: scroll only.
         const current = this.main.querySelector("doc-view");
-        if (current && current.getAttribute("doc") === route.id && route.anchor) {
+        if (
+          current &&
+          current.getAttribute("doc") === route.id &&
+          route.anchor
+        ) {
           current.setAttribute("anchor", route.anchor);
-          document.getElementById(route.anchor)?.scrollIntoView({ block: "start" });
+          document
+            .getElementById(route.anchor)
+            ?.scrollIntoView({ block: "start" });
           return;
         }
         view = document.createElement("doc-view");
@@ -101,7 +110,8 @@ export class ThemeToggle extends HTMLElement {
       button.setAttribute("aria-pressed", String(light));
     };
     button.addEventListener("click", () => {
-      const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+      const next =
+        document.documentElement.dataset.theme === "light" ? "dark" : "light";
       document.documentElement.dataset.theme = next;
       try {
         localStorage.setItem("aiddbot-theme", next);

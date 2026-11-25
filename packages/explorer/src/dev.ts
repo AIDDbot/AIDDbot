@@ -19,12 +19,15 @@ async function rebuild(reason: string) {
   try {
     const { data } = await build(root, out);
     const ms = Math.round(performance.now() - started);
-    console.log(`[explorer] built (${reason}) in ${ms} ms, ${data.problems.length} problem(s)`);
+    console.log(
+      `[explorer] built (${reason}) in ${ms} ms, ${data.problems.length} problem(s)`,
+    );
     for (const p of data.problems) console.warn(`  - ${p.file}: ${p.message}`);
   } catch (error) {
     if (error instanceof ContractError) {
       console.error("[explorer] the wiki breaks the explorer contract:");
-      for (const p of error.problems) console.error(`  - ${p.file}: ${p.message}`);
+      for (const p of error.problems)
+        console.error(`  - ${p.file}: ${p.message}`);
     } else {
       console.error("[explorer] build failed:", error);
     }
@@ -40,7 +43,9 @@ const schedule = (reason: string) => {
 };
 const watched = [join(root, "docs"), join(import.meta.dir)];
 for (const folder of watched) {
-  watch(folder, { recursive: true }, (_event, file) => schedule(String(file ?? folder)));
+  watch(folder, { recursive: true }, (_event, file) =>
+    schedule(String(file ?? folder)),
+  );
 }
 watch(root, (_event, file) => {
   if (file && /\.md$/i.test(String(file))) schedule(String(file));
@@ -51,8 +56,13 @@ Bun.serve({
   async fetch(request) {
     const path = decodeURIComponent(new URL(request.url).pathname);
     const file = join(out, path.endsWith("/") ? `${path}index.html` : path);
-    if (!file.startsWith(out) || !existsSync(file)) return new Response("Not found", { status: 404 });
-    return new Response(Bun.file(file), { headers: { "Cache-Control": "no-store" } });
+    if (!file.startsWith(out) || !existsSync(file))
+      return new Response("Not found", { status: 404 });
+    return new Response(Bun.file(file), {
+      headers: { "Cache-Control": "no-store" },
+    });
   },
 });
-console.log(`[explorer] http://localhost:${port}/ (rebuilds on change; reload the page to see it)`);
+console.log(
+  `[explorer] http://localhost:${port}/ (rebuilds on change; reload the page to see it)`,
+);

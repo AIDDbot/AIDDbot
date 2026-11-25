@@ -12,9 +12,21 @@ describe("router", () => {
   test("parses the hash addresses", () => {
     expect(parseRoute("")).toEqual({ view: "map" });
     expect(parseRoute("#/")).toEqual({ view: "map" });
-    expect(parseRoute("#/phase/design")).toEqual({ view: "element", kind: "phase", id: "design" });
-    expect(parseRoute("#/doc/glossary/spec")).toEqual({ view: "doc", id: "glossary", anchor: "spec" });
-    expect(parseRoute("#/doc/s0002")).toEqual({ view: "doc", id: "s0002", anchor: "" });
+    expect(parseRoute("#/phase/design")).toEqual({
+      view: "element",
+      kind: "phase",
+      id: "design",
+    });
+    expect(parseRoute("#/doc/glossary/spec")).toEqual({
+      view: "doc",
+      id: "glossary",
+      anchor: "spec",
+    });
+    expect(parseRoute("#/doc/s0002")).toEqual({
+      view: "doc",
+      id: "s0002",
+      anchor: "",
+    });
     expect(parseRoute("#/nothing/here").view).toBe("not-found");
     expect(parseRoute("#/phase/design/extra").view).toBe("not-found");
   });
@@ -29,7 +41,9 @@ describe("map layout (US1R2)", () => {
   test("shows every element of the chapter tables", () => {
     const layout = mapLayout(data);
     const { phases, steps, blocks, types } = data.chapters;
-    expect(layout.nodes.length).toBe(phases.length + steps.length + blocks.length + types.length);
+    expect(layout.nodes.length).toBe(
+      phases.length + steps.length + blocks.length + types.length,
+    );
   });
 
   test("places phases and steps left to right in table order", () => {
@@ -59,9 +73,21 @@ describe("map layout (US1R2)", () => {
 
   test("draws the links between elements", () => {
     const layout = mapLayout(data);
-    expect(layout.edges.some((e) => e.from === "phase/foundation" && e.to === "phase/analysis")).toBe(true);
-    expect(layout.edges.some((e) => e.from === "step/verification" && e.to === "step/close")).toBe(true);
-    expect(layout.edges.some((e) => e.from === "phase/maintenance" && e.to === "phase/analysis")).toBe(true);
+    expect(
+      layout.edges.some(
+        (e) => e.from === "phase/foundation" && e.to === "phase/analysis",
+      ),
+    ).toBe(true);
+    expect(
+      layout.edges.some(
+        (e) => e.from === "step/verification" && e.to === "step/close",
+      ),
+    ).toBe(true);
+    expect(
+      layout.edges.some(
+        (e) => e.from === "phase/maintenance" && e.to === "phase/analysis",
+      ),
+    ).toBe(true);
   });
 });
 
@@ -80,11 +106,21 @@ function contrast(a: string, b: string): number {
 
 describe("colors (US2R2)", () => {
   test("text pairs of both themes have a contrast of at least 4.5:1", async () => {
-    const colors = designColors(await Bun.file(resolve(REPO, "DESIGN.md")).text());
+    const colors = designColors(
+      await Bun.file(resolve(REPO, "DESIGN.md")).text(),
+    );
     const pairs: [string, string][] = [];
     for (const prefix of ["", "light-"]) {
       for (const bg of ["canvas", "surface"]) {
-        for (const fg of ["on-surface", "muted", "primary", "verified", "warning", "danger"]) pairs.push([prefix + fg, prefix + bg]);
+        for (const fg of [
+          "on-surface",
+          "muted",
+          "primary",
+          "verified",
+          "warning",
+          "danger",
+        ])
+          pairs.push([prefix + fg, prefix + bg]);
       }
       pairs.push([`${prefix}on-primary`, `${prefix}primary`]);
     }

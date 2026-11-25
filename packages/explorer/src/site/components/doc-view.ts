@@ -40,8 +40,16 @@ export class DocView extends HTMLElement {
     const badges = doc.meta
       ? Object.entries(doc.meta)
           .map(([k, v]) => {
-            const cls = k === "status" ? (BADGE_CLASS[v] ?? "") : k === "type" ? "primary" : "";
-            const value = k === "type" ? `<a href="#/type/${escapeHtml(v)}">${escapeHtml(v)}</a>` : escapeHtml(v);
+            const cls =
+              k === "status"
+                ? (BADGE_CLASS[v] ?? "")
+                : k === "type"
+                  ? "primary"
+                  : "";
+            const value =
+              k === "type"
+                ? `<a href="#/type/${escapeHtml(v)}">${escapeHtml(v)}</a>`
+                : escapeHtml(v);
             return `<span class="badge ${cls}"><span class="badge-key">${k}</span> ${value}</span>`;
           })
           .join("")
@@ -53,7 +61,10 @@ export class DocView extends HTMLElement {
           .join("")}</ul></div>`
       : "";
     const toc = doc.toc
-      .map((t) => `<li class="toc-${t.level}"><a href="#/doc/${doc.id}/${t.id}">${escapeHtml(t.text)}</a></li>`)
+      .map(
+        (t) =>
+          `<li class="toc-${t.level}"><a href="#/doc/${doc.id}/${t.id}">${escapeHtml(t.text)}</a></li>`,
+      )
       .join("");
     this.innerHTML = `
       <div class="page doc-page">
@@ -77,7 +88,9 @@ export class DocView extends HTMLElement {
       window.scrollTo({ top: 0 });
       return;
     }
-    const target = document.getElementById(anchor) ?? document.getElementById(anchor.toLowerCase());
+    const target =
+      document.getElementById(anchor) ??
+      document.getElementById(anchor.toLowerCase());
     if (!target) return;
     target.scrollIntoView({ block: "start" });
     // A table row anchor (glossary term) marks its row.

@@ -1,11 +1,29 @@
 // Reads the documents of the content scope: META, anchors, links, and HTML.
 import { existsSync } from "node:fs";
 import { posix } from "node:path";
-import type { Doc, DocGroup, LinkItem, Problem, TocEntry } from "../shared/types.ts";
-import { anchors, escapeHtml, headings, splitFrontmatter, toHtml } from "./markdown.ts";
+import type {
+  Doc,
+  DocGroup,
+  LinkItem,
+  Problem,
+  TocEntry,
+} from "../shared/types.ts";
+import {
+  anchors,
+  escapeHtml,
+  headings,
+  splitFrontmatter,
+  toHtml,
+} from "./markdown.ts";
 
 /** Root documents of the content scope. */
-export const ROOT_FILES = ["README.md", "AGENTS.md", "PLAN.md", "DESIGN.md", "CHANGELOG.md"];
+export const ROOT_FILES = [
+  "README.md",
+  "AGENTS.md",
+  "PLAN.md",
+  "DESIGN.md",
+  "CHANGELOG.md",
+];
 
 /** Root documents with no META by design, and the document type that the file name gives them. */
 export const NO_META_TYPES: Record<string, string> = {
@@ -14,7 +32,14 @@ export const NO_META_TYPES: Record<string, string> = {
   "CHANGELOG.md": "changelog",
 };
 
-const STATUSES = ["draft", "proposed", "accepted", "done", "superseded", "deprecated"];
+const STATUSES = [
+  "draft",
+  "proposed",
+  "accepted",
+  "done",
+  "superseded",
+  "deprecated",
+];
 const CHANGE_TYPES = ["chore", "refactor", "fix", "feat"];
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -32,9 +57,13 @@ export interface SourceDoc {
 }
 
 /** Lists the files of the content scope, as paths relative to the root, with forward slashes. */
-export function contentFiles(root: string): { path: string; group: DocGroup }[] {
+export function contentFiles(
+  root: string,
+): { path: string; group: DocGroup }[] {
   const files: { path: string; group: DocGroup }[] = [];
-  for (const name of ROOT_FILES) if (existsSync(posix.join(root, name))) files.push({ path: name, group: "root" });
+  for (const name of ROOT_FILES)
+    if (existsSync(posix.join(root, name)))
+      files.push({ path: name, group: "root" });
   for (const [folder, group] of [
     ["docs/wiki", "wiki"],
     ["docs/specs", "specs"],
@@ -47,12 +76,20 @@ export function contentFiles(root: string): { path: string; group: DocGroup }[] 
 }
 
 /** Checks the META fields. Returns one message for each problem. */
-export function validateMeta(meta: Record<string, unknown>, knownTypes: Set<string>): string[] {
+export function validateMeta(
+  meta: Record<string, unknown>,
+  knownTypes: Set<string>,
+): string[] {
   const problems: string[] = [];
   for (const field of ["id", "type", "title", "status", "created", "updated"]) {
-    if (typeof meta[field] !== "string" || !(meta[field] as string).trim()) problems.push(`META field \`${field}\` is missing`);
+    if (typeof meta[field] !== "string" || !(meta[field] as string).trim())
+      problems.push(`META field \`${field}\` is missing`);
   }
-  if (typeof meta.type === "string" && knownTypes.size > 0 && !knownTypes.has(meta.type)) {
+  if (
+    typeof meta.type === "string" &&
+    knownTypes.size > 0 &&
+    !knownTypes.has(meta.type)
+  ) {
     problems.push(`META type \`${meta.type}\` is not in the document catalog`);
   }
   if (typeof meta.status === "string" && !STATUSES.includes(meta.status)) {
@@ -71,7 +108,8 @@ export function validateMeta(meta: Record<string, unknown>, knownTypes: Set<stri
     problems.push("META field `links` is missing");
   } else {
     for (const list of ["sources", "related", "supersedes"]) {
-      if (!Array.isArray(links[list])) problems.push(`META field \`links.${list}\` is missing or not a list`);
+      if (!Array.isArray(links[list]))
+        problems.push(`META field \`links.${list}\` is missing or not a list`);
     }
   }
   return problems;
@@ -82,7 +120,12 @@ function stem(path: string): string {
 }
 
 /** First read of one document. */
-export function readSource(path: string, group: DocGroup, knownTypes: Set<string>, text: string): SourceDoc {
+export function readSource(
+  path: string,
+  group: DocGroup,
+  knownTypes: Set<string>,
+  text: string,
+): SourceDoc {
   const { yaml, body } = splitFrontmatter(text);
   const warnings: string[] = [];
   let meta: Record<string, unknown> | null = null;
@@ -90,8 +133,12 @@ export function readSource(path: string, group: DocGroup, knownTypes: Set<string
   if (yaml !== null) {
     try {
       const parsed = Bun.YAML.parse(yaml) as Record<string, unknown>;
-      meta = (path === "DESIGN.md" ? (parsed?.aiddbot as Record<string, unknown>) : parsed) ?? null;
-      if (meta === null) warnings.push("META is missing under the `aiddbot` key");
+      meta =
+        (path === "DESIGN.md"
+          ? (parsed?.aiddbot as Record<string, unknown>)
+          : parsed) ?? null;
+      if (meta === null)
+        warnings.push("META is missing under the `aiddbot` key");
     } catch (error) {
       warnings.push(`META is not valid YAML: ${(error as Error).message}`);
     }
@@ -99,14 +146,35 @@ export function readSource(path: string, group: DocGroup, knownTypes: Set<string
     warnings.push("META is missing");
   }
   if (meta) warnings.push(...validateMeta(meta, knownTypes));
-  if (meta && group === "wiki" && typeof meta.id === "string" && meta.id !== stem(path)) {
+  if (
+    meta &&
+    group === "wiki" &&
+    typeof meta.id === "string" &&
+    meta.id !== stem(path)
+  ) {
     warnings.push(`META id \`${meta.id}\` does not match the file name`);
   }
   const h1 = headings(body).find((h) => h.level === 1);
   const id = typeof meta?.id === "string" ? meta.id : (fixedType ?? stem(path));
-  const type = typeof meta?.type === "string" ? meta.type : (fixedType ?? (group === "specs" ? "spec" : "wiki-page"));
-  const title = typeof meta?.title === "string" ? meta.title : (h1?.text ?? posix.basename(path));
-  return { id, type, title, path, group, body, anchors: anchors(body), meta, warnings };
+  const type =
+    typeof meta?.type === "string"
+      ? meta.type
+      : (fixedType ?? (group === "specs" ? "spec" : "wiki-page"));
+  const title =
+    typeof meta?.title === "string"
+      ? meta.title
+      : (h1?.text ?? posix.basename(path));
+  return {
+    id,
+    type,
+    title,
+    path,
+    group,
+    body,
+    anchors: anchors(body),
+    meta,
+    warnings,
+  };
 }
 
 export type Resolved =
@@ -135,16 +203,32 @@ export class LinkResolver {
     if (/^[a-z][a-z0-9+.-]*:/i.test(href)) return { kind: "external", href };
     const [rawPath = "", rawAnchor = ""] = href.split("#");
     const anchor = decodeURIComponent(rawAnchor);
-    const target = rawPath ? posix.normalize(posix.join(posix.dirname(from), decodeURIComponent(rawPath))) : from;
+    const target = rawPath
+      ? posix.normalize(
+          posix.join(posix.dirname(from), decodeURIComponent(rawPath)),
+        )
+      : from;
     const doc = this.byPath.get(target);
     if (doc) {
-      if (anchor && !doc.anchors.has(anchor) && !doc.anchors.has(anchor.toLowerCase())) {
-        return { kind: "broken", reason: `anchor \`#${anchor}\` not found in ${doc.path}` };
+      if (
+        anchor &&
+        !doc.anchors.has(anchor) &&
+        !doc.anchors.has(anchor.toLowerCase())
+      ) {
+        return {
+          kind: "broken",
+          reason: `anchor \`#${anchor}\` not found in ${doc.path}`,
+        };
       }
       return { kind: "internal", doc, anchor, href: docHref(doc.id, anchor) };
     }
-    if (target.startsWith("..")) return { kind: "broken", reason: `${href} points outside the repository` };
-    if (existsSync(posix.join(this.root, target))) return { kind: "outside", path: target };
+    if (target.startsWith(".."))
+      return {
+        kind: "broken",
+        reason: `${href} points outside the repository`,
+      };
+    if (existsSync(posix.join(this.root, target)))
+      return { kind: "outside", path: target };
     return { kind: "broken", reason: `${href} not found` };
   }
 }
@@ -154,23 +238,30 @@ export function docHref(id: string, anchor = ""): string {
 }
 
 /** Rewrites the links of rendered HTML. Returns the new HTML and the broken links. */
-export function rewriteLinks(html: string, from: string, resolver: LinkResolver): { html: string; broken: string[] } {
+export function rewriteLinks(
+  html: string,
+  from: string,
+  resolver: LinkResolver,
+): { html: string; broken: string[] } {
   const broken: string[] = [];
-  const out = html.replace(/<a href="([^"]*)"([^>]*)>([\s\S]*?)<\/a>/g, (_m, href: string, rest: string, inner: string) => {
-    const decoded = href.replace(/&amp;/g, "&");
-    const result = resolver.resolve(decoded, from);
-    switch (result.kind) {
-      case "external":
-        return `<a href="${href}"${rest} target="_blank" rel="noopener">${inner}</a>`;
-      case "internal":
-        return `<a href="${result.href}"${rest}>${inner}</a>`;
-      case "outside":
-        return `<span class="outside" title="${escapeHtml(result.path)} is outside the explorer">${inner} <small>outside the explorer</small></span>`;
-      case "broken":
-        broken.push(result.reason);
-        return `<span class="broken" title="Broken link: ${escapeHtml(decoded)}">${inner}</span>`;
-    }
-  });
+  const out = html.replace(
+    /<a href="([^"]*)"([^>]*)>([\s\S]*?)<\/a>/g,
+    (_m, href: string, rest: string, inner: string) => {
+      const decoded = href.replace(/&amp;/g, "&");
+      const result = resolver.resolve(decoded, from);
+      switch (result.kind) {
+        case "external":
+          return `<a href="${href}"${rest} target="_blank" rel="noopener">${inner}</a>`;
+        case "internal":
+          return `<a href="${result.href}"${rest}>${inner}</a>`;
+        case "outside":
+          return `<span class="outside" title="${escapeHtml(result.path)} is outside the explorer">${inner} <small>outside the explorer</small></span>`;
+        case "broken":
+          broken.push(result.reason);
+          return `<span class="broken" title="Broken link: ${escapeHtml(decoded)}">${inner}</span>`;
+      }
+    },
+  );
   return { html: out, broken };
 }
 
@@ -188,20 +279,49 @@ export function linkTypeCodes(html: string, typeIds: Set<string>): string {
     .join("");
 }
 
-function linkItem(value: string, resolver: LinkResolver, from: string): { item: LinkItem; problem?: string } {
-  if (/^https?:/i.test(value)) return { item: { label: value.replace(/^https?:\/\//, ""), href: value, external: true } };
+function linkItem(
+  value: string,
+  resolver: LinkResolver,
+  from: string,
+): { item: LinkItem; problem?: string } {
+  if (/^https?:/i.test(value))
+    return {
+      item: {
+        label: value.replace(/^https?:\/\//, ""),
+        href: value,
+        external: true,
+      },
+    };
   const byId = resolver.byId.get(value);
-  if (byId) return { item: { label: byId.title, href: docHref(byId.id), external: false } };
+  if (byId)
+    return {
+      item: { label: byId.title, href: docHref(byId.id), external: false },
+    };
   const result = resolver.resolve(value, "index.md");
-  if (result.kind === "internal") return { item: { label: result.doc.title, href: result.href, external: false } };
-  if (result.kind === "outside") return { item: { label: value, href: "", external: false } };
-  return { item: { label: value, href: "", external: false }, problem: `META link \`${value}\` in ${from} is not a known document or file` };
+  if (result.kind === "internal")
+    return {
+      item: { label: result.doc.title, href: result.href, external: false },
+    };
+  if (result.kind === "outside")
+    return { item: { label: value, href: "", external: false } };
+  return {
+    item: { label: value, href: "", external: false },
+    problem: `META link \`${value}\` in ${from} is not a known document or file`,
+  };
 }
 
 /** Second read: HTML, table of contents, META links, and warnings. */
-export function renderDoc(source: SourceDoc, resolver: LinkResolver, typeIds: Set<string>, problems: Problem[]): Doc {
+export function renderDoc(
+  source: SourceDoc,
+  resolver: LinkResolver,
+  typeIds: Set<string>,
+  problems: Problem[],
+): Doc {
   const rendered = rewriteLinks(toHtml(source.body), source.path, resolver);
-  const warnings = [...source.warnings, ...rendered.broken.map((b) => `Broken link: ${b}`)];
+  const warnings = [
+    ...source.warnings,
+    ...rendered.broken.map((b) => `Broken link: ${b}`),
+  ];
   const links = (source.meta?.links ?? {}) as Record<string, unknown>;
   const related: LinkItem[] = [];
   const sources: LinkItem[] = [];

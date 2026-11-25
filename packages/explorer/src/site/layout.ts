@@ -78,8 +78,26 @@ export function mapLayout(data: ExplorerData): MapLayout {
   };
 
   cols.forEach((col, i) => {
-    if (col.phase) add({ kind: "phase", id: col.phase.id, label: col.phase.name, x: cx(i) - PHASE.w / 2, y: PHASE.y, w: PHASE.w, h: PHASE.h });
-    if (col.step) add({ kind: "step", id: col.step.id, label: col.step.name, x: cx(i) - STEP.w / 2, y: STEP.y, w: STEP.w, h: STEP.h });
+    if (col.phase)
+      add({
+        kind: "phase",
+        id: col.phase.id,
+        label: col.phase.name,
+        x: cx(i) - PHASE.w / 2,
+        y: PHASE.y,
+        w: PHASE.w,
+        h: PHASE.h,
+      });
+    if (col.step)
+      add({
+        kind: "step",
+        id: col.step.id,
+        label: col.step.name,
+        x: cx(i) - STEP.w / 2,
+        y: STEP.y,
+        w: STEP.w,
+        h: STEP.h,
+      });
   });
 
   // Phase loop and change flow arrows.
@@ -92,7 +110,12 @@ export function mapLayout(data: ExplorerData): MapLayout {
       if (!a || !b) continue;
       const p = right(a);
       const q = left(b);
-      edges.push({ from: nodeKey(a), to: nodeKey(b), d: `M${p.x},${p.y} L${q.x - 2},${q.y}`, cls: `edge ${kind}-edge` });
+      edges.push({
+        from: nodeKey(a),
+        to: nodeKey(b),
+        d: `M${p.x},${p.y} L${q.x - 2},${q.y}`,
+        cls: `edge ${kind}-edge`,
+      });
     }
   };
   chain(data.chapters.phases, "phase");
@@ -101,7 +124,12 @@ export function mapLayout(data: ExplorerData): MapLayout {
   // Feedback: the last phase starts new changes in the first change-level phase.
   const phases = data.chapters.phases;
   const lastPhase = phases.at(-1);
-  const firstChange = phases.find((p) => p.fields.find((f) => f.column === "Change level")?.html.replace(/—/g, "").trim());
+  const firstChange = phases.find((p) =>
+    p.fields
+      .find((f) => f.column === "Change level")
+      ?.html.replace(/—/g, "")
+      .trim(),
+  );
   const a = lastPhase && byKey.get(`phase/${lastPhase.id}`);
   const b = firstChange && byKey.get(`phase/${firstChange.id}`);
   if (a && b && a !== b) {
@@ -113,7 +141,12 @@ export function mapLayout(data: ExplorerData): MapLayout {
       d: `M${ax},${a.y} C${ax},${a.y - 46} ${bx},${b.y - 46} ${bx},${b.y - 2}`,
       cls: "edge loop-edge",
     });
-    labels.push({ x: (ax + bx) / 2, y: a.y - 42, text: "feedback: new changes", cls: "map-note" });
+    labels.push({
+      x: (ax + bx) / 2,
+      y: a.y - 42,
+      text: "feedback: new changes",
+      cls: "map-note",
+    });
   }
 
   // Phase and step with the same name.
@@ -122,7 +155,12 @@ export function mapLayout(data: ExplorerData): MapLayout {
     const p = byKey.get(`phase/${step.id}`);
     if (s && p) {
       const x = s.x + s.w / 2;
-      edges.push({ from: nodeKey(p), to: nodeKey(s), d: `M${x},${p.y + p.h} L${x},${s.y}`, cls: "edge level-edge" });
+      edges.push({
+        from: nodeKey(p),
+        to: nodeKey(s),
+        d: `M${x},${p.y + p.h} L${x},${s.y}`,
+        cls: "edge level-edge",
+      });
     }
   }
 
@@ -136,8 +174,19 @@ export function mapLayout(data: ExplorerData): MapLayout {
           return { x: x0, y: STEP.y - 30, w: x1 - x0, h: STEP.h + 44 };
         })()
       : null;
-  if (flow) labels.push({ x: flow.x + flow.w - 10, y: flow.y + 16, text: "Change flow", cls: "map-label end" });
-  labels.push({ x: PAD + 4, y: PHASE.y - 18, text: "Lifecycle phases", cls: "map-label" });
+  if (flow)
+    labels.push({
+      x: flow.x + flow.w - 10,
+      y: flow.y + 16,
+      text: "Change flow",
+      cls: "map-label end",
+    });
+  labels.push({
+    x: PAD + 4,
+    y: PHASE.y - 18,
+    text: "Lifecycle phases",
+    cls: "map-label",
+  });
 
   // Document types hang under the phase or step that names them, in table order.
   const stacks = new Map<number, number>();
@@ -145,33 +194,79 @@ export function mapLayout(data: ExplorerData): MapLayout {
   for (const type of data.chapters.types) {
     const ownerKey = type.owner ? `${type.owner.kind}/${type.owner.id}` : "";
     let index = cols.findIndex((c) =>
-      type.owner?.kind === "phase" ? c.phase?.id === type.owner.id : c.step?.id === type.owner?.id,
+      type.owner?.kind === "phase"
+        ? c.phase?.id === type.owner.id
+        : c.step?.id === type.owner?.id,
     );
     if (index < 0) index = cols.length - 1;
     const count = stacks.get(index) ?? 0;
     stacks.set(index, count + 1);
-    const node: MapNode = { kind: "type", id: type.id, label: type.id, x: cx(index) - DOC.w / 2, y: DOC.y + count * DOC.gap, w: DOC.w, h: DOC.h };
+    const node: MapNode = {
+      kind: "type",
+      id: type.id,
+      label: type.id,
+      x: cx(index) - DOC.w / 2,
+      y: DOC.y + count * DOC.gap,
+      w: DOC.w,
+      h: DOC.h,
+    };
     add(node);
     docBottom = Math.max(docBottom, node.y + node.h);
     if (count === 0 && ownerKey) {
       const col = cols[index];
-      const above = col?.step ? byKey.get(`step/${col.step.id}`) : byKey.get(ownerKey);
+      const above = col?.step
+        ? byKey.get(`step/${col.step.id}`)
+        : byKey.get(ownerKey);
       if (above) {
         const x = node.x + node.w / 2;
-        edges.push({ from: ownerKey, to: nodeKey(node), d: `M${x},${above.y + above.h} L${x},${node.y}`, cls: "edge doc-edge" });
+        edges.push({
+          from: ownerKey,
+          to: nodeKey(node),
+          d: `M${x},${above.y + above.h} L${x},${node.y}`,
+          cls: "edge doc-edge",
+        });
       }
     }
   }
 
   // Building blocks form a band below.
-  const band = { x: PAD - 10, y: docBottom + 36, w: width - 2 * PAD + 20, h: BLOCK_H + 46 };
+  const band = {
+    x: PAD - 10,
+    y: docBottom + 36,
+    w: width - 2 * PAD + 20,
+    h: BLOCK_H + 46,
+  };
   const blocks = data.chapters.blocks;
   const gap = 12;
-  const bw = blocks.length > 0 ? (band.w - 20 - gap * (blocks.length - 1)) / blocks.length : 0;
+  const bw =
+    blocks.length > 0
+      ? (band.w - 20 - gap * (blocks.length - 1)) / blocks.length
+      : 0;
   blocks.forEach((block, i) => {
-    add({ kind: "block", id: block.id, label: block.name, x: band.x + 10 + i * (bw + gap), y: band.y + 34, w: bw, h: BLOCK_H });
+    add({
+      kind: "block",
+      id: block.id,
+      label: block.name,
+      x: band.x + 10 + i * (bw + gap),
+      y: band.y + 34,
+      w: bw,
+      h: BLOCK_H,
+    });
   });
-  labels.push({ x: band.x + 10, y: band.y + 20, text: "Building blocks", cls: "map-label" });
+  labels.push({
+    x: band.x + 10,
+    y: band.y + 20,
+    text: "Building blocks",
+    cls: "map-label",
+  });
 
-  return { width, height: band.y + band.h + PAD, nodes, edges, flow, band, labels };
+  return {
+    width,
+    height: band.y + band.h + PAD,
+    nodes,
+    edges,
+    flow,
+    band,
+    labels,
+  };
 }
