@@ -67,9 +67,17 @@ Removed from the old version: the graph view (`US3`) and the `d3-force` library.
 | 21 | The change flow table gets a `Uses` column: `#`, `Step`, `Work`, `Uses`, `Produces`. | Step pages show their inputs exactly. |
 | 22 | "Status use" in the catalog becomes a table: `Status`, `Meaning`, `Set in step`, plus a column that says which documents use it. The `Life` column is not enough, because `adr` is `LIVE` with its own cycle. | Document pages show the status cycle, and the list fits the table contract. |
 
+#### Libraries
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| 23 | The builder parses Markdown with the built-in `Bun.markdown` (Bun 1.4.5). The builder adds heading ids as GitHub slugs. `marked` is not used. | No dependency. It renders GFM tables, code blocks, and links. |
+| 24 | The map, the page diagrams, and the zoom are hand-written SVG and CSS, with the Web Animations API. No diagram or animation library. | The diagrams are our own templates. A library adds weight and little value. |
+| 25 | The `mermaid` package loads in the browser only when a full document with a Mermaid block opens. It uses the colors of `DESIGN.md`. | The map and element pages stay light. |
+| 26 | The fonts come from `@fontsource` packages and ship with the site. | No external font server. |
+
 ### Open questions
 
-- Which libraries stay. `marked` and `mermaid` are probable.
 - Finding: `bun lint` does not exist in Bun 1.4.5 (`Script not found "lint"`). It runs a `lint` script of `package.json`. The built-in linter of [the Bun docs](https://bun.com/docs/lint) is not in the stable version yet. The project owner handles lint and format.
 
 ## Problem
