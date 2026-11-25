@@ -59,6 +59,14 @@ Removed from the old version: the graph view (`US3`) and the `d3-force` library.
 | 18 | The builder places the elements by rules, from the table order. Nobody draws the map by hand. | A new table row appears on the map with no drawing work. |
 | 19 | A click on an element zooms the map into it, and then opens its page. With reduced motion, the page opens at once. | The zoom shows where the page sits in the whole. |
 
+#### Page diagrams
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| 20 | Each element kind has one animated diagram template, filled from the tables: phase (neighbors and its project and change documents), step (uses, produces, and the review report on failure), block (what it uses and where it runs), and document (status cycle and the steps that set each status). | A new row gets its diagram with no drawing work. |
+| 21 | The change flow table gets a `Uses` column: `#`, `Step`, `Work`, `Uses`, `Produces`. | Step pages show their inputs exactly. |
+| 22 | "Status use" in the catalog becomes a table: `Status`, `Meaning`, `Set in step`, plus a column that says which documents use it. The `Life` column is not enough, because `adr` is `LIVE` with its own cycle. | Document pages show the status cycle, and the list fits the table contract. |
+
 ### Open questions
 
 - Which libraries stay. `marked` and `mermaid` are probable.
