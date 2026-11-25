@@ -31,7 +31,7 @@ aidd-bot/
 ├── package.json                    # Private repository manifest
 ├── docs/
 │   ├── wiki/                       # The AIDDbot wiki: index.md and pages
-│   └── specs/                      # Specs of the changes
+│   └── specs/                      # One folder per change: spec, feature files, plan, review
 ├── templates/                      # Shared document templates
 ├── skills/
 │   └── <skill-name>/SKILL.md       # Shared skill source
@@ -60,7 +60,7 @@ Everything else stays in this repository: the roadmap, the specs, the AIDDbot wi
 | `templates/` | The first template is written: the spec. | H2 |
 | `skills/` | The first skill is written: the Analysis step of a change. | H2 |
 | `packages/cli/` | The first CLI command is written. | H3 |
-| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer.spec.md). | H1 |
+| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer/spec.md). | H1 |
 | `docs/adr/` | The first ADR is written. | When needed |
 | `docs/wiki/` | The foundational documents become the AIDDbot wiki. | H1 |
 | `docs/raw/` | The wiki ingests the first external source. | When needed |

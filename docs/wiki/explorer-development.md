@@ -7,7 +7,7 @@ created: 2026-11-25
 updated: 2026-11-25
 links:
   sources:
-    - docs/specs/s0002-web-knowledge-explorer.spec.md
+    - docs/specs/s0002-web-knowledge-explorer/spec.md
     - https://bun.com/docs/bundler
     - https://developer.mozilla.org/en-US/docs/Web/API/Web_components
   related:
@@ -21,7 +21,7 @@ links:
 
 # AIDDbot Explorer Development
 
-How we build the [knowledge explorer](glossary.md#knowledge-explorer): a static web site that tells the story of AIDDbot to people. It reads the AIDDbot documents and never edits them. It does not ship. [`s0002`](../specs/s0002-web-knowledge-explorer.spec.md)
+How we build the [knowledge explorer](glossary.md#knowledge-explorer): a static web site that tells the story of AIDDbot to people. It reads the AIDDbot documents and never edits them. It does not ship. [`s0002`](../specs/s0002-web-knowledge-explorer/spec.md)
 
 Status: **draft**.
 
@@ -85,7 +85,7 @@ A change to these headings or columns needs a change to the builder in the same 
 | --- | --- |
 | Wiki | `docs/wiki/*.md` |
 | Root | `README.md`, `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `CHANGELOG.md` |
-| Specs | `docs/specs/*.md` |
+| Specs | `docs/specs/**/*.md` |
 
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agent-instructions`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.

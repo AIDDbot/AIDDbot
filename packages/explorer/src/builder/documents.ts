@@ -68,8 +68,11 @@ export function contentFiles(
     ["docs/wiki", "wiki"],
     ["docs/specs", "specs"],
   ] as const) {
-    const glob = new Bun.Glob("*.md");
-    const names = [...glob.scanSync({ cwd: posix.join(root, folder) })].sort();
+    // Specs live in one folder per change: docs/specs/<spec>/spec.md.
+    const glob = new Bun.Glob(group === "specs" ? "**/*.md" : "*.md");
+    const names = [...glob.scanSync({ cwd: posix.join(root, folder) })]
+      .map((name) => name.replaceAll("\\", "/"))
+      .sort();
     for (const name of names) files.push({ path: `${folder}/${name}`, group });
   }
   return files;

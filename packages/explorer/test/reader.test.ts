@@ -158,8 +158,8 @@ describe("wiki contract (US1R4)", () => {
     edit(
       dir,
       "docs/wiki/documentation-catalog.md",
-      "| `spec`, `adr`, `impl-plan` |",
-      "| `spec`, `adrs`, `impl-plan` |",
+      "`feature-file`, `adr`, `impl-plan` |",
+      "`feature-file`, `adrs`, `impl-plan` |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining("unknown document ID `adrs`"),

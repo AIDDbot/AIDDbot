@@ -6,12 +6,12 @@ AIDDbot is a framework of reusable skills, document templates, and scripts for A
 
 ## How it works
 
-Every change follows the same flow and has one spec. The change type (`chore`, `refactor`, `fix`, `feat`) guides its requirements.
+Every change follows the same flow and has one spec. The change type (`chore`, `refactor`, `fix`, `feat`) guides its requirements. The impact level (`small`, `medium`, `large`) decides how much process it needs: a `small` change has a short spec and gets its approval in the pull request; a `large` change adds a plan and a review report.
 
 1. **Analysis.** Write the problem of the spec: the goal, what is out of scope, 1 to 3 user stories, and up to 9 requirements.
-2. **Design.** Write the solution and its tasks. A person approves the spec before any code.
-3. **Implementation.** Implement the change and update the docs.
-4. **Verification.** Check each requirement and tick it. Write a review report only if a requirement fails or there are findings.
+2. **Design.** Write the solution, its tasks, and a data model when the change touches data. Write one Gherkin feature file for each user story, with the scenarios of its requirements. A person approves the spec and its scenarios before any code.
+3. **Implementation.** Implement the change, its unit tests, and the docs. Another agent generates the end-to-end tests from the scenarios, in their own package. Repeat the quality checks until they pass: build, format, lint, and unit tests.
+4. **Verification.** Run the end-to-end tests and keep their test report. An agent reviews the diff against the review gates (by default: security, user experience, maintainability): pass or changes needed. Tick each requirement that passes. Write a review report only if a requirement fails or there are findings.
 5. **Close.** Freeze the spec. Move durable knowledge into the living documents.
 
 Skills guide the agent in each step. Scripts do the deterministic parts, such as document IDs, metadata checks, and Git chores. See the [documentation catalog](docs/wiki/documentation-catalog.md#change-flow).

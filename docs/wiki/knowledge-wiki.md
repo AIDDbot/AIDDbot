@@ -55,7 +55,7 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
     ├── wiki/
     │   ├── index.md     # catalog of pages
     │   └── <topic>.md
-    ├── specs/           # specs and other change documents (sources)
+    ├── specs/           # one folder per change: spec and other change documents (sources)
     ├── adr/             # ADRs (sources)
     └── raw/             # imported files: transcripts, notes, articles (sources)
 ```

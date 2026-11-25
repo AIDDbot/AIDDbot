@@ -54,11 +54,11 @@ AIDDbot covers seven phases. Each phase has a one-word name. Work happens at two
 
 | # | Phase | AIDDbot helps teams to | Project level | Change level |
 | --- | --- | --- | --- | --- |
-| 0 | Foundation | Prepare the [project set](documentation-catalog.md#project-set) and the [knowledge wiki](knowledge-wiki.md#model). | `agent-instructions`, `readme`, `glossary`, `wiki-page` | — |
+| 0 | Foundation | Prepare the [project set](documentation-catalog.md#project-set), its [quality checks](documentation-catalog.md#quality-checks) and [review gates](documentation-catalog.md#review-gates), and the [knowledge wiki](knowledge-wiki.md#model). | `agent-instructions`, `readme`, `glossary`, `wiki-page` | — |
 | 1 | Analysis | Clarify goals, write [user stories](glossary.md#user-story) and [requirements](glossary.md#requirement), split work into deliverable changes. | `roadmap` | `spec` |
-| 2 | Design | Compare options, record decisions, plan the work and its checks. | `adr`, architecture, `design-system` | Tasks or `impl-plan` |
-| 3 | Implementation | Follow repo conventions, make focused changes, update docs. | — | Code and docs |
-| 4 | Verification | Run [checks](glossary.md#check), [review](glossary.md#review) against the requirements, record [findings](glossary.md#finding) and gaps. | — | Ticked requirements; `review-report` on failures or findings |
+| 2 | Design | Compare options, model the domain and its data, record decisions, plan the work and its [scenarios](glossary.md#scenario). | `adr`, architecture, `design-system`, `domain-model` | Tasks or `impl-plan`, data model, `feature-file` |
+| 3 | Implementation | Follow repo conventions, make focused changes, run the [quality checks](documentation-catalog.md#quality-checks) until they pass, update docs. | — | `code`, `unit-test`, `e2e-test`, `check-report`, and docs |
+| 4 | Verification | Run the end-to-end tests, [review](glossary.md#review) the diff against the [review gates](documentation-catalog.md#review-gates), record [findings](glossary.md#finding) and gaps. | — | Ticked requirements, `test-report`; `review-report` on failures or findings |
 | 5 | Release | Write release notes, check readiness, support deploy and rollback. | Release, `changelog` | — |
 | 6 | Maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. | Incidents, dependencies, technical debt | — |
 
@@ -142,3 +142,4 @@ A skill or script belongs in AIDDbot only if it:
 | 4 | Which phases get skills first? | Foundation, the steps of one change, and the wiki operations. Release and Maintenance come later. | They wait for a real need. |
 | 5 | Does Maintenance feed Analysis? | Yes. Incidents, debt, and findings start new changes. No skill for it yet. | Operational feedback starts a new iteration in current AI SDLC methods. |
 | 6 | Which blocks does the building blocks table list? | Skills, Templates, Scripts, Wiki, Distribution, and Project context, with a Relations column. | The knowledge explorer draws each block and its relations. Templates and Wiki were only detail sections. |
+| 7 | What do Implementation and Verification check? | Implementation runs the deterministic quality checks: format, lint, and unit tests. Verification runs the end-to-end tests and an agent review of the diff against the review gates. | The quality checks look at the code. Verification looks at the behavior and at what tests cannot see. |

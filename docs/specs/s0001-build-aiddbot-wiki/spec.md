@@ -24,7 +24,7 @@ The foundational documents hold the AIDDbot design. Today they sit at the reposi
 - the method that AIDDbot gives to teams through its skills and templates,
 - the way we build AIDDbot.
 
-An audit before this spec found contradictions, gaps, and overlaps between them. This change turns the documents into the AIDDbot [knowledge wiki](../wiki/knowledge-wiki.md) and fixes the audit items. The wiki is the base for the skill map and the H2 skills. [H1](../../PLAN.md#h1--base-documentation)
+An audit before this spec found contradictions, gaps, and overlaps between them. This change turns the documents into the AIDDbot [knowledge wiki](../../wiki/knowledge-wiki.md) and fixes the audit items. The wiki is the base for the skill map and the H2 skills. [H1](../../../PLAN.md#h1--base-documentation)
 
 This is also the first spec of AIDDbot. A person writes it by hand, to test the spec format.
 
