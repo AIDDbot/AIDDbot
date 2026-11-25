@@ -1,0 +1,22 @@
+{
+  "name": "@aiddbot/explorer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Web knowledge explorer: a visual story of AIDDbot built from its documents.",
+  "type": "module",
+  "scripts": {
+    "build": "bun src/build.ts",
+    "dev": "bun src/dev.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@fontsource/audiowide": "5.3.0",
+    "@fontsource/fira-code": "5.3.0",
+    "@fontsource/roboto": "5.3.0",
+    "mermaid": "12.3.0"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.5",
+    "typescript": "7.0.2"
+  }
+}

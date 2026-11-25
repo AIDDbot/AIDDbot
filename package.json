@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "description": "A framework of reusable skills, document templates, and scripts for AI-assisted software development.",
+  "scripts": {
+    "explorer:install": "bun install --cwd packages/explorer",
+    "explorer:build": "bun run --cwd packages/explorer build",
+    "explorer:dev": "bun run --cwd packages/explorer dev"
+  },
   "author": {
     "name": "Alberto Basalo",
     "email": "albertobasalo@hotmail.com",

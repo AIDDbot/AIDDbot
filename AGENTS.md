@@ -19,6 +19,7 @@ Each topic has one reference document. Read it before you change that topic. Wik
 | Wiki model, page rules, sources | [knowledge wiki](docs/wiki/knowledge-wiki.md) |
 | CLI command form, script contract, candidate commands | [AIDDbot CLI](docs/wiki/aiddbot-cli.md) |
 | Bun runtime, CLI development and packaging | [CLI development](docs/wiki/cli-development.md) |
+| Knowledge explorer, wiki contract of the explorer tables | [explorer development](docs/wiki/explorer-development.md) |
 | Folders, skill locations, what ships | [scaffolding](docs/wiki/scaffolding.md) |
 | Colors, fonts, Mermaid diagrams | [DESIGN.md](DESIGN.md) |
 | Notable changes | [CHANGELOG.md](CHANGELOG.md) |
@@ -57,5 +58,6 @@ All repository content is in English. Write for people and machines:
 Follow the [AIDDbot CLI](docs/wiki/aiddbot-cli.md) and [CLI development](docs/wiki/cli-development.md) pages:
 
 - TypeScript on the latest stable Bun.
-- Before you finish a script change, run `bun lint`, `bunx tsc --noEmit`, and `bun test`.
+- Before you finish a script change, run `bun lint`, `bunx tsc --noEmit`, and `bun test`. The same checks apply to the [knowledge explorer](docs/wiki/explorer-development.md) code in `packages/explorer/`.
+- The explorer reads five wiki tables. Keep their headings and columns, or update the explorer in the same change. [Wiki contract](docs/wiki/explorer-development.md#wiki-contract)
 - Skills call the exact package version shipped with the skills: `bunx --bun --package <package>@<x.y.z> aiddbot <command>`.

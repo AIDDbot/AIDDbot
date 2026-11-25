@@ -34,6 +34,7 @@ How we build AIDDbot. These pages do not ship.
 
 - [Scaffolding](scaffolding.md) — repository layout, what ships, and when each folder appears
 - [CLI development](cli-development.md) — Bun runtime, development commands, packaging, and local tests
+- [Explorer development](explorer-development.md) — knowledge explorer commands, folders, wiki contract, and site rules
 
 ## Outside the wiki
 

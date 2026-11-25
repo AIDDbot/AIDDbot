@@ -57,11 +57,16 @@ The project conventions (code style, commits, checks) are a section of `agent-in
 
 Every change follows five steps. The first four use the names of the [lifecycle phases](intent.md#lifecycle-phases) at change level.
 
-1. **Analysis.** Write the Problem section and the requirements of the spec. Clarify the open questions with a person.
-2. **Design.** Write the Solution section and its tasks. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec.
-3. **Implementation.** Implement the change and update the docs.
-4. **Verification.** Check each requirement and tick it when it passes. If a requirement fails or the change has findings, write a `review-report`.
-5. **Close.** Freeze the spec and harvest the knowledge.
+| # | Step | Work | Uses | Produces |
+| --- | --- | --- | --- | --- |
+| 1 | Analysis | Write the Problem section and the requirements of the [spec](#spec). Clarify the open questions with a person. | `roadmap`, `glossary`, `wiki-page` | `spec` |
+| 2 | Design | Write the Solution section and its tasks. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec. | `spec`, `wiki-page`, `design-system` | `spec`, `adr`, `impl-plan` |
+| 3 | Implementation | Implement the change and update the docs. | `spec`, `impl-plan`, `agent-instructions` | Code and docs |
+| 4 | Verification | Check each requirement and tick it when it passes. If a requirement fails or the change has findings, write a `review-report`. [When to separate documents](#when-to-separate-documents) | `spec` | `spec`, `review-report` |
+| 5 | Close | Freeze the spec and harvest the knowledge. [Close a change](#close-a-change) | `spec`, `review-report` | `glossary`, `wiki-page`, `changelog` |
+
+- **Uses** and **Produces** hold document IDs from the [document catalog](#document-catalog), in backticks. Other text is plain.
+- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](knowledge-wiki.md#page-rules)
 
 Close is the last step of a change, not a lifecycle phase. In a small change, Analysis and Design can happen in one session, before the approval.
 
@@ -179,11 +184,20 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 - The `adr` IDs and file names are decided with the first ADR.
 - The rule is provisional. The spec template in H2 confirms or changes it (decision 11).
 
-Status use:
+### Status use
 
-- `spec`, `impl-plan`, `review-report`: `draft` → `accepted` → `done`.
-- `adr`: `proposed` → `accepted` → `superseded` or `deprecated`.
-- Other `LIVE`: `draft` → `accepted`; then updated in place.
+| Status | Meaning | Set in | Used by |
+| --- | --- | --- | --- |
+| `draft` | The document is in progress. It can change. | Foundation, Analysis | `spec`, `impl-plan`, `review-report`, `glossary`, `wiki-page`, `roadmap`, `design-system` |
+| `proposed` | A decision waits for human approval. | Design | `adr` |
+| `accepted` | A person approved it. A `LIVE` document is then updated in place. | Design | `spec`, `impl-plan`, `review-report`, `adr`, `glossary`, `wiki-page`, `roadmap`, `design-system` |
+| `done` | The change closed. Nobody edits the document again. | Close | `spec`, `impl-plan`, `review-report` |
+| `superseded` | A newer document replaces it. | Design | `adr` |
+| `deprecated` | It no longer applies, and nothing replaces it. | Design | `adr` |
+
+- The statuses of one document type follow the table order. An `adr` ends as `superseded` or `deprecated`.
+- **Used by** holds document IDs. The life tag is not enough, because an `adr` is `LIVE` with its own cycle.
+- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
 
 ## Standards
 
@@ -246,3 +260,4 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 32 | Where do failures and findings go? | To a `review-report`, only when a requirement fails or the change has findings. | Most changes need no report. The spec does not grow after approval. |
 | 33 | How are user stories and requirements coded? | `US<n>` for a user story. `US<n>R<m>` for a requirement, numbered inside its user story. From another document: `<spec id>-US<n>R<m>`. Codes are inline code, with a hyphen before their text. | Codes compose like document IDs (`s0001-plan`). A hyphen is easy to type. Inline code shows each character, as `DESIGN.md` asks for IDs. |
 | 34 | Can an accepted spec change before its implementation starts? | Yes. It goes back to `draft`, a person rewrites it, and approves it again. After the implementation starts, decision 31 applies. | `s0002` needed a new scope after approval and before any code. A rewrite is cheaper than a new spec for the same change. |
+| 35 | How are the change flow and the status use written? | As tables with fixed anchors and columns. Document IDs go in backticks. | The [knowledge explorer](glossary.md#knowledge-explorer) reads them. A table is easier to read and to check than a list. |

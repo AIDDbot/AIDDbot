@@ -1,6 +1,7 @@
 # Dependencies and generated output
 node_modules/
 /dist/
+packages/*/dist/
 /coverage/
 
 # Local environment files

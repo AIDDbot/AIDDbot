@@ -10,6 +10,7 @@ links:
     - https://agentskills.io/specification#directory-structure
   related:
     - cli-development
+    - explorer-development
     - knowledge-wiki
   supersedes: []
 ---
@@ -35,7 +36,8 @@ aidd-bot/
 ├── skills/
 │   └── <skill-name>/SKILL.md       # Shared skill source
 └── packages/
-    └── cli/                        # The aiddbot CLI
+    ├── cli/                        # The aiddbot CLI
+    └── explorer/                   # The knowledge explorer (does not ship)
 ```
 
 ## What ships
@@ -48,7 +50,7 @@ AIDDbot is a help for development teams that use AI across the software lifecycl
 | Document templates | `templates/` |
 | AIDDbot CLI | `packages/cli/` |
 
-Everything else stays in this repository: the roadmap, the specs, and the AIDDbot wiki. They are how we build AIDDbot, not what teams install.
+Everything else stays in this repository: the roadmap, the specs, the AIDDbot wiki, and the [knowledge explorer](glossary.md#knowledge-explorer). They are how we build AIDDbot, not what teams install.
 
 ## When each folder appears
 
@@ -58,11 +60,12 @@ Everything else stays in this repository: the roadmap, the specs, and the AIDDbo
 | `templates/` | The first template is written: the spec. | H2 |
 | `skills/` | The first skill is written: the Analysis step of a change. | H2 |
 | `packages/cli/` | The first CLI command is written. | H3 |
+| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer.spec.md). | H1 |
 | `docs/adr/` | The first ADR is written. | When needed |
 | `docs/wiki/` | The foundational documents become the AIDDbot wiki. | H1 |
 | `docs/raw/` | The wiki ingests the first external source. | When needed |
 
-Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second package exists.
+Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second package exists. Until then, the root scripts run the explorer with `--cwd`. [Explorer development](explorer-development.md#commands)
 
 ## Skills and templates
 

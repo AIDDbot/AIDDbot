@@ -54,17 +54,18 @@ AIDDbot covers seven phases. Each phase has a one-word name. Work happens at two
 
 | # | Phase | AIDDbot helps teams to | Project level | Change level |
 | --- | --- | --- | --- | --- |
-| 0 | Foundation | Prepare the project set and the knowledge wiki. | `agent-instructions`, `glossary`, wiki | — |
-| 1 | Analysis | Clarify goals, write user stories and requirements, split work into deliverable changes. | `roadmap` | `spec` |
+| 0 | Foundation | Prepare the [project set](documentation-catalog.md#project-set) and the [knowledge wiki](knowledge-wiki.md#model). | `agent-instructions`, `readme`, `glossary`, `wiki-page` | — |
+| 1 | Analysis | Clarify goals, write [user stories](glossary.md#user-story) and [requirements](glossary.md#requirement), split work into deliverable changes. | `roadmap` | `spec` |
 | 2 | Design | Compare options, record decisions, plan the work and its checks. | `adr`, architecture, `design-system` | Tasks or `impl-plan` |
 | 3 | Implementation | Follow repo conventions, make focused changes, update docs. | — | Code and docs |
-| 4 | Verification | Run checks, review against the requirements, record findings and gaps. | — | Ticked requirements; `review-report` on failures or findings |
+| 4 | Verification | Run [checks](glossary.md#check), [review](glossary.md#review) against the requirements, record [findings](glossary.md#finding) and gaps. | — | Ticked requirements; `review-report` on failures or findings |
 | 5 | Release | Write release notes, check readiness, support deploy and rollback. | Release, `changelog` | — |
 | 6 | Maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. | Incidents, dependencies, technical debt | — |
 
 - **One vocabulary.** A change goes through Analysis, Design, Implementation, and Verification, and then Close. Close is the last step of a change, not a phase. It returns durable knowledge to the Foundation documents. See the [change flow](documentation-catalog.md#change-flow).
 - **Problem, solution, verification.** Analysis works on the [problem](glossary.md#problem). Design and Implementation build the [solution](glossary.md#solution). Verification gives the [verification](glossary.md#verification).
 - **Feedback.** Maintenance starts new changes in Analysis: incidents, technical debt, and findings.
+- **Explorer.** The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. Document IDs go in backticks.
 - **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](knowledge-wiki.md#operations). Release and Maintenance skills come later. See [PLAN.md](../../PLAN.md).
 
 The phases follow current AI SDLC methods: most start with a foundation step and loop back from operation to analysis. [AWS AI-DLC](https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle), [AI-SDLC (arXiv)](https://arxiv.org/html/2609.24348v1), [Böckeler on SDD tools](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
@@ -96,12 +97,18 @@ AIDDbot documents and diagrams use the colors, fonts, and Mermaid rules in [DESI
 
 ## Building blocks
 
-| Block | Role |
-| --- | --- |
-| **Skills** | Run development activities and handoffs, and generate documents. Each one defines: objective, needed context, standards, deliverables, and evidence of completion. The model chooses the approach. |
-| **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. They do not depend on the project stack or build tool. Skills do not repeat their logic in prose. |
-| **Distribution** | One versioned release of the skills, templates, and CLI. The [installer](glossary.md#installer) installs and updates it in a project. Only these three parts ship. [What ships](scaffolding.md#what-ships) |
-| **Project context** | Gives repo conventions, commands, and constraints in `AGENTS.md`. Workflows use existing project tools and state their prerequisites. |
+| Block | Role | Relations |
+| --- | --- | --- |
+| **Skills** | Run development activities and handoffs, and generate documents. Each one defines: objective, needed context, standards, deliverables, and evidence of completion. The model chooses the approach. [Skill](glossary.md#skill) | Templates, Scripts, Wiki, Foundation, Analysis, Design, Implementation, Verification, Close |
+| **Templates** | Give consistent documents. Skills choose and fill them. [Document templates](#document-templates) | `spec`, `impl-plan`, `review-report`, `adr` |
+| **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. They do not depend on the project stack or build tool. Skills do not repeat their logic in prose. [Script](glossary.md#script) | Verification, Close, `spec`, `wiki-page` |
+| **Wiki** | Keeps what the project knows now, linked to its sources. [Knowledge wiki](#knowledge-wiki) | Foundation, Close, `wiki-page`, `glossary` |
+| **Distribution** | One versioned release of the skills, templates, and CLI. The [installer](glossary.md#installer) installs and updates it in a project. Only these three parts ship. [What ships](scaffolding.md#what-ships) | Skills, Templates, Scripts, Foundation |
+| **Project context** | Gives repo conventions, commands, and constraints in `AGENTS.md`. Workflows use existing project tools and state their prerequisites. [Project context](glossary.md#project-context) | Foundation, `agent-instructions`, `readme` |
+
+- **Relations** names other blocks, lifecycle phases, change steps, and document IDs in backticks.
+- The details of Templates and Wiki are in [Project knowledge](#project-knowledge).
+- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](knowledge-wiki.md#page-rules)
 
 ### Shared core
 
@@ -134,3 +141,4 @@ A skill or script belongs in AIDDbot only if it:
 | 3 | How many levels of work? | Two: project and change. Analysis and Design have both. Implementation and Verification are change level. Foundation, Release, and Maintenance are project level. | It separates the work on the whole project from the work on one change (audit item B3). |
 | 4 | Which phases get skills first? | Foundation, the steps of one change, and the wiki operations. Release and Maintenance come later. | They wait for a real need. |
 | 5 | Does Maintenance feed Analysis? | Yes. Incidents, debt, and findings start new changes. No skill for it yet. | Operational feedback starts a new iteration in current AI SDLC methods. |
+| 6 | Which blocks does the building blocks table list? | Skills, Templates, Scripts, Wiki, Distribution, and Project context, with a Relations column. | The knowledge explorer draws each block and its relations. Templates and Wiki were only detail sections. |

@@ -3,7 +3,7 @@ id: s0002
 type: spec
 change: feat
 title: Build the web knowledge explorer
-status: accepted
+status: done
 created: 2026-11-25
 updated: 2026-11-25
 links:
@@ -186,25 +186,25 @@ Rules for `META`:
 
 ### Tasks
 
-- [ ] Change the wiki tables and add the contract rule, as the [wiki contract](#wiki-contract) says. Check: no broken link.
-- [ ] Create `packages/explorer/` with its `package.json`, TypeScript settings, and the root scripts. Check: `bun run explorer:build` runs.
-- [ ] Write the reader: chapter tables, links between elements, linked sections, documents, and `META`, with unit tests. Check: `bun test`, and `US1R4` with a broken copy of the wiki.
-- [ ] Write the site shell, the router, the theme, and the not-found view. Check: `US1R1`, and an unknown address shows the not-found view.
-- [ ] Write the map. Check: `US1R2`, `US1R3`.
-- [ ] Write the element pages and the four diagram templates. Check: `US2R1`.
-- [ ] Write the full document view. Check: `US3R1`, `US3R2`.
-- [ ] Apply the visual identity and the reduced motion rule. Check: `US2R2`, `US2R3`.
-- [ ] Update the documents of "Repository changes". Check: no broken link.
-- [ ] Check each requirement and tick it. Write the review report only if a requirement fails or there are findings.
+- [x] Change the wiki tables and add the contract rule, as the [wiki contract](#wiki-contract) says. Check: no broken link.
+- [x] Create `packages/explorer/` with its `package.json`, TypeScript settings, and the root scripts. Check: `bun run explorer:build` runs.
+- [x] Write the reader: chapter tables, links between elements, linked sections, documents, and `META`, with unit tests. Check: `bun test`, and `US1R4` with a broken copy of the wiki.
+- [x] Write the site shell, the router, the theme, and the not-found view. Check: `US1R1`, and an unknown address shows the not-found view.
+- [x] Write the map. Check: `US1R2`, `US1R3`.
+- [x] Write the element pages and the four diagram templates. Check: `US2R1`.
+- [x] Write the full document view. Check: `US3R1`, `US3R2`.
+- [x] Apply the visual identity and the reduced motion rule. Check: `US2R2`, `US2R3`.
+- [x] Update the documents of "Repository changes". Check: no broken link.
+- [x] Check each requirement and tick it. Write the review report only if a requirement fails or there are findings.
 
 ## Verification
 
-- [ ] `US1R1` - When a person runs the build script, the explorer shall write a static site that works from a subfolder of a static file server.
-- [ ] `US1R2` - When a person opens the map, the explorer shall show every phase, step, building block, and document type of the chapter tables, in their table order, with the links between them.
-- [ ] `US1R3` - When a person clicks an element on the map, the explorer shall zoom into that element and then open its page.
-- [ ] `US1R4` - If a chapter anchor, a chapter column, or a document ID of the wiki contract is missing or unknown, then the build shall stop with an error that names the file and the problem.
-- [ ] `US2R1` - When a person opens an element page, the explorer shall show the row summary, the animated diagram of the element kind, the linked wiki sections and glossary terms, and the mini-map with the element marked.
-- [ ] `US2R2` - The explorer shall use the colors and fonts of `DESIGN.md`, with a dark and a light theme, and a text contrast of at least 4.5:1.
-- [ ] `US2R3` - While the browser asks for reduced motion, the explorer shall show every diagram in its final state and open pages with no zoom.
-- [ ] `US3R1` - When a person opens a full document, the explorer shall render its headings, tables, code blocks, and Mermaid diagrams, show its `META` fields as badges, and open each relative link to a document of the content scope at its target anchor.
-- [ ] `US3R2` - If a wiki page or a spec has no `META` or an invalid `META`, or a document has a broken relative link, then the explorer shall show the document with a warning, and the build shall list each problem with its file.
+- [x] `US1R1` - When a person runs the build script, the explorer shall write a static site that works from a subfolder of a static file server.
+- [x] `US1R2` - When a person opens the map, the explorer shall show every phase, step, building block, and document type of the chapter tables, in their table order, with the links between them.
+- [x] `US1R3` - When a person clicks an element on the map, the explorer shall zoom into that element and then open its page.
+- [x] `US1R4` - If a chapter anchor, a chapter column, or a document ID of the wiki contract is missing or unknown, then the build shall stop with an error that names the file and the problem.
+- [x] `US2R1` - When a person opens an element page, the explorer shall show the row summary, the animated diagram of the element kind, the linked wiki sections and glossary terms, and the mini-map with the element marked.
+- [x] `US2R2` - The explorer shall use the colors and fonts of `DESIGN.md`, with a dark and a light theme, and a text contrast of at least 4.5:1.
+- [x] `US2R3` - While the browser asks for reduced motion, the explorer shall show every diagram in its final state and open pages with no zoom.
+- [x] `US3R1` - When a person opens a full document, the explorer shall render its headings, tables, code blocks, and Mermaid diagrams, show its `META` fields as badges, and open each relative link to a document of the content scope at its target anchor.
+- [x] `US3R2` - If a wiki page or a spec has no `META` or an invalid `META`, or a document has a broken relative link, then the explorer shall show the document with a warning, and the build shall list each problem with its file.
