@@ -4,11 +4,14 @@ type: wiki-page
 title: AIDDbot Project Intent
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-25
 links:
   sources:
     - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
     - https://agentskills.io/specification
+    - https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle
+    - https://arxiv.org/html/2609.24348v1
+    - https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
   related:
     - glossary
     - documentation-catalog
@@ -42,18 +45,29 @@ Teams pick the practices that fit their project. Skills and templates build on:
 - **Clean Architecture**: business rules independent of frameworks and infrastructure; dependencies point to the core.
 - **Testing**: TDD where it clarifies behavior; test level chosen by risk; a regression test for every defect.
 
-## Lifecycle coverage
+## Lifecycle phases
 
-| Stage | AIDDbot helps teams to |
-| --- | --- |
-| Discovery and planning | Clarify goals, write requirements and acceptance criteria, split work into deliverable changes. |
-| Design | Compare options, record decisions, define how to verify them. |
-| Implementation | Follow repo conventions, make focused changes, update docs. |
-| Verification and review | Run checks, review against acceptance criteria, record findings and gaps. |
-| Release and deployment | Write release notes, check readiness, support deploy and rollback. |
-| Operation and maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. |
+AIDDbot covers seven phases. Each phase has a one-word name. Work happens at two levels:
 
-The first skills cover one change: specify, plan, build and review, close. Later skills cover the other stages. See [PLAN.md](../../PLAN.md).
+- **Project level:** the whole [project](glossary.md#project).
+- **Change level:** one [change](glossary.md#change).
+
+| # | Phase | AIDDbot helps teams to | Project level | Change level |
+| --- | --- | --- | --- | --- |
+| 0 | Foundation | Prepare the project set and the knowledge wiki. | `agent-instructions`, `glossary`, wiki | — |
+| 1 | Analysis | Clarify goals, write requirements and acceptance criteria, split work into deliverable changes. | `roadmap` | `spec` |
+| 2 | Design | Compare options, record decisions, plan the work and its checks. | `adr`, architecture, `design-system` | Tasks or `impl-plan` |
+| 3 | Implementation | Follow repo conventions, make focused changes, update docs. | — | Code and docs |
+| 4 | Verification | Run checks, review against acceptance criteria, record findings and gaps. | — | Verification section or `review-report` |
+| 5 | Release | Write release notes, check readiness, support deploy and rollback. | Release, `changelog` | — |
+| 6 | Maintenance | Investigate incidents, update dependencies, turn recurring issues into improvements. | Incidents, dependencies, technical debt | — |
+
+- **One vocabulary.** A change goes through Analysis, Design, Implementation, and Verification, and then Close. Close is the last step of a change, not a phase. It returns durable knowledge to the Foundation documents. See the [change flow](documentation-catalog.md#change-flow).
+- **Problem, solution, verification.** Analysis works on the [problem](glossary.md#problem). Design and Implementation build the [solution](glossary.md#solution). Verification gives the [verification](glossary.md#verification).
+- **Feedback.** Maintenance starts new changes in Analysis: incidents, technical debt, and findings.
+- **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](knowledge-wiki.md#operations). Release and Maintenance skills come later. See [PLAN.md](../../PLAN.md).
+
+The phases follow current AI SDLC methods: most start with a foundation step and loop back from operation to analysis. [AWS AI-DLC](https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle), [AI-SDLC (arXiv)](https://arxiv.org/html/2609.24348v1), [Böckeler on SDD tools](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 
 ## Project knowledge
 
@@ -110,3 +124,13 @@ A skill or script belongs in AIDDbot only if it:
 3. produces a verifiable result,
 4. works on its own, with explicit inputs and outputs for handoffs,
 5. marks the decisions that need human approval and shows the evidence for them.
+
+## Decisions
+
+| # | Question | Decision | Reason |
+| --- | --- | --- | --- |
+| 1 | How are the lifecycle phases named? | One word each: Foundation, Analysis, Design, Implementation, Verification, Release, Maintenance. | Simple names, close to the classic SDLC. |
+| 2 | Is there a phase before Analysis? | Yes: Foundation. It prepares the project set and the wiki. | Most AI SDLC methods start with one (constitution, steering, bootstrap). "Context" clashes with the LLM term. |
+| 3 | How many levels of work? | Two: project and change. Analysis and Design have both. Implementation and Verification are change level. Foundation, Release, and Maintenance are project level. | It separates the work on the whole project from the work on one change (audit item B3). |
+| 4 | Which phases get skills first? | Foundation, the steps of one change, and the wiki operations. Release and Maintenance come later. | They wait for a real need. |
+| 5 | Does Maintenance feed Analysis? | Yes. Incidents, debt, and findings start new changes. No skill for it yet. | Operational feedback starts a new iteration in current AI SDLC methods. |

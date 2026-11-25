@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Scaffolding
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-25
 links:
   sources:
     - https://agentskills.io/specification#directory-structure
@@ -56,7 +56,7 @@ Everything else stays in this repository: the roadmap, the specs, and the AIDDbo
 | --- | --- | --- |
 | `docs/specs/` | The first spec is written. | H1 |
 | `templates/` | The first template is written: the spec. | H2 |
-| `skills/` | The first skill is written: specify a change. | H2 |
+| `skills/` | The first skill is written: the Analysis step of a change. | H2 |
 | `packages/cli/` | The first CLI command is written. | H3 |
 | `docs/adr/` | The first ADR is written. | When needed |
 | `docs/wiki/` | The foundational documents become the AIDDbot wiki. | H1 |

@@ -9,11 +9,14 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 - Foundational documents moved into the AIDDbot wiki in `docs/wiki/`, with an index of About, Method, and Development pages.
 - Script toolchain split into the AIDDbot CLI page and the CLI development page.
 - `META` uses `created` and `updated` dates instead of `date`.
+- Change flow steps use the lifecycle phase names: Analysis, Design, Implementation, Verification, and Close.
 
 ### Added
 
 - First spec, `s0001`: build the AIDDbot wiki.
 - `roadmap` document type for the project plan, and the installer term.
+- Seven lifecycle phases with project and change levels: Foundation, Analysis, Design, Implementation, Verification, Release, Maintenance.
+- Glossary terms for repository, project, package, product, and system, and the problem, solution, and verification views.
 
 - Project plan with four milestones (base documentation and wiki, lifecycle skills, deterministic CLI, distribution), the dogfooding rules, and a list of future ideas.
 - Change flow with one spec per change and an explicit criterion for separate plan and review documents.

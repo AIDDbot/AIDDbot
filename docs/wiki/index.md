@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Wiki Index
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-25
 links:
   sources: []
   related: []
@@ -17,7 +17,7 @@ What AIDDbot knows now. Agents read this index first, then open only the pages t
 
 ## About AIDDbot
 
-- [Intent](intent.md) — purpose, lifecycle coverage, building blocks, and inclusion criteria
+- [Intent](intent.md) — purpose, lifecycle phases, building blocks, and inclusion criteria
 - [Glossary](glossary.md) — shared terms for people, agents, documents, and code
 
 ## Method

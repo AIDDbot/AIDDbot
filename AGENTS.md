@@ -12,7 +12,7 @@ Each topic has one reference document. Read it before you change that topic. Wik
 
 | Topic | Reference document |
 | --- | --- |
-| Scope, building blocks, shared core, inclusion criteria | [intent](docs/wiki/intent.md) |
+| Scope, lifecycle phases, building blocks, shared core, inclusion criteria | [intent](docs/wiki/intent.md) |
 | Milestones, dogfooding rules, findings, future ideas | [PLAN.md](PLAN.md) |
 | Change flow, spec, document types, standards, metadata | [documentation catalog](docs/wiki/documentation-catalog.md) |
 | Terms | [glossary](docs/wiki/glossary.md) |

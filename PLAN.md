@@ -4,7 +4,7 @@ type: roadmap
 title: AIDDbot Project Plan
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-25
 links:
   sources: []
   related:
@@ -26,7 +26,7 @@ Status: **draft**. Current milestone: **H1**.
 | Milestone | Builds | Depends on |
 | --- | --- | --- |
 | H1 · Base documentation | The AIDDbot wiki, built from the foundational documents, and the map of the lifecycle skills. | The current foundational documents. |
-| H2 · Lifecycle skills | Skills and templates that produce the documents of each lifecycle stage and keep the project wiki. | H1 |
+| H2 · Lifecycle skills | Skills and templates that produce the documents of each lifecycle phase and keep the project wiki. | H1 |
 | H3 · Deterministic CLI | The `aiddbot` CLI. It takes every deterministic step out of the skills. | H2 |
 | H4 · Distribution and versions | A versioned release and an installer that installs and updates AIDDbot in a project. | H3 |
 
@@ -53,7 +53,8 @@ The temporary exception in [AGENTS.md](AGENTS.md#way-of-working) covers changes 
 - [x] Build the AIDDbot wiki. Move the foundational documents into `docs/wiki/` as pages, with `index.md`. Follow the [page rules](docs/wiki/knowledge-wiki.md#page-rules). `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root.
 - [x] Update `AGENTS.md` and the links in every document.
 - [x] Check how anchor links work in [Obsidian](docs/wiki/knowledge-wiki.md#obsidian). Decide if the pages keep them or link to whole pages.
-- [ ] Map the lifecycle skills. For each stage in [lifecycle coverage](docs/wiki/intent.md#lifecycle-coverage), state the skills, the documents that each skill produces, and the order in which we build them.
+- [x] Define the [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), their project and change levels, and the structure and business terms of the [glossary](docs/wiki/glossary.md).
+- [ ] Map the lifecycle skills. For each phase in [lifecycle phases](docs/wiki/intent.md#lifecycle-phases), state the skills, the documents that each skill produces, and the order in which we build them.
 - [ ] Check that the [documentation catalog](docs/wiki/documentation-catalog.md) defines every document in the map.
 - [x] Write one change with its [spec](docs/wiki/documentation-catalog.md#spec) in `docs/specs/s0001-<short-slug>.spec.md`, with [`META`](docs/wiki/documentation-catalog.md#document-ids-and-file-names). A person approves it, and the change closes with evidence.
 - [ ] Review the findings.
@@ -62,7 +63,7 @@ Done when: the AIDDbot wiki holds the foundational knowledge with no contradicti
 
 ## H2 · Lifecycle skills
 
-Build the skills in the order of the skill map. Start with the [change flow](docs/wiki/documentation-catalog.md#change-flow): specify, plan, build and review, close. Include the [wiki operations](docs/wiki/knowledge-wiki.md#operations): ingest, answer, and wiki review. Teams use them to keep the wiki of their own projects.
+Build the skills in the order of the skill map. Start with the [change flow](docs/wiki/documentation-catalog.md#change-flow): Analysis, Design, Implementation, Verification, and Close. Include the Foundation phase and the [wiki operations](docs/wiki/knowledge-wiki.md#operations): ingest, answer, and wiki review. Teams use them to keep the wiki of their own projects.
 
 - [ ] Write the template of each document that a skill produces, in `templates/`. Start with the spec.
 - [ ] Write each skill in `skills/`, in the [Agent Skills](https://agentskills.io/specification) format.

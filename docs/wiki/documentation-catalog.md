@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Documentation Catalog
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-25
 links:
   sources:
     - https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
@@ -55,12 +55,15 @@ The project conventions (code style, commits, checks) are a section of `agent-in
 
 ## Change flow
 
-Every change follows four steps:
+Every change follows five steps. The first four use the names of the [lifecycle phases](intent.md#lifecycle-phases) at change level.
 
-1. **Specify.** Write the spec. A person approves it.
-2. **Plan.** Split the work into tasks, each with a check, when tasks help to coordinate the work.
-3. **Build and review.** Implement the change. Run the checks and record the evidence.
-4. **Close.** Record the results, freeze the spec, and harvest the knowledge.
+1. **Analysis.** Write the spec. Clarify the open questions with a person. A person approves it.
+2. **Design.** Split the work into tasks, each with a check, when tasks help to coordinate the work. Write an `adr` for a significant, hard-to-reverse decision.
+3. **Implementation.** Implement the change and update the docs.
+4. **Verification.** Run the checks and record the evidence.
+5. **Close.** Record the results, freeze the spec, and harvest the knowledge.
+
+Close is the last step of a change, not a lifecycle phase.
 
 ### Change types
 
@@ -94,7 +97,7 @@ Write a separate `impl-plan` or `review-report` only if at least one of these is
 
 - The change lasts more than one work session.
 - Several agents or people work on the change.
-- The change affects more than one package.
+- The change affects more than one [package](glossary.md#package).
 
 ### Close a change
 
@@ -218,3 +221,6 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 21 | Do all documents need `META`? | No. `agent-instructions`, `readme`, and `changelog` have none. | Tools read them at fixed names. Frontmatter shows as noise on GitHub. |
 | 22 | Which type has the project plan? | `roadmap`, with one per project. | It is a living document of milestones. The name does not clash with the plan step or the `impl-plan`. |
 | 23 | Which ID has the design system? | `design-system`, with one per project. | Single documents use their type as ID, like wiki pages use their topic. |
+| 24 | How are the change steps named? | With the phase names: Analysis, Design, Implementation, Verification, and then Close. They replace specify, plan, build and review, close. | One vocabulary for phases and steps. People and agents do not translate between two lists (audit item B3). |
+| 25 | Is Close a phase? | No. It is the last step of a change. It returns knowledge to the Foundation documents. | It does not check anything. It keeps knowledge. |
+| 26 | Where does clarification go? | Inside Analysis, before a person approves the spec. | Fewer steps and handoffs. |
