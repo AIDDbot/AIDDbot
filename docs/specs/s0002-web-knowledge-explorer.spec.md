@@ -50,9 +50,17 @@ Removed from the old version: the graph view (`US3`) and the `d3-force` library.
 | 14 | An element page shows its row as a summary, plus the wiki sections and glossary terms that the row links to. | Detail without new text. The wiki stays the source. |
 | 15 | The contract goes in the page rules of `knowledge-wiki.md`: these anchors and columns are stable, and a change to them needs an explorer update. The detail goes in `explorer-development.md`. | A wiki editor sees the rule before they break it. |
 
+#### Map
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| 16 | The home map is one picture in layers: the phase loop in the middle, the change flow inside the change-level phases, the documents under the phase or step that names them, and the building blocks as a band below. | A person sees the whole of AIDDbot at once. |
+| 17 | The same picture, small, is the mini-map on each page. It marks the current element. | One mental model. A person never gets lost. |
+| 18 | The builder places the elements by rules, from the table order. Nobody draws the map by hand. | A new table row appears on the map with no drawing work. |
+| 19 | A click on an element zooms the map into it, and then opens its page. With reduced motion, the page opens at once. | The zoom shows where the page sits in the whole. |
+
 ### Open questions
 
-- How the map looks: one picture for all chapters, or one picture per chapter.
 - Which libraries stay. `marked` and `mermaid` are probable.
 - Finding: `bun lint` does not exist in Bun 1.4.5 (`Script not found "lint"`). It runs a `lint` script of `package.json`. The built-in linter of [the Bun docs](https://bun.com/docs/lint) is not in the stable version yet. The project owner handles lint and format.
 
