@@ -8,7 +8,7 @@ aiddbot:
   title: AIDDbot Design System
   status: draft
   created: "2026-11-24"
-  updated: "2026-11-24"
+  updated: "2026-11-25"
   links:
     sources:
       - https://github.com/google-labs-code/design.md/blob/0.4.0/docs/spec.md
@@ -25,6 +25,8 @@ colors:
   muted: "#9AA5C4"
   primary: "#60A5FA"
   on-primary: "#040711"
+  accent: "#4ADE80"
+  on-accent: "#040711"
   verified: "#4ADE80"
   warning: "#FBBF24"
   danger: "#F87171"
@@ -37,6 +39,8 @@ colors:
   light-muted: "#475569"
   light-primary: "#1D4ED8"
   light-on-primary: "#FFFFFF"
+  light-accent: "#15803D"
+  light-on-accent: "#FFFFFF"
   light-verified: "#15803D"
   light-warning: "#B45309"
   light-danger: "#B91C1C"
@@ -78,7 +82,7 @@ typography:
 
 ## Overview
 
-Use this visual identity for AIDDbot visual outputs: documents and diagrams. Use dark surfaces, clear labels, and blue and green accents. [Testing Inteligente stylesheet](https://github.com/Testing-IA-TrIT/testing-ia-repaso/blob/main/assets/styles.css)
+Use this visual identity for AIDDbot visual outputs: documents and diagrams. Use dark surfaces and clear labels. Blue marks what the reader can act on. Green marks what is important. [Testing Inteligente stylesheet](https://github.com/Testing-IA-TrIT/testing-ia-repaso/blob/main/assets/styles.css)
 
 ### Brand mark
 
@@ -94,12 +98,15 @@ The tokens without a prefix are the default dark theme. The `light-` tokens are 
 
 - Use `canvas` for the page and `surface` for cards, tables, and code blocks. Pair both with `on-surface` for main text and `muted` for secondary text.
 - Draw a 1px `outline` border around cards and tables. `surface` alone is too close to `canvas`.
-- Use `primary` blue for links, primary actions, the current step, and keyboard focus. Pair solid blue buttons with `on-primary` text.
+- Blue means "you can act on it". Use `primary` for every element that the reader can act on: links, buttons, controls, boxes that are links, hover, and keyboard focus. Pair solid blue buttons with `on-primary` text.
+- Green means "you cannot act on it, but it is important". Use `accent` only for elements that the reader cannot act on: borders of important boxes, the current page, highlighted connections, highlighted text, and decoration. Pair solid green fills with `on-accent` text.
+- Never use `accent` on an element that the reader can act on.
+- Do not use `accent` as a status. A status always has its text label.
 - Use the status colors with a text label, never alone:
   - `verified` green for checks that pass.
   - `warning` amber for conflicts, open questions, and risks.
   - `danger` red for failed checks and errors.
-- Use `brand-blue` and `brand-green` for decorative accents only. `brand-green` does not have enough contrast for text on the light theme.
+- Use `brand-blue` and `brand-green` only for the brand mark and for illustrations. In a user interface, use `primary` and `accent`. `brand-green` does not have enough contrast for text on the light theme.
 - Verify `4.5:1` contrast for regular text and `3:1` for required visual cues. [WCAG 2.2](https://www.w3.org/TR/WCAG22/#distinguishable)
 
 ## Typography

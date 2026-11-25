@@ -24,7 +24,7 @@ export async function renderMermaid(root: HTMLElement): Promise<void> {
       background: cssVar("canvas"),
       primaryColor: cssVar("surface"),
       primaryTextColor: cssVar("on-surface"),
-      primaryBorderColor: cssVar("primary"),
+      primaryBorderColor: cssVar("accent"),
       lineColor: cssVar("muted"),
       secondaryColor: cssVar("surface"),
       tertiaryColor: cssVar("canvas"),

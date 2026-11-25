@@ -6,6 +6,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
+- Design system: blue `primary` marks everything that the reader can act on, and only that. The new green `accent` token marks what the reader cannot act on but is important: borders, the current page, connections, text, and decoration. The explorer applies the rule: boxes that are links have a blue border.
 - Naming review (`s0004`): the living project documents between the two loops are the project brain. The document ID of `AGENTS.md` is `agents`. Analysis writes the feature files and updates the `roadmap`, and it reads the whole project brain.
 - The lifecycle has two loops. The project loop has four phases: Foundation, Development, Release, and Maintenance. The change loop has the five steps of each change, inside Development. Each name is used once. The lifecycle phases table has the columns `Work`, `Uses`, and `Produces`, like the change flow. (`s0003`)
 - Close writes the `changelog` entry to `Unreleased`. Release reads it and groups many closed changes into one version.

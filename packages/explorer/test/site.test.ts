@@ -194,6 +194,7 @@ describe("colors (US2R2)", () => {
           "on-surface",
           "muted",
           "primary",
+          "accent",
           "verified",
           "warning",
           "danger",
@@ -201,6 +202,7 @@ describe("colors (US2R2)", () => {
           pairs.push([prefix + fg, prefix + bg]);
       }
       pairs.push([`${prefix}on-primary`, `${prefix}primary`]);
+      pairs.push([`${prefix}on-accent`, `${prefix}accent`]);
     }
     for (const [fg, bg] of pairs) {
       const ratio = contrast(colors[fg] ?? "", colors[bg] ?? "");

@@ -1,4 +1,5 @@
-/* AIDDbot explorer. Colors and fonts come from theme.css, generated from DESIGN.md. */
+/* AIDDbot explorer. Colors and fonts come from theme.css, generated from DESIGN.md.
+   Blue (primary) is for what the reader can act on. Green (accent) highlights. */
 @import "@fontsource/audiowide/latin-400.css";
 @import "@fontsource/roboto/latin-400.css";
 @import "@fontsource/roboto/latin-500.css";
@@ -127,13 +128,13 @@ h1.code-title {
 }
 
 .top nav a {
-  color: var(--on-surface);
+  color: var(--primary);
   text-decoration: none;
   font-weight: 500;
 }
 
 .top nav a:hover {
-  color: var(--primary);
+  text-decoration: underline;
 }
 
 button,
@@ -141,9 +142,9 @@ button,
   font: inherit;
   font-size: var(--size-label-sm);
   font-weight: var(--weight-label-sm);
-  border: 1px solid var(--outline);
+  border: 1px solid var(--primary);
   background: var(--canvas);
-  color: var(--on-surface);
+  color: var(--primary);
   border-radius: 8px;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
@@ -234,8 +235,8 @@ svg .node text {
 }
 
 svg .node.phase rect {
-  stroke: var(--brand-blue);
-  stroke-width: 2;
+  stroke: var(--accent);
+  stroke-width: 2.5;
 }
 
 svg .node.phase text {
@@ -243,8 +244,8 @@ svg .node.phase text {
 }
 
 svg .node.step rect {
-  stroke: var(--brand-green);
-  stroke-width: 2;
+  stroke: var(--accent);
+  stroke-width: 1.5;
 }
 
 svg .node.type text {
@@ -261,10 +262,16 @@ svg a.node {
   cursor: pointer;
 }
 
+/* A box that is a link has a blue border. Only the current page stays green. */
+svg a.node:not(.current) rect {
+  stroke: var(--primary);
+}
+
 svg a.node:hover rect,
 svg a.node:focus rect {
   stroke: var(--primary);
   stroke-width: 3;
+  fill: color-mix(in srgb, var(--primary) 15%, var(--canvas));
 }
 
 svg a.node:focus {
@@ -272,13 +279,13 @@ svg a.node:focus {
 }
 
 svg .node.current rect {
-  fill: var(--primary);
-  stroke: var(--primary);
+  fill: var(--accent);
+  stroke: var(--accent);
   stroke-width: 6;
 }
 
 svg .node.current text {
-  fill: var(--on-primary);
+  fill: var(--on-accent);
 }
 
 svg .edge {
@@ -299,7 +306,7 @@ svg .edge.dashed {
 }
 
 svg .edge.accent {
-  stroke: var(--primary);
+  stroke: var(--accent);
 }
 
 svg .arrow-head {
@@ -307,7 +314,7 @@ svg .arrow-head {
 }
 
 svg .arrow-head.accent {
-  fill: var(--primary);
+  fill: var(--accent);
 }
 
 svg .band {
@@ -317,7 +324,7 @@ svg .band {
 
 svg .flow-frame {
   fill: none;
-  stroke: var(--brand-green);
+  stroke: var(--accent);
   stroke-dasharray: 8 6;
   stroke-width: 1.5;
 }
@@ -356,7 +363,7 @@ svg.focus-mode .edge:not(.related) {
 }
 
 svg.focus-mode .edge.related {
-  stroke: var(--primary);
+  stroke: var(--accent);
 }
 
 svg.zooming .node:not(.zoom-target) {
@@ -375,13 +382,14 @@ svg.mini .node rect {
 .mini-map {
   display: block;
   background: var(--canvas);
-  border: 1px solid var(--outline);
+  border: 1px solid var(--primary);
   border-radius: 12px;
   padding: 0.5rem;
 }
 
 .mini-map:hover {
-  border-color: var(--primary);
+  border-width: 2px;
+  padding: calc(0.5rem - 1px);
 }
 
 .map-text {
@@ -410,12 +418,12 @@ svg.mini .node rect {
 /* Diagrams */
 
 svg .node.center rect {
-  fill: var(--primary);
-  stroke: var(--primary);
+  fill: var(--accent);
+  stroke: var(--accent);
 }
 
 svg .node.center text {
-  fill: var(--on-primary);
+  fill: var(--on-accent);
   font-weight: 700;
   font-size: 15px;
 }
@@ -430,7 +438,7 @@ svg .chip.plain text {
 
 svg .status rect {
   fill: var(--surface);
-  stroke: var(--brand-green);
+  stroke: var(--accent);
   stroke-width: 2;
 }
 
@@ -657,7 +665,7 @@ svg .chip.type text {
 }
 
 .prose tr.target td {
-  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 .prose pre {
@@ -748,7 +756,7 @@ svg .brain-band {
 }
 
 svg .edge.zoom-edge {
-  stroke: var(--brand-green);
+  stroke: var(--accent);
   stroke-dasharray: 2 5;
   stroke-width: 1;
 }
