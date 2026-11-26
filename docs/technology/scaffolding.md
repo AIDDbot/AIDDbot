@@ -72,7 +72,7 @@ The [session journal rule](../process/documentation-catalog.md#session-journal) 
 | `skills/` | The first skill is written: the Analysis step of a change. | M1 |
 | `packages/cli/` | The first CLI command is written. | M2 |
 | `packages/explorer/` | The knowledge explorer is built: [`s0002`](../product/specs/s0002-web-knowledge-explorer/s0002.spec.md). | M0 |
-| `docs/<kind>/adr/` | The first ADR about that kind is written. | When needed |
+| `docs/technology/adr/` | The first ADR is written. | When needed |
 | `docs/wiki/` | The AIDDbot wiki provides the agent map of the brain. | M0 |
 | `docs/process/` | Process pages move here in [`s0007`](../product/specs/s0007-separate-brain-and-wiki/s0007.spec.md). [`s0008`](../product/specs/s0008-folders-by-kind/s0008.spec.md) adds the notepad and the dogfooding page. | M0 |
 | `docs/product/` | Product pages move to their own folder in [`s0007`](../product/specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |

@@ -272,7 +272,6 @@ describe("brain map (s0005-US2)", () => {
       "process",
       "product",
       "tech",
-      "subject",
     ]);
     expect(data.brainGroups.flatMap((g) => g.types).sort()).toEqual(
       [...data.brain].sort(),
@@ -282,7 +281,7 @@ describe("brain map (s0005-US2)", () => {
     );
     expect(
       layout.labels.filter((l) => l.cls === "kind-label").map((l) => l.text),
-    ).toEqual(["Process", "Product", "Technology", "By subject"]);
+    ).toEqual(["Process", "Product", "Technology"]);
     const frames = [...layout.frames].sort((a, b) => a.x - b.x);
     data.brainGroups.forEach((group, g) => {
       const frame = frames[g];

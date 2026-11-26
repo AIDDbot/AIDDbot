@@ -6,7 +6,8 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
-- The brain map of the explorer groups the brain document types by kind: one frame each for Process, Product, Technology, and By subject. The explorer reads the Kind tables of the catalog, so the brain contract has nine tables.
+- `readme` has kind `PRODUCT`, `adr` has kind `TECH`, and `page` has kind `PROCESS`. Only `wiki-page` takes its kind from its subject. ADRs go in `docs/technology/adr/`.
+- The brain map of the explorer groups the brain document types by kind, with one frame for each kind. The explorer reads the Kind tables of the catalog, so the brain contract has nine tables.
 - Moved specs and their change documents to `docs/product/specs/` and the notepad to `docs/process/`. The roadmap now holds the milestone tasks and future ideas. The new [dogfooding page](docs/process/dogfooding.md) holds the rules and findings. The explorer reads the new paths ([`s0008`](docs/product/specs/s0008-folders-by-kind/s0008.spec.md)).
 - The project brain groups original documents by process, product, and technology. Agents use the [wiki index](docs/wiki/index.md) to find them. The explorer reads the original documents and includes change documents in the brain map. The explorer tables are now the brain contract ([`s0007`](docs/product/specs/s0007-separate-brain-and-wiki/s0007.spec.md)).
 

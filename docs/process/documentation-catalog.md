@@ -72,14 +72,14 @@ The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this t
 
 #### Kind of each type
 
-Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Put each brain document under `docs/` in the folder for its kind. The [wiki index](../wiki/index.md) groups links by the same kinds. See the [scaffolding layout](../technology/scaffolding.md#layout) for root documents and fixed paths.
+Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Put each brain document under `docs/` in the folder for its kind. A `page` is the exception: the type has kind `PROCESS`, because a page is how the team writes about one topic. Its folder shows the kind of its subject. The [wiki index](../wiki/index.md) groups links by the same kinds. See the [scaffolding layout](../technology/scaffolding.md#layout) for root documents and fixed paths.
 
 | Kind | Document types |
 | --- | --- |
-| `PROCESS` | `agents`, `notepad` |
-| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog`, `journal`, `spec`, `feature-file`, `review-report` |
-| `TECH` | `design-system`, `code`, `unit-test`, `e2e-test`, `check-report`, `test-report` |
-| One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `readme`, `page`, `wiki-page`, `adr` |
+| `PROCESS` | `agents`, `notepad`, `page` |
+| `PRODUCT` | `readme`, `glossary`, `roadmap`, `domain-model`, `changelog`, `journal`, `spec`, `feature-file`, `review-report` |
+| `TECH` | `design-system`, `adr`, `code`, `unit-test`, `e2e-test`, `check-report`, `test-report` |
+| One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `wiki-page` |
 
 Every spec and the change documents in its folder have kind `PRODUCT`. This rule also applies to process changes because AIDDbot builds and uses its own process.
 
@@ -445,3 +445,4 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 62 | How do the project brain and the knowledge wiki differ? | The brain holds all project documentation, including living pages, change documents, and original sources. Each document has one [Kind](#kind). People own the original pages. Only agents write the wiki from the brain and the code. See [Wiki model](knowledge-wiki.md#model). | Each fact has one original home. Agents can rebuild the wiki from its sources. |
 | 63 | Where do the brain documents live? | Each brain document under `docs/` lives in its kind folder. Specs and their change documents go in `docs/product/specs/`. The notepad goes in `docs/process/`. The roadmap keeps the building order, milestone tasks, and Later ideas. The [dogfooding page](dogfooding.md) keeps the rules, how to use the roadmap, and findings. Root documents keep their paths. [`s0008`](../product/specs/s0008-folders-by-kind/s0008.spec.md) | The folder tree shows the kinds. The moves and the plan split go together because they share links and explorer paths. Standard root paths keep working for tools. |
 | 64 | Where does a session keep the context of its changes? | Keep an optional [session journal](#session-journal) with one product document per day and one line per change. Search it when you need context. [`s0009`](../product/specs/s0009-session-journal/s0009.spec.md) | Short entries keep the reasons for past changes while Git keeps their diffs and the notepad guides the next session. |
+| 65 | Which types take their kind from their subject? | Only `wiki-page`. `readme` is `PRODUCT`, `adr` is `TECH`, and `page` is `PROCESS`. A page still lives in the folder of its subject. | A fixed kind for each type gives a clear brain map. A page is the way the team writes, whatever its subject. |

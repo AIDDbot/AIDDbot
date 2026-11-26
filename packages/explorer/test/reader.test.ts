@@ -289,8 +289,8 @@ describe("brain contract (US1R4)", () => {
     edit(
       dir,
       "docs/process/documentation-catalog.md",
-      "| `PROCESS` | `agents`, `notepad` |",
-      "| `PROCESS` | `agents` |",
+      "| `PROCESS` | `agents`, `notepad`, `page` |",
+      "| `PROCESS` | `agents`, `page` |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining("brain type `notepad` has no kind"),
@@ -302,8 +302,8 @@ describe("brain contract (US1R4)", () => {
     edit(
       dir,
       "docs/process/documentation-catalog.md",
-      "| `PROCESS` | `agents`, `notepad` |",
-      "| `PEOPLE` | `agents`, `notepad` |",
+      "| `PROCESS` | `agents`, `notepad`, `page` |",
+      "| `PEOPLE` | `agents`, `notepad`, `page` |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining("unknown Kind `PEOPLE`"),

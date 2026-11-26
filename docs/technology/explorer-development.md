@@ -90,7 +90,7 @@ Rules:
 - **Links between elements.** Every step links to the phase whose row links to the change flow: Development. No phase name is written in the code. Every reference links both elements.
 - **Form.** Each catalog row holds one code of the Form tag table in backticks. A missing `Form` column or an unknown value stops the build.
 - **Project brain.** The brain map shows the original document types in catalog order. Use rows with Form `DOC` and without the `LLMWIKI` standard. This includes change documents. Life still determines which types can have a step as their owner on the change map.
-- **Kinds.** Each row of the kind of each type table is one group of the brain map, in table order. A row with one Kind code takes its name from the Kind tag table. A row with more codes is the By subject group. Every brain type is in one row. An unknown Kind code, an unknown document ID, or a brain type with no kind stops the build.
+- **Kinds.** Each row of the kind of each type table is one group of the brain map, in table order. A row with one Kind code takes its name from the Kind tag table. A row with more codes is the By subject group. A group with no brain type does not show. Every brain type is in one row. An unknown Kind code, an unknown document ID, or a brain type with no kind stops the build.
 - **Impact levels.** `Skips` names the document types that the change loop map hides for the level. `Adds` names the document types that it marks as required. The level name is the code in backticks of the `Impact` cell.
 - **Sections.** A relative link in a row cell adds the linked section to the page of the element. A link to a glossary anchor adds a glossary term. The page also shows the glossary term with the ID or the name of the element, and, for a document type, the catalog section with its ID, such as `#spec`.
 - **Errors.** A missing heading or table, a renamed or missing column, an unknown document ID, an unknown Form value, or an unknown name stops the build. The error names the file and the problem.
@@ -109,7 +109,7 @@ A change to these headings or columns needs a change to the builder in the same 
 | Specs | `docs/product/specs/**/*.md` |
 | Journal | `docs/product/journal/**/*.md` |
 
-- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. Specs, their change documents, and journal entries have kind `PRODUCT`.
+- The brain map groups each type by its [Kind](../process/documentation-catalog.md#kind). The `page` type is `PROCESS`, and the folder of a page shows the kind of its subject. Specs, their change documents, and journal entries have kind `PRODUCT`.
 - The [session journal](../process/documentation-catalog.md#session-journal) appears as the `journal` document type with one document per entry.
 - The explorer does not read `docs/wiki/`. The wiki is the agent map of the brain, and the explorer is the map for people. A link to `docs/wiki/index.md` shows as outside the explorer.
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
@@ -141,10 +141,11 @@ LOOP       Analysis ► Design ► Implementation ► Verification ► Close
            [ small | medium | large ]
 
 BRAIN      Foundation  Development  Release  Maintenance
-           ┌PROCESS┐ ┌PRODUCT──────────────┐ ┌TECHNOLOGY───┐ ┌BY SUBJECT┐
-           │agents │ │glossary roadmap ... │ │design-system│ │readme    │
-           │notepad│ │spec  changelog  ... │ │...          │ │page  adr │
-           └───────┘ └─────────────────────┘ └─────────────┘ └──────────┘
+           ┌PROCESS─┐ ┌PRODUCT──────────────┐ ┌TECHNOLOGY───┐
+           │agents  │ │readme glossary  ... │ │design-system│
+           │notepad │ │spec  changelog  ... │ │adr  ...     │
+           │page    │ │                     │ │             │
+           └────────┘ └─────────────────────┘ └─────────────┘
            Analysis    Design   Implementation   Verification   Close
 ```
 
