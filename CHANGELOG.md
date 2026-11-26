@@ -6,6 +6,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
+- Maintainers publish the explorer on demand with `bun run explorer:publish`. The command builds the site locally from `origin/main` and pushes it to GitHub Pages.
 - The explorer gives the information in layers (`s0005`). The overview at `#/` shows the phases, the project brain as one box, and the steps. The change loop map (`#/map/change`) shows the document types of each step, with a filter of impact level. The brain map (`#/map/brain`) shows who writes and reads each brain document. The building blocks have their own view, `#/blocks`. The breadcrumbs and the mini-map follow the parent map of each element.
 - The impact levels table has the columns `Skips` and `Adds`. The explorer reads it: the wiki contract has seven tables.
 - Design system: blue `primary` marks everything that the reader can act on, and only that. The new green `accent` token marks what the reader cannot act on but is important: borders, the current page, connections, text, and decoration. The explorer applies the rule: boxes that are links have a blue border.
@@ -29,7 +30,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Added
 
-- Public knowledge explorer on GitHub Pages (`s0006`). GitHub Actions builds and deploys the site from `main`.
+- Public knowledge explorer on GitHub Pages (`s0006`).
 - Fifth spec, `s0005`: give the explorer maps in layers.
 - Fourth spec, `s0004`: apply the naming review.
 - Form tag (`DOC`, `CODE`) and a `Form` column in the document catalog. The catalog rows follow the lifecycle order.

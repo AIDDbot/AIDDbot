@@ -36,6 +36,7 @@ Run them from the repository root. The explorer is the only package, so there is
 | --- | --- |
 | Install the explorer dependencies (once) | `bun run explorer:install` |
 | Build the site in `packages/explorer/dist/` | `bun run explorer:build` |
+| Build and publish the site to GitHub Pages | `bun run explorer:publish` |
 | Serve the site at `http://localhost:4173/` and build it again on each change. A change to the builder code restarts the server. | `bun run explorer:dev` |
 | Type-check | `bunx tsc --noEmit` in `packages/explorer/` |
 | Test | `bun test` in `packages/explorer/` |
@@ -45,7 +46,9 @@ The build accepts `--root <repository>` and `--out <folder>`. The site works fro
 
 ## Publication
 
-The [public explorer](https://aiddbot.github.io/AIDDbot/) uses GitHub Pages. The [workflow](../../.github/workflows/pages.yml) installs the locked dependencies, builds the site, and deploys `packages/explorer/dist/`. It runs on a push to `main`. A maintainer can also run it from the Actions tab with `main` selected.
+Use `bun run explorer:publish` when you want to update the [public explorer](https://aiddbot.github.io/AIDDbot/). The script needs Git access to push to `origin`. It fetches `origin/main`, installs the locked dependencies, and builds that commit in a temporary checkout on your machine.
+
+The script pushes the generated site to `gh-pages`. Its commit message records the source commit. In **Settings → Pages**, GitHub Pages uses **Deploy from a branch**, with `gh-pages` and `/(root)` selected. The `.nojekyll` file tells Pages to serve the generated files as they are. [GitHub Pages publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch)
 
 ## Folders
 
@@ -56,6 +59,7 @@ packages/explorer/
 ├── src/
 │   ├── build.ts            # Entry point of the build
 │   ├── dev.ts              # Development server
+│   ├── publish.ts          # Builds a source commit and pushes the site to gh-pages
 │   ├── shared/types.ts     # The data file format, shared by the builder and the site
 │   ├── builder/            # Runs on Bun: reads the documents and writes the site
 │   └── site/               # Runs in the browser: HTML, CSS, and custom elements

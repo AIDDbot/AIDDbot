@@ -7,7 +7,8 @@
   "scripts": {
     "explorer:install": "bun install --cwd packages/explorer",
     "explorer:build": "bun run --cwd packages/explorer build",
-    "explorer:dev": "bun run --cwd packages/explorer dev"
+    "explorer:dev": "bun run --cwd packages/explorer dev",
+    "explorer:publish": "bun packages/explorer/src/publish.ts"
   },
   "author": {
     "name": "Alberto Basalo",
