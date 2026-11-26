@@ -124,6 +124,24 @@ CHANGE     Analysis ► Design ► Implementation ► Verification ► Close
 - **Motion.** Diagrams and the map zoom use the Web Animations API. With reduced motion, every diagram shows its final state and a click opens the page with no zoom.
 - **Mermaid.** The site loads `mermaid` only when a full document has a Mermaid block.
 
+## Pending
+
+Proposals from a brainstorm on 2026-11-26. They are not rules yet. Goal: give the information in layers, so the first view does not overload people.
+
+| # | Proposal | Reason |
+| --- | --- | --- |
+| M1 | The map has levels. Level 0 is an overview: the phases, the project brain as one box, and the change loop steps as boxes. It shows no document types and no building blocks. A click on a box opens a map with more detail. Element pages stay as the last level. | The current map shows everything at once. |
+| M2 | The building blocks leave the maps. They get their own view, `#/blocks`, with a link in the header. Their element pages stay. | On the map they add noise and no story. |
+| M3 | The project brain has its own map: its document types, the steps and phases that write them, and the ones that read them. The level 0 box opens it. | It gives the project brain more presence. |
+| M4 | The change loop has one map: the five steps and the document types that each one uses and produces. A selector of [impact level](documentation-catalog.md#impact-levels) (`small`, `medium`, `large`) hides what that level does not use. | The flow depends on the impact level. One map with a filter shows this without a second map. |
+
+| M5 | The [impact levels](documentation-catalog.md#impact-levels) table gets two columns: `Skips` and `Adds`. They hold document IDs in backticks, such as `small` skips `feature-file`, `e2e-test`, and `test-report`, and `large` adds `review-report`. The table joins the wiki contract, which then has seven tables. | The filter of M4 needs data. The contract allows no document ID in the code. |
+
+| M6 | Each map has its own address: `#/` for level 0, `#/map/change`, and `#/map/brain`. Each element has one parent map: a phase has level 0, a step has the change loop, a brain document type has the brain, any other document type has the change loop, and a block has `#/blocks`. The breadcrumbs show the full path, such as Map › Change loop › Design. Each part is a link. | The browser back button works between levels. A person can share a link to a map. The full path shows where the person is. |
+| M7 | The mini-map of an element page draws the parent map of the element, with the element marked. A click opens that map. | It gives more context than the level 0 overview. |
+
+Brainstorm closed. Spec: [`s0005`](../specs/s0005-layered-maps/s0005.spec.md).
+
 ## Open points
 
 - `bun lint` does not exist in Bun 1.4.5. The command fails with `Script not found "lint"`. [AGENTS.md](../../AGENTS.md#scripts) and [CLI development](cli-development.md) ask for it.
