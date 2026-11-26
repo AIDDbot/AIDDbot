@@ -6,6 +6,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
+- Roadmap milestones use the codes `M0` to `M9` instead of `H1` to `H4`. A `feat` or `fix` spec names its milestone in the new `milestone` field of `META`.
 - A person requests a spec or approves a proposal before an agent creates the file or assigns an ID.
 - Routine maintenance goes straight to verification. The [development plan](docs/PLAN.md) moved into `docs/` under this rule.
 - Moved the product milestones to [ROADMAP.md](ROADMAP.md). It describes the outcome of each milestone.

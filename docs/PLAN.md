@@ -25,10 +25,10 @@ This file keeps the development tasks, dogfooding rules, findings, and ideas. Th
 
 | Milestone | Builds | Depends on |
 | --- | --- | --- |
-| H1 · Base documentation | The AIDDbot wiki, built from the foundational documents, and the map of the lifecycle skills. | The current foundational documents. |
-| H2 · Lifecycle skills | Skills and templates that produce the documents of each lifecycle phase and keep the project wiki. | H1 |
-| H3 · Deterministic CLI | The `aiddbot` CLI. It takes every deterministic step out of the skills. | H2 |
-| H4 · Distribution and versions | A versioned release and an installer that installs and updates AIDDbot in a project. | H3 |
+| M0 · Base documentation | The AIDDbot wiki, built from the foundational documents, and the map of the lifecycle skills. | The current foundational documents. |
+| M1 · Lifecycle skills | Skills and templates that produce the documents of each lifecycle phase and keep the project wiki. | M0 |
+| M2 · Deterministic CLI | The `aiddbot` CLI. It takes every deterministic step out of the skills. | M1 |
+| M3 · Distribution and versions | A versioned release and an installer that installs and updates AIDDbot in a project. | M2 |
 
 ## Dogfooding rules
 
@@ -45,9 +45,9 @@ We test AIDDbot on AIDDbot. This repository is the first project that uses its s
 - Tick a task when it is done. A milestone is done when its **Done when** criterion is true.
 - Close every milestone with a findings review. Findings can change, add, or remove tasks. Record each change in this plan.
 
-## H1 · Base documentation
+## M0 · Base documentation
 
-At least one H1 change uses a spec written by hand, to test the spec format. [Spec-first](../AGENTS.md#way-of-working)
+At least one M0 change uses a spec written by hand, to test the spec format. [Spec-first](../AGENTS.md#way-of-working)
 
 - [x] Review each foundational document. List the gaps, overlaps, and contradictions. Fix them in their reference documents.
 - [x] Build the AIDDbot wiki. Move the foundational documents into `docs/wiki/` as pages, with `index.md`. Follow the [page rules](wiki/knowledge-wiki.md#page-rules). `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root.
@@ -65,25 +65,25 @@ At least one H1 change uses a spec written by hand, to test the spec format. [Sp
 
 Done when: the AIDDbot wiki holds the foundational knowledge with no contradictions, the skill map exists, and one change has closed with a spec written by hand.
 
-## H2 · Lifecycle skills
+## M1 · Lifecycle skills
 
 Build the skills in the order of the skill map. Start with the [change flow](wiki/documentation-catalog.md#change-flow): Analysis, Design, Implementation, Verification, and Close. Include the Foundation phase and the [wiki operations](wiki/knowledge-wiki.md#operations): ingest, answer, and wiki review. Teams use them to keep the wiki of their own projects.
 
 - [ ] Write the template of each document that a skill produces, in `templates/`. Start with the spec.
 - [ ] Write each skill in `skills/`, in the [Agent Skills](https://agentskills.io/specification) format.
 - [ ] Use each new skill in the next change of this repository.
-- [ ] In each skill, mark the deterministic steps. They are the input for H3.
+- [ ] In each skill, mark the deterministic steps. They are the input for M2.
 - [ ] Check that no skill or template assumes one stack or language.
 - [ ] Use the spec template in a real change.
 - [ ] Review the findings.
 
 Done when: a change in this repository goes through the whole change flow with the skills and templates, and its closed spec is ingested into the AIDDbot wiki with the wiki skill.
 
-## H3 · Deterministic CLI
+## M2 · Deterministic CLI
 
 Follow the [AIDDbot CLI](wiki/aiddbot-cli.md) and [CLI development](wiki/cli-development.md) pages.
 
-- [ ] Turn the deterministic steps that H2 marked into CLI commands.
+- [ ] Turn the deterministic steps that M1 marked into CLI commands.
 - [ ] Update the skills. They call the commands and do not repeat their logic in prose.
 - [ ] Test the commands on fixture projects. The commands do not depend on the project stack.
 - [ ] Use the CLI in the next change of this repository.
@@ -91,7 +91,7 @@ Follow the [AIDDbot CLI](wiki/aiddbot-cli.md) and [CLI development](wiki/cli-dev
 
 Done when: the skills of this repository call the CLI for every deterministic step, and the tests pass.
 
-## H4 · Distribution and versions
+## M3 · Distribution and versions
 
 - [ ] Decide the release unit. Recommended: one version for the skills, templates, and CLI together.
 - [ ] Decide if the CLI needs Bun on the user's machine or ships as compiled binaries. Teams that do not use JavaScript may not have Bun.
@@ -103,7 +103,7 @@ Done when: the skills of this repository call the CLI for every deterministic st
 - [ ] Update the `README.md` with the tested steps. Add notable changes to `CHANGELOG.md`.
 - [ ] Review the findings.
 
-Done when: the [H4 outcome](../ROADMAP.md#h4--distribution-and-versions) is met and the README states how to install, update, and load AIDDbot in each tool.
+Done when: the [M3 outcome](../ROADMAP.md#m3--distribution-and-versions) is met and the README states how to install, update, and load AIDDbot in each tool.
 
 ## Findings
 
@@ -114,8 +114,8 @@ Done when: the [H4 outcome](../ROADMAP.md#h4--distribution-and-versions) is met 
 | F3 | The catalog did not fix the folders for source documents. | Closed. The [scaffolding](wiki/scaffolding.md) page states each folder and the milestone that creates it. |
 | F4 | Without templates, the original spec-first rule blocked changes to the foundational documents. | Closed. A person requests or approves each spec under the [spec-first rule](../AGENTS.md#way-of-working). |
 | F5 | The old plan built a template, skill, or script only after we repeated a task three times. It ignored the design in the foundational documents and delayed the lifecycle skills. | Closed. The plan now starts from the foundational documents and builds in four milestones. |
-| F6 | The test install of the CLI used `bun add -d`. Many projects have no `package.json`. | Open. H4 defines an install that does not depend on the project stack. |
-| F7 | The old plan deferred the wiki. AIDDbot needs one for its own documents, and teams need one for their projects. | Closed. H1 builds the AIDDbot wiki. H2 adds the wiki skills. |
+| F6 | The test install of the CLI used `bun add -d`. Many projects have no `package.json`. | Open. M3 defines an install that does not depend on the project stack. |
+| F7 | The old plan deferred the wiki. AIDDbot needs one for its own documents, and teams need one for their projects. | Closed. M0 builds the AIDDbot wiki. M1 adds the wiki skills. |
 
 ## Future ideas
 
@@ -126,5 +126,6 @@ Names only. Design one when a real change needs it.
 - Monitoring log and performance budget.
 - Customization for each project (`.aiddbot/`).
 - Wiki log and automatic ingest on change close.
+- List the specs of each milestone, in a script or in the knowledge explorer.
 - Ontology, if a real consumer needs it.
 - Catalog documents and standards that are not used today.

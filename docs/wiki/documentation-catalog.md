@@ -187,10 +187,11 @@ Rules:
 
 Follow the [spec-first rule](#principles) before you create a spec. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](glossary.md#problem) views.
 
-Its [`META`](#metadata-meta) adds two fields:
+Its [`META`](#metadata-meta) adds three fields:
 
 - `change`: the [change type](#change-types): `chore`, `refactor`, `fix`, or `feat`.
 - `impact`: the [impact level](#impact-levels): `small`, `medium`, or `large`.
+- `milestone`: the `roadmap` milestone that the change advances, from `M0` to `M9`. A spec gets zero or one milestone when it is created. A `feat` or `fix` spec must have it. A `chore` or `refactor` spec can omit it. A change to it later is an exception.
 
 | Section | Subsection | Content | Written in | When |
 | --- | --- | --- | --- | --- |
@@ -257,6 +258,7 @@ id: s0001               # Unique document ID
 type: spec              # document ID from this catalog
 change: feat            # spec only: chore | refactor | fix | feat
 impact: medium          # spec only: small | medium | large
+milestone: M1           # spec only: roadmap milestone, M0 to M9
 title: Add the spec template
 status: draft           # draft | proposed | accepted | done | superseded | deprecated
 created: 2026-11-24     # ISO 8601 date of creation; never changes
@@ -294,7 +296,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 - `<short-slug>` uses lowercase words joined by hyphens.
 - The ID does not show the change type. The `change` field holds it, so a spec can change its type without a new file name.
 - The `adr` IDs and file names are decided with the first ADR.
-- The rule is provisional. The spec template in H2 confirms or changes it (decision 11).
+- The rule is provisional. The spec template in M1 confirms or changes it (decision 11).
 
 ### Status use
 
@@ -345,22 +347,22 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 1 | Is a 3-level focus enough? | Superseded by decision 15. | — |
 | 2 | Is the minimum set too heavy? | Split into a [project set](#project-set) (once) and one spec per change. | No "one size fits all". |
 | 3 | Relevance per change size? | Superseded by decision 16. The change type guides the acceptance criteria. | — |
-| 4 | `META` fields? | `id`, `type`, `title`, `status`, `created`, `updated`, `links`. A spec adds `change` and `impact` (decision 43). See decision 20. | Minimum that supports IDs, status, and traceability. The change type can change without a new ID. |
+| 4 | `META` fields? | `id`, `type`, `title`, `status`, `created`, `updated`, `links`. A spec adds `change`, `impact` (decision 43), and `milestone` (decision 61). See decision 20. | Minimum that supports IDs, status, and traceability. The change type can change without a new ID. |
 | 5 | ADR format? | `MADR` only. | Current standard; its minimal variant covers the Nygard form. |
 | 6 | Standards for the remaining documents? | None. Plain Markdown + `META`. | YAGNI. |
 | 7 | Is `progress-log` a document? | No. Progress lives in the tasks of the spec (decision 53). | One source of truth for progress. |
 | 8 | Where do user stories live? | Superseded by decision 27. | — |
 | 9 | Spec-first or spec-anchored? | Spec-first. Knowledge is harvested into `LIVE` documents. | Specs stay small; living docs stay true. |
 | 10 | Where do `CHG` documents go after `done`? | They stay in the same folder. Status `done` marks them. | Links never break. |
-| 11 | How are document IDs assigned? | Specs use one neutral sequence, `s0001`, with the file `s0001-<short-slug>.spec.md`. Plans and reviews reuse the spec name with `.plan.md` and `.review.md`. The change type goes in the `change` field, not in the ID. ADR IDs wait for the first ADR. The H1 spec uses this provisional rule; the spec template in H2 confirms or changes it. See [document IDs](#document-ids-and-file-names). | The first spec needs a clear rule. A type letter in the ID would force a rename when the type changes. The suffix groups the documents of one change. |
+| 11 | How are document IDs assigned? | Specs use one neutral sequence, `s0001`, with the file `s0001-<short-slug>.spec.md`. Plans and reviews reuse the spec name with `.plan.md` and `.review.md`. The change type goes in the `change` field, not in the ID. ADR IDs wait for the first ADR. The M0 spec uses this provisional rule; the spec template in M1 confirms or changes it. See [document IDs](#document-ids-and-file-names). | The first spec needs a clear rule. A type letter in the ID would force a rename when the type changes. The suffix groups the documents of one change. |
 | 12 | Review and verification: one document or two? | Superseded by decision 32. | — |
 | 13 | UI specification: document or section? | A section of the `spec`, for later. | Spec-first: UI behavior is part of the change. `design-system` keeps the durable part. |
-| 14 | Are prose `LIVE` documents wiki pages? | Yes. The AIDDbot wiki starts in H1 (decision 19). | One fact, one home. |
+| 14 | Are prose `LIVE` documents wiki pages? | Yes. The AIDDbot wiki starts in M0 (decision 19). | One fact, one home. |
 | 15 | Which tags does a document need? | Two: life and relevance. | Phase, focus, and context did not change any decision for the next change. |
 | 16 | How many documents does a change need? | One spec. A separate `impl-plan` or `review-report` only with an explicit criterion that a skill can check. | Small changes stay light. The criterion is checkable. |
 | 17 | Which change types? | `chore`, `refactor`, `fix`, `feat`. An `epic` only groups specs. No `prd` and no regulated profile for now. | They wait for a real need. |
 | 18 | How large is the catalog? | The documents that the lifecycle skills produce have tables. The others are names. | The catalog follows the skill map, not one change at a time. |
-| 19 | Do the foundational documents move to `docs/wiki/`? | Yes, in H1. `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root. | The wiki is the base of AIDDbot documentation. AIDDbot tests its own wiki before its skills help teams keep one. |
+| 19 | Do the foundational documents move to `docs/wiki/`? | Yes, in M0. `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root. | The wiki is the base of AIDDbot documentation. AIDDbot tests its own wiki before its skills help teams keep one. |
 | 20 | Which dates does `META` hold? | `created` and `updated`, as ISO 8601 dates without time. They replace `date`. | Readers and the wiki review see when the content changed. Git keeps the status history. Time adds noise and merge conflicts. |
 | 21 | Do all documents need `META`? | No. `agents`, `readme`, and `changelog` have none. | Tools read them at fixed names. Frontmatter shows as noise on GitHub. |
 | 22 | Which type has the project plan? | `roadmap`, with one per project. | It is a living document of milestones. The name does not clash with the plan step or the `impl-plan`. |
@@ -402,3 +404,4 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history and development tasks have their own places. |
 | 59 | When can a change skip the spec? | [Routine maintenance](#routine-maintenance) with a clear result goes straight to verification. This narrows decisions 2 and 16. | A direct check gives evidence for work that preserves existing behavior and rules. |
 | 60 | Who decides when to create a spec? | A person requests a spec or approves a proposal before the agent creates the file or assigns an ID. [Spec-first](#principles) | The person decides which changes need a spec. The relevant project document and Git can record the rest. |
+| 61 | How do specs and milestones link? | Milestones use the codes `M0` to `M9`, in `roadmap` order. A `feat` or `fix` spec names its milestone in the `milestone` field of `META`. A `chore` or `refactor` spec can omit it. The spec gets its milestone when it is created. A later change is an exception. The specs before this decision got `M0` when the rule was introduced. The `roadmap` holds only outcomes. | One source for the link. Maintenance does not always advance a product outcome. A spec belongs to the milestone it was written for. `M` and English replace the old `H` codes. |

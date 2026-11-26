@@ -44,7 +44,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="skill"></a>Skill | Instructions for a recurring development activity: objective, required context, expected outputs, and checks. The agent chooses the approach. [Building blocks](intent.md#building-blocks) | `SKILL.md` |
 | <a id="script"></a>Script | A command that does one deterministic task with defined inputs, outputs, and errors. Skills call it. **Avoid:** tool, helper. [Script contract](aiddbot-cli.md#script-contract) | `aiddbot <group> <action>` |
 | <a id="aiddbot-cli"></a>AIDDbot CLI | The single executable that ships all scripts as subcommands. Skills call a pinned version. [Command form](aiddbot-cli.md#command-form) | `aiddbot` |
-| <a id="installer"></a>Installer | The program that installs and updates a pinned AIDDbot release in a project: skills, templates, and CLI. **Avoid:** script, for the installer. [H4](../../ROADMAP.md#h4--distribution-and-versions) | — |
+| <a id="installer"></a>Installer | The program that installs and updates a pinned AIDDbot release in a project: skills, templates, and CLI. **Avoid:** script, for the installer. [M3](../../ROADMAP.md#m3--distribution-and-versions) | — |
 | <a id="repository"></a>Repository | A Git repository. The official Git term. | — |
 | <a id="project"></a>Project | A repository seen as a place of work: its `AGENTS.md`, specs, wiki, and roadmap. AIDDbot installs in a project. A monorepo is one project. **Avoid:** project, for a part of a monorepo (as Nx and .NET use it). | — |
 | <a id="package"></a>Package | A unit of code in a project that is built and versioned on its own, such as an npm package or a part of a monorepo. **Avoid:** module, for this concept. | `packages/` |

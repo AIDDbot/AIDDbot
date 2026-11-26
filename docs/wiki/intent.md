@@ -172,7 +172,8 @@ The three core documents are the `roadmap` to decide what to do, the `spec` to i
 | P4 | When a change makes an old requirement invalid, it deprecates it in both specs. The new spec lists `Deprecates: s0002-US1R2` in Problem. The old spec marks the requirement as deprecated and links to the new spec. This is the only edit allowed in a closed spec. | The deprecation is visible from both sides. |
 | P5 | The scenario of a deprecated requirement gets the `@deprecated` tag. The e2e agent deletes its test. New scenarios cover the new behavior. | Old tests do not block valid changes. |
 | P6 | If an old test fails and its requirement is not deprecated, it is a regression. Fix the code, not the test. | A failed test is never ambiguous. |
-| P7 | A `feat` or `fix` spec names its milestone in `META`, such as `milestone: H2`. A `chore` or `refactor` can have no milestone. The `roadmap` holds only outcomes. A script or the knowledge explorer lists the specs of each milestone. | One source for the link. Maintenance does not advance a product outcome. |
+
+P7, the link from a spec to its milestone, is now [catalog decision 61](documentation-catalog.md#decisions).
 
 Open questions:
 

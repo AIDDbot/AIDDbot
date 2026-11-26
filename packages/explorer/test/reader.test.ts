@@ -185,7 +185,7 @@ describe("readData on this repository", () => {
     expect(roadmap?.path).toBe("ROADMAP.md");
     expect(developmentPlan?.path).toBe("docs/PLAN.md");
     expect(roadmap?.toc.map((entry) => entry.id)).toContain(
-      "h1--base-documentation",
+      "m0--base-documentation",
     );
     expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
       'href="#/doc/development-plan"',
@@ -194,7 +194,7 @@ describe("readData on this repository", () => {
       'href="#/doc/roadmap"',
     );
     expect(data.docs.find((doc) => doc.id === "s0001")?.html).toContain(
-      'href="#/doc/development-plan/h1--base-documentation"',
+      'href="#/doc/development-plan/m0--base-documentation"',
     );
   });
 

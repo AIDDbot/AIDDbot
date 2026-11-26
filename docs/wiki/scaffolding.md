@@ -58,13 +58,13 @@ Everything else stays in this repository: the roadmap, the specs, the AIDDbot wi
 
 | Folder | Created when | Milestone |
 | --- | --- | --- |
-| `docs/specs/` | The first spec is written. | H1 |
-| `templates/` | The first template is written: the spec. | H2 |
-| `skills/` | The first skill is written: the Analysis step of a change. | H2 |
-| `packages/cli/` | The first CLI command is written. | H3 |
-| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md). | H1 |
+| `docs/specs/` | The first spec is written. | M0 |
+| `templates/` | The first template is written: the spec. | M1 |
+| `skills/` | The first skill is written: the Analysis step of a change. | M1 |
+| `packages/cli/` | The first CLI command is written. | M2 |
+| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md). | M0 |
 | `docs/adr/` | The first ADR is written. | When needed |
-| `docs/wiki/` | The foundational documents become the AIDDbot wiki. | H1 |
+| `docs/wiki/` | The foundational documents become the AIDDbot wiki. | M0 |
 | `docs/raw/` | The wiki ingests the first external source. | When needed |
 
 Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second package exists. Until then, the root scripts run the explorer with `--cwd`. [Explorer development](explorer-development.md#commands)
