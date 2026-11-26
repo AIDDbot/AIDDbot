@@ -1,5 +1,5 @@
 LAST SESSION
-Closed s0008 and s0009. Without a spec, grouped the brain map of the explorer by kind and gave readme, adr, and page a fixed kind. Pushed main and published the explorer from 5b63853. The journal records each change.
+Closed s0008 and s0009. Without a spec, grouped the brain map of the explorer by kind and gave readme, adr, and page a fixed kind. Pushed main and published the explorer from 5b63853. Made explorer:publish push a clean main and reuse the installed dependencies. The journal records each change.
 
 NEXT SESSION
 Resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
