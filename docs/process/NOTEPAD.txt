@@ -1,8 +1,8 @@
 LAST SESSION
-Closed s0008 and s0009 on main. The brain documents are in their kind folders, and the session journal is in docs/product/journal/.
+Closed s0008 and s0009. Grouped the brain map of the explorer by kind, as a session without a spec, recorded in the journal.
 
 NEXT SESSION
-Group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
+Check the grouped brain map in the browser (bun run explorer:dev), then publish the explorer. Resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
 
 BLOCKERS
 None.
