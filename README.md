@@ -23,7 +23,7 @@ Skills guide the agent in each step. Scripts do the deterministic parts, such as
 
 Design stage. There is no usable release yet.
 
-The [roadmap](ROADMAP.md) gives the current milestone. To resume work, read [the notepad](docs/NOTEPAD.txt).
+The [roadmap](ROADMAP.md) gives the current milestone. To resume work, read [the notepad](docs/process/NOTEPAD.txt).
 
 ## Requirements
 
@@ -34,8 +34,8 @@ The [roadmap](ROADMAP.md) gives the current milestone. To resume work, read [the
 
 - [Project brain](docs/process/knowledge-wiki.md#model) with the original [process](docs/process/), [product](docs/product/), and [technology](docs/technology/) documents.
 - [AIDDbot wiki](docs/wiki/index.md), the index agents use to find those documents.
-- [Roadmap](ROADMAP.md) for product milestones and outcomes.
-- [Development plan](docs/PLAN.md) for tasks, dogfooding rules, and future ideas.
+- [Roadmap](ROADMAP.md) for product milestones, outcomes, tasks, and future ideas.
+- [Dogfooding](docs/process/dogfooding.md) for how we test AIDDbot in this repository and record findings.
 - [Design system](DESIGN.md) for AIDDbot documents and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
 - [Knowledge explorer](https://aiddbot.github.io/AIDDbot/): a visual guide to the method, roadmap, and specs. [Run it locally](docs/technology/explorer-development.md#commands).

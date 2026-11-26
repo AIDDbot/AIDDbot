@@ -7,10 +7,10 @@ created: 2026-11-25
 updated: 2026-11-26
 links:
   sources:
-    - docs/specs/s0002-web-knowledge-explorer/s0002.spec.md
-    - docs/specs/s0003-two-loop-lifecycle/s0003.spec.md
-    - docs/specs/s0005-layered-maps/s0005.spec.md
-    - docs/specs/s0006-publish-knowledge-explorer/s0006.spec.md
+    - docs/product/specs/s0002-web-knowledge-explorer/s0002.spec.md
+    - docs/product/specs/s0003-two-loop-lifecycle/s0003.spec.md
+    - docs/product/specs/s0005-layered-maps/s0005.spec.md
+    - docs/product/specs/s0006-publish-knowledge-explorer/s0006.spec.md
     - https://bun.com/docs/bundler
     - https://developer.mozilla.org/en-US/docs/Web/API/Web_components
   related:
@@ -24,7 +24,7 @@ links:
 
 # AIDDbot Explorer Development
 
-How we build the [knowledge explorer](../product/glossary.md#knowledge-explorer), a static web site that presents the AIDDbot process to people. It reads original documents from the project brain. It stays in this repository. [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md)
+How we build the [knowledge explorer](../product/glossary.md#knowledge-explorer), a static web site that presents the AIDDbot process to people. It reads original documents from the project brain. It stays in this repository. [`s0002`](../product/specs/s0002-web-knowledge-explorer/s0002.spec.md)
 
 Status: **draft**.
 
@@ -103,14 +103,12 @@ A change to these headings or columns needs a change to the builder in the same 
 | Product | `docs/product/*.md` |
 | Technology | `docs/technology/*.md` |
 | Root | `README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md` |
-| Project | `docs/PLAN.md` |
-| Specs | `docs/specs/**/*.md` |
+| Specs | `docs/product/specs/**/*.md` |
 
-- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. The explorer does not read a Kind tag.
+- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. Specs and their change documents have kind `PRODUCT`.
 - The explorer does not read `docs/wiki/`. The wiki is the agent map of the brain, and the explorer is the map for people. A link to `docs/wiki/index.md` shows as outside the explorer.
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.
-- References to the former root path `PLAN.md` in closed specs open `docs/PLAN.md` in the explorer.
 - A link to another file of the repository, such as `LICENSE` or a folder, shows as plain text with an "outside the explorer" mark.
 
 ## Map rules

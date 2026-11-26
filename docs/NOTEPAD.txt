@@ -1,8 +1,0 @@
-LAST SESSION
-Closed s0007. Agreed on the session journal (J1-J10) and folders by kind (F1-F7), in the Pending section of docs/process/documentation-catalog.md. Created the small specs s0008 (folders) and s0009 (journal), both draft.
-
-NEXT SESSION
-Implement s0008, then s0009 (it uses the new folders). Then group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
-
-BLOCKERS
-None.

@@ -8,7 +8,7 @@ updated: 2026-11-26
 links:
   sources:
     - AGENTS.md
-    - docs/PLAN.md
+    - docs/process/dogfooding.md
     - ROADMAP.md
     - https://www.domainlanguage.com/ddd/reference/
   related:
@@ -40,7 +40,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="person"></a>Person | A human who works on a project: writes specs, reviews changes, and gives human approval. **Avoid:** user. A user is the end user of the software. | — |
 | <a id="agent"></a>Agent | An AI model that works in an AI coding tool. It follows skills and project context, and it calls scripts. | — |
 | <a id="ai-coding-tool"></a>AI coding tool | An application that runs an agent on a project, such as Codex, Claude Code, or Cursor. [Shared core](intent.md#shared-core) | — |
-| <a id="dogfooding"></a>Dogfooding | Testing AIDDbot on AIDDbot. This repository uses each skill, template, and script as soon as it exists. [Rules](../PLAN.md#dogfooding-rules) | — |
+| <a id="dogfooding"></a>Dogfooding | Testing AIDDbot on AIDDbot. This repository uses each skill, template, and script as soon as it exists. [Rules](../process/dogfooding.md#dogfooding-rules) | — |
 | <a id="skill"></a>Skill | Instructions for a recurring development activity: objective, required context, expected outputs, and checks. The agent chooses the approach. [Building blocks](intent.md#building-blocks) | `SKILL.md` |
 | <a id="script"></a>Script | A command that does one deterministic task with defined inputs, outputs, and errors. Skills call it. **Avoid:** tool, helper. [Script contract](../process/aiddbot-cli.md#script-contract) | `aiddbot <group> <action>` |
 | <a id="aiddbot-cli"></a>AIDDbot CLI | The single executable that ships all scripts as subcommands. Skills call a pinned version. [Command form](../process/aiddbot-cli.md#command-form) | `aiddbot` |
@@ -61,7 +61,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="process"></a>Process | How the team works, including its method and project adaptations. [Kind](../process/documentation-catalog.md#kind) | `PROCESS` |
 | <a id="product-documentation"></a>Product documentation | What the team builds and why, including the domain, goals, and roadmap. [Kind](../process/documentation-catalog.md#kind) | `PRODUCT` |
 | <a id="technology"></a>Technology | How the team builds the product, including its architecture, stack, and technical conventions. [Kind](../process/documentation-catalog.md#kind) | `TECH` |
-| <a id="roadmap"></a>Roadmap | The product milestones and their outcomes, in order. A completed milestone can link to the version that delivered it. AIDDbot keeps its roadmap in [ROADMAP.md](../../ROADMAP.md). | `roadmap` |
+| <a id="roadmap"></a>Roadmap | The product milestones in build order, with their outcomes and tasks. The Later section holds future ideas. A completed milestone can link to the version that delivered it. AIDDbot keeps its roadmap in [ROADMAP.md](../../ROADMAP.md). | `roadmap` |
 | <a id="project-level"></a>Project level | Work on the whole project: the lifecycle phases, such as Foundation or a release. [Lifecycle phases](intent.md#lifecycle-phases) | — |
 | <a id="change-level"></a>Change level | Work on one change, from its spec to its close: the steps of the change flow. [Lifecycle phases](intent.md#lifecycle-phases) | — |
 | <a id="problem"></a>Problem | What must be solved, in the domain language. The problem space of [DDD](https://www.domainlanguage.com/ddd/reference/): domain and subdomains. Analysis works on it, in each change. | — |

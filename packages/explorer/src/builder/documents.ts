@@ -25,8 +25,6 @@ export const ROOT_FILES = [
   "CHANGELOG.md",
 ];
 
-const DEVELOPMENT_PLAN_PATH = "docs/PLAN.md";
-
 /** Root documents with no META by design, and the document type that the file name gives them. */
 export const NO_META_TYPES: Record<string, string> = {
   "README.md": "readme",
@@ -66,15 +64,13 @@ export function contentFiles(
   for (const name of ROOT_FILES)
     if (existsSync(posix.join(root, name)))
       files.push({ path: name, group: "root" });
-  if (existsSync(posix.join(root, DEVELOPMENT_PLAN_PATH)))
-    files.push({ path: DEVELOPMENT_PLAN_PATH, group: "project" });
   for (const [folder, group] of [
     ["docs/process", "process"],
     ["docs/product", "product"],
     ["docs/technology", "technology"],
-    ["docs/specs", "specs"],
+    ["docs/product/specs", "specs"],
   ] as const) {
-    // Specs live in one folder per change: docs/specs/<spec>/<id>.spec.md.
+    // Specs and their change documents live in one folder per change.
     const glob = new Bun.Glob(group === "specs" ? "**/*.md" : "*.md");
     const names = [...glob.scanSync({ cwd: posix.join(root, folder) })]
       .map((name) => name.replaceAll("\\", "/"))
@@ -205,8 +201,6 @@ export class LinkResolver {
       this.byPath.set(doc.path, doc);
       if (!this.byId.has(doc.id)) this.byId.set(doc.id, doc);
     }
-    const developmentPlan = this.byPath.get(DEVELOPMENT_PLAN_PATH);
-    if (developmentPlan) this.byPath.set("PLAN.md", developmentPlan);
   }
 
   /** Resolves `href`, written in the document at `from`. */

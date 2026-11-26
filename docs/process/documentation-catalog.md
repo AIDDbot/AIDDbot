@@ -70,14 +70,16 @@ The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this t
 | `PRODUCT` | [Product](../product/glossary.md#product-documentation) | What the team builds and why. |
 | `TECH` | [Technology](../product/glossary.md#technology) | How the team builds the product. |
 
-Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Use its folder or its group in the wiki index to show its kind. Change documents can stay together in the spec folder.
+Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Put each brain document under `docs/` in the folder for its kind. The [wiki index](../wiki/index.md) groups links by the same kinds. See the [scaffolding layout](../technology/scaffolding.md#layout) for root documents and fixed paths.
 
 | Kind | Document types |
 | --- | --- |
 | `PROCESS` | `agents`, `notepad` |
-| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog` |
+| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog`, `spec`, `feature-file`, `review-report` |
 | `TECH` | `design-system`, `code`, `unit-test`, `e2e-test`, `check-report`, `test-report` |
-| One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `readme`, `page`, `wiki-page`, `spec`, `feature-file`, `adr`, `review-report` |
+| One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `readme`, `page`, `wiki-page`, `adr` |
+
+Every spec and the change documents in its folder have kind `PRODUCT`. This rule also applies to process changes because AIDDbot builds and uses its own process.
 
 ## Project set
 
@@ -92,7 +94,7 @@ Foundation sets up both sections.
 
 ## Session handoff
 
-Projects that hand off work across sessions can keep one `docs/NOTEPAD.txt` in Git. People and agents read it when they start work and refresh it at the end of the session. A session can end while a change is still in progress.
+Projects that hand off work across sessions can keep one `docs/process/NOTEPAD.txt` in Git. People and agents read it when they start work and refresh it at the end of the session. A session can end while a change is still in progress.
 
 Keep these three plain-text headings in order:
 
@@ -251,7 +253,7 @@ Rules:
 | `page` | Page | `LIVE` | `DOC` | `COULD` when a topic needs its own document | `META` | Prose about one topic. People own it, and agents and skills can help write it. |
 | `wiki-page` | Knowledge wiki page | `LIVE` | `DOC` | `SHOULD` | `LLMWIKI`, `META` | An index or summary that agents write from the project brain and the code. See the [knowledge wiki](knowledge-wiki.md). |
 | `agents` | Agent instructions | `LIVE` | `DOC` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
-| `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in order, each with a short, observable outcome. A completed milestone can link to the version in the `changelog` that delivered it. |
+| `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in build order, each with a short, observable outcome and its tasks. The Later section holds future ideas. A completed milestone can link to the version in the `changelog` that delivered it. |
 | `notepad` | Notepad | `LIVE` | `DOC` | `COULD` when work is handed off across sessions | — | [Session handoff](#session-handoff): last session, next session, and current blockers. |
 | `spec` | Change specification | `CHG` | `DOC` | `MUST` for changes that follow the change flow | `USERSTORY`, `EARS`, `MERMAID`, `META` | Problem, solution, and verification of one change. Approved before code. |
 | `feature-file` | Feature file | `CHG` | `DOC` | `MUST` in a `medium` or `large` `feat` or `fix` | `GHERKIN` | The scenarios of one user story, with the details to check each requirement. Implementation generates the `e2e-test` from it. |
@@ -298,20 +300,20 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 
 | Document | `id` | File |
 | --- | --- | --- |
-| `spec` | `s<NNNN>`: one sequence with four digits for all change types, such as `s0001`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.spec.md` |
-| `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.review.md` |
+| `spec` | `s<NNNN>`: one sequence with four digits for all change types, such as `s0001`. | `docs/product/specs/s<NNNN>-<short-slug>/s<NNNN>.spec.md` |
+| `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/product/specs/s<NNNN>-<short-slug>/s<NNNN>.review.md` |
 | `page` | The file name without `.md`. | `docs/process/<topic>.md`, `docs/product/<topic>.md`, or `docs/technology/<topic>.md`, by kind. |
 | `wiki-page` | The file name without `.md`. | `docs/wiki/<topic>.md` |
 | `roadmap` | `roadmap`. One current roadmap per project. | `ROADMAP.md` |
-| `notepad` | No `id`. One per project. | `docs/NOTEPAD.txt` |
+| `notepad` | No `id`. One per project. | `docs/process/NOTEPAD.txt` |
 | `design-system` | `design-system`. One per project. | `DESIGN.md` |
 | `domain-model` | `domain-model`. One per project. | `docs/product/domain-model.md` |
-| `feature-file` | No `id`. Its `Feature` tag names it, such as `@s0001-US1`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>-US<n>.feature` |
+| `feature-file` | No `id`. Its `Feature` tag names it, such as `@s0001-US1`. | `docs/product/specs/s<NNNN>-<short-slug>/s<NNNN>-US<n>.feature` |
 | `code`, `unit-test` | No `id`. | The folders of the project. `agents` names them. |
 | `e2e-test` | No `id`. | Its own [package](../product/glossary.md#package), such as `packages/e2e/`. It can use another stack. `agents` names it. |
 | `check-report`, `test-report` | No `id`. | The output of the check command or the test command. Git does not keep it. CI keeps the report of each pull request. |
 
-- Each spec has one folder, `docs/specs/s<NNNN>-<short-slug>/`. All its change documents go in it.
+- Each spec has one folder, `docs/product/specs/s<NNNN>-<short-slug>/`. All its change documents go in it.
 - `<short-slug>` uses lowercase words joined by hyphens.
 - The ID does not show the change type. The `change` field holds it, so a spec can change its type without a new file name.
 - The `adr` IDs and file names are decided with the first ADR.
@@ -383,7 +385,7 @@ Example entry:
 ```markdown
 # 2026-11-26
 
-- Separate the project brain from the wiki ([s0007](../../../specs/s0007-separate-brain-and-wiki/s0007.spec.md)). [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
+- Separate the project brain from the wiki ([s0007](../../specs/s0007-separate-brain-and-wiki/s0007.spec.md)). [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
 - Rename the "wiki contract" to "brain contract": the tables live in the brain. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
 - No linter until Bun ships `bun lint`. Rejected Biome and ESLint. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
 - The explorer uses folders for kind and skips the wiki. [2393063](https://github.com/AIDDbot/AIDDbot/commit/2393063)
@@ -397,24 +399,6 @@ Answers of 2026-11-26:
 | J8 | Each journal file has `META`. | The explorer and the agents read it like the other documents. |
 | J9 | The explorer shows the journal. | People can follow the history of the product. |
 | J10 | AIDDbot ships the journal rule to other projects. | It is part of the process. |
-
-### Folders that mirror the kinds
-
-Proposals from 2026-11-26. Status: proposed. They change [Kind](#kind) and the [scaffolding layout](../technology/scaffolding.md#layout).
-
-The folders of `docs/` show the mental map of the brain: one folder for each kind, and every document inside one of them.
-
-| # | Proposal | Reason |
-| --- | --- | --- |
-| F1 | Specs and their change documents move to `docs/product/specs/`. A `spec` is always `PRODUCT`: each change changes the product. | One kind for each folder, with no exception for change documents. |
-| F2 | The `notepad` moves to `docs/process/NOTEPAD.txt`. | Its kind is already `PROCESS`. |
-| F3 | `docs/PLAN.md` splits by kind. The building order, tasks, and future ideas go with the `roadmap` (`PRODUCT`). The dogfooding rules and findings go to process. | It mixes two kinds, and its `META` still says `roadmap` with status `superseded`. |
-| F4 | A process change, such as `s0007`, is a product spec too. | AIDDbot dogfoods its process: here the process is the product. |
-| F5 | The root documents (`README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md`) stay at the root. | They follow widely accepted standards, and tools expect them there. |
-| F6 | One change does F1 to F3. | The moves touch the same paths, links, and explorer folders. |
-| F7 | For F3, the building order, the milestone tasks, and the future ideas (in a Later section) go into `ROADMAP.md`. The dogfooding rules, how to use the plan, and the findings go to a new page, `docs/process/dogfooding.md`. | The `roadmap` stays the one place for what to build. Process gets its own page. |
-
-No open questions remain. The next step is a spec for F1 to F7 and J1 to J6, or the open questions of the journal first.
 
 ## Decisions
 
@@ -465,7 +449,7 @@ No open questions remain. The next step is a spec for F1 to F7 and J1 to J6, or 
 | 43 | Do all changes follow the same flow? | No. Each change has an [impact level](#impact-levels): `small`, `medium`, or `large`. A `small` change has a short spec, no `feature-file`, and its approval in the pull request. A `large` change adds a `review-report` (decision 53 removed the `impl-plan`). The levels replace the criterion for separate documents. Decision 30 applies to `medium` and `large` changes. | Minor changes move fast. Large changes get the coordination they need. The change type says what a change does, not how much process it needs. |
 | 44 | Who decides the impact level? | A skill proposes it from criteria that it can check. A person confirms it. The spec holds it in the `impact` field. | The criteria make the level consistent. The person sees risks that the criteria miss. |
 | 45 | Which artifacts does Implementation produce? | `code`, `unit-test`, and `check-report`, as document types of the catalog. They have no `META`. The agent reads each `check-report` and fixes the code until the checks pass. | People see the output of Implementation like the output of the other steps. The report closes the loop of self-correction and gives evidence to Verification. |
-| 46 | Where do the feature files live? | One `feature-file` for each user story, as `US<n>.feature` in the spec folder. Each change has one folder, `docs/specs/s<NNNN>-<short-slug>/`, with `spec.md`, the feature files, `plan.md`, and `review.md`. The `feature-file` is `CHG`: it changes decision 37. The `e2e-test` is the `LIVE` part. Decision 11 keeps the IDs; only the paths change. | The scenarios travel with their spec and their user stories. They give the details of each check and make the e2e tests easy to generate and to trace. One folder keeps the documents of a change together. |
+| 46 | Where do the feature files live? | One `feature-file` for each user story in the spec folder. Decision 48 gives the file names. Decision 63 gives the folder. The `feature-file` is `CHG`. This changes decision 37. The `e2e-test` is the `LIVE` part. | The scenarios travel with their spec and their user stories. They give the details of each check and make the e2e tests easy to generate and to trace. One folder keeps the documents of a change together. |
 | 47 | Who writes the end-to-end tests, and where? | Another agent instance, in Implementation, in its own package. It does not read or change the source code. Verification runs them and writes a `test-report`. The e2e package does not make a change `large`. | An agent that writes both the code and its tests can make them agree without solving the problem. Tests from outside keep the check honest. The e2e package often uses another stack. |
 | 48 | How are the files of a change named? | Each file name starts with the spec ID: `s0002.spec.md`, `s0002.plan.md`, `s0002.review.md`, and `s0002-US1.feature`. The folder keeps its slug. It changes the file names of decision 46. | With several files open in an editor, the tab shows which change and which document it is. The feature file name matches its `Feature` tag. |
 | 49 | How does the catalog mark code and tests? | A third [tag](#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. The document catalog has a `Form` column after `Life`. The rows follow the lifecycle: project documents, then change documents in step order, and the `changelog` last. | The explorer reads document forms and uses catalog order. See decision 62 for brain membership. |
@@ -475,10 +459,11 @@ No open questions remain. The next step is a spec for F1 to F7 and J1 to J6, or 
 | 53 | Does the catalog keep an `impl-plan`? | No. It is a name for later. A `large` change tracks its progress in the Tasks of the spec. It changes decision 43. | Frontier models write good code without a separate plan file. One checklist is one source of truth (decision 7). |
 | 54 | In which step is the `feature-file` written? | Analysis, with declarative scenarios and no interface steps. A person still approves the spec and its scenarios once, at the end of Design (decision 30). | The scenarios are examples of the requirements. They describe the problem, not the solution. |
 | 55 | What does Analysis use and change? | It uses the wiki to find relevant documents in the [project brain](../product/glossary.md#project-brain). It writes the `spec` and the `feature-file`, and updates the `roadmap` when the work splits into several changes. Close harvests the rest. | Analysis needs the relevant original documents to frame the problem. Spec-first: other knowledge waits for Close. |
-| 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The explorer reads the filter from the table. |
+| 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads the table. [`s0005`](../product/specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The explorer reads the filter from the table. |
 | 57 | How do people and agents resume work across sessions? | Keep an optional, shared [notepad](#session-handoff) in Git. People and agents refresh its three blocks as work moves between sessions. | A short handoff shows where to resume even when a change is still open. Git keeps earlier handoffs. |
-| 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history and development tasks have their own places. |
+| 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history has its own place. See decision 63 for milestone tasks. |
 | 59 | When can a change skip the spec? | [Routine maintenance](#routine-maintenance) with a clear result goes straight to verification. This narrows decisions 2 and 16. | A direct check gives evidence for work that preserves existing behavior and rules. |
 | 60 | Who decides when to create a spec? | A person requests a spec or approves a proposal before the agent creates the file or assigns an ID. [Spec-first](#principles) | The person decides which changes need a spec. The relevant project document and Git can record the rest. |
-| 61 | How do specs and milestones link? | Milestones use the codes `M0` to `M9`, in `roadmap` order. A `feat` or `fix` spec names its milestone in the `milestone` field of `META`. A `chore` or `refactor` spec can omit it. The spec gets its milestone when it is created. A later change is an exception. The specs before this decision got `M0` when the rule was introduced. The `roadmap` holds only outcomes. | One source for the link. Maintenance does not always advance a product outcome. A spec belongs to the milestone it was written for. `M` and English replace the old `H` codes. |
+| 61 | How do specs and milestones link? | Milestones use the codes `M0` to `M9`, in `roadmap` order. A `feat` or `fix` spec names its milestone in the `milestone` field of `META`. A `chore` or `refactor` spec can omit it. The spec gets its milestone when it is created. A later change is an exception. The specs before this decision got `M0` when the rule was introduced. See decision 63 for the contents of the `roadmap`. | One source for the link. Maintenance does not always advance a product outcome. A spec belongs to the milestone it was written for. `M` and English replace the old `H` codes. |
 | 62 | How do the project brain and the knowledge wiki differ? | The brain holds all project documentation, including living pages, change documents, and original sources. Each document has one [Kind](#kind). People own the original pages. Only agents write the wiki from the brain and the code. See [Wiki model](knowledge-wiki.md#model). | Each fact has one original home. Agents can rebuild the wiki from its sources. |
+| 63 | Where do the brain documents live? | Each brain document under `docs/` lives in its kind folder. Specs and their change documents go in `docs/product/specs/`. The notepad goes in `docs/process/`. The roadmap keeps the building order, milestone tasks, and Later ideas. The [dogfooding page](dogfooding.md) keeps the rules, how to use the roadmap, and findings. Root documents keep their paths. [`s0008`](../product/specs/s0008-folders-by-kind/s0008.spec.md) | The folder tree shows the kinds. The moves and the plan split go together because they share links and explorer paths. Standard root paths keep working for tools. |

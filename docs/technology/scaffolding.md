@@ -19,24 +19,24 @@ links:
 
 Status: **draft**.
 
-This page states where AIDDbot keeps its files. Create each folder only when the work needs it. The [roadmap](../../ROADMAP.md) sets the milestone order. The [development plan](../PLAN.md) tracks the work.
+This page states where AIDDbot keeps its files. Create each folder only when the work needs it. The [roadmap](../../ROADMAP.md) sets the milestone order and tracks the work.
 
 ## Layout
 
 ```text
 aidd-bot/
 ├── AGENTS.md, README.md, CHANGELOG.md, LICENSE
-├── ROADMAP.md                      # Product milestones and outcomes
+├── ROADMAP.md                      # Product milestones, tasks, and future ideas
 ├── DESIGN.md                       # Design system
 ├── package.json                    # Private repository manifest
 ├── docs/
-│   ├── PLAN.md                     # Development tasks, dogfooding, findings, and ideas
-│   ├── NOTEPAD.txt                 # Shared session handoff
 │   ├── process/                    # How the team works
+│   │   ├── NOTEPAD.txt             # Shared session handoff
+│   │   └── dogfooding.md           # Dogfooding rules and findings
 │   ├── product/                    # What AIDDbot is and why it exists
+│   │   └── specs/                  # One folder per change and its documents
 │   ├── technology/                 # How we build AIDDbot
-│   ├── wiki/                       # Agent map of the project brain (index.md)
-│   └── specs/                      # One folder per change: spec, feature files, plan, review
+│   └── wiki/                       # Agent map of the project brain (index.md)
 ├── templates/                      # Shared document templates
 ├── skills/
 │   └── <skill-name>/SKILL.md       # Shared skill source
@@ -44,6 +44,8 @@ aidd-bot/
     ├── cli/                        # The aiddbot CLI
     └── explorer/                   # The knowledge explorer (does not ship)
 ```
+
+Each brain document under `docs/` lives in the folder for its [kind](../process/documentation-catalog.md#kind). Specs and the documents in their folders are product documents, including specs about process changes.
 
 ## What ships
 
@@ -61,17 +63,17 @@ Teams install this process separately from their own documents. The installed pr
 
 | Folder | Created when | Milestone |
 | --- | --- | --- |
-| `docs/specs/` | The first spec is written. | M0 |
+| `docs/product/specs/` | The first spec is written. Each change keeps its documents together here. | M0 |
 | `templates/` | The first template is written: the spec. | M1 |
 | `skills/` | The first skill is written: the Analysis step of a change. | M1 |
 | `packages/cli/` | The first CLI command is written. | M2 |
-| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md). | M0 |
-| `docs/adr/` | The first ADR is written. | When needed |
+| `packages/explorer/` | The knowledge explorer is built: [`s0002`](../product/specs/s0002-web-knowledge-explorer/s0002.spec.md). | M0 |
+| `docs/<kind>/adr/` | The first ADR about that kind is written. | When needed |
 | `docs/wiki/` | The AIDDbot wiki provides the agent map of the brain. | M0 |
-| `docs/process/` | Process pages move to their own folder in [`s0007`](../specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |
-| `docs/product/` | Product pages move to their own folder in [`s0007`](../specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |
-| `docs/technology/` | Technology pages move to their own folder in [`s0007`](../specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |
-| `docs/raw/` | The wiki ingests the first external source. | When needed |
+| `docs/process/` | Process pages move here in [`s0007`](../product/specs/s0007-separate-brain-and-wiki/s0007.spec.md). [`s0008`](../product/specs/s0008-folders-by-kind/s0008.spec.md) adds the notepad and the dogfooding page. | M0 |
+| `docs/product/` | Product pages move to their own folder in [`s0007`](../product/specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |
+| `docs/technology/` | Technology pages move to their own folder in [`s0007`](../product/specs/s0007-separate-brain-and-wiki/s0007.spec.md). | M0 |
+| `docs/<kind>/raw/` | The wiki ingests the first raw source about that kind. | When needed |
 
 Configure the [Bun workspace](https://bun.com/docs/pm/workspaces) when a second package exists. Until then, the root scripts run the explorer with `--cwd`. [Explorer development](explorer-development.md#commands)
 

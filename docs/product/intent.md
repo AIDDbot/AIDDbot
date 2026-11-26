@@ -74,7 +74,7 @@ The phases follow current AI SDLC methods: most start with a foundation step and
 
 ### Document templates
 
-Templates give consistent documents. The first one is the spec. Each template applies the rules of the original process pages. We test it on a real change in this repository. [Dogfooding rules](../PLAN.md#dogfooding-rules) [Documentation catalog](../process/documentation-catalog.md)
+Templates give consistent documents. The first one is the spec. Each template applies the rules of the original process pages. We test it on a real change in this repository. [Dogfooding rules](../process/dogfooding.md#dogfooding-rules) [Documentation catalog](../process/documentation-catalog.md)
 
 Each template states:
 
@@ -120,7 +120,7 @@ The same core works in every AI coding tool:
 
 There is no `CLAUDE.md`, `.cursor/rules`, or other file for one tool. Only the location of a skill and the way to load it can change between tools. The README documents them.
 
-Hooks and tool integrations are optional and come later. See the [future ideas](../PLAN.md#future-ideas).
+Hooks and tool integrations are optional and come later. See the [future ideas](../../ROADMAP.md#later).
 
 ## Inclusion criteria
 

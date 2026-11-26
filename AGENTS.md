@@ -2,11 +2,11 @@
 
 ## Project status
 
-AIDDbot is in the design stage. The repository holds its wiki, its plan, and its specs. Do not create code, templates, or skills unless the task asks for them.
+AIDDbot is in the design stage. The repository holds its wiki, its roadmap, and its specs. Do not create code, templates, or skills unless the task asks for them.
 
 For project knowledge, start at [`docs/wiki/index.md`](docs/wiki/index.md). The current milestone is in [ROADMAP.md](ROADMAP.md).
 
-Read [the notepad](docs/NOTEPAD.txt) at the start of each work session. Update it before the session ends. [Session handoff rules](docs/process/documentation-catalog.md#session-handoff)
+Read [the notepad](docs/process/NOTEPAD.txt) at the start of each work session. Update it before the session ends. [Session handoff rules](docs/process/documentation-catalog.md#session-handoff)
 
 ## Reference documents
 
@@ -15,8 +15,8 @@ Each topic has one original reference document in the project brain. Read it bef
 | Topic | Reference document |
 | --- | --- |
 | Scope, lifecycle phases, building blocks, shared core, inclusion criteria | [intent](docs/product/intent.md) |
-| Product milestones and outcomes | [ROADMAP.md](ROADMAP.md) |
-| Development tasks, dogfooding rules, findings, future ideas | [docs/PLAN.md](docs/PLAN.md) |
+| Product milestones, outcomes, tasks, and future ideas | [ROADMAP.md](ROADMAP.md) |
+| Dogfooding rules, how to use the roadmap, findings | [dogfooding](docs/process/dogfooding.md) |
 | Change flow, spec, session handoff, document types, standards, metadata | [documentation catalog](docs/process/documentation-catalog.md) |
 | Terms | [glossary](docs/product/glossary.md) |
 | Wiki model, page rules, sources | [knowledge wiki](docs/process/knowledge-wiki.md) |

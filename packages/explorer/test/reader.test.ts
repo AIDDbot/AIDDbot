@@ -192,6 +192,7 @@ describe("readData on this repository", () => {
       "process",
       "process",
       "process",
+      "process",
       "product",
       "product",
       "technology",
@@ -204,22 +205,28 @@ describe("readData on this repository", () => {
     ).toEqual([]);
   });
 
-  test("opens the product roadmap and preserves links to the development plan", () => {
+  test("opens roadmap milestones, dogfooding rules, and relocated specs", () => {
     const roadmap = data.docs.find((doc) => doc.id === "roadmap");
-    const developmentPlan = data.docs.find((doc) => doc.id === "development-plan");
+    const dogfooding = data.docs.find((doc) => doc.id === "dogfooding");
+    const spec = data.docs.find((doc) => doc.id === "s0001");
     expect(roadmap?.path).toBe("ROADMAP.md");
-    expect(developmentPlan?.path).toBe("docs/PLAN.md");
+    expect(dogfooding?.path).toBe("docs/process/dogfooding.md");
+    expect(dogfooding?.group).toBe("process");
+    expect(spec?.path).toBe(
+      "docs/product/specs/s0001-build-aiddbot-wiki/s0001.spec.md",
+    );
+    expect(spec?.group).toBe("specs");
     expect(roadmap?.toc.map((entry) => entry.id)).toContain(
       "m0--base-documentation",
     );
     expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
-      'href="#/doc/development-plan"',
-    );
-    expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
       'href="#/doc/roadmap"',
     );
-    expect(data.docs.find((doc) => doc.id === "s0001")?.html).toContain(
-      'href="#/doc/development-plan/m0--base-documentation"',
+    expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
+      'href="#/doc/dogfooding"',
+    );
+    expect(spec?.html).toContain(
+      'href="#/doc/roadmap/m0--base-documentation"',
     );
   });
 

@@ -32,8 +32,8 @@ The knowledge wiki helps agents find their way through the project brain and the
 
 ## Repository layout
 
-- [Original pages](documentation-catalog.md#document-ids-and-file-names) live in `docs/process/`, `docs/product/`, and `docs/technology/`.
-- Change documents live in `docs/specs/`. Other sources can live in `docs/adr/` or `docs/raw/`.
+- [Brain documents under `docs/`](documentation-catalog.md#kind) live in `docs/process/`, `docs/product/`, and `docs/technology/`, by kind.
+- Specs and their change documents live in `docs/product/specs/`. ADRs and raw sources also use folders by kind.
 - The agent map lives in [`docs/wiki/index.md`](../wiki/index.md). Add other wiki pages in `docs/wiki/` when needed.
 
 See the [repository layout](../technology/scaffolding.md#layout) for fixed paths.
@@ -72,19 +72,19 @@ Check missing sources, conflicts, missing index entries, broken links, and inval
 
 | Source | Where it lives | How the wiki cites it |
 | --- | --- | --- |
-| Specs, plans, and review reports | `docs/specs/` | Relative link. |
+| Specs and their change documents | `docs/product/specs/` | Relative link. |
 | Living documents | Their original paths in the project brain. | Relative link. |
 | Code and tests | Their original paths in the repository. | Relative link. |
-| ADRs | `docs/adr/` | Relative link. |
+| ADRs | `docs/<kind>/adr/` | Relative link. |
 | Issues and pull requests | The issue tracker or the Git host | URL. |
 | Incident reports and postmortems | The project documents or the incident tool | Relative link or URL. |
-| Transcripts, meeting notes, articles | `docs/raw/` | Relative link. |
+| Transcripts, meeting notes, articles | `docs/<kind>/raw/` | Relative link. |
 | External references | The web | URL. |
 
 Ingest only sources with durable knowledge, such as the cause of a defect or a decision taken in a pull request. Not every issue or pull request needs an ingest.
 
-- **`docs/raw/` is immutable.** Files are added, never edited or deleted.
-- Cite project documents in place. Do not copy them to `docs/raw/`.
+- **The raw source folders are immutable.** Files are added, never edited or deleted.
+- Cite project documents in place. Do not copy them to a raw source folder.
 - Cite issues, pull requests, and external references by URL. Save a local copy only when the page may change or disappear; record the original URL and capture date in its frontmatter.
 
 ## Access

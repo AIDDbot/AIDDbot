@@ -91,7 +91,6 @@ export type DocGroup =
   | "product"
   | "technology"
   | "root"
-  | "project"
   | "specs";
 
 /** A full document of the content scope. */
