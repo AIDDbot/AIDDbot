@@ -410,10 +410,9 @@ The folders of `docs/` show the mental map of the brain: one folder for each kin
 | F4 | A process change, such as `s0007`, is a product spec too. | AIDDbot dogfoods its process: here the process is the product. |
 | F5 | The root documents (`README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md`) stay at the root. | They follow widely accepted standards, and tools expect them there. |
 | F6 | One change does F1 to F3. | The moves touch the same paths, links, and explorer folders. |
+| F7 | For F3, the building order, the milestone tasks, and the future ideas (in a Later section) go into `ROADMAP.md`. The dogfooding rules, how to use the plan, and the findings go to a new page, `docs/process/dogfooding.md`. | The `roadmap` stays the one place for what to build. Process gets its own page. |
 
-Open questions:
-
-- Where do the F3 parts go: into `ROADMAP.md` and a process page, or into new pages?
+No open questions remain. The next step is a spec for F1 to F7 and J1 to J6, or the open questions of the journal first.
 
 ## Decisions
 
