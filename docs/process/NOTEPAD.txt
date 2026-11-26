@@ -1,8 +1,8 @@
 LAST SESSION
-Implemented and verified s0009. The session journal rules and first entry are in the project brain, and the explorer shows journal entries.
+Closed s0008 and s0009 on main. The brain documents are in their kind folders, and the session journal is in docs/product/journal/.
 
 NEXT SESSION
-Review s0009, then group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
+Group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
 
 BLOCKERS
 None.
