@@ -1,8 +1,8 @@
 LAST SESSION
-Closed s0008 and s0009. Grouped the brain map of the explorer by kind, as a session without a spec, recorded in the journal.
+Closed s0008 and s0009. Without a spec, grouped the brain map of the explorer by kind and gave readme, adr, and page a fixed kind. The journal records each change.
 
 NEXT SESSION
-Check the grouped brain map in the browser (bun run explorer:dev), then publish the explorer. Resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
+Check the brain map in the browser (bun run explorer:dev), then publish the explorer. Resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
 
 BLOCKERS
 None.
