@@ -407,13 +407,13 @@ The folders of `docs/` show the mental map of the brain: one folder for each kin
 | F1 | Specs and their change documents move to `docs/product/specs/`. A `spec` is always `PRODUCT`: each change changes the product. | One kind for each folder, with no exception for change documents. |
 | F2 | The `notepad` moves to `docs/process/NOTEPAD.txt`. | Its kind is already `PROCESS`. |
 | F3 | `docs/PLAN.md` splits by kind. The building order, tasks, and future ideas go with the `roadmap` (`PRODUCT`). The dogfooding rules and findings go to process. | It mixes two kinds, and its `META` still says `roadmap` with status `superseded`. |
+| F4 | A process change, such as `s0007`, is a product spec too. | AIDDbot dogfoods its process: here the process is the product. |
+| F5 | The root documents (`README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md`) stay at the root. | They follow widely accepted standards, and tools expect them there. |
+| F6 | One change does F1 to F3. | The moves touch the same paths, links, and explorer folders. |
 
 Open questions:
 
-- A process change, such as `s0007`, becomes a product spec. Is that acceptable?
-- Do the root documents (`ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md`) also move into the kind folders, or stay at the root for the tools that expect them there?
 - Where do the F3 parts go: into `ROADMAP.md` and a process page, or into new pages?
-- One change for F1 to F3, or one change for each?
 
 ## Decisions
 
