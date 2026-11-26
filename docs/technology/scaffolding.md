@@ -34,6 +34,7 @@ aidd-bot/
 │   │   ├── NOTEPAD.txt             # Shared session handoff
 │   │   └── dogfooding.md           # Dogfooding rules and findings
 │   ├── product/                    # What AIDDbot is and why it exists
+│   │   ├── journal/                # Daily session entries, grouped by month
 │   │   └── specs/                  # One folder per change and its documents
 │   ├── technology/                 # How we build AIDDbot
 │   └── wiki/                       # Agent map of the project brain (index.md)
@@ -59,11 +60,14 @@ AIDDbot ships its [process](../process/documentation-catalog.md#kind) through th
 
 Teams install this process separately from their own documents. The installed process is versioned and read-only. Teams keep adaptations in their own process documents. The original AIDDbot documents, including its product and technology documents, stay in this repository with the wiki and the [knowledge explorer](../product/glossary.md#knowledge-explorer).
 
+The [session journal rule](../process/documentation-catalog.md#session-journal) ships with the process. Each team keeps its own entries in its project brain.
+
 ## When each folder appears
 
 | Folder | Created when | Milestone |
 | --- | --- | --- |
 | `docs/product/specs/` | The first spec is written. Each change keeps its documents together here. | M0 |
+| `docs/product/journal/` | The first [session journal entry](../process/documentation-catalog.md#session-journal) is written in a folder for its month. [`s0009`](../product/specs/s0009-session-journal/s0009.spec.md) | M0 |
 | `templates/` | The first template is written: the spec. | M1 |
 | `skills/` | The first skill is written: the Analysis step of a change. | M1 |
 | `packages/cli/` | The first CLI command is written. | M2 |

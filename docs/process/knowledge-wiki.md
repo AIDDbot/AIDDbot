@@ -48,7 +48,7 @@ See the [repository layout](../technology/scaffolding.md#layout) for fixed paths
 
 ## index.md
 
-Group links to the brain documents by process, product, and technology. Use one entry for each document. Add code or topic maps when agents need them. Agents read the index first, then open the relevant sources.
+Group links to the brain documents by process, product, and technology. Use one entry for each document. Use one index entry for the [session journal](documentation-catalog.md#session-journal) so agents can find past entries on demand. Add code or topic maps when agents need them. Agents read the index first, then open the relevant sources.
 
 ## Operations
 

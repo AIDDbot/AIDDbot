@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import {
   cpSync,
   existsSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
@@ -115,6 +116,7 @@ describe("readData on this repository", () => {
       "agents",
       "roadmap",
       "notepad",
+      "journal",
       "spec",
       "feature-file",
       "adr",
@@ -234,6 +236,42 @@ describe("readData on this repository", () => {
     const readme = data.docs.find((d) => d.id === "readme");
     expect(readme?.html).toContain("outside the explorer");
     expect(readme?.html).not.toContain('href="LICENSE"');
+  });
+});
+
+test("s0009-US1R2: lists a nested daily entry under the journal type", async () => {
+  const dir = copyRepo();
+  const month = "docs/product/journal/2030-01";
+  const day = "2030-01-02";
+  const id = `journal-${day}`;
+  const path = `${month}/${day}.md`;
+  mkdirSync(join(dir, month), { recursive: true });
+  writeFileSync(join(dir, path), `---
+id: ${id}
+type: journal
+title: "${day}"
+status: draft
+created: ${day}
+updated: ${day}
+links:
+  sources: []
+  related: []
+  supersedes: []
+---
+
+# ${day}
+`);
+
+  const data = await readData(dir);
+  const type = data.chapters.types.find((type) => type.id === "journal");
+  const doc = data.docs.find((doc) => doc.id === id);
+  expect(type?.documents).toContain(id);
+  expect(doc).toMatchObject({
+    path,
+    type: "journal",
+    group: "journal",
+    meta: { id, type: "journal" },
+    warnings: [],
   });
 });
 

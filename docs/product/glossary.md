@@ -86,6 +86,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="evidence"></a>Evidence | The output that shows a check ran and what it found: a test result, a log excerpt, a screenshot, or a link. [Inclusion criteria](intent.md#inclusion-criteria) | — |
 | <a id="finding"></a>Finding | A problem, gap, or lesson found during a change. Process findings improve the way of working. | `review-report` |
 | <a id="notepad"></a>Notepad | The shared plain-text file for the current [session handoff](../process/documentation-catalog.md#session-handoff). It states what the last session accomplished, what to do next, and what could hold up the work. | `notepad` |
+| <a id="journal"></a>Journal | A short record for each day with work. Each line describes one change and links to its commit. [Session journal](../process/documentation-catalog.md#session-journal) | `journal` |
 | <a id="human-approval"></a>Human approval | A decision that a person must take before the agent continues. Skills mark these decisions and show the evidence. [Inclusion criteria](intent.md#inclusion-criteria) | — |
 | <a id="living-document"></a>Living document | A document maintained for the whole life of a project. [Life](../process/documentation-catalog.md#life) | `LIVE` |
 | <a id="change-document"></a>Change document | A document written for one change. When the change closes, its status becomes `done` and nobody edits it again. [Life](../process/documentation-catalog.md#life) | `CHG` |

@@ -32,6 +32,7 @@ Each kind has a folder under `docs/`. The roadmap and other standard documents k
 - [Intent](../product/intent.md) — purpose, lifecycle, and building blocks
 - [Glossary](../product/glossary.md) — shared terms
 - [Roadmap](../../ROADMAP.md) — product milestones, outcomes, tasks, and future ideas
+- [Journal](../process/documentation-catalog.md#session-journal) — daily entries for past changes in `docs/product/journal/`
 - [Changelog](../../CHANGELOG.md) — notable changes
 - [License](../../LICENSE) — terms for using AIDDbot
 

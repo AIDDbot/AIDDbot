@@ -38,6 +38,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Added
 
+- Daily [session journal](docs/process/documentation-catalog.md#session-journal) with commit links, available in the knowledge explorer ([`s0009`](docs/product/specs/s0009-session-journal/s0009.spec.md)).
 - Shared [notepad](docs/process/NOTEPAD.txt) for session handoffs between people and agents.
 - Public knowledge explorer on GitHub Pages (`s0006`).
 - Fifth spec, `s0005`: give the explorer maps in layers.

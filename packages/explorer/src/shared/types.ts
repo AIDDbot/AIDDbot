@@ -91,7 +91,8 @@ export type DocGroup =
   | "product"
   | "technology"
   | "root"
-  | "specs";
+  | "specs"
+  | "journal";
 
 /** A full document of the content scope. */
 export interface Doc {

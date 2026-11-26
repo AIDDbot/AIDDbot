@@ -64,14 +64,14 @@ export function contentFiles(
   for (const name of ROOT_FILES)
     if (existsSync(posix.join(root, name)))
       files.push({ path: name, group: "root" });
-  for (const [folder, group] of [
-    ["docs/process", "process"],
-    ["docs/product", "product"],
-    ["docs/technology", "technology"],
-    ["docs/product/specs", "specs"],
+  for (const [folder, group, pattern] of [
+    ["docs/process", "process", "*.md"],
+    ["docs/product", "product", "*.md"],
+    ["docs/technology", "technology", "*.md"],
+    ["docs/product/specs", "specs", "**/*.md"],
+    ["docs/product", "journal", "journal/**/*.md"],
   ] as const) {
-    // Specs and their change documents live in one folder per change.
-    const glob = new Bun.Glob(group === "specs" ? "**/*.md" : "*.md");
+    const glob = new Bun.Glob(pattern);
     const names = [...glob.scanSync({ cwd: posix.join(root, folder) })]
       .map((name) => name.replaceAll("\\", "/"))
       .sort();
@@ -161,10 +161,14 @@ export function readSource(
   }
   const h1 = headings(body).find((h) => h.level === 1);
   const id = typeof meta?.id === "string" ? meta.id : (fixedType ?? stem(path));
+  const declaredType = typeof meta?.type === "string" ? meta.type : undefined;
   const type =
-    typeof meta?.type === "string"
-      ? meta.type
-      : (fixedType ?? (group === "specs" ? "spec" : "page"));
+    group === "journal"
+      ? "journal"
+      : (declaredType ?? fixedType ?? (group === "specs" ? "spec" : "page"));
+  if (declaredType && declaredType !== type) {
+    warnings.push(`META type \`${declaredType}\` must be \`${type}\` in ${group}`);
+  }
   const title =
     typeof meta?.title === "string"
       ? meta.title

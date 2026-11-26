@@ -104,8 +104,10 @@ A change to these headings or columns needs a change to the builder in the same 
 | Technology | `docs/technology/*.md` |
 | Root | `README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md` |
 | Specs | `docs/product/specs/**/*.md` |
+| Journal | `docs/product/journal/**/*.md` |
 
-- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. Specs and their change documents have kind `PRODUCT`.
+- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. Specs, their change documents, and journal entries have kind `PRODUCT`.
+- The [session journal](../process/documentation-catalog.md#session-journal) appears as the `journal` document type with one document per entry.
 - The explorer does not read `docs/wiki/`. The wiki is the agent map of the brain, and the explorer is the map for people. A link to `docs/wiki/index.md` shows as outside the explorer.
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.

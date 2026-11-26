@@ -8,6 +8,8 @@ For project knowledge, start at [`docs/wiki/index.md`](docs/wiki/index.md). The 
 
 Read [the notepad](docs/process/NOTEPAD.txt) at the start of each work session. Update it before the session ends. [Session handoff rules](docs/process/documentation-catalog.md#session-handoff)
 
+At the end of the session, write the [journal entry](docs/process/documentation-catalog.md#session-journal) after the other commits. Search the journal when you need context about a past change.
+
 ## Reference documents
 
 Each topic has one original reference document in the project brain. Read it before you change that topic. Only agents write the wiki map and summaries, using the [page rules](docs/process/knowledge-wiki.md#page-rules).
@@ -17,7 +19,7 @@ Each topic has one original reference document in the project brain. Read it bef
 | Scope, lifecycle phases, building blocks, shared core, inclusion criteria | [intent](docs/product/intent.md) |
 | Product milestones, outcomes, tasks, and future ideas | [ROADMAP.md](ROADMAP.md) |
 | Dogfooding rules, how to use the roadmap, findings | [dogfooding](docs/process/dogfooding.md) |
-| Change flow, spec, session handoff, document types, standards, metadata | [documentation catalog](docs/process/documentation-catalog.md) |
+| Change flow, spec, session handoff, journal, document types, standards, metadata | [documentation catalog](docs/process/documentation-catalog.md) |
 | Terms | [glossary](docs/product/glossary.md) |
 | Wiki model, page rules, sources | [knowledge wiki](docs/process/knowledge-wiki.md) |
 | CLI command form, script contract, candidate commands | [AIDDbot CLI](docs/process/aiddbot-cli.md) |

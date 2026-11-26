@@ -75,7 +75,7 @@ Use the kind listed below for a fixed kind. Where a type gets its kind from its 
 | Kind | Document types |
 | --- | --- |
 | `PROCESS` | `agents`, `notepad` |
-| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog`, `spec`, `feature-file`, `review-report` |
+| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog`, `journal`, `spec`, `feature-file`, `review-report` |
 | `TECH` | `design-system`, `code`, `unit-test`, `e2e-test`, `check-report`, `test-report` |
 | One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `readme`, `page`, `wiki-page`, `adr` |
 
@@ -103,6 +103,17 @@ Keep these three plain-text headings in order:
 - `BLOCKERS` — What could hold up the next session. Name the missing dependency or the decision to make. Use `None.` when there are no blockers.
 
 Keep each block to one or two short lines. Replace the last session's summary and carry forward any work or blockers that still matter. Use spec IDs or file paths when readers need more context. Keep task details in the spec and milestones in the roadmap.
+
+## Session journal
+
+Projects can keep a short journal of their work. Use one Markdown file for each day with work at `docs/product/journal/<yyyy-mm>/<yyyy-mm-dd>.md`. Append to the same file when more than one session takes place that day. Each entry has [`META`](#metadata-meta) and uses the date as its heading.
+
+- Write one line for each change. State what changed and add the reason when the commit does not show it. Link to the commit.
+- Keep file lists and diffs in Git.
+- Read the journal only when you need the context of a past change. Read the [notepad](#session-handoff) at the start of each session.
+- At the end of the session, refresh the notepad. Write the journal entry after the other commits and commit it as `chore(journal)`.
+
+The journal is a product document. AIDDbot ships this rule with its [process](../technology/scaffolding.md#what-ships). The [knowledge explorer](../technology/explorer-development.md#content-scope) shows the AIDDbot journal.
 
 ## Change flow
 
@@ -255,6 +266,7 @@ Rules:
 | `agents` | Agent instructions | `LIVE` | `DOC` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
 | `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in build order, each with a short, observable outcome and its tasks. The Later section holds future ideas. A completed milestone can link to the version in the `changelog` that delivered it. |
 | `notepad` | Notepad | `LIVE` | `DOC` | `COULD` when work is handed off across sessions | — | [Session handoff](#session-handoff): last session, next session, and current blockers. |
+| `journal` | Journal | `LIVE` | `DOC` | `COULD` when a project keeps a record of session work | `META` | [Session journal](#session-journal) with the context of each change and a link to its commit. |
 | `spec` | Change specification | `CHG` | `DOC` | `MUST` for changes that follow the change flow | `USERSTORY`, `EARS`, `MERMAID`, `META` | Problem, solution, and verification of one change. Approved before code. |
 | `feature-file` | Feature file | `CHG` | `DOC` | `MUST` in a `medium` or `large` `feat` or `fix` | `GHERKIN` | The scenarios of one user story, with the details to check each requirement. Implementation generates the `e2e-test` from it. |
 | `adr` | Architecture decision record | `LIVE` | `DOC` | `MUST` for a significant, hard-to-reverse decision | `MADR`, `META` | One decision: context, options, outcome, consequences. A new ADR supersedes it. Nobody edits it. |
@@ -306,6 +318,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `wiki-page` | The file name without `.md`. | `docs/wiki/<topic>.md` |
 | `roadmap` | `roadmap`. One current roadmap per project. | `ROADMAP.md` |
 | `notepad` | No `id`. One per project. | `docs/process/NOTEPAD.txt` |
+| `journal` | `journal-<yyyy-mm-dd>`. One per day with work. | `docs/product/journal/<yyyy-mm>/<yyyy-mm-dd>.md` |
 | `design-system` | `design-system`. One per project. | `DESIGN.md` |
 | `domain-model` | `domain-model`. One per project. | `docs/product/domain-model.md` |
 | `feature-file` | No `id`. Its `Feature` tag names it, such as `@s0001-US1`. | `docs/product/specs/s<NNNN>-<short-slug>/s<NNNN>-US<n>.feature` |
@@ -323,7 +336,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 
 | Status | Meaning | Set in | Used by |
 | --- | --- | --- | --- |
-| `draft` | The document is in progress. It can change. | Foundation, Analysis | `spec`, `review-report`, `glossary`, `page`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
+| `draft` | The document is in progress. It can change. | Foundation, Analysis | `spec`, `review-report`, `glossary`, `page`, `wiki-page`, `roadmap`, `journal`, `design-system`, `domain-model` |
 | `proposed` | A decision waits for human approval. | Design | `adr` |
 | `accepted` | A person approved it. A `LIVE` document is then updated in place. | Design | `spec`, `review-report`, `adr`, `glossary`, `page`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
 | `done` | The change closed. Nobody edits the document again. | Close | `spec`, `review-report` |
@@ -331,6 +344,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `deprecated` | It no longer applies, and nothing replaces it. | Design | `adr` |
 
 - The statuses of one document type follow the table order. An `adr` ends as `superseded` or `deprecated`.
+- Set a journal entry to `draft` when you create it. Later sessions can add to the same day's entry.
 - **Used by** holds document IDs. The life tag is not enough, because an `adr` is `LIVE` with its own cycle.
 - The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
 
@@ -360,45 +374,6 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 - **Regulated profile:** `brd`, `srs`, `use-case`, `traceability`. If a project needs regulated documentation, its obligations decide what to add.
 - **Spec sections for later:** `defect`, `ui-spec`, `decision-table`, `state-model`, `sequence`, `ui-checklist`.
 - **Standards:** `RGB`, `BCP14`, `CONVCOMMENTS`, `AGENTSMD`, `SCRUM`, `LEANCANVAS`, `JTBD`, `UC`, `ISO29148`, `ARC42`, `BLAMELESS`, `DIATAXIS`, `DESIGNMD`, `UML`, `C4`, `BPMN`, `DMN`, `OPENAPI`, `ASYNCAPI`, `JSONSCHEMA`, `DTCG`, `CSF`, `3C`, `INVEST`, `EXMAP`, `ISO25010`, `WCAG`, `APG`, `STRIDE`, `ASVS`, `AAA`, `BVA`.
-
-## Pending
-
-Brainstorm proposals go here until they become rules.
-
-### Session journal
-
-Proposals from 2026-11-26. Status: proposed.
-
-[Routine maintenance](#routine-maintenance) needs no spec, and the commit explains the diff. But the context of a session is lost: what we found, what we rejected, and why. The `notepad` keeps only the last session.
-
-| # | Proposal | Reason |
-| --- | --- | --- |
-| J1 | The journal keeps one very short entry for each day with work: one line for each change, with what changed, the reason when the commit does not show it, and a link to the commit. | The context of a session stays, with much less text than a spec. |
-| J2 | One file for each day, in one folder for each month: `docs/product/journal/2026-11/2026-11-26.md`. More sessions on the same day add to the same file. | Two branches seldom change the same file. The full date shows in the editor tab. |
-| J3 | The journal is `PRODUCT`, like the `changelog`: it is the history of the product, whatever the subject of each change. | One fixed kind gives one folder. |
-| J4 | The journal lists no files or diffs. Git keeps them. | No duplicate of the history. |
-| J5 | Agents do not read the journal at the start of a session. They search it when they need the context of a past change. | The start of a session stays cheap. |
-| J6 | The `notepad` does not change. At the end of a session, the agent refreshes the `notepad`, writes the journal entry after the other commits, and commits it as `chore(journal)`. | The `notepad` looks ahead. The journal looks back. An entry cannot link to its own commit. |
-
-Example entry:
-
-```markdown
-# 2026-11-26
-
-- Separate the project brain from the wiki ([s0007](../../specs/s0007-separate-brain-and-wiki/s0007.spec.md)). [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
-- Rename the "wiki contract" to "brain contract": the tables live in the brain. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
-- No linter until Bun ships `bun lint`. Rejected Biome and ESLint. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
-- The explorer uses folders for kind and skips the wiki. [2393063](https://github.com/AIDDbot/AIDDbot/commit/2393063)
-```
-
-Answers of 2026-11-26:
-
-| # | Proposal | Reason |
-| --- | --- | --- |
-| J7 | The journal is a new catalog type, `journal`, with Life `LIVE`, Relevance `COULD`, and Kind `PRODUCT`. | It has its own rules and folder. |
-| J8 | Each journal file has `META`. | The explorer and the agents read it like the other documents. |
-| J9 | The explorer shows the journal. | People can follow the history of the product. |
-| J10 | AIDDbot ships the journal rule to other projects. | It is part of the process. |
 
 ## Decisions
 
@@ -467,3 +442,4 @@ Answers of 2026-11-26:
 | 61 | How do specs and milestones link? | Milestones use the codes `M0` to `M9`, in `roadmap` order. A `feat` or `fix` spec names its milestone in the `milestone` field of `META`. A `chore` or `refactor` spec can omit it. The spec gets its milestone when it is created. A later change is an exception. The specs before this decision got `M0` when the rule was introduced. See decision 63 for the contents of the `roadmap`. | One source for the link. Maintenance does not always advance a product outcome. A spec belongs to the milestone it was written for. `M` and English replace the old `H` codes. |
 | 62 | How do the project brain and the knowledge wiki differ? | The brain holds all project documentation, including living pages, change documents, and original sources. Each document has one [Kind](#kind). People own the original pages. Only agents write the wiki from the brain and the code. See [Wiki model](knowledge-wiki.md#model). | Each fact has one original home. Agents can rebuild the wiki from its sources. |
 | 63 | Where do the brain documents live? | Each brain document under `docs/` lives in its kind folder. Specs and their change documents go in `docs/product/specs/`. The notepad goes in `docs/process/`. The roadmap keeps the building order, milestone tasks, and Later ideas. The [dogfooding page](dogfooding.md) keeps the rules, how to use the roadmap, and findings. Root documents keep their paths. [`s0008`](../product/specs/s0008-folders-by-kind/s0008.spec.md) | The folder tree shows the kinds. The moves and the plan split go together because they share links and explorer paths. Standard root paths keep working for tools. |
+| 64 | Where does a session keep the context of its changes? | Keep an optional [session journal](#session-journal) with one product document per day and one line per change. Search it when you need context. [`s0009`](../product/specs/s0009-session-journal/s0009.spec.md) | Short entries keep the reasons for past changes while Git keeps their diffs and the notepad guides the next session. |
