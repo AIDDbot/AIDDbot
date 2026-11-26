@@ -359,6 +359,62 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 - **Spec sections for later:** `defect`, `ui-spec`, `decision-table`, `state-model`, `sequence`, `ui-checklist`.
 - **Standards:** `RGB`, `BCP14`, `CONVCOMMENTS`, `AGENTSMD`, `SCRUM`, `LEANCANVAS`, `JTBD`, `UC`, `ISO29148`, `ARC42`, `BLAMELESS`, `DIATAXIS`, `DESIGNMD`, `UML`, `C4`, `BPMN`, `DMN`, `OPENAPI`, `ASYNCAPI`, `JSONSCHEMA`, `DTCG`, `CSF`, `3C`, `INVEST`, `EXMAP`, `ISO25010`, `WCAG`, `APG`, `STRIDE`, `ASVS`, `AAA`, `BVA`.
 
+## Pending
+
+Brainstorm proposals go here until they become rules.
+
+### Session journal
+
+Proposals from 2026-11-26. Status: proposed.
+
+[Routine maintenance](#routine-maintenance) needs no spec, and the commit explains the diff. But the context of a session is lost: what we found, what we rejected, and why. The `notepad` keeps only the last session.
+
+| # | Proposal | Reason |
+| --- | --- | --- |
+| J1 | The journal keeps one very short entry for each day with work: one line for each change, with what changed, the reason when the commit does not show it, and a link to the commit. | The context of a session stays, with much less text than a spec. |
+| J2 | One file for each day, in one folder for each month: `docs/product/journal/2026-11/2026-11-26.md`. More sessions on the same day add to the same file. | Two branches seldom change the same file. The full date shows in the editor tab. |
+| J3 | The journal is `PRODUCT`, like the `changelog`: it is the history of the product, whatever the subject of each change. | One fixed kind gives one folder. |
+| J4 | The journal lists no files or diffs. Git keeps them. | No duplicate of the history. |
+| J5 | Agents do not read the journal at the start of a session. They search it when they need the context of a past change. | The start of a session stays cheap. |
+| J6 | The `notepad` does not change. At the end of a session, the agent refreshes the `notepad`, writes the journal entry after the other commits, and commits it as `chore(journal)`. | The `notepad` looks ahead. The journal looks back. An entry cannot link to its own commit. |
+
+Example entry:
+
+```markdown
+# 2026-11-26
+
+- Separate the project brain from the wiki ([s0007](../../../specs/s0007-separate-brain-and-wiki/s0007.spec.md)). [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
+- Rename the "wiki contract" to "brain contract": the tables live in the brain. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
+- No linter until Bun ships `bun lint`. Rejected Biome and ESLint. [8c90ae7](https://github.com/AIDDbot/AIDDbot/commit/8c90ae7)
+- The explorer uses folders for kind and skips the wiki. [2393063](https://github.com/AIDDbot/AIDDbot/commit/2393063)
+```
+
+Open questions:
+
+- Is the journal a new catalog type, such as `journal` with Life `LIVE` and Relevance `COULD`?
+- Does an entry need `META`?
+- Does the explorer show the journal?
+- Does AIDDbot ship the journal rule to other projects?
+
+### Folders that mirror the kinds
+
+Proposals from 2026-11-26. Status: proposed. They change [Kind](#kind) and the [scaffolding layout](../technology/scaffolding.md#layout).
+
+The folders of `docs/` show the mental map of the brain: one folder for each kind, and every document inside one of them.
+
+| # | Proposal | Reason |
+| --- | --- | --- |
+| F1 | Specs and their change documents move to `docs/product/specs/`. A `spec` is always `PRODUCT`: each change changes the product. | One kind for each folder, with no exception for change documents. |
+| F2 | The `notepad` moves to `docs/process/NOTEPAD.txt`. | Its kind is already `PROCESS`. |
+| F3 | `docs/PLAN.md` splits by kind. The building order, tasks, and future ideas go with the `roadmap` (`PRODUCT`). The dogfooding rules and findings go to process. | It mixes two kinds, and its `META` still says `roadmap` with status `superseded`. |
+
+Open questions:
+
+- A process change, such as `s0007`, becomes a product spec. Is that acceptable?
+- Do the root documents (`ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md`) also move into the kind folders, or stay at the root for the tools that expect them there?
+- Where do the F3 parts go: into `ROADMAP.md` and a process page, or into new pages?
+- One change for F1 to F3, or one change for each?
+
 ## Decisions
 
 | # | Question | Decision | Reason |
