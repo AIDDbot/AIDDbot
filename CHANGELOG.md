@@ -6,7 +6,8 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
-- Moved the [development plan](docs/PLAN.md) into `docs/`.
+- A person requests a spec or approves a proposal before an agent creates the file or assigns an ID.
+- Routine maintenance goes straight to verification. The [development plan](docs/PLAN.md) moved into `docs/` under this rule.
 - Moved the product milestones to [ROADMAP.md](ROADMAP.md). It describes the outcome of each milestone.
 - Maintainers publish the explorer on demand with `bun run explorer:publish`. The command builds the site locally from `origin/main` and pushes it to GitHub Pages.
 - The explorer gives the information in layers (`s0005`). The overview at `#/` shows the phases, the project brain as one box, and the steps. The change loop map (`#/map/change`) shows the document types of each step, with a filter of impact level. The brain map (`#/map/brain`) shows who writes and reads each brain document. The building blocks have their own view, `#/blocks`. The breadcrumbs and the mini-map follow the parent map of each element.

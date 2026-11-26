@@ -55,7 +55,7 @@ AIDDbot covers four [lifecycle phases](glossary.md#lifecycle-phase). Each phase 
 | # | Phase | Work | Uses | Produces |
 | --- | --- | --- | --- | --- |
 | 0 | Foundation | Prepare the [project set](documentation-catalog.md#project-set), its [quality checks](documentation-catalog.md#quality-checks) and [review gates](documentation-catalog.md#review-gates), and the [knowledge wiki](knowledge-wiki.md#model). | — | `agents`, `readme`, `glossary`, `wiki-page` |
-| 1 | Development | Deliver the changes, one at a time. Each change follows the [change flow](documentation-catalog.md#change-flow): Analysis, Design, Implementation, Verification, and Close. | — | — |
+| 1 | Development | Take changes with a spec through Analysis, Design, Implementation, Verification, and Close. [Change flow](documentation-catalog.md#change-flow) Check [routine maintenance](documentation-catalog.md#routine-maintenance) directly. | — | — |
 | 2 | Release | Group the closed changes into one version. Turn the `Unreleased` section of the `changelog` into the version, check readiness, and support deploy and rollback. | `changelog` | `changelog` |
 | 3 | Maintenance | Investigate incidents, update dependencies, and turn recurring issues into new changes. | — | — |
 

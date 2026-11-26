@@ -1,8 +1,8 @@
 LAST SESSION
-Added the product roadmap and the shared session handoff.
+Closed the discussion on the roadmap, plan, notepad, and spec rules.
 
 NEXT SESSION
-Review when to create a spec.
+Decide whether a PRD belongs in the project brain.
 
 BLOCKERS
 None.

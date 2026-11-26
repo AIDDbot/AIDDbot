@@ -23,10 +23,16 @@ Status: **draft**. The catalog defines the documents that the lifecycle skills p
 
 ## Principles
 
-1. **Spec-first, not spec-anchored.** Every change starts with a spec. A person approves its problem, solution, and requirements before any code. A `small` change gets this approval in its pull request. [Impact levels](#impact-levels) The spec drives the change and is frozen when the change closes. It is not maintained afterwards. After approval, only its checkboxes and its `status` and `updated` fields change. [Böckeler on SDD levels](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
-2. **One spec per change.** Separate documents appear only when the [impact level](#impact-levels) asks for them.
+1. **Spec-first.** Create a spec only when a person requests one or approves your proposal to create one. If you think a spec is necessary, ask before you create the file or assign an ID.
+2. **Spec approval.** Use one spec for the change. For a `small` change, a person approves the problem, solution, and verification requirements in the pull request. For other changes, a person approves them before implementation. Add separate documents as the [impact level](#impact-levels) requires. After approval, only the spec checkboxes and its `status` and `updated` fields change. Freeze the spec when the change closes. [Böckeler on SDD levels](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 3. **Living knowledge is harvested, not anchored.** When a change closes, durable knowledge moves to the living documents that it affects: glossary, ADRs, wiki pages, changelog.
 4. **Fewer documents, more sections.** If content always travels with another document, it is a section of that document.
+
+### Routine maintenance
+
+Make small changes directly. Record lasting decisions in the relevant project document. When the Git diff explains the change, the commit is enough.
+
+Check the result directly. Examples include fixing links, refreshing the notepad, and moving a document with its links and tool references.
 
 ## Tags
 
@@ -81,7 +87,7 @@ Keep each block to one or two short lines. Replace the last session's summary an
 
 ## Change flow
 
-The change flow is the work of the Development [lifecycle phase](intent.md#lifecycle-phases). Every change follows five steps. A step is change level. Its name is not the name of a phase.
+The change flow is the work of the Development [lifecycle phase](intent.md#lifecycle-phases). It has five steps. A step is change level. Its name is not the name of a phase. [Routine maintenance](#routine-maintenance) goes straight to verification.
 
 | # | Step | Work | Uses | Produces |
 | --- | --- | --- | --- | --- |
@@ -160,7 +166,7 @@ An `epic` is not a change type. It only groups several specs.
 
 ### Impact levels
 
-Each change has one impact level. The [change type](#change-types) says what the change does. The impact level says how much process it needs.
+Each change with a spec has one impact level. The [change type](#change-types) says what the change does. The impact level says how much process it needs.
 
 | Impact | When | Flow | Skips | Adds |
 | --- | --- | --- | --- | --- |
@@ -179,7 +185,7 @@ Rules:
 
 ### Spec
 
-One spec per change. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](glossary.md#problem) views.
+Follow the [spec-first rule](#principles) before you create a spec. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](glossary.md#problem) views.
 
 Its [`META`](#metadata-meta) adds two fields:
 
@@ -228,7 +234,7 @@ Rules:
 | `agents` | Agent instructions | `LIVE` | `DOC` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
 | `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in order, each with a short, observable outcome. A completed milestone can link to the version in the `changelog` that delivered it. |
 | `notepad` | Notepad | `LIVE` | `DOC` | `COULD` when work is handed off across sessions | — | [Session handoff](#session-handoff): last session, next session, and current blockers. |
-| `spec` | Change specification | `CHG` | `DOC` | `MUST` | `USERSTORY`, `EARS`, `MERMAID`, `META` | Problem, solution, and verification of one change. Approved before code. |
+| `spec` | Change specification | `CHG` | `DOC` | `MUST` for changes that follow the change flow | `USERSTORY`, `EARS`, `MERMAID`, `META` | Problem, solution, and verification of one change. Approved before code. |
 | `feature-file` | Feature file | `CHG` | `DOC` | `MUST` in a `medium` or `large` `feat` or `fix` | `GHERKIN` | The scenarios of one user story, with the details to check each requirement. Implementation generates the `e2e-test` from it. |
 | `adr` | Architecture decision record | `LIVE` | `DOC` | `MUST` for a significant, hard-to-reverse decision | `MADR`, `META` | One decision: context, options, outcome, consequences. A new ADR supersedes it. Nobody edits it. |
 | `domain-model` | Domain model | `LIVE` | `DOC` | `SHOULD` when the project has business data | `DDD`, `MERMAID`, `META` | Bounded contexts, aggregates, entities, and their relations in a Mermaid `erDiagram`. It uses the terms of the `glossary`. |
@@ -284,7 +290,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `e2e-test` | No `id`. | Its own [package](glossary.md#package), such as `packages/e2e/`. It can use another stack. `agents` names it. |
 | `check-report`, `test-report` | No `id`. | The output of the check command or the test command. Git does not keep it. CI keeps the report of each pull request. |
 
-- Each change has one folder, `docs/specs/s<NNNN>-<short-slug>/`. All its change documents go in it.
+- Each spec has one folder, `docs/specs/s<NNNN>-<short-slug>/`. All its change documents go in it.
 - `<short-slug>` uses lowercase words joined by hyphens.
 - The ID does not show the change type. The `change` field holds it, so a spec can change its type without a new file name.
 - The `adr` IDs and file names are decided with the first ADR.
@@ -394,3 +400,5 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The wiki contract allows no document ID in the code. |
 | 57 | How do people and agents resume work across sessions? | Keep an optional, shared [notepad](#session-handoff) in Git. People and agents refresh its three blocks as work moves between sessions. | A short handoff shows where to resume even when a change is still open. Git keeps earlier handoffs. |
 | 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history and development tasks have their own places. |
+| 59 | When can a change skip the spec? | [Routine maintenance](#routine-maintenance) with a clear result goes straight to verification. This narrows decisions 2 and 16. | A direct check gives evidence for work that preserves existing behavior and rules. |
+| 60 | Who decides when to create a spec? | A person requests a spec or approves a proposal before the agent creates the file or assigns an ID. [Spec-first](#principles) | The person decides which changes need a spec. The relevant project document and Git can record the rest. |

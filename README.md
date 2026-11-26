@@ -9,7 +9,7 @@ AIDDbot is a framework of reusable skills, document templates, and scripts for A
 
 ## How it works
 
-Every change follows the same flow and has one spec. The change type (`chore`, `refactor`, `fix`, `feat`) guides its requirements. The impact level (`small`, `medium`, `large`) decides how much process it needs: a `small` change has a short spec and gets its approval in the pull request; a `large` change adds a plan and a review report.
+A person requests a spec or approves the agent's proposal to create one. Changes with a spec follow the change flow below. [Routine maintenance](docs/wiki/documentation-catalog.md#routine-maintenance) goes straight to verification. The change type (`chore`, `refactor`, `fix`, `feat`) guides the requirements. A `small` change has a short spec and gets its approval in the pull request. A `large` change adds a review report.
 
 1. **Analysis.** Write the problem of the spec: the goal, what is out of scope, 1 to 3 user stories, and up to 9 requirements.
 2. **Design.** Write the solution, its tasks, and a data model when the change touches data. Write one Gherkin feature file for each user story, with the scenarios of its requirements. A person approves the spec and its scenarios before any code.

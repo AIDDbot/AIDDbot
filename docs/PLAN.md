@@ -47,7 +47,7 @@ We test AIDDbot on AIDDbot. This repository is the first project that uses its s
 
 ## H1 · Base documentation
 
-The temporary exception in [AGENTS.md](../AGENTS.md#way-of-working) covers changes to the wiki pages and the root documents. At least one H1 change uses a spec written by hand, to test the spec format.
+At least one H1 change uses a spec written by hand, to test the spec format. [Spec-first](../AGENTS.md#way-of-working)
 
 - [x] Review each foundational document. List the gaps, overlaps, and contradictions. Fix them in their reference documents.
 - [x] Build the AIDDbot wiki. Move the foundational documents into `docs/wiki/` as pages, with `index.md`. Follow the [page rules](wiki/knowledge-wiki.md#page-rules). `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root.
@@ -74,7 +74,7 @@ Build the skills in the order of the skill map. Start with the [change flow](wik
 - [ ] Use each new skill in the next change of this repository.
 - [ ] In each skill, mark the deterministic steps. They are the input for H3.
 - [ ] Check that no skill or template assumes one stack or language.
-- [ ] Remove the temporary exception from `AGENTS.md` when a change has used the spec template.
+- [ ] Use the spec template in a real change.
 - [ ] Review the findings.
 
 Done when: a change in this repository goes through the whole change flow with the skills and templates, and its closed spec is ingested into the AIDDbot wiki with the wiki skill.
@@ -112,7 +112,7 @@ Done when: the [H4 outcome](../ROADMAP.md#h4--distribution-and-versions) is met 
 | F1 | The repository had only 2 of the 5 documents of the old project set. | Closed. The [project set](wiki/documentation-catalog.md#project-set) is now `AGENTS.md`, `README.md`, `CHANGELOG.md`, and `GLOSSARY.md`. The repository has all four. |
 | F2 | `AGENTS.md` already contains the conventions. A separate `conventions` document is redundant in small projects. | Closed. Conventions are a section of `AGENTS.md`. |
 | F3 | The catalog did not fix the folders for source documents. | Closed. The [scaffolding](wiki/scaffolding.md) page states each folder and the milestone that creates it. |
-| F4 | Without templates, the spec-first rule blocks changes to the foundational documents. | Open. Temporary exception in `AGENTS.md`. H2 removes it. |
+| F4 | Without templates, the original spec-first rule blocked changes to the foundational documents. | Closed. A person requests or approves each spec under the [spec-first rule](../AGENTS.md#way-of-working). |
 | F5 | The old plan built a template, skill, or script only after we repeated a task three times. It ignored the design in the foundational documents and delayed the lifecycle skills. | Closed. The plan now starts from the foundational documents and builds in four milestones. |
 | F6 | The test install of the CLI used `bun add -d`. Many projects have no `package.json`. | Open. H4 defines an install that does not depend on the project stack. |
 | F7 | The old plan deferred the wiki. AIDDbot needs one for its own documents, and teams need one for their projects. | Closed. H1 builds the AIDDbot wiki. H2 adds the wiki skills. |

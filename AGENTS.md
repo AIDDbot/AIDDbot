@@ -37,8 +37,9 @@ Git and `CHANGELOG.md` keep the history. Do not add change history sections to t
 
 ## Way of working
 
-- **Spec-first.** Every change starts with one [spec](docs/wiki/documentation-catalog.md#spec): problem, solution, and verification requirements. A person approves it before any code. A `small` change gets its approval in the pull request. [Impact levels](docs/wiki/documentation-catalog.md#impact-levels) After approval, the spec changes only in its checkboxes and its `status` and `updated` fields. When the change closes, update the affected living documents.
-  - Temporary exception: until the spec template has been used in a change, changes to the wiki pages and the root documents do not need a spec.
+- **Spec-first.** Create a spec only when a person requests one or approves your proposal to create one. If you think a spec is necessary, ask before you create the file or assign an ID. [Spec rules](docs/wiki/documentation-catalog.md#spec)
+- **Small changes.** Make small changes directly. Record lasting decisions in the relevant project document. When the Git diff explains the change, the commit is enough. [Routine maintenance](docs/wiki/documentation-catalog.md#routine-maintenance)
+- **Spec approval.** State the problem, solution, and verification requirements. For a `small` change, a person approves the spec in the pull request. For other changes, a person approves it before implementation. [Impact levels](docs/wiki/documentation-catalog.md#impact-levels) After approval, the spec changes only in its checkboxes and its `status` and `updated` fields. When the change closes, update the affected living documents.
 - **Change types** are `chore`, `refactor`, `fix`, and `feat`. An `epic` only groups specs.
 - **Impact levels** are `small`, `medium`, and `large`. They decide how much process a change needs.
 - **Commits** follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The commit type matches the change type.
