@@ -16,7 +16,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 - A person requests a spec or approves a proposal before an agent creates the file or assigns an ID.
 - Routine maintenance goes straight to verification.
 - Moved the product milestones to [ROADMAP.md](ROADMAP.md). It describes the outcome of each milestone.
-- Maintainers publish the explorer on demand with `bun run explorer:publish`. The command builds the site locally from `origin/main` and pushes it to GitHub Pages.
+- Maintainers publish the explorer on demand with `bun run explorer:publish`. The command pushes a clean local `main` that is ahead, builds it with the installed dependencies, and pushes the site to GitHub Pages. It stops on uncommitted changes, another branch, or a `main` behind `origin`.
 - The explorer gives the information in layers (`s0005`). The overview at `#/` shows the phases, the project brain as one box, and the steps. The change loop map (`#/map/change`) shows the document types of each step, with a filter of impact level. The brain map (`#/map/brain`) shows who writes and reads each brain document. The building blocks have their own view, `#/blocks`. The breadcrumbs and the mini-map follow the parent map of each element.
 - The impact levels table has the columns `Skips` and `Adds`. The explorer reads it: the wiki contract has seven tables.
 - Design system: blue `primary` marks everything that the reader can act on, and only that. The new green `accent` token marks what the reader cannot act on but is important: borders, the current page, connections, text, and decoration. The explorer applies the rule: boxes that are links have a blue border.

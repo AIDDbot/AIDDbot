@@ -46,7 +46,17 @@ The build accepts `--root <repository>` and `--out <folder>`. The site works fro
 
 ## Publication
 
-Push the changes you want to publish to `main`. When you want to update the [public explorer](https://aiddbot.github.io/AIDDbot/), run `bun run explorer:publish` from the repository root. The script needs Git access to push to `origin`. It fetches `origin/main`, installs the locked dependencies, and builds that commit in a temporary checkout on your machine.
+When you want to update the [public explorer](https://aiddbot.github.io/AIDDbot/), commit your changes on `main` and run `bun run explorer:publish` from the repository root. The script needs Git access to push to `origin`. It publishes only what `origin/main` holds:
+
+| Local state of `main` | What the script does |
+| --- | --- |
+| Same commit as `origin/main` | Builds and publishes. |
+| Ahead of `origin/main` | Pushes `main`, then builds and publishes. |
+| Uncommitted or untracked changes | Stops. |
+| Another branch is checked out | Stops. |
+| Behind or diverged from `origin/main` | Stops. |
+
+The script builds the local checkout, so it reuses the installed dependencies. It runs `bun install --frozen-lockfile` first, which does nothing when the dependencies match the lockfile.
 
 The push to `gh-pages` starts the deployment. That branch holds the generated site. Its commit message records the source commit. In **Settings → Pages**, GitHub Pages uses **Deploy from a branch**, with `gh-pages` and `/(root)` selected. The `.nojekyll` file tells Pages to serve the generated files as they are. [GitHub Pages publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch)
 
@@ -59,7 +69,7 @@ packages/explorer/
 ├── src/
 │   ├── build.ts            # Entry point of the build
 │   ├── dev.ts              # Development server
-│   ├── publish.ts          # Builds a source commit and pushes the site to gh-pages
+│   ├── publish.ts          # Checks main against origin, builds it, and pushes the site to gh-pages
 │   ├── shared/types.ts     # The data file format, shared by the builder and the site
 │   ├── builder/            # Runs on Bun: reads the documents and writes the site
 │   └── site/               # Runs in the browser: HTML, CSS, and custom elements
