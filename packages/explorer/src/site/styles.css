@@ -330,6 +330,21 @@ svg .flow-frame {
   stroke-width: 1.5;
 }
 
+svg .kind-frame {
+  fill: none;
+  stroke: var(--accent);
+  stroke-opacity: 0.6;
+  stroke-width: 1;
+}
+
+svg .kind-label {
+  fill: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 svg .map-label,
 svg .diagram-label {
   fill: var(--muted);

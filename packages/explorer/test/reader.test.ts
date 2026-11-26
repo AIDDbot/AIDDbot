@@ -284,6 +284,32 @@ describe("brain contract (US1R4)", () => {
     );
   });
 
+  test("a brain type with no kind stops the build", async () => {
+    const dir = copyRepo();
+    edit(
+      dir,
+      "docs/process/documentation-catalog.md",
+      "| `PROCESS` | `agents`, `notepad` |",
+      "| `PROCESS` | `agents` |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining("brain type `notepad` has no kind"),
+    );
+  });
+
+  test("an unknown kind code in the kind table stops the build", async () => {
+    const dir = copyRepo();
+    edit(
+      dir,
+      "docs/process/documentation-catalog.md",
+      "| `PROCESS` | `agents`, `notepad` |",
+      "| `PEOPLE` | `agents`, `notepad` |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining("unknown Kind `PEOPLE`"),
+    );
+  });
+
   test("a renamed column stops the build", async () => {
     const dir = copyRepo();
     edit(

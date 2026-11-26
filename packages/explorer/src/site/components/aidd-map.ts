@@ -403,7 +403,15 @@ function textEquivalent(data: ExplorerData, layout: MapLayout): HTMLElement {
       )}`;
       break;
     case "brain":
-      body = `${list(MAP_LABEL.brain, brain, writers)}${list("Lifecycle phases", phases, uses)}${list("Change loop: steps", steps, uses)}`;
+      body = `${data.brainGroups
+        .map((g) =>
+          list(
+            `${MAP_LABEL.brain}: ${g.label}`,
+            brain.filter((t) => g.types.includes(t.id)),
+            writers,
+          ),
+        )
+        .join("")}${list("Lifecycle phases", phases, uses)}${list("Change loop: steps", steps, uses)}`;
       break;
     default:
       body = "";

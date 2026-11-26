@@ -251,23 +251,60 @@ describe("brain map (s0005-US2)", () => {
     layout = brainLayout(data);
   });
 
-  test("US2R3: brain types in catalog order in the middle, phases above, steps below", () => {
+  test("US2R3: brain types grouped by kind in the middle, phases above, steps below", () => {
     const types = layout.nodes.filter((n) => n.kind === "type");
-    expect(new Set(types.map((n) => n.y)).size).toBe(1);
-    expect(types.sort((a, b) => a.x - b.x).map((n) => n.id)).toEqual(
-      data.brain,
-    );
+    expect(types.map((n) => n.id).sort()).toEqual([...data.brain].sort());
     expect(labelsOf(layout, "phase")).toEqual(PHASES);
     expect(labelsOf(layout, "step")).toEqual(STEPS);
-    const y = (kind: string) =>
-      layout.nodes.find((n) => n.kind === kind)?.y ?? Number.NaN;
-    expect(y("phase")).toBeLessThan(y("type"));
-    expect(y("type")).toBeLessThan(y("step"));
+    const top = (kind: string) =>
+      Math.min(...layout.nodes.filter((n) => n.kind === kind).map((n) => n.y));
+    const bottom = (kind: string) =>
+      Math.max(
+        ...layout.nodes.filter((n) => n.kind === kind).map((n) => n.y + n.h),
+      );
+    expect(bottom("phase")).toBeLessThan(top("type"));
+    expect(bottom("type")).toBeLessThan(top("step"));
     expect(layout.nodes.some((n) => n.kind === "block")).toBe(false);
   });
 
-  test("uses headings and no frames, and breaks long IDs at the hyphen", () => {
-    expect(layout.frames).toEqual([]);
+  test("one frame for each kind, left to right, with its types in catalog order and at most two rows", () => {
+    expect(data.brainGroups.map((g) => g.id)).toEqual([
+      "process",
+      "product",
+      "tech",
+      "subject",
+    ]);
+    expect(data.brainGroups.flatMap((g) => g.types).sort()).toEqual(
+      [...data.brain].sort(),
+    );
+    expect(layout.frames.map((f) => f.cls)).toEqual(
+      data.brainGroups.map(() => "kind-frame"),
+    );
+    expect(
+      layout.labels.filter((l) => l.cls === "kind-label").map((l) => l.text),
+    ).toEqual(["Process", "Product", "Technology", "By subject"]);
+    const frames = [...layout.frames].sort((a, b) => a.x - b.x);
+    data.brainGroups.forEach((group, g) => {
+      const frame = frames[g];
+      const nodes = group.types.map((id) => nodeOf(layout, `type/${id}`));
+      for (const n of nodes) {
+        expect(n).toBeDefined();
+        if (!n || !frame) continue;
+        expect(n.x).toBeGreaterThanOrEqual(frame.x);
+        expect(n.x + n.w).toBeLessThanOrEqual(frame.x + frame.w);
+        expect(n.y).toBeGreaterThanOrEqual(frame.y);
+        expect(n.y + n.h).toBeLessThanOrEqual(frame.y + frame.h);
+      }
+      // Reading order, row by row, is the catalog order.
+      const read = [...nodes].sort((a, b) =>
+        a && b ? a.y - b.y || a.x - b.x : 0,
+      );
+      expect(read.map((n) => n?.id)).toEqual(group.types);
+      expect(new Set(nodes.map((n) => n?.y)).size).toBeLessThanOrEqual(2);
+    });
+  });
+
+  test("uses headings and breaks long IDs at the hyphen", () => {
     expect(
       layout.labels.filter((l) => l.cls === "map-heading").map((l) => l.text),
     ).toEqual(["Project loop", "Project brain", "Change loop"]);

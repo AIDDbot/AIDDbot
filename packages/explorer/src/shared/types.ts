@@ -56,6 +56,16 @@ export interface Element {
   parent: MapId;
 }
 
+/** The brain types of one kind, for the groups of the brain map. */
+export interface BrainGroup {
+  /** The kind code in lowercase, such as `process`, or `subject` for the types that take the kind of their subject. */
+  id: string;
+  /** The name of the kind, such as Process, or By subject. */
+  label: string;
+  /** The brain types of the group, in catalog order. */
+  types: string[];
+}
+
 /** One row of the impact levels table. */
 export interface ImpactLevel {
   id: string;
@@ -127,6 +137,8 @@ export interface ExplorerData {
   impacts: ImpactLevel[];
   /** The document types of the project brain, in catalog order. */
   brain: string[];
+  /** The brain types grouped by kind, in the order of the kind table. */
+  brainGroups: BrainGroup[];
   /** The ID of the phase that holds the change flow. */
   flowPhase: string | null;
   docs: Doc[];

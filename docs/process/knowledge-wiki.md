@@ -44,7 +44,7 @@ See the [repository layout](../technology/scaffolding.md#layout) for fixed paths
 - **Synthesis.** Start with a short summary. Link claims to their sources. Mark a claim with no confirmed source as `(unverified)`.
 - **Conflicts.** If sources disagree, show both with citations in a `> [!warning] Conflict` callout. A person decides.
 - **Links.** Use relative Markdown links for repository sources.
-- **Explorer tables.** The explorer reads seven tables from the original documents. Keep the headings and columns in the [brain contract](../technology/explorer-development.md#brain-contract).
+- **Explorer tables.** The explorer reads nine tables from the original documents. Keep the headings and columns in the [brain contract](../technology/explorer-development.md#brain-contract).
 
 ## index.md
 

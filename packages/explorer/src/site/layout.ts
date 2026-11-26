@@ -448,24 +448,98 @@ export function changeLayout(
   return b.result(docBottom + PAD);
 }
 
-/** Level 1: the brain types between the phases above and the steps below. Headings, no frames. */
+/** The kind groups of the brain map: the gap between two frames, and the space in a frame. */
+const KIND = { gap: 28, pad: 8, top: 26, bottom: 10, rowGap: 12, rows: 2 };
+
+/** The number of columns of a kind group with n types. */
+const kindCols = (n: number) => Math.ceil(n / Math.min(KIND.rows, n));
+
+/** The width of each kind group with types. */
+function kindWidths(data: ExplorerData): number[] {
+  return data.brainGroups
+    .filter((g) => g.types.length > 0)
+    .map((g) => kindCols(g.types.length) * BRAIN_TYPE.col);
+}
+
+/** The width of all the kind groups, with the gaps between them. */
+function kindWidth(data: ExplorerData): number {
+  const widths = kindWidths(data);
+  return (
+    widths.reduce((sum, w) => sum + w, 0) +
+    KIND.gap * Math.max(widths.length - 1, 0)
+  );
+}
+
+/**
+ * The brain types in one frame for each kind, side by side, in the order of the kind table.
+ * Each frame holds its types in up to two rows, in catalog order. Returns the bottom of the frames.
+ */
+function kindGroups(b: Builder, data: ExplorerData, typeY: number): number {
+  const groups = data.brainGroups
+    .map((g) => ({
+      ...g,
+      types: g.types
+        .map((id) => data.chapters.types.find((t) => t.id === id))
+        .filter((t) => t !== undefined),
+    }))
+    .filter((g) => g.types.length > 0);
+  const widths = groups.map((g) => kindCols(g.types.length) * BRAIN_TYPE.col);
+  let x = PAD + (b.inner - kindWidth(data)) / 2;
+  let bottom = typeY;
+  groups.forEach((group, g) => {
+    const n = kindCols(group.types.length);
+    const rows = Math.ceil(group.types.length / n);
+    group.types.forEach((type, i) => {
+      const col = i % n;
+      const row = Math.floor(i / n);
+      b.add({
+        kind: "type",
+        id: type.id,
+        label: type.id,
+        href: elementHref(type),
+        x: x + col * BRAIN_TYPE.col + (BRAIN_TYPE.col - BRAIN_TYPE.w) / 2,
+        y: typeY + row * (BRAIN_TYPE.h + KIND.rowGap),
+        w: BRAIN_TYPE.w,
+        h: BRAIN_TYPE.h,
+      });
+    });
+    const h =
+      KIND.top +
+      rows * BRAIN_TYPE.h +
+      (rows - 1) * KIND.rowGap +
+      KIND.bottom;
+    const frame = {
+      x: x - KIND.pad,
+      y: typeY - KIND.top,
+      w: (widths[g] ?? 0) + KIND.pad * 2,
+      h,
+      cls: "kind-frame",
+    };
+    b.frames.push(frame);
+    b.label(frame.x + 10, frame.y + 17, group.label, "kind-label");
+    bottom = Math.max(bottom, frame.y + frame.h);
+    x += (widths[g] ?? 0) + KIND.gap;
+  });
+  return bottom;
+}
+
+/** Level 1: the brain types, grouped by kind, between the phases above and the steps below. */
 export function brainLayout(data: ExplorerData): MapLayout {
   const { phases, steps } = data.chapters;
-  const brain = brainTypes(data);
   const b = new Builder("brain", data, [
     phases.length * PHASE.col,
     steps.length * STEP.col,
-    brain.length * BRAIN_TYPE.col,
+    kindWidth(data),
   ]);
   b.phaseRow(64, false);
 
-  const typeY = 64 + PHASE.h + 96;
-  b.label(PAD + 4, typeY - 22, MAP_LABEL.brain);
+  const typeY = 64 + PHASE.h + 96 + KIND.top;
+  b.label(PAD + 4, typeY - KIND.top - 22, MAP_LABEL.brain);
   // A long ID breaks into two lines at its first hyphen, such as `wiki-page`.
-  b.row(brain, { y: typeY, ...BRAIN_TYPE });
+  const bottom = kindGroups(b, data, typeY);
   b.splitTypes();
 
-  const stepY = typeY + BRAIN_TYPE.h + 116;
+  const stepY = bottom + 116;
   b.label(PAD + 4, stepY - 22, MAP_LABEL.change);
   b.row(steps, { y: stepY, ...STEP });
   b.chain(steps);

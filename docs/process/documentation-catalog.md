@@ -70,6 +70,8 @@ The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this t
 | `PRODUCT` | [Product](../product/glossary.md#product-documentation) | What the team builds and why. |
 | `TECH` | [Technology](../product/glossary.md#technology) | How the team builds the product. |
 
+#### Kind of each type
+
 Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Put each brain document under `docs/` in the folder for its kind. The [wiki index](../wiki/index.md) groups links by the same kinds. See the [scaffolding layout](../technology/scaffolding.md#layout) for root documents and fixed paths.
 
 | Kind | Document types |

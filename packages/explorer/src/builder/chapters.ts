@@ -1,5 +1,6 @@
 // Reads the chapter tables of the brain contract and turns each row into a method element.
 import type {
+  BrainGroup,
   Element,
   Field,
   ImpactLevel,
@@ -78,7 +79,66 @@ export const CONTRACT = {
     anchor: "status-use",
     columns: ["Status", "Meaning", "Set in", "Used by"],
   },
+  kinds: {
+    file: CATALOG,
+    anchor: "kind",
+    columns: ["Code", "Kind", "Rule"],
+  },
+  kindTypes: {
+    file: CATALOG,
+    anchor: "kind-of-each-type",
+    columns: ["Kind", "Document types"],
+  },
 } as const;
+
+/** The name of the group for a row of the kind table with more than one kind code. */
+const BY_SUBJECT = "By subject";
+
+/**
+ * The brain types grouped by kind, in the order of the kind table.
+ * A row with one kind code is a group named by the Kind tag table. A row with more codes is the By subject group.
+ * Types keep the catalog order inside each group.
+ */
+function brainGroups(
+  kinds: Table,
+  kindTypes: Table,
+  brain: string[],
+  types: Set<string>,
+  errors: Problem[],
+): BrainGroup[] {
+  const names = new Map(
+    kinds.rows.map((row) => [
+      codeSpans(row[0] ?? "")[0] ?? "",
+      plainText(row[1] ?? ""),
+    ]),
+  );
+  const where = `table #${CONTRACT.kindTypes.anchor}`;
+  const groups: BrainGroup[] = [];
+  const placed = new Set<string>();
+  for (const row of kindTypes.rows) {
+    const codes = codeSpans(row[0] ?? "");
+    for (const code of codes)
+      if (!names.has(code))
+        errors.push({ file: CATALOG, message: `unknown Kind \`${code}\` in ${where}` });
+    const ids = codeSpans(row[1] ?? "");
+    for (const id of ids)
+      if (!types.has(id))
+        errors.push({ file: CATALOG, message: `unknown document ID \`${id}\` in ${where}` });
+    const single = codes.length === 1 ? (codes[0] as string) : null;
+    const members = brain.filter((id) => ids.includes(id) && !placed.has(id));
+    for (const id of members) placed.add(id);
+    if (members.length === 0) continue;
+    groups.push({
+      id: single ? single.toLowerCase() : "subject",
+      label: single ? (names.get(single) ?? single) : BY_SUBJECT,
+      types: members,
+    });
+  }
+  for (const id of brain)
+    if (!placed.has(id))
+      errors.push({ file: CATALOG, message: `brain type \`${id}\` has no kind in ${where}` });
+  return groups;
+}
 
 /** Columns that hold document IDs in backticks. */
 const ID_COLUMNS = new Set(["Uses", "Produces", "Used by", "Skips", "Adds"]);
@@ -382,6 +442,8 @@ export interface Chapters {
   impacts: ImpactLevel[];
   /** The original document types of the project brain, in catalog order. */
   brain: string[];
+  /** The brain types grouped by kind. */
+  brainGroups: BrainGroup[];
   /** The phase whose row links to the change flow. It holds the steps. */
   flowPhase: string | null;
 }
@@ -411,6 +473,7 @@ export function readChapters(
       !codeSpans(row[standardsColumn] ?? "").includes("LLMWIKI"),
   );
   const brain = brainRows.map((row) => tagOf(t.types, row, "ID"));
+  const groups = brainGroups(t.kinds, t.kindTypes, brain, types, errors);
   const livingBrain = new Set(
     brainRows
       .filter((row) => tagOf(t.types, row, "Life") === "LIVE")
@@ -531,6 +594,7 @@ export function readChapters(
     statuses,
     impacts,
     brain,
+    brainGroups: groups,
     flowPhase: flowPhase?.id ?? null,
   };
 }

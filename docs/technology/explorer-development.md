@@ -69,7 +69,7 @@ packages/explorer/
 
 ## Brain contract
 
-The builder reads seven tables. Each one is the first table under a fixed heading. The column names are fixed.
+The builder reads nine tables. Each one is the first table under a fixed heading. The column names are fixed.
 
 | Table | Heading anchor | Columns |
 | --- | --- | --- |
@@ -80,6 +80,8 @@ The builder reads seven tables. Each one is the first table under a fixed headin
 | Document catalog | [`documentation-catalog.md#document-catalog`](../process/documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Form`, `Relevance`, `Standards`, `Purpose` |
 | Form tag | [`documentation-catalog.md#form`](../process/documentation-catalog.md#form) | `Code`, `Form`, `Rule` |
 | Status use | [`documentation-catalog.md#status-use`](../process/documentation-catalog.md#status-use) | `Status`, `Meaning`, `Set in`, `Used by` |
+| Kind tag | [`documentation-catalog.md#kind`](../process/documentation-catalog.md#kind) | `Code`, `Kind`, `Rule` |
+| Kind of each type | [`documentation-catalog.md#kind-of-each-type`](../process/documentation-catalog.md#kind-of-each-type) | `Kind`, `Document types` |
 
 Rules:
 
@@ -88,6 +90,7 @@ Rules:
 - **Links between elements.** Every step links to the phase whose row links to the change flow: Development. No phase name is written in the code. Every reference links both elements.
 - **Form.** Each catalog row holds one code of the Form tag table in backticks. A missing `Form` column or an unknown value stops the build.
 - **Project brain.** The brain map shows the original document types in catalog order. Use rows with Form `DOC` and without the `LLMWIKI` standard. This includes change documents. Life still determines which types can have a step as their owner on the change map.
+- **Kinds.** Each row of the kind of each type table is one group of the brain map, in table order. A row with one Kind code takes its name from the Kind tag table. A row with more codes is the By subject group. Every brain type is in one row. An unknown Kind code, an unknown document ID, or a brain type with no kind stops the build.
 - **Impact levels.** `Skips` names the document types that the change loop map hides for the level. `Adds` names the document types that it marks as required. The level name is the code in backticks of the `Impact` cell.
 - **Sections.** A relative link in a row cell adds the linked section to the page of the element. A link to a glossary anchor adds a glossary term. The page also shows the glossary term with the ID or the name of the element, and, for a document type, the catalog section with its ID, such as `#spec`.
 - **Errors.** A missing heading or table, a renamed or missing column, an unknown document ID, an unknown Form value, or an unknown name stops the build. The error names the file and the problem.
@@ -138,7 +141,10 @@ LOOP       Analysis ► Design ► Implementation ► Verification ► Close
            [ small | medium | large ]
 
 BRAIN      Foundation  Development  Release  Maintenance
-           │ readme  glossary  page  agents  roadmap  spec  ... │
+           ┌PROCESS┐ ┌PRODUCT──────────────┐ ┌TECHNOLOGY───┐ ┌BY SUBJECT┐
+           │agents │ │glossary roadmap ... │ │design-system│ │readme    │
+           │notepad│ │spec  changelog  ... │ │...          │ │page  adr │
+           └───────┘ └─────────────────────┘ └─────────────┘ └──────────┘
            Analysis    Design   Implementation   Verification   Close
 ```
 
@@ -146,7 +152,7 @@ BRAIN      Foundation  Development  Release  Maintenance
 - **Clicks on the overview.** A phase opens its page. The brain box opens the brain map. The change loop frame or a step opens the change loop map.
 - **Change loop map.** The brain document types with no owning step form the top row in catalog order. The steps form the next row. Change documents and other outputs hang under the first step that produces them, or else under the first step that uses them. Living brain document types have no owning step. The map always draws the links from the last step to the top row. Other links to that row show when a person points at a step.
 - **Impact filter.** The change loop map has a selector with the levels of the [impact levels](../process/documentation-catalog.md#impact-levels) table. The default is `medium`. A level hides the document types in its `Skips` cell and marks the document types in its `Adds` cell as required.
-- **Brain map.** The phases form the top row, the brain document types the middle row, and the steps the bottom row. Each row has a heading: Project loop, Project brain, and Change loop. The map has no frames. An ID with a hyphen shows in two lines, such as `feature-file`. A person who points at an element sees only its active links: who writes and who reads each brain document type. The arrow heads of these links are larger than the heads of the main arrows.
+- **Brain map.** The phases form the top row, the brain document types the middle band, and the steps the bottom row. Each row has a heading: Project loop, Project brain, and Change loop. The middle band has one frame for each [kind](../process/documentation-catalog.md#kind), side by side, with the name of the kind. Each frame holds its types in catalog order, in up to two rows. The text equivalent has one list for each kind. An ID with a hyphen shows in two lines, such as `feature-file`. A person who points at an element sees only its active links: who writes and who reads each brain document type. The arrow heads of these links are larger than the heads of the main arrows.
 - **Read and write links.** An element that reads and writes the same brain document type gets one line with two heads, on every map.
 - **Blocks view.** It lists every building block in table order, with its role and a link to its page. The header links to it.
 - **Parent map.** Each element has one parent map. A phase has the overview. A step has the change loop map. A brain document type has the brain map. Any other document type has the change loop map. A block has the blocks view. The builder sets it from these rules, with no element ID in the code.

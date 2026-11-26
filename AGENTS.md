@@ -66,5 +66,5 @@ Follow the [AIDDbot CLI](docs/process/aiddbot-cli.md) and [CLI development](docs
 
 - TypeScript on the latest stable Bun.
 - Before you finish a script change, run `bunx tsc --noEmit` and `bun test`. The same checks apply to the [knowledge explorer](docs/technology/explorer-development.md) code in `packages/explorer/`. No linter runs until Bun ships one. [CLI development](docs/technology/cli-development.md)
-- The explorer reads seven tables from the project brain. Keep their headings and columns, or update the explorer in the same change. [Brain contract](docs/technology/explorer-development.md#brain-contract)
+- The explorer reads nine tables from the project brain. Keep their headings and columns, or update the explorer in the same change. [Brain contract](docs/technology/explorer-development.md#brain-contract)
 - Skills call the exact package version shipped with the skills: `bunx --bun --package <package>@<x.y.z> aiddbot <command>`.
