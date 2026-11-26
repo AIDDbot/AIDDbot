@@ -127,5 +127,6 @@ Names only. Design one when a real change needs it.
 - Customization for each project (`.aiddbot/`).
 - Wiki log and automatic ingest on change close.
 - List the specs of each milestone, in a script or in the knowledge explorer.
+- Knowledge explorer for teams: their process, their wiki, and their project (product and technology). It reduces the cognitive debt of people who work with agents.
 - Ontology, if a real consumer needs it.
 - Catalog documents and standards that are not used today.

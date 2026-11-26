@@ -159,3 +159,28 @@ These ideas wait for a real need.
 
 - A `log.md` of wiki operations. Git is the history.
 - Automatic ingest when a change closes.
+
+## Pending
+
+Brainstorm results go here until they become rules.
+
+### Wiki as a separate system
+
+Agreed direction from 2026-11-26. It is not applied yet. It replaces the current [model](#model) when a change applies it.
+
+| # | Decision | Reason |
+| --- | --- | --- |
+| W1 | The **project brain** is all the project documentation that people, agents, and skills create: living documents and sources, such as closed specs, ADRs, and raw notes. It covers process, business, and technology. The wiki is not part of it. | One simple rule: every document is in the brain, except the wiki. |
+| W2 | The **knowledge wiki** is a separate system on top of the brain and the code. It indexes and summarizes them for agents, and links to the original documents. It owns no facts. | Documents are the truth. The wiki is the agent map. It is easy to explain and to sell. |
+| W3 | Only agents write the wiki, through ingest, query, and review. People write the brain. | Clear ownership. The wiki can be rebuilt from the brain. |
+| W4 | The wiki can create new views that cross many documents, but no new facts. A new fact goes to a brain document first. | One fact, one home. |
+| W5 | The code is not in the brain, but it is a source of the wiki. The wiki maps the code at the level that changes slowly: modules and their purpose, how they connect, which spec, ADR, or tests explain each part, and repeated patterns. It never copies code, signatures, or behavior details. Start with one code map page. | Agents find their way without reading the whole repository. The code and its tests stay the truth. |
+| W6 | Keep the wiki small. A page exists only when an agent needs it to find its way or to answer a real question. Add a page when a query or an ingest needs it, not in advance. | A big wiki costs context and goes stale. Less to keep, less to review. |
+| W7 | Each document has one of three kinds. **Process**: how we work. **Product**: what we build and why: business, domain, terms, goals, roadmap. **Technology**: how it is built: architecture, stack, technical decisions, code conventions. Product and technology are the project documentation. AIDDbot installs only process, apart, versioned, and read-only. The team adaptations are process documents of the project. A tag can mark the kind; decide it when a change applies W7. | It answers which part of the method a team gets: only process. Dogfooding needs no exception: the AIDDbot product is process, so its process pages are what we follow and what we ship. The kinds match the About, Method, and Development groups of the index. |
+| W8 | For now, the knowledge explorer is an AIDDbot tool that does not ship. It shows the AIDDbot process to people, and it reads the brain documents, not the wiki. Agents use the wiki; people use the explorer, Obsidian, or GitHub. Later, an explorer for teams can show their process, their wiki, and their project (product and technology). | People take on a large cognitive debt: they cannot absorb what agents generate at agent speed. Visual tools help them keep up. A team explorer can be a key feature, but it waits for a real need. |
+
+Consequences for a later change:
+
+- Fix the glossary: "Project brain" and "Knowledge wiki" contradict each other today.
+- Move the original documents out of `docs/wiki/` (glossary, intent, catalog, and the others). Decision 19 of the [catalog](documentation-catalog.md#decisions) changes. The [explorer](explorer-development.md#wiki-contract) reads tables from these files.
+- Change the meaning of the `wiki-page` type and of the brain in the catalog. Today the brain is the `LIVE` `DOC` documents, and the explorer brain map shows only them.

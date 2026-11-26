@@ -1,8 +1,8 @@
 LAST SESSION
-Renamed the roadmap codes H1-H4 to M0-M3 (range M0-M9) and updated their links. Proposal P7 became catalog decision 61: specs have a `milestone` field in META. All current specs are M0.
+Renamed the roadmap codes H1-H4 to M0-M3 (range M0-M9); specs have a `milestone` field (catalog decision 61). Brainstorm on wiki, brain, process and project documentation: agreed W1-W8 in knowledge-wiki.md Pending, with no open questions left. Brain = all documentation; the wiki is a small, agent-written map of the brain and the code; three kinds: process, product, technology; the explorer stays an AIDDbot tool for now.
 
 NEXT SESSION
-Explore when a milestone is done: observable outcome, demo, closed list, or a person's decision. Then answer the open questions in intent.md Pending (P1-P6).
+Put order: plan the change that applies W1-W8 (glossary fix, move the original documents out of docs/wiki/, wiki-page type, kind tag). Later: when a milestone is done, and intent.md Pending (P1-P6).
 
 BLOCKERS
 None.
