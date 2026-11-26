@@ -1,0 +1,60 @@
+/* Generated from DESIGN.md by the explorer builder. Do not edit. */
+
+:root {
+  color-scheme: dark;
+  --canvas: #040711;
+  --surface: #111A31;
+  --outline: #334166;
+  --on-surface: #E8ECF8;
+  --muted: #9AA5C4;
+  --primary: #60A5FA;
+  --on-primary: #040711;
+  --accent: #4ADE80;
+  --on-accent: #040711;
+  --verified: #4ADE80;
+  --warning: #FBBF24;
+  --danger: #F87171;
+  --brand-blue: #3B82F6;
+  --brand-green: #22C55E;
+  --font-display: "Audiowide", system-ui, sans-serif;
+  --size-display: 2rem;
+  --weight-display: 400;
+  --line-display: 1.2;
+  --font-headline-md: "Roboto", system-ui, sans-serif;
+  --size-headline-md: 1.5rem;
+  --weight-headline-md: 500;
+  --line-headline-md: 1.3;
+  --font-headline-sm: "Roboto", system-ui, sans-serif;
+  --size-headline-sm: 1.25rem;
+  --weight-headline-sm: 500;
+  --line-headline-sm: 1.4;
+  --font-body-md: "Roboto", system-ui, sans-serif;
+  --size-body-md: 1rem;
+  --weight-body-md: 400;
+  --line-body-md: 1.6;
+  --font-label-sm: "Roboto", system-ui, sans-serif;
+  --size-label-sm: 0.875rem;
+  --weight-label-sm: 500;
+  --line-label-sm: 1.4;
+  --font-code: "Fira Code", ui-monospace, Consolas, monospace;
+  --size-code: 0.9375rem;
+  --weight-code: 400;
+  --line-code: 1.6;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --canvas: #F8FAFC;
+  --surface: #FFFFFF;
+  --outline: #CBD5E1;
+  --on-surface: #0F172A;
+  --muted: #475569;
+  --primary: #1D4ED8;
+  --on-primary: #FFFFFF;
+  --accent: #15803D;
+  --on-accent: #FFFFFF;
+  --verified: #15803D;
+  --warning: #B45309;
+  --danger: #B91C1C;
+}
+

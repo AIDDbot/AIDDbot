@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="AIDDbot knowledge explorer: a visual story of the method, built from its documents."
+    />
+    <title>AIDDbot explorer</title>
+    <link rel="icon" type="image/png" href="https://albertobasalo.dev/logo_2.png" />
+    <link rel="stylesheet" href="./theme.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      try {
+        const theme = localStorage.getItem("aiddbot-theme");
+        if (theme === "light" || theme === "dark")
+          document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
+    <script type="module" src="./main.js"></script>
+  </head>
+  <body>
+    <aidd-app></aidd-app>
+    <noscript
+      >The AIDDbot explorer needs JavaScript. The documents are plain Markdown
+      in the repository.</noscript
+    >
+  </body>
+</html>
