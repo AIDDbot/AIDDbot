@@ -10,6 +10,7 @@ links:
     - docs/specs/s0002-web-knowledge-explorer/s0002.spec.md
     - docs/specs/s0003-two-loop-lifecycle/s0003.spec.md
     - docs/specs/s0005-layered-maps/s0005.spec.md
+    - docs/specs/s0006-publish-knowledge-explorer/s0006.spec.md
     - https://bun.com/docs/bundler
     - https://developer.mozilla.org/en-US/docs/Web/API/Web_components
   related:
@@ -41,6 +42,10 @@ Run them from the repository root. The explorer is the only package, so there is
 | Lint | `bun lint` (see the [open point](#open-points)) |
 
 The build accepts `--root <repository>` and `--out <folder>`. The site works from any folder of a static file server, because all its paths are relative and the views use hash addresses.
+
+## Publication
+
+The [public explorer](https://aiddbot.github.io/AIDDbot/) uses GitHub Pages. The [workflow](../../.github/workflows/pages.yml) installs the locked dependencies, builds the site, and deploys `packages/explorer/dist/`. It runs on a push to `main`. A maintainer can also run it from the Actions tab with `main` selected.
 
 ## Folders
 

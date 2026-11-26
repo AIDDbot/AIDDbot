@@ -33,7 +33,7 @@ Next step: **H1**, map the lifecycle skills. See the [project plan](PLAN.md).
 - [Project plan](PLAN.md): milestones, dogfooding rules, and future ideas.
 - [Design system](DESIGN.md) for AIDDbot documents and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
-- Knowledge explorer: a visual map of the method, built from these documents. Run `bun run explorer:install` once, then `bun run explorer:dev`. [Explorer development](docs/wiki/explorer-development.md)
+- [Knowledge explorer](https://aiddbot.github.io/AIDDbot/): a visual guide to the method, project plan, and specs. [Run it locally](docs/wiki/explorer-development.md#commands).
 
 ## Author and license
 
