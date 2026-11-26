@@ -1,7 +1,7 @@
 # AIDDbot
 
-[![Version](https://img.shields.io/github/package-json/v/AIDDbot/AIDDbot/main?color=1D4ED8)](https://github.com/AIDDbot/AIDDbot/blob/main/package.json)
-![Codename](https://img.shields.io/github/package-json/codename/AIDDbot/AIDDbot/main?label=codename&color=15803D)
+[![Version](https://img.shields.io/github/package-json/v/AIDDbot/AIDDbot?color=1D4ED8)](https://github.com/AIDDbot/AIDDbot/blob/main/package.json)
+![Codename](https://img.shields.io/github/package-json/codename/AIDDbot/AIDDbot?label=codename&color=15803D)
 
 AIDDbot is a framework of reusable skills, document templates, and scripts for AI-assisted software development. It helps teams coordinate work across the software lifecycle, record decisions, and verify changes.
 
