@@ -46,9 +46,9 @@ The build accepts `--root <repository>` and `--out <folder>`. The site works fro
 
 ## Publication
 
-Use `bun run explorer:publish` when you want to update the [public explorer](https://aiddbot.github.io/AIDDbot/). The script needs Git access to push to `origin`. It fetches `origin/main`, installs the locked dependencies, and builds that commit in a temporary checkout on your machine.
+Push the changes you want to publish to `main`. When you want to update the [public explorer](https://aiddbot.github.io/AIDDbot/), run `bun run explorer:publish` from the repository root. The script needs Git access to push to `origin`. It fetches `origin/main`, installs the locked dependencies, and builds that commit in a temporary checkout on your machine.
 
-The script pushes the generated site to `gh-pages`. Its commit message records the source commit. In **Settings → Pages**, GitHub Pages uses **Deploy from a branch**, with `gh-pages` and `/(root)` selected. The `.nojekyll` file tells Pages to serve the generated files as they are. [GitHub Pages publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch)
+The push to `gh-pages` starts the deployment. That branch holds the generated site. Its commit message records the source commit. In **Settings → Pages**, GitHub Pages uses **Deploy from a branch**, with `gh-pages` and `/(root)` selected. The `.nojekyll` file tells Pages to serve the generated files as they are. [GitHub Pages publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch)
 
 ## Folders
 
