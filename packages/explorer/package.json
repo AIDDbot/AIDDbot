@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "bun src/build.ts",
-    "dev": "bun src/dev.ts",
+    "dev": "bun --watch src/dev.ts",
     "test": "bun test"
   },
   "dependencies": {

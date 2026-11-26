@@ -237,6 +237,64 @@ describe("wiki contract (US1R4)", () => {
   });
 });
 
+describe("impact levels (s0005)", () => {
+  test("US2R2: reads the Skips and Adds of each level, in table order", async () => {
+    const data = await readData(REPO);
+    expect(data.impacts).toEqual([
+      {
+        id: "small",
+        skips: ["feature-file", "e2e-test", "test-report"],
+        adds: [],
+      },
+      { id: "medium", skips: [], adds: [] },
+      { id: "large", skips: [], adds: ["review-report"] },
+    ]);
+  });
+
+  test("gives each element its parent map", async () => {
+    const data = await readData(REPO);
+    const parents = (list: { parent: string }[]) =>
+      new Set(list.map((e) => e.parent));
+    expect(parents(data.chapters.phases)).toEqual(new Set(["overview"]));
+    expect(parents(data.chapters.steps)).toEqual(new Set(["change"]));
+    expect(parents(data.chapters.blocks)).toEqual(new Set(["blocks"]));
+    for (const type of data.chapters.types)
+      expect(type.parent).toBe(
+        data.brain.includes(type.id) ? "brain" : "change",
+      );
+  });
+
+  test("US2R4: an unknown document ID in the Skips cell stops the build", async () => {
+    const dir = copyRepo();
+    edit(
+      dir,
+      "docs/wiki/documentation-catalog.md",
+      "| `feature-file`, `e2e-test`, `test-report` | — |",
+      "| `no-such-doc` | — |",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringMatching(
+        /^docs\/wiki\/documentation-catalog\.md: unknown document ID `no-such-doc` in column "Skips"/,
+      ),
+    );
+  });
+
+  test("US2R4: a missing impact levels table stops the build", async () => {
+    const dir = copyRepo();
+    edit(
+      dir,
+      "docs/wiki/documentation-catalog.md",
+      "### Impact levels",
+      "### Levels",
+    );
+    expect(await contractProblems(dir)).toContainEqual(
+      expect.stringContaining(
+        "docs/wiki/documentation-catalog.md: anchor #impact-levels",
+      ),
+    );
+  });
+});
+
 describe("Form column (s0003-US2R3)", () => {
   test("a missing Form column stops the build and names the file and the column", async () => {
     const dir = copyRepo();

@@ -3,6 +3,9 @@
 /** The kind of a method element. Each kind is one chapter of the explorer. */
 export type Kind = "phase" | "step" | "block" | "type";
 
+/** The maps of the explorer. `blocks` is the blocks view. */
+export type MapId = "overview" | "change" | "brain" | "blocks";
+
 /** A link from one element to another element. */
 export interface Ref {
   kind: Kind;
@@ -49,6 +52,17 @@ export interface Element {
   owner?: Ref;
   /** Document types only: the documents of the content scope with this type. */
   documents?: string[];
+  /** The map that holds the element. The breadcrumbs and the mini-map use it. */
+  parent: MapId;
+}
+
+/** One row of the impact levels table. */
+export interface ImpactLevel {
+  id: string;
+  /** Document types that the level does not write. The change loop map hides them. */
+  skips: string[];
+  /** Document types that the level adds. The change loop map marks them as required. */
+  adds: string[];
 }
 
 /** One row of the status use table. */
@@ -103,6 +117,8 @@ export interface ExplorerData {
     types: Element[];
   };
   statuses: StatusUse[];
+  /** The impact levels, in table order. */
+  impacts: ImpactLevel[];
   /** The document types of the project brain, in catalog order. */
   brain: string[];
   /** The ID of the phase that holds the change flow. */

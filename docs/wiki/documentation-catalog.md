@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Documentation Catalog
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources:
     - https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
@@ -150,16 +150,17 @@ An `epic` is not a change type. It only groups several specs.
 
 Each change has one impact level. The [change type](#change-types) says what the change does. The impact level says how much process it needs.
 
-| Impact | When | Flow |
-| --- | --- | --- |
-| `small` | All are true: one [package](glossary.md#package), one work session, at most 3 requirements, and no change to data, public interfaces, security, or dependencies. | A short spec: Goal, one user story, a short Solution, and 1 to 3 requirements. No `feature-file` and no data model: unit tests check the requirements. The quality checks and the review gates still run. A person approves the spec and the result together, in the pull request. |
-| `medium` | Not `small` and not `large`. | The full change flow. A person approves the spec at the end of Design. |
-| `large` | At least one is true: more than one work session, several agents or people on the code, or more than one package. The e2e package and its agent do not count. | The `medium` flow, plus a `review-report`. The Tasks of the spec track the progress across sessions and agents. |
+| Impact | When | Flow | Skips | Adds |
+| --- | --- | --- | --- | --- |
+| `small` | All are true: one [package](glossary.md#package), one work session, at most 3 requirements, and no change to data, public interfaces, security, or dependencies. | A short spec: Goal, one user story, a short Solution, and 1 to 3 requirements. No `feature-file` and no data model: unit tests check the requirements. The quality checks and the review gates still run. A person approves the spec and the result together, in the pull request. | `feature-file`, `e2e-test`, `test-report` | — |
+| `medium` | Not `small` and not `large`. | The full change flow. A person approves the spec at the end of Design. | — | — |
+| `large` | At least one is true: more than one work session, several agents or people on the code, or more than one package. The e2e package and its agent do not count. | The `medium` flow, plus a `review-report`. The Tasks of the spec track the progress across sessions and agents. | — | `review-report` |
 
 Rules:
 
 - In Analysis, a skill proposes the level from the criteria. A skill can check each criterion. A person confirms the level.
 - The `impact` field of the spec holds the level.
+- `Skips` and `Adds` hold document IDs in backticks. `Skips` lists the document types that the level does not write. `Adds` lists the document types that the level writes in addition to the `medium` flow.
 - If a `small` change grows past its criteria, it stops. It becomes `medium`: write the missing sections and get the approval before more code.
 - At any level, write a `review-report` when a requirement fails or the change has findings: lessons about the way of working, what helped, and what got in the way.
 - The change type and the impact level are independent. A `fix` can be `small` or `large`.
@@ -376,3 +377,4 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 53 | Does the catalog keep an `impl-plan`? | No. It is a name for later. A `large` change tracks its progress in the Tasks of the spec. It changes decision 43. | Frontier models write good code without a separate plan file. One checklist is one source of truth (decision 7). |
 | 54 | In which step is the `feature-file` written? | Analysis, with declarative scenarios and no interface steps. A person still approves the spec and its scenarios once, at the end of Design (decision 30). | The scenarios are examples of the requirements. They describe the problem, not the solution. |
 | 55 | What does Analysis use and change? | It reads the `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, and `agents` of the [project brain](glossary.md#project-brain). It writes the `spec` and the `feature-file`, and updates the `roadmap` when the work splits into several changes. Close harvests the rest. | Analysis needs the whole brain to frame the problem. Spec-first: other knowledge waits for Close. |
+| 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The wiki contract allows no document ID in the code. |

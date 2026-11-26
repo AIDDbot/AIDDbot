@@ -63,6 +63,7 @@ export async function readData(root: string): Promise<ExplorerData> {
       types: chapters.types,
     },
     statuses: chapters.statuses,
+    impacts: chapters.impacts,
     brain: chapters.brain,
     flowPhase: chapters.flowPhase,
     docs,

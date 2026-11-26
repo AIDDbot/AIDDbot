@@ -2,8 +2,10 @@
 import type {
   Element,
   Field,
+  ImpactLevel,
   Item,
   Kind,
+  MapId,
   Problem,
   Ref,
   Section,
@@ -61,6 +63,11 @@ export const CONTRACT = {
     anchor: "change-flow",
     columns: ["#", "Step", "Work", "Uses", "Produces"],
   },
+  impacts: {
+    file: CATALOG,
+    anchor: "impact-levels",
+    columns: ["Impact", "When", "Flow", "Skips", "Adds"],
+  },
   blocks: {
     file: INTENT,
     anchor: "building-blocks",
@@ -74,7 +81,7 @@ export const CONTRACT = {
 } as const;
 
 /** Columns that hold document IDs in backticks. */
-const ID_COLUMNS = new Set(["Uses", "Produces", "Used by"]);
+const ID_COLUMNS = new Set(["Uses", "Produces", "Used by", "Skips", "Adds"]);
 /** Columns that hold a comma list of element names and document IDs. */
 const NAME_COLUMNS = new Set(["Relations", "Set in"]);
 
@@ -346,8 +353,26 @@ function elements(
       field(plainText(column), row[i] ?? "", file, ctx),
     );
     const { sections, terms } = rowSections(row, file, ctx);
-    return { kind, id, name, order, fields, links: [], sections, terms };
+    return {
+      kind,
+      id,
+      name,
+      order,
+      fields,
+      links: [],
+      sections,
+      terms,
+      parent: "overview",
+    };
   });
+}
+
+/** The map that holds an element: the rules of the parent map. */
+export function parentMap(kind: Kind, id: string, brain: string[]): MapId {
+  if (kind === "phase") return "overview";
+  if (kind === "block") return "blocks";
+  if (kind === "type" && brain.includes(id)) return "brain";
+  return "change";
 }
 
 export interface Chapters {
@@ -356,13 +381,14 @@ export interface Chapters {
   blocks: Element[];
   types: Element[];
   statuses: StatusUse[];
+  impacts: ImpactLevel[];
   /** The document types of the project brain: Life `LIVE` and Form `DOC`, in catalog order. */
   brain: string[];
   /** The phase whose row links to the change flow. It holds the steps. */
   flowPhase: string | null;
 }
 
-/** Reads the five contract tables. Throws a ContractError when the wiki breaks the contract. */
+/** Reads the contract tables. Throws a ContractError when the wiki breaks the contract. */
 export function readChapters(
   bodies: Map<string, string>,
   resolver: LinkResolver,
@@ -432,6 +458,16 @@ export function readChapters(
     };
   });
 
+  const impacts: ImpactLevel[] = t.impacts.rows.map((row) => {
+    const ids = (column: "Skips" | "Adds", cell: string | undefined) =>
+      cellRefs(column, cell ?? "", CATALOG, ctx).map((r) => r.id);
+    return {
+      id: codeSpans(row[0] ?? "")[0] ?? plainText(row[0] ?? ""),
+      skips: ids("Skips", row[3]),
+      adds: ids("Adds", row[4]),
+    };
+  });
+
   if (errors.length > 0) throw new ContractError(errors);
 
   // Links in both directions.
@@ -469,7 +505,10 @@ export function readChapters(
     if (owner) type.owner = ref(owner.kind, owner.id, owner.name);
     type.documents = docs.filter((d) => d.type === type.id).map((d) => d.id);
   }
-  for (const element of all) ownTerm(element, ctx);
+  for (const element of all) {
+    element.parent = parentMap(element.kind, element.id, brain);
+    ownTerm(element, ctx);
+  }
   // A document type also shows its own catalog section, such as `#spec`.
   for (const type of typeElements) {
     if (
@@ -487,6 +526,7 @@ export function readChapters(
     blocks,
     types: typeElements,
     statuses,
+    impacts,
     brain,
     flowPhase: flowPhase?.id ?? null,
   };

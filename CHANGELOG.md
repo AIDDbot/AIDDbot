@@ -6,6 +6,8 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
+- The explorer gives the information in layers (`s0005`). The overview at `#/` shows the phases, the project brain as one box, and the steps. The change loop map (`#/map/change`) shows the document types of each step, with a filter of impact level. The brain map (`#/map/brain`) shows who writes and reads each brain document. The building blocks have their own view, `#/blocks`. The breadcrumbs and the mini-map follow the parent map of each element.
+- The impact levels table has the columns `Skips` and `Adds`. The explorer reads it: the wiki contract has seven tables.
 - Design system: blue `primary` marks everything that the reader can act on, and only that. The new green `accent` token marks what the reader cannot act on but is important: borders, the current page, connections, text, and decoration. The explorer applies the rule: boxes that are links have a blue border.
 - Naming review (`s0004`): the living project documents between the two loops are the project brain. The document ID of `AGENTS.md` is `agents`. Analysis writes the feature files and updates the `roadmap`, and it reads the whole project brain.
 - The lifecycle has two loops. The project loop has four phases: Foundation, Development, Release, and Maintenance. The change loop has the five steps of each change, inside Development. Each name is used once. The lifecycle phases table has the columns `Work`, `Uses`, and `Produces`, like the change flow. (`s0003`)
@@ -27,6 +29,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Added
 
+- Fifth spec, `s0005`: give the explorer maps in layers.
 - Fourth spec, `s0004`: apply the naming review.
 - Form tag (`DOC`, `CODE`) and a `Form` column in the document catalog. The catalog rows follow the lifecycle order.
 - Project brain: the `LIVE` `DOC` project documents that each change reads and Close updates. Glossary terms for project brain and Development.

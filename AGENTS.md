@@ -60,5 +60,5 @@ Follow the [AIDDbot CLI](docs/wiki/aiddbot-cli.md) and [CLI development](docs/wi
 
 - TypeScript on the latest stable Bun.
 - Before you finish a script change, run `bun lint`, `bunx tsc --noEmit`, and `bun test`. The same checks apply to the [knowledge explorer](docs/wiki/explorer-development.md) code in `packages/explorer/`.
-- The explorer reads six wiki tables. Keep their headings and columns, or update the explorer in the same change. [Wiki contract](docs/wiki/explorer-development.md#wiki-contract)
+- The explorer reads seven wiki tables. Keep their headings and columns, or update the explorer in the same change. [Wiki contract](docs/wiki/explorer-development.md#wiki-contract)
 - Skills call the exact package version shipped with the skills: `bunx --bun --package <package>@<x.y.z> aiddbot <command>`.

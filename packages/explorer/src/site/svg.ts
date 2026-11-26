@@ -23,7 +23,7 @@ export function reducedMotion(): boolean {
 
 /** Arrow markers for a diagram. */
 export function defs(): SVGDefsElement {
-  const marker = (id: string, cls: string) =>
+  const marker = (id: string, cls: string, size = 7) =>
     svg(
       "marker",
       {
@@ -31,8 +31,8 @@ export function defs(): SVGDefsElement {
         viewBox: "0 0 10 10",
         refX: 9,
         refY: 5,
-        markerWidth: 7,
-        markerHeight: 7,
+        markerWidth: size,
+        markerHeight: size,
         orient: "auto-start-reverse",
       },
       svg("path", { d: "M0,0 L10,5 L0,10 z", class: cls }),
@@ -42,6 +42,7 @@ export function defs(): SVGDefsElement {
     {},
     marker("arrow", "arrow-head"),
     marker("arrow-accent", "arrow-head accent"),
+    marker("arrow-active", "arrow-head active", 11),
   );
 }
 

@@ -313,7 +313,8 @@ svg .arrow-head {
   fill: var(--muted);
 }
 
-svg .arrow-head.accent {
+svg .arrow-head.accent,
+svg .arrow-head.active {
   fill: var(--accent);
 }
 
@@ -757,8 +758,8 @@ svg .brain-band {
 
 svg .edge.zoom-edge {
   stroke: var(--accent);
-  stroke-dasharray: 2 5;
-  stroke-width: 1;
+  stroke-dasharray: 4 5;
+  stroke-width: 2.5;
 }
 
 svg .edge.brain-edge {
@@ -771,4 +772,156 @@ svg .edge.hover-edge {
 
 svg.focus-mode .edge.hover-edge.related {
   opacity: 1;
+}
+
+/* Layers: breadcrumbs, impact filter, blocks view (s0005) */
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0 0 0.25rem;
+  padding: 0;
+  list-style: none;
+  font-size: var(--size-label-sm);
+}
+
+.breadcrumbs li + li::before {
+  content: "›";
+  color: var(--muted);
+  margin-right: 0.25rem;
+}
+
+.breadcrumbs a {
+  color: var(--primary);
+}
+
+.breadcrumbs a[aria-current="page"] {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.impact-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--outline);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.impact-filter legend {
+  color: var(--muted);
+  font-size: var(--size-label-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 0.25rem;
+}
+
+.impact-filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.impact-filter input {
+  accent-color: var(--primary);
+}
+
+.impact-filter a {
+  color: var(--primary);
+  margin-left: auto;
+}
+
+.impact-note {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--muted);
+}
+
+svg .node.required rect {
+  stroke-width: 3;
+  stroke-dasharray: 6 3;
+}
+
+svg .node.required text {
+  font-weight: 700;
+}
+
+svg .node.map rect {
+  fill: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  stroke-width: 2.5;
+}
+
+svg .node.map text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+}
+
+svg .edge.box-edge {
+  stroke-width: 1.5;
+}
+
+svg a.frame-link {
+  cursor: pointer;
+}
+
+svg a.frame-link:hover .flow-frame,
+svg a.frame-link:focus .flow-frame {
+  stroke: var(--primary);
+  stroke-width: 3;
+}
+
+svg a.frame-link:focus {
+  outline: none;
+}
+
+.block-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.block-card {
+  background: var(--surface);
+  border: 1px solid var(--outline);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.block-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: var(--size-headline-sm);
+}
+
+.block-card h2 a {
+  color: var(--primary);
+}
+
+svg .map-heading {
+  fill: var(--accent);
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  /* A halo in the figure color keeps the heading readable over the links. */
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+
+/* While a person points at an element, only its active links show. */
+svg.focus-mode .edge.hover-edge:not(.related) {
+  opacity: 0;
 }

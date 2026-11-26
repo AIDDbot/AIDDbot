@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Knowledge Wiki
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources:
     - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
@@ -70,7 +70,7 @@ Git records the history of the wiki.
 - **Citations.** Every claim links to its source with a relative Markdown link. A claim without a source is marked `(unverified)`.
 - **Conflicts.** When sources disagree, the page shows both with their citations under a `> [!warning] Conflict` callout. A person decides.
 - **Links.** Use only standard relative Markdown links, such as `[Glossary](glossary.md)`.
-- **Explorer tables.** The [knowledge explorer](glossary.md#knowledge-explorer) reads six tables: the [lifecycle phases](intent.md#lifecycle-phases), the [change flow](documentation-catalog.md#change-flow), the [building blocks](intent.md#building-blocks), the [document catalog](documentation-catalog.md#document-catalog), the [Form tag](documentation-catalog.md#form), and the [status use](documentation-catalog.md#status-use). Keep their headings and column names. Write document IDs in backticks. A change to them needs an explorer update. [Explorer development](explorer-development.md#wiki-contract)
+- **Explorer tables.** The [knowledge explorer](glossary.md#knowledge-explorer) reads seven tables: the [lifecycle phases](intent.md#lifecycle-phases), the [change flow](documentation-catalog.md#change-flow), the [impact levels](documentation-catalog.md#impact-levels), the [building blocks](intent.md#building-blocks), the [document catalog](documentation-catalog.md#document-catalog), the [Form tag](documentation-catalog.md#form), and the [status use](documentation-catalog.md#status-use). Keep their headings and column names. Write document IDs in backticks. A change to them needs an explorer update. [Explorer development](explorer-development.md#wiki-contract)
 
 ## index.md
 

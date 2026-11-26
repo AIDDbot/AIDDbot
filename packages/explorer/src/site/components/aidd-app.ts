@@ -1,6 +1,8 @@
 // <aidd-app>: the site shell. It shows the view that the hash address asks for.
+import { breadcrumbsHtml, mapCrumbs } from "../breadcrumbs.ts";
 import { escapeHtml, loadData } from "../data.ts";
-import { parseRoute } from "../router.ts";
+import { MAP_LABEL } from "../layout.ts";
+import { type MapView as MapName, parseRoute } from "../router.ts";
 
 const LOGO = "https://albertobasalo.dev/logo_2.png";
 
@@ -15,7 +17,7 @@ export class AiddApp extends HTMLElement {
           <img src="${LOGO}" alt="" width="32" height="32" />
           <span class="wordmark">AIDDbot</span><span class="brand-sub">explorer</span>
         </a>
-        <nav aria-label="Main"><a href="#/">Map</a><a href="#/doc/index">Wiki</a></nav>
+        <nav aria-label="Main"><a href="#/">Map</a><a href="#/blocks">Building blocks</a><a href="#/doc/index">Wiki</a></nav>
         <theme-toggle></theme-toggle>
       </header>
       <main id="main" tabindex="-1"></main>
@@ -51,8 +53,15 @@ export class AiddApp extends HTMLElement {
     let view: HTMLElement;
     switch (route.view) {
       case "map":
-        document.title = "AIDDbot explorer";
+        document.title =
+          route.map === "overview"
+            ? "AIDDbot explorer"
+            : `${MAP_LABEL[route.map]} · AIDDbot explorer`;
         view = document.createElement("map-view");
+        view.setAttribute("map", route.map);
+        break;
+      case "blocks":
+        view = document.createElement("blocks-view");
         break;
       case "element":
         view = document.createElement("element-page");
@@ -86,15 +95,33 @@ export class AiddApp extends HTMLElement {
   }
 }
 
-/** <map-view>: the home view. */
+const INTRO: Record<MapName, { title: string; text: string }> = {
+  overview: {
+    title: "The AIDDbot method",
+    text: "On top, the project loop of lifecycle phases. At the bottom, the change loop: the steps of every change. Between them, the project brain that each change reads and Close updates. Select the brain or the change loop to see their documents.",
+  },
+  change: {
+    title: "The change loop",
+    text: "The steps of every change, with the documents that each step makes. On top, the project brain that each change reads and Close updates. Choose an impact level to see the documents of that level.",
+  },
+  brain: {
+    title: "The project brain",
+    text: "The living documents of the project, in the middle. The lifecycle phases are above and the change steps below. Point at a document to see who writes it and who reads it.",
+  },
+};
+
+/** <map-view map="change">: the overview or a detail map. */
 export class MapView extends HTMLElement {
   connectedCallback() {
+    const map = (this.getAttribute("map") ?? "overview") as MapName;
+    const intro = INTRO[map] ?? INTRO.overview;
     this.innerHTML = `
       <section class="map-intro">
-        <h1>The AIDDbot method</h1>
-        <p>On top, the project loop of lifecycle phases. At the bottom, the change loop: the steps of every change, with the documents they make. Between them, the project brain that each change reads and Close updates. Below, the building blocks that do the work.</p>
+        ${map === "overview" ? "" : breadcrumbsHtml(mapCrumbs(map))}
+        <h1>${intro.title}</h1>
+        <p>${intro.text}</p>
       </section>
-      <aidd-map></aidd-map>`;
+      <aidd-map map="${map}"></aidd-map>`;
   }
 }
 

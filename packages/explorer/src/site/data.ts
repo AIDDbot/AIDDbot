@@ -19,13 +19,6 @@ export const KIND_LABEL: Record<Kind, string> = {
   type: "Document type",
 };
 
-export const CHAPTER_LABEL: Record<Kind, string> = {
-  phase: "Lifecycle phases",
-  step: "Change flow",
-  block: "Building blocks",
-  type: "Documents",
-};
-
 export function allElements(data: ExplorerData): Element[] {
   const { phases, steps, blocks, types } = data.chapters;
   return [...phases, ...steps, ...blocks, ...types];

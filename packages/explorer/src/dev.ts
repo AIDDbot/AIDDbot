@@ -1,4 +1,5 @@
 // Development server: builds the site, serves it, and builds it again when a document or a site file changes.
+// `bun --watch` restarts it when the builder code changes, so the data file never comes from old builder code.
 // `bun src/dev.ts [--root <repo>] [--port 4173]`
 import { existsSync, watch } from "node:fs";
 import { join, resolve } from "node:path";

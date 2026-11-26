@@ -1,7 +1,7 @@
 // <element-page kind="phase" element="design">: one element of the method, with its diagram, sections, and mini-map.
 import type { Element, ExplorerData, Section } from "../../shared/types.ts";
+import { breadcrumbsHtml, elementCrumbs } from "../breadcrumbs.ts";
 import {
-  CHAPTER_LABEL,
   elementHref,
   escapeHtml,
   findDoc,
@@ -70,7 +70,8 @@ export class ElementPage extends HTMLElement {
     this.innerHTML = `
       <div class="page">
         <div class="page-main">
-          <p class="eyebrow"><a href="#/">Map</a> › ${CHAPTER_LABEL[element.kind]}</p>
+          ${breadcrumbsHtml(elementCrumbs(element))}
+          <p class="eyebrow">${KIND_LABEL[element.kind]}</p>
           <h1 class="${element.kind === "type" ? "code-title" : ""}">${escapeHtml(element.name)}</h1>
           <dl class="summary">${summary}</dl>
           <figure class="diagram-figure"><figcaption>${KIND_LABEL[element.kind]} diagram</figcaption></figure>
@@ -79,7 +80,7 @@ export class ElementPage extends HTMLElement {
           ${element.terms.length ? `<section><h2>Glossary terms</h2>${sections(element.terms, "term-card")}</section>` : ""}
         </div>
         <aside class="page-aside">
-          <aidd-map mini current="${element.kind}/${element.id}"></aidd-map>
+          <aidd-map mini map="${element.parent}" current="${element.kind}/${element.id}"></aidd-map>
           <h2>Linked elements</h2>
           <ul class="link-list">${links}</ul>
         </aside>
