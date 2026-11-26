@@ -2,7 +2,7 @@ LAST SESSION
 Closed s0007 in local main and removed its local and remote branches. Brainstorm: session journal (J1-J6) and folders that mirror the kinds (F1-F7), in the Pending section of docs/process/documentation-catalog.md.
 
 NEXT SESSION
-Answer the journal open questions (J1-J6); F1-F7 are agreed and wait for a spec. Then then group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
+Answer the journal open questions (J1-J6); F1-F7 are agreed and wait for a spec. Then group the brain documents visually in the explorer. Later, resume M0: milestone completion rules and P1-P6 in docs/product/intent.md.
 
 BLOCKERS
 None.
