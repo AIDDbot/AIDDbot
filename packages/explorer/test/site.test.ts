@@ -184,7 +184,9 @@ describe("change loop map (s0005-US2)", () => {
     const above = layout.nodes.filter((n) => n.kind === "type" && n.y < stepY);
     expect(new Set(above.map((n) => n.y)).size).toBe(1);
     expect(above.sort((x, y) => x.x - y.x).map((n) => n.id)).toEqual(
-      data.brain,
+      data.brain.filter(
+        (id) => !data.chapters.types.find((type) => type.id === id)?.owner,
+      ),
     );
   });
 
@@ -269,7 +271,7 @@ describe("brain map (s0005-US2)", () => {
     expect(
       layout.labels.filter((l) => l.cls === "map-heading").map((l) => l.text),
     ).toEqual(["Project loop", "Project brain", "Change loop"]);
-    expect(nodeOf(layout, "type/wiki-page")?.lines).toEqual(["wiki", "page"]);
+    expect(nodeOf(layout, "type/feature-file")?.lines).toEqual(["feature", "file"]);
     expect(nodeOf(layout, "type/design-system")?.lines).toEqual([
       "design",
       "system",
@@ -306,7 +308,8 @@ describe("parent map (s0005-US3)", () => {
       ["Project brain", "#/map/brain"],
       ["glossary", "#/type/glossary"],
     ]);
-    expect(path("type", "spec")[1]).toEqual(["Change loop", "#/map/change"]);
+    expect(path("type", "spec")[1]).toEqual(["Project brain", "#/map/brain"]);
+    expect(path("type", "code")[1]).toEqual(["Change loop", "#/map/change"]);
     expect(path("phase", "foundation")).toEqual([
       ["Map", "#/"],
       ["Foundation", "#/phase/foundation"],
@@ -327,7 +330,8 @@ describe("parent map (s0005-US3)", () => {
       });
     }
     expect(MAP_HREF[element("type", "glossary").parent]).toBe("#/map/brain");
-    expect(MAP_HREF[element("type", "spec").parent]).toBe("#/map/change");
+    expect(MAP_HREF[element("type", "spec").parent]).toBe("#/map/brain");
+    expect(MAP_HREF[element("type", "code").parent]).toBe("#/map/change");
   });
 
   test("a new table row appears with no drawing work", () => {

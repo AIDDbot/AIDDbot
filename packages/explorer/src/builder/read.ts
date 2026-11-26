@@ -16,7 +16,7 @@ import {
 } from "./documents.ts";
 import { splitFrontmatter } from "./markdown.ts";
 
-/** Reads the documents of `root`. Throws a ContractError when the wiki breaks the contract. */
+/** Reads the documents of `root`. Throws a ContractError when the brain breaks the contract. */
 export async function readData(root: string): Promise<ExplorerData> {
   const files = contentFiles(root);
   const texts = new Map<string, string>();

@@ -86,7 +86,13 @@ export interface LinkItem {
   external: boolean;
 }
 
-export type DocGroup = "wiki" | "root" | "project" | "specs";
+export type DocGroup =
+  | "process"
+  | "product"
+  | "technology"
+  | "root"
+  | "project"
+  | "specs";
 
 /** A full document of the content scope. */
 export interface Doc {

@@ -69,7 +69,9 @@ export function contentFiles(
   if (existsSync(posix.join(root, DEVELOPMENT_PLAN_PATH)))
     files.push({ path: DEVELOPMENT_PLAN_PATH, group: "project" });
   for (const [folder, group] of [
-    ["docs/wiki", "wiki"],
+    ["docs/process", "process"],
+    ["docs/product", "product"],
+    ["docs/technology", "technology"],
     ["docs/specs", "specs"],
   ] as const) {
     // Specs live in one folder per change: docs/specs/<spec>/<id>.spec.md.
@@ -155,7 +157,7 @@ export function readSource(
   if (meta) warnings.push(...validateMeta(meta, knownTypes));
   if (
     meta &&
-    group === "wiki" &&
+    (group === "process" || group === "product" || group === "technology") &&
     typeof meta.id === "string" &&
     meta.id !== stem(path)
   ) {
@@ -166,7 +168,7 @@ export function readSource(
   const type =
     typeof meta?.type === "string"
       ? meta.type
-      : (fixedType ?? (group === "specs" ? "spec" : "wiki-page"));
+      : (fixedType ?? (group === "specs" ? "spec" : "page"));
   const title =
     typeof meta?.title === "string"
       ? meta.title

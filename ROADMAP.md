@@ -18,7 +18,7 @@ links:
 
 Current milestone: **M0**.
 
-Milestone codes run from `M0` to `M9`, in order. A `feat` or `fix` spec names its milestone in `META`. [Spec](docs/wiki/documentation-catalog.md#spec)
+Milestone codes run from `M0` to `M9`, in order. A `feat` or `fix` spec names its milestone in `META`. [Spec](docs/process/documentation-catalog.md#spec)
 
 ## M0 · Base documentation
 

@@ -1,6 +1,6 @@
 ---
 id: documentation-catalog
-type: wiki-page
+type: page
 title: AIDDbot Documentation Catalog
 status: draft
 created: 2026-11-24
@@ -17,7 +17,7 @@ links:
 
 # AIDDbot Documentation Catalog
 
-The documents that AIDDbot uses, the rules for each change, and the standards that the templates follow. See the [intent](intent.md).
+The documents that AIDDbot uses, the rules for each change, and the standards that the templates follow. See the [intent](../product/intent.md).
 
 Status: **draft**. The catalog defines the documents that the lifecycle skills produce. The others are [names for later](#other-documents-and-standards).
 
@@ -25,7 +25,7 @@ Status: **draft**. The catalog defines the documents that the lifecycle skills p
 
 1. **Spec-first.** Create a spec only when a person requests one or approves your proposal to create one. If you think a spec is necessary, ask before you create the file or assign an ID.
 2. **Spec approval.** Use one spec for the change. For a `small` change, a person approves the problem, solution, and verification requirements in the pull request. For other changes, a person approves them before implementation. Add separate documents as the [impact level](#impact-levels) requires. After approval, only the spec checkboxes and its `status` and `updated` fields change. Freeze the spec when the change closes. [Böckeler on SDD levels](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
-3. **Living knowledge is harvested, not anchored.** When a change closes, durable knowledge moves to the living documents that it affects: glossary, ADRs, wiki pages, changelog.
+3. **Harvest durable knowledge.** When a change closes, update the original documents that it affects, such as the glossary, process pages, and changelog. Agents then update the wiki from those sources.
 4. **Fewer documents, more sections.** If content always travels with another document, it is a section of that document.
 
 ### Routine maintenance
@@ -36,7 +36,7 @@ Check the result directly. Examples include fixing links, refreshing the notepad
 
 ## Tags
 
-Each document has three tags.
+Each document type has Life, Relevance, Form, and Kind tags. Every document has one kind.
 
 ### Life
 
@@ -57,10 +57,27 @@ Each document has three tags.
 
 | Code | Form | Rule |
 | --- | --- | --- |
-| `DOC` | Document | Text for people and agents. The `LIVE` documents with this form are the [project brain](glossary.md#project-brain). |
+| `DOC` | Document | Text for people and agents. The [project brain](../product/glossary.md#project-brain) includes living and change documents and original sources. The wiki is a separate map of the brain and the code. |
 | `CODE` | Code | Source code and tests that tools run. |
 
-The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
+The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
+
+### Kind
+
+| Code | Kind | Rule |
+| --- | --- | --- |
+| `PROCESS` | [Process](../product/glossary.md#process) | How the team works. |
+| `PRODUCT` | [Product](../product/glossary.md#product-documentation) | What the team builds and why. |
+| `TECH` | [Technology](../product/glossary.md#technology) | How the team builds the product. |
+
+Use the kind listed below for a fixed kind. Where a type gets its kind from its subject, choose one kind for each document. Use its folder or its group in the wiki index to show its kind. Change documents can stay together in the spec folder.
+
+| Kind | Document types |
+| --- | --- |
+| `PROCESS` | `agents`, `notepad` |
+| `PRODUCT` | `glossary`, `roadmap`, `domain-model`, `changelog` |
+| `TECH` | `design-system`, `code`, `unit-test`, `e2e-test`, `check-report`, `test-report` |
+| One of `PROCESS`, `PRODUCT`, or `TECH`, by subject | `readme`, `page`, `wiki-page`, `spec`, `feature-file`, `adr`, `review-report` |
 
 ## Project set
 
@@ -87,18 +104,18 @@ Keep each block to one or two short lines. Replace the last session's summary an
 
 ## Change flow
 
-The change flow is the work of the Development [lifecycle phase](intent.md#lifecycle-phases). It has five steps. A step is change level. Its name is not the name of a phase. [Routine maintenance](#routine-maintenance) goes straight to verification.
+The change flow is the work of the Development [lifecycle phase](../product/intent.md#lifecycle-phases). It has five steps. A step is change level. Its name is not the name of a phase. [Routine maintenance](#routine-maintenance) goes straight to verification.
 
 | # | Step | Work | Uses | Produces |
 | --- | --- | --- | --- | --- |
-| 1 | Analysis | Write the Problem section and the requirements of the [spec](#spec). Write one `feature-file` for each user story, with declarative [scenarios](glossary.md#scenario) of its requirements and no interface steps. Clarify the open questions with a person. Update the `roadmap` when Analysis changes a product milestone or its order. | `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, `agents` | `spec`, `feature-file`, `roadmap` |
-| 2 | Design | Write the Solution section and its tasks. Add a data model when the change touches data. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec and its scenarios. | `spec`, `feature-file`, `wiki-page`, `domain-model`, `design-system` | `spec`, `adr` |
+| 1 | Analysis | Write the Problem section and the requirements of the [spec](#spec). Write one `feature-file` for each user story, with declarative [scenarios](../product/glossary.md#scenario) of its requirements and no interface steps. Clarify the open questions with a person. Update the `roadmap` when Analysis changes a product milestone or its order. | `roadmap`, `glossary`, `page`, `wiki-page`, `domain-model`, `adr`, `agents` | `spec`, `feature-file`, `roadmap` |
+| 2 | Design | Write the Solution section and its tasks. Add a data model when the change touches data. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec and its scenarios. | `spec`, `feature-file`, `page`, `wiki-page`, `domain-model`, `design-system` | `spec`, `adr` |
 | 3 | Implementation | Implement the change, its unit tests, and the docs. Another agent instance generates the `e2e-test` from the feature files, with the same tags. It works only in the e2e package and does not read or change the source code. Run the [quality checks](#quality-checks): build, format, lint, and unit tests. Read the `check-report`, fix the code, and repeat until they all pass. | `spec`, `feature-file`, `agents` | `code`, `unit-test`, `e2e-test`, `check-report`, and docs |
-| 4 | Verification | Run the `e2e-test`. It writes a `test-report` with the result of each requirement. An agent [reviews](glossary.md#review) the diff against the [review gates](#review-gates) and decides: pass or changes needed. Tick each requirement that passes. If a requirement fails or the change has findings, write a `review-report`. [Impact levels](#impact-levels) | `spec`, `e2e-test`, `code`, `check-report`, `agents` | `spec`, `test-report`, `review-report` |
-| 5 | Close | Freeze the spec and harvest the knowledge. [Close a change](#close-a-change) | `spec`, `review-report` | `glossary`, `domain-model`, `wiki-page`, `changelog` |
+| 4 | Verification | Run the `e2e-test`. It writes a `test-report` with the result of each requirement. An agent [reviews](../product/glossary.md#review) the diff against the [review gates](#review-gates) and decides: pass or changes needed. Tick each requirement that passes. If a requirement fails or the change has findings, write a `review-report`. [Impact levels](#impact-levels) | `spec`, `e2e-test`, `code`, `check-report`, `agents` | `spec`, `test-report`, `review-report` |
+| 5 | Close | Freeze the spec and harvest the knowledge. [Close a change](#close-a-change) | `spec`, `review-report` | `glossary`, `domain-model`, `page`, `wiki-page`, `changelog` |
 
 - **Uses** and **Produces** hold document IDs from the [document catalog](#document-catalog), in backticks. Other text is plain.
-- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](knowledge-wiki.md#page-rules)
+- The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](knowledge-wiki.md#page-rules)
 
 Close is the last step of a change, not a lifecycle phase. Many changes close before one Release. Analysis and Design can happen in one session, before the approval. A `small` change follows a shorter flow. [Impact levels](#impact-levels)
 
@@ -128,7 +145,7 @@ Rules:
 
 The `e2e-test` checks the code from outside, so the code cannot shape its own test.
 
-- Treat every project as a possible monorepo. The `e2e-test` is its own [package](glossary.md#package). It can use another stack.
+- Treat every project as a possible monorepo. The `e2e-test` is its own [package](../product/glossary.md#package). It can use another stack.
 - One agent instance writes the `code` and the `unit-test`. Another agent instance writes the `e2e-test` from the feature files.
 - The e2e agent reads the feature files and the public interfaces of the system. It does not read or change the source code.
 - The code agent does not change the `e2e-test`. If a test looks wrong, it records a finding.
@@ -170,7 +187,7 @@ Each change with a spec has one impact level. The [change type](#change-types) s
 
 | Impact | When | Flow | Skips | Adds |
 | --- | --- | --- | --- | --- |
-| `small` | All are true: one [package](glossary.md#package), one work session, at most 3 requirements, and no change to data, public interfaces, security, or dependencies. | A short spec: Goal, one user story, a short Solution, and 1 to 3 requirements. No `feature-file` and no data model: unit tests check the requirements. The quality checks and the review gates still run. A person approves the spec and the result together, in the pull request. | `feature-file`, `e2e-test`, `test-report` | — |
+| `small` | All are true: one [package](../product/glossary.md#package), one work session, at most 3 requirements, and no change to data, public interfaces, security, or dependencies. | A short spec: Goal, one user story, a short Solution, and 1 to 3 requirements. No `feature-file` and no data model: unit tests check the requirements. The quality checks and the review gates still run. A person approves the spec and the result together, in the pull request. | `feature-file`, `e2e-test`, `test-report` | — |
 | `medium` | Not `small` and not `large`. | The full change flow. A person approves the spec at the end of Design. | — | — |
 | `large` | At least one is true: more than one work session, several agents or people on the code, or more than one package. The e2e package and its agent do not count. | The `medium` flow, plus a `review-report`. The Tasks of the spec track the progress across sessions and agents. | — | `review-report` |
 
@@ -185,7 +202,7 @@ Rules:
 
 ### Spec
 
-Follow the [spec-first rule](#principles) before you create a spec. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](glossary.md#problem) views.
+Follow the [spec-first rule](#principles) before you create a spec. Its title is `# <id> - <title>`, such as `# s0002 - Build the web knowledge explorer`. It has three `##` sections: Problem, Solution, and Verification. They follow the [problem, solution, verification](../product/glossary.md#problem) views.
 
 Its [`META`](#metadata-meta) adds three fields:
 
@@ -205,11 +222,11 @@ Its [`META`](#metadata-meta) adds three fields:
 
 Rules:
 
-- Write each requirement in [EARS](#standards), as the [change type](#change-types) asks. The `<system>` of the pattern is a [system](glossary.md#system).
+- Write each requirement in [EARS](#standards), as the [change type](#change-types) asks. The `<system>` of the pattern is a [system](../product/glossary.md#system).
 - Each requirement belongs to one user story. Each user story has at least one requirement.
 - Codes compose: a requirement is numbered inside its user story (`US1R1`, `US1R2`, `US2R1`). From another document, add the spec ID: `s0002-US1R2`.
 - Write codes and IDs as inline code. Use a hyphen `-` between a code and its text.
-- A requirement states only the expected behavior. Its [scenarios](glossary.md#scenario) show how to check it.
+- A requirement states only the expected behavior. Its [scenarios](../product/glossary.md#scenario) show how to check it.
 - In a `medium` or `large` `feat` or `fix`, each user story has one `feature-file` in the spec folder, such as `s0002-US1.feature`. The `Feature` has the user story tag, such as `@s0002-US1`. Each requirement has at least one scenario, tagged with its full code, such as `@s0002-US1R2`. The scenarios hold the details of each check: data, steps, and expected results. A `chore` or a `refactor` uses other checks.
 - After approval, the spec changes in two ways only: a checkbox is ticked, and the `status` and `updated` fields change.
 - An accepted spec can go back to `draft` only before its implementation starts. Then a person rewrites it and approves it again. After the implementation starts, a problem with the spec goes to the `review-report`.
@@ -231,7 +248,8 @@ Rules:
 | --- | --- | --- | --- | --- | --- | --- |
 | `readme` | README | `LIVE` | `DOC` | `MUST` | — | Understand the project, set it up, and make a first change. |
 | `glossary` | Glossary | `LIVE` | `DOC` | `MUST` | `META` | Shared terms for people, agents, documents, and code. |
-| `wiki-page` | Knowledge wiki page | `LIVE` | `DOC` | `SHOULD` | `LLMWIKI`, `META` | One topic, linked to its sources. See the [knowledge wiki](knowledge-wiki.md). |
+| `page` | Page | `LIVE` | `DOC` | `COULD` when a topic needs its own document | `META` | Prose about one topic. People own it, and agents and skills can help write it. |
+| `wiki-page` | Knowledge wiki page | `LIVE` | `DOC` | `SHOULD` | `LLMWIKI`, `META` | An index or summary that agents write from the project brain and the code. See the [knowledge wiki](knowledge-wiki.md). |
 | `agents` | Agent instructions | `LIVE` | `DOC` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
 | `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in order, each with a short, observable outcome. A completed milestone can link to the version in the `changelog` that delivered it. |
 | `notepad` | Notepad | `LIVE` | `DOC` | `COULD` when work is handed off across sessions | — | [Session handoff](#session-handoff): last session, next session, and current blockers. |
@@ -282,14 +300,15 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | --- | --- | --- |
 | `spec` | `s<NNNN>`: one sequence with four digits for all change types, such as `s0001`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.spec.md` |
 | `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.review.md` |
-| Wiki page | The file name without `.md`. | `docs/wiki/<topic>.md` |
+| `page` | The file name without `.md`. | `docs/process/<topic>.md`, `docs/product/<topic>.md`, or `docs/technology/<topic>.md`, by kind. |
+| `wiki-page` | The file name without `.md`. | `docs/wiki/<topic>.md` |
 | `roadmap` | `roadmap`. One current roadmap per project. | `ROADMAP.md` |
 | `notepad` | No `id`. One per project. | `docs/NOTEPAD.txt` |
 | `design-system` | `design-system`. One per project. | `DESIGN.md` |
-| `domain-model` | `domain-model`. One per project. | `docs/wiki/domain-model.md` |
+| `domain-model` | `domain-model`. One per project. | `docs/product/domain-model.md` |
 | `feature-file` | No `id`. Its `Feature` tag names it, such as `@s0001-US1`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>-US<n>.feature` |
 | `code`, `unit-test` | No `id`. | The folders of the project. `agents` names them. |
-| `e2e-test` | No `id`. | Its own [package](glossary.md#package), such as `packages/e2e/`. It can use another stack. `agents` names it. |
+| `e2e-test` | No `id`. | Its own [package](../product/glossary.md#package), such as `packages/e2e/`. It can use another stack. `agents` names it. |
 | `check-report`, `test-report` | No `id`. | The output of the check command or the test command. Git does not keep it. CI keeps the report of each pull request. |
 
 - Each spec has one folder, `docs/specs/s<NNNN>-<short-slug>/`. All its change documents go in it.
@@ -302,16 +321,16 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 
 | Status | Meaning | Set in | Used by |
 | --- | --- | --- | --- |
-| `draft` | The document is in progress. It can change. | Foundation, Analysis | `spec`, `review-report`, `glossary`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
+| `draft` | The document is in progress. It can change. | Foundation, Analysis | `spec`, `review-report`, `glossary`, `page`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
 | `proposed` | A decision waits for human approval. | Design | `adr` |
-| `accepted` | A person approved it. A `LIVE` document is then updated in place. | Design | `spec`, `review-report`, `adr`, `glossary`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
+| `accepted` | A person approved it. A `LIVE` document is then updated in place. | Design | `spec`, `review-report`, `adr`, `glossary`, `page`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
 | `done` | The change closed. Nobody edits the document again. | Close | `spec`, `review-report` |
 | `superseded` | A newer document replaces it. | Design | `adr`, `roadmap` |
 | `deprecated` | It no longer applies, and nothing replaces it. | Design | `adr` |
 
 - The statuses of one document type follow the table order. An `adr` ends as `superseded` or `deprecated`.
 - **Used by** holds document IDs. The life tag is not enough, because an `adr` is `LIVE` with its own cycle.
-- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
+- The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns.
 
 ## Standards
 
@@ -357,12 +376,12 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 11 | How are document IDs assigned? | Specs use one neutral sequence, `s0001`, with the file `s0001-<short-slug>.spec.md`. Plans and reviews reuse the spec name with `.plan.md` and `.review.md`. The change type goes in the `change` field, not in the ID. ADR IDs wait for the first ADR. The M0 spec uses this provisional rule; the spec template in M1 confirms or changes it. See [document IDs](#document-ids-and-file-names). | The first spec needs a clear rule. A type letter in the ID would force a rename when the type changes. The suffix groups the documents of one change. |
 | 12 | Review and verification: one document or two? | Superseded by decision 32. | — |
 | 13 | UI specification: document or section? | A section of the `spec`, for later. | Spec-first: UI behavior is part of the change. `design-system` keeps the durable part. |
-| 14 | Are prose `LIVE` documents wiki pages? | Yes. The AIDDbot wiki starts in M0 (decision 19). | One fact, one home. |
-| 15 | Which tags does a document need? | Two: life and relevance. | Phase, focus, and context did not change any decision for the next change. |
+| 14 | Are prose `LIVE` documents wiki pages? | See decision 62. | — |
+| 15 | Which tags does a document need? | Life, Relevance, Form, and Kind. See decisions 49 and 62. | These tags define the life of a document, when to produce it, its form, and its subject. |
 | 16 | How many documents does a change need? | One spec. A separate `impl-plan` or `review-report` only with an explicit criterion that a skill can check. | Small changes stay light. The criterion is checkable. |
 | 17 | Which change types? | `chore`, `refactor`, `fix`, `feat`. An `epic` only groups specs. No `prd` and no regulated profile for now. | They wait for a real need. |
 | 18 | How large is the catalog? | The documents that the lifecycle skills produce have tables. The others are names. | The catalog follows the skill map, not one change at a time. |
-| 19 | Do the foundational documents move to `docs/wiki/`? | Yes, in M0. `AGENTS.md`, `README.md`, `CHANGELOG.md`, `PLAN.md`, and `DESIGN.md` stay at the root. | The wiki is the base of AIDDbot documentation. AIDDbot tests its own wiki before its skills help teams keep one. |
+| 19 | Where do the foundational documents live? | In `docs/process/`, `docs/product/`, or `docs/technology/`, by kind. Fixed paths stay fixed. `docs/wiki/` holds the agent map. See decision 62. | Readers can find the original documents by kind. |
 | 20 | Which dates does `META` hold? | `created` and `updated`, as ISO 8601 dates without time. They replace `date`. | Readers and the wiki review see when the content changed. Git keeps the status history. Time adds noise and merge conflicts. |
 | 21 | Do all documents need `META`? | No. `agents`, `readme`, and `changelog` have none. | Tools read them at fixed names. Frontmatter shows as noise on GitHub. |
 | 22 | Which type has the project plan? | `roadmap`, with one per project. | It is a living document of milestones. The name does not clash with the plan step or the `impl-plan`. |
@@ -378,7 +397,7 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 32 | Where do failures and findings go? | To a `review-report`, only when a requirement fails or the change has findings. | Most changes need no report. The spec does not grow after approval. |
 | 33 | How are user stories and requirements coded? | `US<n>` for a user story. `US<n>R<m>` for a requirement, numbered inside its user story. From another document: `<spec id>-US<n>R<m>`. Codes are inline code, with a hyphen before their text. | Codes compose like document IDs (`s0001-plan`). A hyphen is easy to type. Inline code shows each character, as `DESIGN.md` asks for IDs. |
 | 34 | Can an accepted spec change before its implementation starts? | Yes. It goes back to `draft`, a person rewrites it, and approves it again. After the implementation starts, decision 31 applies. | `s0002` needed a new scope after approval and before any code. A rewrite is cheaper than a new spec for the same change. |
-| 35 | How are the change flow and the status use written? | As tables with fixed anchors and columns. Document IDs go in backticks. | The [knowledge explorer](glossary.md#knowledge-explorer) reads them. A table is easier to read and to check than a list. |
+| 35 | How are the change flow and the status use written? | As tables with fixed anchors and columns. Document IDs go in backticks. | The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads them. A table is easier to read and to check than a list. |
 | 36 | Do user stories follow a standard? | Yes: `USERSTORY`, the `As a, I want, so that` form. | The spec already used the form. A named standard lets a script and a review check it. |
 | 37 | How do Gherkin scenarios and EARS requirements work together? | The spec keeps EARS requirements. Design writes Gherkin scenarios in a `LIVE` `feature-file`, tagged with the full requirement code. A person approves them with the spec. End-to-end tests run them. Decision 29 still applies to the requirements. | EARS states the behavior in one line. Gherkin gives the steps that a test runs. The tag links each test to its requirement. The scenarios live on after the spec is frozen. |
 | 38 | Where do format, lint, and unit tests run? | In Implementation, as deterministic quality checks. They pass before Verification. `agents` holds their commands. | They check the code, not the behavior. Scripts and tools run them, not a judgment. |
@@ -392,16 +411,17 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 46 | Where do the feature files live? | One `feature-file` for each user story, as `US<n>.feature` in the spec folder. Each change has one folder, `docs/specs/s<NNNN>-<short-slug>/`, with `spec.md`, the feature files, `plan.md`, and `review.md`. The `feature-file` is `CHG`: it changes decision 37. The `e2e-test` is the `LIVE` part. Decision 11 keeps the IDs; only the paths change. | The scenarios travel with their spec and their user stories. They give the details of each check and make the e2e tests easy to generate and to trace. One folder keeps the documents of a change together. |
 | 47 | Who writes the end-to-end tests, and where? | Another agent instance, in Implementation, in its own package. It does not read or change the source code. Verification runs them and writes a `test-report`. The e2e package does not make a change `large`. | An agent that writes both the code and its tests can make them agree without solving the problem. Tests from outside keep the check honest. The e2e package often uses another stack. |
 | 48 | How are the files of a change named? | Each file name starts with the spec ID: `s0002.spec.md`, `s0002.plan.md`, `s0002.review.md`, and `s0002-US1.feature`. The folder keeps its slug. It changes the file names of decision 46. | With several files open in an editor, the tab shows which change and which document it is. The feature file name matches its `Feature` tag. |
-| 49 | How does the catalog mark code and tests? | A third [tag](#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. The document catalog has a `Form` column after `Life`. The rows follow the lifecycle: project documents, then change documents in step order, and the `changelog` last. | The knowledge explorer finds the project brain (`LIVE` and `DOC`) with no hard-coded IDs. The row order is the order of the brain on the map. |
-| 50 | How do the change steps relate to the lifecycle phases? | The change flow is the work of the Development phase. Its steps are Analysis, Design, Implementation, Verification, and Close. A step name is not a phase name. Close writes the `changelog` entry to `Unreleased`, and Release reads it. It replaces decision 24. | Each name is used once, at one level. Many changes close before one release. [Intent decisions 1 and 9](intent.md#decisions) |
+| 49 | How does the catalog mark code and tests? | A third [tag](#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. The document catalog has a `Form` column after `Life`. The rows follow the lifecycle: project documents, then change documents in step order, and the `changelog` last. | The explorer reads document forms and uses catalog order. See decision 62 for brain membership. |
+| 50 | How do the change steps relate to the lifecycle phases? | The change flow is the work of the Development phase. Its steps are Analysis, Design, Implementation, Verification, and Close. A step name is not a phase name. Close writes the `changelog` entry to `Unreleased`, and Release reads it. It replaces decision 24. | Each name is used once, at one level. Many changes close before one release. [Intent decisions 1 and 9](../product/intent.md#decisions) |
 | 51 | What is the ID of the agent instructions? | `agents`. | The ID follows the file name `AGENTS.md`, as `readme` and `changelog` do. |
 | 52 | Does the `roadmap` become a `prd`? | No. The `roadmap` holds past and future milestones. `prd` stays a name for later. | A PRD says what the product must do and why. A roadmap says when. |
 | 53 | Does the catalog keep an `impl-plan`? | No. It is a name for later. A `large` change tracks its progress in the Tasks of the spec. It changes decision 43. | Frontier models write good code without a separate plan file. One checklist is one source of truth (decision 7). |
 | 54 | In which step is the `feature-file` written? | Analysis, with declarative scenarios and no interface steps. A person still approves the spec and its scenarios once, at the end of Design (decision 30). | The scenarios are examples of the requirements. They describe the problem, not the solution. |
-| 55 | What does Analysis use and change? | It reads the `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, and `agents` of the [project brain](glossary.md#project-brain). It writes the `spec` and the `feature-file`, and updates the `roadmap` when the work splits into several changes. Close harvests the rest. | Analysis needs the whole brain to frame the problem. Spec-first: other knowledge waits for Close. |
-| 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The wiki contract allows no document ID in the code. |
+| 55 | What does Analysis use and change? | It uses the wiki to find relevant documents in the [project brain](../product/glossary.md#project-brain). It writes the `spec` and the `feature-file`, and updates the `roadmap` when the work splits into several changes. Close harvests the rest. | Analysis needs the relevant original documents to frame the problem. Spec-first: other knowledge waits for Close. |
+| 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](../product/glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The explorer reads the filter from the table. |
 | 57 | How do people and agents resume work across sessions? | Keep an optional, shared [notepad](#session-handoff) in Git. People and agents refresh its three blocks as work moves between sessions. | A short handoff shows where to resume even when a change is still open. Git keeps earlier handoffs. |
 | 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history and development tasks have their own places. |
 | 59 | When can a change skip the spec? | [Routine maintenance](#routine-maintenance) with a clear result goes straight to verification. This narrows decisions 2 and 16. | A direct check gives evidence for work that preserves existing behavior and rules. |
 | 60 | Who decides when to create a spec? | A person requests a spec or approves a proposal before the agent creates the file or assigns an ID. [Spec-first](#principles) | The person decides which changes need a spec. The relevant project document and Git can record the rest. |
 | 61 | How do specs and milestones link? | Milestones use the codes `M0` to `M9`, in `roadmap` order. A `feat` or `fix` spec names its milestone in the `milestone` field of `META`. A `chore` or `refactor` spec can omit it. The spec gets its milestone when it is created. A later change is an exception. The specs before this decision got `M0` when the rule was introduced. The `roadmap` holds only outcomes. | One source for the link. Maintenance does not always advance a product outcome. A spec belongs to the milestone it was written for. `M` and English replace the old `H` codes. |
+| 62 | How do the project brain and the knowledge wiki differ? | The brain holds all project documentation, including living pages, change documents, and original sources. Each document has one [Kind](#kind). People own the original pages. Only agents write the wiki from the brain and the code. See [Wiki model](knowledge-wiki.md#model). | Each fact has one original home. Agents can rebuild the wiki from its sources. |

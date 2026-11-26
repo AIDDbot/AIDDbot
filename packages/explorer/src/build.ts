@@ -24,7 +24,7 @@ try {
 } catch (error) {
   if (error instanceof ContractError) {
     console.error(
-      "The wiki breaks the explorer contract. See docs/wiki/explorer-development.md#wiki-contract",
+      "The documentation breaks the explorer contract. See docs/technology/explorer-development.md#brain-contract",
     );
     for (const p of error.problems) console.error(`- ${p.file}: ${p.message}`);
     process.exit(1);

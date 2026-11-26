@@ -26,7 +26,7 @@ async function rebuild(reason: string) {
     for (const p of data.problems) console.warn(`  - ${p.file}: ${p.message}`);
   } catch (error) {
     if (error instanceof ContractError) {
-      console.error("[explorer] the wiki breaks the explorer contract:");
+      console.error("[explorer] the documentation breaks the explorer contract:");
       for (const p of error.problems)
         console.error(`  - ${p.file}: ${p.message}`);
     } else {

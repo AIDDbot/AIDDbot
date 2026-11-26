@@ -1,6 +1,6 @@
 ---
 id: explorer-development
-type: wiki-page
+type: page
 title: AIDDbot Explorer Development
 status: draft
 created: 2026-11-25
@@ -24,7 +24,7 @@ links:
 
 # AIDDbot Explorer Development
 
-How we build the [knowledge explorer](glossary.md#knowledge-explorer): a static web site that tells the story of AIDDbot to people. It reads the AIDDbot documents and never edits them. It does not ship. [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md)
+How we build the [knowledge explorer](../product/glossary.md#knowledge-explorer), a static web site that presents the AIDDbot process to people. It reads original documents from the project brain. It stays in this repository. [`s0002`](../specs/s0002-web-knowledge-explorer/s0002.spec.md)
 
 Status: **draft**.
 
@@ -40,7 +40,7 @@ Run them from the repository root. The explorer is the only package, so there is
 | Serve the site at `http://localhost:4173/` and build it again on each change. A change to the builder code restarts the server. | `bun run explorer:dev` |
 | Type-check | `bunx tsc --noEmit` in `packages/explorer/` |
 | Test | `bun test` in `packages/explorer/` |
-| Lint | `bun lint` (see the [open point](#open-points)) |
+| Lint | None yet (see the [open point](#open-points)) |
 
 The build accepts `--root <repository>` and `--out <folder>`. The site works from any folder of a static file server, because all its paths are relative and the views use hash addresses.
 
@@ -67,19 +67,19 @@ packages/explorer/
 └── dist/                   # Build output. Git ignores it.
 ```
 
-## Wiki contract
+## Brain contract
 
 The builder reads seven tables. Each one is the first table under a fixed heading. The column names are fixed.
 
 | Table | Heading anchor | Columns |
 | --- | --- | --- |
-| Lifecycle phases | [`intent.md#lifecycle-phases`](intent.md#lifecycle-phases) | `#`, `Phase`, `Work`, `Uses`, `Produces` |
-| Change flow | [`documentation-catalog.md#change-flow`](documentation-catalog.md#change-flow) | `#`, `Step`, `Work`, `Uses`, `Produces` |
-| Impact levels | [`documentation-catalog.md#impact-levels`](documentation-catalog.md#impact-levels) | `Impact`, `When`, `Flow`, `Skips`, `Adds` |
-| Building blocks | [`intent.md#building-blocks`](intent.md#building-blocks) | `Block`, `Role`, `Relations` |
-| Document catalog | [`documentation-catalog.md#document-catalog`](documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Form`, `Relevance`, `Standards`, `Purpose` |
-| Form tag | [`documentation-catalog.md#form`](documentation-catalog.md#form) | `Code`, `Form`, `Rule` |
-| Status use | [`documentation-catalog.md#status-use`](documentation-catalog.md#status-use) | `Status`, `Meaning`, `Set in`, `Used by` |
+| Lifecycle phases | [`intent.md#lifecycle-phases`](../product/intent.md#lifecycle-phases) | `#`, `Phase`, `Work`, `Uses`, `Produces` |
+| Change flow | [`documentation-catalog.md#change-flow`](../process/documentation-catalog.md#change-flow) | `#`, `Step`, `Work`, `Uses`, `Produces` |
+| Impact levels | [`documentation-catalog.md#impact-levels`](../process/documentation-catalog.md#impact-levels) | `Impact`, `When`, `Flow`, `Skips`, `Adds` |
+| Building blocks | [`intent.md#building-blocks`](../product/intent.md#building-blocks) | `Block`, `Role`, `Relations` |
+| Document catalog | [`documentation-catalog.md#document-catalog`](../process/documentation-catalog.md#document-catalog) | `ID`, `Document`, `Life`, `Form`, `Relevance`, `Standards`, `Purpose` |
+| Form tag | [`documentation-catalog.md#form`](../process/documentation-catalog.md#form) | `Code`, `Form`, `Rule` |
+| Status use | [`documentation-catalog.md#status-use`](../process/documentation-catalog.md#status-use) | `Status`, `Meaning`, `Set in`, `Used by` |
 
 Rules:
 
@@ -87,19 +87,21 @@ Rules:
 - **Name columns.** `Relations` and `Set in` hold a comma list. Each item is a document ID in backticks, or the name of a phase, a step, or a block. Phase and step names are unique.
 - **Links between elements.** Every step links to the phase whose row links to the change flow: Development. No phase name is written in the code. Every reference links both elements.
 - **Form.** Each catalog row holds one code of the Form tag table in backticks. A missing `Form` column or an unknown value stops the build.
-- **Project brain.** The brain holds every document type with Life `LIVE` and Form `DOC`, in catalog order. No document ID is written in the code.
+- **Project brain.** The brain map shows the original document types in catalog order. Use rows with Form `DOC` and without the `LLMWIKI` standard. This includes change documents. Life still determines which types can have a step as their owner on the change map.
 - **Impact levels.** `Skips` names the document types that the change loop map hides for the level. `Adds` names the document types that it marks as required. The level name is the code in backticks of the `Impact` cell.
 - **Sections.** A relative link in a row cell adds the linked section to the page of the element. A link to a glossary anchor adds a glossary term. The page also shows the glossary term with the ID or the name of the element, and, for a document type, the catalog section with its ID, such as `#spec`.
 - **Errors.** A missing heading or table, a renamed or missing column, an unknown document ID, an unknown Form value, or an unknown name stops the build. The error names the file and the problem.
 - **Smaller problems.** A missing or invalid `META`, a broken relative link, or an unknown `links` value does not stop the build. The build lists each one with its file. The document shows a warning.
 
-A change to these headings or columns needs a change to the builder in the same commit. [Page rules](knowledge-wiki.md#page-rules)
+A change to these headings or columns needs a change to the builder in the same commit. [Page rules](../process/knowledge-wiki.md#page-rules)
 
 ## Content scope
 
 | Group | Files |
 | --- | --- |
-| Wiki | `docs/wiki/*.md` |
+| Process | `docs/process/*.md` |
+| Product | `docs/product/*.md` |
+| Technology | `docs/technology/*.md` |
 | Root | `README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md` |
 | Project | `docs/PLAN.md` |
 | Specs | `docs/specs/**/*.md` |
@@ -128,21 +130,21 @@ OVERVIEW   Foundation ──► Development ──► Release ──► Maintena
            └─────────────────────────────────────┘
            Analysis ► Design ► Implementation ► Verification ► Close
 
-CHANGE     │ readme  glossary  wiki-page  agents  roadmap  adr  ... │
+CHANGE     │ readme  glossary  page  agents  roadmap  adr  ... │
 LOOP       Analysis ► Design ► Implementation ► Verification ► Close
            spec       ...       code             test-report
            [ small | medium | large ]
 
 BRAIN      Foundation  Development  Release  Maintenance
-           │ readme  glossary  wiki-page  agents  roadmap  adr  ... │
+           │ readme  glossary  page  agents  roadmap  spec  ... │
            Analysis    Design   Implementation   Verification   Close
 ```
 
 - **Overview.** The phases form the top row, in table order. A dashed arrow, the feedback loop, goes from the last phase to the phase that holds the change flow. The brain is one prominent box with its name only. The steps form the bottom row, in table order, inside a frame. A zoom line goes from the phase that holds the change flow to the frame. A link joins a phase or a step to the brain box when its `Uses` or `Produces` holds a brain document type. An element that reads and writes the brain gets one line with two heads. The overview shows no document type and no building block.
 - **Clicks on the overview.** A phase opens its page. The brain box opens the brain map. The change loop frame or a step opens the change loop map.
-- **Change loop map.** The brain document types form the top row, in catalog order, under the heading Project brain. The steps form a row below it, under the heading Change loop. The map has no frames. A brain document type ID with a hyphen shows in two lines. Any other document type hangs under the first step that produces it, or else under the first step that uses it. The map always draws the links from the last step to the brain. The links of the other steps show when a person points at the step.
-- **Impact filter.** The change loop map has a selector with the levels of the [impact levels](documentation-catalog.md#impact-levels) table. The default is `medium`. A level hides the document types in its `Skips` cell and marks the document types in its `Adds` cell as required.
-- **Brain map.** The phases form the top row, the brain document types the middle row, and the steps the bottom row. Each row has a heading: Project loop, Project brain, and Change loop. The map has no frames. An ID with a hyphen shows in two lines, such as `wiki-page`. A person who points at an element sees only its active links: who writes and who reads each brain document type. The arrow heads of these links are larger than the heads of the main arrows.
+- **Change loop map.** The brain document types with no owning step form the top row in catalog order. The steps form the next row. Change documents and other outputs hang under the first step that produces them, or else under the first step that uses them. Living brain document types have no owning step. The map always draws the links from the last step to the top row. Other links to that row show when a person points at a step.
+- **Impact filter.** The change loop map has a selector with the levels of the [impact levels](../process/documentation-catalog.md#impact-levels) table. The default is `medium`. A level hides the document types in its `Skips` cell and marks the document types in its `Adds` cell as required.
+- **Brain map.** The phases form the top row, the brain document types the middle row, and the steps the bottom row. Each row has a heading: Project loop, Project brain, and Change loop. The map has no frames. An ID with a hyphen shows in two lines, such as `feature-file`. A person who points at an element sees only its active links: who writes and who reads each brain document type. The arrow heads of these links are larger than the heads of the main arrows.
 - **Read and write links.** An element that reads and writes the same brain document type gets one line with two heads, on every map.
 - **Blocks view.** It lists every building block in table order, with its role and a link to its page. The header links to it.
 - **Parent map.** Each element has one parent map. A phase has the overview. A step has the change loop map. A brain document type has the brain map. Any other document type has the change loop map. A block has the blocks view. The builder sets it from these rules, with no element ID in the code.
@@ -161,6 +163,6 @@ BRAIN      Foundation  Development  Release  Maintenance
 
 ## Open points
 
-- `bun lint` does not exist in Bun 1.4.5. The command fails with `Script not found "lint"`. [AGENTS.md](../../AGENTS.md#scripts) and [CLI development](cli-development.md) ask for it.
+- No linter runs yet. Bun 1.4.5 has no `bun lint`, and the project waits for the Bun linter. [CLI development](cli-development.md)
 - `Bun.markdown` heading ids are not GitHub slugs. The builder adds its own.
 - The logo and the favicon load from the author's site. Offline, the header and the browser tab show no icon.

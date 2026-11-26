@@ -387,7 +387,8 @@ export function changeLayout(
   const shown = (t: Element) => !level?.skips.includes(t.id);
   const required = (t: Element) =>
     level?.adds.includes(t.id) ? "required" : undefined;
-  const brain = brainTypes(data).filter(shown);
+  const brain = brainTypes(data).filter((type) => !type.owner && shown(type));
+  const brainIds = new Set(brain.map((type) => type.id));
   const b = new Builder("change", data, [
     steps.length * STEP.col,
     brain.length * BRAIN_TYPE.col,
@@ -417,7 +418,7 @@ export function changeLayout(
   const stacks = new Map<string, number>();
   let docBottom = docTop;
   for (const type of types) {
-    if (data.brain.includes(type.id) || !shown(type)) continue;
+    if (brainIds.has(type.id) || !shown(type)) continue;
     const owner = type.owner ? b.byKey.get(nodeKey(type.owner)) : undefined;
     const ownerKey = owner?.key ?? "";
     const count = stacks.get(ownerKey) ?? 0;

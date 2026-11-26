@@ -1,4 +1,4 @@
-// Reads the chapter tables of the wiki contract and turns each row into a method element.
+// Reads the chapter tables of the brain contract and turns each row into a method element.
 import type {
   Element,
   Field,
@@ -30,10 +30,10 @@ import {
   toHtml,
 } from "./markdown.ts";
 
-const INTENT = "docs/wiki/intent.md";
-const CATALOG = "docs/wiki/documentation-catalog.md";
+const INTENT = "docs/product/intent.md";
+const CATALOG = "docs/process/documentation-catalog.md";
 
-/** The wiki contract: where each table lives and which columns it has. */
+/** The brain contract: where each table lives and which columns it has. */
 export const CONTRACT = {
   types: {
     file: CATALOG,
@@ -85,7 +85,7 @@ const ID_COLUMNS = new Set(["Uses", "Produces", "Used by", "Skips", "Adds"]);
 /** Columns that hold a comma list of element names and document IDs. */
 const NAME_COLUMNS = new Set(["Relations", "Set in"]);
 
-/** The wiki breaks the contract. The build stops. */
+/** The brain breaks the contract. The build stops. */
 export class ContractError extends Error {
   constructor(readonly problems: Problem[]) {
     super(problems.map((p) => `${p.file}: ${p.message}`).join("\n"));
@@ -312,7 +312,7 @@ function rowSections(
       seen.add(key);
       const section = linkedSection(result.doc, result.anchor, ctx);
       if (!section) continue;
-      (result.doc.type === "glossary" && result.anchor ? terms : sections).push(
+      (result.doc.id === "glossary" && result.anchor ? terms : sections).push(
         section,
       );
     }
@@ -322,9 +322,7 @@ function rowSections(
 
 /** Adds the glossary term with the same name as the element, if the glossary has one. */
 function ownTerm(element: Element, ctx: Context) {
-  const glossary = [...ctx.resolver.byId.values()].find(
-    (d) => d.type === "glossary",
-  );
+  const glossary = ctx.resolver.byId.get("glossary");
   if (!glossary) return;
   for (const anchor of [element.id, element.id.replace(/s$/, "")]) {
     if (!glossary.anchors.has(anchor)) continue;
@@ -382,13 +380,13 @@ export interface Chapters {
   types: Element[];
   statuses: StatusUse[];
   impacts: ImpactLevel[];
-  /** The document types of the project brain: Life `LIVE` and Form `DOC`, in catalog order. */
+  /** The original document types of the project brain, in catalog order. */
   brain: string[];
   /** The phase whose row links to the change flow. It holds the steps. */
   flowPhase: string | null;
 }
 
-/** Reads the contract tables. Throws a ContractError when the wiki breaks the contract. */
+/** Reads the contract tables. Throws a ContractError when the brain breaks the contract. */
 export function readChapters(
   bodies: Map<string, string>,
   resolver: LinkResolver,
@@ -406,13 +404,18 @@ export function readChapters(
 
   checkForms(t.types, t.forms, errors);
   const types = new Set(typeIds(t.types));
-  const brain = t.types.rows
-    .filter(
-      (row) =>
-        tagOf(t.types, row, "Life") === "LIVE" &&
-        tagOf(t.types, row, "Form") === "DOC",
-    )
-    .map((row) => codeSpans(row[0] ?? "")[0] ?? "");
+  const standardsColumn = t.types.header.map(plainText).indexOf("Standards");
+  const brainRows = t.types.rows.filter(
+    (row) =>
+      tagOf(t.types, row, "Form") === "DOC" &&
+      !codeSpans(row[standardsColumn] ?? "").includes("LLMWIKI"),
+  );
+  const brain = brainRows.map((row) => tagOf(t.types, row, "ID"));
+  const livingBrain = new Set(
+    brainRows
+      .filter((row) => tagOf(t.types, row, "Life") === "LIVE")
+      .map((row) => tagOf(t.types, row, "ID")),
+  );
   const names = (table: Table, column: number) =>
     new Map(
       table.rows.map((row) => [
@@ -494,11 +497,11 @@ export function readChapters(
     for (const f of element.fields)
       for (const r of f.refs) link(element, find(r));
 
-  // A brain type sits in the brain. Another type hangs under the first step that produces it, or else uses it.
+  // The change map hangs change documents and other outputs under their step.
   for (const type of typeElements) {
     const names = (e: Element, column: string) =>
       fieldOf(e, column)?.refs.some((r) => r.id === type.id) ?? false;
-    const owner = brain.includes(type.id)
+    const owner = livingBrain.has(type.id)
       ? undefined
       : (steps.find((s) => names(s, "Produces")) ??
         steps.find((s) => names(s, "Uses")));

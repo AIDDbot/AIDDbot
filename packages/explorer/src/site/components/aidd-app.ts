@@ -17,7 +17,7 @@ export class AiddApp extends HTMLElement {
           <img src="${LOGO}" alt="" width="32" height="32" />
           <span class="wordmark">AIDDbot</span><span class="brand-sub">explorer</span>
         </a>
-        <nav aria-label="Main"><a href="#/">Map</a><a href="#/blocks">Building blocks</a><a href="#/doc/index">Wiki</a></nav>
+        <nav aria-label="Main"><a href="#/">Map</a><a href="#/blocks">Building blocks</a><a href="#/doc/documentation-catalog">Documentation</a></nav>
         <theme-toggle></theme-toggle>
       </header>
       <main id="main" tabindex="-1"></main>

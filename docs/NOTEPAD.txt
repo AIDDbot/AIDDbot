@@ -1,8 +1,8 @@
 LAST SESSION
-Brainstorm on wiki, brain, process and project documentation closed: W1-W8 in knowledge-wiki.md Pending. Spec s0007 (feat, small, M0, draft) applies them: documents move to docs/process/, docs/product/, docs/technology/; docs/wiki/ keeps only the agent map index.md.
+Implemented s0007. The brain documents moved by kind and the wiki is now their agent index. Link check, 57 tests, TypeScript, and explorer build passed. Renamed the explorer "wiki contract" to "brain contract". No linter runs until Bun ships `bun lint`.
 
 NEXT SESSION
-Implement s0007 (planned with another agent). A person approves it in the pull request. Later: when a milestone is done, and intent.md Pending (P1-P6).
+Review and approve s0007 in the pull request. Then resume M0 work, including the milestone completion rules and the Pending section in docs/product/intent.md (P1-P6).
 
 BLOCKERS
 None.

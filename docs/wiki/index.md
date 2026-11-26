@@ -13,36 +13,44 @@ links:
 
 # AIDDbot Wiki
 
-What AIDDbot knows now. Agents read this index first, then open only the pages they need. [Wiki rules](knowledge-wiki.md)
+Agent map of the AIDDbot project brain. Open the original documents for project facts. [Wiki rules](../process/knowledge-wiki.md)
 
-## About AIDDbot
+## Process
 
-- [Intent](intent.md) — purpose, lifecycle phases, building blocks, and inclusion criteria
-- [Glossary](glossary.md) — shared terms for people, agents, documents, and code
+- [Agent instructions](../../AGENTS.md) — repository rules and commands
+- [Documentation catalog](../process/documentation-catalog.md) — change flow, document types, and standards
+- [Knowledge wiki](../process/knowledge-wiki.md) — wiki model, rules, and operations
+- [AIDDbot CLI](../process/aiddbot-cli.md) — shared command and script contract
+- [Development plan](../PLAN.md) — tasks, dogfooding rules, and findings
+- [Notepad](../NOTEPAD.txt) — current session handoff
+- [s0001 spec](../specs/s0001-build-aiddbot-wiki/s0001.spec.md) — build the wiki
+- [s0003 spec](../specs/s0003-two-loop-lifecycle/s0003.spec.md) — define the project and change loops
+- [s0003 review](../specs/s0003-two-loop-lifecycle/s0003.review.md)
+- [s0003 lifecycle scenarios](../specs/s0003-two-loop-lifecycle/s0003-US1.feature)
+- [s0003 explorer scenarios](../specs/s0003-two-loop-lifecycle/s0003-US2.feature)
+- [s0004 spec](../specs/s0004-naming-review/s0004.spec.md) — align names and Analysis inputs
+- [s0004 review](../specs/s0004-naming-review/s0004.review.md)
+- [s0007 spec](../specs/s0007-separate-brain-and-wiki/s0007.spec.md) — separate the project brain and the wiki
 
-## Method
+## Product
 
-The rules that AIDDbot ships to teams through its skills and templates. These pages do not depend on the development pages.
+- [README](../../README.md) — project overview
+- [Intent](../product/intent.md) — purpose, lifecycle, and building blocks
+- [Glossary](../product/glossary.md) — shared terms
+- [Roadmap](../../ROADMAP.md) — product milestones and outcomes
+- [Changelog](../../CHANGELOG.md) — notable changes
+- [License](../../LICENSE) — terms for using AIDDbot
 
-- [Documentation catalog](documentation-catalog.md) — change flow, spec, document types, metadata, and standards
-- [Knowledge wiki](knowledge-wiki.md) — wiki model, page rules, sources, operations, and Obsidian access
-- [AIDDbot CLI](aiddbot-cli.md) — command form, prerequisite, script contract, and candidate commands
+## Technology
 
-## Development
-
-How we build AIDDbot. These pages do not ship.
-
-- [Scaffolding](scaffolding.md) — repository layout, what ships, and when each folder appears
-- [CLI development](cli-development.md) — Bun runtime, development commands, packaging, and local tests
-- [Explorer development](explorer-development.md) — knowledge explorer commands, folders, wiki contract, and site rules
-
-## Outside the wiki
-
-- [AGENTS.md](../../AGENTS.md) — agent instructions
-- [README.md](../../README.md) — project overview
-- [ROADMAP.md](../../ROADMAP.md) — product milestones and outcomes
-- [PLAN.md](../PLAN.md) — development tasks, dogfooding rules, findings, and future ideas
-- [NOTEPAD.txt](../NOTEPAD.txt) — current session handoff. [Session handoff rules](documentation-catalog.md#session-handoff)
-- [DESIGN.md](../../DESIGN.md) — design system: colors, fonts, and Mermaid rules
-- [CHANGELOG.md](../../CHANGELOG.md) — notable changes
-- [Specs](../specs/) — change documents, the sources of this wiki
+- [Design system](../../DESIGN.md) — colors, fonts, and diagrams
+- [Scaffolding](../technology/scaffolding.md) — repository layout and distribution
+- [CLI development](../technology/cli-development.md) — runtime, packaging, and local tests
+- [Explorer development](../technology/explorer-development.md) — commands, tables, and site rules
+- [s0002 spec](../specs/s0002-web-knowledge-explorer/s0002.spec.md) — build the knowledge explorer
+- [s0002 review](../specs/s0002-web-knowledge-explorer/s0002.review.md)
+- [s0005 spec](../specs/s0005-layered-maps/s0005.spec.md) — layer the explorer maps
+- [s0005 overview scenarios](../specs/s0005-layered-maps/s0005-US1.feature)
+- [s0005 detail map scenarios](../specs/s0005-layered-maps/s0005-US2.feature)
+- [s0005 element page scenarios](../specs/s0005-layered-maps/s0005-US3.feature)
+- [s0006 spec](../specs/s0006-publish-knowledge-explorer/s0006.spec.md) — publish the explorer

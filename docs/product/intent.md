@@ -1,6 +1,6 @@
 ---
 id: intent
-type: wiki-page
+type: page
 title: AIDDbot Project Intent
 status: draft
 created: 2026-11-24
@@ -50,23 +50,23 @@ Teams pick the practices that fit their project. Skills and templates build on:
 AIDDbot covers four [lifecycle phases](glossary.md#lifecycle-phase). Each phase has a one-word name. Work happens in two loops:
 
 - **Project loop:** the four phases of the whole [project](glossary.md#project). They are [project level](glossary.md#project-level).
-- **Change loop:** the five steps of one [change](glossary.md#change), inside Development. They are [change level](glossary.md#change-level). See the [change flow](documentation-catalog.md#change-flow).
+- **Change loop:** the five steps of one [change](glossary.md#change), inside Development. They are [change level](glossary.md#change-level). See the [change flow](../process/documentation-catalog.md#change-flow).
 
 | # | Phase | Work | Uses | Produces |
 | --- | --- | --- | --- | --- |
-| 0 | Foundation | Prepare the [project set](documentation-catalog.md#project-set), its [quality checks](documentation-catalog.md#quality-checks) and [review gates](documentation-catalog.md#review-gates), and the [knowledge wiki](knowledge-wiki.md#model). | — | `agents`, `readme`, `glossary`, `wiki-page` |
-| 1 | Development | Take changes with a spec through Analysis, Design, Implementation, Verification, and Close. [Change flow](documentation-catalog.md#change-flow) Check [routine maintenance](documentation-catalog.md#routine-maintenance) directly. | — | — |
+| 0 | Foundation | Prepare the [project set](../process/documentation-catalog.md#project-set), its [quality checks](../process/documentation-catalog.md#quality-checks) and [review gates](../process/documentation-catalog.md#review-gates), and the [knowledge wiki](../process/knowledge-wiki.md#model). | — | `agents`, `readme`, `glossary`, `wiki-page` |
+| 1 | Development | Take changes with a spec through Analysis, Design, Implementation, Verification, and Close. [Change flow](../process/documentation-catalog.md#change-flow) Check [routine maintenance](../process/documentation-catalog.md#routine-maintenance) directly. | — | — |
 | 2 | Release | Group the closed changes into one version. Turn the `Unreleased` section of the `changelog` into the version, check readiness, and support deploy and rollback. | `changelog` | `changelog` |
 | 3 | Maintenance | Investigate incidents, update dependencies, and turn recurring issues into new changes. | — | — |
 
-- **Uses** and **Produces** hold document IDs from the [document catalog](documentation-catalog.md#document-catalog), in backticks. Other text is plain. The documents of one change are in the change flow only.
+- **Uses** and **Produces** hold document IDs from the [document catalog](../process/documentation-catalog.md#document-catalog), in backticks. Other text is plain. The documents of one change are in the change flow only.
 - **Phase and step.** A phase is project level. A step is change level. Each name is used once.
-- **Project brain.** The `LIVE` project documents form the [project brain](glossary.md#project-brain). Foundation creates the first ones. Each change reads them in Analysis and Design. Close updates them.
+- **Project brain.** Foundation creates the first living documents of the [project brain](glossary.md#project-brain). Analysis and Design read the relevant sources. Changes add documents to the brain, and Close updates the living ones.
 - **From Close to Release.** Close writes an entry in the `Unreleased` section of the `changelog`. Many changes close before one release. Release reads the `changelog` and makes the version.
 - **Problem, solution, verification.** Analysis works on the [problem](glossary.md#problem). Design and Implementation build the [solution](glossary.md#solution). Verification gives the [verification](glossary.md#verification).
 - **Feedback.** Maintenance starts new changes in Development: incidents, technical debt, and findings.
-- **Explorer.** The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. The row that links to the change flow is the phase that holds the steps. [Page rules](knowledge-wiki.md#page-rules)
-- **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](knowledge-wiki.md#operations). Release and Maintenance skills come later. See the [roadmap](../../ROADMAP.md).
+- **Explorer.** The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. The row that links to the change flow is the phase that holds the steps. [Page rules](../process/knowledge-wiki.md#page-rules)
+- **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](../process/knowledge-wiki.md#operations). Release and Maintenance skills come later. See the [roadmap](../../ROADMAP.md).
 
 The phases follow current AI SDLC methods: most start with a foundation step and loop back from operation to development. [AWS AI-DLC](https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle), [AI-SDLC (arXiv)](https://arxiv.org/html/2609.24348v1), [Böckeler on SDD tools](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 
@@ -74,7 +74,7 @@ The phases follow current AI SDLC methods: most start with a foundation step and
 
 ### Document templates
 
-Templates give consistent documents. The first one is the spec. Each template applies the rules of the method pages of this wiki. We test it on a real change in this repository. [Dogfooding rules](../PLAN.md#dogfooding-rules) [Documentation catalog](documentation-catalog.md)
+Templates give consistent documents. The first one is the spec. Each template applies the rules of the original process pages. We test it on a real change in this repository. [Dogfooding rules](../PLAN.md#dogfooding-rules) [Documentation catalog](../process/documentation-catalog.md)
 
 Each template states:
 
@@ -85,10 +85,10 @@ Skills choose and fill the template. Scripts do the deterministic steps, such as
 
 ### Knowledge wiki
 
-A persistent wiki of linked Markdown pages for people and agents: a second brain for all the project documentation. AIDDbot keeps its own documents in one, and its skills help teams keep one in their projects. It is based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). See the [knowledge wiki](knowledge-wiki.md) page.
+The [knowledge wiki](../process/knowledge-wiki.md) maps the project brain and the code for agents. Agents write indexes and summaries that link to original sources.
 
 - Keep original sources. Link every summary back to its evidence.
-- Agents add new sources, answer with references, and flag stale claims, contradictions, and broken links.
+- Agents ingest sources, answer with references, and flag stale claims, contradictions, and broken links.
 - Files stay plain Markdown, usable in any editor.
 
 ### Visual identity
@@ -102,13 +102,13 @@ AIDDbot documents and diagrams use the colors, fonts, and Mermaid rules in [DESI
 | **Skills** | Run development activities and handoffs, and generate documents. Each one defines: objective, needed context, standards, deliverables, and evidence of completion. The model chooses the approach. [Skill](glossary.md#skill) | Templates, Scripts, Wiki, Foundation, Analysis, Design, Implementation, Verification, Close |
 | **Templates** | Give consistent documents. Skills choose and fill them. [Document templates](#document-templates) | `spec`, `feature-file`, `review-report`, `adr` |
 | **Scripts** | Do deterministic tasks (Git chores, document IDs, metadata checks). Clear inputs, outputs, and error messages. They do not depend on the project stack or build tool. Skills do not repeat their logic in prose. [Script](glossary.md#script) | Verification, Close, `spec`, `wiki-page` |
-| **Wiki** | Keeps what the project knows now, linked to its sources. [Knowledge wiki](#knowledge-wiki) | Foundation, Close, `wiki-page`, `glossary` |
-| **Distribution** | One versioned release of the skills, templates, and CLI. The [installer](glossary.md#installer) installs and updates it in a project. Only these three parts ship. [What ships](scaffolding.md#what-ships) | Skills, Templates, Scripts, Foundation |
+| **Wiki** | Maps the project brain and the code for agents. [Knowledge wiki](#knowledge-wiki) | Foundation, Close, `wiki-page`, `glossary` |
+| **Distribution** | One versioned release of the skills, templates, and CLI. The [installer](glossary.md#installer) installs and updates it in a project. Only these three parts ship. [What ships](../technology/scaffolding.md#what-ships) | Skills, Templates, Scripts, Foundation |
 | **Project context** | Gives repo conventions, commands, and constraints in `AGENTS.md`. Workflows use existing project tools and state their prerequisites. [Project context](glossary.md#project-context) | Foundation, `agents`, `readme` |
 
 - **Relations** names other blocks, lifecycle phases, change steps, and document IDs in backticks.
 - The details of Templates and Wiki are in [Project knowledge](#project-knowledge).
-- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](knowledge-wiki.md#page-rules)
+- The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. [Page rules](../process/knowledge-wiki.md#page-rules)
 
 ### Shared core
 
@@ -145,14 +145,14 @@ A skill or script belongs in AIDDbot only if it:
 | 7 | What do Implementation and Verification check? | Implementation runs the deterministic quality checks: format, lint, and unit tests. Verification runs the end-to-end tests and an agent review of the diff against the review gates. | The quality checks look at the code. Verification looks at the behavior and at what tests cannot see. |
 | 8 | How does the map show the two levels of work? | Two loops. The project loop shows the four phases, with feedback from Maintenance to Development. The change loop is a zoom of Development with the five steps. Project documents go with the project loop. Change documents go with the change loop. | The old map showed four names twice. Its arrow from Verification to Release said that every change makes a release. Its columns mixed project documents and change documents. |
 | 9 | How do Close and Release relate? | Close is the last step of one change: the spec goes to `done`, durable knowledge goes back to the brain, and an entry goes to `Unreleased` in the `changelog`. Release is a project phase: it groups N closed changes into one version. | Many changes close before one release. |
-| 10 | Where do the project documents of Analysis and Design go? | To the [project brain](glossary.md#project-brain): one band of `LIVE` project documents between the two loops. Foundation creates the first ones. Each change reads them in Analysis and Design. Close updates them. | Close already returns durable knowledge to the project documents. The brain makes that loop visible. |
-| 11 | What columns does the lifecycle phases table have? | `#`, `Phase`, `Work`, `Uses`, `Produces`: the same columns as the [change flow](documentation-catalog.md#change-flow) table. The Development row links to the change flow and lists no documents. | One table shape for phases and steps. The explorer reads both with the same code. The documents of a change are in the change flow only. |
-| 12 | Which documents does the project brain show? | Every document type of the [document catalog](documentation-catalog.md#document-catalog) with Life `LIVE` and Form `DOC`, in catalog order. | No new list to maintain. Code and tests are living, but they are not project knowledge for the map. |
-| 13 | How does the catalog mark code and tests? | A third [tag](documentation-catalog.md#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. | It follows the tag model of Life and Relevance. The explorer needs no hard-coded IDs. A new value comes with a real need. |
+| 10 | Where do the project documents of Analysis and Design go? | To the [project brain](glossary.md#project-brain). Close updates the living documents. | Close returns durable knowledge to its original home. |
+| 11 | What columns does the lifecycle phases table have? | `#`, `Phase`, `Work`, `Uses`, `Produces`: the same columns as the [change flow](../process/documentation-catalog.md#change-flow) table. The Development row links to the change flow and lists no documents. | One table shape for phases and steps. The explorer reads both with the same code. The documents of a change are in the change flow only. |
+| 12 | Which types does the explorer brain map show? | The catalog document types in the [project brain](../technology/explorer-development.md#brain-contract), in catalog order. | The existing catalog marks documents, code, and wiki pages. |
+| 13 | How does the catalog mark code and tests? | A third [tag](../process/documentation-catalog.md#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. | It follows the tag model of Life and Relevance. The explorer needs no hard-coded IDs. A new value comes with a real need. |
 | 14 | How does the map draw the path from Close to Release? | Through the brain, with no new element. Close writes to the `changelog`, in its `Unreleased` section. Release reads the `changelog` and makes the version. | `Unreleased` is a part of the `changelog`, not a new element. All knowledge flows through the brain in the same way. |
 | 15 | How does the map show Release and Maintenance? | Like the other phases, with no "later" mark. Maintenance has no documents yet. Its dashed feedback arrow goes to Development. | The map shows the method. The [roadmap](../../ROADMAP.md) shows the current milestone. |
-| 16 | What is the name of the band of living project documents? | The [project brain](glossary.md#project-brain). It holds every `LIVE` `DOC` document type. The knowledge wiki is one part of it. It replaces "project brain". | "Brain" was the first wish for the wiki. With one name for the whole set, "brain" has one meaning. |
-| 17 | What does Analysis use and change in the project brain? | It reads the `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, and `agents`. It writes the `spec` and the `feature-file`, and updates the `roadmap`. Close harvests the rest. [Catalog decision 55](documentation-catalog.md#decisions) | Analysis needs the whole brain to frame the problem. Spec-first: other knowledge waits for Close. |
+| 16 | What is the relationship between the project brain and the wiki? | The [project brain](glossary.md#project-brain) holds original project documentation. The wiki is the agent map of the brain and the code. | Each fact has one original home. |
+| 17 | What does Analysis use and change in the project brain? | It uses the wiki to find relevant original documents. It writes the `spec` and the `feature-file`, and updates the `roadmap`. Close harvests the rest. [Catalog decision 55](../process/documentation-catalog.md#decisions) | Analysis uses the relevant sources to frame the problem. |
 
 ## Pending
 
@@ -160,7 +160,7 @@ Brainstorm proposals go here until they become rules.
 
 ### Core documents: roadmap, spec, feature file
 
-Proposals from 2026-11-26. They change the [documentation catalog](documentation-catalog.md). Status: proposed.
+Proposals from 2026-11-26. They change the [documentation catalog](../process/documentation-catalog.md). Status: proposed.
 
 The three core documents are the `roadmap` to decide what to do, the `spec` to implement a change, and the `feature-file` for end-to-end tests. `prd` stays a name for later.
 
@@ -173,7 +173,7 @@ The three core documents are the `roadmap` to decide what to do, the `spec` to i
 | P5 | The scenario of a deprecated requirement gets the `@deprecated` tag. The e2e agent deletes its test. New scenarios cover the new behavior. | Old tests do not block valid changes. |
 | P6 | If an old test fails and its requirement is not deprecated, it is a regression. Fix the code, not the test. | A failed test is never ambiguous. |
 
-P7, the link from a spec to its milestone, is now [catalog decision 61](documentation-catalog.md#decisions).
+P7, the link from a spec to its milestone, is now [catalog decision 61](../process/documentation-catalog.md#decisions).
 
 Open questions:
 

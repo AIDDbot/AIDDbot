@@ -1,6 +1,6 @@
 ---
 id: cli-development
-type: wiki-page
+type: page
 title: AIDDbot CLI Development
 status: draft
 created: 2026-11-24
@@ -16,7 +16,7 @@ links:
 
 # AIDDbot CLI Development
 
-How we build the [AIDDbot CLI](aiddbot-cli.md). Its command form, prerequisite, and contract are in that page.
+How we build the [AIDDbot CLI](../process/aiddbot-cli.md). Its command form, prerequisite, and contract are in that page.
 
 Status: **draft**. There is no CLI yet. It comes in [M2](../../ROADMAP.md#m2--deterministic-cli), from the deterministic steps that the skills mark in M1.
 
@@ -29,11 +29,11 @@ Status: **draft**. There is no CLI yet. It comes in [M2](../../ROADMAP.md#m2--de
 | Task | Command |
 | --- | --- |
 | Run a script from the repository root | `bun run ./packages/cli/src/cli.ts <command> [args]` |
-| Lint | `bun lint` ([Bun linter](https://bun.com/docs/lint)) |
+| Lint | None yet. Bun 1.4.5 has no `bun lint`. The project waits for the [Bun linter](https://bun.com/docs/lint) and adds no other tool. |
 | Type-check | `bunx tsc --noEmit` (Bun strips types without checking them) |
 | Test | `bun test` |
 
-Run the lint, type check, and tests before you close a change to scripts.
+Run the type check and the tests before you close a change to scripts.
 
 ## Packaging
 
@@ -54,4 +54,4 @@ Until the package is on npm, test a skill that needs the CLI with a local packag
 2. Install that file in the test repository without a change to the project manifest. Many projects have no `package.json`. [M3](../PLAN.md#m3--distribution-and-versions) defines the exact steps (finding F6).
 3. Record the file name and the repository revision in the evidence of the test.
 
-When the package is published, change the skill call to the [pinned form](aiddbot-cli.md#execution-from-skills).
+When the package is published, change the skill call to the [pinned form](../process/aiddbot-cli.md#execution-from-skills).

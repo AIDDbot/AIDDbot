@@ -1,10 +1,10 @@
 ---
 id: aiddbot-cli
-type: wiki-page
+type: page
 title: AIDDbot CLI
 status: draft
 created: 2026-11-24
-updated: 2026-11-24
+updated: 2026-11-26
 links:
   sources:
     - https://bun.com/docs/pm/bunx
@@ -16,7 +16,7 @@ links:
 
 # AIDDbot CLI
 
-Scripts do the deterministic tasks of AIDDbot, such as document IDs, metadata checks, and Git chores. Skills call them. See [building blocks](intent.md#building-blocks).
+Scripts do the deterministic tasks of AIDDbot, such as document IDs, metadata checks, and Git chores. Skills call them. See [building blocks](../product/intent.md#building-blocks).
 
 Status: **draft**. There is no CLI yet.
 

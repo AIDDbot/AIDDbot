@@ -107,17 +107,22 @@ describe("readData on this repository", () => {
       ).toEqual(["changelog"]);
   });
 
-  test("puts the LIVE DOC types in the brain, in catalog order (US2R2)", () => {
+  test("puts original document types in the brain, in catalog order", () => {
     expect(data.brain).toEqual([
       "readme",
       "glossary",
-      "wiki-page",
+      "page",
       "agents",
       "roadmap",
       "notepad",
+      "spec",
+      "feature-file",
       "adr",
       "domain-model",
       "design-system",
+      "check-report",
+      "test-report",
+      "review-report",
       "changelog",
     ]);
   });
@@ -129,6 +134,7 @@ describe("readData on this repository", () => {
     expect(ids("Uses")).toEqual([
       "roadmap",
       "glossary",
+      "page",
       "wiki-page",
       "domain-model",
       "adr",
@@ -138,12 +144,13 @@ describe("readData on this repository", () => {
     expect(data.chapters.types.map((t) => t.id)).not.toContain("impl-plan");
   });
 
-  test("hangs each other type under the first step that produces or uses it", () => {
+  test("places change documents and other outputs under their step on the change map", () => {
     const owners = Object.fromEntries(
       data.chapters.types.map((t) => [t.id, t.owner?.id]),
     );
-    for (const id of data.brain) expect(owners[id]).toBeUndefined();
     expect(owners).toMatchObject({
+      page: undefined,
+      "wiki-page": "close",
       spec: "analysis",
       "feature-file": "analysis",
       code: "implementation",
@@ -179,6 +186,24 @@ describe("readData on this repository", () => {
     expect(intent?.html).toContain('href="#/doc/glossary/project"');
   });
 
+  test("loads the original pages by kind and checks their relative links", () => {
+    const pages = data.docs.filter((doc) => doc.type === "page");
+    expect(pages.map((doc) => doc.group)).toEqual([
+      "process",
+      "process",
+      "process",
+      "product",
+      "product",
+      "technology",
+      "technology",
+      "technology",
+    ]);
+    expect(data.docs.some((doc) => doc.path.startsWith("docs/wiki/"))).toBe(false);
+    expect(
+      data.problems.filter((problem) => problem.message.startsWith("Broken link:")),
+    ).toEqual([]);
+  });
+
   test("opens the product roadmap and preserves links to the development plan", () => {
     const roadmap = data.docs.find((doc) => doc.id === "roadmap");
     const developmentPlan = data.docs.find((doc) => doc.id === "development-plan");
@@ -205,12 +230,12 @@ describe("readData on this repository", () => {
   });
 });
 
-describe("wiki contract (US1R4)", () => {
+describe("brain contract (US1R4)", () => {
   test("a missing chapter anchor stops the build and names the file", async () => {
     const dir = copyRepo();
-    edit(dir, "docs/wiki/intent.md", "## Building blocks", "## Blocks");
+    edit(dir, "docs/product/intent.md", "## Building blocks", "## Blocks");
     expect(await contractProblems(dir)).toContainEqual(
-      expect.stringContaining("docs/wiki/intent.md: anchor #building-blocks"),
+      expect.stringContaining("docs/product/intent.md: anchor #building-blocks"),
     );
   });
 
@@ -218,14 +243,14 @@ describe("wiki contract (US1R4)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/documentation-catalog.md",
+      "docs/process/documentation-catalog.md",
       "| # | Step | Work | Uses | Produces |",
       "| # | Step | Work | Inputs | Produces |",
     );
     const problems = await contractProblems(dir);
     expect(problems).toContainEqual(
       expect.stringContaining(
-        "docs/wiki/documentation-catalog.md: table #change-flow has columns",
+        "docs/process/documentation-catalog.md: table #change-flow has columns",
       ),
     );
   });
@@ -234,7 +259,7 @@ describe("wiki contract (US1R4)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/documentation-catalog.md",
+      "docs/process/documentation-catalog.md",
       "`design-system` | `spec`, `adr` |",
       "`design-system` | `spec`, `adrs` |",
     );
@@ -247,7 +272,7 @@ describe("wiki contract (US1R4)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/intent.md",
+      "docs/product/intent.md",
       "| Foundation, Close, `wiki-page`, `glossary` |",
       "| Foundation, Deploy, `wiki-page`, `glossary` |",
     );
@@ -288,13 +313,13 @@ describe("impact levels (s0005)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/documentation-catalog.md",
+      "docs/process/documentation-catalog.md",
       "| `feature-file`, `e2e-test`, `test-report` | — |",
       "| `no-such-doc` | — |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringMatching(
-        /^docs\/wiki\/documentation-catalog\.md: unknown document ID `no-such-doc` in column "Skips"/,
+        /^docs\/process\/documentation-catalog\.md: unknown document ID `no-such-doc` in column "Skips"/,
       ),
     );
   });
@@ -303,13 +328,13 @@ describe("impact levels (s0005)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/documentation-catalog.md",
+      "docs/process/documentation-catalog.md",
       "### Impact levels",
       "### Levels",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining(
-        "docs/wiki/documentation-catalog.md: anchor #impact-levels",
+        "docs/process/documentation-catalog.md: anchor #impact-levels",
       ),
     );
   });
@@ -318,7 +343,7 @@ describe("impact levels (s0005)", () => {
 describe("Form column (s0003-US2R3)", () => {
   test("a missing Form column stops the build and names the file and the column", async () => {
     const dir = copyRepo();
-    const file = "docs/wiki/documentation-catalog.md";
+    const file = "docs/process/documentation-catalog.md";
     const path = join(dir, file);
     const lines = readFileSync(path, "utf8").split("\n");
     const start = lines.findIndex((l) => l.startsWith("| ID | Document |"));
@@ -331,7 +356,7 @@ describe("Form column (s0003-US2R3)", () => {
     const problems = await contractProblems(dir);
     expect(problems).toContainEqual(
       expect.stringMatching(
-        /^docs\/wiki\/documentation-catalog\.md: table #document-catalog .*\(missing: Form\)/,
+        /^docs\/process\/documentation-catalog\.md: table #document-catalog .*\(missing: Form\)/,
       ),
     );
   });
@@ -340,13 +365,13 @@ describe("Form column (s0003-US2R3)", () => {
     const dir = copyRepo();
     edit(
       dir,
-      "docs/wiki/documentation-catalog.md",
+      "docs/process/documentation-catalog.md",
       "| `spec` | Change specification | `CHG` | `DOC` |",
       "| `spec` | Change specification | `CHG` | `TEXT` |",
     );
     expect(await contractProblems(dir)).toContainEqual(
       expect.stringContaining(
-        "docs/wiki/documentation-catalog.md: unknown Form value `TEXT` in row `spec`",
+        "docs/process/documentation-catalog.md: unknown Form value `TEXT` in row `spec`",
       ),
     );
   });
@@ -355,24 +380,24 @@ describe("Form column (s0003-US2R3)", () => {
 describe("smaller problems (US3R2)", () => {
   test("a missing META, an invalid META, and a broken link are listed with their file", async () => {
     const dir = copyRepo();
-    edit(dir, "docs/wiki/scaffolding.md", /^---[\s\S]*?---\n/, "");
-    edit(dir, "docs/wiki/aiddbot-cli.md", /status: \w+/, "status: maybe");
-    edit(dir, "docs/wiki/index.md", "(glossary.md)", "(glosary.md)");
+    edit(dir, "docs/technology/scaffolding.md", /^---[\s\S]*?---\n/, "");
+    edit(dir, "docs/process/aiddbot-cli.md", /status: \w+/, "status: maybe");
+    edit(dir, "docs/product/intent.md", "(glossary.md#project)", "(glosary.md)");
     const data = await readData(dir);
     expect(data.problems).toContainEqual({
-      file: "docs/wiki/scaffolding.md",
+      file: "docs/technology/scaffolding.md",
       message: "META is missing",
     });
     expect(data.problems).toContainEqual({
-      file: "docs/wiki/aiddbot-cli.md",
+      file: "docs/process/aiddbot-cli.md",
       message: "META status `maybe` is not valid",
     });
     expect(data.problems).toContainEqual({
-      file: "docs/wiki/index.md",
+      file: "docs/product/intent.md",
       message: "Broken link: glosary.md not found",
     });
     expect(
-      data.docs.find((d) => d.path === "docs/wiki/scaffolding.md")?.warnings,
+      data.docs.find((d) => d.path === "docs/technology/scaffolding.md")?.warnings,
     ).toContain("META is missing");
   });
 

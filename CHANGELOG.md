@@ -6,6 +6,9 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Changed
 
+- The project brain groups original documents by process, product, and technology. Agents use the [wiki index](docs/wiki/index.md) to find them. The explorer reads the original documents and includes change documents in the brain map. The explorer tables are now the brain contract ([`s0007`](docs/specs/s0007-separate-brain-and-wiki/s0007.spec.md)).
+
+- No linter runs until Bun ships `bun lint`. The script checks are the type check and the tests.
 - Roadmap milestones use the codes `M0` to `M9` instead of `H1` to `H4`. A `feat` or `fix` spec names its milestone in the new `milestone` field of `META`.
 - A person requests a spec or approves a proposal before an agent creates the file or assigns an ID.
 - Routine maintenance goes straight to verification. The [development plan](docs/PLAN.md) moved into `docs/` under this rule.
