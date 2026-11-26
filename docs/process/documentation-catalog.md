@@ -389,12 +389,14 @@ Example entry:
 - The explorer uses folders for kind and skips the wiki. [2393063](https://github.com/AIDDbot/AIDDbot/commit/2393063)
 ```
 
-Open questions:
+Answers of 2026-11-26:
 
-- Is the journal a new catalog type, such as `journal` with Life `LIVE` and Relevance `COULD`?
-- Does an entry need `META`?
-- Does the explorer show the journal?
-- Does AIDDbot ship the journal rule to other projects?
+| # | Proposal | Reason |
+| --- | --- | --- |
+| J7 | The journal is a new catalog type, `journal`, with Life `LIVE`, Relevance `COULD`, and Kind `PRODUCT`. | It has its own rules and folder. |
+| J8 | Each journal file has `META`. | The explorer and the agents read it like the other documents. |
+| J9 | The explorer shows the journal. | People can follow the history of the product. |
+| J10 | AIDDbot ships the journal rule to other projects. | It is part of the process. |
 
 ### Folders that mirror the kinds
 

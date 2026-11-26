@@ -31,6 +31,8 @@ Agent map of the AIDDbot project brain. Open the original documents for project 
 - [s0004 spec](../specs/s0004-naming-review/s0004.spec.md) — align names and Analysis inputs
 - [s0004 review](../specs/s0004-naming-review/s0004.review.md)
 - [s0007 spec](../specs/s0007-separate-brain-and-wiki/s0007.spec.md) — separate the project brain and the wiki
+- [s0008 spec](../specs/s0008-folders-by-kind/s0008.spec.md) — group every brain document in a kind folder
+- [s0009 spec](../specs/s0009-session-journal/s0009.spec.md) — keep a session journal
 
 ## Product
 
