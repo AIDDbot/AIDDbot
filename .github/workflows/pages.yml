@@ -31,7 +31,7 @@ jobs:
       - name: Build the explorer
         run: bun run explorer:build
       - name: Upload the Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: packages/explorer/dist
 
@@ -47,4 +47,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: publication
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5.0.1
