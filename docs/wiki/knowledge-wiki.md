@@ -44,7 +44,8 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 | `agents`, `readme`, `changelog` | Fixed names at the repository root. |
 | `design-system` | Lives with the UI code or in a shared guide. AIDDbot uses [DESIGN.md](../../DESIGN.md) at the repository root. |
 | `adr` | Immutable record; a source, not a synthesis. |
-| `roadmap` | Fixed place at the repository root, next to the readme. |
+| `roadmap` | `ROADMAP.md` at the repository root, next to `CHANGELOG.md`. |
+| `notepad` | Plain text for the current [session handoff](documentation-catalog.md#session-handoff). The index links to it. |
 
 ## Repository layout
 
@@ -52,6 +53,7 @@ These `LIVE` documents stay **outside** the wiki, because tools or conventions n
 <project-root>/
 ├── AGENTS.md            # points agents to docs/wiki/index.md
 └── docs/
+    ├── NOTEPAD.txt      # optional session handoff
     ├── wiki/
     │   ├── index.md     # catalog of pages
     │   └── <topic>.md

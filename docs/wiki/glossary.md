@@ -4,11 +4,12 @@ type: glossary
 title: AIDDbot Glossary
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources:
     - AGENTS.md
-    - PLAN.md
+    - docs/PLAN.md
+    - ROADMAP.md
     - https://www.domainlanguage.com/ddd/reference/
   related:
     - intent
@@ -39,11 +40,11 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="person"></a>Person | A human who works on a project: writes specs, reviews changes, and gives human approval. **Avoid:** user. A user is the end user of the software. | — |
 | <a id="agent"></a>Agent | An AI model that works in an AI coding tool. It follows skills and project context, and it calls scripts. | — |
 | <a id="ai-coding-tool"></a>AI coding tool | An application that runs an agent on a project, such as Codex, Claude Code, or Cursor. [Shared core](intent.md#shared-core) | — |
-| <a id="dogfooding"></a>Dogfooding | Testing AIDDbot on AIDDbot. This repository uses each skill, template, and script as soon as it exists. [Rules](../../PLAN.md#dogfooding-rules) | — |
+| <a id="dogfooding"></a>Dogfooding | Testing AIDDbot on AIDDbot. This repository uses each skill, template, and script as soon as it exists. [Rules](../PLAN.md#dogfooding-rules) | — |
 | <a id="skill"></a>Skill | Instructions for a recurring development activity: objective, required context, expected outputs, and checks. The agent chooses the approach. [Building blocks](intent.md#building-blocks) | `SKILL.md` |
 | <a id="script"></a>Script | A command that does one deterministic task with defined inputs, outputs, and errors. Skills call it. **Avoid:** tool, helper. [Script contract](aiddbot-cli.md#script-contract) | `aiddbot <group> <action>` |
 | <a id="aiddbot-cli"></a>AIDDbot CLI | The single executable that ships all scripts as subcommands. Skills call a pinned version. [Command form](aiddbot-cli.md#command-form) | `aiddbot` |
-| <a id="installer"></a>Installer | The program that installs and updates a pinned AIDDbot release in a project: skills, templates, and CLI. **Avoid:** script, for the installer. [H4](../../PLAN.md#h4--distribution-and-versions) | — |
+| <a id="installer"></a>Installer | The program that installs and updates a pinned AIDDbot release in a project: skills, templates, and CLI. **Avoid:** script, for the installer. [H4](../../ROADMAP.md#h4--distribution-and-versions) | — |
 | <a id="repository"></a>Repository | A Git repository. The official Git term. | — |
 | <a id="project"></a>Project | A repository seen as a place of work: its `AGENTS.md`, specs, wiki, and roadmap. AIDDbot installs in a project. A monorepo is one project. **Avoid:** project, for a part of a monorepo (as Nx and .NET use it). | — |
 | <a id="package"></a>Package | A unit of code in a project that is built and versioned on its own, such as an npm package or a part of a monorepo. **Avoid:** module, for this concept. | `packages/` |
@@ -57,6 +58,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="lifecycle-phase"></a>Lifecycle phase | One of the four phases of the project loop: Foundation, Development, Release, Maintenance. A phase is project level. **Avoid:** stage; phase, for a step of a change. [Lifecycle phases](intent.md#lifecycle-phases) | — |
 | <a id="development"></a>Development | The lifecycle phase that holds the changes. Each change follows the change flow. [Change flow](documentation-catalog.md#change-flow) | — |
 | <a id="project-brain"></a>Project brain | The `LIVE` project documents with Form `DOC`, such as the glossary, the wiki pages, and the roadmap. The knowledge wiki is one part of it. It sits between the project loop and the change loop. Foundation creates the first ones. Each change reads them in Analysis and Design, and Close updates them. [Lifecycle phases](intent.md#lifecycle-phases) | — |
+| <a id="roadmap"></a>Roadmap | The product milestones and their outcomes, in order. A completed milestone can link to the version that delivered it. AIDDbot keeps its roadmap in [ROADMAP.md](../../ROADMAP.md). | `roadmap` |
 | <a id="project-level"></a>Project level | Work on the whole project: the lifecycle phases, such as Foundation or a release. [Lifecycle phases](intent.md#lifecycle-phases) | — |
 | <a id="change-level"></a>Change level | Work on one change, from its spec to its close: the steps of the change flow. [Lifecycle phases](intent.md#lifecycle-phases) | — |
 | <a id="problem"></a>Problem | What must be solved, in the domain language. The problem space of [DDD](https://www.domainlanguage.com/ddd/reference/): domain and subdomains. Analysis works on it, in each change. | — |
@@ -80,6 +82,7 @@ The shared language of AIDDbot. People, agents, documents, and code use these te
 | <a id="review-gate"></a>Review gate | One area that the agent review checks on the diff. It gives pass or changes needed. The defaults are security, user experience, and maintainability. A project configures its gates in `agents`. [Review gates](documentation-catalog.md#review-gates) | — |
 | <a id="evidence"></a>Evidence | The output that shows a check ran and what it found: a test result, a log excerpt, a screenshot, or a link. [Inclusion criteria](intent.md#inclusion-criteria) | — |
 | <a id="finding"></a>Finding | A problem, gap, or lesson found during a change. Process findings improve the way of working. | `review-report` |
+| <a id="notepad"></a>Notepad | The shared plain-text file for the current [session handoff](documentation-catalog.md#session-handoff). It states what the last session accomplished, what to do next, and what could hold up the work. | `notepad` |
 | <a id="human-approval"></a>Human approval | A decision that a person must take before the agent continues. Skills mark these decisions and show the evidence. [Inclusion criteria](intent.md#inclusion-criteria) | — |
 | <a id="living-document"></a>Living document | A document maintained for the whole life of a project. [Life](documentation-catalog.md#life) | `LIVE` |
 | <a id="change-document"></a>Change document | A document written for one change. When the change closes, its status becomes `done` and nobody edits it again. [Life](documentation-catalog.md#life) | `CHG` |

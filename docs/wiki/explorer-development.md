@@ -100,11 +100,13 @@ A change to these headings or columns needs a change to the builder in the same 
 | Group | Files |
 | --- | --- |
 | Wiki | `docs/wiki/*.md` |
-| Root | `README.md`, `AGENTS.md`, `PLAN.md`, `DESIGN.md`, `CHANGELOG.md` |
+| Root | `README.md`, `AGENTS.md`, `ROADMAP.md`, `DESIGN.md`, `CHANGELOG.md` |
+| Project | `docs/PLAN.md` |
 | Specs | `docs/specs/**/*.md` |
 
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.
+- References to the former root path `PLAN.md` in closed specs open `docs/PLAN.md` in the explorer.
 - A link to another file of the repository, such as `LICENSE` or a folder, shows as plain text with an "outside the explorer" mark.
 
 ## Map rules

@@ -1,0 +1,8 @@
+LAST SESSION
+Added the product roadmap and the shared session handoff.
+
+NEXT SESSION
+Review when to create a spec.
+
+BLOCKERS
+None.

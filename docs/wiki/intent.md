@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Project Intent
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources:
     - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
@@ -66,7 +66,7 @@ AIDDbot covers four [lifecycle phases](glossary.md#lifecycle-phase). Each phase 
 - **Problem, solution, verification.** Analysis works on the [problem](glossary.md#problem). Design and Implementation build the [solution](glossary.md#solution). Verification gives the [verification](glossary.md#verification).
 - **Feedback.** Maintenance starts new changes in Development: incidents, technical debt, and findings.
 - **Explorer.** The [knowledge explorer](glossary.md#knowledge-explorer) reads this table. Keep its anchor and its columns. The row that links to the change flow is the phase that holds the steps. [Page rules](knowledge-wiki.md#page-rules)
-- **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](knowledge-wiki.md#operations). Release and Maintenance skills come later. See [PLAN.md](../../PLAN.md).
+- **Skills.** The first skills cover Foundation, the steps of one change, and the [wiki operations](knowledge-wiki.md#operations). Release and Maintenance skills come later. See the [roadmap](../../ROADMAP.md).
 
 The phases follow current AI SDLC methods: most start with a foundation step and loop back from operation to development. [AWS AI-DLC](https://aws.amazon.com/blogs/devops/ai-driven-development-life-cycle), [AI-SDLC (arXiv)](https://arxiv.org/html/2609.24348v1), [Böckeler on SDD tools](https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html)
 
@@ -74,7 +74,7 @@ The phases follow current AI SDLC methods: most start with a foundation step and
 
 ### Document templates
 
-Templates give consistent documents. The first one is the spec. Each template applies the rules of the method pages of this wiki. We test it on a real change in this repository ([dogfooding rules](../../PLAN.md#dogfooding-rules)). See the [documentation catalog](documentation-catalog.md).
+Templates give consistent documents. The first one is the spec. Each template applies the rules of the method pages of this wiki. We test it on a real change in this repository. [Dogfooding rules](../PLAN.md#dogfooding-rules) [Documentation catalog](documentation-catalog.md)
 
 Each template states:
 
@@ -120,7 +120,7 @@ The same core works in every AI coding tool:
 
 There is no `CLAUDE.md`, `.cursor/rules`, or other file for one tool. Only the location of a skill and the way to load it can change between tools. The README documents them.
 
-Hooks and tool integrations are optional and come later. See the [future ideas](../../PLAN.md#future-ideas).
+Hooks and tool integrations are optional and come later. See the [future ideas](../PLAN.md#future-ideas).
 
 ## Inclusion criteria
 
@@ -150,7 +150,7 @@ A skill or script belongs in AIDDbot only if it:
 | 12 | Which documents does the project brain show? | Every document type of the [document catalog](documentation-catalog.md#document-catalog) with Life `LIVE` and Form `DOC`, in catalog order. | No new list to maintain. Code and tests are living, but they are not project knowledge for the map. |
 | 13 | How does the catalog mark code and tests? | A third [tag](documentation-catalog.md#tags), Form: `DOC` for text that people and agents read, and `CODE` for source code and tests that tools run. | It follows the tag model of Life and Relevance. The explorer needs no hard-coded IDs. A new value comes with a real need. |
 | 14 | How does the map draw the path from Close to Release? | Through the brain, with no new element. Close writes to the `changelog`, in its `Unreleased` section. Release reads the `changelog` and makes the version. | `Unreleased` is a part of the `changelog`, not a new element. All knowledge flows through the brain in the same way. |
-| 15 | How does the map show Release and Maintenance? | Like the other phases, with no "later" mark. Maintenance has no documents yet. Its dashed feedback arrow goes to Development. | The map shows the method, not the state of the plan. [PLAN.md](../../PLAN.md) holds the state. |
+| 15 | How does the map show Release and Maintenance? | Like the other phases, with no "later" mark. Maintenance has no documents yet. Its dashed feedback arrow goes to Development. | The map shows the method. The [roadmap](../../ROADMAP.md) shows the current milestone. |
 | 16 | What is the name of the band of living project documents? | The [project brain](glossary.md#project-brain). It holds every `LIVE` `DOC` document type. The knowledge wiki is one part of it. It replaces "project brain". | "Brain" was the first wish for the wiki. With one name for the whole set, "brain" has one meaning. |
 | 17 | What does Analysis use and change in the project brain? | It reads the `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, and `agents`. It writes the `spec` and the `feature-file`, and updates the `roadmap`. Close harvests the rest. [Catalog decision 55](documentation-catalog.md#decisions) | Analysis needs the whole brain to frame the problem. Spec-first: other knowledge waits for Close. |
 

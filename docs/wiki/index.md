@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Wiki Index
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources: []
   related: []
@@ -40,7 +40,9 @@ How we build AIDDbot. These pages do not ship.
 
 - [AGENTS.md](../../AGENTS.md) — agent instructions
 - [README.md](../../README.md) — project overview
-- [PLAN.md](../../PLAN.md) — roadmap: milestones, dogfooding rules, findings, and future ideas
+- [ROADMAP.md](../../ROADMAP.md) — product milestones and outcomes
+- [PLAN.md](../PLAN.md) — development tasks, dogfooding rules, findings, and future ideas
+- [NOTEPAD.txt](../NOTEPAD.txt) — current session handoff. [Session handoff rules](documentation-catalog.md#session-handoff)
 - [DESIGN.md](../../DESIGN.md) — design system: colors, fonts, and Mermaid rules
 - [CHANGELOG.md](../../CHANGELOG.md) — notable changes
 - [Specs](../specs/) — change documents, the sources of this wiki

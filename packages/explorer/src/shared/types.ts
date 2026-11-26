@@ -86,7 +86,7 @@ export interface LinkItem {
   external: boolean;
 }
 
-export type DocGroup = "wiki" | "root" | "specs";
+export type DocGroup = "wiki" | "root" | "project" | "specs";
 
 /** A full document of the content scope. */
 export interface Doc {

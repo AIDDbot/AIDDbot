@@ -67,13 +67,25 @@ Two sections of `agents` guide each change:
 
 Foundation sets up both sections.
 
+## Session handoff
+
+Projects that hand off work across sessions can keep one `docs/NOTEPAD.txt` in Git. People and agents read it when they start work and refresh it at the end of the session. A session can end while a change is still in progress.
+
+Keep these three plain-text headings in order:
+
+- `LAST SESSION` — What the last session accomplished.
+- `NEXT SESSION` — What to do first when work resumes.
+- `BLOCKERS` — What could hold up the next session. Name the missing dependency or the decision to make. Use `None.` when there are no blockers.
+
+Keep each block to one or two short lines. Replace the last session's summary and carry forward any work or blockers that still matter. Use spec IDs or file paths when readers need more context. Keep task details in the spec and milestones in the roadmap.
+
 ## Change flow
 
 The change flow is the work of the Development [lifecycle phase](intent.md#lifecycle-phases). Every change follows five steps. A step is change level. Its name is not the name of a phase.
 
 | # | Step | Work | Uses | Produces |
 | --- | --- | --- | --- | --- |
-| 1 | Analysis | Write the Problem section and the requirements of the [spec](#spec). Write one `feature-file` for each user story, with declarative [scenarios](glossary.md#scenario) of its requirements and no interface steps. Clarify the open questions with a person. Update the `roadmap` when the work splits into several changes. | `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, `agents` | `spec`, `feature-file`, `roadmap` |
+| 1 | Analysis | Write the Problem section and the requirements of the [spec](#spec). Write one `feature-file` for each user story, with declarative [scenarios](glossary.md#scenario) of its requirements and no interface steps. Clarify the open questions with a person. Update the `roadmap` when Analysis changes a product milestone or its order. | `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, `agents` | `spec`, `feature-file`, `roadmap` |
 | 2 | Design | Write the Solution section and its tasks. Add a data model when the change touches data. Write an `adr` for a significant, hard-to-reverse decision. A person approves the whole spec and its scenarios. | `spec`, `feature-file`, `wiki-page`, `domain-model`, `design-system` | `spec`, `adr` |
 | 3 | Implementation | Implement the change, its unit tests, and the docs. Another agent instance generates the `e2e-test` from the feature files, with the same tags. It works only in the e2e package and does not read or change the source code. Run the [quality checks](#quality-checks): build, format, lint, and unit tests. Read the `check-report`, fix the code, and repeat until they all pass. | `spec`, `feature-file`, `agents` | `code`, `unit-test`, `e2e-test`, `check-report`, and docs |
 | 4 | Verification | Run the `e2e-test`. It writes a `test-report` with the result of each requirement. An agent [reviews](glossary.md#review) the diff against the [review gates](#review-gates) and decides: pass or changes needed. Tick each requirement that passes. If a requirement fails or the change has findings, write a `review-report`. [Impact levels](#impact-levels) | `spec`, `e2e-test`, `code`, `check-report`, `agents` | `spec`, `test-report`, `review-report` |
@@ -214,7 +226,8 @@ Rules:
 | `glossary` | Glossary | `LIVE` | `DOC` | `MUST` | `META` | Shared terms for people, agents, documents, and code. |
 | `wiki-page` | Knowledge wiki page | `LIVE` | `DOC` | `SHOULD` | `LLMWIKI`, `META` | One topic, linked to its sources. See the [knowledge wiki](knowledge-wiki.md). |
 | `agents` | Agent instructions | `LIVE` | `DOC` | `MUST` | — | `AGENTS.md`: project context, commands, conventions, and rules for agents. [AGENTS.md format](https://agents.md/) |
-| `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Past and future milestones, their tasks, and their done criteria. |
+| `roadmap` | Roadmap | `LIVE` | `DOC` | `COULD` when work spans several milestones | `META` | Product milestones in order, each with a short, observable outcome. A completed milestone can link to the version in the `changelog` that delivered it. |
+| `notepad` | Notepad | `LIVE` | `DOC` | `COULD` when work is handed off across sessions | — | [Session handoff](#session-handoff): last session, next session, and current blockers. |
 | `spec` | Change specification | `CHG` | `DOC` | `MUST` | `USERSTORY`, `EARS`, `MERMAID`, `META` | Problem, solution, and verification of one change. Approved before code. |
 | `feature-file` | Feature file | `CHG` | `DOC` | `MUST` in a `medium` or `large` `feat` or `fix` | `GHERKIN` | The scenarios of one user story, with the details to check each requirement. Implementation generates the `e2e-test` from it. |
 | `adr` | Architecture decision record | `LIVE` | `DOC` | `MUST` for a significant, hard-to-reverse decision | `MADR`, `META` | One decision: context, options, outcome, consequences. A new ADR supersedes it. Nobody edits it. |
@@ -253,7 +266,7 @@ Use dates without time. Git keeps the history of status changes.
 
 In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatter. Keep the design format keys at the top level.
 
-`agents`, `readme`, and `changelog` have no `META`. Tools and people read them at fixed names, and frontmatter shows as noise there. Files that are not Markdown have no `META`: `feature-file`, `code`, `unit-test`, `e2e-test`, `check-report`, and `test-report`.
+`agents`, `readme`, and `changelog` have no `META`. Tools and people read them at fixed names, and frontmatter shows as noise there. Files that are not Markdown have no `META`: `notepad`, `feature-file`, `code`, `unit-test`, `e2e-test`, `check-report`, and `test-report`.
 
 ### Document IDs and file names
 
@@ -262,7 +275,8 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `spec` | `s<NNNN>`: one sequence with four digits for all change types, such as `s0001`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.spec.md` |
 | `review-report` | The spec ID with a suffix: `s0001-review`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>.review.md` |
 | Wiki page | The file name without `.md`. | `docs/wiki/<topic>.md` |
-| `roadmap` | `roadmap`. One per project. | `PLAN.md` |
+| `roadmap` | `roadmap`. One current roadmap per project. | `ROADMAP.md` |
+| `notepad` | No `id`. One per project. | `docs/NOTEPAD.txt` |
 | `design-system` | `design-system`. One per project. | `DESIGN.md` |
 | `domain-model` | `domain-model`. One per project. | `docs/wiki/domain-model.md` |
 | `feature-file` | No `id`. Its `Feature` tag names it, such as `@s0001-US1`. | `docs/specs/s<NNNN>-<short-slug>/s<NNNN>-US<n>.feature` |
@@ -284,7 +298,7 @@ In `DESIGN.md`, put the `META` fields under `aiddbot` in the same YAML frontmatt
 | `proposed` | A decision waits for human approval. | Design | `adr` |
 | `accepted` | A person approved it. A `LIVE` document is then updated in place. | Design | `spec`, `review-report`, `adr`, `glossary`, `wiki-page`, `roadmap`, `design-system`, `domain-model` |
 | `done` | The change closed. Nobody edits the document again. | Close | `spec`, `review-report` |
-| `superseded` | A newer document replaces it. | Design | `adr` |
+| `superseded` | A newer document replaces it. | Design | `adr`, `roadmap` |
 | `deprecated` | It no longer applies, and nothing replaces it. | Design | `adr` |
 
 - The statuses of one document type follow the table order. An `adr` ends as `superseded` or `deprecated`.
@@ -378,3 +392,5 @@ Names only. Add one to the tables above when a lifecycle skill needs it.
 | 54 | In which step is the `feature-file` written? | Analysis, with declarative scenarios and no interface steps. A person still approves the spec and its scenarios once, at the end of Design (decision 30). | The scenarios are examples of the requirements. They describe the problem, not the solution. |
 | 55 | What does Analysis use and change? | It reads the `roadmap`, `glossary`, `wiki-page`, `domain-model`, `adr`, and `agents` of the [project brain](glossary.md#project-brain). It writes the `spec` and the `feature-file`, and updates the `roadmap` when the work splits into several changes. Close harvests the rest. | Analysis needs the whole brain to frame the problem. Spec-first: other knowledge waits for Close. |
 | 56 | Does the impact levels table name the documents of each level? | Yes. The columns `Skips` and `Adds` hold document IDs. `small` skips `feature-file`, `e2e-test`, and `test-report`. `large` adds `review-report`. The [knowledge explorer](glossary.md#knowledge-explorer) reads the table. [`s0005`](../specs/s0005-layered-maps/s0005.spec.md) | The explorer filters the change loop map by impact level. The wiki contract allows no document ID in the code. |
+| 57 | How do people and agents resume work across sessions? | Keep an optional, shared [notepad](#session-handoff) in Git. People and agents refresh its three blocks as work moves between sessions. | A short handoff shows where to resume even when a change is still open. Git keeps earlier handoffs. |
+| 58 | What belongs in the product roadmap? | Keep ordered product outcomes in `ROADMAP.md` at the root. A completed milestone can link to a version in `CHANGELOG.md`. Analysis updates the roadmap when it changes the milestones or their order. This updates decisions 22, 52, and 55. | Readers can find the product direction and see what success looks like. Release history and development tasks have their own places. |

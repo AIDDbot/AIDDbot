@@ -4,7 +4,7 @@ type: wiki-page
 title: AIDDbot Scaffolding
 status: draft
 created: 2026-11-24
-updated: 2026-11-25
+updated: 2026-11-26
 links:
   sources:
     - https://agentskills.io/specification#directory-structure
@@ -19,17 +19,19 @@ links:
 
 Status: **draft**.
 
-This page states where AIDDbot keeps its files. Create each folder only when the work needs it. The [project plan](../../PLAN.md) sets the order.
+This page states where AIDDbot keeps its files. Create each folder only when the work needs it. The [roadmap](../../ROADMAP.md) sets the milestone order. The [development plan](../PLAN.md) tracks the work.
 
 ## Layout
 
 ```text
 aidd-bot/
 ├── AGENTS.md, README.md, CHANGELOG.md, LICENSE
-├── PLAN.md                         # Roadmap: milestones and tasks
+├── ROADMAP.md                      # Product milestones and outcomes
 ├── DESIGN.md                       # Design system
 ├── package.json                    # Private repository manifest
 ├── docs/
+│   ├── PLAN.md                     # Development tasks, dogfooding, findings, and ideas
+│   ├── NOTEPAD.txt                 # Shared session handoff
 │   ├── wiki/                       # The AIDDbot wiki: index.md and pages
 │   └── specs/                      # One folder per change: spec, feature files, plan, review
 ├── templates/                      # Shared document templates

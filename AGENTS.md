@@ -4,7 +4,9 @@
 
 AIDDbot is in the design stage. The repository holds its wiki, its plan, and its specs. Do not create code, templates, or skills unless the task asks for them.
 
-For project knowledge, start at [`docs/wiki/index.md`](docs/wiki/index.md). The current milestone is in [PLAN.md](PLAN.md).
+For project knowledge, start at [`docs/wiki/index.md`](docs/wiki/index.md). The current milestone is in [ROADMAP.md](ROADMAP.md).
+
+Read [the notepad](docs/NOTEPAD.txt) at the start of each work session. Update it before the session ends. [Session handoff rules](docs/wiki/documentation-catalog.md#session-handoff)
 
 ## Reference documents
 
@@ -13,8 +15,9 @@ Each topic has one reference document. Read it before you change that topic. Wik
 | Topic | Reference document |
 | --- | --- |
 | Scope, lifecycle phases, building blocks, shared core, inclusion criteria | [intent](docs/wiki/intent.md) |
-| Milestones, dogfooding rules, findings, future ideas | [PLAN.md](PLAN.md) |
-| Change flow, spec, document types, standards, metadata | [documentation catalog](docs/wiki/documentation-catalog.md) |
+| Product milestones and outcomes | [ROADMAP.md](ROADMAP.md) |
+| Development tasks, dogfooding rules, findings, future ideas | [docs/PLAN.md](docs/PLAN.md) |
+| Change flow, spec, session handoff, document types, standards, metadata | [documentation catalog](docs/wiki/documentation-catalog.md) |
 | Terms | [glossary](docs/wiki/glossary.md) |
 | Wiki model, page rules, sources | [knowledge wiki](docs/wiki/knowledge-wiki.md) |
 | CLI command form, script contract, candidate commands | [AIDDbot CLI](docs/wiki/aiddbot-cli.md) |

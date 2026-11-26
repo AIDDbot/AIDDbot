@@ -20,10 +20,12 @@ import {
 export const ROOT_FILES = [
   "README.md",
   "AGENTS.md",
-  "PLAN.md",
+  "ROADMAP.md",
   "DESIGN.md",
   "CHANGELOG.md",
 ];
+
+const DEVELOPMENT_PLAN_PATH = "docs/PLAN.md";
 
 /** Root documents with no META by design, and the document type that the file name gives them. */
 export const NO_META_TYPES: Record<string, string> = {
@@ -64,6 +66,8 @@ export function contentFiles(
   for (const name of ROOT_FILES)
     if (existsSync(posix.join(root, name)))
       files.push({ path: name, group: "root" });
+  if (existsSync(posix.join(root, DEVELOPMENT_PLAN_PATH)))
+    files.push({ path: DEVELOPMENT_PLAN_PATH, group: "project" });
   for (const [folder, group] of [
     ["docs/wiki", "wiki"],
     ["docs/specs", "specs"],
@@ -199,6 +203,8 @@ export class LinkResolver {
       this.byPath.set(doc.path, doc);
       if (!this.byId.has(doc.id)) this.byId.set(doc.id, doc);
     }
+    const developmentPlan = this.byPath.get(DEVELOPMENT_PLAN_PATH);
+    if (developmentPlan) this.byPath.set("PLAN.md", developmentPlan);
   }
 
   /** Resolves `href`, written in the document at `from`. */

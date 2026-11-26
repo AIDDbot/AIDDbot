@@ -114,6 +114,7 @@ describe("readData on this repository", () => {
       "wiki-page",
       "agents",
       "roadmap",
+      "notepad",
       "adr",
       "domain-model",
       "design-system",
@@ -176,6 +177,25 @@ describe("readData on this repository", () => {
   test("links to a document of the content scope open the target anchor", () => {
     const intent = data.docs.find((d) => d.id === "intent");
     expect(intent?.html).toContain('href="#/doc/glossary/project"');
+  });
+
+  test("opens the product roadmap and preserves links to the development plan", () => {
+    const roadmap = data.docs.find((doc) => doc.id === "roadmap");
+    const developmentPlan = data.docs.find((doc) => doc.id === "development-plan");
+    expect(roadmap?.path).toBe("ROADMAP.md");
+    expect(developmentPlan?.path).toBe("docs/PLAN.md");
+    expect(roadmap?.toc.map((entry) => entry.id)).toContain(
+      "h1--base-documentation",
+    );
+    expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
+      'href="#/doc/development-plan"',
+    );
+    expect(data.docs.find((doc) => doc.id === "readme")?.html).toContain(
+      'href="#/doc/roadmap"',
+    );
+    expect(data.docs.find((doc) => doc.id === "s0001")?.html).toContain(
+      'href="#/doc/development-plan/h1--base-documentation"',
+    );
   });
 
   test("a link outside the content scope shows as plain text with a mark", () => {

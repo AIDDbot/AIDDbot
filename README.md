@@ -23,7 +23,7 @@ Skills guide the agent in each step. Scripts do the deterministic parts, such as
 
 Design stage. There is no usable release yet.
 
-Next step: **H1**, map the lifecycle skills. See the [project plan](PLAN.md).
+The [roadmap](ROADMAP.md) gives the current milestone. To resume work, read [the notepad](docs/NOTEPAD.txt).
 
 ## Requirements
 
@@ -33,10 +33,11 @@ Next step: **H1**, map the lifecycle skills. See the [project plan](PLAN.md).
 ## Project documents
 
 - [AIDDbot wiki](docs/wiki/index.md): intent, glossary, method, and development pages.
-- [Project plan](PLAN.md): milestones, dogfooding rules, and future ideas.
+- [Roadmap](ROADMAP.md) for product milestones and outcomes.
+- [Development plan](docs/PLAN.md) for tasks, dogfooding rules, and future ideas.
 - [Design system](DESIGN.md) for AIDDbot documents and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
-- [Knowledge explorer](https://aiddbot.github.io/AIDDbot/): a visual guide to the method, project plan, and specs. [Run it locally](docs/wiki/explorer-development.md#commands).
+- [Knowledge explorer](https://aiddbot.github.io/AIDDbot/): a visual guide to the method, roadmap, and specs. [Run it locally](docs/wiki/explorer-development.md#commands).
 - [AIDDbot-legacy](https://github.com/AIDDbot/AIDDbot-legacy): the archived version of the project.
 
 ## Author and license
