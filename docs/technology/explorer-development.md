@@ -106,6 +106,8 @@ A change to these headings or columns needs a change to the builder in the same 
 | Project | `docs/PLAN.md` |
 | Specs | `docs/specs/**/*.md` |
 
+- The folder gives the [Kind](../process/documentation-catalog.md#kind) of a page. The explorer does not read a Kind tag.
+- The explorer does not read `docs/wiki/`. The wiki is the agent map of the brain, and the explorer is the map for people. A link to `docs/wiki/index.md` shows as outside the explorer.
 - `README.md`, `AGENTS.md`, and `CHANGELOG.md` have no `META` by design. Their type comes from the file name: `readme`, `agents`, and `changelog`.
 - `DESIGN.md` keeps its `META` under the `aiddbot` key.
 - References to the former root path `PLAN.md` in closed specs open `docs/PLAN.md` in the explorer.
