@@ -1,8 +1,8 @@
 LAST SESSION
-Implemented s0007. The brain documents moved by kind and the wiki is now their agent index. Link check, 57 tests, TypeScript, and explorer build passed. Renamed the explorer "wiki contract" to "brain contract". No linter runs until Bun ships `bun lint`.
+Closed s0007 directly on main with human approval. Link check, 57 tests, TypeScript, and explorer build passed.
 
 NEXT SESSION
-Review and approve s0007 in the pull request. Then resume M0 work, including the milestone completion rules and the Pending section in docs/product/intent.md (P1-P6).
+Resume M0 work, including the milestone completion rules and the Pending section in docs/product/intent.md (P1-P6).
 
 BLOCKERS
 None.
