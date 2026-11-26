@@ -156,4 +156,26 @@ A skill or script belongs in AIDDbot only if it:
 
 ## Pending
 
-No proposals are pending. Brainstorm proposals go here until they become rules.
+Brainstorm proposals go here until they become rules.
+
+### Core documents: roadmap, spec, feature file
+
+Proposals from 2026-11-26. They change the [documentation catalog](documentation-catalog.md). Status: proposed.
+
+The three core documents are the `roadmap` to decide what to do, the `spec` to implement a change, and the `feature-file` for end-to-end tests. `prd` stays a name for later.
+
+| # | Proposal | Reason |
+| --- | --- | --- |
+| P1 | The `roadmap` is `MUST` for every project, from Foundation, even with one milestone. | Each project needs to know what to do next. |
+| P2 | The code and its tests hold the truth about behavior. Each requirement links to its tests through its scenario tag, such as `@s0002-US1R2`. | No document competes with the running system. |
+| P3 | A change adds its own requirements. It does not rewrite the requirements of a closed spec. | Each spec keeps the reason for its behavior. |
+| P4 | When a change makes an old requirement invalid, it deprecates it in both specs. The new spec lists `Deprecates: s0002-US1R2` in Problem. The old spec marks the requirement as deprecated and links to the new spec. This is the only edit allowed in a closed spec. | The deprecation is visible from both sides. |
+| P5 | The scenario of a deprecated requirement gets the `@deprecated` tag. The e2e agent deletes its test. New scenarios cover the new behavior. | Old tests do not block valid changes. |
+| P6 | If an old test fails and its requirement is not deprecated, it is a regression. Fix the code, not the test. | A failed test is never ambiguous. |
+| P7 | A `feat` or `fix` spec names its milestone in `META`, such as `milestone: H2`. A `chore` or `refactor` can have no milestone. The `roadmap` holds only outcomes. A script or the knowledge explorer lists the specs of each milestone. | One source for the link. Maintenance does not advance a product outcome. |
+
+Open questions:
+
+- Which `META` field and format mark a deprecated requirement in a closed spec?
+- Does a person approve the deprecations with the new spec?
+- When is a milestone done: when its outcome is true, or when all its specs are done?

@@ -1,8 +1,8 @@
 LAST SESSION
-Closed the discussion on the roadmap, plan, notepad, and spec rules.
+Brainstorm, nothing decided. Core documents: roadmap, spec, feature file; no PRD. Proposals P1 to P7 are drafts in the Pending section of docs/wiki/intent.md. Specs come one at a time from the milestone outcome, with no document between them. Preferred milestone code: M<n> (English, item style like US1); refer to it as M2 or roadmap-M2.
 
 NEXT SESSION
-Decide whether a PRD belongs in the project brain.
+Rename the roadmap codes H1-H4 to M1-M4 and update their links. Explore when a milestone is done: observable outcome, demo, closed list, or a person's decision. Then answer the open questions in intent.md Pending.
 
 BLOCKERS
 None.
