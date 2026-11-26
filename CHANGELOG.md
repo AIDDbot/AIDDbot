@@ -29,6 +29,7 @@ This file tracks notable changes to AIDDbot. It follows [Keep a Changelog](https
 
 ### Added
 
+- Public knowledge explorer on GitHub Pages (`s0006`). GitHub Actions builds and deploys the site from `main`.
 - Fifth spec, `s0005`: give the explorer maps in layers.
 - Fourth spec, `s0004`: apply the naming review.
 - Form tag (`DOC`, `CODE`) and a `Form` column in the document catalog. The catalog rows follow the lifecycle order.
