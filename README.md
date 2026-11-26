@@ -1,5 +1,8 @@
 # AIDDbot
 
+[![Version](https://img.shields.io/github/package-json/v/AIDDbot/AIDDbot/main?color=1D4ED8)](https://github.com/AIDDbot/AIDDbot/blob/main/package.json)
+![Codename](https://img.shields.io/github/package-json/codename/AIDDbot/AIDDbot/main?label=codename&color=15803D)
+
 AIDDbot is a framework of reusable skills, document templates, and scripts for AI-assisted software development. It helps teams coordinate work across the software lifecycle, record decisions, and verify changes.
 
 **For**: teams that build software with an AI coding tool, such as Codex, Claude Code, or Cursor, and students of [AI Code Academy](https://aicode.academy/) courses.
@@ -34,6 +37,7 @@ Next step: **H1**, map the lifecycle skills. See the [project plan](PLAN.md).
 - [Design system](DESIGN.md) for AIDDbot documents and diagrams.
 - [Changelog](CHANGELOG.md): notable project changes.
 - [Knowledge explorer](https://aiddbot.github.io/AIDDbot/): a visual guide to the method, project plan, and specs. [Run it locally](docs/wiki/explorer-development.md#commands).
+- [AIDDbot-legacy](https://github.com/AIDDbot/AIDDbot-legacy): the archived version of the project.
 
 ## Author and license
 

@@ -1,6 +1,7 @@
 {
   "name": "aiddbot",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "codename": "thanksgiving",
   "private": true,
   "description": "A framework of reusable skills, document templates, and scripts for AI-assisted software development.",
   "scripts": {
